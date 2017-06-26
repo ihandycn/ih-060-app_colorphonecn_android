@@ -1,0 +1,83 @@
+// 需要添加的plugins
+plugins {
+    id 'nu.studer.credentials' version '1.0.1'  // 用于在本地加密存储用户密码
+
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
+    defaultConfig {
+        applicationId "com.honeycomb.colorphone"
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven {
+            url "http://git.ihandysoft.com:8081/nexus/content/repositories/beta" // beta仓库
+            credentials {
+                username project.username // 使用之前配置的用户名
+                password project.credentials."${project.username}" // 使用之前配置的密码
+            }
+        }
+        maven {
+            url "http://git.ihandysoft.com:8081/nexus/content/repositories/gm" // gm仓库
+            credentials {
+                username project.username
+                password project.credentials."${project.username}"
+            }
+        }
+        maven {
+            url "http://git.ihandysoft.com:8081/nexus/content/repositories/thirdparty/"
+            // thirdparty仓库
+            credentials {
+                username project.username
+                password project.credentials."${project.username}"
+            }
+        }
+
+    }
+}
+
+final SUPPORT_LIBRARY_VERSION = '25.3.1'
+final GOOGLE_PLAY_SERVICES_VERSION = '10.2.0'
+
+dependencies {
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    //noinspection GradleDependency
+    compile "com.google.android.gms:play-services-analytics:$GOOGLE_PLAY_SERVICES_VERSION"
+    compile "com.google.firebase:firebase-appindexing:$GOOGLE_PLAY_SERVICES_VERSION"
+    //noinspection GradleDependency
+    compile "com.google.android.gms:play-services-location:$GOOGLE_PLAY_SERVICES_VERSION"
+    //noinspection GradleDependency
+    compile "com.google.android.gms:play-services-gcm:$GOOGLE_PLAY_SERVICES_VERSION"
+
+    compile("com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION")
+    compile ("com.android.support:mediarouter-v7:$SUPPORT_LIBRARY_VERSION")
+    compile("com.android.support:design:$SUPPORT_LIBRARY_VERSION")
+    compile("com.android.support:palette-v7:$SUPPORT_LIBRARY_VERSION")
+
+    compile 'com.ihandy.nativeads:libNativeAds.gm:4.2.0.gm'
+    compile 'com.ihandy.common:libCommon.gm:4.1.0.gm'
+
+    compile 'com.ihandy.appframework:libAppframework.gm:4.2.4.gm'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+}
