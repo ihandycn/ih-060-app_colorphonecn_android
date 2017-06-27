@@ -1,8 +1,8 @@
 package com.honeycomb.colorphone;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,16 +10,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+
+import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.themeselector.SpaceItemDecoration;
+
+import java.util.ArrayList;
 
 public class ColorPhoneActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private RecyclerView mRecyclerView;
+    private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
+    private ArrayList<String> mRecyclerViewData = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_color_phone);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -31,6 +39,9 @@ public class ColorPhoneActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        initData();
+        initRecyclerView();
     }
 
     @Override
@@ -66,5 +77,23 @@ public class ColorPhoneActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void initData() {
+        for (int i = 0; i < 50; i++) {
+            mRecyclerViewData.add("gift " + i);
+        }
+    }
+
+    private void initRecyclerView() {
+        View contentView = findViewById(R.id.recycler_view_content);
+        mRecyclerView = contentView.findViewById(R.id.recycler_view);
+
+        RecyclerView.LayoutManager layoutManager =
+                new StaggeredGridLayoutManager(RECYCLER_VIEW_SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        ThemeSelectorAdapter adapter = new ThemeSelectorAdapter(mRecyclerViewData);
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
+        mRecyclerView.setAdapter(adapter);
     }
 }

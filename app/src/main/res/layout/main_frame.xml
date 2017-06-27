@@ -20,6 +20,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_color_phone" />
+    <include
+        android:id="@+id/recycler_view_content"
+        layout="@layout/main_frame_content" />
 
 </android.support.design.widget.CoordinatorLayout>
