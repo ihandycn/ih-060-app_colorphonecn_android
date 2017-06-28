@@ -12,17 +12,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.themeselector.SpaceItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ColorPhoneActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView mRecyclerView;
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
-    private ArrayList<String> mRecyclerViewData = new ArrayList<String>();
+    private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
+    private int defaultThemeId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +83,19 @@ public class ColorPhoneActivity extends AppCompatActivity
     }
 
     private void initData() {
-        for (int i = 0; i < 50; i++) {
-            mRecyclerViewData.add("gift " + i);
+        Type[] themeTypes = Type.values();
+        final int count = themeTypes.length;
+        Random random = new Random(555517);
+        for (int i = 0; i < count; i++) {
+            Theme theme = new Theme();
+            theme.setDownload(random.nextLong());
+            theme.setName(themeTypes[i].name());
+            theme.setThemeId(themeTypes[i].getValue());
+            theme.setHot(i < 2);
+            if (theme.getThemeId() == defaultThemeId) {
+                theme.setSelected(true);
+            }
+            mRecyclerViewData.add(theme);
         }
     }
 
@@ -93,7 +107,7 @@ public class ColorPhoneActivity extends AppCompatActivity
                 new StaggeredGridLayoutManager(RECYCLER_VIEW_SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         ThemeSelectorAdapter adapter = new ThemeSelectorAdapter(mRecyclerViewData);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(30));
+        mRecyclerView.addItemDecoration(new SpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.theme_card_margin)));
         mRecyclerView.setAdapter(adapter);
     }
 }

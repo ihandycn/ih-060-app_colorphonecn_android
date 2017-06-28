@@ -6,24 +6,38 @@
     android:layout_height="wrap_content"
     >
 
-    <android.support.v7.widget.CardView
+
+
+    <com.honeycomb.colorphone.view.FixRatioPreviewWindow
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        card_view:cardBackgroundColor="@android:color/white"
-        card_view:cardElevation="4dp">
+        app:aspectRatioOverride="0.612"
+        app:cardCornerRadius="6dp"
+        app:cardPreventCornerOverlap="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <com.honeycomb.colorphone.view.HorizontalBannerImageView
             android:id="@+id/card_view_img"
+            android:background="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            app:round_left_bottom_corner_radius="4dp"
-            app:round_left_top_corner_radius="4dp"
-            app:round_right_bottom_corner_radius="4dp"
-            app:round_right_top_corner_radius="4dp"
-            app:aspectRatioOverride="0.533" />
-    </android.support.v7.widget.CardView>
+            app:aspectRatioOverride="0.612" />
+
+        <com.acb.call.views.ThemePreviewWindow
+            android:id="@+id/flash_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <com.acb.call.views.InCallActionView
+            android:id="@+id/in_call_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.honeycomb.colorphone.view.FixRatioPreviewWindow>
 
     <TextView
         android:id="@+id/card_view_txt"
