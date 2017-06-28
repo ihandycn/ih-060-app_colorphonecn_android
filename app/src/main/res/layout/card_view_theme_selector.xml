@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
-    android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    card_view:cardBackgroundColor="@android:color/white"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="4dp">
+    android:layout_height="wrap_content"
+    >
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardElevation="4dp">
 
-        <ImageView
+        <com.honeycomb.colorphone.view.HorizontalBannerImageView
             android:id="@+id/card_view_img"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true" />
-
-        <TextView
-            android:id="@+id/card_view_txt"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/card_view_img"
-            android:gravity="center" />
-    </RelativeLayout>
+            android:layout_alignParentTop="true"
+            app:round_left_bottom_corner_radius="4dp"
+            app:round_left_top_corner_radius="4dp"
+            app:round_right_bottom_corner_radius="4dp"
+            app:round_right_top_corner_radius="4dp"
+            app:aspectRatioOverride="0.533" />
+    </android.support.v7.widget.CardView>
 
-</android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/card_view_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/card_view"
+        android:gravity="center" />
+</RelativeLayout>

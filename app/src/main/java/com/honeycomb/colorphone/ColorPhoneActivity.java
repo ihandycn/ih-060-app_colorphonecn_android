@@ -87,7 +87,7 @@ public class ColorPhoneActivity extends AppCompatActivity
 
     private void initRecyclerView() {
         View contentView = findViewById(R.id.recycler_view_content);
-        mRecyclerView = contentView.findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
 
         RecyclerView.LayoutManager layoutManager =
                 new StaggeredGridLayoutManager(RECYCLER_VIEW_SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);

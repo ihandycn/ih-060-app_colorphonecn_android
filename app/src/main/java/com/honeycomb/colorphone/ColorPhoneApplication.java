@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone;
 
+import com.acb.call.AcbCallManager;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -25,7 +26,7 @@ public class ColorPhoneApplication extends HSApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        AcbCallManager.initWithDefaultFactory();
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, sessionEventObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, sessionEventObserver);
     }

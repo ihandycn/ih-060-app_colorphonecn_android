@@ -32,7 +32,7 @@ public class ThemeCardViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         img = (ImageView) itemView.findViewById(R.id.card_view_img);
-        img.setImageResource(R.drawable.acb_adadapter_settings);
+        img.setImageResource(R.drawable.acb_phone_theme_technological_bg);
         txt = (TextView) itemView.findViewById(R.id.card_view_txt);
 
         itemView.setOnClickListener(new View.OnClickListener() {
