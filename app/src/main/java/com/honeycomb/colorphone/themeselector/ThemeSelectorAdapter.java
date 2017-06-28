@@ -50,6 +50,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         holder.previewWindow.playAnimation(Type.valueOf(curTheme.getName()));
         if (!curTheme.isSelected()) {
             holder.previewWindow.stopAnimations();
+            holder.callActionView.setAutoRun(false);
+
+        } else {
+            holder.previewWindow.setAutoRun(true);
+            holder.callActionView.setAutoRun(true);
         }
     }
 

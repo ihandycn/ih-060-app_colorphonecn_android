@@ -81,7 +81,7 @@ dependencies {
     compile("com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION")
     compile("com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION")
 
-    compile(name: 'colorphone-1.0-debug', ext: 'aar')
+    compile(name: 'colorphone-debug', ext: 'aar')
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
 
     compile 'com.ihandy.nativeads:libNativeAds.gm:4.2.0.gm'
