@@ -6,4 +6,5 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="theme_card_margin">4dp</dimen>
+    <dimen name="theme_badge_margin">24dp</dimen>
 </resources>

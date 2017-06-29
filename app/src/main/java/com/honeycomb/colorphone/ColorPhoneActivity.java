@@ -88,7 +88,7 @@ public class ColorPhoneActivity extends AppCompatActivity
         Random random = new Random(555517);
         for (int i = 0; i < count; i++) {
             Theme theme = new Theme();
-            theme.setDownload(random.nextLong());
+            theme.setDownload(random.nextInt(682220));
             theme.setName(themeTypes[i].name());
             theme.setThemeId(themeTypes[i].getValue());
             theme.setHot(i < 2);

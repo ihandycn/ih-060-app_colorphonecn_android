@@ -44,8 +44,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         holder.setPositionTag(position);
 
         final Theme curTheme = data.get(position);
-        String positionTxt = curTheme.getName();
-        holder.setTxt(positionTxt);
+        String name = curTheme.getName();
+        holder.setTxt(name);
+        holder.downloadTxt.setText(String.valueOf(curTheme.getDownload()));
 
         holder.previewWindow.playAnimation(Type.valueOf(curTheme.getName()));
         if (!curTheme.isSelected()) {
@@ -56,6 +57,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             holder.previewWindow.setAutoRun(true);
             holder.callActionView.setAutoRun(true);
         }
+
+        holder.setSelected(curTheme.isSelected());
+        holder.setHotTheme(curTheme.isHot());
     }
 
     @Override
@@ -66,11 +70,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
     static class ThemeCardViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         TextView txt;
-
+        TextView downloadTxt;
         ThemePreviewWindow previewWindow;
         InCallActionView callActionView;
 
         private int positionTag;
+        private final View hotView;
+        private final View selectedView;
 
         public void setPositionTag(int position) {
             positionTag = position;
@@ -88,12 +94,27 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             super(itemView);
 
             img = (ImageView) itemView.findViewById(R.id.card_view_img);
-            txt = (TextView) itemView.findViewById(R.id.card_view_txt);
+            txt = (TextView) itemView.findViewById(R.id.card_name);
 
+            selectedView = itemView.findViewById(R.id.theme_selected);
+            hotView = itemView.findViewById(R.id.theme_hot);
+            downloadTxt = (TextView)itemView.findViewById(R.id.theme_download_txt);
             previewWindow = (ThemePreviewWindow) itemView.findViewById(R.id.flash_view);
             callActionView = (InCallActionView) itemView.findViewById(R.id.in_call_view);
             callActionView.setAutoRun(false);
 
+        }
+
+        public void setSelected(boolean selected) {
+            if (selectedView != null) {
+                selectedView.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
+            }
+        }
+
+        public void setHotTheme(boolean hot) {
+            if (hotView != null) {
+                hotView.setVisibility(hot ? View.VISIBLE : View.INVISIBLE);
+            }
         }
     }
 }

@@ -1,49 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    >
-
-
+    android:clipChildren="false">
 
     <com.honeycomb.colorphone.view.FixRatioPreviewWindow
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:aspectRatioOverride="0.612"
-        app:cardCornerRadius="6dp"
-        app:cardPreventCornerOverlap="false"
-        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="24dp"
+        android:clipChildren="false"
+        app:aspectRatioOverride="0.6"
+        app:cardCornerRadius="6dp"
+        app:cardPreventCornerOverlap="false">
 
         <com.honeycomb.colorphone.view.HorizontalBannerImageView
             android:id="@+id/card_view_img"
-            android:background="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            app:aspectRatioOverride="0.612" />
+            android:background="@android:color/black"
+            app:aspectRatioOverride="0.6" />
 
         <com.acb.call.views.ThemePreviewWindow
             android:id="@+id/flash_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
 
         <com.acb.call.views.InCallActionView
             android:id="@+id/in_call_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/theme_hot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:layout_marginTop="@dimen/theme_badge_margin"
+            android:src="@drawable/theme_card_badge_hot"
+            android:translationX="-4dp" />
+
+        <ImageView
+            android:id="@+id/theme_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:src="@drawable/theme_card_selected" />
     </com.honeycomb.colorphone.view.FixRatioPreviewWindow>
 
     <TextView
-        android:id="@+id/card_view_txt"
-        android:layout_width="match_parent"
+        android:id="@+id/card_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_below="@id/card_view"
-        android:gravity="center" />
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:textColor="@color/textDark"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:text="Neon" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_below="@id/card_name"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/theme_card_thumb" />
+
+    <TextView
+        android:id="@+id/theme_download_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/imageView1"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_toEndOf="@id/imageView1"
+        android:layout_toRightOf="@id/imageView1"
+        android:gravity="center"
+        android:textColor="@color/textLightGray"
+        android:textSize="14sp"
+        tools:text="6622335" />
+
+    <FrameLayout
+        android:id="@+id/card_action_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/imageView1"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/card_name"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp">
+
+        <TextView
+            style="@style/TxtButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/theme_card_button_bg"
+            android:text="@string/open"
+            android:textColor="@color/button_blue" />
+    </FrameLayout>
 </RelativeLayout>
