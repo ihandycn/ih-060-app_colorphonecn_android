@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent_black">
+
+    <ImageView
+        android:id="@+id/nav_back"
+        style="@style/NormalButton"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_round_material_compat"
+        android:src="@drawable/back_indicator_white_selector" />
+
+
+    <com.acb.call.views.ThemePreviewWindow
+        android:id="@+id/flash_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.acb.call.views.InCallActionView
+        android:id="@+id/in_call_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/theme_progress_btn" />
+
+    <com.honeycomb.colorphone.view.FlickerProgressBar
+        android:id="@+id/theme_progress_btn"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="36dp"
+        app:layout_widthPercent="66%"
+        app:loadingColor="@color/button_blue"
+        app:radius="20dp"
+        app:borderWidth="2dp"
+        app:stopColor="@color/button_blue" />
+
+</android.support.percent.PercentRelativeLayout>

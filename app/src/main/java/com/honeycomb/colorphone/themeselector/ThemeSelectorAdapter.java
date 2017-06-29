@@ -13,6 +13,7 @@ import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.ThemePreviewActivity;
 import com.ihs.app.framework.HSApplication;
 
 import java.util.ArrayList;
@@ -26,13 +27,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
     }
 
     @Override
-    public ThemeCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ThemeCardViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View cardViewContent = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_theme_selector, null);
         final ThemeCardViewHolder themeCardViewHolder = new ThemeCardViewHolder(cardViewContent);
 
         cardViewContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int pos = themeCardViewHolder.getPositionTag();
+                ThemePreviewActivity.start(parent.getContext(), data.get(pos).getThemeId());
                 Toast.makeText(HSApplication.getContext(), themeCardViewHolder.getPositionTag() + " clicked", Toast.LENGTH_SHORT).show();
             }
         });
