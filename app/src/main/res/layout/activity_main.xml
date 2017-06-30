@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -12,14 +12,121 @@
         layout="@layout/main_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+    <!--<include-->
+    <!--layout="@layout/nav_layout"-->
+    <!--android:id="@+id/left_drawer"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent" />-->
+    <!--<android.support.design.widget.NavigationView-->
+    <!--android:id="@+id/nav_view"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="start"-->
+    <!--android:fitsSystemWindows="true"-->
+    <!--app:headerLayout="@layout/nav_layout"-->
+    <!--/>-->
+    <LinearLayout
+        android:id="@+id/left_drawer"
+        android:layout_width="@dimen/nav_drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_menu" />
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/drawer_icon" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/app_name"
+            android:textColor="#404040"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:typeface="@string/proxima_nova_semibold" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Cool screen makes you unique"
+            android:textColor="#8a8a8a"
+            app:typeface="@string/proxima_nova_regular" />
+
+        <LinearLayout
+            android:id="@+id/settings_main_switch"
+            style="@style/LayoutSettings"
+            android:layout_marginTop="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/setings_icon_switch" />
+
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                style="@style/NormalText.Settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:text="@string/disable_color_phone" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/main_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/settings_feedback"
+            style="@style/LayoutSettings"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/settings_icon_feedback" />
+
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                style="@style/NormalText.Settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:text="@string/feedback" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_setting"
+            style="@style/LayoutSettings"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/settings_icon_setting" />
+
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                style="@style/NormalText.Settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:text="@string/settings" />
+        </LinearLayout>
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

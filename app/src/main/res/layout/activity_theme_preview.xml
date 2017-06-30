@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent_black">
+   >
 
     <ImageView
         android:id="@+id/nav_back"
@@ -14,6 +14,12 @@
         android:background="@drawable/bg_round_material_compat"
         android:src="@drawable/back_indicator_white_selector" />
 
+    <ImageView
+        android:id="@+id/preview_bg_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        />
 
     <com.acb.call.views.ThemePreviewWindow
         android:id="@+id/flash_view"
@@ -32,10 +38,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="36dp"
+        app:borderWidth="2dp"
         app:layout_widthPercent="66%"
         app:loadingColor="@color/button_blue"
         app:radius="20dp"
-        app:borderWidth="2dp"
         app:stopColor="@color/button_blue" />
 
 </android.support.percent.PercentRelativeLayout>

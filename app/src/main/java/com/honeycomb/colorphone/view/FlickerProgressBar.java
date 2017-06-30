@@ -167,21 +167,6 @@ public class FlickerProgressBar extends View implements Runnable{
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
-//        int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
-//        int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
-//        int height = 0;
-//        switch (heightSpecMode){
-//            case MeasureSpec.AT_MOST:
-//                height = dp2px(DEFAULT_HEIGHT_DP);
-//                break;
-//            case MeasureSpec.EXACTLY:
-//            case MeasureSpec.UNSPECIFIED:
-//                height = heightSpecSize;
-//                break;
-//        }
-//        setMeasuredDimension(widthSpecSize, height);
-
     }
 
     @Override

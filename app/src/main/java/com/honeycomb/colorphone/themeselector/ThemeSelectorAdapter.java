@@ -35,12 +35,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             @Override
             public void onClick(View view) {
                 int pos = themeCardViewHolder.getPositionTag();
-                ThemePreviewActivity.start(parent.getContext(), data.get(pos).getThemeId());
+                ThemePreviewActivity.start(parent.getContext(), data.get(pos));
                 Toast.makeText(HSApplication.getContext(), themeCardViewHolder.getPositionTag() + " clicked", Toast.LENGTH_SHORT).show();
             }
         });
+        // Disable theme original bg. Use our own
+        themeCardViewHolder.previewWindow.setBgDrawable(null);
+
         return themeCardViewHolder;
     }
+
+    // TODO Use bitmap to improve draw performance
 
     @Override
     public void onBindViewHolder(ThemeCardViewHolder holder, int position) {
@@ -50,8 +55,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         String name = curTheme.getName();
         holder.setTxt(name);
         holder.downloadTxt.setText(String.valueOf(curTheme.getDownload()));
+        if (curTheme.getImageRes() > 0) {
+            holder.img.setImageResource(curTheme.getImageRes());
+        } else {
+            holder.img.setImageDrawable(null);
+        }
 
-        holder.previewWindow.playAnimation(Type.valueOf(curTheme.getName()));
+        holder.previewWindow.playAnimation(Type.values()[curTheme.getThemeId()]);
         if (!curTheme.isSelected()) {
             holder.previewWindow.stopAnimations();
             holder.callActionView.setAutoRun(false);

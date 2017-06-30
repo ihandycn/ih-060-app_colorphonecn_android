@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/drawer_icon" />
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/app_name"
+        android:textColor="#404040"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:typeface="@string/proxima_nova_semibold" />
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Cool screen makes you unique"
+        android:textColor="#8a8a8a"
+        app:typeface="@string/proxima_nova_regular" />
+
+    <LinearLayout
+        android:id="@+id/settings_main_switch"
+        style="@style/LayoutSettings"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="40dp">
+
+        <ImageView
+            android:id="@id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/setings_icon_switch" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            style="@style/NormalText.Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/nav_header_vertical_spacing"
+            android:layout_marginStart="@dimen/nav_header_vertical_spacing"
+            android:text="@string/disable_color_phone" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/main_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/nav_header_vertical_spacing"
+            android:layout_marginStart="@dimen/nav_header_vertical_spacing" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/settings_feedback"
+        style="@style/LayoutSettings"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/settings_icon_feedback" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            style="@style/NormalText.Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/nav_header_vertical_spacing"
+            android:layout_marginStart="@dimen/nav_header_vertical_spacing"
+            android:text="@string/feedback" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settings_setting"
+        style="@style/LayoutSettings"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/settings_icon_setting" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            style="@style/NormalText.Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/nav_header_vertical_spacing"
+            android:layout_marginStart="@dimen/nav_header_vertical_spacing"
+            android:text="@string/settings" />
+    </LinearLayout>
+</LinearLayout>

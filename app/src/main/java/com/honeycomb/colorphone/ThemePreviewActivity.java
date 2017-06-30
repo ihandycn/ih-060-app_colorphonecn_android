@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
@@ -21,18 +22,21 @@ public class ThemePreviewActivity extends AppCompatActivity {
     private ThemePreviewWindow previewWindow;
     private InCallActionView callActionView;
     private FlickerProgressBar progressBtn;
-    private int mThemeId;
+    private ImageView previewImage;
+    private Theme mTheme;
 
-    public static void start(Context context, int themeId) {
+
+    public static void start(Context context, Theme theme) {
         Intent starter = new Intent(context, ThemePreviewActivity.class);
-        starter.putExtra("themeId", themeId);
+        starter.putExtra("theme", theme);
         context.startActivity(starter);
     }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mThemeId = getIntent().getIntExtra("themeId", -1);
+        mTheme = (Theme) getIntent().getSerializableExtra("theme");
 
         setContentView(R.layout.activity_theme_preview);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
@@ -40,12 +44,16 @@ public class ThemePreviewActivity extends AppCompatActivity {
         progressBtn = (FlickerProgressBar)findViewById(R.id.theme_progress_btn);
         previewWindow = (ThemePreviewWindow) findViewById(R.id.flash_view);
         callActionView = (InCallActionView) findViewById(R.id.in_call_view);
-
-        if (mThemeId > 0) {
+        previewImage = (ImageView) findViewById(R.id.preview_bg_img);
+        if (mTheme !=  null) {
             Type[] types = Type.values();
-            if (types.length > mThemeId) {
-                previewWindow.playAnimation(types[mThemeId]);
+            if (types.length > mTheme.getThemeId()) {
+                previewWindow.playAnimation(types[mTheme.getThemeId()]);
             }
+            if (mTheme.getImageRes() > 0) {
+                previewImage.setImageResource(mTheme.getImageRes());
+            }
+
         }
         findViewById(R.id.nav_back).setOnClickListener(new View.OnClickListener() {
             @Override

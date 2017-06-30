@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ThemePreviewActivity"
-            android:theme="@style/AppTheme.FullScreen"/>
+            android:theme="@style/AppTheme.DarkFullScreen"/>
     </application>
 
 

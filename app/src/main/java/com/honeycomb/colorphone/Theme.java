@@ -1,16 +1,20 @@
 package com.honeycomb.colorphone;
 
+import java.io.Serializable;
+
 /**
  * Color phone theme.
  */
 
-public class Theme {
+public class Theme implements Serializable {
 
     private int themeId;
     private String name;
     private long download;
     private boolean isHot;
     private boolean isSelected;
+
+    private int imageRes;
 
     public int getThemeId() {
         return themeId;
@@ -51,4 +55,13 @@ public class Theme {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
+
+    public int getImageRes() {
+        return imageRes;
+    }
+
+    public void setImageRes(int imageRes) {
+        this.imageRes = imageRes;
+    }
+
 }
