@@ -669,6 +669,14 @@ public class DownloadProgressBar extends View {
         drawing(canvas);
     }
 
+    public void reset() {
+        if (mState != State.IDLE) {
+            mState = State.IDLE;
+            resetValues();
+            invalidate();
+        }
+    }
+
     public void playToSuccess() {
         mResultState = State.ANIMATING_SUCCESS;
         mWhichProgress = State.ANIMATING_PROGRESS;

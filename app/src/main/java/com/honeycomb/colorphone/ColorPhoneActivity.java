@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,9 +18,11 @@ import android.widget.CompoundButton;
 
 import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
+import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.themeselector.SpaceItemDecoration;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,6 +34,22 @@ public class ColorPhoneActivity extends AppCompatActivity
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
     private int defaultThemeId = 1;
+
+    private Runnable UpdateRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
+                runOnUiThread(this);
+                return;
+            }
+
+            if (mRecyclerView != null && mRecyclerView.getAdapter() != null) {
+                mRecyclerView.getAdapter().notifyDataSetChanged();
+            }
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +87,15 @@ public class ColorPhoneActivity extends AppCompatActivity
 
         initData();
         initRecyclerView();
+
+        TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
+    }
+
+    @Override
+    protected void onDestroy() {
+        TasksManager.getImpl().onDestroy();
+
+        super.onDestroy();
     }
 
     @Override
@@ -95,16 +123,21 @@ public class ColorPhoneActivity extends AppCompatActivity
         final int count = themeTypes.length;
         Random random = new Random(555517);
         for (int i = 0; i < count; i++) {
-            Theme theme = new Theme();
+            final Type type = themeTypes[i];
+            final Theme theme = new Theme();
             theme.setDownload(random.nextInt(682220));
             theme.setName(getString(ThemeUtils.getThemeNameRes(this, i)));
-            theme.setThemeId(themeTypes[i].getValue());
-            theme.setImageRes(getThemePreviewImage(themeTypes[i]));
+            theme.setThemeId(type.getValue());
+            theme.setImageRes(getThemePreviewImage(type));
             theme.setHot(i < 2);
             if (theme.getThemeId() == defaultThemeId) {
                 theme.setSelected(true);
             }
             mRecyclerViewData.add(theme);
+            if (type.isGif()) {
+                TasksManager.getImpl().addTask(type);
+            }
+
         }
     }
 

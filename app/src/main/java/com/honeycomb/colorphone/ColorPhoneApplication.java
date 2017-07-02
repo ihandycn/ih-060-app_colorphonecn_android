@@ -7,6 +7,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.liulishuo.filedownloader.FileDownloader;
 
 public class ColorPhoneApplication extends HSApplication {
     private INotificationObserver sessionEventObserver = new INotificationObserver() {
@@ -27,6 +28,7 @@ public class ColorPhoneApplication extends HSApplication {
     public void onCreate() {
         super.onCreate();
         AcbCallManager.initWithDefaultFactory();
+        FileDownloader.setup(this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, sessionEventObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, sessionEventObserver);
     }

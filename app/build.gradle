@@ -75,11 +75,12 @@ dependencies {
     compile "com.google.android.gms:play-services-gcm:$GOOGLE_PLAY_SERVICES_VERSION"
 
     compile("com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION")
-    compile ("com.android.support:mediarouter-v7:$SUPPORT_LIBRARY_VERSION")
     compile("com.android.support:design:$SUPPORT_LIBRARY_VERSION")
     compile("com.android.support:palette-v7:$SUPPORT_LIBRARY_VERSION")
     compile("com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION")
     compile("com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION")
+
+    compile 'com.liulishuo.filedownloader:library:1.5.8'
 
     compile(name: 'colorphone-debug', ext: 'aar')
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'

@@ -1,0 +1,200 @@
+package com.honeycomb.colorphone.download;
+
+import android.text.TextUtils;
+import android.util.SparseArray;
+
+import com.acb.call.themes.Type;
+import com.honeycomb.colorphone.ThemeUtils;
+import com.ihs.commons.utils.HSLog;
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadConnectListener;
+import com.liulishuo.filedownloader.FileDownloader;
+import com.liulishuo.filedownloader.model.FileDownloadStatus;
+import com.liulishuo.filedownloader.util.FileDownloadUtils;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
+
+public class TasksManager {
+
+    private static final java.lang.String TAG = TasksManager.class.getSimpleName();
+
+
+    private final static class HolderClass {
+        private final static TasksManager INSTANCE
+                = new TasksManager();
+    }
+
+    public static TasksManager getImpl() {
+        return HolderClass.INSTANCE;
+    }
+
+    private TasksManagerDBController dbController;
+    private List<TasksManagerModel> modelList;
+
+    private TasksManager() {
+        dbController = new TasksManagerDBController();
+        modelList = dbController.getAllTasks();
+    }
+
+    private SparseArray<BaseDownloadTask> taskSparseArray = new SparseArray<>();
+
+    public BaseDownloadTask getTask(int id) {
+        return taskSparseArray.get(id);
+    }
+
+    public void addTaskForViewHolder(final BaseDownloadTask task) {
+        taskSparseArray.put(task.getId(), task);
+    }
+
+    public void removeTaskForViewHolder(final int id) {
+        taskSparseArray.remove(id);
+    }
+
+
+    public void releaseTask() {
+        taskSparseArray.clear();
+    }
+
+    private FileDownloadConnectListener listener;
+
+    private void registerServiceConnectionListener(final WeakReference<Runnable> taskWeakReference) {
+        if (listener != null) {
+            FileDownloader.getImpl().removeServiceConnectListener(listener);
+        }
+
+        listener = new FileDownloadConnectListener() {
+
+            @Override
+            public void connected() {
+                Runnable runnable  = taskWeakReference.get();
+                if (runnable != null) {
+                    runnable.run();
+                }
+            }
+
+            @Override
+            public void disconnected() {
+                Runnable runnable  = taskWeakReference.get();
+                if (runnable != null) {
+                    runnable.run();
+                }
+            }
+        };
+
+        FileDownloader.getImpl().addServiceConnectListener(listener);
+    }
+
+    private void unregisterServiceConnectionListener() {
+        FileDownloader.getImpl().removeServiceConnectListener(listener);
+        listener = null;
+    }
+
+    public void onCreate(final WeakReference<Runnable> taskWeakReference) {
+        if (!FileDownloader.getImpl().isServiceConnected()) {
+            FileDownloader.getImpl().bindService();
+            registerServiceConnectionListener(taskWeakReference);
+        }
+    }
+
+    public void onDestroy() {
+        unregisterServiceConnectionListener();
+        releaseTask();
+    }
+
+    public boolean isReady() {
+        return FileDownloader.getImpl().isServiceConnected();
+    }
+
+
+    public TasksManagerModel getByThemeId(int themeId) {
+        Type type = Type.values()[themeId];
+        for (TasksManagerModel model : modelList) {
+            if (TextUtils.equals(model.getName(), type.name())) {
+                return model;
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param id taskId, generate by theme url & path.
+     * @return
+     */
+    public TasksManagerModel getById(final int id) {
+        for (TasksManagerModel model : modelList) {
+            if (model.getId() == id) {
+                return model;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param status Download Status
+     * @return has already downloaded
+     * @see FileDownloadStatus
+     */
+    public boolean isDownloaded(final int status) {
+        return status == FileDownloadStatus.completed;
+    }
+
+    public int getStatus(final int id, String path) {
+        return FileDownloader.getImpl().getStatus(id, path);
+    }
+
+    public long getTotal(final int id) {
+        return FileDownloader.getImpl().getTotal(id);
+    }
+
+    public long getSoFar(final int id) {
+        return FileDownloader.getImpl().getSoFar(id);
+    }
+
+    public int getTaskCounts() {
+        return modelList.size();
+    }
+
+    public void addTask(Type type) {
+        String url = ThemeUtils.getGifUrl(type);
+        if (TextUtils.isEmpty(url)) {
+            throw new IllegalStateException("Theme type : [ " + type.name() + " ] has not gif url!");
+        }
+        addTask(url, type.name());
+    }
+
+
+    public TasksManagerModel addTask(final String url, String token) {
+        HSLog.d(TAG, "## Add new task ##:" + url);
+        return addTask(url, createPath(url), token);
+    }
+
+    public TasksManagerModel addTask(final String url, final String path, String token) {
+        if (TextUtils.isEmpty(url) || TextUtils.isEmpty(path)) {
+            return null;
+        }
+
+        final int id = FileDownloadUtils.generateId(url, path);
+        TasksManagerModel model = getById(id);
+        if (model != null) {
+            return model;
+        }
+        final TasksManagerModel newModel = dbController.addTask(url, path, token);
+        if (newModel != null) {
+            modelList.add(newModel);
+        }
+
+        return newModel;
+    }
+
+    public String createPath(final String url) {
+        if (TextUtils.isEmpty(url)) {
+            return null;
+        }
+
+        return FileDownloadUtils.getDefaultSaveFilePath(url);
+    }
+}
+
