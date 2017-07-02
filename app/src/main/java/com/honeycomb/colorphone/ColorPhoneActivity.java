@@ -8,11 +8,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
 
+import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.themeselector.SpaceItemDecoration;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
@@ -21,9 +24,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ColorPhoneActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
+    private SwitchCompat mainSwitch;
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
     private int defaultThemeId = 1;
@@ -40,7 +44,19 @@ public class ColorPhoneActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        findViewById(R.id.left_drawer).setOnTouchListener(new View.OnTouchListener() {
+        View leftDrawer = findViewById(R.id.left_drawer);
+        mainSwitch = (SwitchCompat) leftDrawer.findViewById(R.id.main_switch);
+        mainSwitch.setChecked(CPSettings.isScreenFlashModuleEnabled());
+        mainSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                CPSettings.setScreenFlashModuleEnabled(isChecked);
+            }
+        });
+        leftDrawer.findViewById(R.id.settings_main_switch).setOnClickListener(this);
+        leftDrawer.findViewById(R.id.settings_feedback).setOnClickListener(this);
+        leftDrawer.findViewById(R.id.settings_setting).setOnClickListener(this);
+        leftDrawer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
@@ -118,5 +134,25 @@ public class ColorPhoneActivity extends AppCompatActivity
         ThemeSelectorAdapter adapter = new ThemeSelectorAdapter(mRecyclerViewData);
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.theme_card_margin)));
         mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.settings_main_switch:
+                toggle();
+                break;
+            case R.id.settings_feedback:
+
+                break;
+            case R.id.settings_setting:
+
+                break;
+        }
+    }
+
+    private void toggle() {
+        boolean isChecked = mainSwitch.isChecked();
+        mainSwitch.setChecked(!isChecked);
     }
 }
