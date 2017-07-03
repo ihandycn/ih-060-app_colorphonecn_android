@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.acb.call.themes.Type;
+import com.acb.call.utils.CallUtils;
 import com.honeycomb.colorphone.ThemeUtils;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
@@ -12,6 +13,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
@@ -162,16 +164,20 @@ public class TasksManager {
         if (TextUtils.isEmpty(url)) {
             throw new IllegalStateException("Theme type : [ " + type.name() + " ] has not gif url!");
         }
-        addTask(url, type.name());
+        File file = CallUtils.getDirectory(CallUtils.GIF_DIRECTORY);
+        if (file != null) {
+            String path = FileDownloadUtils.generateFilePath(file.getAbsolutePath(), CallUtils.getGifName(type));
+            addTask(url, path,  type.name());
+        }
     }
 
-
     public TasksManagerModel addTask(final String url, String token) {
-        HSLog.d(TAG, "## Add new task ##:" + url);
         return addTask(url, createPath(url), token);
     }
 
     public TasksManagerModel addTask(final String url, final String path, String token) {
+        HSLog.d(TAG, "## Add new task ##:" + url);
+
         if (TextUtils.isEmpty(url) || TextUtils.isEmpty(path)) {
             return null;
         }

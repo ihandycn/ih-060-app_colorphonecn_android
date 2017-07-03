@@ -60,7 +60,12 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         holder.apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Apply
+                int pos = holder.getPositionTag();
+                for (Theme t : data) {
+                    t.setSelected(false);
+                }
+                data.get(pos).setSelected(true);
+                notifyDataSetChanged();
             }
         });
 

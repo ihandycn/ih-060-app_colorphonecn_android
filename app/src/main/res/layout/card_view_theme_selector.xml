@@ -41,6 +41,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <com.honeycomb.colorphone.view.CircularCoverView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cover_color="@android:color/background_light"
+            app:left_bottom_radius="@dimen/theme_card_radius"
+            app:left_top_radius="@dimen/theme_card_radius"
+            app:right_bottom_radius="@dimen/theme_card_radius"
+            app:right_top_radius="@dimen/theme_card_radius" />
+
         <ImageView
             android:id="@+id/theme_hot"
             android:layout_width="wrap_content"
@@ -58,28 +67,30 @@
             android:src="@drawable/theme_card_selected" />
     </com.honeycomb.colorphone.view.FixRatioPreviewWindow>
 
-    <TextView
+    <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/card_name"
+        style="@style/NormalText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/card_view"
         android:layout_marginTop="12dp"
         android:gravity="center"
         android:textColor="@color/textDark"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         tools:text="Neon" />
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
         android:layout_below="@id/card_name"
         android:layout_marginTop="2dp"
         android:src="@drawable/theme_card_thumb" />
 
-    <TextView
+    <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/theme_download_txt"
+        style="@style/NormalText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/imageView1"
@@ -89,13 +100,13 @@
         android:layout_toRightOf="@id/imageView1"
         android:gravity="center"
         android:textColor="@color/textLightGray"
-        android:textSize="14sp"
+        android:textSize="12sp"
         tools:text="6622335" />
 
     <FrameLayout
         android:id="@+id/card_action_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
         android:layout_alignBottom="@id/imageView1"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -105,12 +116,13 @@
 
         <com.honeycomb.colorphone.view.DownloadProgressBar
             android:id="@+id/progressBar"
-            android:layout_width="40dp"
+            android:layout_width="48dp"
             android:layout_height="40dp"
+            android:layout_gravity="center_vertical|end"
             app:circleBackgroundColor="@color/colorMaskDark"
-            app:circleRadius="36dp"
+            app:circleRadius="13dp"
             app:drawingColor="@color/button_blue"
-            app:lineWidth="3dp"
+            app:lineWidth="2dp"
             app:overshootValue="1"
             app:progressBackgroundColor="@color/colorMaskDark"
             app:progressColor="@color/button_blue"
@@ -120,11 +132,11 @@
 
 
         <TextView
-            style="@style/TxtButton"
             android:id="@+id/applyBtn"
+            style="@style/TxtButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical|end"
             android:background="@drawable/theme_card_button_bg_selector"
             android:text="@string/open"
             android:textColor="@color/button_blue" />
