@@ -79,6 +79,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         holder.setPositionTag(position);
 
         final Theme curTheme = data.get(position);
+        final Type type = Type.values()[curTheme.getThemeId()];
+
         String name = curTheme.getName();
         holder.setTxt(name);
         holder.downloadTxt.setText(String.valueOf(curTheme.getDownload()));
@@ -88,12 +90,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             holder.img.setImageDrawable(null);
         }
 
-        holder.previewWindow.playAnimation(Type.values()[curTheme.getThemeId()]);
+        holder.previewWindow.updateThemeLayout(type);
         if (!curTheme.isSelected()) {
             holder.previewWindow.stopAnimations();
             holder.callActionView.setAutoRun(false);
-
+            holder.previewWindow.setAutoRun(false);
         } else {
+            holder.previewWindow.playAnimation(type);
             holder.previewWindow.setAutoRun(true);
             holder.callActionView.setAutoRun(true);
         }
@@ -105,16 +108,16 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         final TasksManagerModel model = TasksManager.getImpl().getByThemeId(curTheme.getThemeId());
 
         if (model != null) {
-            holder.showOpen(false);
             holder.update(model.getId(), position);
-            updateTaskHolder(holder, model);
+            boolean fileExist = updateTaskHolder(holder, model);
+            holder.showOpen(fileExist);
         } else {
             holder.showOpen(true);
         }
 
     }
 
-    private void updateTaskHolder(ThemeCardViewHolder holder, TasksManagerModel model) {
+    private boolean updateTaskHolder(ThemeCardViewHolder holder, TasksManagerModel model) {
         holder.taskActionBtn.setTag(holder);
 
         final BaseDownloadTask task = TasksManager.getImpl()
@@ -124,7 +127,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         }
 
         holder.taskActionBtn.setEnabled(true);
-
+        boolean showOpen = false;
 
         if (TasksManager.getImpl().isReady()) {
             final int status = TasksManager.getImpl().getStatus(model.getId(), model.getPath());
@@ -140,6 +143,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             } else if (TasksManager.getImpl().isDownloaded(status)) {
                 // already downloaded and exist
                 holder.updateDownloaded();
+                showOpen = true;
             } else if (status == FileDownloadStatus.progress) {
                 // downloading
                 holder.updateDownloading(status, TasksManager.getImpl().getSoFar(model.getId())
@@ -153,6 +157,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
 //            holder.taskStatusTv.setText(R.string.tasks_manager_demo_status_loading);
             holder.taskActionBtn.setEnabled(false);
         }
+
+        return showOpen;
     }
 
     @Override
@@ -352,40 +358,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
 //            taskNameTv = (TextView) findViewById(R.id.task_name_tv);
 //            taskStatusTv = (TextView) findViewById(R.id.task_status_tv);
             taskPb = (DownloadProgressBar) itemView.findViewById(R.id.progressBar);
-            taskPb.setOnProgressUpdateListener(new DownloadProgressBar.OnProgressUpdateListener() {
-                @Override
-                public void onProgressUpdate(float currentPlayTime) {
-
-                }
-
-                @Override
-                public void onAnimationStarted() {
-
-                }
-
+            taskPb.setOnProgressUpdateListener(new DownloadProgressBar.SampleOnProgressUpdateListener() {
                 @Override
                 public void onAnimationEnded() {
+                    super.onAnimationEnded();
                     showOpen(pendingToOpen);
-                }
-
-                @Override
-                public void onAnimationSuccess() {
-
-                }
-
-                @Override
-                public void onAnimationError() {
-
-                }
-
-                @Override
-                public void onManualProgressStarted() {
-
-                }
-
-                @Override
-                public void onManualProgressEnded() {
-
                 }
             });
             taskActionBtn = taskPb;
@@ -435,7 +412,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
 
         public void updateDownloaded() {
             // If file already downloaded, not play animation
-            if (mDownloadStatus != FileDownloadStatus.INVALID_STATUS) {
+            if (mDownloadStatus > 0) {
                 taskPb.setProgress(100);
                 pendingToOpen = true;
             } else {
@@ -443,7 +420,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             }
 
             if (DEBUG_PROGRESS) {
-                HSLog.d("sundxing", "download success!");
+                HSLog.d("sundxing", position + " download success!");
             }
 
             mDownloadStatus = FileDownloadStatus.completed;
@@ -454,7 +431,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         public void updateNotDownloaded(final int status, final long sofar, final long total) {
 
             if (DEBUG_PROGRESS) {
-                HSLog.d("sundxing", "download stopped, status = " + status);
+                HSLog.d("sundxing", position + " download stopped, status = " + status);
             }
             if (sofar > 0 && total > 0) {
                 final float percent = sofar
@@ -487,7 +464,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
                     / (float) total;
             taskPb.setProgress((int) (percent * 100));
             if (DEBUG_PROGRESS) {
-                HSLog.d("sundxing", "download process, percent = " + percent);
+                HSLog.d("sundxing", position + " download process, percent = " + percent);
             }
             mDownloadStatus = status;
             canPaused = true;

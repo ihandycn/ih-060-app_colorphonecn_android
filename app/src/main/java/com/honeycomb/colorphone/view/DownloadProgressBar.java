@@ -575,17 +575,17 @@ public class DownloadProgressBar extends View {
                 mDrawingPaint.setStrokeWidth(mStrokeWidth);
                 canvas.drawArc(mCircleBounds, -90, mCurrentGlobalProgressValue, false, mDrawingPaint);
 
-                mProgressBackgroundBounds.left = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2;
-                mProgressBackgroundBounds.top = mCenterY - mExpandCollapseValue;
-                mProgressBackgroundBounds.right =  mCenterX + mRadius / 2 + mArrowLineToHorizontalLineAnimatedValue / 2;
-                mProgressBackgroundBounds.bottom = mCenterY + mExpandCollapseValue;
-                canvas.drawRoundRect(mProgressBackgroundBounds, 45, 45, mProgressBackgroundPaint);
-
-                mProgressBounds.left = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2;
-                mProgressBounds.top = mCenterY - mExpandCollapseValue;
-                mProgressBounds.right = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2 + progress * mCurrentGlobalProgressValue;
-                mProgressBounds.bottom = mCenterY + mExpandCollapseValue;
-                canvas.drawRoundRect(mProgressBounds, 45, 45, mProgressPaint);
+//                mProgressBackgroundBounds.left = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2;
+//                mProgressBackgroundBounds.top = mCenterY - mExpandCollapseValue;
+//                mProgressBackgroundBounds.right =  mCenterX + mRadius / 2 + mArrowLineToHorizontalLineAnimatedValue / 2;
+//                mProgressBackgroundBounds.bottom = mCenterY + mExpandCollapseValue;
+//                canvas.drawRoundRect(mProgressBackgroundBounds, 45, 45, mProgressBackgroundPaint);
+//
+//                mProgressBounds.left = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2;
+//                mProgressBounds.top = mCenterY - mExpandCollapseValue;
+//                mProgressBounds.right = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2 + progress * mCurrentGlobalProgressValue;
+//                mProgressBounds.bottom = mCenterY + mExpandCollapseValue;
+//                canvas.drawRoundRect(mProgressBounds, 45, 45, mProgressPaint);
                 break;
             case ANIMATING_MANUAL_PROGRESS:
                 float manualProgress = ((mCenterX + mRadius / 2 + mArrowLineToHorizontalLineAnimatedValue / 2) - (mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2)) / 360f;
@@ -593,17 +593,17 @@ public class DownloadProgressBar extends View {
                 mDrawingPaint.setStrokeWidth(mStrokeWidth);
                 canvas.drawArc(mCircleBounds, -90, mCurrentGlobalManualProgressValue, false, mDrawingPaint);
 
-                mProgressBackgroundBounds.left = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2;
-                mProgressBackgroundBounds.top = mCenterY - mExpandCollapseValue;
-                mProgressBackgroundBounds.right =  mCenterX + mRadius / 2 + mArrowLineToHorizontalLineAnimatedValue / 2;
-                mProgressBackgroundBounds.bottom = mCenterY + mExpandCollapseValue;
-                canvas.drawRoundRect(mProgressBackgroundBounds, 45, 45, mProgressBackgroundPaint);
-
-                mProgressBounds.left = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2;
-                mProgressBounds.top = mCenterY - mExpandCollapseValue;
-                mProgressBounds.right = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2 + manualProgress * mCurrentGlobalManualProgressValue;
-                mProgressBounds.bottom = mCenterY + mExpandCollapseValue;
-                canvas.drawRoundRect(mProgressBounds, 45, 45, mProgressPaint);
+//                mProgressBackgroundBounds.left = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2;
+//                mProgressBackgroundBounds.top = mCenterY - mExpandCollapseValue;
+//                mProgressBackgroundBounds.right =  mCenterX + mRadius / 2 + mArrowLineToHorizontalLineAnimatedValue / 2;
+//                mProgressBackgroundBounds.bottom = mCenterY + mExpandCollapseValue;
+//                canvas.drawRoundRect(mProgressBackgroundBounds, 45, 45, mProgressBackgroundPaint);
+//
+//                mProgressBounds.left = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2;
+//                mProgressBounds.top = mCenterY - mExpandCollapseValue;
+//                mProgressBounds.right = mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2 + manualProgress * mCurrentGlobalManualProgressValue;
+//                mProgressBounds.bottom = mCenterY + mExpandCollapseValue;
+//                canvas.drawRoundRect(mProgressBounds, 45, 45, mProgressPaint);
                 break;
             case ANIMATING_SUCCESS:
                 mDrawingPaint.setStrokeWidth(mLineWidth);
@@ -742,6 +742,44 @@ public class DownloadProgressBar extends View {
         void onManualProgressStarted();
 
         void onManualProgressEnded();
+    }
+
+    public static class SampleOnProgressUpdateListener implements OnProgressUpdateListener {
+
+        @Override
+        public void onProgressUpdate(float currentPlayTime) {
+
+        }
+
+        @Override
+        public void onAnimationStarted() {
+
+        }
+
+        @Override
+        public void onAnimationEnded() {
+
+        }
+
+        @Override
+        public void onAnimationSuccess() {
+
+        }
+
+        @Override
+        public void onAnimationError() {
+
+        }
+
+        @Override
+        public void onManualProgressStarted() {
+
+        }
+
+        @Override
+        public void onManualProgressEnded() {
+
+        }
     }
 
     public void setOnProgressUpdateListener(OnProgressUpdateListener listener) {
