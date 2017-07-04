@@ -121,6 +121,7 @@ public class ColorPhoneActivity extends AppCompatActivity
     private void initData() {
         Type[] themeTypes = Type.values();
         final int count = themeTypes.length;
+        int selectedThemeId = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, defaultThemeId);
         Random random = new Random(555517);
         for (int i = 0; i < count; i++) {
             final Type type = themeTypes[i];
@@ -130,7 +131,7 @@ public class ColorPhoneActivity extends AppCompatActivity
             theme.setThemeId(type.getValue());
             theme.setImageRes(getThemePreviewImage(type));
             theme.setHot(i < 2);
-            if (theme.getThemeId() == defaultThemeId) {
+            if (theme.getThemeId() == selectedThemeId) {
                 theme.setSelected(true);
             }
             mRecyclerViewData.add(theme);

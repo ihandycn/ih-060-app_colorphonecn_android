@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
@@ -16,29 +17,42 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ThemePreviewActivity;
+import com.honeycomb.colorphone.download.DownloadStateListener;
+import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadListener;
-import com.liulishuo.filedownloader.FileDownloadSampleListener;
-import com.liulishuo.filedownloader.FileDownloader;
-import com.liulishuo.filedownloader.model.FileDownloadStatus;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import static com.liulishuo.filedownloader.model.FileDownloadStatus.pending;
-
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdapter.ThemeCardViewHolder> {
 
     private ArrayList<Theme> data = null;
 
-    public ThemeSelectorAdapter(ArrayList<Theme> data) {
+
+    public ThemeSelectorAdapter(final ArrayList<Theme> data) {
         this.data = data;
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, new INotificationObserver() {
+            @Override
+            public void onReceive(String s, HSBundle hsBundle) {
+                if (hsBundle != null) {
+                    int themeId =  hsBundle.getInt(ThemePreviewActivity.NOTIFY_THEME_SELECT_KEY);
+                    for (Theme theme : data) {
+                        if (theme.getThemeId() == themeId) {
+                            onSelectedTheme(data.indexOf(theme));
+                        }
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -50,26 +64,39 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             @Override
             public void onClick(View view) {
                 int pos = holder.getPositionTag();
+                holder.getDownloadHolder().startDownloadDelay(0);
                 ThemePreviewActivity.start(parent.getContext(), data.get(pos));
                 Toast.makeText(HSApplication.getContext(), holder.getPositionTag() + " clicked", Toast.LENGTH_SHORT).show();
             }
         });
         // Disable theme original bg. Use our own
         holder.previewWindow.setBgDrawable(null);
-        holder.taskActionBtn.setOnClickListener(taskActionOnClickListener);
+//        holder.taskActionBtn.setOnClickListener(taskActionOnClickListener);
         holder.apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int pos = holder.getPositionTag();
-                for (Theme t : data) {
-                    t.setSelected(false);
-                }
-                data.get(pos).setSelected(true);
-                notifyDataSetChanged();
+                onSelectedTheme(pos);
+                CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, data.get(pos).getThemeId());
             }
         });
 
         return holder;
+    }
+
+    private void onSelectedTheme(int pos) {
+        // Clear before.
+        for (int i = 0; i < data.size(); i++) {
+            Theme t = data.get(i);
+            if (t.isSelected()) {
+                t.setSelected(false);
+                notifyItemChanged(i);
+                break;
+            }
+        }
+        // Reset current.
+        data.get(pos).setSelected(true);
+        notifyItemChanged(pos);
     }
 
     // TODO Use bitmap to improve draw performance
@@ -118,22 +145,23 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
     }
 
     private boolean updateTaskHolder(ThemeCardViewHolder holder, TasksManagerModel model) {
-        holder.taskActionBtn.setTag(holder);
+//        holder.taskActionBtn.setTag(holder);
 
         final BaseDownloadTask task = TasksManager.getImpl()
                 .getTask(holder.id);
         if (task != null) {
-            task.setTag(holder);
+            task.setTag(holder.getDownloadHolder());
         }
 
-        holder.taskActionBtn.setEnabled(true);
+        holder.setActionEnabled(true);
         boolean showOpen = false;
 
         if (TasksManager.getImpl().isReady()) {
             final int status = TasksManager.getImpl().getStatus(model.getId(), model.getPath());
-            if (status == pending || status == FileDownloadStatus.started ||
-                    status == FileDownloadStatus.connected) {
+            HSLog.d("sundxing", "position " + holder.position + ",download task status: " + status);
+            if (TasksManager.getImpl().isDownloading(status)) {
                 // start task, but file not created yet
+                // Or just downloading
                 holder.updateDownloading(status, TasksManager.getImpl().getSoFar(model.getId())
                         , TasksManager.getImpl().getTotal(model.getId()));
             } else if (!new File(model.getPath()).exists() &&
@@ -142,12 +170,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
                 holder.updateNotDownloaded(status, 0, 0);
             } else if (TasksManager.getImpl().isDownloaded(status)) {
                 // already downloaded and exist
-                holder.updateDownloaded();
+                holder.updateDownloaded(false);
                 showOpen = true;
-            } else if (status == FileDownloadStatus.progress) {
-                // downloading
-                holder.updateDownloading(status, TasksManager.getImpl().getSoFar(model.getId())
-                        , TasksManager.getImpl().getTotal(model.getId()));
             } else {
                 // not start
                 holder.updateNotDownloaded(status, TasksManager.getImpl().getSoFar(model.getId())
@@ -155,7 +179,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             }
         } else {
 //            holder.taskStatusTv.setText(R.string.tasks_manager_demo_status_loading);
-            holder.taskActionBtn.setEnabled(false);
+            holder.setActionEnabled(false);
         }
 
         return showOpen;
@@ -166,150 +190,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         return data.size();
     }
 
-    private FileDownloadListener taskDownloadListener = new FileDownloadSampleListener() {
-
-        private ThemeCardViewHolder checkCurrentHolder(final BaseDownloadTask task) {
-            final ThemeCardViewHolder tag = (ThemeCardViewHolder) task.getTag();
-            if (tag.id != task.getId()) {
-                return null;
-            }
-
-            return tag;
-        }
-
-        @Override
-        protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-            super.pending(task, soFarBytes, totalBytes);
-            final ThemeCardViewHolder tag = checkCurrentHolder(task);
-            if (tag == null) {
-                return;
-            }
-
-            tag.updateDownloading(pending, soFarBytes
-                    , totalBytes);
-//            tag.taskStatusTv.setText(R.string.tasks_manager_demo_status_pending);
-        }
-
-        @Override
-        protected void started(BaseDownloadTask task) {
-            super.started(task);
-            final ThemeCardViewHolder tag = checkCurrentHolder(task);
-            if (tag == null) {
-                return;
-            }
-
-//            tag.taskStatusTv.setText(R.string.tasks_manager_demo_status_started);
-        }
-
-        @Override
-        protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
-            super.connected(task, etag, isContinue, soFarBytes, totalBytes);
-            final ThemeCardViewHolder tag = checkCurrentHolder(task);
-            if (tag == null) {
-                return;
-            }
-
-            tag.updateDownloading(FileDownloadStatus.connected, soFarBytes
-                    , totalBytes);
-//            tag.taskStatusTv.setText(R.string.tasks_manager_demo_status_connected);
-        }
-
-        @Override
-        protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-            super.progress(task, soFarBytes, totalBytes);
-            final ThemeCardViewHolder tag = checkCurrentHolder(task);
-            if (tag == null) {
-                return;
-            }
-
-            tag.updateDownloading(FileDownloadStatus.progress, soFarBytes
-                    , totalBytes);
-        }
-
-        @Override
-        protected void error(BaseDownloadTask task, Throwable e) {
-            super.error(task, e);
-            final ThemeCardViewHolder tag = checkCurrentHolder(task);
-            if (tag == null) {
-                return;
-            }
-
-            tag.updateNotDownloaded(FileDownloadStatus.error, task.getLargeFileSoFarBytes()
-                    , task.getLargeFileTotalBytes());
-            TasksManager.getImpl().removeTaskForViewHolder(task.getId());
-        }
-
-        @Override
-        protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-            super.paused(task, soFarBytes, totalBytes);
-            final ThemeCardViewHolder tag = checkCurrentHolder(task);
-            if (tag == null) {
-                return;
-            }
-
-            tag.updateNotDownloaded(FileDownloadStatus.paused, soFarBytes, totalBytes);
-//            tag.taskStatusTv.setText(R.string.tasks_manager_demo_status_paused);
-            TasksManager.getImpl().removeTaskForViewHolder(task.getId());
-        }
-
-        @Override
-        protected void completed(BaseDownloadTask task) {
-            super.completed(task);
-            final ThemeCardViewHolder tag = checkCurrentHolder(task);
-            if (tag == null) {
-                return;
-            }
-
-            tag.updateDownloaded();
-            TasksManager.getImpl().removeTaskForViewHolder(task.getId());
-        }
-    };
-
-    private View.OnClickListener taskActionOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (v.getTag() == null) {
-                return;
-            }
-
-            final ThemeCardViewHolder holder = (ThemeCardViewHolder) v.getTag();
-
-            if (holder.canPaused()) {
-                // to pause
-                FileDownloader.getImpl().pause(holder.id);
-            } else if (holder.canStartDownload()) {
-                holder.startDownload(new Runnable() {
-                    @Override
-                    public void run() {
-                        startDownload(holder);
-                    }
-                });
-            }
-        }
-
-        private void startDownload(ThemeCardViewHolder holder) {
-            // to start
-            final TasksManagerModel model = TasksManager.getImpl().getById(holder.id);
-            if (model != null) {
-                final BaseDownloadTask task = FileDownloader.getImpl().create(model.getUrl())
-                        .setPath(model.getPath())
-                        .setCallbackProgressTimes(100)
-                        .setListener(taskDownloadListener);
-
-                TasksManager.getImpl()
-                        .addTaskForViewHolder(task);
-
-                task.setTag(holder);
-
-                task.start();
-            } else {
-                throw new IllegalStateException("Has no pending task to download!");
-            }
-        }
-    };
-
-
-    static class ThemeCardViewHolder extends RecyclerView.ViewHolder {
+    static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadStateListener {
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
         ImageView img;
         TextView txt;
@@ -318,13 +199,12 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         ThemePreviewWindow previewWindow;
         InCallActionView callActionView;
 
+        DownloadViewHolder mDownloadViewHolder;
+
         private int positionTag;
         private final View hotView;
         private final View selectedView;
 
-        private int mDownloadStatus;
-        private boolean canPaused;
-        private boolean canStart;
 
         private Handler mHandler = new Handler();
         private boolean pendingToOpen;
@@ -350,23 +230,22 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
 
             selectedView = itemView.findViewById(R.id.theme_selected);
             hotView = itemView.findViewById(R.id.theme_hot);
-            downloadTxt = (TextView)itemView.findViewById(R.id.theme_download_txt);
+            downloadTxt = (TextView) itemView.findViewById(R.id.theme_download_txt);
             previewWindow = (ThemePreviewWindow) itemView.findViewById(R.id.flash_view);
             callActionView = (InCallActionView) itemView.findViewById(R.id.in_call_view);
             callActionView.setAutoRun(false);
 
-//            taskNameTv = (TextView) findViewById(R.id.task_name_tv);
-//            taskStatusTv = (TextView) findViewById(R.id.task_status_tv);
-            taskPb = (DownloadProgressBar) itemView.findViewById(R.id.progressBar);
-            taskPb.setOnProgressUpdateListener(new DownloadProgressBar.SampleOnProgressUpdateListener() {
+            DownloadProgressBar pb = (DownloadProgressBar) itemView.findViewById(R.id.progressBar);
+            pb.setOnProgressUpdateListener(new DownloadProgressBar.SampleOnProgressUpdateListener() {
                 @Override
                 public void onAnimationEnded() {
                     super.onAnimationEnded();
                     showOpen(pendingToOpen);
                 }
             });
-            taskActionBtn = taskPb;
-//            taskActionBtn = (Button) findViewById(R.id.task_action_btn);
+
+            mDownloadViewHolder = new DownloadViewHolder(pb, pb);
+            taskPb = pb;
 
         }
 
@@ -392,40 +271,28 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
          */
         private int id;
 
-//
-//        private TextView taskNameTv;
-//        private TextView taskStatusTv;
-        private DownloadProgressBar taskPb;
-        private View taskActionBtn;
+
+        private View taskPb;
 
         public void update(final int id, final int position) {
             this.id = id;
             this.position = position;
+            this.mDownloadViewHolder.bindTaskId(id);
         }
 
-        public void startDownload(Runnable playAnimEnd) {
-            taskPb.playManualProgressAnimation();
-            if (playAnimEnd != null) {
-                txt.postDelayed(playAnimEnd, 1000);
-            }
-        }
-
-        public void updateDownloaded() {
+        @Override
+        public void updateDownloaded(boolean progressFlag) {
             // If file already downloaded, not play animation
-            if (mDownloadStatus > 0) {
-                taskPb.setProgress(100);
+            if (progressFlag) {
                 pendingToOpen = true;
             } else {
                 showOpen(true);
             }
+            mDownloadViewHolder.updateDownloaded(progressFlag);
 
             if (DEBUG_PROGRESS) {
                 HSLog.d("sundxing", position + " download success!");
             }
-
-            mDownloadStatus = FileDownloadStatus.completed;
-//            taskStatusTv.setText(R.string.tasks_manager_demo_status_completed);
-//            taskActionBtn.setText(R.string.delete);
         }
 
         public void updateNotDownloaded(final int status, final long sofar, final long total) {
@@ -433,76 +300,31 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             if (DEBUG_PROGRESS) {
                 HSLog.d("sundxing", position + " download stopped, status = " + status);
             }
-            if (sofar > 0 && total > 0) {
-                final float percent = sofar
-                        / (float) total;
-                taskPb.setProgress((int) (percent * 100));
-            } else {
-                taskPb.reset();
-            }
-
-            mDownloadStatus = status;
-            canPaused = false;
-            canStart = true;
-//            switch (status) {
-//                case FileDownloadStatus.error:
-//                    taskStatusTv.setText(R.string.tasks_manager_demo_status_error);
-//                    break;
-//                case FileDownloadStatus.paused:
-//                    taskStatusTv.setText(R.string.tasks_manager_demo_status_paused);
-//                    break;
-//                default:
-//                    taskStatusTv.setText(R.string.tasks_manager_demo_status_not_downloaded);
-//                    break;
-//            }
-//            taskActionBtn.setText(R.string.start);
+            mDownloadViewHolder.updateNotDownloaded(status, sofar, total);
         }
 
         public void updateDownloading(final int status, final long sofar, final long total) {
 
-            final float percent = sofar
-                    / (float) total;
-            taskPb.setProgress((int) (percent * 100));
             if (DEBUG_PROGRESS) {
+                final float percent = sofar
+                        / (float) total;
                 HSLog.d("sundxing", position + " download process, percent = " + percent);
             }
-            mDownloadStatus = status;
-            canPaused = true;
-            canStart = false;
-//            switch (status) {
-//                case FileDownloadStatus.pending:
-//                    taskStatusTv.setText(R.string.tasks_manager_demo_status_pending);
-//                    break;
-//                case FileDownloadStatus.started:
-//                    taskStatusTv.setText(R.string.tasks_manager_demo_status_started);
-//                    break;
-//                case FileDownloadStatus.connected:
-//                    taskStatusTv.setText(R.string.tasks_manager_demo_status_connected);
-//                    break;
-//                case FileDownloadStatus.progress:
-//                    taskStatusTv.setText(R.string.tasks_manager_demo_status_progress);
-//                    break;
-//                default:
-//                    taskStatusTv.setText(DemoApplication.CONTEXT.getString(
-//                            R.string.tasks_manager_demo_status_downloading, status));
-//                    break;
-//            }
-//
-//            taskActionBtn.setText(R.string.pause);
-        }
+            mDownloadViewHolder.updateDownloading(status, sofar, total);
 
-        public boolean canPaused() {
-            return canPaused;
-
-        }
-
-        public boolean canStartDownload() {
-            return canStart;
         }
 
         public void showOpen(boolean valid) {
             taskPb.setVisibility(valid ? View.GONE : View.VISIBLE);
             apply.setVisibility(valid ? View.VISIBLE : View.GONE);
+        }
+
+        public DownloadViewHolder getDownloadHolder() {
+            return mDownloadViewHolder;
+        }
+
+        public void setActionEnabled(boolean enable) {
+            taskPb.setEnabled(enable);
         }
     }
 }

@@ -143,6 +143,11 @@ public class TasksManager {
         return status == FileDownloadStatus.completed;
     }
 
+    public boolean isDownloading(final int status) {
+        return status == FileDownloadStatus.pending || status == FileDownloadStatus.started ||
+                status == FileDownloadStatus.connected;
+    }
+
     public int getStatus(final int id, String path) {
         return FileDownloader.getImpl().getStatus(id, path);
     }
@@ -153,6 +158,12 @@ public class TasksManager {
 
     public long getSoFar(final int id) {
         return FileDownloader.getImpl().getSoFar(id);
+    }
+
+    public float getDownloadProgress(final int id) {
+        final float percent = getSoFar(id)
+                / (float) getTotal(id);
+        return percent;
     }
 
     public int getTaskCounts() {

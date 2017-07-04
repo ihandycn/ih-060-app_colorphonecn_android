@@ -9,6 +9,8 @@
     <string name="theme_download_progress">downloading</string>
     <string name="theme_download_resume">Resume</string>
     <string name="theme_apply">Apply</string>
+    <string name="theme_current">Current Theme</string>
+    <string name="apply_success">Apply Success</string>
     <string name="disable_color_phone">Disable Color Phone</string>
     <string name="feedback">Feedback</string>
     <string name="settings">Settings</string>

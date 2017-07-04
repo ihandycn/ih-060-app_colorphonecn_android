@@ -2,24 +2,13 @@
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-   >
-
-    <ImageView
-        android:id="@+id/nav_back"
-        style="@style/NormalButton"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/bg_round_material_compat"
-        android:src="@drawable/back_indicator_white_selector" />
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/preview_bg_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        />
+        android:scaleType="centerCrop" />
 
     <com.acb.call.views.ThemePreviewWindow
         android:id="@+id/flash_view"
@@ -30,18 +19,43 @@
         android:id="@+id/in_call_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/theme_progress_btn" />
+        android:layout_above="@+id/theme_apply_btn" />
 
-    <com.honeycomb.colorphone.view.FlickerProgressBar
-        android:id="@+id/theme_progress_btn"
-        android:layout_height="40dp"
+    <ImageView
+        android:id="@+id/nav_back"
+        style="@style/NormalButton"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_round_material_compat"
+        android:src="@drawable/back_indicator_white_selector" />
+
+    <View
+        android:id="@+id/dim_cover"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55000000" />
+
+    <ProgressBar
+        android:id="@+id/theme_progress_bar"
+        style="@style/ProgressBar"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="36dp"
-        app:borderWidth="2dp"
-        app:layout_widthPercent="66%"
-        app:loadingColor="@color/button_blue"
-        app:radius="20dp"
-        app:stopColor="@color/button_blue" />
+        android:layout_marginBottom="32dp"
+        android:progress="60"
+        app:layout_widthPercent="66%" />
 
+    <Button
+        android:id="@+id/theme_apply_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:translationY="60dp"
+        android:layout_height="36dp"
+        android:visibility="invisible"
+        android:enabled="false"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/btn_bg_yellow"
+        app:layout_widthPercent="66%" />
 </android.support.percent.PercentRelativeLayout>

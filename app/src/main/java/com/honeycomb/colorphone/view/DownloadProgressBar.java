@@ -23,7 +23,7 @@ import android.view.animation.OvershootInterpolator;
 import com.honeycomb.colorphone.R;
 
 
-public class DownloadProgressBar extends View {
+public class DownloadProgressBar extends View implements ProgressView{
 
     private static final String TAG = DownloadProgressBar.class.getSimpleName();
     private static final int DEFAULT_PROGRESS_DURATION = 1000;
@@ -677,6 +677,11 @@ public class DownloadProgressBar extends View {
         }
     }
 
+    @Override
+    public void onDownloadStart() {
+        playManualProgressAnimation();
+    }
+
     public void playToSuccess() {
         mResultState = State.ANIMATING_SUCCESS;
         mWhichProgress = State.ANIMATING_PROGRESS;
@@ -721,6 +726,8 @@ public class DownloadProgressBar extends View {
     public void setProgress(int value) {
         if(value < 1 || value > 100)
             return;
+        mWhichProgress = State.ANIMATING_MANUAL_PROGRESS;
+        mResultState = State.ANIMATING_SUCCESS;
         mToArc = value * 3.6f;
         mManualProgressAnimation.setFloatValues(mFromArc, mToArc);
         mManualProgressAnimation.start();
