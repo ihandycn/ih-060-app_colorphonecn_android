@@ -46,6 +46,7 @@ import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.acb.call.themes.Type;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -74,6 +75,15 @@ public final class Utils {
 
 
     private static float sDensityRatio;
+
+    public static Type getTypeByThemeId(int id) {
+        for (Type t : Type.values()) {
+            if (t.getValue() == id) {
+                return t;
+            }
+        }
+        return null;
+    }
 
     public static float getDensityRatio() {
         if (sDensityRatio > 0f) {

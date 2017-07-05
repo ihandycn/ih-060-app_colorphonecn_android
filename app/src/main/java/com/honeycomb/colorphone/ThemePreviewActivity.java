@@ -27,9 +27,6 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 
-/**
- * Created by sundxing on 17/6/29.
- */
 
 public class ThemePreviewActivity extends AppCompatActivity {
 

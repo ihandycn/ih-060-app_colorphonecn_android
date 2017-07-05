@@ -17,6 +17,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ThemePreviewActivity;
+import com.honeycomb.colorphone.Utils;
 import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -64,8 +65,12 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             @Override
             public void onClick(View view) {
                 int pos = holder.getPositionTag();
-                holder.getDownloadHolder().startDownloadDelay(0);
-                ThemePreviewActivity.start(parent.getContext(), data.get(pos));
+                Theme theme  = data.get(pos);
+                Type type = Utils.getTypeByThemeId(theme.getThemeId());
+                if (type != null && type.isGif()) {
+                    holder.getDownloadHolder().startDownloadDelay(0);
+                }
+                ThemePreviewActivity.start(parent.getContext(), theme);
                 Toast.makeText(HSApplication.getContext(), holder.getPositionTag() + " clicked", Toast.LENGTH_SHORT).show();
             }
         });
