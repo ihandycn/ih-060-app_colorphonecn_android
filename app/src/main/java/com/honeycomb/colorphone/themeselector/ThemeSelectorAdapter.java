@@ -229,13 +229,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             apply = itemView.findViewById(R.id.applyBtn);
 
             selectedView = itemView.findViewById(R.id.theme_selected);
-            hotView = itemView.findViewById(R.id.theme_hot);
-            downloadTxt = (TextView) itemView.findViewById(R.id.theme_download_txt);
+            downloadTxt = (TextView) itemView.findViewById(R.id.like_count_txt);
             previewWindow = (ThemePreviewWindow) itemView.findViewById(R.id.flash_view);
             callActionView = (InCallActionView) itemView.findViewById(R.id.in_call_view);
             callActionView.setAutoRun(false);
 
-            DownloadProgressBar pb = (DownloadProgressBar) itemView.findViewById(R.id.progressBar);
+            hotView = itemView.findViewById(R.id.theme_hot);
+            DownloadProgressBar pb = (DownloadProgressBar) itemView.findViewById(R.id.downloading_progress_bar);
             pb.setOnProgressUpdateListener(new DownloadProgressBar.SampleOnProgressUpdateListener() {
                 @Override
                 public void onAnimationEnded() {

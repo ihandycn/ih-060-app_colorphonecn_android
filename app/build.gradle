@@ -82,6 +82,8 @@ dependencies {
 
     compile 'com.liulishuo.filedownloader:library:1.5.8'
 
+    compile 'com.airbnb.android:lottie:2.0.0'
+
     compile(name: 'colorphone-debug', ext: 'aar')
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
 

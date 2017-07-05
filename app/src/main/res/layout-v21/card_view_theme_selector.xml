@@ -4,29 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:clipChildren="false">
 
     <com.honeycomb.colorphone.view.FixRatioPreviewWindow
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginEnd="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="24dp"
         android:clipChildren="false"
         app:aspectRatioOverride="0.6"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="@dimen/theme_card_radius"
         app:cardPreventCornerOverlap="false">
 
-        <com.honeycomb.colorphone.view.RatioImageView
+        <com.honeycomb.colorphone.view.HorizontalBannerImageView
             android:id="@+id/card_view_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:src="@drawable/card_bg_round_dark"
             app:aspectRatioOverride="0.6"
-       />
+            app:round_left_bottom_corner_radius="@dimen/theme_card_radius"
+            app:round_left_top_corner_radius="@dimen/theme_card_radius"
+            app:round_right_bottom_corner_radius="@dimen/theme_card_radius"
+            app:round_right_top_corner_radius="@dimen/theme_card_radius" />
 
         <com.acb.call.views.ThemePreviewWindow
             android:id="@+id/flash_view"
@@ -38,14 +43,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <ImageView
-            android:id="@+id/theme_hot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|top"
-            android:layout_marginTop="@dimen/theme_badge_margin"
-            android:src="@drawable/theme_card_badge_hot"
-            android:translationX="-4dp" />
+        <com.honeycomb.colorphone.view.CircularCoverView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:cover_color="@android:color/background_light"
+            app:left_bottom_radius="@dimen/theme_card_radius"
+            app:left_top_radius="@dimen/theme_card_radius"
+            app:right_bottom_radius="@dimen/theme_card_radius"
+            app:right_top_radius="@dimen/theme_card_radius" />
 
         <ImageView
             android:id="@+id/theme_selected"
@@ -53,6 +59,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|top"
             android:src="@drawable/theme_card_selected" />
+
+        <ImageView
+            android:id="@+id/theme_hot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:layout_marginTop="24dp"
+            android:paddingLeft="-4dp"
+            android:src="@drawable/theme_card_badge_hot" />
     </com.honeycomb.colorphone.view.FixRatioPreviewWindow>
 
     <com.honeycomb.colorphone.view.TypefacedTextView
@@ -61,52 +76,57 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/card_view"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/textDark"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:font_style="bold"
+        app:typeface="@string/proxima_nova_regular"
         tools:text="Neon" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/like_count_icon"
         android:layout_width="14dp"
         android:layout_height="14dp"
         android:layout_below="@id/card_name"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="2dp"
         android:src="@drawable/theme_card_thumb" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
-        android:id="@+id/theme_download_txt"
+        android:id="@+id/like_count_txt"
         style="@style/NormalText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/imageView1"
+        android:layout_alignBottom="@id/like_count_icon"
         android:layout_marginLeft="6dp"
         android:layout_marginStart="6dp"
-        android:layout_toEndOf="@id/imageView1"
-        android:layout_toRightOf="@id/imageView1"
-        android:gravity="center"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@id/like_count_icon"
+        android:layout_toRightOf="@id/like_count_icon"
         android:textColor="@color/textLightGray"
         android:textSize="12sp"
         tools:text="6622335" />
 
     <FrameLayout
         android:id="@+id/card_action_group"
-        android:layout_width="80dp"
+        android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignBottom="@id/imageView1"
+        android:layout_alignBottom="@id/like_count_icon"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/card_name"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp">
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp">
 
         <com.honeycomb.colorphone.view.DownloadProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="48dp"
+            android:id="@+id/downloading_progress_bar"
+            android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="center_vertical|end"
+            android:layout_gravity="center"
             app:circleBackgroundColor="@color/colorMaskDark"
             app:circleRadius="13dp"
             app:drawingColor="@color/button_blue"
@@ -118,6 +138,33 @@
             app:resultDuration="5000"
             app:strokeWidth="2dp" />
 
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/downloading_progress_txt"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="55%"
+            android:textColor="@color/button_blue"
+            android:textSize="11sp"
+            android:visibility="gone"
+            app:typeface="@string/proxima_nova_regular" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/downloading_finished_anim"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            app:lottie_fileName="lottie/theme_selector_card_downloaded_anim.json"
+            app:lottie_loop="false" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/card_selected_anim"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            app:lottie_fileName="lottie/theme_selector_card_selected_anim.json"
+            app:lottie_loop="false" />
 
         <TextView
             android:id="@+id/applyBtn"
@@ -127,6 +174,7 @@
             android:layout_gravity="center_vertical|end"
             android:background="@drawable/theme_card_button_bg_selector"
             android:text="@string/open"
-            android:textColor="@color/button_blue" />
+            android:textColor="@color/button_blue"
+            android:visibility="gone" />
     </FrameLayout>
 </RelativeLayout>

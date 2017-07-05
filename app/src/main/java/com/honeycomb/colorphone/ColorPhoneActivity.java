@@ -56,6 +56,7 @@ public class ColorPhoneActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundResource(R.color.white);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -81,9 +82,6 @@ public class ColorPhoneActivity extends AppCompatActivity
                 return true;
             }
         });
-
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
 
         initData();
         initRecyclerView();
@@ -166,7 +164,7 @@ public class ColorPhoneActivity extends AppCompatActivity
                 new StaggeredGridLayoutManager(RECYCLER_VIEW_SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         ThemeSelectorAdapter adapter = new ThemeSelectorAdapter(mRecyclerViewData);
-        mRecyclerView.addItemDecoration(new SpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.theme_card_margin)));
+//        mRecyclerView.addItemDecoration(new SpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.theme_card_margin)));
         mRecyclerView.setAdapter(adapter);
     }
 
