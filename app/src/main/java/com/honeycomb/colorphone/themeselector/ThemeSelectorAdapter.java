@@ -114,7 +114,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         if (curTheme.getImageRes() > 0) {
             holder.img.setImageResource(curTheme.getImageRes());
         } else {
-            holder.img.setImageDrawable(null);
+            holder.img.setImageResource(R.drawable.card_bg_round_dark);
         }
 
         holder.previewWindow.updateThemeLayout(type);

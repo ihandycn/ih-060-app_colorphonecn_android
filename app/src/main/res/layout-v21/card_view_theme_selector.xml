@@ -19,16 +19,14 @@
         app:cardCornerRadius="8dp"
         app:cardPreventCornerOverlap="false">
 
-        <com.honeycomb.colorphone.view.HorizontalBannerImageView
+        <com.honeycomb.colorphone.view.RatioImageView
             android:id="@+id/card_view_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:src="@drawable/card_bg_round_dark"
             app:aspectRatioOverride="0.6"
-            app:round_left_bottom_corner_radius="@dimen/theme_card_radius"
-            app:round_left_top_corner_radius="@dimen/theme_card_radius"
-            app:round_right_bottom_corner_radius="@dimen/theme_card_radius"
-            app:round_right_top_corner_radius="@dimen/theme_card_radius" />
+       />
 
         <com.acb.call.views.ThemePreviewWindow
             android:id="@+id/flash_view"
@@ -39,15 +37,6 @@
             android:id="@+id/in_call_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-        <com.honeycomb.colorphone.view.CircularCoverView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cover_color="@android:color/background_light"
-            app:left_bottom_radius="@dimen/theme_card_radius"
-            app:left_top_radius="@dimen/theme_card_radius"
-            app:right_bottom_radius="@dimen/theme_card_radius"
-            app:right_top_radius="@dimen/theme_card_radius" />
 
         <ImageView
             android:id="@+id/theme_hot"
