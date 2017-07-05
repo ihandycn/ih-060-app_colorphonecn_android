@@ -142,9 +142,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         if (model != null) {
             holder.update(model.getId(), position);
             boolean fileExist = updateTaskHolder(holder, model);
-            holder.showOpen(fileExist);
+            holder.switchToReadyState(fileExist);
         } else {
-            holder.showOpen(true);
+            holder.switchToReadyState(true);
         }
 
     }
@@ -245,7 +245,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
                 @Override
                 public void onAnimationEnded() {
                     super.onAnimationEnded();
-                    showOpen(pendingToOpen);
+                    switchToReadyState(pendingToOpen);
                 }
             });
 
@@ -291,7 +291,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             if (progressFlag) {
                 pendingToOpen = true;
             } else {
-                showOpen(true);
+                switchToReadyState(true);
             }
             mDownloadViewHolder.updateDownloaded(progressFlag);
 
@@ -319,9 +319,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
 
         }
 
-        public void showOpen(boolean valid) {
-            taskPb.setVisibility(valid ? View.GONE : View.VISIBLE);
-            apply.setVisibility(valid ? View.VISIBLE : View.GONE);
+        public void switchToReadyState(boolean ready) {
+            taskPb.setVisibility(ready ? View.GONE : View.VISIBLE);
+            apply.setVisibility(ready ? View.VISIBLE : View.GONE);
         }
 
         public DownloadViewHolder getDownloadHolder() {

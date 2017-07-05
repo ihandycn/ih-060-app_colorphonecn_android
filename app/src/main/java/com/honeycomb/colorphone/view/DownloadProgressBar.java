@@ -85,6 +85,7 @@ public class DownloadProgressBar extends View implements ProgressView{
     private float mFromArc = 0;
     private float mToArc = 0;
     private float mCurrentGlobalManualProgressValue;
+    private boolean mEnableResult;
 
     private enum State {ANIMATING_LINE_TO_DOT, IDLE, ANIMATING_SUCCESS, ANIMATING_ERROR, ANIMATING_PROGRESS, ANIMATING_MANUAL_PROGRESS}
 
@@ -116,6 +117,7 @@ public class DownloadProgressBar extends View implements ProgressView{
             mProgressColor = array.getColor(R.styleable.DownloadProgressView_progressColor, 0);
             mCircleBackgroundColor = array.getColor(R.styleable.DownloadProgressView_circleBackgroundColor, 0);
             mOvershootValue = array.getFloat(R.styleable.DownloadProgressView_overshootValue, DEFAULT_OVERSHOOT_VALUE);
+            mEnableResult = array.getBoolean(R.styleable.DownloadProgressView_playResultAnimation, false);
         } finally {
             array.recycle();
         }
@@ -373,12 +375,8 @@ public class DownloadProgressBar extends View implements ProgressView{
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                if(mState == State.ANIMATING_MANUAL_PROGRESS) {
-                    if (mResultState == State.ANIMATING_ERROR) {
-                        mErrorAnimation.start();
-                    } else if (mResultState == State.ANIMATING_SUCCESS) {
-                        mSuccessAnimation.start();
-                    }
+                if(mState == State.ANIMATING_MANUAL_PROGRESS ) {
+                    startResultAnimation();
                 }
             }
 
@@ -412,11 +410,7 @@ public class DownloadProgressBar extends View implements ProgressView{
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (mResultState == State.ANIMATING_ERROR) {
-                    mErrorAnimation.start();
-                } else if (mResultState == State.ANIMATING_SUCCESS) {
-                    mSuccessAnimation.start();
-                }
+                startResultAnimation();
             }
 
             @Override
@@ -457,12 +451,7 @@ public class DownloadProgressBar extends View implements ProgressView{
                 postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (mOnProgressUpdateListener != null) {
-                            mOnProgressUpdateListener.onAnimationEnded();
-                        }
-                        mState = State.IDLE;
-                        resetValues();
-                        invalidate();
+                     doEnd();
                     }
                 }, mResultDuration);
             }
@@ -507,7 +496,7 @@ public class DownloadProgressBar extends View implements ProgressView{
                             mOnProgressUpdateListener.onAnimationEnded();
                         }
                         mState = State.IDLE;
-//                        resetValues();
+                        resetValues();
                         invalidate();
                     }
                 }, mResultDuration);
@@ -524,6 +513,27 @@ public class DownloadProgressBar extends View implements ProgressView{
             }
         });
 
+    }
+
+    private void startResultAnimation() {
+        if (mEnableResult) {
+            if (mResultState == State.ANIMATING_ERROR) {
+                mErrorAnimation.start();
+            } else if (mResultState == State.ANIMATING_SUCCESS) {
+                mSuccessAnimation.start();
+            }
+        } else {
+            doEnd();
+        }
+    }
+
+    private void doEnd() {
+        if (mOnProgressUpdateListener != null) {
+            mOnProgressUpdateListener.onAnimationEnded();
+        }
+        mState = State.IDLE;
+        resetValues();
+        invalidate();
     }
 
     private void resetValues() {

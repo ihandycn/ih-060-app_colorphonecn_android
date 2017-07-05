@@ -20,6 +20,7 @@
         <attr name="progressColor" format="color"/>
         <attr name="circleBackgroundColor" format="color"/>
         <attr name="overshootValue" format="float"/>
+        <attr name="playResultAnimation" format="boolean"/>
     </declare-styleable>
 
 
