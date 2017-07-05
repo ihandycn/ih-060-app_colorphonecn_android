@@ -111,7 +111,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         holder.setPositionTag(position);
 
         final Theme curTheme = data.get(position);
-        final Type type = Type.values()[curTheme.getThemeId()];
+        final Type type = Utils.getTypeByThemeId(curTheme.getThemeId());
 
         String name = curTheme.getName();
         holder.setTxt(name);
@@ -123,6 +123,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         }
 
         holder.previewWindow.updateThemeLayout(type);
+        holder.callActionView.setTheme(type);
         if (!curTheme.isSelected()) {
             holder.previewWindow.stopAnimations();
             holder.callActionView.setAutoRun(false);
@@ -150,8 +151,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
     }
 
     private boolean updateTaskHolder(ThemeCardViewHolder holder, TasksManagerModel model) {
-//        holder.taskActionBtn.setTag(holder);
-
         final BaseDownloadTask task = TasksManager.getImpl()
                 .getTask(holder.id);
         if (task != null) {
@@ -183,7 +182,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
                         , TasksManager.getImpl().getTotal(model.getId()));
             }
         } else {
-//            holder.taskStatusTv.setText(R.string.tasks_manager_demo_status_loading);
             holder.setActionEnabled(false);
         }
 

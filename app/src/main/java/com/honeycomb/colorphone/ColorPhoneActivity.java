@@ -180,7 +180,7 @@ public class ColorPhoneActivity extends AppCompatActivity
 
                 break;
             case R.id.settings_setting:
-
+                SettingsActivity.start(this);
                 break;
         }
     }
