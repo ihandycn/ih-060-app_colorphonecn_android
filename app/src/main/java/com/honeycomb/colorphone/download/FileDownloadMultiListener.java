@@ -28,8 +28,8 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
         mDownloadStateListeners.remove(taskId);
     }
 
-    private DownloadViewHolder checkCurrentHolder(final BaseDownloadTask task) {
-        final DownloadViewHolder tag = (DownloadViewHolder) task.getTag();
+    private DownloadHolder checkCurrentHolder(final BaseDownloadTask task) {
+        final DownloadHolder tag = (DownloadHolder) task.getTag();
         if (tag == null) {
             return null;
         }
@@ -49,7 +49,7 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
             stateListener.updateDownloading(FileDownloadStatus.pending, soFarBytes, totalBytes);
         }
 
-        final DownloadViewHolder tag = checkCurrentHolder(task);
+        final DownloadHolder tag = checkCurrentHolder(task);
         if (tag == null) {
             return;
         }
@@ -65,7 +65,7 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
             stateListener.updateDownloading(FileDownloadStatus.pending, soFarBytes, totalBytes);
         }
 
-        final DownloadViewHolder tag = checkCurrentHolder(task);
+        final DownloadHolder tag = checkCurrentHolder(task);
         if (tag == null) {
             return;
         }
@@ -82,7 +82,7 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
             stateListener.updateDownloading(FileDownloadStatus.pending, soFarBytes, totalBytes);
         }
 
-        final DownloadViewHolder tag = checkCurrentHolder(task);
+        final DownloadHolder tag = checkCurrentHolder(task);
         if (tag == null) {
             return;
         }
@@ -99,7 +99,7 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
                     , task.getLargeFileTotalBytes());
         }
 
-        final DownloadViewHolder tag = checkCurrentHolder(task);
+        final DownloadHolder tag = checkCurrentHolder(task);
         if (tag == null) {
             return;
         }
@@ -117,7 +117,7 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
             stateListener.updateNotDownloaded(FileDownloadStatus.pending, soFarBytes, totalBytes);
         }
 
-        final DownloadViewHolder tag = checkCurrentHolder(task);
+        final DownloadHolder tag = checkCurrentHolder(task);
         if (tag == null) {
             return;
         }
@@ -133,7 +133,7 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
             stateListener.updateDownloaded(progressFlag);
         }
 
-        final DownloadViewHolder tag = checkCurrentHolder(task);
+        final DownloadHolder tag = checkCurrentHolder(task);
         if (tag == null) {
             return;
         }

@@ -9,7 +9,7 @@ import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
 
-public class DownloadViewHolder implements DownloadStateListener {
+public class DownloadViewHolder implements DownloadHolder {
     private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
     private FileDownloadListener taskDownloadListener;
 
@@ -22,10 +22,13 @@ public class DownloadViewHolder implements DownloadStateListener {
      */
     protected View taskActionBtn;
 
+    private DownloadHolder mProxy;
+
     private boolean canPaused;
     private boolean canStart;
     private int id;
     private long mDelayTime = 1000;
+
 
     public DownloadViewHolder(View taskActionBtn, ProgressView progressView) {
         this.taskPb = progressView;
@@ -52,8 +55,12 @@ public class DownloadViewHolder implements DownloadStateListener {
         return id;
     }
 
-    public void addFileDownloadListener(FileDownloadListener listener) {
+    public void setFileDownloadListener(FileDownloadListener listener) {
         taskDownloadListener = listener;
+    }
+
+    public void setProxyHolder(DownloadHolder downloadHolder) {
+        mProxy = downloadHolder;
     }
 
     public void startDownloadDelay(long delayTime) {
@@ -98,7 +105,8 @@ public class DownloadViewHolder implements DownloadStateListener {
             TasksManager.getImpl()
                     .addTaskForViewHolder(task);
 
-            task.setTag(this);
+
+            task.setTag(mProxy != null ? mProxy : this);
 
             task.start();
         } else {

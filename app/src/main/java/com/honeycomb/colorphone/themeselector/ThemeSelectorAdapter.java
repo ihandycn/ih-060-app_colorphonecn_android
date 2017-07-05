@@ -17,7 +17,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ThemePreviewActivity;
-import com.honeycomb.colorphone.download.DownloadStateListener;
+import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
@@ -150,7 +150,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         final BaseDownloadTask task = TasksManager.getImpl()
                 .getTask(holder.id);
         if (task != null) {
-            task.setTag(holder.getDownloadHolder());
+            task.setTag(holder);
         }
 
         holder.setActionEnabled(true);
@@ -190,7 +190,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         return data.size();
     }
 
-    static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadStateListener {
+    static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
         ImageView img;
         TextView txt;
@@ -245,8 +245,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             });
 
             mDownloadViewHolder = new DownloadViewHolder(pb, pb);
+            mDownloadViewHolder.setProxyHolder(this);
             taskPb = pb;
-
         }
 
         public void setSelected(boolean selected) {
@@ -315,7 +315,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         }
 
         public void showOpen(boolean valid) {
-            taskPb.setVisibility(valid ? View.GONE : View.VISIBLE);
+//            taskPb.setVisibility(valid ? View.GONE : View.VISIBLE);
             apply.setVisibility(valid ? View.VISIBLE : View.GONE);
         }
 
@@ -325,6 +325,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
 
         public void setActionEnabled(boolean enable) {
             taskPb.setEnabled(enable);
+        }
+
+        @Override
+        public int getId() {
+            return id;
         }
     }
 }
