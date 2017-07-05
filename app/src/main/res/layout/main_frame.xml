@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:background="@color/white"
     tools:context="com.honeycomb.colorphone.ColorPhoneActivity">
 
     <android.support.v7.widget.Toolbar

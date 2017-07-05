@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:clipChildren="false">
 
     <com.honeycomb.colorphone.view.FixRatioPreviewWindow
@@ -46,7 +45,7 @@
         <com.honeycomb.colorphone.view.CircularCoverView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
+            tools:visibility="gone"
             app:cover_color="@android:color/background_light"
             app:left_bottom_radius="@dimen/theme_card_radius"
             app:left_top_radius="@dimen/theme_card_radius"
