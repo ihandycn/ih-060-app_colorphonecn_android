@@ -19,7 +19,6 @@ import android.widget.CompoundButton;
 import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.download.TasksManager;
-import com.honeycomb.colorphone.themeselector.SpaceItemDecoration;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 
 import java.lang.ref.WeakReference;
@@ -123,6 +122,9 @@ public class ColorPhoneActivity extends AppCompatActivity
         Random random = new Random(555517);
         for (int i = 0; i < count; i++) {
             final Type type = themeTypes[i];
+            if(type == Type.NONE) {
+                continue;
+            }
             final Theme theme = new Theme();
             theme.setDownload(random.nextInt(682220));
             theme.setName(getString(ThemeUtils.getThemeNameRes(this, i)));

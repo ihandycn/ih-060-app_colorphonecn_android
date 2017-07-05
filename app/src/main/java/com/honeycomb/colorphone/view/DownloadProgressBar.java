@@ -507,7 +507,7 @@ public class DownloadProgressBar extends View implements ProgressView{
                             mOnProgressUpdateListener.onAnimationEnded();
                         }
                         mState = State.IDLE;
-                        resetValues();
+//                        resetValues();
                         invalidate();
                     }
                 }, mResultDuration);
