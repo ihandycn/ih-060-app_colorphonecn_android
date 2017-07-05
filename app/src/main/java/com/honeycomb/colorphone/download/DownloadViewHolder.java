@@ -41,6 +41,7 @@ public class DownloadViewHolder implements DownloadHolder {
                     FileDownloader.getImpl().pause(id);
                 } else if (canStartDownload()) {
                     startDownloadDelay(mDelayTime);
+                    mDelayTime = 0;
                 }
             }
         });

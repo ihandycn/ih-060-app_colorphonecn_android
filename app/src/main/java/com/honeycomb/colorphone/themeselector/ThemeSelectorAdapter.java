@@ -315,7 +315,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         }
 
         public void showOpen(boolean valid) {
-//            taskPb.setVisibility(valid ? View.GONE : View.VISIBLE);
+            taskPb.setVisibility(valid ? View.GONE : View.VISIBLE);
             apply.setVisibility(valid ? View.VISIBLE : View.GONE);
         }
 

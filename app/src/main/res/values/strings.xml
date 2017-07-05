@@ -14,4 +14,5 @@
     <string name="disable_color_phone">Disable Color Phone</string>
     <string name="feedback">Feedback</string>
     <string name="settings">Settings</string>
+    <string name="loading_progress">Loading %1$d %%</string>
 </resources>

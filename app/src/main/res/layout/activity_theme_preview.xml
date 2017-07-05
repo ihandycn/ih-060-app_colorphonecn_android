@@ -32,10 +32,11 @@
 
     <View
         android:id="@+id/dim_cover"
-        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#55000000" />
+        android:background="#55000000"
+        android:visibility="invisible" />
+
 
     <ProgressBar
         android:id="@+id/theme_progress_bar"
@@ -47,15 +48,26 @@
         android:progress="60"
         app:layout_widthPercent="66%" />
 
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/theme_progress_txt"
+        style="@style/NormalText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/theme_progress_bar"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="6dp"
+        android:textSize="18sp" />
+
     <Button
         android:id="@+id/theme_apply_btn"
+        android:layout_height="36dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:translationY="60dp"
-        android:layout_height="36dp"
-        android:visibility="invisible"
-        android:enabled="false"
         android:layout_marginBottom="24dp"
         android:background="@drawable/btn_bg_yellow"
+        android:enabled="false"
+        android:translationY="60dp"
+        android:visibility="invisible"
         app:layout_widthPercent="66%" />
 </android.support.percent.PercentRelativeLayout>
