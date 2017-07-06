@@ -39,6 +39,15 @@
             </intent-filter>
         </activity>
 
+
+        <receiver
+            android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
         <receiver
             android:name=".OurAppInstalledReceiver"
             android:exported="true">
