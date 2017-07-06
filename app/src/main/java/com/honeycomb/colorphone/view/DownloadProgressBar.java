@@ -738,6 +738,8 @@ public class DownloadProgressBar extends View implements ProgressView{
             return;
         mWhichProgress = State.ANIMATING_MANUAL_PROGRESS;
         mResultState = State.ANIMATING_SUCCESS;
+
+        mState = mWhichProgress;
         mToArc = value * 3.6f;
         mManualProgressAnimation.setFloatValues(mFromArc, mToArc);
         mManualProgressAnimation.start();

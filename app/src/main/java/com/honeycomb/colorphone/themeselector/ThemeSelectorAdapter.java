@@ -242,13 +242,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             mThemeSelectedAnim = (LottieAnimationView) itemView.findViewById(R.id.card_theme_selected_anim);
 
             DownloadProgressBar pb = (DownloadProgressBar) itemView.findViewById(R.id.card_downloading_progress_bar);
-            pb.setOnProgressUpdateListener(new DownloadProgressBar.SampleOnProgressUpdateListener() {
-                @Override
-                public void onAnimationEnded() {
-                    super.onAnimationEnded();
-                    switchToReadyState(pendingToOpen);
-                }
-            });
+//            pb.setOnProgressUpdateListener(new DownloadProgressBar.SampleOnProgressUpdateListener() {
+//                @Override
+//                public void onAnimationEnded() {
+//                    super.onAnimationEnded();
+//                    switchToReadyState(pendingToOpen);
+//                }
+//            });
             mDownloadViewHolder = new DownloadViewHolder(pb, pb, mDownloadTaskProgressTxt, mDownloadFinishedAnim);
             mDownloadViewHolder.setProxyHolder(this);
             mDownloadTaskProgressBar = pb;
@@ -293,17 +293,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         @Override
         public void updateDownloaded(boolean progressFlag) {
             // If file already downloaded, not play animation
-            if (progressFlag) {
-                pendingToOpen = true;
-            } else {
-                switchToReadyState(true);
-            }
+
+            switchToReadyState(true);
+
             mDownloadViewHolder.updateDownloaded(progressFlag);
+            mDownloadFinishedAnim.playAnimation();
 
             if (DEBUG_PROGRESS) {
                 HSLog.d("sundxing", position + " download success!");
             }
-            mDownloadFinishedAnim.playAnimation();
         }
 
         public void updateNotDownloaded(final int status, final long sofar, final long total) {

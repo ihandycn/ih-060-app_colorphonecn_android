@@ -129,9 +129,7 @@ public class DownloadViewHolder implements DownloadHolder {
 
     public void updateNotDownloaded(final int status, final long sofar, final long total) {
         if (sofar > 0 && total > 0) {
-            final int percent = (int) (100 * sofar / (float) total);
-            taskProgressBar.setProgress(percent);
-            taskProgressTxt.setText(percent + "%");
+            updateProgressView(sofar, total);
         } else {
             taskProgressBar.reset();
             taskProgressTxt.setVisibility(View.INVISIBLE);
@@ -146,19 +144,24 @@ public class DownloadViewHolder implements DownloadHolder {
     }
 
     public void updateDownloading(final int status, final long sofar, final long total) {
-        final int percent = (int) (100 * sofar / (float) total);
-        taskProgressBar.setProgress(percent);
-        if (percent > 0) {
-            taskProgressTxt.setVisibility(View.VISIBLE);
-            taskProgressTxt.setText(percent + "%");
+        if (sofar > 0 && total > 0) {
+            final int percent = updateProgressView(sofar, total);
+            if (DEBUG_PROGRESS) {
+                HSLog.d("sundxing", getId() + " download process, percent = " + percent + "%");
+            }
         }
 
         canPaused = true;
         canStart = false;
+    }
 
-        if (DEBUG_PROGRESS) {
-            HSLog.d("sundxing", getId() + " download process, percent = " + percent + "%");
-        }
+    private int updateProgressView(long sofar, float total) {
+        final int percent = (int) (100 * sofar / total);
+        taskProgressBar.setProgress(percent);
+        taskProgressTxt.setVisibility(View.VISIBLE);
+        taskProgressTxt.setText(percent + "%");
+        mDelayTime = 0;
+        return percent;
     }
 
     public boolean canPaused() {
