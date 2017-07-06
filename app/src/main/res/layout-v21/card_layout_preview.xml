@@ -36,13 +36,6 @@
         android:layout_height="match_parent" />
 
     <ImageView
-        android:id="@+id/theme_selected"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|top"
-        android:src="@drawable/theme_card_selected" />
-
-    <ImageView
         android:id="@+id/theme_hot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

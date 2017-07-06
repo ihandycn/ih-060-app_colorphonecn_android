@@ -161,12 +161,12 @@ public class ColorPhoneActivity extends AppCompatActivity
     private void initRecyclerView() {
         View contentView = findViewById(R.id.recycler_view_content);
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
+        mRecyclerView.setItemAnimator(null);
 
         RecyclerView.LayoutManager layoutManager =
                 new StaggeredGridLayoutManager(RECYCLER_VIEW_SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         ThemeSelectorAdapter adapter = new ThemeSelectorAdapter(mRecyclerViewData);
-//        mRecyclerView.addItemDecoration(new SpaceItemDecoration(getResources().getDimensionPixelSize(R.dimen.theme_card_margin)));
         mRecyclerView.setAdapter(adapter);
     }
 

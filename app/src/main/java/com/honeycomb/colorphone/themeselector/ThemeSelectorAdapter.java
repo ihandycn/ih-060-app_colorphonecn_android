@@ -211,8 +211,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
 
         private int positionTag;
         private final View hotView;
-        private final View selectedView;
-
 
         private Handler mHandler = new Handler();
         private boolean pendingToOpen;
@@ -235,7 +233,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             img = (ImageView) itemView.findViewById(R.id.card_view_img);
             txt = (TextView) itemView.findViewById(R.id.card_name);
 
-            selectedView = itemView.findViewById(R.id.theme_selected);
             downloadTxt = (TextView) itemView.findViewById(R.id.like_count_txt);
             previewWindow = (ThemePreviewWindow) itemView.findViewById(R.id.flash_view);
             callActionView = (InCallActionView) itemView.findViewById(R.id.in_call_view);
@@ -261,9 +258,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         }
 
         public void setSelected(boolean selected) {
-            if (selectedView != null) {
-                selectedView.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
-            }
             if (selected && selectedAnim != null) {
                 selectedAnim.playAnimation();
             }
