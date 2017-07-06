@@ -1,12 +1,12 @@
 package com.honeycomb.colorphone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.SwitchCompat;
@@ -15,17 +15,19 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ColorPhoneActivity extends AppCompatActivity
+public class ColorPhoneActivity extends HSAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
@@ -178,10 +180,24 @@ public class ColorPhoneActivity extends AppCompatActivity
                 break;
             case R.id.settings_feedback:
 
+                feedBack();
                 break;
             case R.id.settings_setting:
                 SettingsActivity.start(this);
                 break;
+        }
+    }
+
+    private void feedBack() {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{Constants.FEED_BACK_EMAIL});
+//        i.putExtra(Intent.EXTRA_SUBJECT, "Feedback from");
+//        i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+        try {
+            startActivity(Intent.createChooser(i, getString(R.string.send_email)));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
         }
     }
 
