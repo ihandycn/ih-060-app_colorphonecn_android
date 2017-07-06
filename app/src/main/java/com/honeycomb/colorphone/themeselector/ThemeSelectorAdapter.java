@@ -13,6 +13,7 @@ import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
@@ -23,6 +24,7 @@ import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
+import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -45,7 +47,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             @Override
             public void onReceive(String s, HSBundle hsBundle) {
                 if (hsBundle != null) {
-                    int themeId =  hsBundle.getInt(ThemePreviewActivity.NOTIFY_THEME_SELECT_KEY);
+                    int themeId = hsBundle.getInt(ThemePreviewActivity.NOTIFY_THEME_SELECT_KEY);
                     for (Theme theme : data) {
                         if (theme.getThemeId() == themeId) {
                             onSelectedTheme(data.indexOf(theme));
@@ -65,7 +67,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             @Override
             public void onClick(View view) {
                 int pos = holder.getPositionTag();
-                Theme theme  = data.get(pos);
+                Theme theme = data.get(pos);
                 Type type = Utils.getTypeByThemeId(theme.getThemeId());
                 if (type != null && type.isGif()) {
                     holder.getDownloadHolder().startDownloadDelay(0);
@@ -77,9 +79,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         // Disable theme original bg. Use our own
         holder.previewWindow.setBgDrawable(null);
 //        holder.taskActionBtn.setOnClickListener(taskActionOnClickListener);
-        holder.apply.setOnClickListener(new View.OnClickListener() {
+        holder.selectedAnim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                holder.selectedAnim.playAnimation();
                 int pos = holder.getPositionTag();
                 onSelectedTheme(pos);
                 CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, data.get(pos).getThemeId());
@@ -197,10 +200,12 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
         ImageView img;
         TextView txt;
-        View apply;
         TextView downloadTxt;
         ThemePreviewWindow previewWindow;
         InCallActionView callActionView;
+
+        LottieAnimationView downloadFinishedAnim;
+        LottieAnimationView selectedAnim;
 
         DownloadViewHolder mDownloadViewHolder;
 
@@ -229,7 +234,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
 
             img = (ImageView) itemView.findViewById(R.id.card_view_img);
             txt = (TextView) itemView.findViewById(R.id.card_name);
-            apply = itemView.findViewById(R.id.applyBtn);
 
             selectedView = itemView.findViewById(R.id.theme_selected);
             downloadTxt = (TextView) itemView.findViewById(R.id.like_count_txt);
@@ -247,14 +251,21 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
                 }
             });
 
-            mDownloadViewHolder = new DownloadViewHolder(pb, pb);
+            taskProgressTxt = (TypefacedTextView) itemView.findViewById(R.id.downloading_progress_txt);
+            downloadFinishedAnim = (LottieAnimationView) itemView.findViewById(R.id.downloading_finished_anim);
+            selectedAnim = (LottieAnimationView) itemView.findViewById(R.id.card_selected_anim);
+            taskProgressTxt.setVisibility(View.INVISIBLE);
+            mDownloadViewHolder = new DownloadViewHolder(pb, pb, taskProgressTxt, downloadFinishedAnim);
             mDownloadViewHolder.setProxyHolder(this);
-            taskPb = pb;
+            taskProgressBar = pb;
         }
 
         public void setSelected(boolean selected) {
             if (selectedView != null) {
                 selectedView.setVisibility(selected ? View.VISIBLE : View.INVISIBLE);
+            }
+            if (selected && selectedAnim != null) {
+                selectedAnim.playAnimation();
             }
         }
 
@@ -275,7 +286,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         private int id;
 
 
-        private View taskPb;
+        private View taskProgressBar;
+        private TypefacedTextView taskProgressTxt;
 
         public void update(final int id, final int position) {
             this.id = id;
@@ -296,6 +308,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             if (DEBUG_PROGRESS) {
                 HSLog.d("sundxing", position + " download success!");
             }
+            downloadFinishedAnim.playAnimation();
         }
 
         public void updateNotDownloaded(final int status, final long sofar, final long total) {
@@ -318,8 +331,16 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         }
 
         public void switchToReadyState(boolean ready) {
-            taskPb.setVisibility(ready ? View.GONE : View.VISIBLE);
-            apply.setVisibility(ready ? View.VISIBLE : View.GONE);
+            taskProgressBar.setVisibility(ready ? View.GONE : View.VISIBLE);
+            if (ready) {
+                taskProgressTxt.setVisibility(View.GONE);
+            }
+            if (ready) {
+                selectedAnim.setVisibility(View.VISIBLE);
+                selectedAnim.setProgress(0f);
+            } else {
+                selectedAnim.setVisibility(View.GONE);
+            }
         }
 
         public DownloadViewHolder getDownloadHolder() {
@@ -327,7 +348,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         }
 
         public void setActionEnabled(boolean enable) {
-            taskPb.setEnabled(enable);
+            taskProgressBar.setEnabled(enable);
         }
 
         @Override

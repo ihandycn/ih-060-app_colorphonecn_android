@@ -65,14 +65,14 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             app:circleBackgroundColor="@color/colorMaskDark"
-            app:circleRadius="13dp"
-            app:drawingColor="@color/button_blue"
+            app:circleRadius="15dp"
+            app:drawingColor="#10a2ff"
             app:lineWidth="2dp"
             app:overshootValue="2"
             app:progressBackgroundColor="@color/colorMaskDark"
-            app:progressColor="@color/button_blue"
+            app:progressColor="#10a2ff"
             app:progressDuration="2000"
-            app:strokeWidth="2dp" />
+            app:strokeWidth="1.8dp" />
 
         <com.honeycomb.colorphone.view.TypefacedTextView
             android:id="@+id/downloading_progress_txt"
@@ -81,36 +81,27 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="55%"
-            android:textColor="@color/button_blue"
+            android:textColor="#10a2ff"
             android:textSize="11sp"
             android:visibility="gone"
             app:typeface="@string/proxima_nova_regular" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/downloading_finished_anim"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:visibility="gone"
+            android:layout_gravity="center"
             app:lottie_fileName="lottie/theme_selector_card_downloaded_anim.json"
             app:lottie_loop="false" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/card_selected_anim"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:visibility="gone"
+            android:layout_gravity="center"
             app:lottie_fileName="lottie/theme_selector_card_selected_anim.json"
             app:lottie_loop="false" />
-
-        <TextView
-            android:id="@+id/applyBtn"
-            style="@style/TxtButton"
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_gravity="center_vertical|end"
-            android:background="@drawable/theme_card_button_bg_selector"
-            android:text="@string/open"
-            android:textColor="@color/button_blue"
-            android:visibility="gone" />
     </FrameLayout>
 </RelativeLayout>

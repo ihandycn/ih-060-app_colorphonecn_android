@@ -2,8 +2,10 @@ package com.honeycomb.colorphone.download;
 
 import android.view.View;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.view.ProgressView;
+import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
@@ -16,7 +18,9 @@ public class DownloadViewHolder implements DownloadHolder {
     /**
      * Progress display
      */
-    protected ProgressView taskPb;
+    protected ProgressView taskProgressBar;
+    protected TypefacedTextView taskProgressTxt;
+    protected LottieAnimationView taskSuccessAnim;
     /**
      * Control progress, start or pause download task.
      */
@@ -27,11 +31,13 @@ public class DownloadViewHolder implements DownloadHolder {
     private boolean canPaused;
     private boolean canStart;
     private int id;
-    private long mDelayTime = 1000;
+    private long mDelayTime = 800;
 
 
-    public DownloadViewHolder(View taskActionBtn, ProgressView progressView) {
-        this.taskPb = progressView;
+    public DownloadViewHolder(View taskActionBtn, ProgressView progressView, TypefacedTextView progressTxt, LottieAnimationView successAnim) {
+        this.taskProgressBar = progressView;
+        this.taskProgressTxt = progressTxt;
+        this.taskSuccessAnim = successAnim;
         this.taskActionBtn = taskActionBtn;
         this.taskActionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +84,7 @@ public class DownloadViewHolder implements DownloadHolder {
         if (delayTime == 0) {
             doDownload(model);
         } else {
-            taskPb.onDownloadStart();
+            taskProgressBar.onDownloadStart();
             taskActionBtn.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -86,7 +92,6 @@ public class DownloadViewHolder implements DownloadHolder {
                 }
             }, delayTime);
         }
-
     }
 
     private void doDownload(TasksManagerModel model) {
@@ -103,9 +108,7 @@ public class DownloadViewHolder implements DownloadHolder {
                     .setCallbackProgressTimes(100)
                     .setListener(listener);
 
-            TasksManager.getImpl()
-                    .addTaskForViewHolder(task);
-
+            TasksManager.getImpl().addTaskForViewHolder(task);
 
             task.setTag(mProxy != null ? mProxy : this);
 
@@ -116,7 +119,10 @@ public class DownloadViewHolder implements DownloadHolder {
     }
 
     public void updateDownloaded(boolean progressFlag) {
-        taskPb.setProgress(100);
+        taskProgressBar.setProgress(100);
+        taskProgressTxt.setVisibility(View.INVISIBLE);
+        taskSuccessAnim.setVisibility(View.VISIBLE);
+        taskSuccessAnim.playAnimation();
         if (DEBUG_PROGRESS) {
             HSLog.d("sundxing", getId() + " download success!");
         }
@@ -127,14 +133,15 @@ public class DownloadViewHolder implements DownloadHolder {
         if (sofar > 0 && total > 0) {
             final float percent = sofar
                     / (float) total;
-            taskPb.setProgress((int) (percent * 100));
+            taskProgressBar.setProgress((int) (percent * 100));
+            taskProgressTxt.setText((int) (percent * 100) + "%");
         } else {
-            taskPb.reset();
+            taskProgressBar.reset();
+            taskProgressTxt.setVisibility(View.INVISIBLE);
         }
 
         canPaused = false;
         canStart = true;
-
 
         if (DEBUG_PROGRESS) {
             HSLog.d("sundxing", getId() + " download stopped, status = " + status);
@@ -145,7 +152,11 @@ public class DownloadViewHolder implements DownloadHolder {
 
         final float percent = sofar
                 / (float) total;
-        taskPb.setProgress((int) (percent * 100));
+        taskProgressBar.setProgress((int) (percent * 100));
+        if (percent > 0) {
+            taskProgressTxt.setVisibility(View.VISIBLE);
+        }
+        taskProgressTxt.setText((int) (percent * 100) + "%");
 
         canPaused = true;
         canStart = false;
@@ -153,17 +164,14 @@ public class DownloadViewHolder implements DownloadHolder {
         if (DEBUG_PROGRESS) {
             HSLog.d("sundxing", getId() + " download process, percent = " + percent);
         }
-
     }
 
     public boolean canPaused() {
         return canPaused;
-
     }
 
     public boolean canStartDownload() {
         return canStart;
     }
-
 
 }
