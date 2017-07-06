@@ -13,7 +13,7 @@
     android:layout_marginStart="6dp"
     android:layout_marginTop="12dp"
     android:clipChildren="false"
-    app:aspectRatioOverride="0.6"
+    app:aspectRatioOverride="0.5627"
     app:cardCornerRadius="@dimen/theme_card_radius"
     app:cardPreventCornerOverlap="false"
     tools:showIn="@layout/card_view_theme_selector">
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:aspectRatioOverride="0.6" />
+        app:aspectRatioOverride="0.5627" />
 
     <com.acb.call.views.ThemePreviewWindow
         android:id="@+id/card_flash_preview_window"
