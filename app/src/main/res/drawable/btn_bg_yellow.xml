@@ -3,16 +3,16 @@
     <item android:state_pressed="true">
         <shape xmlns:android="http://schemas.android.com/apk/res/android">
             <solid android:color="@color/colorAccentDark" />
-            <size android:height="36dp" />
-            <corners android:radius="18dp" />
+            <size android:height="44dp" />
+            <corners android:radius="22dp" />
         </shape>
     </item>
 
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android">
             <solid android:color="@color/colorAccent" />
-            <size android:height="36dp" />
-            <corners android:radius="18dp" />
+            <size android:height="44dp" />
+            <corners android:radius="22dp" />
         </shape>
     </item>
 </selector>

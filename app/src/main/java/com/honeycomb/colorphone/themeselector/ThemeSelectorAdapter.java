@@ -75,7 +75,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         });
         // Disable theme original bg. Use our own
         holder.mThemeFlashPreviewWindow.setBgDrawable(null);
-        holder.mThemeSelectedAnim.setOnClickListener(new View.OnClickListener() {
+        holder.mThemeSelectLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int pos = holder.getPositionTag();
@@ -211,6 +211,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
 
         LottieAnimationView mDownloadFinishedAnim;
         LottieAnimationView mThemeSelectedAnim;
+        View mThemeSelectLayout;
 
         DownloadViewHolder mDownloadViewHolder;
 
@@ -250,6 +251,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             mDownloadTaskProgressTxt.setVisibility(View.INVISIBLE);
             mDownloadFinishedAnim = (LottieAnimationView) itemView.findViewById(R.id.card_download_finished_anim);
             mThemeSelectedAnim = (LottieAnimationView) itemView.findViewById(R.id.card_theme_selected_anim);
+            mThemeSelectLayout = itemView.findViewById(R.id.card_theme_selected_layout);
 
             DownloadProgressBar pb = (DownloadProgressBar) itemView.findViewById(R.id.card_downloading_progress_bar);
 
@@ -301,7 +303,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             switchToReadyState(true);
 
             mDownloadViewHolder.updateDownloaded(progressFlag);
-            mDownloadFinishedAnim.playAnimation();
 
             if (DEBUG_PROGRESS) {
                 HSLog.d("sundxing", position + " download success!");

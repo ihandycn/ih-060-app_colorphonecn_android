@@ -119,8 +119,10 @@ public class DownloadViewHolder implements DownloadHolder {
     public void updateDownloaded(boolean progressFlag) {
         taskProgressBar.setProgress(100);
         taskProgressTxt.setVisibility(View.INVISIBLE);
-        taskSuccessAnim.setVisibility(View.VISIBLE);
-        taskSuccessAnim.playAnimation();
+        if (progressFlag) {
+            taskSuccessAnim.setVisibility(View.VISIBLE);
+            taskSuccessAnim.playAnimation();
+        }
         if (DEBUG_PROGRESS) {
             HSLog.d("sundxing", getId() + " download success!");
         }
