@@ -84,8 +84,8 @@ public class ThemePreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_theme_preview);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 
-        previewWindow = (ThemePreviewWindow) findViewById(R.id.flash_view);
-        callActionView = (InCallActionView) findViewById(R.id.in_call_view);
+        previewWindow = (ThemePreviewWindow) findViewById(R.id.card_flash_preview_window);
+        callActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
         mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
         mProgressBar = (ProgressBar) findViewById(R.id.theme_progress_bar);
         mProgressTxt = (TextView) findViewById(R.id.theme_progress_txt);

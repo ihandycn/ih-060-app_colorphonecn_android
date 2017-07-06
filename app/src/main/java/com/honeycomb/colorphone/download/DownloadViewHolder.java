@@ -51,7 +51,6 @@ public class DownloadViewHolder implements DownloadHolder {
                 }
             }
         });
-
     }
 
     public void bindTaskId(int id) {
@@ -79,8 +78,7 @@ public class DownloadViewHolder implements DownloadHolder {
             }
             return;
         }
-        final BaseDownloadTask task = TasksManager.getImpl()
-                .getTask(model.getId());
+        final BaseDownloadTask task = TasksManager.getImpl().getTask(model.getId());
         if (delayTime == 0) {
             doDownload(model);
         } else {
@@ -131,10 +129,9 @@ public class DownloadViewHolder implements DownloadHolder {
 
     public void updateNotDownloaded(final int status, final long sofar, final long total) {
         if (sofar > 0 && total > 0) {
-            final float percent = sofar
-                    / (float) total;
-            taskProgressBar.setProgress((int) (percent * 100));
-            taskProgressTxt.setText((int) (percent * 100) + "%");
+            final int percent = (int) (100 * sofar / (float) total);
+            taskProgressBar.setProgress(percent);
+            taskProgressTxt.setText(percent + "%");
         } else {
             taskProgressBar.reset();
             taskProgressTxt.setVisibility(View.INVISIBLE);
@@ -149,20 +146,18 @@ public class DownloadViewHolder implements DownloadHolder {
     }
 
     public void updateDownloading(final int status, final long sofar, final long total) {
-
-        final float percent = sofar
-                / (float) total;
-        taskProgressBar.setProgress((int) (percent * 100));
+        final int percent = (int) (100 * sofar / (float) total);
+        taskProgressBar.setProgress(percent);
         if (percent > 0) {
             taskProgressTxt.setVisibility(View.VISIBLE);
+            taskProgressTxt.setText(percent + "%");
         }
-        taskProgressTxt.setText((int) (percent * 100) + "%");
 
         canPaused = true;
         canStart = false;
 
         if (DEBUG_PROGRESS) {
-            HSLog.d("sundxing", getId() + " download process, percent = " + percent);
+            HSLog.d("sundxing", getId() + " download process, percent = " + percent + "%");
         }
     }
 

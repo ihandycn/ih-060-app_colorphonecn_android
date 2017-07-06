@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.honeycomb.colorphone.view.FixRatioPreviewWindow xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.honeycomb.colorphone.view.FixRatioPreviewWindow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
@@ -11,7 +11,7 @@
     android:layout_marginLeft="6dp"
     android:layout_marginRight="6dp"
     android:layout_marginStart="6dp"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="12dp"
     android:clipChildren="false"
     app:aspectRatioOverride="0.6"
     app:cardCornerRadius="@dimen/theme_card_radius"
@@ -19,34 +19,34 @@
     tools:showIn="@layout/card_view_theme_selector">
 
     <com.honeycomb.colorphone.view.RatioImageView
-        android:id="@+id/card_view_img"
+        android:id="@+id/card_preview_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:aspectRatioOverride="0.6"/>
+        app:aspectRatioOverride="0.6" />
 
     <com.acb.call.views.ThemePreviewWindow
-        android:id="@+id/flash_view"
+        android:id="@+id/card_flash_preview_window"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <com.acb.call.views.InCallActionView
-        android:id="@+id/in_call_view"
+        android:id="@+id/card_in_call_action_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <com.honeycomb.colorphone.view.CircularCoverView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="gone"
         app:cover_color="@color/colorWindowBackground"
         app:left_bottom_radius="@dimen/theme_card_radius"
         app:left_top_radius="@dimen/theme_card_radius"
         app:right_bottom_radius="@dimen/theme_card_radius"
-        app:right_top_radius="@dimen/theme_card_radius" />
+        app:right_top_radius="@dimen/theme_card_radius"
+        tools:visibility="gone" />
 
     <ImageView
-        android:id="@+id/theme_hot"
+        android:id="@+id/theme_hot_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
