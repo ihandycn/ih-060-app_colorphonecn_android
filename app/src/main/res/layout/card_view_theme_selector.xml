@@ -6,7 +6,22 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <include layout="@layout/card_layout_preview" />
+    <include
+        android:id="@+id/card_view"
+        layout="@layout/card_layout_preview" />
+
+    <ImageView
+        android:id="@+id/theme_hot_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/card_view"
+        android:layout_alignStart="@id/card_view"
+        android:layout_alignTop="@id/card_view"
+        android:layout_gravity="start|top"
+        android:layout_marginLeft="-2dp"
+        android:layout_marginStart="-2dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/theme_card_badge_hot" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/card_title"

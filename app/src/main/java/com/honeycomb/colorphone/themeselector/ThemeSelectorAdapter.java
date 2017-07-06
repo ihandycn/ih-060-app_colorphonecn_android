@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.themeselector;
 
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
@@ -25,7 +25,6 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.honeycomb.colorphone.view.TypefacedTextView;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -62,7 +61,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         View cardViewContent = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_theme_selector, null);
         final ThemeCardViewHolder holder = new ThemeCardViewHolder(cardViewContent);
 
-        cardViewContent.setOnClickListener(new View.OnClickListener() {
+        cardViewContent.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int pos = holder.getPositionTag();
@@ -72,7 +71,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
                     holder.getDownloadHolder().startDownloadDelay(0);
                 }
                 ThemePreviewActivity.start(parent.getContext(), theme);
-                Toast.makeText(HSApplication.getContext(), holder.getPositionTag() + " clicked", Toast.LENGTH_SHORT).show();
             }
         });
         // Disable theme original bg. Use our own
@@ -244,6 +242,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             mCallActionView = (InCallActionView) itemView.findViewById(R.id.card_in_call_action_view);
             mCallActionView.setAutoRun(false);
             mThemeHotMark = itemView.findViewById(R.id.theme_hot_mark);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mThemeHotMark.setElevation(Utils.pxFromDp(2));
+            }
 
             mDownloadTaskProgressTxt = (TypefacedTextView) itemView.findViewById(R.id.card_downloading_progress_txt);
             mDownloadTaskProgressTxt.setVisibility(View.INVISIBLE);

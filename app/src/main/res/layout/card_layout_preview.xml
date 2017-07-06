@@ -44,14 +44,6 @@
         app:right_bottom_radius="@dimen/theme_card_radius"
         app:right_top_radius="@dimen/theme_card_radius"
         tools:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/theme_hot_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start|top"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/theme_card_badge_hot" />
 </com.honeycomb.colorphone.view.FixRatioPreviewWindow>
 
     
