@@ -1,6 +1,8 @@
 package com.honeycomb.colorphone;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.design.widget.NavigationView;
@@ -11,11 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
@@ -189,20 +191,35 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void feedBack() {
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{Constants.FEED_BACK_EMAIL});
-//        i.putExtra(Intent.EXTRA_SUBJECT, "Feedback from");
-//        i.putExtra(Intent.EXTRA_TEXT   , "body of email");
-        try {
-            startActivity(Intent.createChooser(i, getString(R.string.send_email)));
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-        }
+        sentEmail(this, new String[] {Constants.FEED_BACK_EMAIL}, null, null);
     }
 
     private void toggle() {
         boolean isChecked = mainSwitch.isChecked();
         mainSwitch.setChecked(!isChecked);
+    }
+
+    public static void sentEmail(Context mContext, String[] addresses, String subject, String body) {
+
+        try {
+            Intent sendIntentGmail = new Intent(Intent.ACTION_VIEW);
+            sendIntentGmail.setType("plain/text");
+            sendIntentGmail.setData(Uri.parse(TextUtils.join(",", addresses)));
+            sendIntentGmail.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+            sendIntentGmail.putExtra(Intent.EXTRA_EMAIL, addresses);
+            if (subject != null) sendIntentGmail.putExtra(Intent.EXTRA_SUBJECT, subject);
+            if (body != null) sendIntentGmail.putExtra(Intent.EXTRA_TEXT, body);
+            mContext.startActivity(sendIntentGmail);
+        } catch (Exception e) {
+            //When Gmail App is not installed or disable
+            Intent sendIntentIfGmailFail = new Intent(Intent.ACTION_SENDTO);
+            sendIntentIfGmailFail.setData(Uri.parse("mailto:")); // only email apps should handle this
+            sendIntentIfGmailFail.putExtra(Intent.EXTRA_EMAIL, addresses);
+            if (subject != null) sendIntentIfGmailFail.putExtra(Intent.EXTRA_SUBJECT, subject);
+            if (body != null) sendIntentIfGmailFail.putExtra(Intent.EXTRA_TEXT, body);
+            if (sendIntentIfGmailFail.resolveActivity(mContext.getPackageManager()) != null) {
+                mContext.startActivity(sendIntentIfGmailFail);
+            }
+        }
     }
 }
