@@ -4,15 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.ihs.app.framework.activity.HSAppCompatActivity;
 
-public class SettingsActivity extends AppCompatActivity {
+
+public class SettingsActivity extends HSAppCompatActivity {
 
     public static void start(Context context) {
         Intent starter = new Intent(context, SettingsActivity.class);

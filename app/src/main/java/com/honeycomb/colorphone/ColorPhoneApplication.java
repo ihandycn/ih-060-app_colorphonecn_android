@@ -39,6 +39,7 @@ public class ColorPhoneApplication extends HSApplication {
         HSGlobalNotificationCenter.removeObserver(sessionEventObserver);
     }
 
+
     @Override
     protected String getConfigFileName() {
         if (HSLog.isDebugging()) {

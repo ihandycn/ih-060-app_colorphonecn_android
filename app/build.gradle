@@ -92,4 +92,6 @@ dependencies {
 
     compile 'com.ihandy.appframework:libAppframework.gm:4.2.4.gm'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.facebook.android:facebook-android-sdk:4.20.0'
+
 }
