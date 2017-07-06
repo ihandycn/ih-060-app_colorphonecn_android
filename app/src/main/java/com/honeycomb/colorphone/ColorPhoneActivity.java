@@ -27,6 +27,8 @@ import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 public class ColorPhoneActivity extends HSAppCompatActivity
@@ -121,6 +123,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void initData() {
         Type[] themeTypes = Type.values();
+        Type[] themeOrderList = new Type[ ] {Type.LED, Type.TECH, Type.NEON, Type.STARS, Type.SUN};
         final int count = themeTypes.length;
         int selectedThemeId = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, defaultThemeId);
         Random random = new Random(555517);
@@ -134,6 +137,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             theme.setName(getString(ThemeUtils.getThemeNameRes(this, i)));
             theme.setThemeId(type.getValue());
             theme.setImageRes(getThemePreviewImage(type));
+            theme.setIndex(getIndexOfTheme(themeOrderList, type));
             theme.setHot(i < 2);
             if (theme.getThemeId() == selectedThemeId) {
                 theme.setSelected(true);
@@ -144,6 +148,23 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
 
         }
+
+        Collections.sort(mRecyclerViewData, new Comparator<Theme>() {
+            @Override
+            public int compare(Theme o1, Theme o2) {
+                return o1.getIndex() - o2.getIndex();
+            }
+        });
+
+    }
+
+    private int getIndexOfTheme(Type[] themeOrderList, Type type) {
+        for (int i = 0; i < themeOrderList.length; i++) {
+            if (themeOrderList[i] == type) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     private int getThemePreviewImage(Type type) {
