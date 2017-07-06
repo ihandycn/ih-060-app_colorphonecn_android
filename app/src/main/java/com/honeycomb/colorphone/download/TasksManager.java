@@ -55,7 +55,13 @@ public class TasksManager {
 
 
     public void releaseTask() {
-        taskSparseArray.clear();
+        int size = taskSparseArray.size();
+        for (int i = 0; i < size; i++) {
+            BaseDownloadTask task = taskSparseArray.valueAt(i);
+            if (task != null) {
+                task.setTag(null);
+            }
+        }
     }
 
     private FileDownloadConnectListener listener;

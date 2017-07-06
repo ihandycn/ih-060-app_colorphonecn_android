@@ -242,13 +242,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
             mThemeSelectedAnim = (LottieAnimationView) itemView.findViewById(R.id.card_theme_selected_anim);
 
             DownloadProgressBar pb = (DownloadProgressBar) itemView.findViewById(R.id.card_downloading_progress_bar);
-//            pb.setOnProgressUpdateListener(new DownloadProgressBar.SampleOnProgressUpdateListener() {
-//                @Override
-//                public void onAnimationEnded() {
-//                    super.onAnimationEnded();
-//                    switchToReadyState(pendingToOpen);
-//                }
-//            });
+
             mDownloadViewHolder = new DownloadViewHolder(pb, pb, mDownloadTaskProgressTxt, mDownloadFinishedAnim);
             mDownloadViewHolder.setProxyHolder(this);
             mDownloadTaskProgressBar = pb;
