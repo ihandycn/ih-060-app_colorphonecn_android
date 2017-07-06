@@ -37,7 +37,8 @@
         <activity
             android:name=".ColorPhoneActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppLightStatusBarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,11 +66,13 @@
         <activity
             android:name=".ThemePreviewActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DarkFullScreen" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppLightStatusBarTheme" />
     </application>
 
 

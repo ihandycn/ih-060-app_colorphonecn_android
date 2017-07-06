@@ -21,5 +21,6 @@
     <string name="loading_progress">Loading %1$d %%</string>
     <string name="settings_call_assistant">Call Assistant</string>
     <string name="send_email">Send Email</string>
+    <string name="ad_hint">It may contain ads.</string>
 
 </resources>

@@ -23,11 +23,12 @@ import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -38,6 +39,9 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -45,6 +49,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.acb.call.themes.Type;
 import com.ihs.app.framework.HSApplication;
@@ -614,13 +619,31 @@ public final class Utils {
         return viewRectF.contains(event.getRawX(), event.getRawY());
     }
 
-    public static boolean isInDebug() {
-        Context context = HSApplication.getContext();
-        try {
-            ApplicationInfo info = context.getApplicationInfo();
-            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-        } catch (Exception e) {
-            return false;
+    public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar) {
+        toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.white));
+        toolbar.setTitleTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
+
+        activity.setSupportActionBar(toolbar);
+        final Drawable upArrow = ContextCompat.getDrawable(activity, R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        upArrow.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+        activity.getSupportActionBar().setHomeAsUpIndicator(upArrow);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        applyFontForToolbarTitle(activity, toolbar);
+    }
+
+    public static void applyFontForToolbarTitle(Activity context, Toolbar toolbar){
+        for(int i = 0; i < toolbar.getChildCount(); i++){
+            View view = toolbar.getChildAt(i);
+            if(view instanceof TextView){
+                TextView tv = (TextView) view;
+                Typeface typeface = FontUtils.getTypeface(FontUtils.Font.ofFontResId(R.string.proxima_nova_semibold), 0);
+                if(tv.getText().equals(toolbar.getTitle())){
+                    tv.setTypeface(typeface);
+                    break;
+                }
+            }
         }
     }
 
