@@ -80,29 +80,38 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         holder.mThemeSelectedAnim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.mThemeSelectedAnim.playAnimation();
                 int pos = holder.getPositionTag();
-                onSelectedTheme(pos);
-                CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, data.get(pos).getThemeId());
+                if (onSelectedTheme(pos)) {
+                    holder.mThemeSelectedAnim.playAnimation();
+                    CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, data.get(pos).getThemeId());
+                }
             }
         });
 
         return holder;
     }
 
-    private void onSelectedTheme(int pos) {
+    private boolean onSelectedTheme(int pos) {
+        int prePos = 0;
         // Clear before.
         for (int i = 0; i < data.size(); i++) {
             Theme t = data.get(i);
             if (t.isSelected()) {
-                t.setSelected(false);
-                notifyItemChanged(i);
+                prePos = i;
                 break;
             }
+        }
+        if (prePos == pos) {
+            return false;
+        } else {
+            Theme t = data.get(prePos);
+            t.setSelected(false);
+            notifyItemChanged(prePos);
         }
         // Reset current.
         data.get(pos).setSelected(true);
         notifyItemChanged(pos);
+        return true;
     }
 
     // TODO Use bitmap to improve draw performance
