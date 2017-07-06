@@ -5,6 +5,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="acb_caller_default_name" translatable="false">Marry</string>
+    <string name="acb_caller_default_number" translatable="false">626-202-3399</string>
+
     <string name="action_settings">Settings</string>
     <string name="open">open</string>
     <string name="theme_download_progress">downloading</string>
@@ -18,4 +21,5 @@
     <string name="loading_progress">Loading %1$d %%</string>
     <string name="settings_call_assistant">Call Assistant</string>
     <string name="send_email">Send Email</string>
+
 </resources>
