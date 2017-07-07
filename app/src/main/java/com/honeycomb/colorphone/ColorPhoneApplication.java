@@ -10,6 +10,9 @@ import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.FileDownloader;
 
 public class ColorPhoneApplication extends HSApplication {
+
+    private static ConfigLog mConfigLog;
+
     private INotificationObserver sessionEventObserver = new INotificationObserver() {
 
         @Override
@@ -27,7 +30,9 @@ public class ColorPhoneApplication extends HSApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        mConfigLog = new ConfigLogDefault();
         AcbCallManager.initWithDefaultFactory();
+
         FileDownloader.setup(this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, sessionEventObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, sessionEventObserver);
@@ -49,4 +54,7 @@ public class ColorPhoneApplication extends HSApplication {
         }
     }
 
+    public static ConfigLog getConfigLog() {
+        return mConfigLog;
+    }
 }

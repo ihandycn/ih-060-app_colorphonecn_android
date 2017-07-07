@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 
 import com.acb.call.CPSettings;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.utils.HSPreferenceHelper;
 
 
 public class SettingsActivity extends HSAppCompatActivity {
@@ -30,6 +31,10 @@ public class SettingsActivity extends HSAppCompatActivity {
         Utils.configActivityStatusBar(this, toolbar);
 
         final SwitchCompat mSwitchCompat = (SwitchCompat) findViewById(R.id.setting_item_call_assistant_toggle);
+        boolean defaultEnable = ColorPhoneApplication.getConfigLog().isAssistantEnabledDefault();
+        boolean checked = HSPreferenceHelper.getDefault().getBoolean("prefs_call_assistant", defaultEnable);
+        mSwitchCompat.setChecked(checked);
+
         findViewById(R.id.setting_item_call_assistant).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +46,7 @@ public class SettingsActivity extends HSAppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 CPSettings.setCallAssistantModuleEnabled(isChecked);
+                ColorPhoneApplication.getConfigLog().getEvent().onCallAssistantEnableFromSetting(isChecked);
             }
         });
     }

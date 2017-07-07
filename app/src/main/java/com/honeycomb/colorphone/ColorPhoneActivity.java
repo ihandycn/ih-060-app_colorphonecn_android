@@ -11,9 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -28,13 +26,13 @@ import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 public class ColorPhoneActivity extends HSAppCompatActivity
@@ -69,6 +67,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
 
         Utils.configActivityStatusBar(this, toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -148,6 +148,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             selectedThemeId = defaultThemeId;
             CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, defaultThemeId);
         }
+        List<String> hotThemes =  ColorPhoneApplication.getConfigLog().getHotThemeList();
         Random random = new Random(555517);
         for (int i = 0; i < count; i++) {
             final Type type = themeTypes[i];
@@ -160,7 +161,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             theme.setThemeId(type.getValue());
             theme.setImageRes(getThemePreviewImage(type));
             theme.setIndex(getIndexOfTheme(themeOrderList, type));
-            theme.setHot(i < 2);
+            theme.setHot(isHotTheme(hotThemes, type.name()));
             if (theme.getThemeId() == selectedThemeId) {
                 theme.setSelected(true);
             }
@@ -178,6 +179,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
+    }
+
+    private boolean isHotTheme(List<String> hotThemes, String name) {
+        for (String hotTheme : hotThemes) {
+            if (name.equalsIgnoreCase(hotTheme)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int getIndexOfTheme(Type[] themeOrderList, Type type) {
@@ -222,6 +232,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 break;
             case R.id.settings_feedback:
                 feedBack();
+                ColorPhoneApplication.getConfigLog().getEvent().onFeedBackClick();
                 break;
             case R.id.settings_setting:
                 SettingsActivity.start(this);
@@ -236,6 +247,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void toggle() {
         boolean isChecked = mainSwitch.isChecked();
         mainSwitch.setChecked(!isChecked);
+
+        ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(isChecked);
     }
 
     public static void sentEmail(Context mContext, String[] addresses, String subject, String body) {

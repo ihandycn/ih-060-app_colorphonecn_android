@@ -16,6 +16,7 @@ import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
+import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ThemePreviewActivity;
@@ -36,6 +37,8 @@ import com.liulishuo.filedownloader.util.FileDownloadUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static com.honeycomb.colorphone.Utils.getTypeByThemeId;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -94,7 +97,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View view) {
                     int pos = holder.getPositionTag();
                     Theme theme = data.get(pos);
-                    Type type = Utils.getTypeByThemeId(theme.getThemeId());
+                    Type type = getTypeByThemeId(theme.getThemeId());
                     if (type != null && type.isGif()) {
                         holder.getDownloadHolder().startDownloadDelay(0);
                     }
@@ -137,6 +140,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             Theme t = data.get(prePos);
             t.setSelected(false);
             notifyItemChanged(prePos);
+            Type type = Utils.getTypeByThemeId(t.getThemeId());
+
+            ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(type.name().toLowerCase());
+
         }
         // Reset current.
         data.get(pos).setSelected(true);
@@ -152,7 +159,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((ThemeCardViewHolder) holder).setPositionTag(position);
 
             final Theme curTheme = data.get(position);
-            final Type type = Utils.getTypeByThemeId(curTheme.getThemeId());
+            final Type type = getTypeByThemeId(curTheme.getThemeId());
 
             String name = curTheme.getName();
             ((ThemeCardViewHolder) holder).setTxt(name);

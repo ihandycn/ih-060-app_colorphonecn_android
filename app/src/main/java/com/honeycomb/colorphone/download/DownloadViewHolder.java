@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
+import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.view.ProgressView;
 import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.commons.utils.HSLog;
@@ -82,6 +83,7 @@ public class DownloadViewHolder implements DownloadHolder {
         if (delayTime == 0) {
             doDownload(model);
         } else {
+            ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase());
             taskProgressBar.onDownloadStart();
             taskActionBtn.postDelayed(new Runnable() {
                 @Override
@@ -111,6 +113,7 @@ public class DownloadViewHolder implements DownloadHolder {
             task.setTag(mProxy != null ? mProxy : this);
 
             task.start();
+
         } else {
             throw new IllegalStateException("Has no pending task to download!");
         }
@@ -120,6 +123,10 @@ public class DownloadViewHolder implements DownloadHolder {
         taskProgressBar.setProgress(100);
         taskProgressTxt.setVisibility(View.INVISIBLE);
         if (progressFlag) {
+            final TasksManagerModel model = TasksManager.getImpl().getById(id);
+            if (model != null) {
+                ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadFinish(model.getName().toLowerCase());
+            }
             taskSuccessAnim.setVisibility(View.VISIBLE);
             taskSuccessAnim.playAnimation();
         }

@@ -81,7 +81,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 break;
             }
         }
-
+        ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mThemeType.name().toLowerCase());
         setContentView(R.layout.activity_theme_preview);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 
