@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingEnd="9dp"
+    android:paddingLeft="9dp"
+    android:paddingRight="9dp"
+    android:paddingStart="9dp"
     android:clipChildren="false">
 
     <include

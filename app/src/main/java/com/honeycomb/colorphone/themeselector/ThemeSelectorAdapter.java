@@ -155,9 +155,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof ThemeCardViewHolder) {
+        if (holder instanceof ThemeCardViewHolder) {
             ((ThemeCardViewHolder) holder).setPositionTag(position);
 
+            if (position % 2 == 0) {
+                ((ThemeCardViewHolder) holder).getContentView().setTranslationX(30);
+            } else {
+                ((ThemeCardViewHolder) holder).getContentView().setTranslationX(-1 * 30);
+            }
             final Theme curTheme = data.get(position);
             final Type type = getTypeByThemeId(curTheme.getThemeId());
 
@@ -269,6 +274,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         DownloadViewHolder mDownloadViewHolder;
 
         private int mPositionTag;
+        private View mContentView;
         private final View mThemeHotMark;
 
         private Handler mHandler = new Handler();
@@ -286,9 +292,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return mPositionTag;
         }
 
+        public View getContentView() {
+            return mContentView;
+        }
+
         ThemeCardViewHolder(View itemView) {
             super(itemView);
 
+            mContentView = itemView;
             mThemePreviewImg = (ImageView) itemView.findViewById(R.id.card_preview_img);
             mThemeTitle = (TextView) itemView.findViewById(R.id.card_title);
             mThemeLikeCount = (TextView) itemView.findViewById(R.id.card_like_count_txt);
