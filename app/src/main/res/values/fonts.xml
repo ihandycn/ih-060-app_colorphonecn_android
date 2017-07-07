@@ -11,5 +11,6 @@
     <string name="proxima_nova_light" translatable="false">ProximaNova-Light</string>
     <string name="proxima_nova_thin" translatable="false">ProximaNova-Thin</string>
     <string name="proxima_nova_semibold" translatable="false">ProximaNova-Semibold</string>
+    <string name="proxima_nova_bold" translatable="false">ProximaNova-Bold</string>
     <string name="proxima_nova_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
 </resources>

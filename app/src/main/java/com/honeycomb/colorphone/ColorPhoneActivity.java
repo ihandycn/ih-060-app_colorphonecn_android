@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
@@ -40,6 +42,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private RecyclerView mRecyclerView;
     private SwitchCompat mainSwitch;
+    private TextView mainSwitchTxt;
+
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
     private int defaultThemeId = 1;
@@ -81,10 +85,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         toggle.syncState();
         View leftDrawer = findViewById(R.id.left_drawer);
         mainSwitch = (SwitchCompat) leftDrawer.findViewById(R.id.main_switch);
+        mainSwitchTxt = (TextView) leftDrawer.findViewById(R.id.settings_main_switch_txt);
         mainSwitch.setChecked(CPSettings.isScreenFlashModuleEnabled());
         mainSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
+                Toast.makeText(buttonView.getContext(),
+                        isChecked ? R.string.enabled : R.string.disabled, Toast.LENGTH_SHORT).show();
                 CPSettings.setScreenFlashModuleEnabled(isChecked);
             }
         });
@@ -135,7 +143,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         Type[] themeTypes = Type.values();
         Type[] themeOrderList = new Type[ ] {Type.LED, Type.TECH, Type.NEON, Type.STARS, Type.SUN};
         final int count = themeTypes.length;
-        int selectedThemeId = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, defaultThemeId);
+        int selectedThemeId = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, -1);
+        if (selectedThemeId == -1) {
+            selectedThemeId = defaultThemeId;
+            CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, defaultThemeId);
+        }
         Random random = new Random(555517);
         for (int i = 0; i < count; i++) {
             final Type type = themeTypes[i];

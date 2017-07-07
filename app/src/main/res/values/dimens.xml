@@ -6,7 +6,7 @@
     <dimen name="nav_item_inner_spacing">12dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="nav_drawer_margin_offset">-16dp</dimen>
-    <dimen name="nav_drawer_width">270dp</dimen>
+    <dimen name="nav_drawer_width">276dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="theme_card_margin">4dp</dimen>
     <dimen name="theme_card_radius">8dp</dimen>
