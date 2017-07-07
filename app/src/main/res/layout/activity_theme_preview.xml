@@ -19,7 +19,7 @@
         android:id="@+id/card_in_call_action_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:layout_above="@+id/theme_apply_btn" />
 
     <ImageView
@@ -49,16 +49,34 @@
         android:progress="60"
         app:layout_widthPercent="66%" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
-        android:id="@+id/theme_progress_txt"
-        style="@style/NormalText"
+    <LinearLayout
+        android:id="@+id/theme_progress_txt_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/theme_progress_bar"
-        android:layout_centerHorizontal="true"
-        android:textColor="@android:color/white"
         android:layout_marginBottom="12dp"
-        android:textSize="18sp" />
+        android:orientation="horizontal"
+        android:layout_above="@id/theme_progress_bar"
+        android:layout_centerHorizontal="true">
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            style="@style/NormalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="@string/loading"
+            android:textSize="18sp" />
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/theme_progress_txt"
+            style="@style/NormalText"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_width="wrap_content"
+            android:minWidth="64dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/theme_apply_btn"

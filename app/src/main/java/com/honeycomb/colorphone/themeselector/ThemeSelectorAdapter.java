@@ -381,6 +381,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void switchToReadyState(boolean ready) {
             mDownloadTaskProgressBar.setVisibility(ready ? View.GONE : View.VISIBLE);
+            mThemeSelectLayout.setVisibility(ready ? View.VISIBLE : View.GONE);
             if (ready) {
                 mDownloadFinishedAnim.setVisibility(View.GONE);
                 mDownloadTaskProgressTxt.setVisibility(View.GONE);

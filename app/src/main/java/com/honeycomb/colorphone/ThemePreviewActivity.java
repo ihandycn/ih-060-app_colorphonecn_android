@@ -34,14 +34,15 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_SELECT_KEY = "notify_theme_select_key";
     private ThemePreviewWindow previewWindow;
     private InCallActionView callActionView;
-    private ProgressBar mProgressBar;
-    private TextView mProgressTxt;
+
+    private ProgressViewHolder mProgressViewHolder;
     private Button mApplyButton;
     private ImageView previewImage;
     private Theme mTheme;
     private Type mThemeType;
     private View dimCover;
     private int curTaskId;
+
 
 
     public static void start(Context context, Theme theme) {
@@ -65,7 +66,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         public void updateDownloading(int status, long sofar, long total) {
             final float percent = sofar
                     / (float) total;
-            updateProgressView((int) (percent * 100));
+            mProgressViewHolder.updateProgressView((int) (percent * 100));
         }
     };
 
@@ -86,9 +87,10 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
         previewWindow = (ThemePreviewWindow) findViewById(R.id.card_flash_preview_window);
         callActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
+        callActionView.setTheme(mThemeType);
+        callActionView.setAutoRun(false);
         mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
-        mProgressBar = (ProgressBar) findViewById(R.id.theme_progress_bar);
-        mProgressTxt = (TextView) findViewById(R.id.theme_progress_txt);
+        mProgressViewHolder = new ProgressViewHolder();
         previewImage = (ImageView) findViewById(R.id.preview_bg_img);
         dimCover = findViewById(R.id.dim_cover);
 
@@ -116,18 +118,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     }
 
     private void playTransAnimation() {
-        mProgressBar.animate().alpha(0).setDuration(300).start();
-        mProgressTxt.animate().alpha(0).setDuration(300).start();
+        mProgressViewHolder.fadeOut();
         dimCover.animate().alpha(0).setDuration(200);
         mApplyButton.setVisibility(View.VISIBLE);
-        mApplyButton.animate().translationY(0).setDuration(400).setInterpolator(new OvershootInterpolator()).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                setButtonState(false);
-                previewWindow.playAnimation(mThemeType);
+        previewWindow.playAnimation(mThemeType);
+        setButtonState(false);
 
-            }
-        }).start();
     }
 
     @Override
@@ -135,54 +131,54 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         super.onLocalVoiceInteractionStopped();
     }
 
-    private void checkButtonState() {
+    private void onThemeReady() {
         boolean curTheme = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, -1) == mTheme.getThemeId();
+        previewWindow.playAnimation(mThemeType);
+        callActionView.doAnimation();
         setButtonState(curTheme);
     }
 
-    private void setButtonState(boolean curTheme) {
+    private void setButtonState(final boolean curTheme) {
         dimCover.setVisibility(View.INVISIBLE);
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mProgressTxt.setVisibility(View.INVISIBLE);
-        mApplyButton.setVisibility(View.VISIBLE);
-        mApplyButton.setTranslationY(0);
-        mApplyButton.setEnabled(true);
+        mProgressViewHolder.hide();
+
         if (curTheme) {
-            mApplyButton.setEnabled(false);
             mApplyButton.setText(getString(R.string.theme_current));
         } else {
-            mApplyButton.setEnabled(true);
             mApplyButton.setText(getString(R.string.theme_apply));
         }
+        mApplyButton.animate().translationY(0).setDuration(400).setInterpolator(new OvershootInterpolator()).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mApplyButton.setVisibility(View.VISIBLE);
+                mApplyButton.setTranslationY(0);
+                mApplyButton.setEnabled(curTheme ? false : true);
+
+            }
+        }).start();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        previewWindow.startAnimations();
-        callActionView.doAnimation();
+
         final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getThemeId());
         if (model != null) {
             curTaskId = model.getId();
             // GIf
             final int status = TasksManager.getImpl().getStatus(model.getId(), model.getPath());
             if (TasksManager.getImpl().isDownloaded(status)) {
-                checkButtonState();
+                onThemeReady();
             } else {
-                float percent = TasksManager.getImpl().getDownloadProgress(model.getId());
-                updateProgressView((int) (percent * 100));
-
-                FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
+                onThemeLoading(model);
             }
         } else {
             // Directly applicable
-            checkButtonState();
+            onThemeReady();
         }
 
         // Show background if gif drawable not ready.
         if (mTheme != null) {
-            previewWindow.playAnimation(mThemeType);
-
             if (mTheme.getImageRes() > 0) {
                 previewImage.setImageResource(mTheme.getImageRes());
                 previewImage.setBackgroundColor(Color.TRANSPARENT);
@@ -194,10 +190,15 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         }
     }
 
-    private void updateProgressView(int percent) {
-        mProgressBar.setProgress(percent);
-        mProgressTxt.setText(getString(R.string.loading_progress, percent));
+    private void onThemeLoading(TasksManagerModel model) {
+        float percent = TasksManager.getImpl().getDownloadProgress(model.getId());
+        mProgressViewHolder.updateProgressView((int) (percent * 100));
+        FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
+
+        dimCover.setVisibility(View.VISIBLE);
+        previewWindow.updateThemeLayout(mThemeType);
     }
+
 
     @Override
     protected void onStop() {
@@ -205,5 +206,32 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         callActionView.stopAnimations();
         previewWindow.stopAnimations();
         FileDownloadMultiListener.getDefault().removeStateListener(curTaskId);
+    }
+
+    private class ProgressViewHolder {
+        private ProgressBar mProgressBar;
+        private TextView mProgressTxt;
+        private View mProgressTxtGroup;
+
+        public ProgressViewHolder() {
+            mProgressBar = (ProgressBar) findViewById(R.id.theme_progress_bar);
+            mProgressTxt = (TextView) findViewById(R.id.theme_progress_txt);
+            mProgressTxtGroup= findViewById(R.id.theme_progress_txt_holder);
+        }
+
+        public void updateProgressView(int percent) {
+            mProgressBar.setProgress(percent);
+            mProgressTxt.setText(getString(R.string.loading_progress, percent));
+        }
+
+        public void hide() {
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mProgressTxtGroup.setVisibility(View.INVISIBLE);
+        }
+
+        public void fadeOut() {
+            mProgressBar.animate().alpha(0).setDuration(300).start();
+            mProgressTxtGroup.animate().alpha(0).setDuration(300).start();
+        }
     }
 }

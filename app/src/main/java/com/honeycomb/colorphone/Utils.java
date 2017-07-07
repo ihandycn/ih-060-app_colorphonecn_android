@@ -638,7 +638,7 @@ public final class Utils {
             View view = toolbar.getChildAt(i);
             if(view instanceof TextView){
                 TextView tv = (TextView) view;
-                Typeface typeface = FontUtils.getTypeface(FontUtils.Font.ofFontResId(R.string.proxima_nova_semibold), 0);
+                Typeface typeface = FontUtils.getTypeface(FontUtils.Font.ofFontResId(R.string.proxima_nova_bold), 0);
                 if(tv.getText().equals(toolbar.getTitle())){
                     tv.setTypeface(typeface);
                     break;
