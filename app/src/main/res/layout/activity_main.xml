@@ -13,55 +13,88 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:id="@+id/left_drawer"
+    <RelativeLayout
         android:layout_width="@dimen/nav_drawer_width"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/white"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_gravity="start|left">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/drawer_icon" />
+        <LinearLayout
+            android:id="@+id/left_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|left"
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/app_name"
-            android:textColor="#404040"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:typeface="@string/proxima_nova_semibold" />
-
-        <com.honeycomb.colorphone.view.TypefacedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Cool screen makes you unique"
-            android:textColor="#8a8a8a"
-            app:typeface="@string/proxima_nova_regular" />
-
-        <RelativeLayout
-            android:id="@+id/settings_main_switch"
-            style="@style/LayoutSettings"
-            android:layout_marginTop="40dp"
-            android:gravity="center_vertical">
-
-            <LinearLayout
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/drawer_icon" />
+
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/app_name"
+                android:textColor="#404040"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:typeface="@string/proxima_nova_semibold" />
+
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Cool screen makes you unique"
+                android:textColor="#8a8a8a"
+                app:typeface="@string/proxima_nova_regular" />
+
+            <RelativeLayout
+                android:id="@+id/settings_main_switch"
+                style="@style/LayoutSettings"
+                android:layout_marginTop="40dp"
                 android:gravity="center_vertical">
 
-                <ImageView
-                    android:id="@+id/settings_main_switch_icon"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/settings_icon_switch" />
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/settings_main_switch_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/settings_icon_switch" />
+
+                    <com.honeycomb.colorphone.view.TypefacedTextView
+                        style="@style/NormalText.Settings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                        android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                        android:text="@string/disable_color_phone" />
+                </LinearLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/main_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/settings_feedback"
+                style="@style/LayoutSettings"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/settings_icon_feedback" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     style="@style/NormalText.Settings"
@@ -69,55 +102,41 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                    android:text="@string/disable_color_phone" />
+                    android:text="@string/feedback" />
             </LinearLayout>
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/main_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true" />
-        </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/settings_setting"
+                style="@style/LayoutSettings"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/settings_feedback"
-            style="@style/LayoutSettings"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/settings_icon_setting" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/settings_icon_feedback" />
-
-            <com.honeycomb.colorphone.view.TypefacedTextView
-                style="@style/NormalText.Settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                android:text="@string/feedback" />
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    style="@style/NormalText.Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:text="@string/settings" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/settings_setting"
-            style="@style/LayoutSettings"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/settings_icon_setting" />
-
-            <com.honeycomb.colorphone.view.TypefacedTextView
-                style="@style/NormalText.Settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                android:text="@string/settings" />
-        </LinearLayout>
-    </LinearLayout>
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="17dp"
+            android:layout_marginLeft="19dp"
+            android:layout_marginStart="19dp"
+            android:text="@string/card_view_contains_ads_statement"
+            android:textColor="#40000000"
+            android:textSize="12sp" />
+    </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>
