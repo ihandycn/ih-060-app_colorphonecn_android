@@ -24,10 +24,6 @@ public class RatioImageView extends AppCompatImageView {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.HorizontalBannerImageView);
         mAspectRatioOverride = a.getFloat(R.styleable.HorizontalBannerImageView_aspectRatioOverride, -1f);
-        int scaleTypeIndex = 1;
-        ScaleType[] types = ScaleType.values();
-        ScaleType scaleType = types[scaleTypeIndex];
-        setScaleType(scaleType);
         a.recycle();
     }
 

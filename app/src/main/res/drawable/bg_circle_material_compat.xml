@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/bg_circle_material_mask" android:state_pressed="true" />
+    <item android:drawable="@drawable/bg_circle_material_pressed" android:state_pressed="true" />
     <item android:drawable="@android:color/transparent" />
 </selector>
