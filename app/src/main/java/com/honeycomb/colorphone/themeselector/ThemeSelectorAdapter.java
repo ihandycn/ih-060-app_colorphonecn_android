@@ -140,12 +140,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             Theme t = data.get(prePos);
             t.setSelected(false);
             notifyItemChanged(prePos);
-            Type type = Utils.getTypeByThemeId(t.getThemeId());
-
-            ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(type.name().toLowerCase());
-
         }
         // Reset current.
+        Type type = Utils.getTypeByThemeId( data.get(pos).getThemeId());
+
+        ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(type.name().toLowerCase());
         data.get(pos).setSelected(true);
         notifyItemChanged(pos);
         return true;

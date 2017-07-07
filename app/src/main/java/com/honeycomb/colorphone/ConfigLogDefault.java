@@ -35,22 +35,22 @@ public class ConfigLogDefault implements ConfigLog {
 
         @Override
         public void onThemePreviewOpen(String name) {
-            HSAnalytics.logEvent("ColorPhone_ThemeDetail_View", "type", name);
+            HSAnalytics.logEvent("ColorPhone_ThemeDetail_View", "ThemeName", name);
         }
 
         @Override
         public void onChooseTheme(String name) {
-            HSAnalytics.logEvent("ColorPhone_ChooseTheme", "type", name);
+            HSAnalytics.logEvent("ColorPhone_ChooseTheme", "ThemeName", name);
         }
 
         @Override
         public void onThemeDownloadStart(String name) {
-            HSAnalytics.logEvent("ColorPhone_Theme_Download_Started", "type", name);
+            HSAnalytics.logEvent("ColorPhone_Theme_Download_Started", "ThemeName", name);
         }
 
         @Override
         public void onThemeDownloadFinish(String name) {
-            HSAnalytics.logEvent("ColorPhone_Theme_Download_Finished", "type", name);
+            HSAnalytics.logEvent("ColorPhone_Theme_Download_Finished", "ThemeName", name);
         }
 
         @Override

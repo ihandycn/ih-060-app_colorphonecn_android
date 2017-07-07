@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.download;
 
 import android.util.SparseArray;
 
+import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
@@ -131,6 +132,11 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
         DownloadStateListener stateListener = mDownloadStateListeners.get(task.getId());
         if (stateListener != null) {
             stateListener.updateDownloaded(progressFlag);
+        }
+        // log event
+        final TasksManagerModel model = TasksManager.getImpl().getById(task.getId());
+        if (model != null) {
+            ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadFinish(model.getName().toLowerCase());
         }
 
         final DownloadHolder tag = checkCurrentHolder(task);

@@ -93,6 +93,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
                 Toast.makeText(buttonView.getContext(),
                         isChecked ? R.string.enabled : R.string.disabled, Toast.LENGTH_SHORT).show();
+                ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(isChecked);
                 CPSettings.setScreenFlashModuleEnabled(isChecked);
             }
         });
@@ -247,8 +248,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void toggle() {
         boolean isChecked = mainSwitch.isChecked();
         mainSwitch.setChecked(!isChecked);
-
-        ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(isChecked);
     }
 
     public static void sentEmail(Context mContext, String[] addresses, String subject, String body) {
