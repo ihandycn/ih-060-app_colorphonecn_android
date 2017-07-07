@@ -91,7 +91,7 @@
             app:progressBackgroundColor="@color/colorMaskDark"
             app:progressColor="#10a2ff"
             app:progressDuration="2000"
-            app:strokeWidth="1.7dp" />
+            app:strokeWidth="2dp" />
 
         <com.honeycomb.colorphone.view.TypefacedTextView
             android:id="@+id/card_downloading_progress_txt"
@@ -123,8 +123,8 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/card_theme_selected_anim"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
                 app:lottie_fileName="lottie/theme_selector_card_selected_anim.json"
