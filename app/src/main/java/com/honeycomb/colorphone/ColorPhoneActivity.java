@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.SwitchCompat;
@@ -25,6 +26,7 @@ import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import java.lang.ref.WeakReference;
@@ -195,11 +197,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         View contentView = findViewById(R.id.recycler_view_content);
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
         mRecyclerView.setItemAnimator(null);
-
-        RecyclerView.LayoutManager layoutManager =
-                new StaggeredGridLayoutManager(RECYCLER_VIEW_SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
         ThemeSelectorAdapter adapter = new ThemeSelectorAdapter(mRecyclerViewData);
+        mRecyclerView.setLayoutManager(adapter.getLayoutManager());
         mRecyclerView.setAdapter(adapter);
     }
 
@@ -210,7 +209,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 toggle();
                 break;
             case R.id.settings_feedback:
-
                 feedBack();
                 break;
             case R.id.settings_setting:

@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.themeselector;
 
 import android.os.Build;
 import android.os.Handler;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.honeycomb.colorphone.view.TypefacedTextView;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -35,9 +37,14 @@ import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import java.io.File;
 import java.util.ArrayList;
 
-public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdapter.ThemeCardViewHolder> {
+public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Theme> data = null;
+    private GridLayoutManager layoutManager;
+
+    public static final int THEME_SELECTOR_ITEM_TYPE_THEME = 1;
+    public static final int THEME_SELECTOR_ITEM_TYPE_STATEMENT = 2;
+
 
     public ThemeSelectorAdapter(final ArrayList<Theme> data) {
         this.data = data;
@@ -54,39 +61,64 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
                 }
             }
         });
+
+        GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch (getItemViewType(position)) {
+                    case THEME_SELECTOR_ITEM_TYPE_THEME:
+                        return 1;
+                    case THEME_SELECTOR_ITEM_TYPE_STATEMENT:
+                        return 2;
+                    default:
+                        return 1;
+                }
+            }
+        };
+        layoutManager = new GridLayoutManager(HSApplication.getContext(), 2);
+        layoutManager.setSpanSizeLookup(spanSizeLookup);
+    }
+
+    public GridLayoutManager getLayoutManager() {
+        return layoutManager;
     }
 
     @Override
-    public ThemeCardViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        View cardViewContent = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_theme_selector, null);
-        final ThemeCardViewHolder holder = new ThemeCardViewHolder(cardViewContent);
+    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+        if(viewType == THEME_SELECTOR_ITEM_TYPE_THEME) {
+            View cardViewContent = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_theme_selector, null);
+            final ThemeCardViewHolder holder = new ThemeCardViewHolder(cardViewContent);
 
-        cardViewContent.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int pos = holder.getPositionTag();
-                Theme theme = data.get(pos);
-                Type type = Utils.getTypeByThemeId(theme.getThemeId());
-                if (type != null && type.isGif()) {
-                    holder.getDownloadHolder().startDownloadDelay(0);
+            cardViewContent.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = holder.getPositionTag();
+                    Theme theme = data.get(pos);
+                    Type type = Utils.getTypeByThemeId(theme.getThemeId());
+                    if (type != null && type.isGif()) {
+                        holder.getDownloadHolder().startDownloadDelay(0);
+                    }
+                    ThemePreviewActivity.start(parent.getContext(), theme);
                 }
-                ThemePreviewActivity.start(parent.getContext(), theme);
-            }
-        });
-        // Disable theme original bg. Use our own
-        holder.mThemeFlashPreviewWindow.setBgDrawable(null);
-        holder.mThemeSelectLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int pos = holder.getPositionTag();
-                if (onSelectedTheme(pos)) {
-                    holder.mThemeSelectedAnim.playAnimation();
-                    CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, data.get(pos).getThemeId());
+            });
+            // Disable theme original bg. Use our own
+            holder.mThemeFlashPreviewWindow.setBgDrawable(null);
+            holder.mThemeSelectLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = holder.getPositionTag();
+                    if (onSelectedTheme(pos)) {
+                        holder.mThemeSelectedAnim.playAnimation();
+                        CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, data.get(pos).getThemeId());
+                    }
                 }
-            }
-        });
+            });
 
-        return holder;
+            return holder;
+        } else  {
+            View stateViewContent = LayoutInflater.from((parent.getContext())).inflate(R.layout.card_view_contains_ads_statement, null);
+            return new StatementViewHolder(stateViewContent);
+        }
     }
 
     private boolean onSelectedTheme(int pos) {
@@ -115,47 +147,60 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
     // TODO Use bitmap to improve draw performance
 
     @Override
-    public void onBindViewHolder(ThemeCardViewHolder holder, int position) {
-        holder.setPositionTag(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if(holder instanceof ThemeCardViewHolder) {
+            ((ThemeCardViewHolder) holder).setPositionTag(position);
 
-        final Theme curTheme = data.get(position);
-        final Type type = Utils.getTypeByThemeId(curTheme.getThemeId());
+            final Theme curTheme = data.get(position);
+            final Type type = Utils.getTypeByThemeId(curTheme.getThemeId());
 
-        String name = curTheme.getName();
-        holder.setTxt(name);
-        holder.mThemeLikeCount.setText(String.valueOf(curTheme.getDownload()));
-        if (curTheme.getImageRes() > 0) {
-            holder.mThemePreviewImg.setImageResource(curTheme.getImageRes());
+            String name = curTheme.getName();
+            ((ThemeCardViewHolder) holder).setTxt(name);
+            ((ThemeCardViewHolder) holder).mThemeLikeCount.setText(String.valueOf(curTheme.getDownload()));
+            if (curTheme.getImageRes() > 0) {
+                ((ThemeCardViewHolder) holder).mThemePreviewImg.setImageResource(curTheme.getImageRes());
+            } else {
+                ((ThemeCardViewHolder) holder).mThemePreviewImg.setImageResource(R.drawable.card_bg_round_dark);
+            }
+
+            ((ThemeCardViewHolder) holder).mThemeFlashPreviewWindow.updateThemeLayout(type);
+            ((ThemeCardViewHolder) holder).mCallActionView.setTheme(type);
+            if (!curTheme.isSelected()) {
+                ((ThemeCardViewHolder) holder).mThemeFlashPreviewWindow.stopAnimations();
+                ((ThemeCardViewHolder) holder).mCallActionView.setAutoRun(false);
+                ((ThemeCardViewHolder) holder).mThemeFlashPreviewWindow.setAutoRun(false);
+            } else {
+                ((ThemeCardViewHolder) holder).mThemeFlashPreviewWindow.playAnimation(type);
+                ((ThemeCardViewHolder) holder).mThemeFlashPreviewWindow.setAutoRun(true);
+                ((ThemeCardViewHolder) holder).mCallActionView.setAutoRun(true);
+            }
+
+            ((ThemeCardViewHolder) holder).setSelected(curTheme.isSelected());
+            ((ThemeCardViewHolder) holder).setHotTheme(curTheme.isHot());
+
+            // Download progress
+            final TasksManagerModel model = TasksManager.getImpl().getByThemeId(curTheme.getThemeId());
+
+            if (model != null) {
+                ((ThemeCardViewHolder) holder).update(model.getId(), position);
+                boolean fileExist = updateTaskHolder((ThemeCardViewHolder) holder, model);
+                ((ThemeCardViewHolder) holder).switchToReadyState(fileExist);
+            } else {
+                ((ThemeCardViewHolder) holder).switchToReadyState(true);
+            }
         } else {
-            holder.mThemePreviewImg.setImageResource(R.drawable.card_bg_round_dark);
+            HSLog.d("onBindVieHolder","contains ads statement.");
         }
+    }
 
-        holder.mThemeFlashPreviewWindow.updateThemeLayout(type);
-        holder.mCallActionView.setTheme(type);
-        if (!curTheme.isSelected()) {
-            holder.mThemeFlashPreviewWindow.stopAnimations();
-            holder.mCallActionView.setAutoRun(false);
-            holder.mThemeFlashPreviewWindow.setAutoRun(false);
+    @Override
+    public int getItemViewType(int position) {
+        if(position < data.size()){
+            return THEME_SELECTOR_ITEM_TYPE_THEME;
         } else {
-            holder.mThemeFlashPreviewWindow.playAnimation(type);
-            holder.mThemeFlashPreviewWindow.setAutoRun(true);
-            holder.mCallActionView.setAutoRun(true);
+            return THEME_SELECTOR_ITEM_TYPE_STATEMENT;
         }
-
-        holder.setSelected(curTheme.isSelected());
-        holder.setHotTheme(curTheme.isHot());
-
-        // Download progress
-        final TasksManagerModel model = TasksManager.getImpl().getByThemeId(curTheme.getThemeId());
-
-        if (model != null) {
-            holder.update(model.getId(), position);
-            boolean fileExist = updateTaskHolder(holder, model);
-            holder.switchToReadyState(fileExist);
-        } else {
-            holder.switchToReadyState(true);
-        }
-
+//        return super.getItemViewType(position);
     }
 
     private boolean updateTaskHolder(ThemeCardViewHolder holder, TasksManagerModel model) {
@@ -198,7 +243,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
 
     @Override
     public int getItemCount() {
-        return data.size();
+        // +1 for statement
+        return data.size() + 1;
     }
 
     static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
@@ -352,6 +398,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<ThemeSelectorAdap
         @Override
         public int getId() {
             return id;
+        }
+    }
+
+    static class StatementViewHolder extends RecyclerView.ViewHolder {
+
+        public StatementViewHolder(View itemView) {
+            super(itemView);
         }
     }
 }
