@@ -11,8 +11,8 @@
         android:layout_marginBottom="10dp"
         android:text="@string/card_view_contains_ads_statement"
         android:textColor="#66000000"
-        android:visibility="gone"
         android:textSize="10sp"
+        android:visibility="gone"
         app:typeface="@string/proxima_nova_regular" />
 
 </RelativeLayout>

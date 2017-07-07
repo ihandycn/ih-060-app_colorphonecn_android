@@ -8,8 +8,8 @@
 
     <include
         android:id="@+id/card_view"
-        android:visibility="visible"
-        layout="@layout/card_layout_preview" />
+        layout="@layout/card_layout_preview"
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/theme_hot_mark"
@@ -80,23 +80,23 @@
 
         <com.honeycomb.colorphone.view.DownloadProgressBar
             android:id="@+id/card_downloading_progress_bar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             app:circleBackgroundColor="@color/colorMaskDark"
             app:circleRadius="15dp"
             app:drawingColor="#10a2ff"
-            app:lineWidth="2dp"
+            app:lineWidth="1.7dp"
             app:overshootValue="2"
             app:progressBackgroundColor="@color/colorMaskDark"
             app:progressColor="#10a2ff"
             app:progressDuration="2000"
-            app:strokeWidth="1.8dp" />
+            app:strokeWidth="1.7dp" />
 
         <com.honeycomb.colorphone.view.TypefacedTextView
             android:id="@+id/card_downloading_progress_txt"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="55%"
@@ -117,8 +117,10 @@
         <FrameLayout
             android:id="@+id/card_theme_selected_layout"
             android:layout_width="40dp"
-            android:background="@drawable/bg_circle_material_compat"
-            android:layout_height="40dp">
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_circle_material_compat">
+
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/card_theme_selected_anim"
                 android:layout_width="36dp"

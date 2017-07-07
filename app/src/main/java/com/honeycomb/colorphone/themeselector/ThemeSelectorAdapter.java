@@ -294,8 +294,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             mDownloadTaskProgressTxt = (TypefacedTextView) itemView.findViewById(R.id.card_downloading_progress_txt);
-            mDownloadTaskProgressTxt.setVisibility(View.INVISIBLE);
+            mDownloadTaskProgressTxt.setVisibility(View.GONE);
             mDownloadFinishedAnim = (LottieAnimationView) itemView.findViewById(R.id.card_download_finished_anim);
+            mDownloadFinishedAnim.setVisibility(View.GONE);
             mThemeSelectedAnim = (LottieAnimationView) itemView.findViewById(R.id.card_theme_selected_anim);
             mThemeSelectLayout = itemView.findViewById(R.id.card_theme_selected_layout);
 
@@ -346,9 +347,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void updateDownloaded(boolean progressFlag) {
             // If file already downloaded, not play animation
 
-            switchToReadyState(true);
-
             mDownloadViewHolder.updateDownloaded(progressFlag);
+            mDownloadFinishedAnim.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    switchToReadyState(true);
+                }
+            }, 600);
 
             if (DEBUG_PROGRESS) {
                 HSLog.d("sundxing", position + " download success!");
@@ -377,6 +382,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void switchToReadyState(boolean ready) {
             mDownloadTaskProgressBar.setVisibility(ready ? View.GONE : View.VISIBLE);
             if (ready) {
+                mDownloadFinishedAnim.setVisibility(View.GONE);
                 mDownloadTaskProgressTxt.setVisibility(View.GONE);
             }
             if (ready) {
