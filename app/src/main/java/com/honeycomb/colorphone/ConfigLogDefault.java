@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone;
 
+import com.acb.call.CPSettings;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.config.HSConfig;
 
@@ -27,7 +28,8 @@ public class ConfigLogDefault implements ConfigLog {
     }
 
 
-    class FlurryEvent implements Event {
+    public static class FlurryEvent implements Event {
+        private static boolean enabled = false;
         @Override
         public void onMainViewOpen() {
             HSAnalytics.logEvent("ColorPhone_MainView_Opened");

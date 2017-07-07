@@ -27,16 +27,18 @@ import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 public class ColorPhoneActivity extends HSAppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
 
     private RecyclerView mRecyclerView;
     private SwitchCompat mainSwitch;
@@ -110,13 +112,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         initData();
         initRecyclerView();
 
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
+
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
     }
 
     @Override
     protected void onDestroy() {
         TasksManager.getImpl().onDestroy();
-
+        HSGlobalNotificationCenter.removeObserver(this);
         super.onDestroy();
     }
 
@@ -150,14 +154,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, defaultThemeId);
         }
         List<String> hotThemes =  ColorPhoneApplication.getConfigLog().getHotThemeList();
-        Random random = new Random(555517);
         for (int i = 0; i < count; i++) {
             final Type type = themeTypes[i];
             if(type == Type.NONE) {
                 continue;
             }
             final Theme theme = new Theme();
-            theme.setDownload(random.nextInt(682220));
+            theme.setDownload(getDownloadNumber(type));
             theme.setName(getString(ThemeUtils.getThemeNameRes(this, i)));
             theme.setThemeId(type.getValue());
             theme.setImageRes(getThemePreviewImage(type));
@@ -271,6 +274,30 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (sendIntentIfGmailFail.resolveActivity(mContext.getPackageManager()) != null) {
                 mContext.startActivity(sendIntentIfGmailFail);
             }
+        }
+    }
+
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
+        if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
+            mainSwitch.setChecked(true);
+        }
+    }
+
+    public long getDownloadNumber(Type type) {
+        switch (type) {
+            case LED:
+                return 663537;
+            case TECH:
+                return 137803;
+            case NEON:
+                return 608583;
+            case STARS:
+                return 329812;
+            case SUN:
+                return 112630;
+            default:
+                return 633378;
         }
     }
 }

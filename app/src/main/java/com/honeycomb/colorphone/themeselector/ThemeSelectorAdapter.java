@@ -144,6 +144,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         // Reset current.
         Type type = Utils.getTypeByThemeId( data.get(pos).getThemeId());
 
+
+        HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
         ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(type.name().toLowerCase());
         data.get(pos).setSelected(true);
         notifyItemChanged(pos);
