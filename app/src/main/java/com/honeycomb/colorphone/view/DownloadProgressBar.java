@@ -548,7 +548,7 @@ public class DownloadProgressBar extends View implements ProgressView{
     }
 
     private void drawing(Canvas canvas) {
-        if(mState == State.IDLE || mState == State.ANIMATING_LINE_TO_DOT) {
+        if(mState == State.IDLE) {
             mCirclePaint.setColor(mProgressColor);
             canvas.drawCircle(mCenterX, mCenterY, mRadius, mCirclePaint);
         } else {
