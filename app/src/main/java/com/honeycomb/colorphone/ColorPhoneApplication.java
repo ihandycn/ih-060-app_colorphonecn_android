@@ -32,6 +32,7 @@ public class ColorPhoneApplication extends HSApplication {
         super.onCreate();
         mConfigLog = new ConfigLogDefault();
         AcbCallManager.init(this, new CallConfigFactory());
+        HSPermanentUtils.keepAlive();
 
         FileDownloader.setup(this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, sessionEventObserver);

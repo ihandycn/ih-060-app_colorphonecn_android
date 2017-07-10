@@ -72,6 +72,37 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
+
+        <!-- permanent -->
+        <service
+            android:name=".PermanentService"
+            android:exported="true"
+            android:label="GuardService"
+            android:stopWithTask="false"/>
+
+        <service
+            android:name=".PermanentService$PermanentServiceInner"/>
+
+        <receiver
+            android:name=".PermanentService$PermanentReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.ACTION_BATTERY_CHANGED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+            <intent-filter>
+                <data android:scheme="package"/>
+
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 
