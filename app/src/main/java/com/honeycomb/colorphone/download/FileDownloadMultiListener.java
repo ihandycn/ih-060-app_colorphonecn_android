@@ -145,5 +145,6 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
         }
         tag.updateDownloaded(progressFlag);
         TasksManager.getImpl().removeTaskForViewHolder(task.getId());
+        progressFlag = false;
     }
 }

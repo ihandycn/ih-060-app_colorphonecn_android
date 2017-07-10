@@ -609,11 +609,15 @@ public final class Utils {
     }
 
     public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar) {
+        configActivityStatusBar(activity, toolbar, R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+    }
+
+    public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar, int upDrawable) {
         toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.white));
         toolbar.setTitleTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
 
         activity.setSupportActionBar(toolbar);
-        final Drawable upArrow = ContextCompat.getDrawable(activity, R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        final Drawable upArrow = ContextCompat.getDrawable(activity, upDrawable);
         upArrow.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
         activity.getSupportActionBar().setHomeAsUpIndicator(upArrow);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -639,4 +643,5 @@ public final class Utils {
     public static float dpiFromPx(int size) {
         return (size / getDensityRatio());
     }
+
 }

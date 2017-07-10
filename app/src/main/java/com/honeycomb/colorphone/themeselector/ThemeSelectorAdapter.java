@@ -124,7 +124,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View v) {
                     int pos = holder.getPositionTag();
                     if (onSelectedTheme(pos)) {
-                        holder.mThemeSelectedAnim.playAnimation();
                         CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, data.get(pos).getThemeId());
                     }
                 }
@@ -281,8 +280,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         ThemePreviewWindow mThemeFlashPreviewWindow;
         InCallActionView mCallActionView;
 
-        LottieAnimationView mDownloadFinishedAnim;
-        LottieAnimationView mThemeSelectedAnim;
+        final LottieAnimationView mDownloadFinishedAnim;
+        final LottieAnimationView mThemeSelectedAnim;
         View mThemeSelectLayout;
 
         DownloadViewHolder mDownloadViewHolder;
@@ -381,14 +380,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             // If file already downloaded, not play animation
 
             mDownloadViewHolder.updateDownloaded(progressFlag);
-            mDownloadFinishedAnim.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(progressFlag) {
-                        switchToReadyState(true);
-                    }
-                }
-            }, 600);
 
             if (DEBUG_PROGRESS) {
                 HSLog.d("sundxing", position + " download success!");

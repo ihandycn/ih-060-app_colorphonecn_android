@@ -28,7 +28,7 @@ public class SettingsActivity extends HSAppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.settings);
 
-        Utils.configActivityStatusBar(this, toolbar);
+        Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
 
         final SwitchCompat mSwitchCompat = (SwitchCompat) findViewById(R.id.setting_item_call_assistant_toggle);
         boolean defaultEnable = ColorPhoneApplication.getConfigLog().isAssistantEnabledDefault();
