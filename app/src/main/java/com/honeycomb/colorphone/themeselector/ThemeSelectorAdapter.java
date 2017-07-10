@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
+import com.acb.call.utils.CallUtils;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
@@ -39,7 +40,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static com.honeycomb.colorphone.Utils.dpiFromPx;
-import static com.honeycomb.colorphone.Utils.getTypeByThemeId;
 import static com.honeycomb.colorphone.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -99,7 +99,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View view) {
                     int pos = holder.getPositionTag();
                     Theme theme = data.get(pos);
-                    Type type = getTypeByThemeId(theme.getThemeId());
+                    Type type = CallUtils.getTypeByThemeId(theme.getThemeId());
                     if (type != null && type.isGif()) {
                         holder.getDownloadHolder().startDownloadDelay(0);
                     }
@@ -144,7 +144,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             notifyItemChanged(prePos);
         }
         // Reset current.
-        Type type = Utils.getTypeByThemeId( data.get(pos).getThemeId());
+        Type type = CallUtils.getTypeByThemeId( data.get(pos).getThemeId());
 
 
         HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
@@ -167,7 +167,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((ThemeCardViewHolder) holder).getContentView().setTranslationX(pxFromDp(-9));
             }
             final Theme curTheme = data.get(position);
-            final Type type = getTypeByThemeId(curTheme.getThemeId());
+            final Type type = CallUtils.getTypeByThemeId(curTheme.getThemeId());
 
             String name = curTheme.getName();
             ((ThemeCardViewHolder) holder).setTxt(name);

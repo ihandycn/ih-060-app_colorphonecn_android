@@ -21,6 +21,7 @@
     <string name="color_phone_enabled">Color Phone Enabled</string>
     <string name="disabled">disabled</string>
     <string name="enabled">enabled</string>
+    <string name="network_err">Network Error</string>
 
     <string name="feedback">Feedback</string>
     <string name="settings">Settings</string>

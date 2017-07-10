@@ -1,12 +1,15 @@
 package com.honeycomb.colorphone.download;
 
 import android.view.View;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.ProgressView;
 import com.honeycomb.colorphone.view.TypefacedTextView;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
@@ -140,6 +143,7 @@ public class DownloadViewHolder implements DownloadHolder {
             taskProgressBar.reset();
             taskProgressTxt.setVisibility(View.INVISIBLE);
         }
+        Toast.makeText(HSApplication.getContext(), R.string.network_err, Toast.LENGTH_SHORT).show();
 
         canPaused = false;
         canStart = true;

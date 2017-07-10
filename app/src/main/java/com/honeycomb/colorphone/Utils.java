@@ -51,7 +51,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.acb.call.themes.Type;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -78,17 +77,7 @@ public final class Utils {
     public static final int DEFAULT_DEVICE_SCREEN_HEIGHT = 1920;
     private static final Pattern sTrimPattern = Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
 
-
     private static float sDensityRatio;
-
-    public static Type getTypeByThemeId(int id) {
-        for (Type t : Type.values()) {
-            if (t.getValue() == id) {
-                return t;
-            }
-        }
-        return null;
-    }
 
     public static float getDensityRatio() {
         if (sDensityRatio > 0f) {
