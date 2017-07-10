@@ -38,7 +38,9 @@ import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import java.io.File;
 import java.util.ArrayList;
 
+import static com.honeycomb.colorphone.Utils.dpiFromPx;
 import static com.honeycomb.colorphone.Utils.getTypeByThemeId;
+import static com.honeycomb.colorphone.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -160,9 +162,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((ThemeCardViewHolder) holder).setPositionTag(position);
 
             if (position % 2 == 0) {
-                ((ThemeCardViewHolder) holder).getContentView().setTranslationX(30);
+                ((ThemeCardViewHolder) holder).getContentView().setTranslationX(pxFromDp(9));
             } else {
-                ((ThemeCardViewHolder) holder).getContentView().setTranslationX(-1 * 30);
+                ((ThemeCardViewHolder) holder).getContentView().setTranslationX(pxFromDp(-9));
             }
             final Theme curTheme = data.get(position);
             final Type type = getTypeByThemeId(curTheme.getThemeId());
@@ -310,6 +312,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mThemeHotMark = itemView.findViewById(R.id.theme_hot_mark);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 mThemeHotMark.setElevation(Utils.pxFromDp(2));
+                mThemeHotMark.setTranslationX(pxFromDp(-1));
             }
 
             mDownloadTaskProgressTxt = (TypefacedTextView) itemView.findViewById(R.id.card_downloading_progress_txt);

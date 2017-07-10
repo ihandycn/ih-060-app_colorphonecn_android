@@ -647,4 +647,7 @@ public final class Utils {
         }
     }
 
+    public static float dpiFromPx(int size) {
+        return (size / getDensityRatio());
+    }
 }
