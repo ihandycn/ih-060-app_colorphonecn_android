@@ -140,11 +140,10 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
         }
 
         final DownloadHolder tag = checkCurrentHolder(task);
-        if (tag == null) {
-            return;
+        if (tag != null) {
+            tag.updateDownloaded(progressFlag);
+            TasksManager.getImpl().removeTaskForViewHolder(task.getId());
         }
-        tag.updateDownloaded(progressFlag);
-        TasksManager.getImpl().removeTaskForViewHolder(task.getId());
         progressFlag = false;
     }
 }

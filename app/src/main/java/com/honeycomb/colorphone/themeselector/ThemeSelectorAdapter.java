@@ -369,6 +369,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private View mDownloadTaskProgressBar;
         private TypefacedTextView mDownloadTaskProgressTxt;
 
+        private Runnable mAniamtionEndStateRunnable = new Runnable() {
+            @Override
+            public void run() {
+                switchToReadyState(true);
+            }
+        };
+
         public void update(final int id, final int position) {
             this.id = id;
             this.position = position;
@@ -380,7 +387,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             // If file already downloaded, not play animation
 
             mDownloadViewHolder.updateDownloaded(progressFlag);
-
+            mDownloadTaskProgressBar.removeCallbacks(mAniamtionEndStateRunnable);
+            if (progressFlag) {
+                mDownloadTaskProgressBar.postDelayed(mAniamtionEndStateRunnable, 600);
+            }
             if (DEBUG_PROGRESS) {
                 HSLog.d("sundxing", position + " download success!");
             }
