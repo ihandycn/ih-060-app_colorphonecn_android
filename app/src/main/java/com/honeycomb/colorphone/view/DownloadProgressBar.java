@@ -133,6 +133,7 @@ public class DownloadProgressBar extends View implements ProgressView{
         mDrawingPaint = new Paint();
         mDrawingPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         mDrawingPaint.setStyle(Paint.Style.STROKE);
+        mDrawingPaint.setStrokeCap(Paint.Cap.ROUND);
         mDrawingPaint.setColor(mDrawingColor);
         mDrawingPaint.setStrokeWidth(mLineWidth);
 
@@ -541,7 +542,7 @@ public class DownloadProgressBar extends View implements ProgressView{
         mArrowLineToHorizontalLineAnimatedValue = 0;
         mCurrentGlobalProgressValue = 0;
         mCurrentGlobalManualProgressValue = 0;
-        mManualProgressAnimation.setFloatValues(0,0);
+        mManualProgressAnimation.setFloatValues(0, 0);
         mToArc = 0;
         mFromArc = 0;
     }
@@ -550,32 +551,43 @@ public class DownloadProgressBar extends View implements ProgressView{
         canvas.drawCircle(mCenterX, mCenterY, mRadius, mCirclePaint);
         switch (mState) {
             case IDLE:
-                canvas.drawLine(mCenterX, mCenterY - mRadius / 2, mCenterX, mCenterY + mRadius / 2, mDrawingPaint);
-                canvas.drawLine(mCenterX - mRadius / 2, mCenterY, mCenterX + mLengthFix, mCenterY + mRadius / 2 + mLengthFix, mDrawingPaint);
-                canvas.drawLine(mCenterX - mLengthFix, mCenterY + mRadius / 2 + mLengthFix, mCenterX + mRadius / 2, mCenterY, mDrawingPaint);
+                canvas.drawLine(mCenterX, mCenterY - mRadius / 3, mCenterX, mCenterY + mRadius / 3 - mLengthFix / 2, mDrawingPaint);
+                canvas.drawLine(mCenterX - mRadius / 3, mCenterY, mCenterX - mLengthFix / 2, mCenterY + mRadius / 3 - mLengthFix, mDrawingPaint);
+                canvas.drawLine(mCenterX + mRadius / 3, mCenterY, mCenterX + mLengthFix / 2, mCenterY + mRadius / 3 - mLengthFix, mDrawingPaint);
                 break;
             case ANIMATING_LINE_TO_DOT:
                 if (!mDotToProgressAnimation.isRunning()) {
-                    canvas.drawLine(
-                            mCenterX,
-                            mCenterY - mRadius / 2 + mArrowLineToDotAnimatedValue * 2 - mStrokeWidth / 2,
-                            mCenterX,
-                            mCenterY + mRadius / 2 - mArrowLineToDotAnimatedValue * 2 + mStrokeWidth / 2,
-                            mDrawingPaint
-                    );
+                    float startY = mCenterY - mRadius / 3 + mArrowLineToDotAnimatedValue * 1.2f;
+                    float endY = mCenterY + mRadius / 3 - mArrowLineToDotAnimatedValue * 1.2f;
+                    if (startY >= mCenterY || endY <= mCenterY) {
+                        canvas.drawCircle(
+                                mCenterX,
+                                mCenterY,
+                                mStrokeWidth / 2,
+                                mDrawingPaint
+                        );
+                    } else {
+                        canvas.drawLine(
+                                mCenterX,
+                                startY,
+                                mCenterX,
+                                endY,
+                                mDrawingPaint
+                        );
+                    }
                 }
                 canvas.drawLine(
-                        mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2,
+                        mCenterX - mRadius / 3 - mArrowLineToHorizontalLineAnimatedValue / 2,
                         mCenterY,
-                        mCenterX + mLengthFix,
-                        mCenterY + mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue + mLengthFix,
+                        mCenterX - mLengthFix / 2,
+                        mCenterY + mRadius / 3 - mArrowLineToHorizontalLineAnimatedValue - mLengthFix,
                         mDrawingPaint
                 );
                 canvas.drawLine(
-                        mCenterX - mLengthFix,
-                        mCenterY + mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue + mLengthFix,
-                        mCenterX + mRadius / 2 + mArrowLineToHorizontalLineAnimatedValue / 2,
+                        mCenterX + mRadius / 3 + mArrowLineToHorizontalLineAnimatedValue / 2,
                         mCenterY,
+                        mCenterX + mLengthFix / 2,
+                        mCenterY + mRadius / 3 - mArrowLineToHorizontalLineAnimatedValue - mLengthFix,
                         mDrawingPaint
                 );
                 break;
@@ -662,15 +674,15 @@ public class DownloadProgressBar extends View implements ProgressView{
             );
         }
 
-        if (mDotToProgressAnimation.isRunning() && !mArrowLineToHorizontalLine.isRunning()) {
-            canvas.drawLine(
-                    mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2,
-                    mCenterY,
-                    mCenterX + mRadius / 2 + mArrowLineToHorizontalLineAnimatedValue / 2,
-                    mCenterY,
-                    mDrawingPaint
-            );
-        }
+//        if (mDotToProgressAnimation.isRunning() && !mArrowLineToHorizontalLine.isRunning()) {
+//            canvas.drawLine(
+//                    mCenterX - mRadius / 2 - mArrowLineToHorizontalLineAnimatedValue / 2,
+//                    mCenterY,
+//                    mCenterX + mRadius / 2 + mArrowLineToHorizontalLineAnimatedValue / 2,
+//                    mCenterY,
+//                    mDrawingPaint
+//            );
+//        }
     }
 
     @Override
