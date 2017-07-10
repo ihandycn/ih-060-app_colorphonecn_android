@@ -37,6 +37,7 @@ public class DownloadViewHolder implements DownloadHolder {
     private boolean canStart;
     private int id;
     private long mDelayTime = 800;
+    private boolean enablePause = false;
 
 
     public DownloadViewHolder(View taskActionBtn, ProgressView progressView, TypefacedTextView progressTxt, LottieAnimationView successAnim) {
@@ -178,7 +179,7 @@ public class DownloadViewHolder implements DownloadHolder {
     }
 
     public boolean canPaused() {
-        return canPaused;
+        return canPaused && enablePause;
     }
 
     public boolean canStartDownload() {

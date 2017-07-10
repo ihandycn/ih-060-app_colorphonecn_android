@@ -123,6 +123,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onDestroy() {
         TasksManager.getImpl().onDestroy();
         HSGlobalNotificationCenter.removeObserver(this);
+        mRecyclerView.setAdapter(null);
         super.onDestroy();
     }
 

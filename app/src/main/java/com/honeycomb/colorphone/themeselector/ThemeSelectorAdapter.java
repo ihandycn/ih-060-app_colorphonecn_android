@@ -39,7 +39,6 @@ import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import java.io.File;
 import java.util.ArrayList;
 
-import static com.honeycomb.colorphone.Utils.dpiFromPx;
 import static com.honeycomb.colorphone.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -50,23 +49,22 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME = 1;
     public static final int THEME_SELECTOR_ITEM_TYPE_STATEMENT = 2;
 
-
-    public ThemeSelectorAdapter(final ArrayList<Theme> data) {
-        this.data = data;
-        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, new INotificationObserver() {
-            @Override
-            public void onReceive(String s, HSBundle hsBundle) {
-                if (hsBundle != null) {
-                    int themeId = hsBundle.getInt(ThemePreviewActivity.NOTIFY_THEME_SELECT_KEY);
-                    for (Theme theme : data) {
-                        if (theme.getThemeId() == themeId) {
-                            onSelectedTheme(data.indexOf(theme));
-                        }
+    private INotificationObserver observer = new INotificationObserver() {
+        @Override
+        public void onReceive(String s, HSBundle hsBundle) {
+            if (hsBundle != null) {
+                int themeId = hsBundle.getInt(ThemePreviewActivity.NOTIFY_THEME_SELECT_KEY);
+                for (Theme theme : data) {
+                    if (theme.getThemeId() == themeId) {
+                        onSelectedTheme(data.indexOf(theme));
                     }
                 }
             }
-        });
+        }
+    };
 
+    public ThemeSelectorAdapter(final ArrayList<Theme> data) {
+        this.data = data;
         GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -86,6 +84,19 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public GridLayoutManager getLayoutManager() {
         return layoutManager;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
+
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        HSGlobalNotificationCenter.removeObserver(observer);
+        super.onDetachedFromRecyclerView(recyclerView);
     }
 
     @Override
