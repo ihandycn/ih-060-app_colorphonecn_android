@@ -366,14 +366,16 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         @Override
-        public void updateDownloaded(boolean progressFlag) {
+        public void updateDownloaded(final boolean progressFlag) {
             // If file already downloaded, not play animation
 
             mDownloadViewHolder.updateDownloaded(progressFlag);
             mDownloadFinishedAnim.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    switchToReadyState(true);
+                    if(progressFlag) {
+                        switchToReadyState(true);
+                    }
                 }
             }, 600);
 
