@@ -86,6 +86,6 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/btn_bg_yellow"
         android:enabled="false"
-        android:translationY="68dp"
+        android:translationY="70dp"
         app:layout_widthPercent="66%" />
 </android.support.percent.PercentRelativeLayout>

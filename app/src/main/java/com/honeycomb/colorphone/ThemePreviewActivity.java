@@ -199,7 +199,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private void onThemeReady() {
         boolean curTheme = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, -1) == mTheme.getThemeId();
-
         setButtonState(curTheme);
     }
 
@@ -217,18 +216,30 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             mApplyButton.setText(getString(R.string.theme_apply));
         }
         mApplyButton.setEnabled(!curTheme);
+        mNavBack.setTranslationX(0);
 
         fadeInActionView();
     }
 
     private void showNavView(boolean show) {
         float offsetX = Utils.pxFromDp(60);
-        mNavBack.animate().translationX(show ? 0 : -offsetX).setDuration(ANIMATION_DURATION).setInterpolator(mInter).start();
+        mNavBack.animate().translationX(show ? 0 : -offsetX)
+                .setDuration(ANIMATION_DURATION)
+                .setInterpolator(mInter)
+                .setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+            }
+        }).start();
     }
 
     private void fadeInActionView() {
         inTransition = true;
-        mApplyButton.animate().translationY(0).setDuration(ANIMATION_DURATION).setInterpolator(mInter).setListener(new AnimatorListenerAdapter() {
+        mApplyButton.animate().translationY(0)
+                .setDuration(ANIMATION_DURATION)
+                .setInterpolator(mInter)
+                .setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 mApplyButton.setTranslationY(0);
@@ -249,7 +260,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 inTransition = false;
 
             }
-        }).start();
+        }).setStartDelay(0).start();
     }
 
     private void scheduleNextHide() {
