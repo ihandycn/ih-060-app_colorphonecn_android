@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.download;
 
 import android.util.SparseArray;
+import android.util.SparseBooleanArray;
 
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.liulishuo.filedownloader.BaseDownloadTask;
@@ -18,8 +19,8 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
         return instance;
     }
 
-    public boolean progressFlag;
     private SparseArray<DownloadStateListener> mDownloadStateListeners = new SparseArray<>();
+    private SparseBooleanArray mTaskProgressList = new SparseBooleanArray();
 
     public void addStateListener(int taskId, DownloadStateListener listener) {
         mDownloadStateListeners.put(taskId, listener);
@@ -77,7 +78,7 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
     @Override
     protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
         super.progress(task, soFarBytes, totalBytes);
-        progressFlag = true;
+        mTaskProgressList.put(task.getId(), true);
         DownloadStateListener stateListener = mDownloadStateListeners.get(task.getId());
         if (stateListener != null) {
             stateListener.updateDownloading(FileDownloadStatus.pending, soFarBytes, totalBytes);
@@ -129,6 +130,7 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
     @Override
     protected void completed(BaseDownloadTask task) {
         super.completed(task);
+        boolean progressFlag = mTaskProgressList.get(task.getId());
         DownloadStateListener stateListener = mDownloadStateListeners.get(task.getId());
         if (stateListener != null) {
             stateListener.updateDownloaded(progressFlag);
@@ -144,6 +146,6 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
             tag.updateDownloaded(progressFlag);
             TasksManager.getImpl().removeTaskForViewHolder(task.getId());
         }
-        progressFlag = false;
+        mTaskProgressList.delete(task.getId());
     }
 }

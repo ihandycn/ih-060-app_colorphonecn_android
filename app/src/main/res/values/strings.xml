@@ -30,4 +30,6 @@
     <string name="settings_call_assistant" translatable="false">Call Assistant</string>
     <string name="ad_hint" translatable="false">It may contain ads.</string>
     <string name="card_view_contains_ads_statement" translatable="false">It may contain ads.</string>
+    <string name="acb_guide_ok">OK</string>
+
 </resources>
