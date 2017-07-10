@@ -20,7 +20,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
@@ -88,13 +87,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         View leftDrawer = findViewById(R.id.left_drawer);
         mainSwitch = (SwitchCompat) leftDrawer.findViewById(R.id.main_switch);
         mainSwitchTxt = (TextView) leftDrawer.findViewById(R.id.settings_main_switch_txt);
-        mainSwitch.setChecked(CPSettings.isScreenFlashModuleEnabled());
+
+        boolean initCheckState = CPSettings.isScreenFlashModuleEnabled();
+        mainSwitch.setChecked(initCheckState);
+        mainSwitchTxt.setText(getString(initCheckState ? R.string.color_phone_enabled : R.string.color_phone_disable));
+
         mainSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
-                Toast.makeText(buttonView.getContext(),
-                        isChecked ? R.string.enabled : R.string.disabled, Toast.LENGTH_SHORT).show();
+
                 ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(isChecked);
                 CPSettings.setScreenFlashModuleEnabled(isChecked);
             }
