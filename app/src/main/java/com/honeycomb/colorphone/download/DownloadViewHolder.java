@@ -14,6 +14,7 @@ import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.liulishuo.filedownloader.model.FileDownloadStatus;
 
 public class DownloadViewHolder implements DownloadHolder {
     private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
@@ -143,7 +144,9 @@ public class DownloadViewHolder implements DownloadHolder {
             taskProgressBar.reset();
             taskProgressTxt.setVisibility(View.INVISIBLE);
         }
-        Toast.makeText(HSApplication.getContext(), R.string.network_err, Toast.LENGTH_SHORT).show();
+        if (status == FileDownloadStatus.error) {
+            Toast.makeText(HSApplication.getContext(), R.string.network_err, Toast.LENGTH_SHORT).show();
+        }
 
         canPaused = false;
         canStart = true;

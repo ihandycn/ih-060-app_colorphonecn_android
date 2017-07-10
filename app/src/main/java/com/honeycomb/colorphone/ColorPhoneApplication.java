@@ -1,5 +1,8 @@
 package com.honeycomb.colorphone;
 
+import android.content.Context;
+import android.support.multidex.MultiDex;
+
 import com.acb.call.AcbCallManager;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
@@ -37,6 +40,12 @@ public class ColorPhoneApplication extends HSApplication {
         FileDownloader.setup(this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, sessionEventObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, sessionEventObserver);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     @Override
