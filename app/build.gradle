@@ -69,12 +69,6 @@ dependencies {
     })
     compile 'com.android.support:multidex:1.0.1'
 
-    //noinspection GradleDependency
-    compile "com.google.android.gms:play-services-analytics:$GOOGLE_PLAY_SERVICES_VERSION"
-    compile "com.google.firebase:firebase-appindexing:$GOOGLE_PLAY_SERVICES_VERSION"
-    //noinspection GradleDependency
-    compile "com.google.android.gms:play-services-location:$GOOGLE_PLAY_SERVICES_VERSION"
-    //noinspection GradleDependency
     compile "com.google.android.gms:play-services-gcm:$GOOGLE_PLAY_SERVICES_VERSION"
 
     compile("com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION")
