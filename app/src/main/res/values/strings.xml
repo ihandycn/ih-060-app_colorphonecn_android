@@ -32,4 +32,29 @@
     <string name="card_view_contains_ads_statement" translatable="false">It may contain ads.</string>
     <string name="acb_guide_ok">OK</string>
 
+    <!--Override lib-->
+    <string name="acb_theme_guide_subtitle"  translatable="false">Activate Screen Flash for Calls</string>
+    <string name="acb_screen_flash_outapp_guide_title" translatable="false">Activate Screen Flash for Calls</string>
+
+    <string name="acb_screen_flash_guide_content" translatable="false">Try the unique call interface to make your phone more fashionable. Call assistant is included automatically.</string>
+
+    <string name="acb_call_guide_sub_content" translatable="false">It may contain ads.</string>
+    <string name="settings_activity_lock_screen_note"  translatable="false">It may contain ads.</string>
+
+    <string name="acb_theme_default_hint" translatable="false">System Screen for Calls</string>
+
+    <string name="acb_settings_theme_item_txt_none" translatable="false">None</string>
+    <string name="acb_settings_theme_item_txt_moving" translatable="false">Moving</string>
+    <string name="acb_settings_theme_item_txt_hud" translatable="false">Tech</string>
+    <string name="acb_settings_theme_item_txt_stars" translatable="false">Stars</string>
+    <string name="acb_settings_theme_item_txt_sun" translatable="false">Sun</string>
+    <string name="acb_settings_theme_item_txt_neon" translatable="false">Neon</string>
+
+    <string name="acb_alert_call_outgoing_title" translatable="false">Just call with</string>
+    <string name="acb_alert_call_calling_title" translatable="false">Duration of last call</string>
+    <string name="acb_alert_call_missed" translatable="false">One missed call from</string>
+    <string name="acb_alert_call_duration_min" translatable="false">The total calling time of this month is %1$d minutes</string>
+    <string name="acb_alert_call_missed_time" translatable="false">Call Time :  </string>
+    <string name="acb_theme_call_assistant" translatable="false">Call assistant</string>
+    <string name="acb_outapp_guide_screen_flash_content" translatable="false">Try the unique call interface to make your phone more fashionable.It may contain ads.</string>
 </resources>
