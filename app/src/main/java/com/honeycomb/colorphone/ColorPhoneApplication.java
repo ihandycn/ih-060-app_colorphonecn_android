@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.acb.call.AcbCallManager;
+import com.crashlytics.android.Crashlytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -11,6 +12,8 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.FileDownloader;
+
+import io.fabric.sdk.android.Fabric;
 
 public class ColorPhoneApplication extends HSApplication {
 
@@ -33,10 +36,10 @@ public class ColorPhoneApplication extends HSApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         mConfigLog = new ConfigLogDefault();
         AcbCallManager.init(this, new CallConfigFactory());
         HSPermanentUtils.keepAlive();
-
         FileDownloader.setup(this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, sessionEventObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, sessionEventObserver);
