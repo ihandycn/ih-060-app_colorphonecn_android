@@ -67,7 +67,7 @@ allprojects {
             }
         }
         flatDir {
-            dirs '../libs/ihs/'
+            dirs '../libs'
         }
 
     }
@@ -94,7 +94,8 @@ dependencies {
 
     compile 'com.airbnb.android:lottie:2.0.0'
 
-    compile(name: 'colorphone-1.0', ext: 'aar')
+    compile(name: 'libColorhone/libColorPhone', ext: 'aar')
+
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
 
     compile 'com.ihandy.nativeads:libNativeAds.gm:4.2.0.gm'
@@ -102,12 +103,11 @@ dependencies {
 
     compile 'com.ihandy.appframework:libAppframework.gm:4.2.4.gm'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.facebook.android:facebook-android-sdk:4.20.0'
 
     // Ads
     compile 'com.ihandy.3rdadadapter:libAdAdxNativeAdapter.gm:4.1.2.gm'
     compile 'com.ihandy.3rdadadapter:libAdAdmobNativeAdapter.gm:4.1.3.gm'
-    compile 'com.ihandy.3rdadadapter:libAdFBNativeAdapter.gm:4.1.1.gm'
+    compile 'com.ihandy.3rdadadapter:libAdFBNativeAdapter.gm:4.1.4.gm'
     compile 'com.ihandy.3rdadadapter:libAdAvocarrotNativeAdapter.gm:4.1.2.gm'
     compile 'com.ihandy.3rdadadapter:libAdMopubNativeAdapter.gm:4.1.2.gm'
     compile 'com.ihandy.3rdadadapter:libAdYeahmobiNativeAdapter.gm:4.1.1.gm'
