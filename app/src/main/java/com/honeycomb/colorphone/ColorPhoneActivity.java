@@ -46,6 +46,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
     private int defaultThemeId = 1;
+    private boolean initCheckState;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -88,7 +89,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mainSwitch = (SwitchCompat) leftDrawer.findViewById(R.id.main_switch);
         mainSwitchTxt = (TextView) leftDrawer.findViewById(R.id.settings_main_switch_txt);
 
-        boolean initCheckState = CPSettings.isScreenFlashModuleEnabled();
+        initCheckState = CPSettings.isScreenFlashModuleEnabled();
         mainSwitch.setChecked(initCheckState);
         mainSwitchTxt.setText(getString(initCheckState ? R.string.color_phone_enabled : R.string.color_phone_disable));
 
@@ -97,7 +98,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
 
-                ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(isChecked);
                 CPSettings.setScreenFlashModuleEnabled(isChecked);
             }
         });
@@ -121,6 +121,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @Override
     protected void onDestroy() {
+        boolean nowEnable = mainSwitch.isChecked();
+        if (nowEnable != initCheckState) {
+            ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(nowEnable);
+        }
         TasksManager.getImpl().onDestroy();
         HSGlobalNotificationCenter.removeObserver(this);
         mRecyclerView.setAdapter(null);

@@ -15,6 +15,9 @@ import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 public class SettingsActivity extends HSAppCompatActivity {
 
+    private SwitchCompat mSwitchCompat;
+    private boolean initCheckState;
+
     public static void start(Context context) {
         Intent starter = new Intent(context, SettingsActivity.class);
         context.startActivity(starter);
@@ -29,8 +32,9 @@ public class SettingsActivity extends HSAppCompatActivity {
 
         Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
 
-        final SwitchCompat mSwitchCompat = (SwitchCompat) findViewById(R.id.setting_item_call_assistant_toggle);
-        mSwitchCompat.setChecked(CPSettings.isCallAssistantModuleEnabled());
+        initCheckState = CPSettings.isCallAssistantModuleEnabled();
+        mSwitchCompat = (SwitchCompat) findViewById(R.id.setting_item_call_assistant_toggle);
+        mSwitchCompat.setChecked(initCheckState);
 
         findViewById(R.id.setting_item_call_assistant).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +47,6 @@ public class SettingsActivity extends HSAppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 CPSettings.setCallAssistantModuleEnabled(isChecked);
-                ColorPhoneApplication.getConfigLog().getEvent().onCallAssistantEnableFromSetting(isChecked);
             }
         });
     }
@@ -57,4 +60,12 @@ public class SettingsActivity extends HSAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        boolean nowEnable = mSwitchCompat.isChecked();
+        if (nowEnable != initCheckState) {
+            ColorPhoneApplication.getConfigLog().getEvent().onCallAssistantEnableFromSetting(nowEnable);
+        }
+        super.onDestroy();
+    }
 }
