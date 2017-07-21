@@ -167,7 +167,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 if (inTransition) {
                     return;
                 }
-                CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, mTheme.getThemeId());
+                CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getThemeId());
                 // notify
                 HSBundle bundle = new HSBundle();
                 bundle.putInt(NOTIFY_THEME_SELECT_KEY, mTheme.getThemeId());
@@ -198,7 +198,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     }
 
     private void onThemeReady() {
-        boolean curTheme = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, -1) == mTheme.getThemeId();
+        boolean curTheme = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getThemeId();
         setButtonState(curTheme);
     }
 

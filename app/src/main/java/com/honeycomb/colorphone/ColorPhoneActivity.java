@@ -155,10 +155,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         Type[] themeTypes = Type.values();
         Type[] themeOrderList = new Type[ ] {Type.LED, Type.TECH, Type.NEON, Type.STARS, Type.SUN};
         final int count = themeTypes.length;
-        int selectedThemeId = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, -1);
+        int selectedThemeId = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, -1);
         if (selectedThemeId == -1) {
             selectedThemeId = defaultThemeId;
-            CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, defaultThemeId);
+            CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, defaultThemeId);
         }
         List<String> hotThemes =  ColorPhoneApplication.getConfigLog().getHotThemeList();
         for (int i = 0; i < count; i++) {

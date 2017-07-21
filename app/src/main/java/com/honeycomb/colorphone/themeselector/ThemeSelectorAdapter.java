@@ -124,7 +124,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View v) {
                     int pos = holder.getPositionTag();
                     if (onSelectedTheme(pos)) {
-                        CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_SELECTOR_INDEX, data.get(pos).getThemeId());
+                        CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, data.get(pos).getThemeId());
                     }
                 }
             });
