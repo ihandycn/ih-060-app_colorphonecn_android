@@ -77,4 +77,23 @@
         <item name="android:maxHeight">4dip</item>
     </style>
 
+    <style name="RatioView">
+        <item name="aspectRatioOverride">0.66</item>
+    </style>
+    <style name="RatioView.Image">
+        <item name="aspectRatioOverride">0.66</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    <style name="RatioView.Container">
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:layout_marginLeft">6dp</item>
+        <item name="android:layout_marginRight">6dp</item>
+        <item name="android:layout_marginStart">6dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:clipChildren">false</item>
+        <item name="cardCornerRadius">@dimen/theme_card_radius</item>
+        <item name="cardPreventCornerOverlap">false</item>
+    </style>
+
 </resources>
