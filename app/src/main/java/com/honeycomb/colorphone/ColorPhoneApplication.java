@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.acb.call.AcbCallManager;
+import com.acb.call.CPSettings;
+import com.acb.nativeads.AcbNativeAdManager;
 import com.crashlytics.android.Crashlytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
@@ -25,10 +27,12 @@ public class ColorPhoneApplication extends HSApplication {
         public void onReceive(String notificationName, HSBundle bundle) {
             if (HSNotificationConstant.HS_SESSION_START.equals(notificationName)) {
                 HSLog.d("Session Start.");
-            }
-
-            if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
+            } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
                 HSLog.d("Session End.");
+            } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
+                checkCallAssistantAdPlacement();
+            } else if (CPSettings.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName) || CPSettings.NOTIFY_CHANGE_CALL_ASSISTANT.equals(notificationName)) {
+                checkCallAssistantAdPlacement();
             }
         }
     };
@@ -43,6 +47,11 @@ public class ColorPhoneApplication extends HSApplication {
         FileDownloader.setup(this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, sessionEventObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, sessionEventObserver);
+        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_CONFIG_CHANGED, sessionEventObserver);
+        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_CALL_ASSISTANT, sessionEventObserver);
+        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_SCREEN_FLASH, sessionEventObserver);
+
+        checkCallAssistantAdPlacement();
     }
 
     @Override
@@ -67,6 +76,15 @@ public class ColorPhoneApplication extends HSApplication {
         }
     }
 
+    public static void checkCallAssistantAdPlacement() {
+        final String adName = AcbCallManager.getInstance().getAcbCallFactory().getCallIdleConfig().getAdPlaceName();
+        boolean enable = CPSettings.isScreenFlashModuleEnabled() && CPSettings.isCallAssistantModuleEnabled();
+        if (enable) {
+            AcbNativeAdManager.sharedInstance().activePlacementInProcess(adName);
+        } else {
+            AcbNativeAdManager.sharedInstance().deactivePlacementInProcess(adName);
+        }
+    }
     public static ConfigLog getConfigLog() {
         return mConfigLog;
     }
