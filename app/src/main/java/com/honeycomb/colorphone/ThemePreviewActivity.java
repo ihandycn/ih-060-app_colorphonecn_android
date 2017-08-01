@@ -139,7 +139,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     if (isInHide) {
                         mHandler.sendEmptyMessage(MSG_SHOW);
                     }
-                    scheduleNextHide();
+                    boolean isShown = mApplyButton.getTranslationY() == 0 && themeReady;
+                    if (isShown) {
+                        mHandler.sendEmptyMessage(MSG_HIDE);
+                    } else {
+                        scheduleNextHide();
+                    }
 
                 }
                 return true;
