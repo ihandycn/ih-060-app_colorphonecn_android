@@ -80,8 +80,5 @@ public class Theme implements Serializable {
 
     public void setLike(boolean like) {
         isLike = like;
-        if (like) {
-            download++;
-        }
     }
 }
