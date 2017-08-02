@@ -84,6 +84,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         layoutManager.setSpanSizeLookup(spanSizeLookup);
     }
 
+
     public GridLayoutManager getLayoutManager() {
         return layoutManager;
     }
@@ -128,6 +129,23 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if (onSelectedTheme(pos)) {
                         CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, data.get(pos).getThemeId());
                     }
+                }
+            });
+            holder.setLikeClick(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = holder.getPositionTag();
+                    Theme theme = data.get(pos);
+
+                    theme.setLike(!theme.isLike());
+                    if (theme.isLike()) {
+                        theme.setDownload(theme.getDownload() + 1);
+                    } else {
+                        theme.setDownload(theme.getDownload() - 1);
+                    }
+
+                    holder.setLike(theme);
+
                 }
             });
 
@@ -184,7 +202,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             String name = curTheme.getName();
             cardViewHolder.setTxt(name);
-            cardViewHolder.mThemeLikeCount.setText(String.valueOf(curTheme.getDownload()));
             if (curTheme.getImageRes() > 0) {
                 cardViewHolder.mThemePreviewImg.setImageResource(curTheme.getImageRes());
             } else {
@@ -206,6 +223,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             cardViewHolder.setSelected(curTheme.isSelected());
             cardViewHolder.setHotTheme(curTheme.isHot());
+            cardViewHolder.setLike(curTheme, false);
 
             // Download progress
             final TasksManagerModel model = TasksManager.getImpl().getByThemeId(curTheme.getThemeId());
@@ -284,6 +302,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         ThemePreviewWindow mThemeFlashPreviewWindow;
         InCallActionView mCallActionView;
 
+        final LottieAnimationView mThemeLikeAnim;
         final LottieAnimationView mDownloadFinishedAnim;
         final LottieAnimationView mThemeSelectedAnim;
         View mThemeSelectLayout;
@@ -313,13 +332,18 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return mContentView;
         }
 
+
         ThemeCardViewHolder(View itemView) {
             super(itemView);
 
             mContentView = itemView;
             mThemePreviewImg = (ImageView) itemView.findViewById(R.id.card_preview_img);
             mThemeTitle = (TextView) itemView.findViewById(R.id.card_title);
+
             mThemeLikeCount = (TextView) itemView.findViewById(R.id.card_like_count_txt);
+            mThemeLikeAnim = (LottieAnimationView) itemView.findViewById(R.id.like_count_icon);
+
+
             mThemeFlashPreviewWindow = (ThemePreviewWindow) itemView.findViewById(R.id.card_flash_preview_window);
             mCallActionView = (InCallActionView) itemView.findViewById(R.id.card_in_call_action_view);
             mCallActionView.setAutoRun(false);
@@ -456,6 +480,31 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         @Override
         public int getId() {
             return id;
+        }
+
+        public void setLikeClick(View.OnClickListener onClickListener) {
+            mThemeLikeCount.setOnClickListener(onClickListener);
+            mThemeLikeAnim.setOnClickListener(onClickListener);
+        }
+
+        public void setLike(Theme theme, boolean anim) {
+            if (mThemeLikeAnim.isAnimating()) {
+                return;
+            }
+            if (theme.isLike()) {
+                if (anim) {
+                    mThemeLikeAnim.playAnimation();
+                } else  {
+                    mThemeLikeAnim.setProgress(1);
+                }
+            } else {
+                mThemeLikeAnim.setProgress(0);
+            }
+            mThemeLikeCount.setText(String.valueOf(theme.getDownload()));
+        }
+
+        public void setLike(Theme theme) {
+          setLike(theme, true);
         }
     }
 

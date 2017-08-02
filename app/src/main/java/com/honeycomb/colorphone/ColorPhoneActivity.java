@@ -29,6 +29,7 @@ import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ import java.util.List;
 public class ColorPhoneActivity extends HSAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
 
+    private static final String PREFS_THEME_LIKE = "theme_like_array";
     private RecyclerView mRecyclerView;
     private SwitchCompat mainSwitch;
     private TextView mainSwitchTxt;
@@ -120,6 +122,28 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        saveThemeLikes();
+    }
+
+    private void saveThemeLikes() {
+        StringBuilder sb = new StringBuilder(4);
+        for (Theme theme : mRecyclerViewData) {
+            if (theme.isLike()) {
+                sb.append(theme.getThemeId());
+                sb.append(",");
+            }
+        }
+        HSPreferenceHelper.getDefault().putString(PREFS_THEME_LIKE, sb.toString());
+    }
+
+    private String[] getThemeLikes() {
+        String likes = HSPreferenceHelper.getDefault().getString(PREFS_THEME_LIKE, "");
+        return likes.split(",");
+    }
+
+    @Override
     protected void onDestroy() {
         boolean nowEnable = mainSwitch.isChecked();
         if (nowEnable != initCheckState) {
@@ -161,6 +185,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, defaultThemeId);
         }
         List<String> hotThemes =  ColorPhoneApplication.getConfigLog().getHotThemeList();
+        String[] likeThemes = getThemeLikes();
         for (int i = 0; i < count; i++) {
             final Type type = themeTypes[i];
             if(type == Type.NONE) {
@@ -176,6 +201,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (theme.getThemeId() == selectedThemeId) {
                 theme.setSelected(true);
             }
+            theme.setLike(isLikeTheme(likeThemes, type.getValue()));
             mRecyclerViewData.add(theme);
             if (type.isGif()) {
                 TasksManager.getImpl().addTask(type);
@@ -190,6 +216,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
+    }
+
+    private boolean isLikeTheme(String[] likeThemes, int themeId) {
+        for (String likeThemeId : likeThemes) {
+            if (TextUtils.isEmpty(likeThemeId)) {
+                continue;
+            }
+            if (themeId == Integer.parseInt(likeThemeId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isHotTheme(List<String> hotThemes, String name) {

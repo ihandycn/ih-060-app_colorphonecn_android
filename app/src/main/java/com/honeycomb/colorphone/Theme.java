@@ -13,6 +13,7 @@ public class Theme implements Serializable {
     private long download;
     private boolean isHot;
     private boolean isSelected;
+    private boolean isLike;
     private int index;
 
     private int imageRes;
@@ -71,5 +72,16 @@ public class Theme implements Serializable {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
+        if (like) {
+            download++;
+        }
     }
 }

@@ -43,16 +43,27 @@
         app:typeface="@string/proxima_nova_semibold"
         tools:text="Neon" />
 
-    <ImageView
+    <!--<ImageView-->
+        <!--android:id="@+id/like_count_icon"-->
+        <!--android:layout_width="14dp"-->
+        <!--android:layout_height="14dp"-->
+        <!--android:layout_below="@id/card_title"-->
+        <!--android:layout_marginLeft="6dp"-->
+        <!--android:layout_marginStart="6dp"-->
+        <!--android:layout_marginTop="2dp"-->
+        <!--android:padding="2dp"-->
+        <!--android:src="@drawable/theme_card_like_icon" />-->
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/like_count_icon"
+        android:layout_below="@id/card_title"
         android:layout_width="14dp"
         android:layout_height="14dp"
-        android:layout_below="@id/card_title"
         android:layout_marginLeft="6dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="2dp"
-        android:padding="2dp"
-        android:src="@drawable/theme_card_like_icon" />
+        app:lottie_progress="0"
+        app:lottie_fileName="lottie/like.json"
+        app:lottie_loop="false" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/card_like_count_txt"
