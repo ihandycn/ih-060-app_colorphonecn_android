@@ -1,11 +1,15 @@
 package com.honeycomb.colorphone;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,6 +22,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -29,6 +34,7 @@ import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.lang.ref.WeakReference;
@@ -37,10 +43,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import hugo.weaving.DebugLog;
+
 public class ColorPhoneActivity extends HSAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
 
     private static final String PREFS_THEME_LIKE = "theme_like_array";
+    private static final long START_PAGE_TIME = 2000;
     private RecyclerView mRecyclerView;
     private SwitchCompat mainSwitch;
     private TextView mainSwitchTxt;
@@ -49,6 +58,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
     private int defaultThemeId = 1;
     private boolean initCheckState;
+    private Handler mHandler = new Handler();
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -65,20 +75,67 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         }
     };
+    private static boolean firstStart = true;
+    private View mStartPage;
 
+    @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (firstStart) {
+            firstStart = false;
+            startFlashPage((ViewGroup) findViewById(R.id.drawer_layout).getParent());
+        } else {
+            initMainFrame();
+        }
+
+    }
+
+    private void startFlashPage(final ViewGroup group) {
+        mStartPage = getLayoutInflater().inflate(R.layout.start_page, group, false);
+        group.addView(mStartPage, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mStartPage.animate().alpha(0).setDuration(400).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        group.removeViewInLayout(mStartPage);
+                    }
+                });
+            }
+        }, START_PAGE_TIME);
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initMainFrame();
+            }
+        }, 600);
+
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        HSLog.d("XXX", " focus change:" + hasFocus);
+    }
+
+    @DebugLog
+    @NonNull
+    private DrawerLayout initDrawer() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
 
         Utils.configActivityStatusBar(this, toolbar);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
         DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
         arrowDrawable.getPaint().setStrokeCap(Paint.Cap.ROUND);
         arrowDrawable.getPaint().setStrokeJoin(Paint.Join.ROUND);
@@ -112,18 +169,22 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 return true;
             }
         });
+        return drawer;
+    }
 
+    @DebugLog
+    private void initMainFrame() {
+        initDrawer();
         initData();
         initRecyclerView();
-
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
-
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        mHandler.removeCallbacksAndMessages(null);
         saveThemeLikes();
     }
 
@@ -145,13 +206,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @Override
     protected void onDestroy() {
-        boolean nowEnable = mainSwitch.isChecked();
-        if (nowEnable != initCheckState) {
-            ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(nowEnable);
+        if (mainSwitch != null) {
+            boolean nowEnable = mainSwitch.isChecked();
+            if (nowEnable != initCheckState) {
+                ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(nowEnable);
+            }
         }
         TasksManager.getImpl().onDestroy();
         HSGlobalNotificationCenter.removeObserver(this);
-        mRecyclerView.setAdapter(null);
+        if (mRecyclerView != null) {
+            mRecyclerView.setAdapter(null);
+        }
         super.onDestroy();
     }
 
@@ -201,7 +266,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (theme.getThemeId() == selectedThemeId) {
                 theme.setSelected(true);
             }
-            theme.setLike(isLikeTheme(likeThemes, type.getValue()));
+            boolean isLike = isLikeTheme(likeThemes, type.getValue());
+            if (isLike) {
+                theme.setDownload(theme.getDownload() + 1);
+            }
+            theme.setLike(isLike);
             mRecyclerViewData.add(theme);
             if (type.isGif()) {
                 TasksManager.getImpl().addTask(type);
