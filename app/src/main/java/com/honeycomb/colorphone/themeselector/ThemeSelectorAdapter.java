@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.themeselector;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,6 +19,7 @@ import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.FontUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ThemePreviewActivity;
@@ -169,49 +171,51 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ThemeCardViewHolder) {
-            ((ThemeCardViewHolder) holder).setPositionTag(position);
+            ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
+            cardViewHolder.setPositionTag(position);
 
             if (position % 2 == 0) {
-                ((ThemeCardViewHolder) holder).getContentView().setTranslationX(pxFromDp(9));
+                cardViewHolder.getContentView().setTranslationX(pxFromDp(9));
             } else {
-                ((ThemeCardViewHolder) holder).getContentView().setTranslationX(pxFromDp(-9));
+                cardViewHolder.getContentView().setTranslationX(pxFromDp(-9));
             }
             final Theme curTheme = data.get(position);
             final Type type = CallUtils.getTypeByThemeId(curTheme.getThemeId());
 
             String name = curTheme.getName();
-            ((ThemeCardViewHolder) holder).setTxt(name);
-            ((ThemeCardViewHolder) holder).mThemeLikeCount.setText(String.valueOf(curTheme.getDownload()));
+            cardViewHolder.setTxt(name);
+            cardViewHolder.mThemeLikeCount.setText(String.valueOf(curTheme.getDownload()));
             if (curTheme.getImageRes() > 0) {
-                ((ThemeCardViewHolder) holder).mThemePreviewImg.setImageResource(curTheme.getImageRes());
+                cardViewHolder.mThemePreviewImg.setImageResource(curTheme.getImageRes());
             } else {
-                ((ThemeCardViewHolder) holder).mThemePreviewImg.setImageResource(R.drawable.card_bg_round_dark);
+                cardViewHolder.mThemePreviewImg.setImageResource(R.drawable.card_bg_round_dark);
             }
 
-            ((ThemeCardViewHolder) holder).mThemeFlashPreviewWindow.updateThemeLayout(type);
-            ((ThemeCardViewHolder) holder).mCallActionView.setTheme(type);
+            cardViewHolder.mThemeFlashPreviewWindow.updateThemeLayout(type);
+            cardViewHolder.mCallActionView.setTheme(type);
             if (!curTheme.isSelected()) {
-                ((ThemeCardViewHolder) holder).mThemeFlashPreviewWindow.stopAnimations();
-                ((ThemeCardViewHolder) holder).mCallActionView.setAutoRun(false);
-                ((ThemeCardViewHolder) holder).mThemeFlashPreviewWindow.setAutoRun(false);
+                cardViewHolder.mThemeFlashPreviewWindow.stopAnimations();
+                cardViewHolder.mCallActionView.setAutoRun(false);
+                cardViewHolder.mThemeFlashPreviewWindow.setAutoRun(false);
             } else {
-                ((ThemeCardViewHolder) holder).mThemeFlashPreviewWindow.playAnimation(type);
-                ((ThemeCardViewHolder) holder).mThemeFlashPreviewWindow.setAutoRun(true);
-                ((ThemeCardViewHolder) holder).mCallActionView.setAutoRun(true);
+                cardViewHolder.mThemeFlashPreviewWindow.playAnimation(type);
+                cardViewHolder.mThemeFlashPreviewWindow.setAutoRun(true);
+                cardViewHolder.mCallActionView.setAutoRun(true);
             }
+            cardViewHolder.resetPreviewWindow();
 
-            ((ThemeCardViewHolder) holder).setSelected(curTheme.isSelected());
-            ((ThemeCardViewHolder) holder).setHotTheme(curTheme.isHot());
+            cardViewHolder.setSelected(curTheme.isSelected());
+            cardViewHolder.setHotTheme(curTheme.isHot());
 
             // Download progress
             final TasksManagerModel model = TasksManager.getImpl().getByThemeId(curTheme.getThemeId());
 
             if (model != null) {
-                ((ThemeCardViewHolder) holder).update(model.getId(), position);
+                cardViewHolder.update(model.getId(), position);
                 boolean fileExist = updateTaskHolder((ThemeCardViewHolder) holder, model);
-                ((ThemeCardViewHolder) holder).switchToReadyState(fileExist);
+                cardViewHolder.switchToReadyState(fileExist);
             } else {
-                ((ThemeCardViewHolder) holder).switchToReadyState(true);
+                cardViewHolder.switchToReadyState(true);
             }
         } else {
             HSLog.d("onBindVieHolder","contains ads statement.");
@@ -337,6 +341,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mDownloadViewHolder = new DownloadViewHolder(pb, pb, mDownloadTaskProgressTxt, mDownloadFinishedAnim);
             mDownloadViewHolder.setProxyHolder(this);
             mDownloadTaskProgressBar = pb;
+        }
+
+        public void resetPreviewWindow() {
+            TextView name = (TextView) mContentView.findViewById(R.id.caller_name);
+            TextView number = (TextView) mContentView.findViewById(R.id.caller_number);
+            name.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
+            number.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+
+            name.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(2), Color.BLACK);
+            number.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(1), Color.BLACK);
+
         }
 
         public void setSelected(boolean selected) {

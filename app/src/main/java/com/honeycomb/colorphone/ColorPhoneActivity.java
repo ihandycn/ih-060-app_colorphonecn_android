@@ -80,7 +80,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
         arrowDrawable.getPaint().setStrokeCap(Paint.Cap.ROUND);
         arrowDrawable.getPaint().setStrokeJoin(Paint.Join.ROUND);
-        arrowDrawable.setBarThickness(arrowDrawable.getBarThickness() * 1.2f);
+        arrowDrawable.setBarThickness(arrowDrawable.getBarThickness() * 1.33f);
         arrowDrawable.setBarLength(arrowDrawable.getBarLength() * 0.86f);
 
         drawer.setDrawerListener(toggle);
