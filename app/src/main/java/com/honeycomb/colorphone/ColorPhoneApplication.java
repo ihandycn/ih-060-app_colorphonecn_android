@@ -15,6 +15,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.FileDownloader;
 
+import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 
 public class ColorPhoneApplication extends HSApplication {
@@ -37,6 +38,7 @@ public class ColorPhoneApplication extends HSApplication {
         }
     };
 
+    @DebugLog
     @Override
     public void onCreate() {
         super.onCreate();
