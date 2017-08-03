@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.themeselector;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
@@ -45,6 +46,7 @@ import static com.honeycomb.colorphone.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final Activity activity;
     private ArrayList<Theme> data = null;
     private GridLayoutManager layoutManager;
 
@@ -65,7 +67,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     };
 
-    public ThemeSelectorAdapter(final ArrayList<Theme> data) {
+    public ThemeSelectorAdapter(Activity activity, final ArrayList<Theme> data) {
+        this.activity = activity;
         this.data = data;
         GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -99,6 +102,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         HSGlobalNotificationCenter.removeObserver(observer);
+        ThemePreviewActivity.cache(null);
         super.onDetachedFromRecyclerView(recyclerView);
     }
 
@@ -115,9 +119,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     Theme theme = data.get(pos);
                     Type type = CallUtils.getTypeByThemeId(theme.getThemeId());
                     if (type != null && type.isGif()) {
-                        holder.getDownloadHolder().startDownloadDelay(0);
+                        ThemePreviewActivity.cache(holder.getDownloadHolder());
                     }
-                    ThemePreviewActivity.start(parent.getContext(), theme);
+                    ThemePreviewActivity.start(activity, theme);
                 }
             });
             // Disable theme original bg. Use our own

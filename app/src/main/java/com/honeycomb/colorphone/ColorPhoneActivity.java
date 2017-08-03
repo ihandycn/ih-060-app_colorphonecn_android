@@ -337,7 +337,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         View contentView = findViewById(R.id.recycler_view_content);
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
         mRecyclerView.setItemAnimator(null);
-        ThemeSelectorAdapter adapter = new ThemeSelectorAdapter(mRecyclerViewData);
+        ThemeSelectorAdapter adapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
         mRecyclerView.setLayoutManager(adapter.getLayoutManager());
         mRecyclerView.setAdapter(adapter);
     }

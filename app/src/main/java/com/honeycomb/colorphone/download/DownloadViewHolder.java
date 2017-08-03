@@ -18,7 +18,6 @@ import com.liulishuo.filedownloader.model.FileDownloadStatus;
 
 public class DownloadViewHolder implements DownloadHolder {
     private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
-    private FileDownloadListener taskDownloadListener;
 
     /**
      * Progress display
@@ -67,9 +66,6 @@ public class DownloadViewHolder implements DownloadHolder {
         return id;
     }
 
-    public void setFileDownloadListener(FileDownloadListener listener) {
-        taskDownloadListener = listener;
-    }
 
     public void setProxyHolder(DownloadHolder downloadHolder) {
         mProxy = downloadHolder;
@@ -100,23 +96,24 @@ public class DownloadViewHolder implements DownloadHolder {
 
     }
 
-    private void doDownload(TasksManagerModel model) {
+    public void doDownload(TasksManagerModel model) {
+        doDownload(model, mProxy != null ? mProxy : this);
+    }
+
+    public static void doDownload(TasksManagerModel model, Object tag) {
         if (model != null) {
             FileDownloadListener listener;
-            if (taskDownloadListener == null) {
-                listener = FileDownloadMultiListener.getDefault();
-            } else {
-                listener = taskDownloadListener;
-            }
+            listener = FileDownloadMultiListener.getDefault();
 
             final BaseDownloadTask task = FileDownloader.getImpl().create(model.getUrl())
                     .setPath(model.getPath())
                     .setCallbackProgressTimes(100)
                     .setListener(listener);
-
             TasksManager.getImpl().addTaskForViewHolder(task);
 
-            task.setTag(mProxy != null ? mProxy : this);
+            if (tag != null) {
+                task.setTag(tag);
+            }
 
             task.start();
 
