@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
@@ -179,7 +180,10 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
 
                 setButtonState(true);
-                Toast.makeText(ThemePreviewActivity.this, R.string.apply_success, Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(ThemePreviewActivity.this, R.string.apply_success, Toast.LENGTH_SHORT);
+                int offsetY = (int) (bottomBtnTransY + Utils.pxFromDp(8));
+                toast.setGravity(Gravity.BOTTOM, 0, offsetY);
+                toast.show();
             }
         });
         bottomBtnTransY = mApplyButton.getTranslationY();
