@@ -139,7 +139,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
         arrowDrawable.getPaint().setStrokeCap(Paint.Cap.ROUND);
         arrowDrawable.getPaint().setStrokeJoin(Paint.Join.ROUND);
-        arrowDrawable.setBarThickness(arrowDrawable.getBarThickness() * 1.33f);
+        arrowDrawable.setBarThickness(arrowDrawable.getBarThickness() * 1.5f);
         arrowDrawable.setBarLength(arrowDrawable.getBarLength() * 0.86f);
 
         drawer.setDrawerListener(toggle);
@@ -242,7 +242,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void initData() {
         Type[] themeTypes = Type.values();
-        Type[] themeOrderList = new Type[ ] {Type.LED, Type.TECH, Type.NEON, Type.STARS, Type.SUN};
+        Type[] themeOrderList = new Type[ ] { Type.TECH, Type.NEON, Type.STARS, Type.SUN, Type.LED};
         final int count = themeTypes.length;
         int selectedThemeId = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, -1);
         if (selectedThemeId == -1) {

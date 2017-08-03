@@ -209,7 +209,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (curTheme.getImageRes() > 0) {
                 cardViewHolder.mThemePreviewImg.setImageResource(curTheme.getImageRes());
             } else {
-                cardViewHolder.mThemePreviewImg.setImageResource(R.drawable.card_bg_round_dark);
+                cardViewHolder.mThemePreviewImg.setImageDrawable(null);
             }
 
             cardViewHolder.mThemeFlashPreviewWindow.updateThemeLayout(type);
@@ -353,7 +353,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mCallActionView.setAutoRun(false);
             mThemeHotMark = itemView.findViewById(R.id.theme_hot_mark);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mThemeHotMark.setElevation(Utils.pxFromDp(2));
+                mThemeHotMark.setElevation(Utils.pxFromDp(6));
                 mThemeHotMark.setTranslationX(pxFromDp(-1));
             }
 

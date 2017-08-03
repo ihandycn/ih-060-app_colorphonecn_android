@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingEnd="9dp"
     android:paddingLeft="9dp"
     android:paddingRight="9dp"
-    android:paddingStart="9dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     android:clipChildren="false">
 
     <include
@@ -37,7 +37,7 @@
         android:layout_below="@id/card_view"
         android:layout_marginLeft="6dp"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="14dp"
         android:textColor="@color/textDark"
         android:textSize="18sp"
         app:typeface="@string/proxima_nova_semibold"
@@ -56,11 +56,11 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/like_count_icon"
         android:layout_below="@id/card_title"
-        android:layout_width="14dp"
-        android:layout_height="14dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="2dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:padding="2dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         app:lottie_progress="0"
         app:lottie_fileName="lottie/like.json"
         app:lottie_loop="false" />
@@ -71,9 +71,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/like_count_icon"
-        android:layout_marginLeft="6dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginStart="2dp"
+        android:padding="2dp"
         android:layout_toEndOf="@id/like_count_icon"
         android:layout_toRightOf="@id/like_count_icon"
         android:textColor="@color/textLightGray"
@@ -148,8 +148,4 @@
 
     </FrameLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="12dp"
-        android:layout_below="@id/card_action_group" />
 </RelativeLayout>

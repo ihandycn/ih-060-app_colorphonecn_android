@@ -126,6 +126,17 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         return super.onTouchEvent(event);
     }
 
+    public void setTextStyle() {
+        TextView name = (TextView) findViewById(R.id.caller_name);
+        TextView number = (TextView) findViewById(R.id.caller_number);
+        name.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
+        number.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+
+        name.setShadowLayer(Utils.pxFromDp(2), 0, Utils.pxFromDp(2), Color.BLACK);
+        number.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(1), Color.BLACK);
+
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -234,7 +245,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mNavBack.setTranslationX(0);
 
         previewWindow.updateThemeLayout(mThemeType);
-
+        setTextStyle();
         if (needTransAnim) {
             playTransInAnimation(transEndRunnable);
         } else {
@@ -391,6 +402,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private void onThemeLoading(final TasksManagerModel model) {
         dimCover.setVisibility(View.VISIBLE);
         previewWindow.updateThemeLayout(mThemeType);
+        setTextStyle();
 
         mProgressViewHolder.mProgressTxtGroup.setAlpha(0);
         mProgressViewHolder.mProgressBar.setAlpha(0);
