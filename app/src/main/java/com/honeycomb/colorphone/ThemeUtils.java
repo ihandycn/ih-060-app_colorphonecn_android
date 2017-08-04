@@ -2,6 +2,11 @@ package com.honeycomb.colorphone;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.acb.call.themes.Type;
 import com.ihs.commons.utils.HSLog;
@@ -51,4 +56,18 @@ public class ThemeUtils {
         HSLog.e("GetGifUrl", "error gif type " + type);
         return "";
     }
+
+    public static void updateStyle(View container,  Theme theme) {
+        TextView name = (TextView) container.findViewById(R.id.caller_name);
+        TextView number = (TextView) container.findViewById(R.id.caller_number);
+        name.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
+        number.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+
+        name.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(2), Color.BLACK);
+        number.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(1), Color.BLACK);
+
+        ImageView avatar = (ImageView) container.findViewById(R.id.caller_avatar);
+        avatar.setImageDrawable(ContextCompat.getDrawable(container.getContext(), theme.getAvatar()));
+    }
+
 }

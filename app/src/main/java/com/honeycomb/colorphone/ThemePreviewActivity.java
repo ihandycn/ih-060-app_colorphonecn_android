@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -126,7 +127,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         return super.onTouchEvent(event);
     }
 
-    public void setTextStyle() {
+    public void setCustomStyle() {
         TextView name = (TextView) findViewById(R.id.caller_name);
         TextView number = (TextView) findViewById(R.id.caller_number);
         name.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
@@ -135,6 +136,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         name.setShadowLayer(Utils.pxFromDp(2), 0, Utils.pxFromDp(2), Color.BLACK);
         number.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(1), Color.BLACK);
 
+        ImageView avatar = (ImageView) findViewById(R.id.caller_avatar);
+        avatar.setImageDrawable(ContextCompat.getDrawable(this, mTheme.getAvatar()));
     }
 
     @Override
@@ -245,7 +248,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mNavBack.setTranslationX(0);
 
         previewWindow.updateThemeLayout(mThemeType);
-        setTextStyle();
+        setCustomStyle();
         if (needTransAnim) {
             playTransInAnimation(transEndRunnable);
         } else {
@@ -388,8 +391,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
         // Show background if gif drawable not ready.
         if (mTheme != null) {
-            if (mTheme.getImageRes() > 0) {
-                previewImage.setImageResource(mTheme.getImageRes());
+            if (mTheme.getBackgroundRes() > 0) {
+                previewImage.setImageResource(mTheme.getBackgroundRes());
                 previewImage.setBackgroundColor(Color.TRANSPARENT);
             } else if (!mThemeType.isGif()){
                 previewImage.setImageDrawable(null);
@@ -402,7 +405,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private void onThemeLoading(final TasksManagerModel model) {
         dimCover.setVisibility(View.VISIBLE);
         previewWindow.updateThemeLayout(mThemeType);
-        setTextStyle();
+        setCustomStyle();
 
         mProgressViewHolder.mProgressTxtGroup.setAlpha(0);
         mProgressViewHolder.mProgressBar.setAlpha(0);

@@ -16,7 +16,8 @@ public class Theme implements Serializable {
     private boolean isLike;
     private int index;
 
-    private int imageRes;
+    private int backgroundRes;
+    private int avatar;
 
     public int getThemeId() {
         return themeId;
@@ -58,12 +59,12 @@ public class Theme implements Serializable {
         isSelected = selected;
     }
 
-    public int getImageRes() {
-        return imageRes;
+    public int getBackgroundRes() {
+        return backgroundRes;
     }
 
-    public void setImageRes(int imageRes) {
-        this.imageRes = imageRes;
+    public void setBackgroundRes(int backgroundRes) {
+        this.backgroundRes = backgroundRes;
     }
 
     public int getIndex() {
@@ -80,5 +81,13 @@ public class Theme implements Serializable {
 
     public void setLike(boolean like) {
         isLike = like;
+    }
+
+    public int getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(int avatar) {
+        this.avatar = avatar;
     }
 }

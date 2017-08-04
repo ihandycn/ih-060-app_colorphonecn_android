@@ -1,7 +1,6 @@
 package com.honeycomb.colorphone.themeselector;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,10 +19,10 @@ import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
-import com.honeycomb.colorphone.FontUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ThemePreviewActivity;
+import com.honeycomb.colorphone.ThemeUtils;
 import com.honeycomb.colorphone.Utils;
 import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
@@ -206,10 +205,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             String name = curTheme.getName();
             cardViewHolder.setTxt(name);
-            if (curTheme.getImageRes() > 0) {
-                cardViewHolder.mThemePreviewImg.setImageResource(curTheme.getImageRes());
+            if (curTheme.getBackgroundRes() > 0) {
+                cardViewHolder.mThemePreviewImg.setImageResource(curTheme.getBackgroundRes());
             } else {
-                cardViewHolder.mThemePreviewImg.setImageDrawable(null);
+                cardViewHolder.mThemePreviewImg.setImageResource(R.drawable.card_bg_round_dark);
             }
 
             cardViewHolder.mThemeFlashPreviewWindow.updateThemeLayout(type);
@@ -223,7 +222,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 cardViewHolder.mThemeFlashPreviewWindow.setAutoRun(true);
                 cardViewHolder.mCallActionView.setAutoRun(true);
             }
-            cardViewHolder.resetPreviewWindow();
+            ThemeUtils.updateStyle(cardViewHolder.getContentView(), curTheme);
 
             cardViewHolder.setSelected(curTheme.isSelected());
             cardViewHolder.setHotTheme(curTheme.isHot());
@@ -371,16 +370,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mDownloadTaskProgressBar = pb;
         }
 
-        public void resetPreviewWindow() {
-            TextView name = (TextView) mContentView.findViewById(R.id.caller_name);
-            TextView number = (TextView) mContentView.findViewById(R.id.caller_number);
-            name.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
-            number.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
 
-            name.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(2), Color.BLACK);
-            number.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(1), Color.BLACK);
-
-        }
 
         public void setSelected(boolean selected) {
             if (mThemeSelectedAnim != null) {

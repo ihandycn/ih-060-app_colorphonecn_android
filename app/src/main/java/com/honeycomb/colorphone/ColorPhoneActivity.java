@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import hugo.weaving.DebugLog;
 
@@ -83,14 +84,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         if (firstStart) {
             firstStart = false;
             startFlashPage((ViewGroup) findViewById(R.id.drawer_layout).getParent());
         } else {
             initMainFrame();
         }
-
     }
 
     private void startFlashPage(final ViewGroup group) {
@@ -184,9 +183,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        mHandler.removeCallbacksAndMessages(null);
+        mStartPage.setVisibility(View.GONE);
+        mStartPage.animate().cancel();
         saveThemeLikes();
     }
+
 
     private void saveThemeLikes() {
         StringBuilder sb = new StringBuilder(4);
@@ -206,6 +207,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @Override
     protected void onDestroy() {
+        mHandler.removeCallbacksAndMessages(null);
+
         if (mainSwitch != null) {
             boolean nowEnable = mainSwitch.isChecked();
             if (nowEnable != initCheckState) {
@@ -260,7 +263,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             theme.setDownload(getDownloadNumber(type));
             theme.setName(getString(ThemeUtils.getThemeNameRes(this, i)));
             theme.setThemeId(type.getValue());
-            theme.setImageRes(getThemePreviewImage(type));
+            theme.setBackgroundRes(getThemePreviewImage(type));
+            theme.setAvatar(getAvatar(type));
             theme.setIndex(getIndexOfTheme(themeOrderList, type));
             theme.setHot(isHotTheme(hotThemes, type.name()));
             if (theme.getThemeId() == selectedThemeId) {
@@ -285,6 +289,26 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
+    }
+
+    private static int[] avatars = new int[]{
+            R.drawable.male_1,
+            R.drawable.male_2,
+            R.drawable.male_3,
+            R.drawable.male_4,
+            R.drawable.female_1,
+            R.drawable.female_2,
+            R.drawable.female_3,
+            R.drawable.female_4,
+    };
+
+
+    private Random mRandom = new Random();
+    private int getAvatar(Type type) {
+        if (type != Type.TECH) {
+            return avatars[mRandom.nextInt(avatars.length)];
+        }
+        return R.drawable.acb_phone_theme_default_technological_caller_avatar;
     }
 
     private boolean isLikeTheme(String[] likeThemes, int themeId) {
