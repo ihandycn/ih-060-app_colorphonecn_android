@@ -82,8 +82,8 @@
 
     <FrameLayout
         android:id="@+id/card_action_group"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_alignBottom="@id/like_count_icon"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -92,10 +92,19 @@
         android:layout_marginRight="8dp"
         android:clickable="false">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/card_download_start_anim"
+            android:layout_width="41.5dp"
+            android:layout_height="41.5dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:lottie_fileName="lottie/download.json"
+            app:lottie_loop="false" />
+
         <com.honeycomb.colorphone.view.DownloadProgressBar
             android:id="@+id/card_downloading_progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             app:circleBackgroundColor="@color/colorMaskDark"
             app:circleRadius="15dp"

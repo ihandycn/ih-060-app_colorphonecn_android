@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.download;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ public class DownloadViewHolder implements DownloadHolder {
     protected ProgressView taskProgressBar;
     protected TypefacedTextView taskProgressTxt;
     protected LottieAnimationView taskSuccessAnim;
+    protected LottieAnimationView taskStartAnim;
     /**
      * Control progress, start or pause download task.
      */
@@ -35,7 +38,7 @@ public class DownloadViewHolder implements DownloadHolder {
     private boolean canPaused;
     private boolean canStart;
     private int id;
-    private long mDelayTime = 800;
+    private long mDelayTime = 600;
     private boolean enablePause = false;
 
 
@@ -84,13 +87,31 @@ public class DownloadViewHolder implements DownloadHolder {
         if (delayTime == 0) {
             doDownload(model);
         } else {
-            taskProgressBar.onDownloadStart();
-            taskActionBtn.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doDownload(model);
-                }
-            }, delayTime);
+            if (taskStartAnim != null) {
+                taskStartAnim.setVisibility(View.VISIBLE);
+                final View v = (View) taskProgressBar;
+                v.setVisibility(View.INVISIBLE);
+
+                taskStartAnim.addAnimatorListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        taskStartAnim.setVisibility(View.GONE);
+                        taskProgressBar.setProgress(3);
+                        v.setVisibility(View.VISIBLE);
+                        doDownload(model);
+                    }
+                });
+                taskStartAnim.playAnimation();
+            } else {
+                taskProgressBar.onDownloadStart();
+                taskActionBtn.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doDownload(model);
+                    }
+                }, delayTime);
+            }
         }
         ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase());
 
@@ -183,4 +204,7 @@ public class DownloadViewHolder implements DownloadHolder {
         return canStart;
     }
 
+    public void setStartAnim(LottieAnimationView startAnim) {
+        taskStartAnim = startAnim;
+    }
 }

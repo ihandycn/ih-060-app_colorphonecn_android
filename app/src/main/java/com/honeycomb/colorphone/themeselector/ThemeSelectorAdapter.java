@@ -366,6 +366,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             DownloadProgressBar pb = (DownloadProgressBar) itemView.findViewById(R.id.card_downloading_progress_bar);
 
             mDownloadViewHolder = new DownloadViewHolder(pb, pb, mDownloadTaskProgressTxt, mDownloadFinishedAnim);
+            mDownloadViewHolder.setStartAnim((LottieAnimationView) itemView.findViewById(R.id.card_download_start_anim));
             mDownloadViewHolder.setProxyHolder(this);
             mDownloadTaskProgressBar = pb;
         }
