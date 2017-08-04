@@ -18,6 +18,7 @@ import android.os.RemoteException;
 import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 
+import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.ihs.app.framework.HSApplication;
 
 public class PermanentService extends Service {

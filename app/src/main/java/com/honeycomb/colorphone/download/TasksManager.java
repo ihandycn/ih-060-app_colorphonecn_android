@@ -5,7 +5,7 @@ import android.util.SparseArray;
 
 import com.acb.call.themes.Type;
 import com.acb.call.utils.CallUtils;
-import com.honeycomb.colorphone.ThemeUtils;
+import com.honeycomb.colorphone.util.ThemeUtils;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadConnectListener;

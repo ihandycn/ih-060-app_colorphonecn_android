@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone;
+package com.honeycomb.colorphone.preview;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -12,9 +12,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
@@ -27,6 +29,11 @@ import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.util.FontUtils;
+import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
@@ -156,9 +163,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 
         previewWindow = (ThemePreviewWindow) findViewById(R.id.card_flash_preview_window);
-        previewWindow.setOnTouchListener(new View.OnTouchListener() {
+        previewWindow.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 if (themeReady && !inTransition) {
                     boolean isInHide = mApplyButton.getTranslationY() == bottomBtnTransY;
                     if (isInHide) {
@@ -170,9 +177,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     } else {
                         scheduleNextHide();
                     }
-
                 }
-                return true;
             }
         });
         callActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
@@ -486,6 +491,36 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             mProgressTxtGroup.setTranslationY(bottomBtnTransY);
             mProgressBar.animate().alpha(1).translationY(0).setDuration(duration).setInterpolator(interp).start();
             mProgressTxtGroup.animate().alpha(1).translationY(0).setDuration(duration).setInterpolator(interp).start();
+        }
+    }
+
+    private class ThemePagerAdapter extends PagerAdapter {
+
+        @Override
+        public int getCount() {
+//            if (mLocalDrawables != null) {
+//                return mLocalDrawables.size();
+//            } else if (mImgUrl != null) {
+//                return mImgUrl.size();
+//            }
+            return 0;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+//            return mInstantiateItemStrategy.instantiateItem(container, position);
+            return null;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
         }
     }
 }

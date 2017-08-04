@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.honeycomb.colorphone;
+package com.honeycomb.colorphone.util;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -51,6 +51,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.honeycomb.colorphone.BuildConfig;
+import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;

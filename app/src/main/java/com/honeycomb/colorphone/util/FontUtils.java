@@ -1,8 +1,9 @@
-package com.honeycomb.colorphone;
+package com.honeycomb.colorphone.util;
 
 import android.graphics.Typeface;
 import android.util.SparseArray;
 
+import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 
 import java.util.ArrayList;

@@ -21,9 +21,9 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.ThemePreviewActivity;
-import com.honeycomb.colorphone.ThemeUtils;
-import com.honeycomb.colorphone.Utils;
+import com.honeycomb.colorphone.preview.ThemePreviewActivity;
+import com.honeycomb.colorphone.util.ThemeUtils;
+import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -41,7 +41,7 @@ import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import java.io.File;
 import java.util.ArrayList;
 
-import static com.honeycomb.colorphone.Utils.pxFromDp;
+import static com.honeycomb.colorphone.util.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

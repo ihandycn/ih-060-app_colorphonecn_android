@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone;
+package com.honeycomb.colorphone.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.call.themes.Type;
+import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.Theme;
 import com.ihs.commons.utils.HSLog;
 
 public class ThemeUtils {

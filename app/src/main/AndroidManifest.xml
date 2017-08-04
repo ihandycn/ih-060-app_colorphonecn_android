@@ -63,7 +63,7 @@
         </receiver>
 
         <activity
-            android:name=".ThemePreviewActivity"
+            android:name=".preview.ThemePreviewActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DarkFullScreen" />

@@ -1,7 +1,8 @@
-package com.honeycomb.colorphone;
+package com.honeycomb.colorphone.util;
 
 import android.content.Intent;
 
+import com.honeycomb.colorphone.PermanentService;
 import com.ihs.app.framework.HSApplication;
 
 /**

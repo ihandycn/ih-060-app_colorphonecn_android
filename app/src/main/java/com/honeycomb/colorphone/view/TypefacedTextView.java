@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
-import com.honeycomb.colorphone.FontUtils;
+import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.R;
 
 public class TypefacedTextView extends AppCompatTextView {

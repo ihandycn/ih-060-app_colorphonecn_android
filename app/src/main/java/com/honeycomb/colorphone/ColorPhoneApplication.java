@@ -7,6 +7,7 @@ import com.acb.call.AcbCallManager;
 import com.acb.call.CPSettings;
 import com.acb.nativeads.AcbNativeAdManager;
 import com.crashlytics.android.Crashlytics;
+import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
