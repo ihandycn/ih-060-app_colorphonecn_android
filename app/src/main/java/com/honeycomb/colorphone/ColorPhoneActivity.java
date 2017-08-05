@@ -186,8 +186,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        mStartPage.setVisibility(View.GONE);
-        mStartPage.animate().cancel();
+        if (mStartPage != null) {
+            mStartPage.setVisibility(View.GONE);
+            mStartPage.animate().cancel();
+        }
+
         saveThemeLikes();
     }
 
