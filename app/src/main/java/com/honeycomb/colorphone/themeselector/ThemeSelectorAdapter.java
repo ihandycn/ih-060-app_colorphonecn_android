@@ -120,7 +120,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if (type != null && type.isGif()) {
                         ThemePreviewActivity.cache(holder.getDownloadHolder());
                     }
-                    ThemePreviewActivity.start(activity, theme);
+//                    ThemePreviewActivity.start(activity, theme);
+                    ThemePreviewActivity.start(activity, data, pos);
                 }
             });
             // Disable theme original bg. Use our own
