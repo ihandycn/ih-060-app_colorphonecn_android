@@ -196,9 +196,6 @@ public class PermanentService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (intent != null) {
-            needUpdateNotification = ACTION_REFRESH_NOTIFICATION.equalsIgnoreCase(intent.getAction());
-        }
         if (needUpdateNotification) {
             needUpdateNotification = false;
             Notification notification = getNotification();

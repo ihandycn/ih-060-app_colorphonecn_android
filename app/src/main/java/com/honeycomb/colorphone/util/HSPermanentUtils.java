@@ -1,9 +1,13 @@
 package com.honeycomb.colorphone.util;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 
+import com.acb.call.CPSettings;
 import com.honeycomb.colorphone.PermanentService;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.utils.HSLog;
 
 /**
  * 进程保活，主要保活方式有：
@@ -46,10 +50,9 @@ public class HSPermanentUtils {
      *         {@link PermanentServiceListener}
      */
     public static void startKeepAlive(boolean guardByAccountSync, boolean guardByNativeProcess, String uninstallFeedbackUrl,
-            PermanentServiceListener listener) {
-
+                                      PermanentServiceListener listener) {
+        enableReceiver(true);
         Intent serviceIntent = new Intent(HSApplication.getContext(), PermanentService.class);
-        serviceIntent.setAction(PermanentService.ACTION_REFRESH_NOTIFICATION);
         HSApplication.getContext().startService(serviceIntent);
     }
 
@@ -60,9 +63,37 @@ public class HSPermanentUtils {
      */
     public static void keepAlive() {
         startKeepAlive(proxyGuardByAccountSync, proxyGuardByNativeProcess, proxyUninstallFeedbackUrl,
-                       null);
+                null);
+
     }
 
+    public static void stopSelf() {
+        enableReceiver(false);
+        Intent serviceIntent = new Intent(HSApplication.getContext(), PermanentService.class);
+        HSApplication.getContext().stopService(serviceIntent);
+    }
+
+    private static void enableReceiver( boolean enable) {
+        String name = "com.intellectualflame.ledflashlight.washer.PermanentService$PermanentReceiver";
+        String logStr = (enable ? "enable " : "disable") +  "static receiver : "  + name;
+        HSLog.d("Permanent", logStr);
+        ComponentName c = new ComponentName(HSApplication.getContext().getPackageName(), name);
+        PackageManager pm =  HSApplication.getContext().getPackageManager();
+        pm.setComponentEnabledSetting(c,
+                enable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
+    }
     private static class PermanentServiceListener {
+    }
+
+    public static void checkAliveForProcess() {
+        boolean needKeepAlive = CPSettings.isScreenFlashModuleEnabled();
+
+        HSLog.d("Utils", "Guard Process enable = " + needKeepAlive);
+        if (needKeepAlive) {
+            HSPermanentUtils.keepAlive();
+        } else {
+            HSPermanentUtils.stopSelf();
+        }
     }
 }

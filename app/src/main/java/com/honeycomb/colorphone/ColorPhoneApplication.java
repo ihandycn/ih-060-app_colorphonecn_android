@@ -87,6 +87,8 @@ public class ColorPhoneApplication extends HSApplication {
         } else {
             AcbNativeAdManager.sharedInstance().deactivePlacementInProcess(adName);
         }
+
+        HSPermanentUtils.checkAliveForProcess();
     }
     public static ConfigLog getConfigLog() {
         return mConfigLog;
