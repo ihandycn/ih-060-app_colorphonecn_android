@@ -180,7 +180,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     protected void onCreate() {
-        ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mThemeType.name().toLowerCase());
+        ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mThemeType.getIdName().toLowerCase());
         previewWindow = (ThemePreviewWindow) findViewById(R.id.card_flash_preview_window);
         previewWindow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -391,9 +391,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
             }
         }).setStartDelay(0).start();
-        if (callActionView != null) {
-            callActionView.stopAnimations();
-        }
     }
 
     private void scheduleNextHide() {

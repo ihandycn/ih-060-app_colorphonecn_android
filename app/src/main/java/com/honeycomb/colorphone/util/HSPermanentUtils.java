@@ -74,7 +74,7 @@ public class HSPermanentUtils {
     }
 
     private static void enableReceiver( boolean enable) {
-        String name = "com.intellectualflame.ledflashlight.washer.PermanentService$PermanentReceiver";
+        String name = "com.honeycomb.colorphone.PermanentService$PermanentReceiver";
         String logStr = (enable ? "enable " : "disable") +  "static receiver : "  + name;
         HSLog.d("Permanent", logStr);
         ComponentName c = new ComponentName(HSApplication.getContext().getPackageName(), name);

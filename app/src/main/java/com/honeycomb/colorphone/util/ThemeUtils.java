@@ -8,10 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.ihs.commons.utils.HSLog;
 
 public class ThemeUtils {
     private static int[] sThemeItemTxts;
@@ -43,20 +41,6 @@ public class ThemeUtils {
             iconResArray.recycle();
         }
         return sThemeItemTxts[index];
-    }
-
-
-    public static String getGifUrl(Type type) {
-        switch (type) {
-            case STARS:
-                return GIF1_URL;
-            case SUN:
-                return GIF2_URL;
-            case NEON:
-                return GIF3_URL;
-        }
-        HSLog.e("GetGifUrl", "error gif type " + type);
-        return "";
     }
 
     public static void updateStyle(View container,  Theme theme) {

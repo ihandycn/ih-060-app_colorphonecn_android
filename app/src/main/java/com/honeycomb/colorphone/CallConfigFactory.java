@@ -3,7 +3,9 @@ package com.honeycomb.colorphone;
 import com.acb.call.AcbCallFactoryImpl;
 import com.acb.call.ViewConfig;
 import com.acb.call.views.CallIdleAlert;
+import com.ihs.commons.config.HSConfig;
 
+import java.util.List;
 import java.util.Random;
 
 
@@ -52,6 +54,12 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         @Override
         public int getCallerDefaultPhoto() {
             return faces[new Random(3982).nextInt(faces.length)];
+        }
+
+        @Override
+        public List<?> getConfigThemes() {
+            return HSConfig.getList(new String[]{"Application", "Theme", "List"});
+
         }
     }
 }

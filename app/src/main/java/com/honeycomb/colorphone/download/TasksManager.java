@@ -5,7 +5,6 @@ import android.util.SparseArray;
 
 import com.acb.call.themes.Type;
 import com.acb.call.utils.CallUtils;
-import com.honeycomb.colorphone.util.ThemeUtils;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadConnectListener;
@@ -118,7 +117,7 @@ public class TasksManager {
     public TasksManagerModel getByThemeId(int themeId) {
         Type type = CallUtils.getTypeByThemeId(themeId);
         for (TasksManagerModel model : modelList) {
-            if (TextUtils.equals(model.getName(), type.name())) {
+            if (TextUtils.equals(model.getName(), type.getIdName())) {
                 return model;
             }
         }
@@ -177,14 +176,14 @@ public class TasksManager {
     }
 
     public void addTask(Type type) {
-        String url = ThemeUtils.getGifUrl(type);
+        String url = type.getGifUrl();
         if (TextUtils.isEmpty(url)) {
-            throw new IllegalStateException("Theme type : [ " + type.name() + " ] has not gif url!");
+            throw new IllegalStateException("Theme type : [ " + type.getIdName() + " ] has not gif url!");
         }
         File file = CallUtils.getDirectory(CallUtils.GIF_DIRECTORY);
         if (file != null) {
-            String path = FileDownloadUtils.generateFilePath(file.getAbsolutePath(), CallUtils.getGifName(type));
-            addTask(url, path,  type.name());
+            String path = FileDownloadUtils.generateFilePath(file.getAbsolutePath(), type.getGifFileName());
+            addTask(url, path,  type.getIdName());
         }
     }
 

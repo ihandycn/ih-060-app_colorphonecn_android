@@ -31,7 +31,6 @@ import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.preview.ThemePreviewActivity;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
-import com.honeycomb.colorphone.util.ThemeUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -48,6 +47,13 @@ import java.util.List;
 import java.util.Random;
 
 import hugo.weaving.DebugLog;
+
+import static com.acb.call.themes.Type.LED;
+import static com.acb.call.themes.Type.NEON;
+import static com.acb.call.themes.Type.STARS;
+import static com.acb.call.themes.Type.SUN;
+import static com.acb.call.themes.Type.TECH;
+
 
 public class ColorPhoneActivity extends HSAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
@@ -251,7 +257,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void initData() {
         Type[] themeTypes = Type.values();
-        Type[] themeOrderList = new Type[ ] { Type.TECH, Type.NEON, Type.STARS, Type.SUN, Type.LED};
         final int count = themeTypes.length;
         int selectedThemeId = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, -1);
         if (selectedThemeId == -1) {
@@ -262,17 +267,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         String[] likeThemes = getThemeLikes();
         for (int i = 0; i < count; i++) {
             final Type type = themeTypes[i];
-            if(type == Type.NONE) {
+            if(type.getValue() == Type.NONE) {
                 continue;
             }
             final Theme theme = new Theme();
             theme.setDownload(getDownloadNumber(type));
-            theme.setName(getString(ThemeUtils.getThemeNameRes(this, i)));
+            theme.setName(type.getName());
             theme.setThemeId(type.getValue());
             theme.setBackgroundRes(getThemePreviewImage(type));
             theme.setAvatar(getAvatar(type));
-            theme.setIndex(getIndexOfTheme(themeOrderList, type));
-            theme.setHot(isHotTheme(hotThemes, type.name()));
+            theme.setIndex(type.getIndex());
+            theme.setHot(isHotTheme(hotThemes, type.getIdName()));
             if (theme.getThemeId() == selectedThemeId) {
                 theme.setSelected(true);
             }
@@ -311,7 +316,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private Random mRandom = new Random();
     private int getAvatar(Type type) {
-        if (type != Type.TECH) {
+        if (type.getValue() != TECH) {
             return avatars[mRandom.nextInt(avatars.length)];
         }
         return R.drawable.acb_phone_theme_default_technological_caller_avatar;
@@ -338,17 +343,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         return false;
     }
 
-    private int getIndexOfTheme(Type[] themeOrderList, Type type) {
-        for (int i = 0; i < themeOrderList.length; i++) {
-            if (themeOrderList[i] == type) {
-                return i;
-            }
-        }
-        return 0;
-    }
-
     private int getThemePreviewImage(Type type) {
-        switch (type) {
+        switch (type.getValue()) {
             case NEON:
                 return R.drawable.theme_preview_neon;
             case STARS:
@@ -429,7 +425,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     public long getDownloadNumber(Type type) {
-        switch (type) {
+        switch (type.getValue()) {
             case LED:
                 return 663537;
             case TECH:
