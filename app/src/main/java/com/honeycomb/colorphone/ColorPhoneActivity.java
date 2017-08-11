@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.AnyRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -344,6 +345,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private int getThemePreviewImage(Type type) {
+        if (type.getValue() > NEON) {
+            return getIdentifier(this, "theme_preview_".concat(type.getIdName().toLowerCase()), "drawable");
+        }
+
         switch (type.getValue()) {
             case NEON:
                 return R.drawable.theme_preview_neon;
@@ -357,6 +362,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 break;
         }
         return 0;
+    }
+
+    @AnyRes
+    private int getIdentifier(Context context, String name, String type) {
+        return context.getResources().getIdentifier(name, type, context.getPackageName());
     }
 
     private void initRecyclerView() {
