@@ -44,8 +44,8 @@
     <string name="acb_theme_default_hint" translatable="false">System Screen for Calls</string>
 
     <string name="acb_settings_theme_item_txt_none" translatable="false">None</string>
-    <string name="acb_settings_theme_item_txt_moving" translatable="false">Festival Neon</string>
-    <string name="acb_settings_theme_item_txt_hud" translatable="false">Space Amble</string>
+    <string name="acb_settings_theme_item_txt_moving" translatable="false">Feast Neon</string>
+    <string name="acb_settings_theme_item_txt_hud" translatable="false">Space Walk</string>
     <string name="acb_settings_theme_item_txt_stars" translatable="false">Meteors</string>
     <string name="acb_settings_theme_item_txt_sun" translatable="false">Desert Sun</string>
     <string name="acb_settings_theme_item_txt_neon" translatable="false">Rays</string>
