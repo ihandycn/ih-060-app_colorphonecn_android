@@ -58,32 +58,50 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 "Brownian", "Dazzle", "DeepLove",
                 "DJ", "GoldMyth", "Maze",
                 "Modern", "Palette", "Shining",
-                "Raining", "Universe"
+                "Raining", "Universe", "Snowfall",
+                "Blizzard"
         };
 
         static  String[] TextStrings = new String[] {
                 "Brownian", "Dazzle", "Deep Love",
                 "DJ", "Gold Myth", "Maze",
                 "Modern", "Palette", "Shining",
-                "Raining", "Universe"
+                "Raining", "Universe", "Snowfall",
+                "Blizzard"
         };
 
         // TODO order urls
         static String[] GIF_URLS = new String[] {
-                "https://files.slack.com/files-pri/T06UGANUX-F6JSF475W/______.gif",
-                "https://files.slack.com/files-pri/T06UGANUX-F6JSF475W/______.gif",
-                "https://files.slack.com/files-pri/T06UGANUX-F6JSF475W/______.gif",
+                "https://superapps-dev.s3.amazonaws.com/light/Brownian.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503453886&Signature=hZj2jGCbOztJsqppT8efNCd6lQs%3D",
+                "https://superapps-dev.s3.amazonaws.com/light/Dazzle.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454059&Signature=3GGWLJ0O%2BmG8d0yme2af2WIqlvs%3D",
+                "https://superapps-dev.s3.amazonaws.com/light/Deep%20Love.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454071&Signature=9abVU51%2Fop7wX30B%2BgKpoQpy8%2B8%3D",
 
-                "https://ihandy.slack.com/files/xiaoxue.lu/F6KGM43B4/dj-2.gif",
-                "https://ihandy.slack.com/files/xiaoxue.lu/F6KE231LK/_________.gif",
-                "https://ihandy.slack.com/files/xiaoxue.lu/F6LJWVCHM/_________.gif",
+                "https://superapps-dev.s3.amazonaws.com/light/DJ.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454082&Signature=99cayJPt0aYzmC0V1OnCk%2B6dNNs%3D",
+                "https://superapps-dev.s3.amazonaws.com/light/Gold%20Myth.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454112&Signature=jxXiUET013YfW3%2FDZF3U5GsacW4%3D",
+                "https://superapps-dev.s3.amazonaws.com/light/Maze.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454126&Signature=p7nkmeK3Zp1NnX7mowJyb0VCg58%3D",
 
-                "https://ihandy.slack.com/files/xiaoxue.lu/F6KE26G03/______.gif",
-                "https://ihandy.slack.com/files/xiaoxue.lu/F6KE1QAGK/____________.gif",
-                "https://ihandy.slack.com/files/xiaoxue.lu/F6JSEP3LG/______.gif",
+                "https://superapps-dev.s3.amazonaws.com/light/Modern.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454140&Signature=wYx%2BIGgScTgOy%2Bm6QnmuFj2PYdc%3D",
+                "https://superapps-dev.s3.amazonaws.com/light/Palette.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454150&Signature=PvK3CK33kCQJ2JsRfGC0EhK0BmM%3D",
+                "https://superapps-dev.s3.amazonaws.com/light/Shining.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454199&Signature=c5Fqj7oVwNCvQNdtgcnAoXHpzN4%3D",
 
-                "https://ihandy.slack.com/files/xiaoxue.lu/F6JTVA8HF/____________.gif",
-                "https://ihandy.slack.com/files/xiaoxue.lu/F6JSF475W/______.gif",
+                "https://superapps-dev.s3.amazonaws.com/light/Raining.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454170&Signature=mdDbl5EiFiFkp1m8MJT%2FIvCzi%2Fc%3D",
+                "https://superapps-dev.s3.amazonaws.com/light/Universe.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454212&Signature=bgvdvFW9%2FgRcczW8kem3UrdZH%2Bc%3D",
+                "https://superapps-dev.s3.amazonaws.com/light/snowfall.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503492646&Signature=f9smxysaosbcD%2FBad80dnYp7Eas%3D",
+
+                "https://superapps-dev.s3.amazonaws.com/light/blizzard.gif?" +
+                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503492537&Signature=ToslyMhtpnKrhysG3V6FR5Q9geI%3D",
         };
 
 
