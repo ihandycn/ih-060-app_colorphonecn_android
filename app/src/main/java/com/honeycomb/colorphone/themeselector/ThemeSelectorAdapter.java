@@ -41,6 +41,8 @@ import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import java.io.File;
 import java.util.ArrayList;
 
+import hugo.weaving.DebugLog;
+
 import static com.honeycomb.colorphone.util.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -190,6 +192,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     // TODO Use bitmap to improve draw performance
 
+    @DebugLog
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ThemeCardViewHolder) {
@@ -215,7 +218,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             cardViewHolder.mThemeFlashPreviewWindow.updateThemeLayout(type);
             cardViewHolder.mCallActionView.setTheme(type);
             if (!curTheme.isSelected()) {
-                cardViewHolder.mThemeFlashPreviewWindow.stopAnimations();
+                cardViewHolder.mThemeFlashPreviewWindow.clearAnimation(type);
                 cardViewHolder.mCallActionView.setAutoRun(false);
                 cardViewHolder.mThemeFlashPreviewWindow.setAutoRun(false);
             } else {
