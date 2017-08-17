@@ -58,16 +58,16 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 "Brownian", "Dazzle", "DeepLove",
                 "DJ", "GoldMyth", "Maze",
                 "Modern", "Palette", "Shining",
-                "Raining", "Universe", "Snowfall",
-                "Blizzard"
+                "Raining", "Universe", "Snow",
+                "Floating"
         };
 
         static  String[] TextStrings = new String[] {
                 "Brownian", "Dazzle", "Deep Love",
                 "DJ", "Gold Myth", "Maze",
                 "Modern", "Palette", "Shining",
-                "Raining", "Universe", "Snowfall",
-                "Blizzard"
+                "Raining", "Universe", "Snow",
+                "Floating"
         };
 
         // TODO order urls
