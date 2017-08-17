@@ -1,6 +1,6 @@
 package com.honeycomb.colorphone;
 
-import android.content.res.Resources;
+import android.text.TextUtils;
 
 import com.acb.call.AcbCallFactoryImpl;
 import com.acb.call.ViewConfig;
@@ -8,6 +8,8 @@ import com.acb.call.themes.Type;
 import com.acb.call.views.CallIdleAlert;
 import com.ihs.commons.config.HSConfig;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -71,7 +73,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         };
 
         // TODO order urls
-        static String[] GIF_URLS = new String[] {
+        static String[] GIF_URLS_DEBUG = new String[] {
                 "https://superapps-dev.s3.amazonaws.com/light/Brownian.gif?" +
                         "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503453886&Signature=hZj2jGCbOztJsqppT8efNCd6lQs%3D",
                 "https://superapps-dev.s3.amazonaws.com/light/Dazzle.gif?" +
@@ -104,7 +106,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                         "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503492537&Signature=ToslyMhtpnKrhysG3V6FR5Q9geI%3D",
         };
 
-
+        static String GIF_URL_PREFIX = "http://cdn.appcloudbox.net/sunspotmix/gifs/";
 
         @Override
         public int getCallerDefaultPhoto() {
@@ -120,7 +122,8 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         @Override
         public void onConfigTypes(List<Type> types) {
 
-            Resources resources = ColorPhoneApplication.getContext().getResources();
+            List<String> orders = (List<String>) HSConfig.getList("Application", "Theme", "ThemeOrders");
+
             final int startId = Type.NEON + 1;
             final int endId = ID_NAMES.length + startId - 1;
             for(int id = startId; id <= endId; ++id) {
@@ -128,7 +131,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 final int curPos = id - startId;
                 info.setId(id);
                 info.setIdName(ID_NAMES[curPos]);
-                info.setIndex(types.size());
+                info.setIndex(getIndexOfType(orders, ID_NAMES[curPos]));
                 info.setName(TextStrings[curPos]);
                 int accept;
                 int reject;
@@ -150,13 +153,32 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                         reject = R.drawable.acb_phone_call_refuse;
                 }
 
-                info.setGifUrl(GIF_URLS[curPos]);
+                if (BuildConfig.DEBUG) {
+                    info.setGifUrl(GIF_URLS[curPos]);
+                } else {
+                    info.setGifUrl(GIF_URL_PREFIX + info.getIdName() + ".gif");
+                }
                 info.setAcceptIcon(String.valueOf(accept));
                 info.setRejectIcon(String.valueOf(reject));
                 info.setGif(true);
                 info.setResType(Type.RES_LOCAL_ID);
                 types.add(info);
             }
+            Collections.sort(types, new Comparator<Type>() {
+                @Override
+                public int compare(Type o1, Type o2) {
+                    return o1.getIndex() - o2.getIndex();
+                }
+            });
         }
     }
-}
+
+        private static int getIndexOfType(List<String> orders, String idName) {
+            for (int i = 0; i < orders.size(); i++) {
+                if (!TextUtils.isEmpty(idName) && idName.equalsIgnoreCase(orders.get(i))) {
+                    return i;
+                }
+            }
+            return 0;
+        }
+    }
