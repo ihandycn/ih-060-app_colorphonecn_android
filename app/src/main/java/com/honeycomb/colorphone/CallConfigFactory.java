@@ -154,7 +154,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 }
 
                 if (BuildConfig.DEBUG) {
-                    info.setGifUrl(GIF_URLS[curPos]);
+                    info.setGifUrl(GIF_URLS_DEBUG[curPos]);
                 } else {
                     info.setGifUrl(GIF_URL_PREFIX + info.getIdName() + ".gif");
                 }
