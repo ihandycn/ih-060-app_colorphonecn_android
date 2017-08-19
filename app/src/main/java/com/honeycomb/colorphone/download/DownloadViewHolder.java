@@ -54,8 +54,7 @@ public class DownloadViewHolder implements DownloadHolder {
                     // to pause
                     FileDownloader.getImpl().pause(id);
                 } else if (canStartDownload()) {
-                    startDownloadDelay(mDelayTime);
-                    mDelayTime = 0;
+                    startDownload();
                 }
             }
         });
@@ -74,7 +73,7 @@ public class DownloadViewHolder implements DownloadHolder {
         mProxy = downloadHolder;
     }
 
-    public void startDownloadDelay(long delayTime) {
+    public void startDownload() {
         final TasksManagerModel model = TasksManager.getImpl().getById(id);
 
         if (model == null) {
@@ -84,9 +83,8 @@ public class DownloadViewHolder implements DownloadHolder {
             return;
         }
         final BaseDownloadTask task = TasksManager.getImpl().getTask(model.getId());
-        if (delayTime == 0) {
-            doDownload(model);
-        } else {
+        boolean needPrologue = taskActionBtn.getVisibility() == View.VISIBLE;
+        if (needPrologue) {
             if (taskStartAnim != null) {
                 taskStartAnim.setVisibility(View.VISIBLE);
                 final View v = (View) taskProgressBar;
@@ -104,14 +102,17 @@ public class DownloadViewHolder implements DownloadHolder {
                 });
                 taskStartAnim.playAnimation();
             } else {
+                // animation handle by task progress bar.
                 taskProgressBar.onDownloadStart();
                 taskActionBtn.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         doDownload(model);
                     }
-                }, delayTime);
+                }, mDelayTime);
             }
+        } else {
+            doDownload(model);
         }
         ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase());
 
