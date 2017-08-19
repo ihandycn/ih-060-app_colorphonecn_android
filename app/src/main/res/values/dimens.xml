@@ -8,7 +8,12 @@
     <dimen name="nav_drawer_margin_offset">-16dp</dimen>
     <dimen name="nav_drawer_width">276dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="theme_card_margin">4dp</dimen>
+    <dimen name="theme_card_margin_horizontal">12dp</dimen>
     <dimen name="theme_card_radius">8dp</dimen>
     <dimen name="theme_badge_margin">24dp</dimen>
+    <dimen name="theme_text_margin_top">7dp</dimen>
+    <dimen name="theme_text_margin_bottom_half">7dp</dimen>
+    <dimen name="theme_text_space">0dp</dimen>
+    <dimen name="theme_heart_size">14dp</dimen>
+
 </resources>

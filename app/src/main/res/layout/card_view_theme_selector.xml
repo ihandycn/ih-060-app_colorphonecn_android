@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="9dp"
-    android:paddingRight="9dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
+    android:paddingTop="@dimen/theme_text_margin_bottom_half"
+    android:paddingBottom="@dimen/theme_text_margin_bottom_half"
     android:clipChildren="false">
 
     <include
@@ -35,9 +33,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/card_view"
-        android:layout_marginLeft="6dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginLeft="@dimen/theme_card_margin_horizontal"
+        android:layout_marginStart="@dimen/theme_card_margin_horizontal"
+        android:layout_marginTop="@dimen/theme_text_margin_top"
         android:textColor="@color/textDark"
         android:textSize="18sp"
         app:typeface="@string/proxima_nova_semibold"
@@ -55,15 +53,16 @@
         <!--android:src="@drawable/theme_card_like_icon" />-->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/like_count_icon"
+        android:layout_width="@dimen/theme_heart_size"
+        android:layout_height="@dimen/theme_heart_size"
+        android:layout_alignLeft="@id/card_title"
+        android:layout_alignStart="@id/card_title"
         android:layout_below="@id/card_title"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:padding="2dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginStart="4dp"
-        app:lottie_progress="0"
+        android:paddingTop="@dimen/theme_text_space"
+        android:paddingBottom="@dimen/theme_text_space"
         app:lottie_fileName="lottie/like.json"
-        app:lottie_loop="false" />
+        app:lottie_loop="false"
+        app:lottie_progress="0" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/card_like_count_txt"
@@ -73,14 +72,14 @@
         android:layout_alignBottom="@id/like_count_icon"
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
-        android:padding="2dp"
+        android:padding="@dimen/theme_text_space"
         android:layout_toEndOf="@id/like_count_icon"
         android:layout_toRightOf="@id/like_count_icon"
         android:textColor="@color/textLightGray"
         android:textSize="12sp"
         tools:text="6622335" />
 
-    <FrameLayout
+    <android.support.percent.PercentFrameLayout
         android:id="@+id/card_action_group"
         android:layout_width="42dp"
         android:layout_height="42dp"
@@ -88,14 +87,15 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@id/card_title"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="@dimen/theme_card_margin_horizontal"
+        android:layout_marginRight="@dimen/theme_card_margin_horizontal"
+
         android:clickable="false">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/card_download_start_anim"
-            android:layout_width="41.5dp"
-            android:layout_height="41.5dp"
+            app:layout_widthPercent="98%"
+            app:layout_heightPercent="98%"
             android:layout_gravity="center"
             android:visibility="gone"
             app:lottie_fileName="lottie/download.json"
@@ -103,15 +103,14 @@
 
         <com.honeycomb.colorphone.view.DownloadProgressBar
             android:id="@+id/card_downloading_progress_bar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            app:layout_widthPercent="95%"
+            app:layout_heightPercent="95%"
             android:layout_gravity="center"
             app:circleBackgroundColor="@color/colorMaskDark"
             app:circleRadius="15dp"
             app:drawingColor="#10a2ff"
             app:lineWidth="1.7dp"
             app:overshootValue="2"
-            android:layout_marginTop="0.4dp"
             app:progressBackgroundColor="@color/colorMaskDark"
             app:progressColor="#10a2ff"
             app:progressDuration="2000"
@@ -123,7 +122,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="55%"
+            tools:text="55%"
             android:textColor="#10a2ff"
             android:textSize="11sp"
             android:visibility="gone"
@@ -131,30 +130,30 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/card_download_finished_anim"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            app:layout_widthPercent="86%"
+            app:layout_heightPercent="86%"
             android:layout_gravity="center"
             android:visibility="gone"
             app:lottie_fileName="lottie/theme_selector_card_downloaded_anim.json"
             app:lottie_loop="false" />
 
-        <FrameLayout
+        <android.support.percent.PercentFrameLayout
             android:id="@+id/card_theme_selected_layout"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            app:layout_widthPercent="95%"
+            app:layout_heightPercent="95%"
             android:layout_gravity="center"
             android:background="@drawable/bg_circle_material_compat">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/card_theme_selected_anim"
-                android:layout_width="37dp"
-                android:layout_height="37dp"
+                app:layout_widthPercent="93%"
+                app:layout_heightPercent="93%"
                 android:layout_gravity="center"
                 android:visibility="gone"
                 app:lottie_fileName="lottie/theme_selector_card_selected_anim.json"
                 app:lottie_loop="false" />
-        </FrameLayout>
+        </android.support.percent.PercentFrameLayout>
 
-    </FrameLayout>
+    </android.support.percent.PercentFrameLayout>
 
 </RelativeLayout>
