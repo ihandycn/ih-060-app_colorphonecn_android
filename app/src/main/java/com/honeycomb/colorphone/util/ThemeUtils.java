@@ -3,13 +3,10 @@ package com.honeycomb.colorphone.util;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.Theme;
 
 public class ThemeUtils {
     private static int[] sThemeItemTxts;
@@ -43,7 +40,7 @@ public class ThemeUtils {
         return sThemeItemTxts[index];
     }
 
-    public static void updateStyle(View container,  Theme theme) {
+    public static void updateStyle(View container) {
         TextView name = (TextView) container.findViewById(R.id.caller_name);
         TextView number = (TextView) container.findViewById(R.id.caller_number);
         name.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
@@ -52,8 +49,6 @@ public class ThemeUtils {
         name.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(2), Color.BLACK);
         number.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(1), Color.BLACK);
 
-        ImageView avatar = (ImageView) container.findViewById(R.id.caller_avatar);
-        avatar.setImageDrawable(ContextCompat.getDrawable(container.getContext(), theme.getAvatar()));
     }
 
 }
