@@ -186,6 +186,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         public Object instantiateItem(ViewGroup container, int position) {
             ThemePreviewView controller = new ThemePreviewView(ThemePreviewActivity.this);
             controller.init(ThemePreviewActivity.this, mThemes, position, mNavBack);
+            if (position == mViewPager.getCurrentItem()) {
+                controller.setPageSelectedPos(position);
+            }
             container.addView(controller);
             mViewPager.addOnPageChangeListener(controller);
 

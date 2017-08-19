@@ -61,6 +61,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final long AUTO_HIDE_TIME = 4000;
     private static final long ANIMATION_DURATION = 400;
     private static final long WINDOW_ANIM_DURATION = 400;
+    private static final int TRANS_IN_DURATION = 400;
     private static final boolean DEBUG_LIFE_CALLBACK = true & BuildConfig.DEBUG;
     private static DownloadViewHolder sHolder;
 
@@ -133,6 +134,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     };
     private int mPosition;
     private int mPageSelectedPos;
+    private TasksManagerModel mPendingDownloadModel;
 
     public ThemePreviewView(@NonNull Context context) {
         super(context);
@@ -259,9 +261,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         themeReady = true;
         dimCover.setVisibility(View.INVISIBLE);
         mProgressViewHolder.hide();
-        if (navIsMine()) {
-            mNavBack.setTranslationX(0);
-        }
+//        if (isSelectedPos()) {
+//            mNavBack.setTranslationX(0);
+//        }
 
         previewWindow.updateThemeLayout(mThemeType);
         setCustomStyle();
@@ -340,7 +342,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         mApplyButton.setEnabled(!curTheme);
 
-        fadeInActionView();
+        /**
+         * onPageSelected handle it.
+         */
+        if (navIsShow() && isSelectedPos()) {
+            fadeInActionView();
+        } else {
+            fadeOutActionViewImmediately();
+        }
+    }
+
+    private boolean navIsShow() {
+        return Math.abs(mNavBack.getTranslationX()) <= 1;
     }
 
     private CharSequence getString(int id) {
@@ -354,7 +367,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (Math.abs(mNavBack.getTranslationX() - targetX) <= 1) {
             return;
         }
-        if (navIsMine()) {
+        if (isSelectedPos()) {
             mNavBack.animate().translationX(targetX)
                     .setDuration(ANIMATION_DURATION)
                     .setInterpolator(mInter)
@@ -378,7 +391,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                 }).setStartDelay(animationDelay).start();
 
-        showNavView(true);
     }
 
     private void fadeOutActionView() {
@@ -393,7 +405,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }).setStartDelay(0).start();
     }
 
-    private void scheduleNextHide() {
+    private void fadeOutActionViewImmediately() {
+        mApplyButton.setTranslationY(bottomBtnTransY);
+
+    }
+
+        private void scheduleNextHide() {
         mHandler.removeMessages(MSG_HIDE);
         mHandler.sendEmptyMessageDelayed(MSG_HIDE, AUTO_HIDE_TIME);
     }
@@ -431,9 +448,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     protected void onStop() {
         callActionView.stopAnimations();
         previewWindow.stopAnimations();
-        if (navIsMine()) {
-            mNavBack.animate().cancel();
-        }
+//        if (isSelectedPos()) {
+//            mNavBack.animate().cancel();
+//        }
         mApplyButton.animate().cancel();
         mHandler.removeCallbacksAndMessages(null);
         if (transAnimator != null && transAnimator.isStarted()) {
@@ -446,8 +463,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
 
-    private boolean navIsMine() {
+    private boolean isSelectedPos() {
         return mPosition == mPageSelectedPos;
+    }
+
+    public void setPageSelectedPos(int pos) {
+        mPageSelectedPos = pos;
     }
 
     private void onThemeLoading(final TasksManagerModel model) {
@@ -460,7 +481,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         playTransInAnimation(new Runnable() {
             @Override
             public void run() {
-                int duration = 300;
+                int duration = TRANS_IN_DURATION;
                 mProgressViewHolder.transIn(bottomBtnTransY, duration);
                 float percent = TasksManager.getImpl().getDownloadProgress(model.getId());
                 mProgressViewHolder.updateProgressView((int) (percent * 100));
@@ -468,13 +489,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (sHolder != null) {
-                            sHolder.doDownload(model);
+                        if (isSelectedPos()) {
+                            downloadTheme(model);
                         } else {
-                            DownloadViewHolder.doDownload(model, null);
+                            mPendingDownloadModel = model;
                         }
-
-                        FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
 
                     }
                 }, duration);
@@ -482,6 +501,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         });
     }
 
+    private void downloadTheme(TasksManagerModel model) {
+        if (sHolder != null) {
+            sHolder.doDownload(model);
+        } else {
+            DownloadViewHolder.doDownload(model, null);
+        }
+
+        FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
+    }
 
 
     public static void cache(DownloadViewHolder holder) {
@@ -528,7 +556,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             HSLog.d("onPageSelected " + position);
         }
         mPageSelectedPos = position;
+        if (isSelectedPos()) {
+            if (themeReady && !inTransition && navIsShow()) {
+                fadeInActionView();
+            }
 
+            if (mPendingDownloadModel != null) {
+                downloadTheme(mPendingDownloadModel);
+                mPendingDownloadModel = null;
+            }
+        } else {
+            fadeOutActionViewImmediately();
+        }
     }
 
     @Override
