@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 public class Theme implements Serializable {
 
+    public static final String CONIFG_DOWNLOAD_NUM = "DownloadNum";
+
     private int themeId;
     private String name;
     private long download;
@@ -18,6 +20,7 @@ public class Theme implements Serializable {
 
     private int backgroundRes;
     private int avatar;
+    private String avatarName;
 
     public int getThemeId() {
         return themeId;
@@ -89,5 +92,13 @@ public class Theme implements Serializable {
 
     public void setAvatar(int avatar) {
         this.avatar = avatar;
+    }
+
+    public String getAvatarName() {
+        return avatarName;
+    }
+
+    public void setAvatarName(String avatarName) {
+        this.avatarName = avatarName;
     }
 }

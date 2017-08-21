@@ -8,8 +8,6 @@ import com.acb.call.themes.Type;
 import com.acb.call.views.CallIdleAlert;
 import com.ihs.commons.config.HSConfig;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -122,13 +120,6 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         @Override
         public void onConfigTypes(List<Type> types) {
 
-            List<String> orders = (List<String>) HSConfig.getList("Application", "Theme", "ThemeOrders");
-
-            // Reorder before
-            for (Type t : types) {
-                t.setIndex(getIndexOfType(orders, t.getIdName()));
-            }
-
             final int startId = Type.NEON + 1;
             final int endId = ID_NAMES.length + startId - 1;
             for(int id = startId; id <= endId; ++id) {
@@ -136,7 +127,6 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 final int curPos = id - startId;
                 info.setId(id);
                 info.setIdName(ID_NAMES[curPos]);
-                info.setIndex(getIndexOfType(orders, ID_NAMES[curPos]));
                 info.setName(TextStrings[curPos]);
                 int accept;
                 int reject;
@@ -169,12 +159,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 info.setResType(Type.RES_LOCAL_ID);
                 types.add(info);
             }
-            Collections.sort(types, new Comparator<Type>() {
-                @Override
-                public int compare(Type o1, Type o2) {
-                    return o1.getIndex() - o2.getIndex();
-                }
-            });
+
         }
     }
 

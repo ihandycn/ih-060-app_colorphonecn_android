@@ -271,19 +271,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             final Theme curTheme = data.get(position);
             final Type type = CallUtils.getTypeByThemeId(curTheme.getThemeId());
 
-            String name = curTheme.getName();
-            cardViewHolder.setTxt(name);
-
-//            if (curTheme.getBackgroundRes() > 0) {
-//                cardViewHolder.mThemePreviewImg.setImageResource(curTheme.getBackgroundRes());
-//            } else {
-//                cardViewHolder.mThemePreviewImg.setImageResource(R.drawable.card_bg_round_dark);
-//            }
-
-//            cardViewHolder.mThemeFlashPreviewWindow.updateThemeLayout(type);
-            //TODO
+            cardViewHolder.mThemeTitle.setText(curTheme.getName());
+            cardViewHolder.mAvatarName.setText(curTheme.getAvatarName());
             cardViewHolder.mCallActionView.setTheme(type);
-
 
             cardViewHolder.updateTheme(curTheme);
 
@@ -367,6 +357,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
         ImageView mThemePreviewImg;
         ImageView mAvatar;
+        TextView mAvatarName;
         ImageView mAccept;
         ImageView mReject;
         TextView mThemeTitle;
@@ -390,10 +381,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void setPositionTag(int position) {
             mPositionTag = position;
-        }
-
-        public void setTxt(String string) {
-            mThemeTitle.setText(string);
         }
 
         public int getPositionTag() {
@@ -422,6 +409,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mCallActionView = (InCallActionView) itemView.findViewById(R.id.card_in_call_action_view);
             mCallActionView.setAutoRun(false);
             mAvatar = (ImageView) mContentView.findViewById(R.id.caller_avatar);
+            mAvatarName = (TextView) mContentView.findViewById(R.id.caller_name);
             mAccept = (ImageView) mContentView.findViewById(R.id.call_accept);
             mReject = (ImageView) mContentView.findViewById(R.id.call_reject);
 

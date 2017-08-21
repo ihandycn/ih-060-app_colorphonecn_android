@@ -34,6 +34,7 @@ import com.honeycomb.colorphone.preview.ThemePreviewActivity;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -45,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
 
 import hugo.weaving.DebugLog;
 
@@ -266,18 +267,27 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         List<String> hotThemes =  ColorPhoneApplication.getConfigLog().getHotThemeList();
         String[] likeThemes = getThemeLikes();
+
+        Map<String, Map<String,?>> orderMaps = (Map<String, Map<String,?>>) HSConfig.getMap("Application", "Theme", "Extras");
+
         for (int i = 0; i < count; i++) {
             final Type type = themeTypes[i];
             if(type.getValue() == Type.NONE) {
                 continue;
             }
             final Theme theme = new Theme();
-            theme.setDownload(getDownloadNumber(type));
+            fill(theme, orderMaps.get(type.getIdName()));
             theme.setName(type.getName());
             theme.setThemeId(type.getValue());
             theme.setBackgroundRes(getThemePreviewImage(type));
-            theme.setAvatar(getAvatar(type));
-            theme.setIndex(type.getIndex());
+            if (type.getValue() == Type.TECH) {
+                theme.setAvatarName("Alexis");
+                theme.setAvatar(R.drawable.acb_phone_theme_default_technological_caller_avatar);
+            } else {
+                theme.setAvatar(avatars[theme.getThemeId() % avatars.length]);
+                theme.setAvatarName(avatarNames[theme.getThemeId() % avatarNames.length]);
+            }
+
             theme.setHot(isHotTheme(hotThemes, type.getIdName()));
             if (theme.getThemeId() == selectedThemeId) {
                 theme.setSelected(true);
@@ -303,6 +313,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
+    private void fill(Theme theme, Map<String, ?> map) {
+        theme.setIndex((Integer)map.get(Type.CONFIG_KEY_INDEX));
+        theme.setDownload((Integer)map.get(Theme.CONIFG_DOWNLOAD_NUM));
+    }
+
     private static int[] avatars = new int[]{
             R.drawable.male_1,
             R.drawable.male_2,
@@ -314,14 +329,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             R.drawable.female_4,
     };
 
+    private static String[] avatarNames = new String[]{
+            "Jackson",
+            "Oliver",
+            "Noah",
+            "Lucas",
 
-    private Random mRandom = new Random();
-    private int getAvatar(Type type) {
-        if (type.getValue() != TECH) {
-            return avatars[mRandom.nextInt(avatars.length)];
-        }
-        return R.drawable.acb_phone_theme_default_technological_caller_avatar;
-    }
+            "Emma",
+            "Isabella",
+            "Harper",
+            "Grace"
+    };
 
     private boolean isLikeTheme(String[] likeThemes, int themeId) {
         for (String likeThemeId : likeThemes) {
