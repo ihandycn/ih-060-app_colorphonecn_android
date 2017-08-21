@@ -106,7 +106,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                         "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503492537&Signature=ToslyMhtpnKrhysG3V6FR5Q9geI%3D",
         };
 
-        static String GIF_URL_PREFIX = "http://cdn.appcloudbox.net/sunspotmix/gifs/";
+        static String GIF_URL_PREFIX = "http://cdn.appcloudbox.net/colorphoneapps/gifs/";
 
         @Override
         public int getCallerDefaultPhoto() {
@@ -123,6 +123,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         public void onConfigTypes(List<Type> types) {
 
             List<String> orders = (List<String>) HSConfig.getList("Application", "Theme", "ThemeOrders");
+
+            // Reorder before
+            for (Type t : types) {
+                t.setIndex(getIndexOfType(orders, t.getIdName()));
+            }
 
             final int startId = Type.NEON + 1;
             final int endId = ID_NAMES.length + startId - 1;

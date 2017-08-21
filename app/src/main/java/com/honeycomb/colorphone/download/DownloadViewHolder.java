@@ -82,7 +82,6 @@ public class DownloadViewHolder implements DownloadHolder {
             }
             return;
         }
-        final BaseDownloadTask task = TasksManager.getImpl().getTask(model.getId());
         boolean needPrologue = taskActionBtn.getVisibility() == View.VISIBLE;
         if (needPrologue) {
             if (taskStartAnim != null) {

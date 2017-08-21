@@ -67,17 +67,28 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private INotificationObserver observer = new INotificationObserver() {
         @Override
         public void onReceive(String s, HSBundle hsBundle) {
+            if (ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD.equals(s)) {
+                notifyItemChanged(getPos(hsBundle));
+            } else if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
+                if (hsBundle != null) {
+                    onSelectedTheme(getPos(hsBundle), null);
+                }
+            }
+
+        }
+
+        private int getPos(HSBundle hsBundle) {
             if (hsBundle != null) {
-                int themeId = hsBundle.getInt(ThemePreviewActivity.NOTIFY_THEME_SELECT_KEY);
+                int themeId = hsBundle.getInt(ThemePreviewActivity.NOTIFY_THEME_KEY);
                 for (Theme theme : data) {
                     if (theme.getThemeId() == themeId) {
-                        final int pos = data.indexOf(theme);
-                        onSelectedTheme(pos, null);
-                        notifyItemChanged(pos);
+                        return data.indexOf(theme);
                     }
                 }
             }
+            throw new IllegalStateException("Not found theme index!");
         }
+
     };
 
     public ThemeSelectorAdapter(Activity activity, final ArrayList<Theme> data) {
@@ -118,6 +129,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         });
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD, observer);
 
     }
 
@@ -231,8 +243,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         // Reset current.
         Type type = getTypeByThemeId( data.get(pos).getThemeId());
 
-
-        HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
         ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(type.getIdName().toLowerCase());
         Theme selectedTheme = data.get(pos);
         selectedTheme.setSelected(true);

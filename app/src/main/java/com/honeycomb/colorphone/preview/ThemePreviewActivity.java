@@ -18,7 +18,6 @@ import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -28,7 +27,11 @@ import java.util.ArrayList;
 
 public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_SELECT = "notify_theme_select";
-    public static final String NOTIFY_THEME_SELECT_KEY = "notify_theme_select_key";
+    public static final String NOTIFY_THEME_DOWNLOAD = "notify_theme_download";
+
+    public static final String NOTIFY_THEME_KEY = "notify_theme_select_key";
+
+
     private Theme mTheme;
     private ArrayList<Theme> mThemes;
     private Type mThemeType;
@@ -140,7 +143,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 //                CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getThemeId());
 //                // notify
 //                HSBundle bundle = new HSBundle();
-//                bundle.putInt(NOTIFY_THEME_SELECT_KEY, mTheme.getThemeId());
+//                bundle.putInt(NOTIFY_THEME_KEY, mTheme.getThemeId());
 //                HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
 //
 //                setButtonState(true);
@@ -169,10 +172,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         super.onStop();
 
     }
-
-    public static void cache(DownloadViewHolder holder) {
-    }
-
 
     private class ThemePagerAdapter extends PagerAdapter {
 

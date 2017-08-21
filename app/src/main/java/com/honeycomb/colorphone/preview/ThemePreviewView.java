@@ -47,8 +47,9 @@ import com.ihs.commons.utils.HSLog;
 
 import java.util.ArrayList;
 
+import static com.honeycomb.colorphone.preview.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
+import static com.honeycomb.colorphone.preview.ThemePreviewActivity.NOTIFY_THEME_KEY;
 import static com.honeycomb.colorphone.preview.ThemePreviewActivity.NOTIFY_THEME_SELECT;
-import static com.honeycomb.colorphone.preview.ThemePreviewActivity.NOTIFY_THEME_SELECT_KEY;
 
 /**
  * Created by sundxing on 17/8/4.
@@ -220,7 +221,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getThemeId());
                 // notify
                 HSBundle bundle = new HSBundle();
-                bundle.putInt(NOTIFY_THEME_SELECT_KEY, mTheme.getThemeId());
+                bundle.putInt(NOTIFY_THEME_KEY, mTheme.getThemeId());
                 HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
 
                 setButtonState(true);
@@ -502,11 +503,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void downloadTheme(TasksManagerModel model) {
-        if (sHolder != null) {
-            sHolder.doDownload(model);
-        } else {
-            DownloadViewHolder.doDownload(model, null);
-        }
+        DownloadViewHolder.doDownload(model, null);
+
+        // Notify download status.
+        HSBundle bundle = new HSBundle();
+        bundle.putInt(NOTIFY_THEME_KEY, mTheme.getThemeId());
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_DOWNLOAD, bundle);
 
         FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
     }
