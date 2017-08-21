@@ -64,11 +64,13 @@
 
         <activity
             android:name=".preview.ThemePreviewActivity"
+            android:launchMode="singleTop"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DarkFullScreen" />
         <activity
             android:name=".SettingsActivity"
+            android:launchMode="singleTop"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
