@@ -180,6 +180,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         ImageView avatar = (ImageView) findViewById(R.id.caller_avatar);
         avatar.setImageDrawable(ContextCompat.getDrawable(mActivity, mTheme.getAvatar()));
+        name.setText(mTheme.getAvatarName());
+
     }
 
     protected void onCreate() {

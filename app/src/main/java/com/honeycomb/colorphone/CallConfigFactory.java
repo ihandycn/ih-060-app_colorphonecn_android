@@ -95,7 +95,8 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
         @Override
         public int getCallerDefaultPhoto() {
-            return faces[new Random(3982).nextInt(faces.length)];
+            final int index = new Random().nextInt(900);
+            return faces[index % faces.length];
         }
 
         @Override

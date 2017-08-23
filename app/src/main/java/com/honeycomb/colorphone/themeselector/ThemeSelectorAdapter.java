@@ -471,9 +471,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .load(backRes != 0 ? theme.getBackgroundRes() : R.drawable.card_bg_round_dark)
                     .into(mThemePreviewImg);
 
-            Glide.with(mContentView)
-                    .load(theme.getAvatar())
-                    .into(mAvatar);
+            if (theme.getThemeId() != Type.TECH) {
+                Glide.with(mContentView)
+                        .load(theme.getAvatar())
+                        .into(mAvatar);
+            }
 
             setSelected(theme);
             setHotTheme(theme.isHot());

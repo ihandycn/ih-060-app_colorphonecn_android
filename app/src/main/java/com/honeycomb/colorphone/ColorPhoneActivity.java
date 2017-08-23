@@ -319,26 +319,26 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private static int[] avatars = new int[]{
+            R.drawable.female_4,
             R.drawable.male_1,
-            R.drawable.male_2,
-            R.drawable.male_3,
-            R.drawable.male_4,
-            R.drawable.female_1,
             R.drawable.female_2,
             R.drawable.female_3,
-            R.drawable.female_4,
+            R.drawable.male_2,
+            R.drawable.female_1,
+            R.drawable.male_3,
+            R.drawable.male_4,
     };
 
     private static String[] avatarNames = new String[]{
+            "Grace",
             "Jackson",
-            "Oliver",
-            "Noah",
-            "Lucas",
-
-            "Emma",
             "Isabella",
             "Harper",
-            "Grace"
+            "Noah",
+            "Emma",
+            "Oliver",
+            "Lucas",
+
     };
 
     private boolean isLikeTheme(String[] likeThemes, int themeId) {
