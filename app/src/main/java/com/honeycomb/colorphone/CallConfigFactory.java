@@ -72,36 +72,23 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
         // TODO order urls
         static String[] GIF_URLS_DEBUG = new String[] {
-                "https://superapps-dev.s3.amazonaws.com/light/Brownian.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503453886&Signature=hZj2jGCbOztJsqppT8efNCd6lQs%3D",
-                "https://superapps-dev.s3.amazonaws.com/light/Dazzle.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454059&Signature=3GGWLJ0O%2BmG8d0yme2af2WIqlvs%3D",
-                "https://superapps-dev.s3.amazonaws.com/light/Deep%20Love.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454071&Signature=9abVU51%2Fop7wX30B%2BgKpoQpy8%2B8%3D",
+                "http://superapps-dev.s3.amazonaws.com/light/brownian.gif",
+               "http://superapps-dev.s3.amazonaws.com/light/dazzle.gif",
+                "http://superapps-dev.s3.amazonaws.com/light/deep%20Love.gif",
 
-                "https://superapps-dev.s3.amazonaws.com/light/DJ.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454082&Signature=99cayJPt0aYzmC0V1OnCk%2B6dNNs%3D",
-                "https://superapps-dev.s3.amazonaws.com/light/Gold%20Myth.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454112&Signature=jxXiUET013YfW3%2FDZF3U5GsacW4%3D",
-                "https://superapps-dev.s3.amazonaws.com/light/Maze.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454126&Signature=p7nkmeK3Zp1NnX7mowJyb0VCg58%3D",
+                "http://superapps-dev.s3.amazonaws.com/light/DJ.gif",
+                "http://superapps-dev.s3.amazonaws.com/light/Gold%20Myth.gif",
+                "http://superapps-dev.s3.amazonaws.com/light/Maze.gif",
 
-                "https://superapps-dev.s3.amazonaws.com/light/Modern.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454140&Signature=wYx%2BIGgScTgOy%2Bm6QnmuFj2PYdc%3D",
-                "https://superapps-dev.s3.amazonaws.com/light/Palette.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454150&Signature=PvK3CK33kCQJ2JsRfGC0EhK0BmM%3D",
-                "https://superapps-dev.s3.amazonaws.com/light/Shining.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454199&Signature=c5Fqj7oVwNCvQNdtgcnAoXHpzN4%3D",
+                "http://superapps-dev.s3.amazonaws.com/light/Modern.gif",
+                "http://superapps-dev.s3.amazonaws.com/light/Palette.gif",
+                "http://superapps-dev.s3.amazonaws.com/light/Shining.gif",
 
-                "https://superapps-dev.s3.amazonaws.com/light/Raining.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454170&Signature=mdDbl5EiFiFkp1m8MJT%2FIvCzi%2Fc%3D",
-                "https://superapps-dev.s3.amazonaws.com/light/Universe.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503454212&Signature=bgvdvFW9%2FgRcczW8kem3UrdZH%2Bc%3D",
-                "https://superapps-dev.s3.amazonaws.com/light/snowfall.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503492646&Signature=f9smxysaosbcD%2FBad80dnYp7Eas%3D",
+                "http://superapps-dev.s3.amazonaws.com/light/Raining.gif",
+                "http://superapps-dev.s3.amazonaws.com/light/Universe.gif",
+                "http://superapps-dev.s3.amazonaws.com/light/snowfall.gif",
 
-                "https://superapps-dev.s3.amazonaws.com/light/blizzard.gif?" +
-                        "AWSAccessKeyId=AKIAITKGUQINFPMTBIFA&Expires=1503492537&Signature=ToslyMhtpnKrhysG3V6FR5Q9geI%3D",
+                "http://superapps-dev.s3.amazonaws.com/light/blizzard.gif",
         };
 
         static String GIF_URL_PREFIX = "http://cdn.appcloudbox.net/colorphoneapps/gifs/";

@@ -284,8 +284,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 theme.setAvatarName("Alexis");
                 theme.setAvatar(R.drawable.acb_phone_theme_default_technological_caller_avatar);
             } else {
-                theme.setAvatar(avatars[theme.getThemeId() % avatars.length]);
-                theme.setAvatarName(avatarNames[theme.getThemeId() % avatarNames.length]);
+                theme.setAvatar(avatars[theme.getIndex() % avatars.length]);
+                theme.setAvatarName(avatarNames[theme.getIndex() % avatarNames.length]);
             }
 
             theme.setHot(isHotTheme(hotThemes, type.getIdName()));
