@@ -6,8 +6,6 @@ public interface ConfigLog {
 
     List<String> getHotThemeList();
 
-    boolean isAssistantEnabledDefault();
-
     Event getEvent();
 
     interface Event {

@@ -25,6 +25,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     }
 
     @Override
+    public boolean isCallAssistantOpenDefault() {
+        return HSConfig.optBoolean(false, "Application", "CallAssistant", "DefaultEnabled");
+    }
+
+    @Override
     public CallIdleAlert.Config getCallIdleConfig() {
         return new CPCallIdleConfig();
     }

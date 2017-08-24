@@ -1,6 +1,5 @@
 package com.honeycomb.colorphone;
 
-import com.acb.call.CPSettings;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.config.HSConfig;
 
@@ -15,11 +14,6 @@ public class ConfigLogDefault implements ConfigLog {
     @Override
     public List<String> getHotThemeList() {
         return (List<String>) HSConfig.getList("Application", "Theme", "HotTheme");
-    }
-
-    @Override
-    public boolean isAssistantEnabledDefault() {
-        return HSConfig.optBoolean(false, "Application", "CallAssistant", "DefaultEnabled");
     }
 
     @Override
