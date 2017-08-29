@@ -443,6 +443,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void fadeInActionViewImmediately() {
         mApplyButton.setTranslationY(0);
+        animationDelay = 0;
+        scheduleNextHide();
     }
 
     private void scheduleNextHide() {
