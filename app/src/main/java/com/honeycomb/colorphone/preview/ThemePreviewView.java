@@ -64,7 +64,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final long WINDOW_ANIM_DURATION = 400;
     private static final int TRANS_IN_DURATION = 400;
     private static final boolean DEBUG_LIFE_CALLBACK = true & BuildConfig.DEBUG;
-    private static DownloadViewHolder sHolder;
 
     private ThemePreviewWindow previewWindow;
     private InCallActionView callActionView;
@@ -465,7 +464,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     }
 
-
     private boolean isSelectedPos() {
         return mPosition == mPageSelectedPos;
     }
@@ -515,12 +513,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
     }
 
-
-    public static void cache(DownloadViewHolder holder) {
-        sHolder = holder;
-    }
-
-
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         // Not called !!
@@ -562,7 +554,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mPageSelectedPos = position;
         if (isSelectedPos()) {
             if (themeReady && !inTransition && navIsShow()) {
-                fadeInActionView();
+                boolean curTheme = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getThemeId();
+                setButtonState(curTheme);
             }
 
             if (mPendingDownloadModel != null) {
@@ -578,7 +571,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     public void onPageScrollStateChanged(int state) {
 
     }
-
 
     private class ProgressViewHolder {
         private ProgressBar mProgressBar;
