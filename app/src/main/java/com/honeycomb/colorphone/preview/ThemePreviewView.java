@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
@@ -68,7 +67,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private ThemePreviewWindow previewWindow;
     private InCallActionView callActionView;
 
-    private Activity mActivity;
+    private ThemePreviewActivity mActivity;
     private View mRootView;
 
     private ProgressViewHolder mProgressViewHolder;
@@ -97,11 +96,23 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 case MSG_HIDE:
                     showNavView(false);
                     fadeOutActionView();
+                    for (ThemePreviewView preV : mActivity.getViews()) {
+                        int viewPos = (int) preV.getTag();
+                        if (viewPos != mPageSelectedPos) {
+                            preV.fadeOutActionViewImmediately();
+                        }
+                    }
                     return true;
 
                 case MSG_SHOW:
                     showNavView(true);
                     fadeInActionView();
+                    for (ThemePreviewView preV : mActivity.getViews()) {
+                        int viewPos = (int) preV.getTag();
+                        if (viewPos != mPageSelectedPos) {
+                            preV.fadeInActionViewImmediately();
+                        }
+                    }
                     return true;
 
                 default:
@@ -135,6 +146,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private int mPosition;
     private int mPageSelectedPos;
     private TasksManagerModel mPendingDownloadModel;
+    /**
+     * Play no Transition animation when page scroll.
+     */
+    private boolean mNoTransition = false;
 
     public ThemePreviewView(@NonNull Context context) {
         super(context);
@@ -149,7 +164,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
 
-    public void init(Activity activity, ArrayList<Theme> themes, int position, View navBack) {
+    public void init(ThemePreviewActivity activity, ArrayList<Theme> themes, int position, View navBack) {
         mActivity = activity;
         mTheme = themes.get(position);
         mPosition = position;
@@ -211,8 +226,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         previewImage = (ImageView) findViewById(R.id.preview_bg_img);
         dimCover = findViewById(R.id.dim_cover);
 
-
-
         mApplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,6 +239,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
 
                 setButtonState(true);
+                for (ThemePreviewView preV : mActivity.getViews()) {
+                    int viewPos = (int) preV.getTag();
+                    if (viewPos != mPageSelectedPos) {
+                        preV.updateButtonState();
+                    }
+                }
                 Toast toast = Toast.makeText(mActivity, R.string.apply_success, Toast.LENGTH_SHORT);
                 int offsetY = (int) (bottomBtnTransY + Utils.pxFromDp(8));
                 toast.setGravity(Gravity.BOTTOM, 0, offsetY);
@@ -256,6 +275,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             boolean curTheme = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getThemeId();
             animationDelay = 0;
             setButtonState(curTheme);
+            playButtonAnimation();
         }
     };
 
@@ -284,6 +304,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         View userView = findViewById(R.id.caller_avatar_container);
         if (userView == null) {
             userView = findViewById(R.id.caller_avatar);
+        }
+
+        if (mNoTransition) {
+            if (completeRunnable != null) {
+                completeRunnable.run();
+            }
+            return;
         }
 
         int pHeight = Utils.getPhoneHeight(mActivity);
@@ -343,12 +370,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mApplyButton.setText(getString(R.string.theme_apply));
         }
         mApplyButton.setEnabled(!curTheme);
+    }
 
-        /**
-         * onPageSelected handle it.
-         */
-        if (navIsShow() && isSelectedPos()) {
-            fadeInActionView();
+    private void playButtonAnimation() {
+        if (navIsShow()) {
+            if (mNoTransition) {
+                fadeInActionViewImmediately();
+            } else {
+                fadeInActionView();
+            }
         } else {
             fadeOutActionViewImmediately();
         }
@@ -407,12 +437,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }).setStartDelay(0).start();
     }
 
-    private void fadeOutActionViewImmediately() {
+    public void fadeOutActionViewImmediately() {
         mApplyButton.setTranslationY(bottomBtnTransY);
-
     }
 
-        private void scheduleNextHide() {
+    public void fadeInActionViewImmediately() {
+        mApplyButton.setTranslationY(0);
+    }
+
+    private void scheduleNextHide() {
         mHandler.removeMessages(MSG_HIDE);
         mHandler.sendEmptyMessageDelayed(MSG_HIDE, AUTO_HIDE_TIME);
     }
@@ -552,24 +585,27 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             HSLog.d("onPageSelected " + position);
         }
         mPageSelectedPos = position;
-        if (isSelectedPos()) {
-            if (themeReady && !inTransition && navIsShow()) {
-                boolean curTheme = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getThemeId();
-                setButtonState(curTheme);
-            }
+        if ((isSelectedPos() && mPendingDownloadModel != null)) {
+            downloadTheme(mPendingDownloadModel);
+            mPendingDownloadModel = null;
+        }
 
-            if (mPendingDownloadModel != null) {
-                downloadTheme(mPendingDownloadModel);
-                mPendingDownloadModel = null;
-            }
-        } else {
-            fadeOutActionViewImmediately();
+    }
+
+    public void updateButtonState() {
+        if (themeReady && navIsShow()) {
+            boolean curTheme = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getThemeId();
+            setButtonState(curTheme);
         }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    public void setNoTransition(boolean noTransition) {
+        mNoTransition = noTransition;
     }
 
     private class ProgressViewHolder {
