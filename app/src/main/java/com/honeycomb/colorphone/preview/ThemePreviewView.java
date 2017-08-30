@@ -133,7 +133,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         @Override
         public void updateNotDownloaded(int status, long sofar, long total) {
-            Toast.makeText(mActivity, "Paused!", Toast.LENGTH_SHORT).show();
+            if (BuildConfig.DEBUG) {
+                Toast.makeText(mActivity, "Paused!", Toast.LENGTH_SHORT).show();
+            }
         }
 
         @Override
@@ -199,7 +201,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     protected void onCreate() {
-        ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mThemeType.getIdName().toLowerCase());
         previewWindow = (ThemePreviewWindow) findViewById(R.id.card_flash_preview_window);
         previewWindow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -442,6 +443,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void fadeInActionViewImmediately() {
+        if (!themeReady) {
+            return;
+        }
         mApplyButton.setTranslationY(0);
         animationDelay = 0;
         scheduleNextHide();
@@ -521,7 +525,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 mProgressViewHolder.transIn(bottomBtnTransY, duration);
                 float percent = TasksManager.getImpl().getDownloadProgress(model.getId());
                 mProgressViewHolder.updateProgressView((int) (percent * 100));
-
+                if (percent == 0f || Float.isNaN(percent)) {
+                    ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase());
+                }
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {

@@ -199,6 +199,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mStartPage.animate().cancel();
         }
 
+        if (mainSwitch != null) {
+            boolean nowEnable = mainSwitch.isChecked();
+            if (nowEnable != initCheckState) {
+                initCheckState = nowEnable;
+                ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(nowEnable);
+            }
+        }
         saveThemeLikes();
     }
 
@@ -222,13 +229,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onDestroy() {
         mHandler.removeCallbacksAndMessages(null);
-
-        if (mainSwitch != null) {
-            boolean nowEnable = mainSwitch.isChecked();
-            if (nowEnable != initCheckState) {
-                ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(nowEnable);
-            }
-        }
         TasksManager.getImpl().onDestroy();
         HSGlobalNotificationCenter.removeObserver(this);
         if (mRecyclerView != null) {

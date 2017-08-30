@@ -3,7 +3,9 @@ package com.honeycomb.colorphone;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.config.HSConfig;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by sundxing on 17/7/7.
@@ -24,6 +26,7 @@ public class ConfigLogDefault implements ConfigLog {
 
     public static class FlurryEvent implements Event {
         private static boolean enabled = false;
+        Set<String> downloadThemes = new HashSet<>(3);
         @Override
         public void onMainViewOpen() {
             HSAnalytics.logEvent("ColorPhone_MainView_Opened");
@@ -46,7 +49,10 @@ public class ConfigLogDefault implements ConfigLog {
 
         @Override
         public void onThemeDownloadFinish(String name) {
-            HSAnalytics.logEvent("ColorPhone_Theme_Download_Finished", "ThemeName", name);
+            boolean firstDownload = downloadThemes.add(name);
+            if (firstDownload) {
+                HSAnalytics.logEvent("ColorPhone_Theme_Download_Finished", "ThemeName", name);
+            }
         }
 
         @Override

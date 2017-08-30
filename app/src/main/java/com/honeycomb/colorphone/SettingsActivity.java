@@ -62,11 +62,12 @@ public class SettingsActivity extends HSAppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onStop() {
         boolean nowEnable = mSwitchCompat.isChecked();
         if (nowEnable != initCheckState) {
             ColorPhoneApplication.getConfigLog().getEvent().onCallAssistantEnableFromSetting(nowEnable);
+            initCheckState = nowEnable;
         }
-        super.onDestroy();
+        super.onStop();
     }
 }

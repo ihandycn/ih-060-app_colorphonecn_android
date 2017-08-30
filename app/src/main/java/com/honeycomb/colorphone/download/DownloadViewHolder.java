@@ -163,7 +163,7 @@ public class DownloadViewHolder implements DownloadHolder {
             taskProgressBar.reset();
             taskProgressTxt.setVisibility(View.INVISIBLE);
         }
-        if (status == FileDownloadStatus.error) {
+        if (status == FileDownloadStatus.error && BuildConfig.DEBUG) {
             Toast.makeText(HSApplication.getContext(), R.string.network_err, Toast.LENGTH_SHORT).show();
         }
 
