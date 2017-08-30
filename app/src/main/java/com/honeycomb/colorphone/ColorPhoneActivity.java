@@ -31,6 +31,7 @@ import com.honeycomb.colorphone.preview.ThemePreviewActivity;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.app.utils.HSVersionControlUtils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -86,6 +87,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        try {
+            if (!HSVersionControlUtils.isFirstSessionSinceInstallation()) {
+                Thread.sleep(1000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         setTheme(R.style.AppLightStatusBarTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
