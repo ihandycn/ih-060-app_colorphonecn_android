@@ -50,7 +50,6 @@ import java.util.Map;
 
 import hugo.weaving.DebugLog;
 
-import static com.acb.call.themes.Type.LED;
 import static com.acb.call.themes.Type.NEON;
 import static com.acb.call.themes.Type.STARS;
 import static com.acb.call.themes.Type.SUN;
@@ -452,20 +451,4 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
-    public long getDownloadNumber(Type type) {
-        switch (type.getValue()) {
-            case LED:
-                return 663537;
-            case TECH:
-                return 137803;
-            case NEON:
-                return 608583;
-            case STARS:
-                return 329812;
-            case SUN:
-                return 112630;
-            default:
-                return 633378;
-        }
-    }
 }

@@ -14,9 +14,9 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:src="@drawable/drawer_icon" />
 
         <com.honeycomb.colorphone.view.TypefacedTextView
             android:id="@+id/typefacedTextView"
