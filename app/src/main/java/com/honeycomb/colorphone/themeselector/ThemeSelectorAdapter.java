@@ -180,6 +180,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     int pos = holder.getPositionTag();
                     if (onSelectedTheme(pos, holder)) {
                         CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, data.get(pos).getThemeId());
+                        HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
                     }
                 }
             });
