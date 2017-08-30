@@ -1,7 +1,5 @@
 package com.honeycomb.colorphone;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -23,7 +21,6 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -60,7 +57,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
 
     private static final String PREFS_THEME_LIKE = "theme_like_array";
-    private static final long START_PAGE_TIME = 2000;
     private RecyclerView mRecyclerView;
     private SwitchCompat mainSwitch;
     private TextView mainSwitchTxt;
@@ -86,45 +82,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         }
     };
-    private static boolean firstStart = true;
-    private View mStartPage;
 
     @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppLightStatusBarTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (firstStart) {
-            firstStart = false;
-            startFlashPage((ViewGroup) findViewById(R.id.drawer_layout).getParent());
-        } else {
-            initMainFrame();
-        }
-    }
-
-    private void startFlashPage(final ViewGroup group) {
-        mStartPage = getLayoutInflater().inflate(R.layout.start_page, group, false);
-        group.addView(mStartPage, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mStartPage.animate().alpha(0).setDuration(400).setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        group.removeViewInLayout(mStartPage);
-                    }
-                });
-            }
-        }, START_PAGE_TIME);
-
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initMainFrame();
-            }
-        }, 600);
-
+        initMainFrame();
     }
 
     @Override
@@ -193,11 +158,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        if (mStartPage != null) {
-            mStartPage.setVisibility(View.GONE);
-            mStartPage.animate().cancel();
-        }
-
         if (mainSwitch != null) {
             boolean nowEnable = mainSwitch.isChecked();
             if (nowEnable != initCheckState) {

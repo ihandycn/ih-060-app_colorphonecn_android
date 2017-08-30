@@ -37,7 +37,7 @@
             android:name=".ColorPhoneActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppLightStatusBarTheme">
+            android:theme="@style/AppLightStatusBarTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

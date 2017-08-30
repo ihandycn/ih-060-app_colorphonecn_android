@@ -10,6 +10,10 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
+    <style name="AppLightStatusBarTheme.Launcher" parent="AppLightStatusBarTheme">
+        <item name="android:windowBackground">@drawable/page_start_bg</item>
+    </style>
+
     <style name="AppLightStatusBarTheme" parent="AppTheme"/>
 
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
