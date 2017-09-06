@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.percent.PercentRelativeLayout android:id="@+id/welcome_guide_funciton_open_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="invisible">
+
+    <ImageView
+        android:id="@+id/iv_skip"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="41.33dp"
+        android:background="@drawable/material_compat_bg"
+        android:scaleType="center"
+        android:src="@drawable/acb_phone_alert_call_close" />
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/iv_skip"
+        android:layout_marginEnd="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="39dp"
+        android:src="@drawable/drawer_icon"
+        app:layout_heightPercent="86%" />
+
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_contains_ads"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="3dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        app:typeface="@string/proxima_nova_light" />
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/tv_contains_ads"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/welcome_guide_function_enable_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:text="@string/ad_hint"
+        android:textColor="#999999"
+        android:textSize="13sp"
+        app:typeface="@string/proxima_nova_light" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/welcome_guide_function_enable_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/acb_blue_button_selector"
+        android:gravity="center"
+        android:paddingBottom="4dp"
+        android:paddingLeft="60dp"
+        android:paddingRight="60dp"
+        android:paddingTop="4dp"
+        android:text="@string/acb_guide_ok"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+
+</android.support.percent.PercentRelativeLayout>
