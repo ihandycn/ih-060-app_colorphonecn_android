@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.colorphone.lock.lockscreen.locker.slidingdrawer.wallpaper.WallpaperContainer
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="30dp"
+    android:layout_weight="1"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <com.colorphone.lock.TypefacedTextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|start"
+            android:gravity="left|start|center_vertical"
+            android:maxLines="1"
+            android:text="@string/locker_slide_wallpaper_title"
+            app:typeface="@string/proxima_nova_regular"
+            android:textColor="#b2ffffff"
+            android:textSize="14sp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"/>
+
+        <ImageView
+            android:id="@+id/iv_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|end|center_vertical"
+            android:scaleType="fitCenter"
+            android:src="@drawable/lock_quickly_panel_refresh_wallpaper"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0">
+
+            <ImageView
+                android:id="@+id/iv_img1"
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:background="#33ffffff"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/iv_img1_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/lock_quickly_refresh_thumb_wallpaper" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1.0">
+
+            <ImageView
+                android:id="@+id/iv_img2"
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:background="#33ffffff"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/iv_img2_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/lock_quickly_refresh_thumb_wallpaper" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1.0">
+
+            <ImageView
+                android:id="@+id/iv_img3"
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:background="#33ffffff"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/iv_img3_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/lock_quickly_refresh_thumb_wallpaper" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1.0">
+
+            <ImageView
+                android:id="@+id/iv_img4"
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:background="#33ffffff"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/iv_img4_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/lock_quickly_refresh_thumb_wallpaper" />
+        </FrameLayout>
+    </LinearLayout>
+</com.colorphone.lock.lockscreen.locker.slidingdrawer.wallpaper.WallpaperContainer>

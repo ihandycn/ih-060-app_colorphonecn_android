@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+  <string name="charging_screen_charged_left_describe">पूरा चार्ज बाकी %1$s</string>
+  <string name="charging_screen_charged_full">पूरा चार्ज </string>
+  <string name="charging_screen_menu_item">बंद करें </string>
+  <string name="charging_screen_unlock_describe">अनलॉक करने के लिए स्वाइप करें</string>
+  <string name="charging_screen_charging_tip1">बैकग्राउंड एप को रोकने से आपकी चार्ज की गति बढ़ स कती है। </string>
+  <string name="charging_screen_charging_tip2">तापमान का 40\u2103 पर पहुंचना आपकी बैटरी के लिए खतरनाक हो सकता है। </string>
+  <string name="charging_screen_charging_tip3">आपकी बैटरी अच्छी स्थिति में यह सुनिश्चित करने के लिए स्मार्ट चािर्जंग आपके चार्ज के स्तर को मॉनिटर करेगा। </string>
+  <string name="charging_screen_charging_tip4">चार्जिंग बैटरी मोड के दौरान चार्जर को हटाना आपकी बैटरी के लिए खतरनाक हो सकता है। </string>
+  <string name="charging_screen_charging_tip5">यहां तक कि फोन चार्ज नहीं है, लगभग चार्ज मोड के दौरान चार्जर को हटाना सुरक्षित है। </string>
+  <string name="charging_screen_charging_tip6">पूरे चार्ज मोड के दौरान आपकी बैटरी को बचाने के लिए %1$s चार्ज कम होगा। </string>
+  <string name="charging_screen_charging_speed_charging_state_tip_view">चार्जर को हटाना आपकी बैटरी के लिए खतरनाक हो सकता है </string>
+  <string name="charging_screen_charging_continue_charging_state_tip_view">फोन चार्ज नहीं है, लेकिन चार्जर को हटाना सुरक्षित है </string>
+  <string name="charging_screen_charging_trickle_charging_state_tip_view">आपकी बैटरी को बचाने के लिए Air launcher चार्ज को कम करता है</string>
+  <string name="charging_screen_close_dialog_title">स्मार्ट चार्जिंग बंद करें?</string>
+  <string name="charging_screen_close_dialog_content">यदि आप स्मार्ट चार्जिंग बंद करते हैं, आप अब अपनी बैटरी की सुरक्षा नहीं कर पाओगे। क्या आप वास्तव में इसे बंद करना चाहते हो?</string>
+  <string name="charging_screen_close_dialog_negative_action">बंद करें </string>
+  <string name="charging_screen_close_dialog_positive_action">अभी नहीं</string>
+  <string name="charging_screen_guide_turn_on">आपकी बैटरी सुरक्षा में है!</string>
+  <string name="charging_screen_settings_title">बैटरी सुरक्षा </string>
+  <string name="charging_screen_settings_subtitle">(विज्ञापन शामिल)</string>
+  <string name="charging_screen_settings_description">उपकरण को ओवरचार्जिंग से बचाएं</string>
+</resources>

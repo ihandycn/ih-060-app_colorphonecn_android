@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="lock_screen_pop_menu_offset_x">130dp</dimen>
+    <dimen name="charging_screen_menu_to_top_height">32dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="smart_charging_spread_content_font_size">16sp</dimen>
+    <dimen name="smart_charging_spread_battery_bg_x">86dp</dimen>
+    <dimen name="smart_charging_spread_battery_bg_y">128dp</dimen>
+
+    <!-- Locker -->
+    <dimen name="locker_toggle_height">407dp</dimen>
+    <dimen name="locker_popmenu_width">120dp</dimen>
+    <dimen name="boost_icon_size">80dp</dimen>
+    <dimen name="settings_item_locker_height">64dp</dimen>
+    <dimen name="app_bar_elevation">4dp</dimen>
+
+    <dimen name="smart_charging_spread_blister1_trans_y">30dp</dimen>
+    <dimen name="smart_charging_spread_blister2_trans_y">25dp</dimen>
+    <dimen name="smart_charging_spread_blister3_trans_y">21dp</dimen>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+  <string name="charging_screen_charged_left_describe">Осталось заряда на %1$s</string>
+  <string name="charging_screen_charged_full">Полностью заряжен</string>
+  <string name="charging_screen_menu_item">ОТКЛЮЧИТЬ</string>
+  <string name="charging_screen_unlock_describe">Проведите пальцем для разблокировки</string>
+  <string name="charging_screen_charging_tip1">Остановка фоновых приложений ускоряет зарядку.</string>
+  <string name="charging_screen_charging_tip2">Температура выше 40\u2103 может повредить аккумулятор.</string>
+  <string name="charging_screen_charging_tip3">Интеллектуальная зарядка контролирует состояние зарядки и защищает аккумулятор.</string>
+  <string name="charging_screen_charging_tip4">Отключение смартфона от зарядного устройства в режиме зарядки может привести к повреждению аккумулятора.</string>
+  <string name="charging_screen_charging_tip5">Даже если зарядка не завершена, \рекомендуется отключать смартфон от зарядного устройства в режиме «Почти заряжен».</string>
+  <string name="charging_screen_charging_tip6">%1$s прекращает зарядку в режиме «Полностью заряжен» для защиты аккумулятора.</string>
+  <string name="charging_screen_charging_speed_charging_state_tip_view">Отключение от зарядного устройства может привести к повреждению аккумулятора</string>
+  <string name="charging_screen_charging_continue_charging_state_tip_view">Смартфон не заряжен, \но его можно безопасно отключить от зарядного устройства</string>
+  <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcher останавливает зарядку для защиты аккумулятора</string>
+  <string name="charging_screen_close_dialog_title">Отключить интеллектуальную зарядку?</string>
+  <string name="charging_screen_close_dialog_content">Если отключить интеллектуальную зарядку, \аккумулятор не будет защищен. Отключить?</string>
+  <string name="charging_screen_close_dialog_negative_action">ОТКЛЮЧИТЬ</string>
+  <string name="charging_screen_close_dialog_positive_action">НЕ СЕЙЧАС</string>
+  <string name="charging_screen_guide_turn_on">Ваш аккумулятор защищен!</string>
+  <string name="charging_screen_settings_title">Защита аккумулятора</string>
+  <string name="charging_screen_settings_subtitle">(Содержит рекламу.)</string>
+  <string name="charging_screen_settings_description">Защитите устройство от перезарядки</string>
+</resources>

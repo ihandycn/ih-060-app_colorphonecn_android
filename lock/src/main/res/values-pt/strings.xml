@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+  <string name="charging_screen_charged_left_describe">Carga completa restante %1$s</string>
+  <string name="charging_screen_charged_full">Completamente carregado</string>
+  <string name="charging_screen_menu_item">DESATIVAR</string>
+  <string name="charging_screen_unlock_describe">Deslize para desbloquear</string>
+  <string name="charging_screen_charging_tip1">Parar aplicações que correm no fundo pode acelerar a velocidade de carregamento.</string>
+  <string name="charging_screen_charging_tip2">Atingir temperaturas de 40\u2103 pode danificar a sua bateria.</string>
+  <string name="charging_screen_charging_tip3">O carregamento inteligente irá monitorizar o estado do carregamento para garantir que a sua bateria está em bom estado.</string>
+  <string name="charging_screen_charging_tip4">Remover o seu carregador pode danificar a sua bateria enquanto esta estiver no modo de carregamento.</string>
+  <string name="charging_screen_charging_tip5">Apesar do telemóvel não estar carregado, é seguro remover o carregador se este estiver no modo de quase carregado.</string>
+  <string name="charging_screen_charging_tip6">%1$s irá reduzir o carregamento para proteger a sua bateria enquanto esta estiver no modo de carregamento completo.</string>
+  <string name="charging_screen_charging_speed_charging_state_tip_view">Remover o carregador poderia danificar a sua bateria</string>
+  <string name="charging_screen_charging_continue_charging_state_tip_view">O telemóvel não está carregado, mas é seguro remover o carregador</string>
+  <string name="charging_screen_charging_trickle_charging_state_tip_view">A Air Launcher está a reduzir o carregamento para proteger a sua bateria</string>
+  <string name="charging_screen_close_dialog_title">Desativar o carregamento inteligente?</string>
+  <string name="charging_screen_close_dialog_content">Se desativar o carregamento inteligente irá deixar de conseguir proteger a sua bateria. Tem a certeza de que o pretende desativar?</string>
+  <string name="charging_screen_close_dialog_negative_action">DESATIVAR</string>
+  <string name="charging_screen_close_dialog_positive_action">AGORA NÃO</string>
+  <string name="charging_screen_guide_turn_on">A sua bateria está protegida!</string>
+  <string name="charging_screen_settings_title">Proteção da bateria</string>
+  <string name="charging_screen_settings_subtitle">(Contém anúncios)</string>
+  <string name="charging_screen_settings_description">Proteger o dispositivo de sobrecargas</string>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+  <string name="charging_screen_charged_left_describe">Carga completa restante %1$s</string>
+  <string name="charging_screen_charged_full">Completamente cargado</string>
+  <string name="charging_screen_menu_item">APAGAR</string>
+  <string name="charging_screen_unlock_describe">Desliza para desbloquear</string>
+  <string name="charging_screen_charging_tip1">Detener aplicaciones en segundo plano puede acelerar la velocidad de carga.</string>
+  <string name="charging_screen_charging_tip2">Alcanzar una temperatura de 40\u2103 puede ser perjudicial para la batería.</string>
+  <string name="charging_screen_charging_tip3">La carga inteligente supervisa el estado de la carga para garantizar que la batería está en buen estado.</string>
+  <string name="charging_screen_charging_tip4">Si retiras la batería en el modo de carga de batería, esta podría sufrir daños.</string>
+  <string name="charging_screen_charging_tip5">Aunque el teléfono no esté cargado, es seguro retirar el cargador aunque esté en el modo de casi cargado.</string>
+  <string name="charging_screen_charging_tip6">%1$s reduce la carga para proteger la batería durante el modo de carga completada.</string>
+  <string name="charging_screen_charging_speed_charging_state_tip_view">Retirar el cargador puede ser perjudicial para la batería</string>
+  <string name="charging_screen_charging_continue_charging_state_tip_view">El teléfono no está cargado, pero es seguro retirar el cargador</string>
+  <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcher reduce la carga para proteger tu batería</string>
+  <string name="charging_screen_close_dialog_title">Desactivar Carga inteligente</string>
+  <string name="charging_screen_close_dialog_content">Si desactivas la carga inteligente, no podrás seguir protegiendo la batería. ¿Seguro que quieres desactivarla?</string>
+  <string name="charging_screen_close_dialog_negative_action">APAGAR</string>
+  <string name="charging_screen_close_dialog_positive_action">AHORA NO</string>
+  <string name="charging_screen_guide_turn_on">¡La batería está protegida!</string>
+  <string name="charging_screen_settings_title">Protección de la batería</string>
+  <string name="charging_screen_settings_subtitle">(Contiene publicidad)</string>
+  <string name="charging_screen_settings_description">Protege el dispositivo de sobrecargas</string>
+</resources>

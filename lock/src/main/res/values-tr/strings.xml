@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+  <string name="charging_screen_charged_left_describe">Kalan tam şarj %1$s</string>
+  <string name="charging_screen_charged_full">Tam dolu</string>
+  <string name="charging_screen_menu_item">KAPAT</string>
+  <string name="charging_screen_unlock_describe">Kilidi açmak için kaydır</string>
+  <string name="charging_screen_charging_tip1">Arka plan uygulamalarını kapatmak şarj hızını artırabilir.</string>
+  <string name="charging_screen_charging_tip2">40\u2103 sıcaklığa erişmek pil için zararlı olabilir.</string>
+  <string name="charging_screen_charging_tip3">Akıllı Şarj, pilin iyi durumda olmasını sağlamak için şarj durumu izler.</string>
+  <string name="charging_screen_charging_tip4">Pil şarj modunda iken şarj cihazını çıkarmak pile zarar verebilir.</string>
+  <string name="charging_screen_charging_tip5">Telefonu şarj edilmemiş olsa bile, neredeyse dolu modunda iken şarj cihazını çıkarmak güvenlidir.</string>
+  <string name="charging_screen_charging_tip6">%1$s tam dolu modunda pili korumak için şarjı azaltır.</string>
+  <string name="charging_screen_charging_speed_charging_state_tip_view">Şarj cihazını çıkarmak pile zarar verebilir</string>
+  <string name="charging_screen_charging_continue_charging_state_tip_view">Telefon şarj edilmedi ama şarj cihazını çıkarmak güvenli</string>
+  <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcher pili korumak için şarjı azaltıyor</string>
+  <string name="charging_screen_close_dialog_title">Akıllı Şarj kapatılsın mı?</string>
+  <string name="charging_screen_close_dialog_content">Akıllı şarjı kapatırsan, pili koruyamazsın. Kapatmak istediğinden emin misin?</string>
+  <string name="charging_screen_close_dialog_negative_action">KAPAT</string>
+  <string name="charging_screen_close_dialog_positive_action">ŞİMDİ DEĞİL</string>
+  <string name="charging_screen_guide_turn_on">Piliniz korunuyor!</string>
+  <string name="charging_screen_settings_title">Pil koruması</string>
+  <string name="charging_screen_settings_subtitle">(Reklam içerir)</string>
+  <string name="charging_screen_settings_description">Cihazı aşırı şarja karşı koru</string>
+</resources>

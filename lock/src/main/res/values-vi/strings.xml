@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+  <string name="charging_screen_charged_left_describe">Thời gian để sạc đầy đủ còn %1$s</string>
+  <string name="charging_screen_charged_full">Sạc đầy đủ</string>
+  <string name="charging_screen_menu_item">Tắt</string>
+  <string name="charging_screen_unlock_describe">Vuốt để mở khóa</string>
+  <string name="charging_screen_charging_tip1">Dừng các ứng dụng chạy nền để tăng tốc độ sạc.</string>
+  <string name="charging_screen_charging_tip2">Việc đạt nhiệt độ 40\u2103 có thể gây hại cho pin của bạn.</string>
+  <string name="charging_screen_charging_tip3">Sạc Thông Minh giám sát trạng thái sạch của bạn để đảm bảo pin của bạn ở trong tình trạng tốt.</string>
+  <string name="charging_screen_charging_tip4">Việc tháo bộ sạc có thể gây hại cho pin của bạn trong khi ở chế độ sạc pin.</string>
+  <string name="charging_screen_charging_tip5">Mặc dù điện thoại không được sạc, nên tháo bộ sạc khi ở chế độ gần sạc đầy để đảm bảo an toàn.</string>
+  <string name="charging_screen_charging_tip6">%1$s sẽ giảm mức sạc để bảo vệ pin của bạn trong chế độ sạc đầy đủ.</string>
+  <string name="charging_screen_charging_speed_charging_state_tip_view">Việc gỡ bộ sạc sẽ gây hại cho pin của bạn</string>
+  <string name="charging_screen_charging_continue_charging_state_tip_view">Điện thoại không được sạc và việc tháo bộ sạc là an toàn</string>
+  <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcher đang giảm mức sạc để bảo vệ pin của bạn</string>
+  <string name="charging_screen_close_dialog_title">Tắt Sạc Thông Minh?</string>
+  <string name="charging_screen_close_dialog_content">Nếu bạn tắt sạc thông minh, bạn sẽ không thể bảo vệ pin nữa. Bạn có chắc chắn muốn tắt không?</string>
+  <string name="charging_screen_close_dialog_negative_action">TẮT</string>
+  <string name="charging_screen_close_dialog_positive_action">KHÔNG PHẢI BÂY GIỜ</string>
+  <string name="charging_screen_guide_turn_on">Pin của bạn đang được bảo vệ!</string>
+  <string name="charging_screen_settings_title">Bảo vệ pin</string>
+  <string name="charging_screen_settings_subtitle">(Chứa quảng cáo)</string>
+  <string name="charging_screen_settings_description">Bảo vệ thiết bị không bị sạc quá tải</string>
+</resources>

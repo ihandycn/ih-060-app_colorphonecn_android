@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+  <string name="charging_screen_charged_left_describe">距離充電完成還有 %s</string>
+  <string name="charging_screen_charged_full">充電完成</string>
+  <string name="charging_screen_menu_item">關閉</string>
+  <string name="charging_screen_unlock_describe">滑動解鎖</string>
+  <string name="charging_screen_charging_tip1">停止後台運行的應用可以加快充電速度</string>
+  <string name="charging_screen_charging_tip2">如果電池溫度超過40\u2103將會降低電池壽命</string>
+  <string name="charging_screen_charging_tip3">智能充電監控您的充電狀態，以確保您的電池處於良好狀態</string>
+  <string name="charging_screen_charging_tip4">在快速充電電池模式下，移除充電器可能會損壞電池</string>
+  <string name="charging_screen_charging_tip5">充電未結束，但拔掉電源不會損傷電池</string>
+  <string name="charging_screen_charging_tip6">%1$s將在充電完成模式下減少充電以保護電池。</string>
+  <string name="charging_screen_charging_speed_charging_state_tip_view">拔掉充電器可能會損傷電池</string>
+  <string name="charging_screen_charging_continue_charging_state_tip_view">充電未結束，但拔掉電源不會損傷電池</string>
+  <string name="charging_screen_charging_trickle_charging_state_tip_view">Air桌面正在減小充電電流以保護電池</string>
+  <string name="charging_screen_close_dialog_title">你要關閉智能充電嗎？</string>
+  <string name="charging_screen_close_dialog_content">如果關閉智能充電，你將無法保護你的電池，是否確認關閉？</string>
+  <string name="charging_screen_close_dialog_negative_action">關閉</string>
+  <string name="charging_screen_close_dialog_positive_action">暫時不</string>
+  <string name="charging_screen_guide_turn_on">電池正在被保護</string>
+  <string name="charging_screen_settings_title">充電保護</string>
+  <string name="charging_screen_settings_subtitle">內含廣告</string>
+  <string name="charging_screen_settings_description">保護電池防止過度充電</string>
+</resources>

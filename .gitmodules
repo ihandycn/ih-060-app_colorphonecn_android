@@ -1,3 +1,6 @@
 [submodule "libs/libColorhone"]
 	path = libs/libColorhone
 	url = http://git.ihandysoft.com/bingroup/Bin_ColorPhone_Android.git
+[submodule "libs/chargingscreen"]
+	path = libs/chargingscreen
+	url = http://git.ihandysoft.com/bingroup/bin_chargingscreen_android.git

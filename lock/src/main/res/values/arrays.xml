@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="bluetooth_state_drawable">
+        <item>@drawable/locker_bluetooth_close</item>
+        <item>@drawable/locker_bluetooth_open</item>
+        <item>@drawable/locker_bluetooth_opening</item>
+        <item>@drawable/locker_bluetooth_opening</item>
+    </array>
+    <array name="mobile_data_state_drawable">
+        <item>@drawable/locker_data_close</item>
+        <item>@drawable/locker_data_open</item>
+    </array>
+    <array name="sound_state_drawable">
+        <item>@drawable/locker_sound_close</item>
+        <item>@drawable/locker_sound_vibrate</item>
+        <item>@drawable/locker_sound_open</item>
+    </array>
+    <array name="wifi_state_drawable">
+        <item>@drawable/locker_wifi_close</item>
+        <item>@drawable/locker_wifi_on</item>
+        <item>@drawable/locker_wifi_close</item>
+        <item>@drawable/locker_wifi_close</item>
+    </array>
+</resources>

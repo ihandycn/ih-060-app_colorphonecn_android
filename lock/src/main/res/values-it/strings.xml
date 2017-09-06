@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+  <string name="charging_screen_charged_left_describe">%1$s al completamento della carica</string>
+  <string name="charging_screen_charged_full">Carica completata</string>
+  <string name="charging_screen_menu_item">Disattiva</string>
+  <string name="charging_screen_unlock_describe">Scorri per sbloccare</string>
+  <string name="charging_screen_charging_tip1">Chiudi le app in esecuzione in background per accelerare il processo di ricarica.</string>
+  <string name="charging_screen_charging_tip2">Il raggiungimento di una temperatura di 40℃ può danneggiare la batteria.</string>
+  <string name="charging_screen_charging_tip3">La Ricarica intelligente monitora lo stato della ricarica per evitare il danneggiamento della batteria.</string>
+  <string name="charging_screen_charging_tip4">Scollegare il caricabatterie durante la fase di ricarica potrebbe danneggiare la batteria.</string>
+  <string name="charging_screen_charging_tip5">Anche se il telefono non è stato caricato completamento, è possibile scollegare il caricabatterie quando la ricarica è quasi completa.</string>
+  <string name="charging_screen_charging_tip6">%1$s riduce il caricamento per proteggere la batteria durante lo stato “Carica completata”.</string>
+  <string name="charging_screen_charging_speed_charging_state_tip_view">Lo scollegamento del caricabatterie potrebbe danneggiare la batteria</string>
+  <string name="charging_screen_charging_continue_charging_state_tip_view">Il telefono non è stato caricato completamente, ma è possibile scollegare il caricabatterie.</string>
+  <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcher sta limitando il caricamento per proteggere la batteria</string>
+  <string name="charging_screen_close_dialog_title">Vuoi disattivare la Ricarica intelligente?</string>
+  <string name="charging_screen_close_dialog_content">Se disattivi la Ricarica intelligente non potrai più proteggere la batteria. Vuoi disattivare?</string>
+  <string name="charging_screen_close_dialog_negative_action">DISATTIVA</string>
+  <string name="charging_screen_close_dialog_positive_action">NON ORA</string>
+  <string name="charging_screen_guide_turn_on">La batteria è protetta.</string>
+  <string name="charging_screen_settings_title">Protezione della batteria</string>
+  <string name="charging_screen_settings_subtitle">(Contiene annunci pubblicitari)</string>
+  <string name="charging_screen_settings_description">Proteggi il dispositivo dai sovraccarichi</string>
+</resources>

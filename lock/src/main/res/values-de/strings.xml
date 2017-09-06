@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+  <string name="charging_screen_charged_left_describe">Volle Ladung verbleibend %1$s</string>
+  <string name="charging_screen_charged_full">Voll geladen</string>
+  <string name="charging_screen_menu_item">Abschalten</string>
+  <string name="charging_screen_unlock_describe">Wischen zum Entsperren</string>
+  <string name="charging_screen_charging_tip1">Hintergrund-Apps anhalten, um Ladegeschwindigkeit zu steigern.</string>
+  <string name="charging_screen_charging_tip2">Eine Temperatur von 40\u2103 kann Ihrem Akku schaden.</string>
+  <string name="charging_screen_charging_tip3">Intelligentes Laden überwacht Ihren Ladestatus, um sicherzustellen, dass Ihr Akku in gutem Zustand ist.</string>
+  <string name="charging_screen_charging_tip4">Entfernen Ihres Ladegeräts während des Akkulademodus kann Ihren Akku beschädigen.</string>
+  <string name="charging_screen_charging_tip5">Selbst wenn das Telefon nicht aufgeladen ist, ist es sicher, das Ladegerät im Fast-geladen-Modus zu entfernen.</string>
+  <string name="charging_screen_charging_tip6">%1$s reduziert die Ladung, um Ihren Akku im Voll-geladen-Modus zu schützen.</string>
+  <string name="charging_screen_charging_speed_charging_state_tip_view">Das Entfernen des Ladegeräts wäre schädlich für Ihren Akku</string>
+  <string name="charging_screen_charging_continue_charging_state_tip_view">Das Telefon ist nicht aufgeladen und es ist sicher, das Ladegerät zu entfernen</string>
+  <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcher reduziert die Ladung, um Ihren Akku zu schützen</string>
+  <string name="charging_screen_close_dialog_title">Intelligentes Laden abschalten?</string>
+  <string name="charging_screen_close_dialog_content">Wenn Sie intelligentes Laden abschalten, können Sie Ihren Akku nicht mehr schützen. Soll es wirklich abgeschaltet werden?</string>
+  <string name="charging_screen_close_dialog_negative_action">ABSCHALTEN</string>
+  <string name="charging_screen_close_dialog_positive_action">JETZT NICHT</string>
+  <string name="charging_screen_guide_turn_on">Ihr Akku ist geschützt!</string>
+  <string name="charging_screen_settings_title">Akkuschutz</string>
+  <string name="charging_screen_settings_subtitle">(Enthält Werbung)</string>
+  <string name="charging_screen_settings_description">Gerät vor Überladung schützen</string>
+</resources>

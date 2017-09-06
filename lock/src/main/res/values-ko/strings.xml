@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+  <string name="charging_screen_charged_left_describe">완전 충전까지 %1$s 남음</string>
+  <string name="charging_screen_charged_full">완전 충전됨</string>
+  <string name="charging_screen_menu_item">끄기</string>
+  <string name="charging_screen_unlock_describe">밀어서 잠금 해제</string>
+  <string name="charging_screen_charging_tip1">구동 속도를 높이려면 배경 어플을 중지시키세요.</string>
+  <string name="charging_screen_charging_tip2">40\u2103도에 도달하면 배터리에 해가 갈 수 있습니다.</string>
+  <string name="charging_screen_charging_tip3">스마트 충전은 배터리 상태가 좋은지 확인하기 위해 충전 상태를 모니터링합니다.</string>
+  <string name="charging_screen_charging_tip4">배터리 충전 모드 중 충전기를 제거하면 배터리에 해가 갈 수 있습니다.</string>
+  <string name="charging_screen_charging_tip5">핸드폰이 충전되어 있지 않더라도 거의 충전 모드에서 충전기를 제거하는 편이 안전합니다.</string>
+  <string name="charging_screen_charging_tip6">%1$s이(가) 완전 충전 모드일 때 배터리를 보호하기 위해 충전량을 경감시킵니다.</string>
+  <string name="charging_screen_charging_speed_charging_state_tip_view">충전기를 제거하면 배터리에 해가 갈 수 있습니다.</string>
+  <string name="charging_screen_charging_continue_charging_state_tip_view">핸드폰이 충전되어 있지 않을 때는 충전기를 제거하는 편이 안전합니다.</string>
+  <string name="charging_screen_charging_trickle_charging_state_tip_view">Air Launcher는 배터리를 보호하기 위해 충전량을 경감시킵니다.</string>
+  <string name="charging_screen_close_dialog_title">스마트 충전을 끄시겠습니까?</string>
+  <string name="charging_screen_close_dialog_content">스마트 충전을 끄면 더 이상 배터리를 보호할 수 없습니다. 정말로 끄시겠습니까?</string>
+  <string name="charging_screen_close_dialog_negative_action">지금 끄기</string>
+  <string name="charging_screen_close_dialog_positive_action">나중에</string>
+  <string name="charging_screen_guide_turn_on">배터리를 보호 중입니다!</string>
+  <string name="charging_screen_settings_title">배터리 보호</string>
+  <string name="charging_screen_settings_subtitle">(광고 포함)</string>
+  <string name="charging_screen_settings_description">과충전으로부터 장치를 보호합니다.</string>
+</resources>
