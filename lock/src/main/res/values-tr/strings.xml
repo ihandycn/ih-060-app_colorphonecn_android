@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">Pil koruması</string>
   <string name="charging_screen_settings_subtitle">(Reklam içerir)</string>
   <string name="charging_screen_settings_description">Cihazı aşırı şarja karşı koru</string>
+  <string name="smart_charging_spread_bottom_content_title">Akıllı Şarj</string>
+  <string name="smart_charging_spread_bottom_content_des1">Gerçek zamanlı şarj durumunu görüntüle.</string>
+  <string name="smart_charging_spread_bottom_content_des2">Şarjın bitme süresini değerlendir.</string>
+  <string name="smart_charging_spread_bottom_content_des3">Tam şarj ve aşırı şarj uyarıları</string>
+  <string name="smart_charging_spread_tip">reklam içerebilir.</string>
+  <string name="smart_charging_spread_button">HEMEN AÇ</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">Kilidi etkisizleştir</string>
+  <string name="locker_disable_confirm">Kapatmak istediğinden emin misin?</string>
+  <string name="locker_disable_confirm_detail">Etkisizleştirilince kilit ekranındaki özellikler devre dışı kalır, devam etmek istediğinden emin misin?</string>
+  <string name="locker_diabled_success">Kilit kapatıldı</string>
+  <string name="slide_to_unlock">Kilidi açmak için kaydır</string>
+  <string name="locker_slide_wallpaper_title">Kilit Duvar kağıdı</string>
+  <string name="locker_settings">Kilit ayarları</string>
+  <string name="locker_settings_title">Ekran kilidi</string>
+  <string name="locker_settings_subtitle">(Reklam içerir)</string>
+  <string name="wallpaper_network_error">Ağ hatası. Lütfen tekrar deneyin.</string>
 </resources>

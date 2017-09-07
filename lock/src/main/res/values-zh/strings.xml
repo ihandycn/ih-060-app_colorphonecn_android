@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">充電保護</string>
   <string name="charging_screen_settings_subtitle">內含廣告</string>
   <string name="charging_screen_settings_description">保護電池防止過度充電</string>
+  <string name="smart_charging_spread_bottom_content_title">智能充電</string>
+  <string name="smart_charging_spread_bottom_content_des1">實時顯示充電狀態</string>
+  <string name="smart_charging_spread_bottom_content_des2">預估充電完成時間</string>
+  <string name="smart_charging_spread_bottom_content_des3">充電完成提示，過度衝電報警</string>
+  <string name="smart_charging_spread_tip">可能包含廣告</string>
+  <string name="smart_charging_spread_button">立刻開啟</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">關閉鎖屏</string>
+  <string name="locker_disable_confirm">確定關閉鎖屏？</string>
+  <string name="locker_disable_confirm_detail">繼續關閉，將移除鎖屏界面，確認繼續？</string>
+  <string name="locker_diabled_success">鎖屏已關閉</string>
+  <string name="slide_to_unlock">滑動解鎖</string>
+  <string name="locker_slide_wallpaper_title">鎖屏壁紙</string>
+  <string name="locker_settings">鎖屏設置</string>
+  <string name="locker_settings_title">鎖屏</string>
+  <string name="locker_settings_subtitle">內含廣告</string>
+  <string name="wallpaper_network_error">無可用連接，請重試</string>
 </resources>

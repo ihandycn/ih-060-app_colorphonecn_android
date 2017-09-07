@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">Защита аккумулятора</string>
   <string name="charging_screen_settings_subtitle">(Содержит рекламу.)</string>
   <string name="charging_screen_settings_description">Защитите устройство от перезарядки</string>
+  <string name="smart_charging_spread_bottom_content_title">Интеллектуальная зарядка</string>
+  <string name="smart_charging_spread_bottom_content_des1">Отображение статуса зарядки в реальном времени.</string>
+  <string name="smart_charging_spread_bottom_content_des2">Оценочное время до полной зарядки.</string>
+  <string name="smart_charging_spread_bottom_content_des3">Предупреждения о полной зарядке и перезарядке.</string>
+  <string name="smart_charging_spread_tip">Может содержать рекламу.</string>
+  <string name="smart_charging_spread_button">ОТКРЫТЬ</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">Отключить блокировку</string>
+  <string name="locker_disable_confirm">Отключить?</string>
+  <string name="locker_disable_confirm_detail">При отключении функции на экране блокировки будут деактивированы. Продолжить?</string>
+  <string name="locker_diabled_success">Блокировка отключена</string>
+  <string name="slide_to_unlock">Проведите пальцем для разблокировки</string>
+  <string name="locker_slide_wallpaper_title">Обои экрана блокировки</string>
+  <string name="locker_settings">Настройки блокировки</string>
+  <string name="locker_settings_title">Блокировка экрана</string>
+  <string name="locker_settings_subtitle">(Содержит рекламу.)</string>
+  <string name="wallpaper_network_error">Ошибка сети. Повторите попытку.</string>
 </resources>

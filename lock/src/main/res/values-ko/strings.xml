@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">배터리 보호</string>
   <string name="charging_screen_settings_subtitle">(광고 포함)</string>
   <string name="charging_screen_settings_description">과충전으로부터 장치를 보호합니다.</string>
+  <string name="smart_charging_spread_bottom_content_title">스마트 충전</string>
+  <string name="smart_charging_spread_bottom_content_des1">실시간 충전 상태를 표시합니다.</string>
+  <string name="smart_charging_spread_bottom_content_des2">충전 완료 시간을 예상합니다.</string>
+  <string name="smart_charging_spread_bottom_content_des3">완전 충전 및 과충전 알림</string>
+  <string name="smart_charging_spread_tip">광고를 포함할 수 있습니다.</string>
+  <string name="smart_charging_spread_button">지금 열기</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">로커 비활성화</string>
+  <string name="locker_disable_confirm">정말로 끄시겠습니까?</string>
+  <string name="locker_disable_confirm_detail">한 번 비활성화하면 더 이상 화면 로커를 볼 수 없습니다. 진행하시겠습니까?</string>
+  <string name="locker_diabled_success">로커가 꺼졌습니다.</string>
+  <string name="slide_to_unlock">밀어서 잠금 해제</string>
+  <string name="locker_slide_wallpaper_title">로커 바탕 화면</string>
+  <string name="locker_settings">로커 설정</string>
+  <string name="locker_settings_title">화면 로커</string>
+  <string name="locker_settings_subtitle">(광고 포함)</string>
+  <string name="wallpaper_network_error">네트워크 오류. 다시 시도하세요.</string>
 </resources>

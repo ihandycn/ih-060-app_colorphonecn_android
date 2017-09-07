@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">Bảo vệ pin</string>
   <string name="charging_screen_settings_subtitle">(Chứa quảng cáo)</string>
   <string name="charging_screen_settings_description">Bảo vệ thiết bị không bị sạc quá tải</string>
+  <string name="smart_charging_spread_bottom_content_title">Sạc Thông minh</string>
+  <string name="smart_charging_spread_bottom_content_des1">Hiển thị trạng thái sạc theo thời gian thực.</string>
+  <string name="smart_charging_spread_bottom_content_des2">Tính toán thời gian sạc hoàn tất.</string>
+  <string name="smart_charging_spread_bottom_content_des3">Thông báo sạc đầy đủ và sạc quá tải</string>
+  <string name="smart_charging_spread_tip">Có thể chứa quảng cáo.</string>
+  <string name="smart_charging_spread_button">MỞ NGAY</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">Tắt trình khóa</string>
+  <string name="locker_disable_confirm">Chắc chắn muốn tắt?</string>
+  <string name="locker_disable_confirm_detail">Sau khi đã tắt, bạn sẽ không thể nhìn thấy trình khóa màn hình. Tiếp tục?</string>
+  <string name="locker_diabled_success">Trình khóa đã được tắt.</string>
+  <string name="slide_to_unlock">Vuốt để mở khóa</string>
+  <string name="locker_slide_wallpaper_title">Hình nền khóa</string>
+  <string name="locker_settings">Cài đặt trình khóa</string>
+  <string name="locker_settings_title">Trình khóa màn hình</string>
+  <string name="locker_settings_subtitle">(Chứa quảng cáo)</string>
+  <string name="wallpaper_network_error">Có lỗi mạng, xin vui lòng thử lại.</string>
 </resources>

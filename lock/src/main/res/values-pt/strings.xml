@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">Proteção da bateria</string>
   <string name="charging_screen_settings_subtitle">(Contém anúncios)</string>
   <string name="charging_screen_settings_description">Proteger o dispositivo de sobrecargas</string>
+  <string name="smart_charging_spread_bottom_content_title">Carregamento Inteligente</string>
+  <string name="smart_charging_spread_bottom_content_des1">Apresentação do estado de carregamento em tempo real.</string>
+  <string name="smart_charging_spread_bottom_content_des2">Estimativa da hora de conclusão do carregamento.</string>
+  <string name="smart_charging_spread_bottom_content_des3">Alertas de carregamento completo e sobrecarga</string>
+  <string name="smart_charging_spread_tip">Pode conter anúncios.</string>
+  <string name="smart_charging_spread_button">ABRIR AGORA</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">Desativar o bloqueio</string>
+  <string name="locker_disable_confirm">Tem a certeza de que quer desativar?</string>
+  <string name="locker_disable_confirm_detail">Depois de desativar, as funcionalidades no ecrã de bloqueio irão ser desativadas. Tem a certeza de que quer continuar?</string>
+  <string name="locker_diabled_success">O bloqueio foi desativado</string>
+  <string name="slide_to_unlock">Deslize para desbloquear</string>
+  <string name="locker_slide_wallpaper_title">Fundo de ecrã do bloqueio</string>
+  <string name="locker_settings">Definições do bloqueio</string>
+  <string name="locker_settings_title">Bloqueio do ecrã</string>
+  <string name="locker_settings_subtitle">(Contém anúncios)</string>
+  <string name="wallpaper_network_error">Erros de rede. Por favor, tente novamente.</string>
 </resources>

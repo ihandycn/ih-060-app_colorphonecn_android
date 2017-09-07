@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title"> バッテリー保護</string>
   <string name="charging_screen_settings_subtitle">（広告が含まれています）</string>
   <string name="charging_screen_settings_description">過充電からデバイスを保護する</string>
+  <string name="smart_charging_spread_bottom_content_title">スマート充電</string>
+  <string name="smart_charging_spread_bottom_content_des1">リアルタイムの充電状況を表示。</string>
+  <string name="smart_charging_spread_bottom_content_des2">充電の完了時間を評価。</string>
+  <string name="smart_charging_spread_bottom_content_des3">フルチャージと過充電の警告</string>
+  <string name="smart_charging_spread_tip">広告を含む場合があります。</string>
+  <string name="smart_charging_spread_button">今すぐ開く</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">ロッカーを無効にする</string>
+  <string name="locker_disable_confirm">オフにしてもよろしいですか？</string>
+  <string name="locker_disable_confirm_detail">無効にすると、スクリーンロッカーを見ることができなくなります。 続行しますか？</string>
+  <string name="locker_diabled_success">ロッカーがオフになっています</string>
+  <string name="slide_to_unlock">スライドしてロック解除する</string>
+  <string name="locker_slide_wallpaper_title">ロッカー壁紙</string>
+  <string name="locker_settings">ロッカー設定</string>
+  <string name="locker_settings_title">スクリーンロッカー</string>
+  <string name="locker_settings_subtitle">（広告が含まれています）</string>
+  <string name="wallpaper_network_error">ネットワークエラー。 もう一度お試しください。</string>
 </resources>

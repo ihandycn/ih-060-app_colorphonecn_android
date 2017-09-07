@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">การปกป้องแบตเตอรี</string>
   <string name="charging_screen_settings_subtitle">(มีโฆษณา)</string>
   <string name="charging_screen_settings_description">ปกป้องเครื่องจากการชาร์จมากเกินไป</string>
+  <string name="smart_charging_spread_bottom_content_title">ชาร์จอัจฉริยะ</string>
+  <string name="smart_charging_spread_bottom_content_des1">แสดงสถานะการชาร์จแบบเรียลไทม์</string>
+  <string name="smart_charging_spread_bottom_content_des2">ประมาณเวลาชาร์จเสร็จ</string>
+  <string name="smart_charging_spread_bottom_content_des3">เตือนชาร์จเต็มและชาร์จเกิน</string>
+  <string name="smart_charging_spread_tip">อาจมีโฆษณา</string>
+  <string name="smart_charging_spread_button">เปิดทันที</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">ปิดใช้ล็อกเกอร์</string>
+  <string name="locker_disable_confirm">แน่ใจหรือไม่ว่าต้องการปิด</string>
+  <string name="locker_disable_confirm_detail">หลังจากที่ปิด คุณสมบัติในหน้าจอล็อกเกอร์จะปิดลง คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ</string>
+  <string name="locker_diabled_success">ล็อกเกอร์ถูกปิด</string>
+  <string name="slide_to_unlock">เลื่อนเพื่อปลดล็อก</string>
+  <string name="locker_slide_wallpaper_title">ภาพพื้นหลังล็อกเกอร์</string>
+  <string name="locker_settings">ตั้งค่าล็อกเกอร์</string>
+  <string name="locker_settings_title">ล็อกเกอร์หน้าจอ</string>
+  <string name="locker_settings_subtitle">(มีโฆษณา)</string>
+  <string name="wallpaper_network_error">ข้อผิดพลาดเครือข่าย กรุณาลองอีกครั้ง</string>
 </resources>

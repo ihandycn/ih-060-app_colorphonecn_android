@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">Protezione della batteria</string>
   <string name="charging_screen_settings_subtitle">(Contiene annunci pubblicitari)</string>
   <string name="charging_screen_settings_description">Proteggi il dispositivo dai sovraccarichi</string>
+  <string name="smart_charging_spread_bottom_content_title">Ricarica intelligente</string>
+  <string name="smart_charging_spread_bottom_content_des1">Visualizza lo stato di ricarica in tempo reale.</string>
+  <string name="smart_charging_spread_bottom_content_des2">Calcola il tempo previsto per la ricarica.</string>
+  <string name="smart_charging_spread_bottom_content_des3">Avvisi di completamento della ricarica e di sovraccarico</string>
+  <string name="smart_charging_spread_tip">Potrebbe contenere annunci pubblicitari.</string>
+  <string name="smart_charging_spread_button">APERTO ORA</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">Disattiva blocco</string>
+  <string name="locker_disable_confirm">Vuoi disattivare?</string>
+  <string name="locker_disable_confirm_detail">Una volta disattivato, non vedrai più la schermata di blocco. Vuoi procedere?</string>
+  <string name="locker_diabled_success">Il blocco è stato disattivato.</string>
+  <string name="slide_to_unlock">Scorri per sbloccare</string>
+  <string name="locker_slide_wallpaper_title">Blocco dello sfondo</string>
+  <string name="locker_settings">Impostazioni di blocco</string>
+  <string name="locker_settings_title">Schermata di blocco</string>
+  <string name="locker_settings_subtitle">(Contiene annunci pubblicitari)</string>
+  <string name="wallpaper_network_error">Errore di rete. Riprova.</string>
 </resources>

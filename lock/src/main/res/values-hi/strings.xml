@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">बैटरी सुरक्षा </string>
   <string name="charging_screen_settings_subtitle">(विज्ञापन शामिल)</string>
   <string name="charging_screen_settings_description">उपकरण को ओवरचार्जिंग से बचाएं</string>
+  <string name="smart_charging_spread_bottom_content_title">िंग</string>
+  <string name="smart_charging_spread_bottom_content_des1">िखाए। </string>
+  <string name="smart_charging_spread_bottom_content_des2">िंग पूरा होने का समय आंके।</string>
+  <string name="smart_charging_spread_bottom_content_des3">ियां</string>
+  <string name="smart_charging_spread_tip">िज्ञापन हो सकते हैं।</string>
+  <string name="smart_charging_spread_button">अभी खोलें</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">लॉकर अक्षम करें </string>
+  <string name="locker_disable_confirm">वास्तव में बंद करना चाहते हैं?</string>
+  <string name="locker_disable_confirm_detail">अक्षम करने के बाद, लॉक स्क्रीन में विशेषताएं निष्क्रिय हो जाएगी, क्या आप जारी रखना चाहते हैं?</string>
+  <string name="locker_diabled_success">लॉकर बंद हो चुका है</string>
+  <string name="slide_to_unlock">अनलॉक के लिए स्लाइड करें</string>
+  <string name="locker_slide_wallpaper_title">लॉकर वालपेपर</string>
+  <string name="locker_settings">लॉकर सेटिंग्स </string>
+  <string name="locker_settings_title">स्क्रीन लॉकर</string>
+  <string name="locker_settings_subtitle">(विज्ञापन शामिल)</string>
+  <string name="wallpaper_network_error">नेटवर्क त्रुटि। कृपया दुबारा प्रयास करें।</string>
 </resources>

@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">Perlindungan baterai</string>
   <string name="charging_screen_settings_subtitle">(Mengandung iklan)</string>
   <string name="charging_screen_settings_description">Lindungi perangkat dari pengisian daya berlebih</string>
+  <string name="smart_charging_spread_bottom_content_title">Isi Daya Pintar</string>
+  <string name="smart_charging_spread_bottom_content_des1">Menampilkan status isi daya real-time.</string>
+  <string name="smart_charging_spread_bottom_content_des2">Mengevaluasi waktu selesai isi daya.</string>
+  <string name="smart_charging_spread_bottom_content_des3">Peringatan daya penuh dan kelebihan daya</string>
+  <string name="smart_charging_spread_tip">Mungkin berisi iklan.</string>
+  <string name="smart_charging_spread_button">BUKA SEKARANG</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">Nonaktifkan pengunci</string>
+  <string name="locker_disable_confirm">Yakin untuk matikan?</string>
+  <string name="locker_disable_confirm_detail">Setelah dinonaktifkan, fitur-fitur di pengunci layar akan dinonaktifkan, yakin ingin melanjutkan?</string>
+  <string name="locker_diabled_success">Pengunci sudah dimatikan</string>
+  <string name="slide_to_unlock">Geser-buka</string>
+  <string name="locker_slide_wallpaper_title">Pengunci Wallpaper</string>
+  <string name="locker_settings">Pengaturan pengunci</string>
+  <string name="locker_settings_title">Pengunci layar</string>
+  <string name="locker_settings_subtitle">(Mengandung iklan)</string>
+  <string name="wallpaper_network_error">Kesalahan jaringan. Silakan coba lagi.</string>
 </resources>

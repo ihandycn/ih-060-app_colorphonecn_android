@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">Protection de la batterie</string>
   <string name="charging_screen_settings_subtitle">(Contient des publicités)</string>
   <string name="charging_screen_settings_description">Protéger l\'appareil contre la surcharge</string>
+  <string name="smart_charging_spread_bottom_content_title">Chargement intelligent</string>
+  <string name="smart_charging_spread_bottom_content_des1">Affiche en temps réel l\'état de chargement</string>
+  <string name="smart_charging_spread_bottom_content_des2">Évalue l\'heure de fin de chargement</string>
+  <string name="smart_charging_spread_bottom_content_des3">Alertes de chargement terminé et de surcharge</string>
+  <string name="smart_charging_spread_tip">Peut contenir des publicités</string>
+  <string name="smart_charging_spread_button">OUVRIR MAINTENANT</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">Désactiver le verrouillage</string>
+  <string name="locker_disable_confirm">Vraiment désactiver ?</string>
+  <string name="locker_disable_confirm_detail">Une fois désactivé, vous ne verrez plus le verrouilleur d\'écran. Continuer ?</string>
+  <string name="locker_diabled_success">Le verrouilleur a été désactivé</string>
+  <string name="slide_to_unlock">Faites glisser pour déverrouiller</string>
+  <string name="locker_slide_wallpaper_title">Fond d\'écran du verrouilleur</string>
+  <string name="locker_settings">Paramètres du verrouilleur</string>
+  <string name="locker_settings_title">Verrouilleur d\'écran</string>
+  <string name="locker_settings_subtitle">(Contient des publicités)</string>
+  <string name="wallpaper_network_error">Erreur réseau. Veuillez réessayer.</string>
 </resources>

@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">حماية البطارية</string>
   <string name="charging_screen_settings_subtitle">(يحتوي على إعلانات)</string>
   <string name="charging_screen_settings_description">احمِ الجهاز من الشحن الزائد</string>
+  <string name="smart_charging_spread_bottom_content_title">الشحن الذكي</string>
+  <string name="smart_charging_spread_bottom_content_des1">عرض حالة الشحن في الوقت الحقيقي.</string>
+  <string name="smart_charging_spread_bottom_content_des2">تقييم وقت انتهاء الشحن.</string>
+  <string name="smart_charging_spread_bottom_content_des3">تنبيهات اكتمال الشحن والشحن الزائد</string>
+  <string name="smart_charging_spread_tip">قد يحتوي على الإعلانات.</string>
+  <string name="smart_charging_spread_button">افتح الآن</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">تعطيل القافل</string>
+  <string name="locker_disable_confirm">متأكد من إيقافه؟</string>
+  <string name="locker_disable_confirm_detail">بعد الإيقاف، سيتم إلغاء تنشيط ميزات شاشة القفل، هل أنت متأكد من رغبتك في الاستمرار؟</string>
+  <string name="locker_diabled_success">تم إيقاف القافل</string>
+  <string name="slide_to_unlock">مرر للفتح</string>
+  <string name="locker_slide_wallpaper_title">خلفة شاشة القافل</string>
+  <string name="locker_settings">إعدادات القافل</string>
+  <string name="locker_settings_title">قافل الشاشة</string>
+  <string name="locker_settings_subtitle">(يحتوي على إعلانات)</string>
+  <string name="wallpaper_network_error">أخطاء في شبكة الاتصال. يرجى المحاولة مرة أخرى.</string>
 </resources>

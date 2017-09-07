@@ -21,4 +21,21 @@
   <string name="charging_screen_settings_title">Akkuschutz</string>
   <string name="charging_screen_settings_subtitle">(Enthält Werbung)</string>
   <string name="charging_screen_settings_description">Gerät vor Überladung schützen</string>
+  <string name="smart_charging_spread_bottom_content_title">Intelligentes Laden</string>
+  <string name="smart_charging_spread_bottom_content_des1">Echtzeit-Ladestatus anzeigen.</string>
+  <string name="smart_charging_spread_bottom_content_des2">Lade-Endezeit berechnen.</string>
+  <string name="smart_charging_spread_bottom_content_des3">Meldung bei voller Ladung und Überladung</string>
+  <string name="smart_charging_spread_tip">Kann Werbung enthalten.</string>
+  <string name="smart_charging_spread_button">JETZT ÖFFNEN</string>
+  <!--  Locker  -->
+  <string name="locker_menu_disable">Sperre deaktivieren</string>
+  <string name="locker_disable_confirm">Wirklich abschalten?</string>
+  <string name="locker_disable_confirm_detail">Nach Deaktivierung wird die Bildschirmsperre nicht länger angezeigt. Fortfahren?</string>
+  <string name="locker_diabled_success">Die Sperre wurde abgeschaltet</string>
+  <string name="slide_to_unlock">Wischen zum Entsperren</string>
+  <string name="locker_slide_wallpaper_title">Sperr-Hintergrund</string>
+  <string name="locker_settings">Sperr-Einstellungen</string>
+  <string name="locker_settings_title">Bildschirmsperre</string>
+  <string name="locker_settings_subtitle">(Enthält Werbung)</string>
+  <string name="wallpaper_network_error">Netzwerkfehler. Bitte erneut versuchen.</string>
 </resources>
