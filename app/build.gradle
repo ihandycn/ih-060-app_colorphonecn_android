@@ -30,7 +30,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 3
-        versionName "1.0.2"
+        versionName "1.0.3.develop"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -113,6 +113,9 @@ dependencies {
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
 
     compile 'com.ihandy.appframework:libAppframework.gm:4.2.4.gm'
+
+    compile project(':lock')
+    compile 'com.ihandy.expressads:libExpressAds.gm:4.3.0.gm'
 
     // Ads
     compile 'com.ihandy.nativeads:libNativeAds.gm:4.4.0.gm'
