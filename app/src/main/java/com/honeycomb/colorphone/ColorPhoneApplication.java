@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
@@ -48,6 +49,7 @@ public class ColorPhoneApplication extends HSApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        systemFix();
         Fabric.with(this, new Crashlytics());
         mConfigLog = new ConfigLogDefault();
         AcbCallManager.init(this, new CallConfigFactory());
@@ -78,6 +80,18 @@ public class ColorPhoneApplication extends HSApplication {
 
         }
 
+    }
+
+    private void systemFix() {
+        // Fix crash: NoClassDefFoundError: android.os.AsyncTask
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            try {
+                Class.forName("android.os.AsyncTask");
+            }
+            catch(Throwable ignore) {
+                // ignored
+            }
+        }
     }
 
     @Override
