@@ -21,7 +21,7 @@ import java.util.Map;
  * for preferences file used in multi-process.
  */
 public class PreferenceHelper {
-    public static final String DEFAULT_PREFS = "com.honeycomb.launcher_preferences"; // Multi-process
+    public static final String DEFAULT_PREFS = "default_preferences"; // Multi-process
 
     private static Map<String, PreferenceHelper> sHelpersCache = new HashMap<>();
 

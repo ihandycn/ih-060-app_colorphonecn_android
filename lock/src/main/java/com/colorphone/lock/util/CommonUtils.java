@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -371,65 +370,6 @@ public class CommonUtils {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
             window.setNavigationBarColor(Color.TRANSPARENT);
-        }
-    }
-
-    public static void startLauncher(Context context) {
-        try {
-            context.startActivity(getLauncherIntent());
-        } catch (Exception e) {
-            if (e instanceof ActivityNotFoundException) {
-                Intent intent = new Intent();
-                if (!(context instanceof Activity)) {
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                }
-                intent.setComponent(
-                        new ComponentName("com.honeycomb.launcher", "com.honeycomb.launcher.desktop.LauncherExtension"));
-                try {
-                    context.startActivity(intent);
-                } catch (Exception ignored) {
-                }
-            }
-        }
-    }
-
-    public static void startLauncherWithExtra(Context context, String name, int value) {
-        try {
-            Intent intent = getLauncherIntent();
-            intent.putExtra(name, value);
-            context.startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Intent intent = new Intent();
-            if (!(context instanceof Activity)) {
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            }
-            intent.setComponent(
-                    new ComponentName("com.honeycomb.launcher", "com.honeycomb.launcher.desktop.LauncherExtension"));
-            intent.putExtra(name, value);
-            try {
-                context.startActivity(intent);
-            } catch (ActivityNotFoundException ignored) {
-            }
-        }
-    }
-
-    public static void startLauncherWithExtra(Context context, String name, boolean value) {
-        try {
-            Intent intent = getLauncherIntent();
-            intent.putExtra(name, value);
-            context.startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Intent intent = new Intent();
-            if (!(context instanceof Activity)) {
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            }
-            intent.setComponent(
-                    new ComponentName("com.honeycomb.launcher", "com.honeycomb.launcher.desktop.LauncherExtension"));
-            intent.putExtra(name, value);
-            try {
-                context.startActivity(intent);
-            } catch (ActivityNotFoundException ignored) {
-            }
         }
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.honeycomb.launcher.lockscreen.locker.statusbar.StatusBar
+<com.colorphone.lock.lockscreen.locker.statusbar.StatusBar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -71,7 +71,7 @@
         android:layout_marginStart="-27dp"
         android:src="@drawable/status_battery_outline"/>
 
-    <com.honeycomb.launcher.lockscreen.locker.statusbar.StatusBarBatteryIndicator
+    <com.colorphone.lock.lockscreen.locker.statusbar.StatusBarBatteryIndicator
         android:id="@+id/battery_indicator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -121,4 +121,4 @@
         android:layout_marginStart="-24dp"
         android:scaleType="center"
         android:src="@drawable/status_silence"/>
-</com.honeycomb.launcher.lockscreen.locker.statusbar.StatusBar>
+</com.colorphone.lock.lockscreen.locker.statusbar.StatusBar>

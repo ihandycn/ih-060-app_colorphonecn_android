@@ -10,13 +10,14 @@ import android.os.IBinder;
 import com.ihs.app.framework.HSApplication;
 
 
+
 @SuppressWarnings("deprecation")
 public class LockScreenService extends Service {
 
     private static final String TAG = LockScreenService.class.getSimpleName();
 
     private static final String KEYGUARD_LOCK_NAME = "KeyguardLock";
-    private static final String START_ACTION = "tech.lizhe.com.colorphone.lock.lockscreen.LockService";
+    private static  String START_ACTION = HSApplication.getContext().getPackageName() + ".lockscreen.LockService";
 
     private boolean setForeground;
     private KeyguardLock keyguardLock;

@@ -19,8 +19,6 @@ public class LockScreenStarterService extends Service {
 
     private static final String TAG = LockScreenStarterService.class.getSimpleName();
 
-    public static final String ACTION = "com.honeycomb.launcher.intent.action.INNER_ALIVE";
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         HSLog.d(TAG, "onStartCommand" + intent);

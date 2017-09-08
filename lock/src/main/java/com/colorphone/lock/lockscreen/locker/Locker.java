@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,9 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.HomeKeyWatcher;
 import com.colorphone.lock.R;
@@ -114,16 +114,17 @@ public class Locker extends LockScreen implements INotificationObserver {
     private void initLockerWallpaper() {
         String wallpaperUrl = PreferenceHelper.get(LOCKER_PREFS).getString(PREF_KEY_CURRENT_WALLPAPER_HD_URL, "");
         if (!TextUtils.isEmpty(wallpaperUrl)) {
-            Glide.with(mRootView.getContext()).load(wallpaperUrl).asBitmap().format(DecodeFormat.PREFER_RGB_565)
+            Glide.with(mRootView.getContext()).asBitmap().load(wallpaperUrl)
                     .into(new SimpleTarget<Bitmap>() {
+
                         @Override
-                        public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
-                            mLockerWallpaper.setImageBitmap(bitmap);
+                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                            mLockerWallpaper.setImageBitmap(resource);
                             HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
                         }
 
                         @Override
-                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
                             mLockerWallpaper.setImageResource(R.drawable.wallpaper_locker);
                             HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
                         }

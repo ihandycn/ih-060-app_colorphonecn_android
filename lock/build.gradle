@@ -52,7 +52,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -77,17 +77,16 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
 
+    compile(name: 'chargingscreen/libcharging', ext: 'aar')
+    compile files('../libs/libFlashlight/libFlashlight.jar')
 
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:percent:25.3.1'
+    compile 'com.github.bumptech.glide:glide:4.0.0'
+
     provided 'com.ihandy.appframework:libAppframework.gm:4.3.1.gm'
     provided 'com.ihandy.expressads:libExpressAds.gm:4.3.0.gm'
     provided 'com.ihandy.nativeads:libNativeAds.gm:4.4.0.gm'
-    provided 'com.github.bumptech.glide:glide:3.8.0'
-    compile(name: 'chargingscreen/libcharging', ext: 'aar')
-
-
-    provided files('../libs/libFlashlight/libFlashlight.jar')
 
 }

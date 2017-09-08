@@ -35,8 +35,7 @@ public class LockScreenStarter {
     private void registerScreenOnOff() {
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
-        screenFilter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-
+        HSLog.d(TAG, "init register Screen Off");
         HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -62,7 +61,7 @@ public class LockScreenStarter {
     private void notifyToStart(String target) {
         HSLog.d(TAG, "notify : " + target);
         Context context = HSApplication.getContext();
-        Intent intent = new Intent(LockScreenStarterService.ACTION);
+        Intent intent = new Intent(context, LockScreenStarterService.class);
         intent.setPackage(context.getPackageName());
         intent.putExtra(EXTRA_LAUNCHER_ACTIVITY, target);
         intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);

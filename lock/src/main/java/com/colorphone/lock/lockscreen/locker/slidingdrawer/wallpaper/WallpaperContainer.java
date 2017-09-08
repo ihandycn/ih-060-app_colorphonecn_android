@@ -16,6 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -28,9 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerMainFrame;
@@ -326,7 +326,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                 if (mLocker.isDestroyed()) {
                     return;
                 }
-                Glide.with(getContext()).load(mHDUrls.get(index)).asBitmap().format(DecodeFormat.PREFER_RGB_565)
+                Glide.with(getContext()).asBitmap().load(mHDUrls.get(index))
                         .into(new SimpleTarget<Bitmap>() {
 
                             @Override
@@ -337,8 +337,8 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                             }
 
                             @Override
-                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                                super.onLoadFailed(e, errorDrawable);
+                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                super.onLoadFailed(errorDrawable);
                                 ((ImageView) mIVImgs.get(index).getTag()).clearAnimation();
                                 ((ImageView) mIVImgs.get(index).getTag()).setVisibility(GONE);
                                 ValueAnimator mask = maskAnimation(mIVImgs.get(index), MASK_HINT_COLOR_ALPHA, 0x00, 400);
@@ -351,7 +351,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                             }
 
                             @Override
-                            public void onResourceReady(final Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            public void onResourceReady(final Bitmap resource, Transition<? super Bitmap> transition) {
                                 final ImageView wallpaperView = mLocker.getIvLockerWallpaper();
                                 SlidingDrawerContent silde = (SlidingDrawerContent) getParent().getParent();
                                 if (wallpaperView == null || silde == null) {
@@ -443,7 +443,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
         mLoadingFinish.put(mIVImgs.get(index).getId(), false);
         HSLog.d(TAG, "wallpaper index = " + index + "   thumb url = " + mThumbUrls.get(index));
         final ImageView targetIv = mIVImgs.get(index);
-        Glide.with(context).load(mThumbUrls.get(index)).asBitmap().format(DecodeFormat.PREFER_RGB_565)
+        Glide.with(context).asBitmap().load(mThumbUrls.get(index))
                 .into(new SimpleTarget<Bitmap>() {
 
                     @Override
@@ -455,8 +455,8 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                     }
 
                     @Override
-                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                        super.onLoadFailed(e, errorDrawable);
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
                         targetIv.animate()
                                 .scaleX(1f)
                                 .scaleY(1f)
@@ -489,7 +489,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                     }
 
                     @Override
-                    public void onResourceReady(final Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    public void onResourceReady(final Bitmap resource, Transition<? super Bitmap> transition) {
                         // Fade in & fade out
                         ObjectAnimator wallpaperOut = ObjectAnimator.ofFloat(targetIv, "alpha", 1f, 0.5f);
                         wallpaperOut.setDuration(400);
