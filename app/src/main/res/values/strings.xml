@@ -57,4 +57,9 @@
     <string name="acb_alert_call_missed_time" translatable="false">Call Time :  </string>
     <string name="acb_theme_call_assistant" translatable="false">Call assistant</string>
     <string name="acb_outapp_guide_screen_flash_content" translatable="false">Try the unique call interface to make your phone more fashionable.It may contain ads.</string>
+    <string name="about">About</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="terms_of_service">Terms of service</string>
+    <string name="smart_charging">Smart Charging</string>
+    <string name="color_lockscreen">Color LockScreen</string>
 </resources>

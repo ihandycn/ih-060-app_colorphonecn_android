@@ -42,7 +42,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     private static class CPCallIdleConfig extends CallIdleAlert.PlistConfig {
         @Override
         public String getAdPlaceName() {
-            return "ColorPhone_A(NativeAds)CallOff";
+            return AdPlacements.AD_CALL_OFF;
         }
     }
 

@@ -2,14 +2,19 @@ package com.honeycomb.colorphone;
 
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.text.TextUtils;
 
 import com.acb.call.AcbCallManager;
 import com.acb.call.CPSettings;
 import com.acb.nativeads.AcbNativeAdManager;
+import com.colorphone.lock.LockerCustomConfig;
+import com.colorphone.lock.lockscreen.FloatWindowCompat;
+import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.crashlytics.android.Crashlytics;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
+import com.ihs.charging.HSChargingManager;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -55,6 +60,24 @@ public class ColorPhoneApplication extends HSApplication {
         HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_SCREEN_FLASH, sessionEventObserver);
 
         checkCallAssistantAdPlacement();
+
+        LockScreenStarter.init();
+
+        String packageName = getPackageName();
+        String processName = getProcessName();
+
+        if (TextUtils.equals(processName, packageName)) {
+            HSLog.d("Start", "initLockScreen");
+            LockerCustomConfig.get().setLauncherIcon(R.mipmap.ic_launcher);
+            LockerCustomConfig.get().setSPFileName("colorPhone_locker");
+            //TODO
+            LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);
+            LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHAEGING_SCREEN);
+            FloatWindowCompat.initLockScreen(this);
+            HSChargingManager.getInstance().start();
+
+        }
+
     }
 
     @Override

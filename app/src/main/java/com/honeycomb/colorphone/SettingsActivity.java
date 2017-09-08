@@ -10,14 +10,18 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.acb.call.CPSettings;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
+import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SettingsActivity extends HSAppCompatActivity {
 
-    private SwitchCompat mSwitchCompat;
-    private boolean initCheckState;
+    private List<ModuleState> mModuleStates = new ArrayList<>();
 
     public static void start(Context context) {
         Intent starter = new Intent(context, SettingsActivity.class);
@@ -33,23 +37,51 @@ public class SettingsActivity extends HSAppCompatActivity {
 
         Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
 
-        initCheckState = CPSettings.isCallAssistantModuleEnabled();
-        mSwitchCompat = (SwitchCompat) findViewById(R.id.setting_item_call_assistant_toggle);
-        mSwitchCompat.setChecked(initCheckState);
-
-        findViewById(R.id.setting_item_call_assistant).setOnClickListener(new View.OnClickListener() {
+        mModuleStates.add(new ModuleState(CPSettings.isCallAssistantModuleEnabled(),
+                R.id.setting_item_call_assistant_toggle,
+                R.id.setting_item_call_assistant) {
             @Override
-            public void onClick(View v) {
-                mSwitchCompat.toggle();
-            }
-        });
-
-        mSwitchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckChanged(boolean isChecked) {
                 CPSettings.setCallAssistantModuleEnabled(isChecked);
             }
         });
+
+        mModuleStates.add(new ModuleState(ChargingScreenSettings.isChargingScreenEnabled(),
+                R.id.setting_item_charging_toggle,
+                R.id.setting_item_charging) {
+            @Override
+            public void onCheckChanged(boolean isChecked) {
+                ChargingScreenSettings.setChargingScreenEnabled(isChecked);
+            }
+        });
+
+        mModuleStates.add(new ModuleState(LockerSettings.isLockerEnabled(),
+                R.id.setting_item_lockScreen_toggle,
+                R.id.setting_item_lockScreen) {
+            @Override
+            public void onCheckChanged(boolean isChecked) {
+                LockerSettings.setLockerEnabled(isChecked);
+            }
+        });
+
+        for (final ModuleState moduleState : mModuleStates) {
+
+            moduleState.switchCompat.setChecked(moduleState.initState);
+            findViewById(moduleState.itemLayoutId).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    moduleState.switchCompat.toggle();
+                }
+            });
+
+            moduleState.switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    moduleState.onCheckChanged(isChecked);
+                }
+            });
+
+        }
     }
 
     @Override
@@ -63,11 +95,32 @@ public class SettingsActivity extends HSAppCompatActivity {
 
     @Override
     protected void onStop() {
-        boolean nowEnable = mSwitchCompat.isChecked();
-        if (nowEnable != initCheckState) {
-            ColorPhoneApplication.getConfigLog().getEvent().onCallAssistantEnableFromSetting(nowEnable);
-            initCheckState = nowEnable;
+        for (ModuleState moduleState : mModuleStates) {
+            boolean nowEnable = moduleState.switchCompat.isChecked();
+
+            if (nowEnable != moduleState.initState) {
+                if (moduleState.itemLayoutId == R.id.setting_item_call_assistant) {
+                    ColorPhoneApplication.getConfigLog().getEvent().onCallAssistantEnableFromSetting(nowEnable);
+                }
+                moduleState.initState = nowEnable;
+            }
         }
         super.onStop();
+    }
+
+    private abstract class ModuleState {
+        private final SwitchCompat switchCompat;
+        boolean initState;
+        int toggleId;
+        int itemLayoutId;
+
+        public ModuleState(boolean initState, int toggleId, int itemLayoutId) {
+            this.initState = initState;
+            this.toggleId = toggleId;
+            this.itemLayoutId = itemLayoutId;
+            switchCompat = ((SwitchCompat) findViewById(toggleId));
+        }
+
+        public abstract void onCheckChanged(boolean isChecked);
     }
 }
