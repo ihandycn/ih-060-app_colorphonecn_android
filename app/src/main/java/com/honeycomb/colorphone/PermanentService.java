@@ -202,7 +202,10 @@ public class PermanentService extends Service {
             if (notification != null) {
                 startForeground(getNotificationID(), notification);
             } else if (VERSION.SDK_INT < 24) {
-                startForeground(getNotificationID(), getDefaultNotification());
+                Notification nf = getDefaultNotification();
+                if (nf != null) {
+                    startForeground(getNotificationID(), getDefaultNotification());
+                }
                 Intent serviceIntent = new Intent(HSApplication.getContext(), PermanentServiceInner.class);
                 HSApplication.getContext().startService(serviceIntent);
             }

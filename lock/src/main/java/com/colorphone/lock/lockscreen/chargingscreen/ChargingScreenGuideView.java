@@ -103,17 +103,29 @@ public class ChargingScreenGuideView extends LinearLayout {
     }
 
     private void dismissSelf() {
-        ObjectAnimator slideOut = ObjectAnimator.ofFloat(ChargingScreenGuideView.this, View.TRANSLATION_Y, getMeasuredHeight());
-        slideOut.setDuration(300);
-        slideOut.setInterpolator(new AccelerateInterpolator());
-        slideOut.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                transitionOut(false);
-//                ((Launcher) getContext()).getLauncherViewManager().finish(false, ChargingScreenGuideView.this);
-            }
-        });
-        slideOut.start();
+
+        onClose();
+//        ObjectAnimator slideOut = ObjectAnimator.ofFloat(ChargingScreenGuideView.this, View.TRANSLATION_Y, getMeasuredHeight());
+//        slideOut.setDuration(300);
+//        slideOut.setInterpolator(new AccelerateInterpolator());
+//        slideOut.addListener(new AnimatorListenerAdapter() {
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                transitionOut(false);
+//            }
+//        });
+//        slideOut.start();
+    }
+
+    private Runnable mCloseCallback;
+    public void setOnCloseListener(Runnable listener) {
+        mCloseCallback = listener;
+    }
+
+    private void onClose() {
+        if (mCloseCallback != null) {
+            mCloseCallback.run();
+        }
     }
 
 
@@ -147,6 +159,7 @@ public class ChargingScreenGuideView extends LinearLayout {
         dismissSelf();
         return true;
     }
+
 
 
 }
