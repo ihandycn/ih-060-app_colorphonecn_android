@@ -16,6 +16,26 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".lockscreen.chargingscreen.ChargingScreenActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".air_charging_screen"
+            android:theme="@style/ChargingScreenTransparentTheme" />
+
+        <activity
+            android:name=".lockscreen.locker.LockerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".air_locker"
+            android:theme="@style/ChargingScreenTransparentTheme" />
+
         <!-- This service is used to bring main-process's life back. -->
         <service android:name=".lockscreen.LockScreenStarterService"
             android:exported="false">

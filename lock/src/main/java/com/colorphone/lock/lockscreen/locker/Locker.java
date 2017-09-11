@@ -3,6 +3,7 @@ package com.colorphone.lock.lockscreen.locker;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -21,8 +22,10 @@ import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.HomeKeyWatcher;
 import com.colorphone.lock.R;
+import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.lockscreen.locker.slidingup.LockerSlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.statusbar.StatusBar;
@@ -90,9 +93,22 @@ public class Locker extends LockScreen implements INotificationObserver {
                 .inflate(R.layout.locker_status_bar, container, false);
         container.addView(statusBar);
 
+        if (getContext() instanceof Activity) {
+            if (ChargingScreenUtils.isNativeLollipop()) {
+                statusBar.setVisibility(View.GONE);
+            }
+        }
+
         HSGlobalNotificationCenter.addObserver(EVENT_FINISH_SELF, this);
 
         LockerSettings.increaseLockerShowCount();
+
+        // Life cycle
+        LockScreensLifeCycleRegistry.setLockerActive(true);
+//        HSGlobalNotificationCenter.sendNotification(NotificationCondition.EVENT_LOCK);
+    }
+
+    public void onStart() {
 
         // ======== onStart ========
         HSAnalytics.logEvent("Locker_Shown");
@@ -106,9 +122,6 @@ public class Locker extends LockScreen implements INotificationObserver {
             mLockerAdapter.lockerMainFrame.closeDrawer();
         }
 
-        // Life cycle
-        LockScreensLifeCycleRegistry.setLockerActive(true);
-//        HSGlobalNotificationCenter.sendNotification(NotificationCondition.EVENT_LOCK);
     }
 
     private void initLockerWallpaper() {
@@ -191,15 +204,37 @@ public class Locker extends LockScreen implements INotificationObserver {
                 LockScreensLifeCycleRegistry.setLockerActive(false);
 //                HSGlobalNotificationCenter.sendNotification(NotificationCondition.EVENT_UNLOCK);
 
-                cleanup();
 
-                Locker.super.dismiss(context, dismissKeyguard);
+                if (getContext() instanceof Activity) {
+                    final Activity activity = (Activity) getContext();
+                    activity.finish();
+                    activity.overridePendingTransition(0, 0);
+                    if (dismissKeyguard) {
+                        DismissKeyguradActivity.startSelfIfKeyguardSecure(activity);
+                    }
+                } else {
+                    doDismiss();
+                    Locker.super.dismiss(context, dismissKeyguard);
+                }
+
             }
         });
         fadeOutAnim.start();
     }
 
-    private void cleanup() {
+    private void doDismiss() {
+        onStop();
+        onDestroy();
+    }
+
+    public void onDestroy() {
+        // ======== onDestroy ========
+        mHomeKeyWatcher.destroy();
+        HSGlobalNotificationCenter.removeObserver(this);
+        mIsDestroyed = true;
+    }
+
+    public void onStop() {
         // ======== onPause ========
         if (mLockerAdapter.lockerMainFrame != null) {
             mLockerAdapter.lockerMainFrame.onPause();
@@ -209,11 +244,6 @@ public class Locker extends LockScreen implements INotificationObserver {
         if (mLockerAdapter.lockerMainFrame != null) {
             mLockerAdapter.lockerMainFrame.onStop();
         }
-
-        // ======== onDestroy ========
-        mHomeKeyWatcher.destroy();
-        HSGlobalNotificationCenter.removeObserver(this);
-        mIsDestroyed = true;
     }
 
     public void onBackPressed() {

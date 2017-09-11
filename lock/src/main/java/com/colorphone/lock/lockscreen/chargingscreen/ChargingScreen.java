@@ -2,6 +2,7 @@ package com.colorphone.lock.lockscreen.chargingscreen;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -39,7 +41,6 @@ import com.colorphone.lock.R;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
-import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
 import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTip;
@@ -253,7 +254,11 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     public void setup(ViewGroup root, Bundle extra) {
         super.setup(root, extra);
 
-        if (!FloatWindowCompat.needsSystemErrorFloatWindow()) {
+        if (root.getContext() instanceof Activity) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                root.findViewById(R.id.charging_screen_container).setPadding(0, 0, 0, CommonUtils.getNavigationBarHeightUnconcerned(root.getContext()));
+            }
+        } else if (!FloatWindowCompat.needsSystemErrorFloatWindow()) {
             root.findViewById(R.id.charging_screen_container).setPadding(0, 0, 0, CommonUtils.getNavigationBarHeight(HSApplication.getContext()));
         }
 
@@ -286,7 +291,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
         context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
-        requestAds();
+//        requestAds();
 
         if (extra == null) {
             isChargingOnInit = false;
@@ -300,22 +305,53 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                     context.getString(R.string.charging_screen_charged_left_describe,
                             getChargingLeftTimeString(extra.getInt(EXTRA_INT_CHARGING_LEFT_MINUTES))));
             if (extra.getBoolean(EXTRA_BOOLEAN_IS_CHARGING_STATE_CHANGED, false)) {
-                showExpressAd();
+//                showExpressAd();
             }
         }
 
         updateChargingStateTipIconAnimator();
         processPowerStateChanged(true);
 
+        if (context instanceof Activity) {
+            onStart();
+        } else {
+            HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
+            HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
+        }
+
+        // Life cycle
+        LockScreensLifeCycleRegistry.setChargingScreenActive(true);
+    }
+
+    public void onStart() {
         // ======== onStart ========
         HSLog.d(TAG, "onStart()");
+
+        int minCountToShowAds = HSConfig.optInteger(1, "Application", "Locker", "Ads", "MinCountToShowAds");
+        int showAdsInterval = HSConfig.optInteger(1, "Application", "Locker", "Ads", "ShowAdsInterval");
+        if (LockerSettings.getLockerShowCount() >= minCountToShowAds
+                && (LockerSettings.getLockerShowCount() - LockerSettings.getLockerAdsShowCount()) >= showAdsInterval
+                ) {
+            if (expressAdView == null) {
+                requestAds();
+                showExpressAd();
+            } else if (expressAdView.getParent() == null) {
+                showExpressAd();
+            } else {
+                if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+                    expressAdView.resumeDisplayNewAd();
+                }
+            }
+        }
+
+
         onStartTime = System.currentTimeMillis();
 
         HSChargingManager.getInstance().addChargingListener(chargingListener);
-        context.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+        getContext().registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
         HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
 
-        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
         if (powerManager.isScreenOn()) {
             updateTipTextRandomValue();
             updateTimeAndDateView();
@@ -349,14 +385,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             trickleChargeToolTipView = null;
         }
 
-        // ======== onAttachToWindow ========
-        HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
-        HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
-
-        // Life cycle
-        LockScreensLifeCycleRegistry.setChargingScreenActive(true);
-//        HSGlobalNotificationCenter.sendNotification(NotificationCondition.EVENT_LOCK);
     }
+
 
     private void requestAds() {
         expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getChargingExpressAdName());
@@ -810,41 +840,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     public void onReceive(String s, HSBundle hsBundle) {
         switch (s) {
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_ON:
-                int minCountToShowAds = HSConfig.optInteger(1, "Application", "Locker", "Ads", "MinCountToShowAds");
-                int showAdsInterval = HSConfig.optInteger(1, "Application", "Locker", "Ads", "ShowAdsInterval");
-                if (LockerSettings.getLockerShowCount() >= minCountToShowAds
-                        && (LockerSettings.getLockerShowCount() - LockerSettings.getLockerAdsShowCount()) >= showAdsInterval
-                        && FloatWindowController.getInstance().isLockScreenShown()) {
-                    if (expressAdView == null) {
-                        requestAds();
-                        showExpressAd();
-                    } else if (expressAdView.getParent() == null) {
-                        showExpressAd();
-                    } else {
-                        if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-                            expressAdView.resumeDisplayNewAd();
-                        }
-                    }
-                }
-
-                if (this.isPowerConnected) {
-                    chargingBubbleView.setPopupBubbleFlag(true);
-                }
+                onStart();
                 break;
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
-                if (expressAdView != null) {
-                    expressAdView.pauseDisplayNewAd();
-                }
-
-                if (System.currentTimeMillis() - onStartTime > DateUtils.SECOND_IN_MILLIS) {
-                    HSAnalytics.logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getChargingExpressAdName(), String.valueOf(mAdShown)});
-
-                    mAdShown = false;
-                }
-
-                if (this.isPowerConnected) {
-                    chargingBubbleView.setPopupBubbleFlag(false);
-                }
+                onStop();
                 break;
             case LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING:
                 dismiss(getContext(), false);
@@ -852,17 +851,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
     }
 
-    @Override
-    public void dismiss(Context context, boolean dismissKeyguard) {
-        mDismissed = true;
 
-        if (!mIsSetup) {
-            return;
-        }
-        mIsSetup = false;
-        // ======== onDetachFromWindow ========
-        HSGlobalNotificationCenter.removeObserver(this);
-
+    public void onStop() {
         // ======== onPause ========
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
             expressAdView.pauseDisplayNewAd();
@@ -885,6 +875,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
         cancelChargingStateAlphaAnimation();
 
+    }
+
+    public void onDestroy() {
         // ======== onDestroy ========
         HSLog.d(TAG, "onDestroy()");
 
@@ -892,11 +885,26 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         if (expressAdView != null) {
             expressAdView.destroy();
         }
-
         // Life cycle
         LockScreensLifeCycleRegistry.setChargingScreenActive(false);
-//        HSGlobalNotificationCenter.sendNotification(NotificationCondition.EVENT_UNLOCK);
+    }
 
-        super.dismiss(context, dismissKeyguard);
+    @Override
+    public void dismiss(Context context, boolean dismissKeyguard) {
+        mDismissed = true;
+
+        if (!mIsSetup) {
+            return;
+        }
+        mIsSetup = false;
+
+        if (context instanceof Activity) {
+            ((Activity) context).finish();
+            ((Activity) context).overridePendingTransition(0, 0);
+        } else {
+            onStop();
+            onDestroy();
+            super.dismiss(context, dismissKeyguard);
+        }
     }
 }
