@@ -32,6 +32,9 @@
     <string name="card_view_contains_ads_statement" translatable="false">It may contain ads.</string>
     <string name="acb_guide_ok">OK</string>
 
+    <string name="guide_locker_and_call_hint">Enable Screen Locker &amp; Call Assistant to: \nRemind your missed calls.
+        Boost easily and access camera quickly.</string>
+
     <!--Override lib-->
     <string name="acb_theme_guide_subtitle"  translatable="false">Activate Screen Flash for Calls</string>
     <string name="acb_screen_flash_outapp_guide_title" translatable="false">Activate Screen Flash for Calls</string>

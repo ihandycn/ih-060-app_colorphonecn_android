@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.acb.call.CPSettings;
 import com.acb.call.themes.Type;
+import com.honeycomb.colorphone.activity.GuideLockerAssistantActivity;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.preview.ThemePreviewActivity;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
@@ -94,6 +95,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        if (HSVersionControlUtils.isFirstLaunchSinceInstallation() || HSVersionControlUtils.isFirstSessionSinceUpgrade()) {
+            GuideLockerAssistantActivity.start(this);
+        }
+
         setTheme(R.style.AppLightStatusBarTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
