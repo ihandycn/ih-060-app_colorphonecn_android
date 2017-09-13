@@ -21,6 +21,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -80,6 +81,18 @@ public final class Utils {
     private static final Pattern sTrimPattern = Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
 
     private static float sDensityRatio;
+
+
+    public static void startActivitySafely(Context context, Intent intent) {
+        try {
+            if (!(context instanceof Activity)) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            }
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException | SecurityException | NullPointerException e) {
+            HSLog.e("StartActivity", "Cannot start activity: " + intent);
+        }
+    }
 
     public static float getDensityRatio() {
         if (sDensityRatio > 0f) {

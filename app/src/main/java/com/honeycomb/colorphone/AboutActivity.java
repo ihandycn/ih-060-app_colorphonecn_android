@@ -1,7 +1,5 @@
 package com.honeycomb.colorphone;
 
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,8 +10,6 @@ import android.view.View;
 
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
-import com.ihs.commons.config.HSConfig;
-import com.ihs.commons.utils.HSLog;
 
 
 public class AboutActivity extends HSAppCompatActivity {
@@ -36,14 +32,14 @@ public class AboutActivity extends HSAppCompatActivity {
         findViewById(R.id.privacy_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivitySafely(AboutActivity.this, getPrivacyViewIntent(HSConfig.optString("", "Application", "PrivacyPolicyURL")));
+                Utils.startActivitySafely(AboutActivity.this, getPrivacyViewIntent(Constants.URL_PRIVACY));
             }
         });
 
         findViewById(R.id.term_service_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivitySafely(AboutActivity.this, getPrivacyViewIntent(HSConfig.optString("", "Application", "TermsOfServiceURL")));
+                Utils.startActivitySafely(AboutActivity.this, getPrivacyViewIntent(Constants.URL_TERM_SERVICES));
             }
         });
 
@@ -63,14 +59,4 @@ public class AboutActivity extends HSAppCompatActivity {
     }
 
 
-    public static void startActivitySafely(Context context, Intent intent) {
-        try {
-            if (!(context instanceof Activity)) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            }
-            context.startActivity(intent);
-        } catch (ActivityNotFoundException | SecurityException | NullPointerException e) {
-            HSLog.e("StartActivity", "Cannot start activity: " + intent);
-        }
-    }
 }
