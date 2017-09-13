@@ -34,6 +34,7 @@
 
     <string name="guide_locker_and_call_hint">Enable Screen Locker &amp; Call Assistant to: \nRemind your missed calls.
         Boost easily and access camera quickly.</string>
+    <string name="guide_enable_all_module">Enable Phone Assistant, Smart Charging &amp; Locker</string>
 
     <!--Override lib-->
     <string name="acb_theme_guide_subtitle"  translatable="false">Activate Screen Flash for Calls</string>
@@ -65,4 +66,5 @@
     <string name="terms_of_service">Terms of service</string>
     <string name="smart_charging">Smart Charging</string>
     <string name="color_lockscreen">Color LockScreen</string>
+    <string name="guide_apply_theme_hint">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
 </resources>

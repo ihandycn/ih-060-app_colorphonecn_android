@@ -133,7 +133,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/settings_icon_setting" />
+                    android:src="@drawable/settings_icon_about" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     style="@style/NormalText.Settings"

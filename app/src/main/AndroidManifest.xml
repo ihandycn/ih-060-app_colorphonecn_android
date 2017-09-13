@@ -100,6 +100,13 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
+
+        <activity android:name=".activity.GuideApplyThemeActivity"
+            android:excludeFromRecents="true"
+            android:taskAffinity=".call"
+            android:noHistory="true"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/Theme.AppCompat.Translucent" />
         <!-- permanent -->
         <service
             android:name=".PermanentService"

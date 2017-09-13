@@ -6,9 +6,11 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.acb.call.CPSettings;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -22,10 +24,10 @@ import com.ihs.app.framework.activity.HSAppCompatActivity;
  * Created by sundxing on 17/9/13.
  */
 
-public class GuideLockerAssistantActivity extends HSAppCompatActivity {
+public class GuideApplyThemeActivity extends HSAppCompatActivity {
 
     public static void start(Context context) {
-        Intent starter = new Intent(context, GuideLockerAssistantActivity.class);
+        Intent starter = new Intent(context, GuideApplyThemeActivity.class);
         context.startActivity(starter);
     }
 
@@ -33,16 +35,16 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.guide_locker_assitant);
+        setContentView(R.layout.guide_apply_success);
         StatusBarUtils.hideStatusBar(this);
-
+        View cbContainer = findViewById(R.id.welcome_guide_enable_checkbox_container);
+        final CheckBox cb = (CheckBox) findViewById(R.id.welcome_guide_enable_checkbox);
         setUpPrivacyTextView();
-        HSAnalytics.logEvent("ColorPhone_StartGuide_Show");
+        HSAnalytics.logEvent("ColorPhone_ApplyFinishGuide_Show");
         findViewById(R.id.guide_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HSAnalytics.logEvent("ColorPhone_StartGuide_Cancel_Clicked");
-
+                HSAnalytics.logEvent("ColorPhone_ApplyFinishGuide_Cancel_Clicked");
                 finish();
             }
         });
@@ -51,18 +53,32 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HSAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
-                // TODO sms
-                CPSettings.setCallAssistantModuleEnabled(true);
-                LockerSettings.setLockerEnabled(true);
+                if (cb.isChecked()) {
+                    HSAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked");
+                    // TODO sms
+                    CPSettings.setCallAssistantModuleEnabled(true);
+                    LockerSettings.setLockerEnabled(true);
+                    ChargingScreenSettings.setChargingScreenEnabled(true);
+                } else {
+                    HSAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked_WithUnselectFeature");
+                }
                 finish();
             }
         });
+
+
+        cbContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cb.performClick();
+            }
+        });
+
+
     }
 
     @Override
     public void onBackPressed() {
-
         //Ignore back press.
     }
 
@@ -72,7 +88,7 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
         privacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.startActivitySafely(GuideLockerAssistantActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_PRIVACY)));
+                Utils.startActivitySafely(GuideApplyThemeActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_PRIVACY)));
             }
         });
 
@@ -81,7 +97,7 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
         termsOfService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.startActivitySafely(GuideLockerAssistantActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TERM_SERVICES)));
+                Utils.startActivitySafely(GuideApplyThemeActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TERM_SERVICES)));
             }
         });
     }

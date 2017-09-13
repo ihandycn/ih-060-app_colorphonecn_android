@@ -33,12 +33,14 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.util.FontUtils;
+import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
@@ -246,10 +248,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         preV.updateButtonState();
                     }
                 }
-                Toast toast = Toast.makeText(mActivity, R.string.apply_success, Toast.LENGTH_SHORT);
-                int offsetY = (int) (bottomBtnTransY + Utils.pxFromDp(8));
-                toast.setGravity(Gravity.BOTTOM, 0, offsetY);
-                toast.show();
+                if (ModuleUtils.isNeedGuideAfterApply()) {
+                    GuideApplyThemeActivity.start(mActivity);
+                } else {
+                    Toast toast = Toast.makeText(mActivity, R.string.apply_success, Toast.LENGTH_SHORT);
+                    int offsetY = (int) (bottomBtnTransY + Utils.pxFromDp(8));
+                    toast.setGravity(Gravity.BOTTOM, 0, offsetY);
+                    toast.show();
+                }
             }
         });
         bottomBtnTransY = mApplyButton.getTranslationY();

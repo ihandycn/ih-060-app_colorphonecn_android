@@ -41,7 +41,7 @@
 
         android:gravity="center"
         android:text="@string/guide_locker_and_call_hint"
-        android:textColor="@android:color/black"
+        android:textColor="@color/textDark"
         android:textSize="15sp"
         app:typeface="@string/proxima_nova_light" />
 
@@ -67,10 +67,6 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/bg_round_material_compat_blue"
         android:gravity="center"
-        android:paddingBottom="4dp"
-        android:paddingLeft="60dp"
-        android:paddingRight="60dp"
-        android:paddingTop="4dp"
         android:text="@string/acb_guide_ok"
         android:textColor="@android:color/white"
         android:textSize="20sp" />

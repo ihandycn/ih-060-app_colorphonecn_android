@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/welcome_guide_check_box_checked_svg" android:state_checked="true"/>
+    <item android:drawable="@drawable/welcome_guide_check_box_unchecked_svg" android:state_checked="false"/>
+    <item android:drawable="@drawable/welcome_guide_check_box_unchecked_svg"/>
+
+</selector>
