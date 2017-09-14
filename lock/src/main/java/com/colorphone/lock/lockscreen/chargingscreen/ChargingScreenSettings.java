@@ -3,6 +3,7 @@ package com.colorphone.lock.lockscreen.chargingscreen;
 
 import com.colorphone.lock.util.PreferenceHelper;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 
 /**
  * Created by lz on 3/1/17.
@@ -23,6 +24,8 @@ public class ChargingScreenSettings {
     public static final String PREF_KEY_CHARGING_SCREEN_DIALOG_GUIDE_SHOWN = "pref_key_charging_screen_dialog_guide_shown";
     public static final String LOCKER_PREFS = "locker.prefs";
 
+    public static final String NOTIFY_CHARGING_SCREEN_STATE = "notify_charging_screen_state";
+
     private static boolean sDefaultEnabled = HSConfig.optBoolean(false, "Application", "Locker", "ChargeDefaultEnabled");
 
     public static boolean isChargingScreenEnabled() {
@@ -34,6 +37,7 @@ public class ChargingScreenSettings {
         if (isEnabled) {
             PreferenceHelper.getDefault().putBoolean(PREF_KEY_CHARGING_SCREEN_EVER_ENABLED, true);
         }
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_CHARGING_SCREEN_STATE);
     }
 
     public static void increaseChargingCount() {

@@ -3,6 +3,7 @@ package com.colorphone.lock.lockscreen.locker;
 
 import com.colorphone.lock.util.PreferenceHelper;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
@@ -17,6 +18,8 @@ public class LockerSettings {
     public static final String PREF_KEY_LOCKER_ADS_SHOW_COUNT = "pref_key_locker_ads_show_count";
     public static final String PREF_KEY_LOCKER_TOGGLE_GUIDE_SHOWN = "pref_key_locker_toggle_guide_shown";
 
+    public static final String NOTIFY_LOCKER_STATE = "notify_locker_state";
+
     private static boolean sDefaultEnabled = HSConfig.optBoolean(false, "Application", "Locker", "LockerDefaultEnabled");
 
     public static boolean isLockerEnabled() {
@@ -29,6 +32,7 @@ public class LockerSettings {
 
     public static void setLockerEnabled(boolean isEnabled) {
         PreferenceHelper.getDefault().putBoolean(PREF_KEY_LOCKER_ENABLED, isEnabled);
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_LOCKER_STATE);
     }
 
     public static void increaseLockerShowCount() {
