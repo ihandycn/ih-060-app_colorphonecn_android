@@ -117,6 +117,8 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
     private SparseBooleanArray mLoadingSucceed = new SparseBooleanArray();
     private HSPreferenceHelper mPrefer = HSPreferenceHelper.create(HSApplication.getContext(), LOCKER_PREFS);
 
+    BroadcastReceiver mNetworkReceiver;
+
     public WallpaperContainer(Context context) {
         super(context);
     }
@@ -153,7 +155,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
         IntentFilter wifiFilter = new IntentFilter();
         wifiFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         wifiFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        getContext().registerReceiver(new BroadcastReceiver() {
+        mNetworkReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (CommonUtils.isNetworkAvailable(-1)) {
@@ -161,12 +163,16 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                     prepareDownloading();
                 }
             }
-        }, wifiFilter);
+        };
+        getContext().registerReceiver(mNetworkReceiver, wifiFilter);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        try {
+            getContext().unregisterReceiver(mNetworkReceiver);
+        } catch (Exception ignore){}
 
         HSGlobalNotificationCenter.removeObserver(this);
     }
