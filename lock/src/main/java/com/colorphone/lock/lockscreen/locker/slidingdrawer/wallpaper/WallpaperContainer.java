@@ -87,7 +87,8 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
     private static final String PREF_KEY_WALLPAPER_THIRD_VIEW_LAST_SUCCEED_HD = "wallpaper_third_view_hd_url";
     private static final String PREF_KEY_WALLPAPER_FOURTH_VIEW_LAST_SUCCEED_HD = "wallpaper_fourth_view_hd_url";
 
-    private static final String PREFIX_RESOURCE_DRAWABLE = "android.resource://com.honeycomb.launcher/";
+    private static final String PREFIX_RESOURCE_DRAWABLE = "android.resource://";
+    private static final String FOREWARD_SLASH = "/";
 
     private static final String WALLPAPER_THUMB = "thumb";
     private static final String WALLPAPER_HD = "HD";
@@ -580,8 +581,8 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
     private void refreshUrls() {
         if (!mPrefer.getBoolean(PREF_KEY_WALLPAPER_FIRST_SHOWN, false)) {
             mPrefer.putBoolean(PREF_KEY_WALLPAPER_FIRST_SHOWN, true);
-            mThumbUrls.set(0, Uri.parse(PREFIX_RESOURCE_DRAWABLE + R.drawable.wallpaper_locker_thumb));
-            mHDUrls.set(0, Uri.parse(PREFIX_RESOURCE_DRAWABLE + R.drawable.wallpaper_locker));
+            mThumbUrls.set(0, Uri.parse(PREFIX_RESOURCE_DRAWABLE + getContext().getPackageName() + FOREWARD_SLASH + R.drawable.wallpaper_locker_thumb));
+            mHDUrls.set(0, Uri.parse(PREFIX_RESOURCE_DRAWABLE + getContext().getPackageName() + FOREWARD_SLASH + R.drawable.wallpaper_locker));
             generateUrls(3);
         } else {
             generateUrls(4);
