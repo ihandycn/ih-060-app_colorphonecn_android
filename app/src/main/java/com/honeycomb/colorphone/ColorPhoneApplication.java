@@ -7,11 +7,15 @@ import android.text.TextUtils;
 
 import com.acb.call.AcbCallManager;
 import com.acb.call.CPSettings;
+import com.acb.expressads.AcbExpressAdManager;
 import com.acb.nativeads.AcbNativeAdManager;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
+import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.crashlytics.android.Crashlytics;
+import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
@@ -22,6 +26,9 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.FileDownloader;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 
@@ -29,7 +36,9 @@ public class ColorPhoneApplication extends HSApplication {
 
     private static ConfigLog mConfigLog;
 
-    private INotificationObserver sessionEventObserver = new INotificationObserver() {
+    private List<Module> mModules = new ArrayList<>();
+
+    private INotificationObserver mObserver = new INotificationObserver() {
 
         @Override
         public void onReceive(String notificationName, HSBundle bundle) {
@@ -38,9 +47,11 @@ public class ColorPhoneApplication extends HSApplication {
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
                 HSLog.d("Session End.");
             } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
-                checkCallAssistantAdPlacement();
-            } else if (CPSettings.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName) || CPSettings.NOTIFY_CHANGE_CALL_ASSISTANT.equals(notificationName)) {
-                checkCallAssistantAdPlacement();
+                checkModuleAdPlacement();
+            } else if (CPSettings.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
+                HSPermanentUtils.checkAliveForProcess();
+            } else {
+                checkModuleAdPlacement();
             }
         }
     };
@@ -55,13 +66,14 @@ public class ColorPhoneApplication extends HSApplication {
         AcbCallManager.init(this, new CallConfigFactory());
         HSPermanentUtils.keepAlive();
         FileDownloader.setup(this);
-        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, sessionEventObserver);
-        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, sessionEventObserver);
-        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_CONFIG_CHANGED, sessionEventObserver);
-        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_CALL_ASSISTANT, sessionEventObserver);
-        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_SCREEN_FLASH, sessionEventObserver);
+        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, mObserver);
+        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, mObserver);
+        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_CONFIG_CHANGED, mObserver);
+        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_CALL_ASSISTANT, mObserver);
+        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_SCREEN_FLASH, mObserver);
 
-        checkCallAssistantAdPlacement();
+        initModules();
+        checkModuleAdPlacement();
 
         LockScreenStarter.init();
 
@@ -80,6 +92,32 @@ public class ColorPhoneApplication extends HSApplication {
 
         }
 
+    }
+
+    private void initModules() {
+        Module locker = new Module();
+        locker.setAdName(AdPlacements.AD_LOCKER);
+        locker.setAdType(Module.AD_EXPRESS);
+        locker.setNotifyKey(LockerSettings.NOTIFY_LOCKER_STATE);
+        locker.setChecker(new Module.Checker() {
+            @Override
+            public boolean isEnable() {
+                return LockerSettings.isLockerEnabled();
+            }
+        });
+
+        Module charging = new Module();
+        charging.setAdName(AdPlacements.AD_CHAEGING_SCREEN);
+        charging.setAdType(Module.AD_EXPRESS);
+        charging.setNotifyKey(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE);
+        charging.setChecker(new Module.Checker() {
+            @Override
+            public boolean isEnable() {
+                return ChargingScreenSettings.isChargingScreenEnabled();
+            }
+        });
+        mModules.add(locker);
+        mModules.add(charging);
     }
 
     private void systemFix() {
@@ -103,7 +141,7 @@ public class ColorPhoneApplication extends HSApplication {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        HSGlobalNotificationCenter.removeObserver(sessionEventObserver);
+        HSGlobalNotificationCenter.removeObserver(mObserver);
     }
 
 
@@ -118,15 +156,43 @@ public class ColorPhoneApplication extends HSApplication {
 
     public static void checkCallAssistantAdPlacement() {
         final String adName = AcbCallManager.getInstance().getAcbCallFactory().getCallIdleConfig().getAdPlaceName();
-        boolean enable = CPSettings.isScreenFlashModuleEnabled() && CPSettings.isCallAssistantModuleEnabled();
+        boolean enable = CPSettings.isCallAssistantModuleEnabled();
+        checkNativeAd(adName, enable);
+
+    }
+
+    private void checkModuleAdPlacement() {
+        checkCallAssistantAdPlacement();
+
+        for (Module module : mModules) {
+            if (module.getAdType() == Module.AD_EXPRESS) {
+                checkExpressAd(module.getAdName(), module.getChecker().isEnable());
+            } else if (module.getAdType() == Module.AD_NATIVE) {
+                checkNativeAd(module.getAdName(), module.getChecker().isEnable());
+            }
+        }
+
+        HSPermanentUtils.checkAliveForProcess();
+    }
+
+    private static void checkExpressAd(String adName, boolean enable) {
+        HSLog.d("AD_CHECK_express", "Name = " + adName + ", enable = " + enable );
+        if (enable) {
+            AcbExpressAdManager.getInstance().activePlacementInProcess(adName);
+        } else {
+            AcbExpressAdManager.getInstance().deactivePlacementInProcess(adName);
+        }
+    }
+
+    private static void checkNativeAd(String adName, boolean enable) {
+        HSLog.d("AD_CHECK_native", "Name = " + adName + ", enable = " + enable );
         if (enable) {
             AcbNativeAdManager.sharedInstance().activePlacementInProcess(adName);
         } else {
             AcbNativeAdManager.sharedInstance().deactivePlacementInProcess(adName);
         }
-
-        HSPermanentUtils.checkAliveForProcess();
     }
+
     public static ConfigLog getConfigLog() {
         return mConfigLog;
     }

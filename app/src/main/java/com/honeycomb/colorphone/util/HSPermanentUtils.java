@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import com.acb.call.CPSettings;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
+import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.PermanentService;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
@@ -87,7 +89,9 @@ public class HSPermanentUtils {
     }
 
     public static void checkAliveForProcess() {
-        boolean needKeepAlive = CPSettings.isScreenFlashModuleEnabled();
+        boolean needKeepAlive = CPSettings.isScreenFlashModuleEnabled()
+                || ChargingScreenSettings.isChargingScreenEverEnabled()
+                || LockerSettings.isLockerEnabled();
 
         HSLog.d("Utils", "Guard Process enable = " + needKeepAlive);
         if (needKeepAlive) {
