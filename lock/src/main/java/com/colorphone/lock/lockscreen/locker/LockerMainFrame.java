@@ -27,7 +27,6 @@ import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.boost.BlackHoleLayout;
 import com.colorphone.lock.boost.BoostSource;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
-import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.locker.shimmer.Shimmer;
@@ -194,7 +193,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         viewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 mSlidingDrawer.setTranslationY(mSlidingDrawer.getHeight() - CommonUtils.pxFromDp(48));
             }
         });
@@ -214,11 +213,11 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     private void requestAds() {
-        int minCountToShowAds = HSConfig.optInteger(1, "Application", "Locker", "Ads", "MinCountToShowAds");
-        int showAdsInterval = HSConfig.optInteger(1, "Application", "Locker", "Ads", "ShowAdsInterval");
-        if (LockerSettings.getLockerShowCount() >= minCountToShowAds
-                && (LockerSettings.getLockerShowCount() - LockerSettings.getLockerAdsShowCount()) >= showAdsInterval
-                && FloatWindowController.getInstance().isLockScreenShown()) {
+//        int minCountToShowAds = HSConfig.optInteger(1, "Application", "Locker", "Ads", "MinCountToShowAds");
+//        int showAdsInterval = HSConfig.optInteger(1, "Application", "Locker", "Ads", "ShowAdsInterval");
+//        if (LockerSettings.getLockerShowCount() >= minCountToShowAds
+//                && (LockerSettings.getLockerShowCount() - LockerSettings.getLockerAdsShowCount()) >= showAdsInterval
+//                ) {
             expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getLockerAdName());
             expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
                 @Override
@@ -231,7 +230,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                     HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
                 }
             });
-        }
+//        }
     }
 
     private void showExpressAd() {
