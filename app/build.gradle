@@ -117,12 +117,11 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
     compile project(':lock')
-    compile 'com.ihandy.expressads:libExpressAds.gm:4.3.0.gm'
 
     compile 'com.ihandy.appframework:libAppframework.gm:4.2.4.gm'
 
     // Ads
-    compile 'com.ihandy.nativeads:libNativeAds.gm:4.5.0.gm'
+    compile 'com.ihandy.nativeads:libNativeAds.gm:4.4.0.gm'
     compile 'com.ihandy.3rdadadapter:libAdAdxNativeAdapter.gm:4.1.3.gm'
     compile 'com.ihandy.3rdadadapter:libAdAdmobNativeAdapter.gm:4.1.6.gm'
     compile 'com.ihandy.3rdadadapter:libAdFBNativeAdapter.gm:4.1.4.gm'
@@ -130,6 +129,14 @@ dependencies {
     compile 'com.ihandy.3rdadadapter:libAdAvocarrotNativeAdapter.gm:4.1.3.gm'
     compile 'com.ihandy.3rdadadapter:libAdMopubNativeAdapter.gm:4.5.0.gm'
     compile 'com.ihandy.3rdadadapter:libAdFlurryNativeAdapter.gm:4.1.0.gm'
+
+    //Express ad
+    compile 'com.ihandy.expressads:libExpressAds.gm:4.3.0.gm'
+    compile 'com.ihandy.3rdadadapter:libAdMopubExpressAdapter.gm:4.0.3.gm'
+    compile 'com.ihandy.3rdadadapter:libAdAdmobExpressAdapter.gm:4.0.1.gm'
+    compile 'com.ihandy.3rdadadapter:libAdAmazonMopubExpressAdapter.gm:4.0.1.gm'
+    compile 'com.ihandy.3rdadadapter:libAdAdxExpressAdapter.gm:4.0.1.gm'
+    compile 'com.ihandy.3rdadadapter:libAdInneractiveExpressAdapter.gm:4.0.0.gm'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
