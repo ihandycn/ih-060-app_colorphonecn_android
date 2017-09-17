@@ -182,6 +182,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         mTvDate = (TextView) findViewById(R.id.tv_date);
         refreshClock();
         mAdShown = false;
+        LockerCustomConfig.get().onEventLockerShow();
     }
 
     @Override
@@ -223,10 +224,12 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 @Override
                 public void onAdShown(AcbExpressAdView acbExpressAdView) {
                     mAdShown = true;
+                    LockerCustomConfig.get().onEventLockerAdShow();
                 }
 
                 @Override
                 public void onAdClicked(AcbExpressAdView acbExpressAdView) {
+                    LockerCustomConfig.get().onEventLockerAdClick();
                     HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
                 }
             });
@@ -258,7 +261,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     public void onStop() {
         if (System.currentTimeMillis() - mOnStartTime > DateUtils.SECOND_IN_MILLIS) {
             HSAnalytics.logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getLockerAdName(), String.valueOf(mAdShown)});
-
             mAdShown = false;
         }
     }

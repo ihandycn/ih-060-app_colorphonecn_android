@@ -321,6 +321,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
         // Life cycle
         LockScreensLifeCycleRegistry.setChargingScreenActive(true);
+        LockerCustomConfig.get().onEventChargingViewShow();
     }
 
     public void onStart() {
@@ -394,13 +395,13 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             @Override
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
                 mAdShown = true;
+                LockerCustomConfig.get().onEventChargingAdShow();
             }
 
             @Override
             public void onAdClicked(AcbExpressAdView acbExpressAdView) {
                 dismiss(getContext(), true);
-
-                HSAnalytics.logEvent("ChargingScreen_Ad_Clicked");
+                LockerCustomConfig.get().onEventChargingAdClick();
             }
         });
     }
