@@ -1,6 +1,9 @@
 package com.honeycomb.colorphone;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
@@ -10,6 +13,7 @@ import com.acb.call.CPSettings;
 import com.acb.expressads.AcbExpressAdManager;
 import com.acb.nativeads.AcbNativeAdManager;
 import com.colorphone.lock.LockerCustomConfig;
+import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
@@ -31,6 +35,8 @@ import java.util.List;
 
 import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
+
+import static android.content.IntentFilter.SYSTEM_HIGH_PRIORITY;
 
 public class ColorPhoneApplication extends HSApplication {
 
@@ -66,11 +72,8 @@ public class ColorPhoneApplication extends HSApplication {
         AcbCallManager.init(this, new CallConfigFactory());
         HSPermanentUtils.keepAlive();
         FileDownloader.setup(this);
-        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, mObserver);
-        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, mObserver);
-        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_CONFIG_CHANGED, mObserver);
-        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_CALL_ASSISTANT, mObserver);
-        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_SCREEN_FLASH, mObserver);
+
+        addGlobalObservers();
 
         initModules();
         checkModuleAdPlacement();
@@ -84,14 +87,34 @@ public class ColorPhoneApplication extends HSApplication {
             HSLog.d("Start", "initLockScreen");
             LockerCustomConfig.get().setLauncherIcon(R.mipmap.ic_launcher);
             LockerCustomConfig.get().setSPFileName("colorPhone_locker");
-            //TODO
             LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);
             LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHAEGING_SCREEN);
             FloatWindowCompat.initLockScreen(this);
             HSChargingManager.getInstance().start();
-
         }
+    }
 
+    private void addGlobalObservers() {
+        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, mObserver);
+        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, mObserver);
+        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_CONFIG_CHANGED, mObserver);
+        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_CALL_ASSISTANT, mObserver);
+        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_SCREEN_FLASH, mObserver);
+        final IntentFilter screenFilter = new IntentFilter();
+        screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        screenFilter.addAction(Intent.ACTION_SCREEN_ON);
+        screenFilter.setPriority(SYSTEM_HIGH_PRIORITY);
+
+        HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+                    ScreenStatusReceiver.onScreenOff(context);
+                } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+                    ScreenStatusReceiver.onScreenOn(context);
+                }
+            }
+        }, screenFilter);
     }
 
     private void initModules() {
