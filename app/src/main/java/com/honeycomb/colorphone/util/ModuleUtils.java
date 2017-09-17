@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.util;
 
 import android.text.format.DateUtils;
 
+import com.acb.autopilot.AutopilotConfig;
 import com.acb.call.CPSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
@@ -13,16 +14,19 @@ import com.colorphone.lock.util.PreferenceHelper;
 
 public class ModuleUtils {
     private static final String PREFS_FILE_NAME = "pref_file_colorphone";
-    private static final int MAX_COUNT_APPLY_GUIDE = 3;
 
     public static boolean isNeedGuideAfterApply() {
 
         long guideInterval = System.currentTimeMillis() - PreferenceHelper.get(PREFS_FILE_NAME).getLong("apply_guide_time", 0);
-        if (guideInterval < DateUtils.DAY_IN_MILLIS) {
+        int interval = (int) AutopilotConfig.getDoubleToTestNow("topic-1505294061097", "apply_finish_guide_show_interval", 6);
+        if (guideInterval < interval * DateUtils.HOUR_IN_MILLIS) {
             return false;
         }
+
         int guideCount = PreferenceHelper.get(PREFS_FILE_NAME).getInt("apply_guide_count", 0);
-        if (guideCount > MAX_COUNT_APPLY_GUIDE) {
+        int max = (int) AutopilotConfig.getDoubleToTestNow("topic-1505294061097", "apply_finish_guide_max_show_time", 1);
+
+        if (guideCount >= max) {
             return false;
         }
 

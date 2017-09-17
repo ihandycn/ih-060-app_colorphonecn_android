@@ -1,0 +1,83 @@
+{
+  "get_url": "https://console.appcloudbox.net/autopilot/api/test/get",
+  "topics": {
+    "topic-1505294061097": {
+      "topic_type": "life_time",
+      "topic_name": "Feature Open Rate",
+      "variations": {
+        "apply_finish_guide_show_interval": {
+          "type": "string",
+          "value": "8"
+        },
+        "apply_finish_guide_max_show_time": {
+          "type": "string",
+          "value": "1"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "color_screensaver_show"
+        }
+      ],
+      "topic_id": "topic-1505294061097"
+    },
+    "topic-1505290483207": {
+      "topic_type": "life_time",
+      "topic_name": "AD Strategy",
+      "variations": {
+        "colorscreensaver_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "apply_finish_guide_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "sms_assistant_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "smart_charging_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "start_guide_enable": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        }
+      ],
+      "topic_id": "topic-1505290483207"
+    }
+  },
+  "autopilot_id": 10000,
+  "submit_url": "https://console.appcloudbox.net/autopilot/api/test/submit",
+  "autopilot_name": "Color Phone",
+  "app_events": [
+    {
+      "name": "main_app_open"
+    },
+    {
+      "name": "main_app_close"
+    },
+    {
+      "name": "extended_active"
+    },
+    {
+      "name": "ad_show"
+    },
+    {
+      "name": "ad_click"
+    },
+    {
+      "name": "iap"
+    }
+  ]
+}

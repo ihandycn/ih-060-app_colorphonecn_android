@@ -26,6 +26,9 @@ import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 public class GuideApplyThemeActivity extends HSAppCompatActivity {
 
+    public static String KEY_SHOW_TIME = "apply_guide_show_times";
+    public static String KEY_DISPLAY_COUNT = "apply_guide_show_count";
+
     public static void start(Context context) {
         Intent starter = new Intent(context, GuideApplyThemeActivity.class);
         context.startActivity(starter);

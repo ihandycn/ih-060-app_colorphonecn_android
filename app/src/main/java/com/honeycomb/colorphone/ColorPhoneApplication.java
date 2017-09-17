@@ -8,6 +8,8 @@ import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
+import com.acb.autopilot.AutopilotConfig;
+import com.acb.autopilot.AutopilotEvent;
 import com.acb.call.AcbCallManager;
 import com.acb.call.CPSettings;
 import com.acb.expressads.AcbExpressAdManager;
@@ -69,26 +71,31 @@ public class ColorPhoneApplication extends HSApplication {
         systemFix();
         Fabric.with(this, new Crashlytics());
         mConfigLog = new ConfigLogDefault();
-        AcbCallManager.init(this, new CallConfigFactory());
-        HSPermanentUtils.keepAlive();
         FileDownloader.setup(this);
-
-        addGlobalObservers();
-
-        initModules();
-        checkModuleAdPlacement();
-
-        LockScreenStarter.init();
 
         String packageName = getPackageName();
         String processName = getProcessName();
 
         if (TextUtils.equals(processName, packageName)) {
+            AcbCallManager.init(this, new CallConfigFactory());
+            HSPermanentUtils.keepAlive();
+            if (BuildConfig.DEBUG) {
+                AutopilotConfig.setDebugConfig(true, true, true);
+            }
+
+            addGlobalObservers();
+
+            initModules();
+            checkModuleAdPlacement();
+
+            LockScreenStarter.init();
+
             HSLog.d("Start", "initLockScreen");
             LockerCustomConfig.get().setLauncherIcon(R.mipmap.ic_launcher);
             LockerCustomConfig.get().setSPFileName("colorPhone_locker");
             LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);
             LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHAEGING_SCREEN);
+            LockerCustomConfig.get().setEventDelegate(new LockerEvent());
             FloatWindowCompat.initLockScreen(this);
             HSChargingManager.getInstance().start();
         }
@@ -218,5 +225,42 @@ public class ColorPhoneApplication extends HSApplication {
 
     public static ConfigLog getConfigLog() {
         return mConfigLog;
+    }
+
+    public static class LockerEvent extends LockerCustomConfig.Event {
+        @Override
+        public void onEventLockerAdShow() {
+            super.onEventChargingAdClick();
+            AutopilotEvent.onAdShow();
+        }
+
+        @Override
+        public void onEventLockerShow() {
+            super.onEventChargingAdClick();
+            AutopilotEvent.logTopicEvent("topic-1505294061097", "color_screensaver_show");
+        }
+
+        @Override
+        public void onEventLockerAdClick() {
+            super.onEventChargingAdClick();
+            AutopilotEvent.onAdClick();
+        }
+
+        @Override
+        public void onEventChargingAdShow() {
+            super.onEventChargingAdClick();
+            AutopilotEvent.onAdShow();
+        }
+
+        @Override
+        public void onEventChargingAdClick() {
+            super.onEventChargingAdClick();
+            AutopilotEvent.onAdClick();
+        }
+
+        @Override
+        public void onEventChargingViewShow() {
+            super.onEventChargingAdClick();
+        }
     }
 }
