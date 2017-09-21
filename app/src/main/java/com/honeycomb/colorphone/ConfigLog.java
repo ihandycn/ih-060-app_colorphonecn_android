@@ -1,10 +1,6 @@
 package com.honeycomb.colorphone;
 
-import java.util.List;
-
 public interface ConfigLog {
-
-    List<String> getHotThemeList();
 
     Event getEvent();
 

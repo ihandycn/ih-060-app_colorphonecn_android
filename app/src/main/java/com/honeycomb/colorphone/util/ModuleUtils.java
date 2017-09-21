@@ -30,8 +30,8 @@ public class ModuleUtils {
             return false;
         }
 
-        //TODO sms
         if (CPSettings.isCallAssistantModuleEnabled()
+                && CPSettings.isCallAssistantModuleEnabled()
                 && ChargingScreenSettings.isChargingScreenEverEnabled()
                 && LockerSettings.isLockerEnabled()) {
             return false;

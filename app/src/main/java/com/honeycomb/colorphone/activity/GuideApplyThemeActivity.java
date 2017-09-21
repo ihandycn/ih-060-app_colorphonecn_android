@@ -58,7 +58,7 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
             public void onClick(View v) {
                 if (cb.isChecked()) {
                     HSAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked");
-                    // TODO sms
+                    CPSettings.setSMSAssistantModuleEnabled(true);
                     CPSettings.setCallAssistantModuleEnabled(true);
                     LockerSettings.setLockerEnabled(true);
                     ChargingScreenSettings.setChargingScreenEnabled(true);

@@ -1,10 +1,8 @@
 package com.honeycomb.colorphone;
 
 import com.ihs.app.analytics.HSAnalytics;
-import com.ihs.commons.config.HSConfig;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,10 +11,6 @@ import java.util.Set;
 
 public class ConfigLogDefault implements ConfigLog {
 
-    @Override
-    public List<String> getHotThemeList() {
-        return (List<String>) HSConfig.getList("Application", "Theme", "HotTheme");
-    }
 
     @Override
     public Event getEvent() {

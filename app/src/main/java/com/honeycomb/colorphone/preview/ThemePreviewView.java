@@ -26,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acb.call.CPSettings;
+import com.acb.call.constant.CPConst;
+import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
@@ -34,6 +36,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
+import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
@@ -48,9 +51,9 @@ import com.ihs.commons.utils.HSLog;
 
 import java.util.ArrayList;
 
-import static com.honeycomb.colorphone.preview.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
-import static com.honeycomb.colorphone.preview.ThemePreviewActivity.NOTIFY_THEME_KEY;
-import static com.honeycomb.colorphone.preview.ThemePreviewActivity.NOTIFY_THEME_SELECT;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
 
 /**
  * Created by sundxing on 17/8/4.
@@ -174,9 +177,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mPosition = position;
         mNavBack = navBack;
 //        mRootView = null;
-        Type[] types = Type.values();
+        ArrayList<Type> types = Type.values();
         for (Type t : types) {
-            if (t.getValue() == mTheme.getThemeId()) {
+            if (t.getValue() == mTheme.getId()) {
                 mThemeType = t;
                 break;
             }
@@ -235,10 +238,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (inTransition) {
                     return;
                 }
-                CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getThemeId());
+                CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
                 // notify
                 HSBundle bundle = new HSBundle();
-                bundle.putInt(NOTIFY_THEME_KEY, mTheme.getThemeId());
+                bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
                 HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
 
                 setButtonState(true);
@@ -280,7 +283,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             previewWindow.playAnimation(mThemeType);
             callActionView.doAnimation();
 
-            boolean curTheme = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getThemeId();
+            boolean curTheme = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
             animationDelay = 0;
             setButtonState(curTheme);
             playButtonAnimation();
@@ -465,7 +468,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     protected void onStart() {
 
-        final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getThemeId());
+        final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getId());
         if (model != null) {
             curTaskId = model.getId();
             // GIf
@@ -482,14 +485,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         // Show background if gif drawable not ready.
         if (mTheme != null) {
-            if (mTheme.getBackgroundRes() > 0) {
-                previewImage.setImageResource(mTheme.getBackgroundRes());
-                previewImage.setBackgroundColor(Color.TRANSPARENT);
-            } else if (!mThemeType.isGif()){
+            if (!mThemeType.isGif()){
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
+            } else {
+                AcbCallManager.getInstance().getImageLoader().load(mTheme, mTheme.getPreviewImage(), R.color.transparent_black, previewImage);
             }
-
         }
     }
 
@@ -555,7 +556,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         // Notify download status.
         HSBundle bundle = new HSBundle();
-        bundle.putInt(NOTIFY_THEME_KEY, mTheme.getThemeId());
+        bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
         HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_DOWNLOAD, bundle);
 
         FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
@@ -609,7 +610,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void updateButtonState() {
         if (themeReady && navIsShow()) {
-            boolean curTheme = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getThemeId();
+            boolean curTheme = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
             setButtonState(curTheme);
         }
     }

@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone;
+package com.honeycomb.colorphone.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.CompoundButton;
 import com.acb.call.CPSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
+import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 

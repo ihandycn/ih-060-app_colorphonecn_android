@@ -27,7 +27,6 @@
     <string name="settings" translatable="false">Settings</string>
     <string name="loading" translatable="false">Loading </string>
     <string name="loading_progress" translatable="false">%1$d %%</string>
-    <string name="settings_call_assistant" translatable="false">Call Assistant</string>
     <string name="ad_hint" translatable="false">It may contain ads.</string>
     <string name="card_view_contains_ads_statement" translatable="false">It may contain ads.</string>
     <string name="acb_guide_ok">OK</string>
@@ -61,10 +60,18 @@
     <string name="acb_alert_call_missed_time" translatable="false">Call Time :  </string>
     <string name="acb_theme_call_assistant" translatable="false">Call assistant</string>
     <string name="acb_outapp_guide_screen_flash_content" translatable="false">Try the unique call interface to make your phone more fashionable.It may contain ads.</string>
-    <string name="about">About</string>
-    <string name="privacy_policy">Privacy policy</string>
-    <string name="terms_of_service">Terms of service</string>
-    <string name="smart_charging">Smart Charging</string>
-    <string name="color_lockscreen">Color LockScreen</string>
-    <string name="guide_apply_theme_hint">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
+    <string name="about" translatable="false">About</string>
+    <string name="privacy_policy" translatable="false">Privacy policy</string>
+    <string name="terms_of_service" translatable="false">Terms of service</string>
+    <string name="smart_charging" translatable="false">Smart Charging</string>
+    <string name="smart_charging_hint" translatable="false">Automatically monitor charging status and stop over-charging to prevent
+        battery damage (May contain ads)</string>
+    <string name="color_lockscreen" translatable="false">Color Screensaver</string>
+    <string name="color_lockscreen_hint" translatable="false">Glorify your screensaver using various fancy and cool themes (May contain
+        ads)</string>
+    <string name="guide_apply_theme_hint" translatable="false">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
+    <string name="sms_assistant" translatable="false">SMS Assistant</string>
+    <string name="sms_assistant_hint" translatable="false">SMS Assistant will remind you of new messages (May contain ads)</string>
+    <string name="call_assistant" translatable="false">Call Assistant</string>
+    <string name="call_assistant_hint" translatable="false">Call Assistant will remind you of missed calls (May contain ads)</string>
 </resources>

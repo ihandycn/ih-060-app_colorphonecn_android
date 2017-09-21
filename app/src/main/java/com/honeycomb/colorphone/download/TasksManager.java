@@ -4,7 +4,8 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.acb.call.themes.Type;
-import com.acb.call.utils.CallUtils;
+import com.acb.call.utils.FileUtils;
+import com.acb.call.utils.Utils;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadConnectListener;
@@ -115,7 +116,7 @@ public class TasksManager {
 
 
     public TasksManagerModel getByThemeId(int themeId) {
-        Type type = CallUtils.getTypeByThemeId(themeId);
+        Type type = Utils.getTypeByThemeId(themeId);
         for (TasksManagerModel model : modelList) {
             if (TextUtils.equals(model.getName(), type.getIdName())) {
                 return model;
@@ -180,7 +181,7 @@ public class TasksManager {
         if (TextUtils.isEmpty(url)) {
             throw new IllegalStateException("Theme type : [ " + type.getIdName() + " ] has not gif url!");
         }
-        File file = CallUtils.getDirectory(CallUtils.GIF_DIRECTORY);
+        File file = FileUtils.getGifDirectory();
         if (file != null) {
             String path = FileDownloadUtils.generateFilePath(file.getAbsolutePath(), type.getGifFileName());
             addTask(url, path,  type.getIdName());

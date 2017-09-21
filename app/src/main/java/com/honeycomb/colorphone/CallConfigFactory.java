@@ -1,10 +1,7 @@
 package com.honeycomb.colorphone;
 
-import android.text.TextUtils;
-
-import com.acb.call.AcbCallFactoryImpl;
-import com.acb.call.ViewConfig;
-import com.acb.call.themes.Type;
+import com.acb.call.customize.AcbCallFactoryImpl;
+import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.views.CallIdleAlert;
 import com.ihs.commons.config.HSConfig;
 
@@ -35,7 +32,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     }
 
     @Override
-    public ViewConfig getViewConfig() {
+    public ThemeViewConfig getViewConfig() {
         return new CPViewConfig();
     }
 
@@ -46,7 +43,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         }
     }
 
-    public static class CPViewConfig extends ViewConfig {
+    public static class CPViewConfig extends ThemeViewConfig {
         int[] faces = new int[]{
                 R.drawable.face_1,
                 R.drawable.face_2,
@@ -109,59 +106,5 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             return HSConfig.getList(new String[]{"Application", "Theme", "List"});
 
         }
-
-        @Override
-        public void onConfigTypes(List<Type> types) {
-
-            final int startId = Type.NEON + 1;
-            final int endId = ID_NAMES.length + startId - 1;
-            for(int id = startId; id <= endId; ++id) {
-                Type info = new Type();
-                final int curPos = id - startId;
-                info.setId(id);
-                info.setIdName(ID_NAMES[curPos]);
-                info.setName(TextStrings[curPos]);
-                int accept;
-                int reject;
-                switch(info.getIdName()) {
-                    case "DeepLove":
-                        accept = R.drawable.acb_call_deeplove_yes;
-                        reject = R.drawable.acb_call_deeplove_no;
-                        break;
-                    case "Maze":
-                        accept = R.drawable.acb_call_maze_yes;
-                        reject = R.drawable.acb_call_maze_no;
-                        break;
-                    case "Modern":
-                        accept = R.drawable.acb_call_modern_yes;
-                        reject = R.drawable.acb_call_modern_no;
-                        break;
-                    default:
-                        accept = R.drawable.acb_phone_call_answer;
-                        reject = R.drawable.acb_phone_call_refuse;
-                }
-
-                if (BuildConfig.DEBUG) {
-                    info.setGifUrl(GIF_URLS_DEBUG[curPos]);
-                } else {
-                    info.setGifUrl(GIF_URL_PREFIX + info.getIdName() + ".gif");
-                }
-                info.setAcceptIcon(String.valueOf(accept));
-                info.setRejectIcon(String.valueOf(reject));
-                info.setGif(true);
-                info.setResType(Type.RES_LOCAL_ID);
-                types.add(info);
-            }
-
-        }
     }
-
-        private static int getIndexOfType(List<String> orders, String idName) {
-            for (int i = 0; i < orders.size(); i++) {
-                if (!TextUtils.isEmpty(idName) && idName.equalsIgnoreCase(orders.get(i))) {
-                    return i;
-                }
-            }
-            return 0;
-        }
     }

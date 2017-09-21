@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone;
+package com.honeycomb.colorphone.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,15 +25,17 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.acb.call.CPSettings;
+import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
-import com.honeycomb.colorphone.activity.GuideLockerAssistantActivity;
+import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
-import com.honeycomb.colorphone.preview.ThemePreviewActivity;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.utils.HSVersionControlUtils;
-import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -44,15 +46,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 
 import hugo.weaving.DebugLog;
-
-import static com.acb.call.themes.Type.NEON;
-import static com.acb.call.themes.Type.STARS;
-import static com.acb.call.themes.Type.SUN;
-import static com.acb.call.themes.Type.TECH;
 
 
 public class ColorPhoneActivity extends HSAppCompatActivity
@@ -188,7 +183,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         StringBuilder sb = new StringBuilder(4);
         for (Theme theme : mRecyclerViewData) {
             if (theme.isLike()) {
-                sb.append(theme.getThemeId());
+                sb.append(theme.getId());
                 sb.append(",");
             }
         }
@@ -232,49 +227,38 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void initData() {
-        Type[] themeTypes = Type.values();
-        final int count = themeTypes.length;
-        int selectedThemeId = CPSettings.getInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, -1);
+        ArrayList<Type> themeTypes = Type.values();
+        final int count = themeTypes.size();
+        int selectedThemeId = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
         if (selectedThemeId == -1) {
             selectedThemeId = defaultThemeId;
-            CPSettings.putInt(CPSettings.PREFS_SCREEN_FLASH_THEME_ID, defaultThemeId);
+            CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, defaultThemeId);
         }
-        List<String> hotThemes =  ColorPhoneApplication.getConfigLog().getHotThemeList();
         String[] likeThemes = getThemeLikes();
-
-        Map<String, Map<String,?>> orderMaps = (Map<String, Map<String,?>>) HSConfig.getMap("Application", "Theme", "Extras");
-
         for (int i = 0; i < count; i++) {
-            final Type type = themeTypes[i];
+            final Type type = themeTypes.get(i);
             if(type.getValue() == Type.NONE) {
                 continue;
             }
-            final Theme theme = new Theme();
-            fill(theme, orderMaps.get(type.getIdName()));
-            theme.setName(type.getName());
-            theme.setThemeId(type.getValue());
-            theme.setBackgroundRes(getThemePreviewImage(type));
-            if (type.getValue() == Type.TECH) {
-                theme.setAvatarName("Alexis");
-                theme.setAvatar(R.drawable.acb_phone_theme_default_technological_caller_avatar);
-            } else {
-                theme.setAvatar(avatars[theme.getIndex() % avatars.length]);
-                theme.setAvatarName(avatarNames[theme.getIndex() % avatarNames.length]);
-            }
-
-            theme.setHot(isHotTheme(hotThemes, type.getIdName()));
-            if (theme.getThemeId() == selectedThemeId) {
-                theme.setSelected(true);
-            }
+            final Theme theme = (Theme) type;
+            // Avatar
+            theme.configAvatar();
+            // Like ?
             boolean isLike = isLikeTheme(likeThemes, type.getValue());
             if (isLike) {
                 theme.setDownload(theme.getDownload() + 1);
             }
             theme.setLike(isLike);
-            mRecyclerViewData.add(theme);
+            // Selected ?
+            if (theme.getId() == selectedThemeId) {
+                theme.setSelected(true);
+            }
+
             if (type.isGif()) {
                 TasksManager.getImpl().addTask(type);
             }
+
+            mRecyclerViewData.add(theme);
 
         }
 
@@ -287,33 +271,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
-    private void fill(Theme theme, Map<String, ?> map) {
-        theme.setIndex((Integer)map.get(Type.CONFIG_KEY_INDEX));
-        theme.setDownload((Integer)map.get(Theme.CONIFG_DOWNLOAD_NUM));
-    }
-
-    private static int[] avatars = new int[]{
-            R.drawable.female_4,
-            R.drawable.male_1,
-            R.drawable.female_2,
-            R.drawable.female_3,
-            R.drawable.male_2,
-            R.drawable.female_1,
-            R.drawable.male_3,
-            R.drawable.male_4,
-    };
-
-    private static String[] avatarNames = new String[]{
-            "Grace",
-            "Jackson",
-            "Isabella",
-            "Harper",
-            "Noah",
-            "Emma",
-            "Oliver",
-            "Lucas",
-
-    };
 
     private boolean isLikeTheme(String[] likeThemes, int themeId) {
         for (String likeThemeId : likeThemes) {
@@ -325,35 +282,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
         return false;
-    }
-
-    private boolean isHotTheme(List<String> hotThemes, String name) {
-        for (String hotTheme : hotThemes) {
-            if (name.equalsIgnoreCase(hotTheme)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private int getThemePreviewImage(Type type) {
-        if (type.getValue() > NEON) {
-            return getIdentifier(this, "theme_preview_".concat(type.getIdName().toLowerCase()), "drawable");
-        }
-
-        switch (type.getValue()) {
-            case NEON:
-                return R.drawable.theme_preview_neon;
-            case STARS:
-                return R.drawable.theme_preview_stars;
-            case SUN:
-                return R.drawable.theme_preview_sun;
-            case TECH:
-                return R.drawable.acb_phone_theme_technological_bg;
-            default:
-                break;
-        }
-        return 0;
     }
 
     @AnyRes

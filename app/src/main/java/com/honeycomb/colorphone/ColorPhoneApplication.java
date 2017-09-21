@@ -10,16 +10,21 @@ import android.text.TextUtils;
 
 import com.acb.autopilot.AutopilotConfig;
 import com.acb.autopilot.AutopilotEvent;
-import com.acb.call.AcbCallManager;
 import com.acb.call.CPSettings;
+import com.acb.call.constant.CPConst;
+import com.acb.call.customize.AcbCallManager;
+import com.acb.call.themes.Type;
 import com.acb.expressads.AcbExpressAdManager;
 import com.acb.nativeads.AcbNativeAdManager;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.MemoryCategory;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
+import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
@@ -34,6 +39,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
@@ -56,7 +62,7 @@ public class ColorPhoneApplication extends HSApplication {
                 HSLog.d("Session End.");
             } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
                 checkModuleAdPlacement();
-            } else if (CPSettings.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
+            } else if (CPConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
                 HSPermanentUtils.checkAliveForProcess();
             } else {
                 checkModuleAdPlacement();
@@ -78,6 +84,17 @@ public class ColorPhoneApplication extends HSApplication {
 
         if (TextUtils.equals(processName, packageName)) {
             AcbCallManager.init(this, new CallConfigFactory());
+            AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
+                @Override
+                public Type parse(Map<String, ?> map) {
+                    Theme type = new Theme();
+                    Type.fillData(type, map);
+                    type.setDownload((Integer)map.get(Theme.CONFIG_DOWNLOAD_NUM));
+                    return type;
+                }
+            });
+            AcbCallManager.getInstance().setImageLoader(new ThemeImageLoader());
+
             HSPermanentUtils.keepAlive();
             if (BuildConfig.DEBUG) {
                 AutopilotConfig.setDebugConfig(true, true, true);
@@ -88,25 +105,57 @@ public class ColorPhoneApplication extends HSApplication {
             initModules();
             checkModuleAdPlacement();
 
-            LockScreenStarter.init();
+            initLockerCharging();
+            Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
 
-            HSLog.d("Start", "initLockScreen");
-            LockerCustomConfig.get().setLauncherIcon(R.mipmap.ic_launcher);
-            LockerCustomConfig.get().setSPFileName("colorPhone_locker");
-            LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);
-            LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHAEGING_SCREEN);
-            LockerCustomConfig.get().setEventDelegate(new LockerEvent());
-            FloatWindowCompat.initLockScreen(this);
-            HSChargingManager.getInstance().start();
+            preloadThemeResources();
         }
+    }
+
+    private void preloadThemeResources() {
+        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                Type.values();
+                ConcurrentUtils.postOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        doPreload();
+                    }
+                });
+            }
+        });
+    }
+
+    private void doPreload() {
+        List<Type> themes = Type.values();
+        for (Type theme : themes) {
+            if (!TextUtils.isEmpty(theme.getPreviewImage())) {
+                HSLog.d("preload", theme.getPreviewImage());
+                Glide.with(this).downloadOnly().load(theme.getPreviewImage()).preload();
+            }
+        }
+    }
+
+    private void initLockerCharging() {
+        LockScreenStarter.init();
+
+        HSLog.d("Start", "initLockScreen");
+        LockerCustomConfig.get().setLauncherIcon(R.mipmap.ic_launcher);
+        LockerCustomConfig.get().setSPFileName("colorPhone_locker");
+        LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);
+        LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHAEGING_SCREEN);
+        LockerCustomConfig.get().setEventDelegate(new LockerEvent());
+        FloatWindowCompat.initLockScreen(this);
+        HSChargingManager.getInstance().start();
     }
 
     private void addGlobalObservers() {
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, mObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, mObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_CONFIG_CHANGED, mObserver);
-        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_CALL_ASSISTANT, mObserver);
-        HSGlobalNotificationCenter.addObserver(CPSettings.NOTIFY_CHANGE_SCREEN_FLASH, mObserver);
+        HSGlobalNotificationCenter.addObserver(CPConst.NOTIFY_CHANGE_CALL_ASSISTANT, mObserver);
+        HSGlobalNotificationCenter.addObserver(CPConst.NOTIFY_CHANGE_SCREEN_FLASH, mObserver);
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
         screenFilter.addAction(Intent.ACTION_SCREEN_ON);

@@ -47,7 +47,7 @@
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
         <activity
-            android:name=".ColorPhoneActivity"
+            android:name=".activity.ColorPhoneActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme.Launcher">
@@ -76,19 +76,19 @@
         </receiver>
 
         <activity
-            android:name=".preview.ThemePreviewActivity"
+            android:name=".activity.ThemePreviewActivity"
             android:launchMode="singleTop"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DarkFullScreen" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:launchMode="singleTop"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
         <activity
-            android:name=".AboutActivity"
+            android:name=".activity.AboutActivity"
             android:launchMode="singleTop"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

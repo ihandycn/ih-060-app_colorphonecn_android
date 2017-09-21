@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone;
+package com.honeycomb.colorphone.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 

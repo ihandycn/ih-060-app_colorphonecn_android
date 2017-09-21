@@ -21,69 +21,10 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/setting_item_call_assistant"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:background="@drawable/material_compat_bg"
-                android:clickable="true">
-
-                <!--<ImageView-->
-                <!--android:id="@+id/reminder_display_settings_icon"-->
-                <!--android:layout_width="30dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginStart="20dp"-->
-                <!--android:scaleType="center"-->
-                <!--/>-->
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/setting_item_call_assistant_toggle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginStart="10dp"
-                    android:clickable="true" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="23dp"
-                    android:layout_marginStart="23dp"
-                    android:layout_toLeftOf="@+id/setting_item_call_assistant_toggle"
-                    android:layout_toStartOf="@+id/setting_item_call_assistant_toggle"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <com.honeycomb.colorphone.view.TypefacedTextView
-                        style="@style/NormalText.Settings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_call_assistant"
-                        />
-
-                    <com.honeycomb.colorphone.view.TypefacedTextView
-                        style="@style/NormalText.SettingsHint"
-                        android:layout_marginTop="2dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_activity_lock_screen_note"
-                        android:textSize="12sp"
-                        />
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout
                 android:id="@+id/setting_item_charging"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
                 android:background="@drawable/material_compat_bg"
                 android:clickable="true">
 
@@ -106,9 +47,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="20dp"
                     android:layout_marginStart="10dp"
                     android:clickable="true" />
 
@@ -116,8 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="23dp"
-                    android:layout_marginStart="23dp"
+
                     android:layout_toLeftOf="@+id/setting_item_charging_toggle"
                     android:layout_toStartOf="@+id/setting_item_charging_toggle"
                     android:gravity="center_vertical"
@@ -135,7 +73,7 @@
                         android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_activity_lock_screen_note"
+                        android:text="@string/smart_charging_hint"
                         android:textSize="12sp"
                         />
                 </LinearLayout>
@@ -143,7 +81,11 @@
             <RelativeLayout
                 android:id="@+id/setting_item_lockScreen"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
                 android:background="@drawable/material_compat_bg"
                 android:clickable="true">
 
@@ -166,9 +108,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="20dp"
                     android:layout_marginStart="10dp"
                     android:clickable="true" />
 
@@ -176,8 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="23dp"
-                    android:layout_marginStart="23dp"
+
                     android:layout_toLeftOf="@+id/setting_item_lockScreen_toggle"
                     android:layout_toStartOf="@+id/setting_item_lockScreen_toggle"
                     android:gravity="center_vertical"
@@ -195,7 +134,129 @@
                         android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_activity_lock_screen_note"
+                        android:text="@string/color_lockscreen_hint"
+                        android:textSize="12sp"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/setting_item_call_assistant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:background="@drawable/material_compat_bg"
+                android:clickable="true">
+
+                <!--<ImageView-->
+                <!--android:id="@+id/reminder_display_settings_icon"-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginStart="20dp"-->
+                <!--android:scaleType="center"-->
+                <!--/>-->
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/setting_item_call_assistant_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:clickable="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+
+                    android:layout_toLeftOf="@+id/setting_item_call_assistant_toggle"
+                    android:layout_toStartOf="@+id/setting_item_call_assistant_toggle"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.honeycomb.colorphone.view.TypefacedTextView
+                        style="@style/NormalText.Settings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/call_assistant"
+                        />
+
+                    <com.honeycomb.colorphone.view.TypefacedTextView
+                        style="@style/NormalText.SettingsHint"
+                        android:layout_marginTop="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/call_assistant_hint"
+                        android:textSize="12sp"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/setting_item_sms_assistant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:background="@drawable/material_compat_bg"
+                android:clickable="true">
+
+                <!--<ImageView-->
+                <!--android:id="@+id/reminder_display_settings_icon"-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginStart="20dp"-->
+                <!--android:scaleType="center"-->
+                <!--/>-->
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/setting_item_sms_assistant_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:clickable="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+
+                    android:layout_toLeftOf="@+id/setting_item_sms_assistant_toggle"
+                    android:layout_toStartOf="@+id/setting_item_sms_assistant_toggle"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.honeycomb.colorphone.view.TypefacedTextView
+                        style="@style/NormalText.Settings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sms_assistant"
+                        />
+
+                    <com.honeycomb.colorphone.view.TypefacedTextView
+                        style="@style/NormalText.SettingsHint"
+                        android:layout_marginTop="2dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sms_assistant_hint"
                         android:textSize="12sp"
                         />
                 </LinearLayout>

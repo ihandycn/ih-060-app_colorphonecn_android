@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone.preview;
+package com.honeycomb.colorphone.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,10 +10,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import java.util.ArrayList;
@@ -27,7 +27,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private Theme mTheme;
     private ArrayList<Theme> mThemes;
-    private Type mThemeType;
     private ViewPager mViewPager;
     private View mNavBack;
     private ThemePagerAdapter mAdapter;
@@ -57,14 +56,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mThemes = (ArrayList<Theme>) getIntent().getSerializableExtra("themeList");
         int pos = getIntent().getIntExtra("position", 0);
         mTheme = mThemes.get(pos);
-        Type[] types = Type.values();
-        for (Type t : types) {
-            if (t.getValue() == mTheme.getThemeId()) {
-                mThemeType = t;
-                break;
-            }
-        }
-        ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mThemeType.getIdName().toLowerCase());
+        ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
         setContentView(R.layout.activity_theme_preview);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 

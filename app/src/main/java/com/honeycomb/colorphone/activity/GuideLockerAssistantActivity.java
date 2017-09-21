@@ -52,7 +52,7 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
             @Override
             public void onClick(View v) {
                 HSAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
-                // TODO sms
+                CPSettings.setSMSAssistantModuleEnabled(true);
                 CPSettings.setCallAssistantModuleEnabled(true);
                 LockerSettings.setLockerEnabled(true);
                 finish();
