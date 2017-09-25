@@ -48,6 +48,15 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
+        mModuleStates.add(new ModuleState(CPSettings.isSMSAssistantModuleEnabled(),
+                R.id.setting_item_sms_assistant_toggle,
+                R.id.setting_item_sms_assistant) {
+            @Override
+            public void onCheckChanged(boolean isChecked) {
+                CPSettings.setSMSAssistantModuleEnabled(isChecked);
+            }
+        });
+
         mModuleStates.add(new ModuleState(ChargingScreenSettings.isChargingScreenEnabled(),
                 R.id.setting_item_charging_toggle,
                 R.id.setting_item_charging) {
