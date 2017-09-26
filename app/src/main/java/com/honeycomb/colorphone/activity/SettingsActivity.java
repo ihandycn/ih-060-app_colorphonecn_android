@@ -14,6 +14,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
@@ -39,7 +40,7 @@ public class SettingsActivity extends HSAppCompatActivity {
 
         Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
 
-        mModuleStates.add(new ModuleState(CPSettings.isCallAssistantModuleEnabled(),
+        mModuleStates.add(new ModuleState(true, CPSettings.isCallAssistantModuleEnabled(),
                 R.id.setting_item_call_assistant_toggle,
                 R.id.setting_item_call_assistant) {
             @Override
@@ -48,7 +49,8 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
-        mModuleStates.add(new ModuleState(CPSettings.isSMSAssistantModuleEnabled(),
+        mModuleStates.add(new ModuleState(ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT),
+                CPSettings.isSMSAssistantModuleEnabled(),
                 R.id.setting_item_sms_assistant_toggle,
                 R.id.setting_item_sms_assistant) {
             @Override
@@ -57,7 +59,8 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
-        mModuleStates.add(new ModuleState(ChargingScreenSettings.isChargingScreenEnabled(),
+        mModuleStates.add(new ModuleState(ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CHARGING),
+                ChargingScreenSettings.isChargingScreenEnabled(),
                 R.id.setting_item_charging_toggle,
                 R.id.setting_item_charging) {
             @Override
@@ -66,7 +69,8 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
-        mModuleStates.add(new ModuleState(LockerSettings.isLockerEnabled(),
+        mModuleStates.add(new ModuleState(ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_SCREEN_SAVER),
+                LockerSettings.isLockerEnabled(),
                 R.id.setting_item_lockScreen_toggle,
                 R.id.setting_item_lockScreen) {
             @Override
@@ -77,8 +81,13 @@ public class SettingsActivity extends HSAppCompatActivity {
 
         for (final ModuleState moduleState : mModuleStates) {
 
+            View rootView = findViewById(moduleState.itemLayoutId);
+            if (!moduleState.enabled) {
+                rootView.setVisibility(View.GONE);
+                continue;
+            }
             moduleState.switchCompat.setChecked(moduleState.initState);
-            findViewById(moduleState.itemLayoutId).setOnClickListener(new View.OnClickListener() {
+            rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     moduleState.switchCompat.toggle();
@@ -121,11 +130,13 @@ public class SettingsActivity extends HSAppCompatActivity {
 
     private abstract class ModuleState {
         private final SwitchCompat switchCompat;
+        boolean enabled;
         boolean initState;
         int toggleId;
         int itemLayoutId;
 
-        public ModuleState(boolean initState, int toggleId, int itemLayoutId) {
+        public ModuleState(boolean enabled, boolean initState, int toggleId, int itemLayoutId) {
+            this.enabled = enabled;
             this.initState = initState;
             this.toggleId = toggleId;
             this.itemLayoutId = itemLayoutId;

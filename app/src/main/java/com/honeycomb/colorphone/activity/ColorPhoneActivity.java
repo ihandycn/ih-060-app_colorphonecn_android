@@ -33,6 +33,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.utils.HSVersionControlUtils;
@@ -91,7 +92,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             e.printStackTrace();
         }
 
-        if (HSVersionControlUtils.isFirstLaunchSinceInstallation() || HSVersionControlUtils.isFirstSessionSinceUpgrade()) {
+        boolean firstLaunch = HSVersionControlUtils.isFirstSessionSinceInstallation()
+                || HSVersionControlUtils.isFirstSessionSinceUpgrade();
+        if (firstLaunch && ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)) {
             GuideLockerAssistantActivity.start(this);
         }
 

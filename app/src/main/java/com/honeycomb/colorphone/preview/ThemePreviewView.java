@@ -251,7 +251,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         preV.updateButtonState();
                     }
                 }
-                if (ModuleUtils.isNeedGuideAfterApply() ) {
+                if (ModuleUtils.isNeedGuideAfterApply()) {
                     GuideApplyThemeActivity.start(mActivity);
 
                 } else {
