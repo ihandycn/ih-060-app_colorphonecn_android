@@ -489,7 +489,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
-                AcbCallManager.getInstance().getImageLoader().load(mTheme, mTheme.getPreviewImage(), R.color.transparent_black, previewImage);
+                AcbCallManager.getInstance().getImageLoader().load(mTheme, mTheme.getPreviewImage(), mTheme.getPreviewPlaceHolder(), previewImage);
             }
         }
     }

@@ -468,7 +468,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 Glide.with(mContentView).load(R.drawable.acb_phone_theme_technological_bg).into(mThemePreviewImg);
             } else {
                 AcbCallManager.getInstance().getImageLoader()
-                        .load(theme, theme.getPreviewImage(), R.drawable.card_bg_round_dark, mThemePreviewImg);
+                        .load(theme, theme.getPreviewImage(), theme.getPreviewPlaceHolder(), mThemePreviewImg);
                 Glide.with(mContentView)
                         .load(theme.getAvatar())
                         .into(mAvatar);

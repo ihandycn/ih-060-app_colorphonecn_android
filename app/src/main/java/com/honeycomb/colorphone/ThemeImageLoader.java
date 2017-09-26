@@ -1,16 +1,12 @@
 package com.honeycomb.colorphone;
 
 import android.app.Activity;
-import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
+import com.honeycomb.colorphone.view.GlideApp;
+import com.honeycomb.colorphone.view.GlideRequests;
 
 import hugo.weaving.DebugLog;
 
@@ -20,36 +16,29 @@ import hugo.weaving.DebugLog;
  */
 
 public class ThemeImageLoader extends AcbCallManager.DefaultImageLoader {
-    RequestOptions previewOption = new RequestOptions();
-    RequestOptions iconwOption = new RequestOptions();
-    ThemeImageLoader() {
-        previewOption.apply(sRequestOptions);
-        previewOption.override(350, 622);
-        iconwOption.apply(sRequestOptions);
-        iconwOption.override(278, 278);
-    }
 
     @DebugLog
     @Override
     public void load(Type type, String s, int holderImage, ImageView imageView) {
         if (Type.RES_REMOTE_URL.equals(type.getResType())) {
-            RequestOptions requestOptions = sRequestOptions;
-            if (TextUtils.equals(s, type.getPreviewImage())) {
-                requestOptions = previewOption;
-            } else if (TextUtils.equals(s, type.getAcceptIcon()) || TextUtils.equals(s, type.getRejectIcon())) {
-                requestOptions = iconwOption;
-            }
-            if (holderImage != 0) {
-                requestOptions.placeholder(holderImage);
+            GlideRequests requests;
+            if (imageView.getContext() instanceof Activity) {
+                requests = GlideApp.with((Activity)imageView.getContext());
+            } else {
+                requests = GlideApp.with(imageView);
             }
 
-            RequestManager requestManager;
-            if (imageView.getContext() instanceof Activity) {
-                requestManager = Glide.with((Activity)imageView.getContext());
-            } else {
-                requestManager = Glide.with(imageView);
-            }
-            requestManager.applyDefaultRequestOptions(requestOptions).load(s).into(imageView);
+//            if (TextUtils.equals(s, type.getPreviewImage())) {
+//                requests
+//.
+//            } else if (TextUtils.equals(s, type.getAcceptIcon()) || TextUtils.equals(s, type.getRejectIcon())) {
+//                requestOptions = iconwOption;
+//            }
+            requests.load(s)
+                    .placeholder(holderImage)
+                    .error(holderImage)
+                    .fitCenter()
+                    .into(imageView);
         } else {
             super.load(type, s, holderImage, imageView);
         }
@@ -61,11 +50,5 @@ public class ThemeImageLoader extends AcbCallManager.DefaultImageLoader {
     }
 
 
-    public static RequestOptions sRequestOptions = new RequestOptions();
-    static {
-        sRequestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
-                .dontAnimate()
-                .dontTransform()
-                .format(DecodeFormat.DEFAULT);
-    }
+
 }
