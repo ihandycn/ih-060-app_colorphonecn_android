@@ -3,6 +3,8 @@ package com.honeycomb.colorphone;
 import com.acb.call.customize.AcbCallFactoryImpl;
 import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.views.CallIdleAlert;
+import com.acb.sms.SMSMessageAlertActivity;
+import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.commons.config.HSConfig;
 
 import java.util.List;
@@ -34,6 +36,21 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     @Override
     public ThemeViewConfig getViewConfig() {
         return new CPViewConfig();
+    }
+
+    @Override
+    public SMSMessageAlertActivity.Config getSMSConfig() {
+        return new SMSMessageAlertActivity.Config() {
+            @Override
+            public String getAdPlacement() {
+                return AdPlacements.AD_MSG_NEW;
+            }
+
+            @Override
+            public boolean enable() {
+                return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT);
+            }
+        };
     }
 
     private static class CPCallIdleConfig extends CallIdleAlert.PlistConfig {
