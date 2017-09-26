@@ -37,14 +37,14 @@
   <string name="locker_3g" translatable="false">3G</string>
   <string name="locker_4g" translatable="false">4G</string>
   <string name="locker_unkown" translatable="false">Unk</string>
-  <string name="locker_menu_disable">Disable locker</string>
+  <string name="locker_menu_disable">Disable screensaver</string>
   <string name="locker_disable_confirm">Sure to turn off?</string>
-  <string name="locker_disable_confirm_detail">Once disabled, you will not be able to see the screen locker. Proceed?</string>
-  <string name="locker_diabled_success">The locker has been turned off</string>
+  <string name="locker_disable_confirm_detail">Once disabled, you will not be able to see the screensaver. Proceed?</string>
+  <string name="locker_diabled_success">The screensaver has been turned off</string>
   <string name="slide_to_unlock">Slide to unlock</string>
-  <string name="locker_slide_wallpaper_title">Locker Wallpaper</string>
-  <string name="locker_settings">Locker settings</string>
-  <string name="locker_settings_title">Screen locker</string>
+  <string name="locker_slide_wallpaper_title">Screensaver Wallpaper</string>
+  <string name="locker_settings">Screensaver settings</string>
+  <string name="locker_settings_title">Screensaver</string>
   <string name="locker_settings_subtitle">(May contain ads)</string>
   <string name="wallpaper_network_error">Network errors. Please try again.</string>
 </resources>
