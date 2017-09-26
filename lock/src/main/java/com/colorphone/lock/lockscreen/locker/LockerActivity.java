@@ -32,13 +32,14 @@ public class LockerActivity extends HSAppCompatActivity {
 
         // set translucent status bar & navigation bar
         Window window = getWindow();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+        if (!ChargingScreenUtils.isNativeLollipop()) {
+            window.addFlags(FLAG_FULLSCREEN);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(FLAG_TRANSLUCENT_STATUS);
             window.addFlags(FLAG_TRANSLUCENT_NAVIGATION);
         }
-        if (!ChargingScreenUtils.isNativeLollipop()) {
-            window.addFlags(FLAG_FULLSCREEN);
-        }
+
         window.addFlags(FLAG_SHOW_WHEN_LOCKED);
         window.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         if (!LockerUtils.isKeyguardSecure(LockerActivity.this, false)) {
