@@ -23,7 +23,7 @@
             android:exported="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:taskAffinity=".air_charging_screen"
+            android:taskAffinity=".cp_charging_screen"
             android:theme="@style/ChargingScreenTransparentTheme" />
 
         <activity
@@ -33,7 +33,15 @@
             android:exported="false"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:taskAffinity=".air_locker"
+            android:taskAffinity=".cp_locker"
+            android:theme="@style/ChargingScreenTransparentTheme" />
+
+        <activity
+            android:name=".lockscreen.DismissKeyguradActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".cp_locker"
             android:theme="@style/ChargingScreenTransparentTheme" />
 
         <!-- This service is used to bring main-process's life back. -->
