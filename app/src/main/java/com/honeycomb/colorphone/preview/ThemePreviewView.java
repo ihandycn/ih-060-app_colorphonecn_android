@@ -466,7 +466,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mHandler.sendEmptyMessageDelayed(MSG_HIDE, AUTO_HIDE_TIME);
     }
 
-    protected void onStart() {
+    public void onStart() {
 
         final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getId());
         if (model != null) {
@@ -494,7 +494,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
-    protected void onStop() {
+    public void onStop() {
         callActionView.stopAnimations();
         previewWindow.stopAnimations();
 //        if (isSelectedPos()) {

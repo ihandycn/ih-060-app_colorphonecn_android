@@ -23,6 +23,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.download.DownloadHolder;
@@ -357,7 +358,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         return data.size() + 1;
     }
 
-    static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
+    @Override
+    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        if (holder instanceof INotificationObserver) {
+            HSGlobalNotificationCenter.removeObserver(ColorPhoneActivity.NOTIFY_WINDOW_INVISIBLE, (INotificationObserver) holder);
+            HSGlobalNotificationCenter.removeObserver(ColorPhoneActivity.NOTIFY_WINDOW_VISIBLE, (INotificationObserver) holder);
+        }
+    }
+
+
+    static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder, INotificationObserver {
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
         ImageView mThemePreviewImg;
         ImageView mAvatar;
@@ -457,10 +468,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 mThemeFlashPreviewWindow.playAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(true);
                 mCallActionView.setAutoRun(true);
+                HSGlobalNotificationCenter.addObserver(ColorPhoneActivity.NOTIFY_WINDOW_INVISIBLE, this);
+                HSGlobalNotificationCenter.addObserver(ColorPhoneActivity.NOTIFY_WINDOW_VISIBLE, this);
             } else {
                 mThemeFlashPreviewWindow.clearAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(false);
                 mCallActionView.setAutoRun(false);
+                HSGlobalNotificationCenter.removeObserver(ColorPhoneActivity.NOTIFY_WINDOW_INVISIBLE, this);
+                HSGlobalNotificationCenter.removeObserver(ColorPhoneActivity.NOTIFY_WINDOW_VISIBLE, this);
             }
         }
 
@@ -607,6 +622,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void setLike(Theme theme) {
           setLike(theme, true);
+        }
+
+        @Override
+        public void onReceive(String s, HSBundle hsBundle) {
+            if (ColorPhoneActivity.NOTIFY_WINDOW_INVISIBLE.equals(s)) {
+                mThemeFlashPreviewWindow.stopAnimations();
+                mCallActionView.stopAnimations();
+            } else if (ColorPhoneActivity.NOTIFY_WINDOW_VISIBLE.equals(s)) {
+                mThemeFlashPreviewWindow.startAnimations();
+                mCallActionView.doAnimation();
+            }
         }
     }
 

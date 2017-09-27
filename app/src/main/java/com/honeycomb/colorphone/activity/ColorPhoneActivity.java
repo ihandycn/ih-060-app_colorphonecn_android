@@ -54,6 +54,8 @@ import hugo.weaving.DebugLog;
 public class ColorPhoneActivity extends HSAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
 
+    public static final String NOTIFY_WINDOW_INVISIBLE = "notify_window_invisible";
+    public static final String NOTIFY_WINDOW_VISIBLE = "notify_window_visible";
     private static final String PREFS_THEME_LIKE = "theme_like_array";
     private RecyclerView mRecyclerView;
     private SwitchCompat mainSwitch;
@@ -178,9 +180,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(nowEnable);
             }
         }
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_INVISIBLE);
         saveThemeLikes();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_VISIBLE);
+    }
 
     private void saveThemeLikes() {
         StringBuilder sb = new StringBuilder(4);

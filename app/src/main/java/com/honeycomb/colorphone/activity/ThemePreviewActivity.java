@@ -78,11 +78,17 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        for (ThemePreviewView previewView : mViews) {
+            previewView.onStart();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        for (ThemePreviewView previewView : mViews) {
+            previewView.onStop();
+        }
     }
 
     private class ThemePagerAdapter extends PagerAdapter {
