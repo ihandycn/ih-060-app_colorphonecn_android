@@ -539,6 +539,36 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
         chargingBubbleView = (ChargingBubbleView) mRootView.findViewById(R.id.charging_screen_bubble_view);
         chargingBubbleView.setPopupBubbleColor(chargingBubbleColor);
+
+//        setChargingStatusIconClick();
+
+        toolTipContainer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (speedChargeToolTipView != null) {
+                        speedChargeToolTipView.remove();
+                        speedChargeToolTipView = null;
+                    }
+
+                    if (continuousChargeToolTipView != null) {
+                        continuousChargeToolTipView.remove();
+                        continuousChargeToolTipView = null;
+                    }
+
+                    if (trickleChargeToolTipView != null) {
+                        trickleChargeToolTipView.remove();
+                        trickleChargeToolTipView = null;
+                    }
+                }
+
+                return false;
+            }
+        });
+    }
+
+    private void setChargingStatusIconClick() {
+        final Context context = getContext();
         speedChargeStateImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -611,30 +641,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
                 handler.removeCallbacks(tipRemoveRunnable);
                 handler.postDelayed(tipRemoveRunnable, DURATION_TIP_SHOWING);
-            }
-        });
-
-        toolTipContainer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (speedChargeToolTipView != null) {
-                        speedChargeToolTipView.remove();
-                        speedChargeToolTipView = null;
-                    }
-
-                    if (continuousChargeToolTipView != null) {
-                        continuousChargeToolTipView.remove();
-                        continuousChargeToolTipView = null;
-                    }
-
-                    if (trickleChargeToolTipView != null) {
-                        trickleChargeToolTipView.remove();
-                        trickleChargeToolTipView = null;
-                    }
-                }
-
-                return false;
             }
         });
     }
@@ -755,12 +761,12 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     private void updateTipTextRandomValue() {
         Context context = getContext();
         final String[] tips = new String[]{
-                context.getString(R.string.charging_screen_charging_tip1),
+//                context.getString(R.string.charging_screen_charging_tip1),
                 context.getString(R.string.charging_screen_charging_tip2),
-                context.getString(R.string.charging_screen_charging_tip3),
-                context.getString(R.string.charging_screen_charging_tip4),
+//                context.getString(R.string.charging_screen_charging_tip3),
+//                context.getString(R.string.charging_screen_charging_tip4),
                 context.getString(R.string.charging_screen_charging_tip5),
-                context.getString(R.string.charging_screen_charging_tip6, "")
+//                context.getString(R.string.charging_screen_charging_tip6,"")
         };
 
         tipTextView.setText(tips[new Random().nextInt(tips.length)]);
