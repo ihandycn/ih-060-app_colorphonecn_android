@@ -7,6 +7,7 @@ import android.view.Window;
 
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
+import com.colorphone.lock.util.CommonUtils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
@@ -35,10 +36,13 @@ public class LockerActivity extends HSAppCompatActivity {
 
         if (!ChargingScreenUtils.isNativeLollipop()) {
             window.addFlags(FLAG_FULLSCREEN);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(FLAG_TRANSLUCENT_STATUS);
             window.addFlags(FLAG_TRANSLUCENT_NAVIGATION);
         }
+
 
         window.addFlags(FLAG_SHOW_WHEN_LOCKED);
         window.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -48,13 +52,19 @@ public class LockerActivity extends HSAppCompatActivity {
 
         try {
             setContentView(R.layout.activity_locker);
+
+            mLocker = new Locker();
+            mLocker.setup(((ViewGroup)findViewById(R.id.activity_locker)), null);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                ViewGroup container = (ViewGroup) findViewById(R.id.transition_container);
+                container.setPadding(0, 0, 0, CommonUtils.getNavigationBarHeightUnconcerned(this));
+            }
         } catch (Exception e) {
             finish();
         }
 
 
-        mLocker = new Locker();
-        mLocker.setup(((ViewGroup)findViewById(R.id.activity_locker)), null);
     }
 
     @Override
