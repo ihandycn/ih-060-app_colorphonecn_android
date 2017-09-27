@@ -29,8 +29,11 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
     public static String KEY_SHOW_TIME = "apply_guide_show_times";
     public static String KEY_DISPLAY_COUNT = "apply_guide_show_count";
 
-    public static void start(Context context) {
+    public static boolean FULL_SCREEN = true;
+
+    public static void start(Context context, boolean fullScreen) {
         Intent starter = new Intent(context, GuideApplyThemeActivity.class);
+        starter.putExtra("fullscreen", fullScreen);
         context.startActivity(starter);
     }
 
@@ -38,8 +41,11 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        boolean isFullScreen = getIntent().getBooleanExtra("fullscreen", true);
         setContentView(R.layout.guide_apply_success);
-        StatusBarUtils.hideStatusBar(this);
+        if (isFullScreen) {
+            StatusBarUtils.hideStatusBar(this);
+        }
         View cbContainer = findViewById(R.id.welcome_guide_enable_checkbox_container);
         final CheckBox cb = (CheckBox) findViewById(R.id.welcome_guide_enable_checkbox);
         setUpPrivacyTextView();

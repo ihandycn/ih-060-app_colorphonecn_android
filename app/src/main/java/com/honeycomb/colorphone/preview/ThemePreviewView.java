@@ -252,7 +252,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                 }
                 if (ModuleUtils.isNeedGuideAfterApply()) {
-                    GuideApplyThemeActivity.start(mActivity);
+                    GuideApplyThemeActivity.start(mActivity, true);
 
                 } else {
                     Toast toast = Toast.makeText(mActivity, R.string.apply_success, Toast.LENGTH_SHORT);
