@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequests;
 
@@ -28,18 +29,16 @@ public class ThemeImageLoader extends AcbCallManager.DefaultImageLoader {
                 requests = GlideApp.with(imageView);
             }
 
-//            if (TextUtils.equals(s, type.getPreviewImage())) {
-//                requests
-//.
-//            } else if (TextUtils.equals(s, type.getAcceptIcon()) || TextUtils.equals(s, type.getRejectIcon())) {
-//                requestOptions = iconwOption;
-//            }
             requests.load(s)
                     .placeholder(holderImage)
                     .error(holderImage)
                     .fitCenter()
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imageView);
-        } else {
+
+        } else if (Type.RES_LOCAL_ID.equals(type.getResType())) {
+            GlideApp.with(imageView).load(Integer.parseInt(s)).into(imageView);
+        } else  {
             super.load(type, s, holderImage, imageView);
         }
     }

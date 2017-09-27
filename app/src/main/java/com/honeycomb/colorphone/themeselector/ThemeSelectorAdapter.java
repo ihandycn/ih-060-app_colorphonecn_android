@@ -18,7 +18,7 @@ import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
@@ -33,6 +33,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.ThemeUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
+import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -470,12 +471,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         @DebugLog
         public void updateTheme(Theme theme) {
             if (theme.getId() == Type.TECH) {
-                Glide.with(mContentView).load(R.drawable.acb_phone_theme_technological_bg).into(mThemePreviewImg);
+                GlideApp.with(mContentView).load(R.drawable.acb_phone_theme_technological_bg).into(mThemePreviewImg);
             } else {
                 AcbCallManager.getInstance().getImageLoader()
                         .load(theme, theme.getPreviewImage(), theme.getPreviewPlaceHolder(), mThemePreviewImg);
-                Glide.with(mContentView)
+                GlideApp.with(mContentView)
                         .load(theme.getAvatar())
+                        .transition(DrawableTransitionOptions.withCrossFade(200))
                         .into(mAvatar);
             }
 
