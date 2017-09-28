@@ -35,6 +35,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.utils.HSVersionControlUtils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -97,6 +98,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                 && !GuideLockerAssistantActivity.isStarted()) {
             GuideLockerAssistantActivity.start(this);
+            HSAlertMgr.delayRateAlert();
         }
 
         setTheme(R.style.AppLightStatusBarTheme);
