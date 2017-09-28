@@ -17,6 +17,7 @@ import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.utils.HSPreferenceHelper;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -29,9 +30,14 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
         context.startActivity(starter);
     }
 
+    public static boolean isStarted() {
+       return HSPreferenceHelper.getDefault().getBoolean("guide_locker_stated", false);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        HSPreferenceHelper.getDefault().putBoolean("guide_locker_stated", true);
 
         setContentView(R.layout.guide_locker_assitant);
         StatusBarUtils.hideStatusBar(this);

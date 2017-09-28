@@ -94,9 +94,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             e.printStackTrace();
         }
 
-        boolean firstLaunch = HSVersionControlUtils.isFirstSessionSinceInstallation()
-                || HSVersionControlUtils.isFirstSessionSinceUpgrade();
-        if (firstLaunch && ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)) {
+        if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+                && !GuideLockerAssistantActivity.isStarted()) {
             GuideLockerAssistantActivity.start(this);
         }
 
