@@ -102,24 +102,23 @@ public class Theme extends Type {
 
     private static int[] avatars = new int[]{
             R.drawable.female_3,
+            R.drawable.female_5,
             R.drawable.male_1,
             R.drawable.female_2,
             R.drawable.female_4,
             R.drawable.male_2,
             R.drawable.female_1,
             R.drawable.male_3,
-            R.drawable.male_4,
     };
 
     private static String[] avatarNames = new String[]{
             "Grace",
+            "Ava",
             "Jackson",
             "Isabella",
             "Harper",
             "Noah",
             "Emma",
             "Oliver",
-            "Lucas",
-
     };
 }
