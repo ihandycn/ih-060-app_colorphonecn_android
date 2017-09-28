@@ -29,11 +29,11 @@
     <string name="loading_progress" translatable="false">%1$d %%</string>
     <string name="ad_hint" translatable="false">It may contain ads.</string>
     <string name="card_view_contains_ads_statement" translatable="false">It may contain ads.</string>
-    <string name="acb_guide_ok">OK</string>
+    <string name="acb_guide_ok" translatable="false">OK</string>
 
-    <string name="guide_locker_and_call_hint">Enable Screen Locker &amp; Call Assistant to: \nRemind your missed calls.
+    <string name="guide_locker_and_call_hint" translatable="false">Enable Screen Locker &amp; Call Assistant to: \nRemind your missed calls.
         Boost easily and access camera quickly.</string>
-    <string name="guide_enable_all_module">Enable Phone Assistant, Smart Charging &amp; Locker</string>
+    <string name="guide_enable_all_module" translatable="false">Enable Phone Assistant, Smart Charging &amp; Locker</string>
 
     <!--Override lib-->
     <string name="acb_theme_guide_subtitle"  translatable="false">Activate Screen Flash for Calls</string>
