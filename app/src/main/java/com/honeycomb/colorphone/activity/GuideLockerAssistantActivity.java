@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.acb.call.CPSettings;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -61,6 +62,7 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
                 CPSettings.setSMSAssistantModuleEnabled(true);
                 CPSettings.setCallAssistantModuleEnabled(true);
                 LockerSettings.setLockerEnabled(true);
+                ChargingScreenSettings.setChargingScreenEnabled(true);
                 finish();
             }
         });
