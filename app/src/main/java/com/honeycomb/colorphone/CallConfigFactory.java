@@ -30,7 +30,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
     @Override
     public boolean isCallAssistantOpenDefault() {
-        return HSConfig.optBoolean(false, "Application", "CallAssistant", "DefaultEnabled");
+        return HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "DefaultEnabled");
     }
 
     @Override
