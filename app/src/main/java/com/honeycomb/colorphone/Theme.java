@@ -101,10 +101,10 @@ public class Theme extends Type {
     }
 
     private static int[] avatars = new int[]{
-            R.drawable.female_4,
+            R.drawable.female_3,
             R.drawable.male_1,
             R.drawable.female_2,
-            R.drawable.female_3,
+            R.drawable.female_4,
             R.drawable.male_2,
             R.drawable.female_1,
             R.drawable.male_3,
