@@ -11,7 +11,7 @@
         },
         "apply_finish_guide_max_show_time": {
           "type": "string",
-          "value": "1"
+          "value": "2"
         }
       },
       "events": [
@@ -78,6 +78,9 @@
     },
     {
       "name": "iap"
+    },
+    {
+      "name": "active"
     }
   ]
 }
