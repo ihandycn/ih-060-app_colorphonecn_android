@@ -83,7 +83,7 @@ public class ColorPhoneApplication extends HSApplication {
         String processName = getProcessName();
 
         if (TextUtils.equals(processName, packageName)) {
-            AcbCallManager.init(this, new CallConfigFactory());
+            AcbCallManager.init("", new CallConfigFactory());
             AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
                 @Override
                 public Type parse(Map<String, ?> map) {

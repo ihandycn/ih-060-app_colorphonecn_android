@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
-import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -66,8 +66,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static final int THEME_SELECTOR_ITEM_TYPE_STATEMENT = 0x20;
 
     private static final int THEME_TYPE_MASK = 0x0F;
-    private int mState;
-    private final Type gifType  = new Type();
 
     private INotificationObserver observer = new INotificationObserver() {
         @Override
@@ -115,6 +113,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         layoutManager = new GridLayoutManager(HSApplication.getContext(), 2);
         layoutManager.setSpanSizeLookup(spanSizeLookup);
         mTransX = activity.getResources().getDimensionPixelOffset(R.dimen.theme_card_margin_horizontal) * 0.6f;
+
     }
 
 
@@ -129,7 +128,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                mState = newState;
             }
         });
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
@@ -152,10 +150,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             switch (viewType) {
                 case THEME_SELECTOR_ITEM_TYPE_THEME:
                     holder.mThemeFlashPreviewWindow.updateThemeLayout(getTypeByThemeId(Type.STARS));
+                    holder.mThemeFlashPreviewWindow.setCornerRadius(activity.getResources().getDimensionPixelSize(R.dimen.theme_card_radius));
                     break;
                 case THEME_SELECTOR_ITEM_TYPE_THEME_LED:
-                    holder. mThemeFlashPreviewWindow.updateThemeLayout(getTypeByThemeId(Type.LED));
-                    holder.mThemePreviewImg.setImageResource(R.drawable.card_bg_round_dark);
+                    holder.mThemeFlashPreviewWindow.updateThemeLayout(getTypeByThemeId(Type.LED));
+                    if (!Utils.ATLEAST_LOLLIPOP) {
+                        holder.mThemePreviewImg.setBackgroundResource(R.drawable.card_bg_round_dark);
+                    }
                     break;
                 case THEME_SELECTOR_ITEM_TYPE_THEME_TECH:
                     holder.mThemeFlashPreviewWindow.updateThemeLayout(getTypeByThemeId(Type.TECH));
@@ -486,12 +487,26 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         @DebugLog
         public void updateTheme(Theme theme) {
             if (theme.getId() == Type.TECH) {
-                GlideApp.with(mContentView).load(R.drawable.acb_phone_theme_technological_bg).into(mThemePreviewImg);
+                GlideApp.with(mContentView).asBitmap().load(R.drawable.acb_phone_theme_technological_bg)
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                        .into(mThemePreviewImg);
             } else {
-                AcbCallManager.getInstance().getImageLoader()
-                        .load(theme, theme.getPreviewImage(), theme.getPreviewPlaceHolder(), mThemePreviewImg);
+                int placeHolder = theme.getPreviewPlaceHolder();
+                // TODO load remote url
+                if (placeHolder != 0) {
+                    GlideApp.with(mContentView).asBitmap().load(placeHolder)
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                            .into(mThemePreviewImg);
+                } else {
+                    GlideApp.with(mContentView).asBitmap().load(theme.getGifUrl())
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                            .into(mThemePreviewImg);
+                }
+//                AcbCallManager.getInstance().getImageLoader()
+//                        .load(theme, theme.getPreviewImage(), theme.getPreviewPlaceHolder(), mThemePreviewImg);
                 GlideApp.with(mContentView)
                         .load(theme.getAvatar())
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .transition(DrawableTransitionOptions.withCrossFade(200))
                         .into(mAvatar);
             }
@@ -501,6 +516,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             setLike(theme, false);
 
         }
+
         public void setHotTheme(boolean hot) {
             if (mThemeHotMark != null) {
                 mThemeHotMark.setVisibility(hot ? View.VISIBLE : View.INVISIBLE);

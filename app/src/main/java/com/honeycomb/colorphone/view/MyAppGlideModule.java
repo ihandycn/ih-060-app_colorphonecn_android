@@ -17,7 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 public class MyAppGlideModule extends AppGlideModule {
     public static RequestOptions sRequestOptions = new RequestOptions();
     static {
-        sRequestOptions.diskCacheStrategy(DiskCacheStrategy.ALL)
+        sRequestOptions.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .dontAnimate()
                 .dontTransform()
                 .format(DecodeFormat.DEFAULT);

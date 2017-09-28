@@ -19,8 +19,13 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     }
 
     @Override
-    public boolean isSettingsOpenDefault() {
+    public boolean isScreenFlashModuleOpenedDefault() {
         return true;
+    }
+
+    @Override
+    public boolean isSMSAssistantOpenDefault() {
+        return false;
     }
 
     @Override
