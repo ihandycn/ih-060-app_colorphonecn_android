@@ -214,26 +214,20 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     private void requestAds() {
-//        int minCountToShowAds = HSConfig.optInteger(1, "Application", "Locker", "Ads", "MinCountToShowAds");
-//        int showAdsInterval = HSConfig.optInteger(1, "Application", "Locker", "Ads", "ShowAdsInterval");
-//        if (LockerSettings.getLockerShowCount() >= minCountToShowAds
-//                && (LockerSettings.getLockerShowCount() - LockerSettings.getLockerAdsShowCount()) >= showAdsInterval
-//                ) {
-            expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getLockerAdName());
-            expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
-                @Override
-                public void onAdShown(AcbExpressAdView acbExpressAdView) {
-                    mAdShown = true;
-                    LockerCustomConfig.get().onEventLockerAdShow();
-                }
+        expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getLockerAdName());
+        expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
+            @Override
+            public void onAdShown(AcbExpressAdView acbExpressAdView) {
+                mAdShown = true;
+                LockerCustomConfig.get().onEventLockerAdShow();
+            }
 
-                @Override
-                public void onAdClicked(AcbExpressAdView acbExpressAdView) {
-                    LockerCustomConfig.get().onEventLockerAdClick();
-                    HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
-                }
-            });
-//        }
+            @Override
+            public void onAdClicked(AcbExpressAdView acbExpressAdView) {
+                LockerCustomConfig.get().onEventLockerAdClick();
+                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
+            }
+        });
     }
 
     private void showExpressAd() {
@@ -374,7 +368,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         DateFormat format = new SimpleDateFormat("MMMM, dd\nEEE", Locale.getDefault());
         mTvDate.setText(format.format(new Date()));
     }
-
 
 
     @Override

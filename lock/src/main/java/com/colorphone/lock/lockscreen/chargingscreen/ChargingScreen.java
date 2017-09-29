@@ -312,9 +312,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         updateChargingStateTipIconAnimator();
         processPowerStateChanged(true);
 
-        if (context instanceof Activity) {
-            onStart();
-        } else {
+        if (!(context instanceof Activity)) {
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         }
