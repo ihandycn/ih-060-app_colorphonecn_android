@@ -8,6 +8,7 @@ import android.view.Window;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.util.CommonUtils;
+import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
@@ -49,6 +50,8 @@ public class LockerActivity extends HSAppCompatActivity {
         if (!LockerUtils.isKeyguardSecure(LockerActivity.this, false)) {
             window.addFlags(FLAG_DISMISS_KEYGUARD);
         }
+
+        HSAlertMgr.delayRateAlert();
 
         try {
             setContentView(R.layout.activity_locker);

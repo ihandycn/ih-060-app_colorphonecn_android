@@ -4,16 +4,14 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 
-
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
+import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
-
 import com.ihs.commons.utils.HSLog;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
@@ -28,6 +26,8 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         HSLog.d(TAG, "onCreate()");
+
+        HSAlertMgr.delayRateAlert();
 
         boolean keyguardFlag = false;
 
