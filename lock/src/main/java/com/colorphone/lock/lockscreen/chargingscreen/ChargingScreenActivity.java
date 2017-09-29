@@ -11,7 +11,6 @@ import android.view.WindowManager.LayoutParams;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.ihs.app.alerts.HSAlertMgr;
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
 
@@ -58,7 +57,6 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
 
         mScreen = new ChargingScreen();
         mScreen.setup(((ViewGroup)findViewById(R.id.charging_screen_activity)), getIntent().getExtras());
-        HSAnalytics.logEvent("Charging_Screen__Shown_Init");
     }
 
     @Override
@@ -66,7 +64,6 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
         super.onStart();
         HSLog.d(TAG, "onStart()");
         mScreen.onStart();
-        HSAnalytics.logEvent("Charging_Screen__Shown_Resume");
     }
 
     @Override

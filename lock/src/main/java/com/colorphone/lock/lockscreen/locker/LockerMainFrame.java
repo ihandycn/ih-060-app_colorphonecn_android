@@ -211,6 +211,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         if (pm.isScreenOn()) {
             mShimmer.start(mUnlockText);
         }
+
+        HSAnalytics.logEvent("Screen_Lock_Shown_Init");
     }
 
     private void requestAds() {
@@ -244,6 +246,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
             expressAdView.resumeDisplayNewAd();
         }
+        HSAnalytics.logEvent("Screen_Lock_Shown_Resume");
     }
 
     public void onPause() {

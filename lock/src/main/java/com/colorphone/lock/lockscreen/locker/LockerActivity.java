@@ -9,7 +9,6 @@ import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.util.CommonUtils;
 import com.ihs.app.alerts.HSAlertMgr;
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
@@ -67,15 +66,12 @@ public class LockerActivity extends HSAppCompatActivity {
         } catch (Exception e) {
             finish();
         }
-
-        HSAnalytics.logEvent("Screen_Lock_Shown_Init");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mLocker.onStart();
-        HSAnalytics.logEvent("Screen_Lock_Shown_Resume");
     }
 
     @Override

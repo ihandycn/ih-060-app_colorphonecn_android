@@ -320,6 +320,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         // Life cycle
         LockScreensLifeCycleRegistry.setChargingScreenActive(true);
         LockerCustomConfig.get().onEventChargingViewShow();
+
+        HSAnalytics.logEvent("Charging_Screen__Shown_Init");
     }
 
     public void onStart() {
