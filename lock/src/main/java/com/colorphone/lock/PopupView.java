@@ -21,6 +21,7 @@ public class PopupView {
     protected View mAnchorView;
 
     private int mBgColor = 0xAA000000;
+    private int mMinPaddingX;
 
     private View.OnClickListener mOutSideOnClickListener;
 
@@ -45,6 +46,13 @@ public class PopupView {
             }
         });
         mContentLp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        mMinPaddingX = dp2px(16);
+    }
+
+    private int dp2px(int dp){
+        float density = mContext.getResources().getDisplayMetrics().density;
+        return (int) (dp * density);
     }
 
     public void setContentView(View contentView) {
@@ -142,7 +150,7 @@ public class PopupView {
             if (outOfLeftBounds) {
                 left = xOffset;
             } else if (outOfRightBounds) {
-                left = displayFrame.right + xOffset - mContentView.getMeasuredWidth();
+                left = displayFrame.right - mMinPaddingX - mContentView.getMeasuredWidth();
             }
         }
         int[] position = new int[2];
