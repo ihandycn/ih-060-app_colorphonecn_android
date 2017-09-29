@@ -174,7 +174,7 @@ public class SystemSettingsManager {
                 state = isAirplaneModeOn() ? 1 : 0;
                 break;
             case BLUETOOTH:
-                state = getBluetoothState();
+//                state = getBluetoothState();
                 break;
             case BRIGHTNESS:
                 state = getBrightness();
@@ -192,7 +192,7 @@ public class SystemSettingsManager {
                 state = isVibrateOn() ? 1 : 0;
                 break;
             case AUTO_SYNC:
-                state = isAutoSyncOn() ? 1 : 0;
+//                state = isAutoSyncOn() ? 1 : 0;
                 break;
             case WIFI:
                 state = getWifiState();
@@ -217,9 +217,9 @@ public class SystemSettingsManager {
         return 1 == Settings.System.getInt(mContext.getContentResolver(), AIRPLANE_MODE_ON, 0);
     }
 
-    private boolean isAutoSyncOn() {
-        return ContentResolver.getMasterSyncAutomatically();
-    }
+//    private boolean isAutoSyncOn() {
+//        return ContentResolver.getMasterSyncAutomatically();
+//    }
 
     private boolean isAutoRotateOn() {
         return 1 == Settings.System.getInt(mContext.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, 0);
@@ -276,14 +276,14 @@ public class SystemSettingsManager {
         return isOpen;
     }
 
-
-    private int getBluetoothState() {
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (null == bluetoothAdapter) {
-            return 3;
-        }
-        return transferBluetoothState(bluetoothAdapter.getState());
-    }
+//
+//    private int getBluetoothState() {
+//        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+//        if (null == bluetoothAdapter) {
+//            return 3;
+//        }
+//        return transferBluetoothState(bluetoothAdapter.getState());
+//    }
 
     private int getRingMode() {
         AudioManager audioMgr = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
@@ -606,11 +606,11 @@ public class SystemSettingsManager {
     }
 
     private void toggleAutoSync() {
-        if (isAutoSyncOn()) {
-            ContentResolver.setMasterSyncAutomatically(false);
-        } else {
-            ContentResolver.setMasterSyncAutomatically(true);
-        }
+//        if (isAutoSyncOn()) {
+//            ContentResolver.setMasterSyncAutomatically(false);
+//        } else {
+//            ContentResolver.setMasterSyncAutomatically(true);
+//        }
     }
 
     public void toggleWifi() {
@@ -621,34 +621,34 @@ public class SystemSettingsManager {
     }
 
     public void toggleBluetooth() {
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (null == bluetoothAdapter) {
-            return;
-        }
-        switch (bluetoothAdapter.getState()) {
-            case BluetoothAdapter.STATE_ON:
-                try {
-                    bluetoothAdapter.disable();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case BluetoothAdapter.STATE_TURNING_ON:
-                try {
-                    bluetoothAdapter.disable();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case BluetoothAdapter.STATE_OFF:
-                bluetoothAdapter.enable();
-                break;
-            case BluetoothAdapter.STATE_TURNING_OFF:
-                bluetoothAdapter.enable();
-                break;
-            default:
-                break;
-        }
+//        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+//        if (null == bluetoothAdapter) {
+//            return;
+//        }
+//        switch (bluetoothAdapter.getState()) {
+//            case BluetoothAdapter.STATE_ON:
+//                try {
+//                    bluetoothAdapter.disable();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case BluetoothAdapter.STATE_TURNING_ON:
+//                try {
+//                    bluetoothAdapter.disable();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case BluetoothAdapter.STATE_OFF:
+//                bluetoothAdapter.enable();
+//                break;
+//            case BluetoothAdapter.STATE_TURNING_OFF:
+//                bluetoothAdapter.enable();
+//                break;
+//            default:
+//                break;
+//        }
     }
     //endregion
 
