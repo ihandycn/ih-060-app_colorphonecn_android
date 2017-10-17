@@ -9,11 +9,15 @@
     android:layout_height="wrap_content"
     tools:showIn="@layout/card_view_theme_selector">
 
-    <com.honeycomb.colorphone.view.RatioImageView
+    <com.honeycomb.colorphone.view.RatioCornerImageView
         android:id="@+id/card_preview_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        app:round_left_bottom_corner_radius="@dimen/theme_card_radius"
+        app:round_left_top_corner_radius="@dimen/theme_card_radius"
+        app:round_right_bottom_corner_radius="@dimen/theme_card_radius"
+        app:round_right_top_corner_radius="@dimen/theme_card_radius"
         style="@style/RatioView.Image"
         tools:src="@drawable/theme_preview_stars"
         />
@@ -29,15 +33,15 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="24dp" />
 
-    <com.honeycomb.colorphone.view.CircularCoverView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cover_color="@color/colorWindowBackground"
-        app:left_bottom_radius="@dimen/theme_card_radius"
-        app:left_top_radius="@dimen/theme_card_radius"
-        app:right_bottom_radius="@dimen/theme_card_radius"
-        app:right_top_radius="@dimen/theme_card_radius"
-        tools:visibility="gone" />
+    <!--<com.honeycomb.colorphone.view.CircularCoverView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:cover_color="@color/colorWindowBackground"-->
+        <!--app:left_bottom_radius="@dimen/theme_card_radius"-->
+        <!--app:left_top_radius="@dimen/theme_card_radius"-->
+        <!--app:right_bottom_radius="@dimen/theme_card_radius"-->
+        <!--app:right_top_radius="@dimen/theme_card_radius"-->
+        <!--tools:visibility="gone" />-->
 </com.honeycomb.colorphone.view.FixRatioPreviewWindow>
 
     

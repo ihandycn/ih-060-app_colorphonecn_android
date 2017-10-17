@@ -150,13 +150,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             switch (viewType) {
                 case THEME_SELECTOR_ITEM_TYPE_THEME:
                     holder.mThemeFlashPreviewWindow.updateThemeLayout(getTypeByThemeId(Type.STARS));
-                    holder.mThemeFlashPreviewWindow.setCornerRadius(activity.getResources().getDimensionPixelSize(R.dimen.theme_card_radius));
+                    if (!Utils.ATLEAST_LOLLIPOP) {
+                        holder.mThemeFlashPreviewWindow.setCornerRadius(activity.getResources().getDimensionPixelSize(R.dimen.theme_card_radius));
+                    }
                     break;
                 case THEME_SELECTOR_ITEM_TYPE_THEME_LED:
                     holder.mThemeFlashPreviewWindow.updateThemeLayout(getTypeByThemeId(Type.LED));
-                    if (!Utils.ATLEAST_LOLLIPOP) {
-                        holder.mThemePreviewImg.setBackgroundResource(R.drawable.card_bg_round_dark);
-                    }
+                    holder.mThemePreviewImg.setBackgroundResource(R.drawable.card_bg_round_dark);
+
                     break;
                 case THEME_SELECTOR_ITEM_TYPE_THEME_TECH:
                     holder.mThemeFlashPreviewWindow.updateThemeLayout(getTypeByThemeId(Type.TECH));

@@ -89,11 +89,11 @@
     </style>
 
     <style name="RatioView">
-        <item name="aspectRatioOverride">0.66</item>
+        <item name="aspectRatioOverride">0.5627</item>
     </style>
     <style name="RatioView.Image">
-        <item name="aspectRatioOverride">0.66</item>
-        <item name="android:scaleType">centerCrop</item>
+        <item name="aspectRatioOverride">0.5627</item>
+        <item name="android:scaleType">fitCenter</item>
     </style>
     <style name="RatioView.Container">
         <item name="android:layout_alignParentTop">true</item>
@@ -104,8 +104,6 @@
         <item name="android:clipChildren">false</item>
         <item name="cardCornerRadius">@dimen/theme_card_radius</item>
         <item name="cardPreventCornerOverlap">false</item>
-        <item name="cardBackgroundColor">@color/colorPrimaryDark</item>
-
     </style>
 
 </resources>
