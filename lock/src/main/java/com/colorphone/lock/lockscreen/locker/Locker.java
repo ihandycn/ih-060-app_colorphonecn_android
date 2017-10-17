@@ -58,6 +58,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     @Override
     public void setup(ViewGroup root, Bundle extra) {
         super.setup(root, extra);
+        HSAnalytics.logEvent("Locker_Shown");
 
         mIsSetup = true;
         // ======== onCreate ========
@@ -111,7 +112,6 @@ public class Locker extends LockScreen implements INotificationObserver {
     public void onStart() {
 
         // ======== onStart ========
-        HSAnalytics.logEvent("Locker_Shown");
         if (mLockerAdapter.lockerMainFrame != null) {
             mLockerAdapter.lockerMainFrame.onStart();
         }
