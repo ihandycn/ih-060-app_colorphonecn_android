@@ -35,7 +35,7 @@ public class WelcomeActivity extends HSActivity {
         }
 
         setContentView(R.layout.activity_welcome);
-        mVidView = (WelcomeVideoView) findViewById(R.id.video_frame);
+        mVidView = (WelcomeVideoView) findViewById(R.id.welcome_video);
         mVidView.setPlayEndListener(new WelcomeVideoView.PlayEndListener() {
             @Override
             public void onEnd() {
