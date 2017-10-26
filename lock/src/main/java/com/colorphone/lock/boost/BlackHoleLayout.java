@@ -19,10 +19,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.acb.adadapter.AcbNativeAd;
 import com.colorphone.lock.R;
 import com.colorphone.lock.util.CommonUtils;
 import com.ihs.commons.utils.HSLog;
+
+import net.appcloudbox.ads.base.AcbNativeAd;
 
 import java.util.Random;
 

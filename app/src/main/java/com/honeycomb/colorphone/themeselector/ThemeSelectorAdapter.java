@@ -499,7 +499,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                             .into(mThemePreviewImg);
                 } else {
-                    GlideApp.with(mContentView).asBitmap().load(theme.getGifUrl())
+                    GlideApp.with(mContentView).asBitmap().load(theme.getPreviewImage())
                             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                             .into(mThemePreviewImg);
                 }

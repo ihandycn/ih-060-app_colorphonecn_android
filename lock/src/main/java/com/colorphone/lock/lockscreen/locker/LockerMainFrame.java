@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.acb.expressads.AcbExpressAdView;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
@@ -44,6 +43,8 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.flashlight.FlashlightManager;
+
+import net.appcloudbox.ads.expressads.AcbExpressAdView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
