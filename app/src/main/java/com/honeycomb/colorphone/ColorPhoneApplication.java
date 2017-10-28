@@ -35,6 +35,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSMapUtils;
 import com.liulishuo.filedownloader.FileDownloader;
 
 import java.util.ArrayList;
@@ -89,7 +90,7 @@ public class ColorPhoneApplication extends HSApplication {
                 public Type parse(Map<String, ?> map) {
                     Theme type = new Theme();
                     Type.fillData(type, map);
-                    type.setDownload((Integer)map.get(Theme.CONFIG_DOWNLOAD_NUM));
+                    type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
                     return type;
                 }
             });
@@ -226,7 +227,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     @Override
     protected String getConfigFileName() {
-        if (HSLog.isDebugging()) {
+        if (BuildConfig.DEBUG) {
             return "config-d.ya";
         } else {
             return "config-r.ya";
