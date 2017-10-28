@@ -21,6 +21,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -43,6 +44,14 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
+import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
+import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
+import com.volokh.danylo.video_player_manager.meta.MetaData;
+import com.volokh.danylo.visibility_utils.calculator.DefaultSingleItemCalculatorCallback;
+import com.volokh.danylo.visibility_utils.calculator.ListItemsVisibilityCalculator;
+import com.volokh.danylo.visibility_utils.calculator.SingleListViewItemActiveCalculator;
+import com.volokh.danylo.visibility_utils.scroll_utils.ItemsPositionGetter;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -58,14 +67,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public static final String NOTIFY_WINDOW_INVISIBLE = "notify_window_invisible";
     public static final String NOTIFY_WINDOW_VISIBLE = "notify_window_visible";
     private static final String PREFS_THEME_LIKE = "theme_like_array";
+
     private RecyclerView mRecyclerView;
+    private ThemeSelectorAdapter mAdapter;
+    private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
+
     private SwitchCompat mainSwitch;
     private TextView mainSwitchTxt;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
-    private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
     private int defaultThemeId = 1;
     private boolean initCheckState;
+
     private Handler mHandler = new Handler();
 
     private Runnable UpdateRunnable = new Runnable() {
@@ -266,7 +279,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 theme.setSelected(true);
             }
 
-            if (type.isGif()) {
+            if (type.isMedia()) {
                 TasksManager.getImpl().addTask(type);
             }
 
@@ -296,18 +309,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         return false;
     }
 
-    @AnyRes
-    private int getIdentifier(Context context, String name, String type) {
-        return context.getResources().getIdentifier(name, type, context.getPackageName());
-    }
 
     private void initRecyclerView() {
         View contentView = findViewById(R.id.recycler_view_content);
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
         mRecyclerView.setItemAnimator(null);
-        ThemeSelectorAdapter adapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
-        mRecyclerView.setLayoutManager(adapter.getLayoutManager());
-        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setHasFixedSize(true);
+        mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
+        mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
+        mRecyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -366,6 +377,40 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onReceive(String s, HSBundle hsBundle) {
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mainSwitch.setChecked(true);
+        }
+    }
+
+    private class VideoManager {
+
+
+        @AnyRes
+        private int getIdentifier(Context context, String name, String type) {
+            return context.getResources().getIdentifier(name, type, context.getPackageName());
+        }
+
+
+        /**
+         * ItemsPositionGetter is used by {@link ListItemsVisibilityCalculator} for getting information about
+         * items position in the RecyclerView and LayoutManager
+         */
+        private ItemsPositionGetter mItemsPositionGetter;
+
+
+        /**
+         * Here we use {@link SingleVideoPlayerManager}, which means that only one video playback is possible.
+         */
+        private final VideoPlayerManager<MetaData> mVideoPlayerManager = new SingleVideoPlayerManager(new PlayerItemChangeListener() {
+            @Override
+            public void onPlayerItemChanged(MetaData metaData) {
+
+            }
+        });
+
+        private int mScrollState = AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
+
+
+        private void init() {
+
         }
     }
 

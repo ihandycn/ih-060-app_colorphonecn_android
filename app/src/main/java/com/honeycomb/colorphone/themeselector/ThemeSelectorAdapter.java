@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +44,14 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
+import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
+import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
+import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
+import com.volokh.danylo.video_player_manager.meta.MetaData;
+import com.volokh.danylo.visibility_utils.calculator.DefaultSingleItemCalculatorCallback;
+import com.volokh.danylo.visibility_utils.calculator.ListItemsVisibilityCalculator;
+import com.volokh.danylo.visibility_utils.calculator.SingleListViewItemActiveCalculator;
+import com.volokh.danylo.visibility_utils.scroll_utils.ItemsPositionGetter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -59,7 +68,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private ArrayList<Theme> data = null;
     private GridLayoutManager layoutManager;
 
-    public static final int THEME_SELECTOR_ITEM_TYPE_THEME = 0x1;
+    public static final int THEME_SELECTOR_ITEM_TYPE_THEME_GIF = 0x1;
+    public static final int THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO = 0x8;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_LED = 0x2;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_TECH = 0x3;
 
@@ -94,6 +104,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     };
 
+    private final VideoPlayerManager<MetaData> mVideoPlayerManager = new SingleVideoPlayerManager(new PlayerItemChangeListener() {
+        @Override
+        public void onPlayerItemChanged(MetaData metaData) {
+
+        }
+    });
+
     public ThemeSelectorAdapter(Activity activity, final ArrayList<Theme> data) {
         this.activity = activity;
         this.data = data;
@@ -101,8 +118,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public int getSpanSize(int position) {
                 switch (getItemViewType(position)) {
-                    case THEME_SELECTOR_ITEM_TYPE_THEME:
-                        return 1;
                     case THEME_SELECTOR_ITEM_TYPE_STATEMENT:
                         return 2;
                     default:
@@ -148,11 +163,16 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             final ThemeCardViewHolder holder = new ThemeCardViewHolder(cardViewContent);
             // Theme
             switch (viewType) {
-                case THEME_SELECTOR_ITEM_TYPE_THEME:
-                    holder.mThemeFlashPreviewWindow.updateThemeLayout(getTypeByThemeId(Type.STARS));
+                case THEME_SELECTOR_ITEM_TYPE_THEME_GIF:
+                    holder.mThemeFlashPreviewWindow.updateThemeLayout(Type.GIF_SHELL);
                     if (!Utils.ATLEAST_LOLLIPOP) {
                         holder.mThemeFlashPreviewWindow.setCornerRadius(activity.getResources().getDimensionPixelSize(R.dimen.theme_card_radius));
                     }
+                    break;
+                case THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO:
+                    holder.mThemeFlashPreviewWindow.updateThemeLayout(Type.VIDEO_SHELL);
+                    holder.mThemeFlashPreviewWindow.setViewPlayerManger(mVideoPlayerManager);
+
                     break;
                 case THEME_SELECTOR_ITEM_TYPE_THEME_LED:
                     holder.mThemeFlashPreviewWindow.updateThemeLayout(getTypeByThemeId(Type.LED));
@@ -307,8 +327,12 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 return THEME_SELECTOR_ITEM_TYPE_THEME_LED;
             } else if (theme.getValue() == Type.TECH) {
                 return THEME_SELECTOR_ITEM_TYPE_THEME_TECH;
+            } else if (theme.isGif()){
+                return THEME_SELECTOR_ITEM_TYPE_THEME_GIF;
+            } else if (theme.isVideo()) {
+                return THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO;
             } else {
-                return THEME_SELECTOR_ITEM_TYPE_THEME;
+                throw new IllegalStateException("Can not find right view type for theme ：" + theme);
             }
         } else {
             return THEME_SELECTOR_ITEM_TYPE_STATEMENT;
@@ -499,7 +523,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                             .into(mThemePreviewImg);
                 } else {
-                    GlideApp.with(mContentView).asBitmap().load(theme.getGifUrl())
+                    GlideApp.with(mContentView).asBitmap().load(theme.getPreviewImage())
                             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                             .into(mThemePreviewImg);
                 }
