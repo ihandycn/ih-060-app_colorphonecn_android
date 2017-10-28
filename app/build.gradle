@@ -23,14 +23,14 @@ apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.hugo'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.colorphone.smooth.dialer"
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 4
-        versionName "1.0.3"
+        versionName "1.0.4.develop"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -83,7 +83,7 @@ allprojects {
     }
 }
 
-final SUPPORT_LIBRARY_VERSION = '25.3.1'
+final SUPPORT_LIBRARY_VERSION = '26.0.1'
 final GOOGLE_PLAY_SERVICES_VERSION = '10.2.0'
 
 dependencies {
@@ -112,10 +112,13 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
+    // For Video play in listview
+    compile 'com.github.danylovolokh:list-visibility-utils:0.2.0'
+
     // ==== ihandy ====
 
     // Submodule
-    compile(name: 'libColorhone/libColorPhone', ext: 'aar')
+    compile(name: 'libColorhone/colorphone-release', ext: 'aar')
     compile project(':lock')
 
     compile 'com.acb.autopilot:autopilot.gm:4.1.1.gm'
