@@ -63,6 +63,9 @@ import static com.honeycomb.colorphone.util.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+
+    private static final String TAG = "ThemeSelectorAdapter";
+    private static final boolean DEBUG_ADAPTER = BuildConfig.DEBUG;
     private final Activity activity;
     private final float mTransX;
     private ArrayList<Theme> data = null;
@@ -287,6 +290,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     @DebugLog
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (DEBUG_ADAPTER) {
+            HSLog.d(TAG, "bindViewHolder : " + position);
+        }
         if (holder instanceof ThemeCardViewHolder) {
             ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
             cardViewHolder.setPositionTag(position);
