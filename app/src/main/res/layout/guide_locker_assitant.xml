@@ -53,7 +53,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="6dp"
-        android:text="@string/ad_hint"
+        android:text="@string/acb_call_guide_sub_content"
         android:textColor="#999999"
         android:textSize="13sp"
         app:typeface="@string/proxima_nova_light" />
