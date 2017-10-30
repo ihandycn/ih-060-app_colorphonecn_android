@@ -24,7 +24,7 @@ apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.colorphone.smooth.dialer"
         minSdkVersion 14
@@ -118,7 +118,7 @@ dependencies {
     // ==== ihandy ====
 
     // Submodule
-    compile(name: 'libColorhone/colorphone-release', ext: 'aar')
+    compile(name: 'libColorhone/libColorphone', ext: 'aar')
     compile project(':lock')
 
     compile 'com.acb.autopilot:autopilot.gm:4.1.1.gm'
