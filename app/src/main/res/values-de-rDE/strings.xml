@@ -1,0 +1,53 @@
+<resources>
+
+  <!--No Translate-->
+  <string name="facebook_app_id" translatable="false">1477114002355335</string>
+  <string name="loading_progress" translatable="false">%1$d %%</string>
+  <string name="acb_caller_default_name" translatable="false">Marry</string>
+  <string name="acb_caller_default_number" translatable="false">626-202-3399</string>
+  <string name="network_err" translatable="false">No Internet connection.</string>
+  <!--DEBUG-->
+  <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+  <string name="navigation_drawer_close"  translatable="false">Close navigation drawer</string>
+
+  <!--Need Translate-->
+  <string name="app_name">Color Phone</string>
+  <string name="app_slogan">Falle mit einem farbenfrohen Touch auf</string>
+  <string name="color_phone_disable">Color Phone deaktiviert</string>
+  <string name="color_phone_enabled">Color Phone aktiviert</string>
+
+  <string name="settings">Einstellungen</string>
+  <string name="feedback">Feedback</string>
+
+
+  <string name="theme_apply">Übernehmen</string>
+  <string name="apply_success">Erfolgreich übernommen</string>
+  <string name="theme_current">Aktuelles Theme</string>
+  <string name="send_email" translatable="false">Send Email</string>
+  <string name="loading">geladen </string>
+
+  <string name="privacy_policy">Datenschutzrichtlinie</string>
+  <string name="terms_of_service">Nutzungsbedingungen</string>
+
+
+    <string name="guide_locker_and_call_hint" translatable="false">Enable Screensaver, Smart Charging &amp; Phone Assistant to: \nRemind your missed calls.
+        Boost easily and access camera quickly.</string>
+  <string name="guide_enable_all_module" translatable="false">Enable Phone Assistant, Smart Charging &amp; Screensaver</string>
+
+  <string name="acb_outapp_guide_screen_flash_content">Probiere das einzigartige Anrufinterface aus, um dein Handy noch trendiger zu machen. Kann Werbung enthalten.</string>
+  <string name="about">Über</string>
+
+  <string name="guide_apply_theme_hint" translatable="false">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
+
+
+
+  <string name="smart_charging">Intelligentes Aufladen</string>
+    <string name="smart_charging_hint">Automatisch Aufladestatus überwachen und Überladung sowie Beschädigungen des Akkus vermeiden. (Kann Werbung enthalten.)</string>
+
+  <string name="color_lockscreen" translatable="false">Color Screensaver</string>
+    <string name="color_lockscreen_hint" translatable="false">Glorify your screensaver using various fancy and cool themes (May contain
+        ads)</string>
+  <string name="sms_assistant" translatable="false">SMS Assistant</string>
+  <string name="sms_assistant_hint" translatable="false">SMS Assistant will remind you of new messages (May contain ads)</string>
+  <string name="call_assistant_hint" translatable="false">Call Assistant will remind you of missed calls (May contain ads)</string>
+</resources>
