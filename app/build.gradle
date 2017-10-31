@@ -118,7 +118,7 @@ dependencies {
     // ==== ihandy ====
 
     // Submodule
-    compile(name: 'libColorhone/libColorphone', ext: 'aar')
+    compile(name: 'libColorhone/libColorPhone', ext: 'aar')
     compile project(':lock')
 
     compile 'com.acb.autopilot:autopilot.gm:4.1.1.gm'
