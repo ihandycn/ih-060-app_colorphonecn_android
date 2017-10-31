@@ -76,16 +76,17 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         for (ThemePreviewView previewView : mViews) {
+            previewView.setBlockAnimationForPageChange(false);
             previewView.onStart();
         }
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         for (ThemePreviewView previewView : mViews) {
             previewView.onStop();
         }
@@ -104,6 +105,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             controller.init(ThemePreviewActivity.this, mThemes, position, mNavBack);
             if (position == mViewPager.getCurrentItem()) {
                 controller.setPageSelectedPos(position);
+                controller.setBlockAnimationForPageChange(false);
             } else {
                 controller.setNoTransition(true);
             }

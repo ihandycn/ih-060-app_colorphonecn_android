@@ -157,6 +157,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
      * Play no Transition animation when page scroll.
      */
     private boolean mNoTransition = false;
+    private boolean triggerPageChangeWhenIdle = false;
+    /**
+     * Normally, We block animation until page scroll idle, but
+     * 1 first time that theme view show
+     * 2 activity pause or resume
+     * in those two conditions we start animation directly.
+     */
+    private boolean mBlockAnimationForPageChange = true;
 
     public ThemePreviewView(@NonNull Context context) {
         super(context);
@@ -280,8 +288,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     Runnable transEndRunnable = new Runnable() {
         @Override
         public void run() {
-            previewWindow.playAnimation(mThemeType);
-            callActionView.doAnimation();
+            if (!mBlockAnimationForPageChange) {
+                previewWindow.playAnimation(mThemeType);
+                callActionView.doAnimation();
+                mBlockAnimationForPageChange = true;
+            }
 
             boolean curTheme = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
             animationDelay = 0;
@@ -511,6 +522,20 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     }
 
+    private void pauseAnimation() {
+        if (themeReady) {
+            previewWindow.stopAnimations();
+            callActionView.stopAnimations();
+        }
+    }
+
+    private void resumeAnimation() {
+        if (themeReady) {
+            previewWindow.playAnimation(mThemeType);
+            callActionView.doAnimation();
+        }
+    }
+
     private boolean isSelectedPos() {
         return mPosition == mPageSelectedPos;
     }
@@ -605,6 +630,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             downloadTheme(mPendingDownloadModel);
             mPendingDownloadModel = null;
         }
+        triggerPageChangeWhenIdle = true;
 
     }
 
@@ -617,11 +643,30 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        if (DEBUG_LIFE_CALLBACK) {
+            HSLog.d("onPageScrollStateChanged " + state
+                    + ", curSelect: " + mPageSelectedPos + ", trigger change: " + triggerPageChangeWhenIdle);
+            if (state == ViewPager.SCROLL_STATE_IDLE && triggerPageChangeWhenIdle) {
+                triggerPageChangeWhenIdle = false;
+                if (isSelectedPos()) {
+                    HSLog.d("onPageSelected " + mPosition);
+                    resumeAnimation();
+                } else {
+                    HSLog.d("onPageUnSelected " + mPosition);
+                    pauseAnimation();
+                }
+            }
+        }
     }
 
     public void setNoTransition(boolean noTransition) {
         mNoTransition = noTransition;
+    }
+
+    public void setBlockAnimationForPageChange(boolean blockAnimationForPageChange) {
+        if (isSelectedPos()) {
+            mBlockAnimationForPageChange = blockAnimationForPageChange;
+        }
     }
 
     private class ProgressViewHolder {

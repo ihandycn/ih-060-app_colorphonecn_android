@@ -44,14 +44,6 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
-import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
-import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
-import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
-import com.volokh.danylo.video_player_manager.meta.MetaData;
-import com.volokh.danylo.visibility_utils.calculator.DefaultSingleItemCalculatorCallback;
-import com.volokh.danylo.visibility_utils.calculator.ListItemsVisibilityCalculator;
-import com.volokh.danylo.visibility_utils.calculator.SingleListViewItemActiveCalculator;
-import com.volokh.danylo.visibility_utils.scroll_utils.ItemsPositionGetter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -70,6 +62,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final float mTransX;
     private ArrayList<Theme> data = null;
     private GridLayoutManager layoutManager;
+    private Handler mHandler = new Handler();
 
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_GIF = 0x1;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO = 0x8;
@@ -106,13 +99,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
     };
-
-    private final VideoPlayerManager<MetaData> mVideoPlayerManager = new SingleVideoPlayerManager(new PlayerItemChangeListener() {
-        @Override
-        public void onPlayerItemChanged(MetaData metaData) {
-
-        }
-    });
 
     public ThemeSelectorAdapter(Activity activity, final ArrayList<Theme> data) {
         this.activity = activity;
@@ -161,6 +147,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+
+        if (DEBUG_ADAPTER) {
+            HSLog.d(TAG, "onCreateViewHolder : type " + viewType);
+        }
         if ((viewType & THEME_TYPE_MASK) == viewType) {
             View cardViewContent = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_theme_selector, null);
             final ThemeCardViewHolder holder = new ThemeCardViewHolder(cardViewContent);
@@ -174,7 +164,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     break;
                 case THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO:
                     holder.mThemeFlashPreviewWindow.updateThemeLayout(Type.VIDEO_SHELL);
-                    holder.mThemeFlashPreviewWindow.setViewPlayerManger(mVideoPlayerManager);
 
                     break;
                 case THEME_SELECTOR_ITEM_TYPE_THEME_LED:
@@ -255,7 +244,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         return prePos;
     }
 
-    private boolean onSelectedTheme(int pos, ThemeCardViewHolder holder) {
+    private boolean onSelectedTheme(final int pos, ThemeCardViewHolder holder) {
         int prePos = 0;
         boolean playAnimation = true;
         // Clear before.
@@ -279,11 +268,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(type.getIdName().toLowerCase());
         Theme selectedTheme = data.get(pos);
         selectedTheme.setSelected(true);
-        if (holder != null) {
-            holder.setSelected(selectedTheme, playAnimation);
-        } else {
-            notifyItemChanged(pos);
-        }
+//        if (holder != null) {
+//            holder.setSelected(selectedTheme, playAnimation);
+//        } else {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                // Ensure selected item rebound after unselected one.
+                notifyItemChanged(pos);
+            }
+        });
+//        }
         return true;
     }
 

@@ -380,38 +380,4 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
-    private class VideoManager {
-
-
-        @AnyRes
-        private int getIdentifier(Context context, String name, String type) {
-            return context.getResources().getIdentifier(name, type, context.getPackageName());
-        }
-
-
-        /**
-         * ItemsPositionGetter is used by {@link ListItemsVisibilityCalculator} for getting information about
-         * items position in the RecyclerView and LayoutManager
-         */
-        private ItemsPositionGetter mItemsPositionGetter;
-
-
-        /**
-         * Here we use {@link SingleVideoPlayerManager}, which means that only one video playback is possible.
-         */
-        private final VideoPlayerManager<MetaData> mVideoPlayerManager = new SingleVideoPlayerManager(new PlayerItemChangeListener() {
-            @Override
-            public void onPlayerItemChanged(MetaData metaData) {
-
-            }
-        });
-
-        private int mScrollState = AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
-
-
-        private void init() {
-
-        }
-    }
-
 }
