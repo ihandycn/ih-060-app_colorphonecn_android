@@ -96,6 +96,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         }
     };
+    private boolean logOpenEvent;
 
     @DebugLog
     @Override
@@ -131,8 +132,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private DrawerLayout initDrawer() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
-
+        logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -202,6 +202,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onRestart() {
         super.onRestart();
         HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_VISIBLE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (logOpenEvent) {
+            logOpenEvent = false;
+            mainSwitch.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
+                }
+            }, 1000);
+        }
     }
 
     private void saveThemeLikes() {
