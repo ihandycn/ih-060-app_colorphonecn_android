@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.commons.utils.HSLog;
@@ -32,12 +33,9 @@ public class OurAppInstalledReceiver extends BroadcastReceiver {
 
             try {
                 String decodeContent = Uri.decode(referrerString);
-                if (!decodeContent.contains("internal=panel")) {
-                    return;
-                }
 
                 Map<String, String> referrer = new HashMap<>();
-                if (referrerString.equals("")) {
+                if (TextUtils.isEmpty(referrerString)) {
                     return;
                 }
 
