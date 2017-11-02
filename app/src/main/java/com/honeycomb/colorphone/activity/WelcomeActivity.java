@@ -16,15 +16,11 @@ import java.io.IOException;
 
 public class WelcomeActivity extends HSActivity {
 
-
     private WelcomeVideoView mVidView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Transition fade = new Fade();
@@ -36,6 +32,7 @@ public class WelcomeActivity extends HSActivity {
 
         setContentView(R.layout.activity_welcome);
         mVidView = (WelcomeVideoView) findViewById(R.id.welcome_video);
+        mVidView.setCover(findViewById(R.id.welcome_cover));
         mVidView.setPlayEndListener(new WelcomeVideoView.PlayEndListener() {
             @Override
             public void onEnd() {
@@ -46,12 +43,13 @@ public class WelcomeActivity extends HSActivity {
     }
 
     private void toMainView() {
+        mVidView.destroy();
         startActivity(new Intent(WelcomeActivity.this, ColorPhoneActivity.class));
     }
 
     @Override
     protected void onDestroy() {
-        mVidView.stop();
+        mVidView.destroy();
         super.onDestroy();
     }
 

@@ -17,7 +17,6 @@
     <style name="AppLightStatusBarTheme.Welcome" parent="AppLightStatusBarTheme">
         <item name="android:windowBackground">@color/white</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
 
     <style name="AppLightStatusBarTheme" parent="AppTheme"/>
