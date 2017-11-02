@@ -178,9 +178,6 @@ public class TasksManager {
 
     public void addTask(Type type) {
         String url = type.getSuggestMediaUrl();
-        if (TextUtils.isEmpty(url)) {
-            throw new IllegalStateException("Theme type : [ " + type.getIdName() + " ] has not gif url!");
-        }
         File file = FileUtils.getMediaDirectory();
         if (file != null) {
             String path = FileDownloadUtils.generateFilePath(file.getAbsolutePath(), type.getFileName());

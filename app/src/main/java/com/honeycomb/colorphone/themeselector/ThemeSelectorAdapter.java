@@ -491,13 +491,18 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             }
 
+            // TODO : animation should take care cover image.
             if (theme.isSelected()) {
+                mThemePreviewImg.setVisibility(View.INVISIBLE);
+                mThemeFlashPreviewWindow.setVisibility(View.VISIBLE);
                 mThemeFlashPreviewWindow.playAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(true);
                 mCallActionView.setAutoRun(true);
                 HSGlobalNotificationCenter.addObserver(ColorPhoneActivity.NOTIFY_WINDOW_INVISIBLE, this);
                 HSGlobalNotificationCenter.addObserver(ColorPhoneActivity.NOTIFY_WINDOW_VISIBLE, this);
             } else {
+                mThemePreviewImg.setVisibility(View.VISIBLE);
+                mThemeFlashPreviewWindow.setVisibility(View.INVISIBLE);
                 mThemeFlashPreviewWindow.clearAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(false);
                 mCallActionView.setAutoRun(false);
@@ -513,26 +518,22 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         @DebugLog
         public void updateTheme(Theme theme) {
             if (theme.getId() == Type.TECH) {
-                GlideApp.with(mContentView).asBitmap().load(R.drawable.acb_phone_theme_technological_bg)
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .into(mThemePreviewImg);
+//                GlideApp.with(mContentView).asBitmap().centerCrop().load(R.drawable.acb_phone_theme_technological_bg)
+//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                        .into(mThemePreviewImg);
             } else {
-                int placeHolder = theme.getPreviewPlaceHolder();
-                // TODO load remote url
-                if (placeHolder != 0) {
-                    GlideApp.with(mContentView).asBitmap().load(placeHolder)
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .into(mThemePreviewImg);
-                } else {
-                    GlideApp.with(mContentView).asBitmap().load(theme.getPreviewImage())
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .into(mThemePreviewImg);
-                }
+                GlideApp.with(mContentView).asBitmap()
+                        .centerCrop()
+                        .placeholder(theme.getThemePreviewDrawable())
+                        .load(theme.getPreviewImage())
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .into(mThemePreviewImg);
+
 //                AcbCallManager.getInstance().getImageLoader()
 //                        .load(theme, theme.getPreviewImage(), theme.getPreviewPlaceHolder(), mThemePreviewImg);
                 GlideApp.with(mContentView)
                         .load(theme.getAvatar())
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                         .transition(DrawableTransitionOptions.withCrossFade(200))
                         .into(mAvatar);
             }

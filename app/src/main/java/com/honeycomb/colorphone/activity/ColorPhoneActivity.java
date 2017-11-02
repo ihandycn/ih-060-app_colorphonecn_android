@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.AnyRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,13 +20,13 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
+import com.bumptech.glide.Glide;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -44,14 +43,6 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
-import com.volokh.danylo.video_player_manager.manager.PlayerItemChangeListener;
-import com.volokh.danylo.video_player_manager.manager.SingleVideoPlayerManager;
-import com.volokh.danylo.video_player_manager.manager.VideoPlayerManager;
-import com.volokh.danylo.video_player_manager.meta.MetaData;
-import com.volokh.danylo.visibility_utils.calculator.DefaultSingleItemCalculatorCallback;
-import com.volokh.danylo.visibility_utils.calculator.ListItemsVisibilityCalculator;
-import com.volokh.danylo.visibility_utils.calculator.SingleListViewItemActiveCalculator;
-import com.volokh.danylo.visibility_utils.scroll_utils.ItemsPositionGetter;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -196,6 +187,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_INVISIBLE);
         saveThemeLikes();
+        // TODO: has better solution for OOM?
+        Glide.get(this).clearMemory();
     }
 
     @Override
@@ -332,8 +325,22 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
         mRecyclerView.setAdapter(mAdapter);
+        RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
+
+        // TODO: set proper view count.
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_LED, 1);
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_TECH, 1);
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO, 2);
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_GIF, 2);
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mRecyclerView.getRecycledViewPool().clear();
+    }
+
 
     @Override
     public void onClick(View v) {

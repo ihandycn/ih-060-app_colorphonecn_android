@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequests;
@@ -32,8 +33,9 @@ public class ThemeImageLoader extends AcbCallManager.DefaultImageLoader {
             requests.load(s)
                     .placeholder(holderImage)
                     .error(holderImage)
-                    .fitCenter()
-                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .transition(DrawableTransitionOptions.withCrossFade(200))
                     .into(imageView);
 
         } else if (Type.RES_LOCAL_ID.equals(type.getResType())) {

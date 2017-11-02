@@ -496,7 +496,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         // Show background if gif drawable not ready.
         if (mTheme != null) {
-            if (!mThemeType.isGif()){
+            if (!mThemeType.isMedia()){
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
