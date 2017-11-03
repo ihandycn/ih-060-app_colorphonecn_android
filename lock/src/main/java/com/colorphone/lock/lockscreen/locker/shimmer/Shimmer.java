@@ -3,6 +3,7 @@ package com.colorphone.lock.lockscreen.locker.shimmer;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.os.Build;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
@@ -113,7 +114,11 @@ public class Shimmer {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         shimmerView.setShimmering(false);
-                        shimmerView.postInvalidateOnAnimation();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            shimmerView.postInvalidateOnAnimation();
+                        } else {
+                            shimmerView.postInvalidate();
+                        }
 
                         animator = null;
                     }

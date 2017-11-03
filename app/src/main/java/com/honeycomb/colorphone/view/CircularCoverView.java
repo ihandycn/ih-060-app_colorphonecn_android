@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.graphics.Xfermode;
 import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
@@ -20,12 +21,14 @@ import com.honeycomb.colorphone.R;
  */
 public class CircularCoverView extends View {
 
+    private final Paint paint;
     private int leftTopRadians = 30;        //leftTopRadians
     private int leftBottomRadians = 30;     //leftBottomRadians
     private int rightTopRadians = 30;       //rightTopRadians
     private int rightBottomRadians = 30;    //rightBottomRadians
 
     private int coverColor = 0xffeaeaea;    //color of cover.
+    private Xfermode xferMode;
 
     public CircularCoverView(Context context) {
         this(context, null, 0);
@@ -37,6 +40,8 @@ public class CircularCoverView extends View {
 
     public CircularCoverView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        paint = new Paint();
+        xferMode = new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CircularCoverView);
         leftTopRadians = typedArray.getDimensionPixelSize(R.styleable.CircularCoverView_left_top_radius, leftTopRadians);
@@ -44,6 +49,7 @@ public class CircularCoverView extends View {
         rightTopRadians = typedArray.getDimensionPixelSize(R.styleable.CircularCoverView_right_top_radius, rightTopRadians);
         rightBottomRadians = typedArray.getDimensionPixelSize(R.styleable.CircularCoverView_right_bottom_radius, rightBottomRadians);
         coverColor = typedArray.getColor(R.styleable.CircularCoverView_cover_color, coverColor);
+        typedArray.recycle();
     }
 
     /**
@@ -108,7 +114,6 @@ public class CircularCoverView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Paint paint = new Paint();
         paint.setFilterBitmap(false);
         paint.setStyle(Paint.Style.FILL);
 
@@ -122,7 +127,7 @@ public class CircularCoverView extends View {
         //draw sector-dst-bitmap at first.
         canvas.drawBitmap(drawSector(getWidth(), getHeight()), 0, 0, paint);
         //set Xfermode of paint.
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT));
+        paint.setXfermode(xferMode);
         //then draw rect-src-bitmap
         canvas.drawBitmap(drawRect(getWidth(), getHeight()), 0, 0, paint);
         paint.setXfermode(null);
