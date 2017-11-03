@@ -19,6 +19,7 @@ import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -180,9 +181,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             // Set text style
             ThemeUtils.updateStyle(holder.getContentView());
-
-            // Disable theme original bg. Use our own
-            holder.mThemeFlashPreviewWindow.setBgDrawable(null);
 
             cardViewContent.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -491,18 +489,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             }
 
-            // TODO : animation should take care cover image.
             if (theme.isSelected()) {
-                mThemePreviewImg.setVisibility(View.INVISIBLE);
-                mThemeFlashPreviewWindow.setVisibility(View.VISIBLE);
                 mThemeFlashPreviewWindow.playAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(true);
                 mCallActionView.setAutoRun(true);
                 HSGlobalNotificationCenter.addObserver(ColorPhoneActivity.NOTIFY_WINDOW_INVISIBLE, this);
                 HSGlobalNotificationCenter.addObserver(ColorPhoneActivity.NOTIFY_WINDOW_VISIBLE, this);
             } else {
-                mThemePreviewImg.setVisibility(View.VISIBLE);
-                mThemeFlashPreviewWindow.setVisibility(View.INVISIBLE);
                 mThemeFlashPreviewWindow.clearAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(false);
                 mCallActionView.setAutoRun(false);
@@ -519,7 +512,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void updateTheme(Theme theme) {
             if (theme.getId() == Type.TECH) {
 //                GlideApp.with(mContentView).asBitmap().centerCrop().load(R.drawable.acb_phone_theme_technological_bg)
-//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
 //                        .into(mThemePreviewImg);
             } else {
                 GlideApp.with(mContentView).asBitmap()
@@ -527,7 +520,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .placeholder(theme.getThemePreviewDrawable())
                         .load(theme.getPreviewImage())
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .into(mThemePreviewImg);
+                        .transition(BitmapTransitionOptions.withCrossFade(200))
+                        .into(theme.isVideo() ? mThemeFlashPreviewWindow.getImageCover() : mThemePreviewImg);
 
 //                AcbCallManager.getInstance().getImageLoader()
 //                        .load(theme, theme.getPreviewImage(), theme.getPreviewPlaceHolder(), mThemePreviewImg);
