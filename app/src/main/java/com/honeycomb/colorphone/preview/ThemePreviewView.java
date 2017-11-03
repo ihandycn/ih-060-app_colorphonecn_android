@@ -577,6 +577,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void downloadTheme(TasksManagerModel model) {
+        setBlockAnimationForPageChange(false);
+
         DownloadViewHolder.doDownload(model, null);
 
         // Notify download status.
