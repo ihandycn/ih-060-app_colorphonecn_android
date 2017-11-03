@@ -1,14 +1,6 @@
 <resources>
 
-  <!--No Translate-->
-  <string name="facebook_app_id" translatable="false">1477114002355335</string>
-  <string name="loading_progress" translatable="false">%1$d %%</string>
-  <string name="acb_caller_default_name" translatable="false">Marry</string>
-  <string name="acb_caller_default_number" translatable="false">626-202-3399</string>
-  <string name="network_err" translatable="false">No Internet connection.</string>
-  <!--DEBUG-->
-  <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
-  <string name="navigation_drawer_close"  translatable="false">Close navigation drawer</string>
+
 
   <!--Need Translate-->
   <string name="app_name">多彩電話</string>
