@@ -14,6 +14,7 @@ import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
 import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
+import com.acb.call.utils.FileUtils;
 import com.acb.expressads.AcbExpressAdManager;
 import com.acb.nativeads.AcbNativeAdManager;
 import com.bumptech.glide.Glide;
@@ -30,6 +31,7 @@ import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.charging.HSChargingManager;
@@ -40,6 +42,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSMapUtils;
 import com.liulishuo.filedownloader.FileDownloader;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -112,8 +115,29 @@ public class ColorPhoneApplication extends HSApplication {
             initLockerCharging();
             Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
 
+            copyMediaFromAssertToFile();
             preloadThemeResources();
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Intent lockJobServiceIntent = new Intent(this, LockJobService.class);
+            startService(lockJobServiceIntent);
+        }
+    }
+
+    private void copyMediaFromAssertToFile() {
+        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Utils.copyAssetFileTo(getApplicationContext(),
+                            "shining.mp4",
+                            new File(FileUtils.getMediaDirectory(), "Mp4_12"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void preloadThemeResources() {

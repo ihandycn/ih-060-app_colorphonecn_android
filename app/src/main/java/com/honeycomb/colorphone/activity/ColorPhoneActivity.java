@@ -67,7 +67,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private TextView mainSwitchTxt;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
-    private int defaultThemeId = 1;
+    private int defaultThemeId = 14;
     private boolean initCheckState;
 
     private Handler mHandler = new Handler();

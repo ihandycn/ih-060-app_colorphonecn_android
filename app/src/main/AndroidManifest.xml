@@ -132,6 +132,16 @@
         <service
             android:name=".PermanentService$PermanentServiceInner"/>
 
+        <service
+            android:name=".LockJobService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+            <intent-filter android:priority="1000">
+                <action android:name="com.intellectualflame.ledflashlight.washer.lockscreen.LockJobService"/>
+            </intent-filter>
+        </service>
+
         <receiver
             android:name=".PermanentService$PermanentReceiver"
             android:enabled="true"
