@@ -6,11 +6,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.Transition;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
 import com.ihs.app.framework.activity.HSActivity;
+import com.ihs.app.utils.HSVersionControlUtils;
 
 import java.io.IOException;
 
@@ -32,14 +35,21 @@ public class WelcomeActivity extends HSActivity {
 
         setContentView(R.layout.activity_welcome);
         mVidView = (WelcomeVideoView) findViewById(R.id.welcome_video);
-        mVidView.setCover(findViewById(R.id.welcome_cover));
-        mVidView.setPlayEndListener(new WelcomeVideoView.PlayEndListener() {
-            @Override
-            public void onEnd() {
-                toMainView();
-            }
-        });
-        showVideo(mVidView);
+        View cover = findViewById(R.id.welcome_cover);
+
+        if (HSVersionControlUtils.isFirstSessionSinceInstallation()) {
+            mVidView.setCover(cover);
+            mVidView.setPlayEndListener(new WelcomeVideoView.PlayEndListener() {
+                @Override
+                public void onEnd() {
+                    toMainView();
+                }
+            });
+            showVideo(mVidView);
+        } else {
+            cover.setBackgroundResource(R.drawable.page_start_bg);
+            toMainView();
+        }
     }
 
     private void toMainView() {
