@@ -113,7 +113,7 @@ public class ColorPhoneApplication extends HSApplication {
             checkModuleAdPlacement();
 
             initLockerCharging();
-            Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
+            Glide.get(this).setMemoryCategory(MemoryCategory.NORMAL);
 
             copyMediaFromAssertToFile();
             preloadThemeResources();
