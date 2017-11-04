@@ -2,9 +2,12 @@ package com.honeycomb.colorphone;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.AnyRes;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.content.res.AppCompatResources;
 
 import com.acb.call.themes.Type;
 import com.ihs.app.framework.HSApplication;
@@ -66,7 +69,7 @@ public class Theme extends Type {
     }
 
     public Drawable getThemePreviewDrawable() {
-        if (getValue() != LED) {
+        if (getValue() != LED && getValue() != TECH) {
             int colorIndex = getIndex() % COLORS.length;
             return new ColorDrawable(Color.parseColor(COLORS[colorIndex]));
         }
@@ -111,8 +114,8 @@ public class Theme extends Type {
     };
 
     private static String[] COLORS = new String[]{
-            "#ffa4ffeb",
-            "#ffffefa4",
+            "#ff9af6e1",
+            "#fffae997",
             "#ffa4ffb1",
             "#ffffb7a4",
             "#ffa4efff",

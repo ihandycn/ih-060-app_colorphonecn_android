@@ -1,14 +1,15 @@
 package com.honeycomb.colorphone.themeselector;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +19,13 @@ import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
@@ -223,7 +228,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             return holder;
 
-        } else  {
+        } else {
             View stateViewContent = LayoutInflater.from((parent.getContext())).inflate(R.layout.card_view_contains_ads_statement, null);
             return new StatementViewHolder(stateViewContent);
         }
@@ -314,7 +319,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 cardViewHolder.switchToReadyState(true);
             }
         } else {
-            HSLog.d("onBindVieHolder","contains ads statement.");
+            HSLog.d("onBindVieHolder", "contains ads statement.");
         }
     }
 
@@ -326,7 +331,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 return THEME_SELECTOR_ITEM_TYPE_THEME_LED;
             } else if (theme.getValue() == Type.TECH) {
                 return THEME_SELECTOR_ITEM_TYPE_THEME_TECH;
-            } else if (theme.isGif()){
+            } else if (theme.isGif()) {
                 return THEME_SELECTOR_ITEM_TYPE_THEME_GIF;
             } else if (theme.isVideo()) {
                 return THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO;
@@ -396,6 +401,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder, INotificationObserver {
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
         ImageView mThemePreviewImg;
+        ImageView mThemeLoadingImg;
         ImageView mAvatar;
         TextView mAvatarName;
         ImageView mAccept;
@@ -436,6 +442,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
             mContentView = itemView;
             mThemePreviewImg = (ImageView) itemView.findViewById(R.id.card_preview_img);
+            mThemeLoadingImg = (ImageView) itemView.findViewById(R.id.place_holder);
             mThemeTitle = (TextView) itemView.findViewById(R.id.card_title);
 
             mThemeLikeCount = (TextView) itemView.findViewById(R.id.card_like_count_txt);
@@ -480,7 +487,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (theme.isSelected()) {
                     if (animation) {
                         mThemeSelectedAnim.playAnimation();
-                    } else if (!mThemeSelectedAnim.isAnimating()){
+                    } else if (!mThemeSelectedAnim.isAnimating()) {
                         setLottieProgress(mThemeSelectedAnim, 1f);
                     }
                 } else {
@@ -505,26 +512,34 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void setSelected(Theme selected) {
-           setSelected(selected, false);
+            setSelected(selected, false);
         }
 
         @DebugLog
         public void updateTheme(Theme theme) {
-            if (theme.getId() == Type.TECH) {
-//                GlideApp.with(mContentView).asBitmap().centerCrop().load(R.drawable.acb_phone_theme_technological_bg)
-//                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-//                        .into(mThemePreviewImg);
-            } else {
+            if (theme.isMedia()) {
+                ImageView targetView = theme.isVideo() ? mThemeFlashPreviewWindow.getImageCover() : mThemePreviewImg;
+                startLoadingScene();
                 GlideApp.with(mContentView).asBitmap()
                         .centerCrop()
                         .placeholder(theme.getThemePreviewDrawable())
                         .load(theme.getPreviewImage())
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .transition(BitmapTransitionOptions.withCrossFade(200))
-                        .into(theme.isVideo() ? mThemeFlashPreviewWindow.getImageCover() : mThemePreviewImg);
+                        .listener(new RequestListener<Bitmap>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                return false;
+                            }
 
-//                AcbCallManager.getInstance().getImageLoader()
-//                        .load(theme, theme.getPreviewImage(), theme.getPreviewPlaceHolder(), mThemePreviewImg);
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                                endLoadingScene();
+                                return false;
+                            }
+                        })
+                        .transition(BitmapTransitionOptions.withCrossFade(200))
+                        .into(targetView);
+                
                 GlideApp.with(mContentView)
                         .load(theme.getAvatar())
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
@@ -535,6 +550,21 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             setSelected(theme);
             setHotTheme(theme.isHot());
             setLike(theme, false);
+
+        }
+
+        private void startLoadingScene() {
+            mThemeLoadingImg.setVisibility(View.VISIBLE);
+            mCallActionView.setVisibility(View.INVISIBLE);
+            mThemeFlashPreviewWindow.getCallView().setVisibility(View.INVISIBLE);
+        }
+
+        private void endLoadingScene() {
+            mThemeLoadingImg.setVisibility(View.INVISIBLE);
+            mCallActionView.setVisibility(View.VISIBLE);
+            mCallActionView.animate().alpha(1f).setDuration(100).start();
+            mThemeFlashPreviewWindow.getCallView().setVisibility(View.VISIBLE);
+            mThemeFlashPreviewWindow.animate().alpha(1f).setDuration(100).start();
 
         }
 
@@ -642,7 +672,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (theme.isLike()) {
                 if (anim) {
                     mThemeLikeAnim.playAnimation();
-                } else  {
+                } else {
                     setLottieProgress(mThemeLikeAnim, 1f);
                 }
             } else {
@@ -658,7 +688,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void setLike(Theme theme) {
-          setLike(theme, true);
+            setLike(theme, true);
         }
 
         @Override
