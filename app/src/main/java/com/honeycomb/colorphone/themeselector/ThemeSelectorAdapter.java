@@ -516,7 +516,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         @DebugLog
-        public void updateTheme(Theme theme) {
+        public void updateTheme(final Theme theme) {
             if (theme.isMedia()) {
                 ImageView targetView = theme.isVideo() ? mThemeFlashPreviewWindow.getImageCover() : mThemePreviewImg;
                 startLoadingScene();
@@ -528,6 +528,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .listener(new RequestListener<Bitmap>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                                if (theme.isSelected()) {
+                                    endLoadingScene();
+                                }
                                 return false;
                             }
 
