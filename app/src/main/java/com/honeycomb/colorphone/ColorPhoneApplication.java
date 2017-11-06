@@ -28,6 +28,7 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
+import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -75,6 +76,8 @@ public class ColorPhoneApplication extends HSApplication {
             }
         }
     };
+    public static int mWidth;
+    public static int mHeight;
 
     @DebugLog
     @Override
@@ -89,6 +92,8 @@ public class ColorPhoneApplication extends HSApplication {
         String packageName = getPackageName();
         String processName = getProcessName();
 
+        mHeight = Utils.getPhoneHeight(this);
+        mWidth = Utils.getPhoneWidth(this);
         if (TextUtils.equals(processName, packageName)) {
             AcbCallManager.init("", new CallConfigFactory());
             AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
@@ -126,6 +131,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void copyMediaFromAssertToFile() {
+
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
@@ -133,6 +139,13 @@ public class ColorPhoneApplication extends HSApplication {
                     Utils.copyAssetFileTo(getApplicationContext(),
                             "shining.mp4",
                             new File(FileUtils.getMediaDirectory(), "Mp4_12"));
+                    final int targetId = 14;
+                    for (Type type : Theme.values()) {
+                        if (type.getId() == targetId) {
+                            TasksManager.getImpl().addTask(type);
+                            break;
+                        }
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
