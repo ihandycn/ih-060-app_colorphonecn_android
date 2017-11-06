@@ -55,6 +55,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             public boolean enable() {
                 return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT);
             }
+
+            @Override
+            public CharSequence getApplicationName() {
+                return "";
+            }
         };
     }
 
@@ -62,6 +67,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         @Override
         public String getAdPlaceName() {
             return AdPlacements.AD_CALL_OFF;
+        }
+
+        @Override
+        public CharSequence getApplicationName() {
+            return "";
         }
     }
 
