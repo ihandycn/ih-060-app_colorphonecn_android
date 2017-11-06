@@ -52,6 +52,7 @@ import com.honeycomb.colorphone.view.GlideRequest;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.koushikdutta.async.Util;
 
 import java.util.ArrayList;
 
@@ -72,6 +73,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final long WINDOW_ANIM_DURATION = 400;
     private static final int TRANS_IN_DURATION = 400;
     private static final boolean DEBUG_LIFE_CALLBACK = true & BuildConfig.DEBUG;
+    private static final int IMAGE_WIDTH = 1080;
+    private static final int IMAGE_HEIGHT = 1920;
 
     private ThemePreviewWindow previewWindow;
     private InCallActionView callActionView;
@@ -504,9 +507,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
+                boolean overrideSize = ColorPhoneApplication.mWidth > IMAGE_WIDTH;
+
                 GlideRequest request = GlideApp.with(getContext())
                         .asBitmap()
-                        .centerCrop()
                         .load(mTheme.getPreviewImage())
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                         .transition(BitmapTransitionOptions.withCrossFade(200));
@@ -514,6 +518,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (ThemePreviewActivity.cacheBitmap != null) {
                     request.placeholder(new BitmapDrawable(getResources(), ThemePreviewActivity.cacheBitmap));
                     ThemePreviewActivity.cacheBitmap = null;
+                }
+
+                if (overrideSize) {
+                    request.override(IMAGE_WIDTH, IMAGE_HEIGHT);
+                    request.skipMemoryCache(true);
                 }
                 request.into(previewImage);
 
