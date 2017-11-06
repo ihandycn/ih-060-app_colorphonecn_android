@@ -38,12 +38,14 @@ public class ThemeImageLoader extends AcbCallManager.DefaultImageLoader {
             }
 
             GlideRequest<Bitmap> bR = requests.asBitmap().load(s)
-                    .placeholder(holderImage)
-                    .error(holderImage)
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .transition(BitmapTransitionOptions.withCrossFade(200));
 
+            if (holderImage != 0) {
+                bR.placeholder(holderImage)
+                        .error(holderImage);
+            }
             bR.into(imageView);
 
         } else if (Type.RES_LOCAL_ID.equals(type.getResType())) {

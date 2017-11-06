@@ -6,6 +6,7 @@ import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -27,10 +28,11 @@ import android.widget.Toast;
 
 import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
-import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
@@ -45,6 +47,8 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.GlideApp;
+import com.honeycomb.colorphone.view.GlideRequest;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
@@ -54,6 +58,7 @@ import java.util.ArrayList;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.cacheBitmap;
 
 /**
  * Created by sundxing on 17/8/4.
@@ -500,7 +505,19 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
-                AcbCallManager.getInstance().getImageLoader().load(mTheme, mTheme.getPreviewImage(), mTheme.getPreviewPlaceHolder(), previewImage);
+                GlideRequest request = GlideApp.with(getContext())
+                        .asBitmap()
+                        .centerCrop()
+                        .load(mTheme.getPreviewImage())
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .transition(BitmapTransitionOptions.withCrossFade(200));
+
+                if (ThemePreviewActivity.cacheBitmap != null) {
+                    request.placeholder(new BitmapDrawable(getResources(), ThemePreviewActivity.cacheBitmap));
+                    ThemePreviewActivity.cacheBitmap = null;
+                }
+                request.into(previewImage);
+
             }
         }
     }

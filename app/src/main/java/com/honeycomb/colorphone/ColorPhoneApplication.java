@@ -76,6 +76,10 @@ public class ColorPhoneApplication extends HSApplication {
             }
         }
     };
+
+    /**
+     * Size of theme preview image.
+     */
     public static int mWidth;
     public static int mHeight;
 

@@ -2,6 +2,8 @@ package com.honeycomb.colorphone.themeselector;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -25,6 +27,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -56,6 +59,7 @@ import java.util.ArrayList;
 
 import hugo.weaving.DebugLog;
 
+import static android.R.attr.tag;
 import static com.acb.call.utils.Utils.getTypeByThemeId;
 import static com.honeycomb.colorphone.util.Utils.pxFromDp;
 
@@ -190,7 +194,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             cardViewContent.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int pos = holder.getPositionTag();
+                    final int pos = holder.getPositionTag();
+                    final Theme theme = data.get(pos);
+                    ImageView cover = holder.getTargetView(theme);
+                    if (cover.getDrawable() instanceof BitmapDrawable) {
+                        Bitmap bitmap = ((BitmapDrawable) cover.getDrawable()).getBitmap();
+                        ThemePreviewActivity.cacheBitmap = bitmap;
+                    }
                     ThemePreviewActivity.start(activity, data, pos);
                 }
             });
@@ -515,10 +525,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             setSelected(selected, false);
         }
 
+        public ImageView getTargetView(final Theme theme) {
+            return theme.isVideo() ? mThemeFlashPreviewWindow.getImageCover() : mThemePreviewImg;
+        }
+
         @DebugLog
         public void updateTheme(final Theme theme) {
             if (theme.isMedia()) {
-                ImageView targetView = theme.isVideo() ? mThemeFlashPreviewWindow.getImageCover() : mThemePreviewImg;
+                ImageView targetView = getTargetView(theme);
                 startLoadingScene();
                 GlideApp.with(mContentView).asBitmap()
                         .centerCrop()
