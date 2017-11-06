@@ -20,6 +20,7 @@ import java.io.IOException;
 public class WelcomeActivity extends HSActivity {
 
     private WelcomeVideoView mVidView;
+    private static boolean coldLaunch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class WelcomeActivity extends HSActivity {
         mVidView = (WelcomeVideoView) findViewById(R.id.welcome_video);
         View cover = findViewById(R.id.welcome_cover);
 
-        if (HSVersionControlUtils.isFirstSessionSinceInstallation()) {
+        if (coldLaunch) {
             mVidView.setCover(cover);
             mVidView.setPlayEndListener(new WelcomeVideoView.PlayEndListener() {
                 @Override
@@ -46,6 +47,7 @@ public class WelcomeActivity extends HSActivity {
                 }
             });
             showVideo(mVidView);
+            coldLaunch = false;
         } else {
             cover.setBackgroundResource(R.drawable.page_start_bg);
             toMainView();

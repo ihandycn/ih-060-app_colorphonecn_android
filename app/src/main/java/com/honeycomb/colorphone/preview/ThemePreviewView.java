@@ -58,7 +58,6 @@ import java.util.ArrayList;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
-import static com.honeycomb.colorphone.activity.ThemePreviewActivity.cacheBitmap;
 
 /**
  * Created by sundxing on 17/8/4.

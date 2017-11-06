@@ -26,8 +26,6 @@ public class WelcomeVideoView extends SurfaceView {
 
     private PlayEndListener mPlayEndListener;
     private View mCover;
-    public boolean mSurfaceReady;
-    private boolean mPendingPlayForSurface;
 
     public WelcomeVideoView(Context context) {
         super(context);
@@ -58,34 +56,14 @@ public class WelcomeVideoView extends SurfaceView {
         surfaceHolder = getHolder();
         // Add this to avoid black background before video playing.
         surfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
-        surfaceHolder.addCallback(new SurfaceHolder.Callback() {
 
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                mSurfaceReady = true;
-                if (mPendingPlayForSurface) {
-                    doPlay();
-                }
-
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-            }
-
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-
-            }
-        });
     }
 
     private Runnable mVideoTask = new Runnable() {
         @Override
         public void run() {
             try {
-                if (mediaPlayer != null) {
+                if (mediaPlayer == null) {
                     mediaPlayer = new MediaPlayer();
                 }
 
@@ -139,11 +117,7 @@ public class WelcomeVideoView extends SurfaceView {
     };
 
     public void play() {
-        if (mSurfaceReady) {
-            doPlay();
-        } else {
-            mPendingPlayForSurface = true;
-        }
+        doPlay();
     }
 
     private void doPlay() {
