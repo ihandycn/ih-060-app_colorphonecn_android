@@ -37,6 +37,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.app.utils.HSVersionControlUtils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -87,6 +88,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     };
     private boolean logOpenEvent;
+    private boolean pendingShowRateAlert = true;
 
     @DebugLog
     @Override
@@ -103,6 +105,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 && !GuideLockerAssistantActivity.isStarted()) {
             GuideLockerAssistantActivity.start(this);
             HSAlertMgr.delayRateAlert();
+            pendingShowRateAlert = true;
         }
 
         setTheme(R.style.AppLightStatusBarTheme);
@@ -178,7 +181,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onResume() {
         super.onResume();
         HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_VISIBLE);
-
+        if (pendingShowRateAlert && SessionMgr.getInstance().getCurrentSessionId() >= 2) {
+            HSAlertMgr.showRateAlert();
+            pendingShowRateAlert = false;
+        }
         if (logOpenEvent) {
             logOpenEvent = false;
             mainSwitch.postDelayed(new Runnable() {
