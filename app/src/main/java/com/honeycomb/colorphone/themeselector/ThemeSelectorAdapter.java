@@ -554,7 +554,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 return false;
                             }
                         })
-                        .transition(BitmapTransitionOptions.withCrossFade(200))
+                        .dontAnimate()
                         .into(targetView);
                 
                 GlideApp.with(mContentView)
