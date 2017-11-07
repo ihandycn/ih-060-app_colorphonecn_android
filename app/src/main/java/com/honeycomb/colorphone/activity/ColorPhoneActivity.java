@@ -51,7 +51,6 @@ import java.util.Comparator;
 
 import hugo.weaving.DebugLog;
 
-
 public class ColorPhoneActivity extends HSAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
 
@@ -176,30 +175,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        if (mainSwitch != null) {
-            boolean nowEnable = mainSwitch.isChecked();
-            if (nowEnable != initCheckState) {
-                initCheckState = nowEnable;
-                ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(nowEnable);
-            }
-        }
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_INVISIBLE);
-        saveThemeLikes();
-        // TODO: has better solution for OOM?
-        Glide.get(this).clearMemory();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_VISIBLE);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_VISIBLE);
+
         if (logOpenEvent) {
             logOpenEvent = false;
             mainSwitch.postDelayed(new Runnable() {
@@ -209,6 +188,28 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
             }, 1000);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_INVISIBLE);
+        mRecyclerView.getRecycledViewPool().clear();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mainSwitch != null) {
+            boolean nowEnable = mainSwitch.isChecked();
+            if (nowEnable != initCheckState) {
+                initCheckState = nowEnable;
+                ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(nowEnable);
+            }
+        }
+        saveThemeLikes();
+        // TODO: has better solution for OOM?
+        Glide.get(this).clearMemory();
     }
 
     private void saveThemeLikes() {
@@ -334,13 +335,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_GIF, 2);
 
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mRecyclerView.getRecycledViewPool().clear();
-    }
-
 
     @Override
     public void onClick(View v) {
