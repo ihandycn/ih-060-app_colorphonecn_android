@@ -157,8 +157,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mProgressViewHolder.updateProgressView((int) (percent * 100));
         }
     };
-    private int mPosition;
-    private int mPageSelectedPos;
+    private int mPosition = -1;
+    private int mPageSelectedPos = -1;
     private TasksManagerModel mPendingDownloadModel;
     /**
      * Play no Transition animation when page scroll.
