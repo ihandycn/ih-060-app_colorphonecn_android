@@ -270,7 +270,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         String[] likeThemes = getThemeLikes();
         for (int i = 0; i < count; i++) {
             final Type type = themeTypes.get(i);
-            if(type.getValue() == Type.NONE) {
+            if (type.getValue() == Type.NONE) {
                 continue;
             }
             final Theme theme = (Theme) type;
@@ -356,7 +356,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void feedBack() {
-        sentEmail(this, new String[] {Constants.FEED_BACK_EMAIL}, null, null);
+        sentEmail(this, new String[]{Constants.FEED_BACK_EMAIL}, null, null);
     }
 
     private void toggle() {

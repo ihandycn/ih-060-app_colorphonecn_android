@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
+import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSActivity;
 import com.ihs.app.utils.HSVersionControlUtils;
 
@@ -52,6 +53,7 @@ public class WelcomeActivity extends HSActivity {
             cover.setBackgroundResource(R.drawable.page_start_bg);
             toMainView();
         }
+        HSAlertMgr.delayRateAlert();
     }
 
     private void toMainView() {
