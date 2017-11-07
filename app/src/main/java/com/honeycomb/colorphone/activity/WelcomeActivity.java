@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Build;
@@ -18,7 +19,7 @@ import com.ihs.app.utils.HSVersionControlUtils;
 
 import java.io.IOException;
 
-public class WelcomeActivity extends HSActivity {
+public class WelcomeActivity extends Activity {
 
     private WelcomeVideoView mVidView;
     private static boolean coldLaunch = true;
@@ -53,7 +54,6 @@ public class WelcomeActivity extends HSActivity {
             cover.setBackgroundResource(R.drawable.page_start_bg);
             toMainView();
         }
-        HSAlertMgr.delayRateAlert();
     }
 
     private void toMainView() {
