@@ -673,18 +673,20 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (DEBUG_LIFE_CALLBACK) {
             HSLog.d("onPageScrollStateChanged " + state
                     + ", curSelect: " + mPageSelectedPos + ", trigger change: " + triggerPageChangeWhenIdle);
-            if (state == ViewPager.SCROLL_STATE_IDLE && triggerPageChangeWhenIdle) {
-                triggerPageChangeWhenIdle = false;
-                if (isSelectedPos()) {
-                    HSLog.d("onPageSelected " + mPosition);
-                    resumeAnimation();
-                } else {
-                    HSLog.d("onPageUnSelected " + mPosition);
-                    pauseAnimation();
-                }
+        }
+
+        if (state == ViewPager.SCROLL_STATE_IDLE && triggerPageChangeWhenIdle) {
+            triggerPageChangeWhenIdle = false;
+            if (isSelectedPos()) {
+                HSLog.d("onPageSelected " + mPosition);
+                resumeAnimation();
+            } else {
+                HSLog.d("onPageUnSelected " + mPosition);
+                pauseAnimation();
             }
         }
     }
+
 
     public void setNoTransition(boolean noTransition) {
         mNoTransition = noTransition;
