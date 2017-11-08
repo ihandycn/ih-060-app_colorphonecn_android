@@ -15,31 +15,31 @@
   <string name="theme_apply">Aplicar</string>
   <string name="apply_success">Aplicado correctamente</string>
   <string name="theme_current">Tema actual</string>
-  <string name="send_email">Send Email</string>
+  <string name="send_email">Enviar mensaje de correo electrónico</string>
   <string name="loading">Cargando </string>
 
   <string name="privacy_policy">Política de privacidad</string>
   <string name="terms_of_service">Términos de servicio</string>
 
 
-    <string name="guide_locker_and_call_hint">Enable Screensaver, Smart Charging &amp; Phone Assistant to: \nRemind your missed calls.
-        Boost easily and access camera quickly.</string>
-  <string name="guide_enable_all_module">Enable Phone Assistant, Smart Charging &amp; Screensaver</string>
+  <string name="guide_locker_and_call_hint"">Habilita el salvapantallas, la carga inteligente y el asistente telefónico para: recordarte las llamadas perdidas.
+  Aceleración sencilla y acceso rápido a la cámara.</string>"
+  <string name="guide_enable_all_module">Habilita el salvapantallas, la carga inteligente y el asistente telefónico.</string>
 
   <string name="acb_outapp_guide_screen_flash_content">Prueba la interfaz de pantalla exclusiva para que tu teléfono tenga un aspecto más moderno. Puede contener publicidad.</string>
   <string name="about">Acerca de</string>
 
-  <string name="guide_apply_theme_hint">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
+  <string name="guide_apply_theme_hint">¡Se estableció correctamente el tema de la pantalla de llamada! ¡Disfrútalo!</string>
 
 
 
   <string name="smart_charging">Carga inteligente</string>
-    <string name="smart_charging_hint">Supervisa automáticamente el estado de la carga y detén la sobrecarga para impedir daños en la batería. (Puede contener publicidad.)</string>
+  <string name="smart_charging_hint">Supervisa automáticamente el estado de la carga y detén la sobrecarga para impedir daños en la batería. (Puede contener publicidad.)</string>
 
-  <string name="color_lockscreen">Color Screensaver</string>
-    <string name="color_lockscreen_hint">Glorify your screensaver using various fancy and cool themes (May contain
-        ads)</string>
-  <string name="sms_assistant">SMS Assistant</string>
-  <string name="sms_assistant_hint">SMS Assistant will remind you of new messages (May contain ads)</string>
-  <string name="call_assistant_hint">Call Assistant will remind you of missed calls (May contain ads)</string>
+  <string name="color_lockscreen">Salvapantallas de color</string>
+  <string name="color_lockscreen_hint"">Decora tu salvapantallas con diversos temas modernos y molones (puede contener
+    publicidad).</string>"
+  <string name="sms_assistant">Asistente de SMS</string>
+  <string name="sms_assistant_hint">El asistente de SMS te avisará cuando tengas nuevos mensajes (puede contener publicidad).</string>
+  <string name="call_assistant_hint">El asistente de llamada te avisará cuando tengas llamadas perdidas (puede contener publicidad).</string>
 </resources>

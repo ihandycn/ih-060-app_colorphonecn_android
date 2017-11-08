@@ -15,31 +15,31 @@
   <string name="theme_apply">適用</string>
   <string name="apply_success">適用に成功</string>
   <string name="theme_current">現在のテーマ</string>
-  <string name="send_email">Send Email</string>
+  <string name="send_email">Eメールを送信</string>
   <string name="loading">読み込み中 </string>
 
   <string name="privacy_policy">プライバシー規約</string>
   <string name="terms_of_service">利用規約</string>
 
 
-    <string name="guide_locker_and_call_hint">Enable Screensaver, Smart Charging &amp; Phone Assistant to: \nRemind your missed calls.
-        Boost easily and access camera quickly.</string>
-  <string name="guide_enable_all_module">Enable Phone Assistant, Smart Charging &amp; Screensaver</string>
+  <string name="guide_locker_and_call_hint">スクリーンセーバー、スマートチャージ＆電話アシスタントを有効にする：不在着信を知らせる。
+  簡単にブーストして、カメラにすばやくアクセスできます。</string>
+  <string name="guide_enable_all_module">電話アシスタント、スマートチャージ＆スクリーンセーバーを有効にする</string>
 
   <string name="acb_outapp_guide_screen_flash_content">携帯電話をよりおしゃれにするために、ユニークな通話インターフェイスをお試しください。広告が含まれる可能性があります。</string>
   <string name="about">アバウト</string>
 
-  <string name="guide_apply_theme_hint">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
+  <string name="guide_apply_theme_hint">通話画面のテーマの設定に成功しました！お楽しみください！</string>
 
 
 
   <string name="smart_charging">スマート充電</string>
     <string name="smart_charging_hint">自動的に充電状態を監視し、過充電を止めてバッテリの損傷を防止します。 （広告を含む場合があります。）</string>
 
-  <string name="color_lockscreen">Color Screensaver</string>
-    <string name="color_lockscreen_hint">Glorify your screensaver using various fancy and cool themes (May contain
-        ads)</string>
-  <string name="sms_assistant">SMS Assistant</string>
-  <string name="sms_assistant_hint">SMS Assistant will remind you of new messages (May contain ads)</string>
-  <string name="call_assistant_hint">Call Assistant will remind you of missed calls (May contain ads)</string>
+  <string name="color_lockscreen">カラー・スクリーンセーバー</string>
+  <string name="color_lockscreen_hint">さまざまなファンシーでクールなテーマを使ってスクリーンセーバーを輝かせましょう
+  （広告が含まれている可能性があります）</string>
+  <string name="sms_assistant">SMSアシスタント</string>
+  <string name="sms_assistant_hint">SMSアシスタントは新しいメッセージの着信をお知らせします（広告が含まれている可能性があります）</string>
+  <string name="call_assistant_hint">SMSアシスタントは不在着信をお知らせします（広告が含まれている可能性があります）</string>
 </resources>

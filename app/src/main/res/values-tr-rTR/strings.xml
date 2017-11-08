@@ -15,31 +15,30 @@
   <string name="theme_apply">Uygula</string>
   <string name="apply_success">Uygulama Başarılı</string>
   <string name="theme_current">Mevcut Tema</string>
-  <string name="send_email">Send Email</string>
+  <string name="send_email">E-posta Gönder</string>
   <string name="loading">Yükleniyor </string>
 
   <string name="privacy_policy">Gizlilik Politikası</string>
   <string name="terms_of_service">Hizmet Şartları</string>
 
 
-    <string name="guide_locker_and_call_hint">Enable Screensaver, Smart Charging &amp; Phone Assistant to: \nRemind your missed calls.
-        Boost easily and access camera quickly.</string>
-  <string name="guide_enable_all_module">Enable Phone Assistant, Smart Charging &amp; Screensaver</string>
+  <string name="guide_locker_and_call_hint">Ekran Koruyucu, Akıllı Şarj ve Telefon Asistanını şunlar için etkinleştir: Yanıtsız çağrıları hatırlat.
+  Kolaylıkla hızlandır ve kameraya çabuk eriş.</string>
+  <string name="guide_enable_all_module">Telefon Asistanı, Akıllı Şarj ve Ekran Koruyucuyu Etkinleştir</string>
 
   <string name="acb_outapp_guide_screen_flash_content">Telefonunu modaya daha uygun hale getirmek için benzersiz arama arayüzünü dene. Reklam içerebilir.</string>
   <string name="about">Hakkında</string>
 
-  <string name="guide_apply_theme_hint">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
+  <string name="guide_apply_theme_hint">Arama Ekranı teman başarıyla ayarlandı! Keyfini Sür!</string>
 
 
 
   <string name="smart_charging">Akıllı Şarj</string>
     <string name="smart_charging_hint">Şarj durumunu otomatik olarak izle ve pilin hasar görmesini engellemek için aşırı şarjı durdur. (reklam içerebilir.)</string>
 
-  <string name="color_lockscreen">Color Screensaver</string>
-    <string name="color_lockscreen_hint">Glorify your screensaver using various fancy and cool themes (May contain
-        ads)</string>
-  <string name="sms_assistant">SMS Assistant</string>
-  <string name="sms_assistant_hint">SMS Assistant will remind you of new messages (May contain ads)</string>
-  <string name="call_assistant_hint">Call Assistant will remind you of missed calls (May contain ads)</string>
+  <string name="color_lockscreen">Renkli Ekran Koruyucu</string>
+  <string name="color_lockscreen_hint">Çeşitli şık ve havalı temalar kullanarak ekran koruyucunu güzelleştir (Reklam içerebilir)</string>
+  <string name="sms_assistant">SMS Asistanı</string>
+  <string name="sms_assistant_hint">SMS Asistanı size yeni mesajları hatırlatır (Reklam içerebilir)</string>
+  <string name="call_assistant_hint">Çağrı Asistanı size cevapsız aramaları hatırlatır (Reklam içerebilir)</string>
 </resources>

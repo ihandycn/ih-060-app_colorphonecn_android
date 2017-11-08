@@ -15,31 +15,31 @@
   <string name="theme_apply">Terapkan</string>
   <string name="apply_success">Penerapan Berhasil</string>
   <string name="theme_current">Tema Sekarang</string>
-  <string name="send_email">Send Email</string>
+  <string name="send_email">Kirim Email</string>
   <string name="loading">Memuat </string>
 
   <string name="privacy_policy">Kebijakan Privasi</string>
   <string name="terms_of_service">Ketentuan Layanan</string>
 
 
-    <string name="guide_locker_and_call_hint">Enable Screensaver, Smart Charging &amp; Phone Assistant to: \nRemind your missed calls.
-        Boost easily and access camera quickly.</string>
-  <string name="guide_enable_all_module">Enable Phone Assistant, Smart Charging &amp; Screensaver</string>
+  <string name="guide_locker_and_call_hint">Izinkan Screensaver, Pengisian Cerdas & Asisten Ponsel untuk:
+  Memperingatkan panggilan terlewat.
+  Memacu kamera dengan cepat.</string>
+  <string name="guide_enable_all_module">Aktifkan Asisten Telepon, Pengisian Daya Cerdas & Screensaver</string>
 
   <string name="acb_outapp_guide_screen_flash_content">Coba panggilan antarmuka unik untuk membuat ponsel Anda lebih gaya. Mungkin mengandung iklan.</string>
   <string name="about">Tentang</string>
 
-  <string name="guide_apply_theme_hint">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
+  <string name="guide_apply_theme_hint">Tema Layar Pemanggil sudah berhasil disiapkan! Nikmati!</string>
 
 
 
   <string name="smart_charging">Pengisian Pintar</string>
-    <string name="smart_charging_hint">Pantau status pengisian daya secara otomatis dan hentikan pengisian daya berlebih untuk mencegah kerusakan baterai. (Mungkin berisi iklan.)</string>
+  <string name="smart_charging_hint">Pantau status pengisian daya secara otomatis dan hentikan pengisian daya berlebih untuk mencegah kerusakan baterai. (Mungkin berisi iklan.)</string>
 
-  <string name="color_lockscreen">Color Screensaver</string>
-    <string name="color_lockscreen_hint">Glorify your screensaver using various fancy and cool themes (May contain
-        ads)</string>
-  <string name="sms_assistant">SMS Assistant</string>
-  <string name="sms_assistant_hint">SMS Assistant will remind you of new messages (May contain ads)</string>
-  <string name="call_assistant_hint">Call Assistant will remind you of missed calls (May contain ads)</string>
+  <string name="color_lockscreen">Screensaver Warna</string>
+  <string name="color_lockscreen_hint">Percantik screensaver Anda menggunakan beragam tema yang cantik dan keren (Mungkin berisi iklan)</string>
+  <string name="sms_assistant">Asisten SMS</string>
+  <string name="sms_assistant_hint">Asisten SMS akan mengingatkan Anda tentang pesan baru (Mungkin berisi iklan)</string>
+  <string name="call_assistant_hint">Asisten Panggilan akan mengingatkan Anda tentang panggilan tidak terjawab (Mungkin berisi iklan)</string>
 </resources>

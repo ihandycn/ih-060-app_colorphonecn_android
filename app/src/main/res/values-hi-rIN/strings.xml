@@ -15,31 +15,30 @@
   <string name="theme_apply">लागू करें</string>
   <string name="apply_success">सफलता से लागू</string>
   <string name="theme_current">वर्तमान थीम</string>
-  <string name="send_email">Send Email</string>
+  <string name="send_email">ईमेल भेजें</string>
   <string name="loading">लोड हो रहा है </string>
 
   <string name="privacy_policy">गोपनीयता नीति</string>
   <string name="terms_of_service">सेवा की शर्तें</string>
 
 
-    <string name="guide_locker_and_call_hint">Enable Screensaver, Smart Charging &amp; Phone Assistant to: \nRemind your missed calls.
-        Boost easily and access camera quickly.</string>
-  <string name="guide_enable_all_module">Enable Phone Assistant, Smart Charging &amp; Screensaver</string>
+  <string name="guide_locker_and_call_hint">स्‍क्रीनसेवर, स्‍मार्ट चार्जिंग एवं फोन सहायक को सक्षम करें: छुटी कॉल याद दिलाने।
+  आसानी से बूस्‍ट और तुरंत कैमरा एक्‍सेस करने को।</string>
+  <string name="guide_enable_all_module">फोन सहायक, स्‍मार्ट चार्जिंग एवं स्‍क्रीनसेवर सक्षम करें</string>
 
   <string name="acb_outapp_guide_screen_flash_content">अपने फोन को और फैशनेबल बनाने के लिए यूनिक कॉल इंटफेस ट्राई करें। इसमें विज्ञापन हो सकते हैं।</string>
   <string name="about">परिचय</string>
 
-  <string name="guide_apply_theme_hint">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
+  <string name="guide_apply_theme_hint">कॉलर स्‍क्रीन पर आपकी थीम सफलतापूर्वक सेट हो चुकी है! इसका आनंद लें!</string>
 
 
 
   <string name="smart_charging">स्मार्ट चार्जिंग</string>
     <string name="smart_charging_hint">बैटरी को क्षति से बचाने के लिए चार्जिंग के स्तर को स्वत: मॉनिटर करें और ओवरचार्जिंग रोके (ज्ञापन हो सकते हैं।)</string>
 
-  <string name="color_lockscreen">Color Screensaver</string>
-    <string name="color_lockscreen_hint">Glorify your screensaver using various fancy and cool themes (May contain
-        ads)</string>
-  <string name="sms_assistant">SMS Assistant</string>
-  <string name="sms_assistant_hint">SMS Assistant will remind you of new messages (May contain ads)</string>
-  <string name="call_assistant_hint">Call Assistant will remind you of missed calls (May contain ads)</string>
+  <string name="color_lockscreen">शांत स्‍क्रीनसेवर</string>
+  <string name="color_lockscreen_hint">प्रचलित और शानदार थीम का प्रयोग करते हुए स्‍क्रीनसेवर को सुंदर बनाएं (विज्ञापन शामिल हैं)</string>
+  <string name="sms_assistant">एसएमएस सहायक</string>
+  <string name="sms_assistant_hint">एसएमएस सहायक आपको नए संदेशों की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
+  <string name="call_assistant_hint">कॉल सहायक आपको छुटी कॉल की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
 </resources>
