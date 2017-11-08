@@ -27,6 +27,7 @@ import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.MemoryCategory;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -35,6 +36,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
@@ -332,14 +334,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
         mRecyclerView.setAdapter(mAdapter);
-        RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
-
-        // TODO: set proper view count.
-        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_LED, 1);
-        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_TECH, 1);
-        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO, 2);
-        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_GIF, 2);
-
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    GlideApp.with(ColorPhoneActivity.this).resumeRequests();
+                }
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    GlideApp.with(ColorPhoneActivity.this).pauseRequests();
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
     }
 
     @Override
