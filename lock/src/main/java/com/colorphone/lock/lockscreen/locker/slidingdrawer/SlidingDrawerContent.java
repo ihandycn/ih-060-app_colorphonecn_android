@@ -296,7 +296,8 @@ public class SlidingDrawerContent extends FrameLayout
         mobileDataState = (ImageView) findViewById(R.id.data);
         brightnessBar = (SeekBar) findViewById(R.id.brightness_seekbar);
         // pre-Lollipop progressBar tinting
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP &&
+                Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
 //            Drawable wrapDrawable = DrawableCompat.wrap(brightnessBar.getProgressDrawable());
 //            DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(getContext(), android.R.color.white));
 //            brightnessBar.setProgressDrawable(DrawableCompat.unwrap(wrapDrawable));
