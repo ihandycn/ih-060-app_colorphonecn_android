@@ -56,8 +56,8 @@ public class PermanentService extends Service {
 
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
-            startForeground(getNotificationID(), getDefaultNotification());
             try {
+                startForeground(getNotificationID(), getDefaultNotification());
                 stopForeground(true);
                 stopSelf();
             } catch (Exception ignore) {
