@@ -52,7 +52,6 @@ import com.honeycomb.colorphone.view.GlideRequest;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
-import com.koushikdutta.async.Util;
 
 import java.util.ArrayList;
 
@@ -511,8 +510,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 GlideRequest request = GlideApp.with(getContext())
                         .asBitmap()
+                        .centerCrop()
                         .load(mTheme.getPreviewImage())
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
                         .transition(BitmapTransitionOptions.withCrossFade(200));
 
                 if (ThemePreviewActivity.cacheBitmap != null) {
