@@ -562,6 +562,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                         .transition(DrawableTransitionOptions.withCrossFade(200))
                         .into(mAvatar);
+            } else {
+                endLoadingScene();
             }
 
             setSelected(theme);
@@ -579,10 +581,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private void endLoadingScene() {
             mThemeLoadingImg.setVisibility(View.INVISIBLE);
             mCallActionView.setVisibility(View.VISIBLE);
-            mCallActionView.animate().alpha(1f).setDuration(100).start();
             mThemeFlashPreviewWindow.getCallView().setVisibility(View.VISIBLE);
-            mThemeFlashPreviewWindow.animate().alpha(1f).setDuration(100).start();
-
         }
 
         public void setHotTheme(boolean hot) {
