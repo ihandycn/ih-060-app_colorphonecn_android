@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.support.multidex.MultiDex;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 
 import com.acb.autopilot.AutopilotConfig;
@@ -99,6 +100,8 @@ public class ColorPhoneApplication extends HSApplication {
         mHeight = Utils.getPhoneHeight(this);
         mWidth = Utils.getPhoneWidth(this);
         if (TextUtils.equals(processName, packageName)) {
+            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
             AcbCallManager.init("", new CallConfigFactory());
             AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
                 @Override

@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#a2000000">
 
     <LinearLayout
@@ -74,7 +75,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -89,7 +94,7 @@
                     android:layout_height="12dp"
                     android:layout_gravity="center"
                     android:alpha="0.6"
-                    android:button="@drawable/welcome_guide_check_box_selector"
+                    tools:button="@drawable/welcome_guide_check_box_selector"
                     android:checked="true"
                     android:gravity="center" />
 

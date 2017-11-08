@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -48,6 +50,7 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
         }
         View cbContainer = findViewById(R.id.welcome_guide_enable_checkbox_container);
         final CheckBox cb = (CheckBox) findViewById(R.id.welcome_guide_enable_checkbox);
+        cb.setButtonDrawable(AppCompatResources.getDrawable(this, R.drawable.welcome_guide_check_box_selector));
         setUpPrivacyTextView();
         HSAnalytics.logEvent("ColorPhone_ApplyFinishGuide_Show");
         findViewById(R.id.guide_close).setOnClickListener(new View.OnClickListener() {
