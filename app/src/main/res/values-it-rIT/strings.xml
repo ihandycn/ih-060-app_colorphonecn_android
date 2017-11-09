@@ -40,6 +40,6 @@
   <string name="color_lockscreen">Salvaschermo colorato</string>
   <string name="color_lockscreen_hint">Metti in risalto il tuo screensaver utilizzando temi fantastici e colorati (sono presenti contenuti pubblicitari)</string>
   <string name="sms_assistant">Assistente SMS</string>
-  <string name="sms_assistant_hint">L'Assistente SMS ti ricorda i nuovi messaggi (sono presenti contenuti pubblicitari)</string>
-  <string name="call_assistant_hint">L'Assistente di chiamata ti ricorda le chiamate perse (sono presenti contenuti pubblicitari)</string>
+  <string name="sms_assistant_hint">L\'Assistente SMS ti ricorda i nuovi messaggi (sono presenti contenuti pubblicitari)</string>
+  <string name="call_assistant_hint">L\'Assistente di chiamata ti ricorda le chiamate perse (sono presenti contenuti pubblicitari)</string>
 </resources>

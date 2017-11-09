@@ -22,10 +22,10 @@
   <string name="terms_of_service">Servicevoorwaarden</string>
 
 
-  <string name="guide_locker_and_call_hint">Screensaver, Slim opladen & Telefoonassistent inschakelen om:
+  <string name="guide_locker_and_call_hint">Screensaver, Slim opladen &amp; Telefoonassistent inschakelen om:
   Herinneringen aan je gemiste oproepen.
   Gemakkelijk boosten en snelle toegang tot je camera.</string>
-  <string name="guide_enable_all_module">Telefoonassistent, Slim opladen & Screensaver inschakelen</string>
+  <string name="guide_enable_all_module">Telefoonassistent, Slim opladen &amp; Screensaver inschakelen</string>
 
   <string name="acb_outapp_guide_screen_flash_content">Probeer de unieke oproepinterface om je telefoon nog modieuzer
         te maken. Kan advertenties bevatten.</string>
@@ -39,7 +39,7 @@
     <string name="smart_charging_hint">Oplaadstatus automatisch volgen en schade aan de batterij door overladen voorkomen. (Mag advertenties bevatten)</string>
 
   <string name="color_lockscreen">Screensaver Color</string>
-  <string name="color_lockscreen_hint">Verfraai je screensaver met allerlei gave en coole thema's
+  <string name="color_lockscreen_hint">Verfraai je screensaver met allerlei gave en coole thema\'s
   (Kan advertenties bevatten)</string>
   <string name="sms_assistant">SMS-assistent</string>
   <string name="sms_assistant_hint">SMS-assistent herinnert je aan nieuwe berichten (Kan advertenties bevatten)</string>
