@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -20,12 +21,15 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
+import com.acb.call.utils.PermissionUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -67,6 +71,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private SwitchCompat mainSwitch;
     private TextView mainSwitchTxt;
+    private ViewStub notificationToastViewStub;
+    private ViewGroup notificationToast;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
     private int defaultThemeId = 14;
@@ -132,7 +138,21 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerClosed(View view) {
+                if (notificationToast != null) {
+                    notificationToast.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                if (!PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)) {
+                    doNotificationAccessToastAnim();
+                }
+            }
+        };
         DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
         arrowDrawable.getPaint().setStrokeCap(Paint.Cap.ROUND);
         arrowDrawable.getPaint().setStrokeJoin(Paint.Join.ROUND);
@@ -167,6 +187,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 return true;
             }
         });
+
         return drawer;
     }
 
@@ -346,6 +367,26 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
+        RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
+
+        // TODO: set proper view count.
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_LED, 1);
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_TECH, 1);
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO, 2);
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_GIF, 2);
+
+    }
+
+    private void doNotificationAccessToastAnim() {
+        notificationToastViewStub = findViewById(R.id.notification_access_view_stub);
+        if(notificationToast == null) {
+            notificationToast = (ViewGroup) notificationToastViewStub.inflate();
+        }
+        notificationToast.setVisibility(View.VISIBLE);
+        ViewGroup about = findViewById(R.id.settings_about);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(notificationToast, "translationY", 0, Utils.pxFromDp(40) + about.getY() + about.getHeight() - Utils.getPhoneHeight(this));
+        objectAnimator.setDuration(1000);
+        objectAnimator.start();
     }
 
     @Override

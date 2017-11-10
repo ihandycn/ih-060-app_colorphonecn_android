@@ -51,4 +51,7 @@
     <string name="sms_assistant">SMS Assistant</string>
     <string name="sms_assistant_hint">SMS Assistant will remind you of new messages (May contain ads)</string>
     <string name="call_assistant_hint">Call Assistant will remind you of missed calls (May contain ads)</string>
+
+    <!--notification access-->
+    <string name="enable_notification_access_toast">Enable Notification Access to Answer Calls</string>
 </resources>
