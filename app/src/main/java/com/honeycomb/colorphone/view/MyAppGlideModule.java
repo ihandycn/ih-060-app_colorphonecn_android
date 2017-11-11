@@ -17,10 +17,10 @@ import com.bumptech.glide.request.RequestOptions;
 public class MyAppGlideModule extends AppGlideModule {
     public static RequestOptions sRequestOptions = new RequestOptions();
     static {
-        sRequestOptions.diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+        sRequestOptions.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .dontAnimate()
                 .dontTransform()
-                .format(DecodeFormat.DEFAULT);
+                .format(DecodeFormat.PREFER_RGB_565);
     }
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
