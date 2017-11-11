@@ -29,7 +29,8 @@ import android.widget.TextView;
 import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
-import com.acb.call.utils.PermissionUtils;
+import com.acb.notification.NotificationAccessGuideAlertActivity;
+import com.acb.utils.PermissionUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -39,6 +40,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.NotificationUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -109,11 +111,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             e.printStackTrace();
         }
 
-        if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
-                && !GuideLockerAssistantActivity.isStarted()) {
-            GuideLockerAssistantActivity.start(this);
-            HSAlertMgr.delayRateAlert();
-            pendingShowRateAlert = true;
+        if(NotificationUtils.isShowNotificationGuideAlert(this)) {
+            Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+                    && !GuideLockerAssistantActivity.isStarted()) {
+                GuideLockerAssistantActivity.start(this);
+                HSAlertMgr.delayRateAlert();
+                pendingShowRateAlert = true;
+            }
         }
 
         setTheme(R.style.AppLightStatusBarTheme);
@@ -385,7 +393,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         notificationToast.setVisibility(View.VISIBLE);
         ViewGroup about = findViewById(R.id.settings_about);
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(notificationToast, "translationY", 0, Utils.pxFromDp(40) + about.getY() + about.getHeight() - Utils.getPhoneHeight(this));
-        objectAnimator.setDuration(1000);
+        objectAnimator.setDuration(400);
         objectAnimator.start();
     }
 

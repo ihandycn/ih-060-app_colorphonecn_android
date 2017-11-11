@@ -12,11 +12,13 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.acb.call.CPSettings;
+import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.FontUtils;
+import com.honeycomb.colorphone.util.NotificationUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.analytics.HSAnalytics;
@@ -34,6 +36,12 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
     public static boolean FULL_SCREEN = true;
 
     public static void start(Context context, boolean fullScreen) {
+        if(NotificationUtils.isShowNotificationGuideAlert(context)) {
+            Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+            return;
+        }
         Intent starter = new Intent(context, GuideApplyThemeActivity.class);
         starter.putExtra("fullscreen", fullScreen);
         context.startActivity(starter);

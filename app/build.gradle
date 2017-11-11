@@ -126,6 +126,7 @@ dependencies {
 
     // Submodule
     compile(name: 'libColorhone/libColorPhone', ext: 'aar')
+    compile(name: 'libColorhone/libNotificationService', ext: 'aar')
     compile project(':lock')
 
     compile 'com.acb.autopilot:autopilot.gm:4.1.1.gm'
