@@ -107,6 +107,7 @@
         <item name="android:clipChildren">false</item>
         <item name="cardCornerRadius">@dimen/theme_card_radius</item>
         <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardBackgroundColor">@color/transparent</item>
     </style>
 
 </resources>
