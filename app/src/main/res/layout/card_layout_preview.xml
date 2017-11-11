@@ -38,6 +38,7 @@
     <com.acb.call.views.InCallActionView
         android:id="@+id/card_in_call_action_view"
         android:layout_width="match_parent"
+        android:gravity="bottom"
         android:layout_height="match_parent"
         android:layout_marginBottom="24dp" />
 
