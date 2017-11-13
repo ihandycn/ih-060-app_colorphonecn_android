@@ -3,7 +3,7 @@ package com.honeycomb.colorphone;
 import com.acb.call.customize.AcbCallFactoryImpl;
 import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.views.CallIdleAlert;
-import com.acb.sms.SmsMessageAlertActivity;
+import com.acb.utils.MessageCenterUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.commons.config.HSConfig;
 
@@ -44,8 +44,8 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     }
 
     @Override
-    public SmsMessageAlertActivity.Config getSMSConfig() {
-        return new SmsMessageAlertActivity.Config() {
+    public MessageCenterUtils.Config getSMSConfig() {
+        return new MessageCenterUtils.Config() {
             @Override
             public String getAdPlacement() {
                 return AdPlacements.AD_MSG_NEW;
@@ -67,11 +67,6 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         @Override
         public String getAdPlaceName() {
             return AdPlacements.AD_CALL_OFF;
-        }
-
-        @Override
-        public CharSequence getApplicationName() {
-            return "";
         }
     }
 

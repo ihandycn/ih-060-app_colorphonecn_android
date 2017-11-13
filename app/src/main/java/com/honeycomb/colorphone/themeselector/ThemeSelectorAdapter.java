@@ -20,6 +20,7 @@ import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
@@ -56,7 +57,7 @@ import java.util.ArrayList;
 
 import hugo.weaving.DebugLog;
 
-import static com.acb.call.utils.Utils.getTypeByThemeId;
+import static com.acb.utils.Utils.getTypeByThemeId;
 import static com.honeycomb.colorphone.util.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.content.res.AppCompatResources;
-import android.support.v7.widget.AppCompatDrawableManager;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -37,7 +36,7 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
 
     public static void start(Context context, boolean fullScreen) {
         if(NotificationUtils.isShowNotificationGuideAlert(context)) {
-            Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
+            Intent intent = new Intent(context, NotificationAccessGuideAlertActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
             return;
