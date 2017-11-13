@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -7,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.AnyRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,12 +21,16 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
+import com.acb.call.utils.PermissionUtils;
+import com.bumptech.glide.Glide;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -35,8 +39,10 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.app.utils.HSVersionControlUtils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -51,21 +57,26 @@ import java.util.Comparator;
 
 import hugo.weaving.DebugLog;
 
-
 public class ColorPhoneActivity extends HSAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
 
     public static final String NOTIFY_WINDOW_INVISIBLE = "notify_window_invisible";
     public static final String NOTIFY_WINDOW_VISIBLE = "notify_window_visible";
     private static final String PREFS_THEME_LIKE = "theme_like_array";
+
     private RecyclerView mRecyclerView;
+    private ThemeSelectorAdapter mAdapter;
+    private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
+
     private SwitchCompat mainSwitch;
     private TextView mainSwitchTxt;
+    private ViewStub notificationToastViewStub;
+    private ViewGroup notificationToast;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
-    private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
-    private int defaultThemeId = 1;
+    private int defaultThemeId = 14;
     private boolean initCheckState;
+
     private Handler mHandler = new Handler();
 
     private Runnable UpdateRunnable = new Runnable() {
@@ -83,6 +94,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         }
     };
+    private boolean logOpenEvent;
+    private boolean pendingShowRateAlert = true;
 
     @DebugLog
     @Override
@@ -99,6 +112,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 && !GuideLockerAssistantActivity.isStarted()) {
             GuideLockerAssistantActivity.start(this);
             HSAlertMgr.delayRateAlert();
+            pendingShowRateAlert = true;
         }
 
         setTheme(R.style.AppLightStatusBarTheme);
@@ -118,13 +132,26 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private DrawerLayout initDrawer() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
-
+        logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerClosed(View view) {
+                if (notificationToast != null) {
+                    notificationToast.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                if (!PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)) {
+                    doNotificationAccessToastAnim();
+                }
+            }
+        };
         DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
         arrowDrawable.getPaint().setStrokeCap(Paint.Cap.ROUND);
         arrowDrawable.getPaint().setStrokeJoin(Paint.Join.ROUND);
@@ -159,6 +186,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 return true;
             }
         });
+
         return drawer;
     }
 
@@ -172,6 +200,32 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_VISIBLE);
+        if (pendingShowRateAlert && SessionMgr.getInstance().getCurrentSessionId() >= 2) {
+            HSAlertMgr.showRateAlert();
+            pendingShowRateAlert = false;
+        }
+        if (logOpenEvent) {
+            logOpenEvent = false;
+            mainSwitch.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
+                }
+            }, 1000);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_INVISIBLE);
+        mRecyclerView.getRecycledViewPool().clear();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         if (mainSwitch != null) {
@@ -181,14 +235,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(nowEnable);
             }
         }
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_INVISIBLE);
         saveThemeLikes();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_VISIBLE);
+        // TODO: has better solution for OOM?
+        Glide.get(this).clearMemory();
     }
 
     private void saveThemeLikes() {
@@ -249,7 +298,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         String[] likeThemes = getThemeLikes();
         for (int i = 0; i < count; i++) {
             final Type type = themeTypes.get(i);
-            if(type.getValue() == Type.NONE) {
+            if (type.getValue() == Type.NONE) {
                 continue;
             }
             final Theme theme = (Theme) type;
@@ -266,7 +315,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 theme.setSelected(true);
             }
 
-            if (type.isGif()) {
+            if (type.isMedia()) {
                 TasksManager.getImpl().addTask(type);
             }
 
@@ -296,18 +345,47 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         return false;
     }
 
-    @AnyRes
-    private int getIdentifier(Context context, String name, String type) {
-        return context.getResources().getIdentifier(name, type, context.getPackageName());
-    }
 
     private void initRecyclerView() {
         View contentView = findViewById(R.id.recycler_view_content);
         mRecyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
         mRecyclerView.setItemAnimator(null);
-        ThemeSelectorAdapter adapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
-        mRecyclerView.setLayoutManager(adapter.getLayoutManager());
-        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setHasFixedSize(true);
+        mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
+        mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    GlideApp.with(ColorPhoneActivity.this).resumeRequests();
+                }
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    GlideApp.with(ColorPhoneActivity.this).pauseRequests();
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+        RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
+
+        // TODO: set proper view count.
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_LED, 1);
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_TECH, 1);
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO, 2);
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_GIF, 2);
+
+    }
+
+    private void doNotificationAccessToastAnim() {
+        notificationToastViewStub = findViewById(R.id.notification_access_view_stub);
+        if(notificationToast == null) {
+            notificationToast = (ViewGroup) notificationToastViewStub.inflate();
+        }
+        notificationToast.setVisibility(View.VISIBLE);
+        ViewGroup about = findViewById(R.id.settings_about);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(notificationToast, "translationY", 0, Utils.pxFromDp(40) + about.getY() + about.getHeight() - Utils.getPhoneHeight(this));
+        objectAnimator.setDuration(1000);
+        objectAnimator.start();
     }
 
     @Override
@@ -330,7 +408,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void feedBack() {
-        sentEmail(this, new String[] {Constants.FEED_BACK_EMAIL}, null, null);
+        sentEmail(this, new String[]{Constants.FEED_BACK_EMAIL}, null, null);
     }
 
     private void toggle() {

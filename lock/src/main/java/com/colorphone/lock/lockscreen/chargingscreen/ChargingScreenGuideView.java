@@ -74,7 +74,11 @@ public class ChargingScreenGuideView extends LinearLayout {
         chargingAlertContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                chargingAlertContent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    chargingAlertContent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else {
+                    chargingAlertContent.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
                 batteryAnimatorHelper.displayAnimator();
             }
         });

@@ -7,6 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/theme_text_margin_bottom_half"
     tools:showIn="@layout/card_view_theme_selector">
 
     <com.honeycomb.colorphone.view.RatioCornerImageView
@@ -27,9 +28,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <ImageView
+        android:id="@+id/place_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/theme_loading_holder" />
+
     <com.acb.call.views.InCallActionView
         android:id="@+id/card_in_call_action_view"
         android:layout_width="match_parent"
+        android:gravity="bottom"
         android:layout_height="match_parent"
         android:layout_marginBottom="24dp" />
 

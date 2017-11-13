@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -24,6 +25,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_SELECT = "notify_theme_select";
     public static final String NOTIFY_THEME_DOWNLOAD = "notify_theme_download";
     public static final String NOTIFY_THEME_KEY = "notify_theme_select_key";
+    public static Bitmap cacheBitmap;
 
     private Theme mTheme;
     private ArrayList<Theme> mThemes;
@@ -76,16 +78,17 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         for (ThemePreviewView previewView : mViews) {
+            previewView.setBlockAnimationForPageChange(false);
             previewView.onStart();
         }
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         for (ThemePreviewView previewView : mViews) {
             previewView.onStop();
         }
@@ -104,6 +107,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             controller.init(ThemePreviewActivity.this, mThemes, position, mNavBack);
             if (position == mViewPager.getCurrentItem()) {
                 controller.setPageSelectedPos(position);
+                controller.setBlockAnimationForPageChange(false);
             } else {
                 controller.setNoTransition(true);
             }

@@ -1,0 +1,45 @@
+<resources>
+
+
+
+  <!--Need Translate-->
+  <string name="app_name">Color Phone</string>
+  <string name="app_slogan">Démarquez-vous en couleur</string>
+  <string name="color_phone_disable">Color Phone désactivé</string>
+  <string name="color_phone_enabled">Color Phone activé</string>
+
+  <string name="settings">Paramètres</string>
+  <string name="feedback">Commentaires</string>
+
+
+  <string name="theme_apply">Appliquer</string>
+  <string name="apply_success">Application réussie</string>
+  <string name="theme_current">Thème actuel</string>
+  <string name="send_email">Envoyer un e-mail</string>
+  <string name="loading">Chargement </string>
+
+  <string name="privacy_policy">Politique de confidentialité</string>
+  <string name="terms_of_service">Conditions de service</string>
+
+
+  <string name="guide_locker_and_call_hint">Activez l\'économiseur d\'écran, l\'outil de charge intelligent et l\'assistant téléphonique pour :
+  Recevoir un rappel pour les appels manqués.
+  Booster le téléphone et accéder facilement à l\'appareil photo.</string>
+  <string name="guide_enable_all_module">Activer l\'assistant téléphonique, l\'outil de charge intelligent et l\'économiseur d\'écran</string>
+
+  <string name="acb_outapp_guide_screen_flash_content">Essayez l’interface unique d’appel pour rendre votre téléphone encore plus tendance. Peut contenir des publicités.</string>
+  <string name="about">À propos</string>
+
+  <string name="guide_apply_theme_hint">Votre thème d\'écran d\'appel a été correctement paramétré. Profitez-en !</string>
+
+
+
+  <string name="smart_charging">Recharge intelligente</string>
+    <string name="smart_charging_hint">Surveillez automatiquement le statut de la recharge et empêchez la surcharge pour prévenir les dégâts sur la batterie. (Peut contenir des publicités)</string>
+
+  <string name="color_lockscreen">Économiseur d\'écran en couleur</string>
+  <string name="color_lockscreen_hint">Apportez du panache à votre économiseur d\'écran grâce à divers thèmes sophistiqués et cools (peuvent contenir des publicités)</string>
+  <string name="sms_assistant">Assistant des SMS</string>
+  <string name="sms_assistant_hint">L\'assistant des SMS vous rappellera les nouveaux messages (peut contenir des publicités)</string>
+  <string name="call_assistant_hint">L\'assistant d\'appel vous rappellera les appels manqués (peut contenir des publicités)</string>
+</resources>

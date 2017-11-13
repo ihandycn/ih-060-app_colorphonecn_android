@@ -6,6 +6,7 @@ import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -27,10 +28,11 @@ import android.widget.Toast;
 
 import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
-import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
@@ -45,6 +47,8 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.GlideApp;
+import com.honeycomb.colorphone.view.GlideRequest;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
@@ -68,6 +72,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final long WINDOW_ANIM_DURATION = 400;
     private static final int TRANS_IN_DURATION = 400;
     private static final boolean DEBUG_LIFE_CALLBACK = true & BuildConfig.DEBUG;
+    private static final int IMAGE_WIDTH = 1080;
+    private static final int IMAGE_HEIGHT = 1920;
 
     private ThemePreviewWindow previewWindow;
     private InCallActionView callActionView;
@@ -150,13 +156,21 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mProgressViewHolder.updateProgressView((int) (percent * 100));
         }
     };
-    private int mPosition;
-    private int mPageSelectedPos;
+    private int mPosition = -1;
+    private int mPageSelectedPos = -1;
     private TasksManagerModel mPendingDownloadModel;
     /**
      * Play no Transition animation when page scroll.
      */
     private boolean mNoTransition = false;
+    private boolean triggerPageChangeWhenIdle = false;
+    /**
+     * Normally, We block animation until page scroll idle, but
+     * 1 first time that theme view show
+     * 2 activity pause or resume
+     * in those two conditions we start animation directly.
+     */
+    private boolean mBlockAnimationForPageChange = true;
 
     public ThemePreviewView(@NonNull Context context) {
         super(context);
@@ -280,8 +294,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     Runnable transEndRunnable = new Runnable() {
         @Override
         public void run() {
-            previewWindow.playAnimation(mThemeType);
-            callActionView.doAnimation();
+            if (!mBlockAnimationForPageChange) {
+                previewWindow.playAnimation(mThemeType);
+                callActionView.doAnimation();
+                mBlockAnimationForPageChange = true;
+            }
 
             boolean curTheme = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
             animationDelay = 0;
@@ -485,11 +502,30 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         // Show background if gif drawable not ready.
         if (mTheme != null) {
-            if (!mThemeType.isGif()){
+            if (!mThemeType.isMedia()){
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
-                AcbCallManager.getInstance().getImageLoader().load(mTheme, mTheme.getPreviewImage(), mTheme.getPreviewPlaceHolder(), previewImage);
+                boolean overrideSize = ColorPhoneApplication.mWidth > IMAGE_WIDTH;
+
+                GlideRequest request = GlideApp.with(getContext())
+                        .asBitmap()
+                        .centerCrop()
+                        .load(mTheme.getPreviewImage())
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .transition(BitmapTransitionOptions.withCrossFade(200));
+
+                if (ThemePreviewActivity.cacheBitmap != null) {
+                    request.placeholder(new BitmapDrawable(getResources(), ThemePreviewActivity.cacheBitmap));
+                    ThemePreviewActivity.cacheBitmap = null;
+                }
+
+                if (overrideSize) {
+                    request.override(IMAGE_WIDTH, IMAGE_HEIGHT);
+                    request.skipMemoryCache(true);
+                }
+                request.into(previewImage);
+
             }
         }
     }
@@ -509,6 +545,20 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         FileDownloadMultiListener.getDefault().removeStateListener(curTaskId);
 
+    }
+
+    private void pauseAnimation() {
+        if (themeReady) {
+            previewWindow.stopAnimations();
+            callActionView.stopAnimations();
+        }
+    }
+
+    private void resumeAnimation() {
+        if (themeReady) {
+            previewWindow.playAnimation(mThemeType);
+            callActionView.doAnimation();
+        }
     }
 
     private boolean isSelectedPos() {
@@ -552,6 +602,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void downloadTheme(TasksManagerModel model) {
+        setBlockAnimationForPageChange(false);
+
         DownloadViewHolder.doDownload(model, null);
 
         // Notify download status.
@@ -605,6 +657,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             downloadTheme(mPendingDownloadModel);
             mPendingDownloadModel = null;
         }
+        triggerPageChangeWhenIdle = true;
 
     }
 
@@ -617,11 +670,32 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     @Override
     public void onPageScrollStateChanged(int state) {
+        if (DEBUG_LIFE_CALLBACK) {
+            HSLog.d("onPageScrollStateChanged " + state
+                    + ", curSelect: " + mPageSelectedPos + ", trigger change: " + triggerPageChangeWhenIdle);
+        }
 
+        if (state == ViewPager.SCROLL_STATE_IDLE && triggerPageChangeWhenIdle) {
+            triggerPageChangeWhenIdle = false;
+            if (isSelectedPos()) {
+                HSLog.d("onPageSelected " + mPosition);
+                resumeAnimation();
+            } else {
+                HSLog.d("onPageUnSelected " + mPosition);
+                pauseAnimation();
+            }
+        }
     }
+
 
     public void setNoTransition(boolean noTransition) {
         mNoTransition = noTransition;
+    }
+
+    public void setBlockAnimationForPageChange(boolean blockAnimationForPageChange) {
+        if (isSelectedPos()) {
+            mBlockAnimationForPageChange = blockAnimationForPageChange;
+        }
     }
 
     private class ProgressViewHolder {

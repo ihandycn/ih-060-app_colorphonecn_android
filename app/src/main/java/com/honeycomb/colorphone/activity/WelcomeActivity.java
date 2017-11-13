@@ -1,30 +1,32 @@
 package com.honeycomb.colorphone.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.Transition;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
+import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSActivity;
+import com.ihs.app.utils.HSVersionControlUtils;
 
 import java.io.IOException;
 
-public class WelcomeActivity extends HSActivity {
-
+public class WelcomeActivity extends Activity {
 
     private WelcomeVideoView mVidView;
+    private static boolean coldLaunch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Transition fade = new Fade();
@@ -36,22 +38,32 @@ public class WelcomeActivity extends HSActivity {
 
         setContentView(R.layout.activity_welcome);
         mVidView = (WelcomeVideoView) findViewById(R.id.welcome_video);
-        mVidView.setPlayEndListener(new WelcomeVideoView.PlayEndListener() {
-            @Override
-            public void onEnd() {
-                toMainView();
-            }
-        });
-        showVideo(mVidView);
+        View cover = findViewById(R.id.welcome_cover);
+
+        if (coldLaunch) {
+            mVidView.setCover(cover);
+            mVidView.setPlayEndListener(new WelcomeVideoView.PlayEndListener() {
+                @Override
+                public void onEnd() {
+                    toMainView();
+                }
+            });
+            showVideo(mVidView);
+            coldLaunch = false;
+        } else {
+            cover.setBackgroundResource(R.drawable.page_start_bg);
+            toMainView();
+        }
     }
 
     private void toMainView() {
+        mVidView.destroy();
         startActivity(new Intent(WelcomeActivity.this, ColorPhoneActivity.class));
     }
 
     @Override
     protected void onDestroy() {
-        mVidView.stop();
+        mVidView.destroy();
         super.onDestroy();
     }
 

@@ -52,6 +52,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.acb.autopilot.utils.L;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
@@ -59,6 +60,9 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
@@ -527,6 +531,42 @@ public final class Utils {
         return (type == -1 || networkInfo.getType() == type) && networkInfo.isConnected();
     }
 
+
+    public static void copyAssetFileTo(Context context, String assetFileName, File targetFile) {
+        if(context != null) {
+            InputStream myInput = null;
+            FileOutputStream myOutput = null;
+
+            try {
+                myOutput = new FileOutputStream(targetFile);
+                myInput = context.getAssets().open(assetFileName);
+                byte[] ignore = new byte[1024];
+
+                for(int length = myInput.read(ignore); length > 0; length = myInput.read(ignore)) {
+                    myOutput.write(ignore, 0, length);
+                }
+            } catch (Exception var15) {
+                var15.printStackTrace();
+            } finally {
+                try {
+                    if(myOutput != null) {
+                        myOutput.flush();
+                    }
+
+                    if(myInput != null) {
+                        myInput.close();
+                    }
+
+                    if(myOutput != null) {
+                        myOutput.close();
+                    }
+                } catch (IOException ignore) {
+                }
+
+            }
+
+        }
+    }
 
     /**
      * Retrieve, creating if needed, a new directory of given name in which we

@@ -1,0 +1,47 @@
+<resources>
+
+
+
+  <!--Need Translate-->
+  <string name="app_name">Kleurentelefoon</string>
+  <string name="app_slogan">Val op met een kleurrijk tintje</string>
+  <string name="color_phone_disable">Kleurentelefoon is uitgeschakeld</string>
+  <string name="color_phone_enabled">Kleurentelefoon is ingeschakeld</string>
+
+  <string name="settings">Instellingen</string>
+  <string name="feedback">Feedback</string>
+
+
+  <string name="theme_apply">Toepassen</string>
+  <string name="apply_success">Toepassen is gelukt</string>
+  <string name="theme_current">Huidig thema</string>
+  <string name="send_email">E-mail verzenden</string>
+  <string name="loading">Aan het laden </string>
+
+  <string name="privacy_policy">Privacybeleid</string>
+  <string name="terms_of_service">Servicevoorwaarden</string>
+
+
+  <string name="guide_locker_and_call_hint">Screensaver, Slim opladen &amp; Telefoonassistent inschakelen om:
+  Herinneringen aan je gemiste oproepen.
+  Gemakkelijk boosten en snelle toegang tot je camera.</string>
+  <string name="guide_enable_all_module">Telefoonassistent, Slim opladen &amp; Screensaver inschakelen</string>
+
+  <string name="acb_outapp_guide_screen_flash_content">Probeer de unieke oproepinterface om je telefoon nog modieuzer
+        te maken. Kan advertenties bevatten.</string>
+  <string name="about">Ongeveer</string>
+
+  <string name="guide_apply_theme_hint">Het thema van je Oproepscherm is ingesteld! Veel plezier!</string>
+
+
+
+  <string name="smart_charging">Slim opladen</string>
+    <string name="smart_charging_hint">Oplaadstatus automatisch volgen en schade aan de batterij door overladen voorkomen. (Mag advertenties bevatten)</string>
+
+  <string name="color_lockscreen">Screensaver Color</string>
+  <string name="color_lockscreen_hint">Verfraai je screensaver met allerlei gave en coole thema\'s
+  (Kan advertenties bevatten)</string>
+  <string name="sms_assistant">SMS-assistent</string>
+  <string name="sms_assistant_hint">SMS-assistent herinnert je aan nieuwe berichten (Kan advertenties bevatten)</string>
+  <string name="call_assistant_hint">Oproepassistent herinnert je aan gemiste oproepen (Kan advertenties bevatten)</string>
+</resources>

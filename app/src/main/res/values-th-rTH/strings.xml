@@ -1,0 +1,44 @@
+<resources>
+
+
+
+  <!--Need Translate-->
+  <string name="app_name">สีโทรศัพท์</string>
+  <string name="app_slogan">โดดเด่นด้วยสัมผัสแห่งสีสัน</string>
+  <string name="color_phone_disable">สีโทรศัพท์ ปิดใช้งาน</string>
+  <string name="color_phone_enabled">สีโทรศัพท์ เปิดใช้งาน</string>
+
+  <string name="settings">ตั้งค่า</string>
+  <string name="feedback">คำติชม</string>
+
+
+  <string name="theme_apply">นำไปใช้</string>
+  <string name="apply_success">นำไปใช้สำเร็จ</string>
+  <string name="theme_current">ธีมปัจจุบัน</string>
+  <string name="send_email">ส่งอีเมล</string>
+  <string name="loading">กำลังโหลด </string>
+
+  <string name="privacy_policy">นโยบายความเป็นส่วนตัว</string>
+  <string name="terms_of_service">เงื่อนไขการให้บริการ</string>
+
+
+  <string name="guide_locker_and_call_hint">เปิดใช้งานภาพพักหน้าจอ การชาร์จอัจฉริยะ และผู้ช่วยโทรศัพท์ เพื่อ: เตือนเมื่อมีสายที่ไม่ได้รับ
+  เร่งความเร็วอย่างง่ายดายและเข้าถึงกล้องอย่างรวดเร็ว</string>
+  <string name="guide_enable_all_module">เปิดใช้งานผู้ช่วยโทรศัพท์ การชาร์จอัจฉริยะ และภาพพักหน้าจอ</string>
+
+  <string name="acb_outapp_guide_screen_flash_content">ลองใช้หน้าจอโทรศัพท์ที่ไม่เหมือนใครเพื่อให้โทรศัพท์คุณทันแฟชั่นมากขึ. อาจมีโฆษณา.</string>
+  <string name="about">เกี่ยวกับ</string>
+
+  <string name="guide_apply_theme_hint">ตั้งค่าธีมสำหรับหน้าจอผู้โทรของคุณสำเร็จแล้ว! ขอให้สนุก!</string>
+
+
+
+  <string name="smart_charging">การชาร์จอัจฉริยะ</string>
+    <string name="smart_charging_hint">ติดตามสถานะการชาร์จโดยอัตโนมัติ และหยุดไม่ให้ชาร์จเกินเพื่อป้องกันความเสียหายต่อแบตเตอรี (อาจมีโฆษณา)</string>
+
+  <string name="color_lockscreen">ภาพพักหน้าจอสี</string>
+  <string name="color_lockscreen_hint">ยกระดับภาพพักหน้าจอของคุณโดยให้ธีมสวยงามและเจ๋ง ๆ มากมาย (อาจมีโฆษณา)</string>
+  <string name="sms_assistant">ผู้ช่วย SMS</string>
+  <string name="sms_assistant_hint">ผู้ช่วย SMS จะเตือนคุณเมื่อมีข้อความใหม่ (อาจมีโฆษณา)</string>
+  <string name="call_assistant_hint">ผู้ช่วยโทรศัพท์จะเตือนคุณเมื่อมีสายที่ไม่ได้รับ (อาจมีโฆษณา)</string>
+</resources>

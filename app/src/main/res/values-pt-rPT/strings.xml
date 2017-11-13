@@ -1,0 +1,46 @@
+<resources>
+
+
+
+  <!--Need Translate-->
+  <string name="app_name">Chamadas coloridas</string>
+  <string name="app_slogan">Dê nas vistas com um toque de cor</string>
+  <string name="color_phone_disable">Chamadas coloridas desativadas</string>
+  <string name="color_phone_enabled">Chamadas coloridas ativadas</string>
+
+  <string name="settings">Definições</string>
+  <string name="feedback">Opinião</string>
+
+
+  <string name="theme_apply">Aplicar</string>
+  <string name="apply_success">Sucesso ao aplicar</string>
+  <string name="theme_current">Tema atual</string>
+  <string name="send_email">Enviar e-mail</string>
+  <string name="loading">A carregar </string>
+
+  <string name="privacy_policy">Política de Privacidade</string>
+  <string name="terms_of_service">Termos de serviço</string>
+
+
+  <string name="guide_locker_and_call_hint">Ative o Protetor de Tela, o Carregamento Inteligente e o Assistente do Telefone para:
+  Lembrar suas chamadas perdidas.
+  Acelerar facilmente e acessar a câmera com rapidez.</string>
+  <string name="guide_enable_all_module">Ative o Assistente do Telefone, o Carregamento Inteligente e o Protetor de Tela</string>
+
+  <string name="acb_outapp_guide_screen_flash_content">Experimente a interface de chamadas única para dar mais estilo
+        ao seu telefone. Pode conter anúncios.</string>
+  <string name="about">Sobre</string>
+
+  <string name="guide_apply_theme_hint">O tema da tela de quem está ligando foi definido com sucesso!</string>
+
+
+
+  <string name="smart_charging">Carregamento inteligente</string>
+  <string name="smart_charging_hint">Monitorize automaticamente o estado de carga e pare os carregamentos exagerados para impedir danos à bateria. (Pode conter anúncios.)</string>
+
+  <string name="color_lockscreen">Protetor de Tela Colorido</string>
+  <string name="color_lockscreen_hint">Deixe seu protetor de tela mais bonito com vários temas bacanas e modernos (Pode conter anúncios)</string>
+  <string name="sms_assistant">Assistente de SMS</string>
+  <string name="sms_assistant_hint">O Assistente de SMS lembrará você das mensagens novas (Pode conter anúncios)</string>
+  <string name="call_assistant_hint">O Assistente de Chamadas lembrará você das chamadas perdidas (Pode conter anúncios)</string>
+</resources>

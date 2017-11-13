@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.support.multidex.MultiDex;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 
 import com.acb.autopilot.AutopilotConfig;
@@ -14,6 +15,7 @@ import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
 import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
+import com.acb.call.utils.FileUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.colorphone.lock.LockerCustomConfig;
@@ -24,8 +26,12 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.charging.HSChargingManager;
@@ -33,11 +39,12 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSMapUtils;
 import com.liulishuo.filedownloader.FileDownloader;
 
 import net.appcloudbox.ads.expressads.AcbExpressAdManager;
 import net.appcloudbox.ads.nativeads.AcbNativeAdManager;
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -71,26 +78,37 @@ public class ColorPhoneApplication extends HSApplication {
         }
     };
 
+    /**
+     * Size of theme preview image.
+     */
+    public static int mWidth;
+    public static int mHeight;
+
     @DebugLog
     @Override
     public void onCreate() {
         super.onCreate();
         systemFix();
-        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics(), new Answers());
         mConfigLog = new ConfigLogDefault();
         FileDownloader.setup(this);
+        LauncherAnalytics.logEvent("Test_Event");
 
         String packageName = getPackageName();
         String processName = getProcessName();
 
+        mHeight = Utils.getPhoneHeight(this);
+        mWidth = Utils.getPhoneWidth(this);
         if (TextUtils.equals(processName, packageName)) {
+            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
             AcbCallManager.init("", new CallConfigFactory());
             AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
                 @Override
                 public Type parse(Map<String, ?> map) {
                     Theme type = new Theme();
                     Type.fillData(type, map);
-                    type.setDownload((Integer)map.get(Theme.CONFIG_DOWNLOAD_NUM));
+                    type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
                     return type;
                 }
             });
@@ -109,8 +127,37 @@ public class ColorPhoneApplication extends HSApplication {
             initLockerCharging();
             Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
 
+            copyMediaFromAssertToFile();
             preloadThemeResources();
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Intent lockJobServiceIntent = new Intent(this, LockJobService.class);
+            startService(lockJobServiceIntent);
+        }
+    }
+
+    private void copyMediaFromAssertToFile() {
+
+        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Utils.copyAssetFileTo(getApplicationContext(),
+                            "shining.mp4",
+                            new File(FileUtils.getMediaDirectory(), "Mp4_12"));
+                    final int targetId = 14;
+                    for (Type type : Theme.values()) {
+                        if (type.getId() == targetId) {
+                            TasksManager.getImpl().addTask(type);
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void preloadThemeResources() {
@@ -227,7 +274,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     @Override
     protected String getConfigFileName() {
-        if (HSLog.isDebugging()) {
+        if (BuildConfig.DEBUG) {
             return "config-d.ya";
         } else {
             return "config-r.ya";

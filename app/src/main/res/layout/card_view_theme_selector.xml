@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/theme_text_margin_bottom_half"
     android:paddingBottom="@dimen/theme_text_margin_bottom_half"
     android:clipChildren="false">
 
@@ -79,7 +78,6 @@
         tools:text="6622335" />
 
     <android.support.percent.PercentRelativeLayout
-        android:id="@+id/card_action_group"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_alignBottom="@id/like_count_icon"

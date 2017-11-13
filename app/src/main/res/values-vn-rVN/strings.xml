@@ -1,0 +1,44 @@
+<resources>
+
+
+
+  <!--Need Translate-->
+  <string name="app_name">Color Phone</string>
+  <string name="app_slogan">Nổi bật với điểm nhấn màu sắc</string>
+  <string name="color_phone_disable">Hủy kích hoạt Color Phone</string>
+  <string name="color_phone_enabled">Kích hoạt Color Phone</string>
+
+  <string name="settings">Cài đặt</string>
+  <string name="feedback">Phản hồi</string>
+
+
+  <string name="theme_apply">Áp dụng</string>
+  <string name="apply_success">Áp dụng Thành công</string>
+  <string name="theme_current">Chủ đề Hiện tại</string>
+  <string name="send_email">Gửi Email</string>
+  <string name="loading">Đang tải </string>
+
+  <string name="privacy_policy">Chính sách Bảo mật</string>
+  <string name="terms_of_service">Điều khoản Dịch vụ</string>
+
+
+  <string name="guide_locker_and_call_hint">Bật Trình bảo vệ Màn hình, Sạc Thông minh &amp; Trình Hỗ trợ Điện thoại để: Nhắc nhở bạn về cuộc gọi nhỡ.
+  Tăng tốc dễ dàng và truy cập camera nhanh chóng.</string>
+  <string name="guide_enable_all_module">Bật Trình Hỗ trợ Điện thoại, Sạc Thông minh &amp; Trình Bảo vệ Màn hình</string>
+
+  <string name="acb_outapp_guide_screen_flash_content">Thử giao diện cuộc gọi độc đáo để khiến điện thoại của bạn trở nên thời trang hơn. Tính năng có thể chứa quảng cáo.</string>
+  <string name="about">Giới thiệu</string>
+
+  <string name="guide_apply_theme_hint">Chủ đề Màn hình Người gọi của bạn đã được cài đặt thành công! Chúc vui vẻ!</string>
+
+
+
+  <string name="smart_charging">Sạc Thông Minh</string>
+  <string name="smart_charging_hint">Tự động theo dõi trạng thái sạc và chấm dứt tình trạng sạc quá mức để ngăn chặn hỏng pin. (Có thể chứa quảng cáo.)</string>
+
+  <string name="color_lockscreen">Trình Bảo vệ Màn hình Màu sắc</string>
+  <string name="color_lockscreen_hint">Tô điểm cho trình bảo vệ màn hình với nhiều chủ đề kiểu cách và thú vị (Có thể chứa quảng cáo)</string>
+  <string name="sms_assistant">Trình Hỗ trợ SMS</string>
+  <string name="sms_assistant_hint">Trình Hỗ trợ SMS sẽ nhắc bạn về những tin nhắn mới (Có thể chứa quảng cáo)</string>
+  <string name="call_assistant_hint">Trình Hỗ trợ Cuộc gọi sẽ nhắc bạn về những cuộc gọi nhỡ (Có thể chứa quảng cáo)</string>
+</resources>

@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class WelcomeVideoView extends SurfaceView {
     private AssetFileDescriptor mAssetFile;
 
     private PlayEndListener mPlayEndListener;
+    private View mCover;
 
     public WelcomeVideoView(Context context) {
         super(context);
@@ -54,64 +56,72 @@ public class WelcomeVideoView extends SurfaceView {
         surfaceHolder = getHolder();
         // Add this to avoid black background before video playing.
         surfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
-        surfaceHolder.addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
 
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-            }
-
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
-
-            }
-        });
     }
 
-    public void play() {
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (mediaPlayer != null) {
-                        mediaPlayer.reset();
-                        //detect if file exists
-                        setVisibility(VISIBLE);
-                        mediaPlayer.setDataSource(mAssetFile.getFileDescriptor(), mAssetFile.getStartOffset(), mAssetFile.getLength());
-                        mediaPlayer.setDisplay(surfaceHolder);
-                        mediaPlayer.prepareAsync();
-                        mediaPlayer.setLooping(false);
-                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                setCenterCrop();
-                                mp.start();
-                            }
-                        });
-                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                if (mPlayEndListener != null) {
-                                    mPlayEndListener.onEnd();
-                                }
-                            }
-                        });
+    private Runnable mVideoTask = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                if (mediaPlayer == null) {
+                    mediaPlayer = new MediaPlayer();
+                }
+
+                mediaPlayer.reset();
+                //detect if file exists
+                setVisibility(VISIBLE);
+                mediaPlayer.setDataSource(mAssetFile.getFileDescriptor(), mAssetFile.getStartOffset(), mAssetFile.getLength());
+                mediaPlayer.setDisplay(surfaceHolder);
+                mediaPlayer.prepareAsync();
+                mediaPlayer.setLooping(false);
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        setCenterCrop();
+                        mp.start();
 
                     }
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } catch (IllegalStateException e2) {
-                    e2.printStackTrace();
-                } catch (IOException e3) {
-                    e3.printStackTrace();
-                }
-            }
-        }, 100);
+                });
+                mediaPlayer.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                    @Override
+                    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                        if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START && mCover != null) {
+                            postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mCover.setVisibility(INVISIBLE);
+                                }
+                            }, 100);
+                        }
+                        return false;
+                    }
+                });
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        if (mPlayEndListener != null) {
+                            mPlayEndListener.onEnd();
+                        }
+                    }
+                });
 
+
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IllegalStateException e2) {
+                e2.printStackTrace();
+            } catch (IOException e3) {
+                e3.printStackTrace();
+            }
+        }
+    };
+
+    public void play() {
+        doPlay();
+    }
+
+    private void doPlay() {
+        post(mVideoTask);
     }
 
     public void stop() {
@@ -127,7 +137,7 @@ public class WelcomeVideoView extends SurfaceView {
         }
     }
 
-    private void destroy() {
+    public void destroy() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -167,6 +177,15 @@ public class WelcomeVideoView extends SurfaceView {
     public void setPlayEndListener(PlayEndListener playEndListener) {
         mPlayEndListener = playEndListener;
     }
+
+    public void setCover(View cover) {
+        mCover = cover;
+    }
+
+    public View getCover() {
+        return mCover;
+    }
+
 
     public interface PlayEndListener {
         void onEnd();

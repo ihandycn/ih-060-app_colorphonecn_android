@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginBottom="10dp"
-        android:text="@string/card_view_contains_ads_statement"
+        android:text="@string/acb_call_guide_sub_content"
         android:textColor="#66000000"
         android:textSize="10sp"
         android:visibility="gone"

@@ -31,7 +31,7 @@ public class FloatWindowController {
     }
 
     private FloatWindowController(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     public synchronized void start() {

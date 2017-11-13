@@ -1,0 +1,45 @@
+<resources>
+
+
+
+  <!--Need Translate-->
+  <string name="app_name">多彩电话</string>
+  <string name="app_slogan">多彩一触，脱颖而出</string>
+  <string name="color_phone_disable">关闭多彩电话</string>
+  <string name="color_phone_enabled">开启多彩电话</string>
+
+  <string name="settings">设置</string>
+  <string name="feedback">反馈</string>
+
+
+  <string name="theme_apply">应用</string>
+  <string name="apply_success">应用成功</string>
+  <string name="theme_current">当前主题</string>
+  <string name="send_email">发送邮件</string>
+  <string name="loading">加载中 </string>
+
+  <string name="privacy_policy">隐私政策</string>
+  <string name="terms_of_service">服务条款</string>
+
+
+    <string name="guide_locker_and_call_hint">开启屏幕保护，智能充电 &amp; 手机助手，让你不会错过未接来电。
+        轻松清理手机并快速打开相机。</string>
+  <string name="guide_enable_all_module">开启手机助手，智能充电 &amp; 屏幕保护</string>
+
+  <string name="acb_outapp_guide_screen_flash_content">快试试独特的个性来电，让您的手机更时尚。可能包含广告。</string>
+  <string name="about">关于</string>
+
+  <string name="guide_apply_theme_hint">来电主题应用成功！尽情享受吧！</string>
+
+
+
+  <string name="smart_charging">智能充电</string>
+    <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。
+        （可能包含广告）</string>
+
+  <string name="color_lockscreen">多彩屏保</string>
+  <string name="color_lockscreen_hint">用多彩的主题装饰你的屏保（可能包含广告）</string>
+  <string name="sms_assistant">短信助手</string>
+  <string name="sms_assistant_hint">短信助手让你不再错过任何信息（可能包含广告）</string>
+  <string name="call_assistant_hint">来电助手让你不再错过未接来电（可能包含广告）</string>
+</resources>

@@ -1,0 +1,44 @@
+<resources>
+
+
+
+  <!--Need Translate-->
+  <string name="app_name">Color Phone</string>
+  <string name="app_slogan">Ваша индивидуальность в цветных акцентах</string>
+  <string name="color_phone_disable">Color Phone выкл</string>
+  <string name="color_phone_enabled">Color Phone вкл</string>
+
+  <string name="settings">Настройки</string>
+  <string name="feedback">Отзыв</string>
+
+
+  <string name="theme_apply">Применить</string>
+  <string name="apply_success">Успешно применено</string>
+  <string name="theme_current">Текущая тема</string>
+  <string name="send_email">Отправить письмо</string>
+  <string name="loading">Загрузка </string>
+
+  <string name="privacy_policy">Политика конфиденциальности</string>
+  <string name="terms_of_service">Условия использования</string>
+
+
+  <string name="guide_locker_and_call_hint">Включите экранную заставку, интеллектуальную зарядку и телефонный помощник, чтобы: Получать напоминания о пропущенных вызовах.
+  Быстро включать камеру и ускорять работу телефона.</string>
+  <string name="guide_enable_all_module">Включить телефонный помощник, интеллектуальную зарядку и экранную заставку</string>
+
+  <string name="acb_outapp_guide_screen_flash_content">Сделайте ваш смартфон современнее с помощью уникального интерфейса звонков. Может содержать рекламу.</string>
+  <string name="about">О приложении</string>
+
+  <string name="guide_apply_theme_hint">Тема для экрана вызова успешно установлена! Наслаждайтесь!</string>
+
+
+
+  <string name="smart_charging">Интеллектуальная зарядка</string>
+    <string name="smart_charging_hint">Автоматическое отслеживание зарядки позволяет избежать чрезмерного заряда и повреждения аккумулятора. (Может содержать рекламу.)</string>
+
+  <string name="color_lockscreen">Цветная экранная заставка</string>
+  <string name="color_lockscreen_hint">Украсьте экранную заставку с помощью потрясающих тем (может содержать рекламу)</string>
+  <string name="sms_assistant">СМС-помощник</string>
+  <string name="sms_assistant_hint">СМС-помощник будет напоминать вам о новых сообщениях (может содержать рекламу)</string>
+  <string name="call_assistant_hint">Телефонный помощник будет напоминать вам о пропущенных вызовах (может содержать рекламу)</string>
+</resources>
