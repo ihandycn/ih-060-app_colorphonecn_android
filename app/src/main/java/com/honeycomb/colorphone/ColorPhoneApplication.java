@@ -16,8 +16,6 @@ import com.acb.call.constant.CPConst;
 import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
 import com.acb.call.utils.FileUtils;
-import com.acb.expressads.AcbExpressAdManager;
-import com.acb.nativeads.AcbNativeAdManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.colorphone.lock.LockerCustomConfig;
@@ -44,6 +42,8 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSMapUtils;
 import com.liulishuo.filedownloader.FileDownloader;
 
+import net.appcloudbox.ads.expressads.AcbExpressAdManager;
+import net.appcloudbox.ads.nativeads.AcbNativeAdManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

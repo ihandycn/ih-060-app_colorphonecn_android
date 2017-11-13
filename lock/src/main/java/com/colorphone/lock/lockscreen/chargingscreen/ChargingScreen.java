@@ -32,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.acb.expressads.AcbExpressAdView;
 import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LauncherPhoneStateListener;
 import com.colorphone.lock.LockerCustomConfig;
@@ -64,6 +63,8 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+
+import net.appcloudbox.ads.expressads.AcbExpressAdView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

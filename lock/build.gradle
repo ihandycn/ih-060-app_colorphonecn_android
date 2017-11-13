@@ -80,13 +80,12 @@ dependencies {
     compile(name: 'chargingscreen/libcharging', ext: 'aar')
     compile files('../libs/libFlashlight/libFlashlight.jar')
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:percent:25.3.1'
+    compile 'com.android.support:percent:26.0.1'
     compile 'com.github.bumptech.glide:glide:4.0.0'
 
-    provided 'com.ihandy.appframework:libAppframework.gm:4.3.1.gm'
-    provided 'com.ihandy.expressads:libExpressAds.gm:4.3.0.gm'
-    provided 'com.ihandy.nativeads:libNativeAds.gm:4.4.0.gm'
+    provided 'com.ihandy.appframework:libAppframework.gm:4.4.0.gm'
+    provided 'net.appcloudbox.ads:libAcbAds.gm:1.1.0.gm'
 
 }

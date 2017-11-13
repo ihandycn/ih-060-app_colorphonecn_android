@@ -24,7 +24,7 @@ apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.colorphone.smooth.dialer"
         minSdkVersion 14
@@ -119,9 +119,6 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
-    // For Video play in listview
-    compile 'com.github.danylovolokh:list-visibility-utils:0.2.0'
-
     // ==== ihandy ====
 
     // Submodule
@@ -129,27 +126,49 @@ dependencies {
     compile(name: 'libColorhone/libNotificationService', ext: 'aar')
     compile project(':lock')
 
-    compile 'com.acb.autopilot:autopilot.gm:4.1.1.gm'
+//    compile 'com.acb.autopilot:autopilot.gm:4.1.1.gm'
 
-    compile 'com.ihandy.appframework:libAppframework.gm:4.2.4.gm'
-
+//    compile 'com.ihandy.appframework:libAppframework.gm:4.4.0.gm'
+//    compile 'net.appcloudbox.ads:libAcbAds.gm:1.1.0.gm'
     // Ads
-    compile 'com.ihandy.nativeads:libNativeAds.gm:4.4.0.gm'
-    compile 'com.ihandy.3rdadadapter:libAdAdxNativeAdapter.gm:4.1.3.gm'
-    compile 'com.ihandy.3rdadadapter:libAdAdmobNativeAdapter.gm:4.1.6.gm'
-    compile 'com.ihandy.3rdadadapter:libAdFBNativeAdapter.gm:4.1.4.gm'
-    compile 'com.ihandy.3rdadadapter:libAdMobVistaNativeAdapter.gm:4.1.0.gm'
-    compile 'com.ihandy.3rdadadapter:libAdAvocarrotNativeAdapter.gm:4.1.3.gm'
-    compile 'com.ihandy.3rdadadapter:libAdMopubNativeAdapter.gm:4.5.0.gm'
-    compile 'com.ihandy.3rdadadapter:libAdFlurryNativeAdapter.gm:4.1.0.gm'
+////    compile 'com.ihandy.nativeads:libNativeAds.gm:4.4.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdAdxNativeAdapter.gm:5.0.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdAdmobNativeAdapter.gm:5.0.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdFBNativeAdapter.gm:5.0.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdMobVistaNativeAdapter.gm:5.0.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdAvocarrotNativeAdapter.gm:5.0.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdMopubNativeAdapter.gm:5.0.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdFlurryNativeAdapter.gm:5.0.0.gm'
+//
+//    //Express ad
+////    compile 'com.ihandy.expressads:libExpressAds.gm:4.3.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdMopubExpressAdapter.gm:5.0.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdAdmobExpressAdapter.gm:5.0.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdAmazonMopubExpressAdapter.gm:5.0.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdAdxExpressAdapter.gm:5.0.0.gm'
+//    compile 'net.appcloudbox.adadapter:libAdInneractiveExpressAdapter.gm:5.0.0.gm'
 
+    compile "com.acb.autopilot:autopilot.beta:4.1.3.beta02"
+
+    compile 'com.ihandy.appframework:libAppframework.beta:4.4.0.beta01'
+
+    compile 'net.appcloudbox.ads:libAcbAds.beta:1.1.0.beta01'
+
+    compile 'net.appcloudbox.adadapter:libAdAdxNativeAdapter.beta:5.0.0.beta01'
+    compile 'net.appcloudbox.adadapter:libAdAdmobNativeAdapter.beta:5.0.0.beta01'
+    compile 'net.appcloudbox.adadapter:libAdFBNativeAdapter.beta:5.0.0.beta01'
+    //TODO add
+//    compile 'net.appcloudbox.adadapter:libAdMobVistaNativeAdapter.beta:5.0.0.beta01'
+    compile 'net.appcloudbox.adadapter:libAdAvocarrotNativeAdapter.beta:5.0.0.beta01'
+    compile 'net.appcloudbox.adadapter:libAdMopubNativeAdapter.beta:5.0.0.beta01'
+    compile 'net.appcloudbox.adadapter:libAdFlurryNativeAdapter.beta:5.0.0.beta01'
     //Express ad
-    compile 'com.ihandy.expressads:libExpressAds.gm:4.3.0.gm'
-    compile 'com.ihandy.3rdadadapter:libAdMopubExpressAdapter.gm:4.0.3.gm'
-    compile 'com.ihandy.3rdadadapter:libAdAdmobExpressAdapter.gm:4.0.1.gm'
-    compile 'com.ihandy.3rdadadapter:libAdAmazonMopubExpressAdapter.gm:4.0.1.gm'
-    compile 'com.ihandy.3rdadadapter:libAdAdxExpressAdapter.gm:4.0.1.gm'
-    compile 'com.ihandy.3rdadadapter:libAdInneractiveExpressAdapter.gm:4.0.0.gm'
+//    compile 'com.ihandy.expressads:libExpressAds.gm:4.3.0.gm'
+    compile 'net.appcloudbox.adadapter:libAdMopubBannerAdapter.beta:5.0.0.beta01'
+    compile 'net.appcloudbox.adadapter:libAdAdmobBannerAdapter.beta:5.0.0.beta01'
+    compile 'net.appcloudbox.adadapter:libAdAmazonBannerAdapter.beta:5.0.0.beta01'
+    compile 'net.appcloudbox.adadapter:libAdAdxBannerAdapter.beta:5.0.0.beta01'
+    compile 'net.appcloudbox.adadapter:libAdInneractiveBannerAdapter.beta:5.0.0.beta01'
 
 
 }

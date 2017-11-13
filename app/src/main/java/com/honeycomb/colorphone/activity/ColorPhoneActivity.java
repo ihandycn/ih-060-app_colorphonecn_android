@@ -32,7 +32,6 @@ import com.acb.call.themes.Type;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.PermissionUtils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.MemoryCategory;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
