@@ -213,9 +213,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if (onSelectedTheme(pos, holder)) {
                         CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, data.get(pos).getId());
                         HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
-                        if (ModuleUtils.isNeedGuideAfterApply()) {
-                            GuideApplyThemeActivity.start(v.getContext(), false);
-                        }
+                        GuideApplyThemeActivity.start(v.getContext(), false);
                     }
                 }
             });

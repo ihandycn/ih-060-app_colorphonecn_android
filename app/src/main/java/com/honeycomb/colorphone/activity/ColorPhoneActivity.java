@@ -37,15 +37,15 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.NotificationUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.alerts.HSAlertMgr;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
-import com.ihs.app.utils.HSVersionControlUtils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -102,18 +102,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        try {
-            if (!HSVersionControlUtils.isFirstSessionSinceInstallation()) {
-                Thread.sleep(1000);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        super.onCreate(savedInstanceState);
 
         if(NotificationUtils.isShowNotificationGuideAlert(this)) {
             Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            HSPreferenceHelper.getDefault().putLong(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_SHOW_TIME, System.currentTimeMillis());
         } else {
             if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                     && !GuideLockerAssistantActivity.isStarted()) {
@@ -122,9 +117,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 pendingShowRateAlert = true;
             }
         }
-
         setTheme(R.style.AppLightStatusBarTheme);
-        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         initMainFrame();
     }
@@ -157,6 +151,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void onDrawerOpened(View drawerView) {
                 if (!PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)) {
                     doNotificationAccessToastAnim();
+                    HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Show");
                 }
             }
         };
@@ -388,10 +383,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         notificationToastViewStub = findViewById(R.id.notification_access_view_stub);
         if(notificationToast == null) {
             notificationToast = (ViewGroup) notificationToastViewStub.inflate();
+            notificationToast.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PermissionUtils.requestNotificationListeningPermission(ColorPhoneActivity.this, null);
+                    HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
+                }
+            });
         }
         notificationToast.setVisibility(View.VISIBLE);
         ViewGroup about = findViewById(R.id.settings_about);
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(notificationToast, "translationY", 0, Utils.pxFromDp(40) + about.getY() + about.getHeight() - Utils.getPhoneHeight(this));
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(notificationToast, "translationY", 0,
+                Utils.pxFromDp(40) + about.getY() + about.getHeight() + Utils.getNavigationBarHeight(this) - Utils.getPhoneHeight(this));
         objectAnimator.setDuration(400);
         objectAnimator.start();
     }

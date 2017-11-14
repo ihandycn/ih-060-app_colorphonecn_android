@@ -266,15 +266,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         preV.updateButtonState();
                     }
                 }
-                if (ModuleUtils.isNeedGuideAfterApply()) {
-                    GuideApplyThemeActivity.start(mActivity, true);
 
-                } else {
+                if (!GuideApplyThemeActivity.start(mActivity, true)) {
                     Toast toast = Toast.makeText(mActivity, R.string.apply_success, Toast.LENGTH_SHORT);
                     int offsetY = (int) (bottomBtnTransY + Utils.pxFromDp(8));
                     toast.setGravity(Gravity.BOTTOM, 0, offsetY);
                     toast.show();
                 }
+
             }
         });
         bottomBtnTransY = mApplyButton.getTranslationY();

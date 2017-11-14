@@ -16,12 +16,16 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.util.FontUtils;
-import com.honeycomb.colorphone.util.NotificationUtils;
+import com.honeycomb.colorphone.notification.NotificationUtils;
+import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.app.framework.inner.SessionMgr;
+import com.ihs.commons.utils.HSPreferenceHelper;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -31,19 +35,25 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
 
     public static String KEY_SHOW_TIME = "apply_guide_show_times";
     public static String KEY_DISPLAY_COUNT = "apply_guide_show_count";
+    public static String PREFS_GUIDE_APPLY_ALERT_SHOW_SESSION_ID = "PREFS_GUIDE_APPLY_ALERT_SHOW_SESSION_ID";
 
     public static boolean FULL_SCREEN = true;
 
-    public static void start(Context context, boolean fullScreen) {
-        if(NotificationUtils.isShowNotificationGuideAlert(context)) {
-            Intent intent = new Intent(context, NotificationAccessGuideAlertActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-            return;
+    public static boolean start(final Context context, boolean fullScreen) {
+        if (NotificationUtils.isShowNotificationGuideAlertWhenApplyTheme(context)) {
+            return Utils.doLimitedTimes(new Runnable() {
+                @Override
+                public void run() {
+                    startNotificationAccessAlertActivity(context);
+                }
+            }, NotificationUtils.PREFS_NOTIFICATION_INSIDE_GUIDE_SHOW_COUNT, NotificationConfig.getInsideAppAccessAlertShowMaxTime());
+        } else if (ModuleUtils.isNeedGuideAfterApply()) {
+            Intent starter = new Intent(context, GuideApplyThemeActivity.class);
+            starter.putExtra("fullscreen", fullScreen);
+            context.startActivity(starter);
+            return true;
         }
-        Intent starter = new Intent(context, GuideApplyThemeActivity.class);
-        starter.putExtra("fullscreen", fullScreen);
-        context.startActivity(starter);
+        return false;
     }
 
     @Override
@@ -85,7 +95,6 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
             }
         });
 
-
         cbContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,12 +102,19 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
             }
         });
 
-
+        HSPreferenceHelper.getDefault().putInt(PREFS_GUIDE_APPLY_ALERT_SHOW_SESSION_ID, SessionMgr.getInstance().getCurrentSessionId());
     }
 
     @Override
     public void onBackPressed() {
         //Ignore back press.
+    }
+
+    private static void startNotificationAccessAlertActivity(Context context) {
+        Intent intent = new Intent(context, NotificationAccessGuideAlertActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        HSPreferenceHelper.getDefault().putLong(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_SHOW_TIME, System.currentTimeMillis());
     }
 
     private void setUpPrivacyTextView() {

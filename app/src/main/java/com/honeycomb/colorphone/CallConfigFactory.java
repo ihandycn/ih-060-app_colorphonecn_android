@@ -83,7 +83,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
         };
 
-        static String[] ID_NAMES = new String[] {
+        static String[] ID_NAMES = new String[]{
                 "Brownian", "Dazzle", "DeepLove",
                 "DJ", "GoldMyth", "Maze",
                 "Modern", "Palette", "Shining",
@@ -91,7 +91,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 "Floating"
         };
 
-        static  String[] TextStrings = new String[] {
+        static String[] TextStrings = new String[]{
                 "Brownian", "Dazzle", "Deep Love",
                 "DJ", "Gold Myth", "Maze",
                 "Modern", "Palette", "Shining",
@@ -100,9 +100,9 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         };
 
         // TODO order urls
-        static String[] GIF_URLS_DEBUG = new String[] {
+        static String[] GIF_URLS_DEBUG = new String[]{
                 "http://superapps-dev.s3.amazonaws.com/light/brownian.gif",
-               "http://superapps-dev.s3.amazonaws.com/light/dazzle.gif",
+                "http://superapps-dev.s3.amazonaws.com/light/dazzle.gif",
                 "http://superapps-dev.s3.amazonaws.com/light/deep%20Love.gif",
 
                 "http://superapps-dev.s3.amazonaws.com/light/DJ.gif",
@@ -134,4 +134,21 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
         }
     }
+
+    //notification
+
+    @Override
+    public boolean isAtBottom() {
+        return true;
     }
+
+    @Override
+    public int getAppIconId() {
+        return R.drawable.drawer_icon;
+    }
+
+    @Override
+    public int getAppNameId() {
+        return R.string.app_name;
+    }
+}
