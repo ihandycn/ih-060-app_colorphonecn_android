@@ -33,6 +33,7 @@ import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
+import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
@@ -421,7 +422,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void showNavView(boolean show) {
-        float offsetX = Utils.pxFromDp(60);
+        float offsetX = CommonUtils.isRtl() ?  -Utils.pxFromDp(60) : Utils.pxFromDp(60);
         float targetX = show ? 0 : -offsetX;
         // State already right.
         if (Math.abs(mNavBack.getTranslationX() - targetX) <= 1) {

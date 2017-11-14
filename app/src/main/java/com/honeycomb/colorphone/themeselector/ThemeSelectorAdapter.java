@@ -27,6 +27,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
@@ -66,7 +67,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final String TAG = "ThemeSelectorAdapter";
     private static final boolean DEBUG_ADAPTER = BuildConfig.DEBUG;
     private final Activity activity;
-    private final float mTransX;
+    private float mTransX;
     private ArrayList<Theme> data = null;
     private GridLayoutManager layoutManager;
     private Handler mHandler = new Handler();
@@ -124,6 +125,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         layoutManager = new GridLayoutManager(HSApplication.getContext(), 2);
         layoutManager.setSpanSizeLookup(spanSizeLookup);
         mTransX = activity.getResources().getDimensionPixelOffset(R.dimen.theme_card_margin_horizontal) * 0.6f;
+        if (CommonUtils.isRtl()) {
+            mTransX = -mTransX;
+        }
 
     }
 
