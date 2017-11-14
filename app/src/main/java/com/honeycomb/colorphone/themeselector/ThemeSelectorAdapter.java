@@ -560,14 +560,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         })
                         .dontAnimate()
                         .into(targetView);
-                
+
+            } else {
+                endLoadingScene();
+            }
+
+            if (theme.getId() != Type.TECH) {
                 GlideApp.with(mContentView)
                         .load(theme.getAvatar())
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                         .transition(DrawableTransitionOptions.withCrossFade(200))
                         .into(mAvatar);
-            } else {
-                endLoadingScene();
             }
 
             setSelected(theme);
