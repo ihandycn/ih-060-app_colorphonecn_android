@@ -45,6 +45,8 @@ import com.liulishuo.filedownloader.FileDownloader;
 
 import net.appcloudbox.ads.expressads.AcbExpressAdManager;
 import net.appcloudbox.ads.nativeads.AcbNativeAdManager;
+import net.appcloudbox.common.utils.AcbApplicationHelper;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,14 +96,17 @@ public class ColorPhoneApplication extends HSApplication {
         mConfigLog = new ConfigLogDefault();
         FileDownloader.setup(this);
         LauncherAnalytics.logEvent("Test_Event");
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         String packageName = getPackageName();
         String processName = getProcessName();
 
         mHeight = Utils.getPhoneHeight(this);
         mWidth = Utils.getPhoneWidth(this);
+        AcbApplicationHelper.init(this);
         if (TextUtils.equals(processName, packageName)) {
-            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+            AcbExpressAdManager.getInstance().init(this);
+            AcbNativeAdManager.sharedInstance().init(this);
 
             AcbCallManager.init("", new CallConfigFactory());
             AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {

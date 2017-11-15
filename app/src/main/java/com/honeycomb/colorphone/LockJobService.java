@@ -11,8 +11,6 @@ import android.os.Build;
 
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 
-import static com.flurry.sdk.bb.P;
-
 /**
  * Created by zhewang on 22/02/2017.
  */
