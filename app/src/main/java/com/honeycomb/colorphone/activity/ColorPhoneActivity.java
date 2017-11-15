@@ -389,7 +389,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             notificationToast.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PermissionUtils.requestNotificationListeningPermission(ColorPhoneActivity.this);
+                    PermissionUtils.requestNotificationListeningPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
                     HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
                     HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
                 }
