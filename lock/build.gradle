@@ -85,7 +85,7 @@ dependencies {
     compile 'com.android.support:percent:26.0.1'
     compile 'com.github.bumptech.glide:glide:4.0.0'
 
-    provided 'com.ihandy.appframework:libAppframework.gm:4.4.0.gm'
-    provided 'net.appcloudbox.ads:libAcbAds.gm:1.1.0.gm'
+    provided 'com.ihandy.appframework:libAppframework.gm:4.5.0.gm'
+    provided 'net.appcloudbox.ads:libAcbAds.gm:1.1.1.gm'
 
 }
