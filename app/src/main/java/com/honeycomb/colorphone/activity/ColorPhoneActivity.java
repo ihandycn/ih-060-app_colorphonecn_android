@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -72,7 +73,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private SwitchCompat mainSwitch;
     private TextView mainSwitchTxt;
-    private ViewStub notificationToastViewStub;
     private ViewGroup notificationToast;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
@@ -104,11 +104,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(NotificationUtils.isShowNotificationGuideAlert(this)) {
+        if(NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
             Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, false);
+            intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_IS_FIRST_SESSION, true);
             startActivity(intent);
-            HSPreferenceHelper.getDefault().putLong(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_SHOW_TIME, System.currentTimeMillis());
+            HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         } else {
             if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                     && !GuideLockerAssistantActivity.isStarted()) {
@@ -149,7 +151,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                if (!PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                        && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)) {
                     doNotificationAccessToastAnim();
                     HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Show");
                 }
@@ -380,13 +383,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void doNotificationAccessToastAnim() {
-        notificationToastViewStub = findViewById(R.id.notification_access_view_stub);
+         ViewStub notificationToastViewStub = findViewById(R.id.notification_access_view_stub);
         if(notificationToast == null) {
             notificationToast = (ViewGroup) notificationToastViewStub.inflate();
             notificationToast.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PermissionUtils.requestNotificationListeningPermission(ColorPhoneActivity.this, null);
+                    PermissionUtils.requestNotificationListeningPermission(ColorPhoneActivity.this);
+                    HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
                     HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
                 }
             });

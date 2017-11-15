@@ -3,7 +3,9 @@ package com.honeycomb.colorphone;
 import com.acb.call.customize.AcbCallFactoryImpl;
 import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.views.CallIdleAlert;
+import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.MessageCenterUtils;
+import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.commons.config.HSConfig;
 
@@ -137,18 +139,45 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
     //notification
 
-    @Override
-    public boolean isAtBottom() {
-        return true;
-    }
 
     @Override
-    public int getAppIconId() {
-        return R.drawable.drawer_icon;
+    public NotificationAccessGuideAlertActivity.Config getNotificationAccessConfig() {
+        return new NotificationAccessGuideAlertActivity.Config() {
+            @Override
+            public boolean isAtBottom() {
+                return super.isAtBottom();
+            }
+
+            @Override
+            public boolean animated() {
+                return super.animated();
+            }
+
+            @Override
+            public int getAppIconId() {
+                return R.drawable.drawer_icon;
+            }
+
+            @Override
+            public int getAppNameId() {
+                return R.string.app_name;
+            }
+
+            @Override
+            public long getOutAppNotificationGuideInterval() {
+                return NotificationConfig.getOutsideAppAccessAlertInterval();
+            }
+
+            @Override
+            public boolean isNotificationOutsideAppGuideEnabled() {
+                return NotificationConfig.isOutsideAppAccessAlertOpen();
+            }
+
+            @Override
+            public int getNotificationAccessOutAppShowMaxTime() {
+                return NotificationConfig.getOutsideAppAccessAlertShowMaxTime();
+            }
+        };
     }
 
-    @Override
-    public int getAppNameId() {
-        return R.string.app_name;
-    }
 }

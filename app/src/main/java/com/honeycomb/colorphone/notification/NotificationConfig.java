@@ -2,10 +2,6 @@ package com.honeycomb.colorphone.notification;
 
 import com.ihs.commons.config.HSConfig;
 
-/**
- * Created by ihandysoft on 2017/11/13.
- */
-
 public class NotificationConfig {
 
 
@@ -14,15 +10,15 @@ public class NotificationConfig {
      */
 
     public static boolean isInsideAppAccessAlertOpen() {
-        return HSConfig.optBoolean(false, "Application", "InsideApp", "Show");
+        return HSConfig.optBoolean(true, "Application", "NotificationAccess", "InsideApp", "Show");
     }
 
     public static int getInsideAppAccessAlertShowMaxTime() {
-        return HSConfig.optInteger(3, "Application", "InsideApp", "ShowMaxTime");
+        return HSConfig.optInteger(3, "Application", "NotificationAccess",  "InsideApp", "ShowMaxTime");
     }
 
     public static long getInsideAppAccessAlertInterval() {
-         return (long) HSConfig.optFloat(1f, "Application", "InsideApp", "ShowInterval") * 1000 * 60 * 60;
+         return (long) HSConfig.optFloat(1f, "Application", "NotificationAccess", "InsideApp", "ShowInterval") * 1000 * 60 * 60;
 
     }
 
@@ -32,14 +28,14 @@ public class NotificationConfig {
      */
 
     public static boolean isOutsideAppAccessAlertOpen() {
-        return HSConfig.optBoolean(false, "Application", "OutsideApp", "Show");
+        return HSConfig.optBoolean(true, "Application", "NotificationAccess", "OutsideApp", "Show");
     }
 
     public static int getOutsideAppAccessAlertShowMaxTime() {
-        return HSConfig.optInteger(3, "Application", "OutsideApp", "ShowMaxTime");
+        return HSConfig.optInteger(3, "Application", "NotificationAccess", "OutsideApp", "ShowMaxTime");
     }
 
     public static long getOutsideAppAccessAlertInterval() {
-        return (long) HSConfig.optFloat(0f, "Application", "OutsideApp", "ShowInterval") * 1000 * 60 * 60;
+        return (long) HSConfig.optFloat(0f, "Application", "NotificationAccess", "OutsideApp", "ShowInterval") * 1000 * 60 * 60;
     }
 }

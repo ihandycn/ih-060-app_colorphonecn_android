@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.acb.call.CPSettings;
+import com.acb.call.customize.AcbCallManager;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
@@ -40,17 +41,13 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
     public static boolean FULL_SCREEN = true;
 
     public static boolean start(final Context context, boolean fullScreen) {
-        if (NotificationUtils.isShowNotificationGuideAlertWhenApplyTheme(context)) {
-            return Utils.doLimitedTimes(new Runnable() {
-                @Override
-                public void run() {
-                    startNotificationAccessAlertActivity(context);
-                }
-            }, NotificationUtils.PREFS_NOTIFICATION_INSIDE_GUIDE_SHOW_COUNT, NotificationConfig.getInsideAppAccessAlertShowMaxTime());
-        } else if (ModuleUtils.isNeedGuideAfterApply()) {
+        if (ModuleUtils.isNeedGuideAfterApply()) {
             Intent starter = new Intent(context, GuideApplyThemeActivity.class);
             starter.putExtra("fullscreen", fullScreen);
             context.startActivity(starter);
+            return true;
+        } else if (NotificationUtils.isShowNotificationGuideAlertWhenApplyTheme(context)) {
+            NotificationAccessGuideAlertActivity.startInAppGuide(context);
             return true;
         }
         return false;
@@ -113,8 +110,8 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
     private static void startNotificationAccessAlertActivity(Context context) {
         Intent intent = new Intent(context, NotificationAccessGuideAlertActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, false);
         context.startActivity(intent);
-        HSPreferenceHelper.getDefault().putLong(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_SHOW_TIME, System.currentTimeMillis());
     }
 
     private void setUpPrivacyTextView() {
