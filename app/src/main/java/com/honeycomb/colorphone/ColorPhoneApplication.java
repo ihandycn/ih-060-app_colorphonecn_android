@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.SystemClock;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
@@ -138,18 +139,22 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void copyMediaFromAssertToFile() {
-
+        final long startMills = SystemClock.elapsedRealtime();
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 try {
+                    final File file = new File(FileUtils.getMediaDirectory(), "Mp4_12");
+                    if (file.exists()) {
+                        return;
+                    }
                     Utils.copyAssetFileTo(getApplicationContext(),
-                            "shining.mp4",
-                            new File(FileUtils.getMediaDirectory(), "Mp4_12"));
+                            "shining.mp4", file);
                     final int targetId = 14;
                     for (Type type : Theme.values()) {
                         if (type.getId() == targetId) {
                             TasksManager.getImpl().addTask(type);
+                            HSLog.d("TEST_Assert", "Copy shinig mp4 time ：" + (SystemClock.elapsedRealtime() - startMills));
                             break;
                         }
                     }
