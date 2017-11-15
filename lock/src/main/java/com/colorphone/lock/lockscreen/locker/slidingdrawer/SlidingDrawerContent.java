@@ -158,7 +158,7 @@ public class SlidingDrawerContent extends FrameLayout
     }
 
     public void setDrawerBg(final Bitmap bitmap) {
-        if (bitmap == null) {
+        if (bitmap == null || bitmap.isRecycled()) {
             return;
         }
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
