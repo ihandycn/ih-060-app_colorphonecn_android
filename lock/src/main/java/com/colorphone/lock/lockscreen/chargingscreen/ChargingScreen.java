@@ -428,7 +428,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         int chargingBubbleColor;
 
         imageBackgroundView = (ImageView) mRootView.findViewById(R.id.charging_screen_bg);
-        switch (extra.getInt(EXTRA_SKIN_TYPE, -1)) {
+        final int skinType = extra == null ? -1 : extra.getInt(EXTRA_SKIN_TYPE, -1);
+        switch (skinType) {
 
             default:
             case SKIN_TYPE_BLUE_BACKGROUND: {
