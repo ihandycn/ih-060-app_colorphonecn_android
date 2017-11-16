@@ -1,13 +1,39 @@
 {
   "get_url": "https://console.appcloudbox.net/autopilot/api/test/get",
   "topics": {
+    "topic-1510752104742": {
+      "topic_type": "one_time",
+      "topic_name": "Notification Access System Page Enable Rate",
+      "variations": {
+        "guide_type": {
+          "type": "string",
+          "value": "bottom"
+        },
+        "show_animation": {
+          "type": "boolean",
+          "value": true
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "colorphone_system_settings_notification_alert_show"
+        },
+        {
+          "name": "colorphone_notification_access_enable"
+        }
+      ],
+      "topic_id": "topic-1510752104742"
+    },
     "topic-1505294061097": {
       "topic_type": "life_time",
       "topic_name": "Feature Open Rate",
       "variations": {
         "apply_finish_guide_show_interval": {
           "type": "string",
-          "value": "8"
+          "value": "4"
         },
         "apply_finish_guide_max_show_time": {
           "type": "string",
@@ -30,23 +56,23 @@
       "variations": {
         "colorscreensaver_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "apply_finish_guide_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "sms_assistant_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "smart_charging_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "start_guide_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         }
       },
       "events": [
@@ -55,6 +81,72 @@
         }
       ],
       "topic_id": "topic-1505290483207"
+    },
+    "topic-1510751463187": {
+      "topic_type": "life_time",
+      "topic_name": "Local Push Test",
+      "variations": {
+        "old_theme_push_enabled": {
+          "type": "boolean",
+          "value": false
+        },
+        "new_theme_push_enabled": {
+          "type": "boolean",
+          "value": false
+        },
+        "push_icon_type": {
+          "type": "string",
+          "value": "ThemeIcon"
+        },
+        "old_theme_push_min_show_interval_by_open_app": {
+          "type": "double",
+          "value": 7
+        },
+        "old_theme_push_detail": {
+          "type": "string",
+          "value": "Try the most popular Color Phone theme --- ‘%1$s'"
+        },
+        "old_theme_push_min_show_interval": {
+          "type": "double",
+          "value": 3
+        },
+        "old_theme_push_title": {
+          "type": "string",
+          "value": "Hot theme recommended!"
+        },
+        "new_theme_push_detail": {
+          "type": "string",
+          "value": "Newly launched '%1$s' theme for Color Phone"
+        },
+        "new_theme_push_title": {
+          "type": "string",
+          "value": "Brand new theme!"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "localpush_newtheme_show"
+        },
+        {
+          "name": "localpush_newtheme_clicked"
+        },
+        {
+          "name": "localpush_newtheme_themeapply"
+        },
+        {
+          "name": "localpush_oldtheme_show"
+        },
+        {
+          "name": "localpush_oldtheme_clicked"
+        },
+        {
+          "name": "localpush_oldtheme_themeapply"
+        }
+      ],
+      "topic_id": "topic-1510751463187"
     }
   },
   "autopilot_id": 10000,
@@ -71,6 +163,9 @@
       "name": "extended_active"
     },
     {
+      "name": "active"
+    },
+    {
       "name": "ad_show"
     },
     {
@@ -78,9 +173,6 @@
     },
     {
       "name": "iap"
-    },
-    {
-      "name": "active"
     }
   ]
 }

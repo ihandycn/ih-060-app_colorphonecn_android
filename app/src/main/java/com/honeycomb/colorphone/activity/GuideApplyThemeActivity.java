@@ -11,15 +11,13 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.acb.call.CPSettings;
-import com.acb.call.customize.AcbCallManager;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.notification.NotificationConfig;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.notification.NotificationUtils;
+import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -105,13 +103,6 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
     @Override
     public void onBackPressed() {
         //Ignore back press.
-    }
-
-    private static void startNotificationAccessAlertActivity(Context context) {
-        Intent intent = new Intent(context, NotificationAccessGuideAlertActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, false);
-        context.startActivity(intent);
     }
 
     private void setUpPrivacyTextView() {

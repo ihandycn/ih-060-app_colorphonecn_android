@@ -38,6 +38,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -107,8 +108,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if(NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
             Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, false);
-            intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_IS_FIRST_SESSION, true);
+            intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
             startActivity(intent);
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         } else {
@@ -389,8 +389,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             notificationToast.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PermissionUtils.requestNotificationListeningPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
+                    PermissionUtils.requestNotificationPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
                     HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
+                    NotificationAutoPilotUtils.logSettingsAlertShow();
                     HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
                 }
             });

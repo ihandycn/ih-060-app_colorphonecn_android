@@ -5,6 +5,7 @@ import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.views.CallIdleAlert;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.MessageCenterUtils;
+import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.commons.config.HSConfig;
@@ -58,10 +59,6 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT);
             }
 
-            @Override
-            public CharSequence getApplicationName() {
-                return "";
-            }
         };
     }
 
@@ -138,19 +135,17 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     }
 
     //notification
-
-
     @Override
     public NotificationAccessGuideAlertActivity.Config getNotificationAccessConfig() {
         return new NotificationAccessGuideAlertActivity.Config() {
             @Override
             public boolean isAtBottom() {
-                return super.isAtBottom();
+                return NotificationAutoPilotUtils.isNotificationAccessTipAtBottom();
             }
 
             @Override
             public boolean animated() {
-                return super.animated();
+                return NotificationAutoPilotUtils.isNotificationAccessTipAnimated();
             }
 
             @Override
@@ -176,6 +171,22 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             @Override
             public int getNotificationAccessOutAppShowMaxTime() {
                 return NotificationConfig.getOutsideAppAccessAlertShowMaxTime();
+            }
+        };
+    }
+
+    public NotificationAccessGuideAlertActivity.Event getNotificationAccessEvent() {
+        return new NotificationAccessGuideAlertActivity.Event() {
+            @Override
+            public void onOpenPermissionSettings(boolean insideApp, boolean isFirstSession) {
+                super.onOpenPermissionSettings(insideApp, isFirstSession);
+                NotificationAutoPilotUtils.logSettingsAlertShow();
+            }
+
+            @Override
+            public void onNotificationAccessGranted(String fromType) {
+                super.onNotificationAccessGranted(fromType);
+                NotificationAutoPilotUtils.logSettingsAccessEnabled();
             }
         };
     }
