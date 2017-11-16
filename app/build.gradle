@@ -137,10 +137,9 @@ dependencies {
             'net.appcloudbox.adadapter:libAdAdxBannerAdapter.gm:5.1.0.gm',
 
             'net.appcloudbox.adadapter:libAdMopubNativeAdapter.gm:5.0.0.gm',
-            'net.appcloudbox.adadapter:libAdMopubBannerAdapter.gm:5.0.0.gm',
+            'net.appcloudbox.adadapter:libAdMopubBannerAdapter.gm:5.0.1.gm',
 
             'net.appcloudbox.adadapter:libAdAmazonBannerAdapter.gm:5.1.1.gm',
-            'net.appcloudbox.adadapter:libAdFlurryNativeAdapter.gm:5.1.1.gm',
 
             'net.appcloudbox.adadapter:libAdAdmobNativeAdapter.gm:5.1.0.gm',
             'net.appcloudbox.adadapter:libAdAdmobBannerAdapter.gm:5.1.0.gm',
@@ -158,10 +157,9 @@ dependencies {
             'net.appcloudbox.adadapter:libAdAdxBannerAdapter.beta:5.1.0.+',
 
             'net.appcloudbox.adadapter:libAdMopubNativeAdapter.beta:5.0.0.+',
-            'net.appcloudbox.adadapter:libAdMopubBannerAdapter.beta:5.0.0.+',
+            'net.appcloudbox.adadapter:libAdMopubBannerAdapter.beta:5.0.1.+',
 
             'net.appcloudbox.adadapter:libAdAmazonBannerAdapter.beta:5.1.1.+',
-            'net.appcloudbox.adadapter:libAdFlurryNativeAdapter.beta:5.1.1.+',
 
             'net.appcloudbox.adadapter:libAdAdmobNativeAdapter.beta:5.1.0.+',
             'net.appcloudbox.adadapter:libAdAdmobBannerAdapter.beta:5.1.0.+',
