@@ -7,6 +7,7 @@ import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.MessageCenterUtils;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
+import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.commons.config.HSConfig;
 
@@ -191,4 +192,8 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         };
     }
 
+    @Override
+    public Class getNotificationServiceClass() {
+        return NotificationServiceV18.class;
+    }
 }
