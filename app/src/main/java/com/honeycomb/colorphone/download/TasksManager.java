@@ -6,6 +6,7 @@ import android.util.SparseArray;
 import com.acb.call.themes.Type;
 import com.acb.call.utils.FileUtils;
 import com.acb.utils.Utils;
+import com.honeycomb.colorphone.Constants;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadConnectListener;
@@ -155,6 +156,9 @@ public class TasksManager {
     }
 
     public int getStatus(final int id, String path) {
+        if (id == Constants.DEFUALT_THEME_ID && new File(path).exists()) {
+            return FileDownloadStatus.completed;
+        }
         return FileDownloader.getImpl().getStatus(id, path);
     }
 

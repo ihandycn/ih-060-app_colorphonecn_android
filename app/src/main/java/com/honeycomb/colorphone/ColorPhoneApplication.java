@@ -29,6 +29,7 @@ import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -148,14 +149,14 @@ public class ColorPhoneApplication extends HSApplication {
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
+                final File file = new File(FileUtils.getMediaDirectory(), "Mp4_12");
                 try {
-                    final File file = new File(FileUtils.getMediaDirectory(), "Mp4_12");
-                    if (file.exists()) {
+                    if (file.isFile() && file.exists()) {
                         return;
                     }
                     Utils.copyAssetFileTo(getApplicationContext(),
                             "shining.mp4", file);
-                    final int targetId = 14;
+                    final int targetId = Constants.DEFUALT_THEME_ID;
                     for (Type type : Theme.values()) {
                         if (type.getId() == targetId) {
                             TasksManager.getImpl().addTask(type);
@@ -165,6 +166,9 @@ public class ColorPhoneApplication extends HSApplication {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    if (file.isFile() && file.exists()) {
+                        file.delete();
+                    }
                 }
             }
         });
