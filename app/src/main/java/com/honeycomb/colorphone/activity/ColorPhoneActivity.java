@@ -150,6 +150,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)) {
                     if (notificationToast != null) {
                         notificationToast.setVisibility(View.GONE);
+                        HSPreferenceHelper.getDefault().putBoolean(PREFS_NOTIFICATION_ACCESS_TOAST_HAS_SHOWED, false);
                     }
                 }
             }
@@ -159,7 +160,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
                         && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)
                         && !HSPreferenceHelper.getDefault().getBoolean(PREFS_NOTIFICATION_ACCESS_TOAST_HAS_SHOWED, false)) {
-                    doNotificationAccessToastAnim();
+                        doNotificationAccessToastAnim();
                     HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Show");
                 }
             }
