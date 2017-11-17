@@ -74,6 +74,8 @@ public class ColorPhoneApplication extends HSApplication {
                 HSLog.d("Session End.");
             } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
                 checkModuleAdPlacement();
+                // Call-Themes update timely.
+                Type.updateTypes();
             } else if (CPConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
                 HSPermanentUtils.checkAliveForProcess();
             } else {
