@@ -114,7 +114,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         } else {
             if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
-                    && !GuideLockerAssistantActivity.isStarted()) {
+                    && !GuideLockerAssistantActivity.isStarted()
+                    && !ModuleUtils.isAnyModuleEnabled()) {
                 GuideLockerAssistantActivity.start(this);
                 HSAlertMgr.delayRateAlert();
                 pendingShowRateAlert = true;

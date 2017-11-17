@@ -40,12 +40,10 @@ public class ModuleUtils {
             return false;
         }
 
-        if (CPSettings.isCallAssistantModuleEnabled()
-                && CPSettings.isCallAssistantModuleEnabled()
-                && ChargingScreenSettings.isChargingScreenEverEnabled()
-                && LockerSettings.isLockerEnabled()) {
+        if (isAnyModuleEnabled()) {
             return false;
         }
+
         PreferenceHelper.get(PREFS_FILE_NAME).putLong("apply_guide_time", System.currentTimeMillis());
         PreferenceHelper.get(PREFS_FILE_NAME).putInt("apply_guide_count", ++guideCount);
         return true;
@@ -53,6 +51,16 @@ public class ModuleUtils {
 
     public static boolean isModuleConfigEnabled(String moduleKey) {
         return AutopilotConfig.getBooleanToTestNow("topic-1505290483207", moduleKey, false);
+    }
+
+    public static boolean isAnyModuleEnabled() {
+        if (CPSettings.isCallAssistantModuleEnabled()
+                || CPSettings.isCallAssistantModuleEnabled()
+                || ChargingScreenSettings.isChargingScreenEverEnabled()
+                || LockerSettings.isLockerEnabled()) {
+            return true;
+        }
+        return false;
     }
 
 }

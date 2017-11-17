@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.notification;
 
+import android.text.format.DateUtils;
+
 import com.ihs.commons.config.HSConfig;
 
 public class NotificationConfig {
@@ -18,7 +20,7 @@ public class NotificationConfig {
     }
 
     public static long getInsideAppAccessAlertInterval() {
-         return (long) HSConfig.optFloat(1f, "Application", "NotificationAccess", "InsideApp", "ShowInterval") * 1000 * 60 * 60;
+         return (long) HSConfig.optFloat(1f, "Application", "NotificationAccess", "InsideApp", "ShowInterval") *  DateUtils.HOUR_IN_MILLIS;
 
     }
 
@@ -36,6 +38,6 @@ public class NotificationConfig {
     }
 
     public static long getOutsideAppAccessAlertInterval() {
-        return (long) HSConfig.optFloat(0f, "Application", "NotificationAccess", "OutsideApp", "ShowInterval") * 1000 * 60 * 60;
+        return (long) HSConfig.optFloat(0f, "Application", "NotificationAccess", "OutsideApp", "ShowInterval") *  DateUtils.HOUR_IN_MILLIS;
     }
 }
