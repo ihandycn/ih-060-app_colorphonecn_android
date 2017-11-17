@@ -67,6 +67,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public static final String NOTIFY_WINDOW_INVISIBLE = "notify_window_invisible";
     public static final String NOTIFY_WINDOW_VISIBLE = "notify_window_visible";
     private static final String PREFS_THEME_LIKE = "theme_like_array";
+    private static final String PREFS_NOTIFICATION_ACCESS_TOAST_HAS_SHOWED = "prefs_notification_access_toast_showed";
 
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
@@ -144,15 +145,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View view) {
-                if (notificationToast != null) {
-                    notificationToast.setVisibility(View.GONE);
-                }
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-                        && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)) {
+                        && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)
+                        && !HSPreferenceHelper.getDefault().getBoolean(PREFS_NOTIFICATION_ACCESS_TOAST_HAS_SHOWED, false)) {
                     doNotificationAccessToastAnim();
                     HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Show");
                 }
@@ -396,12 +395,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
             });
         }
+
         notificationToast.setVisibility(View.VISIBLE);
         ViewGroup about = findViewById(R.id.settings_about);
+        float translationY = Utils.pxFromDp(40) + about.getY() + about.getHeight() + Utils.getNavigationBarHeight(this) - Utils.getPhoneHeight(this);
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(notificationToast, "translationY", 0,
-                Utils.pxFromDp(40) + about.getY() + about.getHeight() + Utils.getNavigationBarHeight(this) - Utils.getPhoneHeight(this));
+                translationY);
         objectAnimator.setDuration(400);
         objectAnimator.start();
+        HSPreferenceHelper.getDefault().putBoolean(PREFS_NOTIFICATION_ACCESS_TOAST_HAS_SHOWED, true);
     }
 
     @Override
