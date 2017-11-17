@@ -75,6 +75,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private SwitchCompat mainSwitch;
     private TextView mainSwitchTxt;
+
     private ViewGroup notificationToast;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
@@ -115,7 +116,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         } else {
             if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                     && !GuideLockerAssistantActivity.isStarted()
-                    && !ModuleUtils.isAnyModuleEnabled()) {
+                    && !ModuleUtils.isAllModuleEnabled()) {
                 GuideLockerAssistantActivity.start(this);
                 HSAlertMgr.delayRateAlert();
                 pendingShowRateAlert = true;
@@ -146,6 +147,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View view) {
+                if (PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)) {
+                    if (notificationToast != null) {
+                        notificationToast.setVisibility(View.GONE);
+                    }
+                }
             }
 
             @Override
@@ -383,20 +389,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void doNotificationAccessToastAnim() {
-         ViewStub notificationToastViewStub = findViewById(R.id.notification_access_view_stub);
-        if(notificationToast == null) {
-            notificationToast = (ViewGroup) notificationToastViewStub.inflate();
-            notificationToast.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PermissionUtils.requestNotificationPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
-                    HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
-                    NotificationAutoPilotUtils.logSettingsAlertShow();
-                    HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
-                }
-            });
-        }
-
+        notificationToast = findViewById(R.id.notification_access_toast);
+        notificationToast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PermissionUtils.requestNotificationPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
+                HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
+                NotificationAutoPilotUtils.logSettingsAlertShow();
+                HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
+            }
+        });
         notificationToast.setVisibility(View.VISIBLE);
         ViewGroup about = findViewById(R.id.settings_about);
         float translationY = Utils.pxFromDp(40) + about.getY() + about.getHeight() + Utils.getNavigationBarHeight(this) - Utils.getPhoneHeight(this);

@@ -40,7 +40,7 @@ public class ModuleUtils {
             return false;
         }
 
-        if (isAnyModuleEnabled()) {
+        if (isAllModuleEnabled()) {
             return false;
         }
 
@@ -53,11 +53,11 @@ public class ModuleUtils {
         return AutopilotConfig.getBooleanToTestNow("topic-1505290483207", moduleKey, false);
     }
 
-    public static boolean isAnyModuleEnabled() {
+    public static boolean isAllModuleEnabled() {
         if (CPSettings.isCallAssistantModuleEnabled()
-                || CPSettings.isCallAssistantModuleEnabled()
-                || ChargingScreenSettings.isChargingScreenEverEnabled()
-                || LockerSettings.isLockerEnabled()) {
+                && CPSettings.isCallAssistantModuleEnabled()
+                && ChargingScreenSettings.isChargingScreenEverEnabled()
+                && LockerSettings.isLockerEnabled()) {
             return true;
         }
         return false;

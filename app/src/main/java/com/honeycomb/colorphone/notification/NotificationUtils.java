@@ -43,6 +43,10 @@ public class NotificationUtils {
                 + NotificationConfig.getInsideAppAccessAlertInterval() > System.currentTimeMillis()) {
             return false;
         }
+
+        if (SessionMgr.getInstance().getCurrentSessionId() <= 1 && HSPreferenceHelper.getDefault().getBoolean(PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, false)) {
+            return false;
+        }
         return true;
     }
 
