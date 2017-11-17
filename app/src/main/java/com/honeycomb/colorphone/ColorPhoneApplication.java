@@ -301,6 +301,8 @@ public class ColorPhoneApplication extends HSApplication {
         final String adName = AcbCallManager.getInstance().getAcbCallFactory().getCallIdleConfig().getAdPlaceName();
         boolean enable = CPSettings.isCallAssistantModuleEnabled();
         checkNativeAd(adName, enable);
+        final String smsName = AcbCallManager.getInstance().getAcbCallFactory().getSMSConfig().getAdPlacement();
+        checkNativeAd(smsName, CPSettings.isSMSAssistantModuleEnabled());
 
     }
 
