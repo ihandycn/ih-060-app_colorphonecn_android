@@ -85,7 +85,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         @Override
         public void onReceive(String s, HSBundle hsBundle) {
             if (ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD.equals(s)) {
-                notifyItemChanged(getPos(hsBundle));
+                if (hsBundle != null) {
+                    notifyItemChanged(getPos(hsBundle));
+                }
             } else if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
                 if (hsBundle != null) {
                     onSelectedTheme(getPos(hsBundle), null);
