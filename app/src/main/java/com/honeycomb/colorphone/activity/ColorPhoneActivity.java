@@ -367,18 +367,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    GlideApp.with(ColorPhoneActivity.this).resumeRequests();
-                }
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    GlideApp.with(ColorPhoneActivity.this).pauseRequests();
-                }
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-        });
         RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
 
         // TODO: set proper view count.
