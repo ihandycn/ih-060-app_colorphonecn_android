@@ -131,6 +131,10 @@
             android:noHistory="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/Theme.AppCompat.Translucent" />
+
+        <!--Activity for test function-->
+        <activity android:name=".activity.TestActivity" />
+
         <!-- permanent -->
         <service
             android:name=".PermanentService"

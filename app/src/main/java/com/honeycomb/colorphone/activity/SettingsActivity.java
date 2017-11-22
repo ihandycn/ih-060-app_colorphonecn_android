@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import com.acb.call.CPSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -37,6 +38,16 @@ public class SettingsActivity extends HSAppCompatActivity {
         setContentView(R.layout.activitiy_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.settings);
+        if (BuildConfig.DEBUG) {
+            View testView = findViewById(R.id.test_entrance);
+            testView.setVisibility(View.VISIBLE);
+            testView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(SettingsActivity.this, TestActivity.class));
+                }
+            });
+        }
 
         Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
 
