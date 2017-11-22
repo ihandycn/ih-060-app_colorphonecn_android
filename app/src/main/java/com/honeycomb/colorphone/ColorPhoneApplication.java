@@ -29,7 +29,6 @@ import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.download.TasksManager;
-import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -122,6 +121,7 @@ public class ColorPhoneApplication extends HSApplication {
                 }
             });
             AcbCallManager.getInstance().setImageLoader(new ThemeImageLoader());
+            AcbCallManager.getInstance().logTest = true;
 
             HSPermanentUtils.keepAlive();
             if (BuildConfig.DEBUG) {
