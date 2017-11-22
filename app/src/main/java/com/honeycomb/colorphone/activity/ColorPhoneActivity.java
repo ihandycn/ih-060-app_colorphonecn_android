@@ -39,6 +39,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -46,6 +47,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.analytics.HSAnalytics;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -213,6 +215,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        int maxId = -1;
+        for(Type type : Type.values()) {
+            if (maxId < type.getId()) {
+                maxId = type.getId();
+            }
+        }
+        HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_VISIBLE);
@@ -345,7 +360,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
-
     private boolean isLikeTheme(String[] likeThemes, int themeId) {
         for (String likeThemeId : likeThemes) {
             if (TextUtils.isEmpty(likeThemeId)) {
@@ -357,7 +371,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         return false;
     }
-
 
     private void initRecyclerView() {
         View contentView = findViewById(R.id.recycler_view_content);

@@ -2,14 +2,17 @@ package com.honeycomb.colorphone;
 
 import com.acb.call.customize.AcbCallFactoryImpl;
 import com.acb.call.customize.ThemeViewConfig;
+import com.acb.call.themes.Type;
 import com.acb.call.views.CallIdleAlert;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.MessageCenterUtils;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.util.List;
 import java.util.Random;
@@ -132,6 +135,17 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         public List<?> getConfigThemes() {
             return HSConfig.getList(new String[]{"Application", "Theme", "List"});
 
+        }
+
+        @Override
+        public void onConfigTypes(List<Type> types) {
+            int max = -1;
+            for (Type oldType : types) {
+                if (max < oldType.getId()) {
+                    max = oldType.getId();
+                }
+            }
+            HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, max);
         }
     }
 
