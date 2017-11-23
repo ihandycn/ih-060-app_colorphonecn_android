@@ -50,6 +50,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSPreferenceHelper;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 
@@ -59,6 +60,7 @@ import java.util.ArrayList;
 import hugo.weaving.DebugLog;
 
 import static com.acb.utils.Utils.getTypeByThemeId;
+import static com.honeycomb.colorphone.preview.ThemePreviewView.saveThemeApplys;
 import static com.honeycomb.colorphone.util.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -211,6 +213,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View v) {
                     int pos = holder.getPositionTag();
                     if (onSelectedTheme(pos, holder)) {
+                        saveThemeApplys(data.get(pos));
                         CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, data.get(pos).getId());
                         HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
                         GuideApplyThemeActivity.start(v.getContext(), false);
@@ -725,7 +728,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     static class StatementViewHolder extends RecyclerView.ViewHolder {
-
         public StatementViewHolder(View itemView) {
             super(itemView);
         }

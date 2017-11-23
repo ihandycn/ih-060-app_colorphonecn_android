@@ -163,6 +163,13 @@
             </intent-filter>
         </service>
 
+        <receiver android:name=".notification.NotificationActionReceiver">
+            <intent-filter>
+                <action android:name="THEME_NOTIFICATION_CLICK_ACTION"/>
+                <action android:name="THEME_NOTIFICATION_DELETE_ACTION"/>
+            </intent-filter>
+        </receiver>
+
         <receiver
             android:name=".PermanentService$PermanentReceiver"
             android:enabled="true"
@@ -181,6 +188,10 @@
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
                 <action android:name="android.intent.action.PACKAGE_REMOVED"/>
             </intent-filter>
+        </receiver>
+
+        <receiver android:name=".notification.NotificationAlarmReceiver"
+            >
         </receiver>
 
     </application>

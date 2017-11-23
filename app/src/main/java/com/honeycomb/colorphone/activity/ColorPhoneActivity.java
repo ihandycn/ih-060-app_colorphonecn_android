@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -39,7 +38,6 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
-import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -47,7 +45,6 @@ import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.analytics.HSAnalytics;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -68,6 +65,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     public static final String NOTIFY_WINDOW_INVISIBLE = "notify_window_invisible";
     public static final String NOTIFY_WINDOW_VISIBLE = "notify_window_visible";
+    public static final String PREFS_THEME_APPLY = "theme_apply_array";
     private static final String PREFS_THEME_LIKE = "theme_like_array";
     private static final String PREFS_NOTIFICATION_ACCESS_TOAST_HAS_SHOWED = "prefs_notification_access_toast_showed";
 
@@ -218,13 +216,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onStart() {
         super.onStart();
 
-        int maxId = -1;
-        for(Type type : Type.values()) {
-            if (maxId < type.getId()) {
-                maxId = type.getId();
-            }
-        }
-        HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
+//        int maxId = -1;
+//        for(Type type : Type.values()) {
+//            if (maxId < type.getId()) {
+//                maxId = type.getId();
+//            }
+//        }
+//        HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
     }
 
     @Override
@@ -411,6 +409,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
                 NotificationAutoPilotUtils.logSettingsAlertShow();
                 HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
+
             }
         });
         notificationToast.setVisibility(View.VISIBLE);

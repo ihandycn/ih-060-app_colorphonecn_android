@@ -1,10 +1,14 @@
 package com.honeycomb.colorphone;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
@@ -29,8 +33,9 @@ import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.download.TasksManager;
-import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.module.Module;
+import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -42,6 +47,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSMapUtils;
+import com.ihs.commons.utils.HSPreferenceHelper;
 import com.liulishuo.filedownloader.FileDownloader;
 
 import net.appcloudbox.ads.expressads.AcbExpressAdManager;
@@ -50,8 +56,10 @@ import net.appcloudbox.common.utils.AcbApplicationHelper;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
@@ -59,10 +67,11 @@ import io.fabric.sdk.android.Fabric;
 import static android.content.IntentFilter.SYSTEM_HIGH_PRIORITY;
 
 public class ColorPhoneApplication extends HSApplication {
-
     private static ConfigLog mConfigLog;
 
     private List<Module> mModules = new ArrayList<>();
+
+    private static Stack<Integer> activityStack = new Stack<>();
 
     private INotificationObserver mObserver = new INotificationObserver() {
 
@@ -89,6 +98,10 @@ public class ColorPhoneApplication extends HSApplication {
      */
     public static int mWidth;
     public static int mHeight;
+
+    public static boolean isAppForeground() {
+        return !activityStack.isEmpty();
+    }
 
     @DebugLog
     @Override
@@ -117,6 +130,7 @@ public class ColorPhoneApplication extends HSApplication {
                 public Type parse(Map<String, ?> map) {
                     Theme type = new Theme();
                     Type.fillData(type, map);
+                    type.setNotificationEnabled(HSMapUtils.getBoolean(map, "LocalPush", "Enable"));
                     type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
                     return type;
                 }
@@ -144,6 +158,48 @@ public class ColorPhoneApplication extends HSApplication {
             Intent lockJobServiceIntent = new Intent(this, LockJobService.class);
             startService(lockJobServiceIntent);
         }
+
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                activityStack.push(1);
+                HSPreferenceHelper.getDefault().putLong(NotificationConstants.PREFS_APP_OPENED_TIME, System.currentTimeMillis());
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+                if (!activityStack.isEmpty()) {
+                    activityStack.pop();
+                }
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+        });
+
+        initNotificationAlarm();
     }
 
     private void copyMediaFromAssertToFile() {
@@ -377,5 +433,19 @@ public class ColorPhoneApplication extends HSApplication {
         public void onEventChargingViewShow() {
             super.onEventChargingAdClick();
         }
+    }
+
+    private void initNotificationAlarm() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            return;
+        }
+        AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationAlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        Calendar time = Calendar.getInstance();
+        time.set(Calendar.HOUR_OF_DAY, 6);
+        time.set(Calendar.AM_PM, Calendar.PM);
+        time.set(Calendar.MINUTE, 30);
+        alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
     }
 }

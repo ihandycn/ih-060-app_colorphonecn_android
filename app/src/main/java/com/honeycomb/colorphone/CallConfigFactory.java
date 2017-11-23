@@ -10,6 +10,7 @@ import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
+import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -139,13 +140,21 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
         @Override
         public void onConfigTypes(List<Type> types) {
+            if (ColorPhoneApplication.isAppForeground()) {
+                return;
+            }
             int max = -1;
-            for (Type oldType : types) {
+            for (Type oldType : Type.values()) {
                 if (max < oldType.getId()) {
                     max = oldType.getId();
                 }
             }
-            HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, max);
+            for (Type newType : types) {
+                if (max < newType.getId()) {
+                    NotificationUtils.downloadMedia(newType, null, false);
+                }
+            }
+//            HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, max);
         }
     }
 

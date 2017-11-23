@@ -12,6 +12,8 @@ import android.support.v7.content.res.AppCompatResources;
 import com.acb.call.themes.Type;
 import com.ihs.app.framework.HSApplication;
 
+import java.util.ArrayList;
+
 import static android.R.attr.type;
 
 /**
@@ -25,6 +27,7 @@ public class Theme extends Type {
     private long download;
     private boolean isSelected;
     private boolean isLike;
+    private boolean isNotificationEnabled;
     private int avatar;
     private String avatarName;
 
@@ -50,6 +53,14 @@ public class Theme extends Type {
 
     public void setLike(boolean like) {
         isLike = like;
+    }
+
+    public boolean isNotificationEnabled() {
+        return isNotificationEnabled;
+    }
+
+    public void setNotificationEnabled(boolean enabled) {
+        isNotificationEnabled = enabled;
     }
 
     public int getAvatar() {
@@ -121,4 +132,5 @@ public class Theme extends Type {
             "#ffa4efff",
             "#ffa4c0ff",
     };
+
 }
