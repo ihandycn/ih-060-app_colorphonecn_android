@@ -175,6 +175,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private boolean mBlockAnimationForPageChange = true;
 
     public static void saveThemeApplys(Theme theme) {
+        if (isThemeAppliedEver(theme)) {
+            return;
+        }
         StringBuilder sb = new StringBuilder(4);
         String pre = HSPreferenceHelper.getDefault().getString(ColorPhoneActivity.PREFS_THEME_APPLY, "");
         sb.append(pre).append(theme.getId()).append(",");
