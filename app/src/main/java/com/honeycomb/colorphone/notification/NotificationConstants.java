@@ -5,7 +5,8 @@ package com.honeycomb.colorphone.notification;
  */
 
 public class NotificationConstants {
-    public static final String PREFS_NOTIFICATION_HAS_NEW_THEME_WHEN_CONFIG_REFRESH = "PREFS_NOTIFICATION_HAS_NEW_THEME_WHEN_CONFIG_REFRESH";
+    public static final String NOTIFICATION_REFRESH_MAIN_FRAME = "NOTIFICATION_REFRESH_MAIN_FRAME";
+
     public static final String PREFS_NOTIFICATION_OLD_MAX_ID = "PREFS_NOTIFICATION_OLD_MAX_ID";
     public static final String PREFS_NOTIFICATION_THEMES_SENT = "PREFS_NOTIFICATION_THEME_SENT";
 

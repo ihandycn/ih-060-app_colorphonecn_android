@@ -638,6 +638,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         }
 
+        @Override
         public void updateNotDownloaded(final int status, final long sofar, final long total) {
 
             if (DEBUG_PROGRESS) {
@@ -646,6 +647,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mDownloadViewHolder.updateNotDownloaded(status, sofar, total);
         }
 
+        @Override
         public void updateDownloading(final int status, final long sofar, final long total) {
 
             if (DEBUG_PROGRESS) {

@@ -30,6 +30,7 @@ import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.File;
@@ -124,7 +125,7 @@ public class NotificationUtils {
             Log.d(TAG, "new Type notificationType = null");
             return;
         }
-        Log.d(TAG, "startLoad new type Notification");
+        Log.d(TAG, "startLoad new type Notification" + " id = " + notificationType.getId() + "name = " + notificationType.getName());
         downLoadPreviewImage(notificationType, listener);
     }
 
@@ -132,12 +133,12 @@ public class NotificationUtils {
         int maxId = HSPreferenceHelper.getDefault().getInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, -1);
         Type notificationType = null;
         int tempId = -1;
-        for (Type type : Type.values()) {
-            Theme theme = (Theme) type;
-            if (theme.getId() > maxId && theme.isHot() && theme.isNotificationEnabled()) {
+        for (Type theme : Type.values()) {
+
+            if (theme.getId() > maxId && theme.isHot()) {
                 if (tempId < theme.getId()) {
                     tempId = theme.getId();
-                    notificationType = type;
+                    notificationType = theme;
                 }
             }
         }
@@ -179,7 +180,7 @@ public class NotificationUtils {
         Log.d(TAG, "start download Mp4");
         if (mediaDownloadManager.isDownloaded(type.getFileName())) {
             if (listener != null) {
-                listener.onSuccess();
+                listener.onFailed();
             }
             Log.d(TAG, "already downLoaded");
             return;
@@ -201,18 +202,27 @@ public class NotificationUtils {
 
             @Override
             public void onSuccess(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask) {
-                Log.d(TAG, "download media success" + "app foreGround = " + ColorPhoneApplication.isAppForeground());
-                if (listener != null) {
-                    listener.onSuccess();
-                }
+                Log.d(TAG, "download media success " + "app foreGround = " + ColorPhoneApplication.isAppForeground());
+                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+
                 if (!showNotification) {
                     return;
                 }
                 if (!ColorPhoneApplication.isAppForeground()) {
                     if (!isThemeNotificationSentEver(type)) {
                         doShowNotification(type, HSApplication.getContext());
+
+                        if (listener != null) {
+                            listener.onSuccess();
+                        }
+                        return;
                     }
                 }
+
+                if (listener != null) {
+                    listener.onFailed();
+                }
+
             }
 
             @Override
@@ -232,6 +242,7 @@ public class NotificationUtils {
     }
 
     public static boolean isThemeNotificationSentEver(Type theme) {
+
         String[] themes = HSPreferenceHelper.getDefault().getString(PREFS_NOTIFICATION_THEMES_SENT, "").split(",");
         for (String themeId : themes) {
             if (TextUtils.isEmpty(themeId)) {
@@ -298,7 +309,7 @@ public class NotificationUtils {
     private static boolean isShowOldThemeNotificationAtValidInterval() {
         Log.d(TAG, "showOldThemeAtValidInterval");
 
-        long interval = HSConfig.optInteger(3, "Application", "OldThemePush", "MinShowIntervalByPush")
+        long interval = HSConfig.optInteger(0, "Application", "OldThemePush", "MinShowIntervalByPush")
                             * DateUtils.DAY_IN_MILLIS;
         if (System.currentTimeMillis() -
                 HSPreferenceHelper.getDefault().getLong(NotificationConstants.PREFS_NOTIFICATION_SHOWED_LAST_TIME, 0)
@@ -312,35 +323,29 @@ public class NotificationUtils {
     }
 
     private static boolean isAppOpenedInLastSeveralDays() {
-
-
-        long interval = HSConfig.optInteger(3, "Application", "OldThemePush", "MinShowIntervalByOpenApp")
+        long interval = HSConfig.optInteger(0, "Application", "OldThemePush", "MinShowIntervalByOpenApp")
                             * DateUtils.DAY_IN_MILLIS;
         if (System.currentTimeMillis() -
                 HSPreferenceHelper.getDefault().getLong(NotificationConstants.PREFS_APP_OPENED_TIME, 0)
                 > interval) {
-            Log.d(TAG, "isAppOpened  unopened");
-            return true;
+            Log.d(TAG, "app not opened  should show notification");
+            return false;
         }
-        Log.d(TAG, "isAppOpened  AppOpened");
-        return false;
+        Log.d(TAG, "should not show notification");
+        return true;
     }
 
     private static Type getOldThemeType() {
-        int maxId = HSPreferenceHelper.getDefault().getInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, 10);
+        int maxId = HSPreferenceHelper.getDefault().getInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, 0);
         Type notificationType = null;
         int tempIndex = Integer.MAX_VALUE;
-        for (Type type : Type.values()) {
-
-            Theme theme = (Theme) type;
+        for (Type theme : Type.values()) {
             if (theme.getId() < maxId
                     && !theme.isHot()
                     && theme.isMedia()
-                    && theme.isNotificationEnabled()
                     && !ThemePreviewView.isThemeAppliedEver(theme)) {
                 if (tempIndex > theme.getIndex()) {
                     tempIndex = theme.getIndex();
-                    notificationType = type;
                 }
             }
         }

@@ -154,7 +154,6 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                     NotificationUtils.downloadMedia(newType, null, false);
                 }
             }
-//            HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, max);
         }
     }
 

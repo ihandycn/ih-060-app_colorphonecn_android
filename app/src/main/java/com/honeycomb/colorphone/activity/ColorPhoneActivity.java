@@ -38,6 +38,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -209,20 +210,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         initData();
         initRecyclerView();
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
+        HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
-//        int maxId = -1;
-//        for(Type type : Type.values()) {
-//            if (maxId < type.getId()) {
-//                maxId = type.getId();
-//            }
-//        }
-//        HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
+        int maxId = -1;
+        for(Type type : Type.values()) {
+            if (maxId < type.getId()) {
+                maxId = type.getId();
+            }
+        }
+        HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
     }
 
     @Override
@@ -478,6 +479,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onReceive(String s, HSBundle hsBundle) {
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mainSwitch.setChecked(true);
+        } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
+            mAdapter.notifyDataSetChanged();
         }
     }
 

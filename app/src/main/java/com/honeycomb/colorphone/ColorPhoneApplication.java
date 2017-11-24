@@ -13,6 +13,7 @@ import android.os.SystemClock;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
 import com.acb.autopilot.AutopilotConfig;
 import com.acb.autopilot.AutopilotEvent;
@@ -130,7 +131,9 @@ public class ColorPhoneApplication extends HSApplication {
                 public Type parse(Map<String, ?> map) {
                     Theme type = new Theme();
                     Type.fillData(type, map);
-                    type.setNotificationEnabled(HSMapUtils.getBoolean(map, "LocalPush", "Enable"));
+//                    type.setNotificationEnabled(HSMapUtils.getBoolean(map, "LocalPush", "Enable"));
+
+                    type.setNotificationEnabled(true);
                     type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
                     return type;
                 }
@@ -435,17 +438,15 @@ public class ColorPhoneApplication extends HSApplication {
         }
     }
 
-    private void initNotificationAlarm() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            return;
-        }
-        AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, NotificationAlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+    public static void initNotificationAlarm() {
+        AlarmManager alarmMgr = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getContext(), NotificationAlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, 0);
         Calendar time = Calendar.getInstance();
-        time.set(Calendar.HOUR_OF_DAY, 6);
+        time.setTimeInMillis(System.currentTimeMillis());
+        time.set(Calendar.HOUR, 6);
         time.set(Calendar.AM_PM, Calendar.PM);
         time.set(Calendar.MINUTE, 30);
-        alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), pendingIntent);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), DateUtils.DAY_IN_MILLIS, pendingIntent);
     }
 }

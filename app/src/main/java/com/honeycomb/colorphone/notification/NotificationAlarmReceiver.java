@@ -9,7 +9,7 @@ public class NotificationAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("NotificationAReceiver", "receiveAlarmIntent");
+        Log.d("NotificationUtils", "receiveAlarmIntent");
         NotificationUtils.sendNotificationIfProper();
     }
 }
