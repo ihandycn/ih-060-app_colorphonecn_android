@@ -151,7 +151,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             }
             for (Type newType : types) {
                 if (max < newType.getId()) {
-                    NotificationUtils.downloadMedia(newType, null, false);
+                    NotificationUtils.downloadMedia(newType);
                 }
             }
         }

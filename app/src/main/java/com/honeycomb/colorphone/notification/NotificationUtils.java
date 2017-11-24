@@ -172,15 +172,24 @@ public class NotificationUtils {
                 }).preload();
     }
 
-    public static void downLoadMedia(Type type) {
+    public static void downloadMedia(Type type) {
         downloadMedia(type, null, false);
     }
 
     public static void downloadMedia(final Type type, final ShowNewThemeNotificationListener listener, final boolean showNotification) {
         Log.d(TAG, "start download Mp4");
-        if (mediaDownloadManager.isDownloaded(type.getFileName())) {
+
+        final boolean canShowNotification = showNotification && !ColorPhoneApplication.isAppForeground() && !isThemeNotificationSentEver(type);
+        if (!canShowNotification) {
             if (listener != null) {
                 listener.onFailed();
+            }
+        }
+
+        if (mediaDownloadManager.isDownloaded(type.getFileName())) {
+            if (canShowNotification) {
+                doShowNotification(type, HSApplication.getContext());
+                if (listener != null) listener.onSuccess();
             }
             Log.d(TAG, "already downLoaded");
             return;
@@ -194,8 +203,9 @@ public class NotificationUtils {
 
             @Override
             public void onFail(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask, String s) {
-                if (listener != null) {
-                    listener.onFailed();
+                if (canShowNotification) {
+                    doShowNotification(type, HSApplication.getContext());
+                    if (listener != null) listener.onSuccess();
                 }
                 Log.d(TAG, "download media failed");
             }
@@ -203,32 +213,21 @@ public class NotificationUtils {
             @Override
             public void onSuccess(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask) {
                 Log.d(TAG, "download media success " + "app foreGround = " + ColorPhoneApplication.isAppForeground());
-                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
 
-                if (!showNotification) {
-                    return;
+                if (ColorPhoneApplication.isAppForeground()) {
+                    HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
                 }
-                if (!ColorPhoneApplication.isAppForeground()) {
-                    if (!isThemeNotificationSentEver(type)) {
-                        doShowNotification(type, HSApplication.getContext());
-
-                        if (listener != null) {
-                            listener.onSuccess();
-                        }
-                        return;
-                    }
+                if (canShowNotification) {
+                    doShowNotification(type, HSApplication.getContext());
+                    if (listener != null) listener.onSuccess();
                 }
-
-                if (listener != null) {
-                    listener.onFailed();
-                }
-
             }
 
             @Override
             public void onCancel() {
-                if (listener != null) {
-                    listener.onFailed();
+                if (canShowNotification) {
+                    doShowNotification(type, HSApplication.getContext());
+                    if (listener != null) listener.onSuccess();
                 }
             }
         });
