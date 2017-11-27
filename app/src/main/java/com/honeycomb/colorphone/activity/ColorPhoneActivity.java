@@ -109,21 +109,21 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
+        if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+                && !GuideLockerAssistantActivity.isStarted()
+                && !ModuleUtils.isAllModuleEnabled()) {
+            GuideLockerAssistantActivity.start(this);
+            HSAlertMgr.delayRateAlert();
+            pendingShowRateAlert = true;
+        } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
             Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
             startActivity(intent);
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
-        } else {
-            if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
-                    && !GuideLockerAssistantActivity.isStarted()
-                    && !ModuleUtils.isAllModuleEnabled()) {
-                GuideLockerAssistantActivity.start(this);
-                HSAlertMgr.delayRateAlert();
-                pendingShowRateAlert = true;
-            }
+
         }
+
         setTheme(R.style.AppLightStatusBarTheme);
 
         setContentView(R.layout.activity_main);
