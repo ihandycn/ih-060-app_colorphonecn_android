@@ -6,6 +6,9 @@ import com.ihs.commons.config.HSConfig;
 
 public class NotificationConfig {
 
+    public static boolean isTestLogEnabled() {
+        return HSConfig.optBoolean(false, "Application", "NotificationAccess", "NotificationTestEnable");
+    }
 
     /**
      * inside app notification access alert config

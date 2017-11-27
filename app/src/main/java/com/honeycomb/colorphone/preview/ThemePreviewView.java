@@ -37,6 +37,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
@@ -611,7 +612,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 float percent = TasksManager.getImpl().getDownloadProgress(model.getId());
                 mProgressViewHolder.updateProgressView((int) (percent * 100));
                 if (percent == 0f || Float.isNaN(percent)) {
-                    ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase());
+                    ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase(), ConfigLog.FROM_LIST);
                 }
                 mHandler.postDelayed(new Runnable() {
                     @Override

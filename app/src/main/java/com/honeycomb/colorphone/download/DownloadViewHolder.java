@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.ProgressView;
 import com.honeycomb.colorphone.view.TypefacedTextView;
@@ -113,7 +114,7 @@ public class DownloadViewHolder implements DownloadHolder {
         } else {
             doDownload(model);
         }
-        ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase());
+        ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase(), ConfigLog.FROM_LIST);
 
     }
 

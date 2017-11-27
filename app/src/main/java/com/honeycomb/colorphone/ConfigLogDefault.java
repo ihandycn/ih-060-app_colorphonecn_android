@@ -37,8 +37,8 @@ public class ConfigLogDefault implements ConfigLog {
         }
 
         @Override
-        public void onThemeDownloadStart(String name) {
-            HSAnalytics.logEvent("ColorPhone_Theme_Download_Started", "ThemeName", name);
+        public void onThemeDownloadStart(String name, String from) {
+            HSAnalytics.logEvent("ColorPhone_Theme_Download_Started", "ThemeName", name, "from", from);
         }
 
         @Override
