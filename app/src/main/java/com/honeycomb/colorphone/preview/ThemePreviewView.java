@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.download.DownloadStateListener;
@@ -45,14 +47,15 @@ import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.FontUtils;
-import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.util.ArrayList;
 
@@ -136,7 +139,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private OvershootInterpolator mInter;
     private ValueAnimator transAnimator;
 
-
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
@@ -172,6 +174,29 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
      * in those two conditions we start animation directly.
      */
     private boolean mBlockAnimationForPageChange = true;
+
+    public static void saveThemeApplys(int themeId) {
+        if (isThemeAppliedEver(themeId)) {
+            return;
+        }
+        StringBuilder sb = new StringBuilder(4);
+        String pre = HSPreferenceHelper.getDefault().getString(ColorPhoneActivity.PREFS_THEME_APPLY, "");
+        sb.append(pre).append(themeId).append(",");
+        HSPreferenceHelper.getDefault().putString(ColorPhoneActivity.PREFS_THEME_APPLY, sb.toString());
+    }
+
+    public static boolean isThemeAppliedEver(int themeId) {
+        String[] themes = HSPreferenceHelper.getDefault().getString(ColorPhoneActivity.PREFS_THEME_APPLY, "").split(",");
+        for (String theme : themes) {
+            if (TextUtils.isEmpty(theme)) {
+                continue;
+            }
+            if (themeId == Integer.parseInt(theme)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public ThemePreviewView(@NonNull Context context) {
         super(context);
@@ -253,6 +278,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (inTransition) {
                     return;
                 }
+                saveThemeApplys(mTheme.getId());
                 CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
                 // notify
                 HSBundle bundle = new HSBundle();
@@ -273,6 +299,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     toast.setGravity(Gravity.BOTTOM, 0, offsetY);
                     toast.show();
                 }
+                NotificationUtils.logThemeAppliedFlurry(mTheme);
 
             }
         });

@@ -20,7 +20,6 @@ import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
@@ -39,7 +38,7 @@ import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
-import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.ThemeUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
@@ -59,6 +58,7 @@ import java.util.ArrayList;
 import hugo.weaving.DebugLog;
 
 import static com.acb.utils.Utils.getTypeByThemeId;
+import static com.honeycomb.colorphone.preview.ThemePreviewView.saveThemeApplys;
 import static com.honeycomb.colorphone.util.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -213,9 +213,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View v) {
                     int pos = holder.getPositionTag();
                     if (onSelectedTheme(pos, holder)) {
+                        saveThemeApplys(data.get(pos).getId());
                         CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, data.get(pos).getId());
                         HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
                         GuideApplyThemeActivity.start(v.getContext(), false);
+                        NotificationUtils.logThemeAppliedFlurry(data.get(pos));
                     }
                 }
             });
@@ -637,6 +639,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         }
 
+        @Override
         public void updateNotDownloaded(final int status, final long sofar, final long total) {
 
             if (DEBUG_PROGRESS) {
@@ -645,6 +648,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mDownloadViewHolder.updateNotDownloaded(status, sofar, total);
         }
 
+        @Override
         public void updateDownloading(final int status, final long sofar, final long total) {
 
             if (DEBUG_PROGRESS) {
@@ -727,7 +731,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     static class StatementViewHolder extends RecyclerView.ViewHolder {
-
         public StatementViewHolder(View itemView) {
             super(itemView);
         }

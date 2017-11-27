@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -42,6 +43,15 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         context.overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
         context.startActivity(starter);
     }
+
+    public static void start(Context context, ArrayList<Theme> theme, int position) {
+        Intent starter = new Intent(context, ThemePreviewActivity.class);
+        starter.putExtra("themeList", theme);
+        starter.putExtra("position", position);
+        starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(starter);
+    }
+
 
     public List<ThemePreviewView> getViews() {
         return mViews;
