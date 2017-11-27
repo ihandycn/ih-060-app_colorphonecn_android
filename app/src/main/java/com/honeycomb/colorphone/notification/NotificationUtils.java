@@ -13,7 +13,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.acb.call.MediaDownloadManager;
-import com.acb.call.themes.Type;
+import com.honeycomb.colorphone.Theme;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.PermissionUtils;
 import com.bumptech.glide.load.DataSource;
@@ -100,7 +100,7 @@ public class NotificationUtils {
     private interface ThemeNotificationListener {
         void onFailed();
 
-        void onSuccess(Type type);
+        void onSuccess(Theme type);
     }
 
     public static void logThemeAppliedFlurry(Theme theme) {
@@ -125,7 +125,7 @@ public class NotificationUtils {
             }
 
             @Override
-            public void onSuccess(Type type) {
+            public void onSuccess(Theme type) {
                 doShowNotification(type, true);
             }
         });
@@ -136,23 +136,23 @@ public class NotificationUtils {
             listener.onFailed();
             return;
         }
-        Type notificationType = getNewestType();
+        Theme notificationType = getNewestType();
         if (notificationType == null) {
             if (listener != null) {
                 listener.onFailed();
             }
-            Log.d(TAG, "new Type notificationType = null");
+            Log.d(TAG, "new Theme notificationType = null");
             return;
         }
         Log.d(TAG, "startLoad new type Notification" + " id = " + notificationType.getId() + "name = " + notificationType.getName());
         downLoadPreviewImage(notificationType, listener);
     }
 
-    private static Type getNewestType() {
+    private static Theme getNewestType() {
         int maxId = HSPreferenceHelper.getDefault().getInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, -1);
-        Type notificationType = null;
+        Theme notificationType = null;
         int tempId = -1;
-        for (Type theme : Type.values()) {
+        for (Theme theme : Theme.themes()) {
             if (theme.getId() > maxId && theme.isHot()) {
                 if (tempId < theme.getId() && !isThemeNotificationSentEver(theme)) {
                     tempId = theme.getId();
@@ -165,7 +165,7 @@ public class NotificationUtils {
 
     private static MediaDownloadManager mediaDownloadManager = new MediaDownloadManager();
 
-    private static void downLoadPreviewImage(final Type type, @Nullable final ThemeNotificationListener listener) {
+    private static void downLoadPreviewImage(final Theme type, @Nullable final ThemeNotificationListener listener) {
         GlideApp.with(ColorPhoneApplication.getContext())
                 .downloadOnly().load(type.getPreviewImage())
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
@@ -191,11 +191,11 @@ public class NotificationUtils {
                 }).preload();
     }
 
-    public static void downloadMedia(Type type) {
+    public static void downloadMedia(Theme type) {
         downloadMedia(type, null);
     }
 
-    public static void downloadMedia(final Type type, final ThemeNotificationListener listener) {
+    public static void downloadMedia(final Theme type, final ThemeNotificationListener listener) {
         Log.d(TAG, "start download Mp4");
 
         final boolean canShowNotification = !ColorPhoneApplication.isAppForeground();
@@ -248,14 +248,14 @@ public class NotificationUtils {
         });
     }
 
-    public static void saveThemeNotificationSent(Type theme) {
+    public static void saveThemeNotificationSent(Theme theme) {
         StringBuilder sb = new StringBuilder();
         String pre = HSPreferenceHelper.getDefault().getString(PREFS_NOTIFICATION_THEMES_SENT, "");
         sb.append(pre).append(theme.getId()).append(",");
         HSPreferenceHelper.getDefault().putString(PREFS_NOTIFICATION_THEMES_SENT, sb.toString());
     }
 
-    public static boolean isThemeNotificationSentEver(Type theme) {
+    public static boolean isThemeNotificationSentEver(Theme theme) {
         String[] themes = HSPreferenceHelper.getDefault().getString(PREFS_NOTIFICATION_THEMES_SENT, "").split(",");
         for (String themeId : themes) {
             if (TextUtils.isEmpty(themeId)) {
@@ -268,7 +268,7 @@ public class NotificationUtils {
         return false;
     }
 
-    private static void doShowNotification(Type type, boolean isNewTheme) {
+    private static void doShowNotification(Theme type, boolean isNewTheme) {
         Context context = HSApplication.getContext();
 
 
@@ -334,7 +334,7 @@ public class NotificationUtils {
         if (isAppOpenedInLastSeveralDays()) {
             return;
         }
-        final Type notificationType = getOldThemeType();
+        final Theme notificationType = getOldThemeType();
 
         Log.d(TAG, notificationType == null ? "notification null" : "old theme start load");
         if (notificationType != null) {
@@ -346,7 +346,7 @@ public class NotificationUtils {
                 }
 
                 @Override
-                public void onSuccess(Type type) {
+                public void onSuccess(Theme type) {
                     Log.d(TAG, "start download preview image");
                     onOldThemePreviewImageDownloaded(type);
                 }
@@ -354,7 +354,7 @@ public class NotificationUtils {
         }
     }
 
-    private static void onOldThemePreviewImageDownloaded(Type type) {
+    private static void onOldThemePreviewImageDownloaded(Theme type) {
         downloadMedia(type, new ThemeNotificationListener() {
             @Override
             public void onFailed() {
@@ -362,7 +362,7 @@ public class NotificationUtils {
             }
 
             @Override
-            public void onSuccess(Type type) {
+            public void onSuccess(Theme type) {
                 doShowNotification(type, false);
             }
         });
@@ -399,14 +399,15 @@ public class NotificationUtils {
         return true;
     }
 
-    private static Type getOldThemeType() {
+    private static Theme getOldThemeType() {
         int maxId = HSPreferenceHelper.getDefault().getInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, 26);
-        Type notificationType = null;
+        Theme notificationType = null;
         int tempIndex = Integer.MAX_VALUE;
-        for (Type theme : Type.values()) {
+        for (Theme theme : Theme.themes()) {
             if (theme.getId() < maxId
                     && !theme.isHot()
                     && theme.isMedia()
+                    && theme.isNotificationEnabled()
                     && tempIndex > theme.getIndex()
                     && !isThemeNotificationSentEver(theme)
                     && !ThemePreviewView.isThemeAppliedEver(theme.getId())) {

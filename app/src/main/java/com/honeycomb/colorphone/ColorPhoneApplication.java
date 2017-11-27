@@ -134,7 +134,7 @@ public class ColorPhoneApplication extends HSApplication {
                 public Type parse(Map<String, ?> map) {
                     Theme type = new Theme();
                     Type.fillData(type, map);
-//                    type.setNotificationEnabled(HSMapUtils.getBoolean(map, "LocalPush", "Enable"));
+                    type.setNotificationEnabled(HSMapUtils.optBoolean(map, false,"LocalPush", "Enable"));
                     type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
                     return type;
                 }
