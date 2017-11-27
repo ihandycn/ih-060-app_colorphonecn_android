@@ -176,15 +176,9 @@ dependencies {
     for (dependency in adDependencies) {
         compile dependency
     }
-    compile (USE_BETA_ACB_LIBS ? "com.acb.autopilot:autopilot.beta:4.1.3.beta02"
+    compile (USE_BETA_ACB_LIBS ? "com.acb.autopilot:autopilot.beta:4.1.3.+"
             : "com.acb.autopilot:autopilot.gm:4.1.3.gm")
-    compile (USE_BETA_ACB_LIBS ? 'com.ihandy.appframework:libAppframework.beta:4.5.0.beta01' :
-            'com.ihandy.appframework:libAppframework.gm:4.5.0.gm')
-//
-//    // same : amazon banner
-//    compile (USE_BETA_ACB_LIBS ? 'net.appcloudbox.adadapter:libAdMopubBannerAdapter.beta:5.0.0.beta01' :
-//            'net.appcloudbox.adadapter:libAdMopubBannerAdapter.gm:5.0.0.gm') {
-//        exclude group : 'com.mopub'
-//    }
+    compile (USE_BETA_ACB_LIBS ? 'com.ihandy.appframework:libAppframework.beta:4.5.1.+' :
+            'com.ihandy.appframework:libAppframework.gm:4.5.1.gm')
 
 }
