@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -27,9 +28,9 @@ import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
-import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
@@ -96,27 +97,45 @@ public class NotificationUtils {
      * theme notification
      */
 
-    private interface ShowNewThemeNotificationListener {
+    private interface ThemeNotificationListener {
         void onFailed();
 
-        void onSuccess();
+        void onSuccess(Type type);
     }
 
-    protected static void sendNotificationIfProper() {
-        showNewThemeNotification(new ShowNewThemeNotificationListener() {
+    public static void logThemeAppliedFlurry(Theme theme) {
+        if (SessionMgr.getInstance().getCurrentSessionId() ==
+                HSPreferenceHelper.getDefault().getInt(NotificationConstants.THEME_NOTIFICATION_SESSION_ID, 0)) {
+            boolean isNewTheme = HSPreferenceHelper.getDefault().getBoolean(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, false);
+            if (isNewTheme) {
+                HSAnalytics.logEvent("Colorphone_LocalPush_NewTheme_ThemeApply", "ThemeName", theme.getName());
+                NotificationAutoPilotUtils.logNewThemeNotificationApply();
+            } else {
+                HSAnalytics.logEvent("Colorphone_LocalPush_OldTheme_ThemeApply", "ThemeName", theme.getName());
+                NotificationAutoPilotUtils.logOldThemeNotificationApply();
+            }
+        }
+    }
+
+    public static void sendNotificationIfProper() {
+        showNewThemeNotificationIfProper(new ThemeNotificationListener() {
             @Override
             public void onFailed() {
-                showOldThemeNotification();
+                showOldThemeNotificationIfProper();
             }
 
             @Override
-            public void onSuccess() {
-
+            public void onSuccess(Type type) {
+                doShowNotification(type, true);
             }
         });
     }
 
-    private static void showNewThemeNotification(ShowNewThemeNotificationListener listener) {
+    private static void showNewThemeNotificationIfProper(ThemeNotificationListener listener) {
+        if (!NotificationAutoPilotUtils.isNewThemeNotificationEnabled()) {
+            listener.onFailed();
+            return;
+        }
         Type notificationType = getNewestType();
         if (notificationType == null) {
             if (listener != null) {
@@ -134,9 +153,8 @@ public class NotificationUtils {
         Type notificationType = null;
         int tempId = -1;
         for (Type theme : Type.values()) {
-
             if (theme.getId() > maxId && theme.isHot()) {
-                if (tempId < theme.getId()) {
+                if (tempId < theme.getId() && !isThemeNotificationSentEver(theme)) {
                     tempId = theme.getId();
                     notificationType = theme;
                 }
@@ -147,16 +165,15 @@ public class NotificationUtils {
 
     private static MediaDownloadManager mediaDownloadManager = new MediaDownloadManager();
 
-    private static void downLoadPreviewImage(final Type type, final ShowNewThemeNotificationListener listener) {
+    private static void downLoadPreviewImage(final Type type, @Nullable final ThemeNotificationListener listener) {
         GlideApp.with(ColorPhoneApplication.getContext())
                 .downloadOnly().load(type.getPreviewImage())
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .listener(new RequestListener<File>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<File> target, boolean isFirstResource) {
-                        listener.onFailed();
-
                         Log.d(TAG, "load Preview Image failed");
+                        listener.onFailed();
                         return false;
                     }
 
@@ -165,7 +182,9 @@ public class NotificationUtils {
 
                         Log.d(TAG, "wifiConnected = " + Utils.isWifiEnabled());
                         if (Utils.isWifiEnabled()) {
-                            downloadMedia(type, listener, true);
+                            downloadMedia(type, listener);
+                        } else if (!ColorPhoneApplication.isAppForeground()){
+                            listener.onSuccess(type);
                         }
                         return false;
                     }
@@ -173,13 +192,13 @@ public class NotificationUtils {
     }
 
     public static void downloadMedia(Type type) {
-        downloadMedia(type, null, false);
+        downloadMedia(type, null);
     }
 
-    public static void downloadMedia(final Type type, final ShowNewThemeNotificationListener listener, final boolean showNotification) {
+    public static void downloadMedia(final Type type, final ThemeNotificationListener listener) {
         Log.d(TAG, "start download Mp4");
 
-        final boolean canShowNotification = showNotification && !ColorPhoneApplication.isAppForeground() && !isThemeNotificationSentEver(type);
+        final boolean canShowNotification = !ColorPhoneApplication.isAppForeground();
         if (!canShowNotification) {
             if (listener != null) {
                 listener.onFailed();
@@ -188,8 +207,7 @@ public class NotificationUtils {
 
         if (mediaDownloadManager.isDownloaded(type.getFileName())) {
             if (canShowNotification) {
-                doShowNotification(type, HSApplication.getContext());
-                if (listener != null) listener.onSuccess();
+                if (listener != null) listener.onSuccess(type);
             }
             Log.d(TAG, "already downLoaded");
             return;
@@ -204,8 +222,7 @@ public class NotificationUtils {
             @Override
             public void onFail(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask, String s) {
                 if (canShowNotification) {
-                    doShowNotification(type, HSApplication.getContext());
-                    if (listener != null) listener.onSuccess();
+                    if (listener != null) listener.onSuccess(type);
                 }
                 Log.d(TAG, "download media failed");
             }
@@ -218,30 +235,27 @@ public class NotificationUtils {
                     HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
                 }
                 if (canShowNotification) {
-                    doShowNotification(type, HSApplication.getContext());
-                    if (listener != null) listener.onSuccess();
+                    if (listener != null) listener.onSuccess(type);
                 }
             }
 
             @Override
             public void onCancel() {
                 if (canShowNotification) {
-                    doShowNotification(type, HSApplication.getContext());
-                    if (listener != null) listener.onSuccess();
+                    if (listener != null) listener.onSuccess(type);
                 }
             }
         });
     }
 
     public static void saveThemeNotificationSent(Type theme) {
-        StringBuilder sb = new StringBuilder(4);
+        StringBuilder sb = new StringBuilder();
         String pre = HSPreferenceHelper.getDefault().getString(PREFS_NOTIFICATION_THEMES_SENT, "");
         sb.append(pre).append(theme.getId()).append(",");
         HSPreferenceHelper.getDefault().putString(PREFS_NOTIFICATION_THEMES_SENT, sb.toString());
     }
 
     public static boolean isThemeNotificationSentEver(Type theme) {
-
         String[] themes = HSPreferenceHelper.getDefault().getString(PREFS_NOTIFICATION_THEMES_SENT, "").split(",");
         for (String themeId : themes) {
             if (TextUtils.isEmpty(themeId)) {
@@ -254,10 +268,18 @@ public class NotificationUtils {
         return false;
     }
 
-    private static void doShowNotification(Type type, Context context) {
+    private static void doShowNotification(Type type, boolean isNewTheme) {
+        Context context = HSApplication.getContext();
+
+
+        boolean isMp4Downloaded = mediaDownloadManager.isDownloaded(type.getFileName());
         Intent intentClick = new Intent(context, NotificationActionReceiver.class);
         intentClick.setAction(NotificationConstants.THEME_NOTIFICATION_CLICK_ACTION);
+        intentClick.putExtra(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, isNewTheme);
         intentClick.putExtra(NotificationConstants.THEME_NOTIFICATION_KEY, NotificationConstants.THEME_NOTIFICATION_ID);
+        intentClick.putExtra(NotificationConstants.THEME_NOTIFICATION_THEME_NAME, type.getName());
+        intentClick.putExtra(NotificationConstants.THEME_NOTIFICATION_MP4_DOWNLOADED, isMp4Downloaded);
+        intentClick.putExtra(NotificationConstants.THEME_NOTIFICATION_THEME_INDEX, type.getIndex());
         PendingIntent pendingIntentClick = PendingIntent.getBroadcast(context, 0, intentClick, PendingIntent.FLAG_ONE_SHOT);
 
         Intent intentDelete = new Intent(context, NotificationActionReceiver.class);
@@ -265,21 +287,47 @@ public class NotificationUtils {
         intentDelete.putExtra(NotificationConstants.THEME_NOTIFICATION_KEY, NotificationConstants.THEME_NOTIFICATION_ID);
         PendingIntent pendingIntentDelete = PendingIntent.getBroadcast(context, 0, intentDelete, PendingIntent.FLAG_ONE_SHOT);
 
+        String contentText;
+        String title;
+        if (isNewTheme) {
+            contentText = NotificationAutoPilotUtils.getNewThemeNotificationContent();
+            title = NotificationAutoPilotUtils.getNewThemeNotificationTitle();
+        } else {
+            contentText = NotificationAutoPilotUtils.getOldThemeNotificationContent();
+            title = NotificationAutoPilotUtils.getOldThemeNotificationTitle();
+        }
+        contentText = String.format(contentText, type.getName());
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.drawer_icon)
-                        .setContentTitle(type.getName())
-                        .setContentText("content test")
+                        .setSmallIcon(R.drawable.notification_small_icon_test)
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.boost_icon))
+                        .setContentTitle(title)
+                        .setContentText(contentText)
                         .setDeleteIntent(pendingIntentDelete)
                         .setContentIntent(pendingIntentClick);
         android.app.NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NotificationConstants.THEME_NOTIFICATION_ID, builder.build());
-
+        HSPreferenceHelper.getDefault().putInt(NotificationConstants.THEME_NOTIFICATION_SESSION_ID, SessionMgr.getInstance().getCurrentSessionId() + 1);
         saveThemeNotificationSent(type);
+        HSPreferenceHelper.getDefault().putBoolean(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, isNewTheme);
+        if (isNewTheme) {
+            HSAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Show",
+                    "ThemeName", type.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));
+            NotificationAutoPilotUtils.logNewThemeNotificationShow();
+        } else {
+            HSAnalytics.logEvent("Colorphone_LocalPush_OldTheme_Show",
+                    "ThemeName", type.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));
+            NotificationAutoPilotUtils.logOldThemeNotificationShow();
+        }
+
         HSPreferenceHelper.getDefault().putLong(NotificationConstants.PREFS_NOTIFICATION_SHOWED_LAST_TIME, System.currentTimeMillis());
     }
 
-    public static void showOldThemeNotification() {
+    public static void showOldThemeNotificationIfProper() {
+        if (!NotificationAutoPilotUtils.isOldThemeNotificationEnabled()) {
+            return;
+        }
+
         if (!isShowOldThemeNotificationAtValidInterval()) {
             return;
         }
@@ -290,26 +338,42 @@ public class NotificationUtils {
 
         Log.d(TAG, notificationType == null ? "notification null" : "old theme start load");
         if (notificationType != null) {
-            downLoadPreviewImage(notificationType, new ShowNewThemeNotificationListener() {
+
+            Log.d(TAG, "notificationType old theme " + " id = "+notificationType.getId() + "name = " + notificationType.getName());
+            downLoadPreviewImage(notificationType, new ThemeNotificationListener() {
                 @Override
                 public void onFailed() {
-                    Log.d(TAG, "load old preview image failed");
                 }
 
                 @Override
-                public void onSuccess() {
+                public void onSuccess(Type type) {
                     Log.d(TAG, "start download preview image");
-                    downloadMedia(notificationType, null, true);
+                    onOldThemePreviewImageDownloaded(type);
                 }
             });
         }
     }
 
+    private static void onOldThemePreviewImageDownloaded(Type type) {
+        downloadMedia(type, new ThemeNotificationListener() {
+            @Override
+            public void onFailed() {
+
+            }
+
+            @Override
+            public void onSuccess(Type type) {
+                doShowNotification(type, false);
+            }
+        });
+    }
+
     private static boolean isShowOldThemeNotificationAtValidInterval() {
         Log.d(TAG, "showOldThemeAtValidInterval");
 
-        long interval = HSConfig.optInteger(0, "Application", "OldThemePush", "MinShowIntervalByPush")
+        long interval = ((int) NotificationAutoPilotUtils.getOldThemeNotificationShowInterval())
                             * DateUtils.DAY_IN_MILLIS;
+
         if (System.currentTimeMillis() -
                 HSPreferenceHelper.getDefault().getLong(NotificationConstants.PREFS_NOTIFICATION_SHOWED_LAST_TIME, 0)
                 > interval) {
@@ -322,8 +386,9 @@ public class NotificationUtils {
     }
 
     private static boolean isAppOpenedInLastSeveralDays() {
-        long interval = HSConfig.optInteger(0, "Application", "OldThemePush", "MinShowIntervalByOpenApp")
+        long interval = ((int) NotificationAutoPilotUtils.getOldThemeNotificationShowIntervalByOpenApp())
                             * DateUtils.DAY_IN_MILLIS;
+
         if (System.currentTimeMillis() -
                 HSPreferenceHelper.getDefault().getLong(NotificationConstants.PREFS_APP_OPENED_TIME, 0)
                 > interval) {
@@ -335,17 +400,18 @@ public class NotificationUtils {
     }
 
     private static Type getOldThemeType() {
-        int maxId = HSPreferenceHelper.getDefault().getInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, 0);
+        int maxId = HSPreferenceHelper.getDefault().getInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, 26);
         Type notificationType = null;
         int tempIndex = Integer.MAX_VALUE;
         for (Type theme : Type.values()) {
             if (theme.getId() < maxId
                     && !theme.isHot()
                     && theme.isMedia()
-                    && !ThemePreviewView.isThemeAppliedEver(theme)) {
-                if (tempIndex > theme.getIndex()) {
-                    tempIndex = theme.getIndex();
-                }
+                    && tempIndex > theme.getIndex()
+                    && !isThemeNotificationSentEver(theme)
+                    && !ThemePreviewView.isThemeAppliedEver(theme.getId())) {
+                tempIndex = theme.getIndex();
+                notificationType = theme;
             }
         }
         return notificationType;

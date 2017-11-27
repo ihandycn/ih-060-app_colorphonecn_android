@@ -37,6 +37,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationConstants;
+import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -66,6 +67,7 @@ import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 
 import static android.content.IntentFilter.SYSTEM_HIGH_PRIORITY;
+import static com.honeycomb.colorphone.notification.NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID;
 
 public class ColorPhoneApplication extends HSApplication {
     private static ConfigLog mConfigLog;
@@ -86,6 +88,7 @@ public class ColorPhoneApplication extends HSApplication {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
                 Type.updateTypes();
+                downloadNewType();
             } else if (CPConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
                 HSPermanentUtils.checkAliveForProcess();
             } else {
@@ -132,8 +135,6 @@ public class ColorPhoneApplication extends HSApplication {
                     Theme type = new Theme();
                     Type.fillData(type, map);
 //                    type.setNotificationEnabled(HSMapUtils.getBoolean(map, "LocalPush", "Enable"));
-
-                    type.setNotificationEnabled(true);
                     type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
                     return type;
                 }
@@ -438,6 +439,18 @@ public class ColorPhoneApplication extends HSApplication {
         }
     }
 
+    private void downloadNewType() {
+        if (ColorPhoneApplication.isAppForeground()) {
+            return;
+        }
+        int maxId = HSPreferenceHelper.getDefault().getInt(PREFS_NOTIFICATION_OLD_MAX_ID, Integer.MAX_VALUE);
+        for (Type newType : Type.values()) {
+            if (maxId < newType.getId()) {
+                NotificationUtils.downloadMedia(newType);
+            }
+        }
+    }
+
     public static void initNotificationAlarm() {
         AlarmManager alarmMgr = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getContext(), NotificationAlarmReceiver.class);
@@ -447,6 +460,9 @@ public class ColorPhoneApplication extends HSApplication {
         time.set(Calendar.HOUR, 6);
         time.set(Calendar.AM_PM, Calendar.PM);
         time.set(Calendar.MINUTE, 30);
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), DateUtils.DAY_IN_MILLIS, pendingIntent);
+
+        long setTime = time.getTimeInMillis();
+        long timeInMillis = setTime > System.currentTimeMillis() ? setTime : setTime + DateUtils.DAY_IN_MILLIS;
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, DateUtils.DAY_IN_MILLIS, pendingIntent);
     }
 }

@@ -31,6 +31,10 @@ public class Theme extends Type {
     private int avatar;
     private String avatarName;
 
+    public static ArrayList<Theme> themes() {
+        return (ArrayList) Type.values();
+    }
+
     public long getDownload() {
         return download;
     }

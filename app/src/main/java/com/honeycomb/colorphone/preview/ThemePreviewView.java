@@ -47,6 +47,7 @@ import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -174,23 +175,23 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
      */
     private boolean mBlockAnimationForPageChange = true;
 
-    public static void saveThemeApplys(Theme theme) {
-        if (isThemeAppliedEver(theme)) {
+    public static void saveThemeApplys(int themeId) {
+        if (isThemeAppliedEver(themeId)) {
             return;
         }
         StringBuilder sb = new StringBuilder(4);
         String pre = HSPreferenceHelper.getDefault().getString(ColorPhoneActivity.PREFS_THEME_APPLY, "");
-        sb.append(pre).append(theme.getId()).append(",");
+        sb.append(pre).append(themeId).append(",");
         HSPreferenceHelper.getDefault().putString(ColorPhoneActivity.PREFS_THEME_APPLY, sb.toString());
     }
 
-    public static boolean isThemeAppliedEver(Type theme) {
+    public static boolean isThemeAppliedEver(int themeId) {
         String[] themes = HSPreferenceHelper.getDefault().getString(ColorPhoneActivity.PREFS_THEME_APPLY, "").split(",");
-        for (String themeId : themes) {
-            if (TextUtils.isEmpty(themeId)) {
+        for (String theme : themes) {
+            if (TextUtils.isEmpty(theme)) {
                 continue;
             }
-            if (theme.getId() == Integer.parseInt(themeId)) {
+            if (themeId == Integer.parseInt(theme)) {
                 return true;
             }
         }
@@ -277,7 +278,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (inTransition) {
                     return;
                 }
-                saveThemeApplys(mTheme);
+                saveThemeApplys(mTheme.getId());
                 CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
                 // notify
                 HSBundle bundle = new HSBundle();
@@ -298,6 +299,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     toast.setGravity(Gravity.BOTTOM, 0, offsetY);
                     toast.show();
                 }
+                NotificationUtils.logThemeAppliedFlurry(mTheme);
 
             }
         });

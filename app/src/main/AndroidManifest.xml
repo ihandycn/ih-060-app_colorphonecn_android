@@ -11,15 +11,15 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-permission
         android:name="android.permission.WRITE_INTERNAL_STORAGE"
         tools:node="remove" />
 
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- Screen Flash 里面接听电话 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -44,9 +44,11 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="af46bdc38bf1267984ed38b9784a45489a5dc2c3"/>
+            android:value="af46bdc38bf1267984ed38b9784a45489a5dc2c3" />
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <activity
             android:name=".activity.ColorPhoneActivity"
@@ -54,16 +56,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
 
-        <activity android:name=".activity.WelcomeActivity"
+        <activity
+            android:name=".activity.WelcomeActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme.Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -78,7 +81,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
             </intent-filter>
         </receiver>
 
@@ -100,45 +103,46 @@
 
         <activity
             android:name=".activity.ThemePreviewActivity"
-            android:launchMode="singleTop"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:parentActivityName=".activity.ColorPhoneActivity"
             android:theme="@style/AppTheme.DarkFullScreen" />
         <activity
             android:name=".activity.SettingsActivity"
-            android:launchMode="singleTop"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
         <activity
             android:name=".activity.AboutActivity"
-            android:launchMode="singleTop"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
 
         <activity
             android:name=".activity.GuideLockerAssistantActivity"
-            android:launchMode="singleTop"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
 
-        <activity android:name=".activity.GuideApplyThemeActivity"
-            android:excludeFromRecents="true"
-            android:taskAffinity=".call"
-            android:noHistory="true"
+        <activity
+            android:name=".activity.GuideApplyThemeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity=".call"
             android:theme="@style/Theme.AppCompat.Translucent" />
         <!-- permanent -->
         <service
             android:name=".PermanentService"
             android:exported="true"
             android:label="GuardService"
-            android:stopWithTask="false"/>
+            android:stopWithTask="false" />
 
-        <service
-            android:name=".PermanentService$PermanentServiceInner"/>
+        <service android:name=".PermanentService$PermanentServiceInner" />
 
         <service
             android:name=".LockJobService"
@@ -146,7 +150,7 @@
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter android:priority="1000">
-                <action android:name="com.intellectualflame.ledflashlight.washer.lockscreen.LockJobService"/>
+                <action android:name="com.intellectualflame.ledflashlight.washer.lockscreen.LockJobService" />
             </intent-filter>
         </service>
 
@@ -159,10 +163,11 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".notification.NotificationActionReceiver">
+        <receiver android:name=".notification.NotificationActionReceiver"
+            android:exported="true">
             <intent-filter>
-                <action android:name="THEME_NOTIFICATION_CLICK_ACTION"/>
-                <action android:name="THEME_NOTIFICATION_DELETE_ACTION"/>
+                <action android:name="THEME_NOTIFICATION_CLICK_ACTION" />
+                <action android:name="THEME_NOTIFICATION_DELETE_ACTION" />
             </intent-filter>
         </receiver>
 
@@ -171,24 +176,22 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-                <action android:name="android.intent.action.ACTION_BATTERY_CHANGED"/>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.ACTION_BATTERY_CHANGED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
             <intent-filter>
-                <data android:scheme="package"/>
+                <data android:scheme="package" />
 
-                <action android:name="android.intent.action.PACKAGE_ADDED"/>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".notification.NotificationAlarmReceiver"
-            >
-        </receiver>
+        <receiver android:name=".notification.NotificationAlarmReceiver"></receiver>
 
     </application>
 

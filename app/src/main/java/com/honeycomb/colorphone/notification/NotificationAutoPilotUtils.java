@@ -10,6 +10,7 @@ import com.acb.autopilot.AutopilotEvent;
 public class NotificationAutoPilotUtils {
 
     private static final String NOTIFICATION_ACCESS_TEST_TOPIC_ID = "topic-1510752104742";
+    private static final String LOCAL_NOTIFICATION_TEST = "topic-1510751463187";
 
 
     public static boolean isNotificationAccessTipAtBottom() {
@@ -27,4 +28,76 @@ public class NotificationAutoPilotUtils {
     public static void logSettingsAccessEnabled() {
         AutopilotEvent.logTopicEvent(NOTIFICATION_ACCESS_TEST_TOPIC_ID, "colorphone_notification_access_enable");
     }
+
+
+    /**
+     * local notification new theme autopilot
+     */
+
+    public static String getNewThemeNotificationContent() {
+        return AutopilotConfig.getStringToTestNow(LOCAL_NOTIFICATION_TEST, "new_theme_push_detail", "");
+    }
+
+    public static boolean isNewThemeNotificationEnabled() {
+        return AutopilotConfig.getBooleanToTestNow(LOCAL_NOTIFICATION_TEST, "new_theme_push_enabled", false);
+    }
+
+    public static String getNewThemeNotificationTitle() {
+        return AutopilotConfig.getStringToTestNow(LOCAL_NOTIFICATION_TEST, "new_theme_push_title", "");
+    }
+
+    /**
+     * local notification old theme autopilot
+     */
+
+    public static boolean isOldThemeNotificationEnabled() {
+        return AutopilotConfig.getBooleanToTestNow(LOCAL_NOTIFICATION_TEST, "old_theme_push_enabled", false);
+    }
+
+    public static String getOldThemeNotificationContent() {
+        return AutopilotConfig.getStringToTestNow(LOCAL_NOTIFICATION_TEST, "old_theme_push_detail", "");
+    }
+
+    public static String getOldThemeNotificationTitle() {
+        return AutopilotConfig.getStringToTestNow(LOCAL_NOTIFICATION_TEST, "old_theme_push_title", "");
+    }
+
+    public static double getOldThemeNotificationShowInterval() {
+        return AutopilotConfig.getDoubleToTestNow(LOCAL_NOTIFICATION_TEST, "old_theme_push_min_show_interval", 0);
+    }
+
+    public static double getOldThemeNotificationShowIntervalByOpenApp() {
+        return AutopilotConfig.getDoubleToTestNow(LOCAL_NOTIFICATION_TEST, "old_theme_push_min_show_interval_by_open_app", 0);
+    }
+
+    public static String getPushIconType() {
+        return AutopilotConfig.getStringToTestNow(LOCAL_NOTIFICATION_TEST, "push_icon_type", "ThemeIcon");
+    }
+
+    public static void logNewThemeNotificationShow() {
+        AutopilotEvent.logTopicEvent(LOCAL_NOTIFICATION_TEST, "localpush_newtheme_show");
+    }
+
+    public static void logNewThemeNotificationClicked() {
+        AutopilotEvent.logTopicEvent(LOCAL_NOTIFICATION_TEST, "localpush_newtheme_clicked");
+    }
+
+    public static void logNewThemeNotificationApply() {
+        AutopilotEvent.logTopicEvent(LOCAL_NOTIFICATION_TEST, "localpush_newtheme_themeapply");
+    }
+
+    public static void logOldThemeNotificationShow() {
+        AutopilotEvent.logTopicEvent(LOCAL_NOTIFICATION_TEST, "localpush_oldtheme_show");
+    }
+
+    public static void logOldThemeNotificationClicked() {
+        AutopilotEvent.logTopicEvent(LOCAL_NOTIFICATION_TEST, "localpush_oldtheme_clicked");
+    }
+
+    public static void logOldThemeNotificationApply() {
+        AutopilotEvent.logTopicEvent(LOCAL_NOTIFICATION_TEST, "localpush_oldtheme_themeapply");
+    }
+
+
+
 }

@@ -140,20 +140,6 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
         @Override
         public void onConfigTypes(List<Type> types) {
-            if (ColorPhoneApplication.isAppForeground()) {
-                return;
-            }
-            int max = -1;
-            for (Type oldType : Type.values()) {
-                if (max < oldType.getId()) {
-                    max = oldType.getId();
-                }
-            }
-            for (Type newType : types) {
-                if (max < newType.getId()) {
-                    NotificationUtils.downloadMedia(newType);
-                }
-            }
         }
     }
 
