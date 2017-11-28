@@ -134,6 +134,8 @@ public class ColorPhoneApplication extends HSApplication {
                 public Type parse(Map<String, ?> map) {
                     Theme type = new Theme();
                     Type.fillData(type, map);
+                    type.setNotificationLargeIconUrl(HSMapUtils.optString(map, "", "LocalPush", "LocalPushIcon"));
+                    type.setNotificationBigPictureUrl(HSMapUtils.optString(map, "", "LocalPush", "LocalPushPreviewImage"));
                     type.setNotificationEnabled(HSMapUtils.optBoolean(map, false,"LocalPush", "Enable"));
                     type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
                     return type;
@@ -445,7 +447,7 @@ public class ColorPhoneApplication extends HSApplication {
             return;
         }
         int maxId = HSPreferenceHelper.getDefault().getInt(PREFS_NOTIFICATION_OLD_MAX_ID, Integer.MAX_VALUE);
-        for (Type newType : Type.values()) {
+        for (Theme newType : Theme.themes()) {
             if (maxId < newType.getId()) {
                 NotificationUtils.downloadMedia(newType);
             }

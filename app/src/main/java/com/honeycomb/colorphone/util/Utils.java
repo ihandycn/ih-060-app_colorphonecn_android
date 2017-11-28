@@ -25,6 +25,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -699,6 +701,12 @@ public final class Utils {
 
     public static float dpiFromPx(int size) {
         return (size / getDensityRatio());
+    }
+
+    public static Bitmap getBitmapFromLocalFile(String path) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        return BitmapFactory.decodeFile(path, options);
     }
 
 }

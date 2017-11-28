@@ -30,9 +30,18 @@ public class Theme extends Type {
     private boolean isNotificationEnabled;
     private int avatar;
     private String avatarName;
+    private String notificationLargeIconUrl;
+    private String notificationLargePictureUrl;
 
     public static ArrayList<Theme> themes() {
-        return (ArrayList) Type.values();
+        ArrayList<Theme> themes = new ArrayList<>(30);
+        for (Type type : Type.values()) {
+            if (type.getValue()== NONE) {
+                continue;
+            }
+            themes.add((Theme) type);
+        }
+        return themes;
     }
 
     public long getDownload() {
@@ -81,6 +90,30 @@ public class Theme extends Type {
 
     public void setAvatarName(String avatarName) {
         this.avatarName = avatarName;
+    }
+
+    public String getNotificationLargeIconUrl() {
+        return notificationLargeIconUrl;
+    }
+
+    public void setNotificationLargeIconUrl(String notificationLargeIconUrl) {
+        this.notificationLargeIconUrl = notificationLargeIconUrl;
+    }
+
+    public String getNotificationBigPictureUrl() {
+        return notificationLargePictureUrl;
+    }
+
+    public void setNotificationBigPictureUrl(String notificationLargePictureUrl) {
+        this.notificationLargePictureUrl = notificationLargePictureUrl;
+    }
+
+    public String getNotificationBigPictureFileName() {
+        return getFileName() + "_BIG_IMAGE";
+    }
+
+    public String getNotificationLargeIconFileName() {
+        return getFileName() + "_LARGE_ICON";
     }
 
     public Drawable getThemePreviewDrawable() {
@@ -136,5 +169,4 @@ public class Theme extends Type {
             "#ffa4efff",
             "#ffa4c0ff",
     };
-
 }

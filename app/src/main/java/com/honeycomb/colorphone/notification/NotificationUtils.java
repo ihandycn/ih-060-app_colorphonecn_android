@@ -1,9 +1,11 @@
 package com.honeycomb.colorphone.notification;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -13,6 +15,9 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.acb.call.MediaDownloadManager;
+import com.acb.call.themes.Type;
+import com.acb.call.utils.FileUtils;
+import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.PermissionUtils;
@@ -22,8 +27,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.honeycomb.colorphone.ColorPhoneApplication;
-import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.Utils;
@@ -35,6 +38,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import static com.honeycomb.colorphone.notification.NotificationConstants.PREFS_NOTIFICATION_THEMES_SENT;
 
@@ -152,8 +156,14 @@ public class NotificationUtils {
         int maxId = HSPreferenceHelper.getDefault().getInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, -1);
         Theme notificationType = null;
         int tempId = -1;
-        for (Theme theme : Theme.themes()) {
-            if (theme.getId() > maxId && theme.isHot()) {
+
+        ArrayList<Type> themeTypes = Type.values();
+        for (Type type : themeTypes) {
+            if (type.getValue() == Type.NONE) {
+                continue;
+            }
+            Theme theme = (Theme) type;
+            if (theme.getId() > maxId && theme.isHot() && theme.isNotificationEnabled()) {
                 if (tempId < theme.getId() && !isThemeNotificationSentEver(theme)) {
                     tempId = theme.getId();
                     notificationType = theme;
@@ -167,7 +177,8 @@ public class NotificationUtils {
 
     private static void downLoadPreviewImage(final Theme type, @Nullable final ThemeNotificationListener listener) {
         GlideApp.with(ColorPhoneApplication.getContext())
-                .downloadOnly().load(type.getPreviewImage())
+                .downloadOnly()
+                .load(type.getPreviewImage())
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .listener(new RequestListener<File>() {
                     @Override
@@ -179,16 +190,62 @@ public class NotificationUtils {
 
                     @Override
                     public boolean onResourceReady(File resource, Object model, Target<File> target, DataSource dataSource, boolean isFirstResource) {
-
-                        Log.d(TAG, "wifiConnected = " + Utils.isWifiEnabled());
-                        if (Utils.isWifiEnabled()) {
-                            downloadMedia(type, listener);
-                        } else if (!ColorPhoneApplication.isAppForeground()){
-                            listener.onSuccess(type);
-                        }
+                        downloadNotificationPreviewImages(type, listener);
                         return false;
                     }
                 }).preload();
+    }
+
+    private static void downloadNotificationPreviewImages(final Theme theme, final ThemeNotificationListener listener) {
+        mediaDownloadManager.downloadMedia(theme.getNotificationBigPictureUrl(), theme.getNotificationBigPictureFileName(), new MediaDownloadManager.DownloadCallback() {
+            @Override
+            public void onUpdate(long l) {
+                Log.d(TAG, "previewImages " + l);
+            }
+
+            @Override
+            public void onFail(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask, String s) {
+                listener.onFailed();
+            }
+
+            @Override
+            public void onSuccess(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask) {
+                downloadNotificationLargeIcon(theme, listener);
+            }
+
+            @Override
+            public void onCancel() {
+                listener.onFailed();
+            }
+        });
+    }
+
+    private static void downloadNotificationLargeIcon(final Theme theme, final ThemeNotificationListener listener) {
+        mediaDownloadManager.downloadMedia(theme.getNotificationLargeIconUrl(), theme.getNotificationLargeIconFileName(), new MediaDownloadManager.DownloadCallback() {
+            @Override
+            public void onUpdate(long l) {
+                Log.d(TAG, "largeIcon " + l);
+            }
+
+            @Override
+            public void onFail(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask, String s) {
+                listener.onFailed();
+            }
+
+            @Override
+            public void onSuccess(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask) {
+                if (Utils.isWifiEnabled()) {
+                    downloadMedia(theme, listener);
+                } else if (!ColorPhoneApplication.isAppForeground()) {
+                    listener.onSuccess(theme);
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                listener.onFailed();
+            }
+        });
     }
 
     public static void downloadMedia(Theme type) {
@@ -270,9 +327,8 @@ public class NotificationUtils {
 
     private static void doShowNotification(Theme type, boolean isNewTheme) {
         Context context = HSApplication.getContext();
-
-
         boolean isMp4Downloaded = mediaDownloadManager.isDownloaded(type.getFileName());
+
         Intent intentClick = new Intent(context, NotificationActionReceiver.class);
         intentClick.setAction(NotificationConstants.THEME_NOTIFICATION_CLICK_ACTION);
         intentClick.putExtra(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, isNewTheme);
@@ -297,16 +353,25 @@ public class NotificationUtils {
             title = NotificationAutoPilotUtils.getOldThemeNotificationTitle();
         }
         contentText = String.format(contentText, type.getName());
+
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.notification_small_icon_test)
-                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.boost_icon))
+                        .setLargeIcon(getLargeIconBitmap(context, type))
                         .setContentTitle(title)
                         .setContentText(contentText)
                         .setDeleteIntent(pendingIntentDelete)
+                        .setAutoCancel(true)
+                        .setDefaults(Notification.DEFAULT_SOUND)
+                        .setFullScreenIntent(pendingIntentClick, true)
                         .setContentIntent(pendingIntentClick);
+
+        Notification notification = new NotificationCompat.BigPictureStyle(builder)
+                .bigPicture(Utils.getBitmapFromLocalFile(FileUtils.getMediaDirectory() + "/" + type.getNotificationBigPictureFileName()))
+                .build();
+
         android.app.NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(NotificationConstants.THEME_NOTIFICATION_ID, builder.build());
+        notificationManager.notify(NotificationConstants.THEME_NOTIFICATION_ID,notification);
         HSPreferenceHelper.getDefault().putInt(NotificationConstants.THEME_NOTIFICATION_SESSION_ID, SessionMgr.getInstance().getCurrentSessionId() + 1);
         saveThemeNotificationSent(type);
         HSPreferenceHelper.getDefault().putBoolean(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, isNewTheme);
@@ -319,8 +384,15 @@ public class NotificationUtils {
                     "ThemeName", type.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));
             NotificationAutoPilotUtils.logOldThemeNotificationShow();
         }
-
         HSPreferenceHelper.getDefault().putLong(NotificationConstants.PREFS_NOTIFICATION_SHOWED_LAST_TIME, System.currentTimeMillis());
+    }
+
+    private static Bitmap getLargeIconBitmap(Context context, Theme theme) {
+        if (NotificationAutoPilotUtils.getPushIconType().equals("ThemeIcon")) {
+            return Utils.getBitmapFromLocalFile(FileUtils.getMediaDirectory() + "/" + theme.getNotificationLargeIconFileName());
+        } else {
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_icon);
+        }
     }
 
     public static void showOldThemeNotificationIfProper() {
