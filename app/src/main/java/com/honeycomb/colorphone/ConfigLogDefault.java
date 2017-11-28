@@ -32,8 +32,8 @@ public class ConfigLogDefault implements ConfigLog {
         }
 
         @Override
-        public void onChooseTheme(String name) {
-            HSAnalytics.logEvent("ColorPhone_ChooseTheme", "ThemeName", name);
+        public void onChooseTheme(String name, String from) {
+            HSAnalytics.logEvent("ColorPhone_ChooseTheme", "ThemeName", name, "from", from);
         }
 
         @Override

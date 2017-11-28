@@ -53,6 +53,8 @@ import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
+import com.ihs.app.alerts.HSAlertMgr;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
@@ -612,7 +614,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 float percent = TasksManager.getImpl().getDownloadProgress(model.getId());
                 mProgressViewHolder.updateProgressView((int) (percent * 100));
                 if (percent == 0f || Float.isNaN(percent)) {
-                    ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase(), ConfigLog.FROM_LIST);
+                    ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase(), ConfigLog.FROM_DETAIL);
                 }
                 mHandler.postDelayed(new Runnable() {
                     @Override

@@ -9,7 +9,7 @@ public interface ConfigLog {
     interface Event {
         void onMainViewOpen();
         void onThemePreviewOpen(String name);
-        void onChooseTheme(String name);
+        void onChooseTheme(String name, String from);
         void onThemeDownloadStart(String name, String from);
         void onThemeDownloadFinish(String name);
         void onFeedBackClick();

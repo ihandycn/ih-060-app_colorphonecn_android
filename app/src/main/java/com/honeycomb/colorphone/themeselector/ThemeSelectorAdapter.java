@@ -29,6 +29,7 @@ import com.bumptech.glide.request.target.Target;
 import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
@@ -57,6 +58,7 @@ import java.util.ArrayList;
 
 import hugo.weaving.DebugLog;
 
+import static android.R.attr.type;
 import static com.acb.utils.Utils.getTypeByThemeId;
 import static com.honeycomb.colorphone.preview.ThemePreviewView.saveThemeApplys;
 import static com.honeycomb.colorphone.util.Utils.pxFromDp;
@@ -90,7 +92,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             } else if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
                 if (hsBundle != null) {
-                    onSelectedTheme(getPos(hsBundle), null);
+                    int pos = getPos(hsBundle);
+                    Theme selectedTheme = data.get(pos);
+
+                    onSelectedTheme(pos, null);
+                    ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
+                            selectedTheme.getIdName().toLowerCase(),
+                            ConfigLog.FROM_DETAIL);
                 }
             }
 
@@ -218,6 +226,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
                         GuideApplyThemeActivity.start(v.getContext(), false);
                         NotificationUtils.logThemeAppliedFlurry(data.get(pos));
+                        ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
+                                data.get(pos).getIdName().toLowerCase(),
+                                ConfigLog.FROM_LIST);
+
                     }
                 }
             });
@@ -279,9 +291,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             notifyItemChanged(prePos);
         }
         // Reset current.
-        Type type = data.get(pos);
-
-        ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(type.getIdName().toLowerCase());
         Theme selectedTheme = data.get(pos);
         selectedTheme.setSelected(true);
 //        if (holder != null) {
