@@ -69,7 +69,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public static final String NOTIFY_WINDOW_VISIBLE = "notify_window_visible";
     public static final String PREFS_THEME_APPLY = "theme_apply_array";
     private static final String PREFS_THEME_LIKE = "theme_like_array";
-    private static final String PREFS_NOTIFICATION_ACCESS_TOAST_HAS_SHOWED = "prefs_notification_access_toast_showed";
 
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
@@ -121,7 +120,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
             startActivity(intent);
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
-
         }
 
         setTheme(R.style.AppLightStatusBarTheme);
@@ -152,7 +150,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)) {
                     if (notificationToast != null) {
                         notificationToast.setVisibility(View.GONE);
-                        HSPreferenceHelper.getDefault().putBoolean(PREFS_NOTIFICATION_ACCESS_TOAST_HAS_SHOWED, false);
                     }
                 }
             }
@@ -161,7 +158,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void onDrawerOpened(View drawerView) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
                         && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)
-                        && !HSPreferenceHelper.getDefault().getBoolean(PREFS_NOTIFICATION_ACCESS_TOAST_HAS_SHOWED, false)) {
+                        && notificationToast == null) {
                         doNotificationAccessToastAnim();
                     HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Show");
                 }
@@ -399,7 +396,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
                 NotificationAutoPilotUtils.logSettingsAlertShow();
                 HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
-
             }
         });
         notificationToast.setVisibility(View.VISIBLE);
@@ -409,7 +405,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 translationY);
         objectAnimator.setDuration(400);
         objectAnimator.start();
-        HSPreferenceHelper.getDefault().putBoolean(PREFS_NOTIFICATION_ACCESS_TOAST_HAS_SHOWED, true);
     }
 
     @Override
