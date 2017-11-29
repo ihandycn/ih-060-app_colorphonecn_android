@@ -613,9 +613,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 mProgressViewHolder.transIn(bottomBtnTransY, duration);
                 float percent = TasksManager.getImpl().getDownloadProgress(model.getId());
                 mProgressViewHolder.updateProgressView((int) (percent * 100));
-                if (percent == 0f || Float.isNaN(percent)) {
-                    ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase(), ConfigLog.FROM_DETAIL);
-                }
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -632,6 +629,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void downloadTheme(TasksManagerModel model) {
+        float percent = TasksManager.getImpl().getDownloadProgress(model.getId());
+        if (percent == 0f || Float.isNaN(percent)) {
+            ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadStart(model.getName().toLowerCase(), ConfigLog.FROM_DETAIL);
+        }
+
         setBlockAnimationForPageChange(false);
 
         DownloadViewHolder.doDownload(model, null);
