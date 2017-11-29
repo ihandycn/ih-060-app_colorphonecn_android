@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.util.Log;
 
 import com.acb.call.MediaDownloadManager;
 import com.acb.call.themes.Type;
@@ -36,6 +35,7 @@ import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.File;
@@ -146,10 +146,10 @@ public class NotificationUtils {
             if (listener != null) {
                 listener.onFailed();
             }
-            Log.d(TAG, "new Theme notificationType = null");
+            HSLog.d(TAG, "new Theme notificationType = null");
             return;
         }
-        Log.d(TAG, "startLoad new type Notification" + " id = " + notificationType.getId() + "name = " + notificationType.getName());
+        HSLog.d(TAG, "startLoad new type Notification" + " id = " + notificationType.getId() + "name = " + notificationType.getName());
         downLoadPreviewImage(notificationType, listener);
     }
 
@@ -184,7 +184,7 @@ public class NotificationUtils {
                 .listener(new RequestListener<File>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<File> target, boolean isFirstResource) {
-                        Log.d(TAG, "load Preview Image failed");
+                        HSLog.d(TAG, "load Preview Image failed");
                         listener.onFailed();
                         return false;
                     }
@@ -201,7 +201,7 @@ public class NotificationUtils {
         mediaDownloadManager.downloadMedia(theme.getNotificationBigPictureUrl(), theme.getNotificationBigPictureFileName(), new MediaDownloadManager.DownloadCallback() {
             @Override
             public void onUpdate(long l) {
-                Log.d(TAG, "previewImages " + l);
+                HSLog.d(TAG, "previewImages " + l);
             }
 
             @Override
@@ -225,7 +225,7 @@ public class NotificationUtils {
         mediaDownloadManager.downloadMedia(theme.getNotificationLargeIconUrl(), theme.getNotificationLargeIconFileName(), new MediaDownloadManager.DownloadCallback() {
             @Override
             public void onUpdate(long l) {
-                Log.d(TAG, "largeIcon " + l);
+                HSLog.d(TAG, "largeIcon " + l);
             }
 
             @Override
@@ -254,7 +254,7 @@ public class NotificationUtils {
     }
 
     public static void downloadMedia(final Theme type, final ThemeNotificationListener listener) {
-        Log.d(TAG, "start download Mp4");
+        HSLog.d(TAG, "start download Mp4");
 
         final boolean canShowNotification = !ColorPhoneApplication.isAppForeground();
         if (!canShowNotification) {
@@ -267,7 +267,7 @@ public class NotificationUtils {
             if (canShowNotification) {
                 if (listener != null) listener.onSuccess(type);
             }
-            Log.d(TAG, "already downLoaded");
+            HSLog.d(TAG, "already downLoaded");
             return;
         }
 
@@ -282,12 +282,12 @@ public class NotificationUtils {
                 if (canShowNotification) {
                     if (listener != null) listener.onSuccess(type);
                 }
-                Log.d(TAG, "download media failed");
+                HSLog.d(TAG, "download media failed");
             }
 
             @Override
             public void onSuccess(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask) {
-                Log.d(TAG, "download media success " + "app foreGround = " + ColorPhoneApplication.isAppForeground());
+                HSLog.d(TAG, "download media success " + "app foreGround = " + ColorPhoneApplication.isAppForeground());
 
                 if (ColorPhoneApplication.isAppForeground()) {
                     HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
@@ -421,10 +421,10 @@ public class NotificationUtils {
         }
         final Theme notificationType = getOldThemeType();
 
-        Log.d(TAG, notificationType == null ? "notification null" : "old theme start load");
+        HSLog.d(TAG, notificationType == null ? "notification null" : "old theme start load");
         if (notificationType != null) {
 
-            Log.d(TAG, "notificationType old theme " + " id = "+notificationType.getId() + "name = " + notificationType.getName());
+            HSLog.d(TAG, "notificationType old theme " + " id = "+notificationType.getId() + "name = " + notificationType.getName());
             downLoadPreviewImage(notificationType, new ThemeNotificationListener() {
                 @Override
                 public void onFailed() {
@@ -432,7 +432,7 @@ public class NotificationUtils {
 
                 @Override
                 public void onSuccess(Theme type) {
-                    Log.d(TAG, "start download preview image");
+                    HSLog.d(TAG, "start download preview image");
                     onOldThemePreviewImageDownloaded(type);
                 }
             });
@@ -454,7 +454,7 @@ public class NotificationUtils {
     }
 
     private static boolean isShowOldThemeNotificationAtValidInterval() {
-        Log.d(TAG, "showOldThemeAtValidInterval");
+        HSLog.d(TAG, "showOldThemeAtValidInterval");
 
         long interval = ((int) NotificationAutoPilotUtils.getOldThemeNotificationShowInterval())
                             * DateUtils.DAY_IN_MILLIS;
@@ -463,10 +463,10 @@ public class NotificationUtils {
                 HSPreferenceHelper.getDefault().getLong(NotificationConstants.PREFS_NOTIFICATION_SHOWED_LAST_TIME, 0)
                 > interval) {
 
-            Log.d(TAG, "showOldThemeAtValidInterval  valid");
+            HSLog.d(TAG, "showOldThemeAtValidInterval  valid");
             return true;
         }
-        Log.d(TAG, "showOldThemeAtValidInterval  invalid");
+        HSLog.d(TAG, "showOldThemeAtValidInterval  invalid");
         return false;
     }
 
@@ -477,10 +477,10 @@ public class NotificationUtils {
         if (System.currentTimeMillis() -
                 HSPreferenceHelper.getDefault().getLong(NotificationConstants.PREFS_APP_OPENED_TIME, 0)
                 > interval) {
-            Log.d(TAG, "app not opened  should show notification");
+            HSLog.d(TAG, "app not opened  should show notification");
             return false;
         }
-        Log.d(TAG, "should not show notification");
+        HSLog.d(TAG, "should not show notification");
         return true;
     }
 

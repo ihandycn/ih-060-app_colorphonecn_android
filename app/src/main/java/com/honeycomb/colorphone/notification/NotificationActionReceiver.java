@@ -4,7 +4,7 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import com.ihs.commons.utils.HSLog;
 
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.Theme;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class NotificationActionReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("NotificationUtils", "receive notification action");
+        HSLog.d("NotificationUtils", "receive notification action");
         String action = intent.getAction();
         int id = intent.getIntExtra(NotificationConstants.THEME_NOTIFICATION_KEY, -1);
         if (id != NotificationConstants.THEME_NOTIFICATION_ID) {
@@ -40,7 +40,7 @@ public class NotificationActionReceiver extends BroadcastReceiver {
         String themeName = intent.getStringExtra(NotificationConstants.THEME_NOTIFICATION_THEME_NAME);
 
         if (action.equals(NotificationConstants.THEME_NOTIFICATION_CLICK_ACTION)) {
-            Log.d("NotificationUtils", "receive click action");
+            HSLog.d("NotificationUtils", "receive click action");
 
             ThemePreviewActivity.start(HSApplication.getContext(), Theme.themes(), index);
             if (isNewTheme) {
@@ -58,7 +58,7 @@ public class NotificationActionReceiver extends BroadcastReceiver {
         }
 
         if (action.equals(NotificationConstants.THEME_NOTIFICATION_DELETE_ACTION)) {
-            Log.d("NotificationUtils", "receive delete action");
+            HSLog.d("NotificationUtils", "receive delete action");
 
             if (isNewTheme) {
                 HSAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Deleted",
