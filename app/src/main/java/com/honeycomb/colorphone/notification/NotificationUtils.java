@@ -330,17 +330,11 @@ public class NotificationUtils {
         boolean isMp4Downloaded = mediaDownloadManager.isDownloaded(type.getFileName());
 
         Intent intentClick = new Intent(context, NotificationActionReceiver.class);
-        intentClick.setAction(NotificationConstants.THEME_NOTIFICATION_CLICK_ACTION);
-        intentClick.putExtra(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, isNewTheme);
-        intentClick.putExtra(NotificationConstants.THEME_NOTIFICATION_KEY, NotificationConstants.THEME_NOTIFICATION_ID);
-        intentClick.putExtra(NotificationConstants.THEME_NOTIFICATION_THEME_NAME, type.getName());
-        intentClick.putExtra(NotificationConstants.THEME_NOTIFICATION_MP4_DOWNLOADED, isMp4Downloaded);
-        intentClick.putExtra(NotificationConstants.THEME_NOTIFICATION_THEME_INDEX, type.getIndex());
+        fillNotificationActionIntent(intentClick, isNewTheme, isMp4Downloaded, type);
         PendingIntent pendingIntentClick = PendingIntent.getBroadcast(context, 0, intentClick, PendingIntent.FLAG_ONE_SHOT);
 
         Intent intentDelete = new Intent(context, NotificationActionReceiver.class);
-        intentDelete.setAction(NotificationConstants.THEME_NOTIFICATION_DELETE_ACTION);
-        intentDelete.putExtra(NotificationConstants.THEME_NOTIFICATION_KEY, NotificationConstants.THEME_NOTIFICATION_ID);
+        fillNotificationActionIntent(intentDelete, isNewTheme, isMp4Downloaded, type);
         PendingIntent pendingIntentDelete = PendingIntent.getBroadcast(context, 0, intentDelete, PendingIntent.FLAG_ONE_SHOT);
 
         String contentText;
@@ -387,6 +381,15 @@ public class NotificationUtils {
         HSPreferenceHelper.getDefault().putLong(NotificationConstants.PREFS_NOTIFICATION_SHOWED_LAST_TIME, System.currentTimeMillis());
     }
 
+
+    private static void fillNotificationActionIntent(Intent intent, boolean isNewTheme, boolean isMp4Downloaded, Theme type) {
+        intent.setAction(NotificationConstants.THEME_NOTIFICATION_DELETE_ACTION);
+        intent.putExtra(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, isNewTheme);
+        intent.putExtra(NotificationConstants.THEME_NOTIFICATION_KEY, NotificationConstants.THEME_NOTIFICATION_ID);
+        intent.putExtra(NotificationConstants.THEME_NOTIFICATION_THEME_NAME, type.getName());
+        intent.putExtra(NotificationConstants.THEME_NOTIFICATION_MP4_DOWNLOADED, isMp4Downloaded);
+        intent.putExtra(NotificationConstants.THEME_NOTIFICATION_THEME_INDEX, type.getIndex());
+    }
     private static Bitmap getLargeIconBitmap(Context context, Theme theme) {
         if (NotificationAutoPilotUtils.getPushIconType().equals("ThemeIcon")) {
             return Utils.getBitmapFromLocalFile(FileUtils.getMediaDirectory() + "/" + theme.getNotificationLargeIconFileName());
