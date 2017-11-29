@@ -331,10 +331,12 @@ public class NotificationUtils {
         boolean isMp4Downloaded = mediaDownloadManager.isDownloaded(type.getFileName());
 
         Intent intentClick = new Intent(context, NotificationActionReceiver.class);
+        intentClick.setAction(NotificationConstants.THEME_NOTIFICATION_CLICK_ACTION);
         fillNotificationActionIntent(intentClick, isNewTheme, isMp4Downloaded, type);
         PendingIntent pendingIntentClick = PendingIntent.getBroadcast(context, 0, intentClick, PendingIntent.FLAG_ONE_SHOT);
 
         Intent intentDelete = new Intent(context, NotificationActionReceiver.class);
+        intentDelete.setAction(NotificationConstants.THEME_NOTIFICATION_DELETE_ACTION);
         fillNotificationActionIntent(intentDelete, isNewTheme, isMp4Downloaded, type);
         PendingIntent pendingIntentDelete = PendingIntent.getBroadcast(context, 0, intentDelete, PendingIntent.FLAG_ONE_SHOT);
 
@@ -383,7 +385,6 @@ public class NotificationUtils {
     }
 
     private static void fillNotificationActionIntent(Intent intent, boolean isNewTheme, boolean isMp4Downloaded, Theme type) {
-        intent.setAction(NotificationConstants.THEME_NOTIFICATION_DELETE_ACTION);
         intent.putExtra(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, isNewTheme);
         intent.putExtra(NotificationConstants.THEME_NOTIFICATION_KEY, NotificationConstants.THEME_NOTIFICATION_ID);
         intent.putExtra(NotificationConstants.THEME_NOTIFICATION_THEME_NAME, type.getName());
