@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
@@ -350,7 +351,7 @@ public class NotificationUtils {
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.notification_small_icon_test)
+                        .setSmallIcon(getSmallIconRes())
                         .setLargeIcon(getLargeIconBitmap(context, type))
                         .setContentTitle(title)
                         .setContentText(contentText)
@@ -381,7 +382,6 @@ public class NotificationUtils {
         HSPreferenceHelper.getDefault().putLong(NotificationConstants.PREFS_NOTIFICATION_SHOWED_LAST_TIME, System.currentTimeMillis());
     }
 
-
     private static void fillNotificationActionIntent(Intent intent, boolean isNewTheme, boolean isMp4Downloaded, Theme type) {
         intent.setAction(NotificationConstants.THEME_NOTIFICATION_DELETE_ACTION);
         intent.putExtra(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, isNewTheme);
@@ -395,6 +395,15 @@ public class NotificationUtils {
             return Utils.getBitmapFromLocalFile(FileUtils.getMediaDirectory() + "/" + theme.getNotificationLargeIconFileName());
         } else {
             return BitmapFactory.decodeResource(context.getResources(), R.drawable.drawer_icon);
+        }
+    }
+
+    @DrawableRes
+    private static int getSmallIconRes() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return R.drawable.notification_small_icon_v24;
+        } else {
+            return R.drawable.notification_small_icon;
         }
     }
 
