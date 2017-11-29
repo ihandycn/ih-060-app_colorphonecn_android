@@ -27,6 +27,8 @@ public class LockerActivity extends HSAppCompatActivity {
     public static final String PREF_KEY_CURRENT_WALLPAPER_HD_URL = "current_hd_wallpaper_url";
     private Locker mLocker;
 
+    private boolean noNavigationPadding = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,8 @@ public class LockerActivity extends HSAppCompatActivity {
 
         if (!ChargingScreenUtils.isNativeLollipop()) {
             window.addFlags(FLAG_FULLSCREEN);
+        } else {
+            noNavigationPadding = true;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -59,7 +63,7 @@ public class LockerActivity extends HSAppCompatActivity {
             mLocker = new Locker();
             mLocker.setup(((ViewGroup)findViewById(R.id.activity_locker)), null);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !noNavigationPadding) {
                 ViewGroup container = (ViewGroup) findViewById(R.id.transition_container);
                 container.setPadding(0, 0, 0, CommonUtils.getNavigationBarHeightUnconcerned(this));
             }
