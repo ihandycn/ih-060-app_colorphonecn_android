@@ -194,6 +194,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         leftDrawer.findViewById(R.id.settings_main_switch).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_feedback).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_setting).setOnClickListener(this);
+        leftDrawer.findViewById(R.id.settings_contacts).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_about).setOnClickListener(this);
         leftDrawer.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -424,6 +425,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 break;
             case R.id.settings_setting:
                 SettingsActivity.start(this);
+                break;
+            case R.id.settings_contacts:
+                ContactsActivity.start(this);
                 break;
             case R.id.settings_about:
                 AboutActivity.start(this);
