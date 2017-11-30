@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone.download;
+package com.honeycomb.colorphone.contact;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,21 +8,22 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.FontUtils;
 
 /**
  * From https://github.com/pavlospt/RoundedLetterView
  */
-public class RoundedLetterView extends View {
+public class RoundedLetterView extends android.support.v7.widget.AppCompatImageView {
 
     private static int DEFAULT_TITLE_COLOR = Color.WHITE;
     private static int DEFAULT_BACKGROUND_COLOR = Color.CYAN;
     private static final int DEFAULT_VIEW_SIZE = 96;
     private static float DEFAULT_TITLE_SIZE = 25f;
-    private static String DEFAULT_TITLE = "A";
+    private static String DEFAULT_TITLE = "";
 
     private int mTitleColor = DEFAULT_TITLE_COLOR;
     private int mBackgroundColor = DEFAULT_BACKGROUND_COLOR;
@@ -34,7 +35,7 @@ public class RoundedLetterView extends View {
     private RectF mInnerRectF;
     private int mViewSize;
 
-    private Typeface mFont = Typeface.defaultFromStyle(Typeface.NORMAL);
+    private Typeface mFont = FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD);
 
     public RoundedLetterView(Context context) {
         super(context);
@@ -107,6 +108,11 @@ public class RoundedLetterView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
+        // Use as ImageView if no title text.
+        if (TextUtils.isEmpty(mTitleText)) {
+            super.onDraw(canvas);
+            return;
+        }
         mInnerRectF.set(0, 0, mViewSize, mViewSize);
         mInnerRectF.offset((getWidth() - mViewSize) / 2, (getHeight() - mViewSize) / 2);
 

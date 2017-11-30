@@ -15,5 +15,8 @@
     <dimen name="theme_text_margin_bottom_half">7dp</dimen>
     <dimen name="theme_text_space">0dp</dimen>
     <dimen name="theme_heart_size">14dp</dimen>
+    <dimen name="recycler_section_header_Margin">45dp</dimen>
+
+    <dimen name="contact_section_txt">20sp</dimen>
 
 </resources>
