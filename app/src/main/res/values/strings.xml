@@ -21,6 +21,9 @@
 
 
     <string name="theme_apply">Apply</string>
+    <string name="theme_set_for_all">Set for all</string>
+    <string name="theme_set_for_one">Set for some one</string>
+
     <string name="apply_success">Apply Success</string>
     <string name="theme_current">Current Theme</string>
     <string name="send_email">Send Email</string>

@@ -63,4 +63,14 @@ public class ModuleUtils {
         return false;
     }
 
+    public static boolean needShowSetForOneGuide() {
+        boolean needShow = PreferenceHelper.get(PREFS_FILE_NAME).getBoolean("show_set_for_one_guide", true);
+        if (needShow) {
+            PreferenceHelper.get(PREFS_FILE_NAME).putBoolean("show_set_for_one_guide", false);
+        }
+        return needShow;
+    }
+
+
+
 }

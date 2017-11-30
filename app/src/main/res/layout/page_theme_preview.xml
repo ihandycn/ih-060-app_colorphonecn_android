@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
-        android:layout_above="@+id/theme_apply_btn" />
+        android:layout_above="@+id/theme_apply_layout" />
 
     <View
         android:id="@+id/dim_cover"
@@ -69,14 +69,38 @@
     </LinearLayout>
 
 
-    <Button
-        android:id="@+id/theme_apply_btn"
-        android:layout_height="44dp"
+    <LinearLayout
+        android:id="@+id/theme_apply_layout"
+        android:layout_height="@dimen/theme_apply_btn_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/btn_bg_yellow"
-        android:enabled="false"
         android:translationY="70dp"
-        app:layout_widthPercent="66%" />
+        android:orientation="horizontal"
+        app:layout_widthPercent="86%">
+        <Button
+            android:id="@+id/theme_apply_btn"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg_yellow"
+            android:enabled="false" />
+        <ImageButton
+            android:id="@+id/theme_set_for_one"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/btn_bg_yellow"
+            android:src="@drawable/icon_contact" />
+    </LinearLayout>
+
+    <!--Display guide window, dim behind -->
+    <ViewStub
+        android:id="@+id/guide_for_set_one"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout="@layout/stub_theme_set_for_one_guide"
+       />
+
 </android.support.percent.PercentRelativeLayout>
