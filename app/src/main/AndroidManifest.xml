@@ -140,6 +140,10 @@
         <!--Activity for test function-->
         <activity android:name=".activity.TestActivity" />
 
+        <activity android:name=".activity.ShareAlertActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+
         <!-- permanent -->
         <service
             android:name=".PermanentService"
