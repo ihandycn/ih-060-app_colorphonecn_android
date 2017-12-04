@@ -6,6 +6,7 @@ import com.acb.call.themes.Type;
 import com.acb.call.views.CallIdleAlert;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.MessageCenterUtils;
+import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -202,6 +203,14 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
     @Override
     public Class getNotificationServiceClass() {
-        return NotificationServiceV18.class;
+        try {
+            if (CommonUtils.ATLEAST_JB_MR2) {
+                return NotificationServiceV18.class;
+            } else {
+                return null;
+            }
+        } catch (Exception ignore) {
+            return null;
+        }
     }
 }
