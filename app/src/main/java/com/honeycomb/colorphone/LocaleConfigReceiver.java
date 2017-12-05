@@ -13,6 +13,6 @@ import com.acb.call.themes.Type;
 public class LocaleConfigReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Type.updateTypes();
+        Theme.updateThemes();
     }
 }

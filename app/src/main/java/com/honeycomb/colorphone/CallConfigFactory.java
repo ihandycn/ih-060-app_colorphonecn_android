@@ -16,6 +16,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -141,9 +142,14 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
         @Override
         public void onConfigTypes(List<Type> types) {
-            for (Type t: types) {
+            Iterator<Type> iter = types.iterator();
+            while (iter.hasNext()) {
+                Type t = iter.next();
                 if (t instanceof Theme) {
                     ((Theme) t).configAvatar();
+                }
+                if (t.getValue()== Type.NONE) {
+                    iter.remove();
                 }
             }
         }

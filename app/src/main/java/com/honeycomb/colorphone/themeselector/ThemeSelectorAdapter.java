@@ -212,7 +212,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         Bitmap bitmap = ((BitmapDrawable) cover.getDrawable()).getBitmap();
                         ThemePreviewActivity.cacheBitmap = bitmap;
                     }
-                    ThemePreviewActivity.start(activity, data, pos);
+                    ThemePreviewActivity.start(activity, pos);
                 }
             });
 

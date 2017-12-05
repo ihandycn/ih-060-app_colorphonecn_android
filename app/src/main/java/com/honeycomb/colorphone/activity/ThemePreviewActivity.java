@@ -35,19 +35,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private ThemePagerAdapter mAdapter;
     private List<ThemePreviewView> mViews = new ArrayList<>();
 
-    public static void start(Activity context, ArrayList<Theme> theme, int position) {
+    public static void start(Context context, int position) {
         Intent starter = new Intent(context, ThemePreviewActivity.class);
-        starter.putExtra("themeList", theme);
         starter.putExtra("position", position);
-//        starter.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        context.overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
-        context.startActivity(starter);
-    }
-
-    public static void start(Context context, ArrayList<Theme> theme, int position) {
-        Intent starter = new Intent(context, ThemePreviewActivity.class);
-        starter.putExtra("themeList", theme);
-        starter.putExtra("position", position);
+        if (context instanceof Activity) {
+            ((Activity)context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+        }
         starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(starter);
     }
@@ -65,7 +58,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mThemes = (ArrayList<Theme>) getIntent().getSerializableExtra("themeList");
+        mThemes = Theme.themes();
         int pos = getIntent().getIntExtra("position", 0);
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());

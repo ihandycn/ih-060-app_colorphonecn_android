@@ -312,8 +312,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void initData() {
-        ArrayList<Theme> themeTypes = Theme.themes();
-        final int count = themeTypes.size();
+        mRecyclerViewData = Theme.themes();
+        final int count = mRecyclerViewData.size();
         int selectedThemeId = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
         if (selectedThemeId == -1) {
             selectedThemeId = defaultThemeId;
@@ -322,11 +322,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         String[] likeThemes = getThemeLikes();
         for (int i = 0; i < count; i++) {
-            final Theme theme = themeTypes.get(i);
-            if (theme.getValue() == Type.NONE) {
-                continue;
-            }
-
+            final Theme theme = mRecyclerViewData.get(i);
             // Like ?
             boolean isLike = isLikeTheme(likeThemes, theme.getValue());
             if (isLike) {
@@ -341,9 +337,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (theme.isMedia()) {
                 TasksManager.getImpl().addTask(theme);
             }
-
-            mRecyclerViewData.add(theme);
-
         }
 
         Collections.sort(mRecyclerViewData, new Comparator<Theme>() {

@@ -87,7 +87,7 @@ public class ColorPhoneApplication extends HSApplication {
             } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
-                Type.updateTypes();
+                Theme.updateThemes();
                 downloadNewType();
             } else if (CPConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
                 HSPermanentUtils.checkAliveForProcess();
@@ -222,7 +222,7 @@ public class ColorPhoneApplication extends HSApplication {
                     Utils.copyAssetFileTo(getApplicationContext(),
                             "shining.mp4", file);
                     final int targetId = Constants.DEFUALT_THEME_ID;
-                    for (Type type : Theme.values()) {
+                    for (Type type : Theme.themes()) {
                         if (type.getId() == targetId) {
                             TasksManager.getImpl().addTask(type);
                             HSLog.d("TEST_Assert", "Copy shinig mp4 time ：" + (SystemClock.elapsedRealtime() - startMills));
@@ -243,7 +243,7 @@ public class ColorPhoneApplication extends HSApplication {
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
-                Type.values();
+                Theme.themes();
                 ConcurrentUtils.postOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -255,8 +255,8 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void doPreload() {
-        List<Type> themes = Type.values();
-        for (Type theme : themes) {
+        List<Theme> themes = Theme.themes();
+        for (Theme theme : themes) {
             if (!TextUtils.isEmpty(theme.getPreviewImage())) {
                 HSLog.d("preload", theme.getPreviewImage());
                 Glide.with(this).downloadOnly().load(theme.getPreviewImage()).preload();

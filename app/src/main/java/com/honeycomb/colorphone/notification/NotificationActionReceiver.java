@@ -42,7 +42,7 @@ public class NotificationActionReceiver extends BroadcastReceiver {
         if (action.equals(NotificationConstants.THEME_NOTIFICATION_CLICK_ACTION)) {
             HSLog.d("NotificationUtils", "receive click action");
 
-            ThemePreviewActivity.start(HSApplication.getContext(), Theme.themes(), index);
+            ThemePreviewActivity.start(HSApplication.getContext(), index);
             if (isNewTheme) {
                 HSAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Clicked",
                         "ThemeName", themeName, "isDownloaded", String.valueOf(isMp4Downloaded));

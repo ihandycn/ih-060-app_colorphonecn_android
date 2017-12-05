@@ -32,16 +32,24 @@ public class Theme extends Type {
     private String avatarName;
     private String notificationLargeIconUrl;
     private String notificationLargePictureUrl;
+    private static ArrayList<Theme> themes = new ArrayList<>(30);
 
     public static ArrayList<Theme> themes() {
-        ArrayList<Theme> themes = new ArrayList<>(30);
+        if (themes.isEmpty()) {
+            updateThemes();
+        }
+        return themes;
+    }
+
+    public static void updateThemes() {
+        updateTypes();
+        themes.clear();
         for (Type type : Type.values()) {
-            if (type.getValue()== NONE) {
+            if (type.getValue() == NONE) {
                 continue;
             }
             themes.add((Theme) type);
         }
-        return themes;
     }
 
     public long getDownload() {
