@@ -141,6 +141,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
         @Override
         public void onConfigTypes(List<Type> types) {
+            for (Type t: types) {
+                if (t instanceof Theme) {
+                    ((Theme) t).configAvatar();
+                }
+            }
         }
     }
 
