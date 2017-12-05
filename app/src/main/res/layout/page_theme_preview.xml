@@ -83,6 +83,7 @@
             android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:textSize="15sp"
             android:background="@drawable/btn_bg_yellow"
             android:enabled="false" />
         <ImageButton

@@ -8,6 +8,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.colorphone.lock.util.CommonUtils;
@@ -15,6 +16,9 @@ import com.colorphone.lock.util.FontUtils;
 import com.honeycomb.colorphone.R;
 
 import java.util.HashMap;
+import java.util.List;
+
+import static android.R.attr.rowCount;
 
 
 public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
@@ -22,23 +26,46 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
     private static final boolean DEBUG_SECTION = false;
     private final SectionCallback sectionCallback;
     private final Paint mSectionTextPaint;
-    private final int mRowCount;
+    private final Paint mSectionHeaderPaint;
+    private final int             headerOffset;
+    private final List<SimpleContact> mContacts;
+
     private HashMap<String, PointF> mCachedSectionBounds = new HashMap<>();
     private Rect mTmpBounds = new Rect();
+    private Rect mHeaderBounds = new Rect();
 
     private boolean mIsRtl = false;
     private float mSectionNamesMargin;
+    private String mHeaderHint;
 
-    public RecyclerSectionItemDecoration(Resources resources, int rowCount, @NonNull SectionCallback sectionCallback) {
-        this.sectionCallback = sectionCallback;
-        mRowCount = rowCount;
+    public RecyclerSectionItemDecoration(Resources resources, List<SimpleContact> contacts) {
+        this.sectionCallback = getSectionCallback(contacts);
+        mContacts = contacts;
         mSectionNamesMargin = resources.getDimensionPixelSize(R.dimen.recycler_section_header_Margin);
         mSectionTextPaint = new Paint();
         mSectionTextPaint.setTextSize(resources.getDimensionPixelOffset(R.dimen.contact_section_txt));
         mSectionTextPaint.setColor(Color.parseColor("#ff818181"));
         mSectionTextPaint.setAntiAlias(true);
         mSectionTextPaint.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+
+        mSectionHeaderPaint = new Paint();
+        mSectionHeaderPaint.setTextSize(resources.getDimensionPixelOffset(R.dimen.contact_section_header_txt));
+        mSectionHeaderPaint.setColor(Color.parseColor("#7f000000"));
+        mSectionHeaderPaint.setAntiAlias(true);
+        mSectionHeaderPaint.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
+
         mIsRtl = CommonUtils.isRtl();
+        headerOffset = resources.getDimensionPixelOffset(R.dimen.recycler_section_header_top);    }
+
+    public boolean setHeaderHint(String headerHint) {
+        boolean changed = !TextUtils.equals(mHeaderHint, headerHint);
+        if (changed) {
+            this.mHeaderHint = headerHint;
+            if (!TextUtils.isEmpty(headerHint)) {
+                mSectionHeaderPaint.getTextBounds(headerHint, 0, headerHint.length(), mHeaderBounds);
+            }
+        }
+        return changed;
     }
 
     @Override
@@ -47,6 +74,10 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
                 view,
                 parent,
                 state);
+        int pos = parent.getChildAdapterPosition(view);
+        if (pos == 0 && !TextUtils.isEmpty(mHeaderHint)) {
+            outRect.top = headerOffset;
+        }
         // Nothing
     }
 
@@ -87,7 +118,14 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
                 x += (int) ((mSectionNamesMargin - sectionBounds.x) / 2f);
                 int y = child.getTop() + sectionBaseline;
 
-                int nextPos = Math.min(mRowCount - 1, position + 1);
+                // Draw header hint at first item.
+                if (position == 0 && !TextUtils.isEmpty(mHeaderHint)) {
+                    c.drawText(mHeaderHint,
+                            x, (int) ((headerOffset + mHeaderBounds.height()) * 0.5f),
+                            mSectionHeaderPaint);
+                }
+
+                int nextPos = Math.min(mContacts.size() - 1, position + 1);
                 String nextSectionName = (String) sectionCallback.getSectionHeader(nextPos);
                 boolean fixedToRow = !sectionName.equals(nextSectionName);
                 if (!fixedToRow) {
@@ -124,7 +162,7 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
         }
         // Ensure we have a holder position
         int pos = holder.getPosition();
-        if (pos < 0 || pos >= mRowCount) {
+        if (pos < 0 || pos >= mContacts.size()) {
             return false;
         }
         return true;
@@ -143,6 +181,22 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
             mCachedSectionBounds.put(sectionName, bounds);
         }
         return bounds;
+    }
+
+    private RecyclerSectionItemDecoration.SectionCallback getSectionCallback(final List<SimpleContact> people) {
+        return new RecyclerSectionItemDecoration.SectionCallback() {
+            @Override
+            public boolean isSection(int position) {
+                return position == 0
+                        || !TextUtils.equals(getSectionHeader(position), getSectionHeader(position - 1));
+            }
+
+            @Override
+            public CharSequence getSectionHeader(int position) {
+                return ContactUtils.getSectionName(
+                        people.get(position).getName()) ;
+            }
+        };
     }
 
     public interface SectionCallback {

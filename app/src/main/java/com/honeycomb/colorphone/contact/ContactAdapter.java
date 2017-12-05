@@ -11,7 +11,6 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
@@ -28,11 +27,26 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     private final List<SimpleContact> people;
     private final LayoutInflater layoutInflater;
     private final int            rowLayout;
+    /**
+     * Indicates contact could be selected, and CheckBox is visible & checkable.
+     */
+    private boolean inSelectMode = true;
+
+    private int selectedCount = 0;
+    private CountTriggerListener mCountTriggerListener;
 
     public ContactAdapter(LayoutInflater layoutInflater, List<SimpleContact> people, @LayoutRes int rowLayout) {
         this.people = people;
         this.layoutInflater = layoutInflater;
         this.rowLayout = rowLayout;
+    }
+
+    public void setInSelectMode(boolean inSelectMode) {
+        boolean changed = this.inSelectMode != inSelectMode;
+        if (changed) {
+            this.inSelectMode = inSelectMode;
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -41,14 +55,46 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                                         parent,
                                         false);
         final ViewHolder holder =  new ViewHolder(v);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!inSelectMode) {
+                    return;
+                }
+                boolean result = !holder.checkBox.isChecked();
+                holder.checkBox.setChecked(result);
+            }
+        });
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 people.get(holder.getAdapterPosition()).setSelected(isChecked);
+                int lastTimeCount = selectedCount;
+                if (isChecked) {
+                    selectedCount++;
+                } else {
+                    selectedCount--;
+                }
+                /**
+                 *  last - current
+                 *  0 - 0
+                 *  0 - 1
+                 *  1 - 0
+                 */
+                boolean trigger = lastTimeCount + selectedCount <= 1;
+                if (trigger) {
+                    onTriggerSelectedCount(selectedCount);
+                }
                 HSLog.d(TAG, "");
             }
         });
         return holder;
+    }
+
+    private void onTriggerSelectedCount(int selectedCount) {
+        if (mCountTriggerListener != null) {
+            mCountTriggerListener.onTrigger(selectedCount);
+        }
     }
 
     @Override
@@ -56,6 +102,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         SimpleContact person = people.get(position);
         holder.fullName.setText(person.getName());
         holder.avater.setTitleText(getSectionName(position));
+        if (inSelectMode) {
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.checkBox.setEnabled(true);
+        } else {
+            holder.checkBox.setVisibility(View.INVISIBLE);
+            holder.checkBox.setEnabled(false);
+        }
 
         int randomHash = Math.abs(person.getRawNumber().hashCode());
         int randomColor = LETTER_COLOR[randomHash % LETTER_COLOR.length];
@@ -73,6 +126,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         return ContactUtils.getSectionName(people.get(position).getName());
     }
 
+    public void setCountTriggerListener(CountTriggerListener countTriggerListener) {
+        mCountTriggerListener = countTriggerListener;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView fullName;
         private RoundedLetterView avater;
@@ -83,14 +140,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             fullName = (TextView) view.findViewById(R.id.contact_name);
             avater = (RoundedLetterView) view.findViewById(R.id.contact_avatar);
             checkBox = (CheckBox) view.findViewById(R.id.contact_select_box);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    boolean result = !checkBox.isChecked();
-                    checkBox.setChecked(result);
-                }
-            });
+
         }
+    }
+
+    public interface CountTriggerListener {
+        void onTrigger(int currentSelectedCount);
     }
 
 

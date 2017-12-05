@@ -1,6 +1,16 @@
 package com.honeycomb.colorphone.contact;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.provider.ContactsContract;
+import android.text.TextUtils;
+import android.util.Log;
+
 import java.text.Collator;
+import java.util.ArrayList;
+import java.util.List;
+
+import hugo.weaving.DebugLog;
 
 /**
  * Created by sundxing on 17/11/29.
@@ -31,4 +41,35 @@ public class ContactUtils {
         return Collator.getInstance().compare(titleA, titleB);
     }
 
+    @DebugLog
+    public static List<SimpleContact> readAllContacts(Context context) {
+        String[] projection = new String[]{
+                ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.PHOTO_URI};
+        List<SimpleContact> mContacts = new ArrayList<>();
+
+        Cursor cursor = null;
+        try {
+            cursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    projection, null, null, null);
+            while (cursor != null && cursor.moveToNext()) {
+                String thumbnailUri = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                Log.d("Read Contact", "photo uri = " + thumbnailUri + ", name = " + name + ", number = " + number);
+                if (!TextUtils.isEmpty(number)) {
+                    mContacts.add(new SimpleContact(name, number, thumbnailUri));
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return mContacts;
+    }
 }

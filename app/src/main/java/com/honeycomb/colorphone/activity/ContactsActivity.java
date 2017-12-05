@@ -1,20 +1,28 @@
 package com.honeycomb.colorphone.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactAdapter;
 import com.honeycomb.colorphone.contact.ContactUtils;
 import com.honeycomb.colorphone.contact.RecyclerSectionItemDecoration;
@@ -26,22 +34,42 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import hugo.weaving.DebugLog;
-
 
 /**
  * Created by sundxing on 17/11/28.
  * TODO: filter contact number empty.
  */
 
-public class ContactsActivity extends HSAppCompatActivity {
+public abstract class ContactsActivity extends HSAppCompatActivity {
     private static final String TAG = "ContactsActivity";
+
+    public static final String EXTRA_THEME = "contact_theme";
+    private OvershootInterpolator mInter = new OvershootInterpolator(1.5f);
+    private Interpolator mFadeInter = new AccelerateInterpolator();
 
     private RecyclerView mFastScrollRecyclerView;
     private List<SimpleContact> mContacts = new ArrayList<>();
+    private ContactAdapter mContactAdapter;
+    private RecyclerSectionItemDecoration mSectionItemDecoration;
+    private View mActionLayout;
+    private Button mConfirmButton;
+    /**
+     * Default, list items could be selectable.
+     */
+    private boolean mSelectable = true;
 
-    public static void start(Context context) {
-        Intent starter = new Intent(context, ContactsActivity.class);
+    private List<View> mToolBarTransViews = new ArrayList<>(2);
+    private int mLayoutTransY = CommonUtils.pxFromDp(72f);
+    private int mLayoutTransX = - CommonUtils.pxFromDp(56f);
+
+    public static void startSelect(Context context, Theme theme) {
+        Intent starter = new Intent(context, ContactsSelectActivity.class);
+        starter.putExtra(EXTRA_THEME, theme);
+        context.startActivity(starter);
+    }
+
+    public static void startEdit(Context context) {
+        Intent starter = new Intent(context, ContactsEditActivity.class);
         context.startActivity(starter);
     }
 
@@ -50,7 +78,8 @@ public class ContactsActivity extends HSAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_contacts);
-        findViewById(R.id.nav_back).setOnClickListener(new View.OnClickListener() {
+        View navBack = findViewById(R.id.nav_back);
+        navBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -58,7 +87,12 @@ public class ContactsActivity extends HSAppCompatActivity {
         });
         TextView textViewTitle = findViewById(R.id.nav_title);
         textViewTitle.setText(R.string.contact_theme);
+
+        mToolBarTransViews.add(navBack);
+        mToolBarTransViews.add(textViewTitle);
+
         mFastScrollRecyclerView = findViewById(R.id.recycler_view);
+        mFastScrollRecyclerView.setItemAnimator(new DefaultItemAnimator());
         int padding  = getResources().getDimensionPixelSize(R.dimen.recycler_section_header_Margin);
         if (CommonUtils.isRtl()) {
             mFastScrollRecyclerView.setPadding(0
@@ -70,8 +104,36 @@ public class ContactsActivity extends HSAppCompatActivity {
         mFastScrollRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL,
                 false));
-        readContacts();
 
+        mActionLayout = findViewById(R.id.bottom_action_layout);
+        mConfirmButton = (Button)findViewById(R.id.contact_confirm);
+        mConfirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onConfirmed(mContacts);
+            }
+        });
+        onConfigConfirmButton(mConfirmButton);
+        onConfigActionView((TextView)findViewById(R.id.action_bar_op));
+    }
+
+    public boolean isSelectable() {
+        return mSelectable;
+    }
+
+    public ContactAdapter getContactAdapter() {
+        return mContactAdapter;
+    }
+
+    protected abstract void onConfirmed(List<SimpleContact> contacts);
+
+    protected abstract void onConfigConfirmButton(Button confirmButton);
+
+    protected abstract void onConfigActionView(TextView actionText);
+
+    protected void onContactsDataReady(List<SimpleContact> contacts) {
+        mContacts.clear();
+        mContacts.addAll(contacts);
         Collections.sort(mContacts, new Comparator<SimpleContact>() {
             @Override
             public int compare(SimpleContact o1, SimpleContact o2) {
@@ -81,61 +143,70 @@ public class ContactsActivity extends HSAppCompatActivity {
             }
         });
 
-
-        RecyclerSectionItemDecoration sectionItemDecoration =
+        mSectionItemDecoration =
                 new RecyclerSectionItemDecoration(getResources(),
-                        mContacts.size(),
-                        getSectionCallback(mContacts));
-
-        mFastScrollRecyclerView.setAdapter(new ContactAdapter(getLayoutInflater(), mContacts, R.layout.recycler_contact_row));
-        mFastScrollRecyclerView.addItemDecoration(sectionItemDecoration);
+                        mContacts);
+        mContactAdapter = new ContactAdapter(getLayoutInflater(), mContacts, R.layout.recycler_contact_row);
+        mContactAdapter.setCountTriggerListener(new ContactAdapter.CountTriggerListener() {
+            @Override
+            public void onTrigger(int currentSelectedCount) {
+                boolean enabled = currentSelectedCount > 0;
+                mConfirmButton.setEnabled(enabled);
+            }
+        });
+        mFastScrollRecyclerView.addItemDecoration(mSectionItemDecoration);
+        mFastScrollRecyclerView.setAdapter(mContactAdapter);
     }
 
-    private RecyclerSectionItemDecoration.SectionCallback getSectionCallback(final List<SimpleContact> people) {
-        return new RecyclerSectionItemDecoration.SectionCallback() {
-            @Override
-            public boolean isSection(int position) {
-                return position == 0
-                        || !TextUtils.equals(getSectionHeader(position), getSectionHeader(position - 1));
-            }
-
-            @Override
-            public CharSequence getSectionHeader(int position) {
-                return ContactUtils.getSectionName(
-                        people.get(position).getName()) ;
-            }
-        };
+    protected void switchSelectMode() {
+        updateSelectMode(!mSelectable, true);
     }
 
-    @DebugLog
-    public void readContacts() {
-        String[] projection = new String[]{
-                ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.PHOTO_URI};
+    protected void updateSelectMode(final boolean selectable) {
+        updateSelectMode(selectable, false);
+    }
 
-        Cursor cursor = null;
-        try {
-            cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                    projection, null, null, null);
-            while (cursor != null && cursor.moveToNext()) {
-                String thumbnailUri = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
-                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+    protected void updateSelectMode(final boolean selectable, final boolean animation) {
 
-                Log.d(TAG, "photo uri = " + thumbnailUri + ", name = " + name + ", number = " + number);
-                if (!TextUtils.isEmpty(number)) {
-                    mContacts.add(new SimpleContact(name, number, thumbnailUri));
-                }
+        // Adapter handle change logic itself.
+        if (mContactAdapter != null) {
+            mContactAdapter.setInSelectMode(selectable);
+        }
+
+        boolean change = mSelectable != selectable;
+        if (!change) {
+            return;
+        }
+        mSelectable = selectable;
+
+        mActionLayout.animate()
+                .translationY(selectable ? 0 : mLayoutTransY)
+                .setDuration(animation ? 300 : 0)
+                .setInterpolator(selectable ? mInter : mFadeInter)
+                .setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mConfirmButton.setClickable(selectable);
             }
-            boolean result = PhoneNumberUtils.compare("(656) 889-96","65688996");
-            Log.d(TAG, "(656) 889-96 =  65688996 ? " + result);
-            Log.d(TAG, "Format 15896633258 : " + PhoneNumberUtils.formatNumber("15896633258"));
+        }).start();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
+        for (View v : mToolBarTransViews) {
+            v.animate()
+                    .translationX(selectable ? mLayoutTransX : 0)
+                    .setDuration(animation? 300 : 0)
+                    .setInterpolator(selectable ? mFadeInter : mInter)
+                    .start();
+        }
+
+    }
+
+    protected void setHeaderHint(String headerHint) {
+        if (mSectionItemDecoration != null) {
+            boolean changed = mSectionItemDecoration.setHeaderHint(headerHint);
+            if (changed) {
+                mContactAdapter.notifyDataSetChanged();
             }
         }
     }
+
 }

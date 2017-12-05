@@ -16,27 +16,72 @@
             android:padding="8dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
+            android:background="@drawable/material_compat_bg"
             android:src="@drawable/back_dark"/>
 
         <com.honeycomb.colorphone.view.TypefacedTextView
             android:id="@+id/nav_title"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             android:textStyle="bold"
             app:typeface="@string/proxima_nova_semibold"
             tools:text="@string/about" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                android:id="@+id/action_bar_op"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|end"
+                android:background="@drawable/material_compat_bg"
+                android:gravity="center"
+                android:minWidth="64dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@color/textDark"
+                android:textSize="18sp"
+
+                app:typeface="@string/proxima_nova_regular"
+                tools:text="Cancel" />
+        </FrameLayout>
+
     </LinearLayout>
 
-    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-        android:id="@+id/recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
+        <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+            android:id="@+id/recycler_view"
+            android:background="#fafafa"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
+
+        <android.support.percent.PercentFrameLayout
+            android:id="@+id/bottom_action_layout"
+            android:layout_width="match_parent"
+            android:layout_gravity="bottom"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/contact_confirm"
+                app:layout_widthPercent="80%"
+                android:layout_gravity="center"
+                android:layout_height="44dp"
+                android:background="@drawable/btn_bg_yellow"
+                />
+        </android.support.percent.PercentFrameLayout>
+    </FrameLayout>
 
 </LinearLayout>

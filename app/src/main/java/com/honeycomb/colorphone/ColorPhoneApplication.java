@@ -33,6 +33,8 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
+import com.honeycomb.colorphone.activity.ContactsActivity;
+import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
@@ -141,6 +143,7 @@ public class ColorPhoneApplication extends HSApplication {
             });
             AcbCallManager.getInstance().setImageLoader(new ThemeImageLoader());
             AcbCallManager.getInstance().logTest = true;
+            ContactManager.init();
 
             HSPermanentUtils.keepAlive();
             if (BuildConfig.DEBUG) {

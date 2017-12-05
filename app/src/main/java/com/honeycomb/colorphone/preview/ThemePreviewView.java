@@ -42,6 +42,7 @@ import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.download.DownloadStateListener;
@@ -90,6 +91,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private ProgressViewHolder mProgressViewHolder;
     private Button mApplyButton;
+    private View mApplyForOne;
     private View mActionLayout;
 
     private View mNavBack;
@@ -273,7 +275,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView.setTheme(mThemeType);
         callActionView.setAutoRun(false);
         mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
+        mApplyButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
         mActionLayout = findViewById(R.id.theme_apply_layout);
+        mApplyForOne = findViewById(R.id.theme_set_for_one);
         mProgressViewHolder = new ProgressViewHolder();
         previewImage = (ImageView) findViewById(R.id.preview_bg_img);
         dimCover = findViewById(R.id.dim_cover);
@@ -307,6 +311,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
                 NotificationUtils.logThemeAppliedFlurry(mTheme);
 
+            }
+        });
+
+        mApplyForOne.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContactsActivity.startSelect(mActivity, mTheme);
             }
         });
         bottomBtnTransY = getTransBottomLayout().getTranslationY();
@@ -372,8 +383,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             guideView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    guideView.animate().alpha(0).setDuration(200).start();
-                    guideView.setOnClickListener(null);
+                    guideView.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            guideView.setOnClickListener(null);
+                            guideView.setVisibility(GONE);
+                        }
+                    }).start();
                 }
             });
         }

@@ -427,7 +427,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 SettingsActivity.start(this);
                 break;
             case R.id.settings_contacts:
-                ContactsActivity.start(this);
+                ContactsActivity.startEdit(this);
                 break;
             case R.id.settings_about:
                 AboutActivity.start(this);
