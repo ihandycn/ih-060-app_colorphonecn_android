@@ -7,6 +7,9 @@ import com.acb.call.CPSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.PreferenceHelper;
+import com.honeycomb.colorphone.activity.ShareAlertActivity;
+import com.ihs.app.framework.inner.SessionMgr;
+import com.ihs.commons.utils.HSPreferenceHelper;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -61,6 +64,38 @@ public class ModuleUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isShareAlertInsideAppShow() {
+        PreferenceHelper helper = PreferenceHelper.get(ShareAlertActivity.PREFS_FILE);
+
+        if (helper.getInt(ShareAlertActivity.SHARE_ALERT_IN_APP_SHOW_COUNT, 0)
+                >= ShareAlertAutoPilotUtils.getInsideAppShareAlerShowMaxTime()) {
+            return false;
+        }
+
+        if (helper.getLong(ShareAlertActivity.SHARE_ALERT_IN_APP_SHOW_TIME, 0)
+                + ShareAlertAutoPilotUtils.getInsideAppShareAlertShowInterval() > System.currentTimeMillis()) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isShareAlertOutsideAppShow() {
+
+        // is in contact
+        PreferenceHelper helper = PreferenceHelper.get(ShareAlertActivity.PREFS_FILE);
+        if (helper.getInt(ShareAlertActivity.SHARE_ALERT_OUT_APP_SHOW_COUNT, 0)
+                >= ShareAlertAutoPilotUtils.getOutsideAppShareAlerShowMaxTime()) {
+            return false;
+        }
+
+        if (helper.getLong(ShareAlertActivity.SHARE_ALERT_OUT_APP_SHOW_TIME, 0)
+                + ShareAlertAutoPilotUtils.getOutsideAppShareAlertShowInterval() > System.currentTimeMillis()) {
+            return false;
+        }
+
+        return true;
     }
 
 }

@@ -9,22 +9,102 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:orientation="vertical"
         android:layout_centerInParent="true"
         android:background="@drawable/btn_bg_round_white"
         app:layout_widthPercent="80%"
         app:layout_aspectRatio="72%">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5.33"/>
 
         <android.support.percent.PercentFrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/share_alert_bg"
+                android:layout_gravity="center"
+                />
+
+            <include
+                layout="@layout/card_layout_preview"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_widthPercent="80%"
-                SDSADSA
-
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="7dp"
+                android:layout_gravity="center_horizontal"
+                app:layout_widthPercent="46%"
+                app:layout_aspectRatio="70%"
+                android:src="@drawable/drawer_icon"
                 />
         </android.support.percent.PercentFrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"/>
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/surprise"
+            android:textColor="#000000"
+            android:alpha="0.87"
+            android:textSize="20sp"
+            app:typeface="@string/proxima_nova_semibold"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:textColor="#000000"
+            android:alpha="0.54"
+            android:text="@string/share_alert_content"
+            app:typeface="@string/proxima_nova_regular"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"/>
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/share_button"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:textColor="#1E1E1E"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/share"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_bg_yellow"
+            app:typeface="@string/proxima_nova_semibold"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4.6"/>
     </LinearLayout>
+
+
+
 </android.support.percent.PercentRelativeLayout>

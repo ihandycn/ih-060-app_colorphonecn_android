@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -19,6 +20,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.ShareAlertAutoPilotUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.analytics.HSAnalytics;
@@ -38,14 +40,17 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
 
     public static boolean FULL_SCREEN = true;
 
-    public static boolean start(final Context context, boolean fullScreen) {
+    public static boolean start(final Activity activity, boolean fullScreen) {
         if (ModuleUtils.isNeedGuideAfterApply()) {
-            Intent starter = new Intent(context, GuideApplyThemeActivity.class);
+            Intent starter = new Intent(activity, GuideApplyThemeActivity.class);
             starter.putExtra("fullscreen", fullScreen);
-            context.startActivity(starter);
+            activity.startActivity(starter);
             return true;
-        } else if (NotificationUtils.isShowNotificationGuideAlertWhenApplyTheme(context)) {
-            NotificationAccessGuideAlertActivity.startInAppGuide(context);
+        } else if(ModuleUtils.isShareAlertInsideAppShow()) {
+            ShareAlertActivity.starInsideApp(activity);
+            return true;
+        } else if (NotificationUtils.isShowNotificationGuideAlertWhenApplyTheme(activity)) {
+            NotificationAccessGuideAlertActivity.startInAppGuide(activity);
             return true;
         }
         return false;
