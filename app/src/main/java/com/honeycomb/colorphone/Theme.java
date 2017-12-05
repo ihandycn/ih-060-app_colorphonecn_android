@@ -2,19 +2,15 @@ package com.honeycomb.colorphone;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.AnyRes;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.content.res.AppCompatResources;
 
 import com.acb.call.themes.Type;
-import com.ihs.app.framework.HSApplication;
+import com.honeycomb.colorphone.notification.NotificationConstants;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 
 import java.util.ArrayList;
-
-import static android.R.attr.type;
 
 /**
  * Color phone theme.
@@ -50,6 +46,7 @@ public class Theme extends Type {
             }
             themes.add((Theme) type);
         }
+        HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
     }
 
     public long getDownload() {

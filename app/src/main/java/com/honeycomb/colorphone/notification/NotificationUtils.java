@@ -289,9 +289,8 @@ public class NotificationUtils {
             public void onSuccess(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask) {
                 HSLog.d(TAG, "download media success " + "app foreGround = " + ColorPhoneApplication.isAppForeground());
 
-                if (ColorPhoneApplication.isAppForeground()) {
-                    HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
-                }
+                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+
                 if (canShowNotification) {
                     if (listener != null) listener.onSuccess(type);
                 }
