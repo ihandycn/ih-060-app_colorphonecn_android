@@ -13,11 +13,15 @@ import android.util.AttributeSet;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.FontUtils;
+import com.honeycomb.colorphone.view.CircleImageView;
+import com.honeycomb.colorphone.view.RoundCornerImageView;
+
+import static android.R.attr.centerX;
 
 /**
  * From https://github.com/pavlospt/RoundedLetterView
  */
-public class RoundedLetterView extends android.support.v7.widget.AppCompatImageView {
+public class RoundedLetterView extends CircleImageView {
 
     private static int DEFAULT_TITLE_COLOR = Color.WHITE;
     private static int DEFAULT_BACKGROUND_COLOR = Color.CYAN;
@@ -109,25 +113,23 @@ public class RoundedLetterView extends android.support.v7.widget.AppCompatImageV
     protected void onDraw(Canvas canvas) {
 
         // Use as ImageView if no title text.
-        if (TextUtils.isEmpty(mTitleText)) {
-            super.onDraw(canvas);
-            return;
-        }
         mInnerRectF.set(0, 0, mViewSize, mViewSize);
         mInnerRectF.offset((getWidth() - mViewSize) / 2, (getHeight() - mViewSize) / 2);
 
-        float centerX = mInnerRectF.centerX();
-        float centerY = mInnerRectF.centerY();
-
-        int xPos = (int) centerX;
-        int yPos = (int) (centerY - (mTitleTextPaint.descent() + mTitleTextPaint.ascent()) / 2);
-
         canvas.drawOval(mInnerRectF, mBackgroundPaint);
 
-        canvas.drawText(mTitleText,
-                xPos,
-                yPos,
-                mTitleTextPaint);
+        if (!TextUtils.isEmpty(mTitleText)) {
+            float centerX = mInnerRectF.centerX();
+            float centerY = mInnerRectF.centerY();
+
+            int xPos = (int) centerX;
+            int yPos = (int) (centerY - (mTitleTextPaint.descent() + mTitleTextPaint.ascent()) / 2);
+            canvas.drawText(mTitleText,
+                    xPos,
+                    yPos,
+                    mTitleTextPaint);
+        }
+        super.onDraw(canvas);
     }
 
     /**
