@@ -4,15 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.PhoneNumberUtils;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -143,9 +138,8 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
             }
         });
 
-        mSectionItemDecoration =
-                new RecyclerSectionItemDecoration(getResources(),
-                        mContacts);
+        mSectionItemDecoration = new RecyclerSectionItemDecoration(getResources(),mContacts);
+        mSectionItemDecoration.setFooterOffset(mLayoutTransY);
         mContactAdapter = new ContactAdapter(getLayoutInflater(), mContacts, R.layout.recycler_contact_row);
         mContactAdapter.setCountTriggerListener(new ContactAdapter.CountTriggerListener() {
             @Override

@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -17,8 +16,6 @@ import com.honeycomb.colorphone.R;
 
 import java.util.HashMap;
 import java.util.List;
-
-import static android.R.attr.rowCount;
 
 
 public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
@@ -31,12 +28,14 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
     private final List<SimpleContact> mContacts;
 
     private HashMap<String, PointF> mCachedSectionBounds = new HashMap<>();
+
     private Rect mTmpBounds = new Rect();
     private Rect mHeaderBounds = new Rect();
-
     private boolean mIsRtl = false;
+
     private float mSectionNamesMargin;
     private String mHeaderHint;
+    private int footerOffset;
 
     public RecyclerSectionItemDecoration(Resources resources, List<SimpleContact> contacts) {
         this.sectionCallback = getSectionCallback(contacts);
@@ -55,7 +54,8 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
         mSectionHeaderPaint.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
 
         mIsRtl = CommonUtils.isRtl();
-        headerOffset = resources.getDimensionPixelOffset(R.dimen.recycler_section_header_top);    }
+        headerOffset = resources.getDimensionPixelOffset(R.dimen.recycler_section_header_top);
+    }
 
     public boolean setHeaderHint(String headerHint) {
         boolean changed = !TextUtils.equals(mHeaderHint, headerHint);
@@ -78,7 +78,14 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
         if (pos == 0 && !TextUtils.isEmpty(mHeaderHint)) {
             outRect.top = headerOffset;
         }
+        if (isFooterPosition(pos)) {
+            outRect.bottom = footerOffset;
+        }
         // Nothing
+    }
+
+    private boolean isFooterPosition(int pos) {
+        return pos > 0 && pos == mContacts.size() - 1;
     }
 
     @Override
@@ -107,21 +114,23 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
                 continue;
             }
 
+            int x = 0;
+            int y = 0;
             String sectionName = (String) sectionCallback.getSectionHeader(position);
             if (!previousHeader.equals(sectionName) || sectionCallback.isSection(position)) {
                 PointF sectionBounds = getAndCacheSectionBounds(sectionName);
 
                 int viewTopOffset = (int) ((child.getHeight() - sectionBounds.y) * 0.5f);
                 int sectionBaseline = (int) (viewTopOffset + sectionBounds.y);
-                int x = mIsRtl ?
+                x = mIsRtl ?
                         (int) (parent.getWidth() - mSectionNamesMargin) : 0;
                 x += (int) ((mSectionNamesMargin - sectionBounds.x) / 2f);
-                int y = child.getTop() + sectionBaseline;
+                y = child.getTop() + sectionBaseline;
 
                 // Draw header hint at first item.
                 if (position == 0 && !TextUtils.isEmpty(mHeaderHint)) {
                     c.drawText(mHeaderHint,
-                            x, (int) ((headerOffset + mHeaderBounds.height()) * 0.5f),
+                            x, (int) ((child.getTop() + mHeaderBounds.height()) * 0.5f),
                             mSectionHeaderPaint);
                 }
 
@@ -197,6 +206,10 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
                         people.get(position).getName()) ;
             }
         };
+    }
+
+    public void setFooterOffset(int footerrOffset) {
+        this.footerOffset = footerrOffset;
     }
 
     public interface SectionCallback {
