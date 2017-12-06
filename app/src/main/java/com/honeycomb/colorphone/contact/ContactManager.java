@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.contact;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
 import com.colorphone.lock.util.ConcurrentUtils;
@@ -12,6 +13,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import hugo.weaving.DebugLog;
+
 /**
  * Created by sundxing on 17/12/1.
  */
@@ -20,11 +23,11 @@ public class ContactManager {
 
     private static ContactManager INSTANCE;
     private final SQLiteDatabase mDb;
-    private List<SimpleContact> mLocalContacts;
-    private List<SimpleContact> mThemeContacts;
-
-    private List<LoadCallback> mLocalContactsListener = new ArrayList<>();
+    private List<SimpleContact> mAllContacts = new ArrayList<>();
+    private List<SimpleContact> mThemeFilterContacts = new ArrayList<>();
     private List<LoadCallback> mThemeContactsListener = new ArrayList<>();
+
+    private boolean needFilterTheme = false;
 
     public ContactManager() {
         mDb = new ContactDBHelper(HSApplication.getContext()).getWritableDatabase();
@@ -43,46 +46,67 @@ public class ContactManager {
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
-                mLocalContacts = ContactUtils.readAllContacts(HSApplication.getContext());
-                mThemeContacts = getAllThemeContacts();
+                final List<SimpleContact> all = ContactUtils.readAllContacts(HSApplication.getContext());
+                fillThemeContacts(all);
+                mAllContacts.clear();
+                mAllContacts.addAll(all);
+                needFilterTheme = true;
             }
         });
     }
 
-    public void getLocalContacts(LoadCallback callback) {
-        if (mLocalContacts != null) {
-            callback.onLoadFinish(new ArrayList<SimpleContact>(mLocalContacts));
+    public List<SimpleContact> getThemes(boolean onlyThemeSet) {
+        if (onlyThemeSet) {
+            if (needFilterTheme || mThemeFilterContacts.isEmpty()) {
+                mThemeFilterContacts.clear();
+                for (SimpleContact c : mAllContacts) {
+                    if (c.getThemeId() != SimpleContact.INVALID_THEME) {
+                        mThemeFilterContacts.add(c);
+                    }
+                }
+                needFilterTheme = false;
+            }
+            return mThemeFilterContacts;
         } else {
-            mLocalContactsListener.add(callback);
+            return mAllContacts;
         }
     }
 
-    public void getThemeContacts(LoadCallback callback) {
-        if (mThemeContacts != null) {
-            callback.onLoadFinish(new ArrayList<SimpleContact>(mThemeContacts));
+    public void register(LoadCallback callback) {
+        if (!mAllContacts.isEmpty()) {
+            callback.onLoadFinish();
         } else {
             mThemeContactsListener.add(callback);
         }
     }
 
-    private List<SimpleContact> getAllThemeContacts() {
+    public void unRegister(LoadCallback callback) {
+        mThemeContactsListener.remove(callback);
+    }
+
+    @DebugLog
+    private synchronized boolean fillThemeContacts(List<SimpleContact> allContacts) {
         SQLiteDatabase db = mDb;
         final Cursor c = db.rawQuery("SELECT * FROM " + ThemeEntry.TABLE_NAME, null);
 
         final List<SimpleContact> list = new ArrayList<>();
         try {
             if (!c.moveToLast()) {
-                return list;
+                return false;
             }
 
             do {
-                SimpleContact model = new SimpleContact();
-                model.setName(c.getString(c.getColumnIndex(ThemeEntry.NAME)));
-                model.setRawNumber(c.getString(c.getColumnIndex(ThemeEntry.NUMBER)));
-                model.setPhotoUri(c.getString(c.getColumnIndex(ThemeEntry.PHOTO_URI)));
-                model.setThemeId(c.getInt(c.getColumnIndex(ThemeEntry.THEME_ID)));
-                Log.d("Read theme contact", model.toString());
-                list.add(model);
+                String rawNumber = c.getString(c.getColumnIndex(ThemeEntry.NUMBER));
+
+                SimpleContact model = findContact(rawNumber, allContacts);
+                if (model != null) {
+//                    model.setName(c.getString(c.getColumnIndex(ThemeEntry.NAME)));
+                    model.setRawNumber(rawNumber);
+//                    model.setPhotoUri(c.getString(c.getColumnIndex(ThemeEntry.PHOTO_URI)));
+                    model.setThemeId(c.getInt(c.getColumnIndex(ThemeEntry.THEME_ID)));
+                    Log.d("Read theme contact", model.toString());
+                    list.add(model);
+                }
             } while (c.moveToPrevious());
         } finally {
             if (c != null) {
@@ -90,7 +114,16 @@ public class ContactManager {
             }
         }
 
-        return list;
+        return true;
+    }
+
+    private SimpleContact findContact(String rawNumber, List<SimpleContact> allContacts) {
+        for (SimpleContact contact : allContacts) {
+            if (PhoneNumberUtils.compare(contact.getRawNumber(), rawNumber)) {
+                return contact;
+            }
+        }
+        return null;
     }
 
     public void updateDb(final List<ThemeEntry> themes, Runnable callback){
@@ -139,11 +172,11 @@ public class ContactManager {
         });
     }
 
-    public boolean themeSetAlready(SimpleContact c) {
-        return mThemeContacts.contains(c);
+    public void markDataChanged() {
+        needFilterTheme = true;
     }
 
     public interface LoadCallback {
-        void onLoadFinish(List<SimpleContact> contacts);
+        void onLoadFinish();
     }
 }

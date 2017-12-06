@@ -24,6 +24,14 @@ import java.util.List;
 public class ContactsSelectActivity extends ContactsActivity {
 
     private Theme mTheme;
+    ContactManager.LoadCallback mCallback = new ContactManager.LoadCallback() {
+        @Override
+        public void onLoadFinish() {
+            onContactsDataReady(ContactManager.getInstance().getThemes(false));
+            updateSelectMode(true);
+            setHeaderHint(getString(R.string.contact_select_hint, mTheme.getName()));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +41,14 @@ public class ContactsSelectActivity extends ContactsActivity {
         TextView textViewTitle = findViewById(R.id.nav_title);
         textViewTitle.setText(R.string.contact_theme);
 
-        ContactManager.getInstance().getLocalContacts(new ContactManager.LoadCallback() {
-            @Override
-            public void onLoadFinish(List<SimpleContact> contacts) {
-                onContactsDataReady(contacts);
-                updateSelectMode(true);
-                setHeaderHint(getString(R.string.contact_select_hint, mTheme.getName()));
-            }
-        });
+        ContactManager.getInstance().register(mCallback);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        ContactManager.getInstance().unRegister(mCallback);
+        super.onDestroy();
     }
 
     @Override
@@ -51,14 +58,21 @@ public class ContactsSelectActivity extends ContactsActivity {
 
         for (SimpleContact c : contacts) {
             if (c.isSelected()) {
+                ContactDBHelper.Action action = ContactDBHelper.Action.INSERT;
+                if (c.getThemeId() > 0) {
+                    action = ContactDBHelper.Action.UPDATE;
+                }
                 c.setThemeId(mTheme.getId());
                 ThemeEntry entry = ThemeEntry.valueOf(c);
-                entry.mAction = ContactDBHelper.Action.INSERT;
-                if (ContactManager.getInstance().themeSetAlready(c)) {
-                    entry.mAction = ContactDBHelper.Action.UPDATE;
-                }
+                entry.mAction = action;
                 themeEntries.add(entry);
+                // Clear status
+                c.setSelected(false);
             }
+        }
+
+        if (!themeEntries.isEmpty()) {
+            ContactManager.getInstance().markDataChanged();
         }
 
         // TODO progress bar ？

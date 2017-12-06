@@ -25,6 +25,14 @@ public class ContactsEditActivity extends ContactsActivity {
 
     private TextView mActionView;
 
+    ContactManager.LoadCallback mCallback = new ContactManager.LoadCallback() {
+        @Override
+        public void onLoadFinish() {
+            onContactsDataReady(ContactManager.getInstance().getThemes(true));
+            updateSelectMode(false);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,14 +40,13 @@ public class ContactsEditActivity extends ContactsActivity {
         TextView textViewTitle = findViewById(R.id.nav_title);
         textViewTitle.setText(R.string.contact_theme);
         updateSelectMode(false);
-        ContactManager.getInstance().getThemeContacts(new ContactManager.LoadCallback() {
-            @Override
-            public void onLoadFinish(List<SimpleContact> contacts) {
-                onContactsDataReady(contacts);
-                updateSelectMode(false);
-            }
-        });
+        ContactManager.getInstance().register(mCallback);
+    }
 
+    @Override
+    protected void onDestroy() {
+        ContactManager.getInstance().unRegister(mCallback);
+        super.onDestroy();
     }
 
     @Override

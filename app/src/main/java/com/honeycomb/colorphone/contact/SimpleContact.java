@@ -7,10 +7,11 @@ import android.telephony.PhoneNumberUtils;
  */
 
 public class SimpleContact {
+    public static final int INVALID_THEME = -1;
     private String mName;
     private String mRawNumber;
     private String mPhotoUri;
-    private int mThemeId;
+    private int mThemeId = INVALID_THEME;
 
     private boolean mSelected;
 
