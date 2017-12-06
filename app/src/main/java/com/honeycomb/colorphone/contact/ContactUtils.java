@@ -1,11 +1,18 @@
 package com.honeycomb.colorphone.contact;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,5 +78,61 @@ public class ContactUtils {
         }
 
         return mContacts;
+    }
+
+
+    /**
+     * Load a contact photo thumbnail and return it as a Bitmap,
+     * resizing the image to the provided image dimensions as needed.
+     *
+     * @param photoData photo ID Prior to Honeycomb, the contact's _ID value.
+     *                  For Honeycomb and later, the value of PHOTO_THUMBNAIL_URI.
+     * @return A thumbnail Bitmap, sized to the provided width and height.
+     * Returns null if the thumbnail is not found.
+     */
+    public static Bitmap loadContactPhotoThumbnail(Context context, String photoData) {
+        // Creates an asset file descriptor for the thumbnail file.
+        AssetFileDescriptor afd = null;
+        // try-catch block for file not found
+        try {
+            // Creates a holder for the URI.
+            Uri thumbUri;
+            // If Android 3.0 or later
+            thumbUri = Uri.parse(photoData);
+
+        /*
+         * Retrieves an AssetFileDescriptor object for the thumbnail
+         * URI
+         * using ContentResolver.openAssetFileDescriptor
+         */
+            afd = context.getContentResolver().
+                    openAssetFileDescriptor(thumbUri, "r");
+        /*
+         * Gets a file descriptor from the asset file descriptor.
+         * This object can be used across processes.
+         */
+            FileDescriptor fileDescriptor = afd.getFileDescriptor();
+            // Decode the photo file and return the result as a Bitmap
+            // If the file descriptor is valid
+            if (fileDescriptor != null) {
+                // Decodes the bitmap
+                return BitmapFactory.decodeFileDescriptor(
+                        fileDescriptor, null, null);
+            }
+            // If the file isn't found
+        } catch (FileNotFoundException e) {
+            /*
+             * Handle file not found errors
+             */
+            // In all cases, close the asset file descriptor
+        } finally {
+            if (afd != null) {
+                try {
+                    afd.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+        return null;
     }
 }
