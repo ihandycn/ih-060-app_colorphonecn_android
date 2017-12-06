@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.contact;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.utils.HSLog;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
@@ -108,6 +110,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         } else {
             holder.checkBox.setVisibility(View.INVISIBLE);
             holder.checkBox.setEnabled(false);
+        }
+        String photoUri  = person.getPhotoUri();
+        if (!TextUtils.isEmpty(photoUri)) {
+            GlideApp.with(holder.avater)
+                    .asBitmap()
+                    .load(photoUri)
+                    .into(holder.avater);
         }
 
         int randomHash = Math.abs(person.getRawNumber().hashCode());
