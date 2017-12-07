@@ -158,9 +158,13 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
         mContactAdapter.setHeaderOffset(mHeaderOffset);
         mContactAdapter.setFooterOffset(mLayoutTransY);
         mContactAdapter.setItemHeight(getResources().getDimensionPixelOffset(R.dimen.contact_item_height));
-
+        mContactAdapter.setThemeVisible(needShowThemeName());
         mFastScrollRecyclerView.addItemDecoration(mSectionItemDecoration);
         mFastScrollRecyclerView.setAdapter(mContactAdapter);
+    }
+
+    protected boolean needShowThemeName() {
+        return false;
     }
 
     protected void switchSelectMode() {

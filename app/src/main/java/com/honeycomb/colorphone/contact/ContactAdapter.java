@@ -11,7 +11,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.fastscroller.FastScrollRecyclerView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.utils.HSLog;
@@ -41,17 +43,27 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     private int footerOffset;
     private int headerOffset;
     private int itemHeight;
-
+    private boolean themeVisible;
+    private List<Type> themeTypeList;
     public ContactAdapter(LayoutInflater layoutInflater, List<SimpleContact> people, @LayoutRes int rowLayout) {
         this.people = people;
         this.layoutInflater = layoutInflater;
         this.rowLayout = rowLayout;
+        this.themeTypeList = Type.values();
     }
 
     public void setInSelectMode(boolean inSelectMode) {
         boolean changed = this.inSelectMode != inSelectMode;
         if (changed) {
             this.inSelectMode = inSelectMode;
+            notifyDataSetChanged();
+        }
+    }
+
+    public void setThemeVisible(boolean themeVisible) {
+        boolean changed = this.themeVisible != themeVisible;
+        if (changed) {
+            this.themeVisible = themeVisible;
             notifyDataSetChanged();
         }
     }
@@ -120,6 +132,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         SimpleContact person = people.get(position);
         holder.fullName.setText(person.getName());
+        if (themeVisible) {
+            holder.themeName.setText(getThemeName(person.getThemeId()));
+        } else {
+            holder.themeName.setText("");
+        }
         holder.avater.setTitleText(getSectionName(position));
         if (inSelectMode) {
             holder.checkBox.setVisibility(View.VISIBLE);
@@ -140,6 +157,19 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         int randomColor = LETTER_COLOR[randomHash % LETTER_COLOR.length];
         holder.avater.setBackgroundColor(randomColor);
     }
+
+    private String getThemeName(int themeId) {
+        if (themeId < 0) {
+            return "";
+        }
+        for (Type type : themeTypeList) {
+            if (type.getId() == themeId) {
+                return type.getName();
+            }
+        }
+        return  "";
+    }
+
 
     @Override
     public int getItemCount() {
@@ -170,6 +200,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView fullName;
+        private TextView themeName;
         private RoundedLetterView avater;
         private CheckBox checkBox;
 
@@ -178,6 +209,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             fullName = (TextView) view.findViewById(R.id.contact_name);
             avater = (RoundedLetterView) view.findViewById(R.id.contact_avatar);
             checkBox = (CheckBox) view.findViewById(R.id.contact_select_box);
+            themeName = (TextView) view.findViewById(R.id.theme_name);
 
         }
     }

@@ -50,6 +50,11 @@ public class ContactsEditActivity extends ContactsActivity {
     }
 
     @Override
+    protected boolean needShowThemeName() {
+        return true;
+    }
+
+    @Override
     protected void onConfirmed(List<SimpleContact> contacts) {
 
         List<ThemeEntry> themeEntries = new ArrayList<>();

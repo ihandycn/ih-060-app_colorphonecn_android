@@ -34,6 +34,25 @@
         app:typeface="@string/proxima_nova_regular"
         tools:text="Arank" />
 
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/theme_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:maxLines="1"
+        android:layout_toEndOf="@+id/contact_name"
+        android:layout_toRightOf="@+id/contact_name"
+        android:layout_toLeftOf="@+id/contact_select_box"
+        android:layout_toStartOf="@+id/contact_select_box"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:textColor="#b2000000"
+        android:textSize="16sp"
+        app:typeface="@string/proxima_nova_semibold"
+        tools:text="Arank Great Last One" />
+
     <CheckBox
         android:id="@+id/contact_select_box"
         android:layout_marginLeft="16dp"
