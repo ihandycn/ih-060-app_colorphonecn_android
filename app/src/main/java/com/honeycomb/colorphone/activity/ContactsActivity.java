@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.CommonUtils;
+import com.colorphone.lock.util.FontUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactAdapter;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 
 
 /**
@@ -87,7 +90,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
         mToolBarTransViews.add(textViewTitle);
 
         mFastScrollRecyclerView = findViewById(R.id.recycler_view);
-        mFastScrollRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mFastScrollRecyclerView.setItemAnimator(new SlideInRightAnimator());
         int padding  = getResources().getDimensionPixelSize(R.dimen.recycler_section_header_Margin);
         if (CommonUtils.isRtl()) {
             mFastScrollRecyclerView.setPadding(0
@@ -108,6 +111,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
                 onConfirmed(mContacts);
             }
         });
+        mConfirmButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
         onConfigConfirmButton(mConfirmButton);
         onConfigActionView((TextView)findViewById(R.id.action_bar_op));
     }
