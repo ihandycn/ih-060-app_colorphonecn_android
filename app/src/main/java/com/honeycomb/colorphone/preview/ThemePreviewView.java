@@ -7,6 +7,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -305,10 +306,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
 
                 if (!GuideApplyThemeActivity.start(mActivity, true)) {
-                    Toast toast = Toast.makeText(mActivity, R.string.apply_success, Toast.LENGTH_SHORT);
-                    int offsetY = (int) (bottomBtnTransY + Utils.pxFromDp(8));
-                    toast.setGravity(Gravity.BOTTOM, 0, offsetY);
-                    toast.show();
+                    showToast(mActivity.getString(R.string.apply_success));
                 }
                 NotificationUtils.logThemeAppliedFlurry(mTheme);
 
@@ -326,6 +324,21 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mInter = new OvershootInterpolator(1.5f);
 
     }
+
+    private void showToast(String hint) {
+       Toast toast = new Toast(mActivity.getApplicationContext());
+        final View contentView = mActivity.getLayoutInflater().inflate(R.layout.toast_theme_apply, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            contentView.setElevation(CommonUtils.pxFromDp(8));
+        }
+        TextView textView = contentView.findViewById(R.id.text_toast);
+        textView.setText(hint);
+        int yOffset = (int) (0.6f * CommonUtils.getPhoneHeight(mActivity));
+        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, yOffset);
+        toast.setView(contentView);
+        toast.show();
+    }
+
     private View getTransBottomLayout() {
         return mActionLayout;
     }
