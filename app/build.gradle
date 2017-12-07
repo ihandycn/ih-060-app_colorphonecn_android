@@ -118,7 +118,7 @@ dependencies {
     compile 'com.liulishuo.filedownloader:library:1.6.0'
     compile 'com.airbnb.android:lottie:2.0.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
-    compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
+//    compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
     compile 'jp.wasabeef:recyclerview-animators:2.2.7'
 
     // LeakCanary

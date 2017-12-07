@@ -59,13 +59,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+        <com.honeycomb.colorphone.fastscroller.FastScrollRecyclerView
             android:id="@+id/recycler_view"
             android:background="#fafafa"
             android:layout_width="match_parent"
+            app:fastScrollPopupTextSize="40dp"
+            app:fastScrollPopupBackgroundSize="64dp"
             android:layout_height="match_parent">
 
-        </com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView>
+        </com.honeycomb.colorphone.fastscroller.FastScrollRecyclerView>
 
         <android.support.percent.PercentFrameLayout
             android:id="@+id/bottom_action_layout"
