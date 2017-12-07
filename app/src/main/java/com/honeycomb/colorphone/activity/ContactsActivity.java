@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -57,8 +56,9 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
     private boolean mSelectable = true;
 
     private List<View> mToolBarTransViews = new ArrayList<>(2);
-    private int mLayoutTransY = CommonUtils.pxFromDp(72f);
-    private int mLayoutTransX = - CommonUtils.pxFromDp(56f);
+    private int mLayoutTransY;
+    private int mLayoutTransX = -CommonUtils.pxFromDp(56f);
+    private int mHeaderOffset;
 
     public static void startSelect(Context context, Theme theme) {
         Intent starter = new Intent(context, ContactsSelectActivity.class);
@@ -74,7 +74,8 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mLayoutTransY = getResources().getDimensionPixelOffset(R.dimen.contact_item_footer_offset);
+        mHeaderOffset = getResources().getDimensionPixelOffset(R.dimen.contact_item_header_offset);
         setContentView(R.layout.activity_contacts);
         View navBack = findViewById(R.id.nav_back);
         navBack.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +144,9 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
         });
 
         mSectionItemDecoration = new RecyclerSectionItemDecoration(getResources(),mContacts);
+        mSectionItemDecoration.setHeaderOffset(mHeaderOffset);
         mSectionItemDecoration.setFooterOffset(mLayoutTransY);
+
         mContactAdapter = new ContactAdapter(getLayoutInflater(), mContacts, R.layout.recycler_contact_row);
         mContactAdapter.setCountTriggerListener(new ContactAdapter.CountTriggerListener() {
             @Override
@@ -152,6 +155,10 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
                 mConfirmButton.setEnabled(enabled);
             }
         });
+        mContactAdapter.setHeaderOffset(mHeaderOffset);
+        mContactAdapter.setFooterOffset(mLayoutTransY);
+        mContactAdapter.setItemHeight(getResources().getDimensionPixelOffset(R.dimen.contact_item_height));
+
         mFastScrollRecyclerView.addItemDecoration(mSectionItemDecoration);
         mFastScrollRecyclerView.setAdapter(mContactAdapter);
     }

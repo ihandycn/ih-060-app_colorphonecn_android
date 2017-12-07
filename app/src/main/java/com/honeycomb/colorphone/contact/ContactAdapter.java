@@ -12,14 +12,16 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.fastscroller.FastScrollRecyclerView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.utils.HSLog;
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.List;
 
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> implements FastScrollRecyclerView.SectionedAdapter {
+
+public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder>
+        implements FastScrollRecyclerView.SectionedAdapter, FastScrollRecyclerView.MeasurableAdapter {
 
     private static int[] LETTER_COLOR = new int[]{
             0xff4285f4, 0xff757575, 0xffff6f00, 0xff0d9d58, 0xff4051b6, 0xff0297a8
@@ -36,6 +38,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
 
     private int selectedCount = 0;
     private CountTriggerListener mCountTriggerListener;
+    private int footerOffset;
+    private int headerOffset;
+    private int itemHeight;
 
     public ContactAdapter(LayoutInflater layoutInflater, List<SimpleContact> people, @LayoutRes int rowLayout) {
         this.people = people;
@@ -49,6 +54,18 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             this.inSelectMode = inSelectMode;
             notifyDataSetChanged();
         }
+    }
+
+    public void setFooterOffset(int footerrOffset) {
+        this.footerOffset = footerrOffset;
+    }
+
+    public void setHeaderOffset(int headerOffset) {
+        this.headerOffset = headerOffset;
+    }
+
+    public void setItemHeight(int itemHeight) {
+        this.itemHeight = itemHeight;
     }
 
     @Override
@@ -138,6 +155,18 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public void setCountTriggerListener(CountTriggerListener countTriggerListener) {
         mCountTriggerListener = countTriggerListener;
     }
+
+    @Override
+    public int getViewTypeHeight(RecyclerView recyclerView, int pos) {
+        int height = itemHeight;
+        if (pos == 0) {
+            height += headerOffset;
+        } else if (pos == getItemCount() - 1) {
+            height += footerOffset;
+        }
+        return height;
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView fullName;

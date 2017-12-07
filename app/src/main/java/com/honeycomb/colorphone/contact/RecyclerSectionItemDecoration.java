@@ -24,7 +24,6 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
     private final SectionCallback sectionCallback;
     private final Paint mSectionTextPaint;
     private final Paint mSectionHeaderPaint;
-    private final int             headerOffset;
     private final List<SimpleContact> mContacts;
 
     private HashMap<String, PointF> mCachedSectionBounds = new HashMap<>();
@@ -36,6 +35,7 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
     private float mSectionNamesMargin;
     private String mHeaderHint;
     private int footerOffset;
+    private int headerOffset;
 
     public RecyclerSectionItemDecoration(Resources resources, List<SimpleContact> contacts) {
         this.sectionCallback = getSectionCallback(contacts);
@@ -54,7 +54,6 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
         mSectionHeaderPaint.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
 
         mIsRtl = CommonUtils.isRtl();
-        headerOffset = resources.getDimensionPixelOffset(R.dimen.recycler_section_header_top);
     }
 
     public boolean setHeaderHint(String headerHint) {
@@ -210,6 +209,10 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
 
     public void setFooterOffset(int footerrOffset) {
         this.footerOffset = footerrOffset;
+    }
+
+    public void setHeaderOffset(int headerOffset) {
+        this.headerOffset = headerOffset;
     }
 
     public interface SectionCallback {
