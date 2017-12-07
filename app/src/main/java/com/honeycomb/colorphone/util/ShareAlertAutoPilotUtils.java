@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.util;
 import android.text.format.DateUtils;
 
 import com.acb.autopilot.AutopilotConfig;
+import com.acb.autopilot.AutopilotEvent;
 
 public class ShareAlertAutoPilotUtils {
 
@@ -47,5 +48,22 @@ public class ShareAlertAutoPilotUtils {
 
     public static int getOutsideAppShareAlerShowMaxTime() {
         return (int) AutopilotConfig.getDoubleToTestNow(SHARE_ALERT_TOPIC_ID, "outapp_share_alert_show_max_time", 0);
+    }
+
+
+    public static void logInsideAppShareAlertShow() {
+        AutopilotEvent.logTopicEvent(SHARE_ALERT_TOPIC_ID, "inapp_share_alert_show");
+    }
+
+    public static void logInsideAppShareAlertClicked() {
+        AutopilotEvent.logTopicEvent(SHARE_ALERT_TOPIC_ID, "inapp_share_alert_clicked");
+    }
+
+    public static void logOutsideAppShareAlertShow() {
+        AutopilotEvent.logTopicEvent(SHARE_ALERT_TOPIC_ID, "outapp_share_alert_show");
+    }
+
+    public static void logOutsideAppShareAlertClicked() {
+        AutopilotEvent.logTopicEvent(SHARE_ALERT_TOPIC_ID, "outapp_share_alert_clicked");
     }
 }

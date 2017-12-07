@@ -90,8 +90,10 @@ public class ShareAlertActivity extends Activity {
         });
 
         if (isInsideApp) {
+            ShareAlertAutoPilotUtils.logInsideAppShareAlertShow();
             HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName", themeType.getName(), "v22", String.valueOf(v22));
         } else {
+            ShareAlertAutoPilotUtils.logOutsideAppShareAlertShow();
             HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName", themeType.getName(), "v22", String.valueOf(v22));
         }
 
@@ -141,8 +143,10 @@ public class ShareAlertActivity extends Activity {
             public void onClick(View v) {
                 share();
                 if (isInsideApp) {
+                    ShareAlertAutoPilotUtils.logInsideAppShareAlertClicked();
                     HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName", themeType.getName(), "v22", String.valueOf(v22));
                 } else {
+                    ShareAlertAutoPilotUtils.logOutsideAppShareAlertClicked();
                     HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(), "v22", String.valueOf(v22));
                 }
             }
