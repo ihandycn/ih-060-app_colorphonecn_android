@@ -181,6 +181,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
      * in those two conditions we start animation directly.
      */
     private boolean mBlockAnimationForPageChange = true;
+    private boolean hasStopped;
 
     public static void saveThemeApplys(int themeId) {
         if (isThemeAppliedEver(themeId)) {
@@ -554,20 +555,21 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onStart() {
-
+        // We do not play animation if activity restart.
+        boolean playTrans = !hasStopped;
         final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getId());
         if (model != null) {
             curTaskId = model.getId();
             // GIf
             final int status = TasksManager.getImpl().getStatus(model.getId(), model.getPath());
             if (TasksManager.getImpl().isDownloaded(status)) {
-                onThemeReady(true);
+                onThemeReady(playTrans);
             } else {
                 onThemeLoading(model);
             }
         } else {
             // Directly applicable
-            onThemeReady(true);
+            onThemeReady(playTrans);
         }
 
         // Show background if gif drawable not ready.
@@ -601,6 +603,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onStop() {
+        hasStopped = true;
         callActionView.stopAnimations();
         previewWindow.stopAnimations();
 //        if (isSelectedPos()) {
