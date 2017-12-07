@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -33,7 +32,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class ShareAlertActivity extends AppCompatActivity {
+public class ShareAlertActivity extends Activity {
     public static final String PREFS_FILE = "share_alert_prefs_file_name";
     public static final String SHARE_ALERT_IN_APP_SHOW_COUNT = "share_alert_in_show_count";
     public static final String SHARE_ALERT_IN_APP_SHOW_TIME = "share_alert_in_show_time";
@@ -62,7 +61,7 @@ public class ShareAlertActivity extends AppCompatActivity {
 
     public static void startOutsideApp(Context context) {
         Intent intent = new Intent(context, ShareAlertActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(IS_INSIDE_APP, false);
         context.startActivity(intent);
         PreferenceHelper helper = PreferenceHelper.get(PREFS_FILE);
@@ -103,10 +102,10 @@ public class ShareAlertActivity extends AppCompatActivity {
         super.onResume();
         themePreviewWindow.playAnimation(themeType);
         inCallActionView.setTheme(themeType);
-
-        themePreviewWindow.getImageCover().setVisibility(View.VISIBLE);
-        setImageCover();
-
+        if (themePreviewWindow.getImageCover() != null) {
+            themePreviewWindow.getImageCover().setVisibility(View.VISIBLE);
+            setImageCover();
+        }
     }
 
     @Override

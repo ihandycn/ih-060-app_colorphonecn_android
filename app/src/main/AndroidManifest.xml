@@ -146,7 +146,8 @@
 
         <activity android:name=".activity.ShareAlertActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Translucent" />
+            android:taskAffinity=".share"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- permanent -->
         <service

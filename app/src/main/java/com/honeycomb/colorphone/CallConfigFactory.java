@@ -1,19 +1,22 @@
 package com.honeycomb.colorphone;
 
+import android.content.Context;
+
+import com.acb.call.CPSettings;
 import com.acb.call.customize.AcbCallFactoryImpl;
 import com.acb.call.customize.ThemeViewConfig;
+import com.acb.call.receiver.IncomingCallReceiver;
 import com.acb.call.themes.Type;
 import com.acb.call.views.CallIdleAlert;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.MessageCenterUtils;
+import com.honeycomb.colorphone.activity.ShareAlertActivity;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
-import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
-import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
-import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.util.List;
 import java.util.Random;
@@ -196,6 +199,26 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             public void onNotificationAccessGranted(String fromType) {
                 super.onNotificationAccessGranted(fromType);
                 NotificationAutoPilotUtils.logSettingsAccessEnabled();
+            }
+        };
+    }
+
+    @Override
+    public IncomingCallReceiver.Config getIncomingReceiverConfig() {
+        return new IncomingCallReceiver.Config() {
+            public boolean isShowAlertBeforeCallAssistant() {
+
+                Context context = HSApplication.getContext();
+                if (CPSettings.isShowNotificationAccessOutAppGuide(CallConfigFactory.this, context)) {
+                    NotificationAccessGuideAlertActivity.startOutAppGuide(context);
+                    return true;
+                }
+
+                if (ModuleUtils.isShareAlertOutsideAppShow()) {
+                    ShareAlertActivity.startOutsideApp(context);
+                    return true;
+                }
+                return false;
             }
         };
     }
