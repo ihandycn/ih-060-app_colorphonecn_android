@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_trans_half"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/theme_apply_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        app:layout_widthPercent="86%">
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bubble_guide_set_for_one"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:layout_gravity="right|end"
+            android:paddingRight="16dp"
+            android:text="@string/theme_set_for_one"
+            android:textColor="#1d1d1d"
+            android:textSize="18sp"
+            app:typeface="@string/proxima_nova_regular"
+    />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/theme_apply_layout"
+        android:layout_height="@dimen/theme_apply_btn_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:orientation="horizontal"
+        app:layout_widthPercent="86%">
+        <Button
+            android:id="@+id/theme_apply_btn"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:background="@drawable/btn_bg_yellow"
+            android:enabled="false" />
+        <ImageButton
+            android:id="@+id/theme_set_for_one"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:clickable="false"
+            android:background="@drawable/btn_bg_yellow"
+            android:src="@drawable/icon_contact" />
+    </LinearLayout>
+
+</android.support.percent.PercentRelativeLayout>

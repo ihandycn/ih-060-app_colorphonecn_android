@@ -1,17 +1,22 @@
 package com.honeycomb.colorphone;
 
+import android.graphics.Typeface;
+
 import com.acb.call.customize.AcbCallFactoryImpl;
 import com.acb.call.customize.ThemeViewConfig;
+import com.acb.call.receiver.IncomingCallReceiver;
 import com.acb.call.themes.Type;
 import com.acb.call.views.CallIdleAlert;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.MessageCenterUtils;
+import com.honeycomb.colorphone.contact.ContactManager;
 import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.notification.NotificationUtils;
+import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -89,45 +94,6 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
         };
 
-        static String[] ID_NAMES = new String[]{
-                "Brownian", "Dazzle", "DeepLove",
-                "DJ", "GoldMyth", "Maze",
-                "Modern", "Palette", "Shining",
-                "Raining", "Universe", "Snow",
-                "Floating"
-        };
-
-        static String[] TextStrings = new String[]{
-                "Brownian", "Dazzle", "Deep Love",
-                "DJ", "Gold Myth", "Maze",
-                "Modern", "Palette", "Shining",
-                "Raining", "Universe", "Snow",
-                "Floating"
-        };
-
-        // TODO order urls
-        static String[] GIF_URLS_DEBUG = new String[]{
-                "http://superapps-dev.s3.amazonaws.com/light/brownian.gif",
-                "http://superapps-dev.s3.amazonaws.com/light/dazzle.gif",
-                "http://superapps-dev.s3.amazonaws.com/light/deep%20Love.gif",
-
-                "http://superapps-dev.s3.amazonaws.com/light/DJ.gif",
-                "http://superapps-dev.s3.amazonaws.com/light/Gold%20Myth.gif",
-                "http://superapps-dev.s3.amazonaws.com/light/Maze.gif",
-
-                "http://superapps-dev.s3.amazonaws.com/light/Modern.gif",
-                "http://superapps-dev.s3.amazonaws.com/light/Palette.gif",
-                "http://superapps-dev.s3.amazonaws.com/light/Shining.gif",
-
-                "http://superapps-dev.s3.amazonaws.com/light/Raining.gif",
-                "http://superapps-dev.s3.amazonaws.com/light/Universe.gif",
-                "http://superapps-dev.s3.amazonaws.com/light/snowfall.gif",
-
-                "http://superapps-dev.s3.amazonaws.com/light/blizzard.gif",
-        };
-
-        static String GIF_URL_PREFIX = "http://cdn.appcloudbox.net/colorphoneapps/gifs/";
-
         @Override
         public int getCallerDefaultPhoto() {
             final int index = new Random().nextInt(900);
@@ -138,6 +104,16 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         public List<?> getConfigThemes() {
             return HSConfig.getList(new String[]{"Application", "Theme", "List"});
 
+        }
+
+        @Override
+        public Typeface getBondFont() {
+            return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD);
+        }
+
+        @Override
+        public Typeface getNormalFont() {
+            return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR);
         }
 
         @Override
@@ -223,5 +199,25 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         } catch (Exception ignore) {
             return null;
         }
+    }
+
+    @Override
+    public IncomingCallReceiver.Config getIncomingReceiverConfig() {
+        return new IncomingCallReceiver.Config() {
+            @Override
+            public boolean isShowAlertBeforeCallAssistant() {
+                return super.isShowAlertBeforeCallAssistant();
+            }
+
+            @Override
+            public int getThemeIdByPhoneNumber(String number) {
+                int themeId = ContactManager.getInstance().getThemeIdByNumber(number);
+                if (themeId > 0) {
+                    return themeId;
+                } else {
+                    return super.getThemeIdByPhoneNumber(number);
+                }
+            }
+        };
     }
 }

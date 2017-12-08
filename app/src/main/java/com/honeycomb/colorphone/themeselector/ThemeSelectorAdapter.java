@@ -199,9 +199,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             holder.initChildView();
 
-            // Set text style
-            ThemeUtils.updateStyle(holder.getContentView());
-
             cardViewContent.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -471,6 +468,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mThemeLikeAnim = (LottieAnimationView) itemView.findViewById(R.id.like_count_icon);
 
             mThemeFlashPreviewWindow = (ThemePreviewWindow) itemView.findViewById(R.id.card_flash_preview_window);
+            mThemeFlashPreviewWindow.setPreviewType(ThemePreviewWindow.PreviewType.PREVIEW);
         }
 
         public void initChildView() {
@@ -478,7 +476,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mCallActionView = (InCallActionView) itemView.findViewById(R.id.card_in_call_action_view);
             mCallActionView.setAutoRun(false);
             mAvatar = (ImageView) mContentView.findViewById(R.id.caller_avatar);
-            mAvatarName = (TextView) mContentView.findViewById(R.id.caller_name);
+            mAvatarName = (TextView) mContentView.findViewById(R.id.first_line);
             mAccept = (ImageView) mContentView.findViewById(R.id.call_accept);
             mReject = (ImageView) mContentView.findViewById(R.id.call_reject);
 

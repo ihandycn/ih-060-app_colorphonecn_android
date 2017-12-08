@@ -108,8 +108,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         public Object instantiateItem(ViewGroup container, int position) {
             ThemePreviewView controller = new ThemePreviewView(ThemePreviewActivity.this);
             controller.init(ThemePreviewActivity.this, mThemes, position, mNavBack);
+            controller.setPageSelectedPos(mViewPager.getCurrentItem());
             if (position == mViewPager.getCurrentItem()) {
-                controller.setPageSelectedPos(position);
                 controller.setBlockAnimationForPageChange(false);
             } else {
                 controller.setNoTransition(true);

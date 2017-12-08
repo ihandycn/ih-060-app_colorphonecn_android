@@ -7,6 +7,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -18,6 +19,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
@@ -41,6 +43,7 @@ import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.download.DownloadStateListener;
@@ -50,6 +53,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.FontUtils;
+import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
@@ -90,6 +94,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private ProgressViewHolder mProgressViewHolder;
     private Button mApplyButton;
+    private View mApplyForOne;
+    private View mActionLayout;
+
     private View mNavBack;
 
     private ImageView previewImage;
@@ -177,6 +184,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
      * in those two conditions we start animation directly.
      */
     private boolean mBlockAnimationForPageChange = true;
+    private boolean hasStopped;
 
     public static void saveThemeApplys(int themeId) {
         if (isThemeAppliedEver(themeId)) {
@@ -234,18 +242,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void setCustomStyle() {
-        TextView name = (TextView) findViewById(R.id.caller_name);
-        TextView number = (TextView) findViewById(R.id.caller_number);
-        name.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
-        number.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
-
-        name.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(1), Color.BLACK);
-        number.setShadowLayer(Utils.pxFromDp(2), 0, Utils.pxFromDp(2), Color.BLACK);
-
+        TextView name = (TextView) findViewById(R.id.first_line);
         ImageView avatar = (ImageView) findViewById(R.id.caller_avatar);
         avatar.setImageDrawable(ContextCompat.getDrawable(mActivity, mTheme.getAvatar()));
         name.setText(mTheme.getAvatarName());
-
     }
 
     protected void onCreate() {
@@ -254,11 +254,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             @Override
             public void onClick(View v) {
                 if (themeReady && !inTransition) {
-                    boolean isInHide = mApplyButton.getTranslationY() == bottomBtnTransY;
+                    boolean isInHide = getTransBottomLayout().getTranslationY() == bottomBtnTransY;
                     if (isInHide) {
                         mHandler.sendEmptyMessage(MSG_SHOW);
                     }
-                    boolean isShown = mApplyButton.getTranslationY() == 0 && themeReady;
+                    boolean isShown = getTransBottomLayout().getTranslationY() == 0 && themeReady;
                     if (isShown) {
                         mHandler.sendEmptyMessage(MSG_HIDE);
                     } else {
@@ -271,6 +271,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView.setTheme(mThemeType);
         callActionView.setAutoRun(false);
         mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
+        mApplyButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+        mActionLayout = findViewById(R.id.theme_apply_layout);
+        mApplyForOne = findViewById(R.id.theme_set_for_one);
         mProgressViewHolder = new ProgressViewHolder();
         previewImage = (ImageView) findViewById(R.id.preview_bg_img);
         dimCover = findViewById(R.id.dim_cover);
@@ -297,25 +300,48 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
 
                 if (!GuideApplyThemeActivity.start(mActivity, true)) {
-                    Toast toast = Toast.makeText(mActivity, R.string.apply_success, Toast.LENGTH_SHORT);
-                    int offsetY = (int) (bottomBtnTransY + Utils.pxFromDp(8));
-                    toast.setGravity(Gravity.BOTTOM, 0, offsetY);
-                    toast.show();
+                    showToast(mActivity.getString(R.string.apply_success));
                 }
                 NotificationUtils.logThemeAppliedFlurry(mTheme);
 
             }
         });
-        bottomBtnTransY = mApplyButton.getTranslationY();
+
+        mApplyForOne.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContactsActivity.startSelect(mActivity, mTheme);
+            }
+        });
+        bottomBtnTransY = getTransBottomLayout().getTranslationY();
 
         mInter = new OvershootInterpolator(1.5f);
 
     }
 
+    private void showToast(String hint) {
+       Toast toast = new Toast(mActivity.getApplicationContext());
+        final View contentView = mActivity.getLayoutInflater().inflate(R.layout.toast_theme_apply, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            contentView.setElevation(CommonUtils.pxFromDp(8));
+        }
+        TextView textView = contentView.findViewById(R.id.text_toast);
+        textView.setText(hint);
+        int yOffset = (int) (0.6f * CommonUtils.getPhoneHeight(mActivity));
+        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, yOffset);
+        toast.setView(contentView);
+        toast.show();
+    }
+
+    private View getTransBottomLayout() {
+        return mActionLayout;
+    }
+
+
     private void playDownloadOkTransAnimation() {
         mProgressViewHolder.fadeOut();
         dimCover.animate().alpha(0).setDuration(200);
-        mApplyButton.setVisibility(View.VISIBLE);
+        getTransBottomLayout().setVisibility(View.VISIBLE);
         animationDelay = 0;
         onThemeReady(false);
     }
@@ -346,6 +372,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 //        }
 
         previewWindow.updateThemeLayout(mThemeType);
+        checkNewFeatureGuideView();
         setCustomStyle();
         if (needTransAnim) {
             playTransInAnimation(transEndRunnable);
@@ -355,9 +382,30 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     }
 
+    private void checkNewFeatureGuideView() {
+        if (ModuleUtils.needShowSetForOneGuide()) {
+            ViewStub stub = findViewById(R.id.guide_for_set_one);
+            final View guideView = stub.inflate();
+            guideView.setAlpha(0);
+            guideView.animate().alpha(1).setDuration(ANIMATION_DURATION).start();
+            guideView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    guideView.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            guideView.setOnClickListener(null);
+                            guideView.setVisibility(GONE);
+                        }
+                    }).start();
+                }
+            });
+        }
+    }
+
     private void playTransInAnimation(final Runnable completeRunnable) {
-        View callName = findViewById(R.id.caller_name);
-        View numberName = findViewById(R.id.caller_number);
+        View callName = findViewById(R.id.first_line);
+        View numberName = findViewById(R.id.second_line);
 
         View userView = findViewById(R.id.caller_avatar_container);
         if (userView == null) {
@@ -425,7 +473,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (curTheme) {
             mApplyButton.setText(getString(R.string.theme_current));
         } else {
-            mApplyButton.setText(getString(R.string.theme_apply));
+            mApplyButton.setText(getString(R.string.theme_set_for_all));
         }
         mApplyButton.setEnabled(!curTheme);
     }
@@ -467,13 +515,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void fadeInActionView() {
         inTransition = true;
-        mApplyButton.animate().translationY(0)
-                .setDuration(ANIMATION_DURATION)
+        getTransBottomLayout().animate().translationY(0)
+                .setDuration(isSelectedPos() ? ANIMATION_DURATION : 0)
                 .setInterpolator(mInter)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        mApplyButton.setTranslationY(0);
+                        getTransBottomLayout().setTranslationY(0);
                         inTransition = false;
                         animationDelay = 0;
                         scheduleNextHide();
@@ -485,10 +533,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void fadeOutActionView() {
         inTransition = true;
-        mApplyButton.animate().translationY(bottomBtnTransY).setDuration(ANIMATION_DURATION).setInterpolator(mInter).setListener(new AnimatorListenerAdapter() {
+        getTransBottomLayout().animate().translationY(bottomBtnTransY).setDuration(isSelectedPos() ? ANIMATION_DURATION : 0).setInterpolator(mInter).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                mApplyButton.setTranslationY(bottomBtnTransY);
+                getTransBottomLayout().setTranslationY(bottomBtnTransY);
                 inTransition = false;
 
             }
@@ -496,14 +544,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void fadeOutActionViewImmediately() {
-        mApplyButton.setTranslationY(bottomBtnTransY);
+        getTransBottomLayout().setTranslationY(bottomBtnTransY);
     }
 
     public void fadeInActionViewImmediately() {
         if (!themeReady) {
             return;
         }
-        mApplyButton.setTranslationY(0);
+        getTransBottomLayout().setTranslationY(0);
         animationDelay = 0;
         scheduleNextHide();
     }
@@ -514,20 +562,21 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onStart() {
-
+        // We do not play animation if activity restart.
+        boolean playTrans = !hasStopped;
         final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getId());
         if (model != null) {
             curTaskId = model.getId();
             // GIf
             final int status = TasksManager.getImpl().getStatus(model.getId(), model.getPath());
             if (TasksManager.getImpl().isDownloaded(status)) {
-                onThemeReady(true);
+                onThemeReady(playTrans);
             } else {
                 onThemeLoading(model);
             }
         } else {
             // Directly applicable
-            onThemeReady(true);
+            onThemeReady(playTrans);
         }
 
         // Show background if gif drawable not ready.
@@ -561,12 +610,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onStop() {
+        hasStopped = true;
         callActionView.stopAnimations();
         previewWindow.stopAnimations();
 //        if (isSelectedPos()) {
 //            mNavBack.animate().cancel();
 //        }
-        mApplyButton.animate().cancel();
+        getTransBottomLayout().animate().cancel();
         mHandler.removeCallbacksAndMessages(null);
         if (transAnimator != null && transAnimator.isStarted()) {
             transAnimator.removeAllUpdateListeners();

@@ -40,7 +40,7 @@ public class ThemeImageLoader extends AcbCallManager.DefaultImageLoader {
             GlideRequest<Bitmap> bR = requests.asBitmap().load(s)
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .transition(BitmapTransitionOptions.withCrossFade(200));
+                    .dontAnimate();
 
             if (holderImage != 0) {
                 bR.placeholder(holderImage)

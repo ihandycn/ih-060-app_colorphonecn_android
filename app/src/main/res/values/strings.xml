@@ -21,6 +21,9 @@
 
 
     <string name="theme_apply">Apply</string>
+    <string name="theme_set_for_all">Set for all</string>
+    <string name="theme_set_for_one">Set for some one</string>
+
     <string name="apply_success">Apply Success</string>
     <string name="theme_current">Current Theme</string>
     <string name="send_email">Send Email</string>
@@ -36,10 +39,13 @@
 
     <string name="acb_outapp_guide_screen_flash_content">Try the unique call interface to make your phone more fashionable. It may contain ads.</string>
     <string name="about">About</string>
-
+    <string name="contact_theme">Contact Theme</string>
+    <string name="contact_select_hint">Select contacts for “%1$s”</string>
     <string name="guide_apply_theme_hint">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
-
-
+    <string name="set">Set</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
 
     <string name="smart_charging">Smart Charging</string>
     <string name="smart_charging_hint">Automatically monitor charging status and stop over-charging to prevent

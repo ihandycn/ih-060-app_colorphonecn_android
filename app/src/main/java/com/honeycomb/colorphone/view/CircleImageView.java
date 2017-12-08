@@ -21,9 +21,18 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
     private BitmapShader mShader;
     private Matrix mMatrix = new Matrix();
 
+    public CircleImageView(Context context) {
+        super(context);
+    }
+
     public CircleImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
+    public CircleImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
