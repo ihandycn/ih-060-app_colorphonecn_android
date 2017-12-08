@@ -29,9 +29,11 @@ import android.util.SparseIntArray;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.ihs.commons.utils.HSLog;
 
 public class FastScrollRecyclerView extends RecyclerView implements RecyclerView.OnItemTouchListener {
 
+    private static final boolean DEBUG_FASTSCROLL = false;
     private FastScroller mScrollbar;
 
     /**
@@ -47,6 +49,11 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
         public int rowTopOffset;
         // The height of a given row (they are currently all the same height)
         public int rowHeight;
+
+        @Override
+        public String toString() {
+            return "rowIndex =" + rowIndex + ",rowTopOffset=" + rowTopOffset + ", rowHeight=" + rowHeight ;
+        }
     }
 
     private ScrollPositionState mScrollPosState = new ScrollPositionState();
@@ -280,20 +287,37 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
         stopScroll();
 
         getCurScrollState(mScrollPosState);
+        if (DEBUG_FASTSCROLL) {
+            HSLog.d("SUNDXING", "mScrollPosState = " + mScrollPosState);
+        }
 
-        float itemPos = itemCount * touchFraction;
-
-        int availableScrollHeight = getAvailableScrollHeight(rowCount, mScrollPosState.rowHeight, 0);
-
-        //The exact position of our desired item
-        int exactItemPos = (int) (availableScrollHeight * touchFraction);
-
-        //Scroll to the desired item. The offset used here is kind of hard to explain.
-        //If the position we wish to scroll to is, say, position 10.5, we scroll to position 10,
-        //and then offset by 0.5 * rowHeight. This is how we achieve smooth scrolling.
         LinearLayoutManager layoutManager = ((LinearLayoutManager) getLayoutManager());
-        layoutManager.scrollToPositionWithOffset(spanCount * exactItemPos / mScrollPosState.rowHeight,
-                -(exactItemPos % mScrollPosState.rowHeight));
+        int availableScrollHeight = 0;
+        float itemPos = itemCount * touchFraction;
+        int exactItemPos = 0;
+        if (getAdapter() instanceof MeasurableAdapter) {
+            int adapterHeight = calculateAdapterHeight();
+            availableScrollHeight = getAvailableScrollHeight(adapterHeight, 0);
+            exactItemPos = (int) (availableScrollHeight * touchFraction);
+            int[] posOffset = new int[2];
+            getPosOffset(exactItemPos, mScrollPosState, posOffset);
+            layoutManager.scrollToPositionWithOffset(posOffset[0], -posOffset[1]);
+            if (DEBUG_FASTSCROLL) {
+                HSLog.d("SUNDXING", "posOffset = " + posOffset[0] + "," + posOffset[1]);
+            }
+        } else {
+            availableScrollHeight = getAvailableScrollHeight(rowCount, mScrollPosState.rowHeight, 0);
+            //The exact position of our desired item
+            exactItemPos = (int) (availableScrollHeight * touchFraction);
+            //Scroll to the desired item. The offset used here is kind of hard to explain.
+            //If the position we wish to scroll to is, say, position 10.5, we scroll to position 10,
+            //and then offset by 0.5 * rowHeight. This is how we achieve smooth scrolling.
+            layoutManager.scrollToPositionWithOffset(spanCount * exactItemPos / mScrollPosState.rowHeight,
+                    -(exactItemPos % mScrollPosState.rowHeight));
+        }
+        if (DEBUG_FASTSCROLL) {
+            HSLog.d("SUNDXING", "itemPos=" + itemPos + ", scrollHeight=" + availableScrollHeight + ", exactPos=" + exactItemPos);
+        }
 
         if (!(getAdapter() instanceof SectionedAdapter)) {
             return "";
@@ -303,6 +327,23 @@ public class FastScrollRecyclerView extends RecyclerView implements RecyclerView
 
         SectionedAdapter sectionedAdapter = (SectionedAdapter) getAdapter();
         return sectionedAdapter.getSectionName(posInt);
+    }
+
+    private void getPosOffset(int exactItemPos, ScrollPositionState scrollPosState, int[] posOffset) {
+        int scrollOffsetKey = scrollPosState.rowIndex;
+        int itemCount =  getAdapter().getItemCount();
+        int preDistance = calculateScrollDistanceToPosition(scrollOffsetKey);
+        posOffset[0] = scrollOffsetKey;
+        posOffset[1] = exactItemPos - preDistance;
+        for (int i = scrollOffsetKey + 1; i <= itemCount; i++) {
+            int distance = calculateScrollDistanceToPosition(i);
+            if (exactItemPos >= preDistance && exactItemPos < distance) {
+                posOffset[0] = i - 1;
+                posOffset[1] = exactItemPos - preDistance;
+                return;
+            }
+            preDistance = distance;
+        }
     }
 
     /**
