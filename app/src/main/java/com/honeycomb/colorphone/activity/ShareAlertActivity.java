@@ -10,21 +10,29 @@ import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.ShareReceiver;
 import com.honeycomb.colorphone.util.ShareAlertAutoPilotUtils;
+import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -106,7 +114,6 @@ public class ShareAlertActivity extends Activity {
         inCallActionView.setTheme(themeType);
         if (themePreviewWindow.getImageCover() != null) {
             themePreviewWindow.getImageCover().setVisibility(View.VISIBLE);
-            setImageCover();
         }
     }
 
@@ -141,7 +148,10 @@ public class ShareAlertActivity extends Activity {
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                share();
+
+                View cardView = LayoutInflater.from(ShareAlertActivity.this).inflate(R.layout.share_view_layout, null, false);
+                setImageCover(cardView);
+//
                 if (isInsideApp) {
                     ShareAlertAutoPilotUtils.logInsideAppShareAlertClicked();
                     HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName", themeType.getName(), "v22", String.valueOf(v22));
@@ -153,13 +163,8 @@ public class ShareAlertActivity extends Activity {
         });
     }
 
-    private void share() {
-        ViewGroup cardView = findViewById(R.id.card_view);
-        cardView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        cardView.setDrawingCacheEnabled(true);
-        cardView.buildDrawingCache(false);
-        Bitmap bitmap = Bitmap.createBitmap(cardView.getDrawingCache());
-        cardView.setDrawingCacheEnabled(false);
+    private void share(View cardView) {
+        Bitmap bitmap = getScreenViewBitmap(cardView);
         Canvas c = new Canvas(bitmap);
         File file, f;
         try {
@@ -195,16 +200,56 @@ public class ShareAlertActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        finish();
     }
 
-    private void setImageCover() {
-        GlideApp.with(this).asBitmap()
+    private void setImageCover(final View root) {
+         GlideApp.with(this)
+                .asBitmap()
                 .centerCrop()
                 .load(themeType.getPreviewImage())
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .dontAnimate()
-                .into(themePreviewWindow.getImageCover());
+                 .listener(new RequestListener<Bitmap>() {
+                     @Override
+                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+                         return false;
+                     }
+
+                     @Override
+                     public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+                         ImageView imageView = root.findViewById(R.id.preview_image);
+                         TextView name = root.findViewById(R.id.caller_name);
+                         TextView number = root.findViewById(R.id.caller_number);
+                         name.setTextSize(TypedValue.COMPLEX_UNIT_SP,24);
+                         number.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+                         imageView.setImageBitmap(resource);
+
+                         InCallActionView inCall = root.findViewById(R.id.in_call_view);
+                         inCall.setTheme(themeType);
+
+                         new Handler().postDelayed(new Runnable() {
+                             @Override
+                             public void run() {
+                                 share(root);
+                             }
+                         }, 2000);
+
+                         return false;
+                     }
+                 })
+                .submit(Utils.getPhoneWidth(this), Utils.getPhoneHeight(this));
     }
 
-
+    private Bitmap getScreenViewBitmap(View v) {
+        v.setDrawingCacheEnabled(true);
+        // this is the important code :)
+        // Without it the view will have a dimension of 0,0 and the bitmap will be null
+        v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+        v.buildDrawingCache(true);
+        Bitmap b = Bitmap.createBitmap(v.getDrawingCache());
+        v.setDrawingCacheEnabled(false); // clear drawing cache
+        return b;
+    }
 }

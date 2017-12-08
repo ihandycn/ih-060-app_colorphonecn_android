@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.honeycomb.colorphone.view.FixRatioPreviewWindow android:id="@+id/card_view"
+<com.honeycomb.colorphone.view.FixRatioPreviewWindow
+    android:id="@+id/card_view"
     style="@style/RatioView.Container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
