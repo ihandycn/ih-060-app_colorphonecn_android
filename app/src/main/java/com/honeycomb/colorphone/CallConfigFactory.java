@@ -205,8 +205,8 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     public IncomingCallReceiver.Config getIncomingReceiverConfig() {
         return new IncomingCallReceiver.Config() {
             @Override
-            public boolean isShowAlertBeforeCallAssistant() {
-                return super.isShowAlertBeforeCallAssistant();
+            public boolean isShowAlertBeforeCallAssistant(String number) {
+                return super.isShowAlertBeforeCallAssistant(number);
             }
 
             @Override
