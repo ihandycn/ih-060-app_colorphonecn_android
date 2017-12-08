@@ -206,16 +206,13 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     @Override
     public IncomingCallReceiver.Config getIncomingReceiverConfig() {
         return new IncomingCallReceiver.Config() {
-            public boolean isShowAlertBeforeCallAssistant() {
-
+            public boolean isShowAlertBeforeCallAssistant(String phoneNumber) {
                 Context context = HSApplication.getContext();
-                if (CPSettings.isShowNotificationAccessOutAppGuide(CallConfigFactory.this, context)) {
-                    NotificationAccessGuideAlertActivity.startOutAppGuide(context);
+                if (ModuleUtils.isShareAlertOutsideAppShow(context, phoneNumber)) {
                     return true;
                 }
-
-                if (ModuleUtils.isShareAlertOutsideAppShow()) {
-                    ShareAlertActivity.startOutsideApp(context);
+                if (CPSettings.isShowNotificationAccessOutAppGuide(CallConfigFactory.this, context)) {
+                    NotificationAccessGuideAlertActivity.startOutAppGuide(context);
                     return true;
                 }
                 return false;

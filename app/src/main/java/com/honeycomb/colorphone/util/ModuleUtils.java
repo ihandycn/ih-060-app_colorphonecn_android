@@ -1,5 +1,12 @@
 package com.honeycomb.colorphone.util;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.CallLog;
+import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.acb.autopilot.AutopilotConfig;
@@ -10,6 +17,9 @@ import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.utils.HSPreferenceHelper;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -81,7 +91,7 @@ public class ModuleUtils {
         return true;
     }
 
-    public static boolean isShareAlertOutsideAppShow() {
+    public static boolean isShareAlertOutsideAppShow(Context context, String phoneNumber) {
 
         // is in contact
         PreferenceHelper helper = PreferenceHelper.get(ShareAlertActivity.PREFS_FILE);
@@ -95,7 +105,41 @@ public class ModuleUtils {
             return false;
         }
 
-        return true;
+        String callName = null;
+        String photoUri = null;
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri phonesUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
+        String[] projection = new String[]{
+                ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER,
+                ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup.PHOTO_URI};
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            projection = new String[]{
+                    ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NORMALIZED_NUMBER,
+                    ContactsContract.PhoneLookup.DISPLAY_NAME};
+        }
+        Cursor cursorLookup = null;
+        try {
+            cursorLookup = contentResolver.query(phonesUri,
+                    projection, null, null, null);
+            if (cursorLookup != null && cursorLookup.moveToFirst()) {
+                callName = cursorLookup.getString(cursorLookup.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+                photoUri = cursorLookup.getString(cursorLookup.getColumnIndex(ContactsContract.PhoneLookup.PHOTO_URI));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursorLookup != null) {
+                cursorLookup.close();
+            }
+        }
+
+        if (callName != null) {
+            ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(phoneNumber, callName, photoUri);
+            ShareAlertActivity.startOutsideApp(context, userInfo);
+            return true;
+        }
+
+        return false;
     }
 
 }
