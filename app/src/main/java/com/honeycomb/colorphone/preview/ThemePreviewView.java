@@ -240,18 +240,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void setCustomStyle() {
-        TextView name = (TextView) findViewById(R.id.caller_name);
-        TextView number = (TextView) findViewById(R.id.caller_number);
-        name.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
-        number.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
-
-        name.setShadowLayer(Utils.pxFromDp(1), 0, Utils.pxFromDp(1), Color.BLACK);
-        number.setShadowLayer(Utils.pxFromDp(2), 0, Utils.pxFromDp(2), Color.BLACK);
-
+        TextView name = (TextView) findViewById(R.id.first_line);
         ImageView avatar = (ImageView) findViewById(R.id.caller_avatar);
         avatar.setImageDrawable(ContextCompat.getDrawable(mActivity, mTheme.getAvatar()));
         name.setText(mTheme.getAvatarName());
-
     }
 
     protected void onCreate() {
@@ -410,8 +402,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void playTransInAnimation(final Runnable completeRunnable) {
-        View callName = findViewById(R.id.caller_name);
-        View numberName = findViewById(R.id.caller_number);
+        View callName = findViewById(R.id.first_line);
+        View numberName = findViewById(R.id.second_line);
 
         View userView = findViewById(R.id.caller_avatar_container);
         if (userView == null) {

@@ -84,12 +84,17 @@ public class ContactManager {
         mThemeContactsListener.remove(callback);
     }
 
+    /**
+     * Fill contact with theme id.
+     * Contact infos are from local contact database(keep data always new).
+     * @param allContacts
+     * @return
+     */
     @DebugLog
     private synchronized boolean fillThemeContacts(List<SimpleContact> allContacts) {
         SQLiteDatabase db = mDb;
         final Cursor c = db.rawQuery("SELECT * FROM " + ThemeEntry.TABLE_NAME, null);
 
-        final List<SimpleContact> list = new ArrayList<>();
         try {
             if (!c.moveToLast()) {
                 return false;
@@ -97,15 +102,11 @@ public class ContactManager {
 
             do {
                 String rawNumber = c.getString(c.getColumnIndex(ThemeEntry.NUMBER));
-
                 SimpleContact model = findContact(rawNumber, allContacts);
                 if (model != null) {
-//                    model.setName(c.getString(c.getColumnIndex(ThemeEntry.NAME)));
                     model.setRawNumber(rawNumber);
-//                    model.setPhotoUri(c.getString(c.getColumnIndex(ThemeEntry.PHOTO_URI)));
                     model.setThemeId(c.getInt(c.getColumnIndex(ThemeEntry.THEME_ID)));
                     Log.d("Read theme contact", model.toString());
-                    list.add(model);
                 }
             } while (c.moveToPrevious());
         } finally {
@@ -115,6 +116,43 @@ public class ContactManager {
         }
 
         return true;
+    }
+
+
+    /**
+     * Fetch theme config from our own database.
+     * @return
+     */
+    @DebugLog
+    private synchronized List<SimpleContact> fetchThemeContacts() {
+        SQLiteDatabase db = mDb;
+        final Cursor c = db.rawQuery("SELECT * FROM " + ThemeEntry.TABLE_NAME, null);
+
+        final List<SimpleContact> list = new ArrayList<>();
+        try {
+            if (!c.moveToLast()) {
+                return list;
+            }
+
+            do {
+                String rawNumber = c.getString(c.getColumnIndex(ThemeEntry.NUMBER));
+
+                SimpleContact model = new SimpleContact();
+                model.setName(c.getString(c.getColumnIndex(ThemeEntry.NAME)));
+                model.setRawNumber(rawNumber);
+                model.setPhotoUri(c.getString(c.getColumnIndex(ThemeEntry.PHOTO_URI)));
+                model.setThemeId(c.getInt(c.getColumnIndex(ThemeEntry.THEME_ID)));
+                Log.d("Read theme contact", model.toString());
+                list.add(model);
+
+            } while (c.moveToPrevious());
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+
+        return list;
     }
 
     private SimpleContact findContact(String rawNumber, List<SimpleContact> allContacts) {
@@ -174,6 +212,26 @@ public class ContactManager {
 
     public void markDataChanged() {
         needFilterTheme = true;
+    }
+
+    /**
+     * This method may block ui thread.
+     * @param number
+     * @return
+     */
+    public int getThemeIdByNumber(String number) {
+        if (mThemeFilterContacts.isEmpty()) {
+            mThemeFilterContacts.addAll(fetchThemeContacts());
+        }
+
+        int themeId = SimpleContact.INVALID_THEME;
+        for (SimpleContact contact : mThemeFilterContacts) {
+            if (PhoneNumberUtils.compare(contact.getRawNumber(), number)) {
+                themeId = contact.getThemeId();
+                break;
+            }
+        }
+        return themeId;
     }
 
     public interface LoadCallback {
