@@ -45,6 +45,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     private int itemHeight;
     private boolean themeVisible;
     private List<Type> themeTypeList;
+
     public ContactAdapter(LayoutInflater layoutInflater, List<SimpleContact> people, @LayoutRes int rowLayout) {
         this.people = people;
         this.layoutInflater = layoutInflater;
@@ -153,6 +154,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     .asBitmap()
                     .load(photoUri)
                     .into(holder.avater);
+        } else {
+            holder.avater.setImageDrawable(null);
         }
 
         int randomHash = Math.abs(person.getRawNumber().hashCode());
@@ -171,7 +174,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         }
         return  "";
     }
-
 
     @Override
     public int getItemCount() {
@@ -199,7 +201,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         return height;
     }
 
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView fullName;
         private TextView themeName;
@@ -219,6 +220,4 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public interface CountTriggerListener {
         void onTrigger(int currentSelectedCount);
     }
-
-
 }
