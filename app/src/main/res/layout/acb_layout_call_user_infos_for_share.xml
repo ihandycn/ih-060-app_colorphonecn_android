@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/led_call_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="20" />
+
+    <android.support.percent.PercentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.acb.call.views.CircleImageView
+            android:id="@+id/caller_avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/acb_phone_default_caller_avatar"
+            app:layout_aspectRatio="100%"
+            app:layout_widthPercent="32%" />
+    </android.support.percent.PercentFrameLayout>
+
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="8" />
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/caller_name"
+        style="@style/TextInCall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/acb_phone_caller_default_name"
+        android:textSize="30sp"
+        app:typeface="@string/proxima_nova_semibold"/>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3" />
+
+    <TextView
+        android:id="@+id/caller_number"
+        style="@style/TextInCall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/acb_phone_caller_default_number"
+        android:textSize="24sp"
+        />
+
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="50" />
+
+</LinearLayout>

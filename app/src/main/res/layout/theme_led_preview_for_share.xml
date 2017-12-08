@@ -3,12 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/preview_image"
+    <com.acb.call.themes.LEDAnimationView
+        android:id="@+id/animation_view"
+        android:background="#000000"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/boost_icon"
-        />
+        android:layout_height="match_parent" />
 
     <include layout="@layout/acb_layout_call_user_infos_for_share" />
 
@@ -18,4 +17,5 @@
         android:layout_gravity="bottom"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp" />
+
 </FrameLayout>

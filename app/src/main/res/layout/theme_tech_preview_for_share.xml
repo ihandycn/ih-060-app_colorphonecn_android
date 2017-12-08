@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.acb.call.themes.TechnologicalAnimationView
+        android:id="@+id/animation_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/call_bg_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/acb_phone_theme_technological_bg" />
+
+        <com.acb.call.views.ScalableImageView
+            android:id="@+id/call_alert_corner_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:src="@drawable/acb_phone_theme_technological_corner_0" />
+
+        <com.acb.call.views.ScalableImageView
+            android:id="@+id/call_alert_corner_light_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:src="@drawable/acb_phone_theme_technological_corner_light_0" />
+
+        <com.acb.call.views.ScalableImageView
+            android:id="@+id/call_alert_corner_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="@drawable/acb_phone_theme_technological_corner_1" />
+
+        <com.acb.call.views.ScalableImageView
+            android:id="@+id/call_alert_corner_light_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="@drawable/acb_phone_theme_technological_corner_light_1" />
+
+        <com.acb.call.views.ScalableImageView
+            android:id="@+id/call_alert_corner_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:src="@drawable/acb_phone_theme_technological_corner_2" />
+
+        <com.acb.call.views.ScalableImageView
+            android:id="@+id/call_alert_corner_light_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:src="@drawable/acb_phone_theme_technological_corner_light_2" />
+
+        <com.acb.call.views.ScalableImageView
+            android:id="@+id/call_alert_corner_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:src="@drawable/acb_phone_theme_technological_corner_3" />
+
+        <com.acb.call.views.ScalableImageView
+            android:id="@+id/call_alert_corner_light_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:src="@drawable/acb_phone_theme_technological_corner_light_3" />
+
+        <com.acb.call.views.ScalableImageView
+            android:id="@+id/call_alert_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:src="@drawable/acb_phone_theme_technological_bottom" />
+
+        <LinearLayout
+            android:id="@+id/led_call_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="15" />
+
+            <FrameLayout
+                android:id="@+id/caller_avatar_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.acb.call.views.ScalableImageView
+                    android:id="@+id/call_alert_icon_holo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/acb_phone_theme_technological_icon_holo" />
+
+                <com.acb.call.views.ScalableImageView
+                    android:id="@+id/call_alert_icon_aperture_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/acb_phone_theme_icon_aperture_half" />
+
+                <com.acb.call.views.ScalableImageView
+                    android:id="@+id/call_alert_icon_aperture_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/acb_phone_theme_icon_aperture_whole" />
+
+                <com.acb.call.views.ScalableImageView
+                    android:id="@+id/call_alert_icon_aperture_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/acb_phone_theme_icon_aperture_piece" />
+
+                <com.acb.call.views.CircleImageView
+                    android:id="@+id/caller_avatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/acb_phone_theme_default_technological_caller_avatar" />
+
+            </FrameLayout>
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3" />
+
+            <TextView
+                android:id="@+id/caller_name"
+                style="@style/TextInCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/acb_phone_caller_default_name"
+                android:textSize="30dp" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4" />
+
+            <TextView
+                android:id="@+id/caller_number"
+                style="@style/TextInCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/acb_phone_caller_default_number"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="25" />
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="30" />
+        </LinearLayout>
+
+    </com.acb.call.themes.TechnologicalAnimationView>
+
+    <include
+        layout="@layout/acb_phone_in_call_action_full_screen"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp" />
+</FrameLayout>
