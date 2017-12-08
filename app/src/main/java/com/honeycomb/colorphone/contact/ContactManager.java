@@ -234,6 +234,12 @@ public class ContactManager {
         return themeId;
     }
 
+    public void clearThemeStatus() {
+        for (SimpleContact contact : mAllContacts) {
+            contact.setSelected(false);
+        }
+    }
+
     public interface LoadCallback {
         void onLoadFinish();
     }

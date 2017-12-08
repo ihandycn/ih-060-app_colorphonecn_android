@@ -58,6 +58,7 @@ public class ContactsEditActivity extends ContactsActivity {
     protected void onConfirmed(List<SimpleContact> contacts) {
 
         List<ThemeEntry> themeEntries = new ArrayList<>();
+        List<SimpleContact> rootData = ContactManager.getInstance().getThemes(true);
 
         Iterator<SimpleContact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
@@ -70,11 +71,14 @@ public class ContactsEditActivity extends ContactsActivity {
                 themeEntries.add(entry);
 
                 iterator.remove();
+                rootData.remove(c);
+
                 c.setThemeId(SimpleContact.INVALID_THEME);
 
                 getContactAdapter().notifyItemRemoved(pos);
             }
         }
+
 
         // TODO progress bar ？
         ContactManager.getInstance().updateDb(themeEntries, new Runnable() {

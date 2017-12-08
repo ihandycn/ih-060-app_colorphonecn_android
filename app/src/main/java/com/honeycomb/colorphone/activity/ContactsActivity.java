@@ -19,6 +19,7 @@ import com.colorphone.lock.util.FontUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactAdapter;
+import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.ContactUtils;
 import com.honeycomb.colorphone.contact.RecyclerSectionItemDecoration;
 import com.honeycomb.colorphone.contact.SimpleContact;
@@ -207,6 +208,12 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
                     .start();
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ContactManager.getInstance().clearThemeStatus();
     }
 
     protected void setHeaderHint(String headerHint) {

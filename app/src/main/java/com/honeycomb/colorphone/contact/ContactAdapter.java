@@ -145,6 +145,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             holder.checkBox.setVisibility(View.INVISIBLE);
             holder.checkBox.setEnabled(false);
         }
+        holder.checkBox.setChecked(person.isSelected());
+
         String photoUri  = person.getPhotoUri();
         if (!TextUtils.isEmpty(photoUri)) {
             GlideApp.with(holder.avater)
