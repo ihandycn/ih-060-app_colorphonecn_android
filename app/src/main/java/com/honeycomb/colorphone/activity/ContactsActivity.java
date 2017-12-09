@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 
 
@@ -92,7 +93,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
         mToolBarTransViews.add(textViewTitle);
 
         mFastScrollRecyclerView = findViewById(R.id.recycler_view);
-        mFastScrollRecyclerView.setItemAnimator(new SlideInRightAnimator());
+        mFastScrollRecyclerView.setItemAnimator(new FadeInAnimator(mFadeInter));
         int padding  = getResources().getDimensionPixelSize(R.dimen.recycler_section_header_Margin);
         if (CommonUtils.isRtl()) {
             mFastScrollRecyclerView.setPadding(0

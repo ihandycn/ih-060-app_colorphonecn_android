@@ -13,6 +13,7 @@ import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.analytics.HSAnalytics;
 
 import java.util.ArrayList;
@@ -80,14 +81,11 @@ public class ContactsSelectActivity extends ContactsActivity {
             ContactManager.getInstance().markDataChanged();
         }
 
-        // TODO progress bar ？
         ContactManager.getInstance().updateDb(themeEntries, new Runnable() {
             @Override
             public void run() {
-                if (BuildConfig.DEBUG) {
-                    Toast.makeText(ContactsSelectActivity.this, "TEST_update_success!", Toast.LENGTH_SHORT).show();
-                }
                 ContactsSelectActivity.this.finish();
+                Utils.showToast(getString(R.string.apply_success));
             }
         });
     }

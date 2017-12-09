@@ -73,14 +73,14 @@
             android:id="@+id/bottom_action_layout"
             android:layout_width="match_parent"
             android:layout_gravity="bottom"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
             android:layout_height="wrap_content">
             <Button
                 android:id="@+id/contact_confirm"
                 app:layout_widthPercent="80%"
                 android:layout_gravity="center"
                 android:layout_height="44dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/btn_bg_yellow"
                 />
         </android.support.percent.PercentFrameLayout>

@@ -7,7 +7,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -17,7 +16,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.animation.DecelerateInterpolator;
@@ -37,6 +35,7 @@ import com.acb.call.views.ThemePreviewWindow;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
 import com.colorphone.lock.util.CommonUtils;
+import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
@@ -57,7 +56,6 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
-import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
@@ -300,7 +298,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
 
                 if (!GuideApplyThemeActivity.start(mActivity, true)) {
-                    showToast(mActivity.getString(R.string.apply_success));
+                    Utils.showToast(mActivity.getString(R.string.apply_success));
                 }
                 NotificationUtils.logThemeAppliedFlurry(mTheme);
 
@@ -318,20 +316,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         mInter = new OvershootInterpolator(1.5f);
 
-    }
-
-    private void showToast(String hint) {
-       Toast toast = new Toast(mActivity.getApplicationContext());
-        final View contentView = mActivity.getLayoutInflater().inflate(R.layout.toast_theme_apply, null);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            contentView.setElevation(CommonUtils.pxFromDp(8));
-        }
-        TextView textView = contentView.findViewById(R.id.text_toast);
-        textView.setText(hint);
-        int yOffset = (int) (0.6f * CommonUtils.getPhoneHeight(mActivity));
-        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, yOffset);
-        toast.setView(contentView);
-        toast.show();
     }
 
     private View getTransBottomLayout() {
@@ -368,13 +352,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         themeReady = true;
         dimCover.setVisibility(View.INVISIBLE);
         mProgressViewHolder.hide();
-//        if (isSelectedPos()) {
-//            mNavBack.setTranslationX(0);
-//        }
-
         previewWindow.updateThemeLayout(mThemeType);
-        checkNewFeatureGuideView();
+
         setCustomStyle();
+
+        if (isSelectedPos()) {
+            checkNewFeatureGuideView();
+            needTransAnim = false;
+        }
         if (needTransAnim) {
             playTransInAnimation(transEndRunnable);
         } else {

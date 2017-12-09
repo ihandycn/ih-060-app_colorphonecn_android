@@ -47,13 +47,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
@@ -706,4 +710,17 @@ public final class Utils {
         return BitmapFactory.decodeFile(path, options);
     }
 
+    public static void showToast(String hint) {
+       Toast toast = new Toast(HSApplication.getContext().getApplicationContext());
+        final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.toast_theme_apply, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            contentView.setElevation(CommonUtils.pxFromDp(8));
+        }
+        TextView textView = contentView.findViewById(R.id.text_toast);
+        textView.setText(hint);
+        int yOffset = (int) (0.6f * CommonUtils.getPhoneHeight(HSApplication.getContext()));
+        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, yOffset);
+        toast.setView(contentView);
+        toast.show();
+    }
 }

@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -99,6 +100,7 @@ public class ContactsEditActivity extends ContactsActivity {
         confirmButton.setEnabled(false);
         confirmButton.setBackgroundResource(R.drawable.btn_bg_red);
         confirmButton.setText(R.string.delete);
+        confirmButton.setTextColor(Color.WHITE);
     }
 
     @Override
