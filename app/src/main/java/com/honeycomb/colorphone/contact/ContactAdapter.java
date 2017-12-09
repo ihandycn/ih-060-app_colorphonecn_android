@@ -43,7 +43,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     private int footerOffset;
     private int headerOffset;
     private int itemHeight;
-    private boolean themeVisible;
+    private boolean themeVisible = true;
     private List<Type> themeTypeList;
 
     public ContactAdapter(LayoutInflater layoutInflater, List<SimpleContact> people, @LayoutRes int rowLayout) {
@@ -61,12 +61,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         }
     }
 
+    @Deprecated
     public void setThemeVisible(boolean themeVisible) {
-        boolean changed = this.themeVisible != themeVisible;
-        if (changed) {
-            this.themeVisible = themeVisible;
-            notifyDataSetChanged();
-        }
+//        boolean changed = this.themeVisible != themeVisible;
+//        if (changed) {
+//            this.themeVisible = themeVisible;
+//            notifyDataSetChanged();
+//        }
     }
 
     public void setFooterOffset(int footerrOffset) {
