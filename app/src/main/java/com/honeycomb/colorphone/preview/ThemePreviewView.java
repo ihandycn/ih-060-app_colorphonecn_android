@@ -297,7 +297,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                 }
 
-                if (!GuideApplyThemeActivity.start(mActivity, true)) {
+                if (!GuideApplyThemeActivity.start(mActivity, true, null)) {
                     Utils.showToast(mActivity.getString(R.string.apply_success));
                 }
                 NotificationUtils.logThemeAppliedFlurry(mTheme);

@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.call.constant.CPConst;
+import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.LEDAnimationView;
 import com.acb.call.themes.Type;
 import com.acb.call.views.CircleImageView;
@@ -37,7 +38,6 @@ import com.honeycomb.colorphone.util.ShareAlertAutoPilotUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.analytics.HSAnalytics;
-import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -95,8 +95,8 @@ public class ShareAlertActivity extends Activity {
     private InCallActionView inCallActionView;
     private UserInfo userInfo;
 
-    private int themeID = HSPreferenceHelper.getDefault().getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, Type.LED);
-    private Type themeType = com.acb.utils.Utils.getTypeByThemeId(themeID);
+    private Type themeType;
+    private boolean isContactInApp;
     private boolean isInsideApp;
     private boolean v22 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1;
 
@@ -104,10 +104,11 @@ public class ShareAlertActivity extends Activity {
         void onResourceReady(Bitmap resource);
     }
 
-    public static void starInsideApp(Activity activity) {
+    public static void starInsideApp(Activity activity, UserInfo userInfo) {
         Intent intent = new Intent(activity, ShareAlertActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IS_INSIDE_APP, true);
+        intent.putExtra(USER_INFO, userInfo);
         activity.startActivity(intent);
         activity.overridePendingTransition(0, 0);
         PreferenceHelper helper = PreferenceHelper.get(PREFS_FILE);
@@ -151,10 +152,12 @@ public class ShareAlertActivity extends Activity {
 
         if (isInsideApp) {
             ShareAlertAutoPilotUtils.logInsideAppShareAlertShow();
-            HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName", themeType.getName(), "v22", String.valueOf(v22));
+            HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName",
+                    themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp));
         } else {
             ShareAlertAutoPilotUtils.logOutsideAppShareAlertShow();
-            HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName", themeType.getName(), "v22", String.valueOf(v22));
+            HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName",
+                    themeType.getName(), "v22", String.valueOf(v22));
         }
     }
 
@@ -191,20 +194,24 @@ public class ShareAlertActivity extends Activity {
         inCallActionView = findViewById(R.id.card_in_call_action_view);
         inCallActionView.setEnabled(false);
 
+        int themeID = AcbCallManager.getInstance().getAcbCallFactory().getIncomingReceiverConfig().getThemeIdByPhoneNumber(userInfo.getPhoneNumber());
+        themeType = com.acb.utils.Utils.getTypeByThemeId(themeID);
         themePreviewWindow.updateThemeLayout(themeType);
         themePreviewWindow.setPreviewType(ThemePreviewWindow.PreviewType.PREVIEW);
         CircleImageView portrait = themePreviewWindow.findViewById(com.acb.call.R.id.caller_avatar);
-        if (!isInsideApp) {
+
+        if (!isInsideApp || userInfo.getPhoneNumber() != null) {
             TextView firstLineTextView = themePreviewWindow.findViewById(com.acb.call.R.id.first_line);
             TextView secondLineTextView = themePreviewWindow.findViewById(com.acb.call.R.id.second_line);
-            if (userInfo.getPhotoUri() != null) {
+            if (!TextUtils.isEmpty(userInfo.getPhotoUri())) {
                 portrait.setImageURI(Uri.parse(userInfo.getPhotoUri()));
             } else {
                 setPortraitViewGone(portrait);
             }
 
-            if (userInfo.getCallName() != null) {
+            if (!TextUtils.isEmpty(userInfo.getCallName())) {
                 firstLineTextView.setText(userInfo.getCallName());
+                isContactInApp = true;
             }
             secondLineTextView.setText(userInfo.getPhoneNumber());
         } else {
@@ -248,7 +255,8 @@ public class ShareAlertActivity extends Activity {
 
                 if (isInsideApp) {
                     ShareAlertAutoPilotUtils.logInsideAppShareAlertClicked();
-                    HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName", themeType.getName(), "v22", String.valueOf(v22));
+                    HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName",
+                            themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp));
                 } else {
                     ShareAlertAutoPilotUtils.logOutsideAppShareAlertClicked();
                     HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(), "v22", String.valueOf(v22));
@@ -305,6 +313,7 @@ public class ShareAlertActivity extends Activity {
                     Intent receiver = new Intent(this, ShareReceiver.class);
                     receiver.putExtra(IS_INSIDE_APP, isInsideApp);
                     receiver.putExtra(ShareReceiver.THEME_NAME, themeType.getName());
+                    receiver.putExtra(ShareReceiver.IS_CONTACT, isContactInApp);
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(this, REQUEST_SHARE, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
                     Intent chooser = Intent.createChooser(share, getResources().getString(R.string.app_name), pendingIntent.getIntentSender());
                     startActivityForResult(chooser, REQUEST_SHARE);

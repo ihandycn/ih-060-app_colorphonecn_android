@@ -56,7 +56,7 @@ public class ContactsSelectActivity extends ContactsActivity {
     @Override
     protected void onConfirmed(List<SimpleContact> contacts) {
 
-        List<ThemeEntry> themeEntries = new ArrayList<>();
+        final List<ThemeEntry> themeEntries = new ArrayList<>();
 
         for (SimpleContact c : contacts) {
             if (c.isSelected()) {
@@ -84,10 +84,23 @@ public class ContactsSelectActivity extends ContactsActivity {
         ContactManager.getInstance().updateDb(themeEntries, new Runnable() {
             @Override
             public void run() {
-                ContactsSelectActivity.this.finish();
+
+
+                if (themeEntries.size() == 1) {
+                    ThemeEntry themeEntry = themeEntries.get(0);
+                    ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
+                    if (GuideApplyThemeActivity.start(ContactsSelectActivity.this, true, userInfo)) {
+                        ContactsSelectActivity.this.finish();
+                        return;
+                    }
+                }
                 Utils.showToast(getString(R.string.apply_success));
+                ContactsSelectActivity.this.finish();
             }
         });
+
+
+
     }
 
     @Override

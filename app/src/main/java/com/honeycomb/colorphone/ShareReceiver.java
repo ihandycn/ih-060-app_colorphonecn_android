@@ -12,6 +12,7 @@ import com.ihs.commons.utils.HSLog;
 
 public class ShareReceiver extends BroadcastReceiver {
     public static final String THEME_NAME = "theme_name";
+    public static final String IS_CONTACT = "is_contact";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -21,14 +22,15 @@ public class ShareReceiver extends BroadcastReceiver {
 
                boolean isInsideApp = intent.getBooleanExtra(ShareAlertActivity.IS_INSIDE_APP, false);
                String themeName = intent.getStringExtra(THEME_NAME);
+               boolean isContact = intent.getBooleanExtra(IS_CONTACT, false);
                HSLog.d("ShareReceiver" + componentName.getPackageName());
 
                if (isInsideApp) {
-                   HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_ChooseAppToShare", "packageName", componentName.getPackageName(), "V22", "true", "themeName", themeName);
+                   HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_ChooseAppToShare", "packageName",
+                           componentName.getPackageName(), "V22", "true", "themeName", themeName, "isContact", String.valueOf(isContact));
                } else {
                    HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_ChooseAppToShare", "packageName", componentName.getPackageName(), "V22", "true", "themeName", themeName);
                }
-
            }
         }
     }

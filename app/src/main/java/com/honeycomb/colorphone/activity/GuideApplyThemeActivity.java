@@ -40,14 +40,14 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
 
     public static boolean FULL_SCREEN = true;
 
-    public static boolean start(final Activity activity, boolean fullScreen) {
+    public static boolean start(final Activity activity, boolean fullScreen, ShareAlertActivity.UserInfo userInfo) {
         if (ModuleUtils.isNeedGuideAfterApply()) {
             Intent starter = new Intent(activity, GuideApplyThemeActivity.class);
             starter.putExtra("fullscreen", fullScreen);
             activity.startActivity(starter);
             return true;
         } else if(ModuleUtils.isShareAlertInsideAppShow()) {
-            ShareAlertActivity.starInsideApp(activity);
+            ShareAlertActivity.starInsideApp(activity, userInfo);
             return true;
         } else if (NotificationUtils.isShowNotificationGuideAlertWhenApplyTheme(activity)) {
             NotificationAccessGuideAlertActivity.startInAppGuide(activity);

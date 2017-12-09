@@ -221,7 +221,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         saveThemeApplys(data.get(pos).getId());
                         CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, data.get(pos).getId());
                         HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
-                        GuideApplyThemeActivity.start(activity, false);
+                        GuideApplyThemeActivity.start(activity, false, null);
                         NotificationUtils.logThemeAppliedFlurry(data.get(pos));
                         ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
                                 data.get(pos).getIdName().toLowerCase(),
