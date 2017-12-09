@@ -112,11 +112,11 @@ public class ModuleUtils {
         String[] projection = new String[]{
                 ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER,
                 ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup.PHOTO_URI};
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            projection = new String[]{
-                    ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NORMALIZED_NUMBER,
-                    ContactsContract.PhoneLookup.DISPLAY_NAME};
-        }
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+//            projection = new String[]{
+//                    ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NORMALIZED_NUMBER,
+//                    ContactsContract.PhoneLookup.DISPLAY_NAME};
+//        }
         Cursor cursorLookup = null;
         try {
             cursorLookup = contentResolver.query(phonesUri,

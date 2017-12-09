@@ -8,6 +8,7 @@
     android:background="#CC000000">
 
     <LinearLayout
+        android:id="@+id/card_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -16,21 +17,9 @@
         app:layout_widthPercent="80%"
         app:layout_aspectRatio="72%">
 
-        <ImageButton
-            android:id="@+id/close"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/material_compat_bg"
-            android:scaleType="center"
-            android:src="@drawable/acb_phone_alert_call_close" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_marginTop="-36dp"
             android:layout_height="0dp"
             android:layout_weight="5.33"/>
 
@@ -53,7 +42,7 @@
                 android:layout_marginBottom="7dp"
                 android:layout_gravity="center_horizontal"
                 app:layout_widthPercent="45%"
-                app:layout_aspectRatio="70%"
+                app:layout_aspectRatio="64%"
                 android:src="@drawable/drawer_icon"
                 />
         </android.support.percent.PercentFrameLayout>
@@ -118,6 +107,21 @@
             android:layout_height="0dp"
             android:layout_weight="4.6"/>
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/close"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignEnd="@+id/card_container"
+        android:layout_alignRight="@+id/card_container"
+        android:layout_alignTop="@+id/card_container"
+        android:background="@drawable/material_compat_bg"
+        android:scaleType="center"
+        android:src="@drawable/acb_phone_alert_call_close" />
 
 
 
