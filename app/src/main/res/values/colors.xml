@@ -3,6 +3,7 @@
     <color name="colorWindowBackground">@color/white</color>
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">#0d0d0d</color>
+    <color name="colorAccentContact">#ffb22c</color>
     <color name="colorAccent">#ffe400</color>
     <color name="colorAccentDark">#baaa00</color>
     <color name="colorMaskDark">#22000000</color>

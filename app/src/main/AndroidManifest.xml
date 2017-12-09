@@ -141,13 +141,13 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppLightStatusBarTheme"/>
+            android:theme="@style/ContactTheme"/>
 
         <activity android:name=".activity.ContactsEditActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppLightStatusBarTheme"
+            android:theme="@style/ContactTheme"
             />
 
         <!--Activity for test function-->
