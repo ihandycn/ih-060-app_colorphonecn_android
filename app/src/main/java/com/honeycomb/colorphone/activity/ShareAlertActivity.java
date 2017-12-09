@@ -89,6 +89,7 @@ public class ShareAlertActivity extends Activity {
 
     public static final String IS_INSIDE_APP = "is inside_app";
     public static final String USER_INFO = "user_info";
+    private static final int REQUEST_SHARE = 3;
 
     private ThemePreviewWindow themePreviewWindow;
     private InCallActionView inCallActionView;
@@ -174,6 +175,17 @@ public class ShareAlertActivity extends Activity {
         inCallActionView.stopAnimations();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQUEST_SHARE:
+                Utils.deleteRecursive(getTempShareDirectory(this));
+                break;
+        }
+    }
+
     private void initThemePreviewWindow() {
         themePreviewWindow = findViewById(R.id.card_flash_preview_window);
         inCallActionView = findViewById(R.id.card_in_call_action_view);
@@ -206,7 +218,6 @@ public class ShareAlertActivity extends Activity {
             themePreviewWindow.findViewById(R.id.caller_avatar_container).setVisibility(View.GONE);
         }
     }
-
 
     private void initShareAlertText() {
         TextView title = findViewById(R.id.title);
@@ -249,9 +260,8 @@ public class ShareAlertActivity extends Activity {
     private void share(View cardView) {
         ImageView portrait = cardView.findViewById(R.id.caller_avatar);
         if (!isInsideApp) {
-
-            TextView name = cardView.findViewById(R.id.caller_name);
-            TextView number = cardView.findViewById(R.id.caller_number);
+            TextView firstLine = cardView.findViewById(R.id.first_line);
+            TextView secondLine = cardView.findViewById(R.id.second_line);
             if (userInfo.getPhotoUri() != null) {
                 portrait.setImageURI(Uri.parse(userInfo.getPhotoUri()));
             } else {
@@ -259,45 +269,46 @@ public class ShareAlertActivity extends Activity {
             }
 
             if (TextUtils.isEmpty(userInfo.getCallName())) {
-                name.setText(userInfo.getCallName());
+                firstLine.setText(userInfo.getCallName());
             }
-            number.setText(userInfo.getPhoneNumber());
+            secondLine.setText(userInfo.getPhoneNumber());
         } else {
             portrait.setVisibility(View.GONE);
         }
         Bitmap bitmap = getScreenViewBitmap(cardView);
         Canvas c = new Canvas(bitmap);
-        File file, f;
+
         try {
             if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
-                file = new File(android.os.Environment.getExternalStorageDirectory(), "ColorPhone");
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-                f = new File(file.getAbsolutePath() + "/" + themeType.getName() + ".jpg" );
-                if (!f.exists()) {
-                    FileOutputStream ostream = new FileOutputStream(f);
-                    c.drawBitmap(bitmap, 0, 0, null);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
-                    ostream.flush();
-                    ostream.close();
+                File shareDir = getTempShareDirectory(this);
+                if (!shareDir.exists()) {
+                    shareDir.mkdirs();
                 }
 
-                File sharefile = new File(file.getAbsolutePath() + "/" + themeType.getName() + ".jpg" );
+                String filepath = shareDir.getAbsolutePath() + "/" + themeType.getName() + ".jpg";
+                File tempFile = new File(filepath);
+                FileOutputStream ostream = new FileOutputStream(tempFile);
+                c.drawBitmap(bitmap, 0, 0, null);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ostream);
+                ostream.flush();
+                ostream.close();
+
+                File shareFile = new File(filepath);
                 Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("image/jpeg");
-                share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(sharefile));
+                share.setType("*/*");
+                share.putExtra(Intent.EXTRA_TEXT, ShareAlertAutoPilotUtils.getShareText());
+                share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(shareFile));
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                     Intent receiver = new Intent(this, ShareReceiver.class);
                     receiver.putExtra(IS_INSIDE_APP, isInsideApp);
                     receiver.putExtra(ShareReceiver.THEME_NAME, themeType.getName());
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, REQUEST_SHARE, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
                     Intent chooser = Intent.createChooser(share, "test", pendingIntent.getIntentSender());
-                    startActivity(chooser);
+                    startActivityForResult(chooser, REQUEST_SHARE);
                 } else {
-                    Intent chooser = Intent.createChooser(share, "test");
-                    startActivity(chooser);
+                    Intent chooser = Intent.createChooser(share, getResources().getString(R.string.app_name));
+                    startActivityForResult(chooser, REQUEST_SHARE);
                 }
             }
         } catch (Exception e) {
@@ -388,4 +399,9 @@ public class ShareAlertActivity extends Activity {
                 return R.layout.share_view_layout;
         }
     }
+
+    static File getTempShareDirectory(Context context) {
+        return new File(context.getExternalFilesDir(null), "ColorPhone");
+    }
+
 }

@@ -50,6 +50,9 @@ public class ShareAlertAutoPilotUtils {
         return (int) AutopilotConfig.getDoubleToTestNow(SHARE_ALERT_TOPIC_ID, "outapp_share_alert_show_max_time", 0);
     }
 
+    public static String getShareText() {
+        return AutopilotConfig.getStringToTestNow(SHARE_ALERT_TOPIC_ID, "share_text", "local error");
+    }
 
     public static void logInsideAppShareAlertShow() {
         AutopilotEvent.logTopicEvent(SHARE_ALERT_TOPIC_ID, "inapp_share_alert_show");

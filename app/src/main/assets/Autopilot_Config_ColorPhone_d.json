@@ -152,9 +152,9 @@
           "type": "double",
           "value": 1
         },
-        "share_alert_view_type": {
+        "share_text": {
           "type": "string",
-          "value": "bigVideo"
+          "value": "test"
         },
         "outapp_share_alert_show_max_time": {
           "type": "double",
@@ -180,6 +180,12 @@
         },
         {
           "name": "outapp_share_alert_clicked"
+        },
+        {
+          "name": "inapp_share_alert_clicked_chooseapp"
+        },
+        {
+          "name": "outapp_share_alert_clicked_chooseapp"
         }
       ],
       "topic_id": "topic-1511875453515"

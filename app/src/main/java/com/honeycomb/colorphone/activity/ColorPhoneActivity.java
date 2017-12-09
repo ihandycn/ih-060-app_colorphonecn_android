@@ -242,6 +242,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
             }, 1000);
         }
+
+        if (PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)) {
+            if (notificationToast != null) {
+                notificationToast.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
