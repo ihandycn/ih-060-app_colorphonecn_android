@@ -182,8 +182,8 @@ public class ShareAlertActivity extends Activity {
         themePreviewWindow.updateThemeLayout(themeType);
         CircleImageView portrait = themePreviewWindow.findViewById(com.acb.call.R.id.caller_avatar);
         if (!isInsideApp) {
-            TextView firstLineTextView = themePreviewWindow.findViewById(com.acb.call.R.id.caller_name);
-            TextView secondLineTextView = themePreviewWindow.findViewById(com.acb.call.R.id.caller_number);
+            TextView firstLineTextView = themePreviewWindow.findViewById(com.acb.call.R.id.first_line);
+            TextView secondLineTextView = themePreviewWindow.findViewById(com.acb.call.R.id.second_line);
             if (userInfo.getPhotoUri() != null) {
                 portrait.setImageURI(Uri.parse(userInfo.getPhotoUri()));
             } else {
