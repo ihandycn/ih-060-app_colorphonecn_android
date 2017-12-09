@@ -356,19 +356,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         setCustomStyle();
 
-        if (isSelectedPos()) {
-            checkNewFeatureGuideView();
-            needTransAnim = false;
-        }
         if (needTransAnim) {
             playTransInAnimation(transEndRunnable);
         } else {
             transEndRunnable.run();
         }
-
     }
 
-    private void checkNewFeatureGuideView() {
+    private boolean checkNewFeatureGuideView() {
         if (ModuleUtils.needShowSetForOneGuide()) {
             ViewStub stub = findViewById(R.id.guide_for_set_one);
             final View guideView = stub.inflate();
@@ -382,11 +377,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         public void onAnimationEnd(Animator animation) {
                             guideView.setOnClickListener(null);
                             guideView.setVisibility(GONE);
+                            scheduleNextHide();
                         }
                     }).start();
                 }
             });
+            return true;
         }
+        return false;
     }
 
     private void playTransInAnimation(final Runnable completeRunnable) {
@@ -507,10 +505,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        getTransBottomLayout().setTranslationY(0);
-                        inTransition = false;
-                        animationDelay = 0;
-                        scheduleNextHide();
+                        onActionButtonReady();
 
                     }
                 }).setStartDelay(animationDelay).start();
@@ -537,9 +532,19 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (!themeReady) {
             return;
         }
+        onActionButtonReady();
+    }
+
+    public void onActionButtonReady() {
         getTransBottomLayout().setTranslationY(0);
+        inTransition = false;
         animationDelay = 0;
-        scheduleNextHide();
+        if (isSelectedPos()) {
+            checkNewFeatureGuideView();
+        } else {
+            scheduleNextHide();
+        }
+
     }
 
     private void scheduleNextHide() {
