@@ -120,13 +120,21 @@
       "topic_type": "one_time",
       "topic_name": "Share Test",
       "variations": {
+        "outapp_share_text": {
+          "type": "string",
+          "value": "My latest call screen theme from Color Phone. \nhttps://app.appsflyer.com/com.colorphone.smooth.dialer?pid=Userinvite2"
+        },
         "inapp_share_alert_detail": {
           "type": "string",
-          "value": "detail"
+          "value": "You have successfully customized your calling screen, show it to others."
+        },
+        "inapp_share_text": {
+          "type": "string",
+          "value": "My latest call screen theme from Color Phone. \nhttps://app.appsflyer.com/com.colorphone.smooth.dialer?pid=Userinvite1"
         },
         "inapp_share_alert_title": {
           "type": "string",
-          "value": "Share"
+          "value": "Notify Your Friends"
         },
         "inapp_share_alert_show_max_time": {
           "type": "double",
@@ -138,11 +146,11 @@
         },
         "outapp_share_alert_detail": {
           "type": "string",
-          "value": "detail"
+          "value": "You have successfully customized your calling screen, show it to others."
         },
         "outapp_share_alert_title": {
           "type": "string",
-          "value": "Share"
+          "value": "Notify Your Friends"
         },
         "inapp_share_alert_btn_text": {
           "type": "string",
@@ -151,10 +159,6 @@
         "inapp_share_alert_show_interval": {
           "type": "double",
           "value": 1
-        },
-        "share_text": {
-          "type": "string",
-          "value": "test"
         },
         "outapp_share_alert_show_max_time": {
           "type": "double",

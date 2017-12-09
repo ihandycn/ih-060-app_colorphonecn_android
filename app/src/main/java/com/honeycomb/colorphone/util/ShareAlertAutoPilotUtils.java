@@ -29,6 +29,9 @@ public class ShareAlertAutoPilotUtils {
         return (int) AutopilotConfig.getDoubleToTestNow(SHARE_ALERT_TOPIC_ID, "inapp_share_alert_show_max_time", 0);
     }
 
+    public static String getInsideAppShareText() {
+        return AutopilotConfig.getStringToTestNow(SHARE_ALERT_TOPIC_ID, "inapp_share_text", "error");
+    }
 
     public static String getOutsideAppShareBtnText() {
         return AutopilotConfig.getStringToTestNow(SHARE_ALERT_TOPIC_ID, "outapp_share_alert_btn_text", "error");
@@ -50,10 +53,6 @@ public class ShareAlertAutoPilotUtils {
         return (int) AutopilotConfig.getDoubleToTestNow(SHARE_ALERT_TOPIC_ID, "outapp_share_alert_show_max_time", 0);
     }
 
-    public static String getShareText() {
-        return AutopilotConfig.getStringToTestNow(SHARE_ALERT_TOPIC_ID, "share_text", "local error");
-    }
-
     public static void logInsideAppShareAlertShow() {
         AutopilotEvent.logTopicEvent(SHARE_ALERT_TOPIC_ID, "inapp_share_alert_show");
     }
@@ -68,5 +67,9 @@ public class ShareAlertAutoPilotUtils {
 
     public static void logOutsideAppShareAlertClicked() {
         AutopilotEvent.logTopicEvent(SHARE_ALERT_TOPIC_ID, "outapp_share_alert_clicked");
+    }
+
+    public static String getOutsideAppShareText() {
+        return AutopilotConfig.getStringToTestNow(SHARE_ALERT_TOPIC_ID, "outapp_share_text", "error");
     }
 }

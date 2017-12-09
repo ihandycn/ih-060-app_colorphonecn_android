@@ -295,8 +295,10 @@ public class ShareAlertActivity extends Activity {
 
                 File shareFile = new File(filepath);
                 Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("*/*");
-                share.putExtra(Intent.EXTRA_TEXT, ShareAlertAutoPilotUtils.getShareText());
+                share.setType("image/*");
+                share.putExtra(Intent.EXTRA_TEXT,
+                        isInsideApp ? ShareAlertAutoPilotUtils.getInsideAppShareText()
+                                    : ShareAlertAutoPilotUtils.getOutsideAppShareText());
                 share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(shareFile));
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -304,7 +306,7 @@ public class ShareAlertActivity extends Activity {
                     receiver.putExtra(IS_INSIDE_APP, isInsideApp);
                     receiver.putExtra(ShareReceiver.THEME_NAME, themeType.getName());
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(this, REQUEST_SHARE, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
-                    Intent chooser = Intent.createChooser(share, "test", pendingIntent.getIntentSender());
+                    Intent chooser = Intent.createChooser(share, getResources().getString(R.string.app_name), pendingIntent.getIntentSender());
                     startActivityForResult(chooser, REQUEST_SHARE);
                 } else {
                     Intent chooser = Intent.createChooser(share, getResources().getString(R.string.app_name));
