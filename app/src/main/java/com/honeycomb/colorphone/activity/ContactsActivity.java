@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
@@ -35,7 +36,6 @@ import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 
 /**
  * Created by sundxing on 17/11/28.
- * TODO: filter contact number empty.
  */
 
 public abstract class ContactsActivity extends HSAppCompatActivity {
@@ -43,7 +43,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
 
     public static final String EXTRA_THEME = "contact_theme";
     private OvershootInterpolator mInter = new OvershootInterpolator(1.5f);
-    private Interpolator mFadeInter = new AccelerateInterpolator();
+    private Interpolator mFadeInter = new AccelerateDecelerateInterpolator();
 
     private RecyclerView mFastScrollRecyclerView;
     private List<SimpleContact> mContacts = new ArrayList<>();
