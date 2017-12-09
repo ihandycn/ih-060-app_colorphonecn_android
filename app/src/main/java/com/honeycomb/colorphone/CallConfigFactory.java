@@ -2,6 +2,9 @@ package com.honeycomb.colorphone;
 
 import android.graphics.Typeface;
 
+import android.content.Context;
+
+import com.acb.call.CPSettings;
 import com.acb.call.customize.AcbCallFactoryImpl;
 import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.receiver.IncomingCallReceiver;
@@ -11,15 +14,15 @@ import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.MessageCenterUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.colorphone.lock.util.CommonUtils;
+import com.honeycomb.colorphone.activity.ShareAlertActivity;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
-import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
-import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.util.Iterator;
 import java.util.List;
@@ -206,7 +209,15 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         return new IncomingCallReceiver.Config() {
             @Override
             public boolean isShowAlertBeforeCallAssistant(String number) {
-                return super.isShowAlertBeforeCallAssistant(number);
+                Context context = HSApplication.getContext();
+                if (ModuleUtils.isShareAlertOutsideAppShow(context, phoneNumber)) {
+                    return true;
+                }
+                if (CPSettings.isShowNotificationAccessOutAppGuide(CallConfigFactory.this, context)) {
+                    NotificationAccessGuideAlertActivity.startOutAppGuide(context);
+                    return true;
+                }
+                return false;
             }
 
             @Override

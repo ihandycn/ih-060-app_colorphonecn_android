@@ -50,38 +50,6 @@
       ],
       "topic_id": "topic-1505294061097"
     },
-    "topic-1505290483207": {
-      "topic_type": "life_time",
-      "topic_name": "AD Strategy",
-      "variations": {
-        "colorscreensaver_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "apply_finish_guide_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "sms_assistant_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "smart_charging_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "start_guide_enable": {
-          "type": "boolean",
-          "value": true
-        }
-      },
-      "events": [
-        {
-          "name": "test"
-        }
-      ],
-      "topic_id": "topic-1505290483207"
-    },
     "topic-1510751463187": {
       "topic_type": "life_time",
       "topic_name": "Local Push Test",
@@ -104,7 +72,7 @@
         },
         "old_theme_push_detail": {
           "type": "string",
-          "value": "Try the most popular Color Phone theme --- ‘%1$s'"
+          "value": "'%1$s' theme for Color Phone! Try this most popular feature!"
         },
         "old_theme_push_min_show_interval": {
           "type": "double",
@@ -147,6 +115,106 @@
         }
       ],
       "topic_id": "topic-1510751463187"
+    },
+    "topic-1511875453515": {
+      "topic_type": "one_time",
+      "topic_name": "Share Test",
+      "variations": {
+        "inapp_share_alert_detail": {
+          "type": "string",
+          "value": "detail"
+        },
+        "inapp_share_alert_title": {
+          "type": "string",
+          "value": "Share"
+        },
+        "inapp_share_alert_show_max_time": {
+          "type": "double",
+          "value": 5
+        },
+        "outapp_share_alert_show_interval": {
+          "type": "double",
+          "value": 8
+        },
+        "outapp_share_alert_detail": {
+          "type": "string",
+          "value": "detail"
+        },
+        "outapp_share_alert_title": {
+          "type": "string",
+          "value": "Share"
+        },
+        "inapp_share_alert_btn_text": {
+          "type": "string",
+          "value": "Share"
+        },
+        "inapp_share_alert_show_interval": {
+          "type": "double",
+          "value": 1
+        },
+        "share_alert_view_type": {
+          "type": "string",
+          "value": "bigVideo"
+        },
+        "outapp_share_alert_show_max_time": {
+          "type": "double",
+          "value": 2
+        },
+        "outapp_share_alert_btn_text": {
+          "type": "string",
+          "value": "Share"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "inapp_share_alert_show"
+        },
+        {
+          "name": "outapp_share_alert_show"
+        },
+        {
+          "name": "inapp_share_alert_clicked"
+        },
+        {
+          "name": "outapp_share_alert_clicked"
+        }
+      ],
+      "topic_id": "topic-1511875453515"
+    },
+    "topic-1505290483207": {
+      "topic_type": "life_time",
+      "topic_name": "AD Strategy",
+      "variations": {
+        "colorscreensaver_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "apply_finish_guide_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "sms_assistant_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "smart_charging_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "start_guide_enable": {
+          "type": "boolean",
+          "value": true
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        }
+      ],
+      "topic_id": "topic-1505290483207"
     }
   },
   "autopilot_id": 10000,

@@ -7,7 +7,6 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
 import com.acb.notification.NotificationServiceListenerManager;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.utils.HSLog;
 
