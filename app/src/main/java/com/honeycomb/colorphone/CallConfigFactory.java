@@ -210,7 +210,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             @Override
             public boolean isShowAlertBeforeCallAssistant(String number) {
                 Context context = HSApplication.getContext();
-                if (ModuleUtils.isShareAlertOutsideAppShow(context, phoneNumber)) {
+                if (ModuleUtils.isShareAlertOutsideAppShow(context, number)) {
                     return true;
                 }
                 if (CPSettings.isShowNotificationAccessOutAppGuide(CallConfigFactory.this, context)) {
