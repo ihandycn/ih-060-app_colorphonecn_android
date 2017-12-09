@@ -9,10 +9,11 @@ import android.widget.Toast;
 import com.acb.call.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.ContactDBHelper;
+import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
+import com.ihs.app.analytics.HSAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,10 @@ public class ContactsSelectActivity extends ContactsActivity {
                 c.setSelected(false);
             }
         }
+
+        HSAnalytics.logEvent("Colorphone_SeletContactForTheme_Success",
+                "ThemeName", mTheme.getIdName(),
+                "SelectedContactsNumber", themeEntries.size() + "");
 
         if (!themeEntries.isEmpty()) {
             ContactManager.getInstance().markDataChanged();

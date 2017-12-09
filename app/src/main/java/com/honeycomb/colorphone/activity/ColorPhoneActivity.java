@@ -414,6 +414,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 break;
             case R.id.settings_contacts:
                 ContactsActivity.startEdit(this);
+                HSAnalytics.logEvent("Colorphone_Settings_ContactTheme_Clicked");
                 break;
             case R.id.settings_about:
                 AboutActivity.start(this);

@@ -12,13 +12,14 @@ import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
+import com.ihs.app.analytics.HSAnalytics;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * TODO Activity销毁 状态保存和恢复
+ * Contact edit
  */
 
 public class ContactsEditActivity extends ContactsActivity {
@@ -78,6 +79,7 @@ public class ContactsEditActivity extends ContactsActivity {
                 getContactAdapter().notifyItemRemoved(pos);
             }
         }
+        HSAnalytics.logEvent("Colorphone_Settings_ContactTheme_DeletedContactSuc");
 
 
         // TODO progress bar ？

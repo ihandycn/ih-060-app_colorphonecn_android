@@ -311,6 +311,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             @Override
             public void onClick(View v) {
                 ContactsActivity.startSelect(mActivity, mTheme);
+                HSAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
             }
         });
         bottomBtnTransY = getTransBottomLayout().getTranslationY();
