@@ -29,6 +29,10 @@ public class ContactUtils {
         return AlphabeticIndexCompat.getInstance().getSectionName(target);
     }
 
+    public static boolean isSectionNameMiscOrDigit(String sectionName) {
+        return AlphabeticIndexCompat.getInstance().isSectionNameMiscOrDigit(sectionName);
+    }
+
     /**
      * Compares two titles with the same return value semantics as Comparator.
      */

@@ -19,10 +19,15 @@ public class AlphabeticIndexCompat {
     private static final String TAG = "AlphabeticIndexCompat";
 
     private static final String MID_DOT = "...";
+    private static final String DIGIT_LABEL = "#";
     private final BaseIndex mBaseIndex;
     private final String mDefaultMiscLabel;
 
     private final HashMap<CharSequence, String> mCachedSectionNames = new HashMap<>();
+
+    public boolean isSectionNameMiscOrDigit(String sectionName) {
+        return MID_DOT.equals(sectionName) || DIGIT_LABEL.equals(sectionName) || mDefaultMiscLabel.equals(mDefaultMiscLabel);
+    }
 
     private static final class SingletonHolder {
         static final AlphabeticIndexCompat sInstance = new AlphabeticIndexCompat(HSApplication.getContext());
@@ -86,7 +91,7 @@ public class AlphabeticIndexCompat {
             boolean startsWithDigit = Character.isDigit(c);
             if (startsWithDigit) {
                 // Digit section
-                return "#";
+                return DIGIT_LABEL;
             } else {
                 boolean startsWithLetter = Character.isLetter(c);
                 if (startsWithLetter) {

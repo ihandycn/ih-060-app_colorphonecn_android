@@ -20,6 +20,7 @@ import com.ihs.commons.utils.HSLog;
 
 import java.util.List;
 
+import static com.flurry.sdk.nr.d;
 
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder>
@@ -139,11 +140,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         } else {
             holder.themeName.setText("");
         }
-        holder.avater.setTitleText(getSectionName(position));
         if (inSelectMode) {
+            holder.itemView.setClickable(true);
             holder.checkBox.setVisibility(View.VISIBLE);
             holder.checkBox.setEnabled(true);
         } else {
+            holder.itemView.setClickable(false);
             holder.checkBox.setVisibility(View.INVISIBLE);
             holder.checkBox.setEnabled(false);
         }
@@ -155,8 +157,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
                     .asBitmap()
                     .load(photoUri)
                     .into(holder.avater);
+        } if (!ContactUtils.isSectionNameMiscOrDigit(getSectionName(position))) {
+            holder.avater.setTitleText(getSectionName(position));
         } else {
-            holder.avater.setImageDrawable(null);
+            holder.avater.setImageResource(R.drawable.contact_defualt_photo);
         }
 
         int randomHash = Math.abs(person.getRawNumber().hashCode());

@@ -65,6 +65,8 @@
             android:layout_width="match_parent"
             app:fastScrollPopupTextSize="40dp"
             app:fastScrollPopupBackgroundSize="64dp"
+            app:fastScrollPopupTextColor="#ff303030"
+            app:fastScrollPopupBgColor="#ffffcc00"
             android:layout_height="match_parent">
 
         </com.honeycomb.colorphone.fastscroller.FastScrollRecyclerView>
@@ -84,6 +86,64 @@
                 android:background="@drawable/btn_bg_yellow"
                 />
         </android.support.percent.PercentFrameLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:src="@drawable/contact_empty_placeholder"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline"
+                app:layout_constraintRight_toLeftOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:gravity="center"
+                android:textColor="#4c000000"
+                android:textSize="19.3sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:typeface="@string/proxima_nova_regular"
+                android:text="@string/empty_contact_hint" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.3"
+                tools:layout_editor_absoluteX="103dp"
+                tools:layout_editor_absoluteY="75dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.18"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="167dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.7"
+                tools:layout_editor_absoluteX="217dp"
+                tools:layout_editor_absoluteY="75dp" />
+
+        </android.support.constraint.ConstraintLayout>
     </FrameLayout>
 
 </LinearLayout>

@@ -80,19 +80,14 @@ public class ContactsEditActivity extends ContactsActivity {
                 getContactAdapter().notifyItemRemoved(pos);
             }
         }
+
+        if (rootData.isEmpty()) {
+            updateSelectMode(false, true);
+            setEmptyPlaceHolder(true);
+        }
         HSAnalytics.logEvent("Colorphone_Settings_ContactTheme_DeletedContactSuc");
 
-
-        // TODO progress bar ？
-        ContactManager.getInstance().updateDb(themeEntries, new Runnable() {
-            @Override
-            public void run() {
-                if (BuildConfig.DEBUG) {
-                    Toast.makeText(ContactsEditActivity.this, "TEST_delete_success!", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
+        ContactManager.getInstance().updateDb(themeEntries, null);
     }
 
     @Override

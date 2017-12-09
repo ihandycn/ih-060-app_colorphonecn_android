@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
@@ -32,8 +31,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
-
 
 /**
  * Created by sundxing on 17/11/28.
@@ -50,7 +47,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
     private List<SimpleContact> mContacts = new ArrayList<>();
     private ContactAdapter mContactAdapter;
     private RecyclerSectionItemDecoration mSectionItemDecoration;
-    private View mActionLayout;
+    private View mBottomActionLayout;
     private Button mConfirmButton;
     /**
      * Default, list items could be selectable.
@@ -61,6 +58,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
     private int mLayoutTransY;
     private int mLayoutTransX = -CommonUtils.pxFromDp(56f);
     private int mHeaderOffset;
+    private TextView mTopActionView;
 
     public static void startSelect(Context context, Theme theme) {
         Intent starter = new Intent(context, ContactsSelectActivity.class);
@@ -105,8 +103,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
         mFastScrollRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL,
                 false));
-
-        mActionLayout = findViewById(R.id.bottom_action_layout);
+        mBottomActionLayout = findViewById(R.id.bottom_action_layout);
         mConfirmButton = (Button)findViewById(R.id.contact_confirm);
         mConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,8 +112,9 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
             }
         });
         mConfirmButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+        mTopActionView = (TextView)findViewById(R.id.action_bar_op);
         onConfigConfirmButton(mConfirmButton);
-        onConfigActionView((TextView)findViewById(R.id.action_bar_op));
+        onConfigActionView(mTopActionView);
     }
 
     public boolean isSelectable() {
@@ -134,6 +132,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
     protected abstract void onConfigActionView(TextView actionText);
 
     protected void onContactsDataReady(List<SimpleContact> contacts) {
+        setEmptyPlaceHolder(contacts.isEmpty());
         mContacts.clear();
         mContacts.addAll(contacts);
         Collections.sort(mContacts, new Comparator<SimpleContact>() {
@@ -165,6 +164,16 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
         mFastScrollRecyclerView.setAdapter(mContactAdapter);
     }
 
+    protected void setEmptyPlaceHolder(boolean empty) {
+        if (empty) {
+            findViewById(R.id.empty_view).setVisibility(View.VISIBLE);
+            mTopActionView.setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.empty_view).setVisibility(View.GONE);
+            mTopActionView.setVisibility(View.VISIBLE);
+        }
+    }
+
     protected boolean needShowThemeName() {
         return false;
     }
@@ -190,7 +199,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
         }
         mSelectable = selectable;
 
-        mActionLayout.animate()
+        mBottomActionLayout.animate()
                 .translationY(selectable ? 0 : mLayoutTransY)
                 .setDuration(animation ? 300 : 0)
                 .setInterpolator(selectable ? mInter : mFadeInter)

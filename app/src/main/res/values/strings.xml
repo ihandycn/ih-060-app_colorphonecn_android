@@ -62,4 +62,5 @@
     <string name="surprise">Surprise!</string>
     <string name="share_alert_content">Give a friend a surprise! Show your friend the exclusive theme you set for him!</string>
     <string name="share">SHARE</string>
+    <string name="empty_contact_hint">You haven’t set up theme\n for your contacts.</string>
 </resources>
