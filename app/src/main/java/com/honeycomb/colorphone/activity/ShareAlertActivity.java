@@ -180,6 +180,7 @@ public class ShareAlertActivity extends Activity {
         inCallActionView.setEnabled(false);
 
         themePreviewWindow.updateThemeLayout(themeType);
+        themePreviewWindow.setPreviewType(ThemePreviewWindow.PreviewType.PREVIEW);
         CircleImageView portrait = themePreviewWindow.findViewById(com.acb.call.R.id.caller_avatar);
         if (!isInsideApp) {
             TextView firstLineTextView = themePreviewWindow.findViewById(com.acb.call.R.id.first_line);

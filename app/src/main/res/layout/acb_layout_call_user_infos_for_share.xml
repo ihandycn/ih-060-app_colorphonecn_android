@@ -7,12 +7,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:background="#222222">
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="20" />
+        android:layout_weight="24" />
 
     <android.support.percent.PercentFrameLayout
         android:layout_width="match_parent"
@@ -25,22 +26,21 @@
             android:scaleType="centerCrop"
             android:src="@drawable/acb_phone_default_caller_avatar"
             app:layout_aspectRatio="100%"
-            app:layout_widthPercent="32%" />
+            app:layout_widthPercent="25%" />
     </android.support.percent.PercentFrameLayout>
-
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="8" />
+        android:layout_weight="15" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
-        android:id="@+id/caller_name"
+        android:id="@+id/first_line"
         style="@style/TextInCall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/acb_phone_caller_default_name"
-        android:textSize="30sp"
+        android:textSize="32dp"
         app:typeface="@string/proxima_nova_semibold"/>
 
     <android.support.v4.widget.Space
@@ -49,18 +49,16 @@
         android:layout_weight="3" />
 
     <TextView
-        android:id="@+id/caller_number"
+        android:id="@+id/second_line"
         style="@style/TextInCall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/acb_phone_caller_default_number"
-        android:textSize="24sp"
-        />
-
+        android:textSize="24dp" />
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="50" />
+        android:layout_weight="366" />
 
 </LinearLayout>

@@ -1,8 +1,7 @@
 package com.honeycomb.colorphone;
 
-import android.graphics.Typeface;
-
 import android.content.Context;
+import android.graphics.Typeface;
 
 import com.acb.call.CPSettings;
 import com.acb.call.customize.AcbCallFactoryImpl;
@@ -12,13 +11,11 @@ import com.acb.call.themes.Type;
 import com.acb.call.views.CallIdleAlert;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.MessageCenterUtils;
-import com.honeycomb.colorphone.contact.ContactManager;
 import com.colorphone.lock.util.CommonUtils;
-import com.honeycomb.colorphone.activity.ShareAlertActivity;
+import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
-import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
