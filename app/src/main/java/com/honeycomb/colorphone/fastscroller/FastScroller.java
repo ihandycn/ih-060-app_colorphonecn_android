@@ -26,6 +26,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
@@ -51,11 +52,14 @@ public class FastScroller {
 
     private int mThumbHeight;
     private int mWidth;
+    private int mTrackWidth;
+    private int mThumbWidth;
 
     private Paint mThumb;
     private Paint mTrack;
 
     private Rect mTmpRect = new Rect();
+    private RectF mThumbRect = new RectF();
     private Rect mInvalidateRect = new Rect();
     private Rect mInvalidateTmpRect = new Rect();
 
@@ -91,8 +95,10 @@ public class FastScroller {
         mRecyclerView = recyclerView;
         mPopup = new FastScrollPopup(resources, recyclerView);
 
-        mThumbHeight = Utils.toPixels(resources, 48);
-        mWidth = Utils.toPixels(resources, 8);
+        mThumbHeight = Utils.toPixels(resources, 32);
+        mWidth = Utils.toPixels(resources, 12);
+        mTrackWidth = Utils.toPixels(resources, 0.7f);
+        mThumbWidth = Utils.toPixels(resources, 4);
 
         mTouchInset = Utils.toPixels(resources, -24);
 
@@ -227,10 +233,13 @@ public class FastScroller {
         }
 
         //Background
-        canvas.drawRect(mThumbPosition.x + mOffset.x, mThumbHeight / 2 + mOffset.y, mThumbPosition.x + mOffset.x + mWidth, mRecyclerView.getHeight() + mOffset.y - mThumbHeight / 2, mTrack);
+        canvas.drawRect(mThumbPosition.x + mOffset.x + (mWidth - mTrackWidth) / 2, mThumbHeight / 2 + mOffset.y,
+                mThumbPosition.x + mOffset.x + (mWidth + mTrackWidth) / 2, mRecyclerView.getHeight() + mOffset.y - mThumbHeight / 2, mTrack);
 
         //Handle
-        canvas.drawRect(mThumbPosition.x + mOffset.x, mThumbPosition.y + mOffset.y, mThumbPosition.x + mOffset.x + mWidth, mThumbPosition.y + mOffset.y + mThumbHeight, mThumb);
+        mThumbRect.set(mThumbPosition.x + mOffset.x + (mWidth - mThumbWidth) / 2, mThumbPosition.y + mOffset.y,
+                mThumbPosition.x + mOffset.x + (mWidth + mThumbWidth) / 2, mThumbPosition.y + mOffset.y + mThumbHeight);
+        canvas.drawRoundRect(mThumbRect, mThumbWidth / 2, mThumbWidth/ 2 , mThumb);
 
         //Popup
         mPopup.draw(canvas);
