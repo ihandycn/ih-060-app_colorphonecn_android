@@ -26,7 +26,7 @@ public class AlphabeticIndexCompat {
     private final HashMap<CharSequence, String> mCachedSectionNames = new HashMap<>();
 
     public boolean isSectionNameMiscOrDigit(String sectionName) {
-        return MID_DOT.equals(sectionName) || DIGIT_LABEL.equals(sectionName) || mDefaultMiscLabel.equals(mDefaultMiscLabel);
+        return MID_DOT.equals(sectionName) || DIGIT_LABEL.equals(sectionName) || mDefaultMiscLabel.equals(sectionName);
     }
 
     private static final class SingletonHolder {

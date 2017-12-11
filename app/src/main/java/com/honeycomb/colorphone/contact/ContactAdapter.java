@@ -168,6 +168,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             holder.avater.setTitleText(getSectionName(position));
             holder.avater.setImageDrawable(null);
         } else {
+            holder.avater.setTitleText("");
             holder.avater.setImageResource(R.drawable.contact_defualt_photo);
         }
 
