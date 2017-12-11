@@ -39,7 +39,7 @@
         style="@style/TextInCall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ava"
+        android:text="@string/share_default_name"
         android:textSize="32dp"
         app:typeface="@string/proxima_nova_semibold"/>
 
@@ -53,7 +53,7 @@
         style="@style/TextInCall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="xxx-xxx-xxxx"
+        android:text="@string/share_default_number"
         android:textSize="24dp" />
 
     <android.support.v4.widget.Space

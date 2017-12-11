@@ -63,4 +63,7 @@
     <string name="share_alert_content">Give a friend a surprise! Show your friend the exclusive theme you set for him!</string>
     <string name="share">SHARE</string>
     <string name="empty_contact_hint">You haven’t set up theme\n for your contacts.</string>
+
+    <string name="share_default_name" translatable="false">Ava</string>
+    <string name="share_default_number" translatable="false">xxx-xxx-xxxx</string>
 </resources>

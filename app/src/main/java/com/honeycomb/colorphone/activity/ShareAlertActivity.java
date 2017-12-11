@@ -8,12 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -206,6 +206,17 @@ public class ShareAlertActivity extends Activity {
         themePreviewWindow.updateThemeLayout(themeType);
         themePreviewWindow.setPreviewType(ThemePreviewWindow.PreviewType.PREVIEW);
 
+        final TextView firstLineTextView = themePreviewWindow.findViewById(R.id.first_line);
+        final TextView secondLineTextView = themePreviewWindow.findViewById(R.id.second_line);
+        firstLineTextView.post(new Runnable() {
+            @Override
+            public void run() {
+
+                firstLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
+                secondLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+            }
+        });
+
         editUserView(themePreviewWindow);
     }
 
@@ -215,9 +226,10 @@ public class ShareAlertActivity extends Activity {
             setPortraitViewGone(portrait, root);
             return;
         }
+
+        TextView firstLineTextView = root.findViewById(R.id.first_line);
+        TextView secondLineTextView = root.findViewById(R.id.second_line);
         if (!isInsideApp || userInfo.getPhoneNumber() != null) {
-            TextView firstLineTextView = root.findViewById(com.acb.call.R.id.first_line);
-            TextView secondLineTextView = root.findViewById(com.acb.call.R.id.second_line);
             if (!TextUtils.isEmpty(userInfo.getPhotoUri())) {
                 portrait.setImageURI(Uri.parse(userInfo.getPhotoUri()));
             } else {
@@ -228,8 +240,10 @@ public class ShareAlertActivity extends Activity {
                 firstLineTextView.setText(userInfo.getCallName());
                 isContactInApp = true;
             }
-            secondLineTextView.setText(userInfo.getPhoneNumber());
+            secondLineTextView.setText(PhoneNumberUtils.formatNumber(userInfo.getPhoneNumber()));
         } else {
+            firstLineTextView.setText(R.string.share_default_name);
+            secondLineTextView.setText(R.string.share_default_number);
             setPortraitViewGone(portrait, root);
         }
     }
