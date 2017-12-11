@@ -1,7 +1,9 @@
 package com.honeycomb.colorphone.contact;
 
+import android.graphics.Bitmap;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,6 +14,10 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.acb.call.themes.Type;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.fastscroller.FastScrollRecyclerView;
@@ -132,7 +138,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         SimpleContact person = people.get(position);
         holder.fullName.setText(person.getName());
         if (themeVisible) {
@@ -156,9 +162,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
             GlideApp.with(holder.avater)
                     .asBitmap()
                     .load(photoUri)
+                    .error(R.drawable.contact_defualt_photo)
                     .into(holder.avater);
-        } if (!ContactUtils.isSectionNameMiscOrDigit(getSectionName(position))) {
+        } else if (!ContactUtils.isSectionNameMiscOrDigit(getSectionName(position))) {
             holder.avater.setTitleText(getSectionName(position));
+            holder.avater.setImageDrawable(null);
         } else {
             holder.avater.setImageResource(R.drawable.contact_defualt_photo);
         }
