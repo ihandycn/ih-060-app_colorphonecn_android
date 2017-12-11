@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.activity;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -41,6 +42,7 @@ import com.ihs.app.analytics.HSAnalytics;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 
 public class ShareAlertActivity extends Activity {
@@ -166,9 +168,6 @@ public class ShareAlertActivity extends Activity {
         super.onResume();
         themePreviewWindow.playAnimation(themeType);
         inCallActionView.setTheme(themeType);
-        if (themePreviewWindow.getImageCover() != null) {
-            themePreviewWindow.getImageCover().setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -194,19 +193,27 @@ public class ShareAlertActivity extends Activity {
         inCallActionView = findViewById(R.id.card_in_call_action_view);
         inCallActionView.setEnabled(false);
 
-        int themeID = AcbCallManager.getInstance().getAcbCallFactory().getIncomingReceiverConfig().getThemeIdByPhoneNumber(userInfo.getPhoneNumber());
+        int themeID = AcbCallManager.getInstance().getAcbCallFactory().getIncomingReceiverConfig().getThemeIdByPhoneNumber(userInfo == null ? null : userInfo.getPhoneNumber());
         themeType = com.acb.utils.Utils.getTypeByThemeId(themeID);
         themePreviewWindow.updateThemeLayout(themeType);
         themePreviewWindow.setPreviewType(ThemePreviewWindow.PreviewType.PREVIEW);
-        CircleImageView portrait = themePreviewWindow.findViewById(com.acb.call.R.id.caller_avatar);
 
+        editUserView(themePreviewWindow);
+    }
+
+    private void editUserView(View root) {
+        CircleImageView portrait = root.findViewById(com.acb.call.R.id.caller_avatar);
+        if (userInfo == null) {
+            setPortraitViewGone(portrait, root);
+            return;
+        }
         if (!isInsideApp || userInfo.getPhoneNumber() != null) {
-            TextView firstLineTextView = themePreviewWindow.findViewById(com.acb.call.R.id.first_line);
-            TextView secondLineTextView = themePreviewWindow.findViewById(com.acb.call.R.id.second_line);
+            TextView firstLineTextView = root.findViewById(com.acb.call.R.id.first_line);
+            TextView secondLineTextView = root.findViewById(com.acb.call.R.id.second_line);
             if (!TextUtils.isEmpty(userInfo.getPhotoUri())) {
                 portrait.setImageURI(Uri.parse(userInfo.getPhotoUri()));
             } else {
-                setPortraitViewGone(portrait);
+                setPortraitViewGone(portrait, root);
             }
 
             if (!TextUtils.isEmpty(userInfo.getCallName())) {
@@ -215,14 +222,14 @@ public class ShareAlertActivity extends Activity {
             }
             secondLineTextView.setText(userInfo.getPhoneNumber());
         } else {
-            setPortraitViewGone(portrait);
+            setPortraitViewGone(portrait, root);
         }
     }
 
-    private void setPortraitViewGone(ImageView portrait) {
+    private void setPortraitViewGone(ImageView portrait, View root) {
         portrait.setVisibility(View.GONE);
         if (themeType.getValue() == Type.TECH) {
-            themePreviewWindow.findViewById(R.id.caller_avatar_container).setVisibility(View.GONE);
+            root.findViewById(R.id.caller_avatar_container).setVisibility(View.GONE);
         }
     }
 
@@ -266,23 +273,7 @@ public class ShareAlertActivity extends Activity {
     }
 
     private void share(View cardView) {
-        ImageView portrait = cardView.findViewById(R.id.caller_avatar);
-        if (!isInsideApp) {
-            TextView firstLine = cardView.findViewById(R.id.first_line);
-            TextView secondLine = cardView.findViewById(R.id.second_line);
-            if (userInfo.getPhotoUri() != null) {
-                portrait.setImageURI(Uri.parse(userInfo.getPhotoUri()));
-            } else {
-                portrait.setVisibility(View.GONE);
-            }
-
-            if (TextUtils.isEmpty(userInfo.getCallName())) {
-                firstLine.setText(userInfo.getCallName());
-            }
-            secondLine.setText(userInfo.getPhoneNumber());
-        } else {
-            portrait.setVisibility(View.GONE);
-        }
+        editUserView(cardView);
         Bitmap bitmap = getScreenViewBitmap(cardView);
         Canvas c = new Canvas(bitmap);
 
@@ -306,7 +297,7 @@ public class ShareAlertActivity extends Activity {
                 share.setType("image/*");
                 share.putExtra(Intent.EXTRA_TEXT,
                         isInsideApp ? ShareAlertAutoPilotUtils.getInsideAppShareText()
-                                    : ShareAlertAutoPilotUtils.getOutsideAppShareText());
+                                : ShareAlertAutoPilotUtils.getOutsideAppShareText());
                 share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(shareFile));
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -322,7 +313,7 @@ public class ShareAlertActivity extends Activity {
                     startActivityForResult(chooser, REQUEST_SHARE);
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException | ActivityNotFoundException e) {
             e.printStackTrace();
         }
         finish();
@@ -386,12 +377,12 @@ public class ShareAlertActivity extends Activity {
         getBitmap(themeType.getAcceptIcon(), 280, 280, new BitmapFetcher() {
             @Override
             public void onResourceReady(Bitmap resource) {
-                ImageView acceptCall =  root.findViewById(R.id.call_accept);
+                ImageView acceptCall = root.findViewById(R.id.call_accept);
                 acceptCall.setImageBitmap(resource);
                 getBitmap(themeType.getRejectIcon(), 280, 280, new BitmapFetcher() {
                     @Override
                     public void onResourceReady(Bitmap resource) {
-                        ImageView rejectCall =  root.findViewById(R.id.call_reject);
+                        ImageView rejectCall = root.findViewById(R.id.call_reject);
                         rejectCall.setImageBitmap(resource);
                         bitmapFetcher.onResourceReady(resource);
                     }
