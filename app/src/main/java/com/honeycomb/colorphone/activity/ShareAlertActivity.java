@@ -8,19 +8,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.call.constant.CPConst;
 import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.LEDAnimationView;
 import com.acb.call.themes.Type;
@@ -37,6 +38,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.ShareReceiver;
 import com.honeycomb.colorphone.util.ShareAlertAutoPilotUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.FixRatioPreviewWindow;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.analytics.HSAnalytics;
 
@@ -195,6 +197,12 @@ public class ShareAlertActivity extends Activity {
 
         int themeID = AcbCallManager.getInstance().getAcbCallFactory().getIncomingReceiverConfig().getThemeIdByPhoneNumber(userInfo == null ? null : userInfo.getPhoneNumber());
         themeType = com.acb.utils.Utils.getTypeByThemeId(themeID);
+
+        FixRatioPreviewWindow cardView = findViewById(R.id.card_view);
+        cardView.setAspectRatioAndInvalidate(0.6521f);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cardView.setTranslationZ(3f);
+        }
         themePreviewWindow.updateThemeLayout(themeType);
         themePreviewWindow.setPreviewType(ThemePreviewWindow.PreviewType.PREVIEW);
 

@@ -25,12 +25,12 @@ public class ShareAlertAutoPilotUtils {
         return (long) AutopilotConfig.getDoubleToTestNow(SHARE_ALERT_TOPIC_ID, "inapp_share_alert_show_interval", 0) * DateUtils.DAY_IN_MILLIS;
     }
 
-    public static int getInsideAppShareAlerShowMaxTime() {
+    public static int getInsideAppShareAlertShowMaxTime() {
         return (int) AutopilotConfig.getDoubleToTestNow(SHARE_ALERT_TOPIC_ID, "inapp_share_alert_show_max_time", 0);
     }
 
     public static String getInsideAppShareText() {
-        return AutopilotConfig.getStringToTestNow(SHARE_ALERT_TOPIC_ID, "inapp_share_text", "error");
+        return AutopilotConfig.getStringToTestNow(SHARE_ALERT_TOPIC_ID, "inapp_share_text", "error").replace("\\n", "\n");
     }
 
     public static String getOutsideAppShareBtnText() {
@@ -70,6 +70,6 @@ public class ShareAlertAutoPilotUtils {
     }
 
     public static String getOutsideAppShareText() {
-        return AutopilotConfig.getStringToTestNow(SHARE_ALERT_TOPIC_ID, "outapp_share_text", "error");
+        return AutopilotConfig.getStringToTestNow(SHARE_ALERT_TOPIC_ID, "outapp_share_text", "error").replace("\\n", "\n");
     }
 }

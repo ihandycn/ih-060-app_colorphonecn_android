@@ -38,12 +38,9 @@
                 layout="@layout/card_layout_preview"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginBottom="7dp"
+                android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
                 app:layout_widthPercent="45%"
-                app:layout_aspectRatio="64%"
-                android:src="@drawable/drawer_icon"
                 />
         </android.support.percent.PercentFrameLayout>
 
@@ -105,7 +102,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4.6"/>
+            android:layout_weight="5.3"/>
     </LinearLayout>
 
     <ImageButton

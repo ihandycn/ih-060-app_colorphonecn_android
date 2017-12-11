@@ -4,9 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.CallLog;
 import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.acb.autopilot.AutopilotConfig;
@@ -15,11 +13,6 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
-import com.ihs.app.framework.inner.SessionMgr;
-import com.ihs.commons.utils.HSPreferenceHelper;
-
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -80,7 +73,7 @@ public class ModuleUtils {
         PreferenceHelper helper = PreferenceHelper.get(ShareAlertActivity.PREFS_FILE);
 
         if (helper.getInt(ShareAlertActivity.SHARE_ALERT_IN_APP_SHOW_COUNT, 0)
-                >= ShareAlertAutoPilotUtils.getInsideAppShareAlerShowMaxTime()) {
+                >= ShareAlertAutoPilotUtils.getInsideAppShareAlertShowMaxTime()) {
             return false;
         }
 
