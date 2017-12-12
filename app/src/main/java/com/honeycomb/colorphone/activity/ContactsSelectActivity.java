@@ -65,8 +65,9 @@ public class ContactsSelectActivity extends ContactsActivity {
                     action = ContactDBHelper.Action.UPDATE;
                 }
                 c.setThemeId(mTheme.getId());
-                List<ThemeEntry> entries = ThemeEntry.valueOf(c, action);
-                themeEntries.addAll(entries);
+                ThemeEntry entry = ThemeEntry.valueOf(c);
+                entry.mAction = action;
+                themeEntries.add(entry);
                 // Clear status
                 c.setSelected(false);
             }
@@ -83,9 +84,15 @@ public class ContactsSelectActivity extends ContactsActivity {
         ContactManager.getInstance().updateDb(themeEntries, new Runnable() {
             @Override
             public void run() {
-                if (themeEntries.size() == 1) {
-                    ThemeEntry themeEntry = themeEntries.get(0);
-                    ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
+
+
+                int size = themeEntries.size();
+                if (size >= 1) {
+                    ShareAlertActivity.UserInfo userInfo = null;
+                    if (size == 1) {
+                        ThemeEntry themeEntry = themeEntries.get(0);
+                        userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
+                    }
                     if (GuideApplyThemeActivity.start(ContactsSelectActivity.this, true, userInfo)) {
                         ContactsSelectActivity.this.finish();
                         return;
@@ -95,6 +102,9 @@ public class ContactsSelectActivity extends ContactsActivity {
                 ContactsSelectActivity.this.finish();
             }
         });
+
+
+
     }
 
     @Override

@@ -8,9 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.telephony.PhoneNumberUtils;
@@ -22,6 +24,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.acb.call.CPSettings;
+import com.acb.call.constant.CPConst;
 import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.LEDAnimationView;
 import com.acb.call.themes.Type;
@@ -98,10 +102,12 @@ public class ShareAlertActivity extends Activity {
     private ThemePreviewWindow themePreviewWindow;
     private InCallActionView inCallActionView;
     private UserInfo userInfo;
+    private Handler handler = new Handler();
 
     private Type themeType;
     private boolean isContactInApp;
     private boolean isInsideApp;
+    private boolean isSetForSomeone;
     private boolean v22 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1;
 
     private interface BitmapFetcher {
@@ -157,24 +163,38 @@ public class ShareAlertActivity extends Activity {
         if (isInsideApp) {
             ShareAlertAutoPilotUtils.logInsideAppShareAlertShow();
             HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName",
-                    themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp));
+                    themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
         } else {
             ShareAlertAutoPilotUtils.logOutsideAppShareAlertShow();
             HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName",
-                    themeType.getName(), "v22", String.valueOf(v22));
+                    themeType.getName(), "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        themePreviewWindow.playAnimation(themeType);
-        inCallActionView.setTheme(themeType);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                themePreviewWindow.playAnimation(themeType);
+                inCallActionView.setTheme(themeType);
+            }
+        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        themePreviewWindow.stopAnimations();
+        inCallActionView.stopAnimations();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+        handler = null;
         themePreviewWindow.stopAnimations();
         inCallActionView.stopAnimations();
     }
@@ -211,24 +231,35 @@ public class ShareAlertActivity extends Activity {
         firstLineTextView.post(new Runnable() {
             @Override
             public void run() {
-
                 firstLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
                 secondLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+
             }
         });
 
+       isSetForSomeone = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) != themeID;
         editUserView(themePreviewWindow);
     }
 
     private void editUserView(View root) {
         CircleImageView portrait = root.findViewById(com.acb.call.R.id.caller_avatar);
+        TextView firstLineTextView = root.findViewById(R.id.first_line);
+        TextView secondLineTextView = root.findViewById(R.id.second_line);
+
+
+        float shadowOffset = com.acb.utils.Utils.pxFromDp(2);
+        firstLineTextView.setShadowLayer(shadowOffset, 0, shadowOffset, Color.BLACK);
+        secondLineTextView.setShadowLayer(shadowOffset * 0.5f, 0, shadowOffset * 0.7f, Color.BLACK);
+
+        firstLineTextView.setTypeface(AcbCallManager.getInstance().getAcbCallFactory().getViewConfig().getBondFont());
+        secondLineTextView.setTypeface(AcbCallManager.getInstance().getAcbCallFactory().getViewConfig().getNormalFont());
+
         if (userInfo == null) {
+            firstLineTextView.setText(R.string.share_default_name);
+            secondLineTextView.setText(R.string.share_default_number);
             setPortraitViewGone(portrait, root);
             return;
         }
-
-        TextView firstLineTextView = root.findViewById(R.id.first_line);
-        TextView secondLineTextView = root.findViewById(R.id.second_line);
         if (!isInsideApp || userInfo.getPhoneNumber() != null) {
             if (!TextUtils.isEmpty(userInfo.getPhotoUri())) {
                 portrait.setImageURI(Uri.parse(userInfo.getPhotoUri()));
@@ -242,8 +273,6 @@ public class ShareAlertActivity extends Activity {
             }
             secondLineTextView.setText(PhoneNumberUtils.formatNumber(userInfo.getPhoneNumber()));
         } else {
-            firstLineTextView.setText(R.string.share_default_name);
-            secondLineTextView.setText(R.string.share_default_number);
             setPortraitViewGone(portrait, root);
         }
     }
@@ -285,10 +314,11 @@ public class ShareAlertActivity extends Activity {
                 if (isInsideApp) {
                     ShareAlertAutoPilotUtils.logInsideAppShareAlertClicked();
                     HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName",
-                            themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp));
+                            themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
                 } else {
                     ShareAlertAutoPilotUtils.logOutsideAppShareAlertClicked();
-                    HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(), "v22", String.valueOf(v22));
+                    HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(),
+                            "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
                 }
             }
         });
@@ -326,6 +356,7 @@ public class ShareAlertActivity extends Activity {
                     Intent receiver = new Intent(this, ShareReceiver.class);
                     receiver.putExtra(IS_INSIDE_APP, isInsideApp);
                     receiver.putExtra(ShareReceiver.THEME_NAME, themeType.getName());
+                    receiver.putExtra(ShareReceiver.IS_SET_FOR_SOMEONE, isSetForSomeone);
                     receiver.putExtra(ShareReceiver.IS_CONTACT, isContactInApp);
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(this, REQUEST_SHARE, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
                     Intent chooser = Intent.createChooser(share, getResources().getString(R.string.app_name), pendingIntent.getIntentSender());
@@ -424,7 +455,7 @@ public class ShareAlertActivity extends Activity {
         }
     }
 
-    static File getTempShareDirectory(Context context) {
+    private File getTempShareDirectory(Context context) {
         return new File(context.getExternalFilesDir(null), "ColorPhone");
     }
 
