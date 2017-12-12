@@ -112,11 +112,12 @@ public class NotificationUtils {
         if (SessionMgr.getInstance().getCurrentSessionId() ==
                 HSPreferenceHelper.getDefault().getInt(NotificationConstants.THEME_NOTIFICATION_SESSION_ID, 0)) {
             boolean isNewTheme = HSPreferenceHelper.getDefault().getBoolean(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, false);
+            boolean isMp4Downloaded = HSPreferenceHelper.getDefault().getBoolean(NotificationConstants.THEME_NOTIFICATION_IS_MP4_DOWNLOADED, false);
             if (isNewTheme) {
-                HSAnalytics.logEvent("Colorphone_LocalPush_NewTheme_ThemeApply", "ThemeName", theme.getName());
+                HSAnalytics.logEvent("Colorphone_LocalPush_NewTheme_ThemeApply", "ThemeName", theme.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));
                 NotificationAutoPilotUtils.logNewThemeNotificationApply();
             } else {
-                HSAnalytics.logEvent("Colorphone_LocalPush_OldTheme_ThemeApply", "ThemeName", theme.getName());
+                HSAnalytics.logEvent("Colorphone_LocalPush_OldTheme_ThemeApply", "ThemeName", theme.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));
                 NotificationAutoPilotUtils.logOldThemeNotificationApply();
             }
         }
@@ -371,6 +372,7 @@ public class NotificationUtils {
         HSPreferenceHelper.getDefault().putInt(NotificationConstants.THEME_NOTIFICATION_SESSION_ID, SessionMgr.getInstance().getCurrentSessionId() + 1);
         saveThemeNotificationSent(type);
         HSPreferenceHelper.getDefault().putBoolean(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, isNewTheme);
+        HSPreferenceHelper.getDefault().putBoolean(NotificationConstants.THEME_NOTIFICATION_IS_MP4_DOWNLOADED, isMp4Downloaded);
         if (isNewTheme) {
             HSAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Show",
                     "ThemeName", type.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));

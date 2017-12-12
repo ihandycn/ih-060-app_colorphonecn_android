@@ -13,6 +13,7 @@ import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
+import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.analytics.HSAnalytics;
 
@@ -93,6 +94,7 @@ public class ContactsSelectActivity extends ContactsActivity {
                         ThemeEntry themeEntry = themeEntries.get(0);
                         userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
                     }
+                    NotificationUtils.logThemeAppliedFlurry(mTheme);
                     if (GuideApplyThemeActivity.start(ContactsSelectActivity.this, true, userInfo)) {
                         ContactsSelectActivity.this.finish();
                         return;
