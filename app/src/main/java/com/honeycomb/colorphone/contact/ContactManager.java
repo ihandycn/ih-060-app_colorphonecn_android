@@ -6,8 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
+import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.utils.HSLog;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -100,11 +102,15 @@ public class ContactManager {
                 return false;
             }
 
+            if (BuildConfig.DEBUG) {
+                int count = c.getCount();
+                HSLog.d("Read theme contact count : " + count);
+            }
+
             do {
                 String rawNumber = c.getString(c.getColumnIndex(ThemeEntry.NUMBER));
                 SimpleContact model = findContact(rawNumber, allContacts);
                 if (model != null) {
-                    model.setRawNumber(rawNumber);
                     model.setThemeId(c.getInt(c.getColumnIndex(ThemeEntry.THEME_ID)));
                     Log.d("Read theme contact", model.toString());
                 }
@@ -157,11 +163,29 @@ public class ContactManager {
 
     private SimpleContact findContact(String rawNumber, List<SimpleContact> allContacts) {
         for (SimpleContact contact : allContacts) {
-            if (PhoneNumberUtils.compare(contact.getRawNumber(), rawNumber)) {
+            if (contact.getThemeId() > 0) {
+                continue;
+            }
+            if (isMatchPhoneNumber(contact, rawNumber)) {
                 return contact;
             }
+
         }
         return null;
+    }
+
+    public boolean isMatchPhoneNumber(SimpleContact contact, String rawNumber) {
+        if (PhoneNumberUtils.compare(contact.getRawNumber(), rawNumber)) {
+            return true;
+        } else if (contact.getOtherNumbers() != null) {
+            // Other phone numbers
+            for (String otherNumber : contact.getOtherNumbers()) {
+                if (PhoneNumberUtils.compare(contact.getRawNumber(), otherNumber)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void updateDb(final List<ThemeEntry> themes, Runnable callback){
@@ -226,7 +250,7 @@ public class ContactManager {
 
         int themeId = SimpleContact.INVALID_THEME;
         for (SimpleContact contact : mThemeFilterContacts) {
-            if (PhoneNumberUtils.compare(contact.getRawNumber(), number)) {
+            if (isMatchPhoneNumber(contact, number)) {
                 themeId = contact.getThemeId();
                 break;
             }

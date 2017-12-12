@@ -3,6 +3,9 @@ package com.honeycomb.colorphone.contact;
 import android.content.ContentValues;
 import android.provider.BaseColumns;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by sundxing on 17/12/1.
  */
@@ -16,13 +19,34 @@ public class ThemeEntry extends SimpleContact implements BaseColumns {
 
     public ContactDBHelper.Action mAction;
 
-    public static ThemeEntry valueOf(SimpleContact contact) {
+    public static List<ThemeEntry> valueOf(SimpleContact contact, ContactDBHelper.Action action) {
+        List<ThemeEntry> entries = new ArrayList<>();
         ThemeEntry entry = new ThemeEntry();
         entry.setThemeId(contact.getThemeId());
         entry.setPhotoUri(contact.getPhotoUri());
         entry.setRawNumber(contact.getRawNumber());
         entry.setSelected(contact.isSelected());
         entry.setName(contact.getName());
+        entry.mAction = action;
+        entries.add(entry);
+
+        if (contact.getOtherNumbers() != null) {
+            for (String number : contact.getOtherNumbers()) {
+                ThemeEntry entryOther = entry.clone();
+                entryOther.setRawNumber(number);
+                entries.add(entryOther);
+            }
+        }
+        return entries;
+    }
+
+    public ThemeEntry clone() {
+        ThemeEntry entry = new ThemeEntry();
+        entry.setThemeId(this.getThemeId());
+        entry.setPhotoUri(this.getPhotoUri());
+        entry.setRawNumber(this.getRawNumber());
+        entry.setSelected(this.isSelected());
+        entry.setName(this.getName());
         return entry;
     }
 

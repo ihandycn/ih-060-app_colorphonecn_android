@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.acb.call.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -68,9 +66,8 @@ public class ContactsEditActivity extends ContactsActivity {
             if (c.isSelected()) {
                 int pos = contacts.indexOf(c);
 
-                ThemeEntry entry = ThemeEntry.valueOf(c);
-                entry.mAction = ContactDBHelper.Action.DELETE;
-                themeEntries.add(entry);
+                List<ThemeEntry> entries = ThemeEntry.valueOf(c, ContactDBHelper.Action.DELETE);
+                themeEntries.addAll(entries);
 
                 iterator.remove();
                 rootData.remove(c);

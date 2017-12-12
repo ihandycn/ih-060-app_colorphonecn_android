@@ -10,6 +10,8 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.ihs.commons.utils.HSLog;
+
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -55,7 +57,9 @@ public class ContactUtils {
     @DebugLog
     public static List<SimpleContact> readAllContacts(Context context) {
         String[] projection = new String[]{
-                ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.PHOTO_URI};
+                ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.PHOTO_URI,
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID};
         List<SimpleContact> mContacts = new ArrayList<>();
 
         Cursor cursor = null;
@@ -66,14 +70,16 @@ public class ContactUtils {
                 String thumbnailUri = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
                 String name = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                int contactId = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
 
-                Log.d("Read Contact", "photo uri = " + thumbnailUri + ", name = " + name + ", number = " + number);
+                Log.d("Read Contact", "photo uri = " + thumbnailUri + ", name = " + name + ", number = " + number + ", contactId =" + contactId);
                 if (!TextUtils.isEmpty(number)) {
-                    mContacts.add(new SimpleContact(name, number, thumbnailUri));
+                    addNewContact(mContacts, name, number, thumbnailUri, contactId);
                 }
             }
 
         } catch (Exception e) {
+            HSLog.e("Contact", "log err:" + e.getMessage());
             e.printStackTrace();
         } finally {
             if (cursor != null) {
@@ -82,6 +88,16 @@ public class ContactUtils {
         }
 
         return mContacts;
+    }
+
+    public static void addNewContact(List<SimpleContact> mContacts, String name, String number, String thumbnailUri, int contactId) {
+        for (SimpleContact contact : mContacts) {
+            if (contact.getContactId() == contactId) {
+                contact.addOtherPhoneNumber(number);
+                return;
+            }
+        }
+        mContacts.add(new SimpleContact(name, number, thumbnailUri, contactId));
     }
 
 

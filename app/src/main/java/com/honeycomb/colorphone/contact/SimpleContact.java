@@ -2,26 +2,44 @@ package com.honeycomb.colorphone.contact;
 
 import android.telephony.PhoneNumberUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.R.attr.name;
+
 /**
  * Created by sundxing on 17/11/29.
  */
 
 public class SimpleContact {
     public static final int INVALID_THEME = -1;
+
+    private int mContactId;
     private String mName;
     private String mRawNumber;
     private String mPhotoUri;
     private int mThemeId = INVALID_THEME;
+
+    private List<String> mOtherNumbers;
 
     private boolean mSelected;
 
     public SimpleContact() {
     }
 
-    public SimpleContact(String name, String rawNumber, String photoUri) {
+    public SimpleContact(String name, String rawNumber, String photoUri, int contactId) {
         mName = name;
         mRawNumber = rawNumber;
         mPhotoUri = photoUri;
+        mContactId = contactId;
+    }
+
+    public int getContactId() {
+        return mContactId;
+    }
+
+    public void setContactId(int contactId) {
+        mContactId = contactId;
     }
 
     public String getName() {
@@ -62,6 +80,17 @@ public class SimpleContact {
 
     public void setSelected(boolean selected) {
         mSelected = selected;
+    }
+
+    public void addOtherPhoneNumber(String number) {
+        if (mOtherNumbers == null) {
+            mOtherNumbers = new ArrayList<>(2);
+        }
+        mOtherNumbers.add(number);
+    }
+
+    public List<String> getOtherNumbers() {
+        return mOtherNumbers;
     }
 
     @Override
