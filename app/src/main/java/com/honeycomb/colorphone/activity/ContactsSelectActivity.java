@@ -65,9 +65,9 @@ public class ContactsSelectActivity extends ContactsActivity {
                     action = ContactDBHelper.Action.UPDATE;
                 }
                 c.setThemeId(mTheme.getId());
-                ThemeEntry entry = ThemeEntry.valueOf(c);
-                entry.mAction = action;
-                themeEntries.add(entry);
+                List<ThemeEntry> entries = ThemeEntry.valueOf(c, action);
+                themeEntries.addAll(entries);
+
                 // Clear status
                 c.setSelected(false);
             }
