@@ -79,6 +79,19 @@ public class LockerActivity extends HSAppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mLocker.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mLocker.onPause();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         mLocker.onStop();

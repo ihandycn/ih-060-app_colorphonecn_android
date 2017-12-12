@@ -110,18 +110,18 @@ public class Locker extends LockScreen implements INotificationObserver {
     }
 
     public void onStart() {
-
         // ======== onStart ========
         if (mLockerAdapter.lockerMainFrame != null) {
             mLockerAdapter.lockerMainFrame.onStart();
         }
+    }
 
+    public void onResume() {
         // ======== onResume ========
         if (mHomeKeyClicked && mLockerAdapter != null && mLockerAdapter.lockerMainFrame != null) {
             mHomeKeyClicked = false;
             mLockerAdapter.lockerMainFrame.closeDrawer();
         }
-
     }
 
     private void initLockerWallpaper() {
@@ -138,12 +138,6 @@ public class Locker extends LockScreen implements INotificationObserver {
 
                         @Override
                         public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                            mLockerWallpaper.setImageResource(R.drawable.wallpaper_locker);
-                            HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
-                        }
-
-                        @Override
-                        public void onLoadCleared(Drawable placeholder) {
                             mLockerWallpaper.setImageResource(R.drawable.wallpaper_locker);
                             HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_REFRESH_BLUR_WALLPAPER);
                         }
@@ -234,12 +228,14 @@ public class Locker extends LockScreen implements INotificationObserver {
         mIsDestroyed = true;
     }
 
-    public void onStop() {
+    public void onPause() {
         // ======== onPause ========
         if (mLockerAdapter.lockerMainFrame != null) {
             mLockerAdapter.lockerMainFrame.onPause();
         }
+    }
 
+    public void onStop() {
         // ======== onStop ========
         if (mLockerAdapter.lockerMainFrame != null) {
             mLockerAdapter.lockerMainFrame.onStop();
