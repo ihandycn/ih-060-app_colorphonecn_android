@@ -85,6 +85,7 @@
                 android:layout_height="44dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
+                android:elevation="6dp"
                 android:background="@drawable/btn_bg_yellow"
                 />
         </android.support.percent.PercentFrameLayout>
