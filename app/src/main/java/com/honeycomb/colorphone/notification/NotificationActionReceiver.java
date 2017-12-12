@@ -1,9 +1,13 @@
 package com.honeycomb.colorphone.notification;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.ihs.commons.utils.HSLog;
 
 import com.acb.call.themes.Type;
@@ -28,7 +32,7 @@ public class NotificationActionReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         int id = intent.getIntExtra(NotificationConstants.THEME_NOTIFICATION_KEY, -1);
         if (id != NotificationConstants.THEME_NOTIFICATION_ID) {
-           return;
+            return;
         }
         if (action == null) {
             return;
@@ -41,6 +45,16 @@ public class NotificationActionReceiver extends BroadcastReceiver {
 
         if (action.equals(NotificationConstants.THEME_NOTIFICATION_CLICK_ACTION)) {
             HSLog.d("NotificationUtils", "receive click action");
+
+            Intent parentActivityIntent = new Intent(context, ColorPhoneActivity.class);
+            parentActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            Intent themePreviewIntent = new Intent(context, ThemePreviewActivity.class);
+            themePreviewIntent.putExtra("position", index);
+            themePreviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            Intent[] intents = {parentActivityIntent, themePreviewIntent};
+            context.startActivities(intents);
 
             ThemePreviewActivity.start(HSApplication.getContext(), index);
             if (isNewTheme) {
