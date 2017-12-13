@@ -42,4 +42,13 @@
   <string name="sms_assistant">Assistant des SMS</string>
   <string name="sms_assistant_hint">L\'assistant des SMS vous rappellera les nouveaux messages (peut contenir des publicités)</string>
   <string name="call_assistant_hint">L\'assistant d\'appel vous rappellera les appels manqués (peut contenir des publicités)</string>
+
+  <string name="theme_set_for_all">CONFIGURER POUR TOUS</string>
+  <string name="theme_set_for_one">Configurer pour quelqu\'un</string>
+  <string name="contact_select_hint">Appliquer le thème « %1$s » au(x) contact(s) sélectionné(s)</string>
+  <string name="contact_theme">Thème du contact</string>
+
+  <string name="edit">Modifier</string>
+  <string name="cancel">Annuler</string>
+  <string name="delete">SUPPRIMER</string>
 </resources>

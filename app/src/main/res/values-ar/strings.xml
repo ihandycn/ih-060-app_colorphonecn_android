@@ -36,4 +36,15 @@
     <string name="sms_assistant">مساعد الرسائل القصيرة</string>
     <string name="sms_assistant_hint">يذكرك مساعد الرسائل القصيرة بالرسائل الجديدة (قد يتضمن إعلانات).</string>
     <string name="call_assistant_hint">يذكرك مساعد المكالمات بالمكالمات الفائتة (قد يتضمن إعلانات).</string>
+
+
+    <string name="theme_set_for_all">التعيين للكل</string>
+    <string name="theme_set_for_one">التعيين للبعض</string>
+    <string name="contact_select_hint">تطبيق التصميم \'%1$s\' لجهات الاتصال المحددة</string>
+    <string name="contact_theme">تصميم جهة اتصال</string>
+
+    <string name="edit">تحرير</string>
+    <string name="cancel">إلغاء</string>
+    <string name="delete">حذف</string>
+
 </resources>

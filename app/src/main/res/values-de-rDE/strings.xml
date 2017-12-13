@@ -43,4 +43,13 @@
   <string name="sms_assistant">SMS-Assistent</string>
   <string name="sms_assistant_hint">Der SMS-Assistent erinnert Sie an neue Nachrichten (Kann Werbung enthalten)</string>
   <string name="call_assistant_hint">Der Anrufassistent erinnert Sie an verpasste Anrufe (Kann Werbung enthalten)</string>
+
+  <string name="theme_set_for_all">FÜR ALLE FESTLEGEN</string>
+  <string name="theme_set_for_one">Für 1 Person festlegen</string>
+  <string name="contact_select_hint">Motiv „%1$s“ auf ausgewählte Kontakte anwenden</string>
+  <string name="contact_theme">Kontaktmotiv</string>
+
+  <string name="edit">Bearbeiten</string>
+  <string name="cancel">Abbrechen</string>
+  <string name="delete">LÖSCHEN</string>
 </resources>

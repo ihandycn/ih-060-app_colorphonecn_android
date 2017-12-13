@@ -44,4 +44,13 @@
   <string name="sms_assistant">SMS-assistent</string>
   <string name="sms_assistant_hint">SMS-assistent herinnert je aan nieuwe berichten (Kan advertenties bevatten)</string>
   <string name="call_assistant_hint">Oproepassistent herinnert je aan gemiste oproepen (Kan advertenties bevatten)</string>
+
+  <string name="theme_set_for_all">VOOR ALLES INSTELLEN</string>
+  <string name="theme_set_for_one">Voor iemand instellen</string>
+  <string name="contact_select_hint">Thema \'%1$s\' toepassen op geselecteerde contact(en)</string>
+  <string name="contact_theme">Thema van contact</string>
+
+  <string name="edit">Bewerken</string>
+  <string name="cancel">Annuleren</string>
+  <string name="delete">VERWIJDEREN</string>
 </resources>

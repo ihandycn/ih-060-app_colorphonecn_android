@@ -41,4 +41,21 @@
   <string name="sms_assistant">SMS Asistanı</string>
   <string name="sms_assistant_hint">SMS Asistanı size yeni mesajları hatırlatır (Reklam içerebilir)</string>
   <string name="call_assistant_hint">Çağrı Asistanı size cevapsız aramaları hatırlatır (Reklam içerebilir)</string>
+
+  <string name="theme_set_for_all">TÜMÜ İÇİN AYARLA</string>
+  <string name="theme_set_for_one">Biri için Ayarla</string>
+  <string name="contact_select_hint">Seçili kişi(ler) için \'%1$s\' temasını uygula</string>
+  <string name="contact_theme">Kişi Teması</string>
+
+  <string name="edit">Düzenle</string>
+  <string name="cancel">İptal Et</string>
+  <string name="delete">SİL</string>
+
+
+
+
+
+
+
+
 </resources>
