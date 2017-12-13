@@ -54,8 +54,13 @@ public class HSPermanentUtils {
     public static void startKeepAlive(boolean guardByAccountSync, boolean guardByNativeProcess, String uninstallFeedbackUrl,
                                       PermanentServiceListener listener) {
         enableReceiver(true);
-        Intent serviceIntent = new Intent(HSApplication.getContext(), PermanentService.class);
-        HSApplication.getContext().startService(serviceIntent);
+        try {
+            Intent serviceIntent = new Intent(HSApplication.getContext(), PermanentService.class);
+            HSApplication.getContext().startService(serviceIntent);
+        } catch (Exception ignore) {
+            // DeadObjectException
+        }
+
     }
 
 
