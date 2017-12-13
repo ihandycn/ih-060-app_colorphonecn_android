@@ -33,7 +33,6 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
-import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.module.Module;
@@ -161,7 +160,6 @@ public class ColorPhoneApplication extends HSApplication {
             Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
 
             copyMediaFromAssertToFile();
-            preloadThemeResources();
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -240,31 +238,6 @@ public class ColorPhoneApplication extends HSApplication {
                 }
             }
         });
-    }
-
-    private void preloadThemeResources() {
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
-            @Override
-            public void run() {
-                Theme.themes();
-                ConcurrentUtils.postOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        doPreload();
-                    }
-                });
-            }
-        });
-    }
-
-    private void doPreload() {
-        List<Theme> themes = Theme.themes();
-        for (Theme theme : themes) {
-            if (!TextUtils.isEmpty(theme.getPreviewImage())) {
-                HSLog.d("preload", theme.getPreviewImage());
-                Glide.with(this).downloadOnly().load(theme.getPreviewImage()).preload();
-            }
-        }
     }
 
     private void initLockerCharging() {
