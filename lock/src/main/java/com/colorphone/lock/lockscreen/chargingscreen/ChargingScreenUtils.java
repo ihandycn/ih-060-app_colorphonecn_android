@@ -1,5 +1,6 @@
 package com.colorphone.lock.lockscreen.chargingscreen;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -118,10 +119,14 @@ public class ChargingScreenUtils {
             return;
         }
         if (MODE_ACTIVITY) {
-            Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                    | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            HSApplication.getContext().startActivity(intent);
+            try {
+                Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                HSApplication.getContext().startActivity(intent);
+            } catch (ActivityNotFoundException ignore) {
+                // crash #749 some device report.
+            }
         } else {
             FloatWindowController.getInstance().showLockScreen();
         }
