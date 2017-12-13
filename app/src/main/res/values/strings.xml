@@ -59,7 +59,7 @@
     <string name="share_default_number" translatable="false">(616) *** 6789</string>
 
     <string name="contact_theme">Contact Theme</string>
-    <string name="contact_select_hint">Apply '%1$s' theme to selected contact(s)</string>
+    <string name="contact_select_hint">Apply \'%1$s\' theme to selected contact(s)</string>
     <string name="set">SET</string>
     <string name="delete">DELETE</string>
     <string name="cancel">Cancel</string>

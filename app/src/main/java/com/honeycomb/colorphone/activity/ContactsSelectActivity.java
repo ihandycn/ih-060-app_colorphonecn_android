@@ -89,13 +89,10 @@ public class ContactsSelectActivity extends ContactsActivity {
 
                 int size = themeEntries.size();
                 if (size >= 1) {
-                    ShareAlertActivity.UserInfo userInfo = null;
-                    if (size == 1) {
-                        ThemeEntry themeEntry = themeEntries.get(0);
-                        userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
-                    }
+                    ThemeEntry themeEntry = themeEntries.get(0);
+                    ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
                     NotificationUtils.logThemeAppliedFlurry(mTheme);
-                    if (GuideApplyThemeActivity.start(ContactsSelectActivity.this, true, userInfo)) {
+                    if (GuideApplyThemeActivity.start(ContactsSelectActivity.this, true, userInfo, size >= 2)) {
                         ContactsSelectActivity.this.finish();
                         return;
                     }

@@ -97,6 +97,7 @@ public class ShareAlertActivity extends Activity {
 
     public static final String IS_INSIDE_APP = "is inside_app";
     public static final String USER_INFO = "user_info";
+    public static final String SET_FOR_MULTI = "set_for_multi";
     private static final int REQUEST_SHARE = 3;
 
     private ThemePreviewWindow themePreviewWindow;
@@ -114,11 +115,12 @@ public class ShareAlertActivity extends Activity {
         void onResourceReady(Bitmap resource);
     }
 
-    public static void starInsideApp(Activity activity, UserInfo userInfo) {
+    public static void starInsideApp(Activity activity, UserInfo userInfo, boolean setForMulti) {
         Intent intent = new Intent(activity, ShareAlertActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IS_INSIDE_APP, true);
         intent.putExtra(USER_INFO, userInfo);
+        intent.putExtra(SET_FOR_MULTI, setForMulti);
         activity.startActivity(intent);
         activity.overridePendingTransition(0, 0);
         PreferenceHelper helper = PreferenceHelper.get(PREFS_FILE);
@@ -254,7 +256,7 @@ public class ShareAlertActivity extends Activity {
         firstLineTextView.setTypeface(AcbCallManager.getInstance().getAcbCallFactory().getViewConfig().getBondFont());
         secondLineTextView.setTypeface(AcbCallManager.getInstance().getAcbCallFactory().getViewConfig().getNormalFont());
 
-        if (userInfo == null) {
+        if (userInfo == null || getIntent().getBooleanExtra(SET_FOR_MULTI, false)) {
             firstLineTextView.setText(R.string.share_default_name);
             secondLineTextView.setText(R.string.share_default_number);
             setPortraitViewGone(portrait, root);
