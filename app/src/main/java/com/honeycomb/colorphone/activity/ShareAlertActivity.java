@@ -237,7 +237,7 @@ public class ShareAlertActivity extends Activity {
             }
         });
 
-       isSetForSomeone = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) != themeID;
+        isSetForSomeone = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) != themeID;
         editUserView(themePreviewWindow);
     }
 

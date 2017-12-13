@@ -160,6 +160,7 @@
 
         <activity android:name=".activity.ShareAlertActivity"
             android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
             android:taskAffinity=".share"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
