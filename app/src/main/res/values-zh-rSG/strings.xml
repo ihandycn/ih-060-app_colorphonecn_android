@@ -45,7 +45,6 @@
 
   <string name="contact_theme">联系人主题</string>
   <string name="contact_select_hint">为联系人设置"%1$s"主题</string>
-  <string name="set">设置</string>
   <string name="delete">删除</string>
   <string name="cancel">取消</string>
   <string name="edit">编辑</string>

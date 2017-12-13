@@ -51,21 +51,22 @@
     <string name="call_assistant_hint">Call Assistant will remind you of missed calls (May contain ads)</string>
 
 
-    <string name="surprise">Surprise!</string>
-    <string name="share_alert_content">Give a friend a surprise! Show your friend the exclusive theme you set for him!</string>
-    <string name="share">SHARE</string>
+    <string name="surprise" translatable="false">Surprise!</string>
+    <string name="share_alert_content" translatable="false">Give a friend a surprise! Show your friend the exclusive theme you set for him!</string>
+    <string name="share" translatable="false">SHARE</string>
 
     <string name="share_default_name" translatable="false">Ava</string>
     <string name="share_default_number" translatable="false">(616) *** 6789</string>
 
     <string name="contact_theme">Contact Theme</string>
     <string name="contact_select_hint">Apply \'%1$s\' theme to selected contact(s)</string>
-    <string name="set">SET</string>
     <string name="delete">DELETE</string>
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
     <string name="theme_set_for_all">SET FOR ALL</string>
     <string name="theme_set_for_one">Set for Someone</string>
-    <string name="empty_contact_hint">You haven’t set up theme\n for your contacts.</string>
+
+    <string name="set" translatable="false">SET</string>
+    <string name="empty_contact_hint" translatable="false">You haven’t set up theme\n for your contacts.</string>
 
 </resources>

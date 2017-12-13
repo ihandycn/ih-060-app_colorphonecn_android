@@ -60,7 +60,7 @@
         },
         "new_theme_push_enabled": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "push_icon_type": {
           "type": "string",
@@ -68,7 +68,7 @@
         },
         "old_theme_push_min_show_interval_by_open_app": {
           "type": "double",
-          "value": 7
+          "value": 0
         },
         "old_theme_push_detail": {
           "type": "string",
@@ -76,7 +76,7 @@
         },
         "old_theme_push_min_show_interval": {
           "type": "double",
-          "value": 3
+          "value": 1
         },
         "old_theme_push_title": {
           "type": "string",
@@ -138,11 +138,11 @@
         },
         "inapp_share_alert_show_max_time": {
           "type": "double",
-          "value": 5
+          "value": 50
         },
         "outapp_share_alert_show_interval": {
           "type": "double",
-          "value": 8
+          "value": 0
         },
         "outapp_share_alert_detail": {
           "type": "string",
@@ -158,11 +158,11 @@
         },
         "inapp_share_alert_show_interval": {
           "type": "double",
-          "value": 1
+          "value": 0
         },
         "outapp_share_alert_show_max_time": {
           "type": "double",
-          "value": 2
+          "value": 20
         },
         "outapp_share_alert_btn_text": {
           "type": "string",
