@@ -59,18 +59,22 @@ public class ContactManager {
 
     public List<SimpleContact> getThemes(boolean onlyThemeSet) {
         if (onlyThemeSet) {
-            if (needFilterTheme || mThemeFilterContacts.isEmpty()) {
-                mThemeFilterContacts.clear();
-                for (SimpleContact c : mAllContacts) {
-                    if (c.getThemeId() != SimpleContact.INVALID_THEME) {
-                        mThemeFilterContacts.add(c);
-                    }
-                }
-                needFilterTheme = false;
-            }
+            updateFilterContactsIfNeeded();
             return mThemeFilterContacts;
         } else {
             return mAllContacts;
+        }
+    }
+
+    private void updateFilterContactsIfNeeded() {
+        if (needFilterTheme || mThemeFilterContacts.isEmpty()) {
+            mThemeFilterContacts.clear();
+            for (SimpleContact c : mAllContacts) {
+                if (c.getThemeId() != SimpleContact.INVALID_THEME) {
+                    mThemeFilterContacts.add(c);
+                }
+            }
+            needFilterTheme = false;
         }
     }
 
@@ -246,6 +250,8 @@ public class ContactManager {
     public int getThemeIdByNumber(String number) {
         if (mThemeFilterContacts.isEmpty()) {
             mThemeFilterContacts.addAll(fetchThemeContacts());
+        } else {
+            updateFilterContactsIfNeeded();
         }
 
         int themeId = SimpleContact.INVALID_THEME;
