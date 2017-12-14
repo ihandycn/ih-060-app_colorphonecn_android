@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -208,6 +209,21 @@ public class ColorPhoneApplication extends HSApplication {
         });
 
         initNotificationAlarm();
+        checkInstalledApps();
+    }
+
+    private void checkInstalledApps() {
+        ConcurrentUtils.postOnSingleThreadExecutor(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    List<ApplicationInfo> apps = getPackageManager().getInstalledApplications(0);
+                    for (ApplicationInfo info : apps) {
+                        PackageList.checkAndLogPackage(info.packageName);
+                    }
+                } catch (Exception ignore) { }
+            }
+        });
     }
 
     private void copyMediaFromAssertToFile() {
