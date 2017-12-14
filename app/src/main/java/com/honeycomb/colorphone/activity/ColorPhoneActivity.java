@@ -236,7 +236,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
         }
-        if (pendingShowRateAlert && SessionMgr.getInstance().getCurrentSessionId() >= 2) {
+        if (pendingShowRateAlert && SessionMgr.getInstance().getCurrentSessionId() >= 3) {
             HSAlertMgr.showRateAlert();
             pendingShowRateAlert = false;
         }
