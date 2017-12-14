@@ -477,6 +477,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mainSwitch.setChecked(true);
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
+            initData();
             mAdapter.notifyDataSetChanged();
         }
     }
