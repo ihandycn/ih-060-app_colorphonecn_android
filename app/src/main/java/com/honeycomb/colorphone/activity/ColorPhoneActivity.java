@@ -65,8 +65,6 @@ import hugo.weaving.DebugLog;
 public class ColorPhoneActivity extends HSAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
 
-    public static final String NOTIFY_WINDOW_INVISIBLE = "notify_window_invisible";
-    public static final String NOTIFY_WINDOW_VISIBLE = "notify_window_visible";
     public static final String PREFS_THEME_APPLY = "theme_apply_array";
     private static final String PREFS_THEME_LIKE = "theme_like_array";
 
@@ -231,7 +229,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_VISIBLE);
+
+        HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedTheme() + "");
+        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedTheme());
+        if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+            ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
+        }
         if (pendingShowRateAlert && SessionMgr.getInstance().getCurrentSessionId() >= 2) {
             HSAlertMgr.showRateAlert();
             pendingShowRateAlert = false;
@@ -256,7 +259,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_INVISIBLE);
+
+        HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedTheme() + "");
+        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedTheme());
+        if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+            ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
+        }
         mRecyclerView.getRecycledViewPool().clear();
     }
 

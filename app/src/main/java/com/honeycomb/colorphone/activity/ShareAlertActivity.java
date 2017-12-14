@@ -103,7 +103,6 @@ public class ShareAlertActivity extends Activity {
     private ThemePreviewWindow themePreviewWindow;
     private InCallActionView inCallActionView;
     private UserInfo userInfo;
-    private Handler handler = new Handler();
 
     private Type themeType;
     private boolean isContactInApp;
@@ -176,27 +175,13 @@ public class ShareAlertActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                themePreviewWindow.playAnimation(themeType);
-                inCallActionView.setTheme(themeType);
-            }
-        });
+        themePreviewWindow.playAnimation(themeType);
+        inCallActionView.setTheme(themeType);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        themePreviewWindow.stopAnimations();
-        inCallActionView.stopAnimations();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
-        handler = null;
         themePreviewWindow.stopAnimations();
         inCallActionView.stopAnimations();
     }
