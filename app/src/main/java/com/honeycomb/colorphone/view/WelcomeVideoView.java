@@ -120,21 +120,12 @@ public class WelcomeVideoView extends SurfaceView {
         doPlay();
     }
 
-    private void doPlay() {
-        post(mVideoTask);
+    public void stop() {
+        destroy();
     }
 
-    public void stop() {
-        try {
-            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-                mediaPlayer.prepareAsync();
-            }
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (IllegalStateException e2) {
-            e2.printStackTrace();
-        }
+    private void doPlay() {
+        post(mVideoTask);
     }
 
     public void destroy() {

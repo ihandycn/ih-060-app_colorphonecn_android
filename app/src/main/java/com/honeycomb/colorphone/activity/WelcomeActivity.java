@@ -67,6 +67,15 @@ public class WelcomeActivity extends Activity {
         super.onDestroy();
     }
 
+    /**
+     * Main activity may use MediaPlayer to play video, we release it here.
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mVidView.stop();
+    }
+
     private void showVideo(WelcomeVideoView playerViewTest) {
         AssetManager assetManager = getAssets();
         try {
