@@ -10,15 +10,12 @@ import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
-import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import hugo.weaving.DebugLog;
-
-import static com.acb.call.constant.CPConst.PREFS_SCREEN_FLASH_THEME_ID;
 
 /**
  * Created by sundxing on 17/12/1.
@@ -187,7 +184,7 @@ public class ContactManager {
         } else if (contact.getOtherNumbers() != null) {
             // Other phone numbers
             for (String otherNumber : contact.getOtherNumbers()) {
-                if (PhoneNumberUtils.compare(contact.getRawNumber(), otherNumber)) {
+                if (PhoneNumberUtils.compare(contact.getRawNumber(), rawNumber)) {
                     return true;
                 }
             }
@@ -251,10 +248,6 @@ public class ContactManager {
      * @return
      */
     public int getThemeIdByNumber(String number) {
-        if (number == null) {
-            return HSPreferenceHelper.getDefault().getInt(PREFS_SCREEN_FLASH_THEME_ID, 1);
-        }
-
         if (mThemeFilterContacts.isEmpty()) {
             mThemeFilterContacts.addAll(fetchThemeContacts());
         } else {

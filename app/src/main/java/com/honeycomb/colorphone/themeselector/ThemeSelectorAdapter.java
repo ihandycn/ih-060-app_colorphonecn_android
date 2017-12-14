@@ -40,7 +40,6 @@ import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
-import com.honeycomb.colorphone.util.ThemeUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -58,7 +57,6 @@ import java.util.ArrayList;
 
 import hugo.weaving.DebugLog;
 
-import static android.R.attr.type;
 import static com.acb.utils.Utils.getTypeByThemeId;
 import static com.honeycomb.colorphone.preview.ThemePreviewView.saveThemeApplys;
 import static com.honeycomb.colorphone.util.Utils.pxFromDp;
