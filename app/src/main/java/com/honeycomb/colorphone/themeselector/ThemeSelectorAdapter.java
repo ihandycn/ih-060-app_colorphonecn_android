@@ -286,7 +286,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             Theme t = data.get(prePos);
             t.setSelected(false);
             notifyItemSelected(prePos, t);
-
         }
         // Reset current.
         Theme selectedTheme = data.get(pos);
@@ -297,8 +296,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void notifyItemSelected(int pos, Theme theme) {
         RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(pos);
-
-        if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+        if (holder == null) {
+            // Item not visible in screen.
+            notifyItemChanged(pos);
+        } else if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).setSelected(theme);
         }
 
