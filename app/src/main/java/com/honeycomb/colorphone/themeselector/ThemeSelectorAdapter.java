@@ -533,7 +533,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void updateTheme(final Theme theme) {
             if (theme.isMedia()) {
                 ImageView targetView = getCoverView(theme);
-                startLoadingScene();
+                if (!theme.isSelected()) {
+                    // Default theme media may load from local storage. Not show loading screen.
+                    startLoadingScene();
+                }
                 GlideApp.with(mContentView).asBitmap()
                         .centerCrop()
                         .placeholder(theme.getThemePreviewDrawable())
