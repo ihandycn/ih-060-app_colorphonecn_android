@@ -51,4 +51,5 @@
   <string name="edit">Modifier</string>
   <string name="cancel">Annuler</string>
   <string name="delete">SUPPRIMER</string>
+  <string name="select_contacts">Sélectionner les contacts</string>
 </resources>

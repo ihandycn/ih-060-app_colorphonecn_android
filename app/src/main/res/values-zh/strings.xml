@@ -50,5 +50,5 @@
   <string name="edit">編輯</string>
   <string name="theme_set_for_all">設定為默認</string>
   <string name="theme_set_for_one">設定給某人</string>
-
+  <string name="select_contacts">選擇聯繫人</string>
 </resources>

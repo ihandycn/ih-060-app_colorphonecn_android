@@ -52,4 +52,6 @@
   <string name="edit">Bearbeiten</string>
   <string name="cancel">Abbrechen</string>
   <string name="delete">LÖSCHEN</string>
+  <string name="select_contacts">Kontakte auswählen</string>
+
 </resources>

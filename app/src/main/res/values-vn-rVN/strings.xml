@@ -50,6 +50,6 @@
   <string name="edit">Chỉnh sửa</string>
   <string name="cancel">Hủy</string>
   <string name="delete">XÓA</string>
-
+  <string name="select_contacts">Chọn Liên hệ</string>
 
 </resources>
