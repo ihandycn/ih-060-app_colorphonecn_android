@@ -42,7 +42,7 @@ public class ContactsSelectActivity extends ContactsActivity {
 
         mTheme = (Theme) getIntent().getSerializableExtra(EXTRA_THEME);
         TextView textViewTitle = findViewById(R.id.nav_title);
-        textViewTitle.setText(R.string.contact_theme);
+        textViewTitle.setText(R.string.select_contacts);
 
         ContactManager.getInstance().register(mCallback);
 
