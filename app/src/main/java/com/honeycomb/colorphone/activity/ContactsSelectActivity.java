@@ -57,8 +57,10 @@ public class ContactsSelectActivity extends ContactsActivity {
 
         final List<ThemeEntry> themeEntries = new ArrayList<>();
 
+        int contactSelectedCount = 0;
         for (SimpleContact c : contacts) {
             if (c.isSelected()) {
+                contactSelectedCount++;
                 ContactDBHelper.Action action = ContactDBHelper.Action.INSERT;
                 if (c.getThemeId() > 0) {
                     action = ContactDBHelper.Action.UPDATE;
@@ -80,17 +82,16 @@ public class ContactsSelectActivity extends ContactsActivity {
             ContactManager.getInstance().markDataChanged();
         }
 
+        final int selectedCount = contactSelectedCount;
         ContactManager.getInstance().updateDb(themeEntries, new Runnable() {
             @Override
             public void run() {
 
-
-                int size = themeEntries.size();
-                if (size >= 1) {
+                if (selectedCount >= 1 && !themeEntries.isEmpty()) {
                     ThemeEntry themeEntry = themeEntries.get(0);
                     ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
                     NotificationUtils.logThemeAppliedFlurry(mTheme);
-                    if (GuideApplyThemeActivity.start(ContactsSelectActivity.this, true, userInfo, size >= 2)) {
+                    if (GuideApplyThemeActivity.start(ContactsSelectActivity.this, true, userInfo, selectedCount >= 2)) {
                         ContactsSelectActivity.this.finish();
                         return;
                     }
