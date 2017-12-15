@@ -32,7 +32,6 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.download.DownloadHolder;
@@ -203,12 +202,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View view) {
                     final int pos = holder.getPositionTag();
-                    final Theme theme = data.get(pos);
-                    ImageView cover = holder.getCoverView(theme);
-                    if (cover.getDrawable() instanceof BitmapDrawable) {
-                        Bitmap bitmap = ((BitmapDrawable) cover.getDrawable()).getBitmap();
-                        ThemePreviewActivity.cacheBitmap = bitmap;
-                    }
                     ThemePreviewActivity.start(activity, pos);
                 }
             });
@@ -410,6 +403,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
+        private static int[] sThumbnailSize = Utils.getThumbnailImageSize();
+
         ImageView mThemePreviewImg;
         ImageView mThemeLoadingImg;
         ImageView mAvatar;
@@ -433,7 +428,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private View mThemeHotMark;
 
         private Handler mHandler = new Handler();
-        private boolean pendingToOpen;
+
+        // Indicates this holder has bound by Adapter. All Views has bounded data.
+        // In case, we call start animation before ViewHolder bind.
+        private boolean mHolderDataReady;
 
         public void setPositionTag(int position) {
             mPositionTag = position;
@@ -542,6 +540,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .placeholder(theme.getThemePreviewDrawable())
                         .load(theme.getPreviewImage())
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .override(sThumbnailSize[0], sThumbnailSize[1])
                         .listener(new RequestListener<Bitmap>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
@@ -557,8 +556,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 return false;
                             }
                         })
-                        .dontAnimate()
                         .into(targetView);
+                HSLog.d(TAG, "load image size : " + sThumbnailSize[0] + ", " + sThumbnailSize[1]);
 
             } else {
                 endLoadingScene();
@@ -575,7 +574,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             setSelected(theme);
             setHotTheme(theme.isHot());
             setLike(theme, false);
-
+            mHolderDataReady = true;
         }
 
         private void startLoadingScene() {
@@ -722,8 +721,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void startAnimation() {
-            mThemeFlashPreviewWindow.startAnimations();
-            mCallActionView.doAnimation();
+            if (mHolderDataReady) {
+                mThemeFlashPreviewWindow.startAnimations();
+                mCallActionView.doAnimation();
+            }
         }
     }
 

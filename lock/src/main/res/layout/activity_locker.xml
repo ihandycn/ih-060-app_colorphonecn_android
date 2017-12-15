@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
 
-        <android.support.v4.view.ViewPager
+        <com.colorphone.lock.ViewPagerFixed
             android:id="@+id/locker_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
