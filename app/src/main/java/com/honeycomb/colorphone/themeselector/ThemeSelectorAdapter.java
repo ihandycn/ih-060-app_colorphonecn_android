@@ -32,7 +32,6 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.download.DownloadHolder;
@@ -433,7 +432,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private View mThemeHotMark;
 
         private Handler mHandler = new Handler();
-        private boolean pendingToOpen;
+
+        // Indicates this holder has bound by Adapter. All Views has bounded data.
+        // In case, we call start animation before ViewHolder bind.
+        private boolean mHolderDataReady;
 
         public void setPositionTag(int position) {
             mPositionTag = position;
@@ -575,7 +577,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             setSelected(theme);
             setHotTheme(theme.isHot());
             setLike(theme, false);
-
+            mHolderDataReady = true;
         }
 
         private void startLoadingScene() {
@@ -722,8 +724,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void startAnimation() {
-            mThemeFlashPreviewWindow.startAnimations();
-            mCallActionView.doAnimation();
+            if (mHolderDataReady) {
+                mThemeFlashPreviewWindow.startAnimations();
+                mCallActionView.doAnimation();
+            }
         }
     }
 
