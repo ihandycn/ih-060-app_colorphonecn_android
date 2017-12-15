@@ -53,7 +53,7 @@ import com.colorphone.lock.util.BitmapUtils;
 import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.colorphone.lock.util.ViewUtils;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.charging.HSChargingManager;
 import com.ihs.charging.HSChargingManager.HSChargingState;
@@ -276,7 +276,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             public void onClick(View v) {
                 showMenuPopupWindow(context, menuImageView);
 
-                HSAnalytics.logEvent("ChargingScreen_Setting_Clicked");
+                LauncherAnalytics.logEvent("ChargingScreen_Setting_Clicked");
             }
         });
 
@@ -322,7 +322,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         LockScreensLifeCycleRegistry.setChargingScreenActive(true);
         LockerCustomConfig.get().onEventChargingViewShow();
 
-        HSAnalytics.logEvent("Charging_Screen__Shown_Init");
+        LauncherAnalytics.logEvent("Charging_Screen__Shown_Init");
     }
 
     public void onStart() {
@@ -356,7 +356,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                 updateChargingStateTipIconAnimator();
             }
 
-            HSAnalytics.logEvent("ChargingScreen_Shown");
+            LauncherAnalytics.logEvent("ChargingScreen_Shown");
         }
 
         // ======== onResume ========
@@ -868,7 +868,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         // ======== onStop ========
         HSLog.d(TAG, "onStop()");
         if (System.currentTimeMillis() - onStartTime > DateUtils.SECOND_IN_MILLIS) {
-            HSAnalytics.logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getChargingExpressAdName(), String.valueOf(mAdShown)});
+            LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getChargingExpressAdName(), String.valueOf(mAdShown)});
             mAdShown = false;
         }
 

@@ -56,7 +56,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
@@ -309,7 +309,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             @Override
             public void onClick(View v) {
                 ContactsActivity.startSelect(mActivity, mTheme);
-                HSAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
+                LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
             }
         });
         bottomBtnTransY = getTransBottomLayout().getTranslationY();

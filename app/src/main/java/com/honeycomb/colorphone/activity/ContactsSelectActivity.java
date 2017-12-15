@@ -13,7 +13,7 @@ import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.Utils;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +74,7 @@ public class ContactsSelectActivity extends ContactsActivity {
             }
         }
 
-        HSAnalytics.logEvent("Colorphone_SeletContactForTheme_Success",
+        LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Success",
                 "ThemeName", mTheme.getIdName(),
                 "SelectedContactsNumber", themeEntries.size() + "");
 

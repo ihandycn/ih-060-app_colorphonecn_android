@@ -9,7 +9,7 @@ import android.os.BatteryManager;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 
@@ -46,7 +46,7 @@ public class LockScreenStarter {
                     onScreenOff();
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                     HSLog.d(TAG, "Screen ON");
-                    HSAnalytics.logEvent("Charging_Screen__Shown_Resume");
+                    LauncherAnalytics.logEvent("Charging_Screen__Shown_Resume");
                 }
             }
         }, screenFilter);

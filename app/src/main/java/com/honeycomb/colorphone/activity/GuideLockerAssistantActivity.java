@@ -16,7 +16,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
@@ -44,11 +44,11 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
         StatusBarUtils.hideStatusBar(this);
 
         setUpPrivacyTextView();
-        HSAnalytics.logEvent("ColorPhone_StartGuide_Show");
+        LauncherAnalytics.logEvent("ColorPhone_StartGuide_Show");
         findViewById(R.id.guide_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HSAnalytics.logEvent("ColorPhone_StartGuide_Cancel_Clicked");
+                LauncherAnalytics.logEvent("ColorPhone_StartGuide_Cancel_Clicked");
 
                 finish();
             }
@@ -58,7 +58,7 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HSAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
+                LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 CPSettings.setSMSAssistantModuleEnabled(true);
                 CPSettings.setCallAssistantModuleEnabled(true);
                 LockerSettings.setLockerEnabled(true);
