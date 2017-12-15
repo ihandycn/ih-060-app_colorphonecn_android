@@ -202,12 +202,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View view) {
                     final int pos = holder.getPositionTag();
-                    final Theme theme = data.get(pos);
-                    ImageView cover = holder.getCoverView(theme);
-                    if (cover.getDrawable() instanceof BitmapDrawable) {
-                        Bitmap bitmap = ((BitmapDrawable) cover.getDrawable()).getBitmap();
-                        ThemePreviewActivity.cacheBitmap = bitmap;
-                    }
                     ThemePreviewActivity.start(activity, pos);
                 }
             });
@@ -409,6 +403,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
+        private static int[] sThumbnailSize = Utils.getThumbnailImageSize();
+
         ImageView mThemePreviewImg;
         ImageView mThemeLoadingImg;
         ImageView mAvatar;
@@ -544,6 +540,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .placeholder(theme.getThemePreviewDrawable())
                         .load(theme.getPreviewImage())
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .override(sThumbnailSize[0], sThumbnailSize[1])
                         .listener(new RequestListener<Bitmap>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
@@ -559,8 +556,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 return false;
                             }
                         })
-                        .dontAnimate()
                         .into(targetView);
+                HSLog.d(TAG, "load image size : " + sThumbnailSize[0] + ", " + sThumbnailSize[1]);
 
             } else {
                 endLoadingScene();
