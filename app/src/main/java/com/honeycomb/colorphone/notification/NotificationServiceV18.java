@@ -7,7 +7,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
 import com.acb.notification.NotificationServiceListenerManager;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.commons.utils.HSLog;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -37,7 +37,7 @@ public class NotificationServiceV18 extends NotificationListenerService {
         NotificationServiceListenerManager.getInstance().onNotificationPosted(statusBarNotification);
 
         if (NotificationConfig.isTestLogEnabled()) {
-            HSAnalytics.logEvent("Notification_Test", "from", statusBarNotification.getPackageName());
+            LauncherAnalytics.logEvent("Notification_Test", "from", statusBarNotification.getPackageName());
         }
         HSLog.e(TAG, "New notification: " + statusBarNotification);
     }

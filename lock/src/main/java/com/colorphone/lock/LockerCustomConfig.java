@@ -1,6 +1,6 @@
 package com.colorphone.lock;
 
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 
 /**
  * Created by sundxing on 17/9/5.
@@ -95,7 +95,7 @@ public class LockerCustomConfig {
         public abstract void onEventChargingAdShow();
 
         public void onEventChargingAdClick() {
-            HSAnalytics.logEvent("ChargingScreen_Ad_Clicked");
+            LauncherAnalytics.logEvent("ChargingScreen_Ad_Clicked");
         }
 
         public abstract void onEventChargingViewShow();

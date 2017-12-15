@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.commons.utils.HSLog;
 
 
@@ -29,10 +29,10 @@ public class ShareReceiver extends BroadcastReceiver {
                HSLog.d("ShareReceiver" + componentName.getPackageName());
 
                if (isInsideApp) {
-                   HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_ChooseAppToShare", "packageName",
+                   LauncherAnalytics.logEvent("Colorphone_Inapp_ShareAlert_ChooseAppToShare", "packageName",
                            componentName.getPackageName(), "V22", "true", "themeName", themeName, "isContact", String.valueOf(isContact));
                } else {
-                   HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_ChooseAppToShare", "packageName", componentName.getPackageName(),
+                   LauncherAnalytics.logEvent("Colorphone_Outapp_ShareAlert_ChooseAppToShare", "packageName", componentName.getPackageName(),
                            "V22", "true", "themeName", themeName, "isSetForSomeOne", String.valueOf(isSetForSomeone));
                }
            }

@@ -23,7 +23,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.ShareAlertAutoPilotUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -73,11 +73,11 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
         final CheckBox cb = (CheckBox) findViewById(R.id.welcome_guide_enable_checkbox);
         cb.setButtonDrawable(AppCompatResources.getDrawable(this, R.drawable.welcome_guide_check_box_selector));
         setUpPrivacyTextView();
-        HSAnalytics.logEvent("ColorPhone_ApplyFinishGuide_Show");
+        LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_Show");
         findViewById(R.id.guide_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HSAnalytics.logEvent("ColorPhone_ApplyFinishGuide_Cancel_Clicked");
+                LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_Cancel_Clicked");
                 finish();
             }
         });
@@ -87,13 +87,13 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (cb.isChecked()) {
-                    HSAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked");
+                    LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked");
                     CPSettings.setSMSAssistantModuleEnabled(true);
                     CPSettings.setCallAssistantModuleEnabled(true);
                     LockerSettings.setLockerEnabled(true);
                     ChargingScreenSettings.setChargingScreenEnabled(true);
                 } else {
-                    HSAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked_WithUnselectFeature");
+                    LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked_WithUnselectFeature");
                 }
                 finish();
             }

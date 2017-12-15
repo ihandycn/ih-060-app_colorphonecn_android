@@ -11,7 +11,7 @@ import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.util.ActivityUtils;
 import com.colorphone.lock.util.ViewUtils;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
 
@@ -56,7 +56,7 @@ public class LockerSettingsActivity extends HSAppCompatActivity
             if (HSConfig.optBoolean(false, "Application", "Locker", "AutoOpenWhenSwitchOn") && !ChargingScreenSettings.isChargingScreenEverEnabled()) {
                 ChargingScreenSettings.setChargingScreenEnabled(true);
             }
-            HSAnalytics.logEvent("LauncherSettings_LockerSettings_Locker_Clicked", "type", isChecked ? "On" : "Off");
+            LauncherAnalytics.logEvent("LauncherSettings_LockerSettings_Locker_Clicked", "type", isChecked ? "On" : "Off");
         }
     }
 }

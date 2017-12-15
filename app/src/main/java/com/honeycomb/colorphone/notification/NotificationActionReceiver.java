@@ -13,7 +13,7 @@ import com.ihs.commons.utils.HSLog;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -58,11 +58,11 @@ public class NotificationActionReceiver extends BroadcastReceiver {
 
             ThemePreviewActivity.start(HSApplication.getContext(), index);
             if (isNewTheme) {
-                HSAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Clicked",
+                LauncherAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Clicked",
                         "ThemeName", themeName, "isDownloaded", String.valueOf(isMp4Downloaded));
                 NotificationAutoPilotUtils.logNewThemeNotificationClicked();
             } else {
-                HSAnalytics.logEvent("Colorphone_LocalPush_OldTheme_Clicked",
+                LauncherAnalytics.logEvent("Colorphone_LocalPush_OldTheme_Clicked",
                         "ThemeName", themeName, "isDownloaded", String.valueOf(isMp4Downloaded));
                 NotificationAutoPilotUtils.logOldThemeNotificationClicked();
             }
@@ -75,10 +75,10 @@ public class NotificationActionReceiver extends BroadcastReceiver {
             HSLog.d("NotificationUtils", "receive delete action");
 
             if (isNewTheme) {
-                HSAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Deleted",
+                LauncherAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Deleted",
                         "ThemeName", themeName, "isDownloaded", String.valueOf(isMp4Downloaded));
             } else {
-                HSAnalytics.logEvent("Colorphone_LocalPush_OldTheme_Deleted",
+                LauncherAnalytics.logEvent("Colorphone_LocalPush_OldTheme_Deleted",
                         "ThemeName", themeName, "isDownloaded", String.valueOf(isMp4Downloaded));
             }
         }

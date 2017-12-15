@@ -46,7 +46,7 @@ import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.alerts.HSAlertMgr;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -162,7 +162,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)
                         && notificationToast == null) {
                         doNotificationAccessToastAnim();
-                    HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Show");
+                    LauncherAnalytics.logEvent("Colorphone_Settings_NotificationTips_Show");
                 }
             }
         };
@@ -403,9 +403,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onClick(View v) {
                 PermissionUtils.requestNotificationPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
-                HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
+                LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
                 NotificationAutoPilotUtils.logSettingsAlertShow();
-                HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
+                LauncherAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
             }
         });
         notificationToast.setVisibility(View.VISIBLE);
@@ -432,7 +432,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 break;
             case R.id.settings_contacts:
                 ContactsActivity.startEdit(this);
-                HSAnalytics.logEvent("Colorphone_Settings_ContactTheme_Clicked");
+                LauncherAnalytics.logEvent("Colorphone_Settings_ContactTheme_Clicked");
                 break;
             case R.id.settings_about:
                 AboutActivity.start(this);

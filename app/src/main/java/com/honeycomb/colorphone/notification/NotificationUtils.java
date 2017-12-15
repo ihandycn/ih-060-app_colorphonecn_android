@@ -31,7 +31,7 @@ import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -114,10 +114,10 @@ public class NotificationUtils {
             boolean isNewTheme = HSPreferenceHelper.getDefault().getBoolean(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, false);
             boolean isMp4Downloaded = HSPreferenceHelper.getDefault().getBoolean(NotificationConstants.THEME_NOTIFICATION_IS_MP4_DOWNLOADED, false);
             if (isNewTheme) {
-                HSAnalytics.logEvent("Colorphone_LocalPush_NewTheme_ThemeApply", "ThemeName", theme.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));
+                LauncherAnalytics.logEvent("Colorphone_LocalPush_NewTheme_ThemeApply", "ThemeName", theme.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));
                 NotificationAutoPilotUtils.logNewThemeNotificationApply();
             } else {
-                HSAnalytics.logEvent("Colorphone_LocalPush_OldTheme_ThemeApply", "ThemeName", theme.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));
+                LauncherAnalytics.logEvent("Colorphone_LocalPush_OldTheme_ThemeApply", "ThemeName", theme.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));
                 NotificationAutoPilotUtils.logOldThemeNotificationApply();
             }
         }
@@ -374,11 +374,11 @@ public class NotificationUtils {
         HSPreferenceHelper.getDefault().putBoolean(NotificationConstants.THEME_NOTIFICATION_IS_NEW_THEME, isNewTheme);
         HSPreferenceHelper.getDefault().putBoolean(NotificationConstants.THEME_NOTIFICATION_IS_MP4_DOWNLOADED, isMp4Downloaded);
         if (isNewTheme) {
-            HSAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Show",
+            LauncherAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Show",
                     "ThemeName", type.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));
             NotificationAutoPilotUtils.logNewThemeNotificationShow();
         } else {
-            HSAnalytics.logEvent("Colorphone_LocalPush_OldTheme_Show",
+            LauncherAnalytics.logEvent("Colorphone_LocalPush_OldTheme_Show",
                     "ThemeName", type.getName(), "isDownloaded", String.valueOf(isMp4Downloaded));
             NotificationAutoPilotUtils.logOldThemeNotificationShow();
         }
