@@ -1,4 +1,4 @@
-package com.honeycomb.colorphone;
+package com.honeycomb.colorphone.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

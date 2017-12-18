@@ -144,14 +144,18 @@ public class ModuleUtils {
             return false;
         }
 
+        if (Utils.isAnyLockerAppInstalled()) {
+            return  false;
+        }
+
         PreferenceHelper helper = PreferenceHelper.get(PromoteLockerActivity.PREFS_FILE);
 
-        if (helper.getInt(PromoteLockerActivity.PROMOTE_LOCKER_ALERT_SHOW_COUNT, 0)
+        if (helper.getInt(PromoteLockerActivity.PREFS_PROMOTE_LOCKER_ALERT_SHOW_COUNT, 0)
                 >= PromoteLockerAutoPilotUtils.getPromoteAlertMaxShowCount()) {
             return false;
         }
 
-        if (helper.getLong(PromoteLockerActivity.PROMOTE_LOCKER_ALERT_APP_SHOW_TIME, 0)
+        if (helper.getLong(PromoteLockerActivity.PREFS_PROMOTE_LOCKER_ALERT_APP_SHOW_TIME, 0)
                 + PromoteLockerAutoPilotUtils.getPromoteAlertShowInterval() > System.currentTimeMillis()) {
             return false;
         }

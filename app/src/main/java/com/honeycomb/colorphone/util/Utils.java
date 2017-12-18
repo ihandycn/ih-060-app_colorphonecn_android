@@ -24,6 +24,7 @@ import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -744,6 +745,15 @@ public final class Utils {
                     deleteRecursive(child);
                 }
             }
+        }
+    }
+
+    public static boolean isAnyLockerAppInstalled() {
+        try {
+            HSApplication.getContext().getPackageManager().getPackageInfo("locker", 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
         }
     }
 }

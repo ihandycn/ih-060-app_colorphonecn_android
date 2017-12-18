@@ -1,7 +1,9 @@
 package com.honeycomb.colorphone.activity;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.PromoteLockerAutoPilotUtils;
 
 /**
@@ -24,8 +27,10 @@ public class PromoteLockerActivity extends AppCompatActivity {
     public static final int WHEN_APP_LAUNCH = 9;
 
     public static final String PREFS_FILE = "promote_locker_prefs_file_name";
-    public static final String PROMOTE_LOCKER_ALERT_SHOW_COUNT = "promote_locker_alert_show_count";
-    public static final String PROMOTE_LOCKER_ALERT_APP_SHOW_TIME = "promote_locker_alert_show_time";
+    public static final String PREFS_PROMOTE_LOCKER_ALERT_SHOW_COUNT = "promote_locker_alert_show_count";
+    public static final String PREFS_PROMOTE_LOCKER_ALERT_APP_SHOW_TIME = "promote_locker_alert_show_time";
+
+    private int alertType;
 
     public static void startPromoteLockerActivity(Activity activity, int alertType) {
         Intent intent = new Intent(activity, PromoteLockerActivity.class);
@@ -33,14 +38,15 @@ public class PromoteLockerActivity extends AppCompatActivity {
         activity.overridePendingTransition(0, 0);
         activity.startActivity(intent);
         PreferenceHelper helper = PreferenceHelper.get(PREFS_FILE);
-        helper.putLong(PROMOTE_LOCKER_ALERT_APP_SHOW_TIME, System.currentTimeMillis());
-        helper.incrementAndGetInt(PROMOTE_LOCKER_ALERT_SHOW_COUNT);
+        helper.putLong(PREFS_PROMOTE_LOCKER_ALERT_APP_SHOW_TIME, System.currentTimeMillis());
+        helper.incrementAndGetInt(PREFS_PROMOTE_LOCKER_ALERT_SHOW_COUNT);
+        helper.putInt(ALERT_TYPE, alertType);
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int alertType = getIntent().getIntExtra(ALERT_TYPE, AFTER_APPLY_FINISH);
+        alertType = getIntent().getIntExtra(ALERT_TYPE, AFTER_APPLY_FINISH);
         setContentView(alertType == WHEN_APP_LAUNCH ? R.layout.promote_locker_when_app_launch : R.layout.promote_locker_when_apply_theme);
 
         initAlertDetails();
@@ -64,6 +70,8 @@ public class PromoteLockerActivity extends AppCompatActivity {
                 }
             });
         }
+
+        LauncherAnalytics.logEvent(alertType == WHEN_APP_LAUNCH ? "StartApp_Promote_Alert_Viewed" : "ApplyFinished_Promote_Alert_Viewed");
         PromoteLockerAutoPilotUtils.logPromoteAlertViewed();
     }
 
@@ -80,8 +88,21 @@ public class PromoteLockerActivity extends AppCompatActivity {
         addLockerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String packageName = PromoteLockerAutoPilotUtils.getPromoteLockerApp();
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("market://details?id=" + packageName)); //跳转到应用市场，非Google Play市场一般情况也实现了这个接口
+
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + packageName));
+                    startActivity(intent);
+                }
+                finish();
+                LauncherAnalytics.logEvent(alertType == WHEN_APP_LAUNCH ? "StartApp_Promote_Alert_Btn_Clicked" : "ApplyFinished_Promote_Alert_Btn_Clicked");
                 PromoteLockerAutoPilotUtils.logPromoteAlertBtnClicked();
             }
         });
     }
+
 }
