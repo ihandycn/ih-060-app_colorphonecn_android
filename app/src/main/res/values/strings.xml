@@ -66,4 +66,12 @@
 
     <string name="share_default_name" translatable="false">Ava</string>
     <string name="share_default_number" translatable="false">(616) *** 6789</string>
+
+    <string name="promote_locker_alert_title">Color Locker For Free</string>
+    <string name="promote_locker_alert_description">Choose beautiful wallpapers to make your lock screen stand out</string>
+    <string name="promote_add_for_free">ADD FOR FREE</string>
+    <string name="promote_no_thanks">NO, THANKS</string>
+    <string name="promote_apply_success">APPLY SUCCESS</string>
+    <string name="promote_apply_subtitle">Begin to enjoy color phone</string>
+
 </resources>

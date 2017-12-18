@@ -10,6 +10,7 @@ import com.acb.call.receiver.IncomingCallReceiver;
 import com.acb.call.themes.Type;
 import com.acb.call.views.CallIdleAlert;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
+import com.acb.notification.NotificationMessageAlertActivity;
 import com.acb.utils.MessageCenterUtils;
 import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -184,6 +185,31 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             public void onNotificationAccessGranted(String fromType) {
                 super.onNotificationAccessGranted(fromType);
                 NotificationAutoPilotUtils.logSettingsAccessEnabled();
+            }
+        };
+    }
+
+
+    public NotificationMessageAlertActivity.Config getNotificationConfig() {
+        return new NotificationMessageAlertActivity.Config() {
+            @Override
+            public String getAdPlacement() {
+                return AdPlacements.AD_MSG_NEW;
+            }
+
+            @Override
+            public boolean enable() {
+                return NotificationAutoPilotUtils.isMessageCenterEnabled();
+            }
+
+            @Override
+            public boolean showWhenScreenOn() {
+                return NotificationAutoPilotUtils.isMessageCenterShowOnLock();
+            }
+
+            @Override
+            public boolean showWhenScreenOff() {
+                return NotificationAutoPilotUtils.isMessageCenterShowOnUnlock();
             }
         };
     }
