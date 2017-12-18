@@ -41,4 +41,14 @@
   <string name="sms_assistant">एसएमएस सहायक</string>
   <string name="sms_assistant_hint">एसएमएस सहायक आपको नए संदेशों की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
   <string name="call_assistant_hint">कॉल सहायक आपको छुटी कॉल की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
+
+  <string name="theme_set_for_all">सभी के लिए सेट</string>
+  <string name="theme_set_for_one">कुछ के लिए सेट</string>
+  <string name="contact_select_hint">चयनित संपर्क(कों) पर \'%1$s\' लागू करें</string>
+  <string name="contact_theme">संपर्क थीम</string>
+
+  <string name="edit">संपादन</string>
+  <string name="cancel">रद्द करें</string>
+  <string name="delete">हटाएं</string>
+  <string name="select_contacts">संपर्कों को चुनें</string>
 </resources>

@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.acb.call.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactDBHelper;
@@ -15,7 +13,7 @@ import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.Utils;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +40,7 @@ public class ContactsSelectActivity extends ContactsActivity {
 
         mTheme = (Theme) getIntent().getSerializableExtra(EXTRA_THEME);
         TextView textViewTitle = findViewById(R.id.nav_title);
-        textViewTitle.setText(R.string.contact_theme);
+        textViewTitle.setText(R.string.select_contacts);
 
         ContactManager.getInstance().register(mCallback);
 
@@ -59,8 +57,10 @@ public class ContactsSelectActivity extends ContactsActivity {
 
         final List<ThemeEntry> themeEntries = new ArrayList<>();
 
+        int contactSelectedCount = 0;
         for (SimpleContact c : contacts) {
             if (c.isSelected()) {
+                contactSelectedCount++;
                 ContactDBHelper.Action action = ContactDBHelper.Action.INSERT;
                 if (c.getThemeId() > 0) {
                     action = ContactDBHelper.Action.UPDATE;
@@ -74,7 +74,7 @@ public class ContactsSelectActivity extends ContactsActivity {
             }
         }
 
-        HSAnalytics.logEvent("Colorphone_SeletContactForTheme_Success",
+        LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Success",
                 "ThemeName", mTheme.getIdName(),
                 "SelectedContactsNumber", themeEntries.size() + "");
 
@@ -82,20 +82,16 @@ public class ContactsSelectActivity extends ContactsActivity {
             ContactManager.getInstance().markDataChanged();
         }
 
+        final int selectedCount = contactSelectedCount;
         ContactManager.getInstance().updateDb(themeEntries, new Runnable() {
             @Override
             public void run() {
 
-
-                int size = themeEntries.size();
-                if (size >= 1) {
-                    ShareAlertActivity.UserInfo userInfo = null;
-                    if (size == 1) {
-                        ThemeEntry themeEntry = themeEntries.get(0);
-                        userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
-                    }
+                if (selectedCount >= 1 && !themeEntries.isEmpty()) {
+                    ThemeEntry themeEntry = themeEntries.get(0);
+                    ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
                     NotificationUtils.logThemeAppliedFlurry(mTheme);
-                    if (GuideApplyThemeActivity.start(ContactsSelectActivity.this, true, userInfo)) {
+                    if (GuideApplyThemeActivity.start(ContactsSelectActivity.this, true, userInfo, selectedCount >= 2)) {
                         ContactsSelectActivity.this.finish();
                         return;
                     }

@@ -34,8 +34,13 @@ public class TestActivity extends AppCompatActivity {
             public void run() {
                 InCallWindow.dismiss(TestActivity.this.getApplicationContext());
             }
-        }, 4000);
+        }, 8000);
 
     }
 
+    @Override
+    protected void onStop() {
+        mHandler.removeCallbacksAndMessages(null);
+        super.onStop();
+    }
 }

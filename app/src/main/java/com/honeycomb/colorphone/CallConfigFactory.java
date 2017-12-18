@@ -7,6 +7,7 @@ import com.acb.call.CPSettings;
 import com.acb.call.customize.AcbCallFactoryImpl;
 import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.receiver.IncomingCallReceiver;
+import com.acb.call.service.InCallWindow;
 import com.acb.call.themes.Type;
 import com.acb.call.views.CallIdleAlert;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
@@ -21,6 +22,7 @@ import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.util.Iterator;
 import java.util.List;
@@ -234,6 +236,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             public boolean isShowAlertBeforeCallAssistant(String number, int callType) {
                 Context context = HSApplication.getContext();
                 if (callType != IncomingCallReceiver.CALL_OUT
+                        && HSPreferenceHelper.getDefault().getBoolean(InCallWindow.ACB_PHONE_REJECT_CALL_BY_USER, false)
                         && ModuleUtils.isShareAlertOutsideAppShow(context, number)) {
                     return true;
                 }

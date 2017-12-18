@@ -182,10 +182,11 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
     private PointF getAndCacheSectionBounds(String sectionName) {
         PointF bounds = mCachedSectionBounds.get(sectionName);
         if (bounds == null) {
-            if (!sectionName.isEmpty()) {
-                mSectionTextPaint.getTextBounds(sectionName, 0, sectionName.length(), mTmpBounds);
-                bounds = new PointF(mSectionTextPaint.measureText(sectionName), mTmpBounds.height());
+            if (TextUtils.isEmpty(sectionName)) {
+                sectionName = "#";
             }
+            mSectionTextPaint.getTextBounds(sectionName, 0, sectionName.length(), mTmpBounds);
+            bounds = new PointF(mSectionTextPaint.measureText(sectionName), mTmpBounds.height());
             mCachedSectionBounds.put(sectionName, bounds);
         }
         return bounds;

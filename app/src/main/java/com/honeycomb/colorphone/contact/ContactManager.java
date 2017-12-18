@@ -59,18 +59,22 @@ public class ContactManager {
 
     public List<SimpleContact> getThemes(boolean onlyThemeSet) {
         if (onlyThemeSet) {
-            if (needFilterTheme || mThemeFilterContacts.isEmpty()) {
-                mThemeFilterContacts.clear();
-                for (SimpleContact c : mAllContacts) {
-                    if (c.getThemeId() != SimpleContact.INVALID_THEME) {
-                        mThemeFilterContacts.add(c);
-                    }
-                }
-                needFilterTheme = false;
-            }
+            updateFilterContactsIfNeeded();
             return mThemeFilterContacts;
         } else {
             return mAllContacts;
+        }
+    }
+
+    private void updateFilterContactsIfNeeded() {
+        if (needFilterTheme || mThemeFilterContacts.isEmpty()) {
+            mThemeFilterContacts.clear();
+            for (SimpleContact c : mAllContacts) {
+                if (c.getThemeId() != SimpleContact.INVALID_THEME) {
+                    mThemeFilterContacts.add(c);
+                }
+            }
+            needFilterTheme = false;
         }
     }
 
@@ -180,7 +184,7 @@ public class ContactManager {
         } else if (contact.getOtherNumbers() != null) {
             // Other phone numbers
             for (String otherNumber : contact.getOtherNumbers()) {
-                if (PhoneNumberUtils.compare(contact.getRawNumber(), otherNumber)) {
+                if (PhoneNumberUtils.compare(contact.getRawNumber(), rawNumber)) {
                     return true;
                 }
             }
@@ -246,6 +250,8 @@ public class ContactManager {
     public int getThemeIdByNumber(String number) {
         if (mThemeFilterContacts.isEmpty()) {
             mThemeFilterContacts.addAll(fetchThemeContacts());
+        } else {
+            updateFilterContactsIfNeeded();
         }
 
         int themeId = SimpleContact.INVALID_THEME;

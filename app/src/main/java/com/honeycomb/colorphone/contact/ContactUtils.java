@@ -74,6 +74,10 @@ public class ContactUtils {
 
                 Log.d("Read Contact", "photo uri = " + thumbnailUri + ", name = " + name + ", number = " + number + ", contactId =" + contactId);
                 if (!TextUtils.isEmpty(number)) {
+                    if (TextUtils.isEmpty(name)) {
+                        // If Name is empty we use Number as User Name.
+                        name = number;
+                    }
                     addNewContact(mContacts, name, number, thumbnailUri, contactId);
                 }
             }

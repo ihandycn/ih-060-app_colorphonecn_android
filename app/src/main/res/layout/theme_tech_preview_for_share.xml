@@ -167,4 +167,14 @@
         </LinearLayout>
 
     </com.acb.call.themes.TechnologicalAnimationView>
+
+
+    <include
+        layout="@layout/acb_phone_in_call_action_full_screen"
+        android:id="@+id/in_call_action_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="40dp">
+    </include>
 </FrameLayout>

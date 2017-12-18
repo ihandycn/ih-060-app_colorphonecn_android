@@ -46,7 +46,7 @@ import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.alerts.HSAlertMgr;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -65,8 +65,6 @@ import hugo.weaving.DebugLog;
 public class ColorPhoneActivity extends HSAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
 
-    public static final String NOTIFY_WINDOW_INVISIBLE = "notify_window_invisible";
-    public static final String NOTIFY_WINDOW_VISIBLE = "notify_window_visible";
     public static final String PREFS_THEME_APPLY = "theme_apply_array";
     private static final String PREFS_THEME_LIKE = "theme_like_array";
 
@@ -122,6 +120,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
             intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_APP_IS_FIRST_SESSION, true);
             startActivity(intent);
+            HSAlertMgr.delayRateAlert();
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         }
 
@@ -163,7 +162,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)
                         && notificationToast == null) {
                         doNotificationAccessToastAnim();
-                    HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Show");
+                    LauncherAnalytics.logEvent("Colorphone_Settings_NotificationTips_Show");
                 }
             }
         };
@@ -231,8 +230,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_VISIBLE);
-        if (pendingShowRateAlert && SessionMgr.getInstance().getCurrentSessionId() >= 2) {
+
+        HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedTheme() + "");
+        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedTheme());
+        if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+            ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
+        }
+        if (pendingShowRateAlert && SessionMgr.getInstance().getCurrentSessionId() >= 3) {
             HSAlertMgr.showRateAlert();
             pendingShowRateAlert = false;
         }
@@ -256,7 +260,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_WINDOW_INVISIBLE);
+
+        HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedTheme() + "");
+        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedTheme());
+        if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+            ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
+        }
         mRecyclerView.getRecycledViewPool().clear();
     }
 
@@ -394,9 +403,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onClick(View v) {
                 PermissionUtils.requestNotificationPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
-                HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
+                LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
                 NotificationAutoPilotUtils.logSettingsAlertShow();
-                HSAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
+                LauncherAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
             }
         });
         notificationToast.setVisibility(View.VISIBLE);
@@ -423,7 +432,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 break;
             case R.id.settings_contacts:
                 ContactsActivity.startEdit(this);
-                HSAnalytics.logEvent("Colorphone_Settings_ContactTheme_Clicked");
+                LauncherAnalytics.logEvent("Colorphone_Settings_ContactTheme_Clicked");
                 break;
             case R.id.settings_about:
                 AboutActivity.start(this);
@@ -469,6 +478,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mainSwitch.setChecked(true);
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
+            initData();
             mAdapter.notifyDataSetChanged();
         }
     }

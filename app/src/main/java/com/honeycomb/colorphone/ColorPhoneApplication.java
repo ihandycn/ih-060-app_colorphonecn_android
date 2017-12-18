@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -33,7 +34,6 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
-import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.module.Module;
@@ -161,7 +161,6 @@ public class ColorPhoneApplication extends HSApplication {
             Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
 
             copyMediaFromAssertToFile();
-            preloadThemeResources();
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -210,6 +209,21 @@ public class ColorPhoneApplication extends HSApplication {
         });
 
         initNotificationAlarm();
+        checkInstalledApps();
+    }
+
+    private void checkInstalledApps() {
+        ConcurrentUtils.postOnSingleThreadExecutor(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    List<ApplicationInfo> apps = getPackageManager().getInstalledApplications(0);
+                    for (ApplicationInfo info : apps) {
+                        PackageList.checkAndLogPackage(info.packageName);
+                    }
+                } catch (Exception ignore) { }
+            }
+        });
     }
 
     private void copyMediaFromAssertToFile() {
@@ -240,31 +254,6 @@ public class ColorPhoneApplication extends HSApplication {
                 }
             }
         });
-    }
-
-    private void preloadThemeResources() {
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
-            @Override
-            public void run() {
-                Theme.themes();
-                ConcurrentUtils.postOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        doPreload();
-                    }
-                });
-            }
-        });
-    }
-
-    private void doPreload() {
-        List<Theme> themes = Theme.themes();
-        for (Theme theme : themes) {
-            if (!TextUtils.isEmpty(theme.getPreviewImage())) {
-                HSLog.d("preload", theme.getPreviewImage());
-                Glide.with(this).downloadOnly().load(theme.getPreviewImage()).preload();
-            }
-        }
     }
 
     private void initLockerCharging() {

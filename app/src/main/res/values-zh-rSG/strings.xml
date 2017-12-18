@@ -42,4 +42,14 @@
   <string name="sms_assistant">短信助手</string>
   <string name="sms_assistant_hint">短信助手让你不再错过任何信息（可能包含广告）</string>
   <string name="call_assistant_hint">来电助手让你不再错过未接来电（可能包含广告）</string>
+
+  <string name="contact_theme">联系人主题</string>
+  <string name="contact_select_hint">为联系人设置"%1$s"主题</string>
+  <string name="delete">删除</string>
+  <string name="cancel">取消</string>
+  <string name="edit">编辑</string>
+  <string name="theme_set_for_all">设定为默认</string>
+  <string name="theme_set_for_one">设定给某人</string>
+  <string name="select_contacts">选择联系人</string>
+
 </resources>

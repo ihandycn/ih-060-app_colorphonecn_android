@@ -32,7 +32,6 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.download.DownloadHolder;
@@ -40,7 +39,6 @@ import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
-import com.honeycomb.colorphone.util.ThemeUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -58,7 +56,6 @@ import java.util.ArrayList;
 
 import hugo.weaving.DebugLog;
 
-import static android.R.attr.type;
 import static com.acb.utils.Utils.getTypeByThemeId;
 import static com.honeycomb.colorphone.preview.ThemePreviewView.saveThemeApplys;
 import static com.honeycomb.colorphone.util.Utils.pxFromDp;
@@ -69,6 +66,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final String TAG = "ThemeSelectorAdapter";
     private static final boolean DEBUG_ADAPTER = BuildConfig.DEBUG;
     private final Activity activity;
+    private RecyclerView recyclerView;
     private float mTransX;
     private ArrayList<Theme> data = null;
     private GridLayoutManager layoutManager;
@@ -141,7 +139,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-
     public GridLayoutManager getLayoutManager() {
         return layoutManager;
     }
@@ -149,12 +146,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
+
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD, observer);
 
@@ -203,12 +202,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View view) {
                     final int pos = holder.getPositionTag();
-                    final Theme theme = data.get(pos);
-                    ImageView cover = holder.getCoverView(theme);
-                    if (cover.getDrawable() instanceof BitmapDrawable) {
-                        Bitmap bitmap = ((BitmapDrawable) cover.getDrawable()).getBitmap();
-                        ThemePreviewActivity.cacheBitmap = bitmap;
-                    }
                     ThemePreviewActivity.start(activity, pos);
                 }
             });
@@ -256,7 +249,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    private int getLastSelectedTheme() {
+    public int getLastSelectedTheme() {
         int prePos = 0;
         // Clear before.
         for (int i = 0; i < data.size(); i++) {
@@ -285,23 +278,24 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else {
             Theme t = data.get(prePos);
             t.setSelected(false);
-            notifyItemChanged(prePos);
+            notifyItemSelected(prePos, t);
         }
         // Reset current.
         Theme selectedTheme = data.get(pos);
         selectedTheme.setSelected(true);
-//        if (holder != null) {
-//            holder.setSelected(selectedTheme, playAnimation);
-//        } else {
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                // Ensure selected item rebound after unselected one.
-                notifyItemChanged(pos);
-            }
-        });
-//        }
+        notifyItemSelected(pos, selectedTheme);
         return true;
+    }
+
+    public void notifyItemSelected(int pos, Theme theme) {
+        RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(pos);
+        if (holder == null) {
+            // Item not visible in screen.
+            notifyItemChanged(pos);
+        } else if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+            ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).setSelected(theme);
+        }
+
     }
 
     @DebugLog
@@ -407,18 +401,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         return data.size() + 1;
     }
 
-    @Override
-    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
-        super.onViewDetachedFromWindow(holder);
-        if (holder instanceof INotificationObserver) {
-            HSGlobalNotificationCenter.removeObserver(ColorPhoneActivity.NOTIFY_WINDOW_INVISIBLE, (INotificationObserver) holder);
-            HSGlobalNotificationCenter.removeObserver(ColorPhoneActivity.NOTIFY_WINDOW_VISIBLE, (INotificationObserver) holder);
-        }
-    }
-
-
-    static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder, INotificationObserver {
+    public static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
+        private static int[] sThumbnailSize = Utils.getThumbnailImageSize();
+
         ImageView mThemePreviewImg;
         ImageView mThemeLoadingImg;
         ImageView mAvatar;
@@ -442,7 +428,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private View mThemeHotMark;
 
         private Handler mHandler = new Handler();
-        private boolean pendingToOpen;
+
+        // Indicates this holder has bound by Adapter. All Views has bounded data.
+        // In case, we call start animation before ViewHolder bind.
+        private boolean mHolderDataReady;
 
         public void setPositionTag(int position) {
             mPositionTag = position;
@@ -520,8 +509,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 mThemeFlashPreviewWindow.playAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(true);
                 mCallActionView.setAutoRun(true);
-                HSGlobalNotificationCenter.addObserver(ColorPhoneActivity.NOTIFY_WINDOW_INVISIBLE, this);
-                HSGlobalNotificationCenter.addObserver(ColorPhoneActivity.NOTIFY_WINDOW_VISIBLE, this);
             } else {
                 mThemeFlashPreviewWindow.clearAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(false);
@@ -529,8 +516,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (theme.isVideo()) {
                     getCoverView(theme).setVisibility(View.VISIBLE);
                 }
-                HSGlobalNotificationCenter.removeObserver(ColorPhoneActivity.NOTIFY_WINDOW_INVISIBLE, this);
-                HSGlobalNotificationCenter.removeObserver(ColorPhoneActivity.NOTIFY_WINDOW_VISIBLE, this);
             }
         }
 
@@ -546,12 +531,16 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void updateTheme(final Theme theme) {
             if (theme.isMedia()) {
                 ImageView targetView = getCoverView(theme);
-                startLoadingScene();
+                if (!theme.isSelected()) {
+                    // Default theme media may load from local storage. Not show loading screen.
+                    startLoadingScene();
+                }
                 GlideApp.with(mContentView).asBitmap()
                         .centerCrop()
                         .placeholder(theme.getThemePreviewDrawable())
                         .load(theme.getPreviewImage())
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .override(sThumbnailSize[0], sThumbnailSize[1])
                         .listener(new RequestListener<Bitmap>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
@@ -567,8 +556,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 return false;
                             }
                         })
-                        .dontAnimate()
                         .into(targetView);
+                HSLog.d(TAG, "load image size : " + sThumbnailSize[0] + ", " + sThumbnailSize[1]);
 
             } else {
                 endLoadingScene();
@@ -585,7 +574,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             setSelected(theme);
             setHotTheme(theme.isHot());
             setLike(theme, false);
-
+            mHolderDataReady = true;
         }
 
         private void startLoadingScene() {
@@ -725,12 +714,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             setLike(theme, true);
         }
 
-        @Override
-        public void onReceive(String s, HSBundle hsBundle) {
-            if (ColorPhoneActivity.NOTIFY_WINDOW_INVISIBLE.equals(s)) {
-                mThemeFlashPreviewWindow.stopAnimations();
-                mCallActionView.stopAnimations();
-            } else if (ColorPhoneActivity.NOTIFY_WINDOW_VISIBLE.equals(s)) {
+
+        public void stopAnimation() {
+            mThemeFlashPreviewWindow.stopAnimations();
+            mCallActionView.stopAnimations();
+        }
+
+        public void startAnimation() {
+            if (mHolderDataReady) {
                 mThemeFlashPreviewWindow.startAnimations();
                 mCallActionView.doAnimation();
             }

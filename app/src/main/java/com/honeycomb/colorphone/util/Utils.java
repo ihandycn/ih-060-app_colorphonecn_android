@@ -88,9 +88,13 @@ public final class Utils {
     public static final int DEFAULT_DEVICE_SCREEN_WIDTH = 1080;
     public static final int DEFAULT_DEVICE_SCREEN_HEIGHT = 1920;
     private static final Pattern sTrimPattern = Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
+    private static final float THUMBNAIL_RATIO = 0.4f;
 
     private static float sDensityRatio;
 
+
+    private static int THUMBNAIL_HEIGHT = 0;
+    private static int THUMBNAIL_WIDTH = 0;
 
     public static void startActivitySafely(Context context, Intent intent) {
         try {
@@ -101,6 +105,14 @@ public final class Utils {
         } catch (ActivityNotFoundException | SecurityException | NullPointerException e) {
             HSLog.e("StartActivity", "Cannot start activity: " + intent);
         }
+    }
+
+    public static int[] getThumbnailImageSize() {
+        if (THUMBNAIL_HEIGHT == 0) {
+            THUMBNAIL_WIDTH = (int) (getPhoneWidth(HSApplication.getContext()) * THUMBNAIL_RATIO);
+            THUMBNAIL_HEIGHT = THUMBNAIL_WIDTH * 1920 / 1080;
+        }
+        return new int[]{THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT};
     }
 
     public static float getDensityRatio() {

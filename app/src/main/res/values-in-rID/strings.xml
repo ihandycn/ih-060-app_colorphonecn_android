@@ -42,4 +42,14 @@
   <string name="sms_assistant">Asisten SMS</string>
   <string name="sms_assistant_hint">Asisten SMS akan mengingatkan Anda tentang pesan baru (Mungkin berisi iklan)</string>
   <string name="call_assistant_hint">Asisten Panggilan akan mengingatkan Anda tentang panggilan tidak terjawab (Mungkin berisi iklan)</string>
+
+  <string name="theme_set_for_all">ATUR UNTUK SEMUA</string>
+  <string name="theme_set_for_one">Atur untuk Seseorang</string>
+  <string name="contact_select_hint">Terapkan tema \'%1$s\' untuk kontak yang dipilih</string>
+  <string name="contact_theme">Tema Kontak</string>
+
+  <string name="edit">Edit</string>
+  <string name="cancel">Batalkan</string>
+  <string name="delete">HAPUS</string>
+  <string name="select_contacts">Pilih Kontak</string>
 </resources>

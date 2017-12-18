@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,13 +39,15 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.colorphone.lock.util.PreferenceHelper;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.ShareReceiver;
 import com.honeycomb.colorphone.util.ShareAlertAutoPilotUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.FixRatioPreviewWindow;
 import com.honeycomb.colorphone.view.GlideApp;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.ihs.commons.utils.HSLog;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -97,12 +100,12 @@ public class ShareAlertActivity extends Activity {
 
     public static final String IS_INSIDE_APP = "is inside_app";
     public static final String USER_INFO = "user_info";
+    public static final String SET_FOR_MULTI = "set_for_multi";
     private static final int REQUEST_SHARE = 3;
 
     private ThemePreviewWindow themePreviewWindow;
     private InCallActionView inCallActionView;
     private UserInfo userInfo;
-    private Handler handler = new Handler();
 
     private Type themeType;
     private boolean isContactInApp;
@@ -114,11 +117,12 @@ public class ShareAlertActivity extends Activity {
         void onResourceReady(Bitmap resource);
     }
 
-    public static void starInsideApp(Activity activity, UserInfo userInfo) {
+    public static void starInsideApp(Activity activity, UserInfo userInfo, boolean setForMulti) {
         Intent intent = new Intent(activity, ShareAlertActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IS_INSIDE_APP, true);
         intent.putExtra(USER_INFO, userInfo);
+        intent.putExtra(SET_FOR_MULTI, setForMulti);
         activity.startActivity(intent);
         activity.overridePendingTransition(0, 0);
         PreferenceHelper helper = PreferenceHelper.get(PREFS_FILE);
@@ -162,11 +166,11 @@ public class ShareAlertActivity extends Activity {
 
         if (isInsideApp) {
             ShareAlertAutoPilotUtils.logInsideAppShareAlertShow();
-            HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName",
+            LauncherAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName",
                     themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
         } else {
             ShareAlertAutoPilotUtils.logOutsideAppShareAlertShow();
-            HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName",
+            LauncherAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName",
                     themeType.getName(), "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
         }
     }
@@ -174,27 +178,13 @@ public class ShareAlertActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                themePreviewWindow.playAnimation(themeType);
-                inCallActionView.setTheme(themeType);
-            }
-        });
+        themePreviewWindow.playAnimation(themeType);
+        inCallActionView.setTheme(themeType);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        themePreviewWindow.stopAnimations();
-        inCallActionView.stopAnimations();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacksAndMessages(null);
-        handler = null;
         themePreviewWindow.stopAnimations();
         inCallActionView.stopAnimations();
     }
@@ -237,7 +227,7 @@ public class ShareAlertActivity extends Activity {
             }
         });
 
-       isSetForSomeone = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) != themeID;
+        isSetForSomeone = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) != themeID;
         editUserView(themePreviewWindow);
     }
 
@@ -254,7 +244,7 @@ public class ShareAlertActivity extends Activity {
         firstLineTextView.setTypeface(AcbCallManager.getInstance().getAcbCallFactory().getViewConfig().getBondFont());
         secondLineTextView.setTypeface(AcbCallManager.getInstance().getAcbCallFactory().getViewConfig().getNormalFont());
 
-        if (userInfo == null) {
+        if (userInfo == null || getIntent().getBooleanExtra(SET_FOR_MULTI, false)) {
             firstLineTextView.setText(R.string.share_default_name);
             secondLineTextView.setText(R.string.share_default_number);
             setPortraitViewGone(portrait, root);
@@ -313,11 +303,11 @@ public class ShareAlertActivity extends Activity {
 
                 if (isInsideApp) {
                     ShareAlertAutoPilotUtils.logInsideAppShareAlertClicked();
-                    HSAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName",
+                    LauncherAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName",
                             themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
                 } else {
                     ShareAlertAutoPilotUtils.logOutsideAppShareAlertClicked();
-                    HSAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(),
+                    LauncherAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(),
                             "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
                 }
             }
@@ -327,6 +317,10 @@ public class ShareAlertActivity extends Activity {
     private void share(View cardView) {
         editUserView(cardView);
         Bitmap bitmap = getScreenViewBitmap(cardView);
+        if (bitmap == null) {
+            finish();
+            return;
+        }
         Canvas c = new Canvas(bitmap);
 
         try {
@@ -400,7 +394,22 @@ public class ShareAlertActivity extends Activity {
         v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+        v.setDrawingCacheBackgroundColor(0xffff00);
+        if (v.getWidth() <= 0 || v.getHeight() <= 0) {
+            HSLog.d("ShareAlertActivity", "view measure failed");
+            Exception exception = new Exception("ViewSizeInvalidException");
+            CrashlyticsCore.getInstance().logException(exception);
+            return null;
+        }
+        HSLog.d("ShareAlertActivity", "max cache size = " + ViewConfiguration.get(this).getScaledMaximumDrawingCacheSize() + "");
         v.buildDrawingCache(true);
+
+        if (v.getDrawingCache() == null) {
+            Exception exception = new Exception("OutOfMaxCacheSizeException");
+            CrashlyticsCore.getInstance().logException(exception);
+            return null;
+        }
+        HSLog.d("ShareAlertActivity", "drawing cache size = " + v.getDrawingCache().getByteCount() + "");
         Bitmap b = Bitmap.createBitmap(v.getDrawingCache());
         v.setDrawingCacheEnabled(false); // clear drawing cache
         return b;

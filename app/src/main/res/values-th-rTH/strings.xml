@@ -41,4 +41,15 @@
   <string name="sms_assistant">ผู้ช่วย SMS</string>
   <string name="sms_assistant_hint">ผู้ช่วย SMS จะเตือนคุณเมื่อมีข้อความใหม่ (อาจมีโฆษณา)</string>
   <string name="call_assistant_hint">ผู้ช่วยโทรศัพท์จะเตือนคุณเมื่อมีสายที่ไม่ได้รับ (อาจมีโฆษณา)</string>
+
+  <string name="theme_set_for_all">ตั้งทั้งหมด</string>
+  <string name="theme_set_for_one">ตั้งสำหรับบางคน</string>
+  <string name="contact_select_hint">ใช้ธีม "%1$s" กับรายชื่อติดต่อที่เลือก</string>
+  <string name="contact_theme">ธีมรายชื่อติดต่อ</string>
+
+  <string name="edit">แก้ไข</string>
+  <string name="cancel">ยกเลิก</string>
+  <string name="delete">ลบ</string>
+  <string name="select_contacts">เลือกรายชื่อติดต่อ</string>
+
 </resources>

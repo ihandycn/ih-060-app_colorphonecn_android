@@ -42,4 +42,20 @@
   <string name="sms_assistant">SMSアシスタント</string>
   <string name="sms_assistant_hint">SMSアシスタントは新しいメッセージの着信をお知らせします（広告が含まれている可能性があります）</string>
   <string name="call_assistant_hint">SMSアシスタントは不在着信をお知らせします（広告が含まれている可能性があります）</string>
+
+  <string name="theme_set_for_all">すべてを設定</string>
+  <string name="theme_set_for_one">特定の人に設定</string>
+  <string name="contact_select_hint">選択した連絡先に「%1$s」テーマを適用する</string>
+  <string name="contact_theme">連絡のテーマ</string>
+
+  <string name="edit">編集</string>
+  <string name="cancel">キャンセル</string>
+  <string name="delete">削除</string>
+  <string name="select_contacts">連絡先を選択</string>
+
+
+
+
+
+
 </resources>

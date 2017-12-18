@@ -56,7 +56,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
@@ -83,6 +83,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final boolean DEBUG_LIFE_CALLBACK = true & BuildConfig.DEBUG;
     private static final int IMAGE_WIDTH = 1080;
     private static final int IMAGE_HEIGHT = 1920;
+    private static int[] sThumbnailSize = Utils.getThumbnailImageSize();
 
     private ThemePreviewWindow previewWindow;
     private InCallActionView callActionView;
@@ -309,7 +310,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             @Override
             public void onClick(View v) {
                 ContactsActivity.startSelect(mActivity, mTheme);
-                HSAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
+                LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
             }
         });
         bottomBtnTransY = getTransBottomLayout().getTranslationY();
@@ -582,13 +583,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         .asBitmap()
                         .centerCrop()
                         .load(mTheme.getPreviewImage())
-                        .diskCacheStrategy(DiskCacheStrategy.DATA)
-                        .transition(BitmapTransitionOptions.withCrossFade(200));
+                        .diskCacheStrategy(DiskCacheStrategy.DATA);
 
-                if (ThemePreviewActivity.cacheBitmap != null) {
-                    request.placeholder(new BitmapDrawable(getResources(), ThemePreviewActivity.cacheBitmap));
-                    ThemePreviewActivity.cacheBitmap = null;
-                }
+                request.thumbnail(
+                        GlideApp.with(getContext())
+                                .asBitmap()
+                                .load(mTheme.getPreviewImage())
+                                .centerCrop()
+                                .override(sThumbnailSize[0], sThumbnailSize[1])
+                );
 
                 if (overrideSize) {
                     request.override(IMAGE_WIDTH, IMAGE_HEIGHT);
