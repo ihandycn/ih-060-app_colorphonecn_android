@@ -24,7 +24,7 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.PreferenceHelper;
 import com.colorphone.lock.util.ViewUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.config.HSConfig;
 
 /**
@@ -100,7 +100,7 @@ public class ChargingScreenGuideView extends LinearLayout {
                     LockerSettings.setLockerEnabled(true);
                 }
                 Toast.makeText(ChargingScreenGuideView.this.getContext(), R.string.charging_screen_guide_turn_on, Toast.LENGTH_SHORT).show();
-                LauncherAnalytics.logEvent("Alert_ChargingScreen_TurnOn_Clicked", "type", "Turn on");
+                HSAnalytics.logEvent("Alert_ChargingScreen_TurnOn_Clicked", "type", "Turn on");
                 ChargingScreenGuideView.this.dismissSelf();
             }
         });

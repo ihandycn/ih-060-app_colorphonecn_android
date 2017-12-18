@@ -16,7 +16,7 @@ import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.NavUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 
@@ -144,7 +144,7 @@ public class LockerSlidingUpCallback implements SlidingUpCallback {
                     HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
                 } else {
                     if (NavUtils.startCamera(HSApplication.getContext())) {
-                        LauncherAnalytics.logEvent("Locker_Camera_Opened");
+                        HSAnalytics.logEvent("Locker_Camera_Opened");
                         HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
                     }
                 }

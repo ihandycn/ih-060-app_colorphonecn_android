@@ -36,7 +36,7 @@ import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpTouchListener;
 import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.ViewUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -154,7 +154,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             @Override
             public void onClick(View v) {
                 LockerMainFrame.this.showMenuPopupWindow(getContext(), mMenuMore);
-                LauncherAnalytics.logEvent("Locker_Menu_Clicked");
+                HSAnalytics.logEvent("Locker_Menu_Clicked");
             }
         });
 
@@ -213,7 +213,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             mShimmer.start(mUnlockText);
         }
 
-        LauncherAnalytics.logEvent("Screen_Lock_Shown_Init");
+        HSAnalytics.logEvent("Screen_Lock_Shown_Init");
     }
 
     private void requestAds() {
@@ -247,7 +247,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
             expressAdView.resumeDisplayNewAd();
         }
-        LauncherAnalytics.logEvent("Screen_Lock_Shown_Resume");
+        HSAnalytics.logEvent("Screen_Lock_Shown_Resume");
     }
 
     public void onPause() {
@@ -258,7 +258,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     public void onStop() {
         if (System.currentTimeMillis() - mOnStartTime > DateUtils.SECOND_IN_MILLIS) {
-            LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getLockerAdName(), String.valueOf(mAdShown)});
+            HSAnalytics.logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getLockerAdName(), String.valueOf(mAdShown)});
             mAdShown = false;
         }
     }
@@ -390,7 +390,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             mBottomOperationArea.setVisibility(View.INVISIBLE);
             mAdContainer.setVisibility(View.INVISIBLE);
             HSGlobalNotificationCenter.sendNotification(EVENT_SLIDING_DRAWER_OPENED);
-            LauncherAnalytics.logEvent("Locker_Toggle_Slided");
+            HSAnalytics.logEvent("Locker_Toggle_Slided");
         } else {
             mDimCover.setVisibility(View.INVISIBLE);
             HSGlobalNotificationCenter.sendNotification(EVENT_SLIDING_DRAWER_CLOSED);
@@ -458,7 +458,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                     if (ChargingScreenUtils.isFastDoubleClick()) {
                         return;
                     }
-                    LauncherAnalytics.logEvent("Locker_DisableLocker_Clicked");
+                    HSAnalytics.logEvent("Locker_DisableLocker_Clicked");
                     menuPopupView.dismiss();
                     LockerMainFrame.this.showLockerCloseDialog();
                 }
@@ -509,7 +509,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                     LockerSettings.setLockerEnabled(false);
                     mLockScreen.dismiss(getContext(), false);
                     Toast.makeText(getContext(), R.string.locker_diabled_success, Toast.LENGTH_SHORT).show();
-                    LauncherAnalytics.logEvent("Locker_DisableLocker_Alert_TurnOff_Clicked");
+                    HSAnalytics.logEvent("Locker_DisableLocker_Alert_TurnOff_Clicked");
                     mCloseLockerPopupView.dismiss();
                 }
             });
