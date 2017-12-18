@@ -2,7 +2,6 @@ package com.honeycomb.colorphone.themeselector;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -323,7 +322,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             // Download progress
             final TasksManagerModel model = TasksManager.getImpl().getByThemeId(curTheme.getId());
-
             if (model != null) {
                 cardViewHolder.update(model.getId(), position);
                 boolean fileExist = updateTaskHolder((ThemeCardViewHolder) holder, model);
@@ -360,6 +358,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private boolean updateTaskHolder(ThemeCardViewHolder holder, TasksManagerModel model) {
         final BaseDownloadTask task = TasksManager.getImpl()
                 .getTask(holder.id);
+        if (DEBUG_ADAPTER) {
+            HSLog.d("SUNDXING", "bind modle Id : " + holder.id
+                    + ", task is " + (task != null ? task : " null")
+                    + ", tag = " + holder.toString());
+        }
         if (task != null) {
             task.setTag(holder);
         }
@@ -369,7 +372,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         if (TasksManager.getImpl().isReady()) {
             final int status = TasksManager.getImpl().getStatus(model.getId(), model.getPath());
-            HSLog.d("sundxing", "position " + holder.position + ",download task status: " + status);
+            if (DEBUG_ADAPTER) {
+                HSLog.d("sundxing", "position " + holder.position + ",download task status: " + status);
+            }
             if (TasksManager.getImpl().isDownloading(status)) {
                 // start task, but file not created yet
                 // Or just downloading
@@ -402,7 +407,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
-        private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
+        private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & false;
         private static int[] sThumbnailSize = Utils.getThumbnailImageSize();
 
         ImageView mThemePreviewImg;

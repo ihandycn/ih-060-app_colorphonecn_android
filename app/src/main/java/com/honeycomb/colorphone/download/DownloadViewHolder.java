@@ -20,7 +20,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 
 public class DownloadViewHolder implements DownloadHolder {
-    private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
+    private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & false;
 
     /**
      * Progress display
@@ -127,11 +127,20 @@ public class DownloadViewHolder implements DownloadHolder {
             FileDownloadListener listener;
             listener = FileDownloadMultiListener.getDefault();
 
+            if (TasksManager.getImpl().getTask(model.getId()) != null) {
+                if (DEBUG_PROGRESS) {
+                    HSLog.d("SUNDXING", "Task Exist, taskId = " + model.getId());
+                }
+                return;
+            }
             final BaseDownloadTask task = FileDownloader.getImpl().create(model.getUrl())
                     .setPath(model.getPath())
                     .setCallbackProgressTimes(100)
                     .setListener(listener);
             TasksManager.getImpl().addTaskForViewHolder(task);
+            if (DEBUG_PROGRESS) {
+                HSLog.d("SUNDXING", "Add Task Id : " + task.getId() + ", tag = " + (tag != null ? tag.toString() : "null"));
+            }
 
             if (tag != null) {
                 task.setTag(tag);
