@@ -407,7 +407,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
-        private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & false;
+        private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG;
         private static int[] sThumbnailSize = Utils.getThumbnailImageSize();
 
         ImageView mThemePreviewImg;
@@ -450,7 +450,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return mContentView;
         }
 
-
         ThemeCardViewHolder(View itemView) {
             super(itemView);
             mContentView = itemView;
@@ -466,7 +465,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void initChildView() {
-
             mCallActionView = (InCallActionView) itemView.findViewById(R.id.card_in_call_action_view);
             mCallActionView.setAutoRun(false);
             mAvatar = (ImageView) mContentView.findViewById(R.id.caller_avatar);
@@ -496,7 +494,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         private void setSelected(Theme theme, boolean animation) {
-
             if (mThemeSelectedAnim != null) {
                 if (theme.isSelected()) {
                     if (animation) {
@@ -651,7 +648,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @Override
         public void updateDownloading(final int status, final long sofar, final long total) {
-
             if (DEBUG_PROGRESS) {
                 final float percent = sofar
                         / (float) total;
