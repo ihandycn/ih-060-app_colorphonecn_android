@@ -186,8 +186,8 @@ public class DownloadViewHolder implements DownloadHolder {
     }
 
     public void updateDownloading(final int status, final long sofar, final long total) {
-        if (sofar > 0 && total > 0) {
-            final int percent = updateProgressView(sofar, total);
+        if (sofar >= 0 && total >= 0) {
+            final int percent = updateProgressView(sofar, total == 0 ? Long.MAX_VALUE : total);
             if (DEBUG_PROGRESS) {
                 HSLog.d("sundxing", getId() + " download process, percent = " + percent + "%");
             }

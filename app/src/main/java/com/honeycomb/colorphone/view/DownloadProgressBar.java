@@ -752,8 +752,9 @@ public class DownloadProgressBar extends View implements ProgressView{
     }
 
     public void setProgress(int value) {
-        if(value < 1 || value > 100)
+        if(value < 0 || value > 100)
             return;
+        value = Math.max(1, value);
         mWhichProgress = State.ANIMATING_MANUAL_PROGRESS;
         mResultState = State.ANIMATING_SUCCESS;
 

@@ -152,7 +152,7 @@ public class TasksManager {
 
     public boolean isDownloading(final int status) {
         return status == FileDownloadStatus.progress || status == FileDownloadStatus.started ||
-                status == FileDownloadStatus.connected ;
+                status == FileDownloadStatus.connected || status == FileDownloadStatus.pending;
     }
 
     public int getStatus(final int id, String path) {
