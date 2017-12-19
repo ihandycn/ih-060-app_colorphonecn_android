@@ -8,10 +8,16 @@
             >
             <gradient
                 android:type="linear"
-                android:startColor="@color/black_trans_half"
-                android:endColor="@color/blue_dark"
+                android:startColor="@color/blue_dark"
+                android:endColor="@color/darkerBlue"
                 android:gradientRadius="2"
                 />
+
+            <corners
+                android:bottomLeftRadius="24dp"
+                android:bottomRightRadius="24dp"
+                android:topLeftRadius="24dp"
+                android:topRightRadius="24dp" />
         </shape>
     </item>
 
