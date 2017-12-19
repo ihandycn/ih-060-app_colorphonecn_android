@@ -117,7 +117,7 @@ public class NotificationAutoPilotUtils {
         AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_show");
     }
 
-    private static void logMessageAssistantAdShow() {
+    public static void logMessageAssistantAdShow() {
         AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_ad_show");
     }
 }

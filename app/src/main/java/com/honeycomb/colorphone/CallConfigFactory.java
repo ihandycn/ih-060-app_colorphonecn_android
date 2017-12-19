@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 
 import com.acb.call.CPSettings;
 import com.acb.call.customize.AcbCallFactoryImpl;
+import com.acb.call.customize.AcbCallManager;
 import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.receiver.IncomingCallReceiver;
 import com.acb.call.service.InCallWindow;
@@ -19,10 +20,13 @@ import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.util.FontUtils;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSPreferenceHelper;
+
+import net.appcloudbox.ads.nativeads.AcbNativeAdAnalytics;
 
 import java.util.Iterator;
 import java.util.List;
@@ -76,6 +80,30 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
         };
     }
+
+    @Override
+    public MessageCenterUtils.Event getSMSEvent() {
+        return new MessageCenterUtils.Event() {
+            public void onShow() {
+                NotificationAutoPilotUtils.logMessageAssistantShow();
+                LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", "NotOnLockScreen", "MessageType", "SMS");
+            }
+
+            public void onAdShow() {
+                NotificationAutoPilotUtils.logMessageAssistantAdShow();
+                LauncherAnalytics.logEvent("Message_View_AD_Shown");
+            }
+
+            public void onAdClick() {
+                LauncherAnalytics.logEvent("Message_View_AD_Clicked");
+            }
+
+            public void onAdFlurryRecord(boolean isShown) {
+                AcbNativeAdAnalytics.logAppViewEvent(AcbCallManager.getInstance().getAcbCallFactory().getSMSConfig().getAdPlacement(), isShown);
+            }
+        };
+    }
+
 
     private static class CPCallIdleConfig extends CallIdleAlert.PlistConfig {
         @Override
@@ -192,6 +220,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     }
 
 
+    @Override
     public NotificationMessageAlertActivity.Config getNotificationConfig() {
         return new NotificationMessageAlertActivity.Config() {
             @Override
@@ -206,12 +235,61 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
             @Override
             public boolean showWhenScreenOn() {
-                return NotificationAutoPilotUtils.isMessageCenterShowOnLock();
+                return NotificationAutoPilotUtils.isMessageCenterShowOnUnlock();
             }
 
             @Override
             public boolean showWhenScreenOff() {
-                return NotificationAutoPilotUtils.isMessageCenterShowOnUnlock();
+                return NotificationAutoPilotUtils.isMessageCenterShowOnLock();
+            }
+        };
+    }
+
+    @Override
+    public NotificationMessageAlertActivity.Event getNotificationEvent() {
+        return new NotificationMessageAlertActivity.Event() {
+            @Override
+            public void onShow(int[] count) {
+//                HSAnalytics.logEvent("Message_View_Shown");
+            }
+
+            @Override
+            public void onAdShow() {
+                NotificationAutoPilotUtils.logMessageAssistantAdShow();
+                LauncherAnalytics.logEvent("Message_View_AD_Shown");
+            }
+
+            @Override
+            public void onAdClick() {
+                LauncherAnalytics.logEvent("Message_View_AD_Clicked");
+
+            }
+
+            @Override
+            public void onAdFlurryRecord(boolean isShown) {
+                AcbNativeAdAnalytics.logAppViewEvent(
+                        AcbCallManager.getInstance().getAcbCallFactory().getSMSConfig().getAdPlacement(), isShown);
+            }
+
+            @Override public void onContentClick() {
+
+            }
+
+
+            @Override
+            public void onShow(int[] smsCount, boolean showOnLock) {
+                boolean hasSms = smsCount[0] > 0;
+                boolean hasWhatsApp = smsCount[1] > 0;
+                String lockFlurry = showOnLock ? "OnLockScreen" : "NotOnLockScreen";
+                if (hasSms && !hasWhatsApp) {
+                    LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "SMS");
+                } else if (hasSms) {
+                    LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "Multi");
+                } else {
+                    LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "WhatsApp");
+                }
+
+                NotificationAutoPilotUtils.logMessageAssistantShow();
             }
         };
     }
