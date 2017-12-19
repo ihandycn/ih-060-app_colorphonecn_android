@@ -24,6 +24,7 @@ import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -61,7 +62,9 @@ import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSMapUtils;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.File;
@@ -745,5 +748,20 @@ public final class Utils {
                 }
             }
         }
+    }
+
+    public static boolean isAnyLockerAppInstalled() {
+
+        List<?> lockers = HSConfig.getList("Application", "Promote", "LockerList");
+        for (Object item : lockers) {
+            try {
+                HSApplication.getContext().getPackageManager().getPackageInfo((String)item, 0);
+                return true;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+
     }
 }

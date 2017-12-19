@@ -79,7 +79,7 @@
 
 
         <receiver
-            android:name=".LocaleConfigReceiver"
+            android:name=".receiver.LocaleConfigReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="1000">
@@ -96,14 +96,14 @@
         </receiver>
 
         <receiver
-            android:name=".OurAppInstalledReceiver"
+            android:name=".receiver.OurAppInstalledReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".ShareReceiver"
+        <receiver android:name=".receiver.ShareReceiver"
             android:exported="true">
         </receiver>
 
@@ -140,6 +140,10 @@
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:taskAffinity=".call"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+
+        <activity android:name=".activity.PromoteLockerActivity"
+            android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Translucent" />
 
         <activity android:name=".activity.ContactsSelectActivity"
@@ -192,6 +196,14 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
+        <receiver android:name=".receiver.PackageAddReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
 
         <receiver android:name=".notification.NotificationActionReceiver"
             android:exported="true">

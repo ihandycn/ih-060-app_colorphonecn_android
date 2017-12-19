@@ -2,15 +2,14 @@ package com.honeycomb.colorphone.notification;
 
 import com.acb.autopilot.AutopilotConfig;
 import com.acb.autopilot.AutopilotEvent;
+import com.colorphone.lock.util.ActivityUtils;
 
-/**
- * Created by ihandysoft on 2017/11/16.
- */
 
 public class NotificationAutoPilotUtils {
 
     private static final String NOTIFICATION_ACCESS_TEST_TOPIC_ID = "topic-1510752104742";
     private static final String LOCAL_NOTIFICATION_TEST = "topic-1510751463187";
+    private static final String WHATS_APP_ASSISTANT_TEST = "topic-1512815797473-16";
 
 
     public static boolean isNotificationAccessTipAtBottom() {
@@ -98,6 +97,27 @@ public class NotificationAutoPilotUtils {
         AutopilotEvent.logTopicEvent(LOCAL_NOTIFICATION_TEST, "localpush_oldtheme_themeapply");
     }
 
+    /**
+     * WhatsApp message
+     */
 
+    public static boolean isMessageCenterEnabled() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "whatsapp_assistant_enable", false);
+    }
 
+    public static boolean isMessageCenterShowOnLock() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "whatsapp_assistant_show_on_lock", false);
+    }
+
+    public static boolean isMessageCenterShowOnUnlock() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "whatsapp_assistant_show_on_unlock", false);
+    }
+
+    public static void logMessageAssistantShow() {
+        AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_show");
+    }
+
+    public static void logMessageAssistantAdShow() {
+        AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_ad_show");
+    }
 }

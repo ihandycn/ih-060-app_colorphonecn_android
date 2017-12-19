@@ -12,6 +12,7 @@ import com.acb.call.CPSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.PreferenceHelper;
+import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
 
 /**
@@ -105,11 +106,6 @@ public class ModuleUtils {
         String[] projection = new String[]{
                 ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER,
                 ContactsContract.PhoneLookup.DISPLAY_NAME, ContactsContract.PhoneLookup.PHOTO_URI};
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-//            projection = new String[]{
-//                    ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NORMALIZED_NUMBER,
-//                    ContactsContract.PhoneLookup.DISPLAY_NAME};
-//        }
         Cursor cursorLookup = null;
         try {
             cursorLookup = contentResolver.query(phonesUri,
@@ -141,6 +137,31 @@ public class ModuleUtils {
             PreferenceHelper.get(PREFS_FILE_NAME).putBoolean("show_set_for_one_guide", false);
         }
         return needShow;
+    }
+
+    public static boolean isShowPromoteLockerAlert(int alertType) {
+        if (!PromoteLockerAutoPilotUtils.isPromoteAlertEnable(alertType)) {
+            return false;
+        }
+
+        if (Utils.isAnyLockerAppInstalled()) {
+            return  false;
+        }
+
+        PreferenceHelper helper = PreferenceHelper.get(PromoteLockerActivity.PREFS_FILE);
+
+        if (helper.getInt(PromoteLockerActivity.PREFS_PROMOTE_LOCKER_ALERT_SHOW_COUNT, 0)
+                >= PromoteLockerAutoPilotUtils.getPromoteAlertMaxShowCount()) {
+            return false;
+        }
+
+        if (helper.getLong(PromoteLockerActivity.PREFS_PROMOTE_LOCKER_ALERT_APP_SHOW_TIME, 0)
+                + PromoteLockerAutoPilotUtils.getPromoteAlertShowInterval() > System.currentTimeMillis()) {
+            return false;
+        }
+
+        return true;
+
     }
 
 
