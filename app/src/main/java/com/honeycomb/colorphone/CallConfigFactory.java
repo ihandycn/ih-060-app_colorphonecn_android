@@ -266,6 +266,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             }
 
             @Override
+            public void onBtnClick(String string) {
+                LauncherAnalytics.logEvent("Message_View_" + string + "_Clicked");
+            }
+
+            @Override
             public void onAdFlurryRecord(boolean isShown) {
                 AcbNativeAdAnalytics.logAppViewEvent(
                         AcbCallManager.getInstance().getAcbCallFactory().getSMSConfig().getAdPlacement(), isShown);

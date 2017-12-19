@@ -62,7 +62,9 @@ import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSMapUtils;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.File;
@@ -749,11 +751,17 @@ public final class Utils {
     }
 
     public static boolean isAnyLockerAppInstalled() {
-        try {
-            HSApplication.getContext().getPackageManager().getPackageInfo("locker", 0);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
+
+        List<?> lockers = HSConfig.getList("Application", "Promote", "LockerList");
+        for (Object item : lockers) {
+            try {
+                HSApplication.getContext().getPackageManager().getPackageInfo((String)item, 0);
+                return true;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
         }
+        return false;
+
     }
 }

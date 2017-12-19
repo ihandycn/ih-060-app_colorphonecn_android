@@ -15,6 +15,7 @@ import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.PromoteLockerAutoPilotUtils;
+import com.honeycomb.colorphone.util.StatusBarUtils;
 
 /**
  * Created by jelly on 2017/12/14.
@@ -49,6 +50,7 @@ public class PromoteLockerActivity extends AppCompatActivity {
         alertType = getIntent().getIntExtra(ALERT_TYPE, AFTER_APPLY_FINISH);
         setContentView(alertType == WHEN_APP_LAUNCH ? R.layout.promote_locker_when_app_launch : R.layout.promote_locker_when_apply_theme);
 
+        StatusBarUtils.hideStatusBar(this);
         initAlertDetails();
         initAddLockerButton();
         ImageButton close = findViewById(R.id.close);
@@ -90,8 +92,7 @@ public class PromoteLockerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String packageName = PromoteLockerAutoPilotUtils.getPromoteLockerApp();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("market://details?id=" + packageName)); //跳转到应用市场，非Google Play市场一般情况也实现了这个接口
-
+                intent.setData(Uri.parse("market://details?id=" + packageName));
                 try {
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
