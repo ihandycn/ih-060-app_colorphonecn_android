@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 
 import com.acb.call.CPSettings;
@@ -11,9 +12,11 @@ import com.acb.call.receiver.IncomingCallReceiver;
 import com.acb.call.service.InCallWindow;
 import com.acb.call.themes.Type;
 import com.acb.call.views.CallIdleAlert;
+import com.acb.notification.FloatWindowController;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.notification.NotificationMessageAlertActivity;
 import com.acb.utils.MessageCenterUtils;
+import com.acb.utils.NavUtils;
 import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
@@ -241,6 +244,19 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             @Override
             public boolean showWhenScreenOff() {
                 return NotificationAutoPilotUtils.isMessageCenterShowOnLock();
+            }
+        };
+    }
+
+    @Override
+    public NotificationMessageAlertActivity.Permission getNotificationPermission() {
+        return new NotificationMessageAlertActivity.Permission() {
+            @Override
+            public void requestNotificationPermission() {
+                Context context = HSApplication.getContext();
+                Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                NavUtils.startActivitySafely(context, intent);
+                FloatWindowController.getInstance().createUsageAccessTip(context);
             }
         };
     }
