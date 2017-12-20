@@ -11,6 +11,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.charging.HSChargingManager;
 import com.ihs.commons.utils.HSLog;
 
 /**
@@ -27,10 +28,39 @@ public class LockScreenStarter {
     private static final String TAG = "LockManager";
 
     private BatteryChangeReceiver mBatteryChangeReceiver = new BatteryChangeReceiver();
+    private HSChargingManager.IChargingListener mChargingListener = new HSChargingManager.IChargingListener() {
+        @Override
+        public void onBatteryLevelChanged(int i, int i1) {
+        }
+
+        @Override
+        public void onChargingStateChanged(HSChargingManager.HSChargingState preChargingState, HSChargingManager.HSChargingState curChargingState) {
+
+            if (ChargingScreenSettings.isChargingScreenEnabled() && HSChargingManager.getInstance().isCharging()
+                    && preChargingState == HSChargingManager.HSChargingState.STATE_DISCHARGING) {
+                ChargingScreenSettings.increaseChargingCount();
+//                boolean chargeDoNotDisturb = HSConfig.optBoolean(false, "Application", "Locker", "ChargeDoNotDisturb");
+                ChargingScreenUtils.startChargingScreenActivity(true);
+            }
+        }
+
+        @Override public void onChargingRemainingTimeChanged(int i) {
+
+        }
+
+        @Override public void onBatteryTemperatureChanged(float v, float v1) {
+
+        }
+    };
 
     public static void init() {
         LockScreenStarter m = new LockScreenStarter();
         m.registerScreenOnOff();
+        m.registerChargingListener();
+    }
+
+    private void registerChargingListener() {
+        HSChargingManager.getInstance().addChargingListener(mChargingListener);
     }
 
     private void registerScreenOnOff() {
