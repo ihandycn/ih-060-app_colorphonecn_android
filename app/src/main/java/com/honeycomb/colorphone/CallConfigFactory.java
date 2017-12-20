@@ -78,7 +78,8 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
             @Override
             public boolean enable() {
-                return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT);
+                return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT)
+                        && CPSettings.isSMSAssistantModuleEnabled();
             }
 
         };
@@ -158,7 +159,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 if (t instanceof Theme) {
                     ((Theme) t).configAvatar();
                 }
-                if (t.getValue()== Type.NONE) {
+                if (t.getValue() == Type.NONE) {
                     iter.remove();
                 }
             }
@@ -233,7 +234,8 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
             @Override
             public boolean enable() {
-                return NotificationAutoPilotUtils.isMessageCenterEnabled();
+                return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT)
+                        && NotificationAutoPilotUtils.isMessageCenterEnabled();
             }
 
             @Override
@@ -292,7 +294,8 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                         AcbCallManager.getInstance().getAcbCallFactory().getSMSConfig().getAdPlacement(), isShown);
             }
 
-            @Override public void onContentClick() {
+            @Override
+            public void onContentClick() {
 
             }
 
