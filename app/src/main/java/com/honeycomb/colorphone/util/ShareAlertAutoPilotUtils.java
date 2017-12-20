@@ -9,6 +9,10 @@ public class ShareAlertAutoPilotUtils {
 
     public static final String SHARE_ALERT_TOPIC_ID = "topic-1511875453515";
 
+    public static boolean isInsideAppEnable() {
+        return AutopilotConfig.getBooleanToTestNow(SHARE_ALERT_TOPIC_ID, "inapp_share_enable", false);
+    }
+
     public static String getInsideAppShareBtnText() {
         return AutopilotConfig.getStringToTestNow(SHARE_ALERT_TOPIC_ID, "inapp_share_alert_btn_text", "error");
     }
@@ -31,6 +35,10 @@ public class ShareAlertAutoPilotUtils {
 
     public static String getInsideAppShareText() {
         return AutopilotConfig.getStringToTestNow(SHARE_ALERT_TOPIC_ID, "inapp_share_text", "error").replace("\\n", "\n");
+    }
+
+    public static boolean isOutsideAppEnable() {
+        return AutopilotConfig.getBooleanToTestNow(SHARE_ALERT_TOPIC_ID, "outapp_share_enable", false);
     }
 
     public static String getOutsideAppShareBtnText() {

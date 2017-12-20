@@ -1,21 +1,14 @@
 {
+  "custom_audience_properties": [],
   "get_url": "https://console.appcloudbox.net/autopilot/api/test/get",
   "topics": {
     "topic-1512822231846-17": {
       "topic_type": "life_time",
       "topic_name": "Charging Test",
       "variations": {
-        "chargingreport_showinterval": {
-          "type": "double",
-          "value": 10
-        },
         "charging_lockscreen_enable": {
           "type": "boolean",
           "value": true
-        },
-        "chargingreport_firstshowtime": {
-          "type": "double",
-          "value": 15
         },
         "chargingreport_oncharger_enable": {
           "type": "boolean",
@@ -29,9 +22,6 @@
       "events": [
         {
           "name": "test"
-        },
-        {
-          "name": "chargingreportshow"
         }
       ],
       "topic_id": "topic-1512822231846-17"
@@ -99,6 +89,10 @@
           "type": "string",
           "value": "My latest call screen theme from Color Phone. https://app.appsflyer.com/com.colorphone.smooth.dialer?pid=Userinvite2"
         },
+        "outapp_share_enable": {
+          "type": "boolean",
+          "value": true
+        },
         "inapp_share_alert_detail": {
           "type": "string",
           "value": "You have successfully customized your calling screen, show it to others."
@@ -126,6 +120,10 @@
         "outapp_share_alert_title": {
           "type": "string",
           "value": "Notify Your Friends"
+        },
+        "inapp_share_enable": {
+          "type": "boolean",
+          "value": true
         },
         "inapp_share_alert_btn_text": {
           "type": "string",

@@ -71,6 +71,10 @@ public class ModuleUtils {
     }
 
     public static boolean isShareAlertInsideAppShow() {
+
+        if (!ShareAlertAutoPilotUtils.isInsideAppEnable()) {
+            return false;
+        }
         PreferenceHelper helper = PreferenceHelper.get(ShareAlertActivity.PREFS_FILE);
 
         if (helper.getInt(ShareAlertActivity.SHARE_ALERT_IN_APP_SHOW_COUNT, 0)
@@ -87,6 +91,9 @@ public class ModuleUtils {
 
     public static boolean isShareAlertOutsideAppShow(Context context, String phoneNumber) {
 
+        if (!ShareAlertAutoPilotUtils.isOutsideAppEnable()) {
+            return false;
+        }
         // is in contact
         PreferenceHelper helper = PreferenceHelper.get(ShareAlertActivity.PREFS_FILE);
         if (helper.getInt(ShareAlertActivity.SHARE_ALERT_OUT_APP_SHOW_COUNT, 0)
