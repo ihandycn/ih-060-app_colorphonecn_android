@@ -108,6 +108,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         ContactManager.getInstance().update();
 
+        // TODO pro show condition ( SESSION_START, or Activity onStart() )
         if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                 && !GuideLockerAssistantActivity.isStarted()
                 && !ModuleUtils.isAllModuleEnabled()) {

@@ -4,13 +4,16 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.annotation.AnyRes;
 
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSLog;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Color phone theme.
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 public class Theme extends Type {
 
     public static final String CONFIG_DOWNLOAD_NUM = "DownloadNum";
+    private static final boolean DEBUG_THEME_CHANGE = BuildConfig.DEBUG & false;
 
     private long download;
     private boolean isSelected;
@@ -29,6 +33,22 @@ public class Theme extends Type {
     private String notificationLargeIconUrl;
     private String notificationLargePictureUrl;
     private static ArrayList<Theme> themes = new ArrayList<>(30);
+    
+    private static Handler mTestHandler = new Handler();
+    private static Runnable sTestRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Iterator<Theme> iter = themes.iterator();
+            if (iter.hasNext()) {
+                iter.next();
+                iter.remove();
+                HSLog.d("THEME", "Test size --, current size = " + themes.size());
+                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+                mTestHandler.postDelayed(this, 4000);
+            }
+
+        }
+    };
 
     public static ArrayList<Theme> themes() {
         if (themes.isEmpty()) {
@@ -47,6 +67,10 @@ public class Theme extends Type {
             themes.add((Theme) type);
         }
         HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+
+        if (DEBUG_THEME_CHANGE) {
+            mTestHandler.postDelayed(sTestRunnable, 8000);
+        }
     }
 
     public long getDownload() {

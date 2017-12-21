@@ -3,7 +3,6 @@ package com.honeycomb.colorphone.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -28,7 +27,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_KEY = "notify_theme_select_key";
 
     private Theme mTheme;
-    private ArrayList<Theme> mThemes;
+    private ArrayList<Theme> mThemes = new ArrayList<>();
     private ViewPager mViewPager;
     private View mNavBack;
     private ThemePagerAdapter mAdapter;
@@ -57,7 +56,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mThemes = Theme.themes();
+        mThemes.addAll(Theme.themes());
         int pos = getIntent().getIntExtra("position", 0);
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());

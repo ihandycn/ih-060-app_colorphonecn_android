@@ -110,7 +110,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                 }
             }
-            throw new IllegalStateException("Not found theme index!");
+            return 0;
+//            throw new IllegalStateException("Not found theme index!");
         }
 
     };
