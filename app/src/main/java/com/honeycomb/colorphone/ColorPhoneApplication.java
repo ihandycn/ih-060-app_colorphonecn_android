@@ -266,7 +266,7 @@ public class ColorPhoneApplication extends HSApplication {
     private void initChargingReport() {
         ChargingReportConfiguration configuration = new ChargingReportConfiguration.Builder()
                 .adPlacement(AdPlacements.AD_CHARGING_REPORT)
-                .appName(getResources().getString(R.string.app_name))
+                .appName(getResources().getString(R.string.smart_charging))
                 .appIconResourceId(R.mipmap.ic_launcher)
                 .timeAppInstall(HSSessionMgr.getFirstSessionStartTime())
                 .sceneSwitch(new ChargingReportConfiguration.ISceneSwitch() {

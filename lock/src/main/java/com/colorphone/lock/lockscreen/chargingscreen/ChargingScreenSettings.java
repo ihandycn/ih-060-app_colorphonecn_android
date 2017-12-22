@@ -4,6 +4,7 @@ package com.colorphone.lock.lockscreen.chargingscreen;
 import com.colorphone.lock.util.PreferenceHelper;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.libcharging.ChargingPreferenceUtil;
 
 /**
  * Charging Screen upgrade to SmartCharging, Use SmartChargingSettings instead;
@@ -37,6 +38,7 @@ public class ChargingScreenSettings {
         if (isEnabled) {
             PreferenceHelper.getDefault().putBoolean(PREF_KEY_CHARGING_SCREEN_EVER_ENABLED, true);
         }
+        ChargingPreferenceUtil.setChargingModulePreferenceEnabled(isEnabled);
         HSGlobalNotificationCenter.sendNotification(NOTIFY_CHARGING_SCREEN_STATE);
     }
 

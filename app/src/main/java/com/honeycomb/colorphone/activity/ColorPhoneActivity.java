@@ -32,6 +32,7 @@ import com.acb.call.themes.Type;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.PermissionUtils;
 import com.bumptech.glide.Glide;
+import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -47,6 +48,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -54,6 +56,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.ihs.libcharging.ChargingPreferenceUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -216,6 +219,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         initRecyclerView();
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
+        HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
     }
 
@@ -484,6 +488,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
             initData();
             mAdapter.notifyDataSetChanged();
+        } else if (HSNotificationConstant.HS_SESSION_START.equals(s)) {
+            ChargingPreferenceUtil.setChargingScreenEnabled(SmartChargingSettings.isModuleConfigEnabled());
+            ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());
+            ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
         }
     }
 

@@ -71,16 +71,13 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
-        mModuleStates.add(new ModuleState(ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CHARGING),
+        mModuleStates.add(new ModuleState(SmartChargingSettings.isModuleConfigEnabled(),
                 SmartChargingSettings.isModuleUserEnabled(),
                 R.id.setting_item_charging_toggle,
                 R.id.setting_item_charging) {
             @Override
             public void onCheckChanged(boolean isChecked) {
                 SmartChargingSettings.setModuleEnabled(isChecked);
-                ChargingPreferenceUtil.setChargingScreenEnabled(SmartChargingSettings.isModuleConfigEnabled());
-                ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());
-                ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
             }
         });
 

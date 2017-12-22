@@ -4,6 +4,7 @@ package com.colorphone.lock.lockscreen.chargingscreen;
 import com.acb.autopilot.AutopilotConfig;
 import com.acb.autopilot.AutopilotEvent;
 import com.colorphone.lock.util.PreferenceHelper;
+import com.ihs.libcharging.ChargingPreferenceUtil;
 
 public class SmartChargingSettings {
 
@@ -19,8 +20,10 @@ public class SmartChargingSettings {
     }
 
     public static void setModuleEnabled(boolean enable) {
-        ChargingScreenSettings.setChargingScreenEnabled(isChargingScreenConfigEnabled() && enable);
-        setChargingReportUserEnabled(isChargingReportConfigEnabled() && enable);
+        ChargingScreenSettings.setChargingScreenEnabled(enable);
+        setChargingReportUserEnabled(enable);
+        ChargingPreferenceUtil.setChargingScreenEnabled(SmartChargingSettings.isModuleConfigEnabled());
+        ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
     }
 
     /**
