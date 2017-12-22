@@ -264,6 +264,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void initChargingReport() {
+        AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.AD_CHARGING_REPORT);
         ChargingReportConfiguration configuration = new ChargingReportConfiguration.Builder()
                 .adPlacement(AdPlacements.AD_CHARGING_REPORT)
                 .appName(getResources().getString(R.string.smart_charging))
@@ -298,7 +299,6 @@ public class ColorPhoneApplication extends HSApplication {
                 })
                 .build();
         ChargingReportManager.getInstance().init(configuration);
-
         ChargingReportManager.getInstance().setChargingReportCallback(new ChargingReportCallback() {
             @Override
             public void logEvent(String s, boolean logToFlurry, String... strings) {
@@ -420,9 +420,13 @@ public class ColorPhoneApplication extends HSApplication {
 
     }
 
+    public static void checkChargingReportAdPlacement() {
+        checkNativeAd(AdPlacements.AD_CHARGING_REPORT, SmartChargingSettings.isChargingReportEnabled());
+    }
+
     private void checkModuleAdPlacement() {
         checkCallAssistantAdPlacement();
-
+        checkChargingReportAdPlacement();
         for (Module module : mModules) {
             if (module.getAdType() == Module.AD_EXPRESS) {
                 checkExpressAd(module.getAdName(), module.getChecker().isEnable());
