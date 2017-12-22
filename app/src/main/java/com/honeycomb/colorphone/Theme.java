@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.AnyRes;
 
 import com.acb.call.themes.Type;
@@ -33,8 +34,8 @@ public class Theme extends Type {
     private String notificationLargeIconUrl;
     private String notificationLargePictureUrl;
     private static ArrayList<Theme> themes = new ArrayList<>(30);
-    
-    private static Handler mTestHandler = new Handler();
+
+    private static Handler mTestHandler = new Handler(Looper.getMainLooper());
     private static Runnable sTestRunnable = new Runnable() {
         @Override
         public void run() {
