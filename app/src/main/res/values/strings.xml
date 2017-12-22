@@ -58,12 +58,6 @@
     <string name="share_default_name" translatable="false">Ava</string>
     <string name="share_default_number" translatable="false">(616) *** 6789</string>
 
-    <string name="promote_locker_alert_title" translatable="false">Color Locker For Free</string>
-    <string name="promote_locker_alert_description" translatable="false">Choose beautiful wallpapers to make your lock screen stand out</string>
-    <string name="promote_add_for_free" translatable="false">ADD FOR FREE</string>
-    <string name="promote_no_thanks">NO, THANKS</string>
-    <string name="promote_apply_success">APPLY SUCCESS</string>
-    <string name="promote_apply_subtitle">Begin to enjoy color phone</string>
 
     <string name="select_contacts">Select Contacts</string>
     <string name="contact_theme">Contact Theme</string>
@@ -76,5 +70,13 @@
 
     <string name="set" translatable="false">SET</string>
     <string name="empty_contact_hint" translatable="false">You haven’t set up theme\n for your contacts.</string>
+
+    <!--交叉推广-->
+    <string name="promote_locker_alert_title" translatable="false">Color Locker For Free</string>
+    <string name="promote_locker_alert_description" translatable="false">Choose beautiful wallpapers to make your lock screen stand out</string>
+    <string name="promote_add_for_free" translatable="false">ADD FOR FREE</string>
+    <string name="promote_no_thanks" translatable="false">NO, THANKS</string>
+    <string name="promote_apply_success" translatable="false">APPLY SUCCESS!</string>
+    <string name="promote_apply_subtitle" translatable="false">Begin to enjoy color phone</string>
 
 </resources>
