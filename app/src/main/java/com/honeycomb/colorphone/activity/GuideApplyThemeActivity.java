@@ -1,7 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
@@ -13,14 +12,13 @@ import android.widget.TextView;
 
 import com.acb.call.CPSettings;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
+import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.ShareAlertAutoPilotUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -94,7 +92,7 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
                     CPSettings.setSMSAssistantModuleEnabled(true);
                     CPSettings.setCallAssistantModuleEnabled(true);
                     LockerSettings.setLockerEnabled(true);
-                    ChargingScreenSettings.setChargingScreenEnabled(true);
+                    SmartChargingSettings.setModuleEnabled(true);
                 } else {
                     LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked_WithUnselectFeature");
                 }

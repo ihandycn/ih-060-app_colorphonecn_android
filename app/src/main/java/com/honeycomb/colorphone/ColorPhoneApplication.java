@@ -30,6 +30,7 @@ import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
+import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
@@ -43,9 +44,14 @@ import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
+import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.charging.HSChargingManager;
+import com.ihs.chargingreport.ChargingReportCallback;
+import com.ihs.chargingreport.ChargingReportConfiguration;
+import com.ihs.chargingreport.ChargingReportManager;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -152,11 +158,12 @@ public class ColorPhoneApplication extends HSApplication {
                 AutopilotConfig.setDebugConfig(true, true, true);
             }
 
+            Upgrader.upgrade();
             addGlobalObservers();
-
             initModules();
             checkModuleAdPlacement();
 
+            initChargingReport();
             initLockerCharging();
             Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
 
@@ -256,6 +263,55 @@ public class ColorPhoneApplication extends HSApplication {
         });
     }
 
+    private void initChargingReport() {
+        ChargingReportConfiguration configuration = new ChargingReportConfiguration.Builder()
+                .adPlacement(AdPlacements.AD_CHARGING_REPORT)
+                .appName(getResources().getString(R.string.app_name))
+                .appIconResourceId(R.mipmap.ic_launcher)
+                .timeAppInstall(HSSessionMgr.getFirstSessionStartTime())
+                .sceneSwitch(new ChargingReportConfiguration.ISceneSwitch() {
+                    @Override
+                    public boolean sceneUnlockPlugEnabled() {
+                        return SmartChargingSettings.isChargingReportOnChargerEnable();
+                    }
+
+                    @Override
+                    public boolean sceneLockPlugEnabeld() {
+                        return SmartChargingSettings.isChargingReportOnChargerEnable();
+                    }
+
+                    // 解锁出现的充电报告
+                    @Override
+                    public boolean sceneChargingEnabled() {
+                        return SmartChargingSettings.isChargingReportEnabled();
+                    }
+
+                    @Override
+                    public boolean sceneUnlockUnplugEnabled() {
+                        return SmartChargingSettings.isChargingReportOffChargerEnable();
+                    }
+
+                    @Override
+                    public boolean sceneLockUnplugEnabled() {
+                        return SmartChargingSettings.isChargingReportOffChargerEnable();
+                    }
+                })
+                .build();
+        ChargingReportManager.getInstance().init(configuration);
+
+        ChargingReportManager.getInstance().setChargingReportCallback(new ChargingReportCallback() {
+            @Override
+            public void logEvent(String s, boolean logToFlurry, String... strings) {
+                LauncherAnalytics.logEvent(s, strings);
+            }
+
+            @Override
+            public void logAdEvent(String s, boolean b) {
+
+            }
+        });
+    }
+
     private void initLockerCharging() {
         LockScreenStarter.init();
 
@@ -311,7 +367,7 @@ public class ColorPhoneApplication extends HSApplication {
         charging.setChecker(new Module.Checker() {
             @Override
             public boolean isEnable() {
-                return ChargingScreenSettings.isChargingScreenEnabled();
+                return SmartChargingSettings.isChargingScreenEnabled();
             }
         });
         mModules.add(locker);

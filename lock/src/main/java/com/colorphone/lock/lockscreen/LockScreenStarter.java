@@ -8,6 +8,7 @@ import android.os.BatteryManager;
 
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
+import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
@@ -36,7 +37,7 @@ public class LockScreenStarter {
         @Override
         public void onChargingStateChanged(HSChargingManager.HSChargingState preChargingState, HSChargingManager.HSChargingState curChargingState) {
 
-            if (ChargingScreenSettings.isChargingScreenEnabled() && HSChargingManager.getInstance().isCharging()
+            if (SmartChargingSettings.isChargingScreenEnabled() && HSChargingManager.getInstance().isCharging()
                     && preChargingState == HSChargingManager.HSChargingState.STATE_DISCHARGING) {
                 ChargingScreenSettings.increaseChargingCount();
 //                boolean chargeDoNotDisturb = HSConfig.optBoolean(false, "Application", "Locker", "ChargeDoNotDisturb");
@@ -83,7 +84,7 @@ public class LockScreenStarter {
     }
 
     private void onScreenOff() {
-        if (isCharging() && ChargingScreenSettings.isChargingScreenEnabled()) {
+        if (isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
             notifyToStart(EXTRA_VALUE_CHARGING);
         } else if (LockerSettings.isLockerEnabled()) {
             notifyToStart(EXTRA_VALUE_LOCKER);

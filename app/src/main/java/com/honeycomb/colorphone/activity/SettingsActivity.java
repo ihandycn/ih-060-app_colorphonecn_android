@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.acb.call.CPSettings;
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
+import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -18,6 +18,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.libcharging.ChargingPreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,12 +72,15 @@ public class SettingsActivity extends HSAppCompatActivity {
         });
 
         mModuleStates.add(new ModuleState(ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CHARGING),
-                ChargingScreenSettings.isChargingScreenEnabled(),
+                SmartChargingSettings.isModuleUserEnabled(),
                 R.id.setting_item_charging_toggle,
                 R.id.setting_item_charging) {
             @Override
             public void onCheckChanged(boolean isChecked) {
-                ChargingScreenSettings.setChargingScreenEnabled(isChecked);
+                SmartChargingSettings.setModuleEnabled(isChecked);
+                ChargingPreferenceUtil.setChargingScreenEnabled(SmartChargingSettings.isModuleConfigEnabled());
+                ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());
+                ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
             }
         });
 

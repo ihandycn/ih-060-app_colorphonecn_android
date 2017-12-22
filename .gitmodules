@@ -4,3 +4,6 @@
 [submodule "libs/chargingscreen"]
 	path = libs/chargingscreen
 	url = http://git.ihandysoft.com/bingroup/bin_chargingscreen_android.git
+[submodule "libs/libChargingReport"]
+	path = libs/libChargingReport
+	url = http://git.ihandysoft.com/bingroup/Bin_FlashlightCharging_Android.git

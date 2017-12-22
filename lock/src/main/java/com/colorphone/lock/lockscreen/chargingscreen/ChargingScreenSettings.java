@@ -6,7 +6,7 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 
 /**
- * Created by lz on 3/1/17.
+ * Charging Screen upgrade to SmartCharging, Use SmartChargingSettings instead;
  */
 
 public class ChargingScreenSettings {
@@ -28,7 +28,7 @@ public class ChargingScreenSettings {
 
     private static boolean sDefaultEnabled = HSConfig.optBoolean(false, "Application", "Locker", "ChargeDefaultEnabled");
 
-    public static boolean isChargingScreenEnabled() {
+    public static boolean isChargingScreenUserEnabled() {
         return PreferenceHelper.getDefault().getBoolean(PREF_KEY_CHARGING_SCREEN_ENABLED, sDefaultEnabled);
     }
 

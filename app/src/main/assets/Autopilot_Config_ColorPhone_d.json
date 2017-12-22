@@ -17,6 +17,10 @@
         "charging_report_enable": {
           "type": "boolean",
           "value": false
+        },
+        "chargingreport_offcharger_enable": {
+          "type": "boolean",
+          "value": false
         }
       },
       "events": [
