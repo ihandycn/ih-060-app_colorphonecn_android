@@ -303,6 +303,9 @@ public class ColorPhoneApplication extends HSApplication {
             @Override
             public void logEvent(String s, boolean logToFlurry, String... strings) {
                 LauncherAnalytics.logEvent(s, strings);
+                if (TextUtils.equals(s, "ChargingReportView_Show")) {
+                    SmartChargingSettings.logChargingReportEnabled();
+                }
             }
 
             @Override

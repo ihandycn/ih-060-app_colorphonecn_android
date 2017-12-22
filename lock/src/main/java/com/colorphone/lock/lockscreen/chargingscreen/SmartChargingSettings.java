@@ -2,12 +2,12 @@ package com.colorphone.lock.lockscreen.chargingscreen;
 
 
 import com.acb.autopilot.AutopilotConfig;
+import com.acb.autopilot.AutopilotEvent;
 import com.colorphone.lock.util.PreferenceHelper;
 
 public class SmartChargingSettings {
 
     private static final String TOPIC_ID_SMART_CHARGING = "topic-1512822231846-17";
-    private static final String PREFS_FILES = "smart_charging_prefs_files_in_color_phone";
     private static final String PREFS_CHARGING_REPORT_ENABLE = "charging_report_enable_in_color_phone";
 
     public static boolean isModuleConfigEnabled() {
@@ -19,8 +19,8 @@ public class SmartChargingSettings {
     }
 
     public static void setModuleEnabled(boolean enable) {
-        ChargingScreenSettings.setChargingScreenEnabled(enable);
-        setChargingReportUserEnabled(enable);
+        ChargingScreenSettings.setChargingScreenEnabled(isChargingScreenConfigEnabled() && enable);
+        setChargingReportUserEnabled(isChargingReportConfigEnabled() && enable);
     }
 
     /**
@@ -44,11 +44,11 @@ public class SmartChargingSettings {
     }
 
     private static boolean isChargingReportUserEnabled() {
-        return PreferenceHelper.get(PREFS_FILES).getBoolean(PREFS_CHARGING_REPORT_ENABLE, false);
+        return PreferenceHelper.getDefault().getBoolean(PREFS_CHARGING_REPORT_ENABLE, false);
     }
 
     public static void setChargingReportUserEnabled(boolean enabled) {
-        PreferenceHelper.get(PREFS_FILES).putBoolean(PREFS_CHARGING_REPORT_ENABLE, enabled);
+        PreferenceHelper.getDefault().putBoolean(PREFS_CHARGING_REPORT_ENABLE, enabled);
     }
 
     private static boolean isChargingReportConfigEnabled() {
@@ -61,6 +61,10 @@ public class SmartChargingSettings {
 
     public static boolean isChargingReportOnChargerEnable() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "chargingreport_oncharger_enable", false);
+    }
+
+    public static void logChargingReportEnabled() {
+        AutopilotEvent.logTopicEvent(TOPIC_ID_SMART_CHARGING, "chargingreport_view_show");
     }
 
 }

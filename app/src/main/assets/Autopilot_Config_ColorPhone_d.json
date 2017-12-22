@@ -26,6 +26,9 @@
       "events": [
         {
           "name": "test"
+        },
+        {
+          "name": "chargingreport_view_show"
         }
       ],
       "topic_id": "topic-1512822231846-17"
