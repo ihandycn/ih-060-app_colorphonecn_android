@@ -12,8 +12,8 @@ import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
-import com.ihs.charging.HSChargingManager;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.libcharging.HSChargingManager;
 
 /**
  * Receives screen on/off events and start lock screens.

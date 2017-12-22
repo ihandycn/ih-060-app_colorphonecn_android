@@ -13,8 +13,8 @@ import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.util.PreferenceHelper;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
-import com.ihs.charging.HSChargingManager;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.libcharging.HSChargingManager;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
 

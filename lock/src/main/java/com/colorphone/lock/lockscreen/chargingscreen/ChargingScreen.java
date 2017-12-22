@@ -48,21 +48,18 @@ import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTipView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingBubbleView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingQuantityView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.SlidingFinishRelativeLayout;
-import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.BitmapUtils;
 import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.colorphone.lock.util.ViewUtils;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
-import com.ihs.charging.HSChargingManager;
-import com.ihs.charging.HSChargingManager.HSChargingState;
-import com.ihs.charging.HSChargingManager.IChargingListener;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.libcharging.HSChargingManager;
 
 import net.appcloudbox.ads.expressads.AcbExpressAdView;
 
@@ -74,7 +71,7 @@ import java.util.Random;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static com.ihs.charging.HSChargingManager.HSChargingState.STATE_DISCHARGING;
+import static com.ihs.libcharging.HSChargingManager.HSChargingState.STATE_DISCHARGING;
 
 
 public class ChargingScreen extends LockScreen implements INotificationObserver {
@@ -180,7 +177,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
     };
 
-    private IChargingListener chargingListener = new IChargingListener() {
+    private HSChargingManager.IChargingListener chargingListener = new HSChargingManager.IChargingListener() {
         @Override
         public void onBatteryLevelChanged(int preBatteryLevel, int curBatteryLevel) {
             HSLog.d(TAG, "onBatteryLevelChanged() preBatteryLevel=" + preBatteryLevel
@@ -192,7 +189,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
 
         @Override
-        public void onChargingStateChanged(HSChargingState preChargingState, HSChargingState curChargingState) {
+        public void onChargingStateChanged(HSChargingManager.HSChargingState preChargingState, HSChargingManager.HSChargingState curChargingState) {
             HSLog.d(TAG, "onChargingStateChanged()");
 
             if (HSChargingManager.getInstance().isCharging()) {
@@ -214,7 +211,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                     + chargingRemainingMinutes);
 
             Context context = getContext();
-            if (HSChargingManager.getInstance().getChargingState() == HSChargingState.STATE_CHARGING_FULL) {
+            if (HSChargingManager.getInstance().getChargingState() == HSChargingManager.HSChargingState.STATE_CHARGING_FULL) {
                 fullChargeLeftDescribeTextView.setText(context.getString(R.string.charging_screen_charged_full));
             } else if (chargingRemainingMinutes > 0) {
                 fullChargeLeftDescribeTextView.setText(context.getString(R.string.charging_screen_charged_left_describe,

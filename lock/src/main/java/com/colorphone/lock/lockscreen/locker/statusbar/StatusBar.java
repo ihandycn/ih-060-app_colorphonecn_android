@@ -27,10 +27,10 @@ import com.colorphone.lock.lockscreen.SystemSettingsManager;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerUtils;
 import com.colorphone.lock.util.CommonUtils;
-import com.ihs.charging.HSChargingManager;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.ihs.libcharging.HSChargingManager;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
