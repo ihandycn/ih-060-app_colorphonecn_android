@@ -276,7 +276,7 @@ public class ColorPhoneApplication extends HSApplication {
                     }
 
                     @Override
-                    public boolean sceneLockPlugEnabeld() {
+                    public boolean sceneLockPlugEnabled() {
                         return SmartChargingSettings.isChargingReportOnChargerEnable();
                     }
 
