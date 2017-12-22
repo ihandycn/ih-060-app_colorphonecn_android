@@ -98,7 +98,7 @@
         },
         "outapp_share_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "inapp_share_alert_detail": {
           "type": "string",
@@ -130,7 +130,7 @@
         },
         "inapp_share_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "inapp_share_alert_btn_text": {
           "type": "string",
