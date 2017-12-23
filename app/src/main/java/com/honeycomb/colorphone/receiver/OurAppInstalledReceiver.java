@@ -30,31 +30,32 @@ public class OurAppInstalledReceiver extends BroadcastReceiver {
 
             LauncherAnalytics.logEvent("utm_source", "source", referrerString);
             HSPreferenceHelper.create(context, PREF_FILE_OUR_APP_INSTALLED_RECEIVER).putStringInterProcess(REFERRER, referrerString);
+            if (referrerString != null && referrerString.contains("internal")) {
+                try {
+                    String decodeContent = Uri.decode(referrerString);
 
-            try {
-                String decodeContent = Uri.decode(referrerString);
-
-                Map<String, String> referrer = new HashMap<>();
-                if (TextUtils.isEmpty(referrerString)) {
-                    return;
-                }
-
-                String[] strings = decodeContent.split("&");
-
-                for (String string : strings) {
-                    int index = string.indexOf("=");
-                    if (index < 0) {
-                        continue;
+                    Map<String, String> referrer = new HashMap<>();
+                    if (TextUtils.isEmpty(referrerString)) {
+                        return;
                     }
-                    if (string.contains("internal")) {
-                        continue;
-                    }
-                    referrer.put(string.substring(0, index), string.substring(index + 1, string.length()));
-                }
 
-                LauncherAnalytics.logEvent("Source_Channel_Internal", referrer);
-            } catch (Exception e) {
-                HSLog.e("referrer error");
+                    String[] strings = decodeContent.split("&");
+
+                    for (String string : strings) {
+                        int index = string.indexOf("=");
+                        if (index < 0) {
+                            continue;
+                        }
+                        if (string.contains("internal")) {
+                            continue;
+                        }
+                        referrer.put(string.substring(0, index), string.substring(index + 1, string.length()));
+                    }
+
+                    LauncherAnalytics.logEvent("Source_Channel_Internal", referrer);
+                } catch (Exception e) {
+                    HSLog.e("referrer error");
+                }
             }
         }
     }
