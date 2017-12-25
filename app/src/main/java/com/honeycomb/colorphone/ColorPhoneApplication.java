@@ -270,6 +270,12 @@ public class ColorPhoneApplication extends HSApplication {
                 .appName(getResources().getString(R.string.smart_charging))
                 .appIconResourceId(R.mipmap.ic_launcher)
                 .timeAppInstall(HSSessionMgr.getFirstSessionStartTime())
+                .lockerConflic(new ChargingReportConfiguration.LockScreenConflict() {
+                    @Override
+                    public boolean hasChargingScreen() {
+                        return SmartChargingSettings.isChargingScreenEnabled();
+                    }
+                })
                 .sceneSwitch(new ChargingReportConfiguration.ISceneSwitch() {
                     @Override
                     public boolean sceneUnlockPlugEnabled() {

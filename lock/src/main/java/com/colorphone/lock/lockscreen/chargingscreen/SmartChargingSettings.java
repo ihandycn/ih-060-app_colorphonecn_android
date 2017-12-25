@@ -22,7 +22,6 @@ public class SmartChargingSettings {
     public static void setModuleEnabled(boolean enable) {
         ChargingScreenSettings.setChargingScreenEnabled(enable);
         setChargingReportUserEnabled(enable);
-        ChargingPreferenceUtil.setChargingScreenEnabled(SmartChargingSettings.isModuleConfigEnabled());
         ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
     }
 
