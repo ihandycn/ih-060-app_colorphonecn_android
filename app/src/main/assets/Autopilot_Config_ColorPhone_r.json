@@ -1,6 +1,262 @@
 {
+  "custom_audience_properties": [],
   "get_url": "https://ap.appcloudbox.net/autopilot/v1/get",
   "topics": {
+    "topic-1512822231846-17": {
+      "topic_type": "life_time",
+      "topic_name": "Charging Test",
+      "variations": {
+        "charging_lockscreen_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "chargingreport_oncharger_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "charging_report_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "chargingreport_offcharger_enable": {
+          "type": "boolean",
+          "value": true
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "chargingreport_view_show"
+        }
+      ],
+      "topic_id": "topic-1512822231846-17"
+    },
+    "topic-1505294061097": {
+      "topic_type": "life_time",
+      "topic_name": "Feature Open Rate",
+      "variations": {
+        "apply_finish_guide_show_interval": {
+          "type": "string",
+          "value": "4"
+        },
+        "apply_finish_guide_max_show_time": {
+          "type": "string",
+          "value": "2"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "color_screensaver_show"
+        }
+      ],
+      "topic_id": "topic-1505294061097"
+    },
+    "topic-1505290483207": {
+      "topic_type": "life_time",
+      "topic_name": "AD Strategy",
+      "variations": {
+        "colorscreensaver_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "apply_finish_guide_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "sms_assistant_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "smart_charging_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "start_guide_enable": {
+          "type": "boolean",
+          "value": true
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        }
+      ],
+      "topic_id": "topic-1505290483207"
+    },
+    "topic-1511875453515": {
+      "topic_type": "one_time",
+      "topic_name": "Share Test",
+      "variations": {
+        "outapp_share_text": {
+          "type": "string",
+          "value": "My latest call screen theme from Color Phone. https://app.appsflyer.com/com.colorphone.smooth.dialer?pid=Userinvite2"
+        },
+        "outapp_share_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "inapp_share_alert_detail": {
+          "type": "string",
+          "value": "You have successfully customized your calling screen, show it to others."
+        },
+        "inapp_share_text": {
+          "type": "string",
+          "value": "My latest call screen theme from Color Phone. \\nhttps://app.appsflyer.com/com.colorphone.smooth.dialer?pid=Userinvite1"
+        },
+        "inapp_share_alert_title": {
+          "type": "string",
+          "value": "Notify Your Friends"
+        },
+        "inapp_share_alert_show_max_time": {
+          "type": "double",
+          "value": 2
+        },
+        "outapp_share_alert_show_interval": {
+          "type": "double",
+          "value": 4
+        },
+        "outapp_share_alert_detail": {
+          "type": "string",
+          "value": "You have successfully customized your calling screen, show it to others."
+        },
+        "outapp_share_alert_title": {
+          "type": "string",
+          "value": "Notify Your Friends"
+        },
+        "inapp_share_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "inapp_share_alert_btn_text": {
+          "type": "string",
+          "value": "Share"
+        },
+        "inapp_share_alert_show_interval": {
+          "type": "double",
+          "value": 4
+        },
+        "outapp_share_alert_show_max_time": {
+          "type": "double",
+          "value": 2
+        },
+        "outapp_share_alert_btn_text": {
+          "type": "string",
+          "value": "Share"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "inapp_share_alert_show"
+        },
+        {
+          "name": "outapp_share_alert_show"
+        },
+        {
+          "name": "inapp_share_alert_clicked"
+        },
+        {
+          "name": "outapp_share_alert_clicked"
+        },
+        {
+          "name": "inapp_share_alert_clicked_chooseapp"
+        },
+        {
+          "name": "outapp_share_alert_clicked_chooseapp"
+        }
+      ],
+      "topic_id": "topic-1511875453515"
+    },
+    "topic-1512825907890-18": {
+      "topic_type": "life_time",
+      "topic_name": "Promote Locker Test",
+      "variations": {
+        "promote_app": {
+          "type": "string",
+          "value": "com.wallpaper.theme.privacy.smart.lock.screen"
+        },
+        "promote_alert_title": {
+          "type": "string",
+          "value": "Use Color Locker Pro for Free"
+        },
+        "applyfinish_promote_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "promote_alert_detail_text": {
+          "type": "string",
+          "value": "Choose beautiful wallpapers to make your lock screen stand out!"
+        },
+        "startapp_promote_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "promote_alert_show_interval": {
+          "type": "double",
+          "value": 4
+        },
+        "promote_alert_max_showtime": {
+          "type": "double",
+          "value": 3
+        },
+        "promote_alert_btn": {
+          "type": "string",
+          "value": "Add for Free"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "promote_alert_viewed"
+        },
+        {
+          "name": "promote_alert_btn_clicked"
+        },
+        {
+          "name": "promote_app_downloaded"
+        }
+      ],
+      "topic_id": "topic-1512825907890-18"
+    },
+    "topic-1512815797473-16": {
+      "topic_type": "life_time",
+      "topic_name": "Message Assistant Test",
+      "variations": {
+        "whatsapp_assistant_show_on_lock": {
+          "type": "boolean",
+          "value": false
+        },
+        "whatsapp_assistant_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "whatsapp_assistant_show_on_unlock": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "message_assistant_show"
+        },
+        {
+          "name": "message_assistant_ad_show"
+        }
+      ],
+      "topic_id": "topic-1512815797473-16"
+    },
     "topic-1510752104742": {
       "topic_type": "one_time",
       "topic_name": "Notification Access System Page Enable Rate",
@@ -27,29 +283,6 @@
       ],
       "topic_id": "topic-1510752104742"
     },
-    "topic-1505294061097": {
-      "topic_type": "life_time",
-      "topic_name": "Feature Open Rate",
-      "variations": {
-        "apply_finish_guide_show_interval": {
-          "type": "string",
-          "value": "4"
-        },
-        "apply_finish_guide_max_show_time": {
-          "type": "string",
-          "value": "2"
-        }
-      },
-      "events": [
-        {
-          "name": "test"
-        },
-        {
-          "name": "color_screensaver_show"
-        }
-      ],
-      "topic_id": "topic-1505294061097"
-    },
     "topic-1510751463187": {
       "topic_type": "life_time",
       "topic_name": "Local Push Test",
@@ -60,7 +293,7 @@
         },
         "new_theme_push_enabled": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "push_icon_type": {
           "type": "string",
@@ -115,116 +348,6 @@
         }
       ],
       "topic_id": "topic-1510751463187"
-    },
-    "topic-1511875453515": {
-      "topic_type": "one_time",
-      "topic_name": "Share Test",
-      "variations": {
-        "outapp_share_text": {
-          "type": "string",
-          "value": "My latest call screen theme from Color Phone. https://app.appsflyer.com/com.colorphone.smooth.dialer?pid=Userinvite2"
-        },
-        "inapp_share_alert_detail": {
-          "type": "string",
-          "value": "You have successfully customized your calling screen, show it to others."
-        },
-        "inapp_share_text": {
-          "type": "string",
-          "value": "My latest call screen theme from Color Phone. \\nhttps://app.appsflyer.com/com.colorphone.smooth.dialer?pid=Userinvite1"
-        },
-        "inapp_share_alert_title": {
-          "type": "string",
-          "value": "Notify Your Friends"
-        },
-        "inapp_share_alert_show_max_time": {
-          "type": "double",
-          "value": 3
-        },
-        "outapp_share_alert_show_interval": {
-          "type": "double",
-          "value": 4
-        },
-        "outapp_share_alert_detail": {
-          "type": "string",
-          "value": "You have successfully customized your calling screen, show it to others."
-        },
-        "outapp_share_alert_title": {
-          "type": "string",
-          "value": "Notify Your Friends"
-        },
-        "inapp_share_alert_btn_text": {
-          "type": "string",
-          "value": "Share"
-        },
-        "inapp_share_alert_show_interval": {
-          "type": "double",
-          "value": 4
-        },
-        "outapp_share_alert_show_max_time": {
-          "type": "double",
-          "value": 3
-        },
-        "outapp_share_alert_btn_text": {
-          "type": "string",
-          "value": "Share"
-        }
-      },
-      "events": [
-        {
-          "name": "test"
-        },
-        {
-          "name": "inapp_share_alert_show"
-        },
-        {
-          "name": "outapp_share_alert_show"
-        },
-        {
-          "name": "inapp_share_alert_clicked"
-        },
-        {
-          "name": "outapp_share_alert_clicked"
-        },
-        {
-          "name": "inapp_share_alert_clicked_chooseapp"
-        },
-        {
-          "name": "outapp_share_alert_clicked_chooseapp"
-        }
-      ],
-      "topic_id": "topic-1511875453515"
-    },
-    "topic-1505290483207": {
-      "topic_type": "life_time",
-      "topic_name": "AD Strategy",
-      "variations": {
-        "colorscreensaver_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "apply_finish_guide_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "sms_assistant_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "smart_charging_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "start_guide_enable": {
-          "type": "boolean",
-          "value": true
-        }
-      },
-      "events": [
-        {
-          "name": "test"
-        }
-      ],
-      "topic_id": "topic-1505290483207"
     }
   },
   "autopilot_id": 10000,
