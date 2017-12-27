@@ -10,7 +10,9 @@ import android.text.format.DateUtils;
 import com.acb.autopilot.AutopilotConfig;
 import com.acb.call.CPSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
+import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
+import com.colorphone.lock.util.ConfigUtils;
 import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
@@ -24,7 +26,6 @@ public class ModuleUtils {
 
     public static final String AUTO_KEY_APPLY_FINISH = "apply_finish_guide_enable";
     public static final String AUTO_KEY_SCREEN_SAVER = "colorscreensaver_enable";
-    public static final String AUTO_KEY_CHARGING = "smart_charging_enable";
     public static final String AUTO_SMS_KEY_ASSISTANT = "sms_assistant_enable";
     public static final String AUTO_KEY_GUIDE_START = "start_guide_enable";
 
@@ -60,6 +61,11 @@ public class ModuleUtils {
         return AutopilotConfig.getBooleanToTestNow("topic-1505290483207", moduleKey, false);
     }
 
+    public static boolean isModuleConfigEnabled(String moduleKey, String... path) {
+        return isModuleConfigEnabled(moduleKey)
+                && ConfigUtils.isEnabled(path);
+    }
+
     public static boolean isAllModuleEnabled() {
         if (CPSettings.isCallAssistantModuleEnabled()
                 && CPSettings.isCallAssistantModuleEnabled()
@@ -68,6 +74,13 @@ public class ModuleUtils {
             return true;
         }
         return false;
+    }
+
+    public static void setAllModuleUserEnable() {
+        CPSettings.setSMSAssistantModuleEnabled(true);
+        CPSettings.setCallAssistantModuleEnabled(true);
+        LockerSettings.setLockerEnabled(true);
+        SmartChargingSettings.setModuleEnabled(true);
     }
 
     public static boolean isShareAlertInsideAppShow() {
@@ -148,6 +161,10 @@ public class ModuleUtils {
 
     public static boolean isShowPromoteLockerAlert(int alertType) {
         if (!PromoteLockerAutoPilotUtils.isPromoteAlertEnable(alertType)) {
+            return false;
+        }
+
+        if (!ConfigUtils.isEnabled("Application", "Promote", "Enable")) {
             return false;
         }
 

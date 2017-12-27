@@ -1,6 +1,8 @@
 package com.colorphone.lock.lockscreen.locker;
 
 
+import com.acb.autopilot.AutopilotConfig;
+import com.colorphone.lock.util.ConfigUtils;
 import com.colorphone.lock.util.PreferenceHelper;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -20,9 +22,20 @@ public class LockerSettings {
 
     public static final String NOTIFY_LOCKER_STATE = "notify_locker_state";
 
+    public static final String[] LOCKER_ENABLE_PATH = {"Application", "LockScreen", "Enable"};
+
     private static boolean sDefaultEnabled = HSConfig.optBoolean(false, "Application", "Locker", "LockerDefaultEnabled");
 
     public static boolean isLockerEnabled() {
+        return isLockerConfigEnabled() && isLockerUserEnabled();
+    }
+
+    public static boolean isLockerConfigEnabled() {
+        return AutopilotConfig.getBooleanToTestNow("topic-1505290483207", "colorscreensaver_enable", false)
+                && ConfigUtils.isEnabled(LOCKER_ENABLE_PATH);
+    }
+
+    public static boolean isLockerUserEnabled() {
         return PreferenceHelper.getDefault().getBoolean(PREF_KEY_LOCKER_ENABLED, sDefaultEnabled);
     }
 

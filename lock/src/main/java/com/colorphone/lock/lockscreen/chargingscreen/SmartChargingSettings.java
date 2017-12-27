@@ -3,6 +3,7 @@ package com.colorphone.lock.lockscreen.chargingscreen;
 
 import com.acb.autopilot.AutopilotConfig;
 import com.acb.autopilot.AutopilotEvent;
+import com.colorphone.lock.util.ConfigUtils;
 import com.colorphone.lock.util.PreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 
@@ -12,7 +13,8 @@ public class SmartChargingSettings {
     private static final String PREFS_CHARGING_REPORT_ENABLE = "charging_report_enable_in_color_phone";
 
     public static boolean isModuleConfigEnabled() {
-        return AutopilotConfig.getBooleanToTestNow("topic-1505290483207", "smart_charging_enable", false);
+        return AutopilotConfig.getBooleanToTestNow("topic-1505290483207", "smart_charging_enable", false)
+                && isChargingScreenEnabledWithGooglePolicy();
     }
 
     public static boolean isModuleUserEnabled() {
@@ -28,13 +30,18 @@ public class SmartChargingSettings {
     /**
      * charging screen
      */
-
     public static boolean isChargingScreenEnabled() {
-        return isModuleConfigEnabled() && isChargingScreenConfigEnabled() && ChargingScreenSettings.isChargingScreenUserEnabled();
+        return isModuleConfigEnabled()
+                && isChargingScreenConfigEnabled()
+                && ChargingScreenSettings.isChargingScreenUserEnabled();
     }
 
     private static boolean isChargingScreenConfigEnabled() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "charging_lockscreen_enable", false);
+    }
+
+    public static boolean isChargingScreenEnabledWithGooglePolicy() {
+        return ConfigUtils.isEnabled("Application", "Charging", "ChargingLockScreen", "Enable");
     }
 
     /**
@@ -42,7 +49,11 @@ public class SmartChargingSettings {
      */
 
     public static boolean isChargingReportEnabled() {
-        return isModuleConfigEnabled() && isChargingReportUserEnabled() && isChargingReportConfigEnabled();
+        return isChargingReportEnabledWithGooglePolicy()
+                && isModuleConfigEnabled()
+                && isChargingReportUserEnabled()
+                && isChargingReportConfigEnabled()
+                && !ConfigUtils.isAnyLockerAppInstalled("Application", "Charging", "ChargingReport", "AppConflictList");
     }
 
     private static boolean isChargingReportUserEnabled() {
@@ -63,6 +74,10 @@ public class SmartChargingSettings {
 
     public static boolean isChargingReportOnChargerEnable() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "chargingreport_oncharger_enable", false);
+    }
+
+    public static boolean isChargingReportEnabledWithGooglePolicy() {
+        return ConfigUtils.isEnabled("Application", "Charging", "ChargingReport", "Enable");
     }
 
     public static void logChargingReportEnabled() {

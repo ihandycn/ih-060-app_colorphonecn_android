@@ -10,10 +10,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.acb.call.CPSettings;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
-import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationUtils;
@@ -89,10 +86,7 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
             public void onClick(View v) {
                 if (cb.isChecked()) {
                     LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked");
-                    CPSettings.setSMSAssistantModuleEnabled(true);
-                    CPSettings.setCallAssistantModuleEnabled(true);
-                    LockerSettings.setLockerEnabled(true);
-                    SmartChargingSettings.setModuleEnabled(true);
+                    ModuleUtils.setAllModuleUserEnable();
                 } else {
                     LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked_WithUnselectFeature");
                 }

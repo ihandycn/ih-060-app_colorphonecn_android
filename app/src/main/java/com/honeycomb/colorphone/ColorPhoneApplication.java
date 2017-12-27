@@ -33,6 +33,8 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConcurrentUtils;
+import com.colorphone.lock.util.ConfigUtils;
+import com.colorphone.lock.util.PreferenceHelper;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -168,6 +170,8 @@ public class ColorPhoneApplication extends HSApplication {
             Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
 
             copyMediaFromAssertToFile();
+            long firstInstallTime = HSSessionMgr.getFirstSessionStartTime();
+            PreferenceHelper.getDefault().putLong(ConfigUtils.APP_FIRST_INSTALL_TIME, firstInstallTime);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -365,7 +369,7 @@ public class ColorPhoneApplication extends HSApplication {
         locker.setChecker(new Module.Checker() {
             @Override
             public boolean isEnable() {
-                return LockerSettings.isLockerEnabled();
+                return LockerSettings.isLockerUserEnabled();
             }
         });
 

@@ -8,12 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.acb.call.CPSettings;
-import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.FontUtils;
+import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -59,10 +57,7 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
             @Override
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
-                CPSettings.setSMSAssistantModuleEnabled(true);
-                CPSettings.setCallAssistantModuleEnabled(true);
-                LockerSettings.setLockerEnabled(true);
-                SmartChargingSettings.setModuleEnabled(true);
+                ModuleUtils.setAllModuleUserEnable();
                 finish();
             }
         });
