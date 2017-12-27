@@ -8,7 +8,7 @@
       "variations": {
         "charging_lockscreen_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "chargingreport_oncharger_enable": {
           "type": "boolean",
@@ -98,7 +98,7 @@
         },
         "outapp_share_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "inapp_share_alert_detail": {
           "type": "string",
@@ -130,7 +130,7 @@
         },
         "inapp_share_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "inapp_share_alert_btn_text": {
           "type": "string",
@@ -188,7 +188,7 @@
         },
         "applyfinish_promote_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "promote_alert_detail_text": {
           "type": "string",
@@ -196,7 +196,7 @@
         },
         "startapp_promote_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "promote_alert_show_interval": {
           "type": "double",
@@ -233,15 +233,15 @@
       "variations": {
         "whatsapp_assistant_show_on_lock": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "whatsapp_assistant_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "whatsapp_assistant_show_on_unlock": {
           "type": "boolean",
-          "value": false
+          "value": true
         }
       },
       "events": [
