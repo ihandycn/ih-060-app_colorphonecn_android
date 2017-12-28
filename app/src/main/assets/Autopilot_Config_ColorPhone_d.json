@@ -16,7 +16,7 @@
         },
         "charging_report_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "chargingreport_offcharger_enable": {
           "type": "boolean",
@@ -188,7 +188,7 @@
         },
         "applyfinish_promote_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "promote_alert_detail_text": {
           "type": "string",
@@ -196,11 +196,11 @@
         },
         "startapp_promote_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "promote_alert_show_interval": {
           "type": "double",
-          "value": 4
+          "value": 0
         },
         "promote_alert_max_showtime": {
           "type": "double",
@@ -233,15 +233,15 @@
       "variations": {
         "whatsapp_assistant_show_on_lock": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "whatsapp_assistant_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "whatsapp_assistant_show_on_unlock": {
           "type": "boolean",
-          "value": false
+          "value": true
         }
       },
       "events": [
