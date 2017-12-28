@@ -12,7 +12,7 @@
         },
         "chargingreport_oncharger_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "charging_report_enable": {
           "type": "boolean",
@@ -20,7 +20,7 @@
         },
         "chargingreport_offcharger_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         }
       },
       "events": [
@@ -180,7 +180,7 @@
       "variations": {
         "promote_app": {
           "type": "string",
-          "value": "com.wallpaper.theme.privacy.smart.lock.screen"
+          "value": "com.wallpaper.theme.privacy.smart.charger.lock.screen"
         },
         "promote_alert_title": {
           "type": "string",
