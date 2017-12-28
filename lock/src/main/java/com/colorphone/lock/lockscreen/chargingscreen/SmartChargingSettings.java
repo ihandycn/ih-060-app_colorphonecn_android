@@ -12,12 +12,12 @@ public class SmartChargingSettings {
     private static final String TOPIC_ID_SMART_CHARGING = "topic-1512822231846-17";
     private static final String PREFS_CHARGING_REPORT_ENABLE = "charging_report_enable_in_color_phone";
 
-    public static boolean isModuleConfigEnabled() {
+    public static boolean isSmartChargingConfigEnabled() {
         return AutopilotConfig.getBooleanToTestNow("topic-1505290483207", "smart_charging_enable", false)
-                && isChargingScreenEnabledWithGooglePolicy();
+                && (isChargingReportConfigEnabled() || isChargingScreenConfigEnabled());
     }
 
-    public static boolean isModuleUserEnabled() {
+    public static boolean isSmartChargingUserEnabled() {
         return ChargingScreenSettings.isChargingScreenUserEnabled() || isChargingReportUserEnabled();
     }
 
@@ -31,13 +31,14 @@ public class SmartChargingSettings {
      * charging screen
      */
     public static boolean isChargingScreenEnabled() {
-        return isModuleConfigEnabled()
+        return isSmartChargingConfigEnabled()
                 && isChargingScreenConfigEnabled()
                 && ChargingScreenSettings.isChargingScreenUserEnabled();
     }
 
     private static boolean isChargingScreenConfigEnabled() {
-        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "charging_lockscreen_enable", false);
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "charging_lockscreen_enable", false)
+                && isChargingScreenEnabledWithGooglePolicy();
     }
 
     public static boolean isChargingScreenEnabledWithGooglePolicy() {
@@ -47,10 +48,8 @@ public class SmartChargingSettings {
     /**
      * charging report
      */
-
     public static boolean isChargingReportEnabled() {
-        return isChargingReportEnabledWithGooglePolicy()
-                && isModuleConfigEnabled()
+        return isSmartChargingConfigEnabled()
                 && isChargingReportUserEnabled()
                 && isChargingReportConfigEnabled()
                 && !ConfigUtils.isAnyLockerAppInstalled("Application", "Charging", "ChargingReport", "AppConflictList");
@@ -65,7 +64,8 @@ public class SmartChargingSettings {
     }
 
     private static boolean isChargingReportConfigEnabled() {
-        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "charging_report_enable", false);
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "charging_report_enable", false)
+                && isChargingReportEnabledWithGooglePolicy();
     }
 
     public static boolean isChargingReportOffChargerEnable() {

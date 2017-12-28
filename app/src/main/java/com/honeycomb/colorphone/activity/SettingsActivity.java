@@ -12,14 +12,12 @@ import android.widget.CompoundButton;
 import com.acb.call.CPSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
-import com.colorphone.lock.util.ConfigUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
-import com.ihs.commons.utils.HSLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,8 +72,8 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
-        mModuleStates.add(new ModuleState(SmartChargingSettings.isModuleConfigEnabled(),
-                SmartChargingSettings.isModuleUserEnabled(),
+        mModuleStates.add(new ModuleState(SmartChargingSettings.isSmartChargingConfigEnabled(),
+                SmartChargingSettings.isSmartChargingUserEnabled(),
                 R.id.setting_item_charging_toggle,
                 R.id.setting_item_charging) {
             @Override
