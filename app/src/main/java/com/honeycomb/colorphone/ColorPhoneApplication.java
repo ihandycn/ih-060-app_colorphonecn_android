@@ -268,12 +268,13 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void initChargingReport() {
+        long firstInstallTime = HSSessionMgr.getFirstSessionStartTime();
         AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.AD_CHARGING_REPORT);
         ChargingReportConfiguration configuration = new ChargingReportConfiguration.Builder()
                 .adPlacement(AdPlacements.AD_CHARGING_REPORT)
                 .appName(getResources().getString(R.string.smart_charging))
                 .appIconResourceId(R.mipmap.ic_launcher)
-                .timeAppInstall(HSSessionMgr.getFirstSessionStartTime())
+                .timeAppInstall(firstInstallTime > 0 ? firstInstallTime : System.currentTimeMillis())
                 .lockerConflic(new ChargingReportConfiguration.LockScreenConflict() {
                     @Override
                     public boolean hasChargingScreen() {
