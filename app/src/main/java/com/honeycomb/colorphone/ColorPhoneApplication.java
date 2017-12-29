@@ -90,7 +90,10 @@ public class ColorPhoneApplication extends HSApplication {
 
         @Override
         public void onReceive(String notificationName, HSBundle bundle) {
+            HSLog.d("Receive INotification: " + notificationName);
+
             if (HSNotificationConstant.HS_SESSION_START.equals(notificationName)) {
+                checkModuleAdPlacement();
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
                 HSLog.d("Session End.");
@@ -345,6 +348,8 @@ public class ColorPhoneApplication extends HSApplication {
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_CONFIG_CHANGED, mObserver);
         HSGlobalNotificationCenter.addObserver(CPConst.NOTIFY_CHANGE_CALL_ASSISTANT, mObserver);
         HSGlobalNotificationCenter.addObserver(CPConst.NOTIFY_CHANGE_SCREEN_FLASH, mObserver);
+        HSGlobalNotificationCenter.addObserver(LockerSettings.NOTIFY_LOCKER_STATE, mObserver);
+        HSGlobalNotificationCenter.addObserver(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE, mObserver);
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
         screenFilter.addAction(Intent.ACTION_SCREEN_ON);
@@ -370,7 +375,7 @@ public class ColorPhoneApplication extends HSApplication {
         locker.setChecker(new Module.Checker() {
             @Override
             public boolean isEnable() {
-                return LockerSettings.isLockerUserEnabled();
+                return LockerSettings.isLockerEnabled();
             }
         });
 
