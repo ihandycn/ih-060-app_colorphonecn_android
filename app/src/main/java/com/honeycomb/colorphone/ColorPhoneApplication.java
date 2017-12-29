@@ -381,7 +381,7 @@ public class ColorPhoneApplication extends HSApplication {
         charging.setChecker(new Module.Checker() {
             @Override
             public boolean isEnable() {
-                return SmartChargingSettings.isChargingScreenEnabled();
+                return SmartChargingSettings.isChargingScreenEnabledWithGooglePolicy();
             }
         });
         mModules.add(locker);

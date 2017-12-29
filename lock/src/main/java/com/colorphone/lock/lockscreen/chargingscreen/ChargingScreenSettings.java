@@ -6,6 +6,8 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 
+import net.appcloudbox.ads.nativeads.AcbNativeAdManager;
+
 /**
  * Charging Screen upgrade to SmartCharging, Use SmartChargingSettings instead;
  */

@@ -36,7 +36,7 @@ public class SmartChargingSettings {
                 && ChargingScreenSettings.isChargingScreenUserEnabled();
     }
 
-    private static boolean isChargingScreenConfigEnabled() {
+    public static boolean isChargingScreenConfigEnabled() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "charging_lockscreen_enable", false)
                 && isChargingScreenEnabledWithGooglePolicy();
     }

@@ -752,7 +752,7 @@ public final class Utils {
 
     public static boolean isAnyLockerAppInstalled() {
 
-        List<?> lockers = HSConfig.getList("Application", "Promote", "LockerList");
+        List<?> lockers = HSConfig.getList("Application", "Promote", "PromoteAppConflictList");
         for (Object item : lockers) {
             try {
                 HSApplication.getContext().getPackageManager().getPackageInfo((String)item, 0);
