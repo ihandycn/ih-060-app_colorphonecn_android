@@ -22,8 +22,7 @@
   <string name="terms_of_service">सेवा की शर्तें</string>
 
 
-  <string name="guide_locker_and_call_hint">स्‍क्रीनसेवर, स्‍मार्ट चार्जिंग एवं फोन सहायक को सक्षम करें: छुटी कॉल याद दिलाने।
-  आसानी से बूस्‍ट और तुरंत कैमरा एक्‍सेस करने को।</string>
+  <string name="guide_locker_and_call_hint">कॉल सहायक एवं स्‍मार्ट चार्जिंग सक्षम करने के लिए:\n आपको छूटी हुई कॉल की याद दिलाए\nविस्‍तृत चार्जिंग स्‍तर उपलब्‍ध करवाए</string>
   <string name="guide_enable_all_module">फोन सहायक, स्‍मार्ट चार्जिंग एवं स्‍क्रीनसेवर सक्षम करें</string>
 
   <string name="acb_outapp_guide_screen_flash_content">अपने फोन को और फैशनेबल बनाने के लिए यूनिक कॉल इंटफेस ट्राई करें। इसमें विज्ञापन हो सकते हैं।</string>

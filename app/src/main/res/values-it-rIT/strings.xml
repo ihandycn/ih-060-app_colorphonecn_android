@@ -22,8 +22,7 @@
   <string name="terms_of_service">Condizioni per l’utilizzo del servizio</string>
 
 
-  <string name="guide_locker_and_call_hint">Attiva salvaschermo, Ricarica intelligente e Assistente telefono per ricevere promemoria sulle chiamate perse.
-  Ottimizza facilmente e accedi rapidamente alla fotocamera.</string>
+  <string name="guide_locker_and_call_hint">Abilita Assistente di chiamata e Ricarica intelligente per:\n ricordarti le chiamate perse\n fornire lo stato di carica dettagliato</string>
   <string name="guide_enable_all_module">Attiva assistente telefono, Ricarica intelligente e salvaschermo</string>
 
   <string name="acb_outapp_guide_screen_flash_content">Prova l’esclusiva interfaccia per le chiamate per avere un

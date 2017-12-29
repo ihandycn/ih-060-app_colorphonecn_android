@@ -22,8 +22,7 @@
   <string name="terms_of_service">Hizmet Şartları</string>
 
 
-  <string name="guide_locker_and_call_hint">Ekran Koruyucu, Akıllı Şarj ve Telefon Asistanını şunlar için etkinleştir: Yanıtsız çağrıları hatırlat.
-  Kolaylıkla hızlandır ve kameraya çabuk eriş.</string>
+  <string name="guide_locker_and_call_hint">Arama Asistanı ve Akıllı Şarjı etkinleştir:\n Cevapsız aramalar hatırlatılsın\n Ayrıntılı şarj durumu verilsin</string>
   <string name="guide_enable_all_module">Telefon Asistanı, Akıllı Şarj ve Ekran Koruyucuyu Etkinleştir</string>
 
   <string name="acb_outapp_guide_screen_flash_content">Telefonunu modaya daha uygun hale getirmek için benzersiz arama arayüzünü dene. Reklam içerebilir.</string>

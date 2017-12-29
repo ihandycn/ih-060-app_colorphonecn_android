@@ -22,9 +22,7 @@
   <string name="terms_of_service">Termos de serviço</string>
 
 
-  <string name="guide_locker_and_call_hint">Ative o Protetor de Tela, o Carregamento Inteligente e o Assistente do Telefone para:
-  Lembrar suas chamadas perdidas.
-  Acelerar facilmente e acessar a câmera com rapidez.</string>
+  <string name="guide_locker_and_call_hint">Ative o Assistente de Chamadas e o Carregamento Inteligente para:\n Lembrá-lo das chamadas perdidas\n Fornecer detalhadamente o status do carregamento</string>
   <string name="guide_enable_all_module">Ative o Assistente do Telefone, o Carregamento Inteligente e o Protetor de Tela</string>
 
   <string name="acb_outapp_guide_screen_flash_content">Experimente a interface de chamadas única para dar mais estilo

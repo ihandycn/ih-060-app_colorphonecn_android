@@ -22,9 +22,7 @@
   <string name="terms_of_service">Nutzungsbedingungen</string>
 
 
-  <string name="guide_locker_and_call_hint">Bildschirmsperre, Intelligentes Aufladen &amp;amp; Anrufassistenten aktivieren für:
-  Erinnerung an verpasste Anrufe.
-  Einfaches Boosten und schnellen Kamerazugriff.</string>"
+  <string name="guide_locker_and_call_hint">Anrufassistent und Intelligentes Aufladen aktivieren für:\n Erinnerung an verpasste Anrufe\nAngabe eines detaillierten Ladestatus</string>"
   <string name="guide_enable_all_module">Bildschirmsperre, Intelligentes Aufladen &amp;amp; Anrufassistenten aktivieren</string>
 
   <string name="acb_outapp_guide_screen_flash_content">Probiere das einzigartige Anrufinterface aus, um dein Handy noch trendiger zu machen. Kann Werbung enthalten.</string>

@@ -22,9 +22,7 @@
   <string name="terms_of_service">Conditions de service</string>
 
 
-  <string name="guide_locker_and_call_hint">Activez l\'économiseur d\'écran, l\'outil de charge intelligent et l\'assistant téléphonique pour :
-  Recevoir un rappel pour les appels manqués.
-  Booster le téléphone et accéder facilement à l\'appareil photo.</string>
+  <string name="guide_locker_and_call_hint">Activez l\'assistant d\'appel et la recharge intelligente pour :\n Vous rappeler les appels manqués\nFournir un rapport de charge détaillé</string>
   <string name="guide_enable_all_module">Activer l\'assistant téléphonique, l\'outil de charge intelligent et l\'économiseur d\'écran</string>
 
   <string name="acb_outapp_guide_screen_flash_content">Essayez l’interface unique d’appel pour rendre votre téléphone encore plus tendance. Peut contenir des publicités.</string>

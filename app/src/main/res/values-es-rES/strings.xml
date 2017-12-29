@@ -22,8 +22,7 @@
   <string name="terms_of_service">Términos de servicio</string>
 
 
-  <string name="guide_locker_and_call_hint">Habilita el salvapantallas, la carga inteligente y el asistente telefónico para: recordarte las llamadas perdidas.
-  Aceleración sencilla y acceso rápido a la cámara.</string>
+  <string name="guide_locker_and_call_hint">Habilita el asistente de llamada y la carga inteligente para:\n Recordarte las llamadas perdidas\n Indicar el estado de la carga en detalle</string>
   <string name="guide_enable_all_module">Habilita el salvapantallas, la carga inteligente y el asistente telefónico.</string>
 
   <string name="acb_outapp_guide_screen_flash_content">Prueba la interfaz de pantalla exclusiva para que tu teléfono tenga un aspecto más moderno. Puede contener publicidad.</string>

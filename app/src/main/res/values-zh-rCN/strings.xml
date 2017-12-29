@@ -22,8 +22,8 @@
   <string name="terms_of_service">服务条款</string>
 
 
-    <string name="guide_locker_and_call_hint">开启屏幕保护，智能充电 &amp; 手机助手，让你不会错过未接来电。
-        轻松清理手机并快速打开相机。</string>
+    <string name="guide_locker_and_call_hint">开启手机助手 &amp; 智能充电，让你不会错过未接来电。
+        提供详细的充电数据。</string>
   <string name="guide_enable_all_module">开启手机助手，智能充电 &amp; 屏幕保护</string>
 
   <string name="acb_outapp_guide_screen_flash_content">快试试独特的个性来电，让您的手机更时尚。可能包含广告。</string>

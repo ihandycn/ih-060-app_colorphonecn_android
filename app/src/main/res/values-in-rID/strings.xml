@@ -22,9 +22,7 @@
   <string name="terms_of_service">Ketentuan Layanan</string>
 
 
-  <string name="guide_locker_and_call_hint">Izinkan Screensaver, Pengisian Cerdas &amp; Asisten Ponsel untuk:
-  Memperingatkan panggilan terlewat.
-  Memacu kamera dengan cepat.</string>
+  <string name="guide_locker_and_call_hint">Aktifkan Asisten Panggilan &amp; Pengisian Pintar untuk:\n Mengingatkan Anda panggilan tak terjawab\n Memberikan status pengisian yang mendetail</string>
   <string name="guide_enable_all_module">Aktifkan Asisten Telepon, Pengisian Daya Cerdas &amp; Screensaver</string>
 
   <string name="acb_outapp_guide_screen_flash_content">Coba panggilan antarmuka unik untuk membuat ponsel Anda lebih gaya. Mungkin mengandung iklan.</string>

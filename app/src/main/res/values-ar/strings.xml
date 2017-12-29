@@ -19,8 +19,7 @@
     <string name="terms_of_service">شروط الخدمة</string>
 
 
-    <string name="guide_locker_and_call_hint">مكّن شاشة التوقف والشحن الذكي ومساعد المكالمات للمزايا التالية: التذكير بالمكالمات الفائتة.
-    سرّع هاتفك بسهولة وافتح الكاميرا بسرعة.</string>
+    <string name="guide_locker_and_call_hint">فعّل مساعد المكالمات والتغيير لكي:\nيذكرك بالمكالمات الفائتة\nيبين لك معلومات الشحن المفصلة</string>
     <string name="guide_enable_all_module">مكّن مساعد المكالمات والشحن الذكي وشاشة التوقف</string>
 
     <string name="acb_outapp_guide_screen_flash_content">جرّب واجهة المكالمات الفريدة لتجعل هاتفك أكثر أناقة. قد يحتوي على الإعلانات.</string>

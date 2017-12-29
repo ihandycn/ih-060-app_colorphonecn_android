@@ -22,8 +22,7 @@
   <string name="terms_of_service">利用規約</string>
 
 
-  <string name="guide_locker_and_call_hint">スクリーンセーバー、スマートチャージ＆電話アシスタントを有効にする：不在着信を知らせる。
-  簡単にブーストして、カメラにすばやくアクセスできます。</string>
+  <string name="guide_locker_and_call_hint">コールアシスタント＆スマート充電を有効にする：\n不在着信をリマインドする\n充電の詳細を提供\n</string>
   <string name="guide_enable_all_module">電話アシスタント、スマートチャージ＆スクリーンセーバーを有効にする</string>
 
   <string name="acb_outapp_guide_screen_flash_content">携帯電話をよりおしゃれにするために、ユニークな通話インターフェイスをお試しください。広告が含まれる可能性があります。</string>

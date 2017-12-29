@@ -31,8 +31,7 @@
     <string name="terms_of_service">Terms of service</string>
 
 
-    <string name="guide_locker_and_call_hint">Enable Screensaver, Smart Charging &amp; Phone Assistant to: \nRemind your missed calls.
-        Boost easily and access camera quickly.</string>
+    <string name="guide_locker_and_call_hint">Enable Call Assistant &amp; Smart Charging to:\n Remind you about missed calls\n Provide detailed charging status</string>
     <string name="guide_enable_all_module">Enable Phone Assistant, Smart Charging &amp; Screensaver</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Try the unique call interface to make your phone more fashionable. It may contain ads.</string>
