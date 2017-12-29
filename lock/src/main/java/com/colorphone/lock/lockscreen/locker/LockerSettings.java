@@ -2,11 +2,14 @@ package com.colorphone.lock.lockscreen.locker;
 
 
 import com.acb.autopilot.AutopilotConfig;
+import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.util.ConfigUtils;
 import com.colorphone.lock.util.PreferenceHelper;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSPreferenceHelper;
+
+import net.appcloudbox.ads.nativeads.AcbNativeAdManager;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
 
@@ -46,6 +49,13 @@ public class LockerSettings {
     public static void setLockerEnabled(boolean isEnabled) {
         PreferenceHelper.getDefault().putBoolean(PREF_KEY_LOCKER_ENABLED, isEnabled);
         HSGlobalNotificationCenter.sendNotification(NOTIFY_LOCKER_STATE);
+
+        String adPlacement = LockerCustomConfig.get().getLockerAdName();
+        if (isEnabled) {
+            AcbNativeAdManager.sharedInstance().activePlacementInProcess(adPlacement);
+        } else {
+            AcbNativeAdManager.sharedInstance().deactivePlacementInProcess(adPlacement);
+        }
     }
 
     public static void increaseLockerShowCount() {

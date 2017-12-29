@@ -1,6 +1,7 @@
 package com.colorphone.lock.lockscreen.chargingscreen;
 
 
+import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.util.PreferenceHelper;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -39,6 +40,12 @@ public class ChargingScreenSettings {
         PreferenceHelper.getDefault().putBoolean(PREF_KEY_CHARGING_SCREEN_ENABLED, isEnabled);
         if (isEnabled) {
             PreferenceHelper.getDefault().putBoolean(PREF_KEY_CHARGING_SCREEN_EVER_ENABLED, true);
+        }
+        String adPlacement = LockerCustomConfig.get().getChargingExpressAdName();
+        if (isEnabled) {
+            AcbNativeAdManager.sharedInstance().activePlacementInProcess(adPlacement);
+        } else {
+            AcbNativeAdManager.sharedInstance().deactivePlacementInProcess(adPlacement);
         }
         ChargingPreferenceUtil.setChargingModulePreferenceEnabled(isEnabled);
         HSGlobalNotificationCenter.sendNotification(NOTIFY_CHARGING_SCREEN_STATE);
