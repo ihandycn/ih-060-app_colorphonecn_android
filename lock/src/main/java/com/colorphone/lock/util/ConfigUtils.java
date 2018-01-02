@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 
 import com.colorphone.lock.BuildConfig;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSMapUtils;
@@ -37,7 +38,7 @@ public class ConfigUtils {
             boolean beforeEnable = HSMapUtils.getBoolean(map, "Before");
             boolean afterEnable = HSMapUtils.getBoolean(map, "After");
 
-            long firstInstallTime = PreferenceHelper.getDefault().getLong(APP_FIRST_INSTALL_TIME, 0);
+            long firstInstallTime = getAppFirstInstallTime();
             String firstInstallDate = sSimpleDateFormat.format(
                     firstInstallTime > 0 ? new Date(firstInstallTime) : new Date());
             boolean currentAfter = firstInstallDate.compareTo(time) >= 0;
@@ -45,6 +46,14 @@ public class ConfigUtils {
             return currentAfter ? afterEnable : beforeEnable;
         }
         return false;
+    }
+
+    public static long getAppFirstInstallTime() {
+        long firstSessionTime = SessionMgr.getInstance().getFirstSessionStartTime();
+        if (firstSessionTime <= 0) {
+            return System.currentTimeMillis();
+        }
+        return firstSessionTime;
     }
 
     public static boolean isAnyLockerAppInstalled(String... path) {

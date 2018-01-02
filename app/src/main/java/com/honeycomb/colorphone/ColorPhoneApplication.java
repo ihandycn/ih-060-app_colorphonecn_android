@@ -173,8 +173,7 @@ public class ColorPhoneApplication extends HSApplication {
             Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
 
             copyMediaFromAssertToFile();
-            long firstInstallTime = HSSessionMgr.getFirstSessionStartTime();
-            PreferenceHelper.getDefault().putLong(ConfigUtils.APP_FIRST_INSTALL_TIME, firstInstallTime);
+
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
