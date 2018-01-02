@@ -1,0 +1,95 @@
+package com.honeycomb.colorphone.boost;
+
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+
+import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.utils.HSLog;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SystemAppsManager {
+
+    private List<AppInfo> allAppInfos;
+    private List<String> allAppPackageNames;
+    private static SystemAppsManager instance = new SystemAppsManager();
+    PackageManager pkgMgr;
+
+    private SystemAppsManager() {
+        allAppPackageNames = new ArrayList<>();
+        allAppInfos = new ArrayList<>();
+
+        pkgMgr = HSApplication.getContext().getPackageManager();
+    }
+
+    public static SystemAppsManager getInstance() {
+        return instance;
+    }
+
+    public void init() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initAllInstalledAppInfo();
+            }
+        }).start();
+    }
+
+    public List<AppInfo> initAllInstalledAppInfo() {
+        List<ApplicationInfo> installedApplications = pkgMgr.getInstalledApplications(0);
+        HSLog.w("notification", "init Allapps == " + installedApplications.size());
+
+        allAppInfos.clear();
+        allAppPackageNames.clear();
+
+        AppInfo app;
+        for (ApplicationInfo info : installedApplications) {
+            if (!allAppPackageNames.contains(info.packageName)) {
+                List<ActivityInfo> launchActivityInfos = getLaunchActivityInfo(info.packageName, pkgMgr);
+                if (null != launchActivityInfos && launchActivityInfos.size() > 0) {
+                    app = new AppInfo(info, false);
+                    app.setLaunchActivityName(launchActivityInfos.get(0).name);
+                    allAppInfos.add(app);
+                    allAppPackageNames.add(info.packageName);
+                }
+            }
+        }
+        HSLog.w("notification", "init Allappd == " + allAppPackageNames.size());
+        return allAppInfos;
+    }
+
+    public List<String> getAllAppPackageNames() {
+        return allAppPackageNames;
+    }
+
+    public List<AppInfo> getAllAppInfos() {
+        return allAppInfos;
+    }
+
+    private static List<ActivityInfo> getLaunchActivityInfo(String packageName, PackageManager pm) {
+        Intent intentToResolve = new Intent(Intent.ACTION_MAIN);
+        intentToResolve.addCategory(Intent.CATEGORY_LAUNCHER);
+        intentToResolve.setPackage(packageName);
+        List<ResolveInfo> ris = null;
+        try {
+            ris = pm.queryIntentActivities(intentToResolve, 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (ris == null || ris.size() <= 0) {
+            return null;
+        }
+
+        ArrayList<ActivityInfo> activityInfos = new ArrayList<>();
+        for (ResolveInfo resolveInfo : ris) {
+            activityInfos.add(resolveInfo.activityInfo);
+        }
+
+        return activityInfos;
+    }
+}
