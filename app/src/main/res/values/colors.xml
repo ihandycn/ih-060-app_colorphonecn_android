@@ -15,4 +15,15 @@
     <color name="white">#ffffff</color>
     <color name="lightBlue">#00b4ff</color>
     <color name="darkerBlue">#0078ff</color>
+
+    <color name="boost_foreign_anim_bg">#55000000</color>
+    <color name="boost_result_text_memory">#42c093</color>
+    <color name="boost_plus_red">#ff4f3d</color>
+    <color name="boost_plus_yellow">#ffbe00</color>
+    <color name="boost_plus_blue">#2471E2</color>
+    <color name="boost_plus_clean_bg">#2572E3</color>
+    <color name="boost_plus_clean_green">#26DA45</color>
+    <color name="boost_plus_exiting_progressbar">#448aff</color>
+    <color name="dark_translucent_bg">#66000000</color> <!-- 40% opaque -->
+    <color name="darker_translucent_bg">#b3000000</color> <!-- 70% opaque -->
 </resources>

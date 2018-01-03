@@ -55,7 +55,7 @@
 
         <include
             android:id="@+id/boost_icon"
-            layout="@layout/boost_black_hole_icons" />
+            layout="@layout/boost_plus_black_hole_icons" />
 
         <LinearLayout
             android:layout_width="wrap_content"

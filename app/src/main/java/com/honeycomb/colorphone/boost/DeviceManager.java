@@ -19,6 +19,15 @@ public class DeviceManager {
     private static final String TAG = DeviceManager.class.getSimpleName();
     private static volatile DeviceManager sManager = null;
 
+    private static final long MEMORY_GOOD_LEVEL = 55;
+    private static final long MEMORY_EMERGENCY_LEVEL = 80;
+
+    public enum RAMStatus {
+        EMERGENCY,
+        NORMAL,
+        GOOD,
+    }
+
     public static DeviceManager getInstance() {
         if (sManager == null) {
             synchronized (DeviceManager.class) {
@@ -85,4 +94,18 @@ public class DeviceManager {
             return 0;
         }
     }
+
+
+    public RAMStatus getRamStatus() {
+        int ram = getRamUsage();
+
+        if (ram >= MEMORY_EMERGENCY_LEVEL) {
+            return RAMStatus.EMERGENCY;
+        } else if (ram > MEMORY_GOOD_LEVEL) {
+            return RAMStatus.NORMAL;
+        } else {
+            return RAMStatus.GOOD;
+        }
+    }
+
 }

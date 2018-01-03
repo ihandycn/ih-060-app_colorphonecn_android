@@ -37,6 +37,9 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.boost.BoostActivity;
+import com.honeycomb.colorphone.boost.BoostPlusCleanDialog;
+import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
@@ -410,10 +413,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         notificationToast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PermissionUtils.requestNotificationPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
-                LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
-                NotificationAutoPilotUtils.logSettingsAlertShow();
-                LauncherAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
+//                PermissionUtils.requestNotificationPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
+//                LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
+//                NotificationAutoPilotUtils.logSettingsAlertShow();
+//                LauncherAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
+
+                BoostPlusCleanDialog.showBoostPlusCleanDialog(ColorPhoneActivity.this, BoostPlusCleanDialog.CLEAN_TYPE_NORMAL);
             }
         });
         notificationToast.setVisibility(View.VISIBLE);

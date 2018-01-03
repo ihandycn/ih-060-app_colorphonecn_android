@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/boost_plus_running_app_item"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="@drawable/material_compat_bg"
+    tools:ignore="ContentDescription">
+
+    <ImageView
+        android:id="@+id/boost_plus_item_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="16dp"
+        tools:src="@mipmap/ic_launcher"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/boost_plus_item_icon"
+        android:layout_toRightOf="@id/boost_plus_item_icon"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        tools:ignore="RelativeOverlap">
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/boost_plus_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="120dp"
+            android:layout_marginRight="120dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/material_text_black_primary"
+            android:textSize="16sp"
+            tools:text="Air Launcher"/>
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/boost_plus_item_running_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="120dp"
+            android:layout_marginRight="120dp"
+            android:lines="1"
+            android:textColor="@color/material_text_black_secondary"
+            android:textSize="12sp"
+            android:visibility="invisible"
+            tools:text="Running time: 8h"
+            tools:visibility="visible"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/boost_plus_item_warning_sign"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_toLeftOf="@+id/boost_plus_item_memory_size"
+        android:layout_toStartOf="@+id/boost_plus_item_memory_size"
+        app:srcCompat="@drawable/boost_plus_exclamation"/>
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/boost_plus_item_memory_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_toLeftOf="@+id/boost_plus_item_check_box"
+        android:layout_toStartOf="@+id/boost_plus_item_check_box"
+        android:lines="1"
+        android:textColor="@color/material_text_black_primary"
+        android:textSize="16sp"
+        tools:text="230MB"/>
+
+    <com.honeycomb.launcher.boost.plus.LauncherCheckBox
+        android:id="@+id/boost_plus_item_check_box"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"/>
+</RelativeLayout>
