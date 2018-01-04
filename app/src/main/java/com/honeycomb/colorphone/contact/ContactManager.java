@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.contact;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
@@ -99,9 +100,12 @@ public class ContactManager {
     @DebugLog
     private synchronized boolean fillThemeContacts(List<SimpleContact> allContacts) {
         SQLiteDatabase db = mDb;
-        final Cursor c = db.rawQuery("SELECT * FROM " + ThemeEntry.TABLE_NAME, null);
+
+        // Hisense F23, table not create.
+        Cursor c = null;
 
         try {
+            c = db.rawQuery("SELECT * FROM " + ThemeEntry.TABLE_NAME, null);
             if (!c.moveToLast()) {
                 return false;
             }
@@ -119,6 +123,8 @@ public class ContactManager {
                     Log.d("Read theme contact", model.toString());
                 }
             } while (c.moveToPrevious());
+        } catch (SQLiteException e) {
+            // ignore
         } finally {
             if (c != null) {
                 c.close();
