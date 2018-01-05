@@ -100,7 +100,7 @@ public class ChargingScreenGuideView extends LinearLayout {
                     LockerSettings.setLockerEnabled(true);
                 }
                 Toast.makeText(ChargingScreenGuideView.this.getContext(), R.string.charging_screen_guide_turn_on, Toast.LENGTH_SHORT).show();
-                HSAnalytics.logEvent("Alert_ChargingScreen_TurnOn_Clicked", "type", "Turn on");
+                LockerCustomConfig.getLogger().logEvent("Alert_ChargingScreen_TurnOn_Clicked", "type", "Turn on");
                 ChargingScreenGuideView.this.dismissSelf();
             }
         });

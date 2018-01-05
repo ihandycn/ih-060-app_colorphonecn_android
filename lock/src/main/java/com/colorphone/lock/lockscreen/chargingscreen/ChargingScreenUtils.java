@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
 
+import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.util.PreferenceHelper;
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.libcharging.HSChargingManager;
@@ -47,21 +47,21 @@ public class ChargingScreenUtils {
             case 0:
                 if (ChargingScreenSettings.getChargingCount() >= 1) {
                     chargingCountMatched = true;
-                    HSAnalytics.logEvent("Alert_ChargingScreen_Shown", "type", "1");
+                    LockerCustomConfig.getLogger().logEvent("Alert_ChargingScreen_Shown", "type", "1");
                 }
                 break;
             case 1:
                 if (ChargingScreenSettings.getChargingCount() - PreferenceHelper.get(LOCKER_PREFS).getInt(
                         ChargingScreenSettings.PREF_KEY_CHARGING_SCREEN_GUIDE_LAST_SHOW_TIME, 0) >= 5) {
                     chargingCountMatched = true;
-                    HSAnalytics.logEvent("Alert_ChargingScreen_Shown", "type", "2");
+                    LockerCustomConfig.getLogger().logEvent("Alert_ChargingScreen_Shown", "type", "2");
                 }
                 break;
             case 2:
                 if (ChargingScreenSettings.getChargingCount() - PreferenceHelper.get(LOCKER_PREFS).getInt(
                         ChargingScreenSettings.PREF_KEY_CHARGING_SCREEN_GUIDE_LAST_SHOW_TIME, 0) >= 9) {
                     chargingCountMatched = true;
-                    HSAnalytics.logEvent("Alert_ChargingScreen_Shown", "type", "3");
+                    LockerCustomConfig.getLogger().logEvent("Alert_ChargingScreen_Shown", "type", "3");
                 }
                 break;
             default:

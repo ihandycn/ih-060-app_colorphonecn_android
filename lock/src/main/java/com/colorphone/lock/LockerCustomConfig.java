@@ -14,6 +14,7 @@ public class LockerCustomConfig {
     private String mLockerAdName;
     private int mLauncherIcon;
     private Event mEventDelegate = new DefaultEvent();
+    private RemoteLogger mRemoteLogger = new DefaultLogger();
 
     public static LockerCustomConfig get() {
         return INSTANCE;
@@ -84,6 +85,14 @@ public class LockerCustomConfig {
         mEventDelegate = eventDelegate;
     }
 
+    public RemoteLogger getRemoteLogger() {
+        return mRemoteLogger;
+    }
+
+    public void setRemoteLogger(RemoteLogger remoteLogger) {
+        mRemoteLogger = remoteLogger;
+    }
+
 
     public static abstract class Event {
         public abstract void onEventLockerAdShow();
@@ -95,7 +104,7 @@ public class LockerCustomConfig {
         public abstract void onEventChargingAdShow();
 
         public void onEventChargingAdClick() {
-            HSAnalytics.logEvent("ChargingScreen_Ad_Clicked");
+            LockerCustomConfig.getLogger().logEvent("ChargingScreen_Ad_Clicked");
         }
 
         public abstract void onEventChargingViewShow();
@@ -126,6 +135,27 @@ public class LockerCustomConfig {
         @Override
         public void onEventChargingViewShow() {
             // Do nothing
+        }
+    }
+
+    public static RemoteLogger getLogger() {
+        return LockerCustomConfig.get().getRemoteLogger();
+    }
+
+    public interface RemoteLogger {
+        void logEvent(String eventID);
+        void logEvent(String eventID, String... vars);
+    }
+
+    public static class DefaultLogger implements RemoteLogger {
+        @Override
+        public void logEvent(String eventID) {
+            HSAnalytics.logEvent(eventID);
+        }
+
+        @Override
+        public void logEvent(String eventID, String... vars) {
+            HSAnalytics.logEvent(eventID, vars);
         }
     }
 }

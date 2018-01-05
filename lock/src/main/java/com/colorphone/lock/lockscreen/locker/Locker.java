@@ -21,6 +21,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.HomeKeyWatcher;
+import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.LockScreen;
@@ -30,7 +31,6 @@ import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.lockscreen.locker.slidingup.LockerSlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.statusbar.StatusBar;
 import com.colorphone.lock.util.PreferenceHelper;
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -58,7 +58,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     @Override
     public void setup(ViewGroup root, Bundle extra) {
         super.setup(root, extra);
-        HSAnalytics.logEvent("Locker_Shown");
+        LockerCustomConfig.getLogger().logEvent("Locker_Shown");
 
         mIsSetup = true;
         // ======== onCreate ========
@@ -165,7 +165,7 @@ public class Locker extends LockScreen implements INotificationObserver {
             public void onPageSelected(int position) {
                 if (LockerAdapter.PAGE_INDEX_UNLOCK == position) {
                     dismiss(getContext(), true);
-                    HSAnalytics.logEvent("Locker_Unlocked");
+                    LockerCustomConfig.getLogger().logEvent("Locker_Unlocked");
                 }
             }
 

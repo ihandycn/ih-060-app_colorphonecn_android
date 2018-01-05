@@ -273,7 +273,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             public void onClick(View v) {
                 showMenuPopupWindow(context, menuImageView);
 
-                HSAnalytics.logEvent("ChargingScreen_Setting_Clicked");
+                LockerCustomConfig.getLogger().logEvent("ChargingScreen_Setting_Clicked");
             }
         });
 
@@ -319,7 +319,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         LockScreensLifeCycleRegistry.setChargingScreenActive(true);
         LockerCustomConfig.get().onEventChargingViewShow();
 
-        HSAnalytics.logEvent("Charging_Screen__Shown_Init");
+        LockerCustomConfig.getLogger().logEvent("Charging_Screen__Shown_Init");
     }
 
     public void onStart() {
@@ -353,7 +353,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                 updateChargingStateTipIconAnimator();
             }
 
-            HSAnalytics.logEvent("ChargingScreen_Shown");
+            LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown");
         }
 
         // ======== onResume ========
@@ -865,7 +865,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         // ======== onStop ========
         HSLog.d(TAG, "onStop()");
         if (System.currentTimeMillis() - onStartTime > DateUtils.SECOND_IN_MILLIS) {
-            HSAnalytics.logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getChargingExpressAdName(), String.valueOf(mAdShown)});
+            LockerCustomConfig.getLogger().logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getChargingExpressAdName(), String.valueOf(mAdShown)});
             mAdShown = false;
         }
 

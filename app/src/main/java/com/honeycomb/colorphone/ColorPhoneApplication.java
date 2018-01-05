@@ -17,7 +17,6 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.acb.autopilot.AutopilotConfig;
-import com.acb.autopilot.AutopilotEvent;
 import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
 import com.acb.call.customize.AcbCallManager;
@@ -33,12 +32,12 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConcurrentUtils;
-import com.colorphone.lock.util.ConfigUtils;
-import com.colorphone.lock.util.PreferenceHelper;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.module.LockerEvent;
+import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -337,6 +336,7 @@ public class ColorPhoneApplication extends HSApplication {
         LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);
         LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHAEGING_SCREEN);
         LockerCustomConfig.get().setEventDelegate(new LockerEvent());
+        LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
         FloatWindowCompat.initLockScreen(this);
         HSChargingManager.getInstance().start();
     }
@@ -473,43 +473,6 @@ public class ColorPhoneApplication extends HSApplication {
 
     public static ConfigLog getConfigLog() {
         return mConfigLog;
-    }
-
-    public static class LockerEvent extends LockerCustomConfig.Event {
-        @Override
-        public void onEventLockerAdShow() {
-            super.onEventChargingAdClick();
-            AutopilotEvent.onAdShow();
-        }
-
-        @Override
-        public void onEventLockerShow() {
-            super.onEventChargingAdClick();
-            AutopilotEvent.logTopicEvent("topic-1505294061097", "color_screensaver_show");
-        }
-
-        @Override
-        public void onEventLockerAdClick() {
-            super.onEventChargingAdClick();
-            AutopilotEvent.onAdClick();
-        }
-
-        @Override
-        public void onEventChargingAdShow() {
-            super.onEventChargingAdClick();
-            AutopilotEvent.onAdShow();
-        }
-
-        @Override
-        public void onEventChargingAdClick() {
-            super.onEventChargingAdClick();
-            AutopilotEvent.onAdClick();
-        }
-
-        @Override
-        public void onEventChargingViewShow() {
-            super.onEventChargingAdClick();
-        }
     }
 
     private void downloadNewType() {

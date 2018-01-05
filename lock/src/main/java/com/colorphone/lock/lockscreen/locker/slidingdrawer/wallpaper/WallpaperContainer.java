@@ -31,13 +31,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerMainFrame;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.ToastUtils;
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -354,7 +354,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                                 }
                                 mIsDownloadingWallpaper = false;
                                 ToastUtils.showToast(R.string.wallpaper_network_error);
-                                HSAnalytics.logEvent("Locker_Wallpaper_Preview_Clicked", "name", mHDUrls.get(index).toString(), "result", "fail");
+                                LockerCustomConfig.getLogger().logEvent("Locker_Wallpaper_Preview_Clicked", "name", mHDUrls.get(index).toString(), "result", "fail");
                             }
 
                             @Override
@@ -397,7 +397,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                                 change.playSequentially(wallpaperOut, wallpaperIn);
                                 change.start();
                                 mPrefer.putString(Locker.PREF_KEY_CURRENT_WALLPAPER_HD_URL, mHDUrls.get(index).toString());
-                                HSAnalytics.logEvent("Locker_Wallpaper_Preview_Clicked", "name", mHDUrls.get(index).toString(), "result", "success");
+                                LockerCustomConfig.getLogger().logEvent("Locker_Wallpaper_Preview_Clicked", "name", mHDUrls.get(index).toString(), "result", "success");
                             }
 
                             @Override
@@ -486,7 +486,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                                                 for (int index = 0; index < mLoadingSucceed.size(); index++) {
                                                     succeed += mLoadingSucceed.get(mLoadingSucceed.keyAt(index)) ? 1 : 0;
                                                 }
-                                                HSAnalytics.logEvent("Locker_Wallpaper_Refresh_Clicked", "success", "" + succeed);
+                                                LockerCustomConfig.getLogger().logEvent("Locker_Wallpaper_Refresh_Clicked", "success", "" + succeed);
                                                 mIsRefreshSwitchClicked = false;
                                             }
                                         }
@@ -551,7 +551,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                                                         for (int index = 0; index < mLoadingSucceed.size(); index++) {
                                                             succeed += mLoadingSucceed.get(mLoadingSucceed.keyAt(index)) ? 1 : 0;
                                                         }
-                                                        HSAnalytics.logEvent("Locker_Wallpaper_Refresh_Clicked", "success", "" + succeed);
+                                                        LockerCustomConfig.getLogger().logEvent("Locker_Wallpaper_Refresh_Clicked", "success", "" + succeed);
                                                         mIsRefreshSwitchClicked = false;
                                                     }
                                                 }

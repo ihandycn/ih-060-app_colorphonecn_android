@@ -269,7 +269,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         return new NotificationMessageAlertActivity.Event() {
             @Override
             public void onShow(int[] count) {
-//                HSAnalytics.logEvent("Message_View_Shown");
+//                LauncherAnalytics.logEvent("Message_View_Shown");
             }
 
             @Override
