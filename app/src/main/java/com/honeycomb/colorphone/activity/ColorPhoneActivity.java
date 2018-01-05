@@ -42,6 +42,7 @@ import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.PermissonHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -223,8 +224,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedTheme() + "");
-        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedTheme());
+        HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
+        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
         }
@@ -247,8 +248,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onPause() {
         super.onPause();
 
-        HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedTheme() + "");
-        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedTheme());
+        HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedLayoutPos() + "");
+        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
         }
@@ -291,6 +292,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mHandler.removeCallbacksAndMessages(null);
         TasksManager.getImpl().onDestroy();
         HSGlobalNotificationCenter.removeObserver(this);
+        PermissonHelper.stopObservingPermission();
         if (mRecyclerView != null) {
             mRecyclerView.setAdapter(null);
         }

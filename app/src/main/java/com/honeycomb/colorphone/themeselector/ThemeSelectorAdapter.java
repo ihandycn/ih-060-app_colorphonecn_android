@@ -41,6 +41,7 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.PermissonHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -102,6 +103,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                             selectedTheme.getIdName().toLowerCase(),
                             ConfigLog.FROM_DETAIL);
                 }
+            } else if (PermissonHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED.equals(s)) {
+                setHeaderTipVisible(false);
+                notifyDataSetChanged();
             }
 
         }
@@ -166,7 +170,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD, observer);
-
+        HSGlobalNotificationCenter.addObserver(PermissonHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, observer);
     }
 
     @Override
@@ -261,10 +265,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             tipView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PermissionUtils.requestNotificationPermission(activity, true, new Handler(), "settings");
-                    LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
-                    NotificationAutoPilotUtils.logSettingsAlertShow();
-                    LauncherAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
+                    PermissonHelper.requestNotificationPermission(activity, true, new Handler(), "List");
+                    LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "List");
                 }
             });
             return new TopTipViewHolder(tipView);
@@ -273,7 +275,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    public int getLastSelectedTheme() {
+    public int getLastSelectedLayoutPos() {
         int prePos = 0;
         // Clear before.
         for (int i = 0; i < data.size(); i++) {
@@ -283,7 +285,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
             }
         }
-        return prePos;
+        return prePos + getHeaderCount();
     }
 
     private boolean onSelectedTheme(final int pos, ThemeCardViewHolder holder) {
@@ -312,10 +314,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void notifyItemSelected(int pos, Theme theme) {
-        RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(pos);
+        int adapterPos = pos + getHeaderCount();
+        RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
         if (holder == null) {
             // Item not visible in screen.
-            notifyItemChanged(pos);
+            notifyItemChanged(adapterPos);
         } else if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).setSelected(theme);
         }
