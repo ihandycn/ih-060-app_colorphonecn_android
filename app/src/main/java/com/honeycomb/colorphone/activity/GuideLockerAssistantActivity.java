@@ -5,17 +5,21 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
+import com.acb.utils.PermissionUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.FontUtils;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.PermissonHelper;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 /**
@@ -58,9 +62,25 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
+                boolean needGuideNotificationPermisson = HSConfig.optBoolean(false,
+                        "Application", "NotificationAccess", "GoToAccessPageFromFirstScreen");
+                if (needGuideNotificationPermisson && PermissionUtils.isNotificationAccessGranted(GuideLockerAssistantActivity.this)) {
+                    PermissonHelper.requestNotificationPermission(ColorPhoneActivity.class, GuideLockerAssistantActivity.this, true, new Handler(), "FirstScreen");
+                    LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "FirstScreen");
+                }
                 finish();
+
             }
         });
+
+        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
+
+        tvTitle.setText(titleNew() ? R.string.guide_first_page_title : R.string.guide_first_page_title_old);
+    }
+
+    private boolean titleNew() {
+        // TODO
+        return false;
     }
 
     @Override

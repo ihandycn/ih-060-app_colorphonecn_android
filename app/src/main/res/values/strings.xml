@@ -78,4 +78,8 @@
     <string name="promote_apply_success" translatable="false">APPLY SUCCESS!</string>
     <string name="promote_apply_subtitle" translatable="false">Begin to enjoy color phone</string>
 
+    <string name="guide_first_page_title">Please enable the features and permissions:</string>
+    <string name="guide_first_page_title_old">Enable Call Assistant &amp; Smart Charging to:</string>
+    <string name="guide_first_page_desc">For a better call experience \n Remind your missed calls \n Boost easily and
+        access camera quickly</string>
 </resources>
