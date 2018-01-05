@@ -1,33 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout android:id="@+id/notification_access_toast"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/notification_access_toast"
     android:layout_width="match_parent"
-    android:layout_height="46dp"
+    android:layout_height="50dp"
     android:layout_marginLeft="18dp"
     android:layout_marginRight="18dp"
     android:layout_marginTop="10dp"
-    android:background="@drawable/notification_access_toast_selector"
-    android:gravity="center_vertical"
-    >
+    android:background="@drawable/notificaiton_toast_top"
+    android:elevation="6dp"
+    android:gravity="center_vertical">
+
     <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="18dp"
-        android:layout_marginStart="18dp"
-        android:src="@drawable/notification_access_warning_icon"/>
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/notification_access_lock_icon" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingTop="3dp"
+        android:src="@drawable/notification_arrow_right" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginEnd="35dp"
-        android:textColor="#101010"
-        android:textSize="14sp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_toEndOf="@id/imageView1"
+        android:layout_toLeftOf="@id/imageView2"
+        android:layout_toRightOf="@id/imageView1"
+        android:layout_toStartOf="@id/imageView2"
+        android:maxLines="2"
         android:text="@string/acb_phone_grant_notification_access_title"
-        app:typeface="@string/proxima_nova_regular"
-        />
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:typeface="@string/proxima_nova_semibold" />
 
-</LinearLayout>
+
+</RelativeLayout>

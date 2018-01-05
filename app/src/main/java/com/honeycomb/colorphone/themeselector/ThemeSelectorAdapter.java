@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,6 +17,7 @@ import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.acb.utils.PermissionUtils;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,13 +31,16 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationUtils;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -70,6 +73,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private ArrayList<Theme> data = null;
     private GridLayoutManager layoutManager;
     private Handler mHandler = new Handler();
+    private boolean mTipHeaderVisible;
 
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_GIF = 0x1;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO = 0x8;
@@ -77,6 +81,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_TECH = 0x3;
 
     public static final int THEME_SELECTOR_ITEM_TYPE_STATEMENT = 0x20;
+    public static final int THEME_SELECTOR_ITEM_TYPE_TIP = 0x30;
 
     private static final int THEME_TYPE_MASK = 0x0F;
 
@@ -124,6 +129,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             public int getSpanSize(int position) {
                 switch (getItemViewType(position)) {
                     case THEME_SELECTOR_ITEM_TYPE_STATEMENT:
+                    case THEME_SELECTOR_ITEM_TYPE_TIP:
                         return 2;
                     default:
                         return 1;
@@ -137,6 +143,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mTransX = -mTransX;
         }
 
+    }
+
+    public void setHeaderTipVisible(boolean visible) {
+        mTipHeaderVisible = visible;
     }
 
     public GridLayoutManager getLayoutManager() {
@@ -172,7 +182,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             HSLog.d(TAG, "onCreateViewHolder : type " + viewType);
         }
         if ((viewType & THEME_TYPE_MASK) == viewType) {
-            View cardViewContent = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_theme_selector, null);
+            View cardViewContent = activity.getLayoutInflater().inflate(R.layout.card_view_theme_selector, null);
             final ThemeCardViewHolder holder = new ThemeCardViewHolder(cardViewContent);
             // Theme
             switch (viewType) {
@@ -243,9 +253,23 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             return holder;
 
-        } else {
-            View stateViewContent = LayoutInflater.from((parent.getContext())).inflate(R.layout.card_view_contains_ads_statement, null);
+        } else if (viewType == THEME_SELECTOR_ITEM_TYPE_STATEMENT) {
+            View stateViewContent = activity.getLayoutInflater().inflate(R.layout.card_view_contains_ads_statement, null);
             return new StatementViewHolder(stateViewContent);
+        } else if (viewType == THEME_SELECTOR_ITEM_TYPE_TIP) {
+            View tipView = activity.getLayoutInflater().inflate(R.layout.notification_access_toast_layout, parent, false);
+            tipView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PermissionUtils.requestNotificationPermission(activity, true, new Handler(), "settings");
+                    LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
+                    NotificationAutoPilotUtils.logSettingsAlertShow();
+                    LauncherAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
+                }
+            });
+            return new TopTipViewHolder(tipView);
+        } else {
+            throw new IllegalArgumentException("View type not valid " + viewType);
         }
     }
 
@@ -305,15 +329,18 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             HSLog.d(TAG, "bindViewHolder : " + position);
         }
         if (holder instanceof ThemeCardViewHolder) {
-            ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
-            cardViewHolder.setPositionTag(position);
 
-            if (position % 2 == 0) {
+            int themeIndex = position - getHeaderCount();
+
+            ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
+            cardViewHolder.setPositionTag(themeIndex);
+
+            if (themeIndex % 2 == 0) {
                 cardViewHolder.getContentView().setTranslationX(mTransX);
             } else {
                 cardViewHolder.getContentView().setTranslationX(-mTransX);
             }
-            final Theme curTheme = data.get(position);
+            final Theme curTheme = data.get(themeIndex);
 
             cardViewHolder.mThemeTitle.setText(curTheme.getName());
             cardViewHolder.mAvatarName.setText(curTheme.getAvatarName());
@@ -324,21 +351,28 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             // Download progress
             final TasksManagerModel model = TasksManager.getImpl().getByThemeId(curTheme.getId());
             if (model != null) {
-                cardViewHolder.update(model.getId(), position);
+                cardViewHolder.update(model.getId(), themeIndex);
                 boolean fileExist = updateTaskHolder((ThemeCardViewHolder) holder, model);
                 cardViewHolder.switchToReadyState(fileExist);
             } else {
                 cardViewHolder.switchToReadyState(true);
             }
-        } else {
+        } else if (holder instanceof StatementViewHolder) {
             HSLog.d("onBindVieHolder", "contains ads statement.");
+        } else if (holder instanceof TopTipViewHolder) {
+
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position < data.size()) {
-            Theme theme = data.get(position);
+        int headerCount = getHeaderCount();
+        if (position < headerCount) {
+            return THEME_SELECTOR_ITEM_TYPE_TIP;
+        }
+        int dateIndex = position - headerCount;
+        if (dateIndex < data.size()) {
+            Theme theme = data.get(dateIndex);
             if (theme.getValue() == Type.LED) {
                 return THEME_SELECTOR_ITEM_TYPE_THEME_LED;
             } else if (theme.getValue() == Type.TECH) {
@@ -403,8 +437,16 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
+        return data.size() + getHeaderCount() + getFooterCount();
+    }
+
+    private int getFooterCount() {
         // +1 for statement
-        return data.size() + 1;
+        return 1;
+    }
+
+    private int getHeaderCount() {
+        return mTipHeaderVisible ? 1 : 0;
     }
 
     public static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
@@ -732,6 +774,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     static class StatementViewHolder extends RecyclerView.ViewHolder {
         public StatementViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    static class TopTipViewHolder extends  RecyclerView.ViewHolder {
+
+        public TopTipViewHolder(View itemView) {
             super(itemView);
         }
     }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle"
+            android:useLevel="false"
+            >
+            <gradient
+                android:type="linear"
+                android:startColor="#f05241"
+                android:endColor="#ffa028"
+                android:gradientRadius="2"
+                />
+
+            <corners
+                android:bottomLeftRadius="@dimen/theme_card_radius"
+                android:bottomRightRadius="@dimen/theme_card_radius"
+                android:topLeftRadius="@dimen/theme_card_radius"
+                android:topRightRadius="@dimen/theme_card_radius" />
+        </shape>
+    </item>
+
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle"
+            android:useLevel="false"
+            >
+            <gradient
+                android:type="linear"
+                android:startColor="#f45e4a"
+                android:endColor="#ffa336"
+                android:gradientRadius="2"
+                />
+
+            <corners
+                android:bottomLeftRadius="@dimen/theme_card_radius"
+                android:bottomRightRadius="@dimen/theme_card_radius"
+                android:topLeftRadius="@dimen/theme_card_radius"
+                android:topRightRadius="@dimen/theme_card_radius" />
+        </shape>
+    </item>
+</selector>
