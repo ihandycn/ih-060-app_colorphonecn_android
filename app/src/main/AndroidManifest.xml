@@ -128,7 +128,7 @@
             android:theme="@style/AppLightStatusBarTheme" />
 
         <activity
-            android:name=".activity.GuideLockerAssistantActivity"
+            android:name=".activity.GuideAllFeaturesActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

@@ -109,9 +109,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         // TODO pro show condition ( SESSION_START, or Activity onStart() )
         if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
-                && !GuideLockerAssistantActivity.isStarted()
+                && !GuideAllFeaturesActivity.isStarted()
                 && !ModuleUtils.isAllModuleEnabled()) {
-            GuideLockerAssistantActivity.start(this);
+            GuideAllFeaturesActivity.start(this);
             HSAlertMgr.delayRateAlert();
             pendingShowRateAlert = true;
         } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {

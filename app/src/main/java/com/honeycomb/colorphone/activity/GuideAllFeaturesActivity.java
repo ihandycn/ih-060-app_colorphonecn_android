@@ -26,10 +26,10 @@ import com.ihs.commons.utils.HSPreferenceHelper;
  * Created by sundxing on 17/9/13.
  */
 
-public class GuideLockerAssistantActivity extends HSAppCompatActivity {
+public class GuideAllFeaturesActivity extends HSAppCompatActivity {
 
     public static void start(Context context) {
-        Intent starter = new Intent(context, GuideLockerAssistantActivity.class);
+        Intent starter = new Intent(context, GuideAllFeaturesActivity.class);
         context.startActivity(starter);
     }
 
@@ -64,8 +64,8 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
                 ModuleUtils.setAllModuleUserEnable();
                 boolean needGuideNotificationPermisson = HSConfig.optBoolean(false,
                         "Application", "NotificationAccess", "GoToAccessPageFromFirstScreen");
-                if (needGuideNotificationPermisson && !PermissionUtils.isNotificationAccessGranted(GuideLockerAssistantActivity.this)) {
-                    PermissonHelper.requestNotificationPermission(ColorPhoneActivity.class, GuideLockerAssistantActivity.this, true, new Handler(), "FirstScreen");
+                if (needGuideNotificationPermisson && !PermissionUtils.isNotificationAccessGranted(GuideAllFeaturesActivity.this)) {
+                    PermissonHelper.requestNotificationPermission(ColorPhoneActivity.class, GuideAllFeaturesActivity.this, true, new Handler(), "FirstScreen");
                     LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "FirstScreen");
                 }
                 finish();
@@ -79,7 +79,10 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
     }
 
     private boolean titleNew() {
-        // TODO
+        String titleType = HSConfig.optString("new", "Application", "NotificationAccess", "FirstScreenTitle");
+        if ("new".equalsIgnoreCase(titleType)) {
+            return true;
+        }
         return false;
     }
 
@@ -95,7 +98,7 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
         privacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.startActivitySafely(GuideLockerAssistantActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_PRIVACY)));
+                Utils.startActivitySafely(GuideAllFeaturesActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_PRIVACY)));
             }
         });
 
@@ -104,7 +107,7 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
         termsOfService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.startActivitySafely(GuideLockerAssistantActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TERM_SERVICES)));
+                Utils.startActivitySafely(GuideAllFeaturesActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.URL_TERM_SERVICES)));
             }
         });
     }
