@@ -17,7 +17,6 @@ import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
-import com.acb.utils.PermissionUtils;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,14 +30,12 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
-import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.PermissonHelper;
@@ -91,11 +88,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void onReceive(String s, HSBundle hsBundle) {
             if (ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD.equals(s)) {
                 if (hsBundle != null) {
-                    notifyItemChanged(getPos(hsBundle));
+                    notifyItemChanged(getAdapterPos(hsBundle));
                 }
             } else if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
                 if (hsBundle != null) {
-                    int pos = getPos(hsBundle);
+                    int pos = getDataPos(hsBundle);
                     Theme selectedTheme = data.get(pos);
 
                     onSelectedTheme(pos, null);
@@ -110,7 +107,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
-        private int getPos(HSBundle hsBundle) {
+        private int getDataPos(HSBundle hsBundle) {
             if (hsBundle != null) {
                 int themeId = hsBundle.getInt(ThemePreviewActivity.NOTIFY_THEME_KEY);
                 for (Theme theme : data) {
@@ -121,6 +118,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
             return 0;
 //            throw new IllegalStateException("Not found theme index!");
+        }
+
+        private int getAdapterPos(HSBundle hsBundle) {
+            return getDataPos(hsBundle) + getHeaderCount();
         }
 
     };
