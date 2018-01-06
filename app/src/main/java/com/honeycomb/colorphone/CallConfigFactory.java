@@ -82,6 +82,10 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                         && CPSettings.isSMSAssistantModuleEnabled();
             }
 
+            @Override
+            public boolean hideNotificationGuide() {
+                return false;
+            }
         };
     }
 
