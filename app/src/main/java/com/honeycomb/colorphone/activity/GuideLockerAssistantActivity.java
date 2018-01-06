@@ -64,7 +64,7 @@ public class GuideLockerAssistantActivity extends HSAppCompatActivity {
                 ModuleUtils.setAllModuleUserEnable();
                 boolean needGuideNotificationPermisson = HSConfig.optBoolean(false,
                         "Application", "NotificationAccess", "GoToAccessPageFromFirstScreen");
-                if (needGuideNotificationPermisson && PermissionUtils.isNotificationAccessGranted(GuideLockerAssistantActivity.this)) {
+                if (needGuideNotificationPermisson && !PermissionUtils.isNotificationAccessGranted(GuideLockerAssistantActivity.this)) {
                     PermissonHelper.requestNotificationPermission(ColorPhoneActivity.class, GuideLockerAssistantActivity.this, true, new Handler(), "FirstScreen");
                     LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "FirstScreen");
                 }
