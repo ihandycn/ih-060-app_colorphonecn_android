@@ -28,6 +28,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -64,7 +65,6 @@ import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
-import com.ihs.commons.utils.HSMapUtils;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.File;
@@ -88,6 +88,8 @@ public final class Utils {
 
     public static final boolean ATLEAST_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     public static final boolean ATLEAST_JELLY_BEAN = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+    public static final boolean ATLEAST_JB_MR1 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
+
     public static final int DEFAULT_DEVICE_SCREEN_WIDTH = 1080;
     public static final int DEFAULT_DEVICE_SCREEN_HEIGHT = 1920;
     private static final Pattern sTrimPattern = Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
@@ -305,6 +307,21 @@ public final class Utils {
         }
         bool = false;
         return bool;
+    }
+
+    /**
+     * @return Status bar (top bar) height. Note that this height remains fixed even when status bar is hidden.
+     */
+    public static int getStatusBarHeight(Context context) {
+        if (null == context) {
+            return 0;
+        }
+        int height = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            height = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return height;
     }
 
     public static Drawable getAppIcon(String packageName) {
@@ -763,5 +780,26 @@ public final class Utils {
         }
         return false;
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static boolean isRtl() {
+        Resources res = HSApplication.getContext().getResources();
+        return ATLEAST_JB_MR1 && (res.getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL);
+    }
+
+    /**
+     * Sets up transparent status bars in LMP.
+     * This method is a no-op for other platform versions.
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void setupTransparentStatusBarsForLmp(Activity activityContext) {
+        if (CommonUtils.ATLEAST_LOLLIPOP) {
+            Window window = activityContext.getWindow();
+            window.getAttributes().systemUiVisibility |= (View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
     }
 }
