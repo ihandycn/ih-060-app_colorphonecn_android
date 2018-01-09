@@ -154,6 +154,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         mTipHeaderVisible = visible;
     }
 
+    public boolean isTipHeaderVisible() {
+        return mTipHeaderVisible;
+    }
+
     public GridLayoutManager getLayoutManager() {
         return layoutManager;
     }
@@ -267,6 +271,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View v) {
                     PermissonHelper.requestNotificationPermission(activity, true, new Handler(), "List");
+                    LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Clicked");
                     LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "List");
                 }
             });

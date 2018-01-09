@@ -218,6 +218,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
         HSPreferenceHelper.getDefault().putInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, maxId);
+
+        // log event
+        long sessionPast = System.currentTimeMillis() - SessionMgr.getInstance().getCurrentSessionStartTime();
+        boolean isNearSession = Math.abs(sessionPast) < 2000;
+        if (isNearSession ) {
+            if (mAdapter != null && mAdapter.isTipHeaderVisible()) {
+                LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Show");
+            }
+        }
     }
 
     @Override
