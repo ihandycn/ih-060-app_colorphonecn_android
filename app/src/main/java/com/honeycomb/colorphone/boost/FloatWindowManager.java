@@ -83,6 +83,16 @@ public class FloatWindowManager {
         }
     }
 
+    public void removeAllDialogs() {
+        if (!mDialogs.isEmpty()) {
+            Iterator<Map.Entry<Class, FloatWindowDialog>> iter = mDialogs.entrySet().iterator();
+            while (iter.hasNext()) {
+                Map.Entry<Class, FloatWindowDialog> cur = iter.next();
+                removeDialog(cur.getValue());
+            }
+        }
+    }
+
     private void removeDialogView(FloatWindowDialog dialog) {
         try {
             dialog.setSystemUiVisibility(0);

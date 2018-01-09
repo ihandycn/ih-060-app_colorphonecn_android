@@ -26,4 +26,12 @@
     <color name="boost_plus_exiting_progressbar">#448aff</color>
     <color name="dark_translucent_bg">#66000000</color> <!-- 40% opaque -->
     <color name="darker_translucent_bg">#b3000000</color> <!-- 70% opaque -->
+
+    <color name="app_bar_activities_content_bg">#eaeaea</color>
+
+    <color name="white_40_transparent">#66ffffff</color>
+
+    <!-- Dialog -->
+    <color name="dialog_button_blue">#448aff</color>
+    <color name="blue_action_bar_bg">#448aff</color>
 </resources>

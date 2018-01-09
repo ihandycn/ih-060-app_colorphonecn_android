@@ -80,4 +80,8 @@
         <attr name="fastScrollAutoHideDelay" format="reference|integer" />
         <attr name="fastScrollThumbInactiveColor" format="reference|boolean" />
     </declare-styleable>
+
+    <declare-styleable name="FixedRatioLayout">
+        <attr name="aspectRatio" format="float" />
+    </declare-styleable>
 </resources>

@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
@@ -28,7 +27,6 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,16 +39,13 @@ import com.colorphone.lock.util.ViewStyleUtils;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
-import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
-import com.ihs.commons.notificationcenter.INotificationObserver;
-import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.clean.memory.HSAppMemory;
 import com.ihs.device.clean.memory.HSAppMemoryManager;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -192,12 +187,21 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
 
     }
 
+    public static void hideBoostPlusCleanDialog(Context context, int type) {
+        FloatWindowDialog dialog = FloatWindowManager.getInstance().getDialog(BoostPlusCleanDialog.class);
+        if (dialog != null) {
+            FloatWindowManager.getInstance().removeDialog(dialog);
+        }
+
+
+    }
+
     public BoostPlusCleanDialog(Context context, int type) {
         this(context);
         ramStatus = DeviceManager.getInstance().getRamStatus();
         mType = initCleanType(type);
 
-        mSelectedAppList = new ArrayList<>();
+//        mSelectedAppList = new ArrayList<>();
 
         // todo
 //        mSelectedAppList = BoostPlusData.getInstance().getRunningApps();
@@ -1141,9 +1145,9 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
 
 
     void startResultPageActivity() {
-//        mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
 //                if (mType == CLEAN_TYPE_TOOLBAR) {
 //                    ResultPageActivity.startForBoost(getContext(), getAppTotalSizeMbs(), true);
 //                } else if (mType == CLEAN_TYPE_CLEAN_CENTER) {
@@ -1151,8 +1155,9 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
 //                } else {
 //                    ResultPageActivity.startForBoostPlus((Activity) getContext(), getAppTotalSizeMbs(), true);
 //                }
-//            }
-//        }, 450L);
+                ResultPageActivity.startForBoost(getContext(), getAppTotalSizeMbs(), false);
+            }
+        }, 450L);
     }
 
     void startDecelerateResultAnimation() {
@@ -1293,8 +1298,6 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
     }
 
     private void onBackClicked() {
-
         dismiss();
-
     }
 }

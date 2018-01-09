@@ -33,13 +33,12 @@ import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.PermissionUtils;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.BoostPlusCleanDialog;
-import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
@@ -47,10 +46,10 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.alerts.HSAlertMgr;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
@@ -413,12 +412,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         notificationToast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                PermissionUtils.requestNotificationPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
-//                LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
-//                NotificationAutoPilotUtils.logSettingsAlertShow();
-//                LauncherAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
-
-                BoostPlusCleanDialog.showBoostPlusCleanDialog(ColorPhoneActivity.this, BoostPlusCleanDialog.CLEAN_TYPE_NORMAL);
+                if (BuildConfig.DEBUG) {
+                    BoostPlusCleanDialog.showBoostPlusCleanDialog(ColorPhoneActivity.this, BoostPlusCleanDialog.CLEAN_TYPE_CLEAN_CENTER);
+                } else {
+                    PermissionUtils.requestNotificationPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
+                    LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
+                    NotificationAutoPilotUtils.logSettingsAlertShow();
+                    LauncherAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
+                }
             }
         });
         notificationToast.setVisibility(View.VISIBLE);
