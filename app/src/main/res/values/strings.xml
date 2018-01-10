@@ -81,41 +81,4 @@
     <string name="guide_first_page_title">Please enable the features and permissions:</string>
     <string name="guide_first_page_title_old">Enable Call Assistant &amp; Smart Charging to:</string>
     <string name="guide_first_page_desc">Remind your missed calls \n Provide detailed charging status \n For a better call experience</string>
-
-    <!-- Boost+ -->
-    <string name="boost_plus_memory_used">Memory Used</string>
-    <string name="boost_plus_optimal">OPTIMAL</string>
-    <string name="boost_plus_freeable">Memory to Clean</string>
-    <string name="optimalpage_boostplus">Perfect</string>
-    <string name="optimalpage_boostplus_desc">Your phone is as fast as a rocket!</string>
-    <string name="optimalpage_junkclean_desc">Your phone is clean as new!</string>
-
-    <!-- Suffix added to a number to signify size in bytes. -->
-    <string name="byte_abbr" translatable="false">B</string>
-    <!-- Suffix added to a number to signify size in kilobytes. -->
-    <string name="kilobyte_abbr" translatable="false">KB</string>
-    <!-- Suffix added to a number to signify size in megabytes. -->
-    <string name="megabyte_abbr" translatable="false">MB</string>
-    <!-- Suffix added to a number to signify size in gigabytes. -->
-    <string name="gigabyte_abbr" translatable="false">GB</string>
-    <!-- Suffix added to a number to signify size in terabytes. -->
-    <string name="terabyte_abbr" translatable="false">TB</string>
-    <!-- Suffix added to a number to signify size in petabytes. -->
-    <string name="petabyte_abbr" translatable="false">PB</string>
-
-    <string name="boost_plus_action_button_text">Boost (%1$s)</string>
-    <string name="boost_plus_free_up">Freed Up</string>
-    <string name="boost_plus_exiting">Exiting</string>
-    <string name="boost_plus_scanned_list_running_apps">Running Apps</string>
-    <string name="boost_plus_scanned_list_select_all">Select All</string>
-    <string name="boost_plus_selected_size_text">Selected: %1$s</string>
-    <string name="boost_plus_stop_clean_content">Once stopped, Boost+ will no longer be able to free up your memory. Are you sure to stop?</string>
-    <string name="boost_plus_stop_clean_title">Stop cleaning?</string>
-    <string name="boost_plus_stop_sure">STOP</string>
-    <string name="boost_plus_warning_toast">This app may push messages to you. It won\'t work any more if selected</string>
-    <string name="launcher_widget_boost_title">Boost</string>
-
-    <string name="boost_tip_optimal">Your phone is optimal now!</string>
-    <string name="menu_item_settings">Settings</string>
-    <string name="boost_title">Boost</string>
 </resources>

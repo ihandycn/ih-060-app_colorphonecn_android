@@ -23,27 +23,4 @@
     <dimen name="contact_item_footer_offset">72dp</dimen>
     <dimen name="theme_apply_btn_height">44dp</dimen>
 
-    <!-- Dialog -->
-    <dimen name="dialog_elevation">24dp</dimen>
-    <dimen name="dialog_rounded_corner_radius">3dp</dimen>
-    <dimen name="dialog_button_rounded_corner_radius">3dp</dimen>
-    <dimen name="dialog_content_text_margin">16dp</dimen>
-    <dimen name="dialog_button_margin">16dp</dimen>
-    <dimen name="dialog_margin">40dp</dimen>
-    <dimen name="dialog_content_margin">24dp</dimen>
-    <dimen name="dialog_button_padding">16dp</dimen>
-
-    <dimen name="result_empty_view_top_margin">57dp</dimen>
-
-    <!-- Result Page -->
-    <dimen name="result_page_header_height">90dp</dimen>
-    <dimen name="result_page_card_margin">8dp</dimen>
-    <dimen name="result_page_header_tag_margin">-14dp</dimen>
-
-    <!-- Battery -->
-    <dimen name="battery_content_margin_top">5dp</dimen>
-    <dimen name="battery_content_margin_bottom">5dp</dimen>
-
-    <dimen name="promote_screen_icon_half_height">32dp</dimen>
-
 </resources>

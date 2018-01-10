@@ -22,8 +22,4 @@
         <item name="cardElevation">6dp</item>
         <item name="cardBackgroundColor">@color/transparent</item>
     </style>
-
-    <style name="Theme.CustomOverScroll" parent="@android:style/Theme.DeviceDefault">
-        <item name="android:colorEdgeEffect">#e4e4e4</item>
-    </style>
 </resources>
