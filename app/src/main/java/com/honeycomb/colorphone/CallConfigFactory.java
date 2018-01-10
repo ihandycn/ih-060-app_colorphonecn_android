@@ -238,19 +238,28 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
             @Override
             public boolean enable() {
-                return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT)
-                        && NotificationAutoPilotUtils.isMessageCenterEnabled()
-                        && CPSettings.isSMSAssistantModuleEnabled();
+//                return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT)
+//                        && NotificationAutoPilotUtils.isMessageCenterEnabled()
+//                        && CPSettings.isSMSAssistantModuleEnabled();
+                return true;
+            }
+
+            @Override
+            public boolean showMessengerMessage() {
+                return true;
             }
 
             @Override
             public boolean showWhenScreenOn() {
-                return NotificationAutoPilotUtils.isMessageCenterShowOnUnlock();
+//                return NotificationAutoPilotUtils.isMessageCenterShowOnUnlock();
+                return true;
             }
+
 
             @Override
             public boolean showWhenScreenOff() {
-                return NotificationAutoPilotUtils.isMessageCenterShowOnLock();
+//                return NotificationAutoPilotUtils.isMessageCenterShowOnLock();
+                return true;
             }
         };
     }
