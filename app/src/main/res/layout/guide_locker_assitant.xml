@@ -42,16 +42,15 @@
         app:typeface="@string/proxima_nova_light" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
-        app:layout_widthPercent="80%"
+        app:layout_widthPercent="86%"
         android:id="@+id/tv_desc"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tv_contains_ads"
         android:layout_centerHorizontal="true"
-
         android:gravity="center"
-        android:text="@string/guide_first_page_desc"
         android:textColor="@color/textDark"
         android:textSize="15sp"
+        android:visibility="gone"
         app:typeface="@string/proxima_nova_light" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView

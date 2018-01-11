@@ -31,7 +31,7 @@
     <string name="terms_of_service">Terms of service</string>
 
 
-    <string name="guide_locker_and_call_hint">Enable Call Assistant &amp; Smart Charging to:\n Remind you about missed calls\n Provide detailed charging status.</string>
+    <string name="guide_first_page_title_old">Enable Call Assistant &amp; Smart Charging to:\n Remind you about missed calls\n Provide detailed charging status.</string>
     <string name="guide_enable_all_module">Enable Phone Assistant, Smart Charging &amp; Screensaver</string>
     <string name="guide_first_page_title">Please enable the features and permissions:\n Remind you about missed calls\n Provide detailed charging status.</string>
 
@@ -79,7 +79,4 @@
     <string name="promote_apply_success" translatable="false">APPLY SUCCESS!</string>
     <string name="promote_apply_subtitle" translatable="false">Begin to enjoy color phone</string>
 
-    <string name="guide_first_page_title">Please enable the features and permissions:</string>
-    <string name="guide_first_page_title_old">Enable Call Assistant &amp; Smart Charging to:</string>
-    <string name="guide_first_page_desc">Remind your missed calls \n Provide detailed charging status \n For a better call experience</string>
 </resources>
