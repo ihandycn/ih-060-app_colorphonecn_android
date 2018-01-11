@@ -12,7 +12,7 @@
         },
         "chargingreport_oncharger_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "charging_report_enable": {
           "type": "boolean",
@@ -20,7 +20,7 @@
         },
         "chargingreport_offcharger_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         }
       },
       "events": [
@@ -298,6 +298,18 @@
         },
         {
           "name": "message_assistant_ad_show"
+        },
+        {
+          "name": "message_assistant_whatsapp_show"
+        },
+        {
+          "name": "message_assistant_messenger_show"
+        },
+        {
+          "name": "message_assistant_sms_show"
+        },
+        {
+          "name": "message_assistant_show_onlockscreen"
         }
       ],
       "topic_id": "topic-1512815797473-16"

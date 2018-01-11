@@ -94,8 +94,10 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         return new MessageCenterUtils.Event() {
             public void onShow() {
                 NotificationAutoPilotUtils.logMessageAssistantShow();
+                NotificationAutoPilotUtils.logMessageAssistantSmsShowWhenScreenOn();
                 LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", "NotOnLockScreen", "MessageType", "SMS");
                 LauncherAnalytics.logEvent("Message_View_SMS_Shown_NotOnLockScreen");
+
             }
 
             public void onAdShow() {
@@ -332,6 +334,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                     LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "SMS", "isOverlayed", overlayed);
                     if(!showOnLock) {
                         LauncherAnalytics.logEvent("Message_View_SMS_Shown_NotOnLockScreen");
+                        NotificationAutoPilotUtils.logMessageAssistantSmsShowWhenScreenOn();
                     }
                 } else if (hasSms) {
                     LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "Multi","isOverlayed", overlayed);
@@ -339,11 +342,13 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                     LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "WhatsApp", "isOverlayed", overlayed);
                     if(!showOnLock) {
                         LauncherAnalytics.logEvent("Message_View_WhatsApp_Shown_NotOnLockScreen");
+                        NotificationAutoPilotUtils.logMessageAssistantWhatsappShowWhenScreenOn();
                     }
                 } else {
                     LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "Messenger", "isOverlayed", overlayed);
                     if(!showOnLock) {
                         LauncherAnalytics.logEvent("Message_View_Messenger_Shown_NotOnLockScreen");
+                        NotificationAutoPilotUtils.logMessageAssistantMessengerShowWhenScreenOn();
                     }
                 }
 
@@ -360,6 +365,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
                 if (showOnLock) {
                     LauncherAnalytics.logEvent("Message_View_Shown_OnLockScreen", "Type", messageType);
+                    NotificationAutoPilotUtils.logMessageAssistantShowOnLockScreen();
                 }
 
                 NotificationAutoPilotUtils.logMessageAssistantShow();
