@@ -240,6 +240,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             }
 
             @Override
+            public boolean showAd() {
+                return true;
+            }
+
+            @Override
             public boolean enable() {
                 return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT)
                         && NotificationAutoPilotUtils.isMessageCenterEnabled()
