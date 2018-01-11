@@ -86,6 +86,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             public boolean hideNotificationGuide() {
                 return false;
             }
+
+            @Override
+            public int getAppNameDrawable() {
+                return R.drawable.color_phone_logo;
+            }
         };
     }
 
@@ -120,6 +125,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         @Override
         public String getAdPlaceName() {
             return AdPlacements.AD_CALL_OFF;
+        }
+
+        @Override
+        public int getAppNameDrawable() {
+            return R.drawable.color_phone_logo;
         }
     }
 
@@ -257,6 +267,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             }
 
             @Override
+            public boolean showWhatsAppMessage() {
+                return NotificationAutoPilotUtils.isWhatsAppEnabled();
+            }
+
+            @Override
             public boolean showWhatsappWhenScreenOff() {
                 return NotificationAutoPilotUtils.isWhatsappShowOnLock();
             }
@@ -274,6 +289,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             @Override
             public boolean showFacebookMessengerWhenScreenOff() {
                 return NotificationAutoPilotUtils.isFacebookMessengerShowOnLock();
+            }
+
+            @Override
+            public int getAppNameDrawable() {
+                return R.drawable.color_phone_logo;
             }
         };
     }
