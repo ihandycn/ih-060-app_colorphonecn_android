@@ -70,7 +70,7 @@ public class ModuleUtils {
         if (CPSettings.isCallAssistantModuleEnabled()
                 && CPSettings.isCallAssistantModuleEnabled()
                 && ChargingScreenSettings.isChargingScreenEverEnabled()
-                && LockerSettings.isLockerEnabled()) {
+                && LockerSettings.isLockerUserEnabled()) {
             return true;
         }
         return false;
