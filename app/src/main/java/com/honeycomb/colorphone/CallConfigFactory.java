@@ -95,11 +95,12 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             public void onShow() {
                 NotificationAutoPilotUtils.logMessageAssistantShow();
                 LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", "NotOnLockScreen", "MessageType", "SMS");
+                LauncherAnalytics.logEvent("Message_View_SMS_Shown_NotOnLockScreen");
             }
 
             public void onAdShow() {
                 NotificationAutoPilotUtils.logMessageAssistantAdShow();
-                LauncherAnalytics.logEvent("Message_View_AD_Shown");
+                LauncherAnalytics.logEvent("Message_View_AD_Shown", "AlertShowWhere", "NotOnLockScreen", "MessageType", "SMS");
             }
 
             public void onAdClick() {
@@ -238,28 +239,34 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
             @Override
             public boolean enable() {
-//                return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT)
-//                        && NotificationAutoPilotUtils.isMessageCenterEnabled()
-//                        && CPSettings.isSMSAssistantModuleEnabled();
-                return true;
+                return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT)
+                        && NotificationAutoPilotUtils.isMessageCenterEnabled()
+                        && CPSettings.isSMSAssistantModuleEnabled();
             }
 
             @Override
             public boolean showMessengerMessage() {
-                return true;
+                return NotificationAutoPilotUtils.isFacebookMessengerEnabled();
             }
 
             @Override
-            public boolean showWhenScreenOn() {
-//                return NotificationAutoPilotUtils.isMessageCenterShowOnUnlock();
-                return true;
+            public boolean showWhatsappWhenScreenOff() {
+                return NotificationAutoPilotUtils.isWhatsappShowOnLock();
             }
 
+            @Override
+            public boolean showWhatsappWhenScreenOn() {
+                return NotificationAutoPilotUtils.isWhatsAppShowOnUnlock();
+            }
 
             @Override
-            public boolean showWhenScreenOff() {
-//                return NotificationAutoPilotUtils.isMessageCenterShowOnLock();
-                return true;
+            public boolean showFacebookMessengerWhenScreenOn() {
+                return NotificationAutoPilotUtils.isFacebookMessengerShowOnUnlock();
+            }
+
+            @Override
+            public boolean showFacebookMessengerWhenScreenOff() {
+                return NotificationAutoPilotUtils.isFacebookMessengerShowOnLock();
             }
         };
     }
@@ -315,16 +322,44 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
 
             @Override
-            public void onShow(int[] smsCount, boolean showOnLock) {
+            public void onShow(int[] smsCount, boolean showOnLock, boolean isOverlayed) {
                 boolean hasSms = smsCount[0] > 0;
                 boolean hasWhatsApp = smsCount[1] > 0;
+                boolean hasMessenger = smsCount[6] > 0;
                 String lockFlurry = showOnLock ? "OnLockScreen" : "NotOnLockScreen";
-                if (hasSms && !hasWhatsApp) {
-                    LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "SMS");
+                String overlayed = String.valueOf(isOverlayed);
+                if (hasSms && !hasWhatsApp && !hasMessenger) {
+                    LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "SMS", "isOverlayed", overlayed);
+                    if(!showOnLock) {
+                        LauncherAnalytics.logEvent("Message_View_SMS_Shown_NotOnLockScreen");
+                    }
                 } else if (hasSms) {
-                    LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "Multi");
+                    LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "Multi","isOverlayed", overlayed);
+                } else if (hasWhatsApp && !hasMessenger) {
+                    LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "WhatsApp", "isOverlayed", overlayed);
+                    if(!showOnLock) {
+                        LauncherAnalytics.logEvent("Message_View_WhatsApp_Shown_NotOnLockScreen");
+                    }
                 } else {
-                    LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "WhatsApp");
+                    LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", lockFlurry, "MessageType", "Messenger", "isOverlayed", overlayed);
+                    if(!showOnLock) {
+                        LauncherAnalytics.logEvent("Message_View_Messenger_Shown_NotOnLockScreen");
+                    }
+                }
+
+                String messageType = "";
+                if (hasSms) {
+                    messageType += "SMS";
+                }
+                if (hasWhatsApp) {
+                    messageType += "+WhatsApp";
+                }
+                if(hasMessenger) {
+                    messageType += "+Messenger";
+                }
+
+                if (showOnLock) {
+                    LauncherAnalytics.logEvent("Message_View_Shown_OnLockScreen", "Type", messageType);
                 }
 
                 NotificationAutoPilotUtils.logMessageAssistantShow();

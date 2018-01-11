@@ -102,15 +102,31 @@ public class NotificationAutoPilotUtils {
      */
 
     public static boolean isMessageCenterEnabled() {
+        return isWhatsAppEnabled() || isFacebookMessengerEnabled();
+    }
+
+    public static boolean isWhatsAppEnabled() {
         return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "whatsapp_assistant_enable", false);
     }
 
-    public static boolean isMessageCenterShowOnLock() {
+    public static boolean isWhatsappShowOnLock() {
         return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "whatsapp_assistant_show_on_lock", false);
     }
 
-    public static boolean isMessageCenterShowOnUnlock() {
+    public static boolean isWhatsAppShowOnUnlock() {
         return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "whatsapp_assistant_show_on_unlock", false);
+    }
+
+    public static boolean isFacebookMessengerEnabled() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "fbmessenger_assistant_enable", false);
+    }
+
+    public static boolean isFacebookMessengerShowOnLock() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "fbmessenger_assistant_show_on_lock", false);
+    }
+
+    public static boolean isFacebookMessengerShowOnUnlock() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "fbmessenger_assistant_show_on_unlock", false);
     }
 
     public static void logMessageAssistantShow() {
