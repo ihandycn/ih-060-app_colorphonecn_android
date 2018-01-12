@@ -18,6 +18,7 @@ import com.acb.notification.NotificationMessageAlertActivity;
 import com.acb.utils.MessageCenterUtils;
 import com.acb.utils.NavUtils;
 import com.colorphone.lock.util.CommonUtils;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
@@ -220,6 +221,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             @Override
             public int getNotificationAccessOutAppShowMaxTime() {
                 return NotificationConfig.getOutsideAppAccessAlertShowMaxTime();
+            }
+
+            @Override
+            public Class getParentActivity() {
+                return ColorPhoneActivity.class;
             }
         };
     }
