@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSActivity;
@@ -33,6 +33,7 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
 //        } else {
 //            intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
 //        }
+        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
         context.startActivity(intent);
     }
 

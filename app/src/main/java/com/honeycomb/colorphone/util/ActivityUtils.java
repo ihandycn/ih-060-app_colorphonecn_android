@@ -46,7 +46,7 @@ public class ActivityUtils {
         titleTextView.setText(title);
         toolbar.addView(titleTextView);
 
-        toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.blue_action_bar_bg));
+        toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.dialog_button_blue));
         activity.setSupportActionBar(toolbar);
         if (Utils.ATLEAST_LOLLIPOP) {
             //noinspection ConstantConditions

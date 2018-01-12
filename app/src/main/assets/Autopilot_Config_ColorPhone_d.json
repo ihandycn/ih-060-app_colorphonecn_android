@@ -180,7 +180,7 @@
       "variations": {
         "promote_app": {
           "type": "string",
-          "value": "com.wallpaper.theme.privacy.smart.lock.screen"
+          "value": "com.wallpaper.theme.privacy.smart.charger.lock.screen"
         },
         "promote_alert_title": {
           "type": "string",
@@ -227,21 +227,66 @@
       ],
       "topic_id": "topic-1512825907890-18"
     },
+    "topic-1514209960668-50": {
+      "topic_type": "life_time",
+      "topic_name": "Boost Push Test",
+      "variations": {
+        "boost_push_interval": {
+          "type": "double",
+          "value": 2
+        },
+        "boost_push_maxcount": {
+          "type": "double",
+          "value": 4
+        },
+        "boost_push_enable": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "boost_push_show"
+        },
+        {
+          "name": "boost_push_clicked"
+        },
+        {
+          "name": "boost_ad_show"
+        }
+      ],
+      "topic_id": "topic-1514209960668-50"
+    },
     "topic-1512815797473-16": {
       "topic_type": "life_time",
       "topic_name": "Message Assistant Test",
       "variations": {
-        "whatsapp_assistant_show_on_lock": {
-          "type": "boolean",
-          "value": false
-        },
         "whatsapp_assistant_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "whatsapp_assistant_show_on_unlock": {
           "type": "boolean",
+          "value": true
+        },
+        "fbmessenger_assistant_enable": {
+          "type": "boolean",
           "value": false
+        },
+        "fbmessenger_assistant_show_on_unlock": {
+          "type": "boolean",
+          "value": true
+        },
+        "fbmessenger_assistant_show_on_lock": {
+          "type": "boolean",
+          "value": true
+        },
+        "whatsapp_assistant_show_on_lock": {
+          "type": "boolean",
+          "value": true
         }
       },
       "events": [
@@ -253,6 +298,18 @@
         },
         {
           "name": "message_assistant_ad_show"
+        },
+        {
+          "name": "message_assistant_whatsapp_show"
+        },
+        {
+          "name": "message_assistant_messenger_show"
+        },
+        {
+          "name": "message_assistant_sms_show"
+        },
+        {
+          "name": "message_assistant_show_onlockscreen"
         }
       ],
       "topic_id": "topic-1512815797473-16"
@@ -293,7 +350,7 @@
         },
         "new_theme_push_enabled": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "push_icon_type": {
           "type": "string",
@@ -322,6 +379,10 @@
         "new_theme_push_title": {
           "type": "string",
           "value": "Brand new theme!"
+        },
+        "push_open_detail_or_mainview": {
+          "type": "string",
+          "value": "detail"
         }
       },
       "events": [

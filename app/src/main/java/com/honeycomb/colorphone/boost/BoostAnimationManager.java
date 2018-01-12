@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-class BoostAnimationManager {
+public class BoostAnimationManager {
 
     static class Boost {
         static final int ICON_ONE = 0;
@@ -119,7 +119,7 @@ class BoostAnimationManager {
 
     private List<String> drawablePackageList = new ArrayList<>();
 
-    BoostAnimationManager(float endX, float endY) {
+    public BoostAnimationManager(float endX, float endY) {
         this.endX = endX;
         this.endY = endY;
     }
@@ -385,7 +385,7 @@ class BoostAnimationManager {
         return translation;
     }
 
-    Bitmap[] getBoostAppIconBitmaps(Context context) {
+    public Bitmap[] getBoostAppIconBitmaps(Context context) {
         Drawable[] drawables = getBoostAppIconDrawables(context);
         Bitmap[] bitmaps = new Bitmap[COUNT_ICON];
         for (int i = 0; i < drawables.length; i++) {

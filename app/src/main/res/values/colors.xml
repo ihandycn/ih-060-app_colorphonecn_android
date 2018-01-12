@@ -33,5 +33,8 @@
 
     <!-- Dialog -->
     <color name="dialog_button_blue">#448aff</color>
-    <color name="blue_action_bar_bg">#448aff</color>
+
+    <color name="notification_boost_primary">#267dff</color>
+    <color name="notification_description_bold">#585858</color>
+    <color name="notification_red">#f84321</color>
 </resources>

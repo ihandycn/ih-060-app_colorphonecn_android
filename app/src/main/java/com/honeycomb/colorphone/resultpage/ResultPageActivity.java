@@ -417,7 +417,7 @@ public class ResultPageActivity extends HSAppCompatActivity
         backButton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(backButton);
         mResultController.startTransitionAnimation();
-        PreferenceHelper.get(Constants.COMMON_PREFS).incrementAndGetInt(ResultConstants.PREF_KEY_RESULT_PAGE_SHOWN_COUNT);
+        PreferenceHelper.get(Constants.NOTIFICATION_PREFS).incrementAndGetInt(ResultConstants.PREF_KEY_RESULT_PAGE_SHOWN_COUNT);
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -546,7 +546,7 @@ public class ResultPageActivity extends HSAppCompatActivity
 //                break;
 //        }
 
-        PreferenceHelper.get(Constants.BOOST_PREFS)
+        PreferenceHelper.get(Constants.NOTIFICATION_PREFS)
                 .putLong(ResultConstants.PREF_KEY_LAST_BOOST_PLUS_USED_TIME, System.currentTimeMillis());
     }
 }

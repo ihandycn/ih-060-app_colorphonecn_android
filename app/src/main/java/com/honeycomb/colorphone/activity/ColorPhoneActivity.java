@@ -38,7 +38,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.boost.BoostPlusCleanDialog;
+import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
@@ -413,7 +413,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onClick(View v) {
                 if (BuildConfig.DEBUG) {
-                    BoostPlusCleanDialog.showBoostPlusCleanDialog(ColorPhoneActivity.this, BoostPlusCleanDialog.CLEAN_TYPE_CLEAN_CENTER);
+//                    BoostPlusCleanDialog.showBoostPlusCleanDialog(ColorPhoneActivity.this, BoostPlusCleanDialog.CLEAN_TYPE_CLEAN_CENTER);
+//                    NotificationCondition.getsInstance().sendNotificationIfNeeded();
+//                    AdUtils.preloadResultPageAds();
+                    BoostAutoPilotUtils.dump();
                 } else {
                     PermissionUtils.requestNotificationPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
                     LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");

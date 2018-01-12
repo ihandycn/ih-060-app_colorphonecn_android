@@ -43,6 +43,9 @@ import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.clean.memory.HSAppMemory;
 import com.ihs.device.clean.memory.HSAppMemoryManager;
@@ -658,17 +661,17 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-//                if (ResultPageActivity.isAttached()) {
-//                    dismissDialog();
-//                } else {
-//                    HSGlobalNotificationCenter.addObserver(ResultPageActivity.NOTIFICATION_RESULT_PAGE_ATTACHED, new INotificationObserver() {
-//                        @Override
-//                        public void onReceive(String s, HSBundle hsBundle) {
-//                            HSGlobalNotificationCenter.removeObserver(this);
-//                            dismissDialog(); // Delay 500 ms
-//                        }
-//                    });
-//                }
+                if (ResultPageActivity.isAttached()) {
+                    dismissDialog();
+                } else {
+                    HSGlobalNotificationCenter.addObserver(ResultPageActivity.NOTIFICATION_RESULT_PAGE_ATTACHED, new INotificationObserver() {
+                        @Override
+                        public void onReceive(String s, HSBundle hsBundle) {
+                            HSGlobalNotificationCenter.removeObserver(this);
+                            dismissDialog(); // Delay 500 ms
+                        }
+                    });
+                }
             }
         }, 20 * FRAME);
 
@@ -1155,7 +1158,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
 //                } else {
 //                    ResultPageActivity.startForBoostPlus((Activity) getContext(), getAppTotalSizeMbs(), true);
 //                }
-                ResultPageActivity.startForBoost(getContext(), getAppTotalSizeMbs(), false);
+                ResultPageActivity.startForBoost(getContext(), getAppTotalSizeMbs(), true);
             }
         }, 450L);
     }

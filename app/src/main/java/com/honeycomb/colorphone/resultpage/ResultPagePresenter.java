@@ -9,6 +9,7 @@ import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.boost.AdUtils;
+import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -60,30 +61,27 @@ public class ResultPagePresenter implements ResultPageContracts.Presenter {
     public void show() {
         mType = ResultController.Type.DEFAULT_VIEW;
 
-        if (getResultPageShownCount() <= 5 && tryToShowFullScreenFunctionGuide()) {
-            return;
-        }
-
-//        if (!PromoteUtils.isResultPageEnable()) {
-            fetchAds();
-//        }
-
+        fetchAds();
         AdUtils.preloadResultPageAds();
 
         if (mWillShowInterstitialAd) {
-            if (!tryToShowCardView()) showDefaultView();
+            HSLog.i("Boost", "show Interstitial");
+            BoostAutoPilotUtils.logBoostPushAdShow();
         } else if (mType == ResultController.Type.AD) {
+            HSLog.i("Boost", "show AD");
+            BoostAutoPilotUtils.logBoostPushAdShow();
             logPageContent();
             mView.show(mType, mInterstitialAd, mNativeAd, mCards);
 //        } else if (mType == ResultController.Type.CARD_VIEW) {
 //            if (!tryToShowCardView()) showDefaultView();
         } else {
-            if (!tryToShowFullScreenFunctionGuide()) showDefaultView();
+            HSLog.i("Boost", "show default");
+            showDefaultView();
         }
     }
 
     private void fetchAds() {
-        List<AcbInterstitialAd> interstitialAds = AcbInterstitialAdLoader.fetch(HSApplication.getContext(), AdPlacements.AD_RESULT_PAGE, 1);
+        List<AcbInterstitialAd> interstitialAds = AcbInterstitialAdLoader.fetch(HSApplication.getContext(), AdPlacements.AD_RESULT_PAGE_INTERSTITIAL, 1);
         mInterstitialAd = interstitialAds.isEmpty() ? null : interstitialAds.get(0);
         LauncherAnalytics.logEvent("InterstitialAdAnalysis", "ad_show_from", "ResultPage+" + (mInterstitialAd != null));
 //        AdAnalytics.logAppViewEvent(AdPlacements.AD_RESULT_PAGE, mInterstitialAd != null);
@@ -580,6 +578,6 @@ public class ResultPagePresenter implements ResultPageContracts.Presenter {
     }
 
     private int getResultPageShownCount() {
-        return PreferenceHelper.get(Constants.COMMON_PREFS).getInt(ResultConstants.PREF_KEY_RESULT_PAGE_SHOWN_COUNT, 1);
+        return PreferenceHelper.get(Constants.NOTIFICATION_PREFS).getInt(ResultConstants.PREF_KEY_RESULT_PAGE_SHOWN_COUNT, 1);
     }
 }

@@ -217,6 +217,12 @@
             </intent-filter>
         </service>
 
+        <receiver android:name=".receiver.UserPresentReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+        </receiver>
+
         <receiver android:name=".receiver.PackageAddReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
@@ -227,10 +233,6 @@
 
         <receiver android:name=".notification.NotificationActionReceiver"
             android:exported="true">
-            <intent-filter>
-                <action android:name="THEME_NOTIFICATION_CLICK_ACTION" />
-                <action android:name="THEME_NOTIFICATION_DELETE_ACTION" />
-            </intent-filter>
         </receiver>
 
         <receiver

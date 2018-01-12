@@ -116,5 +116,11 @@
     <string name="boost_tip_optimal">Your phone is optimal now!</string>
     <string name="menu_item_settings">Settings</string>
     <string name="boost_title">Boost</string>
+    <string name="boost_notification_low_ram_btn">BOOST</string>
 
+    <string name="notification_boost_plus_title_ram">%1$s%% Memory Used!</string>
+    <string name="notification_boost_plus_title">%1$s Apps Slowing Down Phone!</string>
+    <string name="notification_boost_plus_description_bold_word">Boost+</string>
+    <!--please make sure translation of the word above be same with word in sentence below.-->
+    <string name="notification_boost_plus_description">Use Boost+ to boost your phone!</string>
 </resources>

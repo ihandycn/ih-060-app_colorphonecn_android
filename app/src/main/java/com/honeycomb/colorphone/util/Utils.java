@@ -21,6 +21,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
+import android.app.Notification;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -44,10 +45,12 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -59,10 +62,12 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.colorphone.lock.ReflectionHelper;
 import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -94,6 +99,7 @@ public final class Utils {
     public static final int DEFAULT_DEVICE_SCREEN_HEIGHT = 1920;
     private static final Pattern sTrimPattern = Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
     private static final float THUMBNAIL_RATIO = 0.4f;
+    private static final long USE_DND_DURATION = 2 * DateUtils.HOUR_IN_MILLIS; // 2 hour don not disturb
 
     private static float sDensityRatio;
 
@@ -800,6 +806,40 @@ public final class Utils {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
+
+    @SuppressWarnings("TryWithIdenticalCatches")
+    public static boolean isKeyguardLocked(Context context, boolean defaultValue) {
+        KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        try {
+            Method declaredMethod = ReflectionHelper.getDeclaredMethod(KeyguardManager.class, "isKeyguardLocked");
+            declaredMethod.setAccessible(true);
+            defaultValue = (Boolean) declaredMethod.invoke(keyguardManager);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e2) {
+            e2.printStackTrace();
+        } catch (IllegalAccessException e3) {
+            e3.printStackTrace();
+        }
+        return defaultValue;
+    }
+
+    /**
+     * Whether we are in new user "Do Not Disturb" status.
+     */
+    public static boolean isNewUserInDNDStatus() {
+        long currentTimeMills = System.currentTimeMillis();
+        return currentTimeMills - HSSessionMgr.getFirstSessionStartTime() < USE_DND_DURATION;
+    }
+
+    public static Notification buildNotificationSafely(NotificationCompat.Builder builder) {
+        try {
+            return builder.build();
+        } catch (Exception e) {
+            HSLog.e(TAG, "Error building notification: " + builder + ", exception: " + e);
+            return null;
         }
     }
 }
