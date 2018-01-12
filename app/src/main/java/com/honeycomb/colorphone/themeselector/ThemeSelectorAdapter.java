@@ -17,6 +17,7 @@ import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.acb.utils.PermissionHelper;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -38,7 +39,6 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.honeycomb.colorphone.util.PermissionHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -61,7 +61,6 @@ import static com.honeycomb.colorphone.preview.ThemePreviewView.saveThemeApplys;
 import static com.honeycomb.colorphone.util.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
 
     private static final String TAG = "ThemeSelectorAdapter";
     private static final boolean DEBUG_ADAPTER = BuildConfig.DEBUG;

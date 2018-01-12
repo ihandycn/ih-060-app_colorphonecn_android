@@ -9,13 +9,13 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
+import com.acb.utils.PermissionHelper;
 import com.acb.utils.PermissionUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.PermissionHelper;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
