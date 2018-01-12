@@ -19,7 +19,7 @@ import java.util.List;
  * Created by sundxing on 2018/1/5.
  */
 
-public class PermissonHelper {
+public class PermissionHelper {
 
     public static final String NOTIFY_NOTIFICATION_PERMISSION_GRANTED = "notification_permission_grant";
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";

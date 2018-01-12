@@ -15,7 +15,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.PermissonHelper;
+import com.honeycomb.colorphone.util.PermissionHelper;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -65,7 +65,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                 boolean needGuideNotificationPermisson = HSConfig.optBoolean(false,
                         "Application", "NotificationAccess", "GoToAccessPageFromFirstScreen");
                 if (needGuideNotificationPermisson && !PermissionUtils.isNotificationAccessGranted(GuideAllFeaturesActivity.this)) {
-                    PermissonHelper.requestNotificationPermission(ColorPhoneActivity.class, GuideAllFeaturesActivity.this, true, new Handler(), "FirstScreen");
+                    PermissionHelper.requestNotificationPermission(ColorPhoneActivity.class, GuideAllFeaturesActivity.this, true, new Handler(), "FirstScreen");
                     LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "FirstScreen");
                 }
                 finish();

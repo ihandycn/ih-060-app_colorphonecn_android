@@ -38,7 +38,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.honeycomb.colorphone.util.PermissonHelper;
+import com.honeycomb.colorphone.util.PermissionHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -100,7 +100,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                             selectedTheme.getIdName().toLowerCase(),
                             ConfigLog.FROM_DETAIL);
                 }
-            } else if (PermissonHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED.equals(s)) {
+            } else if (PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED.equals(s)) {
                 setHeaderTipVisible(false);
                 notifyDataSetChanged();
             }
@@ -175,7 +175,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD, observer);
-        HSGlobalNotificationCenter.addObserver(PermissonHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, observer);
+        HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, observer);
     }
 
     @Override
@@ -270,7 +270,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             tipView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PermissonHelper.requestNotificationPermission(activity, true, new Handler(), "List");
+                    PermissionHelper.requestNotificationPermission(activity, true, new Handler(), "List");
                     LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Clicked");
                     LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "List");
                 }

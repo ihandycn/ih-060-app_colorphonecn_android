@@ -57,6 +57,10 @@ public class NotificationUtils {
         if (HSPreferenceHelper.getDefault().getBoolean(PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, false)) {
             return false;
         }
+
+        if (PermissionUtils.isNotificationAccessGranted(context)) {
+            return false;
+        }
         return true;
     }
 

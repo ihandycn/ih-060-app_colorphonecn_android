@@ -44,7 +44,7 @@ import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.PermissonHelper;
+import com.honeycomb.colorphone.util.PermissionHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -304,7 +304,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mHandler.removeCallbacksAndMessages(null);
         TasksManager.getImpl().onDestroy();
         HSGlobalNotificationCenter.removeObserver(this);
-        PermissonHelper.stopObservingPermission();
+        PermissionHelper.stopObservingPermission();
         if (mRecyclerView != null) {
             mRecyclerView.setAdapter(null);
         }
