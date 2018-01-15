@@ -131,7 +131,7 @@ dependencies {
     compile(name: 'libColorhone/libColorPhone', ext: 'aar')
     compile(name: 'libColorhone/libNotificationService', ext: 'aar')
     compile(name: 'libChargingReport/libChargingReport-release', ext: 'aar')
-    compile(name: 'libChargingReport/libChargingPerference-release', ext: 'aar')
+    compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
     compile project(':lock')
 
     final USE_BETA_ACB_LIBS = false
