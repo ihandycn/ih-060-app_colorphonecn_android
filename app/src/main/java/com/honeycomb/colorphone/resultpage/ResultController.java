@@ -679,9 +679,10 @@ public abstract class ResultController implements View.OnClickListener {
 //                }
 //            }
             if (mType == Type.AD) {
-                if (mResultType != ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
-                    startAdOrFunctionResultAnimation(START_DELAY_AD_OR_FUNCTION);
-                }
+//                if (mResultType != ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
+//                    startAdOrFunctionResultAnimation(START_DELAY_AD_OR_FUNCTION);
+//                }
+                startAdOrFunctionResultAnimation(START_DELAY_AD_OR_FUNCTION);
             } else {
                 if (mResultType != ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
                     startCardResultAnimation(START_DELAY_CARDS);
@@ -765,25 +766,19 @@ public abstract class ResultController implements View.OnClickListener {
                     coverShader.setVisibility(View.VISIBLE);
                 }
 
-//                if (mType == Type.NOTIFICATION_CLEANER) {
-//                    LauncherAnalytics.logEvent("NotificationCleaner_Guide_Show", true, "type", "ResultPage");
-//                    startNotificationCleanerAnimations();
-//                } else {
-//                    if (mType != Type.APP_LOCK && mType != Type.UNREAD_MESSAGE && mType != Type.WHATS_APP) {
-//                        primaryViewContainer.setAlpha(1.0f);
-//                        bottomContainer.setAlpha(1f);
-//                        iconContainer.setAlpha(1f);
-//                        iconContainer.setScaleX(1.0f);
-//                        iconContainer.setScaleY(1.0f);
-//                    }
+                primaryViewContainer.setAlpha(1.0f);
+                bottomContainer.setAlpha(1f);
+                iconContainer.setAlpha(1f);
+                iconContainer.setScaleX(1.0f);
+                iconContainer.setScaleY(1.0f);
 
-                    ResultController.this.startCardTranslationAnimation(adOrFunctionView, new LauncherAnimationUtils.AnimationListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            super.onAnimationEnd(animation);
-                            mActionBtn.startFlash();
-                        }
-                    });
+                ResultController.this.startCardTranslationAnimation(adOrFunctionView, new LauncherAnimationUtils.AnimationListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        super.onAnimationEnd(animation);
+                        mActionBtn.startFlash();
+                    }
+                });
 //                }
             }
         }, startDelay);
@@ -974,8 +969,9 @@ public abstract class ResultController implements View.OnClickListener {
 //    }
 
     private void logViewEvent(Type type) {
-//        if (type == Type.AD) {
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Show", "type", ResultConstants.AD);
+        if (type == Type.AD) {
+            LauncherAnalytics.logEvent("ResultPage_Cards_Show", "type", ResultConstants.AD);
+        }
 //        } else if (type == Type.CHARGE_SCREEN) {
 //            int shownCount = PreferenceHelper.get(LauncherFiles.BOOST_PREFS).incrementAndGetInt(ResultConstants.PREF_KEY_INTO_BATTERY_PROTECTION_COUNT);
 //            PreferenceHelper.getDefault().putLong(ResultConstants.PREF_KEY_INTO_BATTERY_PROTECTION_SHOWN_TIME, System.currentTimeMillis());
