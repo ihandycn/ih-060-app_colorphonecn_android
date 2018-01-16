@@ -123,4 +123,8 @@
     <string name="notification_boost_plus_description_bold_word">Boost+</string>
     <!--please make sure translation of the word above be same with word in sentence below.-->
     <string name="notification_boost_plus_description">Use Boost+ to boost your phone!</string>
+
+    <string name="settings_notification_settings">Notification Settings</string>
+    <string name="settings_notification_boost">Boost Notification</string>
+    <string name="settings_notification_boost_sub">Get reminders when memory usage is high</string>
 </resources>

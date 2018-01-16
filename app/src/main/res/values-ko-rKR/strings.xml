@@ -52,7 +52,9 @@
   <string name="delete">삭제</string>
   <string name="select_contacts">연락처 선택</string>
 
-
+  <string name="settings_notification_settings">알림 설정</string>
+  <string name="settings_notification_boost">부스트 알림</string>
+  <string name="settings_notification_boost_sub">메모리 사용량이 높을 때 알림 받기</string>
 
 
 

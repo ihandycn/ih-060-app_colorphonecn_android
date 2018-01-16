@@ -53,4 +53,8 @@
   <string name="delete">ELIMINAR</string>
 
   <string name="select_contacts">Seleccionar contactos</string>
+
+  <string name="settings_notification_settings">Ajustes de notificaciones</string>
+  <string name="settings_notification_boost">Aviso de aceleración</string>
+  <string name="settings_notification_boost_sub">Avisa cuando el consumo de memoria es elevado</string>
 </resources>

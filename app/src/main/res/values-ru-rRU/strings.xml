@@ -52,7 +52,9 @@
   <string name="delete">УДАЛИТЬ</string>
   <string name="select_contacts">Выбрать контакты</string>
 
-
+  <string name="settings_notification_settings">Параметры уведомлений</string>
+  <string name="settings_notification_boost">Уведомл. об ускорении</string>
+  <string name="settings_notification_boost_sub">Уведомление о чрезмерном использовании памяти</string>
 
 
 

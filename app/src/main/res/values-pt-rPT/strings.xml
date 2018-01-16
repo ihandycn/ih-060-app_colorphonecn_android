@@ -55,4 +55,8 @@
   <string name="select_contacts">Selecione os contatos</string>
 
 
+  <string name="settings_notification_settings">Configurações de notificação</string>
+  <string name="settings_notification_boost">Notif. de aceleração</string>
+  <string name="settings_notification_boost_sub">Receba lembretes sobre o uso de muita memória</string>
+
 </resources>

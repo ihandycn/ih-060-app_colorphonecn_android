@@ -52,4 +52,8 @@
   <string name="delete">ลบ</string>
   <string name="select_contacts">เลือกรายชื่อติดต่อ</string>
 
+  <string name="settings_notification_settings">ตั้งค่าการแจ้งเตือน</string>
+  <string name="settings_notification_boost">แจ้งเตือนการเร่ง</string>
+  <string name="settings_notification_boost_sub">รับการแจ้งเตือนเมื่อใช้หน่วยความจำสูง</string>
+
 </resources>

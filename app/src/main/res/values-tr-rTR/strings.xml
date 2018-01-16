@@ -52,7 +52,9 @@
   <string name="delete">SİL</string>
   <string name="select_contacts">Kişileri Seç</string>
 
-
+  <string name="settings_notification_settings">Bildirim Ayarları</string>
+  <string name="settings_notification_boost">Hızlandırma Bildirimi</string>
+  <string name="settings_notification_boost_sub">Bellek kullanımı yüksek olduğunda hatırlat</string>
 
 
 

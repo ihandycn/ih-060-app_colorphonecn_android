@@ -18,10 +18,10 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.chargingreport.utils.ActivityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class SettingsActivity extends HSAppCompatActivity {
 
@@ -114,6 +114,13 @@ public class SettingsActivity extends HSAppCompatActivity {
             });
 
         }
+
+        findViewById(R.id.setting_item_notification).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, NotificationSettingsActivity.class);
+                ActivityUtils.startActivitySafely(SettingsActivity.this, intent);
+            }
+        });
     }
 
     @Override

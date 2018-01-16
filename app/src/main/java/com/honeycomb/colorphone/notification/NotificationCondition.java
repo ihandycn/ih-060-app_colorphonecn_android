@@ -26,6 +26,7 @@ import android.widget.RemoteViews;
 import com.acb.utils.ConcurrentUtils;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.boost.BoostAnimationManager;
 import com.colorphone.lock.util.PreferenceHelper;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -60,8 +61,6 @@ public class NotificationCondition implements INotificationObserver {
     static final String EXTRA_AUTO_COLLAPSE = "auto_collapse";
     static final String EXTRA_NOTIFICATION_ID = "notification_id";
     static final String EXTRA_NOTIFICATION_TYPE = "notification_type";
-
-
 
     private static final String NOTIFICATION_HISTORY = "NOTIFICATION_HISTORY";
     private static final String BOOST_PLUS = "BoostPlus";
@@ -380,7 +379,7 @@ public class NotificationCondition implements INotificationObserver {
             return true;
         }
 
-        return BoostAutoPilotUtils.isBoostPushEnable();
+        return NotificationSettingsActivity.isNotificationBoostOn() && BoostAutoPilotUtils.isBoostPushEnable();
     }
 
     private boolean sendBoostPlusNotificationIfNeeded() {

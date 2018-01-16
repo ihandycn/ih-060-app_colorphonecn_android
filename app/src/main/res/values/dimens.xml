@@ -46,4 +46,6 @@
 
     <dimen name="promote_screen_icon_half_height">32dp</dimen>
 
+    <dimen name="settings_row_height">77dp</dimen>
+
 </resources>

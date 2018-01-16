@@ -48,4 +48,7 @@
     <string name="delete">حذف</string>
     <string name="select_contacts">اختر جهات الاتصال</string>
 
+    <string name="settings_notification_settings">إعدادات الإخطارات</string>
+    <string name="settings_notification_boost">إخطار بالتسريع</string>
+    <string name="settings_notification_boost_sub">تذكير عندما يكون استخدام الذاكرة عالياً</string>
 </resources>
