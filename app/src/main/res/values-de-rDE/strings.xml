@@ -54,6 +54,13 @@
   <string name="delete">LÖSCHEN</string>
   <string name="select_contacts">Kontakte auswählen</string>
 
+  <string name="boost_plus_free_up">Freigemacht</string>
+  <string name="boost_plus_exiting">Wird beendet</string>
+
+  <string name="boost_tip_optimal">Ihr Telefon ist jetzt optimal!</string>
+  <string name="boost_title">Beschleunigen</string>
+  <string name="boost_notification_low_ram_btn">BESCHLEUNIGEN</string>
+
   <string name="settings_notification_settings">Einstellungen für Benachrichtigungen</string>
   <string name="settings_notification_boost">Boost-Benachrichtigung</string>
   <string name="settings_notification_boost_sub">Erinnern, wenn Speichernutzung hoch ist</string>

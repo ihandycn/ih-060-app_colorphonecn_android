@@ -53,6 +53,13 @@
   <string name="delete">HAPUS</string>
   <string name="select_contacts">Pilih Kontak</string>
 
+  <string name="boost_plus_free_up">Dibebaskan</string>
+  <string name="boost_plus_exiting">Keluar</string>
+
+  <string name="boost_tip_optimal">Perangkat Anda sudah optimal!</string>
+  <string name="boost_notification_low_ram_btn">Percepat</string>
+  <string name="boost_title">Percepat</string>
+
   <string name="settings_notification_settings">Pengaturan pemberitahuan</string>
   <string name="settings_notification_boost">Notifikasi Pemacuan</string>
   <string name="settings_notification_boost_sub">Dapatkan Pengingat saat penggunaan memori</string>

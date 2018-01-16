@@ -379,7 +379,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
             ViewStyleUtils.setToolbarTitleWithoutLayoutParams(titleView);
             titleView.setTypeface(FontUtils.getTypeface(FontUtils.Font.ROBOTO_MEDIUM));
         } else {
-            toolbar.setTitle(getContext().getString(R.string.launcher_widget_boost_title));
+            toolbar.setTitle(getContext().getString(R.string.boost_title));
             toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override

@@ -55,6 +55,13 @@
   <string name="delete">VERWIJDEREN</string>
   <string name="select_contacts">Contacten selecteren</string>
 
+  <string name="boost_plus_free_up">Freed Up</string>
+  <string name="boost_plus_exiting">Exiting</string>
+
+  <string name="boost_tip_optimal">Your phone is optimal now!</string>
+  <string name="boost_title">Boost</string>
+  <string name="boost_notification_low_ram_btn">BOOST</string>
+
   <string name="settings_notification_settings">Notification Settings</string>
   <string name="settings_notification_boost">Boost Notification</string>
   <string name="settings_notification_boost_sub">Get reminders when memory usage is high</string>

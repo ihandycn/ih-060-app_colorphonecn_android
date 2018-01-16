@@ -54,6 +54,12 @@
   <string name="delete">APAGAR</string>
   <string name="select_contacts">Selecione os contatos</string>
 
+  <string name="boost_plus_free_up">Libertado</string>
+  <string name="boost_plus_exiting">A sair</string>
+
+  <string name="boost_tip_optimal">Dispositivo optimamente instalado!</string>
+  <string name="boost_notification_low_ram_btn">Impulsionar</string>
+  <string name="boost_title">Impulsionar</string>
 
   <string name="settings_notification_settings">Configurações de notificação</string>
   <string name="settings_notification_boost">Notif. de aceleração</string>

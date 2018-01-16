@@ -52,6 +52,13 @@
   <string name="theme_set_for_one">設定給某人</string>
   <string name="select_contacts">選擇聯繫人</string>
 
+  <string name="boost_plus_free_up">內存釋放</string>
+  <string name="boost_plus_exiting">結束中…</string>
+
+  <string name="boost_tip_optimal">你的手機已達最優！</string>
+  <string name="boost_notification_low_ram_btn">加速</string>
+  <string name="boost_title">加速</string>
+
   <string name="settings_notification_settings">通知消息設置</string>
   <string name="settings_notification_boost">手機加速提醒</string>
   <string name="settings_notification_boost_sub">手機內存使用過高時提醒</string>

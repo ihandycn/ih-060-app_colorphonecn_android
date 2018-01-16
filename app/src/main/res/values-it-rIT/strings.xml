@@ -53,6 +53,13 @@
   <string name="delete">ELIMINA</string>
   <string name="select_contacts">Seleziona contatti</string>
 
+  <string name="boost_plus_free_up">Liberata</string>
+  <string name="boost_plus_exiting">Uscita</string>
+
+  <string name="boost_tip_optimal">Il telefono è stato ottimizzato!</string>
+  <string name="boost_notification_low_ram_btn">OTTIMIZZA</string>
+  <string name="boost_title">Ottimizza</string>
+
   <string name="settings_notification_settings">Impostazioni di notifica</string>
   <string name="settings_notification_boost">Notifica Potenzia</string>
   <string name="settings_notification_boost_sub">Promemoria per utilizzo di memoria elevato</string>

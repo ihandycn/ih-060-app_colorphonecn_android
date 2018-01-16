@@ -101,20 +101,10 @@
     <!-- Suffix added to a number to signify size in petabytes. -->
     <string name="petabyte_abbr" translatable="false">PB</string>
 
-    <string name="boost_plus_action_button_text">Boost (%1$s)</string>
     <string name="boost_plus_free_up">Freed Up</string>
     <string name="boost_plus_exiting">Exiting</string>
-    <string name="boost_plus_scanned_list_running_apps">Running Apps</string>
-    <string name="boost_plus_scanned_list_select_all">Select All</string>
-    <string name="boost_plus_selected_size_text">Selected: %1$s</string>
-    <string name="boost_plus_stop_clean_content">Once stopped, Boost+ will no longer be able to free up your memory. Are you sure to stop?</string>
-    <string name="boost_plus_stop_clean_title">Stop cleaning?</string>
-    <string name="boost_plus_stop_sure">STOP</string>
-    <string name="boost_plus_warning_toast">This app may push messages to you. It won\'t work any more if selected</string>
-    <string name="launcher_widget_boost_title">Boost</string>
 
     <string name="boost_tip_optimal">Your phone is optimal now!</string>
-    <string name="menu_item_settings">Settings</string>
     <string name="boost_title">Boost</string>
     <string name="boost_notification_low_ram_btn">BOOST</string>
 
