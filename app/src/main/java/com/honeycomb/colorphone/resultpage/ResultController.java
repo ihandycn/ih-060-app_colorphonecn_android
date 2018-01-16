@@ -3,29 +3,23 @@ package com.honeycomb.colorphone.resultpage;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ClipDrawable;
-import android.os.Build;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.animation.PathInterpolatorCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -67,8 +61,6 @@ public abstract class ResultController implements View.OnClickListener {
 
     @Thunk
     static final long DURATION_AD_OR_FUNCTION_TRANSLATE_DELAY = 0;
-    @Thunk
-    static final long DURATION_CARD_TRANSLATE_DELAY = 0;
 
     @Thunk
     static final long DURATION_OPTIMAL_TEXT_TRANSLATION = 360;
@@ -83,7 +75,6 @@ public abstract class ResultController implements View.OnClickListener {
 
     private FrameLayout mTransitionView;
     private FrameLayout mAdOrFunctionContainerView;
-    private RecyclerView mCardRecyclerView;
     @Thunk View mResultView;
     private FrameLayout adOrFunctionView;
     private View mBgView;
@@ -93,7 +84,6 @@ public abstract class ResultController implements View.OnClickListener {
     // Ad or charging defaultViewScreen
     private AcbNativeAdContainerView mAdContainer;
     private AcbNativeAdPrimaryView mAdImageContainer;
-    private ImageView mImageIv;
     private ViewGroup mAdChoice;
     private ImageView mAdIconView;
     private TextView mTitleTv;
@@ -104,31 +94,12 @@ public abstract class ResultController implements View.OnClickListener {
     private View iconContainer;
     private View coverShader;
 
-    private List<CardData> mCardDataList;
-
     public enum Type {
         AD,
-//        CHARGE_SCREEN,
-//        NOTIFICATION_CLEANER,
-//        CARD_VIEW,
-//        APP_LOCK,
         DEFAULT_VIEW,
-//        UNREAD_MESSAGE,
-//        WHATS_APP,
     }
 
     public Interpolator softStopAccDecInterpolator = PathInterpolatorCompat.create(0.26f, 1f, 0.48f, 1f);
-
-    //notification cleaner
-//    private AnimatedHorizontalIcons animatedHorizontalIcons;
-//    private AnimatedNotificationHeader animatedNotificationHeader;
-//    private AnimatedNotificationGroup animateNotificationGroup;
-//    private AnimatedShield animatedShield;
-
-    private View animatedRootView;
-    private View animatedPhoneFrameView;
-    private ImageView phoneBackgroundImageView;
-    private LinearLayout animationContainerLayout;
 
     //default view
     private View defaultViewPhone;
@@ -144,59 +115,6 @@ public abstract class ResultController implements View.OnClickListener {
 
     protected AcbInterstitialAd mInterstitialAd;
 
-    @SuppressLint("HandlerLeak") // This handler holds activity reference for no longer than 120s
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-//            switch (msg.what) {
-//                case MSG_WHAT_NOTIFICATION_LISTENING_CHECK:
-//                    HSLog.d(TAG, "MSG_WHAT_NOTIFICATION_LISTENING_CHECK");
-//                    if (!NotificationCleanerUtils.isNotificationAccessGranted(mActivity)) {
-//                        HSLog.d(TAG, "MSG_WHAT_NOTIFICATION_LISTENING_CHECK, continue check");
-//                        sendEmptyMessageDelayed(MSG_WHAT_NOTIFICATION_LISTENING_CHECK, INTERVAL_PERMISSION_CHECK);
-//                        break;
-//                    }
-//                    switch (mType) {
-//                        case NOTIFICATION_CLEANER:
-//                            NotificationManager.getInstance().cancel(NotificationCondition.NOTIFICATION_ID_NOTIFICATION_CLEANER);
-//                            Intent intentSelf = new Intent(HSApplication.getContext(), NotificationGuideActivity.class);
-//                            intentSelf.putExtra(NotificationCleanerUtils.EXTRA_IS_AUTHORIZATION_SUCCESS, true);
-//                            intentSelf.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP
-//                                    | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-//                            HSApplication.getContext().startActivity(intentSelf);
-//                            AutoPilotUtils.logNCAccessOpenSuccess();
-//                            LauncherAnalytics.logEvent("NotificationAccess_Grant_Success", "type", ResultConstants.NOTIFICATION_CLEANER_FULL);
-//                            break;
-//                        case UNREAD_MESSAGE:
-//                            LauncherAnalytics.logEvent("NotificationAccess_Grant_Success", "type", ResultConstants.UNREAD_MESSGAE);
-//                            Intent badgeSettingsIntent = new Intent(HSApplication.getContext(), BadgeSettingsActivity.class);
-//                            badgeSettingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            HSApplication.getContext().startActivity(badgeSettingsIntent);
-//                            break;
-//                        case WHATS_APP:
-//                            LauncherAnalytics.logEvent("NotificationAccess_Grant_Success", "type", ResultConstants.WHATS_APP);
-//                            mActivity.finishAndNotify();
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                    if (Utils.isNewUser() && !NotificationCleanerUtils.isNotificationCleanerSettingsEverSwitched()) {
-//                        NotificationCleanerProvider.switchNotificationOrganizer(true);
-//                    }
-//                    LauncherFloatWindowManager.getInstance().removeFloatButton();
-//                    LauncherFloatWindowManager.getInstance().removePermissionGuide(false);
-//                    mActivity.finishSelfAndParentActivity();
-//                    break;
-//                case MSG_WHAT_NOTIFICATION_LISTENING_CANCEL:
-//                    HSLog.d(TAG, "MSG_WHAT_NOTIFICATION_LISTENING_CANCEL");
-//                    removeMessages(MSG_WHAT_NOTIFICATION_LISTENING_CHECK);
-//                    break;
-//                default:
-//                    break;
-//            }
-        }
-    };
-
     ResultController() {
     }
 
@@ -206,7 +124,6 @@ public abstract class ResultController implements View.OnClickListener {
         mType = type;
         logViewEvent(type);
 
-        mCardDataList = cardDataList;
         mResultType = resultType;
         mScreenHeight = Utils.getPhoneHeight(activity);
 
@@ -236,17 +153,9 @@ public abstract class ResultController implements View.OnClickListener {
 
         switch (type) {
             case AD:
-//            case CHARGE_SCREEN:
-//            case NOTIFICATION_CLEANER:
-//            case APP_LOCK:
             case DEFAULT_VIEW:
-//            case UNREAD_MESSAGE:
-//            case WHATS_APP:
                 initAdOrFunctionView(activity, layoutInflater, ad);
                 break;
-//            case CARD_VIEW:
-//                initCardView(activity, ad);
-//                break;
         }
         mResultView = ViewUtils.findViewById(activity, R.id.result_view);
     }
@@ -261,174 +170,21 @@ public abstract class ResultController implements View.OnClickListener {
             onFinishInflateResultView(resultContentView, ad);
             initActionButton(activity);
             mAdOrFunctionContainerView.setVisibility(View.VISIBLE);
-            if (null != mCardRecyclerView) mCardRecyclerView.setVisibility(View.GONE);
         }
     }
 
     private int getAdOrFunctionViewLayoutId() {
-//        if (mType == Type.APP_LOCK) {
-//            return R.layout.result_page_fullscreen_applock;
-//        }
         if (mType == Type.DEFAULT_VIEW) {
             return R.layout.result_page_default_view;
         }
         return R.layout.result_page_fullscreen;
     }
 
-//    private void initCardView(Activity activity, AcbNativeAd ad) {
-//        HSLog.d(TAG, "initCardView");
-//        mCardRecyclerView = ViewUtils.findViewById(activity, R.id.result_card_recycler_view);
-//        mCardRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-//        mCardRecyclerView.setHasFixedSize(true);
-//        ResultListAdapter resultListAdapter = new ResultListAdapter(mActivity, mResultType, mCardDataList, ad);
-//        mCardRecyclerView.setAdapter(resultListAdapter);
-//        initActionButton(activity);
-//        mCardRecyclerView.setVisibility(View.VISIBLE);
-//
-//        if (null != mAdOrFunctionContainerView) {
-//            mAdOrFunctionContainerView.setVisibility(View.GONE);
-//        }
-//    }
-
-//    private void initNotificationCleanerView() {
-//        LayoutInflater layoutInflater = LayoutInflater.from(mActivity);
-//        View resultContentView = layoutInflater.inflate(R.layout.result_page_notification_cleaner_animation_view, mAdOrFunctionContainerView, false);
-//
-//        animatedRootView = resultContentView.findViewById(R.id.container_view);
-//        animatedRootView.setVisibility(View.INVISIBLE);
-//        animatedPhoneFrameView = resultContentView.findViewById(R.id.animated_notification_phone_frame);
-//
-//        if (mActivity.getResources().getDisplayMetrics().densityDpi <= DisplayMetrics.DENSITY_HIGH) {
-//            animatedPhoneFrameView.setScaleX(0.9f);
-//            animatedPhoneFrameView.setScaleY(0.9f);
-//        }
-//
-//        phoneBackgroundImageView = resultContentView.findViewById(R.id.animated_notification_phone_background);
-//        animationContainerLayout = resultContentView.findViewById(R.id.animated_notification_container);
-//        animatedHorizontalIcons = resultContentView.findViewById(R.id.horizontal_icons);
-//        animatedShield = resultContentView.findViewById(R.id.animated_shield);
-//        animatedShield.setMovePostionRatio(0.88f);
-//        animateNotificationGroup = resultContentView.findViewById(R.id.expand_notification_group);
-//        animatedNotificationHeader = resultContentView.findViewById(R.id.shrink_drawer_notification_header);
-//
-//        resultContentView.findViewById(R.id.promote_charging_button).setOnClickListener(this);
-//
-//        phoneBackgroundImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                    phoneBackgroundImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                } else {
-//                    phoneBackgroundImageView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-//                }
-//
-//                int phoneFrameWidth = phoneBackgroundImageView.getWidth();
-//                int phoneFrameHeight = phoneBackgroundImageView.getHeight();
-//
-//                float containerLeftStart = phoneFrameWidth * RATIO_ANIMATION_CONTAINER_LEFT_START;
-//                float containerTopStart = phoneFrameHeight * RATIO_ANIMATION_CONTAINER_TOP_START;
-//                int containerWidth = (int) (phoneFrameWidth * RATIO_ANIMATION_CONTAINER_WIDTH);
-//                int containerHeight = (int) (phoneFrameHeight * RATIO_ANIMATION_CONTAINER_HEIGHT);
-//
-//                RelativeLayout.LayoutParams containerParams = new RelativeLayout.LayoutParams(containerWidth, containerHeight);
-//                animationContainerLayout.setX((Utils.isRtl() ? -1 : 1) * containerLeftStart);
-//                animationContainerLayout.setY(containerTopStart);
-//                animationContainerLayout.setLayoutParams(containerParams);
-//
-//                RelativeLayout.LayoutParams shieldParams = (RelativeLayout.LayoutParams) animatedShield.getLayoutParams();
-//                shieldParams.width = (int) (phoneFrameWidth * RATIO_ANIMATED_SHIELD_WIDTH);
-//                shieldParams.height = (int) (phoneFrameHeight * RATIO_ANIMATED_SHIELD_HEIGHT);
-//                animatedShield.setLayoutParams(shieldParams);
-//            }
-//        });
-//        mAdOrFunctionContainerView.addView(resultContentView);
-//    }
-
-//    private void initNotificationCleanerCallbacks() {
-//
-//        animatedNotificationHeader.setOnHeaderAnimationFinishListener(new AnimatedNotificationHeader.OnHeaderAnimationFinishListener() {
-//            @Override
-//            public void onLastItemCollapsed() {
-//                animateNotificationGroup.collapseStayItems();
-//                animatedHorizontalIcons.postDelayed(new Runnable() {
-//                    @Override public void run() {
-//                        return animatedHorizontalIcons.collapseHorizontalIcons();
-//                    }
-//                }, DELAY_HORIZONTAL_ICONS_COLLAPSE);
-//            }
-//
-//            @Override
-//            public void onHeaderAnimated() {
-//
-//            }
-//        });
-//
-//        animateNotificationGroup.setOnAnimationFinishListener(new AnimatedNotificationGroup.OnAnimationFinishListener() {
-//            @Override
-//            public void onExpandFinish() {
-//                handler.postDelayed(new Runnable() {
-//                    @Override public void run() {
-//                        animatedShield.enlargeAndRotateAnimation();
-//                    }
-//                }, DELAY_SHIELD_APPEAR);
-//            }
-//
-//            @Override
-//            public void onStayItemCollapseFinish() {
-////                startActivateTipAnimation();
-//            }
-//        });
-//
-//        animatedShield.setOnAnimationFinishListener(() -> {
-//            animatedNotificationHeader.setVisibility(View.VISIBLE);
-//            animateNotificationGroup.collapseNotificationItems(animatedNotificationHeader);
-//        });
-//    }
-
-//    private void startNotificationCleanerAnimations() {
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                animatedRootView.setVisibility(View.VISIBLE);
-//
-//                startCardTranslationAnimation(animatedRootView, new LauncherAnimationUtils.AnimationListenerAdapter() {
-//                    @Override
-//                    public void onAnimationEnd(Animation animation) {
-//                        super.onAnimationEnd(animation);
-//                        animatedHorizontalIcons.expandHorizontalIcons();
-//                        animateNotificationGroup.expandNotificationItems();
-//                    }
-//                });
-//            }
-//        }, DELAY_ANIMATION_START);
-//    }
-
     private void initActionButton(Context context) {
         if (null != mActionBtn) {
             mActionBtn.setBackgroundDrawable(RippleUtils.createRippleDrawable(mActivity.getBackgroundColor(), 2));
         }
     }
-
-//    private void initUnreadMessageView() {
-//        LayoutInflater layoutInflater = LayoutInflater.from(mActivity);
-//        View resultContentView = layoutInflater.inflate(R.layout.result_page_fullscreen_unread_message, mAdOrFunctionContainerView, false);
-//
-//        mActionBtn = ViewUtils.findViewById(resultContentView, R.id.promote_charging_button);
-//        mActionBtn.setRepeatCount(10);
-//        mActionBtn.setOnClickListener(this);
-//        mAdOrFunctionContainerView.addView(resultContentView);
-//    }
-//
-//    private void initWhatsAppView() {
-//        LayoutInflater layoutInflater = LayoutInflater.from(mActivity);
-//        View resultContentView = layoutInflater.inflate(R.layout.result_page_fullscreen_whats_app, mAdOrFunctionContainerView, false);
-//
-//        mActionBtn = ViewUtils.findViewById(resultContentView, R.id.promote_charging_button);
-//        mActionBtn.setRepeatCount(10);
-//        mActionBtn.setOnClickListener(this);
-//        mAdOrFunctionContainerView.addView(resultContentView);
-//    }
-
 
     protected abstract int getLayoutId();
 
@@ -452,29 +208,6 @@ public abstract class ResultController implements View.OnClickListener {
             defaultViewBtnOk = ViewUtils.findViewById(resultView, R.id.btn_ok);
             defaultViewFlashView = ViewUtils.findViewById(resultView, R.id.flash_view);
 
-//            switch (mResultType) {
-//                case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-//                case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-//                    defaultViewShield.setImageResource(R.drawable.result_page_card_optimized_icon_boost);
-//                    break;
-//                case ResultConstants.RESULT_TYPE_BATTERY:
-//                    defaultViewShield.setImageResource(R.drawable.result_page_card_optimized_icon_battery);
-//                    break;
-//                case ResultConstants.RESULT_TYPE_JUNK_CLEAN:
-//                    defaultViewShield.setImageResource(R.drawable.result_page_card_optimized_icon_junk_cleaner);
-//                    break;
-//                case ResultConstants.RESULT_TYPE_CPU_COOLER:
-//                    defaultViewShield.setImageResource(R.drawable.result_page_card_optimized_icon_cpu);
-//                    break;
-//                case ResultConstants.RESULT_TYPE_NOTIFICATION_CLEANER:
-//                    defaultViewShield.setImageResource(R.drawable.result_page_card_optimized_icon_notification_cleaner);
-//                    break;
-//                case ResultConstants.RESULT_TYPE_VIRUS_SCAN:
-//                    defaultViewShield.setImageResource(R.drawable.result_page_card_optimized_shield_default);
-//                    break;
-//                default:
-//                    break;
-//            }
             defaultViewShield.setImageResource(R.drawable.result_page_card_optimized_icon_boost);
 
             defaultViewBtnOk.setTextColor(((ResultPageActivity) context).getBackgroundColor());
@@ -500,20 +233,10 @@ public abstract class ResultController implements View.OnClickListener {
             mAdOrFunctionContainerView.addView(resultView);
             return;
         }
-//
-//        if (mType == Type.APP_LOCK) {
-//            mActionBtn = resultView.findViewById(R.id.promote_charging_button);
-//            mActionBtn.setRepeatCount(10);
-//            mActionBtn.setOnClickListener(this);
-//
-//            mAdOrFunctionContainerView.addView(resultView);
-//            return;
-//        }
 
-//        if (mType == Type.AD || mType == Type.CHARGE_SCREEN || mType == Type.NOTIFICATION_CLEANER) {
         if (mType == Type.AD) {
             mAdImageContainer = ViewUtils.findViewById(resultView, R.id.result_image_container_ad);
-            mImageIv = ViewUtils.findViewById(resultView, R.id.result_charging_image);
+//            mImageIv = ViewUtils.findViewById(resultView, R.id.result_charging_image);
             mAdChoice = ViewUtils.findViewById(resultView, R.id.result_ad_choice);
             mAdIconView = ViewUtils.findViewById(resultView, R.id.result_ad_icon);
             mTitleTv = ViewUtils.findViewById(resultView, R.id.promote_charging_title);
@@ -623,26 +346,6 @@ public abstract class ResultController implements View.OnClickListener {
                 mAdContainer = adContainer;
                 fillNativeAd(ad);
                 break;
-//            case CHARGE_SCREEN:
-//                mAdOrFunctionContainerView.addView(resultView);
-//                mAdImageContainer.setVisibility(View.INVISIBLE);
-//                mImageIv.setImageResource(R.drawable.charging_screen_guide);
-//                mAdIconView.setImageDrawable(AppCompatDrawableManager.get().getDrawable(context, R.drawable.ic_promote_charging_icon));
-//                mTitleTv.setText(R.string.result_page_card_battery_protection_title);
-//                mDescriptionTv.setText(context.getString(R.string.result_page_card_battery_protection_description));
-//                mActionBtn.setText(R.string.result_page_card_battery_protection_btn);
-//                mActionBtn.setOnClickListener(this);
-//                break;
-//            case NOTIFICATION_CLEANER:
-//                initNotificationCleanerView();
-//                initNotificationCleanerCallbacks();
-//                break;
-//            case UNREAD_MESSAGE:
-//                initUnreadMessageView();
-//                break;
-//            case WHATS_APP:
-//                initWhatsAppView();
-//                break;
         }
     }
 
@@ -662,42 +365,15 @@ public abstract class ResultController implements View.OnClickListener {
         HSLog.d(TAG, "startTransitionAnimation mTransitionView = " + mTransitionView);
         if (null != mTransitionView) {
             onStartTransitionAnimation(mTransitionView);
-//            if (mType == Type.AD || mType == Type.CHARGE_SCREEN || mType == Type.NOTIFICATION_CLEANER || mType == Type.APP_LOCK
-//                    || mType == Type.UNREAD_MESSAGE || mType == Type.WHATS_APP) {
-//                if (mResultType != ResultConstants.RESULT_TYPE_JUNK_CLEAN && mResultType != ResultConstants.RESULT_TYPE_CPU_COOLER
-//                        && mResultType != ResultConstants.RESULT_TYPE_NOTIFICATION_CLEANER && mResultType != ResultConstants.RESULT_TYPE_BOOST_PLUS
-//                        && mResultType != ResultConstants.RESULT_TYPE_BOOST_TOOLBAR && mResultType != ResultConstants.RESULT_TYPE_VIRUS_SCAN && mResultType != ResultConstants.RESULT_TYPE_BATTERY) {
-//                    // animation self
-//                    startAdOrFunctionResultAnimation(START_DELAY_AD_OR_FUNCTION);
-//                }
-//            } else {
-//                if (mResultType != ResultConstants.RESULT_TYPE_BOOST_PLUS && mResultType != ResultConstants.RESULT_TYPE_BOOST_TOOLBAR
-//                        && mResultType != ResultConstants.RESULT_TYPE_JUNK_CLEAN && mResultType != ResultConstants.RESULT_TYPE_CPU_COOLER
-//                        && mResultType != ResultConstants.RESULT_TYPE_NOTIFICATION_CLEANER && mResultType != ResultConstants.RESULT_TYPE_VIRUS_SCAN && mResultType != ResultConstants.RESULT_TYPE_BATTERY) {
-//                    // animation self
-//                    startCardResultAnimation(START_DELAY_CARDS);
-//                }
-//            }
             if (mType == Type.AD) {
-//                if (mResultType != ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
-//                    startAdOrFunctionResultAnimation(START_DELAY_AD_OR_FUNCTION);
-//                }
                 startAdOrFunctionResultAnimation(START_DELAY_AD_OR_FUNCTION);
-            } else {
-                if (mResultType != ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
-                    startCardResultAnimation(START_DELAY_CARDS);
-                }
             }
         }
     }
 
     public void onTransitionAnimationEnd() {
-//        if (mType == Type.AD || mType == Type.CHARGE_SCREEN || mType == Type.NOTIFICATION_CLEANER || mType == Type.APP_LOCK
-//                || mType == Type.UNREAD_MESSAGE || mType == Type.WHATS_APP) {
         if (mType == Type.AD) {
             startAdOrFunctionResultAnimation(DURATION_AD_OR_FUNCTION_TRANSLATE_DELAY);
-//        } else if (mType == Type.CARD_VIEW) {
-//            startCardResultAnimation(DURATION_CARD_TRANSLATE_DELAY);
         } else {
             startDefaultViewAnimation();
         }
@@ -779,31 +455,8 @@ public abstract class ResultController implements View.OnClickListener {
                         mActionBtn.startFlash();
                     }
                 });
-//                }
             }
         }, startDelay);
-    }
-
-    public void startCardResultAnimation(long startDelay) {
-//        if (mType == Type.CARD_VIEW) {
-//            if (null != mResultView) {
-//                startBgTranslateAnimation();
-//                mResultView.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mResultView.setVisibility(View.VISIBLE);
-//
-//                        startCardTranslationAnimation(mCardRecyclerView, new LauncherAnimationUtils.AnimationListenerAdapter() {
-//                            @Override
-//                            public void onAnimationEnd(Animation animation) {
-//                                super.onAnimationEnd(animation);
-//                                onFunctionCardViewShown();
-//                            }
-//                        });
-//                    }
-//                }, startDelay);
-//            }
-//        }
     }
 
     private void startCardTranslationAnimation(View view, Animation.AnimationListener animatorListenerAdapter) {
@@ -815,56 +468,11 @@ public abstract class ResultController implements View.OnClickListener {
         view.startAnimation(translateAnimation);
     }
 
-    @Thunk
-    void startBgTranslateAnimation() {
-        if (null == mBgView) {
-            return;
-        }
-
-        if (mHeaderTagView.getWidth() > 0) {
-            startRealBgTranslateAnimation();
-        } else {
-            mHeaderTagView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        mHeaderTagView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    } else {
-                        mHeaderTagView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                    }
-                    startRealBgTranslateAnimation();
-                }
-            });
-        }
-    }
-
-    private void startRealBgTranslateAnimation() {
-        float bottom = ViewUtils.getLocationRect(mHeaderTagView).bottom;
-        float translationY = -(Utils.getPhoneHeight(getContext()) - bottom);
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(translationY);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (float) animation.getAnimatedValue();
-                ResultController.this.setBgViewMargin((int) value);
-            }
-        });
-        valueAnimator.setDuration(DURATION_CARD_TRANSLATE);
-        valueAnimator.setInterpolator(softStopAccDecInterpolator);
-        valueAnimator.start();
-    }
-
-    private void setBgViewMargin(int topMargin) {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mBgView.getLayoutParams();
-        params.topMargin = topMargin;
-        mBgView.setLayoutParams(params);
-    }
-
     private void setBgViewSize() {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mBgView.getLayoutParams();
         params.width = Utils.getPhoneWidth(getContext());
         params.height = Utils.getPhoneHeight(getContext());
         mBgView.setLayoutParams(params);
-
     }
 
     protected Context getContext() {
@@ -876,44 +484,6 @@ public abstract class ResultController implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.promote_charging_button:
                 switch (mType) {
-//                    case CHARGE_SCREEN:
-//                        ChargingScreenSettings.setChargingScreenEnabled(true);
-//                        if (HSConfig.optBoolean(false, "Application", "Locker", "AutoOpenWhenSwitchOn") && !LockerSettings.isLockerEverEnabled()) {
-//                            LockerSettings.setLockerEnabled(true);
-//                        }
-//                        ToastUtils.showToast(R.string.result_page_card_battery_protection_toast);
-//                        mActivity.finishAndNotify();
-//                        break;
-//                    case NOTIFICATION_CLEANER:
-//                        LauncherAnalytics.logEvent("NotificationCleaner_Guide_Clicked", "type", "ResultPage");
-//                        LauncherAnalytics.logEvent("NotificationCleaner_Enterance_Click", "type", NotificationCleanerConstants.RESULT_PAGE);
-////                        NotificationCleanerUtils.checkToStartNotificationOrganizerActivity(v.getContext(), NotificationCleanerConstants.RESULT_PAGE);
-//                        NotificationCleanerProvider.switchNotificationOrganizer(true);
-//                        if (NotificationCleanerUtils.isNotificationAccessGranted(mActivity)) {
-//                            NotificationBarUtil.checkToUpdateBlockedNotification();
-//                            sendGetActiveNotificationBroadcast();
-//                            Intent intentBlocked = new Intent(mActivity, NotificationBlockedActivity.class);
-//                            mActivity.startActivity(intentBlocked);
-//                            mActivity.finishSelfAndParentActivity();
-//                        } else {
-//                            LauncherAnalytics.logEvent("NotificationAccess_System_Show", "type", ResultConstants.NOTIFICATION_CLEANER_FULL);
-//                            startSysSettings();
-//                        }
-//                        break;
-//                    case APP_LOCK:
-//                        mActivity.startActivity(new Intent(mActivity, GuideAppProtectedActivity.class)
-//                                .putExtra(AppLockConstants.INTENT_EXTRA_APPLOCK_GUIDE_SOURCE_TYPE, AppLockConstants.APPLOCK_GUIDE_SOURCE_TYPE_SIDE_BAR));
-//                        mActivity.finishSelfAndParentActivity();
-//                        LauncherAnalytics.logEvent("AppLock_RecommendPage_Show", true, "type", "ResultPage");
-//                        break;
-//                    case UNREAD_MESSAGE:
-//                        LauncherAnalytics.logEvent("NotificationAccess_System_Show", "type", ResultConstants.UNREAD_MESSGAE);
-//                        startSysSettings();
-//                        break;
-//                    case WHATS_APP:
-//                        LauncherAnalytics.logEvent("NotificationAccess_System_Show", "type", ResultConstants.WHATS_APP);
-//                        startSysSettings();
-//                        break;
                 }
                 break;
             default:
@@ -921,116 +491,15 @@ public abstract class ResultController implements View.OnClickListener {
         }
     }
 
-//    private void sendGetActiveNotificationBroadcast() {
-//        HSLog.d(NotificationServiceV18.TAG, "NotificationGuideActivity sendGetActiveNotificationBroadcast");
-//        Intent broadcastReceiverIntent = new Intent(NotificationServiceV18.ACTION_NOTIFICATION_GET_CURRENT_ACTIVE);
-//        broadcastReceiverIntent.setPackage(getPackageName());
-//        mActivity.sendBroadcast(broadcastReceiverIntent);
-//    }
-//
-//    private void startSysSettings() {
-//        boolean isOpenSettingsSuccess = true;
-//        try {
-//            Intent intent = new Intent(NotificationCleanerUtils.ACTION_NOTIFICATION_LISTENER_SETTINGS);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            mActivity.startActivity(intent);
-//        } catch (Exception e) {
-//            HSLog.d(TAG, "start system setting error!");
-//            isOpenSettingsSuccess = false;
-//        }
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
-//            switch (mType) {
-//                case NOTIFICATION_CLEANER:
-//                    LauncherAnalytics.logEvent("Authority_NotificationAccess_Guide_showed", "type", "notifications cleaner");
-//                    LauncherFloatWindowManager.getInstance()
-//                            .showPermissionGuide(HSApplication.getContext(), LauncherFloatWindowManager.PermissionGuideType.NOTIFICATION_CLEANER_ACCESS_FULL_SCREEN, false);
-//                    break;
-//                case UNREAD_MESSAGE:
-//                    LauncherAnalytics.logEvent("Authority_NotificationAccess_Guide_showed", "type", "unread message");
-//                    LauncherFloatWindowManager.getInstance().showPermissionGuide(HSApplication.getContext(),
-//                            LauncherFloatWindowManager.PermissionGuideType.ICON_BADGE, false);
-//                    break;
-//                case WHATS_APP:
-//                    LauncherAnalytics.logEvent("Authority_NotificationAccess_Guide_showed", "type", "whats app");
-//                    LauncherFloatWindowManager.getInstance().showPermissionGuide(HSApplication.getContext(),
-//                            LauncherFloatWindowManager.PermissionGuideType.ICON_BADGE, false);
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//
-//        handler.removeMessages(MSG_WHAT_NOTIFICATION_LISTENING_CHECK);
-//        handler.removeMessages(MSG_WHAT_NOTIFICATION_LISTENING_CANCEL);
-//        handler.sendEmptyMessageDelayed(MSG_WHAT_NOTIFICATION_LISTENING_CHECK, DELAY_START_TO_PERMISSION_CHECK);
-//        handler.sendEmptyMessageDelayed(MSG_WHAT_NOTIFICATION_LISTENING_CANCEL, DURATION_PERMISSION_CHECK_CONTINUED);
-//        LauncherAnalytics.logEvent("NotificationCleaner_AccessGuide_Show", true);
-//    }
-
     private void logViewEvent(Type type) {
         if (type == Type.AD) {
             LauncherAnalytics.logEvent("ResultPage_Cards_Show", "type", ResultConstants.AD);
         }
-//        } else if (type == Type.CHARGE_SCREEN) {
-//            int shownCount = PreferenceHelper.get(LauncherFiles.BOOST_PREFS).incrementAndGetInt(ResultConstants.PREF_KEY_INTO_BATTERY_PROTECTION_COUNT);
-//            PreferenceHelper.getDefault().putLong(ResultConstants.PREF_KEY_INTO_BATTERY_PROTECTION_SHOWN_TIME, System.currentTimeMillis());
-//
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Show", true, "type", ResultConstants.CHARGING_SCREEN_FULL);
-//            LauncherAnalytics.logEvent("ResultPage_Battery_Show", true, "type", getLogEventType(shownCount));
-//        } else if (type == Type.NOTIFICATION_CLEANER) {
-//            int shownCount = PreferenceHelper.get(LauncherFiles.NOTIFICATION_CLEANER_PREFS).incrementAndGetInt(ResultConstants.PREF_KEY_INTO_NOTIFICATION_CLEANER_COUNT);
-//            PreferenceHelper.getDefault().putLong(ResultConstants.PREF_KEY_INTO_NOTIFICATION_CLEANER_SHOWN_TIME, System.currentTimeMillis());
-//
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Show", true, "type", ResultConstants.NOTIFICATION_CLEANER_FULL);
-//            LauncherAnalytics.logEvent("ResultPage_Notification_Show", true, "type", getLogEventType(shownCount));
-//            LauncherAnalytics.logEvent("ResultPage_NotificationAccess_Show", true, "type", ResultConstants.NOTIFICATION_CLEANER_FULL);
-//        } else if (type == Type.APP_LOCK) {
-//            int shownCount = PreferenceHelper.get(LauncherFiles.COMMON_PREFS).incrementAndGetInt(ResultConstants.PREF_KEY_INTO_APP_LOCK_COUNT);
-//            PreferenceHelper.getDefault().putLong(ResultConstants.PREF_KEY_INTO_APP_LOCK_SHOWN_TIME, System.currentTimeMillis());
-//
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Show", true, "type", ResultConstants.APPLOCK);
-//            LauncherAnalytics.logEvent("ResultPage_App_Show", true, "type", getLogEventType(shownCount));
-//        } else if (type == Type.UNREAD_MESSAGE) {
-//            int shownCount = PreferenceHelper.get(LauncherFiles.COMMON_PREFS).incrementAndGetInt(ResultConstants.PREF_KEY_INTO_UNREAD_MESSAGE_COUNT);
-//
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Show", true, "type", ResultConstants.UNREAD_MESSGAE);
-//            LauncherAnalytics.logEvent("ResultPage_Notification_Show", true, "type", getLogEventType(shownCount));
-//            LauncherAnalytics.logEvent("ResultPage_NotificationAccess_Show", true, "type", ResultConstants.UNREAD_MESSGAE);
-//        } else if (type == Type.WHATS_APP) {
-//            int shownCount = PreferenceHelper.get(LauncherFiles.COMMON_PREFS).incrementAndGetInt(ResultConstants.PREF_KEY_INTO_WHATS_APP_COUNT);
-//
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Show", true, "type", ResultConstants.WHATS_APP);
-//            LauncherAnalytics.logEvent("ResultPage_Notification_Show", true, "type", getLogEventType(shownCount));
-//            LauncherAnalytics.logEvent("ResultPage_NotificationAccess_Show", true, "type", ResultConstants.WHATS_APP);
-//        }
 
         LauncherAnalytics.logEvent("ResultPage_Cards_Show", "type", ResultConstants.AD);
     }
 
     protected void logClickEvent(Type type) {
-//        if (type == Type.AD) {
-//            // No log here, logged in onAdClick()
-//        } else if (type == Type.CHARGE_SCREEN) {
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Click", true, "Type", ResultConstants.CHARGING_SCREEN_FULL);
-//            LauncherAnalytics.logEvent("ResultPage_Battery_Clicked", true, "Type", getLogEventType(
-//                    PreferenceHelper.get(LauncherFiles.BOOST_PREFS).getInt(ResultConstants.PREF_KEY_INTO_BATTERY_PROTECTION_COUNT, 1)));
-//        } else if (type == Type.NOTIFICATION_CLEANER) {
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Click", true, "Type", ResultConstants.NOTIFICATION_CLEANER_FULL);
-//            LauncherAnalytics.logEvent("ResultPage_Notification_Clicked", true, "Type", getLogEventType(
-//                    PreferenceHelper.get(LauncherFiles.NOTIFICATION_CLEANER_PREFS).getInt(ResultConstants.PREF_KEY_INTO_NOTIFICATION_CLEANER_COUNT, 1)));
-//            LauncherAnalytics.logEvent("ResultPage_NotificationAccess_Clicked", true, "type", ResultConstants.NOTIFICATION_CLEANER_FULL);
-//        } else if (type == Type.APP_LOCK) {
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Click", true, "Type", ResultConstants.APPLOCK);
-//            LauncherAnalytics.logEvent("ResultPage_App_Clicked", true, "Type", getLogEventType(
-//                    PreferenceHelper.get(LauncherFiles.COMMON_PREFS).getInt(ResultConstants.PREF_KEY_INTO_APP_LOCK_COUNT, 1)));
-//        } else if (type == Type.UNREAD_MESSAGE) {
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Click", true, "Type", ResultConstants.UNREAD_MESSGAE);
-//            LauncherAnalytics.logEvent("ResultPage_NotificationAccess_Clicked", true, "type", ResultConstants.UNREAD_MESSGAE);
-//        } else if (type == Type.WHATS_APP) {
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Click", true, "Type", ResultConstants.WHATS_APP);
-//            LauncherAnalytics.logEvent("ResultPage_NotificationAccess_Clicked", true, "type", ResultConstants.WHATS_APP);
-//        }
     }
 
     private String getLogEventType(int order) {
@@ -1066,32 +535,8 @@ public abstract class ResultController implements View.OnClickListener {
         if (mInterstitialAd != null) {
             popupInterstitialAd();
         } else {
-            if (startPromoteGuide(mActivity)) {
-//                HSGlobalNotificationCenter.addObserver(PromoteUtils.NOTIFICATION_RESULT_PAGE_PROMOTION_FINISH, new INotificationObserver() {
-//                    @Override public void onReceive(String s, HSBundle hsBundle) {
-//                        HSGlobalNotificationCenter.removeObserver(this);
-//                        if (!mActivity.isAttached()) {
-//                            return;
-//                        }
-//                        new Handler().postDelayed(new Runnable() {
-//                            @Override public void run() {
-//                                onInterruptActionClosed();
-//                            }
-//                        }, 250);
-//                    }
-//                });
-            } else {
-                onInterruptActionClosed();
-            }
+            onInterruptActionClosed();
         }
-    }
-
-    private static boolean startPromoteGuide(Context activity) {
-//        if (PromoteUtils.isResultPageEnable()) {
-//            PromoteUtils.showPromoteGuideWithoutIcon(activity, "ResultPage", PromoteGuideActivity.PromoteType.RESULT_PAGE);
-//            return true;
-//        }
-        return false;
     }
 
     private void popupInterstitialAd() {

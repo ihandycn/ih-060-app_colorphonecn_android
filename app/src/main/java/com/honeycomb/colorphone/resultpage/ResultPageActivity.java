@@ -107,121 +107,6 @@ public class ResultPageActivity extends HSAppCompatActivity
         LauncherAnalytics.logEvent("ResultPage_Show", "Type", ResultConstants.BOOST_TOOLBAR);
     }
 
-//    public static void startForBoostPlus(Activity activity, int cleanedSizeMbs, boolean shouldStartToLauncher) {
-//        if (activity == null) {
-//            return;
-//        }
-//
-//        Intent intent = new Intent(activity, ResultPageActivity.class);
-//        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
-//        intent.putExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, cleanedSizeMbs);
-//        intent.putExtra(EXTRA_KEY_SHOULD_START_TO_LAUNCHER, shouldStartToLauncher);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        activity.startActivity(intent);
-//        activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
-//        LauncherAnalytics.logEvent("ResultPage_Show", "Type", ResultConstants.BOOST_PLUS);
-//    }
-//
-//    public static void startForBattery(Activity activity, boolean isBatteryOptimal,
-//                                       int extendHour, int extendMinute) {
-//        if (activity == null) {
-//            return;
-//        }
-//
-//        Intent intent = new Intent(activity, ResultPageActivity.class);
-//        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BATTERY);
-//        intent.putExtra(EXTRA_KEY_BATTERY_OPTIMAL, isBatteryOptimal);
-//        intent.putExtra(EXTRA_KEY_BATTERY_EXTEND_HOUR, extendHour);
-//        intent.putExtra(EXTRA_KEY_BATTERY_EXTEND_MINUTE, extendMinute);
-//        boolean shouldStartToLauncher = BatteryUtils.shouldReturnToLauncherFromResultPage();
-//        intent.putExtra(EXTRA_KEY_SHOULD_START_TO_LAUNCHER, shouldStartToLauncher);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        activity.startActivity(intent);
-//        activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
-//        LauncherAnalytics.logEvent("ResultPage_Show", true, "Type", ResultConstants.BATTERY);
-//    }
-//
-//    public static void startForJunkClean(Activity activity, boolean shouldStartToLauncher) {
-//        if (activity == null) {
-//            return;
-//        }
-//
-//        if (JunkCleanConstant.sIsTotalSelected) {
-//            JunkCleanConstant.sIsTotalCleaned = true;
-//        }
-//
-//        Intent intent = new Intent(activity, ResultPageActivity.class);
-//        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_JUNK_CLEAN);
-//        intent.putExtra(EXTRA_KEY_SHOULD_START_TO_LAUNCHER, shouldStartToLauncher);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        activity.startActivity(intent);
-//        activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
-//        LauncherAnalytics.logEvent("ResultPage_Show", true, "Type", ResultConstants.JUNK_CLEANER);
-//    }
-//
-//    public static void startForCpuCooler(Activity activity) {
-//        if (activity == null) {
-//            return;
-//        }
-//
-//        Intent intent = new Intent(activity, ResultPageActivity.class);
-//        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_CPU_COOLER);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        activity.startActivity(intent);
-//        activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
-//        LauncherAnalytics.logEvent("ResultPage_Show", true, "Type", ResultConstants.CPU_COOLER);
-//    }
-//
-//    public static void startForNotificationCleaner(Activity activity, int clearNotificationsCount) {
-//        if (activity == null) {
-//            return;
-//        }
-//
-//        Intent intent = new Intent(activity, ResultPageActivity.class);
-//        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_NOTIFICATION_CLEANER);
-//        intent.putExtra(EXTRA_KEY_CLEAR_NOTIFICATONS_COUNT, clearNotificationsCount);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        activity.startActivity(intent);
-//        activity.overridePendingTransition(R.anim.none, R.anim.none);
-//        LauncherAnalytics.logEvent("ResultPage_Show", true, "Type", ResultConstants.NOTIFICATION_CLEANER);
-//    }
-//
-//    public static void startForVirusScan(Activity activity, boolean isFileScan) {
-//        if (activity == null) {
-//            return;
-//        }
-//
-//        Intent intent = new Intent(activity, ResultPageActivity.class);
-//        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_VIRUS_SCAN);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        intent.putExtra(EXTRA_KEY_SCAN_IS_FILE_SCAN, isFileScan);
-//        activity.startActivity(intent);
-//        activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
-//        LauncherAnalytics.logEvent("ResultPage_Show", true, "Type", isFileScan ? ResultConstants.FILE_SCAN : ResultConstants.VIRUS_SCAN);
-//    }
-
-//    private boolean shouldShowBoostPlusCard() {
-//        long lastBoostPlusUsedTime = PreferenceHelper.get(LauncherFiles.BOOST_PREFS)
-//                .getLong(ResultConstants.PREF_KEY_LAST_BOOST_PLUS_USED_TIME, -1);
-//        long timeSinceLastUse = (System.currentTimeMillis() - lastBoostPlusUsedTime) / 1000 / 60;
-//        int interval = HSConfig.optInteger(10, "Application", "ResultPage", "BoostCard", "ShowResultCardInterval");
-//        return timeSinceLastUse > interval;
-//    }
-//
-//    private void preloadMemInfo() {
-//        DeviceUtils.getRunningPackageListFromMemory(false, new DeviceUtils.RunningAppsListener() {
-//
-//            @Override
-//            public void onScanFinished(List<String> list, long l) {
-//                sAppList.clear();
-//                if (list != null) {
-//                    sAppList.addAll(list);
-//                }
-//            }
-//        });
-//
-//    }
-
     @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,7 +114,6 @@ public class ResultPageActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_page);
         overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
-//        if (shouldShowBoostPlusCard()) preloadMemInfo();
 
         mIsResultPageShow = false;
         onNewStart(getIntent());
@@ -246,26 +130,18 @@ public class ResultPageActivity extends HSAppCompatActivity
     private void onNewStart(Intent intent) {
 
         if (null != intent) {
-//            mResultType = intent.getIntExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
             mResultType = intent.getIntExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
             mShouldStartToLauncher = intent.getBooleanExtra(EXTRA_KEY_SHOULD_START_TO_LAUNCHER, false);
             mClearNotificationsCount = intent.getIntExtra(EXTRA_KEY_CLEAR_NOTIFICATONS_COUNT, 0);
             mPresenter = new ResultPagePresenter(this, mResultType);
             recordFeatureLastUsedTime();
 
-//            NotificationCenter.addObserver(NOTIFICATION_VISIBLE_TO_USER, this);
         } else {
             finish();
         }
 
         // Set bg color early
-
-//        if (mResultType == ResultConstants.RESULT_TYPE_CPU_COOLER
-//                || mResultType == ResultConstants.RESULT_TYPE_BATTERY) {
-//            ViewUtils.findViewById(this, R.id.bg_view).setBackgroundColor(ContextCompat.getColor(this, R.color.white));
-//        } else {
-            ViewUtils.findViewById(this, R.id.bg_view).setBackgroundColor(getBackgroundColor());
-//        }
+        ViewUtils.findViewById(this, R.id.bg_view).setBackgroundColor(getBackgroundColor());
     }
 
     @SuppressLint("NewApi")
@@ -312,35 +188,8 @@ public class ResultPageActivity extends HSAppCompatActivity
             }
         }
     }
-//
-//    public List<String> getScanAppList() {
-//        if (sAppList.isEmpty()) {
-//            List<String> fakeAppList = new ArrayList<>();
-//            int size = new Random().nextInt(16) % 10 + 5;
-//            for (AppInfo applicationInfo : LauncherAppState.getInstance().getModel().getAllAppsAppInfo()) {
-//                if (fakeAppList.size() <= size) fakeAppList.add(applicationInfo.getPackageName());
-//                else break;
-//
-//            }
-//            return fakeAppList;
-//        }
-//        return sAppList;
-//    }
 
     public @ColorInt int getBackgroundColor() {
-//        switch (mResultType) {
-//            case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-//            case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-//                return ContextCompat.getColor(this, R.color.boost_plus_clean_bg);
-//            case ResultConstants.CARD_VIEW_TYPE_BATTERY:
-//                return ContextCompat.getColor(this, R.color.battery_green);
-//            case ResultConstants.RESULT_TYPE_JUNK_CLEAN:
-//                return ContextCompat.getColor(this, R.color.clean_primary_blue);
-//            case ResultConstants.RESULT_TYPE_CPU_COOLER:
-//                return ContextCompat.getColor(this, R.color.cpu_cooler_primary_blue);
-//            case ResultConstants.RESULT_TYPE_NOTIFICATION_CLEANER:
-//                return ContextCompat.getColor(this, R.color.notification_cleaner_green);
-//        }
         return ContextCompat.getColor(this, R.color.boost_plus_clean_bg);
     }
 
@@ -348,60 +197,6 @@ public class ResultPageActivity extends HSAppCompatActivity
     public void show(ResultController.Type type, @Nullable AcbInterstitialAd interstitalAd, @Nullable AcbNativeAd ad, @Nullable List<CardData> cards) {
         String titleText;
         Intent intent = getIntent();
-//        switch (mResultType) {
-//            case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-//                int cleanedSizeMbs = intent.getIntExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, 0);
-//                mResultController = new BoostPlusResultController(this, cleanedSizeMbs, type, interstitalAd, ad, cards);
-//                titleText = getString(R.string.launcher_widget_boost_plus_title);
-//                break;
-//            case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-//                cleanedSizeMbs = intent.getIntExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, 0);
-//                mResultController = new BoostPlusResultController(this, cleanedSizeMbs, type, interstitalAd, ad, cards);
-//                titleText = getString(R.string.boost_title);
-//                break;
-//            case ResultConstants.RESULT_TYPE_BATTERY:
-//                boolean isBatteryOptimal = intent.getBooleanExtra(EXTRA_KEY_BATTERY_OPTIMAL, false);
-//                int extendHour = intent.getIntExtra(EXTRA_KEY_BATTERY_EXTEND_HOUR, 0);
-//                int extendMinute = intent.getIntExtra(EXTRA_KEY_BATTERY_EXTEND_MINUTE, 0);
-//                mResultController = new BatteryResultController(this, isBatteryOptimal, extendHour, extendMinute, type, interstitalAd, ad, cards);
-//                titleText = getString(R.string.battery_title);
-//                break;
-//            case ResultConstants.RESULT_TYPE_JUNK_CLEAN:
-//                mResultController = new JunkCleanResultController(this, type, interstitalAd, ad, cards);
-//                titleText = getString(R.string.clean_title);
-//                break;
-//            case ResultConstants.RESULT_TYPE_CPU_COOLER:
-//                mResultController = new CpuCoolerResultController(this, type, interstitalAd, ad, cards);
-//                titleText = getString(R.string.promotion_max_card_title_cpu_cooler);
-//                break;
-//            case ResultConstants.RESULT_TYPE_NOTIFICATION_CLEANER:
-//                mResultController = new NotificationCleanerResultController(this, type, interstitalAd, ad, cards, mClearNotificationsCount);
-//                titleText = getString(R.string.notification_cleaner_title);
-//                break;
-//            case ResultConstants.RESULT_TYPE_VIRUS_SCAN:
-//                try {
-//                    Class virusCls = Class.forName("com.honeycomb.launcher.resultpage.VirusScanResultController");
-//                    Constructor[] constructors = virusCls.getConstructors();
-//                    mResultController = (ResultController) constructors[0].newInstance(this, type, interstitalAd, ad, cards);
-//                } catch (ClassNotFoundException e) {
-//                    e.printStackTrace();
-//                } catch (IllegalAccessException e) {
-//                    e.printStackTrace();
-//                } catch (InstantiationException e) {
-//                    e.printStackTrace();
-//                } catch (InvocationTargetException e) {
-//                    e.printStackTrace();
-//                }
-//                boolean isFileScan = intent.getBooleanExtra(EXTRA_KEY_SCAN_IS_FILE_SCAN, false);
-//                if (isFileScan) {
-//                    titleText = getString(getResources().getIdentifier("file_scan", "string", BuildConfig.APPLICATION_ID));
-//                } else {
-//                    titleText = getString(getResources().getIdentifier("virus_scan", "string", BuildConfig.APPLICATION_ID));
-//                }
-//                break;
-//            default:
-//                throw new IllegalArgumentException("Unsupported result type.");
-//        }
         int cleanedSizeMbs = intent.getIntExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, 0);
         mResultController = new BoostPlusResultController(this, cleanedSizeMbs, type, interstitalAd, ad, cards);
         titleText = getString(R.string.boost_title);
@@ -461,19 +256,6 @@ public class ResultPageActivity extends HSAppCompatActivity
     }
 
     void finishAndNotify() {
-//        if (mResultType == ResultConstants.RESULT_TYPE_JUNK_CLEAN
-//                || mResultType == ResultConstants.RESULT_TYPE_BOOST_PLUS
-//                || mResultType == ResultConstants.RESULT_TYPE_BOOST_TOOLBAR
-//                || mResultType == ResultConstants.RESULT_TYPE_BATTERY) {
-//            if (mShouldStartToLauncher) {
-//                CommonUtils.startLauncher(HSApplication.getContext());
-//            } else {
-//                CommonUtils.startLauncherToPage(HSApplication.getContext(), -1);
-//            }
-//            mShouldStartToLauncher = false;
-//        }
-//
-//        HSGlobalNotificationCenter.sendNotification(BatteryActivity.NOTIFICATION_FINISH_BATTERY_ACTIVITY);
         FloatWindowManager.getInstance().removeAllDialogs();
         finish();
     }
@@ -487,9 +269,6 @@ public class ResultPageActivity extends HSAppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-
-//        LauncherFloatWindowManager.getInstance().removePermissionGuide(false);
-//        LauncherFloatWindowManager.getInstance().removeFloatButton();
     }
 
     @Override
@@ -517,35 +296,10 @@ public class ResultPageActivity extends HSAppCompatActivity
 
     public void finishSelfAndParentActivity() {
         HSLog.d(ResultPageActivity.TAG, "ResultPageActivity finishSelfAndParentActivity");
-//        sendBroadcast(new Intent(BaseCenterActivity.INTENT_NOTIFICATION_ACTIVITY_FINISH_ACTION));
         finish();
     }
 
     private void recordFeatureLastUsedTime() {
-//        switch (mResultType) {
-//            case ResultConstants.RESULT_TYPE_BATTERY:
-//                PreferenceHelper.get(LauncherFiles.BATTERY_PREFS)
-//                        .putLong(ResultConstants.PREF_KEY_LAST_BATTERY_USED_TIME, System.currentTimeMillis());
-//                break;
-//            case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-//            case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-//                PreferenceHelper.get(Constants.BOOST_PREFS)
-//                        .putLong(ResultConstants.PREF_KEY_LAST_BOOST_PLUS_USED_TIME, System.currentTimeMillis());
-//                break;
-//            case ResultConstants.RESULT_TYPE_JUNK_CLEAN:
-//                PreferenceHelper.get(LauncherFiles.JUNK_CLEAN_PREFS)
-//                        .putLong(ResultConstants.PREF_KEY_LAST_JUNK_CLEAN_USED_TIME, System.currentTimeMillis());
-//                break;
-//            case ResultConstants.RESULT_TYPE_CPU_COOLER:
-//                PreferenceHelper.get(LauncherFiles.CPU_COOLER_PREFS)
-//                        .putLong(ResultConstants.PREF_KEY_LAST_CPU_COOLER_USED_TIME, System.currentTimeMillis());
-//                break;
-//            case ResultConstants.RESULT_TYPE_NOTIFICATION_CLEANER:
-//                PreferenceHelper.get(LauncherFiles.NOTIFICATION_CLEANER_PREFS)
-//                        .putLong(ResultConstants.PREF_KEY_LAST_NOTIFICATION_CLEANER_USED_TIME, System.currentTimeMillis());
-//                break;
-//        }
-
         PreferenceHelper.get(Constants.NOTIFICATION_PREFS)
                 .putLong(ResultConstants.PREF_KEY_LAST_BOOST_PLUS_USED_TIME, System.currentTimeMillis());
     }

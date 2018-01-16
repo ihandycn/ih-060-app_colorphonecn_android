@@ -18,7 +18,7 @@ public class BoostAutoPilotUtils {
         boolean enable = AutopilotConfig.getBooleanToTestNow(BOOST_TEST_TOPIC_ID, "boost_push_enable", false);
         if (BuildConfig.DEBUG) {
             HSLog.i("Boost", "Debug isBoostPushEnable == " + enable);
-            return true;
+//            return true;
         }
         return enable;
     }
@@ -27,7 +27,7 @@ public class BoostAutoPilotUtils {
         double interval = AutopilotConfig.getDoubleToTestNow(BOOST_TEST_TOPIC_ID, "boost_push_interval", 2);
         if (BuildConfig.DEBUG) {
             HSLog.i("Boost", "Debug getBoostPushInterval == " + interval);
-            return 0;
+//            return 0;
         }
         return DateUtils.HOUR_IN_MILLIS * interval;
     }
@@ -36,7 +36,7 @@ public class BoostAutoPilotUtils {
         double max = AutopilotConfig.getDoubleToTestNow(BOOST_TEST_TOPIC_ID, "boost_push_maxcount", 4);
         if (BuildConfig.DEBUG) {
             HSLog.i("Boost", "Debug getBoostPushMaxCount == " + max);
-            return 100;
+//            return 100;
         }
         return (int) max;
     }

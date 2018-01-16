@@ -66,9 +66,6 @@ public class NotificationCondition implements INotificationObserver {
     private static final String NOTIFICATION_HISTORY = "NOTIFICATION_HISTORY";
     private static final String BOOST_PLUS = "BoostPlus";
 
-//    public static final String EVENT_UNLOCK = "locker_event_unlock";
-//    public static final String EVENT_LOCK = "locker_event_lock";
-
     private static final int[] ICON_CONTAINER_RES_ID = {
             R.id.recentest_notification_icon_0,
             R.id.recentest_notification_icon_1,
@@ -84,7 +81,7 @@ public class NotificationCondition implements INotificationObserver {
     public static final String KEY_NOTIFICATION_TYPE = "key_notification_type";
 
     @SuppressWarnings("PointlessBooleanExpression")
-    private static final boolean DEBUG_BOOST_PLUS_NOTIFICATION = true && BuildConfig.DEBUG;
+    private static final boolean DEBUG_BOOST_PLUS_NOTIFICATION = false && BuildConfig.DEBUG;
 
     private static final int NOTIFICATION_ID_BOOST_PLUS = 10005;
 
@@ -105,7 +102,7 @@ public class NotificationCondition implements INotificationObserver {
     // 亮屏之后到检查通知的时间
     private static final long AFTER_UNLOCK_TIME = 3 * DateUtils.SECOND_IN_MILLIS;
     // 同一类型的消息的时间间隔 (需求为 0 小时)
-
+    // 替换为 BoostAutoPilotUtils.getBoostPushInterval()
     private static final long SAME_NOTIFICATION_INTERVAL     = HSConfig.optInteger(0, "Application", "NotificationSystem", "DelayTimePerPush") * DateUtils.HOUR_IN_MILLIS;
     // 每天最多通知条数 (需求为 24 小时 6 条)
     // 替换为 BoostAutoPilotUtils.getBoostPushMaxCount()
@@ -155,7 +152,6 @@ public class NotificationCondition implements INotificationObserver {
         }
     }
 
-
     public static NotificationCondition getsInstance() {
         if (sInstance == null) {
             init();
@@ -171,34 +167,6 @@ public class NotificationCondition implements INotificationObserver {
         readFromPref();
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_CHECK_DONE, this);
         HSGlobalNotificationCenter.addObserver(UserPresentReceiver.USER_PRESENT, this);
-    }
-
-//    private void updateConfig(boolean configChange) {
-//        boolean newConfig = useLowConfig;
-//        Calendar now = Calendar.getInstance();
-//        if (lastSendFeatureNotificationTime != 0) {
-//            newConfig = !DateUtils.isToday(lastSendFeatureNotificationTime) && now.get(Calendar.HOUR_OF_DAY) >= 14;
-//        }
-//
-//        if (now.get(Calendar.HOUR_OF_DAY) <= 5) {
-//            newConfig = false;
-//        }
-//
-//        HSLog.d(TAG, "updateConfig newConfig == " + newConfig + "  useLowConfig == " + useLowConfig);
-//        if (newConfig != useLowConfig || configChange) {
-//            useLowConfig = newConfig;
-//            CPU_ALERT_TEMPERATURE = useLowConfig ? 36 : HSConfig.optInteger(40, "Application", "NotificationSystem", "CPUTemp");
-//            JUNK_CLEAN_NOTIFICATION_SIZE = (useLowConfig ? 60 : HSConfig.optInteger(80, "Application", "NotificationSystem", "JunkAlarm")) * 1024 * 1024;
-//            BOOST_RAM = (useLowConfig ? 55 : HSConfig.optInteger(70, "Application", "NotificationSystem", "BoostAlarmA"));
-//            BOOST_APPS = useLowConfig ? 2 : HSConfig.optInteger(3, "Application", "NotificationSystem", "BoostAalarmB");
-//            LOW_BATTERY = HSConfig.optInteger(30, "Application", "NotificationSystem", "BatteryAlarmA");
-//            HIGH_BATTERY = HSConfig.optInteger(50, "Application", "NotificationSystem", "BatteryAlarmB");
-//            BATTERY_APPS = HSConfig.optInteger(3, "Application", "NotificationSystem", "BatteryApp");
-//        }
-//    }
-
-    public void sendNotification(int type) {
-        trySendNotification(type);
     }
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
@@ -235,9 +203,6 @@ public class NotificationCondition implements INotificationObserver {
 
         if (Utils.isNewUserInDNDStatus()) {
             HSLog.d(TAG, "新用户 2 小时内不提示。");
-            if (!BuildConfig.DEBUG) {
-                return;
-            }
         }
 
         if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) <= 5) {
@@ -415,22 +380,6 @@ public class NotificationCondition implements INotificationObserver {
             return true;
         }
 
-//        if (!checkNotificationCountByType(NOTIFICATION_TYPE_BOOST_PLUS, SAME_NOTIFICATION_LIMIT_IN_DAY)) {
-//            HSLog.d(TAG, String.format(Locale.getDefault(), "shouldNotifyBoostPlus  24h 多于 %d 条", SAME_NOTIFICATION_LIMIT_IN_DAY));
-//            return false;
-//        }
-//
-//        long lastOpenBoostPlusTime = PreferenceHelper.get(LauncherFiles.BOOST_PREFS)
-//                .getLong(ResultConstants.PREF_KEY_LAST_BOOST_PLUS_USED_TIME, -1);
-//        long secondTimeFromLastOpen = (System.currentTimeMillis() - lastOpenBoostPlusTime);
-//        HSLog.d(TAG, "shouldNotifyBoostPlus lastOpenBoostPlusTime = " + lastOpenBoostPlusTime
-//                + " secondTimeFromLastOpen = " + secondTimeFromLastOpen); // 86400
-//
-//        if (secondTimeFromLastOpen <= NOT_OPEN_FEATURE_INTERVAL) {
-//            HSLog.d(TAG, "shouldNotifyBoostPlus  最近打开过应用");
-//        }
-//
-//        return secondTimeFromLastOpen > NOT_OPEN_FEATURE_INTERVAL;
         return BoostAutoPilotUtils.isBoostPushEnable();
     }
 
@@ -746,7 +695,7 @@ public class NotificationCondition implements INotificationObserver {
     }
 
     private static boolean checkLastNotificationInterval(long last) {
-        return (System.currentTimeMillis() - last) > SAME_NOTIFICATION_INTERVAL;
+        return (System.currentTimeMillis() - last) > BoostAutoPilotUtils.getBoostPushInterval();
     }
 
     static class NotificationHolder {
