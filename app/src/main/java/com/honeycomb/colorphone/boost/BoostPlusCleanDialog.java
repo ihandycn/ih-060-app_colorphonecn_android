@@ -41,6 +41,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.util.FontUtils;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -275,10 +276,8 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
     private int initCleanType(int type) {
         if (type == CLEAN_TYPE_NON_ROOT_DIRECTLY) {
             type = CLEAN_TYPE_NON_ROOT;
-//            LauncherAnalytics.logEvent("BoostPlus_Animation_Start", "Type", "Directly");
         } else if (type == CLEAN_TYPE_NON_ROOT_ACCESSIBILITY_OPEN) {
             type = CLEAN_TYPE_NON_ROOT;
-//            LauncherAnalytics.logEvent("BoostPlus_Animation_Start", "Type", "Accessibility Open");
         } else if (type == CLEAN_TYPE_TOOLBAR || type == CLEAN_TYPE_CLEAN_CENTER) {
             int beforePercentage = RamUsageDisplayUpdater.getInstance().getDisplayedRamUsage();
             int afterPercentage = RamUsageDisplayUpdater.getInstance().startBoost();
@@ -298,8 +297,6 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
                     mSelectedAppList.add(new HSAppMemory("memory_app_" + i, cachedAppSize / cachedAppCount));
                 }
             }
-        } else {
-//            LauncherAnalytics.logEvent("BoostPlus_Animation_Start", "Type", "Root Open");
         }
         return type;
     }
@@ -585,7 +582,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
         HSLog.d(TAG, "onDialogDismiss mCleanResult = " + mCleanResult + " mIsStartGetPermission = " + mIsStartGetPermission);
 
         // Notify underlying result page to start its animations
-
+        LauncherAnalytics.logEvent("Colorphone_Boost_Finished");
 
         if (null != mHandler) {
             mHandler.removeCallbacksAndMessages(null);

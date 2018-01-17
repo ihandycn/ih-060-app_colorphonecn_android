@@ -77,6 +77,7 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                 break;
             case NotificationConstants.ACTION_BOOST_PLUS:
                 BoostAutoPilotUtils.logBoostPushClicked();
+                LauncherAnalytics.logEvent("Colorphone_Push_Boost_Clicked");
                 BoostPlusCleanDialog.showBoostPlusCleanDialog(context, BoostPlusCleanDialog.CLEAN_TYPE_CLEAN_CENTER);
 //                BoostActivity.start(context, false);
                 break;

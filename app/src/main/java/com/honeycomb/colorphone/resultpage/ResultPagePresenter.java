@@ -63,16 +63,19 @@ public class ResultPagePresenter implements ResultPageContracts.Presenter {
         if (mWillShowInterstitialAd) {
             HSLog.i("Boost", "show Interstitial");
             BoostAutoPilotUtils.logBoostPushAdShow();
+            LauncherAnalytics.logEvent("Colorphone_Boost_AD_Show", "Type", "Interstitial");
             showDefaultView();
         } else if (mType == ResultController.Type.AD) {
             HSLog.i("Boost", "show AD");
             BoostAutoPilotUtils.logBoostPushAdShow();
+            LauncherAnalytics.logEvent("Colorphone_Boost_AD_Show", "Type", "Native");
             logPageContent();
             mView.show(mType, mInterstitialAd, mNativeAd, mCards);
 //        } else if (mType == ResultController.Type.CARD_VIEW) {
 //            if (!tryToShowCardView()) showDefaultView();
         } else {
             HSLog.i("Boost", "show default");
+            LauncherAnalytics.logEvent("Colorphone_Boost_AD_Show", "Type", "Default");
             showDefaultView();
         }
     }

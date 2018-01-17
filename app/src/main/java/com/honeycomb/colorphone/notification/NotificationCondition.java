@@ -36,6 +36,7 @@ import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.receiver.UserPresentReceiver;
 import com.honeycomb.colorphone.util.DeviceUtils;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Thunk;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -485,6 +486,8 @@ public class NotificationCondition implements INotificationObserver {
                     }
                 });
         showNotification(localNotification);
+        BoostAutoPilotUtils.logBoostPushShow();
+        LauncherAnalytics.logEvent("Colorphone_Push_Boost_Show");
 //        logNotificationPushed(type);
     }
 
@@ -527,7 +530,6 @@ public class NotificationCondition implements INotificationObserver {
 
         lastSendFeatureNotificationTime = System.currentTimeMillis();
         notify(notificationModel.notificationId, Utils.buildNotificationSafely(builder));
-        BoostAutoPilotUtils.logBoostPushShow();
     }
 
     private static RemoteViews createRealStyleNotification(LocalNotification notificationModel) {
