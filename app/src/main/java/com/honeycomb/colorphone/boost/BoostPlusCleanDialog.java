@@ -17,7 +17,6 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -365,9 +364,9 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
     public void onAddedToWindow(SafeWindowManager windowManager) {
         initAnimationLocation();
 
-        Toolbar toolbar = (Toolbar) mContentView.findViewById(R.id.action_bar);
-        if (mType == CLEAN_TYPE_TOOLBAR || mType == CLEAN_TYPE_CLEAN_CENTER) {
-            toolbar.setVisibility(View.GONE);
+//        Toolbar toolbar = (Toolbar) mContentView.findViewById(R.id.action_bar);
+//        if (mType == CLEAN_TYPE_TOOLBAR || mType == CLEAN_TYPE_CLEAN_CENTER) {
+//            toolbar.setVisibility(View.GONE);
             mContentView.findViewById(R.id.action_bar_alias).setVisibility(View.VISIBLE);
             mContentView.findViewById(R.id.iv_back_alias).setOnClickListener(new OnClickListener() {
                 @Override
@@ -380,18 +379,18 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
             TextView titleView = mContentView.findViewById(R.id.iv_title_alias);
             ViewStyleUtils.setToolbarTitleWithoutLayoutParams(titleView);
             titleView.setTypeface(FontUtils.getTypeface(FontUtils.Font.ROBOTO_MEDIUM));
-        } else {
-            toolbar.setTitle(getContext().getString(R.string.boost_title));
-            toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!mIsBackDisabled) {
-                        onBackClicked();
-                    }
-                }
-            });
-        }
+//        } else {
+//            toolbar.setTitle(getContext().getString(R.string.boost_title));
+//            toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+//            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (!mIsBackDisabled) {
+//                        onBackClicked();
+//                    }
+//                }
+//            });
+//        }
     }
 
 

@@ -19,7 +19,8 @@
         <!-- 1.1 Toolbar on top -->
         <include
             android:id="@+id/action_bar"
-            layout="@layout/white_toolbar" />
+            layout="@layout/white_toolbar"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/action_bar_alias"
@@ -27,7 +28,7 @@
             android:layout_height="56dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:visibility="visible">
 
             <ImageView
