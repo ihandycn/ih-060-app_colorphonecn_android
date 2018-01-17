@@ -63,4 +63,6 @@
   <string name="settings_notification_settings">Paramètres des notifications</string>
   <string name="settings_notification_boost">Notification de boost</string>
   <string name="settings_notification_boost_sub">Rappels quand la mémoire est très utilisée</string>
+
+  <string name="welcome_contain_ad">Peut contenir des publicités</string>
 </resources>

@@ -64,7 +64,7 @@
   <string name="settings_notification_boost">Notifica Potenzia</string>
   <string name="settings_notification_boost_sub">Promemoria per utilizzo di memoria elevato</string>
 
-
+  <string name="welcome_contain_ad">Potrebbe contenere annunci pubblicitari.</string>
 
 
 </resources>

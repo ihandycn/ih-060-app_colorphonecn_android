@@ -58,4 +58,6 @@
     <string name="settings_notification_settings">إعدادات الإخطارات</string>
     <string name="settings_notification_boost">إخطار بالتسريع</string>
     <string name="settings_notification_boost_sub">تذكير عندما يكون استخدام الذاكرة عالياً</string>
+
+    <string name="welcome_contain_ad">قد يحتوي على الإعلانات.</string>
 </resources>

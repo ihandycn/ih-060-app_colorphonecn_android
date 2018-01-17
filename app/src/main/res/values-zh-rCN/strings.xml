@@ -22,8 +22,8 @@
   <string name="terms_of_service">服务条款</string>
 
 
-    <string name="guide_locker_and_call_hint">开启屏幕保护，智能充电 &amp; 手机助手，让你不会错过未接来电。
-        轻松清理手机并快速打开相机。</string>
+  <string name="guide_locker_and_call_hint">开启屏幕保护，智能充电 &amp; 手机助手，让你不会错过未接来电。
+    轻松清理手机并快速打开相机。</string>
   <string name="guide_enable_all_module">开启手机助手，智能充电 &amp; 屏幕保护</string>
 
   <string name="acb_outapp_guide_screen_flash_content">快试试独特的个性来电，让您的手机更时尚。可能包含广告。</string>
@@ -34,11 +34,11 @@
 
 
   <string name="smart_charging">智能充电</string>
-    <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。
-        （可能包含广告）</string>
+  <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。
+    （可能包含广告）</string>
 
   <string name="color_lockscreen">多彩屏保</string>
-    <string name="color_lockscreen_hint">用多彩的主题装饰你的屏保（可能包含广告）</string>
+  <string name="color_lockscreen_hint">用多彩的主题装饰你的屏保（可能包含广告）</string>
   <string name="sms_assistant">短信助手</string>
   <string name="sms_assistant_hint">短信助手让你不再错过任何信息（可能包含广告）</string>
   <string name="call_assistant_hint">来电助手让你不再错过未接来电（可能包含广告）</string>
@@ -51,15 +51,16 @@
   <string name="theme_set_for_all">设定为默认</string>
   <string name="theme_set_for_one">设定给某人</string>
   <string name="select_contacts">选择联系人</string>
-
-    <string name="boost_plus_free_up">内存释放</string>
-    <string name="boost_plus_exiting">结束中…</string>
-
-    <string name="boost_tip_optimal">你的手机已达最优！</string>
-    <string name="boost_notification_low_ram_btn">加速</string>
-    <string name="boost_title">加速</string>
+  <string name="boost_plus_free_up">内存释放</string>
+  <string name="boost_plus_exiting">结束中…</string>
+  
+  <string name="boost_tip_optimal">你的手机已达最优！</string>
+  <string name="boost_notification_low_ram_btn">加速</string>
+  <string name="boost_title">加速</string>
 
   <string name="settings_notification_settings">通知消息设置</string>
   <string name="settings_notification_boost">手机加速提醒</string>
   <string name="settings_notification_boost_sub">手机内存使用过高时提醒</string>
+
+  <string name="welcome_contain_ad">可能包含广告</string>
 </resources>

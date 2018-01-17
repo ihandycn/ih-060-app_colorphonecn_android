@@ -64,7 +64,7 @@
   <string name="settings_notification_boost">ブースト通知</string>
   <string name="settings_notification_boost_sub">メモリ使用量が多いときにリマインダーを取得する</string>
 
-
+  <string name="welcome_contain_ad">広告を含む場合があります。</string>
 
 
 </resources>

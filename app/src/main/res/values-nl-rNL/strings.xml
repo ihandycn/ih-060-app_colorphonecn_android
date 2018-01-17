@@ -65,4 +65,6 @@
   <string name="settings_notification_settings">Notification Settings</string>
   <string name="settings_notification_boost">Boost Notification</string>
   <string name="settings_notification_boost_sub">Get reminders when memory usage is high</string>
+
+  <string name="welcome_contain_ad">Mag advertenties bevatten</string>
 </resources>

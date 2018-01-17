@@ -63,4 +63,6 @@
   <string name="settings_notification_boost">แจ้งเตือนการเร่ง</string>
   <string name="settings_notification_boost_sub">รับการแจ้งเตือนเมื่อใช้หน่วยความจำสูง</string>
 
+  <string name="welcome_contain_ad">อาจมีโฆษณา</string>
+
 </resources>

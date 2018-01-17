@@ -62,4 +62,6 @@
   <string name="settings_notification_settings">通知消息設置</string>
   <string name="settings_notification_boost">手機加速提醒</string>
   <string name="settings_notification_boost_sub">手機內存使用過高時提醒</string>
+
+  <string name="welcome_contain_ad">可能包含廣告</string>
 </resources>

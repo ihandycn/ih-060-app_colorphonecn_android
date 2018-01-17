@@ -64,4 +64,6 @@
   <string name="settings_notification_settings">Einstellungen für Benachrichtigungen</string>
   <string name="settings_notification_boost">Boost-Benachrichtigung</string>
   <string name="settings_notification_boost_sub">Erinnern, wenn Speichernutzung hoch ist</string>
+
+  <string name="welcome_contain_ad">Kann Werbung enthalten.</string>
 </resources>

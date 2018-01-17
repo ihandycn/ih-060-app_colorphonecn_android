@@ -63,4 +63,6 @@
   <string name="settings_notification_boost">Thông báo Tăng cường</string>
   <string name="settings_notification_boost_sub">Nhận nhắc nhở khi mức sử dụng bộ nhớ cao</string>
 
+  <string name="welcome_contain_ad">Có thể chứa quảng cáo.</string>
+
 </resources>

@@ -57,6 +57,14 @@
                         android:text="@string/settings_notification_boost_sub"
                         android:textColor="@color/subtitle_color"
                         android:textSize="13sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/welcome_contain_ad"
+                        android:textColor="@color/subtitle_color"
+                        android:textSize="13sp"/>
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat

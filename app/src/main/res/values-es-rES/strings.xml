@@ -64,4 +64,6 @@
   <string name="settings_notification_settings">Ajustes de notificaciones</string>
   <string name="settings_notification_boost">Aviso de aceleración</string>
   <string name="settings_notification_boost_sub">Avisa cuando el consumo de memoria es elevado</string>
+
+  <string name="welcome_contain_ad">Puede contener publicidad.</string>
 </resources>

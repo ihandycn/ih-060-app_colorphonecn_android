@@ -65,4 +65,5 @@
   <string name="settings_notification_boost">Notif. de aceleração</string>
   <string name="settings_notification_boost_sub">Receba lembretes sobre o uso de muita memória</string>
 
+  <string name="welcome_contain_ad">Pode conter anúncios.</string>
 </resources>
