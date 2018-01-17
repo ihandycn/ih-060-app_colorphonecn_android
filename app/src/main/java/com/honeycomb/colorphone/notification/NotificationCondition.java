@@ -117,8 +117,8 @@ public class NotificationCondition implements INotificationObserver {
 //    private static int BATTERY_APPS = HSConfig.optInteger(3, "Application", "NotificationSystem", "BatteryApp");
 //    private static int JUNK_CLEAN_NOTIFICATION_SIZE = HSConfig.optInteger(80, "Application", "NotificationSystem", "JunkAlarm") * 1024 * 1024;
 //    private static int BOOST_RAM = HSConfig.optInteger(60, "Application", "NotificationSystem", "BoostAlarmA");
-    private static int BOOST_RAM = 60; //HSConfig.optInteger(60, "Application", "NotificationSystem", "BoostAlarmA");
-    private static int BOOST_APPS = HSConfig.optInteger(3, "Application", "NotificationSystem", "BoostAalarmB");
+    private static int BOOST_RAM = HSConfig.optInteger(60, "Application", "NotificationSystem", "BoostAlarmA");
+    private static int BOOST_APPS = HSConfig.optInteger(3, "Application", "NotificationSystem", "BoostAlarmB");
 
     private Context context;
     private static NotificationCondition sInstance;
@@ -129,6 +129,7 @@ public class NotificationCondition implements INotificationObserver {
     private NotificationHolder lastHolder;
 //    private boolean isUnlock = false;
     private static long lastSendFeatureNotificationTime = 0;
+    private List<String> runningAppsPNs = new ArrayList<>();
 
     @SuppressLint("HandlerLeak") // NotificationCondition instance has process-wide life cycle, leak is not a concern here
     private Handler mHandler = new Handler() {
@@ -156,6 +157,10 @@ public class NotificationCondition implements INotificationObserver {
             init();
         }
         return sInstance;
+    }
+
+    public List<String> getRunningAppsPackageNames() {
+        return runningAppsPNs;
     }
 
     /* Public visibility for test */
@@ -238,8 +243,10 @@ public class NotificationCondition implements INotificationObserver {
         DeviceUtils.getRunningPackageListFromMemory(false, new DeviceUtils.RunningAppsListener() {
             @Override
             public void onScanFinished(List<String> list, long l) {
+                runningAppsPNs.clear();
                 HSLog.d(TAG, "onScanFinished appSize == " + list.size());
                 runningApps = list.size();
+                runningAppsPNs.addAll(list);
                 if (mHandler.hasMessages(EVENT_CHECK_NEXT_NOTIFICATION)) {
                     if (checkState == NOTIFICATION_TYPE_BOOST_PLUS) {
                         mHandler.removeMessages(EVENT_CHECK_NEXT_NOTIFICATION);

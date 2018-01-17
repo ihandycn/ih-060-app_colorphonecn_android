@@ -63,6 +63,7 @@ public class ResultPagePresenter implements ResultPageContracts.Presenter {
         if (mWillShowInterstitialAd) {
             HSLog.i("Boost", "show Interstitial");
             BoostAutoPilotUtils.logBoostPushAdShow();
+            showDefaultView();
         } else if (mType == ResultController.Type.AD) {
             HSLog.i("Boost", "show AD");
             BoostAutoPilotUtils.logBoostPushAdShow();
@@ -81,19 +82,21 @@ public class ResultPagePresenter implements ResultPageContracts.Presenter {
         mInterstitialAd = interstitialAds.isEmpty() ? null : interstitialAds.get(0);
         LauncherAnalytics.logEvent("InterstitialAdAnalysis", "ad_show_from", "ResultPage+" + (mInterstitialAd != null));
         LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App",  AdPlacements.AD_RESULT_PAGE_INTERSTITIAL, String.valueOf(mInterstitialAd != null));
-
+        HSLog.d(TAG, "result page InterAD: " + mInterstitialAd);
         String adCombination;
         if (mInterstitialAd != null) {
 //            mType = ResultController.Type.CARD_VIEW;
             mType = ResultController.Type.DEFAULT_VIEW;
             mWillShowInterstitialAd = true;
 
-            List<AcbNativeAd> ads = AcbNativeAdLoader.fetch(HSApplication.getContext(), AdPlacements.AD_RESULT_PAGE, 1);
-            mNativeAd = ads.isEmpty() ? null : ads.get(0);
-            LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App",  AdPlacements.AD_RESULT_PAGE, String.valueOf(mNativeAd != null));
+            HSLog.d(TAG, "result page InterAD type is " + mInterstitialAd.getVendorConfig().name());
+//            List<AcbNativeAd> ads = AcbNativeAdLoader.fetch(HSApplication.getContext(), AdPlacements.AD_RESULT_PAGE, 1);
+//            mNativeAd = ads.isEmpty() ? null : ads.get(0);
+//            LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App",  AdPlacements.AD_RESULT_PAGE, String.valueOf(mNativeAd != null));
         } else {
             List<AcbNativeAd> ads = AcbNativeAdLoader.fetch(HSApplication.getContext(), AdPlacements.AD_RESULT_PAGE, 1);
             mNativeAd = ads.isEmpty() ? null : ads.get(0);
+            HSLog.d(TAG, "result page mNativeAd: " + mNativeAd);
             LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App",  AdPlacements.AD_RESULT_PAGE, String.valueOf(mNativeAd != null));
             if (mNativeAd != null) {
                 mType = ResultController.Type.AD;

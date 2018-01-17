@@ -39,6 +39,7 @@ import com.colorphone.lock.util.ViewStyleUtils;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -114,7 +115,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
     private RelativeLayout mExitingRl;
     LinearLayout mBoostingTextLl;
     View mContainerV;
-    private View mStopDialogV;
+//    private View mStopDialogV;
 
     ImageView mCircleInIV;
     ImageView mCircleMiddleIv;
@@ -195,8 +196,6 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
         if (dialog != null) {
             FloatWindowManager.getInstance().removeDialog(dialog);
         }
-
-
     }
 
     public BoostPlusCleanDialog(Context context, int type) {
@@ -205,9 +204,6 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
         mType = initCleanType(type);
 
 //        mSelectedAppList = new ArrayList<>();
-
-        // todo
-//        mSelectedAppList = BoostPlusData.getInstance().getRunningApps();
 
         mScreenHeight = CommonUtils.getPhoneHeight(context);
 
@@ -233,8 +229,6 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
 
         mExitingRl = ViewUtils.findViewById(mContentView, R.id.exiting_rl);
         mExitingProgressWheel = ViewUtils.findViewById(mContentView, R.id.exiting_progress_wheel);
-
-        initStopDialog();
 
         mIconOneV = ViewUtils.findViewById(mContentView, R.id.boost_icon_1_iv);
         mIconTwoV = ViewUtils.findViewById(mContentView, R.id.boost_icon_2_iv);
@@ -291,11 +285,19 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
             int afterPercentage = RamUsageDisplayUpdater.getInstance().startBoost();
             long cachedAppSize = DeviceManager.getInstance().getTotalRam() * (beforePercentage - afterPercentage) / 100;
             AdUtils.preloadResultPageAds();
-            int cachedAppCount = (new Random()).nextInt(4) + 1;
-
-            mSelectedAppList = new ArrayList<>();
-            for (int i = 0; i < cachedAppCount; i++) {
-                mSelectedAppList.add(new HSAppMemory("memory_app_" + i, cachedAppSize / cachedAppCount));
+            List<String> runningApps = NotificationCondition.getsInstance().getRunningAppsPackageNames();
+            if (runningApps != null && runningApps.size() > 0) {
+                int cachedAppCount = runningApps.size();
+                mSelectedAppList = new ArrayList<>();
+                for (int i = 0; i < cachedAppCount; i++) {
+                    mSelectedAppList.add(new HSAppMemory(runningApps.get(i), cachedAppSize / cachedAppCount));
+                }
+            } else {
+                int cachedAppCount = (new Random()).nextInt(4) + 1;
+                mSelectedAppList = new ArrayList<>();
+                for (int i = 0; i < cachedAppCount; i++) {
+                    mSelectedAppList.add(new HSAppMemory("memory_app_" + i, cachedAppSize / cachedAppCount));
+                }
             }
         } else {
 //            LauncherAnalytics.logEvent("BoostPlus_Animation_Start", "Type", "Root Open");
@@ -407,7 +409,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
         });
     }
 
-    private void initStopDialog() {
+//    private void initStopDialog() {
 //        mStopDialogV = ViewUtils.findViewById(mContentView, R.id.stop_dialog_view);
 //        // Stop Dialog title content
 //        TextView stopDialogTitleTv = (TextView) findViewById(R.id.custom_alert_title);
@@ -436,7 +438,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
 //                }
 //            }
 //        });
-    }
+//    }
 
     private void showExitingDialog() {
         mIsBackDisabled = true;
@@ -498,25 +500,25 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
         mExitingProgressWheel.stopSpinning();
     }
 
-    public void showStopDialog() {
-        if (null != mStopDialogV) {
-            mStopDialogV.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private boolean isStopDialogShowing() {
-        boolean isShowing = false;
-        if (null != mStopDialogV) {
-            isShowing = (mStopDialogV.getVisibility() == View.VISIBLE);
-        }
-        return isShowing;
-    }
-
-    private void dismissStopDialog() {
-        if (null != mStopDialogV) {
-            mStopDialogV.setVisibility(View.GONE);
-        }
-    }
+//    public void showStopDialog() {
+//        if (null != mStopDialogV) {
+//            mStopDialogV.setVisibility(View.VISIBLE);
+//        }
+//    }
+//
+//    private boolean isStopDialogShowing() {
+//        boolean isShowing = false;
+//        if (null != mStopDialogV) {
+//            isShowing = (mStopDialogV.getVisibility() == View.VISIBLE);
+//        }
+//        return isShowing;
+//    }
+//
+//    private void dismissStopDialog() {
+//        if (null != mStopDialogV) {
+//            mStopDialogV.setVisibility(View.GONE);
+//        }
+//    }
 
     private int getSelectedSize() {
         return null == mSelectedAppList ? 0 : mSelectedAppList.size();
@@ -538,6 +540,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
     }
 
     public void dismissDialog(long actualDismissDelay) {
+        HSLog.d(TAG, "dismissDialog  mType == " + mType);
         if (mType == CLEAN_TYPE_TOOLBAR || mType == CLEAN_TYPE_CLEAN_CENTER) {
             FloatWindowManager.getInstance().removeDialog(this);
             onDialogDismiss();
@@ -652,21 +655,24 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
     }
 
     void startResultAnimation() {
-        if (isStopDialogShowing()) {
-            dismissStopDialog();
-        }
+        HSLog.d(TAG, "startResultAnimation");
+//        if (isStopDialogShowing()) {
+//            dismissStopDialog();
+//        }
         startMemoryUsedDisappearAnimation();
         stopDotsAnimation();
 
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                HSLog.d(TAG, "startResultAnimation  attached == " + ResultPageActivity.isAttached());
                 if (ResultPageActivity.isAttached()) {
                     dismissDialog();
                 } else {
                     HSGlobalNotificationCenter.addObserver(ResultPageActivity.NOTIFICATION_RESULT_PAGE_ATTACHED, new INotificationObserver() {
                         @Override
                         public void onReceive(String s, HSBundle hsBundle) {
+                            HSLog.d(TAG, "onReceive s == " + s);
                             HSGlobalNotificationCenter.removeObserver(this);
                             dismissDialog(); // Delay 500 ms
                         }
@@ -1158,6 +1164,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
 //                } else {
 //                    ResultPageActivity.startForBoostPlus((Activity) getContext(), getAppTotalSizeMbs(), true);
 //                }
+                HSLog.d(TAG, "startResultPageActivity ");
                 ResultPageActivity.startForBoost(getContext(), getAppTotalSizeMbs(), true);
             }
         }, 450L);

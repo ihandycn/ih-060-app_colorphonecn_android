@@ -161,6 +161,7 @@ public class ResultPageActivity extends HSAppCompatActivity
         ConcurrentUtils.postOnMainThread(new Runnable() {
             @Override public void run() {
                 if (Globals.sAttached) {
+                    HSLog.d(TAG, "onAttachedToWindow sendNotification");
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_RESULT_PAGE_ATTACHED);
                 }
             }

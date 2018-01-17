@@ -73,11 +73,14 @@ public class FloatWindowManager {
     }
 
     public void removeDialog(FloatWindowDialog dialog) {
+        HSLog.d("BoostPlusCleanDialog", "removeDialog == " + dialog);
         if (dialog != null) {
             try {
                 dialog.setSystemUiVisibility(0);
                 getWindowManager().removeView(dialog);
+                HSLog.d("BoostPlusCleanDialog", "removeDialog success");
             } catch (Exception ignored) {
+                HSLog.d("BoostPlusCleanDialog", "removeDialog Exception");
             }
             mDialogs.remove(dialog.getClass());
         }
