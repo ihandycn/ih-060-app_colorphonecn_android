@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/page_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bar_activities_content_bg">
+
+    <View
+        android:id="@+id/bg_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Do not change container_view id -->
+    <RelativeLayout
+        android:id="@+id/container_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/action_bar"
+            layout="@layout/white_toolbar" />
+
+        <FrameLayout
+            android:id="@+id/transition_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false" />
+
+        <RelativeLayout
+            android:id="@+id/result_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/action_bar"
+            android:visibility="invisible">
+
+            <View
+                android:id="@+id/result_header_tag_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/result_page_header_height" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/result_card_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/result_header_tag_view"
+                android:layout_marginLeft="@dimen/result_page_card_margin"
+                android:layout_marginRight="@dimen/result_page_card_margin"
+                android:theme="@style/Theme.CustomOverScroll" />
+
+            <!-- Container for AD / charging screen / default view only -->
+            <FrameLayout
+                android:id="@+id/ad_or_function_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

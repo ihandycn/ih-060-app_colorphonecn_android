@@ -343,7 +343,7 @@ public class ColorPhoneApplication extends HSApplication {
         LockerCustomConfig.get().setLauncherIcon(R.mipmap.ic_launcher);
         LockerCustomConfig.get().setSPFileName("colorPhone_locker");
         LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);
-        LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHAEGING_SCREEN);
+        LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHARGING_SCREEN);
         LockerCustomConfig.get().setEventDelegate(new LockerEvent());
         LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
         FloatWindowCompat.initLockScreen(this);
@@ -388,7 +388,7 @@ public class ColorPhoneApplication extends HSApplication {
         });
 
         Module charging = new Module();
-        charging.setAdName(AdPlacements.AD_CHAEGING_SCREEN);
+        charging.setAdName(AdPlacements.AD_CHARGING_SCREEN);
         charging.setAdType(Module.AD_EXPRESS);
         charging.setNotifyKey(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE);
         charging.setChecker(new Module.Checker() {

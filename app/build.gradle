@@ -126,6 +126,8 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
     // ==== ihandy ====
+    compile(name: 'libBoost/libBoost', ext: 'aar')
+    compile'com.ihandy.device:device-clean-memory.gm:4.4.1.gm'
 
     // Submodule
     compile(name: 'libColorhone/libColorPhone', ext: 'aar')

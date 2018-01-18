@@ -73,9 +73,9 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             }
         });
 
-        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
-
-        tvTitle.setText(titleNew() ? R.string.guide_first_page_title : R.string.guide_first_page_title_old);
+//        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
+//
+//        tvTitle.setText(titleNew() ? R.string.guide_first_page_title : R.string.guide_first_page_title_old);
     }
 
     private boolean titleNew() {

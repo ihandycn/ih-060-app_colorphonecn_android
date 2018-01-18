@@ -419,8 +419,31 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         } else {
             mAdapter.setHeaderTipVisible(false);
         }
-
     }
+
+//    private void doNotificationAccessToastAnim() {
+//        notificationToast = findViewById(R.id.notification_access_toast);
+//        notificationToast.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (BuildConfig.DEBUG) {
+//                    BoostPlusCleanDialog.showBoostPlusCleanDialog(ColorPhoneActivity.this, BoostPlusCleanDialog.CLEAN_TYPE_CLEAN_CENTER);
+//                } else {
+//                    PermissionUtils.requestNotificationPermission(ColorPhoneActivity.this, true, new Handler(), "settings");
+//                    LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "settings");
+//                    NotificationAutoPilotUtils.logSettingsAlertShow();
+//                    LauncherAnalytics.logEvent("Colorphone_Settings_NotificationTips_Clicked");
+//                }
+//            }
+//        });
+//        notificationToast.setVisibility(View.VISIBLE);
+//        ViewGroup about = findViewById(R.id.settings_about);
+//        float translationY = Utils.pxFromDp(40) + about.getY() + about.getHeight() + Utils.getNavigationBarHeight(this) - Utils.getPhoneHeight(this);
+//        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(notificationToast, "translationY", 0,
+//                translationY);
+//        objectAnimator.setDuration(400);
+//        objectAnimator.start();
+//    }
 
     @Override
     public void onClick(View v) {

@@ -175,6 +175,26 @@
             android:taskAffinity=".share"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <activity
+            android:name=".boost.BoostActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:screenOrientation="nosensor"
+            android:taskAffinity=".boost"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
+        <activity
+            android:name=".resultpage.ResultPageActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:screenOrientation="nosensor"
+            android:taskAffinity=".boost"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
         <!-- permanent -->
         <service
             android:name=".PermanentService"
