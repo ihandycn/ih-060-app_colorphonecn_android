@@ -14,7 +14,6 @@ import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConfigUtils;
 import com.colorphone.lock.util.PreferenceHelper;
-import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
 
@@ -82,7 +81,6 @@ public class ModuleUtils {
         CPSettings.setCallAssistantModuleEnabled(true);
         LockerSettings.setLockerEnabled(true);
         SmartChargingSettings.setModuleEnabled(true);
-        NotificationSettingsActivity.setNotificationBoostOn(true);
     }
 
     public static boolean isShareAlertInsideAppShow() {

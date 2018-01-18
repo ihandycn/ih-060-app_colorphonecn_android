@@ -263,66 +263,6 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/setting_item_notification"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="60dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:background="@drawable/material_compat_bg"
-                android:clickable="true">
-
-                <!--<ImageView-->
-                <!--android:id="@+id/reminder_display_settings_icon"-->
-                <!--android:layout_width="30dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginStart="20dp"-->
-                <!--android:scaleType="center"-->
-                <!--/>-->
-
-                <!--<android.support.v7.widget.SwitchCompat-->
-                    <!--android:id="@+id/setting_item_sms_assistant_toggle"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentEnd="true"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:layout_marginStart="10dp"-->
-                    <!--android:clickable="true" />-->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <com.honeycomb.colorphone.view.TypefacedTextView
-                        style="@style/NormalText.Settings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_notification_settings"
-                        />
-
-                    <com.honeycomb.colorphone.view.TypefacedTextView
-                        style="@style/NormalText.SettingsHint"
-                        android:layout_marginTop="2dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:visibility="gone"
-                        />
-                </LinearLayout>
-            </RelativeLayout>
-
             <TextView
                 android:id="@+id/test_entrance"
                 android:layout_width="match_parent"

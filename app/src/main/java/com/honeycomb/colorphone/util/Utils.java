@@ -21,7 +21,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
-import android.app.Notification;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +28,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -45,12 +43,10 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -62,14 +58,13 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.colorphone.lock.ReflectionHelper;
 import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
-import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSMapUtils;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.File;
@@ -93,13 +88,10 @@ public final class Utils {
 
     public static final boolean ATLEAST_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     public static final boolean ATLEAST_JELLY_BEAN = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
-    public static final boolean ATLEAST_JB_MR1 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
-
     public static final int DEFAULT_DEVICE_SCREEN_WIDTH = 1080;
     public static final int DEFAULT_DEVICE_SCREEN_HEIGHT = 1920;
     private static final Pattern sTrimPattern = Pattern.compile("^[\\s|\\p{javaSpaceChar}]*(.*)[\\s|\\p{javaSpaceChar}]*$");
     private static final float THUMBNAIL_RATIO = 0.4f;
-    private static final long USE_DND_DURATION = 2 * DateUtils.HOUR_IN_MILLIS; // 2 hour don not disturb
 
     private static float sDensityRatio;
 
@@ -313,21 +305,6 @@ public final class Utils {
         }
         bool = false;
         return bool;
-    }
-
-    /**
-     * @return Status bar (top bar) height. Note that this height remains fixed even when status bar is hidden.
-     */
-    public static int getStatusBarHeight(Context context) {
-        if (null == context) {
-            return 0;
-        }
-        int height = 0;
-        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            height = context.getResources().getDimensionPixelSize(resourceId);
-        }
-        return height;
     }
 
     public static Drawable getAppIcon(String packageName) {
@@ -775,7 +752,7 @@ public final class Utils {
 
     public static boolean isAnyLockerAppInstalled() {
 
-        List<?> lockers = HSConfig.getList("Application", "Promote", "LockerList");
+        List<?> lockers = HSConfig.getList("Application", "Promote", "PromoteAppConflictList");
         for (Object item : lockers) {
             try {
                 HSApplication.getContext().getPackageManager().getPackageInfo((String)item, 0);
@@ -786,60 +763,5 @@ public final class Utils {
         }
         return false;
 
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public static boolean isRtl() {
-        Resources res = HSApplication.getContext().getResources();
-        return ATLEAST_JB_MR1 && (res.getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL);
-    }
-
-    /**
-     * Sets up transparent status bars in LMP.
-     * This method is a no-op for other platform versions.
-     */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static void setupTransparentStatusBarsForLmp(Activity activityContext) {
-        if (CommonUtils.ATLEAST_LOLLIPOP) {
-            Window window = activityContext.getWindow();
-            window.getAttributes().systemUiVisibility |= (View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
-    }
-
-    @SuppressWarnings("TryWithIdenticalCatches")
-    public static boolean isKeyguardLocked(Context context, boolean defaultValue) {
-        KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-        try {
-            Method declaredMethod = ReflectionHelper.getDeclaredMethod(KeyguardManager.class, "isKeyguardLocked");
-            declaredMethod.setAccessible(true);
-            defaultValue = (Boolean) declaredMethod.invoke(keyguardManager);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e2) {
-            e2.printStackTrace();
-        } catch (IllegalAccessException e3) {
-            e3.printStackTrace();
-        }
-        return defaultValue;
-    }
-
-    /**
-     * Whether we are in new user "Do Not Disturb" status.
-     */
-    public static boolean isNewUserInDNDStatus() {
-        long currentTimeMills = System.currentTimeMillis();
-        return currentTimeMills - HSSessionMgr.getFirstSessionStartTime() < USE_DND_DURATION;
-    }
-
-    public static Notification buildNotificationSafely(NotificationCompat.Builder builder) {
-        try {
-            return builder.build();
-        } catch (Exception e) {
-            HSLog.e(TAG, "Error building notification: " + builder + ", exception: " + e);
-            return null;
-        }
     }
 }

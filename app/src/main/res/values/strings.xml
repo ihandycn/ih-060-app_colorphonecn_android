@@ -31,9 +31,9 @@
     <string name="terms_of_service">Terms of service</string>
 
 
-    <string name="guide_locker_and_call_hint">Enable Screensaver, Smart Charging &amp; Phone Assistant to: \nRemind your missed calls.
-        Boost easily and access camera quickly.</string>
+    <string name="guide_first_page_title_old">Enable Call Assistant &amp; Smart Charging to:\n Remind you about missed calls\n Provide detailed charging status.</string>
     <string name="guide_enable_all_module">Enable Phone Assistant, Smart Charging &amp; Screensaver</string>
+    <string name="guide_first_page_title">Please enable the features and permissions:\n Remind you about missed calls\n Provide detailed charging status.</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Try the unique call interface to make your phone more fashionable. It may contain ads.</string>
     <string name="about">About</string>
@@ -79,44 +79,4 @@
     <string name="promote_apply_success" translatable="false">APPLY SUCCESS!</string>
     <string name="promote_apply_subtitle" translatable="false">Begin to enjoy color phone</string>
 
-    <!-- Boost+ -->
-    <string name="boost_plus_memory_used">Memory Used</string>
-    <string name="boost_plus_optimal">OPTIMAL</string>
-    <string name="boost_plus_freeable">Memory to Clean</string>
-    <string name="optimalpage_boostplus">Perfect</string>
-    <string name="optimalpage_boostplus_desc">Your phone is as fast as a rocket!</string>
-    <string name="optimalpage_junkclean_desc">Your phone is clean as new!</string>
-
-
-    <!-- Suffix added to a number to signify size in bytes. -->
-    <string name="byte_abbr" translatable="false">B</string>
-    <!-- Suffix added to a number to signify size in kilobytes. -->
-    <string name="kilobyte_abbr" translatable="false">KB</string>
-    <!-- Suffix added to a number to signify size in megabytes. -->
-    <string name="megabyte_abbr" translatable="false">MB</string>
-    <!-- Suffix added to a number to signify size in gigabytes. -->
-    <string name="gigabyte_abbr" translatable="false">GB</string>
-    <!-- Suffix added to a number to signify size in terabytes. -->
-    <string name="terabyte_abbr" translatable="false">TB</string>
-    <!-- Suffix added to a number to signify size in petabytes. -->
-    <string name="petabyte_abbr" translatable="false">PB</string>
-
-    <string name="boost_plus_free_up">Freed Up</string>
-    <string name="boost_plus_exiting">Exiting</string>
-
-    <string name="boost_tip_optimal">Your phone is optimal now!</string>
-    <string name="boost_title">Boost</string>
-    <string name="boost_notification_low_ram_btn">BOOST</string>
-
-    <string name="notification_boost_plus_title_ram">%1$s%% Memory Used!</string>
-    <string name="notification_boost_plus_title">%1$s Apps Slowing Down Phone!</string>
-    <string name="notification_boost_plus_description_bold_word">Boost+</string>
-    <!--please make sure translation of the word above be same with word in sentence below.-->
-    <string name="notification_boost_plus_description">Use Boost+ to boost your phone!</string>
-
-    <string name="settings_notification_settings">Notification Settings</string>
-    <string name="settings_notification_boost">Boost Notification</string>
-    <string name="settings_notification_boost_sub">Get reminders when memory usage is high</string>
-
-    <string name="welcome_contain_ad">May Contain ads</string>
 </resources>

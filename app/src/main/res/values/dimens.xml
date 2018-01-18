@@ -25,6 +25,4 @@
     <dimen name="guide_txt_margin_vertical">16dp</dimen>
     <dimen name="guide_txt_btn_vertical">10dp</dimen>
 
-    <dimen name="settings_row_height">77dp</dimen>
-
 </resources>

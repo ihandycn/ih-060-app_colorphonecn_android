@@ -51,17 +51,4 @@
   <string name="delete">XÓA</string>
   <string name="select_contacts">Chọn Liên hệ</string>
 
-  <string name="boost_plus_free_up">Đã giải phóng</string>
-  <string name="boost_plus_exiting">Đang thoát</string>
-
-  <string name="boost_tip_optimal">Điện thoại của bạn đang ở trạng thái tối ưu!</string>
-  <string name="boost_notification_low_ram_btn">TĂNG CƯỜNG</string>
-  <string name="boost_title">Tăng cường</string>
-
-  <string name="settings_notification_settings">Cài đặt Thông báo</string>
-  <string name="settings_notification_boost">Thông báo Tăng cường</string>
-  <string name="settings_notification_boost_sub">Nhận nhắc nhở khi mức sử dụng bộ nhớ cao</string>
-
-  <string name="welcome_contain_ad">Có thể chứa quảng cáo.</string>
-
 </resources>
