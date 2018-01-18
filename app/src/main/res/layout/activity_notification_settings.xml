@@ -76,7 +76,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:clickable="true"
+                    android:clickable="false"
                     app:showText="false" />
             </RelativeLayout>
 

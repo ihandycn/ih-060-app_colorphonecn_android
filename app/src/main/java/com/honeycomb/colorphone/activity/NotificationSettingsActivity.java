@@ -76,8 +76,8 @@ public class NotificationSettingsActivity extends HSAppCompatActivity implements
     @Override public void onClick(View v) {
         switch (v.getId()) {
             case R.id.boost_switch:
-                boolean status = !PreferenceHelper.get(Constants.NOTIFICATION_PREFS).getBoolean(PREF_KEY_NOTIFICATION_SETTINGS_BOOST, true);
-                PreferenceHelper.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_NOTIFICATION_SETTINGS_BOOST, status);
+                boolean status = !isNotificationBoostOn();
+                setNotificationBoostOn(status);
                 boostSwitch.setChecked(status);
                 if (!status) {
                     LauncherAnalytics.logEvent("Settings_NotificationSettings_Closed", "Type", "Boost");
@@ -127,7 +127,7 @@ public class NotificationSettingsActivity extends HSAppCompatActivity implements
     }
 
     private void refresh() {
-        boostSwitch.setChecked(PreferenceHelper.get(Constants.NOTIFICATION_PREFS).getBoolean(PREF_KEY_NOTIFICATION_SETTINGS_BOOST, true));
+        boostSwitch.setChecked(isNotificationBoostOn());
 //        cleanSwitch.setChecked(PreferenceHelper.get(SecurityFiles.NOTIFICATION_PREFS).getBoolean(PREF_KEY_NOTIFICATION_SETTINGS_CLEAN, true));
 //        cpuSwitch.setChecked(PreferenceHelper.get(SecurityFiles.NOTIFICATION_PREFS).getBoolean(PREF_KEY_NOTIFICATION_SETTINGS_CPU, true));
 //        batterySwitch.setChecked(PreferenceHelper.get(SecurityFiles.NOTIFICATION_PREFS).getBoolean(PREF_KEY_NOTIFICATION_SETTINGS_BATTERY, true));
