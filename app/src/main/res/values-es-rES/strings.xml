@@ -52,4 +52,17 @@
   <string name="delete">ELIMINAR</string>
 
   <string name="select_contacts">Seleccionar contactos</string>
+
+  <string name="boost_plus_free_up">liberados</string>
+  <string name="boost_plus_exiting">Cerrando</string>
+
+  <string name="boost_tip_optimal">¡Tu teléfono ya está optimizado!</string>
+  <string name="boost_notification_low_ram_btn">Acelerar</string>
+  <string name="boost_title">Acelerar</string>
+
+  <string name="settings_notification_settings">Ajustes de notificaciones</string>
+  <string name="settings_notification_boost">Aviso de aceleración</string>
+  <string name="settings_notification_boost_sub">Avisa cuando el consumo de memoria es elevado</string>
+
+  <string name="welcome_contain_ad">Puede contener publicidad.</string>
 </resources>

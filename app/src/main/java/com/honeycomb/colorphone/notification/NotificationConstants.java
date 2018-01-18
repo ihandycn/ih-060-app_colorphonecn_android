@@ -24,5 +24,7 @@ public class NotificationConstants {
     public static final String THEME_NOTIFICATION_SESSION_ID = "THEME_NOTIFICATION_SESSION_ID";
     public static final String THEME_NOTIFICATION_IS_MP4_DOWNLOADED = "THEME_NOTIFICATION_IS_MP4_DOWNLOADED";
 
+    static final String ACTION_BOOST_PLUS = "action_boost_plus";
+
     public static final int THEME_NOTIFICATION_ID = 10;
 }

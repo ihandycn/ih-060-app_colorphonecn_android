@@ -34,12 +34,14 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
+import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
+import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
@@ -62,6 +64,7 @@ import com.ihs.libcharging.HSChargingManager;
 import com.liulishuo.filedownloader.FileDownloader;
 
 import net.appcloudbox.ads.expressads.AcbExpressAdManager;
+import net.appcloudbox.ads.interstitialads.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativeads.AcbNativeAdManager;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
 
@@ -156,6 +159,12 @@ public class ColorPhoneApplication extends HSApplication {
             AcbCallManager.getInstance().setImageLoader(new ThemeImageLoader());
             AcbCallManager.getInstance().logTest = true;
             ContactManager.init();
+
+            SystemAppsManager.getInstance().init();
+            NotificationCondition.init();
+
+            AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
+            AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
 
             HSPermanentUtils.keepAlive();
             if (BuildConfig.DEBUG) {
