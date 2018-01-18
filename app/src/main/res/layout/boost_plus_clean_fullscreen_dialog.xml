@@ -17,10 +17,10 @@
         android:clipChildren="false">
 
         <!-- 1.1 Toolbar on top -->
-        <include
-            android:id="@+id/action_bar"
-            layout="@layout/white_toolbar"
-            android:visibility="gone" />
+        <!--<include-->
+            <!--android:id="@+id/action_bar"-->
+            <!--layout="@layout/white_toolbar"-->
+            <!--android:visibility="gone" />-->
 
         <LinearLayout
             android:id="@+id/action_bar_alias"
@@ -33,7 +33,7 @@
 
             <ImageView
                 android:id="@+id/iv_back_alias"
-                android:layout_width="56dp"
+                android:layout_width="48dp"
                 android:layout_height="56dp"
                 android:scaleType="center"
                 android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha" />
