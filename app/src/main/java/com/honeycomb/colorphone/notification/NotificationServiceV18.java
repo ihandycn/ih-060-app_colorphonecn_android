@@ -35,10 +35,6 @@ public class NotificationServiceV18 extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification statusBarNotification) {
         NotificationServiceListenerManager.getInstance().onNotificationPosted(statusBarNotification);
-
-        if (NotificationConfig.isTestLogEnabled()) {
-            LauncherAnalytics.logEvent("Notification_Test", "from", statusBarNotification.getPackageName());
-        }
         HSLog.e(TAG, "New notification: " + statusBarNotification);
     }
 
