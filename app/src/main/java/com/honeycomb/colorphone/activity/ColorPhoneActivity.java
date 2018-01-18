@@ -100,6 +100,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         }
     };
+
+    private Runnable mainViewRunnable = new Runnable() {
+        @Override
+        public void run() {
+            ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
+        }
+    };
+
     private boolean logOpenEvent;
     private boolean pendingShowRateAlert = true;
 
@@ -247,12 +255,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         if (logOpenEvent) {
             logOpenEvent = false;
-            mainSwitch.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
-                }
-            }, 1000);
+            mHandler.postDelayed(mainViewRunnable, 1000);
         }
     }
 
@@ -266,6 +269,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
         }
         mRecyclerView.getRecycledViewPool().clear();
+        mHandler.removeCallbacks(mainViewRunnable);
     }
 
     @Override
