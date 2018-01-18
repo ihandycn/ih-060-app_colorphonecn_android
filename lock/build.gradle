@@ -77,7 +77,7 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
 
-    compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
+    compile(name: 'libChargingReport/libChargingPerference-release', ext: 'aar')
     compile files('../libs/libFlashlight/libFlashlight.jar')
 
     compile 'com.android.support:appcompat-v7:26.0.1'
