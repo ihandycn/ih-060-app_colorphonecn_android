@@ -70,4 +70,8 @@ public class ConfigUtils {
 
     }
 
+    public static boolean isScreenAdEnabledThisVersion() {
+        // After version 16, we disable any screen ads for Google new policy.
+        return HSApplication.getFirstLaunchInfo().appVersionCode < 16;
+    }
 }
