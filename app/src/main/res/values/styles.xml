@@ -121,4 +121,12 @@
         <item name="layout_heightPercent">40%</item>
     </style>
 
+    <style name="SettingsDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.67dp</item>
+        <item name="android:background">@color/setting_line_color</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">16dp</item>
+    </style>
+
 </resources>

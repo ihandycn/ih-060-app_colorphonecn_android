@@ -52,9 +52,18 @@
   <string name="delete">削除</string>
   <string name="select_contacts">連絡先を選択</string>
 
+  <string name="boost_plus_free_up">空きスペース</string>
+  <string name="boost_plus_exiting">終了中</string>
 
+  <string name="boost_tip_optimal">お使いの電話は最適です！</string>
+  <string name="boost_notification_low_ram_btn">ブースト</string>
+  <string name="boost_title">ブースト</string>
 
+  <string name="settings_notification_settings">通知設定</string>
+  <string name="settings_notification_boost">ブースト通知</string>
+  <string name="settings_notification_boost_sub">メモリ使用量が多いときにリマインダーを取得する</string>
 
+  <string name="welcome_contain_ad">広告を含む場合があります。</string>
 
 
 </resources>

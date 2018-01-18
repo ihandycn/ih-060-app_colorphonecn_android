@@ -51,9 +51,18 @@
   <string name="delete">УДАЛИТЬ</string>
   <string name="select_contacts">Выбрать контакты</string>
 
+  <string name="boost_plus_free_up">освобождено</string>
+  <string name="boost_plus_exiting">Завершение работы</string>
 
+  <string name="boost_tip_optimal">Устройство уже оптимизировано!</string>
+  <string name="boost_notification_low_ram_btn">Ускорени</string>
+  <string name="boost_title">Ускорени</string>
 
+  <string name="settings_notification_settings">Параметры уведомлений</string>
+  <string name="settings_notification_boost">Уведомл. об ускорении</string>
+  <string name="settings_notification_boost_sub">Уведомление о чрезмерном использовании памяти</string>
 
+  <string name="welcome_contain_ad">Может содержать рекламу.</string>
 
 
 

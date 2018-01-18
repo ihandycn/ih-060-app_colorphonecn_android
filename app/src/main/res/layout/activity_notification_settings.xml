@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_primary"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/boost_switch"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/settings_row_height"
+                android:background="@drawable/setting_button_background"
+                android:clickable="true"
+                android:paddingLeft="16dp"
+                android:paddingStart="16dp"
+                android:paddingRight="16dp"
+                android:paddingEnd="16dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="69dp"
+                    android:layout_marginRight="69dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_notification_boost"
+                        android:textColor="@color/title_color"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/settings_notification_boost_sub"
+                        android:textColor="@color/subtitle_color"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/welcome_contain_ad"
+                        android:textColor="@color/subtitle_color"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/boost_switch_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:clickable="false"
+                    app:showText="false" />
+            </RelativeLayout>
+
+            <!--<View style="@style/SettingsDivider"/>-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/clean_switch"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/settings_row_height"-->
+                <!--android:background="@drawable/setting_button_background"-->
+                <!--android:clickable="true"-->
+                <!--android:paddingLeft="16dp"-->
+                <!--android:paddingStart="16dp">-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginEnd="69dp"-->
+                    <!--android:layout_marginRight="69dp"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/settings_notification_clean"-->
+                        <!--android:textColor="@color/title_color"-->
+                        <!--android:textSize="16sp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="2dp"-->
+                        <!--android:text="@string/settings_notification_clean_sub"-->
+                        <!--android:textColor="@color/subtitle_color"-->
+                        <!--android:textSize="13sp"/>-->
+
+                <!--</LinearLayout>-->
+
+                <!--<android.support.v7.widget.SwitchCompat-->
+                    <!--android:id="@+id/clean_switch_indicator"-->
+                    <!--style="@style/SettingsSwitchCompat"-->
+                    <!--android:theme="@style/SwitchCompatStyle"-->
+                    <!--app:showText="false"-->
+                    <!--app:track="@drawable/switch_track_selector"/>-->
+            <!--</RelativeLayout>-->
+
+            <!--<View style="@style/SettingsDivider"/>-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/cpu_switch"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/settings_row_height"-->
+                <!--android:background="@drawable/setting_button_background"-->
+                <!--android:clickable="true"-->
+                <!--android:paddingLeft="16dp"-->
+                <!--android:paddingStart="16dp">-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginEnd="69dp"-->
+                    <!--android:layout_marginRight="69dp"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/settings_notification_cpu"-->
+                        <!--android:textColor="@color/title_color"-->
+                        <!--android:textSize="16sp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="2dp"-->
+                        <!--android:text="@string/settings_notification_cpu_sub"-->
+                        <!--android:textColor="@color/subtitle_color"-->
+                        <!--android:textSize="13sp"/>-->
+
+                <!--</LinearLayout>-->
+
+                <!--<android.support.v7.widget.SwitchCompat-->
+                    <!--android:id="@+id/cpu_switch_indicator"-->
+                    <!--style="@style/SettingsSwitchCompat"-->
+                    <!--android:theme="@style/SwitchCompatStyle"-->
+                    <!--app:showText="false"-->
+                    <!--app:track="@drawable/switch_track_selector"/>-->
+            <!--</RelativeLayout>-->
+
+            <!--<View style="@style/SettingsDivider"/>-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/battery_switch"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/settings_row_height"-->
+                <!--android:background="@drawable/setting_button_background"-->
+                <!--android:clickable="true"-->
+                <!--android:paddingLeft="16dp"-->
+                <!--android:paddingStart="16dp">-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginEnd="69dp"-->
+                    <!--android:layout_marginRight="69dp"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/settings_notification_battery"-->
+                        <!--android:textColor="@color/title_color"-->
+                        <!--android:textSize="16sp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="2dp"-->
+                        <!--android:text="@string/settings_notification_battery_sub"-->
+                        <!--android:textColor="@color/subtitle_color"-->
+                        <!--android:textSize="13sp"/>-->
+
+                <!--</LinearLayout>-->
+
+                <!--<android.support.v7.widget.SwitchCompat-->
+                    <!--android:id="@+id/battery_switch_indicator"-->
+                    <!--style="@style/SettingsSwitchCompat"-->
+                    <!--android:theme="@style/SwitchCompatStyle"-->
+                    <!--app:showText="false"-->
+                    <!--app:track="@drawable/switch_track_selector"/>-->
+            <!--</RelativeLayout>-->
+
+            <!--<View style="@style/SettingsDivider"/>-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/virus_switch"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/settings_row_height"-->
+                <!--android:background="@drawable/setting_button_background"-->
+                <!--android:clickable="true"-->
+                <!--android:paddingLeft="16dp"-->
+                <!--android:paddingStart="16dp">-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginEnd="69dp"-->
+                    <!--android:layout_marginRight="69dp"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/settings_notification_virus"-->
+                        <!--android:textColor="@color/title_color"-->
+                        <!--android:textSize="16sp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="2dp"-->
+                        <!--android:text="@string/settings_notification_virus_sub"-->
+                        <!--android:textColor="@color/subtitle_color"-->
+                        <!--android:textSize="13sp"/>-->
+
+                <!--</LinearLayout>-->
+
+                <!--<android.support.v7.widget.SwitchCompat-->
+                    <!--android:id="@+id/virus_switch_indicator"-->
+                    <!--style="@style/SettingsSwitchCompat"-->
+                    <!--android:theme="@style/SwitchCompatStyle"-->
+                    <!--app:showText="false"-->
+                    <!--app:track="@drawable/switch_track_selector"/>-->
+            <!--</RelativeLayout>-->
+
+            <!--<View style="@style/SettingsDivider"/>-->
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/file_switch"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/settings_row_height"-->
+                <!--android:background="@drawable/setting_button_background"-->
+                <!--android:clickable="true"-->
+                <!--android:paddingLeft="16dp"-->
+                <!--android:paddingStart="16dp">-->
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginEnd="69dp"-->
+                    <!--android:layout_marginRight="69dp"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:orientation="vertical">-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/settings_notification_file"-->
+                        <!--android:textColor="@color/title_color"-->
+                        <!--android:textSize="16sp"/>-->
+
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="2dp"-->
+                        <!--android:text="@string/settings_notification_file_sub"-->
+                        <!--android:textColor="@color/subtitle_color"-->
+                        <!--android:textSize="13sp"/>-->
+
+                <!--</LinearLayout>-->
+
+                <!--<android.support.v7.widget.SwitchCompat-->
+                    <!--android:id="@+id/file_switch_indicator"-->
+                    <!--style="@style/SettingsSwitchCompat"-->
+                    <!--android:theme="@style/SwitchCompatStyle"-->
+                    <!--app:showText="false"-->
+                    <!--app:track="@drawable/switch_track_selector"/>-->
+            <!--</RelativeLayout>-->
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

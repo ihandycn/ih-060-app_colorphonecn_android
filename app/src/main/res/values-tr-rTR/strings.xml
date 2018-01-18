@@ -51,9 +51,18 @@
   <string name="delete">SİL</string>
   <string name="select_contacts">Kişileri Seç</string>
 
+  <string name="boost_plus_free_up">Boşaltıldı</string>
+  <string name="boost_plus_exiting">Çıkıyor</string>
 
+  <string name="boost_tip_optimal">Cihazınız zaten en iyi durumda!</string>
+  <string name="boost_notification_low_ram_btn">Yükselt</string>
+  <string name="boost_title">Yükselt</string>
 
+  <string name="settings_notification_settings">Bildirim Ayarları</string>
+  <string name="settings_notification_boost">Hızlandırma Bildirimi</string>
+  <string name="settings_notification_boost_sub">Bellek kullanımı yüksek olduğunda hatırlat</string>
 
+  <string name="welcome_contain_ad">reklam içerebilir.</string>
 
 
 
