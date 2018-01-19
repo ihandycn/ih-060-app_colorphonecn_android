@@ -81,7 +81,7 @@ public class NotificationCondition implements INotificationObserver {
     public static final String KEY_NOTIFICATION_TYPE = "key_notification_type";
 
     @SuppressWarnings("PointlessBooleanExpression")
-    private static final boolean DEBUG_BOOST_PLUS_NOTIFICATION = false && BuildConfig.DEBUG;
+    public static final boolean DEBUG_BOOST_PLUS_NOTIFICATION = false && BuildConfig.DEBUG;
 
     private static final int NOTIFICATION_ID_BOOST_PLUS = 10005;
 
@@ -117,7 +117,6 @@ public class NotificationCondition implements INotificationObserver {
 //    private static int HIGH_BATTERY = HSConfig.optInteger(50, "Application", "NotificationSystem", "BatteryAlarmB");
 //    private static int BATTERY_APPS = HSConfig.optInteger(3, "Application", "NotificationSystem", "BatteryApp");
 //    private static int JUNK_CLEAN_NOTIFICATION_SIZE = HSConfig.optInteger(80, "Application", "NotificationSystem", "JunkAlarm") * 1024 * 1024;
-//    private static int BOOST_RAM = HSConfig.optInteger(60, "Application", "NotificationSystem", "BoostAlarmA");
     private static int BOOST_RAM = HSConfig.optInteger(60, "Application", "NotificationSystem", "BoostAlarmA");
     private static int BOOST_APPS = HSConfig.optInteger(3, "Application", "NotificationSystem", "BoostAlarmB");
 
@@ -125,7 +124,7 @@ public class NotificationCondition implements INotificationObserver {
     private static NotificationCondition sInstance;
     private List<NotificationHolder> notificationHolderList;
     private int checkState = CHECK_STATE_DONE;
-    @SuppressWarnings("WeakerAccess") public int runningApps = -1; // Public visibility for test
+    @SuppressWarnings("WeakerAccess") public static int runningApps = -1; // Public visibility for test
     private long lastScreenOnTime;
     private NotificationHolder lastHolder;
 //    private boolean isUnlock = false;
@@ -208,7 +207,9 @@ public class NotificationCondition implements INotificationObserver {
 
         if (Utils.isNewUserInDNDStatus()) {
             HSLog.d(TAG, "新用户 2 小时内不提示。");
-            return;
+            if (!DEBUG_BOOST_PLUS_NOTIFICATION) {
+                return;
+            }
         }
 
         if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) <= 5) {
@@ -580,7 +581,7 @@ public class NotificationCondition implements INotificationObserver {
         }
         BoostAnimationManager boostAnimationManager = new BoostAnimationManager(0, 0);
         Bitmap[] bitmaps = boostAnimationManager.getBoostAppIconBitmaps(HSApplication.getContext());
-        for (int i = 0; i < bitmaps.length && i < ICON_CONTAINER_RES_ID.length; i++) {
+        for (int i = 0; i < bitmaps.length && i < ICON_CONTAINER_RES_ID.length && i < runningApps; i++) {
             remoteViews.setViewVisibility(ICON_CONTAINER_RES_ID[i], View.VISIBLE);
             if (i != 4) {
                 remoteViews.setImageViewBitmap(ICON_CONTAINER_RES_ID[i], bitmaps[i]);
