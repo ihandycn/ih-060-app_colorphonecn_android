@@ -9,9 +9,9 @@ import android.os.Message;
 import android.os.SystemClock;
 
 import com.ihs.app.framework.HSApplication;
-import com.ihs.clean.HSBoost;
-import com.ihs.clean.HSBoostManager;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.device.clean.memory.HSAppMemory;
+import com.ihs.device.clean.memory.HSAppMemoryManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -176,20 +176,24 @@ public class RamUsageDisplayUpdater {
         }
 
         mBoosting = true;
-        HSBoostManager.getInstance().memoryClean.addListener(new HSBoostManager.BoostListener() {
+        HSAppMemoryManager.getInstance().startFullClean(new HSAppMemoryManager.MemoryTaskListener() {
             @Override
-            public void onProgressed(int processedCount, int totalCount, HSBoost hsBoostApp) {
-
+            public void onStarted() {
             }
 
             @Override
-            public void onCompleted(List<HSBoost> list, long cleanedDataSize) {
-                postBoostCleanedSize(cleanedDataSize);
-                HSBoostManager.getInstance().memoryClean.removeListener(this);
+            public void onProgressUpdated(int i, int i1, HSAppMemory hsAppMemory) {
             }
-        }, new Handler());
-        HSBoostManager.getInstance().memoryClean.setIncludeList(BoostUtils.getSystemApps());
-        HSBoostManager.getInstance().memoryClean.startInMultiProcess();
+
+            @Override
+            public void onSucceeded(List<HSAppMemory> list, long l) {
+                postBoostCleanedSize(l);
+            }
+
+            @Override
+            public void onFailed(int i, String s) {
+            }
+        });
 
         return mFakeRamUsage;
     }
