@@ -208,6 +208,7 @@ public class NotificationCondition implements INotificationObserver {
 
         if (Utils.isNewUserInDNDStatus()) {
             HSLog.d(TAG, "新用户 2 小时内不提示。");
+            return;
         }
 
         if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) <= 5) {
