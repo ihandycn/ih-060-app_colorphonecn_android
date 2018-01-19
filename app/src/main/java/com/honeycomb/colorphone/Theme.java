@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.AnyRes;
+import android.text.TextUtils;
 
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -23,12 +24,16 @@ import java.util.Iterator;
 public class Theme extends Type {
 
     public static final String CONFIG_DOWNLOAD_NUM = "DownloadNum";
+    public static final String CONFIG_RINGTONE = "Mp3";
+
     private static final boolean DEBUG_THEME_CHANGE = BuildConfig.DEBUG & false;
 
     private long download;
     private boolean isSelected;
     private boolean isLike;
     private boolean isNotificationEnabled;
+    private String ringtoneUrl;
+
     private int avatar;
     private String avatarName;
     private String notificationLargeIconUrl;
@@ -199,4 +204,16 @@ public class Theme extends Type {
             "#ffa4efff",
             "#ffa4c0ff",
     };
+
+    public String getRingtoneUrl() {
+        return ringtoneUrl;
+    }
+
+    public void setRingtoneUrl(String ringtoneUrl) {
+        this.ringtoneUrl = ringtoneUrl;
+    }
+
+    public boolean hasRingtone() {
+        return !TextUtils.isEmpty(ringtoneUrl);
+    }
 }

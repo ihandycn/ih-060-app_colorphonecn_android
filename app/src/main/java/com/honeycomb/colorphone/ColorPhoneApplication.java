@@ -148,8 +148,10 @@ public class ColorPhoneApplication extends HSApplication {
                     Type.fillData(type, map);
                     type.setNotificationLargeIconUrl(HSMapUtils.optString(map, "", "LocalPush", "LocalPushIcon"));
                     type.setNotificationBigPictureUrl(HSMapUtils.optString(map, "", "LocalPush", "LocalPushPreviewImage"));
-                    type.setNotificationEnabled(HSMapUtils.optBoolean(map, false,"LocalPush", "Enable"));
+                    type.setNotificationEnabled(HSMapUtils.optBoolean(map, false, "LocalPush", "Enable"));
                     type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
+                    type.setRingtoneUrl(HSMapUtils.optString(map, "", Theme.CONFIG_RINGTONE));
+
                     return type;
                 }
             });
