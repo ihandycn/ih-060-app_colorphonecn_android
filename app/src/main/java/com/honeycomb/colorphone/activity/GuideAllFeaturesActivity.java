@@ -42,7 +42,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         super.onCreate(savedInstanceState);
         HSPreferenceHelper.getDefault().putBoolean("guide_locker_stated", true);
 
-        setContentView(R.layout.guide_locker_assitant);
+        setContentView(R.layout.guide_all_features);
         StatusBarUtils.hideStatusBar(this);
 
         setUpPrivacyTextView();
@@ -73,9 +73,8 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             }
         });
 
-//        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
-//
-//        tvTitle.setText(titleNew() ? R.string.guide_first_page_title : R.string.guide_first_page_title_old);
+        TextView tvTitle = (TextView) findViewById(R.id.tv_title);
+        tvTitle.setText(titleNew() ? R.string.guide_first_page_title : R.string.guide_first_page_title_old);
     }
 
     private boolean titleNew() {
