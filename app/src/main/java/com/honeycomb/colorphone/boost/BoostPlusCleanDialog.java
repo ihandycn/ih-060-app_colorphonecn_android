@@ -1304,6 +1304,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
     }
 
     private void onBackClicked() {
-        dismiss();
+//        dismiss();
+        dismissDialog();
     }
 }
