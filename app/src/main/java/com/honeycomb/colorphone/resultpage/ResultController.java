@@ -26,7 +26,6 @@ import android.widget.TextView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.FlashButton;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.boost.LauncherAnimationUtils;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -448,13 +447,13 @@ public abstract class ResultController implements View.OnClickListener {
                 iconContainer.setScaleX(1.0f);
                 iconContainer.setScaleY(1.0f);
 
-                ResultController.this.startCardTranslationAnimation(adOrFunctionView, new LauncherAnimationUtils.AnimationListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        super.onAnimationEnd(animation);
-                        mActionBtn.startFlash();
-                    }
-                });
+//                ResultController.this.startCardTranslationAnimation(adOrFunctionView, new LauncherAnimationUtils.AnimationListenerAdapter() {
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//                        super.onAnimationEnd(animation);
+//                        mActionBtn.startFlash();
+//                    }
+//                });
             }
         }, startDelay);
     }

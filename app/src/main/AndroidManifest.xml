@@ -192,7 +192,7 @@
             android:noHistory="true"
             android:screenOrientation="nosensor"
             android:taskAffinity=".boost"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@style/Theme.AppCompat.Translucent">
         </activity>
 
         <!-- permanent -->
