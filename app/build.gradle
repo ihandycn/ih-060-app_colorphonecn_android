@@ -29,8 +29,8 @@ android {
         applicationId "com.colorphone.smooth.dialer"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 15
-        versionName "1.1.1develop"
+        versionCode 16
+        versionName "1.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
