@@ -45,6 +45,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.libcharging.ScreenStateMgr;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +72,6 @@ public class NotificationCondition implements INotificationObserver {
             R.id.recentest_notification_icon_1,
             R.id.recentest_notification_icon_2,
             R.id.recentest_notification_icon_3,
-//            R.id.recentest_notification_icon_4
     };
 
     private static final String PREF_KEY_BOOST_PLUS_LAST_NOTIFICATION_A_TIME = "boost_plus_last_notification_time";
@@ -171,6 +171,7 @@ public class NotificationCondition implements INotificationObserver {
         readFromPref();
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_CHECK_DONE, this);
         HSGlobalNotificationCenter.addObserver(UserPresentReceiver.USER_PRESENT, this);
+        HSGlobalNotificationCenter.addObserver(ScreenStateMgr.ACTION_SCREEN_ON, this);
     }
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
@@ -187,6 +188,7 @@ public class NotificationCondition implements INotificationObserver {
                     }
                 }
                 break;
+            case ScreenStateMgr.ACTION_SCREEN_ON:
             case UserPresentReceiver.USER_PRESENT:
                 mHandler.postDelayed(new Runnable() {
                     @Override public void run() {
