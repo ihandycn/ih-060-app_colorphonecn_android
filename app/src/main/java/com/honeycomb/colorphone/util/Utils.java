@@ -496,7 +496,7 @@ public final class Utils {
         if (isExternalStorageWritable()) {
             File file = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_RINGTONES), "color-phone");
-            if (!file.mkdirs()) {
+            if (!file.exists() && !file.mkdirs()) {
                 Log.e("Ringtone File", "Directory not created");
             }
             return file;

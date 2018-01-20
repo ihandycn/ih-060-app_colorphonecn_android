@@ -24,7 +24,7 @@ import java.util.Iterator;
 public class Theme extends Type {
 
     public static final String CONFIG_DOWNLOAD_NUM = "DownloadNum";
-    public static final String CONFIG_RINGTONE = "Mp3";
+    public static final String CONFIG_RINGTONE = "Ringtone";
 
     private static final boolean DEBUG_THEME_CHANGE = BuildConfig.DEBUG & false;
 
@@ -214,6 +214,6 @@ public class Theme extends Type {
     }
 
     public boolean hasRingtone() {
-        return !TextUtils.isEmpty(ringtoneUrl);
+        return !TextUtils.isEmpty(ringtoneUrl) && Ap.Ringtone.isEnable();
     }
 }
