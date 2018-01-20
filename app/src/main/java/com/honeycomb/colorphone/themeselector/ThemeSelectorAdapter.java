@@ -482,6 +482,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private int mPositionTag;
         private View mContentView;
         private View mThemeHotMark;
+        private View mRingtoneMark;
 
         private Handler mHandler = new Handler();
 
@@ -523,8 +524,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mAccept = (ImageView) mContentView.findViewById(R.id.call_accept);
             mReject = (ImageView) mContentView.findViewById(R.id.call_reject);
 
+            mRingtoneMark = itemView.findViewById(R.id.theme_ringtone_mark);
             mThemeHotMark = itemView.findViewById(R.id.theme_hot_mark);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mRingtoneMark.setElevation(Utils.pxFromDp(6));
                 mThemeHotMark.setElevation(Utils.pxFromDp(6));
                 mThemeHotMark.setTranslationX(pxFromDp(-1));
             }
@@ -625,7 +628,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             setSelected(theme);
-            setHotTheme(theme.isHot());
+            setHotBadge(theme.isHot());
+            setRingtoneBadge(theme.hasRingtone());
             setLike(theme, false);
             mHolderDataReady = true;
         }
@@ -642,9 +646,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mThemeFlashPreviewWindow.getCallView().setVisibility(View.VISIBLE);
         }
 
-        public void setHotTheme(boolean hot) {
+        private void setHotBadge(boolean hot) {
             if (mThemeHotMark != null) {
                 mThemeHotMark.setVisibility(hot ? View.VISIBLE : View.INVISIBLE);
+            }
+        }
+
+        private void setRingtoneBadge(boolean hasRingtone) {
+            if (mRingtoneMark != null) {
+                mRingtoneMark.setVisibility(hasRingtone ? View.VISIBLE : View.INVISIBLE);
             }
         }
 

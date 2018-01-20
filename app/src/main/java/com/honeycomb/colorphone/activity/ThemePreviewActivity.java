@@ -3,6 +3,10 @@ package com.honeycomb.colorphone.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -32,6 +36,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private View mNavBack;
     private ThemePagerAdapter mAdapter;
     private List<ThemePreviewView> mViews = new ArrayList<>();
+    private MediaPlayer mMediaPlayer;
 
     public static void start(Context context, int position) {
         Intent starter = new Intent(context, ThemePreviewActivity.class);
@@ -76,6 +81,17 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 onBackPressed();
             }
         });
+        mMediaPlayer = new MediaPlayer();
+
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mMediaPlayer;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override

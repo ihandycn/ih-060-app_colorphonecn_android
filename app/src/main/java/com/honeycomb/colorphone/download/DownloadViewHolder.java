@@ -14,13 +14,10 @@ import com.honeycomb.colorphone.view.ProgressView;
 import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
-import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 
 public class DownloadViewHolder implements DownloadHolder {
-    private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & false;
 
     /**
      * Progress display
@@ -119,38 +116,7 @@ public class DownloadViewHolder implements DownloadHolder {
     }
 
     public void doDownload(TasksManagerModel model) {
-        doDownload(model, mProxy != null ? mProxy : this);
-    }
-
-    public static void doDownload(TasksManagerModel model, Object tag) {
-        if (model != null) {
-            FileDownloadListener listener;
-            listener = FileDownloadMultiListener.getDefault();
-
-            if (TasksManager.getImpl().getTask(model.getId()) != null) {
-                if (DEBUG_PROGRESS) {
-                    HSLog.d("SUNDXING", "Task Exist, taskId = " + model.getId());
-                }
-                return;
-            }
-            final BaseDownloadTask task = FileDownloader.getImpl().create(model.getUrl())
-                    .setPath(model.getPath())
-                    .setCallbackProgressTimes(100)
-                    .setListener(listener);
-            TasksManager.getImpl().addTaskForViewHolder(task);
-            if (DEBUG_PROGRESS) {
-                HSLog.d("SUNDXING", "Add Task Id : " + task.getId() + ", tag = " + (tag != null ? tag.toString() : "null"));
-            }
-
-            if (tag != null) {
-                task.setTag(tag);
-            }
-
-            task.start();
-
-        } else {
-            throw new IllegalStateException("Has no pending task to download!");
-        }
+        TasksManager.doDownload(model, mProxy != null ? mProxy : this);
     }
 
     public void updateDownloaded(boolean progressFlag) {
@@ -160,7 +126,7 @@ public class DownloadViewHolder implements DownloadHolder {
             taskSuccessAnim.setVisibility(View.VISIBLE);
             taskSuccessAnim.playAnimation();
         }
-        if (DEBUG_PROGRESS) {
+        if (TasksManager.DEBUG_PROGRESS) {
             HSLog.d("sundxing", getId() + " download success!");
         }
 
@@ -180,7 +146,7 @@ public class DownloadViewHolder implements DownloadHolder {
         canPaused = false;
         canStart = true;
 
-        if (DEBUG_PROGRESS) {
+        if (TasksManager.DEBUG_PROGRESS) {
             HSLog.d("sundxing", getId() + " download stopped, status = " + status);
         }
     }
@@ -188,7 +154,7 @@ public class DownloadViewHolder implements DownloadHolder {
     public void updateDownloading(final int status, final long sofar, final long total) {
         if (sofar >= 0 && total >= 0) {
             final int percent = updateProgressView(sofar, total == 0 ? Long.MAX_VALUE : total);
-            if (DEBUG_PROGRESS) {
+            if (TasksManager.DEBUG_PROGRESS) {
                 HSLog.d("sundxing", getId() + " download process, percent = " + percent + "%");
             }
         }
