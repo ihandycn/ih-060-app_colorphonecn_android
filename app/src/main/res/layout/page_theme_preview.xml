@@ -29,6 +29,36 @@
         android:background="#55000000"
         android:visibility="invisible" />
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="#33000000"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true">
+
+        <View
+            android:id="@+id/ringtone_image"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_gravity="right|end|center_vertical"
+            android:background="@drawable/ringtone_state_selector" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/ringtone_lottie_hello"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_gravity="right|end|center_vertical"
+            app:lottie_loop="false"
+            app:lottie_progress="0" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/ringtone_lottie_open"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_gravity="right|end|center_vertical"
+            app:lottie_loop="false"
+            app:lottie_progress="0" />
+    </FrameLayout>
 
     <ProgressBar
         android:id="@+id/theme_progress_bar"
