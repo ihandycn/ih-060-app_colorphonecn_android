@@ -12,7 +12,7 @@
         },
         "chargingreport_oncharger_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "charging_report_enable": {
           "type": "boolean",
@@ -20,7 +20,7 @@
         },
         "chargingreport_offcharger_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         }
       },
       "events": [
@@ -259,6 +259,50 @@
         }
       ],
       "topic_id": "topic-1514209960668-50"
+    },
+    "topic-1516083421924-90": {
+      "topic_type": "life_time",
+      "topic_name": "Ringtone Test",
+      "variations": {
+        "ringtone_btn_show": {
+          "type": "boolean",
+          "value": false
+        },
+        "ringtone_auto_play": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "theme_pub_detail_page_show"
+        },
+        {
+          "name": "theme_pub_detail_page_apply"
+        },
+        {
+          "name": "theme_panda_detail_page_show"
+        },
+        {
+          "name": "theme_panda_detail_page_apply"
+        },
+        {
+          "name": "theme_whelp_detail_page_show"
+        },
+        {
+          "name": "theme_whelp_detail_page_apply"
+        },
+        {
+          "name": "theme_deeplove_detail_page_show"
+        },
+        {
+          "name": "theme_deeplove_detail_page_apply"
+        }
+      ],
+      "topic_id": "topic-1516083421924-90"
     },
     "topic-1512815797473-16": {
       "topic_type": "life_time",
