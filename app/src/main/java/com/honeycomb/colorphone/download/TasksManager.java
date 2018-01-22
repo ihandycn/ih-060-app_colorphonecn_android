@@ -196,6 +196,16 @@ public class TasksManager {
         return status == FileDownloadStatus.completed;
     }
 
+    /**
+     * @param model Download task model
+     * @return has already downloaded
+     * @see FileDownloadStatus
+     */
+    public boolean isDownloaded(final TasksManagerModel model) {
+        final int status = TasksManager.getImpl().getStatus(model.getId(), model.getPath());
+        return status == FileDownloadStatus.completed;
+    }
+
     public boolean isDownloading(final int status) {
         return status == FileDownloadStatus.progress || status == FileDownloadStatus.started ||
                 status == FileDownloadStatus.connected || status == FileDownloadStatus.pending;

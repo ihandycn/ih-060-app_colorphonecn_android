@@ -420,7 +420,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void onRingtoneReady() {
 
-        boolean isAnimated = RingtoneHelper.isAnimationed(mTheme.getId());
+        boolean isAnimated = RingtoneHelper.isAnimationFinish(mTheme.getId());
         boolean isActive = RingtoneHelper.isActive(mTheme.getId());
 
         boolean needAutoPlay = Ap.Ringtone.isAutoPlay();
@@ -679,8 +679,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             // GIf/Mp4
             mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
 
-            final int status = TasksManager.getImpl().getStatus(model.getId(), model.getPath());
-            if (TasksManager.getImpl().isDownloaded(status)) {
+            if (TasksManager.getImpl().isDownloaded(model)) {
                 onThemeReady(playTrans);
             } else {
                 onThemeLoading();
@@ -697,8 +696,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         } else if (ringtoneModel != null)  {
             mDownloadTasks.put(DownloadTask.TYPE_RINGTONE, new DownloadTask(ringtoneModel, DownloadTask.TYPE_RINGTONE));
-            final int status = TasksManager.getImpl().getStatus(ringtoneModel.getId(), ringtoneModel.getPath());
-            if (TasksManager.getImpl().isDownloaded(status)) {
+            if (TasksManager.getImpl().isDownloaded(ringtoneModel)) {
                 onRingtoneReady();
             } else {
                 // Ringtone data not ready yet. If theme data not loads, we load ringtone separately.

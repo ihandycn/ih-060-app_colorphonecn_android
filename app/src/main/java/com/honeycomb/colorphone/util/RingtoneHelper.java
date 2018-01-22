@@ -18,7 +18,7 @@ public class RingtoneHelper {
     private static Set<Integer> mActiveThemes;
 
 
-    public static boolean isAnimationed(int themeId) {
+    public static boolean isAnimationFinish(int themeId) {
         ensureAnimThemeList();
         return mAnimThemes.contains(themeId);
     }
