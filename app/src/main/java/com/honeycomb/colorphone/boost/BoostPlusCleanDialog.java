@@ -396,7 +396,11 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
         mDotTagIv.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                mDotTagIv.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                if (Utils.ATLEAST_JELLY_BEAN) {
+                    mDotTagIv.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else {
+                    mDotTagIv.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
                 Rect location = ViewUtils.getLocationRect(mDotTagIv);
                 int top = location.top - CommonUtils.getStatusBarHeight(getContext());
                 int left = location.left;
@@ -1304,7 +1308,6 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
     }
 
     private void onBackClicked() {
-//        dismiss();
         dismissDialog();
     }
 }
