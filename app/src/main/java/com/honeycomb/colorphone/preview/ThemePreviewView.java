@@ -375,6 +375,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
                 NotificationUtils.logThemeAppliedFlurry(mTheme);
 
+                // Ringtone enabled
+                if (mRingtoneViewHolder.isSelect()) {
+                    RingtoneHelper.setDefaultRingtone(mTheme);
+                }
+
             }
         });
 
@@ -425,6 +430,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         boolean needAutoPlay = Ap.Ringtone.isAutoPlay();
         boolean isCurrentTheme = isCurrentTheme();
+
+        HSLog.d("Ringtone", "Anim Over:" + isAnimated
+         + "Active:" + isActive + "autoPlay:" + needAutoPlay);
         if (isAnimated) {
             if (isActive) {
                 mRingtoneViewHolder.selectNoAnim();
@@ -436,7 +444,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             if (needAutoPlay) {
                 if (isCurrentTheme) {
                     // 设置主题
-                    // 取前一个主题
+                    RingtoneHelper.setDefaultRingtone(mTheme);
+                    // TODO 引导
                 }
                 RingtoneHelper.ringtoneActive(mTheme.getId(), true);
                 mRingtoneViewHolder.selectNoAnim();
@@ -474,7 +483,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             e.printStackTrace();
         }
 
-        // Todo mediaplyer
     }
 
     private boolean checkNewFeatureGuideView() {
@@ -1006,10 +1014,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 unSelect();
                 stopRingtone();
                 RingtoneHelper.ringtoneActive(mTheme.getId(), false);
+                RingtoneHelper.resetDefaultRingtone();
             } else {
                 selectAnim();
                 startRingtone();
                 RingtoneHelper.ringtoneActive(mTheme.getId(), true);
+                RingtoneHelper.setDefaultRingtone(mTheme);
             }
         }
 
