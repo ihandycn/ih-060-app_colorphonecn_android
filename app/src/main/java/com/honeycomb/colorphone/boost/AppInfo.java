@@ -22,12 +22,7 @@ public class AppInfo {
     public AppInfo(ApplicationInfo info, boolean selected) {
         aInfo = info;
         packageName = aInfo.packageName;
-        try {
-            icon = aInfo.loadIcon(HSApplication.getContext().getPackageManager());
-        } catch (Resources.NotFoundException e) {
-        } catch (OutOfMemoryError e) {
-            // do nothing
-        }
+
         isSelected = selected;
 
         if (0 != aInfo.labelRes) {
@@ -56,6 +51,14 @@ public class AppInfo {
     }
 
     public Drawable getIcon() {
+        if (icon == null) {
+            try {
+                icon = aInfo.loadIcon(HSApplication.getContext().getPackageManager());
+            } catch (Resources.NotFoundException e) {
+            } catch (OutOfMemoryError e) {
+                // do nothing
+            }
+        }
         return icon;
     }
 
