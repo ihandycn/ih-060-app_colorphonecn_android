@@ -36,6 +36,7 @@ public class DownloadViewHolder implements DownloadHolder {
     private boolean canPaused;
     private boolean canStart;
     private int id;
+    private int ringtoneId;
     private long mDelayTime = 600;
     private boolean enablePause = false;
 
@@ -62,6 +63,10 @@ public class DownloadViewHolder implements DownloadHolder {
         this.id = id;
     }
 
+    public void bindRingtoneTaskId(int id) {
+        this.ringtoneId = id;
+    }
+
     public int getId() {
         return id;
     }
@@ -73,7 +78,13 @@ public class DownloadViewHolder implements DownloadHolder {
 
     public void startDownload() {
         final TasksManagerModel model = TasksManager.getImpl().getById(id);
-
+        final TasksManagerModel ringtoneModel = TasksManager.getImpl().getById(ringtoneId);
+        if (ringtoneModel != null) {
+            boolean fileReady = TasksManager.getImpl().isDownloaded(ringtoneModel);
+            if (!fileReady) {
+                TasksManager.doDownload(ringtoneModel, null);
+            }
+        }
         if (model == null) {
             if (BuildConfig.DEBUG) {
                 throw new IllegalStateException("start download but get null taskModel");
@@ -115,7 +126,7 @@ public class DownloadViewHolder implements DownloadHolder {
 
     }
 
-    public void doDownload(TasksManagerModel model) {
+    private void doDownload(TasksManagerModel model) {
         TasksManager.doDownload(model, mProxy != null ? mProxy : this);
     }
 

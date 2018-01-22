@@ -360,6 +360,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             final TasksManagerModel model = TasksManager.getImpl().getByThemeId(curTheme.getId());
             if (model != null) {
                 cardViewHolder.update(model.getId(), themeIndex);
+                final TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(curTheme.getId());
+                if (ringtoneModel != null) {
+                    cardViewHolder.setRingtoneId(ringtoneModel.getId());
+                }
                 boolean fileExist = updateTaskHolder((ThemeCardViewHolder) holder, model);
                 cardViewHolder.switchToReadyState(fileExist);
             } else {
@@ -738,6 +742,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void setActionEnabled(boolean enable) {
             mDownloadTaskProgressBar.setEnabled(enable);
+        }
+
+        public void setRingtoneId(int id) {
+            mDownloadViewHolder.bindRingtoneTaskId(id);
         }
 
         @Override
