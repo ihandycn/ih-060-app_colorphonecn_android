@@ -431,8 +431,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         boolean needAutoPlay = Ap.Ringtone.isAutoPlay();
         boolean isCurrentTheme = isCurrentTheme();
 
-        HSLog.d("Ringtone", "Anim Over:" + isAnimated
-         + "Active:" + isActive + "autoPlay:" + needAutoPlay);
+        HSLog.d("Ringtone", "Anim Over: " + isAnimated
+         + ", Active: " + isActive + ", autoPlay: " + needAutoPlay);
         if (isAnimated) {
             if (isActive) {
                 mRingtoneViewHolder.selectNoAnim();

@@ -252,14 +252,7 @@ public class ColorPhoneApplication extends HSApplication {
                     }
                     Utils.copyAssetFileTo(getApplicationContext(),
                             "shining.mp4", file);
-                    final int targetId = Constants.DEFUALT_THEME_ID;
-                    for (Type type : Theme.themes()) {
-                        if (type.getId() == targetId) {
-                            TasksManager.getImpl().addTask(type);
-                            HSLog.d("TEST_Assert", "Copy shinig mp4 time ：" + (SystemClock.elapsedRealtime() - startMills));
-                            break;
-                        }
-                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     if (file.isFile() && file.exists()) {
