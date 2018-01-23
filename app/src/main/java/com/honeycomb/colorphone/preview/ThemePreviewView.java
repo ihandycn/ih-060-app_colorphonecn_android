@@ -409,7 +409,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         boolean isActive = RingtoneHelper.isActive(mTheme.getId());
 
         boolean needAutoPlay = Ap.Ringtone.isAutoPlay();
-        boolean isCurrentTheme = isCurrentTheme();
+        final boolean isCurrentTheme = isCurrentTheme();
 
         HSLog.d("Ringtone", "Anim Over: " + isAnimated
          + ", Active: " + isActive + ", autoPlay: " + needAutoPlay);
@@ -425,9 +425,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (isCurrentTheme) {
                     // 设置主题
                     RingtoneHelper.setDefaultRingtone(mTheme);
-                    // TODO 引导
                 }
                 RingtoneHelper.ringtoneActive(mTheme.getId(), true);
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRingtoneViewHolder.toastLimit(isCurrentTheme);
+                    }
+                }, 1000);
+
                 mRingtoneViewHolder.selectNoAnim();
             } else {
                 mRingtoneViewHolder.unSelect();
@@ -1008,11 +1014,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         private View imageView;
         private LottieAnimationView helloAnimation;
         private LottieAnimationView openAnimation;
+        private TextView toastView;
 
         public RingtoneViewHolder() {
             imageView = findViewById(R.id.ringtone_image);
             helloAnimation = findViewById(R.id.ringtone_lottie_hello);
             openAnimation = findViewById(R.id.ringtone_lottie_open);
+            toastView = findViewById(R.id.ringtone_toast);
 
             imageView.setOnClickListener(new OnClickListener() {
                 @Override
@@ -1020,6 +1028,41 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     toggle();
                 }
             });
+        }
+
+        private void showToast(boolean afterApply) {
+            String txt = getContext().getString(afterApply ? R.string.ringtone_hint_after_apply : R.string.ringtone_hint_before_apply);
+            toastView.setVisibility(VISIBLE);
+            toastView.setText(txt);
+            toastView.setAlpha(0.1f);
+            toastView.setScaleX(0.1f);
+            toastView.setScaleY(0.1f);
+            toastView.animate().scaleX(1f).scaleY(1f).alpha(1f)
+                    .setDuration(400)
+                    .setInterpolator(new OvershootInterpolator())
+                    .start();
+            toastView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    toastView.animate().alpha(0).setDuration(500).setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            toastView.setVisibility(GONE);
+                        }
+                    });
+                }
+            }, 3000);
+
+        }
+
+        private void toastLimit(final boolean currentTheme) {
+            Utils.doLimitedTimes(new Runnable() {
+                @Override
+                public void run() {
+                    showToast(currentTheme);
+                }
+            }, currentTheme ? "ringtone_toast_active" : "ringtone_toast_need_apply", 1);
+
         }
 
         private void toggle() {
@@ -1041,6 +1084,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             } else {
                 selectAnim();
                 startRingtone();
+                toastLimit(isCurrentTheme());
                 ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
                     @Override
                     public void run() {

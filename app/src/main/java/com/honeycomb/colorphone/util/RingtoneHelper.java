@@ -36,6 +36,8 @@ public class RingtoneHelper {
     private static String PREFS_KEY_FIRST_RINGTONE = "ringtone_key_ringtone_first";
     private static String PREFS_KEY_SYSTEM_RINGTONE = "ringtone_key_system_ringtone";
 
+    private static String PREFS_KEY_TOAST_FLAG = "ringtone_key_toast";
+
     private static String SPLIT = ",";
     private static Set<Integer> mAnimThemes;
     private static Set<Integer> mActiveThemes;
@@ -156,8 +158,13 @@ public class RingtoneHelper {
         if (lastRingtoneIdInteger > 0 && lastRingtoneIdInteger < getFirstRingtoneId()) {
             // current ringtone used as system one.
         }
-        RingtoneManager.setActualDefaultRingtoneUri(HSApplication.getContext(), RingtoneManager.TYPE_RINGTONE,
-                Uri.parse(getSystemRingtoneUri()));
+        String sysRingtone = getSystemRingtoneUri();
+        if (!TextUtils.isEmpty(sysRingtone)) {
+            RingtoneManager.setActualDefaultRingtoneUri(HSApplication.getContext(), RingtoneManager.TYPE_RINGTONE,
+                    Uri.parse(sysRingtone));
+        } else {
+            HSLog.e("Ringtone", "Reset default ringtone fail, last system Ringtone ");
+        }
 
     }
 
@@ -177,16 +184,17 @@ public class RingtoneHelper {
         Uri oldRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE); //系统当前  通知铃声
 
         String lastRingtoneId = oldRingtoneUri.getLastPathSegment();
-        int lastRingtoneIdInteger = Integer.parseInt(lastRingtoneId);
-        if (lastRingtoneIdInteger == -1) {
-            throw new IllegalStateException("Ringtone uri invalid:" + oldRingtoneUri);
-        }
+        int lastRingtoneIdInteger = -1;
+        try {
+            lastRingtoneIdInteger = Integer.parseInt(lastRingtoneId);
+        } catch (Exception ignore) {}
 
         int firstRingtoneId = getFirstRingtoneId();
         // Our first ringtone id is larger than system-embedded.
+        final boolean oldUriValid = lastRingtoneIdInteger > 0;
         final boolean firstTimeRingtoneSet = firstRingtoneId == 0;
         final boolean isSystemRingtone = firstRingtoneId > 0 && lastRingtoneIdInteger < firstRingtoneId;
-        if (firstTimeRingtoneSet || isSystemRingtone) {
+        if (oldUriValid && (firstTimeRingtoneSet || isSystemRingtone)) {
             saveSystemRingtoneUri(oldRingtoneUri.toString());
         }
         HSLog.d("Ringtone", "old uri = " + oldRingtoneUri);
@@ -286,8 +294,11 @@ public class RingtoneHelper {
         values.put(ContactsContract.Contacts.CUSTOM_RINGTONE, uri);
         String Where = ContactsContract.Contacts._ID + " = ?";
         String[] WhereParams = new String[]{contactId};
-        HSApplication.getContext().getContentResolver()
-                .update(ContactsContract.Contacts.CONTENT_URI, values, Where , WhereParams);
+
+        try {
+            HSApplication.getContext().getContentResolver()
+                    .update(ContactsContract.Contacts.CONTENT_URI, values, Where, WhereParams);
+        } catch (Exception ignore) { }
 
         HSLog.d("Ringtone", "set contact id = " + contactId + ", ringtone = " + uri);
 

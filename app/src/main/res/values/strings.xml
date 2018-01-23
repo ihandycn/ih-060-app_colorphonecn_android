@@ -79,4 +79,7 @@
     <string name="promote_apply_success" translatable="false">APPLY SUCCESS!</string>
     <string name="promote_apply_subtitle" translatable="false">Begin to enjoy color phone</string>
 
+    <!--Ringtone-->
+    <string name="ringtone_hint_before_apply">Set the theme and ringtone successfully</string>
+    <string name="ringtone_hint_after_apply">Set theme to enjoy the ringtone</string>
 </resources>

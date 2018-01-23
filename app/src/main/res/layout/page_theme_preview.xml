@@ -32,9 +32,23 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:background="#33000000"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true">
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/ringtone_toast"
+            style="@style/NormalText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|end|center_vertical"
+            android:layout_marginLeft="64dp"
+            android:layout_marginRight="64dp"
+            android:gravity="center"
+            android:padding="4dp"
+            android:background="@drawable/bubble_h"
+            android:textColor="@color/textDark"
+            android:textSize="14sp"
+            android:visibility="gone"/>
 
         <View
             android:id="@+id/ringtone_image"
