@@ -33,6 +33,7 @@ import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.acb.utils.ConcurrentUtils;
 import com.acb.utils.ToastUtils;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -47,6 +48,7 @@ import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
+import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -66,6 +68,8 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import hugo.weaving.DebugLog;
 
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
@@ -355,31 +359,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (inTransition) {
                     return;
                 }
-                saveThemeApplys(mTheme.getId());
-                CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
-                // notify
-                HSBundle bundle = new HSBundle();
-                bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
-                HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
-
-                setButtonState(true);
-                for (ThemePreviewView preV : mActivity.getViews()) {
-                    int viewPos = (int) preV.getTag();
-                    if (viewPos != mPageSelectedPos) {
-                        preV.updateButtonState();
-                    }
-                }
-
-                if (!GuideApplyThemeActivity.start(mActivity, true, null)) {
-                    Utils.showToast(mActivity.getString(R.string.apply_success));
-                }
-                NotificationUtils.logThemeAppliedFlurry(mTheme);
-
-                // Ringtone enabled
-                if (mRingtoneViewHolder.isSelect()) {
-                    RingtoneHelper.setDefaultRingtone(mTheme);
-                }
-
+                onThemeApply();
             }
         });
 
@@ -455,6 +435,37 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
             mRingtoneViewHolder.hello();
         }
+    }
+
+    @DebugLog
+    private void onThemeApply() {
+        saveThemeApplys(mTheme.getId());
+        CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
+        // notify
+        HSBundle bundle = new HSBundle();
+        bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
+
+        setButtonState(true);
+        for (ThemePreviewView preV : mActivity.getViews()) {
+            int viewPos = (int) preV.getTag();
+            if (viewPos != mPageSelectedPos) {
+                preV.updateButtonState();
+            }
+        }
+
+        if (!GuideApplyThemeActivity.start(mActivity, true, null)) {
+            Utils.showToast(mActivity.getString(R.string.apply_success));
+        }
+
+        // Ringtone enabled
+        if (mRingtoneViewHolder.isSelect()) {
+            RingtoneHelper.setDefaultRingtone(mTheme);
+        }
+
+        Ap.Ringtone.onApply(mTheme);
+        NotificationUtils.logThemeAppliedFlurry(mTheme);
+
     }
 
     private void stopRingtone() {
@@ -789,6 +800,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 startRingtone();
             }
         }
+
+        Ap.Ringtone.onShow(mTheme);
     }
 
     private boolean isSelectedPos() {
@@ -1010,16 +1023,35 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         private void toggle() {
+            final boolean currentTheme = isCurrentTheme();
             if (imageView.isActivated()) {
                 unSelect();
                 stopRingtone();
-                RingtoneHelper.ringtoneActive(mTheme.getId(), false);
-                RingtoneHelper.resetDefaultRingtone();
+                ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+                    @Override
+                    public void run() {
+                        RingtoneHelper.ringtoneActive(mTheme.getId(), false);
+                        if (currentTheme) {
+                            RingtoneHelper.resetDefaultRingtone();
+                        }
+                        ContactManager.getInstance().updateRingtoneOnTheme(mTheme, false);
+                    }
+                });
+
             } else {
                 selectAnim();
                 startRingtone();
-                RingtoneHelper.ringtoneActive(mTheme.getId(), true);
-                RingtoneHelper.setDefaultRingtone(mTheme);
+                ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+                    @Override
+                    public void run() {
+                        RingtoneHelper.ringtoneActive(mTheme.getId(), true);
+                        if (currentTheme) {
+                            RingtoneHelper.setDefaultRingtone(mTheme);
+                        }
+                        ContactManager.getInstance().updateRingtoneOnTheme(mTheme, true);
+
+                    }
+                });
             }
         }
 

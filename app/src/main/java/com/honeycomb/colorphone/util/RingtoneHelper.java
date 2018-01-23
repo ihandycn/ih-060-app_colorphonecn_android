@@ -75,16 +75,20 @@ public class RingtoneHelper {
     }
 
     private static void ensureAnimThemeList() {
-        if (mAnimThemes == null) {
-            mAnimThemes = new HashSet<>();
-            readPrefs(PREFS_KEY_ACTIVE, mAnimThemes);
+        synchronized (PREFS_KEY_ANIM) {
+            if (mAnimThemes == null) {
+                mAnimThemes = new HashSet<>();
+                readPrefs(PREFS_KEY_ACTIVE, mAnimThemes);
+            }
         }
     }
 
     private static void ensureActiveThemeList() {
-        if (mActiveThemes == null) {
-            mActiveThemes = new HashSet<>();
-            readPrefs(PREFS_KEY_ANIM, mActiveThemes);
+        synchronized (PREFS_KEY_ACTIVE) {
+            if (mActiveThemes == null) {
+                mActiveThemes = new HashSet<>();
+                readPrefs(PREFS_KEY_ANIM, mActiveThemes);
+            }
         }
     }
 

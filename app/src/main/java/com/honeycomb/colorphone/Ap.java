@@ -56,16 +56,20 @@ public class Ap {
          * 上传日志: topic-1516083421924-90 - 主题详情页展示
          */
         public static void onShow(Theme theme) {
-            String formatString = String.format(Locale.ENGLISH, "theme_%s_detail_page_show", theme.getIdName());
-            AutopilotEvent.logTopicEvent("topic-1516083421924-90", formatString);
+            if (theme != null && theme.getRingtoneUrl() != null) {
+                String formatString = String.format(Locale.ENGLISH, "theme_%s_detail_page_show", theme.getIdName().toLowerCase());
+                AutopilotEvent.logTopicEvent("topic-1516083421924-90", formatString);
+            }
         }
 
         /**
          * 上传日志: topic-1516083421924-90 - 主题在详情页被应用
          */
         public static void onApply(Theme theme) {
-            String formatString = String.format(Locale.ENGLISH, "theme_%s_detail_page_apply", theme.getIdName());
-            AutopilotEvent.logTopicEvent("topic-1516083421924-90", formatString);
+            if (theme != null && theme.getRingtoneUrl() != null) {
+                String formatString = String.format(Locale.ENGLISH, "theme_%s_detail_page_apply", theme.getIdName().toLowerCase());
+                AutopilotEvent.logTopicEvent("topic-1516083421924-90", formatString);
+            }
         }
     }
 }

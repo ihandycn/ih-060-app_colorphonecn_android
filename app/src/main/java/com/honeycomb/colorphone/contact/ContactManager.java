@@ -22,6 +22,9 @@ import java.util.List;
 
 import hugo.weaving.DebugLog;
 
+import static com.honeycomb.colorphone.contact.ContactDBHelper.Action.DELETE;
+import static com.honeycomb.colorphone.contact.ContactDBHelper.Action.INSERT;
+
 /**
  * Created by sundxing on 17/12/1.
  */
@@ -218,14 +221,16 @@ public class ContactManager {
                         if (entry.mAction == ContactDBHelper.Action.UPDATE) {
                             result = database.update(ThemeEntry.TABLE_NAME, initialValues,
                                     ThemeEntry.NUMBER + " = ?", new String[]{entry.getRawNumber()});
-                        } else if (entry.mAction == ContactDBHelper.Action.INSERT) {
+                        } else if (entry.mAction == INSERT) {
                             result = database.insert(ThemeEntry.TABLE_NAME, null, initialValues);
                         } else if (entry.mAction == ContactDBHelper.Action.DELETE) {
                             result = database.delete(ThemeEntry.TABLE_NAME, ThemeEntry.NUMBER + " = ?", new String[]{entry.getRawNumber()});
                         }
                         Log.d("Update theme contact", entry.toString());
                         // Ringtone set
-                        setContactRingtone(entry);
+                        if (entry.mAction != null) {
+                            setContactRingtone(entry, entry.mAction != DELETE);
+                        }
                     }
                     database.setTransactionSuccessful();
 
@@ -249,20 +254,35 @@ public class ContactManager {
         });
     }
 
-    private void setContactRingtone(ThemeEntry entry) {
+    /**
+     * Toggle ringtone switch, we update all contacts used this theme. <br>
+     * Call this on work thread !
+     * @param theme target theme
+     * @param select theme select or not
+     */
+    public void updateRingtoneOnTheme(Theme theme, boolean select) {
+        checkThread();
+        final int themeId = theme.getId();
+        final List<SimpleContact> contacts = getThemes(true);
+        for (SimpleContact contact : contacts) {
+            if (contact.getThemeId() == themeId) {
+                setContactRingtone(contact, select);
+                if (BuildConfig.DEBUG) {
+                    HSLog.d("Ringtone", "Contact: " + contact.getName() + " is select = " + select);
+                }
+            }
+        }
+    }
+
+    private void setContactRingtone(SimpleContact entry, boolean select) {
         checkThread();
         try {
-            switch (entry.mAction) {
-                case UPDATE:
-                case INSERT:
-                    // Update ringtone for contact
-                    // TODO thread safe ?
-                    Theme theme = (Theme) com.acb.utils.Utils.getTypeByThemeId(entry.getThemeId());
-                    RingtoneHelper.setSingleRingtone(theme, String.valueOf(entry.getContactId()));
-                    break;
-                case DELETE:
-                    RingtoneHelper.setSingleRingtone(null, String.valueOf(entry.getContactId()));
-                    break;
+            if (select) {
+                // TODO thread safe ?
+                Theme theme = (Theme) com.acb.utils.Utils.getTypeByThemeId(entry.getThemeId());
+                RingtoneHelper.setSingleRingtone(theme, String.valueOf(entry.getContactId()));
+            } else {
+                RingtoneHelper.setSingleRingtone(null, String.valueOf(entry.getContactId()));
             }
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
