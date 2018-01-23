@@ -4,11 +4,15 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.os.Looper;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
-import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.util.ConcurrentUtils;
+import com.crashlytics.android.core.CrashlyticsCore;
+import com.honeycomb.colorphone.BuildConfig;
+import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 
@@ -220,7 +224,8 @@ public class ContactManager {
                             result = database.delete(ThemeEntry.TABLE_NAME, ThemeEntry.NUMBER + " = ?", new String[]{entry.getRawNumber()});
                         }
                         Log.d("Update theme contact", entry.toString());
-
+                        // Ringtone set
+                        setContactRingtone(entry);
                     }
                     database.setTransactionSuccessful();
 
@@ -244,6 +249,38 @@ public class ContactManager {
         });
     }
 
+    private void setContactRingtone(ThemeEntry entry) {
+        checkThread();
+        try {
+            switch (entry.mAction) {
+                case UPDATE:
+                case INSERT:
+                    // Update ringtone for contact
+                    // TODO thread safe ?
+                    Theme theme = (Theme) com.acb.utils.Utils.getTypeByThemeId(entry.getThemeId());
+                    RingtoneHelper.setSingleRingtone(theme, String.valueOf(entry.getContactId()));
+                    break;
+                case DELETE:
+                    RingtoneHelper.setSingleRingtone(null, String.valueOf(entry.getContactId()));
+                    break;
+            }
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) {
+                throw e;
+            } else {
+                try {
+                    CrashlyticsCore.getInstance().logException(e);
+                } catch (Exception ignore) {}
+            }
+        }
+    }
+
+    private void checkThread() {
+        if (Thread.currentThread().getId() == Looper.getMainLooper().getThread().getId()) {
+            throw new IllegalStateException("Called in main thread.");
+        }
+    }
+
     public void markDataChanged() {
         needFilterTheme = true;
     }
@@ -256,6 +293,7 @@ public class ContactManager {
     public int getThemeIdByNumber(String number) {
         if (mThemeFilterContacts.isEmpty()) {
             mThemeFilterContacts.addAll(fetchThemeContacts());
+            update();
         } else {
             updateFilterContactsIfNeeded();
         }

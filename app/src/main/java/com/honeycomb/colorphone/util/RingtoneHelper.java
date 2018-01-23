@@ -2,24 +2,29 @@ package com.honeycomb.colorphone.util;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.acb.utils.ToastUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import hugo.weaving.DebugLog;
 
 /**
  * Created by sundxing on 2018/1/19.
@@ -34,6 +39,7 @@ public class RingtoneHelper {
     private static String SPLIT = ",";
     private static Set<Integer> mAnimThemes;
     private static Set<Integer> mActiveThemes;
+    private static ConcurrentHashMap<String, String> mPathUriMaps = new ConcurrentHashMap<String, String>();
 
 
     public static boolean isAnimationFinish(int themeId) {
@@ -152,8 +158,7 @@ public class RingtoneHelper {
     }
 
     public static void setDefaultRingtone(Theme theme) {
-        TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(theme.getId());
-        setDefaultRingtone(HSApplication.getContext(), ringtoneModel.getPath(), theme.getIdName());
+        setDefaultRingtone(HSApplication.getContext(), getRingtonePath(theme), theme.getIdName());
     }
 
     /**
@@ -162,11 +167,12 @@ public class RingtoneHelper {
      * @param path  下载下来的mp3全路径
      * @param title 铃声的名字
      */
-    public static void setDefaultRingtone(Context context, String path, String title) {
+    @DebugLog
+    private static void setDefaultRingtone(Context context, String path, String title) {
 
         Uri oldRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE); //系统当前  通知铃声
 
-        String lastRingtoneId = Utils.getFileNameFromUrl(oldRingtoneUri.toString());
+        String lastRingtoneId = oldRingtoneUri.getLastPathSegment();
         int lastRingtoneIdInteger = Integer.parseInt(lastRingtoneId);
         if (lastRingtoneIdInteger == -1) {
             throw new IllegalStateException("Ringtone uri invalid:" + oldRingtoneUri);
@@ -179,9 +185,67 @@ public class RingtoneHelper {
         if (firstTimeRingtoneSet || isSystemRingtone) {
             saveSystemRingtoneUri(oldRingtoneUri.toString());
         }
-        Log.d("Ringtone", "old uri = " + oldRingtoneUri);
+        HSLog.d("Ringtone", "old uri = " + oldRingtoneUri);
 
+        Uri newUri = getRingtoneUri(context, path, title);
+        RingtoneManager.setActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE, newUri);
+
+        // Write first ringtone id.
+        if (newUri != null) {
+            String newRingtoneId = newUri.getLastPathSegment();
+            if (firstTimeRingtoneSet) {
+                saveFirstRingtoneId(Integer.parseInt(newRingtoneId));
+            }
+        }
+
+        if (BuildConfig.DEBUG) {
+            ToastUtils.showToast("Ringtone change to: " + title, Toast.LENGTH_SHORT);
+        }
+    }
+
+    private static String getRingtonePath(Theme theme) {
+        String path = theme.getRingtonePath();
+        if (TextUtils.isEmpty(path)) {
+            TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(theme.getId());
+            if (ringtoneModel != null) {
+                path = ringtoneModel.getPath();
+                theme.setRingtonePath(path);
+            }
+        }
+        return path;
+    }
+
+    private static Uri getRingtoneUri(Context context, String path, String title) {
+
+        // Try hint cache.
+        String cachedUriString = mPathUriMaps.get(path);
+        if (cachedUriString != null) {
+            return Uri.parse(cachedUriString);
+        }
+
+        // Try Obtain from provider
         File sdfile = new File(path);
+        Uri mediaUri = MediaStore.Audio.Media.getContentUriForPath(sdfile.getAbsolutePath());
+        Cursor cursor = null;
+        try {
+            cursor = context.getContentResolver().query(mediaUri, null, MediaStore.MediaColumns.DATA + "=?", new String[] { sdfile.getAbsolutePath() }, null);
+            if (cursor.moveToFirst()) {
+                String id = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+                if (!TextUtils.isEmpty(id)) {
+                    Uri existUri =  Uri.withAppendedPath(mediaUri, id);
+                    HSLog.d("Ringtone", "Path = " + path + " has exist.\n Uri = " + existUri.toString());
+                    mPathUriMaps.put(path, existUri.toString());
+                    return existUri;
+                }
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        // Create new
+        Uri newUri = null;
         ContentValues values = new ContentValues();
         values.put(MediaStore.MediaColumns.DATA, sdfile.getAbsolutePath());
         values.put(MediaStore.MediaColumns.TITLE, title);
@@ -191,39 +255,38 @@ public class RingtoneHelper {
         values.put(MediaStore.Audio.Media.IS_ALARM, false);
         values.put(MediaStore.Audio.Media.IS_MUSIC, false);
 
-        Uri uri = MediaStore.Audio.Media.getContentUriForPath(sdfile.getAbsolutePath());
-        Uri newUri = null;
-        context.getContentResolver().delete(uri,
-                MediaStore.MediaColumns.DATA + "=\"" + sdfile.getAbsolutePath() + "\"", null);
         try {
-            newUri = context.getContentResolver().insert(uri, values);
-            Log.d("Ringtone", "new uri = " + newUri);
-            RingtoneManager.setActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE, newUri);
+            context.getContentResolver().delete(mediaUri,
+                    MediaStore.MediaColumns.DATA + "=\"" + sdfile.getAbsolutePath() + "\"", null);
+            newUri = context.getContentResolver().insert(mediaUri, values);
+            mPathUriMaps.put(path, newUri.toString());
 
+            HSLog.d("Ringtone", "new uri = " + newUri);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // Write first ringtone id.
-        if (newUri != null) {
-            String newRingtoneId = Utils.getFileNameFromUrl(newUri.toString());
-            if (firstTimeRingtoneSet) {
-                saveFirstRingtoneId(Integer.parseInt(newRingtoneId));
-            }
-        }
-
-        if (BuildConfig.DEBUG) {
-            Toast.makeText(context, "Ringtone change to: " + title, Toast.LENGTH_SHORT).show();
-        }
+        return newUri;
     }
 
-    public static void setSingleRingtone(Context context, String path, String contactId) {
+    @DebugLog
+    public static void setSingleRingtone(Theme theme, String contactId) {
+        String uri = null;
+        if (theme != null) {
+            Uri ringtoneUri = getRingtoneUri(HSApplication.getContext(), getRingtonePath(theme), theme.getIdName());
+            if (ringtoneUri != null) {
+                uri = ringtoneUri.toString();
+            }
+        }
         ContentValues values = new ContentValues();
-        File file = new File(path);
-        values.put(ContactsContract.Contacts.CUSTOM_RINGTONE, Uri.fromFile(file).toString());
-        String Where = ContactsContract.Contacts._ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
-        String[] WhereParams = new String[]{contactId, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE, };
-        context.getContentResolver().update(ContactsContract.Contacts.CONTENT_URI, values, null, null);
+        values.put(ContactsContract.Contacts.CUSTOM_RINGTONE, uri);
+        String Where = ContactsContract.Contacts._ID + " = ?";
+        String[] WhereParams = new String[]{contactId};
+        HSApplication.getContext().getContentResolver()
+                .update(ContactsContract.Contacts.CONTENT_URI, values, Where , WhereParams);
+
+        HSLog.d("Ringtone", "set contact id = " + contactId + ", ringtone = " + uri);
+
     }
 
 

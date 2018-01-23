@@ -244,6 +244,7 @@ public class TasksManager {
                 ringtoneFile = Utils.getRingtoneFile();
                 String fileName = Utils.getFileNameFromUrl(url);
                 String path = FileDownloadUtils.generateFilePath(ringtoneFile.getAbsolutePath(), fileName);
+                ((Theme) type).setRingtonePath(path);
                 addTask(url, path, type.getIdName() + TOKEN_EXTRA_RINGTONE);
             }
         }

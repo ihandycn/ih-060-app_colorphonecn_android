@@ -33,6 +33,7 @@ public class Theme extends Type {
     private boolean isLike;
     private boolean isNotificationEnabled;
     private String ringtoneUrl;
+    private String ringtonePath;
 
     private int avatar;
     private String avatarName;
@@ -215,5 +216,13 @@ public class Theme extends Type {
 
     public boolean hasRingtone() {
         return !TextUtils.isEmpty(ringtoneUrl) && Ap.Ringtone.isEnable();
+    }
+
+    public String getRingtonePath() {
+        return ringtonePath;
+    }
+
+    public void setRingtonePath(String ringtonePath) {
+        this.ringtonePath = ringtonePath;
     }
 }

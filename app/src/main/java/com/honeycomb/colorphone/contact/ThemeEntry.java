@@ -22,6 +22,7 @@ public class ThemeEntry extends SimpleContact implements BaseColumns {
     public static List<ThemeEntry> valueOf(SimpleContact contact, ContactDBHelper.Action action) {
         List<ThemeEntry> entries = new ArrayList<>();
         ThemeEntry entry = new ThemeEntry();
+        entry.setContactId(contact.getContactId());
         entry.setThemeId(contact.getThemeId());
         entry.setPhotoUri(contact.getPhotoUri());
         entry.setRawNumber(contact.getRawNumber());
@@ -42,6 +43,7 @@ public class ThemeEntry extends SimpleContact implements BaseColumns {
 
     public ThemeEntry clone() {
         ThemeEntry entry = new ThemeEntry();
+        entry.setContactId(this.getContactId());
         entry.setThemeId(this.getThemeId());
         entry.setPhotoUri(this.getPhotoUri());
         entry.setRawNumber(this.getRawNumber());
