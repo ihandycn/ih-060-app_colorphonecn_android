@@ -423,7 +423,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             if (needAutoPlay) {
                 if (isCurrentTheme) {
                     // 设置主题
-                    RingtoneHelper.setDefaultRingtone(mTheme);
+                    RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
                 }
                 RingtoneHelper.ringtoneActive(mTheme.getId(), true);
                 mHandler.postDelayed(new Runnable() {
@@ -465,7 +465,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         // Ringtone enabled
         if (mRingtoneViewHolder.isSelect()) {
-            RingtoneHelper.setDefaultRingtone(mTheme);
+            RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
         }
 
         Ap.Ringtone.onApply(mTheme);

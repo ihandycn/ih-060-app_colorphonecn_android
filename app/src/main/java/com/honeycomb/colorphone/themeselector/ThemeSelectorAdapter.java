@@ -17,6 +17,7 @@ import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.acb.utils.ConcurrentUtils;
 import com.acb.utils.PermissionHelper;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.DataSource;
@@ -33,12 +34,14 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
+import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -94,7 +97,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     int pos = getDataPos(hsBundle);
                     Theme selectedTheme = data.get(pos);
 
-                    onSelectedTheme(pos, null);
+                    selectTheme(pos, null);
                     ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
                             selectedTheme.getIdName().toLowerCase(),
                             ConfigLog.FROM_DETAIL);
@@ -228,16 +231,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View v) {
                     int pos = holder.getPositionTag();
-                    if (onSelectedTheme(pos, holder)) {
-                        saveThemeApplys(data.get(pos).getId());
-                        CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, data.get(pos).getId());
-                        HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
-                        GuideApplyThemeActivity.start(activity, false, null);
-                        NotificationUtils.logThemeAppliedFlurry(data.get(pos));
-                        ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
-                                data.get(pos).getIdName().toLowerCase(),
-                                ConfigLog.FROM_LIST);
-
+                    if (selectTheme(pos, holder)) {
+                        onThemeSelected(pos);
                     }
                 }
             });
@@ -280,6 +275,28 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    private void onThemeSelected(int pos) {
+        final Theme theme = data.get(pos);
+        saveThemeApplys(theme.getId());
+        CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
+        HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
+        GuideApplyThemeActivity.start(activity, false, null);
+        NotificationUtils.logThemeAppliedFlurry(data.get(pos));
+        ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
+                theme.getIdName().toLowerCase(),
+                ConfigLog.FROM_LIST);
+
+        if (RingtoneHelper.isActive(theme.getId())) {
+            ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+                @Override
+                public void run() {
+                    RingtoneHelper.setDefaultRingtone(theme);
+                    ContactManager.getInstance().updateRingtoneOnTheme(theme, true);
+                }
+            });
+        }
+    }
+
     public int getLastSelectedLayoutPos() {
         int prePos = 0;
         // Clear before.
@@ -293,7 +310,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         return prePos + getHeaderCount();
     }
 
-    private boolean onSelectedTheme(final int pos, ThemeCardViewHolder holder) {
+    private boolean selectTheme(final int pos, ThemeCardViewHolder holder) {
         int prePos = 0;
         boolean playAnimation = true;
         // Clear before.

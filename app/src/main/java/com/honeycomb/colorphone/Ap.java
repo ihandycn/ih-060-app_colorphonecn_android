@@ -57,8 +57,10 @@ public class Ap {
          */
         public static void onShow(Theme theme) {
             if (theme != null && theme.getRingtoneUrl() != null) {
-                String formatString = String.format(Locale.ENGLISH, "theme_%s_detail_page_show", theme.getIdName().toLowerCase());
-                AutopilotEvent.logTopicEvent("topic-1516083421924-90", formatString);
+                try {
+                    String formatString = String.format(Locale.ENGLISH, "theme_%s_detail_page_show", theme.getIdName().toLowerCase());
+                    AutopilotEvent.logTopicEvent("topic-1516083421924-90", formatString);
+                } catch (Exception ignore) {}
             }
         }
 

@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.acb.utils.ConcurrentUtils;
 import com.acb.utils.ToastUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
@@ -166,6 +167,15 @@ public class RingtoneHelper {
             HSLog.e("Ringtone", "Reset default ringtone fail, last system Ringtone ");
         }
 
+    }
+
+    public static void setDefaultRingtoneInBackground(final Theme theme) {
+        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                setDefaultRingtone(theme);
+            }
+        });
     }
 
     public static void setDefaultRingtone(Theme theme) {
