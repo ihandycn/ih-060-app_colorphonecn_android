@@ -181,7 +181,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     DownloadTask task = mDownloadTasks.get(type);
                     if (task != null) {
                         if (isSelectedPos()) {
-                            task.setStatus(DownloadTask.DOWNLOADING);
                             download(task);
                         } else {
                             task.setStatus(DownloadTask.PENDING);
@@ -702,11 +701,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         boolean themeLoading = false;
         if (model != null) {
             // GIf/Mp4
-            mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
 
             if (TasksManager.getImpl().isDownloaded(model)) {
                 onThemeReady(playTrans);
             } else {
+                mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
                 onThemeLoading();
                 themeLoading = true;
             }
@@ -720,11 +719,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 ToastUtils.showToast("Ringtone disable");
             }
         } else if (ringtoneModel != null)  {
-            mDownloadTasks.put(DownloadTask.TYPE_RINGTONE, new DownloadTask(ringtoneModel, DownloadTask.TYPE_RINGTONE));
             if (TasksManager.getImpl().isDownloaded(ringtoneModel)) {
                 onRingtoneReady();
             } else {
                 // Ringtone data not ready yet. If theme data not loads, we load ringtone separately.
+                mDownloadTasks.put(DownloadTask.TYPE_RINGTONE, new DownloadTask(ringtoneModel, DownloadTask.TYPE_RINGTONE));
                 if (!themeLoading) {
                     downloadRingtone(ringtoneModel);
                 }
@@ -853,6 +852,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void download(DownloadTask task) {
+        task.setStatus(DownloadTask.DOWNLOADING);
         if (task.isMediaTheme()) {
             downloadTheme(task.getTasksManagerModel());
         } else if (task.isRingtone()) {
@@ -927,7 +927,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             DownloadTask themeTask = mDownloadTasks.get(DownloadTask.TYPE_THEME);
             if (themeTask != null && themeTask.getStatus() == DownloadTask.PENDING) {
                 downloadTheme(themeTask.getTasksManagerModel());
-                mDownloadTasks.remove(DownloadTask.TYPE_THEME);
+                themeTask.setStatus(DownloadTask.DOWNLOADING);
             }
 
         }
@@ -1012,14 +1012,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private class RingtoneViewHolder {
         private View imageView;
-        private LottieAnimationView helloAnimation;
-        private LottieAnimationView openAnimation;
+        private LottieAnimationView mLottieAnimationView;
         private TextView toastView;
 
         public RingtoneViewHolder() {
             imageView = findViewById(R.id.ringtone_image);
-            helloAnimation = findViewById(R.id.ringtone_lottie_hello);
-            openAnimation = findViewById(R.id.ringtone_lottie_open);
+            mLottieAnimationView = findViewById(R.id.ringtone_lottie_open);
             toastView = findViewById(R.id.ringtone_toast);
 
             imageView.setOnClickListener(new OnClickListener() {
@@ -1031,19 +1029,37 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         private void showToast(boolean afterApply) {
+            HSLog.d("Ringtone", "start showToast");
             String txt = getContext().getString(afterApply ? R.string.ringtone_hint_after_apply : R.string.ringtone_hint_before_apply);
             toastView.setVisibility(VISIBLE);
             toastView.setText(txt);
             toastView.setAlpha(0.1f);
             toastView.setScaleX(0.1f);
             toastView.setScaleY(0.1f);
+            toastView.post(new Runnable() {
+                @Override
+                public void run() {
+                    toastView.setPivotX(Math.max(toastView.getWidth(), Utils.pxFromDp(64)));
+                    toastView.setPivotY(toastView.getHeight() * 0.4f);
+                }
+            });
+
             toastView.animate().scaleX(1f).scaleY(1f).alpha(1f)
                     .setDuration(400)
                     .setInterpolator(new OvershootInterpolator())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            toastView.setAlpha(1f);
+                            toastView.setScaleX(1f);
+                            toastView.setScaleY(1f);
+                        }
+                    })
                     .start();
-            toastView.postDelayed(new Runnable() {
+            mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    HSLog.d("Ringtone", "hide Toast");
                     toastView.animate().alpha(0).setDuration(500).setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
@@ -1067,6 +1083,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         private void toggle() {
             final boolean currentTheme = isCurrentTheme();
+            HSLog.d("Ringtone", "Switch to " + (imageView.isActivated() ? "Close" : "Open"));
             if (imageView.isActivated()) {
                 unSelect();
                 stopRingtone();
@@ -1085,6 +1102,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 selectAnim();
                 startRingtone();
                 toastLimit(isCurrentTheme());
+
                 ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
                     @Override
                     public void run() {
@@ -1100,23 +1118,22 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         private void hide() {
-            helloAnimation.setVisibility(View.INVISIBLE);
-            openAnimation.setVisibility(View.INVISIBLE);
+            mLottieAnimationView.setVisibility(View.INVISIBLE);
             imageView.setVisibility(INVISIBLE);
         }
 
         private void disable() {
-            helloAnimation.setVisibility(View.INVISIBLE);
-            openAnimation.setVisibility(View.INVISIBLE);
+            mLottieAnimationView.setVisibility(View.INVISIBLE);
             imageView.setVisibility(VISIBLE);
             imageView.setEnabled(false);
         }
 
         private void hello() {
-            helloAnimation.setVisibility(View.VISIBLE);
-            helloAnimation.setAnimation("lottie/ringtone_hello.json");
-            helloAnimation.playAnimation();
-            helloAnimation.addAnimatorListener(new AnimatorListenerAdapter() {
+            mLottieAnimationView.setVisibility(View.VISIBLE);
+            mLottieAnimationView.setAnimation("lottie/ringtone_hello.json");
+            mLottieAnimationView.clearAnimation();
+            mLottieAnimationView.playAnimation();
+            mLottieAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationStart(Animator animation) {
                     imageView.setVisibility(INVISIBLE);
@@ -1125,7 +1142,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     imageView.setVisibility(VISIBLE);
-                    helloAnimation.setVisibility(INVISIBLE);
+                    mLottieAnimationView.setVisibility(INVISIBLE);
                 }
             });
         }
@@ -1134,8 +1151,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             imageView.setVisibility(VISIBLE);
             imageView.setEnabled(true);
             imageView.setActivated(false);
-            helloAnimation.setVisibility(View.INVISIBLE);
-            openAnimation.setVisibility(View.INVISIBLE);
+            mLottieAnimationView.setVisibility(View.INVISIBLE);
         }
 
         private boolean isSelect() {
@@ -1155,24 +1171,22 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             imageView.setEnabled(true);
             imageView.setActivated(true);
             if (anim) {
-                openAnimation.setVisibility(View.VISIBLE);
-                openAnimation.setAnimation("lottie/ringtone_open.json");
-                openAnimation.playAnimation();
-                openAnimation.addAnimatorListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        imageView.setVisibility(INVISIBLE);
-                    }
+                mLottieAnimationView.setVisibility(View.VISIBLE);
+                mLottieAnimationView.setAnimation("lottie/ringtone_open.json", LottieAnimationView.CacheStrategy.Strong);
+                mLottieAnimationView.playAnimation();
+                HSLog.d("Ringtone", "Animation [open] call play()");
+                imageView.setVisibility(INVISIBLE);
+
+                mLottieAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         imageView.setVisibility(VISIBLE);
-                        openAnimation.setVisibility(INVISIBLE);
+                        mLottieAnimationView.setVisibility(INVISIBLE);
                     }
                 });
             } else {
-                helloAnimation.setVisibility(View.INVISIBLE);
-                openAnimation.setVisibility(View.INVISIBLE);
+                mLottieAnimationView.setVisibility(View.INVISIBLE);
             }
         }
 
