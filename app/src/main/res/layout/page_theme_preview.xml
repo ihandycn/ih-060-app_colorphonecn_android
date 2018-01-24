@@ -41,34 +41,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|end|center_vertical"
-            android:layout_marginLeft="64dp"
+            android:layout_marginLeft="80dp"
             android:layout_marginRight="64dp"
             android:gravity="center"
-            android:padding="4dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
             android:background="@drawable/bubble_h"
             android:textColor="@color/textDark"
             android:textSize="14sp"
+            android:minHeight="48dp"
             android:visibility="gone"/>
 
         <View
             android:id="@+id/ringtone_image"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
+            android:layout_width="@dimen/ringtone_btn_width"
+            android:layout_height="@dimen/ringtone_btn_height"
             android:layout_gravity="right|end|center_vertical"
             android:background="@drawable/ringtone_state_selector" />
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/ringtone_lottie_hello"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:layout_gravity="right|end|center_vertical"
-            app:lottie_loop="false"
-            app:lottie_progress="0" />
-
-        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/ringtone_lottie_open"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
+            android:layout_width="@dimen/ringtone_btn_width"
+            android:layout_height="@dimen/ringtone_btn_height"
             android:layout_gravity="right|end|center_vertical"
             app:lottie_loop="false"
             app:lottie_progress="0" />

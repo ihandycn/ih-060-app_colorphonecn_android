@@ -24,5 +24,7 @@
     <dimen name="theme_apply_btn_height">44dp</dimen>
     <dimen name="guide_txt_margin_vertical">16dp</dimen>
     <dimen name="guide_txt_btn_vertical">10dp</dimen>
+    <dimen name="ringtone_btn_height">64dp</dimen>
 
+    <dimen name="ringtone_btn_width">71.3dp</dimen>
 </resources>
