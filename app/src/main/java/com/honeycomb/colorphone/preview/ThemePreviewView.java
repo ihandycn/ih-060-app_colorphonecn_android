@@ -150,6 +150,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private boolean mBlockAnimationForPageChange = true;
     private boolean hasStopped;
 
+    /**
+     * If Ringtone file ready, theme file is downloading, wait.
+     */
+    private boolean waitingForThemeReady = false;
+
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -256,6 +261,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             animationDelay = 0;
             setButtonState(curTheme);
             playButtonAnimation();
+            if (waitingForThemeReady) {
+                waitingForThemeReady  = false;
+                onRingtoneReady();
+            }
         }
     };
 
@@ -379,6 +388,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return mActionLayout;
     }
 
+    private boolean isDimming() {
+        return dimCover != null && dimCover.getVisibility() == VISIBLE;
+    }
+
     private void playDownloadOkTransAnimation() {
         mProgressViewHolder.fadeOut();
         dimCover.animate().alpha(0).setDuration(200);
@@ -403,7 +416,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void onRingtoneReady() {
-
+        if (isDimming()) {
+            waitingForThemeReady = true;
+            mRingtoneViewHolder.disable();
+            return;
+        }
         boolean isAnimated = RingtoneHelper.isAnimationFinish(mTheme.getId());
         boolean isActive = RingtoneHelper.isActive(mTheme.getId());
 
@@ -1146,10 +1163,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mLottieAnimationView.setVisibility(View.VISIBLE);
             mLottieAnimationView.setAnimation("lottie/ringtone_hello.json");
             mLottieAnimationView.playAnimation();
+            imageView.setVisibility(INVISIBLE);
             mLottieAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationStart(Animator animation) {
-                    imageView.setVisibility(INVISIBLE);
                 }
 
                 @Override
