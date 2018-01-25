@@ -34,7 +34,6 @@ import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.acb.utils.ConcurrentUtils;
-import com.acb.utils.ToastUtils;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.colorphone.lock.util.CommonUtils;
@@ -68,6 +67,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import hugo.weaving.DebugLog;
 
@@ -469,6 +469,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         Ap.Ringtone.onApply(mTheme);
+        if (!TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
+            String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Apply", mTheme.getIdName());
+            LauncherAnalytics.logEvent(event,
+                    "RingtoneState", mRingtoneViewHolder.isSelect() ? "On" : "Off");
+        }
         NotificationUtils.logThemeAppliedFlurry(mTheme);
 
     }
@@ -714,10 +719,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             onThemeReady(playTrans);
         }
 
-        if (!Ap.Ringtone.isEnable()) {
-            if (BuildConfig.DEBUG) {
-                ToastUtils.showToast("Ringtone disable");
-            }
+        if (!mTheme.hasRingtone()) {
+            mRingtoneViewHolder.hide();
         } else if (ringtoneModel != null)  {
             if (TasksManager.getImpl().isDownloaded(ringtoneModel)) {
                 onRingtoneReady();
@@ -806,6 +809,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
+        if (mTheme != null && !TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
+            String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Show", mTheme.getIdName());
+            LauncherAnalytics.logEvent(event);
+        }
         Ap.Ringtone.onShow(mTheme);
     }
 
@@ -1083,8 +1090,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         private void toggle() {
             final boolean currentTheme = isCurrentTheme();
-            HSLog.d("Ringtone", "Switch to " + (imageView.isActivated() ? "Close" : "Open"));
-            if (imageView.isActivated()) {
+            final boolean currentSelect = imageView.isActivated();
+
+            HSLog.d("Ringtone", "Switch to " + (currentSelect ? "Close" : "Open"));
+            String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Ringtone_Clicked", mTheme.getIdName());
+            LauncherAnalytics.logEvent(event,
+                    "Type", currentSelect ? "TurnOn" : "TurnOff");
+
+            if (currentSelect) {
                 unSelect();
                 stopRingtone();
                 ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
@@ -1120,6 +1133,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         private void hide() {
             mLottieAnimationView.setVisibility(View.INVISIBLE);
             imageView.setVisibility(INVISIBLE);
+            imageView.setEnabled(false);
         }
 
         private void disable() {
@@ -1131,7 +1145,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         private void hello() {
             mLottieAnimationView.setVisibility(View.VISIBLE);
             mLottieAnimationView.setAnimation("lottie/ringtone_hello.json");
-            mLottieAnimationView.clearAnimation();
             mLottieAnimationView.playAnimation();
             mLottieAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
                 @Override
@@ -1143,6 +1156,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 public void onAnimationEnd(Animator animation) {
                     imageView.setVisibility(VISIBLE);
                     mLottieAnimationView.setVisibility(INVISIBLE);
+                    mLottieAnimationView.setAnimation("lottie/ringtone_open.json", LottieAnimationView.CacheStrategy.Strong);
                 }
             });
         }

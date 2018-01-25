@@ -1,10 +1,12 @@
 package com.honeycomb.colorphone;
 
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.acb.autopilot.AutopilotConfig;
 import com.acb.autopilot.AutopilotEvent;
 import com.acb.utils.ToastUtils;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 
 import java.util.Locale;
@@ -27,9 +29,6 @@ public class Ap {
          */
         public static boolean isEnable() {
             boolean ringtoneBtnShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1516083421924-90", "ringtone_btn_show", false);
-            if (BuildConfig.DEBUG) {
-                ringtoneBtnShowBoolean = true;
-            }
             if (BuildConfig.DEBUG) {
                 ToastUtils.showToast("【Autopilot】铃声功能：" + ringtoneBtnShowBoolean, Toast.LENGTH_SHORT);
             }
@@ -56,7 +55,7 @@ public class Ap {
          * 上传日志: topic-1516083421924-90 - 主题详情页展示
          */
         public static void onShow(Theme theme) {
-            if (theme != null && theme.getRingtoneUrl() != null) {
+            if (theme != null && !TextUtils.isEmpty(theme.getRingtoneUrl())) {
                 try {
                     String formatString = String.format(Locale.ENGLISH, "theme_%s_detail_page_show", theme.getIdName().toLowerCase());
                     AutopilotEvent.logTopicEvent("topic-1516083421924-90", formatString);
@@ -68,7 +67,7 @@ public class Ap {
          * 上传日志: topic-1516083421924-90 - 主题在详情页被应用
          */
         public static void onApply(Theme theme) {
-            if (theme != null && theme.getRingtoneUrl() != null) {
+            if (theme != null && !TextUtils.isEmpty(theme.getRingtoneUrl())) {
                 String formatString = String.format(Locale.ENGLISH, "theme_%s_detail_page_apply", theme.getIdName().toLowerCase());
                 AutopilotEvent.logTopicEvent("topic-1516083421924-90", formatString);
             }
