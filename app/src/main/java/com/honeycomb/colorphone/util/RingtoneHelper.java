@@ -315,4 +315,10 @@ public class RingtoneHelper {
     }
 
 
+    public static boolean isDefaultRingtone(Theme theme) {
+        String path = getRingtonePath(theme);
+        Uri sysUri = RingtoneManager.getActualDefaultRingtoneUri(HSApplication.getContext(), RingtoneManager.TYPE_RINGTONE);
+        Uri themeUri = getRingtoneUri(HSApplication.getContext(), path, theme.getIdName());
+        return (sysUri != null && themeUri != null && sysUri.equals(themeUri));
+    }
 }
