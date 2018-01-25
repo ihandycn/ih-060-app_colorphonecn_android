@@ -151,8 +151,10 @@ public class ColorPhoneApplication extends HSApplication {
                     Type.fillData(type, map);
                     type.setNotificationLargeIconUrl(HSMapUtils.optString(map, "", "LocalPush", "LocalPushIcon"));
                     type.setNotificationBigPictureUrl(HSMapUtils.optString(map, "", "LocalPush", "LocalPushPreviewImage"));
-                    type.setNotificationEnabled(HSMapUtils.optBoolean(map, false,"LocalPush", "Enable"));
+                    type.setNotificationEnabled(HSMapUtils.optBoolean(map, false, "LocalPush", "Enable"));
                     type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
+                    type.setRingtoneUrl(HSMapUtils.optString(map, "", Theme.CONFIG_RINGTONE));
+
                     return type;
                 }
             });
@@ -259,14 +261,7 @@ public class ColorPhoneApplication extends HSApplication {
                     }
                     Utils.copyAssetFileTo(getApplicationContext(),
                             "shining.mp4", file);
-                    final int targetId = Constants.DEFUALT_THEME_ID;
-                    for (Type type : Theme.themes()) {
-                        if (type.getId() == targetId) {
-                            TasksManager.getImpl().addTask(type);
-                            HSLog.d("TEST_Assert", "Copy shinig mp4 time ：" + (SystemClock.elapsedRealtime() - startMills));
-                            break;
-                        }
-                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     if (file.isFile() && file.exists()) {

@@ -1,9 +1,11 @@
 package com.honeycomb.colorphone.download;
 
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
@@ -95,6 +97,10 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
     @Override
     protected void error(BaseDownloadTask task, Throwable e) {
         super.error(task, e);
+        Log.e("BaseDownloadTask", "fail to download: " + task.getUrl());
+        if (e != null) {
+            e.printStackTrace();
+        }
         DownloadStateListener stateListener = mDownloadStateListeners.get(task.getId());
         if (stateListener != null) {
             stateListener.updateNotDownloaded(FileDownloadStatus.pending, task.getLargeFileSoFarBytes()

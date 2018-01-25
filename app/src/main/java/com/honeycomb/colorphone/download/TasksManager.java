@@ -5,11 +5,15 @@ import android.util.SparseArray;
 
 import com.acb.call.themes.Type;
 import com.acb.call.utils.FileUtils;
-import com.acb.utils.Utils;
+import com.honeycomb.colorphone.Ap;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadConnectListener;
+import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
@@ -18,10 +22,44 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+
 public class TasksManager {
 
+    public static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & false;
     private static final java.lang.String TAG = TasksManager.class.getSimpleName();
 
+    private static final String TOKEN_EXTRA_RINGTONE = "ringtone";
+
+    public static void doDownload(TasksManagerModel model, Object tag) {
+        if (model != null) {
+            FileDownloadListener listener;
+            listener = FileDownloadMultiListener.getDefault();
+
+            if (getImpl().getTask(model.getId()) != null) {
+                if (DEBUG_PROGRESS) {
+                    HSLog.d("SUNDXING", "Task Exist, taskId = " + model.getId());
+                }
+                return;
+            }
+            final BaseDownloadTask task = FileDownloader.getImpl().create(model.getUrl())
+                    .setPath(model.getPath())
+                    .setCallbackProgressTimes(100)
+                    .setListener(listener);
+            getImpl().addTaskForViewHolder(task);
+            if (DEBUG_PROGRESS) {
+                HSLog.d("SUNDXING", "Add Task Id : " + task.getId() + ", tag = " + (tag != null ? tag.toString() : "null"));
+            }
+
+            if (tag != null) {
+                task.setTag(tag);
+            }
+
+            task.start();
+
+        } else {
+            throw new IllegalStateException("Has no pending task to download!");
+        }
+    }
 
     private final static class HolderClass {
         private final static TasksManager INSTANCE
@@ -116,14 +154,22 @@ public class TasksManager {
     }
 
 
-    public TasksManagerModel getByThemeId(int themeId) {
-        Type type = Utils.getTypeByThemeId(themeId);
+    private TasksManagerModel getByThemeId(int themeId, String extraToken) {
+        Type theme = com.acb.utils.Utils.getTypeByThemeId(themeId);
         for (TasksManagerModel model : modelList) {
-            if (TextUtils.equals(model.getName(), type.getIdName())) {
+            if (TextUtils.equals(model.getName(), theme.getIdName() + extraToken)) {
                 return model;
             }
         }
         return null;
+    }
+
+    public TasksManagerModel getByThemeId(int themeId) {
+        return getByThemeId(themeId, "");
+    }
+
+    public TasksManagerModel getRingtoneTaskByThemeId(int themeId) {
+        return getByThemeId(themeId, TOKEN_EXTRA_RINGTONE);
     }
 
     /**
@@ -147,6 +193,16 @@ public class TasksManager {
      * @see FileDownloadStatus
      */
     public boolean isDownloaded(final int status) {
+        return status == FileDownloadStatus.completed;
+    }
+
+    /**
+     * @param model Download task model
+     * @return has already downloaded
+     * @see FileDownloadStatus
+     */
+    public boolean isDownloaded(final TasksManagerModel model) {
+        final int status = TasksManager.getImpl().getStatus(model.getId(), model.getPath());
         return status == FileDownloadStatus.completed;
     }
 
@@ -181,11 +237,24 @@ public class TasksManager {
     }
 
     public void addTask(Type type) {
-        String url = type.getSuggestMediaUrl();
+        File ringtoneFile = null;
+        if (type instanceof Theme && ((Theme) type).hasRingtone()) {
+            String url = ((Theme) type).getRingtoneUrl();
+            if (!TextUtils.isEmpty(url)) {
+                ringtoneFile = Utils.getRingtoneFile();
+                String fileName = Utils.getFileNameFromUrl(url);
+                String path = FileDownloadUtils.generateFilePath(ringtoneFile.getAbsolutePath(), fileName);
+                ((Theme) type).setRingtonePath(path);
+                addTask(url, path, type.getIdName() + TOKEN_EXTRA_RINGTONE);
+            }
+        }
+
+
         File file = FileUtils.getMediaDirectory();
         if (file != null) {
+            String url = type.getSuggestMediaUrl();
             String path = FileDownloadUtils.generateFilePath(file.getAbsolutePath(), type.getFileName());
-            addTask(url, path,  type.getIdName());
+            addTask(url, path, type.getIdName());
         }
     }
 

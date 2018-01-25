@@ -41,6 +41,7 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -52,6 +53,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -514,6 +516,38 @@ public final class Utils {
         return true;
     }
 
+    public static File getRingtoneFile() {
+        if (isExternalStorageWritable()) {
+            File file = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_RINGTONES), "color-phone");
+            if (!file.exists() && !file.mkdirs()) {
+                Log.e("Ringtone File", "Directory not created");
+            }
+            return file;
+        } else {
+            return new File(getDirectory("color-phone"), "ringtone");
+        }
+    }
+
+    /* Checks if external storage is available for read and write */
+    public static boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Checks if external storage is available to at least read */
+    public static boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Check if network of given type is currently available.
      *
@@ -785,7 +819,10 @@ public final class Utils {
             }
         }
         return false;
+    }
 
+    public static String getFileNameFromUrl(String url) {
+        return url.substring(url.lastIndexOf(File.separator) + 1);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

@@ -17,6 +17,7 @@ import com.acb.call.constant.CPConst;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
+import com.acb.utils.ConcurrentUtils;
 import com.acb.utils.PermissionHelper;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.DataSource;
@@ -33,12 +34,14 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
+import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -94,7 +97,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     int pos = getDataPos(hsBundle);
                     Theme selectedTheme = data.get(pos);
 
-                    onSelectedTheme(pos, null);
+                    selectTheme(pos, null);
                     ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
                             selectedTheme.getIdName().toLowerCase(),
                             ConfigLog.FROM_DETAIL);
@@ -228,16 +231,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View v) {
                     int pos = holder.getPositionTag();
-                    if (onSelectedTheme(pos, holder)) {
-                        saveThemeApplys(data.get(pos).getId());
-                        CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, data.get(pos).getId());
-                        HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
-                        GuideApplyThemeActivity.start(activity, false, null);
-                        NotificationUtils.logThemeAppliedFlurry(data.get(pos));
-                        ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
-                                data.get(pos).getIdName().toLowerCase(),
-                                ConfigLog.FROM_LIST);
-
+                    if (selectTheme(pos, holder)) {
+                        onThemeSelected(pos);
                     }
                 }
             });
@@ -280,6 +275,30 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    private void onThemeSelected(int pos) {
+        final Theme theme = data.get(pos);
+        saveThemeApplys(theme.getId());
+        CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
+        HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
+        GuideApplyThemeActivity.start(activity, false, null);
+        NotificationUtils.logThemeAppliedFlurry(data.get(pos));
+        ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
+                theme.getIdName().toLowerCase(),
+                ConfigLog.FROM_LIST);
+
+        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                if (RingtoneHelper.isActive(theme.getId())) {
+                    RingtoneHelper.setDefaultRingtone(theme);
+                    ContactManager.getInstance().updateRingtoneOnTheme(theme, true);
+                } else {
+                    RingtoneHelper.resetDefaultRingtone();
+                }
+            }
+        });
+    }
+
     public int getLastSelectedLayoutPos() {
         int prePos = 0;
         // Clear before.
@@ -293,7 +312,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         return prePos + getHeaderCount();
     }
 
-    private boolean onSelectedTheme(final int pos, ThemeCardViewHolder holder) {
+    private boolean selectTheme(final int pos, ThemeCardViewHolder holder) {
         int prePos = 0;
         boolean playAnimation = true;
         // Clear before.
@@ -360,6 +379,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             final TasksManagerModel model = TasksManager.getImpl().getByThemeId(curTheme.getId());
             if (model != null) {
                 cardViewHolder.update(model.getId(), themeIndex);
+                final TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(curTheme.getId());
+                if (ringtoneModel != null) {
+                    cardViewHolder.setRingtoneId(ringtoneModel.getId());
+                }
                 boolean fileExist = updateTaskHolder((ThemeCardViewHolder) holder, model);
                 cardViewHolder.switchToReadyState(fileExist);
             } else {
@@ -482,6 +505,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private int mPositionTag;
         private View mContentView;
         private View mThemeHotMark;
+        private View mRingtoneMark;
 
         private Handler mHandler = new Handler();
 
@@ -523,8 +547,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mAccept = (ImageView) mContentView.findViewById(R.id.call_accept);
             mReject = (ImageView) mContentView.findViewById(R.id.call_reject);
 
+            mRingtoneMark = itemView.findViewById(R.id.theme_ringtone_mark);
             mThemeHotMark = itemView.findViewById(R.id.theme_hot_mark);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mRingtoneMark.setElevation(Utils.pxFromDp(6));
                 mThemeHotMark.setElevation(Utils.pxFromDp(6));
                 mThemeHotMark.setTranslationX(pxFromDp(-1));
             }
@@ -625,7 +651,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             setSelected(theme);
-            setHotTheme(theme.isHot());
+            setHotBadge(theme.isHot());
+            setRingtoneBadge(theme.hasRingtone());
             setLike(theme, false);
             mHolderDataReady = true;
         }
@@ -642,9 +669,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mThemeFlashPreviewWindow.getCallView().setVisibility(View.VISIBLE);
         }
 
-        public void setHotTheme(boolean hot) {
+        private void setHotBadge(boolean hot) {
             if (mThemeHotMark != null) {
                 mThemeHotMark.setVisibility(hot ? View.VISIBLE : View.INVISIBLE);
+            }
+        }
+
+        private void setRingtoneBadge(boolean hasRingtone) {
+            if (mRingtoneMark != null) {
+                mRingtoneMark.setVisibility(hasRingtone ? View.VISIBLE : View.INVISIBLE);
             }
         }
 
@@ -728,6 +761,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void setActionEnabled(boolean enable) {
             mDownloadTaskProgressBar.setEnabled(enable);
+        }
+
+        public void setRingtoneId(int id) {
+            mDownloadViewHolder.bindRingtoneTaskId(id);
         }
 
         @Override
