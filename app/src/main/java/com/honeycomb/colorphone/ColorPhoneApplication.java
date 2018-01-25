@@ -331,7 +331,7 @@ public class ColorPhoneApplication extends HSApplication {
 
             @Override
             public void logAdEvent(String s, boolean b) {
-
+                LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App", s, String.valueOf(b));
             }
         });
     }
