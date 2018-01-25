@@ -483,6 +483,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         // Ringtone enabled
         if (mRingtoneViewHolder.isSelect()) {
             RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
+        } else {
+            RingtoneHelper.resetDefaultRingtone();
         }
 
         Ap.Ringtone.onApply(mTheme);

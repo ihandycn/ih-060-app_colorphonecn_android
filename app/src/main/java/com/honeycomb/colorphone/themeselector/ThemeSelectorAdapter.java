@@ -286,15 +286,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 theme.getIdName().toLowerCase(),
                 ConfigLog.FROM_LIST);
 
-        if (RingtoneHelper.isActive(theme.getId())) {
-            ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
-                @Override
-                public void run() {
+        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                if (RingtoneHelper.isActive(theme.getId())) {
                     RingtoneHelper.setDefaultRingtone(theme);
                     ContactManager.getInstance().updateRingtoneOnTheme(theme, true);
+                } else {
+                    RingtoneHelper.resetDefaultRingtone();
                 }
-            });
-        }
+            }
+        });
     }
 
     public int getLastSelectedLayoutPos() {
