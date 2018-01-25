@@ -63,4 +63,6 @@
   <string name="settings_notification_boost_sub">Rappels quand la mémoire est très utilisée</string>
 
   <string name="welcome_contain_ad">Peut contenir des publicités</string>
+
+  <string name="guide_first_page_title">Veuillez activer les fonctionnalités et les autorisations:\ Vous rappelle les appels manqués\nFournit un état de recharge détaillé.</string>
 </resources>

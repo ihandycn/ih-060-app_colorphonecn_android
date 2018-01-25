@@ -65,4 +65,6 @@
   <string name="settings_notification_boost_sub">Get reminders when memory usage is high</string>
 
   <string name="welcome_contain_ad">Mag advertenties bevatten</string>
+
+  <string name="guide_first_page_title">Schakel de functies in en geef toestemming:\ \n- Laat je herinneren aan gemiste oproepen\n- Bekijk informatie over de oplaadstatus</string>
 </resources>

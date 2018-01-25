@@ -63,4 +63,6 @@
   <string name="settings_notification_boost_sub">Dapatkan Pengingat saat penggunaan memori</string>
 
   <string name="welcome_contain_ad">Mungkin berisi iklan.</string>
+
+  <string name="guide_first_page_title">Aktifkan fitur dan izin:\ Mengingatkan Anda panggilan tak terjawab\nMemberikan status pengisian daya secara terperinci.</string>
 </resources>

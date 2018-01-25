@@ -64,4 +64,6 @@
   <string name="settings_notification_boost_sub">Erinnern, wenn Speichernutzung hoch ist</string>
 
   <string name="welcome_contain_ad">Kann Werbung enthalten.</string>
+
+  <string name="guide_first_page_title">Bitte Funktionen und Genehmigungen aktivieren für:\\nErinnerung an verpasste Anrufe\nAngabe eines detaillierten Ladestatus</string>
 </resources>

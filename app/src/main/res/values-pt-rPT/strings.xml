@@ -64,4 +64,6 @@
   <string name="settings_notification_boost_sub">Receba lembretes sobre o uso de muita memória</string>
 
   <string name="welcome_contain_ad">Pode conter anúncios.</string>
+
+  <string name="guide_first_page_title">Por favor, ative os recursos e as permissões:\ Lembra você das chamadas perdidas\nFornece status detalhado de carregamento.</string>
 </resources>
