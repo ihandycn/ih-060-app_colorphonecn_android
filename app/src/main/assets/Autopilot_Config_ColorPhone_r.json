@@ -88,6 +88,38 @@
       ],
       "topic_id": "topic-1505290483207"
     },
+    "topic-1516620266175-105": {
+      "topic_type": "one_time",
+      "topic_name": "Avatar Test",
+      "variations": {
+        "avatar_button_show": {
+          "type": "boolean",
+          "value": false
+        },
+        "avatar_type": {
+          "type": "string",
+          "value": "facemoji"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "avatar_button_shown"
+        },
+        {
+          "name": "avatar_view_shown"
+        },
+        {
+          "name": "avatar_view_back_button_clicked"
+        },
+        {
+          "name": "avatar_view_install_button_clicked"
+        }
+      ],
+      "topic_id": "topic-1516620266175-105"
+    },
     "topic-1511875453515": {
       "topic_type": "one_time",
       "topic_name": "Share Test",
@@ -233,7 +265,7 @@
       "variations": {
         "boost_push_interval": {
           "type": "double",
-          "value": 2
+          "value": 4
         },
         "boost_push_maxcount": {
           "type": "double",
@@ -274,17 +306,17 @@
         },
         "fbmessenger_assistant_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "fbmessenger_assistant_show_on_unlock": {
           "type": "boolean",
           "value": true
         },
-        "fbmessenger_assistant_show_on_lock": {
+        "whatsapp_assistant_show_on_lock": {
           "type": "boolean",
           "value": true
         },
-        "whatsapp_assistant_show_on_lock": {
+        "fbmessenger_assistant_show_on_lock": {
           "type": "boolean",
           "value": true
         }

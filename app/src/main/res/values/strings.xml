@@ -118,4 +118,8 @@
     <string name="settings_notification_boost_sub">Get reminders when memory usage is high</string>
 
     <string name="welcome_contain_ad">May Contain ads</string>
+
+    <string name="avatar_content">Create your avatar right away</string>
+    <string name="action_back">BACK</string>
+    <string name="action_install">INSTALL</string>
 </resources>

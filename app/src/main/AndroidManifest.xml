@@ -176,6 +176,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/ContactTheme"
             />
+        <activity android:name=".activity.AvatarVideoActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.DarkFullScreen"
+            />
 
         <!--Activity for test function-->
         <activity android:name=".activity.TestActivity" />

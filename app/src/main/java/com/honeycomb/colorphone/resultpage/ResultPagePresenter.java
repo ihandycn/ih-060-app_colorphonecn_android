@@ -75,7 +75,6 @@ public class ResultPagePresenter implements ResultPageContracts.Presenter {
 //            if (!tryToShowCardView()) showDefaultView();
         } else {
             HSLog.i("Boost", "show default");
-            LauncherAnalytics.logEvent("Colorphone_Boost_AD_Show", "Type", "Default");
             showDefaultView();
         }
     }

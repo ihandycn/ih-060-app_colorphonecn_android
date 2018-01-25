@@ -51,7 +51,7 @@ public class AppInfo {
     }
 
     public Drawable getIcon() {
-        if (icon == null) {
+        if (icon == null && aInfo != null) {
             try {
                 icon = aInfo.loadIcon(HSApplication.getContext().getPackageManager());
             } catch (Resources.NotFoundException e) {

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
+import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.PromoteLockerAutoPilotUtils;
 import com.ihs.commons.utils.HSLog;
@@ -38,6 +39,12 @@ public class PackageAddReceiver extends BroadcastReceiver {
                 if (promoteLockerAlertType != INSTALL_NOT_BY_PROMOTE) {
                     PromoteLockerAutoPilotUtils.logPromoteLockerDownloaded();
                 }
+            } else if (TextUtils.equals(AvatarAutoPilotUtils.CAMERA_PKG_NAME, pkgAdd)) {
+                LauncherAnalytics.logEvent("Colorphone_AvatarApp_Download", "AvatarType", AvatarAutoPilotUtils.CAMERA_NAME);
+            } else if (TextUtils.equals(AvatarAutoPilotUtils.HEAD_PKG_NAME, pkgAdd)) {
+                LauncherAnalytics.logEvent("Colorphone_AvatarApp_Download", "AvatarType", AvatarAutoPilotUtils.HEAD_NAME);
+            } else if (TextUtils.equals(AvatarAutoPilotUtils.ZMOJI_PKG_NAME, pkgAdd)) {
+                LauncherAnalytics.logEvent("Colorphone_AvatarApp_Download", "AvatarType", AvatarAutoPilotUtils.ZMOJI_NAME);
             }
         }
     }

@@ -12,7 +12,7 @@
         },
         "chargingreport_oncharger_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "charging_report_enable": {
           "type": "boolean",
@@ -20,7 +20,7 @@
         },
         "chargingreport_offcharger_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         }
       },
       "events": [
@@ -87,6 +87,74 @@
         }
       ],
       "topic_id": "topic-1505290483207"
+    },
+    "topic-1516620266175-105": {
+      "topic_type": "one_time",
+      "topic_name": "Avatar Test",
+      "variations": {
+        "avatar_button_show": {
+          "type": "boolean",
+          "value": false
+        },
+        "avatar_type": {
+          "type": "string",
+          "value": "facemoji"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "avatar_button_shown"
+        },
+        {
+          "name": "avatar_view_shown"
+        },
+        {
+          "name": "avatar_view_back_button_clicked"
+        },
+        {
+          "name": "avatar_view_install_button_clicked"
+        }
+      ],
+      "topic_id": "topic-1516620266175-105"
+    },
+    "topic-1516625863054-106": {
+      "topic_type": "life_time",
+      "topic_name": "Recent Apps Test",
+      "variations": {
+        "recent_apps_show_interval_m": {
+          "type": "string",
+          "value": "0"
+        },
+        "recent_apps_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "recent_apps_show_only_on_launcher": {
+          "type": "boolean",
+          "value": true
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "recent_apps_show"
+        },
+        {
+          "name": "recent_apps_ad_show"
+        },
+        {
+          "name": "recent_apps_icon_clicked"
+        },
+        {
+          "name": "recent_apps_ad_clicked"
+        }
+      ],
+      "topic_id": "topic-1516625863054-106"
     },
     "topic-1511875453515": {
       "topic_type": "one_time",
@@ -233,7 +301,7 @@
       "variations": {
         "boost_push_interval": {
           "type": "double",
-          "value": 2
+          "value": 4
         },
         "boost_push_maxcount": {
           "type": "double",
@@ -260,6 +328,50 @@
       ],
       "topic_id": "topic-1514209960668-50"
     },
+    "topic-1516083421924-90": {
+      "topic_type": "life_time",
+      "topic_name": "Ringtone Test",
+      "variations": {
+        "ringtone_btn_show": {
+          "type": "boolean",
+          "value": false
+        },
+        "ringtone_auto_play": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "theme_pub_detail_page_show"
+        },
+        {
+          "name": "theme_pub_detail_page_apply"
+        },
+        {
+          "name": "theme_panda_detail_page_show"
+        },
+        {
+          "name": "theme_panda_detail_page_apply"
+        },
+        {
+          "name": "theme_whelp_detail_page_show"
+        },
+        {
+          "name": "theme_whelp_detail_page_apply"
+        },
+        {
+          "name": "theme_deeplove_detail_page_show"
+        },
+        {
+          "name": "theme_deeplove_detail_page_apply"
+        }
+      ],
+      "topic_id": "topic-1516083421924-90"
+    },
     "topic-1512815797473-16": {
       "topic_type": "life_time",
       "topic_name": "Message Assistant Test",
@@ -274,7 +386,7 @@
         },
         "fbmessenger_assistant_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "fbmessenger_assistant_show_on_unlock": {
           "type": "boolean",
