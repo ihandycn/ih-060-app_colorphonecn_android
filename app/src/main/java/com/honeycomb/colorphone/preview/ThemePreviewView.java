@@ -680,16 +680,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                 }).setStartDelay(animationDelay).start();
 
-        mRingtoneViewHolder.transIn(true, true);
+        mRingtoneViewHolder.transIn(true, isSelectedPos());
     }
 
     private void fadeOutActionView(boolean anim) {
         if (anim) {
             inTransition = true;
-            getTransBottomLayout().animate().translationY(bottomBtnTransY).setDuration(isSelectedPos() ? ANIMATION_DURATION : 0).setInterpolator(mInter).setListener(new AnimatorListenerAdapter() {
+            getTransBottomLayout().animate().translationY(bottomBtnTransY).setDuration(
+                    isSelectedPos() ? ANIMATION_DURATION : 0).setInterpolator(mInter).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     getTransBottomLayout().setTranslationY(bottomBtnTransY);
+                    mRingtoneViewHolder.transIn(false, false);
                     inTransition = false;
 
                 }
@@ -697,7 +699,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         } else {
             getTransBottomLayout().setTranslationY(bottomBtnTransY);
         }
-        mRingtoneViewHolder.transIn(false, anim);
+        mRingtoneViewHolder.transIn(false, isSelectedPos());
     }
 
     private void fadeOutActionView() {
@@ -1253,15 +1255,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         private void transIn(boolean in, boolean anim) {
             float offsetX = CommonUtils.isRtl() ?  -Utils.pxFromDp(60) : Utils.pxFromDp(60);
             float targetX = in ? 0 : offsetX;
-            if (isSelectedPos()) {
-                if (anim) {
-                    imageView.animate().translationX(targetX)
-                            .setDuration(ANIMATION_DURATION)
-                            .setInterpolator(mInter)
-                            .start();
-                } else {
-                    imageView.setTranslationX(targetX);
-                }
+            if (anim) {
+                imageView.animate().translationX(targetX)
+                        .setDuration(ANIMATION_DURATION)
+                        .setInterpolator(mInter)
+                        .start();
+            } else {
+                imageView.animate().cancel();
+                imageView.setTranslationX(targetX);
             }
         }
 
