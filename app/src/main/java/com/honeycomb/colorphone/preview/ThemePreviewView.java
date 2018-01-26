@@ -162,10 +162,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             switch (msg.what) {
                 case MSG_HIDE:
                     showNavView(false);
-                    fadeOutActionView();
                     for (ThemePreviewView preV : mActivity.getViews()) {
-                        int viewPos = (int) preV.getTag();
-                        if (viewPos != mPageSelectedPos) {
+                        if (preV == ThemePreviewView.this) {
+                            fadeOutActionView();
+                        } else {
                             preV.fadeOutActionViewImmediately();
                         }
                     }
@@ -173,10 +173,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 case MSG_SHOW:
                     showNavView(true);
-                    fadeInActionView();
                     for (ThemePreviewView preV : mActivity.getViews()) {
-                        int viewPos = (int) preV.getTag();
-                        if (viewPos != mPageSelectedPos) {
+                        if (preV == ThemePreviewView.this) {
+                            fadeInActionView();
+                        } else {
                             preV.fadeInActionViewImmediately();
                         }
                     }
@@ -664,23 +664,38 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     .setDuration(ANIMATION_DURATION)
                     .setInterpolator(mInter)
                     .start();
+        } else {
+            mNavBack.setTranslationX(targetX);
         }
     }
 
     private void fadeInActionView() {
+        fadeInActionView(true);
+    }
+
+    public void fadeInActionViewImmediately() {
+        fadeInActionView(false);
+    }
+
+    private void fadeInActionView(boolean anim) {
         inTransition = true;
-        getTransBottomLayout().animate().translationY(0)
-                .setDuration(isSelectedPos() ? ANIMATION_DURATION : 0)
-                .setInterpolator(mInter)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        onActionButtonReady();
+        if (anim) {
+            getTransBottomLayout().animate().translationY(0)
+                    .setDuration(ANIMATION_DURATION)
+                    .setInterpolator(mInter)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            onActionButtonReady();
 
-                    }
-                }).setStartDelay(animationDelay).start();
-
-        mRingtoneViewHolder.transIn(true, isSelectedPos());
+                        }
+                    }).setStartDelay(animationDelay).start();
+        } else {
+            if (themeReady) {
+                onActionButtonReady();
+            }
+        }
+        mRingtoneViewHolder.transIn(true, anim);
     }
 
     private void fadeOutActionView(boolean anim) {
@@ -693,7 +708,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     getTransBottomLayout().setTranslationY(bottomBtnTransY);
                     mRingtoneViewHolder.transIn(false, false);
                     inTransition = false;
-
                 }
             }).setStartDelay(0).start();
         } else {
@@ -708,15 +722,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void fadeOutActionViewImmediately() {
         fadeOutActionView(false);
-    }
-
-    public void fadeInActionViewImmediately() {
-        if (!themeReady) {
-            return;
-        }
-
-        // FIXME confuse , logic not clear!
-        onActionButtonReady();
     }
 
     public void onActionButtonReady() {
@@ -812,9 +817,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     public void onStop() {
         hasStopped = true;
         pauseAnimation();
-//        if (isSelectedPos()) {
-//            mNavBack.animate().cancel();
-//        }
+
         getTransBottomLayout().animate().cancel();
         mHandler.removeCallbacksAndMessages(null);
         if (transAnimator != null && transAnimator.isStarted()) {
