@@ -225,7 +225,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             avatar.setVisibility(View.VISIBLE);
             avatar.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    startActivity(new Intent(ColorPhoneActivity.this, AvatarVideoActivity.class));
+                    Intent intent = new Intent(ColorPhoneActivity.this, AvatarVideoActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+//                    overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
                 }
             });
             AvatarAutoPilotUtils.logAvatarButtonShown();

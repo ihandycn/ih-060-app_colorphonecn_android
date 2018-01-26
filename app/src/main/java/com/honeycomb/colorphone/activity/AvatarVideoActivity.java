@@ -3,6 +3,8 @@ package com.honeycomb.colorphone.activity;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -34,11 +36,11 @@ public class AvatarVideoActivity extends HSAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.avatar_video_activity);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 
         video = findViewById(R.id.avatar_video);
 
         initVideoData();
-        startVideo();
 
         AvatarAutoPilotUtils.logAvatarViewShown();
 
@@ -65,8 +67,22 @@ public class AvatarVideoActivity extends HSAppCompatActivity {
         }
     }
 
+    @Override protected void onResume() {
+        super.onResume();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override public void run() {
+                startVideo();
+            }
+        }, 400);
+    }
+
+    @Override protected void onPause() {
+        super.onPause();
+        video.stopPlayback();
+    }
+
     private void startVideo() {
-        if (!TextUtils.isEmpty(videoPath)) {
+        if (!TextUtils.isEmpty(videoPath) && !video.isPlaying()) {
             try {
                 video.setVideoURI(Uri.parse(videoPath));
                 video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -98,6 +114,7 @@ public class AvatarVideoActivity extends HSAppCompatActivity {
         if (!TextUtils.isEmpty(pkgName)) {
             AvatarAutoPilotUtils.logAvatarViewInstallButtonClicked();
             HSMarketUtils.browseAPP(pkgName);
+            video.stopPlayback();
             finish();
         }
     }
