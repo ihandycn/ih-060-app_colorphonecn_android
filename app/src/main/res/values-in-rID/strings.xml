@@ -69,4 +69,8 @@
   <string name="avatar_content">Buat avatar Anda sekarang juga</string>
   <string name="action_back">KEMBALI</string>
   <string name="action_install">INSTAL</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">Tema dan nada dering berhasil diatur</string>
+  <string name="ringtone_hint_before_apply">Atur tema untuk menikmati nada dering</string>
 </resources>

@@ -69,4 +69,8 @@
   <string name="avatar_content">Créez immédiatement votre avatar</string>
   <string name="action_back">RETOUR</string>
   <string name="action_install">INSTALLER</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">Thème et sonnerie définis avec succès</string>
+  <string name="ringtone_hint_before_apply">Définissez le thème pour profiter de la sonnerie</string>
 </resources>

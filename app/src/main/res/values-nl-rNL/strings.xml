@@ -71,4 +71,8 @@
   <string name="avatar_content">Maak direct je avatar</string>
   <string name="action_back">TERUG</string>
   <string name="action_install">INSTALLEREN</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">Het thema en de beltoon zijn ingesteld</string>
+  <string name="ringtone_hint_before_apply">Stel een thema in om van de beltoon te genieten</string>
 </resources>

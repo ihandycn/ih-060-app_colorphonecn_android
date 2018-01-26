@@ -71,4 +71,8 @@
   <string name="avatar_content">Crea tu avatar en el acto</string>
   <string name="action_back">VOLVER</string>
   <string name="action_install">INSTALAR</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">Tema y tono establecidos correctamente</string>
+  <string name="ringtone_hint_before_apply">Establece el tema para disfrutar del tono</string>
 </resources>

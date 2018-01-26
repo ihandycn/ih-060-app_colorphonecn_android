@@ -70,4 +70,8 @@
   <string name="avatar_content">Crie seu avatar agora mesmo</string>
   <string name="action_back">VOLTAR</string>
   <string name="action_install">INSTALAR</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">Definição de tema e toque com sucesso</string>
+  <string name="ringtone_hint_before_apply">Defina o tema para aproveitar o toque</string>
 </resources>

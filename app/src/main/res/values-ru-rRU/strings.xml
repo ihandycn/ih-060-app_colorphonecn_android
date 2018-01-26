@@ -70,4 +70,8 @@
   <string name="avatar_content">Создайте аватар прямо сейчас</string>
   <string name="action_back">НАЗАД</string>
   <string name="action_install">УСТАНОВИТЬ</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">Тема и рингтон успешно установлены</string>
+  <string name="ringtone_hint_before_apply">Установите тему, чтобы получить рингтон</string>
 </resources>

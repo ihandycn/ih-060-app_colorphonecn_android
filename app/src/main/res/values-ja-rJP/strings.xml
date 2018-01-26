@@ -70,4 +70,8 @@
   <string name="avatar_content">自分のアバターをすぐに作ってください</string>
   <string name="action_back">戻る</string>
   <string name="action_install">インストール</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">テーマと着信音の設定に成功</string>
+  <string name="ringtone_hint_before_apply">テーマを設定して着信音を楽しむ</string>
 </resources>

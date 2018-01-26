@@ -69,4 +69,8 @@
   <string name="avatar_content">अपना अवतार तुरंत बनाएं</string>
   <string name="action_back">वापस</string>
   <string name="action_install">इंस्‍टॉल</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">थीम और रिंगटॉन सफलतापूर्वक सेट</string>
+  <string name="ringtone_hint_before_apply">रिंगटॉन का आनंद लेने के लिए थीम को सेट करें</string>
 </resources>

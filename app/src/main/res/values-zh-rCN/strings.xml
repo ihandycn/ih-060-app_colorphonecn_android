@@ -69,4 +69,8 @@
   <string name="avatar_content">立即创建你的头像</string>
   <string name="action_back">后退</string>
   <string name="action_install">安装</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">主题和铃声都已设置成功</string>
+  <string name="ringtone_hint_before_apply">设置主题去享受铃声</string>
 </resources>

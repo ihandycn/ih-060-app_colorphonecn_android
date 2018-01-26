@@ -70,4 +70,8 @@
   <string name="avatar_content">Avatar sofort erstellen</string>
   <string name="action_back">ZURÜCK</string>
   <string name="action_install">INSTALLIEREN</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">Das Motiv und der Klingelton wurden erfolgreich eingerichtet.</string>
+  <string name="ringtone_hint_before_apply">Motiv auswählen, um Klingelton zu genießen</string>
 </resources>

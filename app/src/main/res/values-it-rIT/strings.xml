@@ -70,4 +70,8 @@
   <string name="avatar_content">Crea subito il tuo avatar</string>
   <string name="action_back">INDIETRO</string>
   <string name="action_install">INSTALLA</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">Il tema e la suoneria sono stati impostati</string>
+  <string name="ringtone_hint_before_apply">Imposta il tema per utilizzare la suoneria</string>
 </resources>

@@ -69,4 +69,8 @@
   <string name="avatar_content">สร้างรูปประจำตัวของคุณได้ทันที</string>
   <string name="action_back">ย้อนกลับ</string>
   <string name="action_install">ติดตั้ง</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">ตั้งธีมและเสียงเรียกเข้าสำเร็จ</string>
+  <string name="ringtone_hint_before_apply">ตั้งธีมเพื่อเพลิดเพลินกับเสียงเรียกเข้า</string>
 </resources>

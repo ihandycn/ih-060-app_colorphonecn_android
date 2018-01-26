@@ -69,4 +69,8 @@
   <string name="avatar_content">Tạo hình đại diện của bạn ngay lập tức</string>
   <string name="action_back">QUAY LẠI</string>
   <string name="action_install">CÀI ĐẶT</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">Thiết lập chủ đề và nhạc chuông thành công</string>
+  <string name="ringtone_hint_before_apply">Thiết lập chủ đề để thưởng thức nhạc chuông</string>
 </resources>

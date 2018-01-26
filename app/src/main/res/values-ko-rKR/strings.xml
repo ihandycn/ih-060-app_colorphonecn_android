@@ -69,4 +69,8 @@
   <string name="avatar_content">지금 아바타를 만드세요</string>
   <string name="action_back">뒤로</string>
   <string name="action_install">설치</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">테마 및 벨소리 설정 성공</string>
+  <string name="ringtone_hint_before_apply">테마를 설정하여 벨소리를 받으세요</string>
 </resources>

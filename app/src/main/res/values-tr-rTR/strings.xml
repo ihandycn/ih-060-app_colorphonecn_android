@@ -70,4 +70,8 @@
   <string name="avatar_content">Hemen avatar oluştur</string>
   <string name="action_back">GERİ</string>
   <string name="action_install">KUR</string>
+
+  <!--Ringtone-->
+  <string name="ringtone_hint_after_apply">Tema ve zil sesi başarıyla ayarlandı</string>
+  <string name="ringtone_hint_before_apply">Zil sesinden yararlanmak için temayı ayarlayın</string>
 </resources>

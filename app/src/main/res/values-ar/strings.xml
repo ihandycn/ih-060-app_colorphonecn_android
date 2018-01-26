@@ -65,4 +65,8 @@
     <string name="avatar_content">أنشئ صورتك الرمزية فوراً</string>
     <string name="action_back">عودة</string>
     <string name="action_install">تثبيت</string>
+
+    <!--Ringtone-->
+    <string name="ringtone_hint_after_apply">تم إعداد النسق والنغمة بنجاح</string>
+    <string name="ringtone_hint_before_apply">فعّل النسق للاستمتاع بالنغمة</string>
 </resources>
