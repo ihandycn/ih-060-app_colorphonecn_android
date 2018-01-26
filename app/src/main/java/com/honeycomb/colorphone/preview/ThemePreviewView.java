@@ -86,6 +86,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final int MSG_HIDE = 1;
     private static final int MSG_SHOW = 2;
     private static final int MSG_DOWNLOAD = 10;
+    private static final int MSG_RINGTONE_HELLO = 12;
 
     private static final boolean PLAY_ANIMITION = true;
     private static final boolean NO_ANIMITION = false;
@@ -193,6 +194,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                     return true;
                 }
+                case MSG_RINGTONE_HELLO :
+                    mRingtoneViewHolder.hello();
+                    return true;
                 default:
                     return false;
 
@@ -676,33 +680,46 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                 }).setStartDelay(animationDelay).start();
 
+        mRingtoneViewHolder.transIn(true, true);
+    }
+
+    private void fadeOutActionView(boolean anim) {
+        if (anim) {
+            inTransition = true;
+            getTransBottomLayout().animate().translationY(bottomBtnTransY).setDuration(isSelectedPos() ? ANIMATION_DURATION : 0).setInterpolator(mInter).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    getTransBottomLayout().setTranslationY(bottomBtnTransY);
+                    inTransition = false;
+
+                }
+            }).setStartDelay(0).start();
+        } else {
+            getTransBottomLayout().setTranslationY(bottomBtnTransY);
+        }
+        mRingtoneViewHolder.transIn(false, anim);
     }
 
     private void fadeOutActionView() {
-        inTransition = true;
-        getTransBottomLayout().animate().translationY(bottomBtnTransY).setDuration(isSelectedPos() ? ANIMATION_DURATION : 0).setInterpolator(mInter).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                getTransBottomLayout().setTranslationY(bottomBtnTransY);
-                inTransition = false;
-
-            }
-        }).setStartDelay(0).start();
+        fadeOutActionView(false);
     }
 
     public void fadeOutActionViewImmediately() {
-        getTransBottomLayout().setTranslationY(bottomBtnTransY);
+        fadeOutActionView(true);
     }
 
     public void fadeInActionViewImmediately() {
         if (!themeReady) {
             return;
         }
+
+        // FIXME confuse , logic not clear!
         onActionButtonReady();
     }
 
     public void onActionButtonReady() {
         getTransBottomLayout().setTranslationY(0);
+        mRingtoneViewHolder.transIn(true, false);
         inTransition = false;
         animationDelay = 0;
         if (isSelectedPos()) {
@@ -710,7 +727,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         } else {
             scheduleNextHide();
         }
-
     }
 
     private void scheduleNextHide() {
@@ -1044,6 +1060,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         private View imageView;
         private LottieAnimationView mLottieAnimationView;
         private TextView toastView;
+        private int helloTimes = 0;
 
         public RingtoneViewHolder() {
             imageView = findViewById(R.id.ringtone_image);
@@ -1177,9 +1194,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    imageView.setVisibility(VISIBLE);
-                    mLottieAnimationView.setVisibility(INVISIBLE);
-                    mLottieAnimationView.setAnimation("lottie/ringtone_open.json", LottieAnimationView.CacheStrategy.Strong);
+                    helloTimes ++;
+                    if (helloTimes >= 2) {
+                        imageView.setVisibility(VISIBLE);
+                        mLottieAnimationView.setVisibility(INVISIBLE);
+                        mLottieAnimationView.setAnimation("lottie/ringtone_open.json", LottieAnimationView.CacheStrategy.Strong);
+                    } else {
+                        mHandler.sendEmptyMessage(MSG_RINGTONE_HELLO);
+                    }
                 }
             });
         }
@@ -1224,6 +1246,22 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 });
             } else {
                 mLottieAnimationView.setVisibility(View.INVISIBLE);
+            }
+        }
+
+
+        private void transIn(boolean in, boolean anim) {
+            float offsetX = CommonUtils.isRtl() ?  -Utils.pxFromDp(60) : Utils.pxFromDp(60);
+            float targetX = in ? 0 : offsetX;
+            if (isSelectedPos()) {
+                if (anim) {
+                    imageView.animate().translationX(targetX)
+                            .setDuration(ANIMATION_DURATION)
+                            .setInterpolator(mInter)
+                            .start();
+                } else {
+                    imageView.setTranslationX(targetX);
+                }
             }
         }
 

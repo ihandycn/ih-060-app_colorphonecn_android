@@ -26,4 +26,7 @@
     <style name="Theme.CustomOverScroll" parent="@android:style/Theme.DeviceDefault">
         <item name="android:colorEdgeEffect">#e4e4e4</item>
     </style>
+    <style name="card_view_badge">
+        <item name="android:padding">2dp</item>
+    </style>
 </resources>
