@@ -3,6 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.honeycomb.colorphone">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="false"/>
+
     <!-- Required by libAppFramework -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,7 +29,17 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+     <!-- Ringtone -->
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+
+    <!-- Recent Apps -->
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+
+   <!-- Required by Flash light -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission
+        android:name="android.permission.FLASHLIGHT"
+        android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"/>
 
     <uses-permission
         android:name="android.permission.WRITE_INTERNAL_STORAGE"
