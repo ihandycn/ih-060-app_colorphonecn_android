@@ -13,7 +13,7 @@
 
 
   <string name="theme_apply">Применить</string>
-  <string name="apply_success">Успешно применено</string>
+  <string name="apply_success">Успешно установлено</string>
   <string name="theme_current">Текущая тема</string>
   <string name="send_email">Отправить письмо</string>
   <string name="loading">Загрузка </string>

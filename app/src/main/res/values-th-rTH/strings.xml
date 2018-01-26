@@ -13,7 +13,7 @@
 
 
   <string name="theme_apply">นำไปใช้</string>
-  <string name="apply_success">นำไปใช้สำเร็จ</string>
+  <string name="apply_success">ตั้งสำเร็จ</string>
   <string name="theme_current">ธีมปัจจุบัน</string>
   <string name="send_email">ส่งอีเมล</string>
   <string name="loading">กำลังโหลด </string>

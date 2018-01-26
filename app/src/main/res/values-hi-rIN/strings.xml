@@ -13,7 +13,7 @@
 
 
   <string name="theme_apply">लागू करें</string>
-  <string name="apply_success">सफलता से लागू</string>
+  <string name="apply_success">सफलतापूर्वक सेट</string>
   <string name="theme_current">वर्तमान थीम</string>
   <string name="send_email">ईमेल भेजें</string>
   <string name="loading">लोड हो रहा है </string>

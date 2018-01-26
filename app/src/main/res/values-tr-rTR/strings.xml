@@ -13,7 +13,7 @@
 
 
   <string name="theme_apply">Uygula</string>
-  <string name="apply_success">Uygulama Başarılı</string>
+  <string name="apply_success">Başarıyla ayarlandı</string>
   <string name="theme_current">Mevcut Tema</string>
   <string name="send_email">E-posta Gönder</string>
   <string name="loading">Yükleniyor </string>

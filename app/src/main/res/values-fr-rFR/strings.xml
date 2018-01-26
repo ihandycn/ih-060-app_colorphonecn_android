@@ -13,7 +13,7 @@
 
 
   <string name="theme_apply">Appliquer</string>
-  <string name="apply_success">Application réussie</string>
+  <string name="apply_success">Défini avec succès</string>
   <string name="theme_current">Thème actuel</string>
   <string name="send_email">Envoyer un e-mail</string>
   <string name="loading">Chargement </string>

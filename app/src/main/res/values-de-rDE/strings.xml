@@ -13,7 +13,7 @@
 
 
   <string name="theme_apply">Übernehmen</string>
-  <string name="apply_success">Erfolgreich übernommen</string>
+  <string name="apply_success">Erfolgreich eingerichtet!</string>
   <string name="theme_current">Aktuelles Theme</string>
   <string name="send_email">E-Mail senden</string>
   <string name="loading">geladen </string>

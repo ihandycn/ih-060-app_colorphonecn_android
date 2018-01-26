@@ -13,7 +13,7 @@
 
 
   <string name="theme_apply">Toepassen</string>
-  <string name="apply_success">Toepassen is gelukt</string>
+  <string name="apply_success">Instellen is gelukt</string>
   <string name="theme_current">Huidig thema</string>
   <string name="send_email">E-mail verzenden</string>
   <string name="loading">Aan het laden </string>

@@ -13,7 +13,7 @@
 
 
   <string name="theme_apply">適用</string>
-  <string name="apply_success">適用に成功</string>
+  <string name="apply_success">設定に成功</string>
   <string name="theme_current">現在のテーマ</string>
   <string name="send_email">Eメールを送信</string>
   <string name="loading">読み込み中 </string>

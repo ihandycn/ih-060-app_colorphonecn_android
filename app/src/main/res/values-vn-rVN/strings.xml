@@ -13,7 +13,7 @@
 
 
   <string name="theme_apply">Áp dụng</string>
-  <string name="apply_success">Áp dụng Thành công</string>
+  <string name="apply_success">Thiết lập Thành công</string>
   <string name="theme_current">Chủ đề Hiện tại</string>
   <string name="send_email">Gửi Email</string>
   <string name="loading">Đang tải </string>

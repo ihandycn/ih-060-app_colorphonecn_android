@@ -10,7 +10,7 @@
 
 
     <string name="theme_apply">تطبيق</string>
-    <string name="apply_success">تم التطبيق بنجاح</string>
+    <string name="apply_success">تم الإعداد بنجاح</string>
     <string name="theme_current">التصميم الحالي</string>
     <string name="send_email">إرسال رسالة إلكترونية</string>
     <string name="loading">جارٍ التحميل  </string>
