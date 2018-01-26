@@ -34,7 +34,7 @@
         android:layout_alignTop="@id/card_view"
         android:layout_gravity="end|top"
         android:src="@drawable/ic_ringtone_badge" />
-
+    
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/card_title"
         style="@style/NormalText"
