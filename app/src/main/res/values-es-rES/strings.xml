@@ -67,4 +67,8 @@
   <string name="welcome_contain_ad">Puede contener publicidad.</string>
 
   <string name="guide_first_page_title">Habilita las características y permisos para:\ Recordarte las llamadas perdidas\nIndicar el estado de la carga en detalle</string>
+
+  <string name="avatar_content">Crea tu avatar en el acto</string>
+  <string name="action_back">VOLVER</string>
+  <string name="action_install">INSTALAR</string>
 </resources>

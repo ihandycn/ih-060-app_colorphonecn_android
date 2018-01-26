@@ -66,4 +66,8 @@
   <string name="welcome_contain_ad">可能包含廣告</string>
 
   <string name="guide_first_page_title">請開啟功能和權限:\n 不再錯過未接來電\n 提供詳細的充電數據。</string>
+
+  <string name="avatar_content">立即創建你的頭像</string>
+  <string name="action_back">後退</string>
+  <string name="action_install">安裝</string>
 </resources>

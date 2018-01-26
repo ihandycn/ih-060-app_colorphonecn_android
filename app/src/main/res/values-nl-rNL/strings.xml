@@ -67,4 +67,8 @@
   <string name="welcome_contain_ad">Mag advertenties bevatten</string>
 
   <string name="guide_first_page_title">Schakel de functies in en geef toestemming:\ \n- Laat je herinneren aan gemiste oproepen\n- Bekijk informatie over de oplaadstatus</string>
+
+  <string name="avatar_content">Maak direct je avatar</string>
+  <string name="action_back">TERUG</string>
+  <string name="action_install">INSTALLEREN</string>
 </resources>

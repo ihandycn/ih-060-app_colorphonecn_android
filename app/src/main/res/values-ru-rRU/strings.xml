@@ -66,4 +66,8 @@
 
 
   <string name="guide_first_page_title">Включите функции и предоставьте разрешения, чтобы:\ Получать напоминания о пропущенных вызовах\nПолучать подробную информацию о состоянии зарядки.</string>
+
+  <string name="avatar_content">Создайте аватар прямо сейчас</string>
+  <string name="action_back">НАЗАД</string>
+  <string name="action_install">УСТАНОВИТЬ</string>
 </resources>

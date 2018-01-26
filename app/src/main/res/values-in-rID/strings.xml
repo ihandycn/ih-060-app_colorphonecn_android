@@ -65,4 +65,8 @@
   <string name="welcome_contain_ad">Mungkin berisi iklan.</string>
 
   <string name="guide_first_page_title">Aktifkan fitur dan izin:\ Mengingatkan Anda panggilan tak terjawab\nMemberikan status pengisian daya secara terperinci.</string>
+
+  <string name="avatar_content">Buat avatar Anda sekarang juga</string>
+  <string name="action_back">KEMBALI</string>
+  <string name="action_install">INSTAL</string>
 </resources>

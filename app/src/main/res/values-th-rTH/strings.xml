@@ -65,4 +65,8 @@
   <string name="welcome_contain_ad">อาจมีโฆษณา</string>
 
   <string name="guide_first_page_title">กรุณาเปิดใช้คุณสมบัติและอนุญาตการเข้าถึง:\ เตือนเมื่อคุณมีสายที่ไม่ได้รับ\n รายงานสถานะการชาร์จโดยละเอียด</string>
+
+  <string name="avatar_content">สร้างรูปประจำตัวของคุณได้ทันที</string>
+  <string name="action_back">ย้อนกลับ</string>
+  <string name="action_install">ติดตั้ง</string>
 </resources>

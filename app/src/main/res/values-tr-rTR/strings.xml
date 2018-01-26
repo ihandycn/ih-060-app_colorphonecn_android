@@ -66,4 +66,8 @@
 
 
   <string name="guide_first_page_title">Lütfen özellikleri ve izinleri etkinleştirin:\ Cevapsız aramalar hatırlatılsın\nAyrıntılı şarj durumu verilsin.</string>
+
+  <string name="avatar_content">Hemen avatar oluştur</string>
+  <string name="action_back">GERİ</string>
+  <string name="action_install">KUR</string>
 </resources>

@@ -66,4 +66,8 @@
   <string name="welcome_contain_ad">Kann Werbung enthalten.</string>
 
   <string name="guide_first_page_title">Bitte Funktionen und Genehmigungen aktivieren für:\\nErinnerung an verpasste Anrufe\nAngabe eines detaillierten Ladestatus</string>
+
+  <string name="avatar_content">Avatar sofort erstellen</string>
+  <string name="action_back">ZURÜCK</string>
+  <string name="action_install">INSTALLIEREN</string>
 </resources>

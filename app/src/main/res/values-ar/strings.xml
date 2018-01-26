@@ -61,4 +61,8 @@
     <string name="welcome_contain_ad">قد يحتوي على الإعلانات.</string>
 
     <string name="guide_first_page_title">يرجى تمكين الميزات والأذونات:\ ليتم تذكيرك بالمكالمات الفائتة\nولتحصل على حالة الشحن مفصلة.</string>
+
+    <string name="avatar_content">أنشئ صورتك الرمزية فوراً</string>
+    <string name="action_back">عودة</string>
+    <string name="action_install">تثبيت</string>
 </resources>

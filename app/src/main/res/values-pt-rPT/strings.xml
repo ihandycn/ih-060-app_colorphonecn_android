@@ -66,4 +66,8 @@
   <string name="welcome_contain_ad">Pode conter anúncios.</string>
 
   <string name="guide_first_page_title">Por favor, ative os recursos e as permissões:\ Lembra você das chamadas perdidas\nFornece status detalhado de carregamento.</string>
+
+  <string name="avatar_content">Crie seu avatar agora mesmo</string>
+  <string name="action_back">VOLTAR</string>
+  <string name="action_install">INSTALAR</string>
 </resources>

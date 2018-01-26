@@ -65,4 +65,8 @@
   <string name="welcome_contain_ad">Peut contenir des publicités</string>
 
   <string name="guide_first_page_title">Veuillez activer les fonctionnalités et les autorisations:\ Vous rappelle les appels manqués\nFournit un état de recharge détaillé.</string>
+
+  <string name="avatar_content">Créez immédiatement votre avatar</string>
+  <string name="action_back">RETOUR</string>
+  <string name="action_install">INSTALLER</string>
 </resources>
