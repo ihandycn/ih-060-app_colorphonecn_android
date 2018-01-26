@@ -701,11 +701,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void fadeOutActionView() {
-        fadeOutActionView(false);
+        fadeOutActionView(true);
     }
 
     public void fadeOutActionViewImmediately() {
-        fadeOutActionView(true);
+        fadeOutActionView(false);
     }
 
     public void fadeInActionViewImmediately() {
