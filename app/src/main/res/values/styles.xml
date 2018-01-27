@@ -129,7 +129,4 @@
         <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">16dp</item>
     </style>
 
-    <style name="card_view_badge">
-    </style>
-
 </resources>

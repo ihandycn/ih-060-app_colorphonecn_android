@@ -55,7 +55,6 @@
 
     <ImageView
         android:id="@+id/theme_hot_mark"
-        style="@style/card_view_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/card_view"
@@ -66,7 +65,6 @@
 
     <ImageView
         android:id="@+id/theme_ringtone_mark"
-        style="@style/card_view_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@id/card_view"
