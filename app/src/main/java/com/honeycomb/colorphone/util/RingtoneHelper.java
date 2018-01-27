@@ -186,22 +186,26 @@ public class RingtoneHelper {
 
         Uri oldRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE); //系统当前  通知铃声
 
-        String lastRingtoneId = oldRingtoneUri.getLastPathSegment();
         int lastRingtoneIdInteger = -1;
-        try {
-            // System ringtone uri may not contain media id.
-            lastRingtoneIdInteger = Integer.parseInt(lastRingtoneId);
-        } catch (Exception ignore) {
-            CrashlyticsCore.getInstance().logException(
-                    new IllegalStateException("Ringtone uri is not contain id segment : " + oldRingtoneUri)
-            );
+
+        if (oldRingtoneUri != null) {
+            String lastRingtoneId = oldRingtoneUri.getLastPathSegment();
+            try {
+                // System ringtone uri may not contain media id.
+                lastRingtoneIdInteger = Integer.parseInt(lastRingtoneId);
+            } catch (Exception ignore) {
+                CrashlyticsCore.getInstance().logException(
+                        new IllegalStateException("Ringtone uri is not contain id segment : " + oldRingtoneUri)
+                );
+            }
         }
 
         int firstRingtoneId = getFirstRingtoneId();
         // Our first ringtone id is larger than system-embedded. Or no id ( lastRingtoneIdInteger = -1 )
         final boolean firstTimeRingtoneSet = firstRingtoneId == 0;
         final boolean isSystemRingtone = firstRingtoneId > 0 && lastRingtoneIdInteger < firstRingtoneId;
-        if (firstTimeRingtoneSet || isSystemRingtone) {
+        if ((firstTimeRingtoneSet || isSystemRingtone) &&
+                oldRingtoneUri != null) {
             saveSystemRingtoneUri(oldRingtoneUri.toString());
         }
         HSLog.d("Ringtone", "old uri = " + oldRingtoneUri);
