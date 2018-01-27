@@ -678,8 +678,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void fadeInActionView(boolean anim) {
-        inTransition = true;
         if (anim) {
+            inTransition = true;
             getTransBottomLayout().animate().translationY(0)
                     .setDuration(ANIMATION_DURATION)
                     .setInterpolator(mInter)
@@ -687,6 +687,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             onActionButtonReady();
+                            inTransition = false;
 
                         }
                     }).setStartDelay(animationDelay).start();
@@ -727,7 +728,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     public void onActionButtonReady() {
         getTransBottomLayout().setTranslationY(0);
         mRingtoneViewHolder.transIn(true, false);
-        inTransition = false;
         animationDelay = 0;
         if (isSelectedPos()) {
             checkNewFeatureGuideView();
