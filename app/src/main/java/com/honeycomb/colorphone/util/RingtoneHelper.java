@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.acb.utils.ConcurrentUtils;
 import com.acb.utils.ToastUtils;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -149,24 +150,16 @@ public class RingtoneHelper {
     }
 
     public static void resetDefaultRingtone() {
-        Uri oldRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(HSApplication.getContext(), RingtoneManager.TYPE_RINGTONE); //系统当前  通知铃声
-        int lastRingtoneIdInteger = 0;
-        if (oldRingtoneUri != null) {
-            String lastRingtoneId = Utils.getFileNameFromUrl(oldRingtoneUri.toString());
-            lastRingtoneIdInteger = Integer.parseInt(lastRingtoneId);
-        }
-
-        if (lastRingtoneIdInteger > 0 && lastRingtoneIdInteger < getFirstRingtoneId()) {
-            // current ringtone used as system one.
-        }
         String sysRingtone = getSystemRingtoneUri();
         if (!TextUtils.isEmpty(sysRingtone)) {
             RingtoneManager.setActualDefaultRingtoneUri(HSApplication.getContext(), RingtoneManager.TYPE_RINGTONE,
                     Uri.parse(sysRingtone));
-        } else {
-            HSLog.e("Ringtone", "Reset default ringtone fail, last system Ringtone ");
-        }
+            HSLog.d("Ringtone", "Reset default ringtone: " + sysRingtone);
 
+        } else {
+            // Not set any ringtone before.
+            HSLog.e("Ringtone", "Reset default ringtone fail, last system Ringtone: " + sysRingtone);
+        }
     }
 
     public static void setDefaultRingtoneInBackground(final Theme theme) {
@@ -196,15 +189,19 @@ public class RingtoneHelper {
         String lastRingtoneId = oldRingtoneUri.getLastPathSegment();
         int lastRingtoneIdInteger = -1;
         try {
+            // System ringtone uri may not contain media id.
             lastRingtoneIdInteger = Integer.parseInt(lastRingtoneId);
-        } catch (Exception ignore) {}
+        } catch (Exception ignore) {
+            CrashlyticsCore.getInstance().logException(
+                    new IllegalStateException("Ringtone uri is not contain id segment : " + oldRingtoneUri)
+            );
+        }
 
         int firstRingtoneId = getFirstRingtoneId();
-        // Our first ringtone id is larger than system-embedded.
-        final boolean oldUriValid = lastRingtoneIdInteger > 0;
+        // Our first ringtone id is larger than system-embedded. Or no id ( lastRingtoneIdInteger = -1 )
         final boolean firstTimeRingtoneSet = firstRingtoneId == 0;
         final boolean isSystemRingtone = firstRingtoneId > 0 && lastRingtoneIdInteger < firstRingtoneId;
-        if (oldUriValid && (firstTimeRingtoneSet || isSystemRingtone)) {
+        if (firstTimeRingtoneSet || isSystemRingtone) {
             saveSystemRingtoneUri(oldRingtoneUri.toString());
         }
         HSLog.d("Ringtone", "old uri = " + oldRingtoneUri);
