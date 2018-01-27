@@ -140,51 +140,55 @@ public class ColorPhoneApplication extends HSApplication {
         mWidth = Utils.getPhoneWidth(this);
         AcbApplicationHelper.init(this);
         if (TextUtils.equals(processName, packageName)) {
-            AcbExpressAdManager.getInstance().init(this);
-            AcbNativeAdManager.sharedInstance().init(this);
-
-            AcbCallManager.init("", new CallConfigFactory());
-            AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
-                @Override
-                public Type parse(Map<String, ?> map) {
-                    Theme type = new Theme();
-                    Type.fillData(type, map);
-                    type.setNotificationLargeIconUrl(HSMapUtils.optString(map, "", "LocalPush", "LocalPushIcon"));
-                    type.setNotificationBigPictureUrl(HSMapUtils.optString(map, "", "LocalPush", "LocalPushPreviewImage"));
-                    type.setNotificationEnabled(HSMapUtils.optBoolean(map, false, "LocalPush", "Enable"));
-                    type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
-                    type.setRingtoneUrl(HSMapUtils.optString(map, "", Theme.CONFIG_RINGTONE));
-
-                    return type;
-                }
-            });
-            AcbCallManager.getInstance().setImageLoader(new ThemeImageLoader());
-            AcbCallManager.getInstance().logTest = true;
-            ContactManager.init();
-
-            SystemAppsManager.getInstance().init();
-            NotificationCondition.init();
-
-            AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
-            AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
-
-            HSPermanentUtils.keepAlive();
-            if (BuildConfig.DEBUG) {
-                AutopilotConfig.setDebugConfig(true, true, true);
-            }
-
-            Upgrader.upgrade();
-            addGlobalObservers();
-            initModules();
-            checkModuleAdPlacement();
-
-            initChargingReport();
-            initLockerCharging();
-            Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
-
-            copyMediaFromAssertToFile();
-
+            onMainProcessCreate();
         }
+    }
+
+    @DebugLog
+    private void onMainProcessCreate() {
+        AcbExpressAdManager.getInstance().init(this);
+        AcbNativeAdManager.sharedInstance().init(this);
+
+        AcbCallManager.init("", new CallConfigFactory());
+        AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
+            @Override
+            public Type parse(Map<String, ?> map) {
+                Theme type = new Theme();
+                Type.fillData(type, map);
+                type.setNotificationLargeIconUrl(HSMapUtils.optString(map, "", "LocalPush", "LocalPushIcon"));
+                type.setNotificationBigPictureUrl(HSMapUtils.optString(map, "", "LocalPush", "LocalPushPreviewImage"));
+                type.setNotificationEnabled(HSMapUtils.optBoolean(map, false, "LocalPush", "Enable"));
+                type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
+                type.setRingtoneUrl(HSMapUtils.optString(map, "", Theme.CONFIG_RINGTONE));
+
+                return type;
+            }
+        });
+        AcbCallManager.getInstance().setImageLoader(new ThemeImageLoader());
+        AcbCallManager.getInstance().logTest = true;
+        ContactManager.init();
+
+        SystemAppsManager.getInstance().init();
+        NotificationCondition.init();
+
+        AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
+
+        HSPermanentUtils.keepAlive();
+        if (BuildConfig.DEBUG) {
+            AutopilotConfig.setDebugConfig(true, true, true);
+        }
+
+        Upgrader.upgrade();
+        addGlobalObservers();
+        initModules();
+        checkModuleAdPlacement();
+
+        initChargingReport();
+        initLockerCharging();
+        Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
+
+        copyMediaFromAssertToFile();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Intent lockJobServiceIntent = new Intent(this, LockJobService.class);
