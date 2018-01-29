@@ -104,7 +104,7 @@
             android:textColor="#929292"
             android:textSize="14sp" />
 
-        <com.colorphone.lock.lockscreen.chargingscreen.view.FlashButton
+        <Button
             android:id="@+id/promote_charging_button"
             android:layout_width="match_parent"
             android:layout_height="54dp"

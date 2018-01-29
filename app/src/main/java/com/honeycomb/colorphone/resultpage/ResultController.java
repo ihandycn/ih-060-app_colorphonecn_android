@@ -87,7 +87,7 @@ public abstract class ResultController implements View.OnClickListener {
     private ImageView mAdIconView;
     private TextView mTitleTv;
     private TextView mDescriptionTv;
-    private FlashButton mActionBtn;
+    private View mActionBtn;
     private View primaryViewContainer;
     private View bottomContainer;
     private View iconContainer;
@@ -241,7 +241,6 @@ public abstract class ResultController implements View.OnClickListener {
             mTitleTv = ViewUtils.findViewById(resultView, R.id.promote_charging_title);
             mDescriptionTv = ViewUtils.findViewById(resultView, R.id.promote_charging_content);
             mActionBtn = ViewUtils.findViewById(resultView, R.id.promote_charging_button);
-            mActionBtn.setRepeatCount(10);
             primaryViewContainer = ViewUtils.findViewById(resultView, R.id.promote_charging_content_top_container);
             bottomContainer = ViewUtils.findViewById(resultView, R.id.promote_charging_bottom_container);
             iconContainer = ViewUtils.findViewById(resultView, R.id.promote_charging_icon_container);
@@ -447,13 +446,7 @@ public abstract class ResultController implements View.OnClickListener {
                 iconContainer.setScaleX(1.0f);
                 iconContainer.setScaleY(1.0f);
 
-//                ResultController.this.startCardTranslationAnimation(adOrFunctionView, new LauncherAnimationUtils.AnimationListenerAdapter() {
-//                    @Override
-//                    public void onAnimationEnd(Animation animation) {
-//                        super.onAnimationEnd(animation);
-//                        mActionBtn.startFlash();
-//                    }
-//                });
+
             }
         }, startDelay);
     }
