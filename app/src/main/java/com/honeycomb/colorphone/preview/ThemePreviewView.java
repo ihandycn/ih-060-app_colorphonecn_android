@@ -79,6 +79,7 @@ import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEM
  * Created by sundxing on 17/8/4.
  */
 
+// TODO : clean Theme & Ringtone logic
 public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageChangeListener {
 
     private static final boolean DEBUG_LIFE_CALLBACK = true & BuildConfig.DEBUG;
@@ -764,6 +765,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
                 themeLoading = true;
+                onThemeLoading();
             }
         } else {
             // Directly applicable
@@ -785,10 +787,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         } else {
             // Hide ringtone
             mRingtoneViewHolder.hide();
-        }
-
-        if (themeLoading) {
-            onThemeLoading();
         }
 
         // Show background if gif drawable not ready.
