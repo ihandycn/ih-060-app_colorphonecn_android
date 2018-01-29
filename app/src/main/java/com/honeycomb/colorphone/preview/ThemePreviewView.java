@@ -155,6 +155,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
      * If Ringtone file ready, theme file is downloading, wait.
      */
     private boolean waitingForThemeReady = false;
+    private boolean resumed;
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -256,6 +257,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     Runnable transEndRunnable = new Runnable() {
         @Override
         public void run() {
+            if (waitingForThemeReady) {
+                waitingForThemeReady  = false;
+                onRingtoneReady();
+            }
             if (!mBlockAnimationForPageChange) {
                 resumeAnimation();
                 mBlockAnimationForPageChange = true;
@@ -265,10 +270,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             animationDelay = 0;
             setButtonState(curTheme);
             playButtonAnimation();
-            if (waitingForThemeReady) {
-                waitingForThemeReady  = false;
-                onRingtoneReady();
-            }
+
         }
     };
 
@@ -459,6 +461,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }, 1000);
 
                 mRingtoneViewHolder.selectNoAnim();
+
+                if (resumed) {
+                    startRingtone();
+                }
             } else {
                 mRingtoneViewHolder.unSelect();
             }
@@ -757,7 +763,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 onThemeReady(playTrans);
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
-                onThemeLoading();
                 themeLoading = true;
             }
         } else {
@@ -780,6 +785,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         } else {
             // Hide ringtone
             mRingtoneViewHolder.hide();
+        }
+
+        if (themeLoading) {
+            onThemeLoading();
         }
 
         // Show background if gif drawable not ready.
@@ -840,11 +849,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             if (mRingtoneViewHolder.isSelect()) {
                 stopRingtone();
             }
+            resumed = false;
         }
     }
 
     private void resumeAnimation() {
         if (themeReady) {
+            resumed = true;
             previewWindow.playAnimation(mThemeType);
             callActionView.doAnimation();
 
@@ -975,12 +986,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         mPageSelectedPos = position;
         if ((isSelectedPos() && mDownloadTasks != null)) {
-            DownloadTask themeTask = mDownloadTasks.get(DownloadTask.TYPE_THEME);
-            if (themeTask != null && themeTask.getStatus() == DownloadTask.PENDING) {
-                downloadTheme(themeTask.getTasksManagerModel());
-                themeTask.setStatus(DownloadTask.DOWNLOADING);
+            for (int i = 0; i < mDownloadTasks.size(); i++) {
+                DownloadTask downloadTask = mDownloadTasks.valueAt(i);
+                if (downloadTask != null && downloadTask.getStatus() == DownloadTask.PENDING) {
+                    download(downloadTask);
+                }
             }
-
         }
         triggerPageChangeWhenIdle = true;
 
