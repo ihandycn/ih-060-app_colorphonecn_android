@@ -1140,7 +1140,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             HSLog.d("Ringtone", "Switch to " + (currentSelect ? "Close" : "Open"));
             String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Ringtone_Clicked", mTheme.getIdName());
             LauncherAnalytics.logEvent(event,
-                    "Type", currentSelect ? "TurnOn" : "TurnOff");
+                    "Type", currentSelect ? "TurnOff" : "TurnOn");
 
             if (currentSelect) {
                 unSelect();
