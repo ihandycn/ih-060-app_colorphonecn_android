@@ -438,10 +438,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
          + ", Active: " + isActive + ", autoPlay: " + needAutoPlay);
         if (isAnimated) {
             if (isActive) {
-                mRingtoneViewHolder.selectNoAnim();
                 if (isCurrentTheme && !RingtoneHelper.isDefaultRingtone(mTheme)) {
                     // User change ringtone from outside. We uncheck it
                     RingtoneHelper.ringtoneActive(mTheme.getId(), false);
+                    mRingtoneViewHolder.unSelect();
+                } else {
+                    mRingtoneViewHolder.selectNoAnim();
                 }
             } else {
                 mRingtoneViewHolder.unSelect();
