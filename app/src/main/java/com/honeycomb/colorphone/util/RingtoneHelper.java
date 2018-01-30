@@ -216,7 +216,7 @@ public class RingtoneHelper {
         // Write first ringtone id.
         if (newUri != null) {
             String newRingtoneId = newUri.getLastPathSegment();
-            if (firstTimeRingtoneSet) {
+            if (firstTimeRingtoneSet && TextUtils.isDigitsOnly(newRingtoneId)) {
                 saveFirstRingtoneId(Integer.parseInt(newRingtoneId));
             }
         }
