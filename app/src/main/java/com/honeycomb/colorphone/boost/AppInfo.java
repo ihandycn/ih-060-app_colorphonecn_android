@@ -12,12 +12,11 @@ import com.ihs.app.framework.HSApplication;
 public class AppInfo {
     private ApplicationInfo aInfo;
     private String name;
-    private char first;
+    private char first = 0;
     private String packageName;
     private String launchActivityName;
     private boolean isSelected = false;
     private AlphabeticIndexCompat mIndexer;
-    private Drawable icon;
 
     public AppInfo(ApplicationInfo info, boolean selected) {
         aInfo = info;
@@ -32,18 +31,6 @@ public class AppInfo {
         } else {
             name = aInfo.packageName;
         }
-
-        mIndexer = new AlphabeticIndexCompat(HSApplication.getContext());
-        String sectionName = mIndexer.computeSectionName(name.trim());
-        // If invoke method failed, section name may be empty.
-        if (!TextUtils.isEmpty(sectionName)) {
-            first = sectionName.charAt(0);
-            if (first < 'A' || first > 'Z') {
-                first = '#';
-            }
-        } else {
-            first = '#';
-        }
     }
 
     public ApplicationInfo getAInfo() {
@@ -51,7 +38,8 @@ public class AppInfo {
     }
 
     public Drawable getIcon() {
-        if (icon == null && aInfo != null) {
+        Drawable icon = null;
+        if (aInfo != null) {
             try {
                 icon = aInfo.loadIcon(HSApplication.getContext().getPackageManager());
             } catch (Resources.NotFoundException e) {
@@ -71,7 +59,27 @@ public class AppInfo {
     }
 
     public char getFirst() {
+        ensureFirstChar();
         return first;
+    }
+
+    private void ensureFirstChar() {
+        if (first != 0) {
+            return;
+        }
+        if (mIndexer == null) {
+            mIndexer = new AlphabeticIndexCompat(HSApplication.getContext());
+        }
+        String sectionName = mIndexer.computeSectionName(name.trim());
+        // If invoke method failed, section name may be empty.
+        if (!TextUtils.isEmpty(sectionName)) {
+            first = sectionName.charAt(0);
+            if (first < 'A' || first > 'Z') {
+                first = '#';
+            }
+        } else {
+            first = '#';
+        }
     }
 
     public String getPackageName() {
