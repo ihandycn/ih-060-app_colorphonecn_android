@@ -6,9 +6,10 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import com.acb.utils.ConcurrentUtils;
+import com.honeycomb.colorphone.PackageList;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +33,15 @@ public class SystemAppsManager {
     }
 
     public void init() {
-        new Thread(new Runnable() {
+        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 initAllInstalledAppInfo();
             }
-        }).start();
+        });
     }
 
-    public List<AppInfo> initAllInstalledAppInfo() {
+    private List<AppInfo> initAllInstalledAppInfo() {
         List<ApplicationInfo> installedApplications = pkgMgr.getInstalledApplications(0);
         HSLog.w("notification", "init Allapps == " + installedApplications.size());
 
@@ -50,14 +51,16 @@ public class SystemAppsManager {
         AppInfo app;
         for (ApplicationInfo info : installedApplications) {
             if (!allAppPackageNames.contains(info.packageName)) {
-                List<ActivityInfo> launchActivityInfos = getLaunchActivityInfo(info.packageName, pkgMgr);
-                if (null != launchActivityInfos && launchActivityInfos.size() > 0) {
+                ActivityInfo launchActivityInfo = getLaunchActivityInfo(info.packageName, pkgMgr);
+                if (null != launchActivityInfo) {
                     app = new AppInfo(info, false);
-                    app.setLaunchActivityName(launchActivityInfos.get(0).name);
+                    app.setLaunchActivityName(launchActivityInfo.name);
                     allAppInfos.add(app);
                     allAppPackageNames.add(info.packageName);
                 }
             }
+            // For analysis
+            PackageList.checkAndLogPackage(info.packageName);
         }
         HSLog.w("notification", "init Allappd == " + allAppPackageNames.size());
         return allAppInfos;
@@ -71,7 +74,7 @@ public class SystemAppsManager {
         return allAppInfos;
     }
 
-    private static List<ActivityInfo> getLaunchActivityInfo(String packageName, PackageManager pm) {
+    private static ActivityInfo getLaunchActivityInfo(String packageName, PackageManager pm) {
         Intent intentToResolve = new Intent(Intent.ACTION_MAIN);
         intentToResolve.addCategory(Intent.CATEGORY_LAUNCHER);
         intentToResolve.setPackage(packageName);
@@ -85,11 +88,6 @@ public class SystemAppsManager {
             return null;
         }
 
-        ArrayList<ActivityInfo> activityInfos = new ArrayList<>();
-        for (ResolveInfo resolveInfo : ris) {
-            activityInfos.add(resolveInfo.activityInfo);
-        }
-
-        return activityInfos;
+        return ris.get(0).activityInfo;
     }
 }

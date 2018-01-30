@@ -236,22 +236,8 @@ public class ColorPhoneApplication extends HSApplication {
         });
 
         initNotificationAlarm();
-        checkInstalledApps();
     }
 
-    private void checkInstalledApps() {
-        ConcurrentUtils.postOnSingleThreadExecutor(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    List<ApplicationInfo> apps = getPackageManager().getInstalledApplications(0);
-                    for (ApplicationInfo info : apps) {
-                        PackageList.checkAndLogPackage(info.packageName);
-                    }
-                } catch (Exception ignore) { }
-            }
-        });
-    }
 
     private void copyMediaFromAssertToFile() {
         final long startMills = SystemClock.elapsedRealtime();
