@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorWindowBackground">@color/white</color>
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">#0d0d0d</color>
@@ -42,4 +42,7 @@
     <color name="title_color">#cc000000</color>
     <color name="subtitle_color">#66000000</color>
     <color name="setting_gray">#25000000</color>
+
+    <color name="warn" tools:ignore="all">#FF3101</color>
+    <color name="text" tools:ignore="all">#666666</color>
 </resources>

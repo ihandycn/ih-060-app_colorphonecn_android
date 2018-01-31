@@ -126,4 +126,15 @@
     <string name="avatar_content">Create your avatar right away</string>
     <string name="action_back">BACK</string>
     <string name="action_install">INSTALL</string>
+
+    <string name="five_star_hint_text">How was your experience with us?</string>
+    <string name="five_star_positive_text">Submit</string>
+    <string name="five_star_one_text">Hated it</string>
+    <string name="five_star_two_text">Disliked it</string>
+    <string name="five_star_three_text">It was OK</string>
+    <string name="five_star_four_text">Liked it</string>
+    <string name="five_star_five_text">Loved it</string>
+
+    <string name="loved_it_desc">Thanks! Please rate with words like Nice, Useful, Stylish…</string>
+    <string name="liked_it_desc">Please tell us what you dislike. We will try our best to improve it!</string>
 </resources>

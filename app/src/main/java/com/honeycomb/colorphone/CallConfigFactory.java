@@ -19,7 +19,9 @@ import com.acb.utils.MessageCenterUtils;
 import com.acb.utils.NavUtils;
 import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
@@ -430,6 +432,10 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 }
                 if (CPSettings.isShowNotificationAccessOutAppGuide(CallConfigFactory.this, context)) {
                     NotificationAccessGuideAlertActivity.startOutAppGuide(context);
+                    return true;
+                }
+                if (callType == IncomingCallReceiver.CALL_IN_SUCCESS && FiveStarRateTip.canShowWhenEndCall()) {
+                    RateAlertActivity.showRateFrom(context, FiveStarRateTip.From.END_CALL);
                     return true;
                 }
                 return false;

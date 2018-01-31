@@ -1,1 +1,2 @@
-include ':app', ':lock'
+include ':app', ':lock', ':lib_superapps_android'
+project(':lib_superapps_android').projectDir = new File('libs/libSuperApps/lib')

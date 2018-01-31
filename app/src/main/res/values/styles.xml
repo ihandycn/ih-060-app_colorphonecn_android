@@ -69,6 +69,44 @@
         <item name="android:padding">12dp</item>
     </style>
 
+    <style name="DialogButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:minHeight">36dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingLeft">@dimen/dialog_button_padding</item>
+        <item name="android:paddingRight">@dimen/dialog_button_padding</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="DefaultCompatDialog" parent="Theme.AppCompat.Light.Dialog.Alert"/>
+
+    <style name="TransparentCompatDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="DialogTitleText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="typeface">@string/custom_font_semibold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/material_text_black_primary</item>
+    </style>
+
+    <style name="DialogDescText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="typeface">@string/custom_font_regular</item>
+        <item name="android:textColor">@color/material_text_black_secondary</item>
+    </style>
+
     <style name="NormalText">
         <item name="typeface">@string/proxima_nova_regular</item>
     </style>

@@ -1,9 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -267,10 +265,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
         }
-        if (pendingShowRateAlert && SessionMgr.getInstance().getCurrentSessionId() >= 3) {
-            HSAlertMgr.showRateAlert();
-            pendingShowRateAlert = false;
-        }
+//        if (pendingShowRateAlert && SessionMgr.getInstance().getCurrentSessionId() >= 3) {
+//            HSAlertMgr.showRateAlert();
+//            pendingShowRateAlert = false;
+//        }
         if (logOpenEvent) {
             logOpenEvent = false;
             mHandler.postDelayed(mainViewRunnable, 1000);
@@ -467,36 +465,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void feedBack() {
-        sentEmail(this, new String[]{Constants.FEED_BACK_EMAIL}, null, null);
+        Utils.sentEmail(this, new String[]{Constants.FEED_BACK_EMAIL}, null, null);
     }
 
     private void toggle() {
         boolean isChecked = mainSwitch.isChecked();
         mainSwitch.setChecked(!isChecked);
-    }
-
-    public static void sentEmail(Context mContext, String[] addresses, String subject, String body) {
-
-        try {
-            Intent sendIntentGmail = new Intent(Intent.ACTION_VIEW);
-            sendIntentGmail.setType("plain/text");
-            sendIntentGmail.setData(Uri.parse(TextUtils.join(",", addresses)));
-            sendIntentGmail.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-            sendIntentGmail.putExtra(Intent.EXTRA_EMAIL, addresses);
-            if (subject != null) sendIntentGmail.putExtra(Intent.EXTRA_SUBJECT, subject);
-            if (body != null) sendIntentGmail.putExtra(Intent.EXTRA_TEXT, body);
-            mContext.startActivity(sendIntentGmail);
-        } catch (Exception e) {
-            //When Gmail App is not installed or disable
-            Intent sendIntentIfGmailFail = new Intent(Intent.ACTION_SENDTO);
-            sendIntentIfGmailFail.setData(Uri.parse("mailto:")); // only email apps should handle this
-            sendIntentIfGmailFail.putExtra(Intent.EXTRA_EMAIL, addresses);
-            if (subject != null) sendIntentIfGmailFail.putExtra(Intent.EXTRA_SUBJECT, subject);
-            if (body != null) sendIntentIfGmailFail.putExtra(Intent.EXTRA_TEXT, body);
-            if (sendIntentIfGmailFail.resolveActivity(mContext.getPackageManager()) != null) {
-                mContext.startActivity(sendIntentIfGmailFail);
-            }
-        }
     }
 
     @Override

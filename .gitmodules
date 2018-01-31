@@ -7,3 +7,6 @@
 [submodule "libs/libChargingReport"]
 	path = libs/libChargingReport
 	url = http://git.ihandysoft.com/bingroup/Bin_FlashlightCharging_Android.git
+[submodule "libs/libSuperApps"]
+	path = libs/libSuperApps
+	url = http://git.ihandysoft.com/nogroup/Lib_SuperApps_Android.git

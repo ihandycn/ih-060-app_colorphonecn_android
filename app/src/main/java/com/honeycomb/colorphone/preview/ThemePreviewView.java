@@ -46,8 +46,10 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
+import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -495,6 +497,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (!GuideApplyThemeActivity.start(mActivity, true, null)) {
             Utils.showToast(mActivity.getString(R.string.apply_success));
+        }
+
+        if (FiveStarRateTip.canShowWhenApplyTheme()) {
+            RateAlertActivity.showRateFrom(mActivity, FiveStarRateTip.From.SET_THEME);
         }
 
         // Ringtone enabled

@@ -15,6 +15,7 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -47,7 +48,7 @@ public class SettingsActivity extends HSAppCompatActivity {
                 @Override
                 public void onClick(View v) {
 //                    startActivity(new Intent(SettingsActivity.this, TestActivity.class));
-                    startActivity(new Intent(SettingsActivity.this, AvatarVideoActivity.class));
+                    RateAlertActivity.showRateFrom(SettingsActivity.this, FiveStarRateTip.From.END_CALL);
                 }
             });
         }

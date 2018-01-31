@@ -211,6 +211,14 @@
             android:parentActivityName=".activity.ColorPhoneActivity"
             android:theme="@style/AppTheme.DarkFullScreen" />
 
+        <activity android:name=".activity.RateAlertActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".RateAlert"
+            android:excludeFromRecents="true"
+            android:theme="@style/TransparentCompatDialog" />
+
         <!--Activity for test function-->
         <activity android:name=".activity.TestActivity" />
 
