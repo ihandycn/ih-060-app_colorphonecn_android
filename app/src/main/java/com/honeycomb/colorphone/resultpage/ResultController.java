@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.resultpage;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
@@ -14,15 +15,14 @@ import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.colorphone.lock.AnimatorListenerAdapter;
 import com.colorphone.lock.lockscreen.chargingscreen.view.FlashButton;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
@@ -34,6 +34,7 @@ import com.honeycomb.colorphone.util.Thunk;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
@@ -87,11 +88,11 @@ public abstract class ResultController implements View.OnClickListener {
     private ImageView mAdIconView;
     private TextView mTitleTv;
     private TextView mDescriptionTv;
-    private View mActionBtn;
-    private View primaryViewContainer;
+    private FlashButton mActionBtn;
+//    private View primaryViewContainer;
     private View bottomContainer;
     private View iconContainer;
-    private View coverShader;
+//    private View coverShader;
 
     public enum Type {
         AD,
@@ -176,6 +177,9 @@ public abstract class ResultController implements View.OnClickListener {
         if (mType == Type.DEFAULT_VIEW) {
             return R.layout.result_page_default_view;
         }
+        if (mType == Type.AD) {
+            return R.layout.result_page_fullscreen_ad_container;
+        }
         return R.layout.result_page_fullscreen;
     }
 
@@ -234,116 +238,131 @@ public abstract class ResultController implements View.OnClickListener {
         }
 
         if (mType == Type.AD) {
-            mAdImageContainer = ViewUtils.findViewById(resultView, R.id.result_image_container_ad);
-//            mImageIv = ViewUtils.findViewById(resultView, R.id.result_charging_image);
-            mAdChoice = ViewUtils.findViewById(resultView, R.id.result_ad_choice);
-            mAdIconView = ViewUtils.findViewById(resultView, R.id.result_ad_icon);
-            mTitleTv = ViewUtils.findViewById(resultView, R.id.promote_charging_title);
-            mDescriptionTv = ViewUtils.findViewById(resultView, R.id.promote_charging_content);
-            mActionBtn = ViewUtils.findViewById(resultView, R.id.promote_charging_button);
-            primaryViewContainer = ViewUtils.findViewById(resultView, R.id.promote_charging_content_top_container);
-            bottomContainer = ViewUtils.findViewById(resultView, R.id.promote_charging_bottom_container);
-            iconContainer = ViewUtils.findViewById(resultView, R.id.promote_charging_icon_container);
-            coverShader = ViewUtils.findViewById(resultView, R.id.cover_icon);
-            coverShader.setBackgroundColor(mActivity.getBackgroundColor());
+            final View containerView = LayoutInflater.from(getContext()).inflate(
+                    R.layout.result_page_fullscreen_ad, (ViewGroup) resultView, false);
 
+            mAdImageContainer = ViewUtils.findViewById(containerView, R.id.result_image_container_ad);
             mAdImageContainer.setBitmapConfig(Bitmap.Config.RGB_565);
-            int targetWidth = Utils.getPhoneWidth(context) - 2 * Utils.pxFromDp(27) - 2 * Utils.pxFromDp(20);
+            int targetWidth = Dimensions.getPhoneWidth(context) - 2 * Dimensions.pxFromDp(27) - 2 * Dimensions.pxFromDp(20);
             int targetHeight = (int) (targetWidth / 1.9f);
             mAdImageContainer.setTargetSizePX(targetWidth, targetHeight);
-        }
-        switch (mType) {
-            case AD:
-                AcbNativeAdContainerView adContainer = new AcbNativeAdContainerView(getContext());
-                adContainer.addContentView(resultView);
-                adContainer.setAdTitleView(mTitleTv);
-                adContainer.setAdBodyView(mDescriptionTv);
-                adContainer.setAdPrimaryView(mAdImageContainer);
-                adContainer.setAdChoiceView(mAdChoice);
-                adContainer.setAdActionView(mActionBtn);
 
-                mAdImageContainer.setVisibility(View.VISIBLE);
-                final boolean valid = new AcbImageLoader(getContext()).loadRemote(getContext(), ad.getIconUrl(),
-                        ad.getResourceFilePath(AcbNativeAd.LOAD_RESOURCE_TYPE_ICON), new AcbImageLoaderListener() {
+            mAdChoice = ViewUtils.findViewById(containerView, R.id.result_ad_choice);
+            mTitleTv = ViewUtils.findViewById(containerView, R.id.promote_charging_title);
+            mDescriptionTv = ViewUtils.findViewById(containerView, R.id.promote_charging_content);
+            mActionBtn = ViewUtils.findViewById(containerView, R.id.promote_charging_button);
+            mAdIconView = ViewUtils.findViewById(containerView, R.id.result_ad_icon);
+            mActionBtn.setRepeatCount(0);
+
+            ImageView btn = ViewUtils.findViewById(resultView, R.id.result_page_fullscreen_ad_dismiss_btn);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    mActivity.finishAndNotify();
+                }
+            });
+
+//            primaryViewContainer = ViewUtils.findViewById(resultView, R.id.promote_charging_content_top_container);
+//            bottomContainer = ViewUtils.findViewById(containerView, R.id.promote_charging_bottom_container);
+//            iconContainer = ViewUtils.findViewById(resultView, R.id.promote_charging_icon_container);
+//            coverShader = ViewUtils.findViewById(resultView, R.id.cover_icon);
+//            coverShader.setBackgroundColor(mActivity.getBackgroundColor());
+//
+//            mAdImageContainer.setBitmapConfig(Bitmap.Config.RGB_565);
+//            int targetWidth = Utils.getPhoneWidth(context) - 2 * Utils.pxFromDp(27) - 2 * Utils.pxFromDp(20);
+//            int targetHeight = (int) (targetWidth / 1.9f);
+//            mAdImageContainer.setTargetSizePX(targetWidth, targetHeight);
+
+            AcbNativeAdContainerView adContainer = new AcbNativeAdContainerView(getContext());
+            adContainer.addContentView(containerView);
+            adContainer.setAdTitleView(mTitleTv);
+            adContainer.setAdBodyView(mDescriptionTv);
+            adContainer.setAdPrimaryView(mAdImageContainer);
+            adContainer.setAdChoiceView(mAdChoice);
+            adContainer.setAdActionView(mActionBtn);
+
+            mAdImageContainer.setVisibility(View.VISIBLE);
+            final boolean valid = new AcbImageLoader(getContext()).loadRemote(getContext(), ad.getIconUrl(),
+                    ad.getResourceFilePath(AcbNativeAd.LOAD_RESOURCE_TYPE_ICON), new AcbImageLoaderListener() {
+                        @Override
+                        public void imageLoaded(Bitmap bitmap) {
+                            mAdIconView.setImageBitmap(bitmap);
+                        }
+
+                        @Override
+                        public void imageFailed(AcbError acbError) {
+                            new AcbImageLoader(getContext()).loadRemote(getContext(), ad.getImageUrl(),
+                                    ad.getResourceFilePath(AcbNativeAd.LOAD_RESOURCE_TYPE_IMAGE), new AcbImageLoaderListener() {
+                                        @Override
+                                        public void imageLoaded(Bitmap bitmap) {
+                                            Bitmap newBitmap;
+                                            try {
+                                                newBitmap = createCenterCropBitmap(bitmap, mAdIconView.getWidth(), mAdIconView.getHeight());
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                newBitmap = bitmap;
+                                            }
+
+                                            mAdIconView.setImageBitmap(newBitmap);
+                                        }
+
+                                        @Override
+                                        public void imageFailed(AcbError acbError1) {
+
+                                        }
+                                    }, null);
+                        }
+                    }, null);
+            if (!valid) {
+                new AcbImageLoader(getContext()).loadRemote(getContext(), ad.getImageUrl(),
+                        ad.getResourceFilePath(AcbNativeAd.LOAD_RESOURCE_TYPE_IMAGE), new AcbImageLoaderListener() {
                             @Override
                             public void imageLoaded(Bitmap bitmap) {
-                                mAdIconView.setImageBitmap(bitmap);
+                                Bitmap newBitmap;
+                                try {
+                                    newBitmap = createCenterCropBitmap(bitmap, mAdIconView.getWidth(), mAdIconView.getHeight());
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    newBitmap = bitmap;
+                                }
+                                mAdIconView.setImageBitmap(newBitmap);
                             }
 
                             @Override
                             public void imageFailed(AcbError acbError) {
-                                new AcbImageLoader(getContext()).loadRemote(getContext(), ad.getImageUrl(),
-                                        ad.getResourceFilePath(AcbNativeAd.LOAD_RESOURCE_TYPE_IMAGE), new AcbImageLoaderListener() {
-                                            @Override
-                                            public void imageLoaded(Bitmap bitmap) {
-                                                Bitmap newBitmap;
-                                                try {
-                                                    newBitmap = createCenterCropBitmap(bitmap, mAdIconView.getWidth(), mAdIconView.getHeight());
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                    newBitmap = bitmap;
-                                                }
 
-                                                mAdIconView.setImageBitmap(newBitmap);
-                                            }
-
-                                            @Override
-                                            public void imageFailed(AcbError acbError1) {
-
-                                            }
-                                        }, null);
                             }
                         }, null);
-                if (!valid) {
-                    new AcbImageLoader(getContext()).loadRemote(getContext(), ad.getImageUrl(),
-                            ad.getResourceFilePath(AcbNativeAd.LOAD_RESOURCE_TYPE_IMAGE), new AcbImageLoaderListener() {
-                                @Override
-                                public void imageLoaded(Bitmap bitmap) {
-                                    Bitmap newBitmap;
-                                    try {
-                                        newBitmap = createCenterCropBitmap(bitmap, mAdIconView.getWidth(), mAdIconView.getHeight());
+            }
 
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        newBitmap = bitmap;
-                                    }
-                                    mAdIconView.setImageBitmap(newBitmap);
-                                }
+            List<View> clickViews = new ArrayList<>();
+            if (adContainer.getAdActionView() != null) {
+                clickViews.add(adContainer.getAdActionView());
+            }
 
-                                @Override
-                                public void imageFailed(AcbError acbError) {
+            if (adContainer.getAdBodyView() != null) {
+                clickViews.add(adContainer.getAdBodyView());
+            }
 
-                                }
-                            }, null);
-                }
+            if (adContainer.getAdTitleView() != null) {
+                clickViews.add(adContainer.getAdTitleView());
+            }
 
-                List<View> clickViews = new ArrayList<>();
-                if (adContainer.getAdActionView() != null) {
-                    clickViews.add(adContainer.getAdActionView());
-                }
+            if (adContainer.getAdIconView() != null) {
+                clickViews.add(adContainer.getAdIconView());
+            }
 
-                if (adContainer.getAdBodyView() != null) {
-                    clickViews.add(adContainer.getAdBodyView());
-                }
+            if (adContainer.getAdPrimaryView() != null) {
+                clickViews.add(adContainer.getAdPrimaryView());
+            }
 
-                if (adContainer.getAdTitleView() != null) {
-                    clickViews.add(adContainer.getAdTitleView());
-                }
+            adContainer.setClickViewList(clickViews);
 
-                if (adContainer.getAdIconView() != null) {
-                    clickViews.add(adContainer.getAdIconView());
-                }
-
-                if (adContainer.getAdPrimaryView() != null) {
-                    clickViews.add(adContainer.getAdPrimaryView());
-                }
-
-                adContainer.setClickViewList(clickViews);
-
-                mAdOrFunctionContainerView.addView(adContainer);
-                mAdContainer = adContainer;
-                fillNativeAd(ad);
-                break;
+            mAdContainer = adContainer;
+            fillNativeAd(ad);
+            FrameLayout container = resultView.findViewById(R.id.result_page_fullscreen_ad);
+            container.addView(adContainer);
+            mAdOrFunctionContainerView.addView(resultView);
         }
     }
 
@@ -436,28 +455,42 @@ public abstract class ResultController implements View.OnClickListener {
             @Override public void run() {
 
                 mResultView.setVisibility(View.VISIBLE);
-                if (coverShader != null) {
-                    coverShader.setVisibility(View.VISIBLE);
-                }
+//                if (coverShader != null) {
+//                    coverShader.setVisibility(View.VISIBLE);
+//                }
 
-                primaryViewContainer.setAlpha(1.0f);
-                bottomContainer.setAlpha(1f);
-                iconContainer.setAlpha(1f);
-                iconContainer.setScaleX(1.0f);
-                iconContainer.setScaleY(1.0f);
+//                primaryViewContainer.setAlpha(1.0f);
+//                bottomContainer.setAlpha(1f);
+//                iconContainer.setAlpha(1f);
+//                iconContainer.setScaleX(1.0f);
+//                iconContainer.setScaleY(1.0f);
 
+                startCardTranslationAnimation(adOrFunctionView, new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationEnd(animation);
+                    }
+                });
 
             }
         }, startDelay);
     }
 
-    private void startCardTranslationAnimation(View view, Animation.AnimationListener animatorListenerAdapter) {
-        float slideUpTranslation = mScreenHeight - mActivity.getResources().getDimensionPixelSize(R.dimen.result_page_header_height) - Utils.getStatusBarHeight(mActivity) - Utils.pxFromDp(15);
-        TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, slideUpTranslation, 0);
-        translateAnimation.setDuration(DURATION_CARD_TRANSLATE);
-        translateAnimation.setInterpolator(softStopAccDecInterpolator);
-        translateAnimation.setAnimationListener(animatorListenerAdapter);
-        view.startAnimation(translateAnimation);
+    private void startCardTranslationAnimation(final View view, AnimatorListenerAdapter animatorListenerAdapter) {
+        final float slideUpTranslationFrom = mScreenHeight - mActivity.getResources().getDimensionPixelSize(R.dimen.result_page_header_height)
+                - Dimensions.getStatusBarHeight(mActivity) - Dimensions.pxFromDp(15);
+
+        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
+        animator.setDuration(DURATION_CARD_TRANSLATE);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                view.setTranslationY(slideUpTranslationFrom * (1 - value));
+            }
+        });
+        animator.setInterpolator(softStopAccDecInterpolator);
+        animator.addListener(animatorListenerAdapter);
+        animator.start();
     }
 
     private void setBgViewSize() {
