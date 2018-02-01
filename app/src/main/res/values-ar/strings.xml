@@ -69,4 +69,15 @@
     <!--Ringtone-->
     <string name="ringtone_hint_after_apply">تم إعداد النسق والنغمة بنجاح</string>
     <string name="ringtone_hint_before_apply">فعّل النسق للاستمتاع بالنغمة</string>
+
+    <string name="five_star_hint_text">كيف كانت تجربتك معنا؟</string>
+    <string name="five_star_five_text">أعجبني كثيراً</string>
+    <string name="five_star_four_text">أعجبني</string>
+    <string name="five_star_three_text">لا بأس به</string>
+    <string name="five_star_two_text">لم يعجبني</string>
+    <string name="five_star_one_text">كرهته</string>
+    <string name="five_star_positive_text">إرسال</string>
+
+    <string name="loved_it_desc">شكراً! يرجى التقييم وإضافة كلمات مثل جميل، جيد، مفيد…</string>
+    <string name="liked_it_desc">أخبرنا ما لم يعجبك، من فضلك. سنبذل قصارى جهدنا لتحسينه!</string>
 </resources>

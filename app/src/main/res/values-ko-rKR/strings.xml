@@ -73,4 +73,15 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">테마 및 벨소리 설정 성공</string>
   <string name="ringtone_hint_before_apply">테마를 설정하여 벨소리를 받으세요</string>
+
+  <string name="five_star_hint_text">저희와의 경험이 어떠셨나요?</string>
+  <string name="five_star_positive_text">제출</string>
+  <string name="five_star_one_text">싫었다</string>
+  <string name="five_star_two_text">마음에 안 들었다</string>
+  <string name="five_star_three_text">괜찮았다</string>
+  <string name="five_star_four_text">마음에 들었다</string>
+  <string name="five_star_five_text">아주 좋았다</string>
+
+  <string name="loved_it_desc">감사합니다! 멋짐, 유용함, 스타일 좋음 등으로 평가해주세요.</string>
+  <string name="liked_it_desc">맘에 들지 않는 점을 말씀해주세요. 최선을 다해 개선하겠습니다!</string>
 </resources>

@@ -74,4 +74,15 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">Definição de tema e toque com sucesso</string>
   <string name="ringtone_hint_before_apply">Defina o tema para aproveitar o toque</string>
+
+  <string name="five_star_hint_text">Como foi a sua experiência connosco?</string>
+  <string name="five_star_five_text">Adorei</string>
+  <string name="five_star_four_text">Gostei</string>
+  <string name="five_star_three_text">Foi bom</string>
+  <string name="five_star_two_text">Não gostei</string>
+  <string name="five_star_one_text">Foi péssimo</string>
+  <string name="five_star_positive_text">Enviar</string>
+
+  <string name="loved_it_desc">Obrigado! Por favor, avalie com palavras como Legal, Útil, Estiloso…</string>
+  <string name="liked_it_desc">Conte-nos o que você não gosta. Vamos tentar o nosso melhor para melhorá-lo!</string>
 </resources>

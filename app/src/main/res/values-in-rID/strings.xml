@@ -73,4 +73,15 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">Tema dan nada dering berhasil diatur</string>
   <string name="ringtone_hint_before_apply">Atur tema untuk menikmati nada dering</string>
+
+  <string name="five_star_hint_text">Bagaimana pengalaman Anda dengan aplikasi kami?</string>
+  <string name="five_star_five_text">Sangat suka</string>
+  <string name="five_star_four_text">Suka</string>
+  <string name="five_star_three_text">OKE</string>
+  <string name="five_star_two_text">Tidak suka</string>
+  <string name="five_star_one_text">Benci</string>
+  <string name="five_star_positive_text">Kirim</string>
+
+  <string name="loved_it_desc">Terima Kasih! Beri nilai dengan kata seperti Bagus, Bermanfaat, Gaya…</string>
+  <string name="liked_it_desc">Beri tahu hal yang Anda tidak suka. Kami akan mencoba yang terbaik untuk menyempurnakannya!</string>
 </resources>

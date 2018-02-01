@@ -73,4 +73,15 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">Thème et sonnerie définis avec succès</string>
   <string name="ringtone_hint_before_apply">Définissez le thème pour profiter de la sonnerie</string>
+
+  <string name="five_star_hint_text">Qu\'avez-vous pensé de votre expérience ?</string>
+  <string name="five_star_positive_text">Soumettre</string>
+  <string name="five_star_one_text">J\'ai détesté</string>
+  <string name="five_star_two_text">Je n\'ai pas aimé</string>
+  <string name="five_star_three_text">C\'était OK</string>
+  <string name="five_star_four_text">J\'ai aimé</string>
+  <string name="five_star_five_text">J\'ai adoré</string>
+
+  <string name="loved_it_desc">Merci ! Veuillez nous noter en utilisant des mots tels que sympa, utile, stylée…</string>
+  <string name="liked_it_desc">Dites-nous ce que vous n\'aimez pas et nous essaierons de l\'améliorer !</string>
 </resources>

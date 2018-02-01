@@ -74,4 +74,16 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">Das Motiv und der Klingelton wurden erfolgreich eingerichtet.</string>
   <string name="ringtone_hint_before_apply">Motiv auswählen, um Klingelton zu genießen</string>
+
+  <string name="five_star_hint_text">Wie war Ihre Erfahrung mit uns?</string>
+  <string name="five_star_positive_text">Absenden</string>
+  <string name="five_star_one_text">Furchtbar</string>
+  <string name="five_star_two_text">Nicht so gut</string>
+  <string name="five_star_three_text">War okay</string>
+  <string name="five_star_four_text">War gut</string>
+  <string name="five_star_five_text">War toll</string>
+
+  <string name="loved_it_desc">Danke! Bitte bewerten Sie die App mit Adjektiven wie: schön, praktisch, stilvoll…</string>
+  <string name="liked_it_desc">Bitte sagen Sie uns, was Ihnen missfällt. Wir werden uns größte Mühe geben, die App zu verbessern.</string>
+
 </resources>

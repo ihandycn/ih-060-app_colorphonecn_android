@@ -74,4 +74,15 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">Il tema e la suoneria sono stati impostati</string>
   <string name="ringtone_hint_before_apply">Imposta il tema per utilizzare la suoneria</string>
+
+  <string name="five_star_hint_text">Come valuti l’esperienza?</string>
+  <string name="five_star_positive_text">Invia</string>
+  <string name="five_star_one_text">Pessima</string>
+  <string name="five_star_two_text">Non mi piace</string>
+  <string name="five_star_three_text">Buona</string>
+  <string name="five_star_four_text">Mi piace</string>
+  <string name="five_star_five_text">Fantastica</string>
+
+  <string name="loved_it_desc">Grazie! Utilizza parole come bella, utile, moderna…</string>
+  <string name="liked_it_desc">Facci sapere cosa non ti piace. Faremo del nostro meglio per migliorare!</string>
 </resources>

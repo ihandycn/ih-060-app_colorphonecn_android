@@ -74,4 +74,15 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">Тема и рингтон успешно установлены</string>
   <string name="ringtone_hint_before_apply">Установите тему, чтобы получить рингтон</string>
+
+  <string name="five_star_hint_text">Вам понравилось наше приложение?</string>
+  <string name="five_star_five_text">Очень понравилось</string>
+  <string name="five_star_four_text">Понравилось</string>
+  <string name="five_star_three_text">Нормально</string>
+  <string name="five_star_two_text">Не понравилось</string>
+  <string name="five_star_one_text">Совсем не понравилось</string>
+  <string name="five_star_positive_text">Отправить</string>
+
+  <string name="loved_it_desc">Спасибо! Оставьте отзыв со словами: хорошее, полезное, стильное…</string>
+  <string name="liked_it_desc">Расскажите, что вам не понравилось. Мы приложим все усилия, чтобы исправить это!</string>
 </resources>

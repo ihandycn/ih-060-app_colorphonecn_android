@@ -74,4 +74,15 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">Tema ve zil sesi başarıyla ayarlandı</string>
   <string name="ringtone_hint_before_apply">Zil sesinden yararlanmak için temayı ayarlayın</string>
+
+  <string name="five_star_hint_text">Bizden memnun kaldınız mı?</string>
+  <string name="five_star_five_text">Bayıldım</string>
+  <string name="five_star_four_text">Beğendim</string>
+  <string name="five_star_three_text">Eh işte</string>
+  <string name="five_star_two_text">Beğenmedim</string>
+  <string name="five_star_one_text">Nefret ettim</string>
+  <string name="five_star_positive_text">Gönder</string>
+
+  <string name="loved_it_desc">Teşekkürler! Lütfen Güzel, Kullanışlı, Tarz gibi sözcüklerle puan verin.</string>
+  <string name="liked_it_desc">Neleri beğenmediğinizi söyleyin. İyileştirmek için elimizden geleni yapalım.</string>
 </resources>

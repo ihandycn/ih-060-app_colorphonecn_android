@@ -73,4 +73,15 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">ตั้งธีมและเสียงเรียกเข้าสำเร็จ</string>
   <string name="ringtone_hint_before_apply">ตั้งธีมเพื่อเพลิดเพลินกับเสียงเรียกเข้า</string>
+
+  <string name="five_star_hint_text">คุณได้รับประสบการณ์จากเราอย่างไรบ้าง</string>
+  <string name="five_star_five_text">รัก</string>
+  <string name="five_star_four_text">ชอบ</string>
+  <string name="five_star_three_text">ก็ดี</string>
+  <string name="five_star_two_text">ไม่ชอบ</string>
+  <string name="five_star_one_text">เกลียด</string>
+  <string name="five_star_positive_text">ส่ง</string>
+
+  <string name="loved_it_desc">ขอบคุณ! กรุณาให้คะแนนด้วยคำพูดอย่างเช่น ดีงาม มีประโยชน์ มีสไตล์…</string>
+  <string name="liked_it_desc">กรุณาบอกเราว่าไม่ชอบอะไร เราจะพยายามปรับปรุงให้ดีที่สุด!</string>
 </resources>

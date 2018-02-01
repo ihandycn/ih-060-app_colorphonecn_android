@@ -74,4 +74,15 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">主題和鈴聲都已設置成功</string>
   <string name="ringtone_hint_before_apply">設置主題去享受鈴聲</string>
+
+  <string name="five_star_hint_text">覺得桌面如何？</string>
+  <string name="five_star_positive_text">提交</string>
+  <string name="five_star_one_text">討厭</string>
+  <string name="five_star_two_text">不喜歡</string>
+  <string name="five_star_three_text">一般</string>
+  <string name="five_star_four_text">喜歡</string>
+  <string name="five_star_five_text">喜愛</string>
+
+  <string name="loved_it_desc">非常感謝，請為我們評價。推薦您使用這些詞：好看、有用、時尚…</string>
+  <string name="liked_it_desc">請給我們反饋您不喜歡的功能，我們會盡力優化的！</string>
 </resources>

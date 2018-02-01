@@ -75,4 +75,16 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">Tema y tono establecidos correctamente</string>
   <string name="ringtone_hint_before_apply">Establece el tema para disfrutar del tono</string>
+
+  <string name="five_star_hint_text">¿Cómo valoras tu experiencia con nosotros?</string>
+  <string name="five_star_five_text">Me encantó</string>
+  <string name="five_star_four_text">Me gustó</string>
+  <string name="five_star_three_text">Estuvo bien</string>
+  <string name="five_star_two_text">No me gustó</string>
+  <string name="five_star_one_text">Horrible</string>
+  <string name="five_star_positive_text">Enviar</string>
+
+  <string name="loved_it_desc">¡Gracias! Valóranos con palabras como genial, útil, elegante…</string>
+  <string name="liked_it_desc">Dinos qué es lo que no te gusta. ¡Haremos lo que podamos para mejorarlo!</string>
+
 </resources>

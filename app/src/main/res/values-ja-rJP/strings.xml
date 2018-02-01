@@ -74,4 +74,15 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">テーマと着信音の設定に成功</string>
   <string name="ringtone_hint_before_apply">テーマを設定して着信音を楽しむ</string>
+
+  <string name="five_star_hint_text">感想をお聞かせください。</string>
+  <string name="five_star_positive_text">提出</string>
+  <string name="five_star_one_text">嫌い</string>
+  <string name="five_star_two_text">気に入らなかった</string>
+  <string name="five_star_three_text">まぁまぁ</string>
+  <string name="five_star_four_text">好き</string>
+  <string name="five_star_five_text">大好き</string>
+
+  <string name="loved_it_desc">ありがとう！すばらしい、便利、おしゃれ…などの言葉で評価してください。</string>
+  <string name="liked_it_desc">気に入らないことを教えてください。改善するために全力を尽くします！</string>
 </resources>

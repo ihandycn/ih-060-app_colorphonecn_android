@@ -73,4 +73,15 @@
   <!--Ringtone-->
   <string name="ringtone_hint_after_apply">थीम और रिंगटॉन सफलतापूर्वक सेट</string>
   <string name="ringtone_hint_before_apply">रिंगटॉन का आनंद लेने के लिए थीम को सेट करें</string>
+
+  <string name="five_star_hint_text">हमारे साथ आपका अनुभव कैसा रहा?</string>
+  <string name="five_star_five_text">प्यारा लगा </string>
+  <string name="five_star_four_text">पसंद आया </string>
+  <string name="five_star_three_text">यह ठीक था </string>
+  <string name="five_star_two_text">यह पसंद नहीं आया </string>
+  <string name="five_star_one_text">खराब लगा </string>
+  <string name="five_star_positive_text">दर्ज करें</string>
+
+  <string name="loved_it_desc">धन्‍यवाद! कृपया अच्‍छा, उपयोगी, प्रचलित शब्‍दों से रेट दें</string>
+  <string name="liked_it_desc">कृपया बताएं कि क्‍या नापसंद हैं। इसे सुधारने में हम प्रयास करेंगे!</string>
 </resources>
