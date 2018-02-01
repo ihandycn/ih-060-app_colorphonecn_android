@@ -215,7 +215,7 @@ public final class Utils {
             sendIntentGmail.putExtra(Intent.EXTRA_EMAIL, addresses);
             if (subject != null) sendIntentGmail.putExtra(Intent.EXTRA_SUBJECT, subject);
             if (body != null) sendIntentGmail.putExtra(Intent.EXTRA_TEXT, body);
-            NavUtils.startActivitySafely(mContext, sendIntentGmail);
+            mContext.startActivity(sendIntentGmail);
         } catch (Exception e) {
             //When Gmail App is not installed or disable
             Intent sendIntentIfGmailFail = new Intent(Intent.ACTION_SENDTO);
