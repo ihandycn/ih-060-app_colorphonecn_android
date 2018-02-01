@@ -44,6 +44,8 @@ import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
+import com.honeycomb.colorphone.recentapp.RecentAppManager;
+import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -186,6 +188,8 @@ public class ColorPhoneApplication extends HSApplication {
 
         initChargingReport();
         initLockerCharging();
+
+        initRecentApps();
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
 
         copyMediaFromAssertToFile();
@@ -238,6 +242,13 @@ public class ColorPhoneApplication extends HSApplication {
         initNotificationAlarm();
     }
 
+    private void initRecentApps() {
+        if (SmartAssistantUtils.isEnabled()) {
+            RecentAppManager.getInstance().start();
+        } else {
+            RecentAppManager.getInstance().stop();
+        }
+    }
 
     private void copyMediaFromAssertToFile() {
         final long startMills = SystemClock.elapsedRealtime();

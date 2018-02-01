@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ import com.acb.utils.PermissionHelper;
 import com.acb.utils.PermissionUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -21,6 +24,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.ihs.device.monitor.topapp.HSUsageAccessMgr;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -69,6 +73,26 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                     LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "FirstScreen");
                 }
                 finish();
+
+                boolean needUsageAccess =
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                        && SmartAssistantUtils.isConfigEnabled()
+                        && SmartAssistantUtils.gainUsageAccessOnFirstLaunch();
+
+                if (needUsageAccess) {
+                    Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                    startActivity(intent);
+
+                    // TODO
+
+                    HSUsageAccessMgr.getInstance().checkPermission(new HSUsageAccessMgr.PermissionListener() {
+                        @Override
+                        public void onPermissionChanged(boolean b) {
+
+                        }
+                    });
+                }
+
 
             }
         });

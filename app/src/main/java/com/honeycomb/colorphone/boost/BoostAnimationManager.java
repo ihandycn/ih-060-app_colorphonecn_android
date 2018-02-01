@@ -437,6 +437,7 @@ public class BoostAnimationManager {
         return drawables;
     }
 
+    // TODO SystemAppsManager
     private boolean isLaunchAbleApp(Context context, String packageName) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_MAIN);
@@ -479,6 +480,7 @@ public class BoostAnimationManager {
         for (int i = currentIndex; i < drawables.length; i++) {
             if (null != randomIndex && (i - currentIndex) < randomIndex.length) {
                 int index = randomIndex[i - currentIndex];
+                // TODO use
                 drawables[i] = Utils.getAppIcon(apps.get(index));
             }
         }

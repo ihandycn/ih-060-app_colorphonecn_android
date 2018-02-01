@@ -34,7 +34,9 @@
 
     <!-- Recent Apps -->
     <uses-permission android:name="android.permission.GET_TASKS"/>
-
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
    <!-- Required by Flash light -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission

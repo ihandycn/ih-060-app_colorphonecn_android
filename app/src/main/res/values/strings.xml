@@ -137,4 +137,12 @@
 
     <string name="loved_it_desc">Thanks! Please rate with words like Nice, Useful, Stylish…</string>
     <string name="liked_it_desc">Please tell us what you dislike. We will try our best to improve it!</string>
+
+    <!--Smart Assistant (Recent apps)-->
+    <string name="smart_assistant">Smart Assistant</string>
+    <string name="smart_assistant_tip_msg">Recommend apps by intelligence.</string>
+    <string name="disable">Disable</string>
+
+    <string name="accessibility_service_description">Not used</string>
+
 </resources>

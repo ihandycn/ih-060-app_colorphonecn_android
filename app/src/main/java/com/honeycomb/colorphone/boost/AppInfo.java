@@ -9,6 +9,8 @@ import android.text.TextUtils;
 
 import com.ihs.app.framework.HSApplication;
 
+import java.lang.ref.WeakReference;
+
 public class AppInfo {
     private ApplicationInfo aInfo;
     private String name;
@@ -17,6 +19,7 @@ public class AppInfo {
     private String launchActivityName;
     private boolean isSelected = false;
     private AlphabeticIndexCompat mIndexer;
+    private WeakReference<Drawable> mIconReference;
 
     public AppInfo(ApplicationInfo info, boolean selected) {
         aInfo = info;
@@ -39,9 +42,13 @@ public class AppInfo {
 
     public Drawable getIcon() {
         Drawable icon = null;
-        if (aInfo != null) {
+        if (mIconReference != null) {
+            icon = mIconReference.get();
+        }
+        if (icon == null && aInfo != null) {
             try {
                 icon = aInfo.loadIcon(HSApplication.getContext().getPackageManager());
+                mIconReference = new WeakReference<Drawable>(icon);
             } catch (Resources.NotFoundException e) {
             } catch (OutOfMemoryError e) {
                 // do nothing

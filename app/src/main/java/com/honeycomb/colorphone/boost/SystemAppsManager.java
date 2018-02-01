@@ -3,16 +3,22 @@ package com.honeycomb.colorphone.boost;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.text.TextUtils;
 
 import com.acb.utils.ConcurrentUtils;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.PackageList;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static com.flurry.sdk.nr.o;
 
 public class SystemAppsManager {
 
@@ -74,6 +80,17 @@ public class SystemAppsManager {
         return allAppInfos;
     }
 
+    public List<PackageInfo> getAllPackageInfos() {
+        try {
+            return pkgMgr.getInstalledPackages(0);
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) {
+                throw e;
+            }
+            return Collections.emptyList();
+        }
+    }
+
     private static ActivityInfo getLaunchActivityInfo(String packageName, PackageManager pm) {
         Intent intentToResolve = new Intent(Intent.ACTION_MAIN);
         intentToResolve.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -89,5 +106,14 @@ public class SystemAppsManager {
         }
 
         return ris.get(0).activityInfo;
+    }
+
+    public AppInfo getAppInfoByPkgName(String pkgName) {
+        for (AppInfo appInfo : allAppInfos) {
+            if (TextUtils.equals(pkgName, appInfo.getPackageName())) {
+                return appInfo;
+            }
+        }
+        return null;
     }
 }

@@ -79,7 +79,12 @@ dependencies {
 
     final USE_BETA_ACB_LIBS = false
 
+    def DEVICE_VERSION = ".gm:4.4.+" //或者  def DEVICE_VERSION = ".beta:4.4.+"
+    compile "com.ihandy.device:device-common$DEVICE_VERSION"
+    compile "com.ihandy.device:device-monitor-top-app$DEVICE_VERSION"
+
     final ACB_GM = [
+
             'net.appcloudbox.ads:libAcbAds.gm:1.1.1.gm',
             'net.appcloudbox.adadapter:libAdFBNativeAdapter.gm:5.0.0.gm',
             'net.appcloudbox.adadapter:libAdFBBannerAdapter.gm:5.0.0.gm',
