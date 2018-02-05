@@ -47,8 +47,7 @@ public class SettingsActivity extends HSAppCompatActivity {
             testView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    startActivity(new Intent(SettingsActivity.this, TestActivity.class));
-                    RateAlertActivity.showRateFrom(SettingsActivity.this, FiveStarRateTip.From.END_CALL);
+                    startActivity(new Intent(SettingsActivity.this, TestActivity.class));
                 }
             });
         }

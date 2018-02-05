@@ -27,6 +27,18 @@
             android:text="来电界面"
             android:onClick="startCallRingingWindow"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="好评"
+            android:onClick="startRate"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recent-App"
+            android:onClick="startRecentApp"/>
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_anim"
             android:layout_width="80dp"
