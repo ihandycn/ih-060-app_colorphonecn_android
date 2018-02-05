@@ -7,9 +7,7 @@ import android.text.format.DateUtils;
 
 import com.acb.utils.ConcurrentUtils;
 import com.colorphone.lock.util.PreferenceHelper;
-import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.BuildConfig;
-import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.AppInfo;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.util.Utils;
@@ -42,7 +40,7 @@ public class SmartAssistantUtils {
     private static final String TAG = "SmartAssistantUtils";
 
 
-    private void showSmartAssistant() {
+    public static void showSmartAssistant() {
         if (!isOnDesktop()) {
             HSLog.d(TAG, "Not on Desktop");
             return;
@@ -82,9 +80,9 @@ public class SmartAssistantUtils {
         });
     }
 
-    private boolean isOnDesktop() {
+    private static boolean isOnDesktop() {
         // TODO
-        return false;
+        return true;
     }
 
     static void disableByUser() {
@@ -193,7 +191,8 @@ public class SmartAssistantUtils {
             results.add(appInfo);
         } else {
             if (BuildConfig.DEBUG) {
-                throw new IllegalStateException("Pkg name = " + packageName + " not exists in SystemAppsManager!");
+//                Log.e()
+//                throw new IllegalStateException("Pkg name = " + packageName + " not exists in SystemAppsManager!");
             }
         }
     }
@@ -206,10 +205,13 @@ public class SmartAssistantUtils {
         List<String> frequentlyAppsByTime = RecentAppManager.getInstance().getAppUsageListRecently(COUNT_APP_RECENTLY_OPEN);
         List<String> frequentlyAppsByUsed = RecentAppManager.getInstance().getAppUsageListFrequently(SMART_ASSISTANT_AT_MOST_COUNT);
 
-        int firstMax = frequentlyAppsByTime.size() > 4 ? 4 : frequentlyAppsByTime.size();
+        int firstMax = frequentlyAppsByTime.size();
         for (int i = 0; i < firstMax; i++) {
             String packageName = frequentlyAppsByTime.get(i);
             transPackageIntoAppList(resultList, packageName);
+            if (resultList.size() >= COUNT_APP_RECENTLY_OPEN) {
+                break;
+            }
         }
 
         for (int i = 0; i < recentlyInstallApps.size(); i++) {

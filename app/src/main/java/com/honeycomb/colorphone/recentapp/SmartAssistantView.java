@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,7 @@ import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.AppInfo;
+import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.TypefacedTextView;
@@ -61,6 +64,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
     private TableLayout mAppsContainerView;
     private int mAppWidth;
+    private int mAppIconSize = Utils.pxFromDp(48);
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -69,6 +73,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                 case MSG_ICON_SET:
                     TextView textView = (TextView) msg.obj;
                     Drawable drawable = (Drawable) textView.getTag();
+                    drawable.setBounds(0, 0, mAppIconSize, mAppIconSize);
                     textView.setCompoundDrawables(null, drawable, null, null);
                     break;
             }
@@ -88,8 +93,8 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                 HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
                 return;
             }
+            mAd = ads.get(0);
         }
-        mAd = ads.get(0);
 
         View.inflate(context, R.layout.smart_assistant, this);
         initView();
@@ -126,14 +131,24 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         bindAd();
     }
 
-    private void addAppView(AppInfo appInfo) {
+    private void addAppView(final AppInfo appInfo) {
         TextView textView = new TextView(getContext());
         textView.setOnClickListener(this);
 
+        textView.setCompoundDrawablePadding(Utils.pxFromDp(2));
         textView.setTextColor(Color.BLACK);
         textView.setText(appInfo.getName());
-        textView.setCompoundDrawablePadding(Utils.pxFromDp(4));
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f);
+        textView.setSingleLine(true);
         loadAppIconInto(textView, appInfo);
+        textView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.startActivitySafely(v.getContext(), appInfo.getIntent());
+                HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
+            }
+        });
 
         TableLayout.LayoutParams rowParams = new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         rowParams.topMargin = CommonUtils.pxFromDp(10);

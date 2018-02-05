@@ -249,6 +249,11 @@
             android:theme="@style/Theme.AppCompat.Translucent">
         </activity>
 
+        <activity android:name=".recentapp.SmartAssistantActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <!-- Facebook全屏 -->
         <activity

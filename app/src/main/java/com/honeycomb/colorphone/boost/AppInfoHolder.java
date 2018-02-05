@@ -249,7 +249,7 @@ public class AppInfoHolder {
         }
     }
 
-    public Intent getIntent(ComponentName component) {
+    public static Intent getIntent(ComponentName component) {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

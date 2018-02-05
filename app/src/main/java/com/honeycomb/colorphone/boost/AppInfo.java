@@ -121,7 +121,7 @@ public class AppInfo {
 
     public Intent getIntent() {
         ComponentName comp = new ComponentName(getPackageName(), getLaunchActivityName());
-        return AppInfoHolder.getInstance().getIntent(comp);
+        return AppInfoHolder.getIntent(comp);
     }
 
 }
