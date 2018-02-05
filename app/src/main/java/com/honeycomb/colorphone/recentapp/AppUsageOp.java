@@ -159,6 +159,7 @@ public class AppUsageOp {
     }
 
     private void insert(String packageName, long timeStamp) {
+        HSLog.d("Recent Apps", "App display: " + packageName);
         final ContentValues contentValues = new ContentValues();
         contentValues.put(AppUsage.AppUsageEntry.COLUMN_NAME_PACKAGE_NAME, packageName);
         contentValues.put(AppUsage.AppUsageEntry.COLUMN_NAME_LAUNCHTIME_LAST, timeStamp);
@@ -171,6 +172,8 @@ public class AppUsageOp {
     }
 
     public void onAppUninstall(String packageName) {
+        HSLog.d("Recent Apps", "App uninstalled: " + packageName);
+
         AppUsage targetDelete = null;
         synchronized (mLock) {
             Iterator<AppUsage> iterator = mAppUsages.iterator();

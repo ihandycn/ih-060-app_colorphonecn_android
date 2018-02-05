@@ -41,19 +41,6 @@ public class RecentAppDBHelper extends SQLiteOpenHelper {
 
     }
 
-
-    private void update(ThemeEntry entry) {
-
-    }
-
-    private void delete(ThemeEntry entry) {
-
-    }
-
-    private void insert(ThemeEntry entry) {
-
-    }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_ENTRIES);
