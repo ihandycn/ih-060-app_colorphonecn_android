@@ -123,15 +123,15 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
     @SuppressWarnings("RedundantCast")
     private void bindRecentApps() {
-        final List<AppInfo> apps = SmartAssistantUtils.getSmartAssistantApps();
+        final List<RecentAppInfo> apps = SmartAssistantUtils.getSmartAssistantApps();
         for (int i = 0; i < apps.size(); i++) {
-            AppInfo appInfo = apps.get(i);
+            RecentAppInfo appInfo = apps.get(i);
             addAppView(appInfo);
         }
         bindAd();
     }
 
-    private void addAppView(final AppInfo appInfo) {
+    private void addAppView(final RecentAppInfo appInfo) {
         TextView textView = new TextView(getContext());
         textView.setOnClickListener(this);
 
@@ -141,7 +141,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f);
         textView.setSingleLine(true);
-        loadAppIconInto(textView, appInfo);
+        loadAppIconInto(textView, appInfo.getAppInfo());
         textView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

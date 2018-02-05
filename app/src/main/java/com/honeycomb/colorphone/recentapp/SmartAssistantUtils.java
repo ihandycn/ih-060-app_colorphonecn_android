@@ -7,7 +7,6 @@ import android.text.format.DateUtils;
 
 import com.acb.utils.ConcurrentUtils;
 import com.colorphone.lock.util.PreferenceHelper;
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.boost.AppInfo;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.util.Utils;
@@ -156,9 +155,9 @@ public class SmartAssistantUtils {
         Collections.sort(packageInfoList, new Comparator<PackageInfo>() {
             @Override
             public int compare(PackageInfo o1, PackageInfo o2) {
-                if (o1.lastUpdateTime > o2.lastUpdateTime) {
+                if (o1.firstInstallTime > o2.firstInstallTime) {
                     return -1;
-                } else if (o1.lastUpdateTime < o2.lastUpdateTime) {
+                } else if (o1.firstInstallTime < o2.firstInstallTime) {
                     return 1;
                 } else {
                     return 0;
@@ -170,7 +169,7 @@ public class SmartAssistantUtils {
         for (int i = 0; i < packageInfoList.size(); i++) {
             PackageInfo packageInfo = packageInfoList.get(i);
 
-            if (packageInfo.lastUpdateTime > timeMills) {
+            if (packageInfo.firstInstallTime > timeMills) {
                 AppInfo appInfo = SystemAppsManager.getInstance().getAppInfoByPkgName(packageInfo.packageName);
                 if (appInfo != null) {
                     resultList.add(appInfo);
@@ -185,46 +184,48 @@ public class SmartAssistantUtils {
         return resultList;
     }
 
-    private static void transPackageIntoAppList(List<AppInfo> results, String packageName) {
+    private static void transPackageIntoAppList(List<RecentAppInfo> results, String packageName, int type) {
         AppInfo appInfo = SystemAppsManager.getInstance().getAppInfoByPkgName(packageName);
         if (appInfo != null) {
-            results.add(appInfo);
-        } else {
-            if (BuildConfig.DEBUG) {
-//                Log.e()
-//                throw new IllegalStateException("Pkg name = " + packageName + " not exists in SystemAppsManager!");
-            }
+            results.add(buildRecentApp(appInfo, type));
         }
     }
 
-    public static List<AppInfo> getSmartAssistantApps() {
-        List<AppInfo> resultList = new ArrayList<>();
+    public static List<RecentAppInfo> getSmartAssistantApps() {
+        List<RecentAppInfo> resultList = new ArrayList<>();
 
         // 4 recent apps
         List<AppInfo> recentlyInstallApps = getRecentlyInstallApps();
-        List<String> frequentlyAppsByTime = RecentAppManager.getInstance().getAppUsageListRecently(COUNT_APP_RECENTLY_OPEN);
+        List<String> frequentlyAppsByTime = RecentAppManager.getInstance().getAppUsageListRecently(SMART_ASSISTANT_AT_MOST_COUNT);
         List<String> frequentlyAppsByUsed = RecentAppManager.getInstance().getAppUsageListFrequently(SMART_ASSISTANT_AT_MOST_COUNT);
 
         int firstMax = frequentlyAppsByTime.size();
         for (int i = 0; i < firstMax; i++) {
             String packageName = frequentlyAppsByTime.get(i);
-            transPackageIntoAppList(resultList, packageName);
+            transPackageIntoAppList(resultList, packageName, RecentAppInfo.TYPE_RECENTLY_USED);
+            HSLog.d(TAG, "Recently used app: " + packageName);
+
             if (resultList.size() >= COUNT_APP_RECENTLY_OPEN) {
                 break;
             }
         }
 
         for (int i = 0; i < recentlyInstallApps.size(); i++) {
-            String key = recentlyInstallApps.get(i).getPackageName();
-            if (!isExistApplicationInfo(resultList, key)) {
-                resultList.add(recentlyInstallApps.get(i));
+            String packageName = recentlyInstallApps.get(i).getPackageName();
+
+            if (!isExistApplicationInfo(resultList, packageName)) {
+                resultList.add(buildRecentApp(recentlyInstallApps.get(i), RecentAppInfo.TYPE_NEW_INSTALL));
+                HSLog.d(TAG, "Recently install app: " + packageName);
             }
         }
 
         for (int i = 0; i < frequentlyAppsByUsed.size(); i++) {
             String pkgName = frequentlyAppsByUsed.get(i);
+
             if (!isExistApplicationInfo(resultList, pkgName)) {
-                transPackageIntoAppList(resultList, pkgName);
+                transPackageIntoAppList(resultList, pkgName, RecentAppInfo.TYPE_FREQUENTLY_USED);
+                HSLog.d(TAG, "Frequently used app: " + pkgName);
+
                 if (resultList.size() >= SMART_ASSISTANT_AT_MOST_COUNT) {
                     break;
                 }
@@ -233,9 +234,17 @@ public class SmartAssistantUtils {
         return resultList;
     }
 
-    private static boolean isExistApplicationInfo(List<AppInfo> list, String packageName) {
+    private static RecentAppInfo buildRecentApp(AppInfo appInfo, int type) {
+        return new RecentAppInfo(appInfo, type);
+    }
+
+    private static boolean isOurSelf(String packageName) {
+        return TextUtils.equals(HSApplication.getContext().getPackageName(), packageName);
+    }
+
+    private static boolean isExistApplicationInfo(List<RecentAppInfo> list, String packageName) {
         boolean isExist = false;
-        for (AppInfo item : list) {
+        for (RecentAppInfo item : list) {
             if (TextUtils.equals(packageName, item.getPackageName())) {
                 isExist = true;
                 break;
