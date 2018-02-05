@@ -36,7 +36,6 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.contact.ContactManager;
-import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
@@ -67,6 +66,7 @@ import net.appcloudbox.ads.expressads.AcbExpressAdManager;
 import net.appcloudbox.ads.interstitialads.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativeads.AcbNativeAdManager;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
+import net.appcloudbox.goldeneye.AcbAdsManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -146,6 +146,8 @@ public class ColorPhoneApplication extends HSApplication {
 
     @DebugLog
     private void onMainProcessCreate() {
+        AcbAdsManager.initialize(this);
+
         AcbExpressAdManager.getInstance().init(this);
         AcbNativeAdManager.sharedInstance().init(this);
 
