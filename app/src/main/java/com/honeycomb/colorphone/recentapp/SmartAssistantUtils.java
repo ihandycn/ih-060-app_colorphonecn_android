@@ -2,6 +2,9 @@ package com.honeycomb.colorphone.recentapp;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -13,11 +16,14 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.device.monitor.topapp.TopAppManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import static com.ihs.device.common.utils.AppUtils.getDefaultLauncher;
 
 
 public class SmartAssistantUtils {
@@ -40,13 +46,10 @@ public class SmartAssistantUtils {
 
 
     public static void showSmartAssistant() {
-        if (!isOnDesktop()) {
-            HSLog.d(TAG, "Not on Desktop");
-            return;
-        }
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
+
                 if (!SmartAssistantUtils.isUserEnabled()) {
                     HSLog.d(TAG, "user disable");
                     return;
@@ -67,6 +70,12 @@ public class SmartAssistantUtils {
                     HSLog.d(TAG, "app count is less than 5");
                     return;
                 }
+
+                if (!isOnDesktop()) {
+                    HSLog.d(TAG, "Not on Desktop");
+                    return;
+                }
+
                 ConcurrentUtils.postOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -80,8 +89,35 @@ public class SmartAssistantUtils {
     }
 
     private static boolean isOnDesktop() {
-        // TODO
-        return true;
+        String topPkg = TopAppManager.getInstance().getTopApp();
+        if (TextUtils.isEmpty(topPkg)) {
+            return false;
+        }
+
+        String defaultLauncher = getDefaultLauncher();
+        return TextUtils.equals(topPkg, defaultLauncher);
+    }
+
+    /**
+     * @return Package name of current default launcher.
+     */
+    public @NonNull
+    static String getDefaultLauncher() {
+        PackageManager packageManager = HSApplication.getContext().getPackageManager();
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        ResolveInfo resolveInfo;
+        try {
+            resolveInfo = packageManager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        } catch (Exception e) {
+            return "";
+        }
+        if (resolveInfo != null && resolveInfo.activityInfo != null) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            return packageName == null ? "" : packageName;
+        }
+        return "";
     }
 
     static void disableByUser() {
