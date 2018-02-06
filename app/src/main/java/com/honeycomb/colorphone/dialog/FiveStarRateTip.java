@@ -247,16 +247,13 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
     protected void onClickPositiveButton(View v) {
         if (mCurrentPosition >= 0) {
             if (mCurrentPosition == MAX_POSITION) {
-                Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREF_KEY_HAD_FIVE_STAR_RATE, true);
                 HSMarketUtils.browseAPP();
-//                FloatWindowManager.getInstance().showPermissionGuide(HSApplication.getContext(),
-//                        FloatWindowManager.PermissionGuideType.FIVE_STAR_RATE, false);
-//                logGuideShown();
                 LauncherAnalytics.logEvent("RateAlert_Fivestar_Submit", "type", mFrom.toString());
             } else {
                 Utils.sentEmail(getContext(), new String[]{Constants.FEED_BACK_EMAIL}, null, null);
                 LauncherAnalytics.logEvent("RateAlert_Lessthanfive_Submit", "type", mFrom.toString());
             }
+            Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREF_KEY_HAD_FIVE_STAR_RATE, true);
             super.onClickPositiveButton(v);
         } else {
             guideAnim(false);
