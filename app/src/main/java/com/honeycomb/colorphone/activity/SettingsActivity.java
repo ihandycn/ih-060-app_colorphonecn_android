@@ -15,6 +15,7 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -117,12 +118,16 @@ public class SettingsActivity extends HSAppCompatActivity {
 
         }
 
-        findViewById(R.id.setting_item_notification).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Intent intent = new Intent(SettingsActivity.this, NotificationSettingsActivity.class);
-                ActivityUtils.startActivitySafely(SettingsActivity.this, intent);
-            }
-        });
+        if (BoostAutoPilotUtils.isBoostPushEnable()) {
+            findViewById(R.id.setting_item_notification).setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    Intent intent = new Intent(SettingsActivity.this, NotificationSettingsActivity.class);
+                    ActivityUtils.startActivitySafely(SettingsActivity.this, intent);
+                }
+            });
+        } else {
+            findViewById(R.id.setting_item_notification).setVisibility(View.GONE);
+        }
     }
 
     @Override
