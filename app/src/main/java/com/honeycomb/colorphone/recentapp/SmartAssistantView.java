@@ -4,11 +4,13 @@ package com.honeycomb.colorphone.recentapp;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -140,8 +142,13 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         textView.setText(appInfo.getName());
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f);
+        textView.setTypeface(FontUtils.getTypeface(FontUtils.Font.ROBOTO_CONDENSED));
         textView.setSingleLine(true);
+        textView.setMaxLines(1);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+
         loadAppIconInto(textView, appInfo.getAppInfo());
+
         textView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
