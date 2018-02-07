@@ -395,12 +395,14 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             }
 
         });
-        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_VisibilityChanged);
+        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_None);
+
     }
 
     private void showExpressAd() {
         if (expressAdView.getParent() == null) {
             advertisementContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+            expressAdView.switchAd();
         }
     }
 

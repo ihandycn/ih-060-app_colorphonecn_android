@@ -230,12 +230,13 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
             }
         });
-        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_VisibilityChanged);
+        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_None);
     }
 
     private void showExpressAd() {
         if (expressAdView != null && expressAdView.getParent() == null) {
             mAdContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+            expressAdView.switchAd();
         }
     }
 
@@ -244,9 +245,9 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     public void onResume() {
-//        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-//            expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_VisibilityChanged);
-//        }
+        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+            expressAdView.switchAd();
+        }
         LockerCustomConfig.getLogger().logEvent("Screen_Lock_Shown_Resume");
     }
 
