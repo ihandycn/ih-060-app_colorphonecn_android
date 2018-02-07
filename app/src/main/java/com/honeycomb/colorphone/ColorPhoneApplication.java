@@ -426,9 +426,9 @@ public class ColorPhoneApplication extends HSApplication {
     public static void checkCallAssistantAdPlacement() {
         final String adName = AcbCallManager.getInstance().getAcbCallFactory().getCallIdleConfig().getAdPlaceName();
         boolean enable = CPSettings.isCallAssistantModuleEnabled();
-        checkNativeAd(adName, enable);
+        checkExpressAd(adName, enable);
         final String smsName = AcbCallManager.getInstance().getAcbCallFactory().getSMSConfig().getAdPlacement();
-        checkNativeAd(smsName, CPSettings.isSMSAssistantModuleEnabled());
+        checkExpressAd(smsName, CPSettings.isSMSAssistantModuleEnabled());
 
     }
 
