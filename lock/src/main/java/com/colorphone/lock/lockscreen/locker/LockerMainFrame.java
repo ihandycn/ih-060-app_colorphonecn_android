@@ -43,7 +43,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.flashlight.FlashlightManager;
 
-import net.appcloudbox.ads.expressads.AcbExpressAdView;
+import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -230,6 +230,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
             }
         });
+        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_VisibilityChanged);
     }
 
     private void showExpressAd() {
@@ -243,16 +244,16 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     public void onResume() {
-        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-            expressAdView.resumeDisplayNewAd();
-        }
+//        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+//            expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_VisibilityChanged);
+//        }
         LockerCustomConfig.getLogger().logEvent("Screen_Lock_Shown_Resume");
     }
 
     public void onPause() {
-        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-            expressAdView.pauseDisplayNewAd();
-        }
+//        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+//            expressAdView.pauseDisplayNewAd();
+//        }
     }
 
     public void onStop() {

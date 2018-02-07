@@ -32,7 +32,7 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
-import net.appcloudbox.ads.nativeads.AcbNativeAdAnalytics;
+import net.appcloudbox.ads.nativead.AcbNativeAdAnalytics;
 
 import java.util.Iterator;
 import java.util.List;

@@ -52,7 +52,6 @@ import com.colorphone.lock.util.BitmapUtils;
 import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.ConcurrentUtils;
 import com.colorphone.lock.util.ViewUtils;
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -61,7 +60,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
 
-import net.appcloudbox.ads.expressads.AcbExpressAdView;
+import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -333,7 +332,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             showExpressAd();
         } else {
             if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-                expressAdView.resumeDisplayNewAd();
+                expressAdView.switchAd();
             }
         }
 
@@ -396,6 +395,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             }
 
         });
+        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_VisibilityChanged);
     }
 
     private void showExpressAd() {
@@ -854,9 +854,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
     public void onStop() {
         // ======== onPause ========
-        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-            expressAdView.pauseDisplayNewAd();
-        }
 
         if (chargingBubbleView != null) {
             chargingBubbleView.pauseAnim();

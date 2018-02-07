@@ -19,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/promote_charging_bottom_container"
-        android:layout_marginBottom="@dimen/activity_promote_charging_pr_bottom_margin"
-        android:layout_marginTop="@dimen/activity_promote_charging_pr_top_margin">
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="40dp">
 
         <FrameLayout
             android:id="@+id/promote_charging_content_top_container"
@@ -83,7 +83,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
-            android:layout_marginTop="@dimen/activity_promote_charging_title_top_margin"
+            android:layout_marginTop="73dp"
             android:alpha="0.87"
             android:gravity="center"
             android:singleLine="true"

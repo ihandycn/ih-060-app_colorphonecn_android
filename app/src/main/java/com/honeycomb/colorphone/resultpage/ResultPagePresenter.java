@@ -15,8 +15,8 @@ import com.ihs.commons.utils.HSLog;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
-import net.appcloudbox.ads.interstitialads.AcbInterstitialAdLoader;
-import net.appcloudbox.ads.nativeads.AcbNativeAdLoader;
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
+import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +80,7 @@ public class ResultPagePresenter implements ResultPageContracts.Presenter {
     }
 
     private void fetchAds() {
-        List<AcbInterstitialAd> interstitialAds = AcbInterstitialAdLoader.fetch(HSApplication.getContext(), AdPlacements.AD_RESULT_PAGE_INTERSTITIAL, 1);
+        List<AcbInterstitialAd> interstitialAds = AcbInterstitialAdManager.fetch(HSApplication.getContext(), AdPlacements.AD_RESULT_PAGE_INTERSTITIAL, 1);
         mInterstitialAd = interstitialAds.isEmpty() ? null : interstitialAds.get(0);
         LauncherAnalytics.logEvent("InterstitialAdAnalysis", "ad_show_from", "ResultPage+" + (mInterstitialAd != null));
         LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App",  AdPlacements.AD_RESULT_PAGE_INTERSTITIAL, String.valueOf(mInterstitialAd != null));
@@ -96,7 +96,7 @@ public class ResultPagePresenter implements ResultPageContracts.Presenter {
 //            mNativeAd = ads.isEmpty() ? null : ads.get(0);
 //            LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App",  AdPlacements.AD_RESULT_PAGE, String.valueOf(mNativeAd != null));
         } else {
-            List<AcbNativeAd> ads = AcbNativeAdLoader.fetch(HSApplication.getContext(), AdPlacements.AD_RESULT_PAGE, 1);
+            List<AcbNativeAd> ads = AcbNativeAdManager.fetch(HSApplication.getContext(), AdPlacements.AD_RESULT_PAGE, 1);
             mNativeAd = ads.isEmpty() ? null : ads.get(0);
             HSLog.d(TAG, "result page mNativeAd: " + mNativeAd);
             LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App",  AdPlacements.AD_RESULT_PAGE, String.valueOf(mNativeAd != null));

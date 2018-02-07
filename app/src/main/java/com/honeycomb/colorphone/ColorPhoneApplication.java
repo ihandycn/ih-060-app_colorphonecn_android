@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -62,11 +61,11 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.HSChargingManager;
 import com.liulishuo.filedownloader.FileDownloader;
 
-import net.appcloudbox.ads.expressads.AcbExpressAdManager;
-import net.appcloudbox.ads.interstitialads.AcbInterstitialAdManager;
-import net.appcloudbox.ads.nativeads.AcbNativeAdManager;
+import net.appcloudbox.AcbAds;
+import net.appcloudbox.ads.expressad.AcbExpressAdManager;
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
+import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
-import net.appcloudbox.goldeneye.AcbAdsManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -146,10 +145,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     @DebugLog
     private void onMainProcessCreate() {
-        AcbAdsManager.initialize(this);
-
-        AcbExpressAdManager.getInstance().init(this);
-        AcbNativeAdManager.sharedInstance().init(this);
+        AcbAds.getInstance().initializeFromGoldenEye(this);
 
         AcbCallManager.init("", new CallConfigFactory());
         AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
@@ -173,7 +169,7 @@ public class ColorPhoneApplication extends HSApplication {
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
 
-        AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
 
         HSPermanentUtils.keepAlive();
@@ -266,7 +262,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     private void initChargingReport() {
         long firstInstallTime = HSSessionMgr.getFirstSessionStartTime();
-        AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.AD_CHARGING_REPORT);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CHARGING_REPORT);
         ChargingReportConfiguration configuration = new ChargingReportConfiguration.Builder()
                 .adPlacement(AdPlacements.AD_CHARGING_REPORT)
                 .appName(getResources().getString(R.string.smart_charging))
@@ -319,6 +315,11 @@ public class ColorPhoneApplication extends HSApplication {
             @Override
             public void logAdEvent(String s, boolean b) {
                 LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App", s, String.valueOf(b));
+            }
+
+            @Override
+            public void onChargingReportShown() {
+
             }
         });
     }
@@ -461,9 +462,9 @@ public class ColorPhoneApplication extends HSApplication {
     private static void checkNativeAd(String adName, boolean enable) {
         HSLog.d("AD_CHECK_native", "Name = " + adName + ", enable = " + enable );
         if (enable) {
-            AcbNativeAdManager.sharedInstance().activePlacementInProcess(adName);
+            AcbNativeAdManager.getInstance().activePlacementInProcess(adName);
         } else {
-            AcbNativeAdManager.sharedInstance().deactivePlacementInProcess(adName);
+            AcbNativeAdManager.getInstance().deactivePlacementInProcess(adName);
         }
     }
 

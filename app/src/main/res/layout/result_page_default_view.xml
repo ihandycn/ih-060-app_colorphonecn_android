@@ -128,7 +128,6 @@
         android:layout_centerHorizontal="true"
         android:text="@string/boost_tip_optimal"
         android:textColor="#d9ffffff"
-        android:textSize="@dimen/result_page_card_optimized_font_size"
         app:layout_marginBottomPercent="21.45%" />
 
     <TextView
@@ -141,7 +140,6 @@
         android:gravity="center"
         android:text="@android:string/ok"
         android:textColor="#4285f4"
-        android:textSize="@dimen/result_page_card_optimized_font_size"
         app:layout_aspectRatio="750%"
         app:layout_marginBottomPercent="5.36%"
         app:layout_widthPercent="83.33%" />
