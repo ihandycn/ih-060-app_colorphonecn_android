@@ -53,6 +53,7 @@ import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -202,13 +203,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         });
 
         ledFlaseSwitch = leftDrawer.findViewById(R.id.led_flash_switch);
-        ledFlaseSwitch.setChecked(Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE, false));
+        ledFlaseSwitch.setChecked(Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE,
+                HSConfig.optBoolean(false, "Application", "LEDReminder", "DefaultSwitch")));
         ledFlaseSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Preferences.get(Constants.DESKTOP_PREFS).putBoolean(Constants.PREFS_LED_FLASH_ENABLE, isChecked);
                 if (isChecked) {
                     FlashManager.getInstance().startFlash(3);
+                    LauncherAnalytics.logEvent("LEDReminder_Enabled_FromSettings");
+                } else {
+                    LauncherAnalytics.logEvent("LEDReminder_Disabled_FromSettings");
                 }
             }
         });
