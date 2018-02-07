@@ -137,4 +137,6 @@
 
     <string name="loved_it_desc">Thanks! Please rate with words like Nice, Useful, Stylish…</string>
     <string name="liked_it_desc">Please tell us what you dislike. We will try our best to improve it!</string>
+
+    <string name="led_flash_switch_text" translatable="false">Led Flash</string>
 </resources>

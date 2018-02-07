@@ -51,39 +51,71 @@
                 android:textColor="#8a8a8a"
                 app:typeface="@string/proxima_nova_regular" />
 
-        <RelativeLayout
-            android:id="@+id/settings_main_switch"
-            style="@style/LayoutSettings"
-            android:layout_marginTop="40dp">
+            <RelativeLayout
+                android:id="@+id/settings_main_switch"
+                style="@style/LayoutSettings"
+                android:layout_marginTop="40dp">
 
-            <ImageView
-                android:id="@+id/settings_main_switch_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/settings_icon_switch" />
+                <ImageView
+                    android:id="@+id/settings_main_switch_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/settings_icon_switch" />
 
-            <com.honeycomb.colorphone.view.TypefacedTextView
-                android:id="@+id/settings_main_switch_txt"
-                style="@style/NormalText.Settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    android:id="@+id/settings_main_switch_txt"
+                    style="@style/NormalText.Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_toEndOf="@id/settings_main_switch_icon"
+                    android:layout_toRightOf="@id/settings_main_switch_icon"
+                    android:text="@string/color_phone_disable" />
 
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                android:layout_toEndOf="@id/settings_main_switch_icon"
-                android:layout_toRightOf="@id/settings_main_switch_icon"
-                android:text="@string/color_phone_disable" />
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/main_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/main_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" />
-        </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/settings_led_flash"
+                style="@style/LayoutSettings" >
+
+                <ImageView
+                    android:id="@+id/led_flash_switch_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/settings_led_flash_switch" />
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    android:id="@+id/led_flash_switch_txt"
+                    style="@style/NormalText.Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_toEndOf="@id/led_flash_switch_icon"
+                    android:layout_toRightOf="@id/led_flash_switch_icon"
+                    android:text="@string/led_flash_switch_text" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/led_flash_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
             <LinearLayout
                 android:id="@+id/settings_contacts"
                 style="@style/LayoutSettings"

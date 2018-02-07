@@ -33,8 +33,10 @@ import com.acb.utils.PermissionUtils;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.util.PreferenceHelper;
+import com.honeycomb.colorphone.CallConfigFactory;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -57,6 +59,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
+import com.superapps.util.Preferences;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -77,6 +80,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
 
     private SwitchCompat mainSwitch;
+    private SwitchCompat ledFlaseSwitch;
     private TextView mainSwitchTxt;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
@@ -110,6 +114,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private boolean logOpenEvent;
     private boolean pendingShowRateAlert = true;
+    CallConfigFactory factory;
 
     @DebugLog
     @Override
@@ -117,6 +122,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
 
         ContactManager.getInstance().update();
+
+        factory = new CallConfigFactory();
 
         // TODO pro show condition ( SESSION_START, or Activity onStart() )
         if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
@@ -178,8 +185,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         View leftDrawer = findViewById(R.id.left_drawer);
-        mainSwitch = (SwitchCompat) leftDrawer.findViewById(R.id.main_switch);
-        mainSwitchTxt = (TextView) leftDrawer.findViewById(R.id.settings_main_switch_txt);
+        mainSwitch = leftDrawer.findViewById(R.id.main_switch);
+        mainSwitchTxt = leftDrawer.findViewById(R.id.settings_main_switch_txt);
 
         initCheckState = CPSettings.isScreenFlashModuleEnabled();
         mainSwitch.setChecked(initCheckState);
@@ -193,7 +200,21 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 CPSettings.setScreenFlashModuleEnabled(isChecked);
             }
         });
+
+        ledFlaseSwitch = leftDrawer.findViewById(R.id.led_flash_switch);
+        ledFlaseSwitch.setChecked(Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE, false));
+        ledFlaseSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Preferences.get(Constants.DESKTOP_PREFS).putBoolean(Constants.PREFS_LED_FLASH_ENABLE, isChecked);
+                if (isChecked) {
+                    FlashManager.getInstance().startFlash(3);
+                }
+            }
+        });
+
         leftDrawer.findViewById(R.id.settings_main_switch).setOnClickListener(this);
+        leftDrawer.findViewById(R.id.settings_led_flash).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_feedback).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_setting).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_contacts).setOnClickListener(this);
@@ -447,6 +468,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             case R.id.settings_main_switch:
                 toggle();
                 break;
+            case R.id.settings_led_flash:
+                toggleFlash();
+                break;
             case R.id.settings_feedback:
                 feedBack();
                 ColorPhoneApplication.getConfigLog().getEvent().onFeedBackClick();
@@ -462,6 +486,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 AboutActivity.start(this);
                 break;
         }
+    }
+
+    private void toggleFlash() {
+        boolean isChecked = ledFlaseSwitch.isChecked();
+        ledFlaseSwitch.setChecked(!isChecked);
     }
 
     private void feedBack() {

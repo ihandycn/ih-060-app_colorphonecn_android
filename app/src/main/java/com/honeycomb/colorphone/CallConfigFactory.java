@@ -1,8 +1,13 @@
 package com.honeycomb.colorphone;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.ContentObserver;
 import android.graphics.Typeface;
+import android.media.AudioManager;
+import android.os.Handler;
 
 import com.acb.call.CPSettings;
 import com.acb.call.customize.AcbCallFactoryImpl;
@@ -30,7 +35,14 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
+import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.ihs.flashlight.FlashlightManager;
+import com.ihs.libcharging.ScreenStateMgr;
+import com.superapps.util.Preferences;
 
 import net.appcloudbox.ads.nativead.AcbNativeAdAnalytics;
 
@@ -452,4 +464,121 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             }
         };
     }
+
+    @Override
+    public IncomingCallReceiver.Event getCallStateEvent() {
+        return new IncomingCallReceiver.Event() {
+            @Override
+            public void onRinging(String s) {
+                startFlashIfProper();
+            }
+
+            @Override
+            public void onIdle(int i, String s) {
+                stopFlashIfProper();
+            }
+
+            @Override
+            public void onHookOff(String s) {
+
+            }
+
+            @Override
+            public void onOutGoing(String s) {
+
+            }
+
+            @Override
+            public void inCallWindowShow(String themeName) {
+
+            }
+        };
+    }
+
+    public void startFlashIfProper() {
+        if (Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE, false)
+                && !FlashlightManager.getInstance().isOn()
+                && !FlashManager.getInstance().isFlash()) {
+            FlashManager.getInstance().startFlash();
+
+            AudioManager audioMgr = (AudioManager) HSApplication.getContext().getSystemService(Context.AUDIO_SERVICE);
+            if (audioMgr != null) {
+                ringVolume = audioMgr.getStreamVolume(AudioManager.STREAM_RING);
+
+                observer = new SettingsContentObserver(new Handler());
+                HSApplication.getContext().getContentResolver().registerContentObserver(
+                        android.provider.Settings.System.CONTENT_URI, true,
+                        observer);
+            }
+
+            screenOffObserver = new INotificationObserver() {
+                @Override public void onReceive(String s, HSBundle hsBundle) {
+                    stopFlashIfProper();
+                }
+            };
+            HSGlobalNotificationCenter.addObserver(ScreenStateMgr.ACTION_SCREEN_OFF, screenOffObserver);
+
+            screenOffReceiver = new BroadcastReceiver() {
+                @Override public void onReceive(Context context, Intent intent) {
+                    stopFlashIfProper();
+                }
+            };
+            HSApplication.getContext().registerReceiver(screenOffReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
+        }
+    }
+
+    public void stopFlashIfProper() {
+        if (Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE, false)
+                && FlashManager.getInstance().isFlash()) {
+            FlashManager.getInstance().stopFlash();
+
+            if (observer != null) {
+                HSApplication.getContext().getContentResolver().unregisterContentObserver(observer);
+                observer = null;
+            }
+
+            if (screenOffObserver != null) {
+                HSGlobalNotificationCenter.removeObserver(screenOffObserver);
+                screenOffObserver = null;
+            }
+            if (screenOffReceiver != null) {
+                HSApplication.getContext().unregisterReceiver(screenOffReceiver);
+                screenOffReceiver = null;
+            }
+        }
+    }
+
+    private int ringVolume = -1;
+    private SettingsContentObserver observer;
+    private INotificationObserver screenOffObserver;
+    private BroadcastReceiver screenOffReceiver;
+
+    private void updateStuff() {
+        AudioManager audioMgr = (AudioManager) HSApplication.getContext().getSystemService(Context.AUDIO_SERVICE);
+        int volume = audioMgr.getStreamVolume(AudioManager.STREAM_RING);
+        if (volume != ringVolume) {
+            stopFlashIfProper();
+            ringVolume = -1;
+        }
+    }
+
+    private class SettingsContentObserver extends ContentObserver {
+
+        SettingsContentObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public boolean deliverSelfNotifications() {
+            return super.deliverSelfNotifications();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            HSLog.v("Settings change detected");
+            updateStuff();
+        }
+    }
+
 }
