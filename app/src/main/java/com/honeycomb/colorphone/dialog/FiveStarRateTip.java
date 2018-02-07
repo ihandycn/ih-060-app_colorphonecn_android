@@ -442,11 +442,11 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
     }
 
     public static boolean canShowWhenApplyTheme() {
-        return isNewUser() && !isHadFiveStarRate() && !isFiveStarRateShownByFrom(From.SET_THEME);
+        return isNewUser() && !isHadFiveStarRate() && isFiveStarRateShownByFrom(From.SET_THEME);
     }
 
     public static boolean canShowWhenEndCall() {
-        return isNewUser() && !isHadFiveStarRate() && !isFiveStarRateShownByFrom(From.END_CALL);
+        return isNewUser() && !isHadFiveStarRate() && isFiveStarRateShownByFrom(From.END_CALL);
     }
 
     private static boolean isNewUser() {
@@ -460,13 +460,13 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
     private static boolean isFiveStarRateShownByFrom(From from) {
         switch (from) {
             case SET_THEME:
-                return !DEBUG_FIVE_STAR
-                        && HSConfig.optBoolean(true, "Application", "RateAlert", "ApplyFinished", "Enable")
-                        && Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIVE_STAR_SHOWED_THEME, false);
+                return DEBUG_FIVE_STAR ||
+                        (HSConfig.optBoolean(true, "Application", "RateAlert", "ApplyFinished", "Enable")
+                        && !Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIVE_STAR_SHOWED_THEME, false));
             case END_CALL:
-                return !DEBUG_FIVE_STAR
-                        && HSConfig.optBoolean(true, "Application", "RateAlert", "CallFinished", "Enable")
-                        && Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIVE_STAR_SHOWED_END_CALL, false);
+                return DEBUG_FIVE_STAR ||
+                        (HSConfig.optBoolean(true, "Application", "RateAlert", "CallFinished", "Enable")
+                        && !Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIVE_STAR_SHOWED_END_CALL, false));
         }
         return true;
     }
