@@ -257,11 +257,10 @@
                 <LinearLayout
                     android:id="@+id/charging_screen_advertisement_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="250dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="9dp"
                     android:layout_marginRight="9dp"
-                    android:minHeight="250dp"
                     android:orientation="vertical">
                 </LinearLayout>
             </FrameLayout>
