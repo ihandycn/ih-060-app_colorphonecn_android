@@ -70,7 +70,7 @@ dependencies {
     compile'com.ihandy.device:device-clean-memory.gm:4.4.1.gm'
 
     // Submodule
-    compile(name: 'libColorhone/colorphone-release', ext: 'aar')
+    compile(name: 'libColorhone/libColorPhone', ext: 'aar')
     compile(name: 'libColorhone/libNotificationService', ext: 'aar')
     compile(name: 'libChargingReport/libChargingReport-release', ext: 'aar')
     compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
