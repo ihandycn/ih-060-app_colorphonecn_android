@@ -16,6 +16,7 @@ import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.receiver.IncomingCallReceiver;
 import com.acb.call.service.InCallWindow;
 import com.acb.call.themes.Type;
+import com.acb.call.utils.CallUtils;
 import com.acb.call.views.CallIdleAlert;
 import com.acb.notification.FloatWindowController;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
@@ -118,11 +119,16 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", "NotOnLockScreen", "MessageType", "SMS");
                 LauncherAnalytics.logEvent("Message_View_SMS_Shown_NotOnLockScreen");
 
+                CallUtils.recordAlertDailyCount(com.acb.Constants.PREFS_ALERT_DAILY_SHOW_COUNT_FILE, com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_TIME_STAMP,
+                        com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_DAILY_SHOW_COUNT, "Message_View_Daily_Shown");
             }
 
             public void onAdShow() {
                 NotificationAutoPilotUtils.logMessageAssistantAdShow();
                 LauncherAnalytics.logEvent("Message_View_AD_Shown", "AlertShowWhere", "NotOnLockScreen", "MessageType", "SMS");
+
+                CallUtils.recordAlertDailyCount(com.acb.Constants.PREFS_ALERT_DAILY_SHOW_COUNT_FILE, com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_AD_SHOW_TIME_STAMP,
+                        com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_AD_DAILY_SHOW_COUNT, "Message_View_AD_Daily_Shown");
             }
 
             public void onAdClick() {
@@ -336,13 +342,17 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         return new NotificationMessageAlertActivity.Event() {
             @Override
             public void onShow(int[] count) {
-//                LauncherAnalytics.logEvent("Message_View_Shown");
+                CallUtils.recordAlertDailyCount(com.acb.Constants.PREFS_ALERT_DAILY_SHOW_COUNT_FILE, com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_TIME_STAMP,
+                        com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_DAILY_SHOW_COUNT, "Message_View_Daily_Shown");
             }
 
             @Override
             public void onAdShow() {
                 NotificationAutoPilotUtils.logMessageAssistantAdShow();
                 LauncherAnalytics.logEvent("Message_View_AD_Shown");
+
+                CallUtils.recordAlertDailyCount(com.acb.Constants.PREFS_ALERT_DAILY_SHOW_COUNT_FILE, com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_AD_SHOW_TIME_STAMP,
+                        com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_AD_DAILY_SHOW_COUNT, "Message_View_AD_Daily_Shown");
             }
 
             @Override
