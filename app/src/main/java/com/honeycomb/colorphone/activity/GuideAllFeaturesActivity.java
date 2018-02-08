@@ -7,10 +7,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 
+import com.acb.notification.FloatWindowController;
 import com.acb.utils.PermissionHelper;
 import com.acb.utils.PermissionUtils;
 import com.honeycomb.colorphone.Constants;
@@ -21,8 +23,10 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.device.monitor.topapp.HSUsageAccessMgr;
 
@@ -31,6 +35,8 @@ import com.ihs.device.monitor.topapp.HSUsageAccessMgr;
  */
 
 public class GuideAllFeaturesActivity extends HSAppCompatActivity {
+
+    Handler mHandler = new Handler(Looper.getMainLooper());
 
     public static void start(Context context) {
         Intent starter = new Intent(context, GuideAllFeaturesActivity.class);
@@ -69,31 +75,20 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                 boolean needGuideNotificationPermisson = HSConfig.optBoolean(false,
                         "Application", "NotificationAccess", "GoToAccessPageFromFirstScreen");
                 if (needGuideNotificationPermisson && !PermissionUtils.isNotificationAccessGranted(GuideAllFeaturesActivity.this)) {
-                    PermissionHelper.requestNotificationPermission(ColorPhoneActivity.class, GuideAllFeaturesActivity.this, true, new Handler(), "FirstScreen");
-                    LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "FirstScreen");
-                }
-                finish();
-
-                boolean needUsageAccess =
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                        && SmartAssistantUtils.isConfigEnabled()
-                        && SmartAssistantUtils.gainUsageAccessOnFirstLaunch();
-
-                if (needUsageAccess) {
-                    Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-                    startActivity(intent);
-
-                    // TODO
-
-                    HSUsageAccessMgr.getInstance().checkPermission(new HSUsageAccessMgr.PermissionListener() {
+                    PermissionUtils.requestNotificationPermission(GuideAllFeaturesActivity.this, true, new Handler(), "FirstScreen");
+                    PermissionHelper.startObservingNotificationPermissionOneTime(new PermissionHelper.OneTimeRunnable() {
                         @Override
-                        public void onPermissionChanged(boolean b) {
-
+                        public void oneTimeRun() {
+                            HSGlobalNotificationCenter.sendNotification(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED);
+                            if (!requestForUsageAccess()) {
+                                PermissionHelper.bringActivityToFront(ColorPhoneActivity.class, 0);
+                            }
                         }
                     });
+                    LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "FirstScreen");
                 }
 
-
+                finish();
             }
         });
 
@@ -134,4 +129,32 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             }
         });
     }
+
+    public boolean requestForUsageAccess() {
+        boolean needUsageAccess =
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                        && SmartAssistantUtils.isConfigEnabled()
+                        && SmartAssistantUtils.gainUsageAccessOnFirstLaunch();
+
+        if (needUsageAccess) {
+            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            Utils.startActivitySafely(HSApplication.getContext(), intent);
+
+            String hintTxt = HSApplication.getContext().getString(R.string.usage_access_guide_hint);
+            FloatWindowController.getInstance().createUsageAccessTip(HSApplication.getContext(), hintTxt);
+
+            HSUsageAccessMgr.getInstance().checkPermission(new HSUsageAccessMgr.PermissionListener() {
+                @Override
+                public void onPermissionChanged(boolean granted) {
+                    if (granted) {
+                        PermissionHelper.bringActivityToFront(ColorPhoneActivity.class, 0);
+                    }
+                }
+            });
+        }
+
+        return needUsageAccess;
+    }
+
 }
