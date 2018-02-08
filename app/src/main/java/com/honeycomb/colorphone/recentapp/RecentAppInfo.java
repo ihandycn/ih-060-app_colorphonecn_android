@@ -9,9 +9,9 @@ import com.honeycomb.colorphone.boost.AppInfo;
  */
 
 public class RecentAppInfo {
-    public static int TYPE_NEW_INSTALL = 1;
-    public static int TYPE_RECENTLY_USED = 2;
-    public static int TYPE_FREQUENTLY_USED = 3;
+    public static final int TYPE_NEW_INSTALL = 1;
+    public static final int TYPE_RECENTLY_USED = 2;
+    public static final int TYPE_MOSTLY_USED = 3;
 
     private AppInfo mAppInfo;
 

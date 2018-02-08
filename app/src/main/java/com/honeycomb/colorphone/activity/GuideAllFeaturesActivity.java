@@ -144,11 +144,13 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             String hintTxt = HSApplication.getContext().getString(R.string.usage_access_guide_hint);
             FloatWindowController.getInstance().createUsageAccessTip(HSApplication.getContext(), hintTxt);
 
+            LauncherAnalytics.logEvent("ColorPhone_SystemUsageAccessView_Show");
             HSUsageAccessMgr.getInstance().checkPermission(new HSUsageAccessMgr.PermissionListener() {
                 @Override
                 public void onPermissionChanged(boolean granted) {
                     if (granted) {
                         PermissionHelper.bringActivityToFront(ColorPhoneActivity.class, 0);
+                        LauncherAnalytics.logEvent("ColorPhone_Usage_Access_Enabled");
                     }
                 }
             });

@@ -10,6 +10,7 @@ import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 
 import com.colorphone.lock.ScreenStatusReceiver;
+import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.receiver.UserPresentReceiver;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -22,6 +23,8 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.device.monitor.topapp.HSTopAppManager;
 import com.ihs.device.monitor.topapp.HSUsageAccessMgr;
 import com.ihs.device.monitor.topapp.TopAppManager;
+
+import net.appcloudbox.ads.nativeads.AcbNativeAdManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -125,6 +128,8 @@ public class RecentAppManager {
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, screenOnObserver);
         HSGlobalNotificationCenter.addObserver(UserPresentReceiver.USER_PRESENT, screenOnObserver);
 
+        AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
+
     }
 
     public void stop() {
@@ -137,6 +142,9 @@ public class RecentAppManager {
         HSTopAppManager.getInstance().unregister(this.mTopAppListener);
         HSUsageAccessMgr.getInstance().uncheckPermission(this.usageAccessListener);
         HSGlobalNotificationCenter.removeObserver(screenOnObserver);
+
+        AcbNativeAdManager.sharedInstance().deactivePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
+
     }
 
 

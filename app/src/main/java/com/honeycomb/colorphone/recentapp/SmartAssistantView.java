@@ -4,7 +4,6 @@ package com.honeycomb.colorphone.recentapp;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
@@ -103,7 +102,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         bindRecentApps();
         SmartAssistantUtils.recordSmartAssistantShowTime();
 
-        LauncherAnalytics.logEvent("RecentApps_Popup_Show");
+        LauncherAnalytics.logEvent("Recent_Apps_Show");
 
         HSLog.d("RecentApps", "show recent apps");
     }
@@ -152,6 +151,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         textView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                LauncherAnalytics.logEvent("Recent_Apps_AppIcon_Clicked", "Type", getAppIconClickEventType(appInfo));
                 Utils.startActivitySafely(v.getContext(), appInfo.getIntent());
                 HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
             }
@@ -179,6 +179,22 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         }
     }
 
+    private String getAppIconClickEventType(RecentAppInfo appInfo) {
+        String result = "None";
+        switch (appInfo.getType()) {
+            case RecentAppInfo.TYPE_MOSTLY_USED:
+                result = "MostUse";
+                break;
+            case RecentAppInfo.TYPE_NEW_INSTALL:
+                result = "New";
+                break;
+            case RecentAppInfo.TYPE_RECENTLY_USED:
+                result = "RecentUse";
+                break;
+        }
+        return result;
+    }
+
     private void loadAppIconInto(TextView textView, final AppInfo appInfo) {
         final WeakReference<TextView> weakReference = new WeakReference<TextView>(textView);
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
@@ -203,6 +219,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
             mNativeContent.fillNativeAd(mAd);
             mAd.setNativeClickListener(SmartAssistantView.this);
             mAdLogger.adShow();
+            LauncherAnalytics.logEvent("Recent_Apps_Ad_Show");
         }
     }
 
@@ -301,9 +318,6 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                     LauncherAnalytics.logEvent("RecentApps_Disable_Success");
                     mMenuPopupView.dismiss();
                     SmartAssistantUtils.disableByUser();
-                    // TODO disable ad placement
-//                    AcbAdsManager.deactivePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
-
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
                 }
             });
@@ -343,6 +357,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
     @Override
     public void onAdClick(AcbAd acbAd) {
+        LauncherAnalytics.logEvent("Recent_Apps_Ad_Clicked");
         HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
     }
 }

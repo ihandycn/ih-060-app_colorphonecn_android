@@ -24,8 +24,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.ihs.device.common.utils.AppUtils.getDefaultLauncher;
-
 
 public class SmartAssistantUtils {
 
@@ -156,7 +154,7 @@ public class SmartAssistantUtils {
     }
 
     public static boolean gainUsageAccessOnFirstLaunch() {
-        return HSConfig.optBoolean(true, "Application", "RecentApps", "Ussage_Access_Gain_From_First_Screen");
+        return HSConfig.optBoolean(true, "Application", "RecentApps", "Usage_Access_Gain_From_First_Screen");
     }
 
     private static long getConfigIntervalTimeMills() {
@@ -266,7 +264,7 @@ public class SmartAssistantUtils {
             String pkgName = frequentlyAppsByUsed.get(i);
 
             if (!isExistApplicationInfo(resultList, pkgName)) {
-                transPackageIntoAppList(resultList, pkgName, RecentAppInfo.TYPE_FREQUENTLY_USED);
+                transPackageIntoAppList(resultList, pkgName, RecentAppInfo.TYPE_MOSTLY_USED);
                 HSLog.d(TAG, "Frequently used app: " + pkgName);
 
                 if (resultList.size() >= SMART_ASSISTANT_AT_MOST_COUNT) {
