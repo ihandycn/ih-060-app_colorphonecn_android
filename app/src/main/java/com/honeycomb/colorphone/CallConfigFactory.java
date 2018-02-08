@@ -490,7 +490,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
             @Override
             public void onHookOff(String s) {
-
+                stopFlashIfProper();
             }
 
             @Override
