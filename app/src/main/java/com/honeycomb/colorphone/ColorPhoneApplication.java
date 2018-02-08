@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -36,7 +35,6 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.contact.ContactManager;
-import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
@@ -243,11 +241,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void initRecentApps() {
-        if (SmartAssistantUtils.isEnabled()) {
-            RecentAppManager.getInstance().start();
-        } else {
-            RecentAppManager.getInstance().stop();
-        }
+        RecentAppManager.getInstance().init();
     }
 
     private void copyMediaFromAssertToFile() {

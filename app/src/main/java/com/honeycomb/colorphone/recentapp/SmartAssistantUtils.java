@@ -7,6 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.widget.Toast;
 
 import com.acb.utils.ConcurrentUtils;
 import com.colorphone.lock.util.PreferenceHelper;
@@ -28,7 +29,7 @@ import static com.ihs.device.common.utils.AppUtils.getDefaultLauncher;
 
 public class SmartAssistantUtils {
 
-    private static final String PREF_FILE_NAME = "colorphone.recentapps";
+    public static final String PREF_FILE_NAME = "colorphone.recentapps";
     public static final int SMART_ASSISTANT_AT_LEAST_COUNT = 4;
     public static final int SMART_ASSISTANT_AT_MOST_COUNT = 8;
 
@@ -45,34 +46,35 @@ public class SmartAssistantUtils {
     private static final String TAG = "SmartAssistantUtils";
 
 
-    public static void showSmartAssistant() {
+    public static void tryShowSmartAssistant() {
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
 
                 if (!SmartAssistantUtils.isUserEnabled()) {
-                    HSLog.d(TAG, "user disable");
+                    debugLog("user disable");
                     return;
                 }
 
                 if (!SmartAssistantUtils.isConfigEnabled()) {
-                    HSLog.d(TAG, "config disable");
+                    debugLog("config disable");
 
                     return;
                 }
 
                 if (!SmartAssistantUtils.couldShowSmartAssistantByIntervalTime()) {
-                    HSLog.d(TAG, "config interval time");
+                    debugLog("config interval time");
                     return;
                 }
 
+                if (isShowOnlyOnDesktop() && !isOnDesktop()) {
+                    debugLog("Not on Desktop");
+                    return;
+                }
+
+                // Huge works to do, so we do it at last.
                 if (!SmartAssistantUtils.couldShowByCount()) {
-                    HSLog.d(TAG, "app count is less than 5");
-                    return;
-                }
-
-                if (!isOnDesktop()) {
-                    HSLog.d(TAG, "Not on Desktop");
+                    debugLog("app count is less than 5");
                     return;
                 }
 
@@ -86,6 +88,19 @@ public class SmartAssistantUtils {
 
             }
         });
+    }
+
+    private static void debugLog(final String msg) {
+        HSLog.d(TAG, msg);
+
+        ConcurrentUtils.postOnMainThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Toast.makeText(HSApplication.getContext(), msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private static boolean isOnDesktop() {
@@ -161,14 +176,6 @@ public class SmartAssistantUtils {
             return false;
         }
     }
-//
-//    public static void recordCouldShowSmartAssistantByPresent(boolean isCouldShow) {
-//        PreferenceHelper.get(PREF_FILE_NAME).putBoolean(PREF_KEY_COULD_SHOW_SMART_ASSISTANT, isCouldShow);
-//    }
-//
-//    public static boolean couldShowSmartAssistantByPresent() {
-//        return PreferenceHelper.get(PREF_FILE_NAME).getBoolean(PREF_KEY_COULD_SHOW_SMART_ASSISTANT, false);
-//    }
 
     public static boolean isFirstShowSmartAssistant() {
         long lastShowTime = PreferenceHelper.get(PREF_FILE_NAME).getLong(PREF_KEY_LAST_SHOW_SMART_ASSISTANT_TIME, 0);
