@@ -8,13 +8,13 @@ import android.os.Looper;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
-import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Threads;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class ContactManager {
     }
 
     public void update() {
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 final List<SimpleContact> all = ContactUtils.readAllContacts(HSApplication.getContext());
@@ -207,7 +207,7 @@ public class ContactManager {
 
     public void updateDb(final List<ThemeEntry> themes, Runnable callback){
         final WeakReference<Runnable> weakReference = new WeakReference<Runnable>(callback);
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 ContentValues initialValues = new ContentValues();
@@ -234,7 +234,7 @@ public class ContactManager {
                     }
                     database.setTransactionSuccessful();
 
-                    ConcurrentUtils.postOnMainThread(new Runnable() {
+                    Threads.postOnMainThread(new Runnable() {
                         @Override
                         public void run() {
                             Runnable callback = weakReference.get();

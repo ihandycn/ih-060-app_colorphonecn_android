@@ -18,8 +18,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import com.colorphone.lock.R;
-import com.colorphone.lock.util.CommonUtils;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
 
 import java.lang.ref.WeakReference;
 
@@ -295,7 +295,7 @@ public class SlidingDrawer extends FrameLayout implements OnTouchListener {
         if (!startMoving) {
             startMoving = ret;
             if (MotionEvent.ACTION_MOVE == ev.getAction()) {
-                if (Math.abs(ev.getRawX() - downX) >= CommonUtils.pxFromDp(5) || Math.abs(ev.getRawY() - downY) >= CommonUtils.pxFromDp(5)) {
+                if (Math.abs(ev.getRawX() - downX) >= Dimensions.pxFromDp(5) || Math.abs(ev.getRawY() - downY) >= Dimensions.pxFromDp(5)) {
                     onDrawerScrollStarted(getMotionAxisValue(ev));
                     startMoving = true;
                 }
@@ -539,7 +539,7 @@ public class SlidingDrawer extends FrameLayout implements OnTouchListener {
 
     public void doBounceUpAnimation() {
         float startTrans = endPoint;
-        float endTrans = endPoint - CommonUtils.pxFromDp(50);
+        float endTrans = endPoint - Dimensions.pxFromDp(50);
         ValueAnimator animator1 = ValueAnimator.ofFloat(startTrans, endTrans);
         animator1.setDuration(150);
         animator1.setInterpolator(new DecelerateInterpolator());

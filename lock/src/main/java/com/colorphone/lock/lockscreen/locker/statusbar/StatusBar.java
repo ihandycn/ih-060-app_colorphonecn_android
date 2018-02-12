@@ -26,10 +26,10 @@ import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.SystemSettingsManager;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerUtils;
-import com.colorphone.lock.util.CommonUtils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
 
 import java.lang.ref.WeakReference;
@@ -370,7 +370,21 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
     }
 
     private void stopScanWifi() {
-        CommonUtils.unregisterReceiver(getContext(), wifiReceiver);
+        unregisterReceiver(getContext(), wifiReceiver);
+    }
+
+    public static boolean unregisterReceiver(Context context, BroadcastReceiver receiver) {
+        if (receiver == null) {
+            return true;
+        }
+        try {
+            context.unregisterReceiver(receiver);
+            return true;
+        } catch (Exception e) {
+            HSLog.e("Reciever", "Error unregistering broadcast receiver: " + receiver + " at ");
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void startListenPhoneState() {

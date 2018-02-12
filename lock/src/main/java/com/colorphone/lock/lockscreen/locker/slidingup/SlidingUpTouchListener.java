@@ -5,8 +5,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import com.colorphone.lock.util.CommonUtils;
+
 import com.ihs.app.framework.HSApplication;
+import com.superapps.util.Dimensions;
 
 public class SlidingUpTouchListener implements View.OnTouchListener {
 
@@ -30,9 +31,9 @@ public class SlidingUpTouchListener implements View.OnTouchListener {
     public SlidingUpTouchListener(int type, @NonNull SlidingUpCallback callback) {
         mType = type;
         mGestureDetector = new GestureDetector(HSApplication.getContext(), new GestureListener());
-        mNavigationBarHeight = CommonUtils.getNavigationBarHeight(HSApplication.getContext());
+        mNavigationBarHeight = Dimensions.getNavigationBarHeight(HSApplication.getContext());
         mCallback = callback;
-        mPhoneHeight = CommonUtils.getPhoneHeight(HSApplication.getContext());
+        mPhoneHeight = Dimensions.getPhoneHeight(HSApplication.getContext());
     }
 
     @Override
@@ -48,7 +49,7 @@ public class SlidingUpTouchListener implements View.OnTouchListener {
                 mCallback.onActionDown(mType);
                 mDownRawY = event.getRawY();
                 mLastRawY = event.getRawY();
-                mOffsetY = CommonUtils.pxFromDp(50) + mNavigationBarHeight;
+                mOffsetY = Dimensions.pxFromDp(50) + mNavigationBarHeight;
                 mCallback.doStartAnimator(-mOffsetY);
                 break;
 

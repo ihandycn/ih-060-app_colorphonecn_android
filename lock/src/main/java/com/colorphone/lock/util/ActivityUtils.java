@@ -62,7 +62,7 @@ public class ActivityUtils {
 
         toolbar.setBackgroundColor(bgColor);
         activity.setSupportActionBar(toolbar);
-        if (CommonUtils.ATLEAST_LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //noinspection ConstantConditions
             container.setElevation(
                     activity.getResources().getDimensionPixelSize(R.dimen.app_bar_elevation));
@@ -108,41 +108,4 @@ public class ActivityUtils {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static void setStatusBarColor(Activity activity, int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(color);
-        }
-    }
-
-    public static void hideStatusBar(Activity activity) {
-        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    }
-
-    public static void showStatusBar(Activity activity) {
-        final Window window = activity.getWindow();
-        if ((window.getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) ==
-                WindowManager.LayoutParams.FLAG_FULLSCREEN) {
-            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static void setNavigationBarAlpha(Activity activity, float alpha) {
-        if (CommonUtils.ATLEAST_LOLLIPOP) {
-            int alphaInt = (int) (0xff * alpha);
-            activity.getWindow().setNavigationBarColor(Color.argb(alphaInt, 0x00, 0x00, 0x00));
-        }
-    }
-
-    public static void hideSystemUi(Activity activity) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            View decorView = activity.getWindow().getDecorView();
-            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decorView.setSystemUiVisibility(uiOptions);
-        }
-    }
 }

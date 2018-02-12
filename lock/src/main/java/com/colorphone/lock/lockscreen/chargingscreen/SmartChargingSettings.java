@@ -4,8 +4,8 @@ package com.colorphone.lock.lockscreen.chargingscreen;
 import com.acb.autopilot.AutopilotConfig;
 import com.acb.autopilot.AutopilotEvent;
 import com.colorphone.lock.util.ConfigUtils;
-import com.colorphone.lock.util.PreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
+import com.superapps.util.Preferences;
 
 public class SmartChargingSettings {
 
@@ -57,11 +57,11 @@ public class SmartChargingSettings {
     }
 
     private static boolean isChargingReportUserEnabled() {
-        return PreferenceHelper.getDefault().getBoolean(PREFS_CHARGING_REPORT_ENABLE, false);
+        return Preferences.getDefault().getBoolean(PREFS_CHARGING_REPORT_ENABLE, false);
     }
 
     public static void setChargingReportUserEnabled(boolean enabled) {
-        PreferenceHelper.getDefault().putBoolean(PREFS_CHARGING_REPORT_ENABLE, enabled);
+        Preferences.getDefault().putBoolean(PREFS_CHARGING_REPORT_ENABLE, enabled);
     }
 
     private static boolean isChargingReportConfigEnabled() {

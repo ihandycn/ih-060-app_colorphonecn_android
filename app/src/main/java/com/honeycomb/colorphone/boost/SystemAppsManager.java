@@ -14,6 +14,9 @@ import com.ihs.commons.utils.HSLog;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  All apps here is has default launch activity.
+ */
 public class SystemAppsManager {
 
     private List<AppInfo> allAppInfos;

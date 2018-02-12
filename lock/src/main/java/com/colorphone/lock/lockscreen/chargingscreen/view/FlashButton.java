@@ -17,7 +17,7 @@ import android.view.MotionEvent;
 import android.view.animation.LinearInterpolator;
 
 import com.colorphone.lock.R;
-import com.colorphone.lock.util.BitmapUtils;
+import com.superapps.util.Bitmaps;
 
 
 /**
@@ -42,7 +42,7 @@ public class FlashButton extends android.support.v7.widget.AppCompatButton {
 
     public FlashButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        flashBitmap = BitmapUtils.drawable2Bitmap(context.getResources().getDrawable(R.drawable.button_flash));
+        flashBitmap = Bitmaps.drawable2Bitmap(context.getResources().getDrawable(R.drawable.button_flash));
         flashLeft = -flashBitmap.getWidth();
 
         porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);

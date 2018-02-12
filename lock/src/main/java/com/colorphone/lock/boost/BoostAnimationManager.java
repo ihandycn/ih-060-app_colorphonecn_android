@@ -24,10 +24,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 
-import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
-import com.colorphone.lock.util.CommonUtils;
 import com.ihs.app.framework.HSApplication;
+import com.superapps.util.Dimensions;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,8 +51,8 @@ public class BoostAnimationManager {
 
     private static final int FRAME = 68;
     private static final float ALPHA_REDUCE_MIN = 0.15f;
-    private static final float WIDTH_SCREEN = CommonUtils.getPhoneWidth(HSApplication.getContext());
-    private static final float HEIGHT_SCREEN = CommonUtils.getPhoneHeight(HSApplication.getContext());
+    private static final float WIDTH_SCREEN = Dimensions.getPhoneWidth(HSApplication.getContext());
+    private static final float HEIGHT_SCREEN = Dimensions.getPhoneHeight(HSApplication.getContext());
 
     private static final float ROTATE_ANGLE_TOTAL = 360;
 

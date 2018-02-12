@@ -10,7 +10,7 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.colorphone.lock.util.CommonUtils;
+import com.superapps.util.Dimensions;
 
 
 public abstract class FloatWindowDialog extends FrameLayout implements FloatWindowListener {
@@ -73,7 +73,7 @@ public abstract class FloatWindowDialog extends FrameLayout implements FloatWind
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 mLayoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
             }
-            mLayoutParams.height = CommonUtils.getPhoneHeight(getContext());
+            mLayoutParams.height = Dimensions.getPhoneHeight(getContext());
             mLayoutParams.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN
                     | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

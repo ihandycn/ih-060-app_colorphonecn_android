@@ -7,9 +7,9 @@ import android.view.Window;
 
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
-import com.colorphone.lock.util.CommonUtils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.superapps.util.Dimensions;
 
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
@@ -65,7 +65,7 @@ public class LockerActivity extends HSAppCompatActivity {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !noNavigationPadding) {
                 ViewGroup container = (ViewGroup) findViewById(R.id.transition_container);
-                container.setPadding(0, 0, 0, CommonUtils.getNavigationBarHeightUnconcerned(this));
+                container.setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(this));
             }
         } catch (Exception e) {
             finish();

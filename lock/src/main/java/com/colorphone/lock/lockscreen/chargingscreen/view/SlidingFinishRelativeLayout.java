@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Scroller;
 
-import com.colorphone.lock.util.CommonUtils;
+import com.superapps.util.Dimensions;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -26,7 +26,7 @@ public class SlidingFinishRelativeLayout extends RelativeLayout implements View.
     private static final float COEFFICIENT_UP_SLIDING_FINISH = 0.333f;
 
     private static final int VELOCITY_TRACKER_UNIT = 1000;
-    private static final int FAST_SCROLL_PIXEL_COUNT_EACH_UNIT_TIME = CommonUtils.pxFromDp(1166);
+    private static final int FAST_SCROLL_PIXEL_COUNT_EACH_UNIT_TIME = Dimensions.pxFromDp(1166);
     private static final float RATIO_DURATION_TO_PIXEL_DISTANCE = 0.18f;
 
     /*卡片类型*/

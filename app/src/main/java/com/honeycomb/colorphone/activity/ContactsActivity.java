@@ -14,7 +14,6 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.FontUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
@@ -24,6 +23,7 @@ import com.honeycomb.colorphone.contact.ContactUtils;
 import com.honeycomb.colorphone.contact.RecyclerSectionItemDecoration;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.superapps.util.Dimensions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,7 +56,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
 
     private List<View> mToolBarTransViews = new ArrayList<>(2);
     private int mLayoutTransY;
-    private int mLayoutTransX = -CommonUtils.pxFromDp(56f);
+    private int mLayoutTransX = -Dimensions.pxFromDp(56f);
     private int mHeaderOffset;
     private TextView mTopActionView;
 
@@ -93,7 +93,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
         mFastScrollRecyclerView = findViewById(R.id.recycler_view);
         mFastScrollRecyclerView.setItemAnimator(new FadeInAnimator(mFadeInter));
         int padding  = getResources().getDimensionPixelSize(R.dimen.recycler_section_header_Margin);
-        if (CommonUtils.isRtl()) {
+        if (Dimensions.isRtl()) {
             mFastScrollRecyclerView.setPadding(0
                     , 0, padding, 0);
         } else {

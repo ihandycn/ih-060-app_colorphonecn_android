@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.graphics.Typeface;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Handler;
 
 import com.acb.call.CPSettings;
@@ -23,7 +24,6 @@ import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.notification.NotificationMessageAlertActivity;
 import com.acb.utils.MessageCenterUtils;
 import com.acb.utils.NavUtils;
-import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -431,7 +431,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     @Override
     public Class getNotificationServiceClass() {
         try {
-            if (CommonUtils.ATLEAST_JB_MR2) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 return NotificationServiceV18.class;
             } else {
                 return null;

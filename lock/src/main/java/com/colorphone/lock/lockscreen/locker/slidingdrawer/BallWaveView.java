@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.locker.LockerMainFrame;
-import com.colorphone.lock.util.ConcurrentUtils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.superapps.util.Threads;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -133,7 +133,7 @@ class BallWaveView extends View implements INotificationObserver {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
                 // ANR guard
-                ConcurrentUtils.callWithTimeout(new Callable<Object>() {
+                Threads.callWithTimeout(new Callable<Object>() {
                     @TargetApi(Build.VERSION_CODES.KITKAT)
                     @Override
                     public Object call() throws Exception {

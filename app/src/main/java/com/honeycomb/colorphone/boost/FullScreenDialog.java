@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.BuildConfig;
+import com.superapps.util.Dimensions;
 
 public abstract class FullScreenDialog extends FloatWindowDialog {
 
@@ -36,7 +36,7 @@ public abstract class FullScreenDialog extends FloatWindowDialog {
         mContentView = (ViewGroup) View.inflate(getContext(), getLayoutResId(), this);
         if (IsInitStatusBarPadding()) {
             mContentView.getChildAt(0).setPadding(mContentView.getPaddingLeft(),
-                    mContentView.getPaddingTop() + CommonUtils.getStatusBarHeight(getContext()),
+                    mContentView.getPaddingTop() + Dimensions.getStatusBarHeight(getContext()),
                     mContentView.getPaddingRight(),
                     mContentView.getPaddingBottom());
         }

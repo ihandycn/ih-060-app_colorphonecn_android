@@ -11,11 +11,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.PromoteLockerAutoPilotUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
+import com.superapps.util.Preferences;
 
 /**
  * Created by jelly on 2017/12/14.
@@ -38,7 +38,7 @@ public class PromoteLockerActivity extends AppCompatActivity {
         intent.putExtra(ALERT_TYPE, alertType);
         activity.overridePendingTransition(0, 0);
         activity.startActivity(intent);
-        PreferenceHelper helper = PreferenceHelper.get(PREFS_FILE);
+        Preferences helper = Preferences.get(PREFS_FILE);
         helper.putLong(PREFS_PROMOTE_LOCKER_ALERT_APP_SHOW_TIME, System.currentTimeMillis());
         helper.incrementAndGetInt(PREFS_PROMOTE_LOCKER_ALERT_SHOW_COUNT);
         helper.putInt(ALERT_TYPE, alertType);

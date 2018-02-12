@@ -37,16 +37,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.colorphone.lock.util.PreferenceHelper;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.receiver.ShareReceiver;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ShareAlertAutoPilotUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.FixRatioPreviewWindow;
 import com.honeycomb.colorphone.view.GlideApp;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Preferences;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -124,7 +124,7 @@ public class ShareAlertActivity extends Activity {
         intent.putExtra(SET_FOR_MULTI, setForMulti);
         activity.startActivity(intent);
         activity.overridePendingTransition(0, 0);
-        PreferenceHelper helper = PreferenceHelper.get(PREFS_FILE);
+        Preferences helper = Preferences.get(PREFS_FILE);
         helper.putLong(SHARE_ALERT_IN_APP_SHOW_TIME, System.currentTimeMillis());
         helper.incrementAndGetInt(SHARE_ALERT_IN_APP_SHOW_COUNT);
     }
@@ -135,7 +135,7 @@ public class ShareAlertActivity extends Activity {
         intent.putExtra(IS_INSIDE_APP, false);
         intent.putExtra(USER_INFO, userInfo);
         context.startActivity(intent);
-        PreferenceHelper helper = PreferenceHelper.get(PREFS_FILE);
+        Preferences helper = Preferences.get(PREFS_FILE);
         helper.putLong(SHARE_ALERT_OUT_APP_SHOW_TIME, System.currentTimeMillis());
         helper.incrementAndGetInt(SHARE_ALERT_OUT_APP_SHOW_COUNT);
     }

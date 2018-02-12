@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.PromoteLockerAutoPilotUtils;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Preferences;
 
 /**
  * Created by jelly on 2017/12/18.
@@ -30,7 +30,7 @@ public class PackageAddReceiver extends BroadcastReceiver {
             HSLog.d("PackageAddReceiver", "Pkg local read :" + pkgName);
 
             if (TextUtils.equals(pkgName, pkgAdd)) {
-                int promoteLockerAlertType = PreferenceHelper.get(PromoteLockerActivity.PREFS_FILE).getInt(PromoteLockerActivity.ALERT_TYPE, INSTALL_NOT_BY_PROMOTE);
+                int promoteLockerAlertType = Preferences.get(PromoteLockerActivity.PREFS_FILE).getInt(PromoteLockerActivity.ALERT_TYPE, INSTALL_NOT_BY_PROMOTE);
                 if (promoteLockerAlertType == PromoteLockerActivity.WHEN_APP_LAUNCH) {
                     LauncherAnalytics.logEvent("StartApp_Promote_App_Downloaded");
                 } else if (promoteLockerAlertType == PromoteLockerActivity.AFTER_APPLY_FINISH){

@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.BuildConfig;
-import com.colorphone.lock.HomeKeyWatcher;
+import com.superapps.util.HomeKeyWatcher;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
@@ -30,10 +30,10 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.lockscreen.locker.slidingup.LockerSlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.statusbar.StatusBar;
-import com.colorphone.lock.util.PreferenceHelper;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.superapps.util.Preferences;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
 
@@ -125,7 +125,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     }
 
     private void initLockerWallpaper() {
-        String wallpaperUrl = PreferenceHelper.get(LOCKER_PREFS).getString(PREF_KEY_CURRENT_WALLPAPER_HD_URL, "");
+        String wallpaperUrl = Preferences.get(LOCKER_PREFS).getString(PREF_KEY_CURRENT_WALLPAPER_HD_URL, "");
         if (!TextUtils.isEmpty(wallpaperUrl)) {
             Glide.with(mRootView.getContext()).asBitmap().load(wallpaperUrl)
                     .into(new SimpleTarget<Bitmap>() {
@@ -223,7 +223,7 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     public void onDestroy() {
         // ======== onDestroy ========
-        mHomeKeyWatcher.destroy();
+        mHomeKeyWatcher.stopWatch();
         HSGlobalNotificationCenter.removeObserver(this);
         mIsDestroyed = true;
     }

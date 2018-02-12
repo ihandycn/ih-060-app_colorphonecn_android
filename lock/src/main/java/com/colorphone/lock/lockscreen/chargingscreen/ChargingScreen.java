@@ -48,9 +48,6 @@ import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTipView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingBubbleView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingQuantityView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.SlidingFinishRelativeLayout;
-import com.colorphone.lock.util.BitmapUtils;
-import com.colorphone.lock.util.CommonUtils;
-import com.colorphone.lock.util.ConcurrentUtils;
 import com.colorphone.lock.util.ViewUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -59,6 +56,9 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
+import com.superapps.util.Bitmaps;
+import com.superapps.util.Dimensions;
+import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
@@ -253,10 +253,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
         if (root.getContext() instanceof Activity) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                root.findViewById(R.id.charging_screen_container).setPadding(0, 0, 0, CommonUtils.getNavigationBarHeightUnconcerned(root.getContext()));
+                root.findViewById(R.id.charging_screen_container).setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(root.getContext()));
             }
         } else if (!FloatWindowCompat.needsSystemErrorFloatWindow()) {
-            root.findViewById(R.id.charging_screen_container).setPadding(0, 0, 0, CommonUtils.getNavigationBarHeight(HSApplication.getContext()));
+            root.findViewById(R.id.charging_screen_container).setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(HSApplication.getContext()));
         }
 
         mIsSetup = true;
@@ -454,7 +454,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                 blackBackgroundView.setVisibility(View.VISIBLE);
                 blackBackgroundView.setAlpha(0.9f);
 
-                ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+                Threads.postOnThreadPoolExecutor(new Runnable() {
                     @Override
                     public void run() {
                         Bitmap bitmap = ChargingScreen.this.getFitScreenWallpaperBitmap();
@@ -463,7 +463,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                             return;
                         }
 
-                        final Bitmap blurBitmap = BitmapUtils.fastBlur(bitmap, 10, 5);
+                        final Bitmap blurBitmap = Bitmaps.fastBlur(bitmap, 10, 5);
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -488,7 +488,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                 blackBackgroundView.setVisibility(View.VISIBLE);
                 blackBackgroundView.setAlpha(0.7f);
 
-                ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+                Threads.postOnThreadPoolExecutor(new Runnable() {
                     @Override
                     public void run() {
                         Bitmap bitmap = ChargingScreen.this.getFitScreenWallpaperBitmap();
@@ -496,7 +496,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                             return;
                         }
 
-                        final Bitmap blurBitmap = BitmapUtils.fastBlur(bitmap, 10, 10);
+                        final Bitmap blurBitmap = Bitmaps.fastBlur(bitmap, 10, 10);
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -771,7 +771,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         if (mCloseLockerPopupView == null) {
             mCloseLockerPopupView = new PopupView(getContext(), mRootView);
             View content = LayoutInflater.from(getContext()).inflate(R.layout.locker_popup_dialog, null);
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams((int) (CommonUtils
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams((int) (Dimensions
                     .getPhoneWidth(getContext()) * 0.872f), WRAP_CONTENT);
             content.setLayoutParams(layoutParams);
             TextView title = ViewUtils.findViewById(content, R.id.title);
@@ -828,8 +828,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             return null;
         }
 
-        final int resultWidth = Math.min(CommonUtils.getPhoneWidth(getContext()), wallpaperBitmap.getWidth());
-        final int resultHeight = Math.min(CommonUtils.getPhoneHeight(getContext()), wallpaperBitmap.getHeight());
+        final int resultWidth = Math.min(Dimensions.getPhoneWidth(getContext()), wallpaperBitmap.getWidth());
+        final int resultHeight = Math.min(Dimensions.getPhoneHeight(getContext()), wallpaperBitmap.getHeight());
 
         if (resultWidth <= 0 || resultHeight <= 0) {
             return null;
@@ -869,7 +869,11 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
 
         HSChargingManager.getInstance().removeChargingListener(chargingListener);
-        CommonUtils.unregisterReceiver(getContext(), timeTickReceiver);
+        try {
+            getContext().unregisterReceiver(timeTickReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         HSGlobalNotificationCenter.removeObserver(this);
 
         cancelChargingStateAlphaAnimation();

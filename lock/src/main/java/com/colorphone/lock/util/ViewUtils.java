@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.superapps.util.Dimensions;
+
 public class ViewUtils {
 
     @SuppressWarnings("unchecked")
@@ -26,39 +28,7 @@ public class ViewUtils {
         return (T) parentView.findViewById(id);
     }
 
-    public static void rotateView(View view, float angle) {
-        view.clearAnimation();
-        view.setRotation(angle);
-    }
 
-    public static @NonNull
-    Matrix centerCrop(@NonNull ImageView imageView) {
-        Matrix newMatrix = new Matrix();
-        if (imageView.getDrawable() == null) {
-            return newMatrix;
-        }
-
-        BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
-        int dWidth = bitmapDrawable.getIntrinsicWidth();
-        int dHeight = bitmapDrawable.getIntrinsicHeight();
-
-        int vWidth = imageView.getWidth() - imageView.getPaddingLeft() - imageView.getPaddingRight();
-        int vHeight = imageView.getHeight() - imageView.getPaddingTop() - imageView.getPaddingBottom();
-
-        float scale;
-        float dx = 0, dy = 0;
-
-        if (dWidth * vHeight > vWidth * dHeight) {
-            scale = (float) vHeight / (float) dHeight;
-            dx = (vWidth - dWidth * scale) * 0.5f;
-        } else {
-            scale = (float) vWidth / (float) dWidth;
-            dy = (vHeight - dHeight * scale) * 0.5f;
-        }
-        newMatrix.setScale(scale, scale);
-        newMatrix.postTranslate(Math.round(dx), Math.round(dy));
-        return newMatrix;
-    }
 
     public static void setMargins(View v, int l, int t, int r, int b) {
         if (null == v) {
@@ -70,7 +40,7 @@ public class ViewUtils {
             if (v.isInEditMode()) {
                 isRtl = false;
             } else {
-                isRtl = CommonUtils.isRtl();
+                isRtl = Dimensions.isRtl();
             }
             p.setMargins(isRtl ? r : l, t, isRtl ? l : r, b);
             v.requestLayout();

@@ -16,8 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.acb.utils.ConcurrentUtils;
-import com.colorphone.lock.util.CommonUtils;
-import com.colorphone.lock.util.PreferenceHelper;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
@@ -35,6 +33,8 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
+import com.superapps.util.Preferences;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
@@ -152,7 +152,7 @@ public class ResultPageActivity extends HSAppCompatActivity
         Utils.setupTransparentStatusBarsForLmp(this);
         View viewContainer = ViewUtils.findViewById(this, R.id.container_view);
         viewContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        viewContainer.setPadding(0, CommonUtils.getStatusBarHeight(this), 0, 0);
+        viewContainer.setPadding(0, Dimensions.getStatusBarHeight(this), 0, 0);
         if (!mIsResultPageShow) {
             mPresenter.show();
             mIsResultPageShow = true;
@@ -213,7 +213,7 @@ public class ResultPageActivity extends HSAppCompatActivity
         backButton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(backButton);
         mResultController.startTransitionAnimation();
-        PreferenceHelper.get(Constants.NOTIFICATION_PREFS).incrementAndGetInt(ResultConstants.PREF_KEY_RESULT_PAGE_SHOWN_COUNT);
+        Preferences.get(Constants.NOTIFICATION_PREFS).incrementAndGetInt(ResultConstants.PREF_KEY_RESULT_PAGE_SHOWN_COUNT);
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -301,7 +301,7 @@ public class ResultPageActivity extends HSAppCompatActivity
     }
 
     private void recordFeatureLastUsedTime() {
-        PreferenceHelper.get(Constants.NOTIFICATION_PREFS)
+        Preferences.get(Constants.NOTIFICATION_PREFS)
                 .putLong(ResultConstants.PREF_KEY_LAST_BOOST_PLUS_USED_TIME, System.currentTimeMillis());
     }
 }

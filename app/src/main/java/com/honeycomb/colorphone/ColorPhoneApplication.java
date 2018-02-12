@@ -30,7 +30,6 @@ import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
-import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
@@ -60,6 +59,7 @@ import com.ihs.commons.utils.HSMapUtils;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.HSChargingManager;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
@@ -239,7 +239,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     private void copyMediaFromAssertToFile() {
         final long startMills = SystemClock.elapsedRealtime();
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 final File file = new File(FileUtils.getMediaDirectory(), "Mp4_12");

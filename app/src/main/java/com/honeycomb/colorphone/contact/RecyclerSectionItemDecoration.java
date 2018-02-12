@@ -10,9 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.FontUtils;
 import com.honeycomb.colorphone.R;
+import com.superapps.util.Dimensions;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +53,7 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
         mSectionHeaderPaint.setAntiAlias(true);
         mSectionHeaderPaint.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
 
-        mIsRtl = CommonUtils.isRtl();
+        mIsRtl = Dimensions.isRtl();
     }
 
     public boolean setHeaderHint(String headerHint) {

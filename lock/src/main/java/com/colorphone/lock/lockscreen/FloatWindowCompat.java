@@ -8,9 +8,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.colorphone.lock.util.CommonUtils;
-import com.colorphone.lock.util.CompatUtils;
 import com.ihs.app.framework.HSApplication;
+import com.superapps.util.Compats;
+import com.superapps.util.Dimensions;
 
 /**
  * Compatibility utilities for lock screen float window.
@@ -37,8 +37,8 @@ public class FloatWindowCompat {
             layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
         } else {
             layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-            int phoneWidth = CommonUtils.getPhoneWidth(HSApplication.getContext());
-            int phoneHeight = CommonUtils.getPhoneHeight(HSApplication.getContext());
+            int phoneWidth = Dimensions.getPhoneWidth(HSApplication.getContext());
+            int phoneHeight = Dimensions.getPhoneHeight(HSApplication.getContext());
             layoutParams.width = phoneWidth < phoneHeight ? phoneWidth : phoneHeight;
             layoutParams.height = phoneWidth > phoneHeight ? phoneWidth : phoneHeight;
         }
@@ -60,6 +60,6 @@ public class FloatWindowCompat {
 
     public static boolean needsSystemErrorFloatWindow() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                || (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP && CompatUtils.IS_SAMSUNG_DEVICE);
+                || (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP && Compats.IS_SAMSUNG_DEVICE);
     }
 }

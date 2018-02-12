@@ -32,7 +32,6 @@ import com.acb.utils.PermissionHelper;
 import com.acb.utils.PermissionUtils;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.CallConfigFactory;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
@@ -444,7 +443,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 int totalItemCount = manager.getItemCount();
                 int pastVisibleItems = manager.findFirstVisibleItemPosition();
 
-                PreferenceHelper prefsFile = PreferenceHelper.get(PreferenceHelper.DEFAULT_PREFS);
+                Preferences prefsFile = Preferences.getDefault();
                 if (pastVisibleItems + visibleItemCount >= totalItemCount && !prefsFile.getBoolean(PREFS_SCROLL_TO_BOTTOM, false)) {
                     //End of list
                     LauncherAnalytics.logEvent("ColorPhone_List_Bottom_Show");
