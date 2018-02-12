@@ -76,25 +76,30 @@ public class RecentAppManager {
     };
 
     private INotificationObserver screenOnObserver = new INotificationObserver() {
+        boolean triggered = false;
+
         @Override
         public void onReceive(String s, HSBundle hsBundle) {
 
             boolean hasKeyGuard = Utils.isKeyguardLocked(HSApplication.getContext(), false);
             switch (s) {
                 case UserPresentReceiver.USER_PRESENT:
-                    if (hasKeyGuard) {
+                    if (!triggered) {
                         SmartAssistantUtils.tryShowSmartAssistant();
+                        triggered = true;
                     }
                     break;
 
                 case ScreenStatusReceiver.NOTIFICATION_SCREEN_ON:
-                    if (!hasKeyGuard) {
+                    if (!hasKeyGuard && !triggered) {
                         SmartAssistantUtils.tryShowSmartAssistant();
+                        triggered = true;
                     }
-
+                    break;
+                case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
+                    triggered = false;
                     break;
             }
-
         }
     };
 
@@ -126,6 +131,7 @@ public class RecentAppManager {
         updateMonitorStyle();
         HSUsageAccessMgr.getInstance().checkPermission(this.usageAccessListener);
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, screenOnObserver);
+        HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, screenOnObserver);
         HSGlobalNotificationCenter.addObserver(UserPresentReceiver.USER_PRESENT, screenOnObserver);
 
         AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);

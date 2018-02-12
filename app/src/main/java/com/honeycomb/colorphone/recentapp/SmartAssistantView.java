@@ -124,7 +124,24 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
     @SuppressWarnings("RedundantCast")
     private void bindRecentApps() {
-        final List<RecentAppInfo> apps = SmartAssistantUtils.getSmartAssistantApps();
+        final WeakReference<View> weakReference = new WeakReference<View>(this);
+        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                final List<RecentAppInfo> apps = SmartAssistantUtils.getSmartAssistantApps();
+                if (weakReference.get() != null) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                           doBindRecentApps(apps);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    private void doBindRecentApps(List<RecentAppInfo> apps) {
         for (int i = 0; i < apps.size(); i++) {
             RecentAppInfo appInfo = apps.get(i);
             addAppView(appInfo);

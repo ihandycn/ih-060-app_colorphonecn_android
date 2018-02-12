@@ -43,6 +43,7 @@ public class SmartAssistantUtils {
     public static final String PREF_KEY_COULD_SHOW_SMART_ASSISTANT = "pref_key_could_show_smart_assistant";
     private static final String TAG = "SmartAssistantUtils";
 
+   // TODO cache
 
     public static void tryShowSmartAssistant() {
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
@@ -233,6 +234,7 @@ public class SmartAssistantUtils {
     }
 
     public static List<RecentAppInfo> getSmartAssistantApps() {
+
         List<RecentAppInfo> resultList = new ArrayList<>();
 
         // 4 recent apps
