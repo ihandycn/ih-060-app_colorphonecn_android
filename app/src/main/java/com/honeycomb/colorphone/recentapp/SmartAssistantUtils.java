@@ -245,6 +245,9 @@ public class SmartAssistantUtils {
         int firstMax = frequentlyAppsByTime.size();
         for (int i = 0; i < firstMax; i++) {
             String packageName = frequentlyAppsByTime.get(i);
+            if (isOurSelf(packageName)) {
+                continue;
+            }
             transPackageIntoAppList(resultList, packageName, RecentAppInfo.TYPE_RECENTLY_USED);
             HSLog.d(TAG, "Recently used app: " + packageName);
 
@@ -255,7 +258,9 @@ public class SmartAssistantUtils {
 
         for (int i = 0; i < recentlyInstallApps.size(); i++) {
             String packageName = recentlyInstallApps.get(i).getPackageName();
-
+            if (isOurSelf(packageName)) {
+                continue;
+            }
             if (!isExistApplicationInfo(resultList, packageName)) {
                 resultList.add(buildRecentApp(recentlyInstallApps.get(i), RecentAppInfo.TYPE_NEW_INSTALL));
                 HSLog.d(TAG, "Recently install app: " + packageName);
@@ -264,7 +269,9 @@ public class SmartAssistantUtils {
 
         for (int i = 0; i < frequentlyAppsByUsed.size(); i++) {
             String pkgName = frequentlyAppsByUsed.get(i);
-
+            if (isOurSelf(pkgName)) {
+                continue;
+            }
             if (!isExistApplicationInfo(resultList, pkgName)) {
                 transPackageIntoAppList(resultList, pkgName, RecentAppInfo.TYPE_MOSTLY_USED);
                 HSLog.d(TAG, "Frequently used app: " + pkgName);
