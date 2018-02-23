@@ -170,13 +170,19 @@ public class RecentAppManager {
 
             int realSize = Math.min(count, usageStatsList.size());
             for (int i = 0; i < realSize; i++) {
-                recentAppList.add(usageStatsList.get(i).getPackageName());
+                String pkgName = usageStatsList.get(i).getPackageName();
+                if (isLaunchableApp(pkgName) && recentAppList.size() < count) {
+                    recentAppList.add(pkgName);
+                }
             }
         } else {
             List<AppUsage> appUsages = mAppUsageOp.getAppUsageListRecently();
             int realSize = Math.min(count, appUsages.size());
             for (int i = 0; i < realSize; i++) {
-                recentAppList.add(appUsages.get(i).getPackageName());
+                String pkgName = appUsages.get(i).getPackageName();
+                if (isLaunchableApp(pkgName) && recentAppList.size() < count) {
+                    recentAppList.add(pkgName);
+                }
             }
         }
 
