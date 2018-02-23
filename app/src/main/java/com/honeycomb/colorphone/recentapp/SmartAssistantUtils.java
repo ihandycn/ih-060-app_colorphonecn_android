@@ -147,7 +147,7 @@ public class SmartAssistantUtils {
     }
 
     public static boolean isConfigEnabled() {
-        return HSConfig.optBoolean(DEFAULT_CONFIG_ENABLED, "Application", "RecentApps", "Enabled");
+        return HSConfig.optBoolean(DEFAULT_CONFIG_ENABLED, "Application", "RecentApps", "Recent_Apps_Enable");
     }
 
     public static boolean isShowOnlyOnDesktop() {
