@@ -252,6 +252,7 @@
         <activity android:name=".recentapp.SmartAssistantActivity"
             android:exported="false"
             android:launchMode="singleTask"
+            android:taskAffinity=".recentapps"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
