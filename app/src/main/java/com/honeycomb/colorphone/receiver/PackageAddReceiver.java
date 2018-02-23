@@ -12,6 +12,7 @@ import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.PromoteLockerAutoPilotUtils;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Threads;
 
 /**
  * Created by jelly on 2017/12/18.
@@ -25,10 +26,15 @@ public class PackageAddReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())
                 || Intent.ACTION_PACKAGE_INSTALL.equals(intent.getAction())) {
-            String pkgAdd = intent.getData().getSchemeSpecificPart();
+            final String pkgAdd = intent.getData().getSchemeSpecificPart();
             HSLog.d("PackageAddReceiver", "Pkg add :" + pkgAdd);
             String pkgName = PromoteLockerAutoPilotUtils.getPromoteLockerApp();
-            SystemAppsManager.getInstance().addPackage(intent.getDataString());
+            Threads.postOnMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    SystemAppsManager.getInstance().addPackage(pkgAdd);
+                }
+            });
             HSLog.d("PackageAddReceiver", "Pkg local read :" + pkgName);
 
             if (TextUtils.equals(pkgName, pkgAdd)) {
