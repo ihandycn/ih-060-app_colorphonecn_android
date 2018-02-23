@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
+import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.PromoteLockerAutoPilotUtils;
@@ -27,6 +28,7 @@ public class PackageAddReceiver extends BroadcastReceiver {
             String pkgAdd = intent.getData().getSchemeSpecificPart();
             HSLog.d("PackageAddReceiver", "Pkg add :" + pkgAdd);
             String pkgName = PromoteLockerAutoPilotUtils.getPromoteLockerApp();
+            SystemAppsManager.getInstance().addPackage(intent.getDataString());
             HSLog.d("PackageAddReceiver", "Pkg local read :" + pkgName);
 
             if (TextUtils.equals(pkgName, pkgAdd)) {

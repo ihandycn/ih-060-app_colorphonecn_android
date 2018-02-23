@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.receiver.UserPresentReceiver;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -156,14 +157,14 @@ public class RecentAppManager {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public List<String> getAppUsageListRecently(int count) {
-        List<String> recentAppList = new ArrayList<>(count);
+        List<String> recentAppList = new ArrayList<>();
 
         if (HSUsageAccessMgr.getInstance().isPermissionGranted()) {
             List<UsageStats> usageStatsList = UsageStatsUtil.getUsageStatsList(HSApplication.getContext(), 7);
             Collections.sort(usageStatsList, new Comparator<UsageStats>() {
                 @Override
                 public int compare(UsageStats o1, UsageStats o2) {
-                    return (int) (o2.getLastTimeUsed() - o1.getLastTimeUsed());
+                    return (o2.getLastTimeUsed() - o1.getLastTimeUsed() > 0 ? 1 : -1);
                 }
             });
 
@@ -172,7 +173,7 @@ public class RecentAppManager {
                 recentAppList.add(usageStatsList.get(i).getPackageName());
             }
         } else {
-            List<AppUsage> appUsages = mAppUsageOp.getAppUsageListRecently(count);
+            List<AppUsage> appUsages = mAppUsageOp.getAppUsageListRecently();
             int realSize = Math.min(count, appUsages.size());
             for (int i = 0; i < realSize; i++) {
                 recentAppList.add(appUsages.get(i).getPackageName());
@@ -193,28 +194,39 @@ public class RecentAppManager {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public List<String> getAppUsageListFrequently(int count) {
-        List<String> mostlyUsedAppList = new ArrayList<>(count);
+        List<String> mostlyUsedAppList = new ArrayList<>();
         if (HSUsageAccessMgr.getInstance().isPermissionGranted()) {
             List<UsageStats> usageStatsList = UsageStatsUtil.getUsageStatsList(HSApplication.getContext(), 7);
             List<UsageStateWrapper> usageStateWrappers = wrapUsageStats(usageStatsList);
             Collections.sort(usageStateWrappers, new Comparator<IUsageStat>() {
                 @Override
                 public int compare(IUsageStat o1, IUsageStat o2) {
-                    return (int) (o2.getLastTimeUsed() - o1.getLastTimeUsed());
+                    return (o2.getLaunchCountByDays(7) - o1.getLaunchCountByDays(7));
                 }
             });
-            int realSize = Math.min(count, usageStateWrappers.size());
+            int realSize = usageStateWrappers.size();
             for (int i = 0; i < realSize; i++) {
-                mostlyUsedAppList.add(usageStateWrappers.get(i).getPackageName());
+                String pkgName = usageStateWrappers.get(i).getPackageName();
+                if (isLaunchableApp(pkgName) && mostlyUsedAppList.size() < count) {
+                    mostlyUsedAppList.add(pkgName);
+                }
             }
         } else {
-            List<AppUsage> appUsages = mAppUsageOp.getAppUsageListFrequently(count, 7);
-            int realSize = Math.min(count, appUsages.size());
-            for (int i = 0; i < realSize; i++) {
-                mostlyUsedAppList.add(appUsages.get(i).getPackageName());
+            List<AppUsage> appUsages = mAppUsageOp.getAppUsageListFrequently(7);
+            for (int i = 0; i < appUsages.size(); i++) {
+                String pkgName = appUsages.get(i).getPackageName();
+                if (isLaunchableApp(pkgName) && mostlyUsedAppList.size() < count) {
+                    mostlyUsedAppList.add(pkgName);
+                }
             }
         }
         return mostlyUsedAppList;
+    }
+
+    private boolean isLaunchableApp(String pkgName) {
+        // TODO system other apps list.
+        return SystemAppsManager.getInstance().getAppInfoByPkgName(pkgName) != null
+                && !"com.android.systemui".equals(pkgName);
     }
 
     public void init() {

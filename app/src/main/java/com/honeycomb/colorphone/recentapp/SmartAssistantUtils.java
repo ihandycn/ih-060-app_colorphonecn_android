@@ -237,7 +237,7 @@ public class SmartAssistantUtils {
 
         List<RecentAppInfo> resultList = new ArrayList<>();
 
-        // 4 recent apps
+        // App here may not launchable, need exclude those elements.
         List<AppInfo> recentlyInstallApps = getRecentlyInstallApps();
         List<String> frequentlyAppsByTime = RecentAppManager.getInstance().getAppUsageListRecently(SMART_ASSISTANT_AT_MOST_COUNT);
         List<String> frequentlyAppsByUsed = RecentAppManager.getInstance().getAppUsageListFrequently(SMART_ASSISTANT_AT_MOST_COUNT);

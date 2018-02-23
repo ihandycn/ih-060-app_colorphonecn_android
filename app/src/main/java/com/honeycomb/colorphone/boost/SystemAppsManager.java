@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.flurry.sdk.nr.o;
-
 public class SystemAppsManager {
 
     private List<AppInfo> allAppInfos;
@@ -54,17 +52,8 @@ public class SystemAppsManager {
         allAppInfos.clear();
         allAppPackageNames.clear();
 
-        AppInfo app;
         for (ApplicationInfo info : installedApplications) {
-            if (!allAppPackageNames.contains(info.packageName)) {
-                ActivityInfo launchActivityInfo = getLaunchActivityInfo(info.packageName, pkgMgr);
-                if (null != launchActivityInfo) {
-                    app = new AppInfo(info, false);
-                    app.setLaunchActivityName(launchActivityInfo.name);
-                    allAppInfos.add(app);
-                    allAppPackageNames.add(info.packageName);
-                }
-            }
+            addAppInfo(info);
             // For analysis
             PackageList.checkAndLogPackage(info.packageName);
         }
@@ -72,11 +61,33 @@ public class SystemAppsManager {
         return allAppInfos;
     }
 
-    public List<String> getAllAppPackageNames() {
+    private void addAppInfo(ApplicationInfo info) {
+        AppInfo app;
+        if (!allAppPackageNames.contains(info.packageName)) {
+            ActivityInfo launchActivityInfo = getLaunchActivityInfo(info.packageName, pkgMgr);
+            if (null != launchActivityInfo) {
+                app = new AppInfo(info, false);
+                app.setLaunchActivityName(launchActivityInfo.name);
+                allAppInfos.add(app);
+                allAppPackageNames.add(info.packageName);
+            }
+        }
+    }
+
+    public void addPackage(String pkgName) {
+        try {
+            ApplicationInfo applicationInfo = pkgMgr.getApplicationInfo(pkgName, 0);
+            addAppInfo(applicationInfo);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized List<String> getAllAppPackageNames() {
         return allAppPackageNames;
     }
 
-    public List<AppInfo> getAllAppInfos() {
+    public synchronized List<AppInfo> getAllAppInfos() {
         return allAppInfos;
     }
 
@@ -108,7 +119,7 @@ public class SystemAppsManager {
         return ris.get(0).activityInfo;
     }
 
-    public AppInfo getAppInfoByPkgName(String pkgName) {
+    public synchronized AppInfo getAppInfoByPkgName(String pkgName) {
         for (AppInfo appInfo : allAppInfos) {
             if (TextUtils.equals(pkgName, appInfo.getPackageName())) {
                 return appInfo;

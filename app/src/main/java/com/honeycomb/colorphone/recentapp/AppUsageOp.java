@@ -103,8 +103,8 @@ public class AppUsageOp {
         }
     }
 
-    public List<AppUsage> getAppUsageListRecently(int number) {
-        List<AppUsage> resultList = new ArrayList<>(number);
+    public List<AppUsage> getAppUsageListRecently() {
+        List<AppUsage> resultList = new ArrayList<>();
 
         synchronized (mLock) {
             Collections.sort(mAppUsages, new Comparator<AppUsage>() {
@@ -115,17 +115,13 @@ public class AppUsageOp {
             });
         }
 
-        if (mAppUsages.size() > number) {
-            resultList.addAll(mAppUsages.subList(0, number));
-        } else {
-            resultList.addAll(mAppUsages);
-        }
+        resultList.addAll(mAppUsages);
 
         return resultList;
     }
 
-    public List<AppUsage> getAppUsageListFrequently(int number, final int includeDays) {
-        List<AppUsage> resultList = new ArrayList<>(number);
+    public List<AppUsage> getAppUsageListFrequently(final int includeDays) {
+        List<AppUsage> resultList = new ArrayList<>();
 
         synchronized (mLock) {
             Collections.sort(mAppUsages, new Comparator<AppUsage>() {
@@ -136,11 +132,7 @@ public class AppUsageOp {
             });
         }
 
-        if (mAppUsages.size() > number) {
-            resultList.addAll(mAppUsages.subList(0, number));
-        } else {
-            resultList.addAll(mAppUsages);
-        }
+        resultList.addAll(mAppUsages);
 
         return resultList;
     }
