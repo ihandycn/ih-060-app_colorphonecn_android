@@ -259,6 +259,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        // clear previous observers.
+        PermissionHelper.stopObservingPermission();
 
         HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
