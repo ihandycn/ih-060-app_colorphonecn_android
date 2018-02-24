@@ -16,6 +16,7 @@ import com.ihs.commons.utils.HSLog;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class SystemAppsManager {
@@ -81,6 +82,18 @@ public class SystemAppsManager {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public void removePackage(String pkgName) {
+        Iterator<AppInfo> iterator = allAppInfos.iterator();
+        while (iterator.hasNext()) {
+            AppInfo info = iterator.next();
+            if (TextUtils.equals(info.getPackageName(), pkgName)) {
+                iterator.remove();
+            }
+        }
+
+        allAppPackageNames.remove(pkgName);
     }
 
     public synchronized List<String> getAllAppPackageNames() {

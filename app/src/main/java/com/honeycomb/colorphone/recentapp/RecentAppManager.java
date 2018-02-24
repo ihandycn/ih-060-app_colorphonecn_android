@@ -2,6 +2,10 @@ package com.honeycomb.colorphone.recentapp;
 
 import android.annotation.TargetApi;
 import android.app.usage.UsageStats;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.os.Build;
 import android.os.Handler;
@@ -104,6 +108,22 @@ public class RecentAppManager {
         }
     };
 
+    private BroadcastReceiver mPackageUninstallReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
+                removePackage(intent.getDataString());
+            }
+        }
+    };
+
+    private void removePackage(String packageName) {
+        HSLog.i(TAG, "RecentAppManager remove : " + packageName);
+
+        SystemAppsManager.getInstance().removePackage(packageName);
+        mAppUsageOp.onAppUninstall(packageName);
+    }
+
     private void updateMonitorStyle() {
         HSLog.i(TAG, "RecentAppManager.updateMonitorStyle()");
         if (HSUsageAccessMgr.getInstance().isPermissionGranted()) {
@@ -137,6 +157,9 @@ public class RecentAppManager {
 
         AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
 
+        IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_REMOVED);
+        HSApplication.getContext().registerReceiver(mPackageUninstallReceiver, filter);
+
     }
 
     public void stop() {
@@ -151,7 +174,7 @@ public class RecentAppManager {
         HSGlobalNotificationCenter.removeObserver(screenOnObserver);
 
         AcbNativeAdManager.sharedInstance().deactivePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
-
+        HSApplication.getContext().unregisterReceiver(mPackageUninstallReceiver);
     }
 
 
