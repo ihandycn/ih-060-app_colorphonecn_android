@@ -36,6 +36,7 @@ import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
 
 import net.appcloudbox.ads.base.AcbAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
@@ -264,7 +265,8 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         mNativeContent.setAdTitleView((TextView) containerView.findViewById(R.id.recent_app_ad_title));
         mNativeContent.setAdBodyView((TextView) containerView.findViewById(R.id.recent_app_ad_description));
         mNativeContent.setAdActionView(containerView.findViewById(R.id.recent_app_action_btn));
-
+        mNativeContent.setLayoutParams(
+                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Dimensions.pxFromDp(263)));
         adContainer.addView(mNativeContent);
     }
 
