@@ -112,7 +112,7 @@ public class RecentAppManager {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
-                removePackage(intent.getDataString());
+                removePackage(intent.getData().getSchemeSpecificPart());
             }
         }
     };
@@ -158,6 +158,8 @@ public class RecentAppManager {
         AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_REMOVED);
+        filter.addDataScheme("package");
+
         HSApplication.getContext().registerReceiver(mPackageUninstallReceiver, filter);
 
     }
