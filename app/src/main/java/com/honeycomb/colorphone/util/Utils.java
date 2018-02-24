@@ -66,8 +66,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.colorphone.lock.ReflectionHelper;
-import com.colorphone.lock.util.CommonUtils;
-import com.colorphone.lock.util.NavUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
@@ -75,6 +73,8 @@ import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -224,7 +224,7 @@ public final class Utils {
             if (subject != null) sendIntentIfGmailFail.putExtra(Intent.EXTRA_SUBJECT, subject);
             if (body != null) sendIntentIfGmailFail.putExtra(Intent.EXTRA_TEXT, body);
             if (sendIntentIfGmailFail.resolveActivity(mContext.getPackageManager()) != null) {
-                NavUtils.startActivitySafely(mContext, sendIntentIfGmailFail);
+                Navigations.startActivitySafely(mContext, sendIntentIfGmailFail);
             }
         }
     }
@@ -811,11 +811,11 @@ public final class Utils {
        Toast toast = new Toast(HSApplication.getContext().getApplicationContext());
         final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.toast_theme_apply, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            contentView.setElevation(CommonUtils.pxFromDp(8));
+            contentView.setElevation(Dimensions.pxFromDp(8));
         }
         TextView textView = contentView.findViewById(R.id.text_toast);
         textView.setText(hint);
-        int yOffset = (int) (0.6f * CommonUtils.getPhoneHeight(HSApplication.getContext()));
+        int yOffset = (int) (0.6f * Dimensions.getPhoneHeight(HSApplication.getContext()));
         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, yOffset);
         toast.setView(contentView);
         toast.show();
@@ -862,7 +862,7 @@ public final class Utils {
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void setupTransparentStatusBarsForLmp(Activity activityContext) {
-        if (CommonUtils.ATLEAST_LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activityContext.getWindow();
             window.getAttributes().systemUiVisibility |= (View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

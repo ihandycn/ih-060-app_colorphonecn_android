@@ -19,6 +19,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ *  All apps here is has default launch activity.
+ */
 public class SystemAppsManager {
 
     private List<AppInfo> allAppInfos;

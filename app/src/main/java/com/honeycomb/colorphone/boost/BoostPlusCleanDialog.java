@@ -33,7 +33,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.ViewStyleUtils;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
@@ -50,6 +49,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.clean.memory.HSAppMemory;
 import com.ihs.device.clean.memory.HSAppMemoryManager;
+import com.superapps.util.Dimensions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -205,7 +205,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
 
 //        mSelectedAppList = new ArrayList<>();
 
-        mScreenHeight = CommonUtils.getPhoneHeight(context);
+        mScreenHeight = Dimensions.getPhoneHeight(context);
 
         mContainerV = ViewUtils.findViewById(mContentView, R.id.view_container);
         mContainerV.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -213,7 +213,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
         // init dots animation view tag
         mCleanMainRl.setTag(false);
         // init material content view top margin
-        ViewUtils.setMargins(mCleanMainRl, 0, CommonUtils.getStatusBarHeight(getContext()), 0, 0);
+        ViewUtils.setMargins(mCleanMainRl, 0, Dimensions.getStatusBarHeight(getContext()), 0, 0);
 
         mBoostIconContainer = (RelativeLayout) findViewById(R.id.boost_icon);
         mCircleInIV = ViewUtils.findViewById(mContentView, R.id.circle_in_iv);
@@ -241,7 +241,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             View navigationBar = ViewUtils.findViewById(mContentView, R.id.navigation_bar_view);
             FrameLayout.LayoutParams layoutParams = (LayoutParams) navigationBar.getLayoutParams();
-            layoutParams.height = CommonUtils.getNavigationBarHeight(context);
+            layoutParams.height = Dimensions.getNavigationBarHeight(context);
             navigationBar.setLayoutParams(layoutParams);
         }
 
@@ -321,7 +321,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
                     | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 
             windowParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-            windowParams.height = CommonUtils.getPhoneHeight(HSApplication.getContext());
+            windowParams.height = Dimensions.getPhoneHeight(HSApplication.getContext());
 
             windowParams.gravity = Gravity.TOP;
 
@@ -402,7 +402,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
                     mDotTagIv.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 }
                 Rect location = ViewUtils.getLocationRect(mDotTagIv);
-                int top = location.top - CommonUtils.getStatusBarHeight(getContext());
+                int top = location.top - Dimensions.getStatusBarHeight(getContext());
                 int left = location.left;
                 ViewUtils.setMargins(mDotPositionTagIv, left, top, 0, 0);
             }
@@ -1126,7 +1126,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
         params.addRule(RelativeLayout.ALIGN_LEFT, R.id.dot_normal_anchor_iv);
         params.addRule(RelativeLayout.ALIGN_TOP, R.id.dot_normal_anchor_iv);
         Random random = new Random();
-        int radius = random.nextInt(CommonUtils.pxFromDp(50)) + CommonUtils.pxFromDp(100);
+        int radius = random.nextInt(Dimensions.pxFromDp(50)) + Dimensions.pxFromDp(100);
         double radians = random.nextDouble() * 2 * Math.PI;
         int leftMargin = (int) (radius * Math.sin(radians));
         int topMargin = (int) (radius * Math.cos(radians));

@@ -410,15 +410,14 @@ public class BoostAnimationManager {
                 if (!TextUtils.isEmpty(processName)) {
                     String packageName = processName.split(":")[0].trim();
                     String securityPackageName = context.getPackageName();
-                    boolean isSystemApp = isSystemApp(context, packageName);
-                    boolean isLaunchAbleApp = isLaunchAbleApp(context, packageName);
+                    boolean isLaunchAbleApp = isLaunchAbleUserInstallApp(context, packageName);
                     boolean isSelf = false;
                     boolean isDuplicate = drawablePackageList.contains(packageName);
                     if (!TextUtils.isEmpty(securityPackageName)) {
                         isSelf = securityPackageName.equals(packageName);
                     }
 
-                    if (!TextUtils.isEmpty(packageName) && !isSystemApp && isLaunchAbleApp && !isSelf && !isDuplicate) {
+                    if (!TextUtils.isEmpty(packageName) && isLaunchAbleApp && !isSelf && !isDuplicate) {
                         if (i >= drawables.length) {
                             break;
                         }
@@ -437,8 +436,23 @@ public class BoostAnimationManager {
         return drawables;
     }
 
-    // TODO SystemAppsManager
-    private boolean isLaunchAbleApp(Context context, String packageName) {
+    private boolean isLaunchAbleUserInstallApp(Context context, String packageName) {
+        List<AppInfo> appInfoList = SystemAppsManager.getInstance().getAllAppInfos();
+
+        // Find in cached app info list.
+        if (appInfoList != null && !appInfoList.isEmpty()) {
+            for (AppInfo appInfo : appInfoList) {
+                if (TextUtils.equals(packageName, appInfo.getPackageName())) {
+                    ApplicationInfo applicationInfo = appInfo.getAInfo();
+                    return null != applicationInfo && (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
+                }
+            }
+        }
+
+        if (isSystemApp(context, packageName)) {
+            return false;
+        }
+
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);

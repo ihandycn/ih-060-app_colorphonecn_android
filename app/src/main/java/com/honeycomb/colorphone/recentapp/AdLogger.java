@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.recentapp;
 
-import net.appcloudbox.ads.nativeads.AcbNativeAdAnalytics;
+
+import net.appcloudbox.ads.nativead.AcbNativeAdAnalytics;
 
 /**
  * Handles common logic to log AdAnalytics.logAppViewEvent().

@@ -6,10 +6,10 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.colorphone.lock.util.CommonUtils;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Permissions;
 
 
 /**
@@ -26,7 +26,7 @@ public class SafeWindowManager {
     }
 
     public void addView(View view, WindowManager.LayoutParams params) {
-        if (CommonUtils.isFloatWindowAllowed(HSApplication.getContext())) {
+        if (Permissions.isFloatWindowAllowed(HSApplication.getContext())) {
             try {
                 mWindowManager.addView(view, params);
                 useActivityManager = false;

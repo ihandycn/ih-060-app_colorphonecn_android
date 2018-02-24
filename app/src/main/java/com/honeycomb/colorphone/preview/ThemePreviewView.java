@@ -36,7 +36,6 @@ import com.acb.call.views.ThemePreviewWindow;
 import com.acb.utils.ConcurrentUtils;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -64,6 +63,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Dimensions;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -662,7 +662,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void showNavView(boolean show) {
-        float offsetX = CommonUtils.isRtl() ?  -Utils.pxFromDp(60) : Utils.pxFromDp(60);
+        float offsetX = Dimensions.isRtl() ?  -Dimensions.pxFromDp(60) : Dimensions.pxFromDp(60);
         float targetX = show ? 0 : -offsetX;
         // State already right.
         if (Math.abs(mNavBack.getTranslationX() - targetX) <= 1) {
@@ -1267,7 +1267,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
 
         private void transIn(boolean in, boolean anim) {
-            float offsetX = CommonUtils.isRtl() ?  -Utils.pxFromDp(60) : Utils.pxFromDp(60);
+            float offsetX = Dimensions.isRtl() ?  -Dimensions.pxFromDp(60) : Dimensions.pxFromDp(60);
             float targetX = in ? 0 : offsetX;
             if (anim) {
                 imageView.animate().translationX(targetX)

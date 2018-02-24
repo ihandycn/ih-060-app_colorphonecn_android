@@ -34,7 +34,6 @@ import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawer;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpCallback;
 import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpTouchListener;
-import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.ViewUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -42,8 +41,9 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.flashlight.FlashlightManager;
+import com.superapps.util.Dimensions;
 
-import net.appcloudbox.ads.expressads.AcbExpressAdView;
+import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -136,7 +136,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         super.onFinishInflate();
 
         if (!FloatWindowCompat.needsSystemErrorFloatWindow()) {
-            setPadding(0, 0, 0, CommonUtils.getNavigationBarHeight(HSApplication.getContext()));
+            setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(HSApplication.getContext()));
         }
 
         mDimCover = findViewById(R.id.dim_cover);
@@ -195,7 +195,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             @Override
             public void onGlobalLayout() {
                 getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                mSlidingDrawer.setTranslationY(mSlidingDrawer.getHeight() - CommonUtils.pxFromDp(48));
+                mSlidingDrawer.setTranslationY(mSlidingDrawer.getHeight() - Dimensions.pxFromDp(48));
             }
         });
 
@@ -230,11 +230,13 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
             }
         });
+        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_None);
     }
 
     private void showExpressAd() {
         if (expressAdView != null && expressAdView.getParent() == null) {
             mAdContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+            expressAdView.switchAd();
         }
     }
 
@@ -244,15 +246,15 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     public void onResume() {
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-            expressAdView.resumeDisplayNewAd();
+            expressAdView.switchAd();
         }
         LockerCustomConfig.getLogger().logEvent("Screen_Lock_Shown_Resume");
     }
 
     public void onPause() {
-        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-            expressAdView.pauseDisplayNewAd();
-        }
+//        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+//            expressAdView.pauseDisplayNewAd();
+//        }
     }
 
     public void onStop() {
@@ -338,7 +340,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                     postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            int bounceTranslationY = -CommonUtils.pxFromDp(13);
+                            int bounceTranslationY = -Dimensions.pxFromDp(13);
                             ObjectAnimator bounceAnimator = ObjectAnimator.ofFloat(mDrawerHandleUp,
                                     View.TRANSLATION_Y,
                                     0, bounceTranslationY, 0, bounceTranslationY, 0, bounceTranslationY, 0, bounceTranslationY, 0);
@@ -398,7 +400,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     @Override
     public void onScroll(float cur, float total) {
-        float heightToDisappear = CommonUtils.pxFromDp(24);
+        float heightToDisappear = Dimensions.pxFromDp(24);
         float alpha = (heightToDisappear + cur - total) / heightToDisappear;
         alpha = alpha < 0 ? 0 : (alpha > 1 ? 1 : alpha);
         mBottomOperationArea.setAlpha(alpha);
@@ -483,7 +485,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         if (mCloseLockerPopupView == null) {
             mCloseLockerPopupView = new PopupView(getContext(), mLockScreen.getRootView());
             View content = LayoutInflater.from(getContext()).inflate(R.layout.locker_popup_dialog, null);
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams((int) (CommonUtils
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams((int) (Dimensions
                     .getPhoneWidth(getContext()) * 0.872f), WRAP_CONTENT);
             content.setLayoutParams(layoutParams);
             TextView title = ViewUtils.findViewById(content, R.id.title);

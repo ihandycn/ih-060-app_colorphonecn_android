@@ -26,7 +26,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
@@ -53,6 +52,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
+import com.superapps.util.Dimensions;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -146,7 +146,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         layoutManager = new GridLayoutManager(HSApplication.getContext(), 2);
         layoutManager.setSpanSizeLookup(spanSizeLookup);
         mTransX = activity.getResources().getDimensionPixelOffset(R.dimen.theme_card_margin_horizontal) * 0.6f;
-        if (CommonUtils.isRtl()) {
+        if (Dimensions.isRtl()) {
             mTransX = -mTransX;
         }
 

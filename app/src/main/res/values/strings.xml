@@ -146,4 +146,6 @@
 
     <string name="accessibility_service_description" translatable="false">Not used</string>
 
+    <string name="led_flash_switch_text" translatable="false">Led Flash</string>
+
 </resources>

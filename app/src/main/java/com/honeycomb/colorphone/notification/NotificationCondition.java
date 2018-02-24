@@ -25,13 +25,12 @@ import android.widget.RemoteViews;
 
 import com.acb.utils.ConcurrentUtils;
 import com.colorphone.lock.ScreenStatusReceiver;
-import com.honeycomb.colorphone.Constants;
-import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
-import com.honeycomb.colorphone.boost.BoostAnimationManager;
-import com.colorphone.lock.util.PreferenceHelper;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.BuildConfig;
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
+import com.honeycomb.colorphone.boost.BoostAnimationManager;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.receiver.UserPresentReceiver;
@@ -46,6 +45,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.ScreenStateMgr;
+import com.superapps.util.Preferences;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -337,7 +337,7 @@ public class NotificationCondition implements INotificationObserver {
 
     private void readFromPref() {
 //        PreferenceHelper.get(LauncherFiles.NOTIFICATION_PREFS).putString(NOTIFICATION_HISTORY, "");
-        String history = PreferenceHelper.get(Constants.NOTIFICATION_PREFS).getString(NOTIFICATION_HISTORY, "");
+        String history = Preferences.get(Constants.NOTIFICATION_PREFS).getString(NOTIFICATION_HISTORY, "");
         HSLog.d(TAG, "readFromPref history == " + history);
         if (!TextUtils.isEmpty(history)) {
             notificationHolderList.clear();
@@ -371,18 +371,18 @@ public class NotificationCondition implements INotificationObserver {
             for (NotificationHolder holder : notificationHolderList) {
                 jArray.put(holder.toJSON());
             }
-            PreferenceHelper.get(Constants.NOTIFICATION_PREFS).putString(NOTIFICATION_HISTORY, jArray.toString());
+            Preferences.get(Constants.NOTIFICATION_PREFS).putString(NOTIFICATION_HISTORY, jArray.toString());
         } else {
-            PreferenceHelper.get(Constants.NOTIFICATION_PREFS).putString(NOTIFICATION_HISTORY, "");
+            Preferences.get(Constants.NOTIFICATION_PREFS).putString(NOTIFICATION_HISTORY, "");
         }
     }
 
     private static void setLastNotifyBoostPlusTime(String prefKey) {
-        PreferenceHelper.get(Constants.NOTIFICATION_PREFS).putLong(prefKey, System.currentTimeMillis());
+        Preferences.get(Constants.NOTIFICATION_PREFS).putLong(prefKey, System.currentTimeMillis());
     }
 
     private static long getLastNotifyBoostPlusTime(String prefKey) {
-        return PreferenceHelper.get(Constants.NOTIFICATION_PREFS).getLong(prefKey, 0);
+        return Preferences.get(Constants.NOTIFICATION_PREFS).getLong(prefKey, 0);
     }
 
     private boolean shouldNotifyBoostPlus() {

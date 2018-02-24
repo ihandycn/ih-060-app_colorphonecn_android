@@ -5,7 +5,6 @@ import android.util.SparseArray;
 
 import com.acb.call.themes.Type;
 import com.acb.call.utils.FileUtils;
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.Theme;
@@ -212,7 +211,7 @@ public class TasksManager {
     }
 
     public int getStatus(final int id, String path) {
-        if (id == Constants.DEFUALT_THEME_ID && new File(path).exists()) {
+        if (id == Constants.DEFAULT_THEME_ID && new File(path).exists()) {
             return FileDownloadStatus.completed;
         }
         return FileDownloader.getImpl().getStatus(id, path);

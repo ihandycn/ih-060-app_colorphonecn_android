@@ -1,8 +1,14 @@
 package com.honeycomb.colorphone;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.ContentObserver;
 import android.graphics.Typeface;
+import android.media.AudioManager;
+import android.os.Build;
+import android.os.Handler;
 
 import com.acb.call.CPSettings;
 import com.acb.call.customize.AcbCallFactoryImpl;
@@ -11,13 +17,13 @@ import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.receiver.IncomingCallReceiver;
 import com.acb.call.service.InCallWindow;
 import com.acb.call.themes.Type;
+import com.acb.call.utils.CallUtils;
 import com.acb.call.views.CallIdleAlert;
 import com.acb.notification.FloatWindowController;
 import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.notification.NotificationMessageAlertActivity;
 import com.acb.utils.MessageCenterUtils;
 import com.acb.utils.NavUtils;
-import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -30,9 +36,16 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
+import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.ihs.flashlight.FlashlightManager;
+import com.ihs.libcharging.ScreenStateMgr;
+import com.superapps.util.Preferences;
 
-import net.appcloudbox.ads.nativeads.AcbNativeAdAnalytics;
+import net.appcloudbox.ads.nativead.AcbNativeAdAnalytics;
 
 import java.util.Iterator;
 import java.util.List;
@@ -106,11 +119,16 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
                 LauncherAnalytics.logEvent("Message_View_Shown", "AlertShowWhere", "NotOnLockScreen", "MessageType", "SMS");
                 LauncherAnalytics.logEvent("Message_View_SMS_Shown_NotOnLockScreen");
 
+                CallUtils.recordAlertDailyCount(com.acb.Constants.PREFS_ALERT_DAILY_SHOW_COUNT_FILE, com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_TIME_STAMP,
+                        com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_DAILY_SHOW_COUNT, "Message_View_Daily_Shown");
             }
 
             public void onAdShow() {
                 NotificationAutoPilotUtils.logMessageAssistantAdShow();
                 LauncherAnalytics.logEvent("Message_View_AD_Shown", "AlertShowWhere", "NotOnLockScreen", "MessageType", "SMS");
+
+                CallUtils.recordAlertDailyCount(com.acb.Constants.PREFS_ALERT_DAILY_SHOW_COUNT_FILE, com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_AD_SHOW_TIME_STAMP,
+                        com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_AD_DAILY_SHOW_COUNT, "Message_View_AD_Daily_Shown");
             }
 
             public void onAdClick() {
@@ -324,13 +342,17 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         return new NotificationMessageAlertActivity.Event() {
             @Override
             public void onShow(int[] count) {
-//                LauncherAnalytics.logEvent("Message_View_Shown");
+                CallUtils.recordAlertDailyCount(com.acb.Constants.PREFS_ALERT_DAILY_SHOW_COUNT_FILE, com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_TIME_STAMP,
+                        com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_DAILY_SHOW_COUNT, "Message_View_Daily_Shown");
             }
 
             @Override
             public void onAdShow() {
                 NotificationAutoPilotUtils.logMessageAssistantAdShow();
                 LauncherAnalytics.logEvent("Message_View_AD_Shown");
+
+                CallUtils.recordAlertDailyCount(com.acb.Constants.PREFS_ALERT_DAILY_SHOW_COUNT_FILE, com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_AD_SHOW_TIME_STAMP,
+                        com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_AD_DAILY_SHOW_COUNT, "Message_View_AD_Daily_Shown");
             }
 
             @Override
@@ -409,7 +431,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
     @Override
     public Class getNotificationServiceClass() {
         try {
-            if (CommonUtils.ATLEAST_JB_MR2) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 return NotificationServiceV18.class;
             } else {
                 return null;
@@ -452,4 +474,121 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             }
         };
     }
+
+    @Override
+    public IncomingCallReceiver.Event getCallStateEvent() {
+        return new IncomingCallReceiver.Event() {
+            @Override
+            public void onRinging(String s) {
+                startFlashIfProper();
+            }
+
+            @Override
+            public void onIdle(int i, String s) {
+                stopFlashIfProper();
+            }
+
+            @Override
+            public void onHookOff(String s) {
+                stopFlashIfProper();
+            }
+
+            @Override
+            public void onOutGoing(String s) {
+
+            }
+
+            @Override
+            public void inCallWindowShow(String themeName) {
+
+            }
+        };
+    }
+
+    public void startFlashIfProper() {
+        if (Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE, false)
+                && !FlashlightManager.getInstance().isOn()
+                && !FlashManager.getInstance().isFlash()) {
+            FlashManager.getInstance().startFlash();
+
+            AudioManager audioMgr = (AudioManager) HSApplication.getContext().getSystemService(Context.AUDIO_SERVICE);
+            if (audioMgr != null) {
+                ringVolume = audioMgr.getStreamVolume(AudioManager.STREAM_RING);
+
+                observer = new SettingsContentObserver(new Handler());
+                HSApplication.getContext().getContentResolver().registerContentObserver(
+                        android.provider.Settings.System.CONTENT_URI, true,
+                        observer);
+            }
+
+            screenOffObserver = new INotificationObserver() {
+                @Override public void onReceive(String s, HSBundle hsBundle) {
+                    stopFlashIfProper();
+                }
+            };
+            HSGlobalNotificationCenter.addObserver(ScreenStateMgr.ACTION_SCREEN_OFF, screenOffObserver);
+
+            screenOffReceiver = new BroadcastReceiver() {
+                @Override public void onReceive(Context context, Intent intent) {
+                    stopFlashIfProper();
+                }
+            };
+            HSApplication.getContext().registerReceiver(screenOffReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
+        }
+    }
+
+    public void stopFlashIfProper() {
+        if (Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE, false)
+                && FlashManager.getInstance().isFlash()) {
+            FlashManager.getInstance().stopFlash();
+
+            if (observer != null) {
+                HSApplication.getContext().getContentResolver().unregisterContentObserver(observer);
+                observer = null;
+            }
+
+            if (screenOffObserver != null) {
+                HSGlobalNotificationCenter.removeObserver(screenOffObserver);
+                screenOffObserver = null;
+            }
+            if (screenOffReceiver != null) {
+                HSApplication.getContext().unregisterReceiver(screenOffReceiver);
+                screenOffReceiver = null;
+            }
+        }
+    }
+
+    private int ringVolume = -1;
+    private SettingsContentObserver observer;
+    private INotificationObserver screenOffObserver;
+    private BroadcastReceiver screenOffReceiver;
+
+    private void updateStuff() {
+        AudioManager audioMgr = (AudioManager) HSApplication.getContext().getSystemService(Context.AUDIO_SERVICE);
+        int volume = audioMgr.getStreamVolume(AudioManager.STREAM_RING);
+        if (volume != ringVolume) {
+            stopFlashIfProper();
+            ringVolume = -1;
+        }
+    }
+
+    private class SettingsContentObserver extends ContentObserver {
+
+        SettingsContentObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public boolean deliverSelfNotifications() {
+            return super.deliverSelfNotifications();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            HSLog.v("Settings change detected");
+            updateStuff();
+        }
+    }
+
 }

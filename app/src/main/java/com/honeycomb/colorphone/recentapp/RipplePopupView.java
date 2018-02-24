@@ -12,7 +12,7 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 
-import com.colorphone.lock.util.CommonUtils;
+import com.acb.utils.CommonUtils;
 import com.honeycomb.colorphone.boost.LauncherAnimUtils;
 
 import java.util.ArrayList;

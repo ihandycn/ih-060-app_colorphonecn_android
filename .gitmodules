@@ -10,3 +10,6 @@
 [submodule "libs/libSuperApps"]
 	path = libs/libSuperApps
 	url = http://git.ihandysoft.com/nogroup/Lib_SuperApps_Android.git
+[submodule "libs/libFlashlight"]
+	path = libs/libFlashlight
+	url = http://git.ihandysoft.com/bingroup/bin_flashlight_android.git

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.colorphone.lock.R;
-import com.colorphone.lock.util.CommonUtils;
+import com.superapps.util.Dimensions;
 
 
 public class BallAnimationView extends LinearLayout {
@@ -36,7 +36,7 @@ public class BallAnimationView extends LinearLayout {
     }
 
     public BallAnimationView(Context context, AttributeSet attrs, int defStyle) {
-        this(context, attrs, defStyle, CommonUtils.pxFromDp(3), 1f, 0.1f, Color.RED);
+        this(context, attrs, defStyle, Dimensions.pxFromDp(3), 1f, 0.1f, Color.RED);
     }
 
     @SuppressWarnings("deprecation")

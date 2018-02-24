@@ -22,9 +22,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.acb.utils.CommonUtils;
 import com.acb.utils.ConcurrentUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
-import com.colorphone.lock.util.CommonUtils;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
@@ -42,7 +42,8 @@ import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
-import net.appcloudbox.ads.nativeads.AcbNativeAdLoader;
+import net.appcloudbox.ads.nativead.AcbNativeAdLoader;
+import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -85,12 +86,12 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         super(context);
 
         mAdLogger.adSessionStart();
-        List<AcbNativeAd> ads = AcbNativeAdLoader.fetch(HSApplication.getContext(),
+        List<AcbNativeAd> ads = AcbNativeAdManager.fetch(HSApplication.getContext(),
                 AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME, 1);
         if (!DEBUG_MODE) {
             if (ads.isEmpty()) {
                 HSLog.d(TAG, "should show with ad, but ad is null");
-                AcbNativeAdLoader.preload(HSApplication.getContext(), 1, AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
+                AcbNativeAdManager.preload(HSApplication.getContext(), 1, AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
                 HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
                 return;
             }
@@ -292,7 +293,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
     public void dismiss(boolean option, boolean animated) {
         releaseAd();
-        AcbNativeAdLoader.preload(HSApplication.getContext(), 1, AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
+        AcbNativeAdManager.preload(HSApplication.getContext(), 1, AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
         mHandler.removeCallbacksAndMessages(null);
         // According to using activity, we do not need to remove recent app guide any more
         //LauncherFloatWindowManager.getInstance().removeNormalGuide();

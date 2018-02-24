@@ -39,10 +39,6 @@ import com.colorphone.lock.boost.RamUsageDisplayUpdater;
 import com.colorphone.lock.lockscreen.SystemSettingsManager;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.wallpaper.WallpaperContainer;
-import com.colorphone.lock.util.BitmapUtils;
-import com.colorphone.lock.util.CommonUtils;
-import com.colorphone.lock.util.ConcurrentUtils;
-import com.colorphone.lock.util.NavUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -50,6 +46,10 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.flashlight.FlashlightManager;
+import com.superapps.util.Bitmaps;
+import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
+import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -161,10 +161,10 @@ public class SlidingDrawerContent extends FrameLayout
         if (bitmap == null || bitmap.isRecycled()) {
             return;
         }
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override public void run() {
                 final Bitmap bluredBitmap = blurBitmap(getContext(), bitmap, WALLPAPER_BLUR_RADIUS);
-                ConcurrentUtils.postOnMainThread(new Runnable() {
+                Threads.postOnMainThread(new Runnable() {
                     @Override public void run() {
                         ObjectAnimator wallpaperOut = ObjectAnimator.ofFloat(ivDrawerBg, "alpha", 1f, 0.5f);
                         wallpaperOut.setDuration(400);
@@ -203,21 +203,21 @@ public class SlidingDrawerContent extends FrameLayout
         int startY;
         int rangeHeight;
 
-        int rangeWidth = height * CommonUtils.getPhoneWidth(context) / CommonUtils.getPhoneHeight(context);
+        int rangeWidth = height * Dimensions.getPhoneWidth(context) / Dimensions.getPhoneHeight(context);
         if (rangeWidth <= width) {
             rangeHeight = height * context.getResources().getDimensionPixelOffset(R.dimen.locker_toggle_height)
-                    / CommonUtils.getPhoneHeight(context);
+                    / Dimensions.getPhoneHeight(context);
             startX = (width - rangeWidth) / 2;
             startY = height - rangeHeight;
         } else {
             rangeWidth = width;
             startX = 0;
-            startY = (height + CommonUtils.getPhoneHeight(context)) / 2
+            startY = (height + Dimensions.getPhoneHeight(context)) / 2
                     - context.getResources().getDimensionPixelOffset(R.dimen.locker_toggle_height);
             rangeHeight = context.getResources().getDimensionPixelOffset(R.dimen.locker_toggle_height);
         }
-        if (CommonUtils.hasNavBar(context)) {
-            startY -= CommonUtils.getNavigationBarHeight(context);
+        if (Dimensions.hasNavBar(context)) {
+            startY -= Dimensions.getNavigationBarHeight(context);
         }
 
         // Clamp the left & top of blurred area first
@@ -248,7 +248,7 @@ public class SlidingDrawerContent extends FrameLayout
         paint.setFlags(2);
         canvas.drawBitmap(resizedBitmap, 0.0f, 0.0f, paint);
         try {
-            return BitmapUtils.fastBlur(blurSrcBitmap, 1, radius);
+            return Bitmaps.fastBlur(blurSrcBitmap, 1, radius);
         } catch (Exception e) {
             return resizedBitmap;
         }
@@ -711,7 +711,7 @@ public class SlidingDrawerContent extends FrameLayout
         }
 
         if (foundImpl && openIntent != null) {
-            NavUtils.startActivitySafely(getContext(), openIntent);
+            Navigations.startActivitySafely(getContext(), openIntent);
         }
     }
 }

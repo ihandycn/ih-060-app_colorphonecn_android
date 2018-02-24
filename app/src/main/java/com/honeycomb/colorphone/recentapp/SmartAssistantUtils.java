@@ -10,7 +10,7 @@ import android.text.format.DateUtils;
 import android.widget.Toast;
 
 import com.acb.utils.ConcurrentUtils;
-import com.colorphone.lock.util.PreferenceHelper;
+
 import com.honeycomb.colorphone.boost.AppInfo;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.util.Utils;
@@ -18,6 +18,7 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.monitor.topapp.TopAppManager;
+import com.superapps.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -135,7 +136,7 @@ public class SmartAssistantUtils {
     }
 
     static void disableByUser() {
-        PreferenceHelper.get(PREF_FILE_NAME).putBoolean(PREF_KEY_SMART_ASSISTANT_USER_ENABLED, false);
+        Preferences.get(PREF_FILE_NAME).putBoolean(PREF_KEY_SMART_ASSISTANT_USER_ENABLED, false);
     }
 
     public static boolean isEnabled() {
@@ -143,7 +144,7 @@ public class SmartAssistantUtils {
     }
 
     public static boolean isUserEnabled() {
-        return PreferenceHelper.get(PREF_FILE_NAME).getBoolean(PREF_KEY_SMART_ASSISTANT_USER_ENABLED, true);
+        return Preferences.get(PREF_FILE_NAME).getBoolean(PREF_KEY_SMART_ASSISTANT_USER_ENABLED, true);
     }
 
     public static boolean isConfigEnabled() {
@@ -164,11 +165,11 @@ public class SmartAssistantUtils {
     }
 
     public static void recordSmartAssistantShowTime() {
-        PreferenceHelper.get(PREF_FILE_NAME).putLong(PREF_KEY_LAST_SHOW_SMART_ASSISTANT_TIME, System.currentTimeMillis());
+        Preferences.get(PREF_FILE_NAME).putLong(PREF_KEY_LAST_SHOW_SMART_ASSISTANT_TIME, System.currentTimeMillis());
     }
 
     public static boolean couldShowSmartAssistantByIntervalTime() {
-        long lastShowTime = PreferenceHelper.get(PREF_FILE_NAME).getLong(PREF_KEY_LAST_SHOW_SMART_ASSISTANT_TIME, 0);
+        long lastShowTime = Preferences.get(PREF_FILE_NAME).getLong(PREF_KEY_LAST_SHOW_SMART_ASSISTANT_TIME, 0);
         if (System.currentTimeMillis() - lastShowTime > getConfigIntervalTimeMills()) {
             return true;
         } else {
@@ -177,7 +178,7 @@ public class SmartAssistantUtils {
     }
 
     public static boolean isFirstShowSmartAssistant() {
-        long lastShowTime = PreferenceHelper.get(PREF_FILE_NAME).getLong(PREF_KEY_LAST_SHOW_SMART_ASSISTANT_TIME, 0);
+        long lastShowTime = Preferences.get(PREF_FILE_NAME).getLong(PREF_KEY_LAST_SHOW_SMART_ASSISTANT_TIME, 0);
         if (lastShowTime == 0) {
             return true;
         } else {

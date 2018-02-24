@@ -44,7 +44,6 @@ import net.appcloudbox.common.ImageLoader.AcbImageLoader;
 import net.appcloudbox.common.ImageLoader.AcbImageLoaderListener;
 import net.appcloudbox.common.utils.AcbError;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("WeakerAccess")
@@ -334,29 +333,6 @@ public abstract class ResultController implements View.OnClickListener {
                             }
                         }, null);
             }
-
-            List<View> clickViews = new ArrayList<>();
-            if (adContainer.getAdActionView() != null) {
-                clickViews.add(adContainer.getAdActionView());
-            }
-
-            if (adContainer.getAdBodyView() != null) {
-                clickViews.add(adContainer.getAdBodyView());
-            }
-
-            if (adContainer.getAdTitleView() != null) {
-                clickViews.add(adContainer.getAdTitleView());
-            }
-
-            if (adContainer.getAdIconView() != null) {
-                clickViews.add(adContainer.getAdIconView());
-            }
-
-            if (adContainer.getAdPrimaryView() != null) {
-                clickViews.add(adContainer.getAdPrimaryView());
-            }
-
-            adContainer.setClickViewList(clickViews);
 
             mAdContainer = adContainer;
             fillNativeAd(ad);

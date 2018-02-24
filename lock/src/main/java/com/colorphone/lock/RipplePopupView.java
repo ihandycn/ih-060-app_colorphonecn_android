@@ -5,14 +5,13 @@ import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
-
-import com.colorphone.lock.util.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,7 +146,7 @@ public class RipplePopupView extends PopupView {
         mRevealCenterX = centerX - mContentX;
         mRevealCenterY = centerY - mContentY;
 
-        if (CommonUtils.ATLEAST_LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             float finalX = Math.max(Math.abs(mRevealCenterX), Math.abs(mRevealCenterX - mContentView.getWidth()));
             float finalY = Math.max(Math.abs(mRevealCenterY), Math.abs(mRevealCenterY - mContentView.getHeight()));
             float finalRadius = (float) Math.sqrt(finalX * finalX + finalY * finalY);
@@ -189,7 +188,7 @@ public class RipplePopupView extends PopupView {
 
         mRevealCenterX = centerX - contentCoord[0];
         mRevealCenterY = centerY - contentCoord[1];
-        if (CommonUtils.ATLEAST_LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             float finalX = Math.max(Math.abs(mRevealCenterX), Math.abs(mRevealCenterX - mContentView.getWidth()));
             float finalY = Math.max(Math.abs(mRevealCenterY), Math.abs(mRevealCenterY - mContentView.getHeight()));
             float finalRadius = (float) Math.sqrt(finalX * finalX + finalY * finalY);

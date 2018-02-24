@@ -12,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.colorphone.lock.AnimatorListenerAdapter;
-import com.colorphone.lock.util.CommonUtils;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.R;
@@ -21,6 +20,7 @@ import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Thunk;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
 
 import net.appcloudbox.ads.base.AcbAd;
 import net.appcloudbox.ads.base.AcbInterstitialAd;
@@ -94,12 +94,12 @@ import java.util.List;
             @Override public void run() {
                 int height = mMiddleLayout.getHeight();
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mMiddleLayout.getLayoutParams();
-                params.topMargin = (CommonUtils.getPhoneHeight(BoostPlusResultController.this.getContext()) - height) / 2;
+                params.topMargin = (Dimensions.getPhoneHeight(BoostPlusResultController.this.getContext()) - height) / 2;
                 mMiddleLayout.setLayoutParams(params);
             }
         });
 
-        phoneHeight = (float) CommonUtils.getPhoneHeight(getContext());
+        phoneHeight = (float) Dimensions.getPhoneHeight(getContext());
     }
 
     @Override

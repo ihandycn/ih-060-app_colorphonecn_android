@@ -15,10 +15,10 @@ import android.widget.ImageView;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.locker.Locker;
-import com.colorphone.lock.util.CommonUtils;
-import com.colorphone.lock.util.NavUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 
 import static com.ihs.app.framework.HSApplication.getContext;
 
@@ -40,7 +40,7 @@ public class LockerSlidingUpCallback implements SlidingUpCallback {
         mTransitionContainer = (ViewGroup) rootView.findViewById(R.id.transition_container);
         mBottomLayer = (ViewGroup) rootView.findViewById(R.id.bottom_layer);
         mBottomIcon = (ImageView) rootView.findViewById(R.id.bottom_icon);
-        mNavigationBarHeight = CommonUtils.getNavigationBarHeight(getContext());
+        mNavigationBarHeight = Dimensions.getNavigationBarHeight(getContext());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mBottomIcon.setPadding(0, 0, 0, mNavigationBarHeight);
@@ -56,14 +56,14 @@ public class LockerSlidingUpCallback implements SlidingUpCallback {
 
     @Override
     public void translateY(int translationY) {
-        if (translationY < -(CommonUtils.pxFromDp(50) + mNavigationBarHeight)) {
+        if (translationY < -(Dimensions.pxFromDp(50) + mNavigationBarHeight)) {
             if (mAnimator != null && mAnimator.isRunning()) {
                 mAnimator.cancel();
             }
             mTransitionContainer.setTranslationY(translationY);
         } else {
             if (null == mAnimator || !mAnimator.isRunning()) {
-                mTransitionContainer.setTranslationY(-CommonUtils.pxFromDp(50) - mNavigationBarHeight);
+                mTransitionContainer.setTranslationY(-Dimensions.pxFromDp(50) - mNavigationBarHeight);
             }
         }
     }
@@ -143,7 +143,7 @@ public class LockerSlidingUpCallback implements SlidingUpCallback {
                 if (type == SlidingUpTouchListener.TYPE_LEFT) {
                     HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
                 } else {
-                    if (NavUtils.startCamera(HSApplication.getContext())) {
+                    if (Navigations.startCamera(HSApplication.getContext())) {
                         LockerCustomConfig.getLogger().logEvent("Locker_Camera_Opened");
                         HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
                     }

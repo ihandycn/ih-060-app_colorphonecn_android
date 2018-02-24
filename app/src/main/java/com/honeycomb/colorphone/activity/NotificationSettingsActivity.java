@@ -6,12 +6,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.colorphone.lock.util.PreferenceHelper;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.superapps.util.Preferences;
 
 public class NotificationSettingsActivity extends HSAppCompatActivity implements View.OnClickListener {
 
@@ -136,11 +136,11 @@ public class NotificationSettingsActivity extends HSAppCompatActivity implements
     }
 
     public static boolean isNotificationBoostOn() {
-        return PreferenceHelper.get(Constants.NOTIFICATION_PREFS).getBoolean(PREF_KEY_NOTIFICATION_SETTINGS_BOOST, false);
+        return Preferences.get(Constants.NOTIFICATION_PREFS).getBoolean(PREF_KEY_NOTIFICATION_SETTINGS_BOOST, false);
     }
 
     public static void setNotificationBoostOn(boolean on) {
-        PreferenceHelper.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_NOTIFICATION_SETTINGS_BOOST, on);
+        Preferences.get(Constants.NOTIFICATION_PREFS).putBoolean(PREF_KEY_NOTIFICATION_SETTINGS_BOOST, on);
     }
 
 //    public static boolean isSwitchOn(NotificationType type) {

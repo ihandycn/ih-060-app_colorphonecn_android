@@ -36,8 +36,6 @@ import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerMainFrame;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
-import com.colorphone.lock.util.CommonUtils;
-import com.colorphone.lock.util.ToastUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -45,6 +43,8 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Networks;
+import com.superapps.util.Toasts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -158,7 +158,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
         mNetworkReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (CommonUtils.isNetworkAvailable(-1)) {
+                if (Networks.isNetworkAvailable(-1)) {
                     mFirstAutoRefresh = false;
                     prepareDownloading();
                 }
@@ -353,7 +353,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                                     mask.start();
                                 }
                                 mIsDownloadingWallpaper = false;
-                                ToastUtils.showToast(R.string.wallpaper_network_error);
+                                Toasts.showToast(R.string.wallpaper_network_error);
                                 LockerCustomConfig.getLogger().logEvent("Locker_Wallpaper_Preview_Clicked", "name", mHDUrls.get(index).toString(), "result", "fail");
                             }
 
@@ -477,7 +477,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                                         if (isLoadingFinish()) {
                                             mRefreshView.clearAnimation();
                                             if (!mFirstAutoRefresh) {
-                                                ToastUtils.showToast(R.string.wallpaper_network_error, Toast.LENGTH_LONG);
+                                                Toasts.showToast(R.string.wallpaper_network_error, Toast.LENGTH_LONG);
                                             }
 
                                             //log flurry

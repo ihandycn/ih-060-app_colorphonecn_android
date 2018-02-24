@@ -21,15 +21,13 @@ import android.provider.Settings;
 import android.view.WindowManager;
 
 import com.colorphone.lock.ReflectionHelper;
-import com.colorphone.lock.util.CommonUtils;
-import com.colorphone.lock.util.CompatUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Compats;
+import com.superapps.util.Navigations;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import static com.colorphone.lock.util.NavUtils.startActivitySafely;
 
 public class SystemSettingsManager {
 
@@ -151,7 +149,11 @@ public class SystemSettingsManager {
         mContext.getContentResolver().unregisterContentObserver(mSettingsObserver);
         this.listener = null;
 
-        CommonUtils.unregisterReceiver(mContext, mStateChangeReceiver);
+        try {
+            mContext.unregisterReceiver(mStateChangeReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void notifyListener(SettingsItem item) {
@@ -479,7 +481,7 @@ public class SystemSettingsManager {
     }
 
     public static boolean setMobileDataStatus(Context context, boolean enabled) {
-        if (CompatUtils.IS_HUAWEI_DEVICE && isWifiEnabled()) {
+        if (Compats.IS_HUAWEI_DEVICE && isWifiEnabled()) {
             return false;
         }
         ConnectivityManager connectivityManager;
@@ -525,7 +527,7 @@ public class SystemSettingsManager {
         if (attachNewTaskFlag) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-        startActivitySafely(context, intent);
+        Navigations.startActivitySafely(context, intent);
     }
 
     public void toggleSound() {

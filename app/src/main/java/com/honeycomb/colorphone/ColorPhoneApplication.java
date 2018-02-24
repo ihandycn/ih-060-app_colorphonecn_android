@@ -30,7 +30,6 @@ import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
-import com.colorphone.lock.util.ConcurrentUtils;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
@@ -62,10 +61,12 @@ import com.ihs.commons.utils.HSMapUtils;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.HSChargingManager;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.superapps.util.Threads;
 
-import net.appcloudbox.ads.expressads.AcbExpressAdManager;
-import net.appcloudbox.ads.interstitialads.AcbInterstitialAdManager;
-import net.appcloudbox.ads.nativeads.AcbNativeAdManager;
+import net.appcloudbox.AcbAds;
+import net.appcloudbox.ads.expressad.AcbExpressAdManager;
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
+import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
 
 import java.io.File;
@@ -146,8 +147,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     @DebugLog
     private void onMainProcessCreate() {
-        AcbExpressAdManager.getInstance().init(this);
-        AcbNativeAdManager.sharedInstance().init(this);
+        AcbAds.getInstance().initializeFromGoldenEye(this);
 
         AcbCallManager.init("", new CallConfigFactory());
         AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
@@ -171,7 +171,7 @@ public class ColorPhoneApplication extends HSApplication {
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
 
-        AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
 
         HSPermanentUtils.keepAlive();
@@ -246,7 +246,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     private void copyMediaFromAssertToFile() {
         final long startMills = SystemClock.elapsedRealtime();
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 final File file = new File(FileUtils.getMediaDirectory(), "Mp4_12");
@@ -269,7 +269,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     private void initChargingReport() {
         long firstInstallTime = HSSessionMgr.getFirstSessionStartTime();
-        AcbNativeAdManager.sharedInstance().activePlacementInProcess(AdPlacements.AD_CHARGING_REPORT);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CHARGING_REPORT);
         ChargingReportConfiguration configuration = new ChargingReportConfiguration.Builder()
                 .adPlacement(AdPlacements.AD_CHARGING_REPORT)
                 .appName(getResources().getString(R.string.smart_charging))
@@ -322,6 +322,11 @@ public class ColorPhoneApplication extends HSApplication {
             @Override
             public void logAdEvent(String s, boolean b) {
                 LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App", s, String.valueOf(b));
+            }
+
+            @Override
+            public void onChargingReportShown() {
+
             }
         });
     }
@@ -428,9 +433,9 @@ public class ColorPhoneApplication extends HSApplication {
     public static void checkCallAssistantAdPlacement() {
         final String adName = AcbCallManager.getInstance().getAcbCallFactory().getCallIdleConfig().getAdPlaceName();
         boolean enable = CPSettings.isCallAssistantModuleEnabled();
-        checkNativeAd(adName, enable);
+        checkExpressAd(adName, enable);
         final String smsName = AcbCallManager.getInstance().getAcbCallFactory().getSMSConfig().getAdPlacement();
-        checkNativeAd(smsName, CPSettings.isSMSAssistantModuleEnabled());
+        checkExpressAd(smsName, CPSettings.isSMSAssistantModuleEnabled());
 
     }
 
@@ -464,9 +469,9 @@ public class ColorPhoneApplication extends HSApplication {
     private static void checkNativeAd(String adName, boolean enable) {
         HSLog.d("AD_CHECK_native", "Name = " + adName + ", enable = " + enable );
         if (enable) {
-            AcbNativeAdManager.sharedInstance().activePlacementInProcess(adName);
+            AcbNativeAdManager.getInstance().activePlacementInProcess(adName);
         } else {
-            AcbNativeAdManager.sharedInstance().deactivePlacementInProcess(adName);
+            AcbNativeAdManager.getInstance().deactivePlacementInProcess(adName);
         }
     }
 

@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.widget.TextView;
 
 import com.colorphone.lock.R;
+import com.superapps.util.Dimensions;
 
 import static com.ihs.app.framework.HSApplication.getContext;
 
@@ -26,8 +27,8 @@ public class ViewStyleUtils {
 
         Toolbar.LayoutParams toolbarTitleParams = new Toolbar.LayoutParams(
                 Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT, Gravity.START);
-        boolean isRtl = CommonUtils.isRtl();
-        int margin = largeMargin ? CommonUtils.pxFromDp(20) : CommonUtils.pxFromDp(16);
+        boolean isRtl = Dimensions.isRtl();
+        int margin = largeMargin ? Dimensions.pxFromDp(20) : Dimensions.pxFromDp(16);
         //noinspection ResourceType
         toolbarTitleParams.setMargins(isRtl ? 0 : margin, 0, isRtl ? margin : 0, 0);
         titleTextView.setLayoutParams(toolbarTitleParams);

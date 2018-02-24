@@ -1,7 +1,6 @@
 package com.colorphone.lock.lockscreen.chargingscreen;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Typeface;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -21,11 +19,10 @@ import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.chargingscreen.view.BatteryAnimatorHelper;
 import com.colorphone.lock.lockscreen.chargingscreen.view.FlashButton;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
-import com.colorphone.lock.util.CommonUtils;
-import com.colorphone.lock.util.PreferenceHelper;
 import com.colorphone.lock.util.ViewUtils;
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.config.HSConfig;
+import com.superapps.util.Dimensions;
+import com.superapps.util.Preferences;
 
 /**
  * Created by lz on 4/6/17.
@@ -53,7 +50,7 @@ public class ChargingScreenGuideView extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        setPadding(0, 0, 0, CommonUtils.getNavigationBarHeight(getContext()));
+        setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(getContext()));
 
         ViewUtils.findViewById(this, R.id.ic_close).setOnClickListener(new OnClickListener() {
             @Override
@@ -143,7 +140,7 @@ public class ChargingScreenGuideView extends LinearLayout {
 
         ChargingScreenSettings.increaseChargingScreenGuideShowCount();
         final String spName = LockerCustomConfig.get().getSPFileName();
-        PreferenceHelper.get(spName).putInt(
+        Preferences.get(spName).putInt(
                 ChargingScreenSettings.PREF_KEY_CHARGING_SCREEN_GUIDE_LAST_SHOW_TIME,
                 ChargingScreenSettings.getChargingCount());
     }

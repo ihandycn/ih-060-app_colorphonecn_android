@@ -20,8 +20,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.colorphone.lock.R;
-import com.colorphone.lock.util.CommonUtils;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
 
 import net.appcloudbox.ads.base.AcbNativeAd;
 
@@ -254,7 +254,7 @@ public class BlackHoleLayout extends RelativeLayout {
         params.addRule(RelativeLayout.ALIGN_LEFT, R.id.dot_anchor);
         params.addRule(RelativeLayout.ALIGN_TOP, R.id.dot_anchor);
         Random random = new Random();
-        int radius = random.nextInt(CommonUtils.pxFromDp(50)) + CommonUtils.pxFromDp(100);
+        int radius = random.nextInt(Dimensions.pxFromDp(50)) + Dimensions.pxFromDp(100);
         double radians = random.nextDouble() * 2 * Math.PI;
         int leftMargin = (int) (radius * Math.sin(radians));
         int topMargin = (int) (radius * Math.cos(radians));
