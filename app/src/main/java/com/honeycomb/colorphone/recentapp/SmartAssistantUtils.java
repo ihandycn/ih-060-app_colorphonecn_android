@@ -219,9 +219,6 @@ public class SmartAssistantUtils {
             } else {
                 break;
             }
-            if (resultList.size() >= COUNT_APP_RECENTLY_INSTALL) {
-                break;
-            }
         }
         return resultList;
     }
@@ -256,6 +253,7 @@ public class SmartAssistantUtils {
             }
         }
 
+        int startSize = resultList.size();
         for (int i = 0; i < recentlyInstallApps.size(); i++) {
             String packageName = recentlyInstallApps.get(i).getPackageName();
             if (isOurSelf(packageName)) {
@@ -264,6 +262,9 @@ public class SmartAssistantUtils {
             if (!isExistApplicationInfo(resultList, packageName)) {
                 resultList.add(buildRecentApp(recentlyInstallApps.get(i), RecentAppInfo.TYPE_NEW_INSTALL));
                 HSLog.d(TAG, "Recently install app: " + packageName);
+            }
+            if (resultList.size() - startSize >= COUNT_APP_RECENTLY_INSTALL) {
+                break;
             }
         }
 
