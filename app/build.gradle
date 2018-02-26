@@ -79,7 +79,7 @@ dependencies {
     compile project(':lib_superapps_android')
 
     //  -------- GoldEye ------
-    compile 'net.appcloudbox.goldeneye:210:2018.02.24.001'
+    compile 'net.appcloudbox.goldeneye:210:2018.02.26.001'
 
     final USE_BETA_ACB_LIBS = false
 
