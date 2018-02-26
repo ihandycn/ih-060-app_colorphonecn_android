@@ -142,7 +142,7 @@
     <string name="smart_assistant">Smart Assistant</string>
     <string name="smart_assistant_tip_msg">Recommend apps by intelligence.</string>
     <string name="disable">Disable</string>
-    <string name="usage_access_guide_hint">Enable Usage Access to Answer Calls.</string>
+    <string name="usage_access_guide_hint">Enable Usage Access to Show Recommend Apps</string>
 
     <string name="accessibility_service_description" translatable="false">Not used</string>
 
