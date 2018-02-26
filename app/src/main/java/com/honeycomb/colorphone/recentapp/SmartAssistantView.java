@@ -2,7 +2,6 @@ package com.honeycomb.colorphone.recentapp;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -33,33 +32,24 @@ import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.TypefacedTextView;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
-import com.superapps.util.Dimensions;
 
-import net.appcloudbox.ads.base.AcbAd;
-import net.appcloudbox.ads.base.AcbNativeAd;
-import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
-import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
-import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
-import net.appcloudbox.ads.nativead.AcbNativeAdLoader;
-import net.appcloudbox.ads.nativead.AcbNativeAdManager;
+import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class SmartAssistantView extends FrameLayout implements View.OnClickListener,
-         AcbNativeAd.AcbNativeClickListener {
+public class SmartAssistantView extends FrameLayout implements View.OnClickListener {
 
     private static final String TAG = SmartAssistantView.class.getSimpleName();
     public static final String NOTIFICATION_FINISH = "recent_apps_ad_clicked";
     private static final boolean DEBUG_MODE = true & BuildConfig.DEBUG;
     private static final int MSG_ICON_SET = 1;
 
-    private AcbNativeAd mAd;
-    private AcbNativeAdContainerView mNativeContent;
-    private AcbNativeAdLoader mLoader;
+//    private AcbNativeAd mAd;
+//    private AcbNativeAdContainerView mNativeContent;
+//    private AcbNativeAdLoader mLoader;
     private AdLogger mAdLogger = new AdLogger(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
 
     private RipplePopupView mMenuPopupView;
@@ -82,22 +72,24 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
             }
         }
     };
+    private AcbExpressAdView adView;
+    private ViewGroup mAdContainer;
 
     public SmartAssistantView(Context context) {
         super(context);
 
         mAdLogger.adSessionStart();
-        List<AcbNativeAd> ads = AcbNativeAdManager.fetch(HSApplication.getContext(),
-                AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME, 1);
-        if (!DEBUG_MODE) {
-            if (ads.isEmpty()) {
-                HSLog.d(TAG, "should show with ad, but ad is null");
-                AcbNativeAdManager.preload(HSApplication.getContext(), 1, AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
-                HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
-                return;
-            }
-            mAd = ads.get(0);
-        }
+//        List<AcbNativeAd> ads = AcbNativeAdManager.fetch(HSApplication.getContext(),
+//                AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME, 1);
+//        if (!DEBUG_MODE) {
+//            if (ads.isEmpty()) {
+//                HSLog.d(TAG, "should show with ad, but ad is null");
+//                AcbNativeAdManager.preload(HSApplication.getContext(), 1, AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
+//                HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
+//                return;
+//            }
+//            mAd = ads.get(0);
+//        }
 
         View.inflate(context, R.layout.smart_assistant, this);
         initView();
@@ -122,6 +114,8 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         } else {
             appText.setVisibility(VISIBLE);
         }
+
+        mAdContainer = (ViewGroup) findViewById(R.id.ad_fragment);
     }
 
     @SuppressWarnings("RedundantCast")
@@ -148,7 +142,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
             RecentAppInfo appInfo = apps.get(i);
             addAppView(appInfo);
         }
-        bindAd();
+        addAdView(getContext());
     }
 
     private void addAppView(final RecentAppInfo appInfo) {
@@ -232,42 +226,60 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         });
     }
 
-    private void bindAd() {
-        if (mAd != null) {
-            initAdView();
-            mNativeContent.fillNativeAd(mAd);
-            mAd.setNativeClickListener(SmartAssistantView.this);
-            mAdLogger.adShow();
-            LauncherAnalytics.logEvent("Recent_Apps_Ad_Show");
+//    private void bindAd() {
+//        if (mAd != null) {
+//            initAdView();
+//            mNativeContent.fillNativeAd(mAd);
+//            mAd.setNativeClickListener(SmartAssistantView.this);
+//            mAdLogger.adShow();
+//            LauncherAnalytics.logEvent("Recent_Apps_Ad_Show");
+//        }
+//    }
+
+    private void addAdView(Context context) {
+
+        if (adView == null) {
+            adView = new AcbExpressAdView(context, AdPlacements.AD_MSG_NEW);
+            AcbExpressAdView.CustomLayout layout = new AcbExpressAdView.CustomLayout(R.layout.ad_view);
+            layout.setActionId(R.id.recent_app_action_btn);
+            layout.setChoiceId(R.id.recent_app_ad_choice_icon);
+            layout.setTitleId(R.id.recent_app_ad_title);
+            layout.setContentId(R.id.recent_app_ad_description);
+            layout.setIconId(R.id.recent_app_icon);
+            layout.setPrimaryId(R.id.recent_app_banner);
+
+            adView.setCustomLayout(layout);
+            adView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
+            adView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
+                @Override
+                public void onAdClicked(AcbExpressAdView acbExpressAdView) {
+                    LauncherAnalytics.logEvent("Recent_Apps_Ad_Clicked");
+                    HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
+                }
+
+                @Override
+                public void onAdShown(AcbExpressAdView acbExpressAdView) {
+                    mAdLogger.adShow();
+                    LauncherAnalytics.logEvent("Recent_Apps_Ad_Show");
+                }
+            });
+
+            adView.prepareAd(new AcbExpressAdView.PrepareAdListener() {
+                @Override
+                public void onAdReady(AcbExpressAdView acbExpressAdView) {
+                    mAdContainer.setVisibility(VISIBLE);
+                    adView.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+                    mAdContainer.addView(acbExpressAdView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+                }
+
+                @Override
+                public void onPrepareAdFailed(AcbExpressAdView acbExpressAdView) {
+
+                }
+            });
         }
-    }
 
-    private void initAdView() {
-        ViewGroup adContainer = (ViewGroup) findViewById(R.id.ad_fragment);
-
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        final View containerView = inflater.inflate(R.layout.ad_view, this, false);
-        mNativeContent = new AcbNativeAdContainerView(getContext());
-        mNativeContent.addContentView(containerView);
-
-        AcbNativeAdPrimaryView banner = (AcbNativeAdPrimaryView) containerView.findViewById(R.id.recent_app_banner);
-        banner.setBitmapConfig(Bitmap.Config.RGB_565);
-        int targetWidth = CommonUtils.getPhoneWidth(getContext()) * 4 / 5;
-        int targetHeight = (int) (targetWidth / 1.9f);
-        banner.setTargetSizePX(targetWidth, targetHeight);
-
-        AcbNativeAdIconView icon = (AcbNativeAdIconView) containerView.findViewById(R.id.recent_app_icon);
-        icon.setTargetSizePX(CommonUtils.pxFromDp(43), CommonUtils.pxFromDp(43));
-
-        mNativeContent.setAdPrimaryView(banner);
-        mNativeContent.setAdChoiceView((ViewGroup) containerView.findViewById(R.id.recent_app_ad_choice_icon));
-        mNativeContent.setAdIconView(icon);
-        mNativeContent.setAdTitleView((TextView) containerView.findViewById(R.id.recent_app_ad_title));
-        mNativeContent.setAdBodyView((TextView) containerView.findViewById(R.id.recent_app_ad_description));
-        mNativeContent.setAdActionView(containerView.findViewById(R.id.recent_app_action_btn));
-        mNativeContent.setLayoutParams(
-                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Dimensions.pxFromDp(263)));
-        adContainer.addView(mNativeContent);
     }
 
     @Override
@@ -275,7 +287,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.recent_app_close:
-                LauncherAnalytics.logEvent("RecentApps_Popup_Closed", "Type", mAd == null ? "nothing" : "ad");
+
                 break;
             case R.id.recent_app_menu:
                 LauncherAnalytics.logEvent("RecentApps_Disable_Clicked");
@@ -294,8 +306,8 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
     }
 
     public void dismiss(boolean option, boolean animated) {
-        releaseAd();
-        AcbNativeAdManager.preload(HSApplication.getContext(), 1, AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
+        removeAds();
+        mAdLogger.adSessionEnd();
         mHandler.removeCallbacksAndMessages(null);
         // According to using activity, we do not need to remove recent app guide any more
         //LauncherFloatWindowManager.getInstance().removeNormalGuide();
@@ -358,26 +370,16 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                         + anchorView.getHeight()) / 2);
     }
 
-
-
-    private void releaseAd() {
-        mAdLogger.adSessionEnd();
-
-        if (mLoader != null) {
-            mLoader.cancel();
-            mLoader = null;
+    private void removeAds() {
+        if (mAdContainer != null) {
+            mAdContainer.removeAllViews();
+            mAdContainer = null;
         }
 
-        if (mAd != null) {
-            mAd.release();
-            mAd = null;
+        if (adView != null) {
+            adView.destroy();
+            adView = null;
         }
     }
 
-
-    @Override
-    public void onAdClick(AcbAd acbAd) {
-        LauncherAnalytics.logEvent("Recent_Apps_Ad_Clicked");
-        HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
-    }
 }
