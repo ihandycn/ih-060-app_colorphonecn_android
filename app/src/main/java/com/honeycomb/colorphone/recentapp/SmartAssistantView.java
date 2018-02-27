@@ -116,6 +116,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         }
 
         mAdContainer = (ViewGroup) findViewById(R.id.ad_fragment);
+        mAdContainer.setVisibility(GONE);
     }
 
     @SuppressWarnings("RedundantCast")
@@ -226,20 +227,10 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         });
     }
 
-//    private void bindAd() {
-//        if (mAd != null) {
-//            initAdView();
-//            mNativeContent.fillNativeAd(mAd);
-//            mAd.setNativeClickListener(SmartAssistantView.this);
-//            mAdLogger.adShow();
-//            LauncherAnalytics.logEvent("Recent_Apps_Ad_Show");
-//        }
-//    }
-
     private void addAdView(Context context) {
 
         if (adView == null) {
-            adView = new AcbExpressAdView(context, AdPlacements.AD_MSG_NEW);
+            adView = new AcbExpressAdView(context, AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
             AcbExpressAdView.CustomLayout layout = new AcbExpressAdView.CustomLayout(R.layout.ad_view);
             layout.setActionId(R.id.recent_app_action_btn);
             layout.setChoiceId(R.id.recent_app_ad_choice_icon);
@@ -249,7 +240,6 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
             layout.setPrimaryId(R.id.recent_app_banner);
 
             adView.setCustomLayout(layout);
-            adView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
             adView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
                 @Override
                 public void onAdClicked(AcbExpressAdView acbExpressAdView) {
@@ -268,9 +258,9 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                 @Override
                 public void onAdReady(AcbExpressAdView acbExpressAdView) {
                     mAdContainer.setVisibility(VISIBLE);
-                    adView.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-                    mAdContainer.addView(acbExpressAdView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
+                    mAdContainer.addView(adView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    adView.setGravity(Gravity.CENTER);
+                    adView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
                 }
 
                 @Override

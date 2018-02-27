@@ -29,6 +29,7 @@ import com.ihs.device.monitor.topapp.HSTopAppManager;
 import com.ihs.device.monitor.topapp.HSUsageAccessMgr;
 import com.ihs.device.monitor.topapp.TopAppManager;
 
+import net.appcloudbox.ads.expressad.AcbExpressAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 
 import java.util.ArrayList;
@@ -155,7 +156,7 @@ public class RecentAppManager {
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, screenOnObserver);
         HSGlobalNotificationCenter.addObserver(UserPresentReceiver.USER_PRESENT, screenOnObserver);
 
-        AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
+        AcbExpressAdManager.getInstance().activePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_REMOVED);
         filter.addDataScheme("package");
@@ -175,7 +176,7 @@ public class RecentAppManager {
         HSUsageAccessMgr.getInstance().uncheckPermission(this.usageAccessListener);
         HSGlobalNotificationCenter.removeObserver(screenOnObserver);
 
-        AcbNativeAdManager.getInstance().deactivePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
+        AcbExpressAdManager.getInstance().deactivePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
         HSApplication.getContext().unregisterReceiver(mPackageUninstallReceiver);
     }
 
