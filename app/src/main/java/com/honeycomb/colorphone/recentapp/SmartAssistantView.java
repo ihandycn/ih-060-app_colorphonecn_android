@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -64,10 +65,9 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_ICON_SET:
-                    TextView textView = (TextView) msg.obj;
-                    Drawable drawable = (Drawable) textView.getTag();
-                    drawable.setBounds(0, 0, mAppIconSize, mAppIconSize);
-                    textView.setCompoundDrawables(null, drawable, null, null);
+                    ImageView view = (ImageView) msg.obj;
+                    Drawable drawable = (Drawable) view.getTag();
+                    view.setImageDrawable(drawable);
                     break;
             }
         }
@@ -147,7 +147,11 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
     }
 
     private void addAppView(final RecentAppInfo appInfo) {
-        TextView textView = new TextView(getContext());
+
+        View itemView = inflate(getContext(), R.layout.recentapp_item_view, null);
+        ImageView icon = itemView.findViewById(R.id.icon);
+        TextView textView = itemView.findViewById(R.id.title);
+
         textView.setOnClickListener(this);
 
         textView.setCompoundDrawablePadding(Utils.pxFromDp(2));
@@ -160,9 +164,10 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         textView.setMaxLines(1);
         textView.setEllipsize(TextUtils.TruncateAt.END);
 
-        loadAppIconInto(textView, appInfo.getAppInfo());
 
-        textView.setOnClickListener(new OnClickListener() {
+        loadAppIconInto(icon, appInfo.getAppInfo());
+
+        itemView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("Recent_Apps_AppIcon_Clicked", "Type", getAppIconClickEventType(appInfo));
@@ -182,13 +187,13 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                 isExist = false;
                 tableRow = new TableRow(getContext());
             }
-            tableRow.addView(textView, new TableRow.LayoutParams(mAppWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+            tableRow.addView(itemView, new TableRow.LayoutParams(mAppWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
             if (!isExist) {
                 mAppsContainerView.addView(tableRow, rowParams);
             }
         } else {
             TableRow tableRow = new TableRow(getContext());
-            tableRow.addView(textView, new TableRow.LayoutParams(mAppWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+            tableRow.addView(itemView, new TableRow.LayoutParams(mAppWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
             mAppsContainerView.addView(tableRow, rowParams);
         }
     }
@@ -209,18 +214,18 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         return result;
     }
 
-    private void loadAppIconInto(TextView textView, final AppInfo appInfo) {
-        final WeakReference<TextView> weakReference = new WeakReference<TextView>(textView);
+    private void loadAppIconInto(ImageView imageView, final AppInfo appInfo) {
+        final WeakReference<ImageView> weakReference = new WeakReference<ImageView>(imageView);
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 Drawable drawable = appInfo.getIcon();
-                TextView tv = weakReference.get();
-                if (tv != null) {
+                ImageView imageView = weakReference.get();
+                if (imageView != null) {
                     Message msg = Message.obtain();
                     msg.what = MSG_ICON_SET;
-                    msg.obj = tv;
-                    tv.setTag(drawable);
+                    msg.obj = imageView;
+                    imageView.setTag(drawable);
                     mHandler.sendMessage(msg);
                 }
             }

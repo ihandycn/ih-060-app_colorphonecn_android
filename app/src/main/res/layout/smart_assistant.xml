@@ -67,15 +67,11 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/ad_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="263dp"
         android:layout_below="@id/recent_apps"
         android:background="@drawable/ad_card_round_bottom_corner_3_bg">
-        <FrameLayout
-            android:id="@+id/ad_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="263dp">
-        </FrameLayout>
     </FrameLayout>
 
     <com.honeycomb.colorphone.view.TypefacedTextView
