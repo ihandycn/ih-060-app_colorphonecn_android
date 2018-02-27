@@ -41,16 +41,20 @@ public class UsageStatsUtil {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static int getLaunchCountWithL(UsageStats stat) {
-        int count = 0;
+        long count = 0;
         try {
             Field field = stat.getClass().getDeclaredField("mLaunchCount");
-            count = field.getInt(stat);
+            if (field.getType().equals(int.class)) {
+                count = field.getInt(stat);
+            } else if (field.getType().equals(long.class)) {
+                count = field.getLong(stat);
+            }
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
 
-        return count;
+        return (int)count;
     }
 }
