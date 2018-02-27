@@ -30,12 +30,13 @@ import com.ihs.device.monitor.topapp.HSUsageAccessMgr;
 import com.ihs.device.monitor.topapp.TopAppManager;
 
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
-import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -194,20 +195,24 @@ public class RecentAppManager {
                 }
             });
 
-            int realSize = Math.min(count, usageStatsList.size());
-            for (int i = 0; i < realSize; i++) {
+            for (int i = 0; i < usageStatsList.size(); i++) {
                 String pkgName = usageStatsList.get(i).getPackageName();
-                if (isLaunchableApp(pkgName) && recentAppList.size() < count) {
+                if (isLaunchableApp(pkgName) && recentAppList.size() < count && !recentAppList.contains(pkgName)) {
                     recentAppList.add(pkgName);
+                    if (recentAppList.size() >= count) {
+                        break;
+                    }
                 }
             }
         } else {
             List<AppUsage> appUsages = mAppUsageOp.getAppUsageListRecently();
-            int realSize = Math.min(count, appUsages.size());
-            for (int i = 0; i < realSize; i++) {
+            for (int i = 0; i < appUsages.size(); i++) {
                 String pkgName = appUsages.get(i).getPackageName();
-                if (isLaunchableApp(pkgName) && recentAppList.size() < count) {
+                if (isLaunchableApp(pkgName) && recentAppList.size() < count && !recentAppList.contains(pkgName)) {
                     recentAppList.add(pkgName);
+                    if (recentAppList.size() >= count) {
+                        break;
+                    }
                 }
             }
         }
