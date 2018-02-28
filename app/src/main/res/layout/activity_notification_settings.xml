@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="@string/welcome_contain_ad"
+                        android:text="@string/may_contain_ads"
                         android:textColor="@color/subtitle_color"
                         android:textSize="13sp"/>
                 </LinearLayout>

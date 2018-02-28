@@ -135,8 +135,8 @@ public class SmartAssistantUtils {
         return "";
     }
 
-    static void disableByUser() {
-        Preferences.get(PREF_FILE_NAME).putBoolean(PREF_KEY_SMART_ASSISTANT_USER_ENABLED, false);
+    public static void setUserEnable(boolean enable) {
+        Preferences.get(PREF_FILE_NAME).putBoolean(PREF_KEY_SMART_ASSISTANT_USER_ENABLED, enable);
     }
 
     public static boolean isEnabled() {

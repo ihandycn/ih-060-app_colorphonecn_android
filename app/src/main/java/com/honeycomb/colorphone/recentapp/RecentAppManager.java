@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.os.Build;
 import android.os.Handler;
@@ -34,9 +35,7 @@ import net.appcloudbox.ads.expressad.AcbExpressAdManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -266,6 +265,18 @@ public class RecentAppManager {
                 && !"com.android.systemui".equals(pkgName);
     }
 
+    private SharedPreferences.OnSharedPreferenceChangeListener mPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+
+        @Override
+        public void onSharedPreferenceChanged(
+                SharedPreferences sharedPreferences, String key) {
+            if (TextUtils.equals(key, SmartAssistantUtils.PREF_KEY_SMART_ASSISTANT_USER_ENABLED)) {
+                HSLog.d(TAG, "setting preference change");
+                updateStatus();
+            }
+        }
+    };
+
     public void init() {
         updateStatus();
         HSLog.d(TAG, "init");
@@ -278,13 +289,9 @@ public class RecentAppManager {
             }
         });
 
-        HSPreferenceHelper.registerObserver(new ContentObserver(new Handler(Looper.getMainLooper())) {
-            @Override
-            public void onChange(boolean selfChange) {
-                HSLog.d(TAG, "setting preference change");
-                updateStatus();
-            }
-        }, SmartAssistantUtils.PREF_FILE_NAME, SmartAssistantUtils.PREF_KEY_SMART_ASSISTANT_USER_ENABLED);
+        SharedPreferences sharedPreferences = HSApplication.getContext().getSharedPreferences(
+                SmartAssistantUtils.PREF_FILE_NAME, Context.MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(mPreferenceChangeListener);
 
     }
 

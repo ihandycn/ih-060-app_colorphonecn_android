@@ -344,7 +344,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                     }
                     LauncherAnalytics.logEvent("RecentApps_Disable_Success");
                     mMenuPopupView.dismiss();
-                    SmartAssistantUtils.disableByUser();
+                    SmartAssistantUtils.setUserEnable(false);
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
                 }
             });
