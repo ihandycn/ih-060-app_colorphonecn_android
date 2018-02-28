@@ -108,7 +108,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private Runnable mainViewRunnable = new Runnable() {
         @Override
         public void run() {
-            ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
+            if (logOpenEvent) {
+                logOpenEvent = false;
+                ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
+            }
         }
     };
 
@@ -296,10 +299,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //            HSAlertMgr.showRateAlert();
 //            pendingShowRateAlert = false;
 //        }
-        if (logOpenEvent) {
-            logOpenEvent = false;
-            mHandler.postDelayed(mainViewRunnable, 1000);
-        }
+        mHandler.postDelayed(mainViewRunnable, 1000);
+
     }
 
     @Override
