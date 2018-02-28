@@ -159,6 +159,14 @@ public class SmartAssistantUtils {
         return HSConfig.optBoolean(true, "Application", "RecentApps", "Usage_Access_Gain_From_First_Screen");
     }
 
+    public static boolean showUsageAccessTip() {
+        return HSConfig.optBoolean(true, "Application", "RecentApps", "Usage_Access_Alert_Show");
+    }
+
+    public static String getUsageAccessTipText() {
+        return HSConfig.optString("", "Application", "RecentApps", "Usage_Access_Alert_Text");
+    }
+
     private static long getConfigIntervalTimeMills() {
         int seconds = HSConfig.optInteger(DEFAULT_CONFIG_INTERVAL_TIME_SECONDS, "Application", "RecentApps", "IntervalTimeSeconds");
         return seconds * 1000;

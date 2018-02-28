@@ -141,8 +141,11 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             Utils.startActivitySafely(HSApplication.getContext(), intent);
 
-            String hintTxt = HSApplication.getContext().getString(R.string.usage_access_guide_hint);
-            FloatWindowController.getInstance().createUsageAccessTip(HSApplication.getContext(), hintTxt);
+            boolean needShowTip = SmartAssistantUtils.showUsageAccessTip();
+            if (needShowTip) {
+                String hintTxt = SmartAssistantUtils.getUsageAccessTipText();
+                FloatWindowController.getInstance().createUsageAccessTip(HSApplication.getContext(), hintTxt);
+            }
 
             LauncherAnalytics.logEvent("ColorPhone_SystemUsageAccessView_Show");
             HSUsageAccessMgr.getInstance().checkPermission(new HSUsageAccessMgr.PermissionListener() {
