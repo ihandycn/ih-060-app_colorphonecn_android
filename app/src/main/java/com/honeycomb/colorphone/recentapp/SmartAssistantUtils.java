@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.acb.utils.ConcurrentUtils;
 
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.boost.AppInfo;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.util.Utils;
@@ -93,14 +94,15 @@ public class SmartAssistantUtils {
     private static void debugLog(final String msg) {
         HSLog.d(TAG, msg);
 
-        ConcurrentUtils.postOnMainThread(new Runnable() {
+        if (BuildConfig.DEBUG) {
+            ConcurrentUtils.postOnMainThread(new Runnable() {
 
-            @Override
-            public void run() {
-                Toast.makeText(HSApplication.getContext(), msg, Toast.LENGTH_SHORT).show();
-            }
-        });
-
+                @Override
+                public void run() {
+                    Toast.makeText(HSApplication.getContext(), msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private static boolean isOnDesktop() {
