@@ -78,8 +78,6 @@ public class LockScreenStarter {
                     onScreenOff();
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                     HSLog.d(TAG, "Screen ON");
-                    LockerCustomConfig.getLogger().logEvent("Charging_Screen__Shown_Resume");
-                    LockerCustomConfig.getLogger().logEvent("Charging_Screen__Shown_Resume");
                 }
             }
         }, screenFilter);

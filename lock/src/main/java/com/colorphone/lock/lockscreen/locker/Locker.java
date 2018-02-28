@@ -165,7 +165,6 @@ public class Locker extends LockScreen implements INotificationObserver {
             public void onPageSelected(int position) {
                 if (LockerAdapter.PAGE_INDEX_UNLOCK == position) {
                     dismiss(getContext(), true);
-                    LockerCustomConfig.getLogger().logEvent("Locker_Unlocked");
                 }
             }
 

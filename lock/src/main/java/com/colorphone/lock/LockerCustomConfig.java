@@ -104,7 +104,6 @@ public class LockerCustomConfig {
         public abstract void onEventChargingAdShow();
 
         public void onEventChargingAdClick() {
-            LockerCustomConfig.getLogger().logEvent("ChargingScreen_Ad_Clicked");
         }
 
         public abstract void onEventChargingViewShow();
