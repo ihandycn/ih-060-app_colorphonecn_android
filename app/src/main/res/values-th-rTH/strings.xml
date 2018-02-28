@@ -62,7 +62,7 @@
   <string name="settings_notification_boost">แจ้งเตือนการเร่ง</string>
   <string name="settings_notification_boost_sub">รับการแจ้งเตือนเมื่อใช้หน่วยความจำสูง</string>
 
-  <string name="welcome_contain_ad">อาจมีโฆษณา</string>
+  <string name="may_contain_ads">อาจมีโฆษณา</string>
 
   <string name="guide_first_page_title">กรุณาเปิดใช้คุณสมบัติและอนุญาตการเข้าถึง:\ เตือนเมื่อคุณมีสายที่ไม่ได้รับ\n รายงานสถานะการชาร์จโดยละเอียด</string>
 

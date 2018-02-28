@@ -63,7 +63,7 @@
   <string name="settings_notification_boost">手机加速提醒</string>
   <string name="settings_notification_boost_sub">手机内存使用过高时提醒</string>
 
-  <string name="welcome_contain_ad">可能包含广告</string>
+  <string name="may_contain_ads">可能包含广告</string>
 
   <string name="guide_first_page_title">请开启功能和权限:\n 不再错过未接来电\n 提供详细的充电数据。</string>
 

@@ -64,7 +64,7 @@
   <string name="settings_notification_boost">Aviso de aceleración</string>
   <string name="settings_notification_boost_sub">Avisa cuando el consumo de memoria es elevado</string>
 
-  <string name="welcome_contain_ad">Puede contener publicidad.</string>
+  <string name="may_contain_ads">Puede contener publicidad.</string>
 
   <string name="guide_first_page_title">Habilita las características y permisos para:\ Recordarte las llamadas perdidas\nIndicar el estado de la carga en detalle</string>
 

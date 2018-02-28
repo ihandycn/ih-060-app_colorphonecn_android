@@ -63,7 +63,7 @@
   <string name="settings_notification_boost">ブースト通知</string>
   <string name="settings_notification_boost_sub">メモリ使用量が多いときにリマインダーを取得する</string>
 
-  <string name="welcome_contain_ad">広告を含む場合があります。</string>
+  <string name="may_contain_ads">広告を含む場合があります。</string>
 
   <string name="guide_first_page_title">機能と権限を有効にしてください:\ 不在着信をリマインドする\n詳細な充電状況を提供。</string>
 

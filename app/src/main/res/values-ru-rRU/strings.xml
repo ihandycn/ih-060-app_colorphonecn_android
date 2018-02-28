@@ -62,7 +62,7 @@
   <string name="settings_notification_boost">Уведомл. об ускорении</string>
   <string name="settings_notification_boost_sub">Уведомление о чрезмерном использовании памяти</string>
 
-  <string name="welcome_contain_ad">Может содержать рекламу.</string>
+  <string name="may_contain_ads">Может содержать рекламу.</string>
 
 
   <string name="guide_first_page_title">Включите функции и предоставьте разрешения, чтобы:\ Получать напоминания о пропущенных вызовах\nПолучать подробную информацию о состоянии зарядки.</string>

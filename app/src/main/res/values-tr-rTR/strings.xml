@@ -62,7 +62,7 @@
   <string name="settings_notification_boost">Hızlandırma Bildirimi</string>
   <string name="settings_notification_boost_sub">Bellek kullanımı yüksek olduğunda hatırlat</string>
 
-  <string name="welcome_contain_ad">reklam içerebilir.</string>
+  <string name="may_contain_ads">reklam içerebilir.</string>
 
 
   <string name="guide_first_page_title">Lütfen özellikleri ve izinleri etkinleştirin:\ Cevapsız aramalar hatırlatılsın\nAyrıntılı şarj durumu verilsin.</string>
