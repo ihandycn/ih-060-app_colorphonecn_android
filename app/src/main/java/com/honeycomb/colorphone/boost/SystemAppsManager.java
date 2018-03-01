@@ -18,20 +18,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *  All apps here is has default launch activity.
  */
 public class SystemAppsManager {
 
-    private List<AppInfo> allAppInfos;
+    private CopyOnWriteArrayList<AppInfo> allAppInfos;
     private List<String> allAppPackageNames;
     private static SystemAppsManager instance = new SystemAppsManager();
     PackageManager pkgMgr;
 
     private SystemAppsManager() {
         allAppPackageNames = new ArrayList<>();
-        allAppInfos = new ArrayList<>();
+        allAppInfos = new CopyOnWriteArrayList<>();
 
         pkgMgr = HSApplication.getContext().getPackageManager();
     }
@@ -135,7 +136,7 @@ public class SystemAppsManager {
         return ris.get(0).activityInfo;
     }
 
-    public synchronized AppInfo getAppInfoByPkgName(String pkgName) {
+    public AppInfo getAppInfoByPkgName(String pkgName) {
         for (AppInfo appInfo : allAppInfos) {
             if (TextUtils.equals(pkgName, appInfo.getPackageName())) {
                 return appInfo;
