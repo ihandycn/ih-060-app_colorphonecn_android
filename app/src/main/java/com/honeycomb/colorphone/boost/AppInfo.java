@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.boost;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import java.lang.ref.WeakReference;
 
 public class AppInfo {
     private ApplicationInfo aInfo;
+    private PackageInfo packageInfo;
     private String name;
     private char first = 0;
     private String packageName;
@@ -21,8 +23,9 @@ public class AppInfo {
     private AlphabeticIndexCompat mIndexer;
     private WeakReference<Drawable> mIconReference;
 
-    public AppInfo(ApplicationInfo info, boolean selected) {
-        aInfo = info;
+    public AppInfo(PackageInfo info, boolean selected) {
+        packageInfo = info;
+        aInfo = info.applicationInfo;
         packageName = aInfo.packageName;
 
         isSelected = selected;
@@ -38,6 +41,10 @@ public class AppInfo {
 
     public ApplicationInfo getAInfo() {
         return aInfo;
+    }
+
+    public PackageInfo getPackageInfo() {
+        return packageInfo;
     }
 
     public Drawable getIcon() {

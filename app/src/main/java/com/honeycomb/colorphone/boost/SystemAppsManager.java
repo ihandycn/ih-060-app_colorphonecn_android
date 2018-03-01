@@ -2,7 +2,6 @@ package com.honeycomb.colorphone.boost;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -26,12 +25,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class SystemAppsManager {
 
     private CopyOnWriteArrayList<AppInfo> allAppInfos;
-    private List<String> allAppPackageNames;
+    private CopyOnWriteArrayList<String> allAppPackageNames;
+
     private static SystemAppsManager instance = new SystemAppsManager();
     PackageManager pkgMgr;
 
     private SystemAppsManager() {
-        allAppPackageNames = new ArrayList<>();
+        allAppPackageNames = new CopyOnWriteArrayList<>();
         allAppInfos = new CopyOnWriteArrayList<>();
 
         pkgMgr = HSApplication.getContext().getPackageManager();
@@ -51,13 +51,13 @@ public class SystemAppsManager {
     }
 
     private List<AppInfo> initAllInstalledAppInfo() {
-        List<ApplicationInfo> installedApplications = pkgMgr.getInstalledApplications(0);
-        HSLog.w("notification", "init Allapps == " + installedApplications.size());
+        List<PackageInfo> installedPackages = pkgMgr.getInstalledPackages(0);
+        HSLog.w("notification", "init Allapps == " + installedPackages.size());
 
         allAppInfos.clear();
         allAppPackageNames.clear();
 
-        for (ApplicationInfo info : installedApplications) {
+        for (PackageInfo info : installedPackages) {
             addAppInfo(info);
             // For analysis
             PackageList.checkAndLogPackage(info.packageName);
@@ -66,9 +66,9 @@ public class SystemAppsManager {
         return allAppInfos;
     }
 
-    private void addAppInfo(ApplicationInfo info) {
+    private void addAppInfo(PackageInfo info) {
         AppInfo app;
-        if (!allAppPackageNames.contains(info.packageName)) {
+        if (info.applicationInfo != null && !allAppPackageNames.contains(info.packageName)) {
             ActivityInfo launchActivityInfo = getLaunchActivityInfo(info.packageName, pkgMgr);
             if (null != launchActivityInfo) {
                 app = new AppInfo(info, false);
@@ -81,8 +81,10 @@ public class SystemAppsManager {
 
     public void addPackage(String pkgName) {
         try {
-            ApplicationInfo applicationInfo = pkgMgr.getApplicationInfo(pkgName, 0);
-            addAppInfo(applicationInfo);
+            PackageInfo packageInfo = pkgMgr.getPackageInfo(pkgName, 0);
+            if (packageInfo.applicationInfo != null) {
+                addAppInfo(packageInfo);
+            }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -100,12 +102,12 @@ public class SystemAppsManager {
         allAppPackageNames.remove(pkgName);
     }
 
-    public synchronized List<String> getAllAppPackageNames() {
-        return allAppPackageNames;
+    public List<String> getAllAppPackageNames() {
+        return new ArrayList<>(allAppPackageNames);
     }
 
-    public synchronized List<AppInfo> getAllAppInfos() {
-        return allAppInfos;
+    public List<AppInfo> getAllAppInfos() {
+        return new ArrayList<>(allAppInfos);
     }
 
     public List<PackageInfo> getAllPackageInfos() {
