@@ -160,7 +160,8 @@ public class AppUsageOp {
 
     private void delete(AppUsage appUsage) {
         mDb.delete(AppUsage.AppUsageEntry.TABLE_NAME,
-                AppUsage.AppUsageEntry.COLUMN_NAME_PACKAGE_NAME, new String[]{appUsage.getPackageName()});
+                AppUsage.AppUsageEntry.COLUMN_NAME_PACKAGE_NAME + " = ?", new String[]{appUsage.getPackageName()});
+        HSLog.d("Recent Apps", "App usage remove from db : " + appUsage.getPackageName());
     }
 
     public void onAppUninstall(String packageName) {
