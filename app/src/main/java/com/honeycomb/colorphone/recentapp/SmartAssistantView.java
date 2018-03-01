@@ -262,10 +262,12 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
             adView.prepareAd(new AcbExpressAdView.PrepareAdListener() {
                 @Override
                 public void onAdReady(AcbExpressAdView acbExpressAdView) {
-                    mAdContainer.setVisibility(VISIBLE);
-                    mAdContainer.addView(adView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    adView.setGravity(Gravity.CENTER);
-                    adView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
+                    if (mAdContainer != null) {
+                        mAdContainer.setVisibility(VISIBLE);
+                        mAdContainer.addView(adView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                        adView.setGravity(Gravity.CENTER);
+                        adView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
+                    }
                 }
 
                 @Override
@@ -363,6 +365,12 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                 -(leftShiftDistance - anchorView.getWidth()),
                 -(CommonUtils.pxFromDp(80)
                         + anchorView.getHeight()) / 2);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        removeAds();
     }
 
     private void removeAds() {

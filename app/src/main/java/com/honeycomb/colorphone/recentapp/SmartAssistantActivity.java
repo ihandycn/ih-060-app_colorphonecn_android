@@ -44,6 +44,7 @@ public class SmartAssistantActivity extends HSActivity implements INotificationO
 
         if (mRecentAppGuide != null) {
             mRecentAppGuide.dismiss(true, true);
+            mRecentAppGuide = null;
         }
 
         overridePendingTransition(0, android.R.anim.fade_out);
@@ -52,6 +53,10 @@ public class SmartAssistantActivity extends HSActivity implements INotificationO
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mRecentAppGuide != null) {
+            mRecentAppGuide.dismiss(true, true);
+            mRecentAppGuide = null;
+        }
         try {
             HSGlobalNotificationCenter.removeObserver(this);
         } catch (Exception ignored) {
