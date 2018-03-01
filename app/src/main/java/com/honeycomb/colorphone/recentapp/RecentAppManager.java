@@ -190,6 +190,9 @@ public class RecentAppManager {
             Collections.sort(usageStatsList, new Comparator<UsageStats>() {
                 @Override
                 public int compare(UsageStats o1, UsageStats o2) {
+                    if (o2.getLastTimeUsed() == o1.getLastTimeUsed()) {
+                        return 0;
+                    }
                     return (o2.getLastTimeUsed() - o1.getLastTimeUsed() > 0 ? 1 : -1);
                 }
             });
