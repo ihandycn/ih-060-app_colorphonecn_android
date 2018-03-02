@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.text.format.DateUtils;
 
-import com.acb.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.AutopilotConfig;
 import com.acb.call.CPSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;

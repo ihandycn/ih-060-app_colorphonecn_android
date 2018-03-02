@@ -19,6 +19,8 @@
         android:name="android.hardware.camera.any"
         android:required="false"/>
 
+    <uses-sdk tools:overrideLibrary="net.appcloudbox.autopilot" />
+
     <!-- Required by libAppFramework -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

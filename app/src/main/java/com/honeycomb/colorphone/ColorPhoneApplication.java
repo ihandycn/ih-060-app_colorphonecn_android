@@ -15,12 +15,12 @@ import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
-import com.acb.autopilot.AutopilotConfig;
 import com.acb.call.CPSettings;
 import com.acb.call.constant.CPConst;
 import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
 import com.acb.call.utils.FileUtils;
+import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.colorphone.lock.LockerCustomConfig;
@@ -42,7 +42,6 @@ import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
-import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -67,6 +66,8 @@ import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
+import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.common.HSFrameworkAdapter.AcbHSFrameworkAdapter;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
 
 import java.io.File;
@@ -149,6 +150,9 @@ public class ColorPhoneApplication extends HSApplication {
     private void onMainProcessCreate() {
         AcbAds.getInstance().initializeFromGoldenEye(this);
 
+        AcbHSFrameworkAdapter.initialize(this);
+        AutopilotConfig.initialize(this, "Autopilot_Config_ColorPhone.json");
+
         AcbCallManager.init("", new CallConfigFactory());
         AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
             @Override
@@ -168,6 +172,8 @@ public class ColorPhoneApplication extends HSApplication {
         AcbCallManager.getInstance().logTest = true;
         ContactManager.init();
 
+
+
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
 
@@ -175,9 +181,6 @@ public class ColorPhoneApplication extends HSApplication {
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
 
         HSPermanentUtils.keepAlive();
-        if (BuildConfig.DEBUG) {
-            AutopilotConfig.setDebugConfig(true, true, true);
-        }
 
         Upgrader.upgrade();
         addGlobalObservers();

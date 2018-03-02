@@ -2,8 +2,8 @@ package com.honeycomb.colorphone.util;
 
 import android.text.format.DateUtils;
 
-import com.acb.autopilot.AutopilotConfig;
-import com.acb.autopilot.AutopilotEvent;
+import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.AutopilotEvent;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 
 public class PromoteLockerAutoPilotUtils {

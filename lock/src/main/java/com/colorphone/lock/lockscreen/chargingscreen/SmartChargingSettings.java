@@ -1,11 +1,12 @@
 package com.colorphone.lock.lockscreen.chargingscreen;
 
 
-import com.acb.autopilot.AutopilotConfig;
-import com.acb.autopilot.AutopilotEvent;
 import com.colorphone.lock.util.ConfigUtils;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
+
+import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 public class SmartChargingSettings {
 

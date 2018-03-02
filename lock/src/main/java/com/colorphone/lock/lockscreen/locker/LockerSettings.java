@@ -1,12 +1,13 @@
 package com.colorphone.lock.lockscreen.locker;
 
 
-import com.acb.autopilot.AutopilotConfig;
 import com.colorphone.lock.util.ConfigUtils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Preferences;
+
+import net.appcloudbox.autopilot.AutopilotConfig;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
 

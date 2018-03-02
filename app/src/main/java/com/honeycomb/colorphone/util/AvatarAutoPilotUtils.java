@@ -1,7 +1,7 @@
 package com.honeycomb.colorphone.util;
 
-import com.acb.autopilot.AutopilotConfig;
-import com.acb.autopilot.AutopilotEvent;
+import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.AutopilotEvent;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.activity.AvatarVideoActivity;
 import com.ihs.commons.utils.HSLog;
@@ -12,7 +12,9 @@ import com.ihs.commons.utils.HSLog;
 
 public class AvatarAutoPilotUtils {
     public static final String HEAD_NAME = "facemoji";
-    public static final String CAMERA_NAME = "livingcamera";
+    public static final String CAMERA_NAME = "live01";
+    public static final String CAMERA_NAME_2 = "live02";
+
     public static final String ZMOJI_NAME = "zmoji";
 
     public static String CAMERA_PKG_NAME = "com.camera.beautycam";
@@ -20,7 +22,7 @@ public class AvatarAutoPilotUtils {
     public static String ZMOJI_PKG_NAME = "com.futurebits.zmoji.free";
 
     private static final String AVATAR_TEST_TOPIC_ID = "topic-1516620266175-105";
-    private static final boolean DEBUG_TEST = false && BuildConfig.DEBUG;
+    private static final boolean DEBUG_TEST = true && BuildConfig.DEBUG;
 
     public static boolean isAvatarBtnShow() {
         boolean enable = AutopilotConfig.getBooleanToTestNow(AVATAR_TEST_TOPIC_ID, "avatar_button_show", false);
