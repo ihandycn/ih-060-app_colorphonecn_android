@@ -17,22 +17,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *  All apps here is has default launch activity.
  */
 public class SystemAppsManager {
 
-    private CopyOnWriteArrayList<AppInfo> allAppInfos;
-    private CopyOnWriteArrayList<String> allAppPackageNames;
+    private ArrayList<AppInfo> allAppInfos;
+    private ArrayList<String> allAppPackageNames;
 
     private static SystemAppsManager instance = new SystemAppsManager();
     PackageManager pkgMgr;
 
     private SystemAppsManager() {
-        allAppPackageNames = new CopyOnWriteArrayList<>();
-        allAppInfos = new CopyOnWriteArrayList<>();
+        allAppPackageNames = new ArrayList<>();
+        allAppInfos = new ArrayList<>();
 
         pkgMgr = HSApplication.getContext().getPackageManager();
     }
@@ -54,8 +53,10 @@ public class SystemAppsManager {
         List<PackageInfo> installedPackages = pkgMgr.getInstalledPackages(0);
         HSLog.w("notification", "init Allapps == " + installedPackages.size());
 
-        allAppInfos.clear();
-        allAppPackageNames.clear();
+        synchronized (this) {
+            allAppInfos.clear();
+            allAppPackageNames.clear();
+        }
 
         for (PackageInfo info : installedPackages) {
             addAppInfo(info);
@@ -73,8 +74,10 @@ public class SystemAppsManager {
             if (null != launchActivityInfo) {
                 app = new AppInfo(info, false);
                 app.setLaunchActivityName(launchActivityInfo.name);
-                allAppInfos.add(app);
-                allAppPackageNames.add(info.packageName);
+                synchronized (this) {
+                    allAppInfos.add(app);
+                    allAppPackageNames.add(info.packageName);
+                }
             }
         }
     }
@@ -91,15 +94,17 @@ public class SystemAppsManager {
     }
 
     public void removePackage(String pkgName) {
-        Iterator<AppInfo> iterator = allAppInfos.iterator();
-        while (iterator.hasNext()) {
-            AppInfo info = iterator.next();
-            if (TextUtils.equals(info.getPackageName(), pkgName)) {
-                iterator.remove();
+        synchronized (this) {
+            Iterator<AppInfo> iterator = allAppInfos.iterator();
+            while (iterator.hasNext()) {
+                AppInfo info = iterator.next();
+                if (TextUtils.equals(info.getPackageName(), pkgName)) {
+                    iterator.remove();
+                }
             }
-        }
 
-        allAppPackageNames.remove(pkgName);
+            allAppPackageNames.remove(pkgName);
+        }
     }
 
     public List<String> getAllAppPackageNames() {
@@ -110,16 +115,6 @@ public class SystemAppsManager {
         return new ArrayList<>(allAppInfos);
     }
 
-    public List<PackageInfo> getAllPackageInfos() {
-        try {
-            return pkgMgr.getInstalledPackages(0);
-        } catch (Exception e) {
-            if (BuildConfig.DEBUG) {
-                throw e;
-            }
-            return Collections.emptyList();
-        }
-    }
 
     private static ActivityInfo getLaunchActivityInfo(String packageName, PackageManager pm) {
         Intent intentToResolve = new Intent(Intent.ACTION_MAIN);
