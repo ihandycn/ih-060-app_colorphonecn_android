@@ -203,14 +203,15 @@ public class SmartAssistantUtils {
 
     public static List<AppInfo> getRecentlyInstallApps() {
         List<AppInfo> resultList = new ArrayList<>();
-        List<PackageInfo> packageInfoList = SystemAppsManager.getInstance().getAllPackageInfos();
+        List<AppInfo> allApps = SystemAppsManager.getInstance().getAllAppInfos();
 
-        Collections.sort(packageInfoList, new Comparator<PackageInfo>() {
+
+        Collections.sort(allApps, new Comparator<AppInfo>() {
             @Override
-            public int compare(PackageInfo o1, PackageInfo o2) {
-                if (o1.firstInstallTime > o2.firstInstallTime) {
+            public int compare(AppInfo o1, AppInfo o2) {
+                if (o1.getPackageInfo().firstInstallTime > o2.getPackageInfo().firstInstallTime) {
                     return -1;
-                } else if (o1.firstInstallTime < o2.firstInstallTime) {
+                } else if (o1.getPackageInfo().firstInstallTime < o2.getPackageInfo().firstInstallTime) {
                     return 1;
                 } else {
                     return 0;
@@ -219,16 +220,11 @@ public class SmartAssistantUtils {
         });
 
         long timeMills = System.currentTimeMillis() - RECENTLY_INSTALL_APP_TIME_MILLS;
-        for (int i = 0; i < packageInfoList.size(); i++) {
-            PackageInfo packageInfo = packageInfoList.get(i);
+        for (int i = 0; i < allApps.size(); i++) {
+            AppInfo AppInfo = allApps.get(i);
 
-            if (packageInfo.firstInstallTime > timeMills) {
-                AppInfo appInfo = SystemAppsManager.getInstance().getAppInfoByPkgName(packageInfo.packageName);
-                if (appInfo != null) {
-                    resultList.add(appInfo);
-                }
-            } else {
-                break;
+            if (AppInfo.getPackageInfo().firstInstallTime > timeMills) {
+                resultList.add(AppInfo);
             }
         }
         return resultList;
