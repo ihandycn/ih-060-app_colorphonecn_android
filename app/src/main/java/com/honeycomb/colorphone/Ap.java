@@ -3,8 +3,8 @@ package com.honeycomb.colorphone;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.acb.autopilot.AutopilotConfig;
-import com.acb.autopilot.AutopilotEvent;
+import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.AutopilotEvent;
 import com.acb.utils.ToastUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
@@ -71,6 +71,37 @@ public class Ap {
                 String formatString = String.format(Locale.ENGLISH, "theme_%s_detail_page_apply", theme.getIdName().toLowerCase());
                 AutopilotEvent.logTopicEvent("topic-1516083421924-90", formatString);
             }
+        }
+
+    }
+
+    public static class Avatar {
+
+        /**
+         * 使用 topic-1516620266175-105 - avatar_title 远程配置
+         * ---------------------------------------------
+         * Topic 名称:           Avatar Test
+         * Topic 描述:           Avatar Test
+         * Topic.x 可能值:       ["Display your avatar in your friends\u2019 phone right away", "Create funny avatars for your friends!", "Create your avatar right away"]
+         * Topic.x 描述:         avatar标题文案
+         */
+        public static String getAvatarTitleString() {
+            String avatarTitleString = AutopilotConfig.getStringToTestNow("topic-1516620266175-105", "avatar_title",
+                    "Display your avatar in your friends’ phone right away");
+            return avatarTitleString;
+        }
+
+        /**
+         * 使用 topic-1516620266175-105 - avatar_button_text 远程配置
+         * ---------------------------------------------
+         * Topic 名称:           Avatar Test
+         * Topic 描述:           Avatar Test
+         * Topic.x 可能值:       ["Start Now"]
+         * Topic.x 描述:         avatar按钮上的文案
+         */
+        public static String getButtonTextString() {
+            String avatarButtonTextString = AutopilotConfig.getStringToTestNow("topic-1516620266175-105", "avatar_button_text", "Start Now");
+            return avatarButtonTextString;
         }
     }
 }

@@ -8,8 +8,10 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
@@ -23,9 +25,10 @@ import com.ihs.app.utils.HSMarketUtils;
 public class AvatarVideoActivity extends HSAppCompatActivity {
     public static String TAG = AvatarVideoActivity.class.getSimpleName();
 
-    private static String CAMERA_PATH = "android.resource://" + HSApplication.getContext().getPackageName() + "/" + R.raw.camera;
-    private static String HEAD_PATH = "android.resource://" + HSApplication.getContext().getPackageName() + "/" + R.raw.head;
-    private static String ZMOJI_PATH = "android.resource://" + HSApplication.getContext().getPackageName() + "/" + R.raw.zmoji;
+    private static String CAMERA_PATH = "android.resource://" + HSApplication.getContext().getPackageName() + "/" + R.raw.live01;
+    private static String CAMERA_PATH_2 = "android.resource://" + HSApplication.getContext().getPackageName() + "/" + R.raw.live02;
+    private static String HEAD_PATH = "android.resource://" + HSApplication.getContext().getPackageName() + "/" + R.raw.facemoji;
+    private static String ZMOJI_PATH = "android.resource://" + HSApplication.getContext().getPackageName() + "/" + R.raw.live02;
 
     private VideoView video;
     private String videoPath;
@@ -35,10 +38,15 @@ public class AvatarVideoActivity extends HSAppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.avatar_video_activity);
+        setContentView(R.layout.avatar_video_activity1);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 
         video = findViewById(R.id.avatar_video);
+
+        TextView titleTv = findViewById(R.id.avatar_title);
+        TextView button = findViewById(R.id.avatar_button_confirm);
+        titleTv.setText(Ap.Avatar.getAvatarTitleString());
+        button.setText(Ap.Avatar.getButtonTextString());
 
         initVideoData();
 
@@ -51,6 +59,10 @@ public class AvatarVideoActivity extends HSAppCompatActivity {
         switch (type) {
             case AvatarAutoPilotUtils.CAMERA_NAME:
                 videoPath = CAMERA_PATH;
+                pkgName = AvatarAutoPilotUtils.CAMERA_PKG_NAME;
+                break;
+            case AvatarAutoPilotUtils.CAMERA_NAME_2:
+                videoPath = CAMERA_PATH_2;
                 pkgName = AvatarAutoPilotUtils.CAMERA_PKG_NAME;
                 break;
             case AvatarAutoPilotUtils.HEAD_NAME:
