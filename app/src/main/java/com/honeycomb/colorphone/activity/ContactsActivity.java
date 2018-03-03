@@ -56,7 +56,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
 
     private List<View> mToolBarTransViews = new ArrayList<>(2);
     private int mLayoutTransY;
-    private int mLayoutTransX = -Dimensions.pxFromDp(56f);
+    private int mLayoutTransX;
     private int mHeaderOffset;
     private TextView mTopActionView;
 
@@ -74,6 +74,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mLayoutTransX = -Dimensions.pxFromDp(56f);
         mLayoutTransY = getResources().getDimensionPixelOffset(R.dimen.contact_item_footer_offset);
         mHeaderOffset = getResources().getDimensionPixelOffset(R.dimen.contact_item_header_offset);
         setContentView(R.layout.activity_contacts);
