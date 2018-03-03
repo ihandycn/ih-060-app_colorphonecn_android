@@ -1,7 +1,6 @@
 package com.honeycomb.colorphone.recentapp;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.annotation.NonNull;
@@ -45,9 +44,12 @@ public class SmartAssistantUtils {
     public static final String PREF_KEY_COULD_SHOW_SMART_ASSISTANT = "pref_key_could_show_smart_assistant";
     private static final String TAG = "SmartAssistantUtils";
 
+    private static List<RecentAppInfo> sRecentAppsCache = null;
+
    // TODO cache
 
     public static void tryShowSmartAssistant() {
+        HSLog.d(TAG, "tryShowSmartAssistant");
         ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
@@ -74,10 +76,11 @@ public class SmartAssistantUtils {
                 }
 
                 // Huge works to do, so we do it at last.
-                if (!SmartAssistantUtils.couldShowByCount()) {
+                if (!SmartAssistantUtils.couldShowByCountAndCache()) {
                     debugLog("app count is less than 5");
                     return;
                 }
+                HSLog.d(TAG, "do ShowSmartAssistant");
 
                 ConcurrentUtils.postOnMainThread(new Runnable() {
                     @Override
@@ -196,7 +199,7 @@ public class SmartAssistantUtils {
         }
     }
 
-    public static boolean couldShowByCount() {
+    public static boolean couldShowByCountAndCache() {
         return getSmartAssistantApps().size() > SMART_ASSISTANT_AT_LEAST_COUNT;
     }
 
@@ -238,6 +241,10 @@ public class SmartAssistantUtils {
     }
 
     public static List<RecentAppInfo> getSmartAssistantApps() {
+
+        if (sRecentAppsCache != null) {
+            return sRecentAppsCache;
+        }
 
         List<RecentAppInfo> resultList = new ArrayList<>();
 
@@ -289,8 +296,14 @@ public class SmartAssistantUtils {
                 }
             }
         }
+        sRecentAppsCache = resultList;
         return resultList;
     }
+
+    public static void clearRecentAppsCache() {
+        sRecentAppsCache = null;
+    }
+
 
     private static RecentAppInfo buildRecentApp(AppInfo appInfo, int type) {
         return new RecentAppInfo(appInfo, type);

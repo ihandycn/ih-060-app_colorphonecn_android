@@ -74,22 +74,12 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
     };
     private AcbExpressAdView adView;
     private ViewGroup mAdContainer;
+    private boolean finishing;
 
     public SmartAssistantView(Context context) {
         super(context);
 
         mAdLogger.adSessionStart();
-//        List<AcbNativeAd> ads = AcbNativeAdManager.fetch(HSApplication.getContext(),
-//                AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME, 1);
-//        if (!DEBUG_MODE) {
-//            if (ads.isEmpty()) {
-//                HSLog.d(TAG, "should show with ad, but ad is null");
-//                AcbNativeAdManager.preload(HSApplication.getContext(), 1, AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
-//                HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
-//                return;
-//            }
-//            mAd = ads.get(0);
-//        }
 
         View.inflate(context, R.layout.smart_assistant, this);
         initView();
@@ -147,6 +137,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
     }
 
     private void addAppView(final RecentAppInfo appInfo) {
+        HSLog.d("RecentApps", "addAppView app type : " + getAppIconClickEventType(appInfo));
 
         View itemView = inflate(getContext(), R.layout.recentapp_item_view, null);
         ImageView icon = itemView.findViewById(R.id.icon);
@@ -281,7 +272,6 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.recent_app_close:
 
@@ -294,20 +284,12 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
     }
 
-    public void onAddedToWindow() {
-        setAlpha(0.0f);
-        animate().alpha(1)
-                .setDuration(600)
-                .setInterpolator(new AccelerateDecelerateInterpolator())
-                .start();
-    }
-
     public void dismiss(boolean option, boolean animated) {
+        finishing = true;
         removeAds();
         mAdLogger.adSessionEnd();
         mHandler.removeCallbacksAndMessages(null);
-        // According to using activity, we do not need to remove recent app guide any more
-        //LauncherFloatWindowManager.getInstance().removeNormalGuide();
+        SmartAssistantUtils.clearRecentAppsCache();
     }
 
     private void showMenuPopupWindow(Context context, View anchorView) {
