@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.text.format.DateUtils;
 
+import net.appcloudbox.autopilot.AutopilotConfig;
 import com.acb.call.CPSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
@@ -15,10 +16,7 @@ import com.colorphone.lock.util.ConfigUtils;
 import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
-import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Preferences;
-
-import net.appcloudbox.autopilot.AutopilotConfig;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -28,6 +26,7 @@ public class ModuleUtils {
     private static final String PREFS_FILE_NAME = "pref_file_colorphone";
 
     public static final String AUTO_KEY_APPLY_FINISH = "apply_finish_guide_enable";
+    public static final String AUTO_KEY_SCREEN_SAVER = "colorscreensaver_enable";
     public static final String AUTO_SMS_KEY_ASSISTANT = "sms_assistant_enable";
     public static final String AUTO_KEY_GUIDE_START = "start_guide_enable";
 
@@ -60,14 +59,12 @@ public class ModuleUtils {
     }
 
     public static boolean isModuleConfigEnabled(String moduleKey) {
-        if (AUTO_SMS_KEY_ASSISTANT.equals(moduleKey)) {
-            return HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable");
-        } else if (AUTO_KEY_GUIDE_START.equals(moduleKey)) {
-            return HSConfig.optBoolean(false, "Application", "Guide", "StartGuideEnable");
-        } else if (AUTO_KEY_APPLY_FINISH.equals(moduleKey)) {
-            return HSConfig.optBoolean(false, "Application", "Guide", "ApplyFinishGuideEnable");
-        }
-        return false;
+        return AutopilotConfig.getBooleanToTestNow("topic-1505290483207", moduleKey, false);
+    }
+
+    public static boolean isModuleConfigEnabled(String moduleKey, String... path) {
+        return isModuleConfigEnabled(moduleKey)
+                && ConfigUtils.isEnabled(path);
     }
 
     public static boolean isAllModuleEnabled() {

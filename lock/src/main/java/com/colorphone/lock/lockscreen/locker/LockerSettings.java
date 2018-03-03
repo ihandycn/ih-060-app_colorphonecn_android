@@ -32,7 +32,8 @@ public class LockerSettings {
     }
 
     public static boolean isLockerConfigEnabled() {
-        return  ConfigUtils.isEnabled(LOCKER_ENABLE_PATH)
+        return AutopilotConfig.getBooleanToTestNow("topic-1505290483207", "colorscreensaver_enable", false)
+                && ConfigUtils.isEnabled(LOCKER_ENABLE_PATH)
                 && ConfigUtils.isScreenAdEnabledThisVersion();
     }
 

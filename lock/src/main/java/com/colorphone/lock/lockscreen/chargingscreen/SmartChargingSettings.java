@@ -5,12 +5,17 @@ import com.colorphone.lock.util.ConfigUtils;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 
+import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.AutopilotEvent;
+
 public class SmartChargingSettings {
 
+    private static final String TOPIC_ID_SMART_CHARGING = "topic-1512822231846-17";
     private static final String PREFS_CHARGING_REPORT_ENABLE = "charging_report_enable_in_color_phone";
 
     public static boolean isSmartChargingConfigEnabled() {
-        return isChargingReportConfigEnabled() || isChargingScreenConfigEnabled();
+        return AutopilotConfig.getBooleanToTestNow("topic-1505290483207", "smart_charging_enable", false)
+                && (isChargingReportConfigEnabled() || isChargingScreenConfigEnabled());
     }
 
     public static boolean isSmartChargingUserEnabled() {
@@ -33,7 +38,8 @@ public class SmartChargingSettings {
     }
 
     public static boolean isChargingScreenConfigEnabled() {
-        return isChargingScreenEnabledWithGooglePolicy();
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "charging_lockscreen_enable", false)
+                && isChargingScreenEnabledWithGooglePolicy();
     }
 
     public static boolean isChargingScreenEnabledWithGooglePolicy() {
@@ -60,19 +66,24 @@ public class SmartChargingSettings {
     }
 
     private static boolean isChargingReportConfigEnabled() {
-        return isChargingReportEnabledWithGooglePolicy();
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "charging_report_enable", false)
+                && isChargingReportEnabledWithGooglePolicy();
     }
 
     public static boolean isChargingReportOffChargerEnable() {
-        return true;
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "chargingreport_offcharger_enable", false);
     }
 
     public static boolean isChargingReportOnChargerEnable() {
-        return true;
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID_SMART_CHARGING, "chargingreport_oncharger_enable", false);
     }
 
     public static boolean isChargingReportEnabledWithGooglePolicy() {
         return ConfigUtils.isEnabled("Application", "Charging", "ChargingReport", "Enable");
+    }
+
+    public static void logChargingReportEnabled() {
+        AutopilotEvent.logTopicEvent(TOPIC_ID_SMART_CHARGING, "chargingreport_view_show");
     }
 
 }
