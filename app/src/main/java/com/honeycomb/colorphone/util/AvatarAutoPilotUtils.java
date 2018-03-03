@@ -22,7 +22,7 @@ public class AvatarAutoPilotUtils {
     public static String ZMOJI_PKG_NAME = "com.futurebits.zmoji.free";
 
     private static final String AVATAR_TEST_TOPIC_ID = "topic-1516620266175-105";
-    private static final boolean DEBUG_TEST = true && BuildConfig.DEBUG;
+    private static final boolean DEBUG_TEST = false && BuildConfig.DEBUG;
 
     public static boolean isAvatarBtnShow() {
         boolean enable = AutopilotConfig.getBooleanToTestNow(AVATAR_TEST_TOPIC_ID, "avatar_button_show", false);
