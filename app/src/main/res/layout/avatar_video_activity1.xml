@@ -22,17 +22,18 @@
 
     <TextView
         android:id="@+id/avatar_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginTop="8dp"
-        android:textSize="23sp"
-        android:textColor="#ffffff"
         android:lineSpacingExtra="2.9sp"
-        tools:text="Create funny avatars for your friends!"
+        android:textColor="#ffffff"
+        android:textSize="23sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nav_back" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nav_back"
+        tools:text="Create funny avatars for your friends" />
 
     <FrameLayout
         android:layout_width="0dp"
