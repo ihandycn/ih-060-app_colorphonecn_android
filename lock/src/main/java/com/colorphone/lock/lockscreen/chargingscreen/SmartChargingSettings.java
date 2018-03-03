@@ -45,8 +45,7 @@ public class SmartChargingSettings {
      * charging report
      */
     public static boolean isChargingReportEnabled() {
-        return isSmartChargingConfigEnabled()
-                && isChargingReportUserEnabled()
+        return isChargingReportUserEnabled()
                 && isChargingReportConfigEnabled()
                 && !ConfigUtils.isAnyLockerAppInstalled("Application", "Charging", "ChargingReport", "AppConflictList");
     }
@@ -61,14 +60,6 @@ public class SmartChargingSettings {
 
     private static boolean isChargingReportConfigEnabled() {
         return isChargingReportEnabledWithGooglePolicy();
-    }
-
-    public static boolean isChargingReportOffChargerEnable() {
-        return true;
-    }
-
-    public static boolean isChargingReportOnChargerEnable() {
-        return true;
     }
 
     public static boolean isChargingReportEnabledWithGooglePolicy() {

@@ -20,7 +20,6 @@ import com.acb.call.constant.CPConst;
 import com.acb.call.customize.AcbCallManager;
 import com.acb.call.themes.Type;
 import com.acb.call.utils.FileUtils;
-import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.colorphone.lock.LockerCustomConfig;
@@ -52,6 +51,7 @@ import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
 import com.ihs.chargingreport.ChargingReportManager;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -285,30 +285,37 @@ public class ColorPhoneApplication extends HSApplication {
                     }
                 })
                 .sceneSwitch(new ChargingReportConfiguration.ISceneSwitch() {
+
+                    // TODO 库添加总开关。删除此代码
                     @Override
                     public boolean sceneUnlockPlugEnabled() {
-                        return SmartChargingSettings.isChargingReportOnChargerEnable();
+                        return SmartChargingSettings.isChargingReportEnabled()
+                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Plug_Unlocked");
                     }
 
                     @Override
                     public boolean sceneLockPlugEnabled() {
-                        return SmartChargingSettings.isChargingReportOnChargerEnable();
+                        return SmartChargingSettings.isChargingReportEnabled()
+                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Plug_Locked");
                     }
 
                     // 解锁出现的充电报告
                     @Override
                     public boolean sceneChargingEnabled() {
-                        return SmartChargingSettings.isChargingReportEnabled();
+                        return SmartChargingSettings.isChargingReportEnabled()
+                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Charging");
                     }
 
                     @Override
                     public boolean sceneUnlockUnplugEnabled() {
-                        return SmartChargingSettings.isChargingReportOffChargerEnable();
+                        return SmartChargingSettings.isChargingReportEnabled()
+                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Unplug_Unlocked");
                     }
 
                     @Override
                     public boolean sceneLockUnplugEnabled() {
-                        return SmartChargingSettings.isChargingReportOffChargerEnable();
+                        return SmartChargingSettings.isChargingReportEnabled() &&
+                                HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Unplug_Locked");
                     }
                 })
                 .build();
