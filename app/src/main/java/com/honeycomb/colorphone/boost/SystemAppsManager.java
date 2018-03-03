@@ -93,18 +93,16 @@ public class SystemAppsManager {
         }
     }
 
-    public void removePackage(String pkgName) {
-        synchronized (this) {
-            Iterator<AppInfo> iterator = allAppInfos.iterator();
-            while (iterator.hasNext()) {
-                AppInfo info = iterator.next();
-                if (TextUtils.equals(info.getPackageName(), pkgName)) {
-                    iterator.remove();
-                }
+    public synchronized void removePackage(String pkgName) {
+        Iterator<AppInfo> iterator = allAppInfos.iterator();
+        while (iterator.hasNext()) {
+            AppInfo info = iterator.next();
+            if (TextUtils.equals(info.getPackageName(), pkgName)) {
+                iterator.remove();
             }
-
-            allAppPackageNames.remove(pkgName);
         }
+
+        allAppPackageNames.remove(pkgName);
     }
 
     public List<String> getAllAppPackageNames() {
@@ -133,7 +131,7 @@ public class SystemAppsManager {
         return ris.get(0).activityInfo;
     }
 
-    public AppInfo getAppInfoByPkgName(String pkgName) {
+    public synchronized AppInfo getAppInfoByPkgName(String pkgName) {
         for (AppInfo appInfo : allAppInfos) {
             if (TextUtils.equals(pkgName, appInfo.getPackageName())) {
                 return appInfo;
