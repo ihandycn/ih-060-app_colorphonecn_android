@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
 import com.acb.utils.ConcurrentUtils;
 import com.honeycomb.colorphone.BuildConfig;
@@ -22,6 +23,8 @@ import java.util.List;
  */
 
 public class AppUsageOp {
+    private static final long RECENT_TIME_OUT = 7 * DateUtils.DAY_IN_MILLIS;
+
     private final Object mLock = new Object();
     private final SQLiteDatabase mDb;
     private List<AppUsage> mAppUsages = new ArrayList<>();
@@ -67,7 +70,11 @@ public class AppUsageOp {
                 String pkg = c.getString(c.getColumnIndex(AppUsage.AppUsageEntry.COLUMN_NAME_PACKAGE_NAME));
                 long launchTime = c.getLong(c.getColumnIndex(AppUsage.AppUsageEntry.COLUMN_NAME_LAUNCHTIME_LAST));
 
-                updateAppUsageCache(appUsages, pkg, launchTime);
+                if (System.currentTimeMillis() - launchTime > RECENT_TIME_OUT) {
+                    delete(pkg);
+                } else {
+                    updateAppUsageCache(appUsages, pkg, launchTime);
+                }
 
             } while (c.moveToPrevious());
         } catch (SQLiteException e) {
@@ -158,10 +165,10 @@ public class AppUsageOp {
         mDb.insert(AppUsage.AppUsageEntry.TABLE_NAME, null, contentValues);
     }
 
-    private void delete(AppUsage appUsage) {
+    private void delete(String pkgName) {
         mDb.delete(AppUsage.AppUsageEntry.TABLE_NAME,
-                AppUsage.AppUsageEntry.COLUMN_NAME_PACKAGE_NAME + " = ?", new String[]{appUsage.getPackageName()});
-        HSLog.d("Recent Apps", "App usage remove from db : " + appUsage.getPackageName());
+                AppUsage.AppUsageEntry.COLUMN_NAME_PACKAGE_NAME + " = ?", new String[]{pkgName});
+        HSLog.d("Recent Apps", "App usage remove from db : " + pkgName);
     }
 
     public void onAppUninstall(String packageName) {
@@ -185,7 +192,7 @@ public class AppUsageOp {
             ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
                 @Override
                 public void run() {
-                    delete(appToDelete);
+                    delete(appToDelete.getPackageName());
                 }
             });
         }
