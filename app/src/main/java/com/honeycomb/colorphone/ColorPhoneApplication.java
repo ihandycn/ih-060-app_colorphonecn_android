@@ -151,7 +151,12 @@ public class ColorPhoneApplication extends HSApplication {
         AcbAds.getInstance().initializeFromGoldenEye(this);
 
         AcbHSFrameworkAdapter.initialize(this);
-        AutopilotConfig.initialize(this, "Autopilot_Config_ColorPhone.json");
+
+        if (BuildConfig.DEBUG) {
+            AutopilotConfig.initialize(this, "Autopilot_10000_Config_test.json");
+        } else {
+            AutopilotConfig.initialize(this, "Autopilot_10000_Config_v1.json");
+        }
 
         AcbCallManager.init("", new CallConfigFactory());
         AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
