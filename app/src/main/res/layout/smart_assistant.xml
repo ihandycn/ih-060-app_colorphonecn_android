@@ -55,7 +55,7 @@
             android:layout_toStartOf="@id/recent_app_close"
             android:background="@drawable/material_black_round_close_btn_bg"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/smart_assistant_disable" />
+            android:src="@drawable/smart_assistant_disable" />
 
         <TableLayout
             android:id="@+id/recent_apps_container_view"
