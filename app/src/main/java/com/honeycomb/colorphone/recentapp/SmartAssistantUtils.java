@@ -77,6 +77,7 @@ public class SmartAssistantUtils {
 
                 // Huge works to do, so we do it at last.
                 if (!SmartAssistantUtils.couldShowByCountAndCache()) {
+                    SmartAssistantUtils.clearRecentAppsCache();
                     debugLog("app count is less than 5");
                     return;
                 }
