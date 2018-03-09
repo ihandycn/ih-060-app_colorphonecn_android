@@ -379,7 +379,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void initData() {
-        mRecyclerViewData = Theme.themes();
+        mRecyclerViewData.clear();
+        mRecyclerViewData.addAll(Theme.themes());
         final int count = mRecyclerViewData.size();
         int selectedThemeId = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
         if (selectedThemeId == -1) {
