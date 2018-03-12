@@ -201,8 +201,7 @@ public class ColorPhoneApplication extends HSApplication {
         copyMediaFromAssertToFile();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Intent lockJobServiceIntent = new Intent(this, LockJobService.class);
-            startService(lockJobServiceIntent);
+            LockJobService.startJobScheduler();
         }
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {

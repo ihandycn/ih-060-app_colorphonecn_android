@@ -8,8 +8,10 @@ import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
 import android.os.Build;
+import android.text.format.DateUtils;
 
 import com.honeycomb.colorphone.util.HSPermanentUtils;
+import com.ihs.app.framework.HSApplication;
 
 /**
  * Created by zhewang on 22/02/2017.
@@ -18,29 +20,25 @@ import com.honeycomb.colorphone.util.HSPermanentUtils;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class LockJobService extends JobService {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        startJobScheduler();
-    }
-
-    public void startJobScheduler() {
+    public static void startJobScheduler() {
         try {
-            JobInfo.Builder builder = new JobInfo.Builder(1, new ComponentName(getPackageName(), LockJobService.class.getName()));
-            builder.setPeriodic(60 * 1000);
-            JobScheduler jobScheduler = (JobScheduler) this.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+            JobInfo.Builder builder = new JobInfo.Builder(1, new ComponentName(HSApplication.getContext().getPackageName(), LockJobService.class.getName()));
+            builder.setPeriodic(10 * DateUtils.MINUTE_IN_MILLIS);
+            JobScheduler jobScheduler = (JobScheduler) HSApplication.getContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
             jobScheduler.schedule(builder.build());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    @Override public boolean onStartJob(JobParameters params) {
+    @Override
+    public boolean onStartJob(JobParameters params) {
         HSPermanentUtils.checkAliveForProcess();
         return false;
     }
 
-    @Override public boolean onStopJob(JobParameters params) {
+    @Override
+    public boolean onStopJob(JobParameters params) {
         return false;
     }
 }
