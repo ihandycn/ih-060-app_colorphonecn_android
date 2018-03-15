@@ -152,6 +152,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         public int getAppNameDrawable() {
             return R.drawable.color_phone_logo;
         }
+
+        @Override
+        public int getMarkAsSpamAppNameDrawable() {
+            return R.drawable.mark_as_spam_app_logo;
+        }
     }
 
     public static class CPViewConfig extends ThemeViewConfig {
