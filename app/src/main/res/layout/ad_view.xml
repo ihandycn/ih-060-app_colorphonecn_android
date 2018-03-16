@@ -5,18 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp"
-    tools:layout_height="263dp"
+    android:padding="12dp"
+    tools:layout_height="266dp"
+    android:background="@drawable/ad_card_round_bottom_corner_3_bg"
     tools:ignore="UnusedAttribute">
 
     <net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView
         android:id="@+id/recent_app_banner"
         android:layout_width="match_parent"
-        android:layout_height="189dp" />
+        android:layout_height="190dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="52dp"
         android:layout_marginTop="5dp">
 
         <net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView

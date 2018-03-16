@@ -21,6 +21,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.acb.call.views.CallIdleAlert;
 import com.acb.utils.CommonUtils;
 import com.acb.utils.ConcurrentUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
@@ -246,6 +247,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                 @Override
                 public void onAdShown(AcbExpressAdView acbExpressAdView) {
                     mAdLogger.adShow();
+
                     LauncherAnalytics.logEvent("Recent_Apps_Ad_Show");
                 }
             });
@@ -256,7 +258,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                     if (mAdContainer != null) {
                         mAdContainer.setVisibility(VISIBLE);
                         mAdContainer.addView(adView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                        adView.setGravity(Gravity.CENTER);
+                        adView.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
                         adView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
                     }
                 }
