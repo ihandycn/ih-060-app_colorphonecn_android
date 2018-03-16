@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -36,6 +35,7 @@ import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 
+import net.appcloudbox.ads.base.ContainerView.AcbContentLayout;
 import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
 import java.lang.ref.WeakReference;
@@ -227,11 +227,11 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
         if (adView == null) {
             adView = new AcbExpressAdView(context, AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
-            AcbExpressAdView.CustomLayout layout = new AcbExpressAdView.CustomLayout(R.layout.ad_view);
+            AcbContentLayout layout = new AcbContentLayout(R.layout.ad_view);
             layout.setActionId(R.id.recent_app_action_btn);
             layout.setChoiceId(R.id.recent_app_ad_choice_icon);
             layout.setTitleId(R.id.recent_app_ad_title);
-            layout.setContentId(R.id.recent_app_ad_description);
+            layout.setDescriptionId(R.id.recent_app_ad_description);
             layout.setIconId(R.id.recent_app_icon);
             layout.setPrimaryId(R.id.recent_app_banner);
 

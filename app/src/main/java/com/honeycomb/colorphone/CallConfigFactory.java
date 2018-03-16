@@ -12,7 +12,6 @@ import android.os.Handler;
 
 import com.acb.call.CPSettings;
 import com.acb.call.customize.AcbCallFactoryImpl;
-import com.acb.call.customize.AcbCallManager;
 import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.receiver.IncomingCallReceiver;
 import com.acb.call.service.InCallWindow;
@@ -44,8 +43,6 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.flashlight.FlashlightManager;
 import com.ihs.libcharging.ScreenStateMgr;
 import com.superapps.util.Preferences;
-
-import net.appcloudbox.ads.nativead.AcbNativeAdAnalytics;
 
 import java.util.Iterator;
 import java.util.List;
@@ -136,7 +133,6 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
             }
 
             public void onAdFlurryRecord(boolean isShown) {
-                AcbNativeAdAnalytics.logAppViewEvent(AcbCallManager.getInstance().getAcbCallFactory().getSMSConfig().getAdPlacement(), isShown);
             }
         };
     }
@@ -146,6 +142,11 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
         @Override
         public String getAdPlaceName() {
             return AdPlacements.AD_CALL_OFF;
+        }
+
+        @Override
+        public boolean showMarkAsSpam() {
+            return true;
         }
 
         @Override
@@ -373,8 +374,7 @@ public class CallConfigFactory extends AcbCallFactoryImpl {
 
             @Override
             public void onAdFlurryRecord(boolean isShown) {
-                AcbNativeAdAnalytics.logAppViewEvent(
-                        AcbCallManager.getInstance().getAcbCallFactory().getSMSConfig().getAdPlacement(), isShown);
+
             }
 
             @Override

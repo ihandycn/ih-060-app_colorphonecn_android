@@ -1,8 +1,6 @@
 package com.honeycomb.colorphone.recentapp;
 
 
-import net.appcloudbox.ads.nativead.AcbNativeAdAnalytics;
-
 /**
  * Handles common logic to log AdAnalytics.logAppViewEvent().
  */
@@ -60,7 +58,6 @@ public class AdLogger {
      */
     public void adSessionEnd() {
         if (mShouldShowAd) {
-            AcbNativeAdAnalytics.logAppViewEvent(mPlacementName, mAdShown);
             if (mCallback != null) {
                 mCallback.onLogAppViewEvent(mAdShown);
             }

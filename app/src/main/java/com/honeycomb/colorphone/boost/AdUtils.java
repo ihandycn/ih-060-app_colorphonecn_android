@@ -1,7 +1,6 @@
 package com.honeycomb.colorphone.boost;
 
 import com.honeycomb.colorphone.AdPlacements;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 
 import net.appcloudbox.ads.base.AcbNativeAd;
@@ -18,8 +17,7 @@ public class AdUtils {
 
     public static void preloadResultPageAds() {
         HSLog.d(TAG, "result page preload ads.");
-
-        AcbNativeAdManager.preload(HSApplication.getContext(), 1, AdPlacements.AD_RESULT_PAGE);
-        AcbInterstitialAdManager.preload(HSApplication.getContext(), 1, AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
+        AcbNativeAdManager.preload(1, AdPlacements.AD_RESULT_PAGE);
+        AcbInterstitialAdManager.preload(1, AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
     }
 }

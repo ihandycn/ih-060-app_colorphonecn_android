@@ -9,7 +9,6 @@ import com.honeycomb.colorphone.boost.AdUtils;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 
@@ -80,7 +79,7 @@ public class ResultPagePresenter implements ResultPageContracts.Presenter {
     }
 
     private void fetchAds() {
-        List<AcbInterstitialAd> interstitialAds = AcbInterstitialAdManager.fetch(HSApplication.getContext(), AdPlacements.AD_RESULT_PAGE_INTERSTITIAL, 1);
+        List<AcbInterstitialAd> interstitialAds = AcbInterstitialAdManager.fetch(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL, 1);
         mInterstitialAd = interstitialAds.isEmpty() ? null : interstitialAds.get(0);
         LauncherAnalytics.logEvent("InterstitialAdAnalysis", "ad_show_from", "ResultPage+" + (mInterstitialAd != null));
         LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App",  AdPlacements.AD_RESULT_PAGE_INTERSTITIAL, String.valueOf(mInterstitialAd != null));
@@ -96,7 +95,7 @@ public class ResultPagePresenter implements ResultPageContracts.Presenter {
 //            mNativeAd = ads.isEmpty() ? null : ads.get(0);
 //            LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App",  AdPlacements.AD_RESULT_PAGE, String.valueOf(mNativeAd != null));
         } else {
-            List<AcbNativeAd> ads = AcbNativeAdManager.fetch(HSApplication.getContext(), AdPlacements.AD_RESULT_PAGE, 1);
+            List<AcbNativeAd> ads = AcbNativeAdManager.fetch(AdPlacements.AD_RESULT_PAGE, 1);
             mNativeAd = ads.isEmpty() ? null : ads.get(0);
             HSLog.d(TAG, "result page mNativeAd: " + mNativeAd);
             LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App",  AdPlacements.AD_RESULT_PAGE, String.valueOf(mNativeAd != null));
