@@ -18,6 +18,9 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.utils.HSMarketUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by zhewang on 23/01/2018.
  */
@@ -25,10 +28,24 @@ import com.ihs.app.utils.HSMarketUtils;
 public class AvatarVideoActivity extends HSAppCompatActivity {
     public static String TAG = AvatarVideoActivity.class.getSimpleName();
 
-    private static String CAMERA_PATH = "android.resource://" + HSApplication.getContext().getPackageName() + "/" + R.raw.live01;
-    private static String CAMERA_PATH_2 = "android.resource://" + HSApplication.getContext().getPackageName() + "/" + R.raw.live02;
-    private static String HEAD_PATH = "android.resource://" + HSApplication.getContext().getPackageName() + "/" + R.raw.facemoji;
-    private static String ZMOJI_PATH = "android.resource://" + HSApplication.getContext().getPackageName() + "/" + R.raw.live02;
+    private static String VIDEO_ROOT_PATH = "android.resource://" + HSApplication.getContext().getPackageName() + "/";
+
+    private static String HEAD_PATH = VIDEO_ROOT_PATH + R.raw.facemoji;
+    private static Map<String, Integer> videoPathMap = new HashMap<>();
+    static {
+        videoPathMap.put("happy01_face", R.raw.happy01_face);
+        videoPathMap.put("happy01_gif", R.raw.happy01_gif);
+        videoPathMap.put("happy02_face", R.raw.happy02_face);
+        videoPathMap.put("happy02_gif", R.raw.happy02_gif);
+        videoPathMap.put("pick01_face", R.raw.pick01_face);
+        videoPathMap.put("pick01_face_meme", R.raw.pick01_face_meme);
+        videoPathMap.put("pick01_gif", R.raw.pick01_gif);
+        videoPathMap.put("pick01_gif_meme", R.raw.pick01_gif_meme);
+        videoPathMap.put("pick02_face", R.raw.pick02_face);
+        videoPathMap.put("pick02_face_meme", R.raw.pick02_face_meme);
+        videoPathMap.put("pick02_gif", R.raw.pick02_gif);
+        videoPathMap.put("pick02_gif_meme", R.raw.pick02_gif_meme);
+    }
 
     private VideoView video;
     private String videoPath;
@@ -56,27 +73,14 @@ public class AvatarVideoActivity extends HSAppCompatActivity {
 
     private void initVideoData() {
         String type = AvatarAutoPilotUtils.getAvatarType();
-        switch (type) {
-            case AvatarAutoPilotUtils.CAMERA_NAME:
-                videoPath = CAMERA_PATH;
-                pkgName = AvatarAutoPilotUtils.CAMERA_PKG_NAME;
-                break;
-            case AvatarAutoPilotUtils.CAMERA_NAME_2:
-                videoPath = CAMERA_PATH_2;
-                pkgName = AvatarAutoPilotUtils.CAMERA_PKG_NAME;
-                break;
-            case AvatarAutoPilotUtils.HEAD_NAME:
-                videoPath = HEAD_PATH;
-                pkgName = AvatarAutoPilotUtils.HEAD_PKG_NAME;
-                break;
-            case AvatarAutoPilotUtils.ZMOJI_NAME:
-                videoPath = ZMOJI_PATH;
-                pkgName = AvatarAutoPilotUtils.ZMOJI_PKG_NAME;
-                break;
-            default:
-                finish();
-                break;
+        Integer pathId = videoPathMap.get(type);
+        if (pathId != null) {
+            videoPath = VIDEO_ROOT_PATH + (int) pathId;
+            pkgName = AvatarAutoPilotUtils.CAMERA_PKG_NAME;
+        } else {
+            finish();
         }
+
     }
 
     @Override protected void onResume() {
