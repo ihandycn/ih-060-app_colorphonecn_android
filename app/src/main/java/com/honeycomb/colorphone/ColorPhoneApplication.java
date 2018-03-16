@@ -51,6 +51,7 @@ import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
 import com.ihs.chargingreport.ChargingReportManager;
+import com.ihs.chargingreport.DismissType;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -338,6 +339,11 @@ public class ColorPhoneApplication extends HSApplication {
 
             @Override
             public void onChargingReportShown() {
+
+            }
+
+            @Override
+            public void onChargingReportDismiss(DismissType dismissType) {
 
             }
         });
