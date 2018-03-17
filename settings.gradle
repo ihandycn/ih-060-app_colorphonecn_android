@@ -1,2 +1,5 @@
-include ':app', ':lock', ':lib_superapps_android'
-project(':lib_superapps_android').projectDir = new File('libs/libSuperApps/lib')
+include ':app', ':lock', ':libSuperApps', ':libCallAssistant', ':libScreenFlash', ':libMessageCenter'
+project(':libSuperApps').projectDir = new File('libs/libNewColorPhone/Lib_SuperApps_Android/lib')
+project(':libCallAssistant').projectDir = new File('libs/libNewColorPhone/libCallAssistant')
+project(':libScreenFlash').projectDir = new File('libs/libNewColorPhone/libScreenFlash')
+project(':libMessageCenter').projectDir = new File('libs/libNewColorPhone/libMessageCenter')

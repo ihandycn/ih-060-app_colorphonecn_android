@@ -15,13 +15,15 @@ import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
-import com.acb.call.CPSettings;
-import com.acb.call.constant.CPConst;
-import com.acb.call.customize.AcbCallManager;
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
 import com.acb.call.utils.FileUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
+import com.call.assistant.customize.CallAssistantConsts;
+import com.call.assistant.customize.CallAssistantManager;
+import com.call.assistant.customize.CallAssistantSettings;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
@@ -33,6 +35,9 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
+import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
+import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
@@ -61,6 +66,8 @@ import com.ihs.commons.utils.HSMapUtils;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.HSChargingManager;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.messagecenter.customize.MessageCenterManager;
+import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
@@ -107,7 +114,7 @@ public class ColorPhoneApplication extends HSApplication {
                 // Call-Themes update timely.
                 Theme.updateThemes();
                 downloadNewType();
-            } else if (CPConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
+            } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
                 HSPermanentUtils.checkAliveForProcess();
             } else {
                 checkModuleAdPlacement();
@@ -159,8 +166,11 @@ public class ColorPhoneApplication extends HSApplication {
             AutopilotConfig.initialize(this, "Autopilot_10000_Config_v1.json");
         }
 
-        AcbCallManager.init("", new CallConfigFactory());
-        AcbCallManager.getInstance().setParser(new AcbCallManager.TypeParser() {
+        CallAssistantManager.init(new CpCallAssistantFactoryImpl());
+        MessageCenterManager.init(new CpMessageCenterFactoryImpl());
+        ScreenFlashManager.init(new CpScreenFlashFactoryImpl());
+
+        ScreenFlashManager.getInstance().setParser(new ScreenFlashManager.TypeParser() {
             @Override
             public Type parse(Map<String, ?> map) {
                 Theme type = new Theme();
@@ -174,8 +184,8 @@ public class ColorPhoneApplication extends HSApplication {
                 return type;
             }
         });
-        AcbCallManager.getInstance().setImageLoader(new ThemeImageLoader());
-        AcbCallManager.getInstance().logTest = true;
+        ScreenFlashManager.getInstance().setImageLoader(new ThemeImageLoader());
+        ScreenFlashManager.getInstance().logTest = true;
         ContactManager.init();
 
 
@@ -367,8 +377,8 @@ public class ColorPhoneApplication extends HSApplication {
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, mObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, mObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_CONFIG_CHANGED, mObserver);
-        HSGlobalNotificationCenter.addObserver(CPConst.NOTIFY_CHANGE_CALL_ASSISTANT, mObserver);
-        HSGlobalNotificationCenter.addObserver(CPConst.NOTIFY_CHANGE_SCREEN_FLASH, mObserver);
+        HSGlobalNotificationCenter.addObserver(CallAssistantConsts.NOTIFY_CHANGE_CALL_ASSISTANT, mObserver);
+        HSGlobalNotificationCenter.addObserver(ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH, mObserver);
         HSGlobalNotificationCenter.addObserver(LockerSettings.NOTIFY_LOCKER_STATE, mObserver);
         HSGlobalNotificationCenter.addObserver(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE, mObserver);
         final IntentFilter screenFilter = new IntentFilter();
@@ -449,11 +459,11 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     public static void checkCallAssistantAdPlacement() {
-        final String adName = AcbCallManager.getInstance().getAcbCallFactory().getCallIdleConfig().getAdPlaceName();
-        boolean enable = CPSettings.isCallAssistantModuleEnabled();
+        final String adName = CallAssistantManager.getInstance().getCallAssistantFactory().getCallIdleConfig().getAdPlaceName();
+        boolean enable = CallAssistantSettings.isCallAssistantModuleEnabled();
         checkExpressAd(adName, enable);
-        final String smsName = AcbCallManager.getInstance().getAcbCallFactory().getSMSConfig().getAdPlacement();
-        checkExpressAd(smsName, CPSettings.isSMSAssistantModuleEnabled());
+        final String smsName = MessageCenterManager.getInstance().getMessageCenterFactory().getSMSConfig().getAdPlacement();
+        checkExpressAd(smsName, MessageCenterSettings.isSMSAssistantModuleEnabled());
 
     }
 

@@ -24,15 +24,13 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.acb.call.CPSettings;
-import com.acb.call.constant.CPConst;
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
-import com.acb.notification.NotificationAccessGuideAlertActivity;
 import com.acb.utils.PermissionHelper;
 import com.acb.utils.PermissionUtils;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.honeycomb.colorphone.CallConfigFactory;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
@@ -117,7 +115,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private boolean logOpenEvent;
     private boolean pendingShowRateAlert = true;
-    CallConfigFactory factory;
 
     @DebugLog
     @Override
@@ -125,8 +122,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
 
         ContactManager.getInstance().update();
-
-        factory = new CallConfigFactory();
 
         // TODO pro show condition ( SESSION_START, or Activity onStart() )
         if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
@@ -191,7 +186,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mainSwitch = leftDrawer.findViewById(R.id.main_switch);
         mainSwitchTxt = leftDrawer.findViewById(R.id.settings_main_switch_txt);
 
-        initCheckState = CPSettings.isScreenFlashModuleEnabled();
+        initCheckState = ScreenFlashSettings.isScreenFlashModuleEnabled();
         mainSwitch.setChecked(initCheckState);
         mainSwitchTxt.setText(getString(initCheckState ? R.string.color_phone_enabled : R.string.color_phone_disable));
 
@@ -200,7 +195,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
 
-                CPSettings.setScreenFlashModuleEnabled(isChecked);
+                ScreenFlashSettings.setScreenFlashModuleEnabled(isChecked);
             }
         });
 
@@ -382,11 +377,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mRecyclerViewData.clear();
         mRecyclerViewData.addAll(Theme.themes());
         final int count = mRecyclerViewData.size();
-        int selectedThemeId = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
+        int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
         if (selectedThemeId == -1) {
             selectedThemeId = defaultThemeId;
             ThemePreviewView.saveThemeApplys(defaultThemeId);
-            CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, defaultThemeId);
+            ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, defaultThemeId);
         }
         String[] likeThemes = getThemeLikes();
         for (int i = 0; i < count; i++) {

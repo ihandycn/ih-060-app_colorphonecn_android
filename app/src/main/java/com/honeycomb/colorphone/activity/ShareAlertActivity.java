@@ -24,9 +24,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.call.CPSettings;
-import com.acb.call.constant.CPConst;
-import com.acb.call.customize.AcbCallManager;
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashManager;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.LEDAnimationView;
 import com.acb.call.themes.Type;
 import com.acb.call.views.CircleImageView;
@@ -204,7 +204,7 @@ public class ShareAlertActivity extends Activity {
         inCallActionView = findViewById(R.id.card_in_call_action_view);
         inCallActionView.setEnabled(false);
 
-        int themeID = AcbCallManager.getInstance().getAcbCallFactory().getIncomingReceiverConfig().getThemeIdByPhoneNumber(userInfo == null ? null : userInfo.getPhoneNumber());
+        int themeID = ScreenFlashManager.getInstance().getAcbCallFactory().getIncomingReceiverConfig().getThemeIdByPhoneNumber(userInfo == null ? null : userInfo.getPhoneNumber());
         themeType = com.acb.utils.Utils.getTypeByThemeId(themeID);
 
         FixRatioPreviewWindow cardView = findViewById(R.id.card_view);
@@ -226,7 +226,7 @@ public class ShareAlertActivity extends Activity {
             }
         });
 
-        isSetForSomeone = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) != themeID;
+        isSetForSomeone = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) != themeID;
         editUserView(themePreviewWindow);
     }
 
@@ -240,8 +240,8 @@ public class ShareAlertActivity extends Activity {
         firstLineTextView.setShadowLayer(shadowOffset, 0, shadowOffset, Color.BLACK);
         secondLineTextView.setShadowLayer(shadowOffset * 0.5f, 0, shadowOffset * 0.7f, Color.BLACK);
 
-        firstLineTextView.setTypeface(AcbCallManager.getInstance().getAcbCallFactory().getViewConfig().getBondFont());
-        secondLineTextView.setTypeface(AcbCallManager.getInstance().getAcbCallFactory().getViewConfig().getNormalFont());
+        firstLineTextView.setTypeface(ScreenFlashManager.getInstance().getAcbCallFactory().getViewConfig().getBondFont());
+        secondLineTextView.setTypeface(ScreenFlashManager.getInstance().getAcbCallFactory().getViewConfig().getNormalFont());
 
         if (userInfo == null || getIntent().getBooleanExtra(SET_FOR_MULTI, false)) {
             firstLineTextView.setText(R.string.share_default_name);

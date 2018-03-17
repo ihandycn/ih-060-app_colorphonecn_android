@@ -71,12 +71,12 @@ dependencies {
     compile "com.ihandy.device:device-monitor-top-app.gm:4.4.5.gm"
 
     // Submodule
-    compile(name: 'libColorhone/libColorPhone', ext: 'aar')
-    compile(name: 'libColorhone/libNotificationService', ext: 'aar')
     compile(name: 'libChargingReport/libChargingReport-release', ext: 'aar')
     compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
+    compile project(':libCallAssistant')
+    compile project(':libMessageCenter')
+    compile project(':libScreenFlash')
     compile project(':lock')
-    compile project(':lib_superapps_android')
 
     //  -------- GoldEye ------
     compile 'net.appcloudbox.goldeneye:210:2018.03.15.001'

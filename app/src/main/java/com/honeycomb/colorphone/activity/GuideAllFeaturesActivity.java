@@ -12,11 +12,11 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 
-import com.acb.notification.FloatWindowController;
 import com.acb.utils.PermissionHelper;
 import com.acb.utils.PermissionUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;

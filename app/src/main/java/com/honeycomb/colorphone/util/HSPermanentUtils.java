@@ -4,7 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
-import com.acb.call.CPSettings;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.PermanentService;
@@ -94,7 +94,7 @@ public class HSPermanentUtils {
     }
 
     public static void checkAliveForProcess() {
-        boolean needKeepAlive = CPSettings.isScreenFlashModuleEnabled()
+        boolean needKeepAlive = ScreenFlashSettings.isScreenFlashModuleEnabled()
                 || ChargingScreenSettings.isChargingScreenEverEnabled()
                 || LockerSettings.isLockerEnabled();
 

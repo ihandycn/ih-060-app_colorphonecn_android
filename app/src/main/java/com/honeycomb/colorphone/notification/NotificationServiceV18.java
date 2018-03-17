@@ -6,9 +6,9 @@ import android.os.Build;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
-import com.acb.notification.NotificationServiceListenerManager;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.acb.call.CallIntentManager;
 import com.ihs.commons.utils.HSLog;
+import com.messagecenter.customize.MessageCenterManager;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class NotificationServiceV18 extends NotificationListenerService {
@@ -28,19 +28,18 @@ public class NotificationServiceV18 extends NotificationListenerService {
     @Override
     public void onListenerConnected() {
         HSLog.i(TAG, "NotificationListenerService onListenerConnected");
-        NotificationServiceListenerManager.getInstance().onListenerConnected();
     }
 
     @SuppressLint("NewApi")
     @Override
     public void onNotificationPosted(StatusBarNotification statusBarNotification) {
-        NotificationServiceListenerManager.getInstance().onNotificationPosted(statusBarNotification);
+        CallIntentManager.getInstance().recordAnswerCallIntent(statusBarNotification);
+        MessageCenterManager.getInstance().showMessageAssistantIfProper(statusBarNotification);
         HSLog.e(TAG, "New notification: " + statusBarNotification);
     }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        NotificationServiceListenerManager.getInstance().onNotificationRemoved(sbn);
         HSLog.d(TAG, "Removed notification: " + sbn);
     }
 

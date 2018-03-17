@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import com.acb.call.customize.AcbCallManager;
+import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
@@ -21,7 +21,7 @@ import hugo.weaving.DebugLog;
  * Created by sundxing on 17/9/20.
  */
 
-public class ThemeImageLoader extends AcbCallManager.DefaultImageLoader {
+public class ThemeImageLoader extends ScreenFlashManager.DefaultImageLoader {
 
     public static final int IMAGE_ORIG_WIDTH = 1080;
     public static final int IMAGE_ORIG_HEIGHT = 1920;

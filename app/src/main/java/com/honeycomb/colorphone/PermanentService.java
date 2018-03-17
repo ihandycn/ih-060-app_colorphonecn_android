@@ -15,7 +15,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.IBinder;
 import android.os.IBinder.DeathRecipient;
 import android.os.RemoteException;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
 import com.honeycomb.colorphone.util.HSPermanentUtils;

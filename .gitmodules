@@ -13,3 +13,6 @@
 [submodule "libs/libFlashlight"]
 	path = libs/libFlashlight
 	url = http://git.ihandysoft.com/bingroup/bin_flashlight_android.git
+[submodule "libs/libNewColorPhone"]
+	path = libs/libNewColorPhone
+	url = http://git.ihandysoft.com/nogroup/Lib_ColorPhone_Android.git

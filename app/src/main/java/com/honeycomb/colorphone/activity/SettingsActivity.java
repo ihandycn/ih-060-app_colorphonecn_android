@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 
-import com.acb.call.CPSettings;
+import com.call.assistant.customize.CallAssistantSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.BuildConfig;
@@ -22,6 +22,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.chargingreport.utils.ActivityUtils;
+import com.messagecenter.customize.MessageCenterSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,22 +57,22 @@ public class SettingsActivity extends HSAppCompatActivity {
 
         Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
 
-        mModuleStates.add(new ModuleState(true, CPSettings.isCallAssistantModuleEnabled(),
+        mModuleStates.add(new ModuleState(true, CallAssistantSettings.isCallAssistantModuleEnabled(),
                 R.id.setting_item_call_assistant_toggle,
                 R.id.setting_item_call_assistant) {
             @Override
             public void onCheckChanged(boolean isChecked) {
-                CPSettings.setCallAssistantModuleEnabled(isChecked);
+                CallAssistantSettings.setCallAssistantModuleEnabled(isChecked);
             }
         });
 
         mModuleStates.add(new ModuleState(ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT),
-                CPSettings.isSMSAssistantModuleEnabled(),
+                MessageCenterSettings.isSMSAssistantModuleEnabled(),
                 R.id.setting_item_sms_assistant_toggle,
                 R.id.setting_item_sms_assistant) {
             @Override
             public void onCheckChanged(boolean isChecked) {
-                CPSettings.setSMSAssistantModuleEnabled(isChecked);
+                MessageCenterSettings.setSMSAssistantModuleEnabled(isChecked);
             }
         });
 

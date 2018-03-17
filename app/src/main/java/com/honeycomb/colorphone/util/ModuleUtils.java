@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.text.format.DateUtils;
 
-import com.acb.call.CPSettings;
+import com.call.assistant.customize.CallAssistantSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
@@ -16,6 +16,7 @@ import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
 import com.ihs.commons.config.HSConfig;
+import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.util.Preferences;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
@@ -71,8 +72,8 @@ public class ModuleUtils {
     }
 
     public static boolean isAllModuleEnabled() {
-        if (CPSettings.isCallAssistantModuleEnabled()
-                && CPSettings.isCallAssistantModuleEnabled()
+        if (CallAssistantSettings.isCallAssistantModuleEnabled()
+                && MessageCenterSettings.isSMSAssistantModuleEnabled()
                 && ChargingScreenSettings.isChargingScreenEverEnabled()
                 && LockerSettings.isLockerUserEnabled()) {
             return true;
@@ -81,8 +82,8 @@ public class ModuleUtils {
     }
 
     public static void setAllModuleUserEnable() {
-        CPSettings.setSMSAssistantModuleEnabled(true);
-        CPSettings.setCallAssistantModuleEnabled(true);
+        MessageCenterSettings.setSMSAssistantModuleEnabled(true);
+        CallAssistantSettings.setCallAssistantModuleEnabled(true);
         LockerSettings.setLockerEnabled(true);
         SmartChargingSettings.setModuleEnabled(true);
         NotificationSettingsActivity.setNotificationBoostOn(true);

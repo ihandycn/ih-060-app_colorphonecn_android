@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.call.CPSettings;
-import com.acb.call.constant.CPConst;
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
@@ -278,7 +278,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private void onThemeSelected(int pos) {
         final Theme theme = data.get(pos);
         saveThemeApplys(theme.getId());
-        CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
+        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
         HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
         GuideApplyThemeActivity.start(activity, false, null);
         NotificationUtils.logThemeAppliedFlurry(data.get(pos));

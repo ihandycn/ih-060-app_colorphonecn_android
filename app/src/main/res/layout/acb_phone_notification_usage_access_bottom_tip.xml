@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/acb_phone_alert_call_bg">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="133dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:background="@drawable/acb_phone_notification_usage_access_bottom_tip_bg_blue">
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/acb_phone_grant_notification_access_title"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:autoSizeMaxTextSize="16sp"
+            app:autoSizeMinTextSize="13sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform" />
+
+        <RelativeLayout
+            android:id="@+id/bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/description"
+            android:layout_marginEnd="60dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginStart="60dp"
+            android:clipChildren="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/acb_phone_notification_usage_access_bottom_tip_white_bg"
+                android:orientation="horizontal"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp">
+
+                <ImageView
+                    android:id="@+id/app_icon"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/acb_alert_call_small_icon"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/app_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginStart="9dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="1"
+                    android:text="@string/app_name"
+                    android:textColor="#000000"
+                    android:textSize="19sp" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_anim"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/description"
+            android:layout_marginBottom="-0.33dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="-17dp"
+            android:layout_marginRight="-17dp"
+            android:layout_alignRight="@+id/bottom_layout"
+            android:layout_alignEnd="@+id/bottom_layout"
+            android:scaleType="fitEnd"
+            app:lottie_fileName="lottie/acb_phone_notification_usage_access_tip_switch.json" />
+
+    </RelativeLayout>
+</FrameLayout>

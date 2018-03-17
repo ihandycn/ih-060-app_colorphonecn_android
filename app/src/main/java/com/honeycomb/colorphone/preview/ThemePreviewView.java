@@ -28,8 +28,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.acb.call.CPSettings;
-import com.acb.call.constant.CPConst;
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
@@ -267,7 +267,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 mBlockAnimationForPageChange = true;
             }
 
-            boolean curTheme = CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
+            boolean curTheme = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
             animationDelay = 0;
             setButtonState(curTheme);
             playButtonAnimation();
@@ -479,7 +479,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     @DebugLog
     private void onThemeApply() {
         saveThemeApplys(mTheme.getId());
-        CPSettings.putInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
+        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
         // notify
         HSBundle bundle = new HSBundle();
         bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
@@ -1004,7 +1004,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private boolean isCurrentTheme() {
-        return CPSettings.getInt(CPConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
+        return ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
     }
 
     @Override

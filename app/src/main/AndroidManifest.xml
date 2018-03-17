@@ -5,19 +5,19 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false"/>
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
-        android:required="false"/>
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.camera.flash"
-        android:required="false"/>
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.camera.front"
-        android:required="false"/>
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.camera.any"
-        android:required="false"/>
+        android:required="false" />
 
     <uses-sdk tools:overrideLibrary="net.appcloudbox.autopilot" />
 
@@ -31,19 +31,19 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-     <!-- Ringtone -->
+    <!-- Ringtone -->
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
     <!-- Recent Apps -->
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-   <!-- Required by Flash light -->
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- Required by Flash light -->
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission
         android:name="android.permission.FLASHLIGHT"
-        android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"/>
+        android:permissionGroup="android.permission-group.HARDWARE_CONTROLS" />
 
     <uses-permission
         android:name="android.permission.WRITE_INTERNAL_STORAGE"
@@ -77,10 +77,10 @@
     <application
         android:name=".ColorPhoneApplication"
         android:allowBackup="true"
-        android:largeHeap="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <!-- required by libAppFramework & libNativeAds -->
@@ -98,8 +98,8 @@
         <activity
             android:name=".activity.ColorPhoneActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN" />-->
@@ -147,16 +147,16 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receiver.ShareReceiver"
-            android:exported="true">
-        </receiver>
+        <receiver
+            android:name=".receiver.ShareReceiver"
+            android:exported="true"></receiver>
 
         <activity
             android:name=".activity.ThemePreviewActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
             android:parentActivityName=".activity.ColorPhoneActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DarkFullScreen" />
         <activity
             android:name=".activity.SettingsActivity"
@@ -192,44 +192,50 @@
             android:taskAffinity=".call"
             android:theme="@style/Theme.AppCompat.Translucent" />
 
-        <activity android:name=".activity.PromoteLockerActivity"
+        <activity
+            android:name=".activity.PromoteLockerActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Translucent" />
 
-        <activity android:name=".activity.ContactsSelectActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/ContactTheme"/>
-
-        <activity android:name=".activity.ContactsEditActivity"
+        <activity
+            android:name=".activity.ContactsSelectActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ContactTheme" />
 
-        <activity android:name=".activity.AvatarVideoActivity"
+        <activity
+            android:name=".activity.ContactsEditActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:theme="@style/ContactTheme" />
+
+        <activity
+            android:name=".activity.AvatarVideoActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:parentActivityName=".activity.ColorPhoneActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DarkFullScreen" />
 
-        <activity android:name=".activity.RateAlertActivity"
+        <activity
+            android:name=".activity.RateAlertActivity"
+            android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:taskAffinity=".RateAlert"
-            android:excludeFromRecents="true"
             android:theme="@style/TransparentCompatDialog" />
 
         <!--Activity for test function-->
         <activity android:name=".activity.TestActivity" />
 
-        <activity android:name=".activity.ShareAlertActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".activity.ShareAlertActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:taskAffinity=".share"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
@@ -239,8 +245,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
         <activity
             android:name=".resultpage.ResultPageActivity"
@@ -248,15 +253,15 @@
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
-            android:theme="@style/Theme.AppCompat.Translucent">
-        </activity>
+            android:theme="@style/Theme.AppCompat.Translucent"></activity>
 
-        <activity android:name=".recentapp.SmartAssistantActivity"
+        <activity
+            android:name=".recentapp.SmartAssistantActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:taskAffinity=".recentapps"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:taskAffinity=".recentapps"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- Facebook全屏 -->
         <activity
@@ -271,6 +276,12 @@
             android:name="com.facebook.ads.AudienceNetworkActivity"
             android:noHistory="true"
             android:taskAffinity=".acb_interstitial_quiet" />
+
+        <activity
+            android:name=".activity.NotificationAccessGuideAlertActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- AdMob全屏和Adx全屏 -->
         <activity
@@ -312,21 +323,22 @@
 
         <receiver android:name=".receiver.UserPresentReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
 
         <receiver android:name=".receiver.PackageAddReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED"/>
-                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
-                <data android:scheme="package"/>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_INSTALL" />
+
+                <data android:scheme="package" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".notification.NotificationActionReceiver"
-            android:exported="true">
-        </receiver>
+        <receiver
+            android:name=".notification.NotificationActionReceiver"
+            android:exported="true"></receiver>
 
         <receiver
             android:name=".PermanentService$PermanentReceiver"
