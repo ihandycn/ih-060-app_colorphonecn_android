@@ -27,7 +27,7 @@
 
     <string name="guide_apply_theme_hint">تم إعداد تصميم شاشة الرد على المكالمات الخاصة بك! استمتع بها!</string>
 
-    <string name="smart_charging">الشحن الذكي</string >
+    <string name="smart_charging">الشحن الذكي</string>
     <string name="smart_charging_hint">راقب حالة الشحن تلقائياً وأوقف الشحن الزائد لمنع تلف البطارية. (قد يحتوي على الإعلانات.)</string>
 
     <string name="color_lockscreen">شاشة توقف ملونة</string>
@@ -80,4 +80,9 @@
 
     <string name="loved_it_desc">شكراً! يرجى التقييم وإضافة كلمات مثل جميل، جيد، مفيد…</string>
     <string name="liked_it_desc">أخبرنا ما لم يعجبك، من فضلك. سنبذل قصارى جهدنا لتحسينه!</string>
+
+    <!--notification access -->
+    <string name="acb_phone_grant_notification_access_title">مكّن الوصول إلى الإخطارات للرد على المكالمات</string>
+    <string name="acb_phone_enable_notification_access_description">مكّن الوصول إلى الإخطارات ليتمكن Color Phone من الرد على المكالمات الواردة. يرجى تمكين الإذن يدوياً.</string>
+    <string name="acb_phone_enable_notification">تمكين الآن</string>
 </resources>

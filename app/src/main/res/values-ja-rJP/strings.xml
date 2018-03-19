@@ -1,88 +1,91 @@
 <resources>
 
 
+    <!--Need Translate-->
+    <string name="app_name">カラーフォン</string>
+    <string name="app_slogan">カラフルなタッチで目立とう</string>
+    <string name="color_phone_disable">カラーフォンを無効にしました</string>
+    <string name="color_phone_enabled">カラーフォンを有効にしました</string>
 
-  <!--Need Translate-->
-  <string name="app_name">カラーフォン</string>
-  <string name="app_slogan">カラフルなタッチで目立とう</string>
-  <string name="color_phone_disable">カラーフォンを無効にしました</string>
-  <string name="color_phone_enabled">カラーフォンを有効にしました</string>
-
-  <string name="settings">設定</string>
-  <string name="feedback">フィードバック</string>
-
-
-  <string name="theme_apply">適用</string>
-  <string name="apply_success">設定に成功</string>
-  <string name="theme_current">現在のテーマ</string>
-  <string name="send_email">Eメールを送信</string>
-  <string name="loading">読み込み中 </string>
-
-  <string name="privacy_policy">プライバシー規約</string>
-  <string name="terms_of_service">利用規約</string>
+    <string name="settings">設定</string>
+    <string name="feedback">フィードバック</string>
 
 
-  <string name="guide_locker_and_call_hint">コールアシスタント＆スマート充電を有効にする：\n不在着信をリマインドする\n充電の詳細を提供\n</string>
-  <string name="guide_enable_all_module">電話アシスタント、スマートチャージ＆スクリーンセーバーを有効にする</string>
+    <string name="theme_apply">適用</string>
+    <string name="apply_success">設定に成功</string>
+    <string name="theme_current">現在のテーマ</string>
+    <string name="send_email">Eメールを送信</string>
+    <string name="loading">読み込み中 </string>
 
-  <string name="acb_outapp_guide_screen_flash_content">携帯電話をよりおしゃれにするために、ユニークな通話インターフェイスをお試しください。広告が含まれる可能性があります。</string>
-  <string name="about">アバウト</string>
-
-  <string name="guide_apply_theme_hint">通話画面のテーマの設定に成功しました！お楽しみください！</string>
+    <string name="privacy_policy">プライバシー規約</string>
+    <string name="terms_of_service">利用規約</string>
 
 
+    <string name="guide_locker_and_call_hint">コールアシスタント＆スマート充電を有効にする：\n不在着信をリマインドする\n充電の詳細を提供\n</string>
+    <string name="guide_enable_all_module">電話アシスタント、スマートチャージ＆スクリーンセーバーを有効にする</string>
 
-  <string name="smart_charging">スマート充電</string>
+    <string name="acb_outapp_guide_screen_flash_content">携帯電話をよりおしゃれにするために、ユニークな通話インターフェイスをお試しください。広告が含まれる可能性があります。</string>
+    <string name="about">アバウト</string>
+
+    <string name="guide_apply_theme_hint">通話画面のテーマの設定に成功しました！お楽しみください！</string>
+
+
+    <string name="smart_charging">スマート充電</string>
     <string name="smart_charging_hint">自動的に充電状態を監視し、過充電を止めてバッテリの損傷を防止します。 （広告を含む場合があります。）</string>
 
-  <string name="color_lockscreen">カラー・スクリーンセーバー</string>
-  <string name="color_lockscreen_hint">さまざまなファンシーでクールなテーマを使ってスクリーンセーバーを輝かせましょう
+    <string name="color_lockscreen">カラー・スクリーンセーバー</string>
+    <string name="color_lockscreen_hint">さまざまなファンシーでクールなテーマを使ってスクリーンセーバーを輝かせましょう
   （広告が含まれている可能性があります）</string>
-  <string name="sms_assistant">SMSアシスタント</string>
-  <string name="sms_assistant_hint">SMSアシスタントは新しいメッセージの着信をお知らせします（広告が含まれている可能性があります）</string>
-  <string name="call_assistant_hint">SMSアシスタントは不在着信をお知らせします（広告が含まれている可能性があります）</string>
+    <string name="sms_assistant">SMSアシスタント</string>
+    <string name="sms_assistant_hint">SMSアシスタントは新しいメッセージの着信をお知らせします（広告が含まれている可能性があります）</string>
+    <string name="call_assistant_hint">SMSアシスタントは不在着信をお知らせします（広告が含まれている可能性があります）</string>
 
-  <string name="theme_set_for_all">すべてを設定</string>
-  <string name="theme_set_for_one">特定の人に設定</string>
-  <string name="contact_select_hint">選択した連絡先に「%1$s」テーマを適用する</string>
-  <string name="contact_theme">連絡のテーマ</string>
+    <string name="theme_set_for_all">すべてを設定</string>
+    <string name="theme_set_for_one">特定の人に設定</string>
+    <string name="contact_select_hint">選択した連絡先に「%1$s」テーマを適用する</string>
+    <string name="contact_theme">連絡のテーマ</string>
 
-  <string name="edit">編集</string>
-  <string name="cancel">キャンセル</string>
-  <string name="delete">削除</string>
-  <string name="select_contacts">連絡先を選択</string>
+    <string name="edit">編集</string>
+    <string name="cancel">キャンセル</string>
+    <string name="delete">削除</string>
+    <string name="select_contacts">連絡先を選択</string>
 
-  <string name="boost_plus_free_up">空きスペース</string>
-  <string name="boost_plus_exiting">終了中</string>
+    <string name="boost_plus_free_up">空きスペース</string>
+    <string name="boost_plus_exiting">終了中</string>
 
-  <string name="boost_tip_optimal">お使いの電話は最適です！</string>
-  <string name="boost_notification_low_ram_btn">ブースト</string>
-  <string name="boost_title">ブースト</string>
+    <string name="boost_tip_optimal">お使いの電話は最適です！</string>
+    <string name="boost_notification_low_ram_btn">ブースト</string>
+    <string name="boost_title">ブースト</string>
 
-  <string name="settings_notification_settings">通知設定</string>
-  <string name="settings_notification_boost">ブースト通知</string>
-  <string name="settings_notification_boost_sub">メモリ使用量が多いときにリマインダーを取得する</string>
+    <string name="settings_notification_settings">通知設定</string>
+    <string name="settings_notification_boost">ブースト通知</string>
+    <string name="settings_notification_boost_sub">メモリ使用量が多いときにリマインダーを取得する</string>
 
-  <string name="may_contain_ads">広告を含む場合があります。</string>
+    <string name="may_contain_ads">広告を含む場合があります。</string>
 
-  <string name="guide_first_page_title">機能と権限を有効にしてください:\ 不在着信をリマインドする\n詳細な充電状況を提供。</string>
+    <string name="guide_first_page_title">機能と権限を有効にしてください:\ 不在着信をリマインドする\n詳細な充電状況を提供。</string>
 
-  <string name="avatar_content">自分のアバターをすぐに作ってください</string>
-  <string name="action_back">戻る</string>
-  <string name="action_install">インストール</string>
+    <string name="avatar_content">自分のアバターをすぐに作ってください</string>
+    <string name="action_back">戻る</string>
+    <string name="action_install">インストール</string>
 
-  <!--Ringtone-->
-  <string name="ringtone_hint_after_apply">テーマと着信音の設定に成功</string>
-  <string name="ringtone_hint_before_apply">テーマを設定して着信音を楽しむ</string>
+    <!--Ringtone-->
+    <string name="ringtone_hint_after_apply">テーマと着信音の設定に成功</string>
+    <string name="ringtone_hint_before_apply">テーマを設定して着信音を楽しむ</string>
 
-  <string name="five_star_hint_text">感想をお聞かせください。</string>
-  <string name="five_star_positive_text">提出</string>
-  <string name="five_star_one_text">嫌い</string>
-  <string name="five_star_two_text">気に入らなかった</string>
-  <string name="five_star_three_text">まぁまぁ</string>
-  <string name="five_star_four_text">好き</string>
-  <string name="five_star_five_text">大好き</string>
+    <string name="five_star_hint_text">感想をお聞かせください。</string>
+    <string name="five_star_positive_text">提出</string>
+    <string name="five_star_one_text">嫌い</string>
+    <string name="five_star_two_text">気に入らなかった</string>
+    <string name="five_star_three_text">まぁまぁ</string>
+    <string name="five_star_four_text">好き</string>
+    <string name="five_star_five_text">大好き</string>
 
-  <string name="loved_it_desc">ありがとう！すばらしい、便利、おしゃれ…などの言葉で評価してください。</string>
-  <string name="liked_it_desc">気に入らないことを教えてください。改善するために全力を尽くします！</string>
+    <string name="loved_it_desc">ありがとう！すばらしい、便利、おしゃれ…などの言葉で評価してください。</string>
+    <string name="liked_it_desc">気に入らないことを教えてください。改善するために全力を尽くします！</string>
+
+    <!--notification access -->
+    <string name="acb_phone_grant_notification_access_title">通話に応答する通知アクセスを有効にする</string>
+    <string name="acb_phone_enable_notification_access_description">着信コールに応答するためにColor Phoneの通知アクセスを許可します。手動で有効にしてください。</string>
+    <string name="acb_phone_enable_notification">今すぐ有効にする</string>
 </resources>

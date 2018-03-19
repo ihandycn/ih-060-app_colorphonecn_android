@@ -1,88 +1,92 @@
 <resources>
 
 
+    <!--Need Translate-->
+    <string name="app_name">Color Phone</string>
+    <string name="app_slogan">Ваша индивидуальность в цветных акцентах</string>
+    <string name="color_phone_disable">Color Phone выкл</string>
+    <string name="color_phone_enabled">Color Phone вкл</string>
 
-  <!--Need Translate-->
-  <string name="app_name">Color Phone</string>
-  <string name="app_slogan">Ваша индивидуальность в цветных акцентах</string>
-  <string name="color_phone_disable">Color Phone выкл</string>
-  <string name="color_phone_enabled">Color Phone вкл</string>
-
-  <string name="settings">Настройки</string>
-  <string name="feedback">Отзыв</string>
-
-
-  <string name="theme_apply">Применить</string>
-  <string name="apply_success">Успешно установлено</string>
-  <string name="theme_current">Текущая тема</string>
-  <string name="send_email">Отправить письмо</string>
-  <string name="loading">Загрузка </string>
-
-  <string name="privacy_policy">Политика конфиденциальности</string>
-  <string name="terms_of_service">Условия использования</string>
+    <string name="settings">Настройки</string>
+    <string name="feedback">Отзыв</string>
 
 
-  <string name="guide_locker_and_call_hint">Включите телефонный помощник и интеллектуальную зарядку, чтобы:\n Получать напоминания о пропущенных вызовах\n Просматривать подробные сведения о состоянии зарядки</string>
-  <string name="guide_enable_all_module">Включить телефонный помощник, интеллектуальную зарядку и экранную заставку</string>
+    <string name="theme_apply">Применить</string>
+    <string name="apply_success">Успешно установлено</string>
+    <string name="theme_current">Текущая тема</string>
+    <string name="send_email">Отправить письмо</string>
+    <string name="loading">Загрузка </string>
 
-  <string name="acb_outapp_guide_screen_flash_content">Сделайте ваш смартфон современнее с помощью уникального интерфейса звонков. Может содержать рекламу.</string>
-  <string name="about">О приложении</string>
-
-  <string name="guide_apply_theme_hint">Тема для экрана вызова успешно установлена! Наслаждайтесь!</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="terms_of_service">Условия использования</string>
 
 
+    <string name="guide_locker_and_call_hint">Включите телефонный помощник и интеллектуальную зарядку, чтобы:\n Получать напоминания о пропущенных вызовах\n Просматривать подробные сведения о состоянии зарядки</string>
+    <string name="guide_enable_all_module">Включить телефонный помощник, интеллектуальную зарядку и экранную заставку</string>
 
-  <string name="smart_charging">Интеллектуальная зарядка</string>
+    <string name="acb_outapp_guide_screen_flash_content">Сделайте ваш смартфон современнее с помощью уникального интерфейса звонков. Может содержать рекламу.</string>
+    <string name="about">О приложении</string>
+
+    <string name="guide_apply_theme_hint">Тема для экрана вызова успешно установлена! Наслаждайтесь!</string>
+
+
+    <string name="smart_charging">Интеллектуальная зарядка</string>
     <string name="smart_charging_hint">Автоматическое отслеживание зарядки позволяет избежать чрезмерного заряда и повреждения аккумулятора. (Может содержать рекламу.)</string>
 
-  <string name="color_lockscreen">Цветная экранная заставка</string>
-  <string name="color_lockscreen_hint">Украсьте экранную заставку с помощью потрясающих тем (может содержать рекламу)</string>
-  <string name="sms_assistant">СМС-помощник</string>
-  <string name="sms_assistant_hint">СМС-помощник будет напоминать вам о новых сообщениях (может содержать рекламу)</string>
-  <string name="call_assistant_hint">Телефонный помощник будет напоминать вам о пропущенных вызовах (может содержать рекламу)</string>
+    <string name="color_lockscreen">Цветная экранная заставка</string>
+    <string name="color_lockscreen_hint">Украсьте экранную заставку с помощью потрясающих тем (может содержать рекламу)</string>
+    <string name="sms_assistant">СМС-помощник</string>
+    <string name="sms_assistant_hint">СМС-помощник будет напоминать вам о новых сообщениях (может содержать рекламу)</string>
+    <string name="call_assistant_hint">Телефонный помощник будет напоминать вам о пропущенных вызовах (может содержать рекламу)</string>
 
-  <string name="theme_set_for_all">УСТАНОВИТЬ ДЛЯ ВСЕХ</string>
-  <string name="theme_set_for_one">Установить для некоторых</string>
-  <string name="contact_select_hint">Применить тему «%1$s» для выбранных контактов</string>
-  <string name="contact_theme">Тема контакта</string>
+    <string name="theme_set_for_all">УСТАНОВИТЬ ДЛЯ ВСЕХ</string>
+    <string name="theme_set_for_one">Установить для некоторых</string>
+    <string name="contact_select_hint">Применить тему «%1$s» для выбранных контактов</string>
+    <string name="contact_theme">Тема контакта</string>
 
-  <string name="edit">Изменить</string>
-  <string name="cancel">Отмена</string>
-  <string name="delete">УДАЛИТЬ</string>
-  <string name="select_contacts">Выбрать контакты</string>
+    <string name="edit">Изменить</string>
+    <string name="cancel">Отмена</string>
+    <string name="delete">УДАЛИТЬ</string>
+    <string name="select_contacts">Выбрать контакты</string>
 
-  <string name="boost_plus_free_up">освобождено</string>
-  <string name="boost_plus_exiting">Завершение работы</string>
+    <string name="boost_plus_free_up">освобождено</string>
+    <string name="boost_plus_exiting">Завершение работы</string>
 
-  <string name="boost_tip_optimal">Устройство уже оптимизировано!</string>
-  <string name="boost_notification_low_ram_btn">Ускорени</string>
-  <string name="boost_title">Ускорени</string>
+    <string name="boost_tip_optimal">Устройство уже оптимизировано!</string>
+    <string name="boost_notification_low_ram_btn">Ускорени</string>
+    <string name="boost_title">Ускорени</string>
 
-  <string name="settings_notification_settings">Параметры уведомлений</string>
-  <string name="settings_notification_boost">Уведомл. об ускорении</string>
-  <string name="settings_notification_boost_sub">Уведомление о чрезмерном использовании памяти</string>
+    <string name="settings_notification_settings">Параметры уведомлений</string>
+    <string name="settings_notification_boost">Уведомл. об ускорении</string>
+    <string name="settings_notification_boost_sub">Уведомление о чрезмерном использовании памяти</string>
 
-  <string name="may_contain_ads">Может содержать рекламу.</string>
+    <string name="may_contain_ads">Может содержать рекламу.</string>
 
 
-  <string name="guide_first_page_title">Включите функции и предоставьте разрешения, чтобы:\ Получать напоминания о пропущенных вызовах\nПолучать подробную информацию о состоянии зарядки.</string>
+    <string name="guide_first_page_title">Включите функции и предоставьте разрешения, чтобы:\ Получать напоминания о пропущенных вызовах\nПолучать подробную информацию о состоянии зарядки.</string>
 
-  <string name="avatar_content">Создайте аватар прямо сейчас</string>
-  <string name="action_back">НАЗАД</string>
-  <string name="action_install">УСТАНОВИТЬ</string>
+    <string name="avatar_content">Создайте аватар прямо сейчас</string>
+    <string name="action_back">НАЗАД</string>
+    <string name="action_install">УСТАНОВИТЬ</string>
 
-  <!--Ringtone-->
-  <string name="ringtone_hint_after_apply">Тема и рингтон успешно установлены</string>
-  <string name="ringtone_hint_before_apply">Установите тему, чтобы получить рингтон</string>
+    <!--Ringtone-->
+    <string name="ringtone_hint_after_apply">Тема и рингтон успешно установлены</string>
+    <string name="ringtone_hint_before_apply">Установите тему, чтобы получить рингтон</string>
 
-  <string name="five_star_hint_text">Вам понравилось наше приложение?</string>
-  <string name="five_star_five_text">Очень понравилось</string>
-  <string name="five_star_four_text">Понравилось</string>
-  <string name="five_star_three_text">Нормально</string>
-  <string name="five_star_two_text">Не понравилось</string>
-  <string name="five_star_one_text">Совсем не понравилось</string>
-  <string name="five_star_positive_text">Отправить</string>
+    <string name="five_star_hint_text">Вам понравилось наше приложение?</string>
+    <string name="five_star_five_text">Очень понравилось</string>
+    <string name="five_star_four_text">Понравилось</string>
+    <string name="five_star_three_text">Нормально</string>
+    <string name="five_star_two_text">Не понравилось</string>
+    <string name="five_star_one_text">Совсем не понравилось</string>
+    <string name="five_star_positive_text">Отправить</string>
 
-  <string name="loved_it_desc">Спасибо! Оставьте отзыв со словами: хорошее, полезное, стильное…</string>
-  <string name="liked_it_desc">Расскажите, что вам не понравилось. Мы приложим все усилия, чтобы исправить это!</string>
+    <string name="loved_it_desc">Спасибо! Оставьте отзыв со словами: хорошее, полезное, стильное…</string>
+    <string name="liked_it_desc">Расскажите, что вам не понравилось. Мы приложим все усилия, чтобы исправить это!</string>
+
+
+    <!--notification access -->
+    <string name="acb_phone_grant_notification_access_title">Чтобы отвечать на звонки, предоставьте доступ к уведомлениям</string>
+    <string name="acb_phone_enable_notification_access_description">Предоставьте приложению Color Phone доступ к уведомлениям, чтобы отвечать на входящие звонки. Предоставить доступ нужно вручную.</string>
+    <string name="acb_phone_enable_notification">Предоставить</string>
 </resources>

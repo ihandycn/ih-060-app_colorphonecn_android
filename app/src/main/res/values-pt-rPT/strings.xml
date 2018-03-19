@@ -1,88 +1,91 @@
 <resources>
 
 
+    <!--Need Translate-->
+    <string name="app_name">Chamadas coloridas</string>
+    <string name="app_slogan">Dê nas vistas com um toque de cor</string>
+    <string name="color_phone_disable">Chamadas coloridas desativadas</string>
+    <string name="color_phone_enabled">Chamadas coloridas ativadas</string>
 
-  <!--Need Translate-->
-  <string name="app_name">Chamadas coloridas</string>
-  <string name="app_slogan">Dê nas vistas com um toque de cor</string>
-  <string name="color_phone_disable">Chamadas coloridas desativadas</string>
-  <string name="color_phone_enabled">Chamadas coloridas ativadas</string>
-
-  <string name="settings">Definições</string>
-  <string name="feedback">Opinião</string>
-
-
-  <string name="theme_apply">Aplicar</string>
-  <string name="apply_success">Definição com sucesso</string>
-  <string name="theme_current">Tema atual</string>
-  <string name="send_email">Enviar e-mail</string>
-  <string name="loading">A carregar </string>
-
-  <string name="privacy_policy">Política de Privacidade</string>
-  <string name="terms_of_service">Termos de serviço</string>
+    <string name="settings">Definições</string>
+    <string name="feedback">Opinião</string>
 
 
-  <string name="guide_locker_and_call_hint">Ative o Assistente de Chamadas e o Carregamento Inteligente para:\n Lembrá-lo das chamadas perdidas\n Fornecer detalhadamente o status do carregamento</string>
-  <string name="guide_enable_all_module">Ative o Assistente do Telefone, o Carregamento Inteligente e o Protetor de Tela</string>
+    <string name="theme_apply">Aplicar</string>
+    <string name="apply_success">Definição com sucesso</string>
+    <string name="theme_current">Tema atual</string>
+    <string name="send_email">Enviar e-mail</string>
+    <string name="loading">A carregar </string>
 
-  <string name="acb_outapp_guide_screen_flash_content">Experimente a interface de chamadas única para dar mais estilo
+    <string name="privacy_policy">Política de Privacidade</string>
+    <string name="terms_of_service">Termos de serviço</string>
+
+
+    <string name="guide_locker_and_call_hint">Ative o Assistente de Chamadas e o Carregamento Inteligente para:\n Lembrá-lo das chamadas perdidas\n Fornecer detalhadamente o status do carregamento</string>
+    <string name="guide_enable_all_module">Ative o Assistente do Telefone, o Carregamento Inteligente e o Protetor de Tela</string>
+
+    <string name="acb_outapp_guide_screen_flash_content">Experimente a interface de chamadas única para dar mais estilo
         ao seu telefone. Pode conter anúncios.</string>
-  <string name="about">Sobre</string>
+    <string name="about">Sobre</string>
 
-  <string name="guide_apply_theme_hint">O tema da tela de quem está ligando foi definido com sucesso!</string>
+    <string name="guide_apply_theme_hint">O tema da tela de quem está ligando foi definido com sucesso!</string>
 
 
+    <string name="smart_charging">Carregamento inteligente</string>
+    <string name="smart_charging_hint">Monitorize automaticamente o estado de carga e pare os carregamentos exagerados para impedir danos à bateria. (Pode conter anúncios.)</string>
 
-  <string name="smart_charging">Carregamento inteligente</string>
-  <string name="smart_charging_hint">Monitorize automaticamente o estado de carga e pare os carregamentos exagerados para impedir danos à bateria. (Pode conter anúncios.)</string>
+    <string name="color_lockscreen">Protetor de Tela Colorido</string>
+    <string name="color_lockscreen_hint">Deixe seu protetor de tela mais bonito com vários temas bacanas e modernos (Pode conter anúncios)</string>
+    <string name="sms_assistant">Assistente de SMS</string>
+    <string name="sms_assistant_hint">O Assistente de SMS lembrará você das mensagens novas (Pode conter anúncios)</string>
+    <string name="call_assistant_hint">O Assistente de Chamadas lembrará você das chamadas perdidas (Pode conter anúncios)</string>
 
-  <string name="color_lockscreen">Protetor de Tela Colorido</string>
-  <string name="color_lockscreen_hint">Deixe seu protetor de tela mais bonito com vários temas bacanas e modernos (Pode conter anúncios)</string>
-  <string name="sms_assistant">Assistente de SMS</string>
-  <string name="sms_assistant_hint">O Assistente de SMS lembrará você das mensagens novas (Pode conter anúncios)</string>
-  <string name="call_assistant_hint">O Assistente de Chamadas lembrará você das chamadas perdidas (Pode conter anúncios)</string>
+    <string name="theme_set_for_all">DEFINIR PARA TODOS</string>
+    <string name="theme_set_for_one">Definir para uma pessoa</string>
+    <string name="contact_select_hint">Aplicar tema "%1$s" aos contatos selecionados</string>
+    <string name="contact_theme">Tema dos contatos</string>
 
-  <string name="theme_set_for_all">DEFINIR PARA TODOS</string>
-  <string name="theme_set_for_one">Definir para uma pessoa</string>
-  <string name="contact_select_hint">Aplicar tema "%1$s" aos contatos selecionados</string>
-  <string name="contact_theme">Tema dos contatos</string>
+    <string name="edit">Editar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">APAGAR</string>
+    <string name="select_contacts">Selecione os contatos</string>
 
-  <string name="edit">Editar</string>
-  <string name="cancel">Cancelar</string>
-  <string name="delete">APAGAR</string>
-  <string name="select_contacts">Selecione os contatos</string>
+    <string name="boost_plus_free_up">Libertado</string>
+    <string name="boost_plus_exiting">A sair</string>
 
-  <string name="boost_plus_free_up">Libertado</string>
-  <string name="boost_plus_exiting">A sair</string>
+    <string name="boost_tip_optimal">Dispositivo optimamente instalado!</string>
+    <string name="boost_notification_low_ram_btn">Impulsionar</string>
+    <string name="boost_title">Impulsionar</string>
 
-  <string name="boost_tip_optimal">Dispositivo optimamente instalado!</string>
-  <string name="boost_notification_low_ram_btn">Impulsionar</string>
-  <string name="boost_title">Impulsionar</string>
+    <string name="settings_notification_settings">Configurações de notificação</string>
+    <string name="settings_notification_boost">Notif. de aceleração</string>
+    <string name="settings_notification_boost_sub">Receba lembretes sobre o uso de muita memória</string>
 
-  <string name="settings_notification_settings">Configurações de notificação</string>
-  <string name="settings_notification_boost">Notif. de aceleração</string>
-  <string name="settings_notification_boost_sub">Receba lembretes sobre o uso de muita memória</string>
+    <string name="may_contain_ads">Pode conter anúncios.</string>
 
-  <string name="may_contain_ads">Pode conter anúncios.</string>
+    <string name="guide_first_page_title">Por favor, ative os recursos e as permissões:\ Lembra você das chamadas perdidas\nFornece status detalhado de carregamento.</string>
 
-  <string name="guide_first_page_title">Por favor, ative os recursos e as permissões:\ Lembra você das chamadas perdidas\nFornece status detalhado de carregamento.</string>
+    <string name="avatar_content">Crie seu avatar agora mesmo</string>
+    <string name="action_back">VOLTAR</string>
+    <string name="action_install">INSTALAR</string>
 
-  <string name="avatar_content">Crie seu avatar agora mesmo</string>
-  <string name="action_back">VOLTAR</string>
-  <string name="action_install">INSTALAR</string>
+    <!--Ringtone-->
+    <string name="ringtone_hint_after_apply">Definição de tema e toque com sucesso</string>
+    <string name="ringtone_hint_before_apply">Defina o tema para aproveitar o toque</string>
 
-  <!--Ringtone-->
-  <string name="ringtone_hint_after_apply">Definição de tema e toque com sucesso</string>
-  <string name="ringtone_hint_before_apply">Defina o tema para aproveitar o toque</string>
+    <string name="five_star_hint_text">Como foi a sua experiência connosco?</string>
+    <string name="five_star_five_text">Adorei</string>
+    <string name="five_star_four_text">Gostei</string>
+    <string name="five_star_three_text">Foi bom</string>
+    <string name="five_star_two_text">Não gostei</string>
+    <string name="five_star_one_text">Foi péssimo</string>
+    <string name="five_star_positive_text">Enviar</string>
 
-  <string name="five_star_hint_text">Como foi a sua experiência connosco?</string>
-  <string name="five_star_five_text">Adorei</string>
-  <string name="five_star_four_text">Gostei</string>
-  <string name="five_star_three_text">Foi bom</string>
-  <string name="five_star_two_text">Não gostei</string>
-  <string name="five_star_one_text">Foi péssimo</string>
-  <string name="five_star_positive_text">Enviar</string>
+    <string name="loved_it_desc">Obrigado! Por favor, avalie com palavras como Legal, Útil, Estiloso…</string>
+    <string name="liked_it_desc">Conte-nos o que você não gosta. Vamos tentar o nosso melhor para melhorá-lo!</string>
 
-  <string name="loved_it_desc">Obrigado! Por favor, avalie com palavras como Legal, Útil, Estiloso…</string>
-  <string name="liked_it_desc">Conte-nos o que você não gosta. Vamos tentar o nosso melhor para melhorá-lo!</string>
+    <!--notification access -->
+    <string name="acb_phone_grant_notification_access_title">Ative o acesso às notificações para atender chamadas</string>
+    <string name="acb_phone_enable_notification_access_description">Conceda acesso às notificações ao Color Phone para atender chamadas. Ative manualmente.</string>
+    <string name="acb_phone_enable_notification">Ative agora</string>
 </resources>

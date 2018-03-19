@@ -1,87 +1,91 @@
 <resources>
 
 
+    <!--Need Translate-->
+    <string name="app_name">컬러 전화</string>
+    <string name="app_slogan">화려한 터치로 표시</string>
+    <string name="color_phone_disable">컬러 전화 비활성화됨</string>
+    <string name="color_phone_enabled">컬러 전화 활성화됨</string>
 
-  <!--Need Translate-->
-  <string name="app_name">컬러 전화</string>
-  <string name="app_slogan">화려한 터치로 표시</string>
-  <string name="color_phone_disable">컬러 전화 비활성화됨</string>
-  <string name="color_phone_enabled">컬러 전화 활성화됨</string>
-
-  <string name="settings">설정</string>
-  <string name="feedback">피드백</string>
-
-
-  <string name="theme_apply">적용</string>
-  <string name="apply_success">설정 성공</string>
-  <string name="theme_current">현재 테마</string>
-  <string name="send_email">이메일 전송</string>
-  <string name="loading">불러오는 중 </string>
-
-  <string name="privacy_policy">개인 정보 보호 정책</string>
-  <string name="terms_of_service">서비스 약관</string>
+    <string name="settings">설정</string>
+    <string name="feedback">피드백</string>
 
 
-  <string name="guide_locker_and_call_hint">통화 도우미와 스마트 충전 활성화:\n부재중 전화 확인\n자세한 충전 상태 제공</string>
-  <string name="guide_enable_all_module">휴대폰 보조 기능과 스마트 충전 및 화면 보호기 활성화</string>
+    <string name="theme_apply">적용</string>
+    <string name="apply_success">설정 성공</string>
+    <string name="theme_current">현재 테마</string>
+    <string name="send_email">이메일 전송</string>
+    <string name="loading">불러오는 중 </string>
 
-  <string name="acb_outapp_guide_screen_flash_content">특별한 통화 인터페이스를 사용하여 휴대폰을 패셔너블하게 만드세요. 광고가 포함될 수 있습니다.</string>
-  <string name="about">정보</string>
-
-  <string name="guide_apply_theme_hint">발신자 화면 테마를 성공적으로 설정했습니다! 재밌게 사용하세요!</string>
+    <string name="privacy_policy">개인 정보 보호 정책</string>
+    <string name="terms_of_service">서비스 약관</string>
 
 
+    <string name="guide_locker_and_call_hint">통화 도우미와 스마트 충전 활성화:\n부재중 전화 확인\n자세한 충전 상태 제공</string>
+    <string name="guide_enable_all_module">휴대폰 보조 기능과 스마트 충전 및 화면 보호기 활성화</string>
 
-  <string name="smart_charging">스마트 충전</string>
+    <string name="acb_outapp_guide_screen_flash_content">특별한 통화 인터페이스를 사용하여 휴대폰을 패셔너블하게 만드세요. 광고가 포함될 수 있습니다.</string>
+    <string name="about">정보</string>
+
+    <string name="guide_apply_theme_hint">발신자 화면 테마를 성공적으로 설정했습니다! 재밌게 사용하세요!</string>
+
+
+    <string name="smart_charging">스마트 충전</string>
     <string name="smart_charging_hint">자동으로 충전 상태를 모니터링하고 과충전을 정지시켜서 배터리 손상을 막습니다. (광고를 포함할 수 있습니다.)</string>
 
-  <string name="color_lockscreen">칼라 화면보호기</string>
-  <string name="color_lockscreen_hint">다양하고 멋진 테마를 활용하여 화면보호기를 더욱 화려하게 만드세요(광고 포함)</string>
-  <string name="sms_assistant">SMS 보조 기능</string>
-  <string name="sms_assistant_hint">SMS 보조 기능이 새 메시지를 알려드립니다(광고 포함)</string>
-  <string name="call_assistant_hint">통화 보조 기능이 부재중 통화를 알려드립니다(광고 포함)</string>
+    <string name="color_lockscreen">칼라 화면보호기</string>
+    <string name="color_lockscreen_hint">다양하고 멋진 테마를 활용하여 화면보호기를 더욱 화려하게 만드세요(광고 포함)</string>
+    <string name="sms_assistant">SMS 보조 기능</string>
+    <string name="sms_assistant_hint">SMS 보조 기능이 새 메시지를 알려드립니다(광고 포함)</string>
+    <string name="call_assistant_hint">통화 보조 기능이 부재중 통화를 알려드립니다(광고 포함)</string>
 
-  <string name="theme_set_for_all">모두에 대해 설정</string>
-  <string name="theme_set_for_one">일부에 대해 설정</string>
-  <string name="contact_select_hint">선택한 연락처에 \'%1$s\' 테마를 적용</string>
-  <string name="contact_theme">연락처 테마</string>
+    <string name="theme_set_for_all">모두에 대해 설정</string>
+    <string name="theme_set_for_one">일부에 대해 설정</string>
+    <string name="contact_select_hint">선택한 연락처에 \'%1$s\' 테마를 적용</string>
+    <string name="contact_theme">연락처 테마</string>
 
-  <string name="edit">편집</string>
-  <string name="cancel">취소</string>
-  <string name="delete">삭제</string>
-  <string name="select_contacts">연락처 선택</string>
+    <string name="edit">편집</string>
+    <string name="cancel">취소</string>
+    <string name="delete">삭제</string>
+    <string name="select_contacts">연락처 선택</string>
 
-  <string name="boost_plus_free_up">청소됨</string>
-  <string name="boost_plus_exiting">나가는 중</string>
+    <string name="boost_plus_free_up">청소됨</string>
+    <string name="boost_plus_exiting">나가는 중</string>
 
-  <string name="boost_tip_optimal">핸드폰이 최적화되었습니다!</string>
-  <string name="boost_notification_low_ram_btn">부스트</string>
-  <string name="boost_title">부스트</string>
+    <string name="boost_tip_optimal">핸드폰이 최적화되었습니다!</string>
+    <string name="boost_notification_low_ram_btn">부스트</string>
+    <string name="boost_title">부스트</string>
 
-  <string name="settings_notification_settings">알림 설정</string>
-  <string name="settings_notification_boost">부스트 알림</string>
-  <string name="settings_notification_boost_sub">메모리 사용량이 높을 때 알림 받기</string>
+    <string name="settings_notification_settings">알림 설정</string>
+    <string name="settings_notification_boost">부스트 알림</string>
+    <string name="settings_notification_boost_sub">메모리 사용량이 높을 때 알림 받기</string>
 
-  <string name="may_contain_ads">광고를 포함할 수 있습니다.</string>
+    <string name="may_contain_ads">광고를 포함할 수 있습니다.</string>
 
-  <string name="guide_first_page_title">기능 및 권한을 활성화하세요.\ 부재중 통화를 알려드립니다\n 상세한 충전 상태를 제공합니다.</string>
+    <string name="guide_first_page_title">기능 및 권한을 활성화하세요.\ 부재중 통화를 알려드립니다\n 상세한 충전 상태를 제공합니다.</string>
 
-  <string name="avatar_content">지금 아바타를 만드세요</string>
-  <string name="action_back">뒤로</string>
-  <string name="action_install">설치</string>
+    <string name="avatar_content">지금 아바타를 만드세요</string>
+    <string name="action_back">뒤로</string>
+    <string name="action_install">설치</string>
 
-  <!--Ringtone-->
-  <string name="ringtone_hint_after_apply">테마 및 벨소리 설정 성공</string>
-  <string name="ringtone_hint_before_apply">테마를 설정하여 벨소리를 받으세요</string>
+    <!--Ringtone-->
+    <string name="ringtone_hint_after_apply">테마 및 벨소리 설정 성공</string>
+    <string name="ringtone_hint_before_apply">테마를 설정하여 벨소리를 받으세요</string>
 
-  <string name="five_star_hint_text">저희와의 경험이 어떠셨나요?</string>
-  <string name="five_star_positive_text">제출</string>
-  <string name="five_star_one_text">싫었다</string>
-  <string name="five_star_two_text">마음에 안 들었다</string>
-  <string name="five_star_three_text">괜찮았다</string>
-  <string name="five_star_four_text">마음에 들었다</string>
-  <string name="five_star_five_text">아주 좋았다</string>
+    <string name="five_star_hint_text">저희와의 경험이 어떠셨나요?</string>
+    <string name="five_star_positive_text">제출</string>
+    <string name="five_star_one_text">싫었다</string>
+    <string name="five_star_two_text">마음에 안 들었다</string>
+    <string name="five_star_three_text">괜찮았다</string>
+    <string name="five_star_four_text">마음에 들었다</string>
+    <string name="five_star_five_text">아주 좋았다</string>
 
-  <string name="loved_it_desc">감사합니다! 멋짐, 유용함, 스타일 좋음 등으로 평가해주세요.</string>
-  <string name="liked_it_desc">맘에 들지 않는 점을 말씀해주세요. 최선을 다해 개선하겠습니다!</string>
+    <string name="loved_it_desc">감사합니다! 멋짐, 유용함, 스타일 좋음 등으로 평가해주세요.</string>
+    <string name="liked_it_desc">맘에 들지 않는 점을 말씀해주세요. 최선을 다해 개선하겠습니다!</string>
+
+    <!--notification access -->
+    <string name="acb_phone_grant_notification_access_title">응답 통화에 알림 액세스 활성화</string>
+    <string name="acb_phone_enable_notification_access_description">Color Phone이 발신 전화에 응답하도록 알림 액세스를 승인해주세요.
+  수동으로 활성화해주세요.</string>
+    <string name="acb_phone_enable_notification">지금 활성화</string>
 </resources>

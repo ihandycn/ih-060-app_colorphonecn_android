@@ -1,87 +1,90 @@
 <resources>
 
 
+    <!--Need Translate-->
+    <string name="app_name">रंगीन फोन</string>
+    <string name="app_slogan">रंगीन टच के साथ अलग दिखें</string>
+    <string name="color_phone_disable">रंगीन फोन अक्षम</string>
+    <string name="color_phone_enabled">रंगीन फोन सक्षम</string>
 
-  <!--Need Translate-->
-  <string name="app_name">रंगीन फोन</string>
-  <string name="app_slogan">रंगीन टच के साथ अलग दिखें</string>
-  <string name="color_phone_disable">रंगीन फोन अक्षम</string>
-  <string name="color_phone_enabled">रंगीन फोन सक्षम</string>
-
-  <string name="settings">सेटिंग्स</string>
-  <string name="feedback">प्रतिक्रिया</string>
-
-
-  <string name="theme_apply">लागू करें</string>
-  <string name="apply_success">सफलतापूर्वक सेट</string>
-  <string name="theme_current">वर्तमान थीम</string>
-  <string name="send_email">ईमेल भेजें</string>
-  <string name="loading">लोड हो रहा है </string>
-
-  <string name="privacy_policy">गोपनीयता नीति</string>
-  <string name="terms_of_service">सेवा की शर्तें</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="feedback">प्रतिक्रिया</string>
 
 
-  <string name="guide_locker_and_call_hint">कॉल सहायक एवं स्‍मार्ट चार्जिंग सक्षम करने के लिए:\n आपको छूटी हुई कॉल की याद दिलाए\nविस्‍तृत चार्जिंग स्‍तर उपलब्‍ध करवाए</string>
-  <string name="guide_enable_all_module">फोन सहायक, स्‍मार्ट चार्जिंग एवं स्‍क्रीनसेवर सक्षम करें</string>
+    <string name="theme_apply">लागू करें</string>
+    <string name="apply_success">सफलतापूर्वक सेट</string>
+    <string name="theme_current">वर्तमान थीम</string>
+    <string name="send_email">ईमेल भेजें</string>
+    <string name="loading">लोड हो रहा है </string>
 
-  <string name="acb_outapp_guide_screen_flash_content">अपने फोन को और फैशनेबल बनाने के लिए यूनिक कॉल इंटफेस ट्राई करें। इसमें विज्ञापन हो सकते हैं।</string>
-  <string name="about">परिचय</string>
-
-  <string name="guide_apply_theme_hint">कॉलर स्‍क्रीन पर आपकी थीम सफलतापूर्वक सेट हो चुकी है! इसका आनंद लें!</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="terms_of_service">सेवा की शर्तें</string>
 
 
+    <string name="guide_locker_and_call_hint">कॉल सहायक एवं स्‍मार्ट चार्जिंग सक्षम करने के लिए:\n आपको छूटी हुई कॉल की याद दिलाए\nविस्‍तृत चार्जिंग स्‍तर उपलब्‍ध करवाए</string>
+    <string name="guide_enable_all_module">फोन सहायक, स्‍मार्ट चार्जिंग एवं स्‍क्रीनसेवर सक्षम करें</string>
 
-  <string name="smart_charging">स्मार्ट चार्जिंग</string>
+    <string name="acb_outapp_guide_screen_flash_content">अपने फोन को और फैशनेबल बनाने के लिए यूनिक कॉल इंटफेस ट्राई करें। इसमें विज्ञापन हो सकते हैं।</string>
+    <string name="about">परिचय</string>
+
+    <string name="guide_apply_theme_hint">कॉलर स्‍क्रीन पर आपकी थीम सफलतापूर्वक सेट हो चुकी है! इसका आनंद लें!</string>
+
+
+    <string name="smart_charging">स्मार्ट चार्जिंग</string>
     <string name="smart_charging_hint">बैटरी को क्षति से बचाने के लिए चार्जिंग के स्तर को स्वत: मॉनिटर करें और ओवरचार्जिंग रोके (ज्ञापन हो सकते हैं।)</string>
 
-  <string name="color_lockscreen">शांत स्‍क्रीनसेवर</string>
-  <string name="color_lockscreen_hint">प्रचलित और शानदार थीम का प्रयोग करते हुए स्‍क्रीनसेवर को सुंदर बनाएं (विज्ञापन शामिल हैं)</string>
-  <string name="sms_assistant">एसएमएस सहायक</string>
-  <string name="sms_assistant_hint">एसएमएस सहायक आपको नए संदेशों की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
-  <string name="call_assistant_hint">कॉल सहायक आपको छुटी कॉल की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
+    <string name="color_lockscreen">शांत स्‍क्रीनसेवर</string>
+    <string name="color_lockscreen_hint">प्रचलित और शानदार थीम का प्रयोग करते हुए स्‍क्रीनसेवर को सुंदर बनाएं (विज्ञापन शामिल हैं)</string>
+    <string name="sms_assistant">एसएमएस सहायक</string>
+    <string name="sms_assistant_hint">एसएमएस सहायक आपको नए संदेशों की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
+    <string name="call_assistant_hint">कॉल सहायक आपको छुटी कॉल की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
 
-  <string name="theme_set_for_all">सभी के लिए सेट</string>
-  <string name="theme_set_for_one">कुछ के लिए सेट</string>
-  <string name="contact_select_hint">चयनित संपर्क(कों) पर \'%1$s\' लागू करें</string>
-  <string name="contact_theme">संपर्क थीम</string>
+    <string name="theme_set_for_all">सभी के लिए सेट</string>
+    <string name="theme_set_for_one">कुछ के लिए सेट</string>
+    <string name="contact_select_hint">चयनित संपर्क(कों) पर \'%1$s\' लागू करें</string>
+    <string name="contact_theme">संपर्क थीम</string>
 
-  <string name="edit">संपादन</string>
-  <string name="cancel">रद्द करें</string>
-  <string name="delete">हटाएं</string>
-  <string name="select_contacts">संपर्कों को चुनें</string>
+    <string name="edit">संपादन</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="delete">हटाएं</string>
+    <string name="select_contacts">संपर्कों को चुनें</string>
 
-  <string name="boost_plus_free_up">मुक्‍त करना</string>
-  <string name="boost_plus_exiting">निकालना</string>
+    <string name="boost_plus_free_up">मुक्‍त करना</string>
+    <string name="boost_plus_exiting">निकालना</string>
 
-  <string name="boost_tip_optimal">आपकी डिवाइस पहले से ही इष्टतम है!</string>
-  <string name="boost_notification_low_ram_btn">बूस्ट</string>
-  <string name="boost_title">बूस्ट</string>
+    <string name="boost_tip_optimal">आपकी डिवाइस पहले से ही इष्टतम है!</string>
+    <string name="boost_notification_low_ram_btn">बूस्ट</string>
+    <string name="boost_title">बूस्ट</string>
 
-  <string name="settings_notification_settings">अधिसूचना सेटिंग्‍स</string>
-  <string name="settings_notification_boost">अधिसूचना बूस्‍ट करें</string>
-  <string name="settings_notification_boost_sub">जब मेमोरी प्रयोग ज्‍यादा हो तो तकाजा पाएं</string>
+    <string name="settings_notification_settings">अधिसूचना सेटिंग्‍स</string>
+    <string name="settings_notification_boost">अधिसूचना बूस्‍ट करें</string>
+    <string name="settings_notification_boost_sub">जब मेमोरी प्रयोग ज्‍यादा हो तो तकाजा पाएं</string>
 
-  <string name="may_contain_ads">िज्ञापन हो सकते हैं।</string>
+    <string name="may_contain_ads">िज्ञापन हो सकते हैं।</string>
 
-  <string name="guide_first_page_title">कृपया विशेषताएं और अनुमतियां सक्षम करें:\ आपको छूटी कॉल्‍स की याद दिलाए\n विस्‍तृत चार्जिंग स्‍तर उपलब्‍ध करवाए।</string>
+    <string name="guide_first_page_title">कृपया विशेषताएं और अनुमतियां सक्षम करें:\ आपको छूटी कॉल्‍स की याद दिलाए\n विस्‍तृत चार्जिंग स्‍तर उपलब्‍ध करवाए।</string>
 
-  <string name="avatar_content">अपना अवतार तुरंत बनाएं</string>
-  <string name="action_back">वापस</string>
-  <string name="action_install">इंस्‍टॉल</string>
+    <string name="avatar_content">अपना अवतार तुरंत बनाएं</string>
+    <string name="action_back">वापस</string>
+    <string name="action_install">इंस्‍टॉल</string>
 
-  <!--Ringtone-->
-  <string name="ringtone_hint_after_apply">थीम और रिंगटॉन सफलतापूर्वक सेट</string>
-  <string name="ringtone_hint_before_apply">रिंगटॉन का आनंद लेने के लिए थीम को सेट करें</string>
+    <!--Ringtone-->
+    <string name="ringtone_hint_after_apply">थीम और रिंगटॉन सफलतापूर्वक सेट</string>
+    <string name="ringtone_hint_before_apply">रिंगटॉन का आनंद लेने के लिए थीम को सेट करें</string>
 
-  <string name="five_star_hint_text">हमारे साथ आपका अनुभव कैसा रहा?</string>
-  <string name="five_star_five_text">प्यारा लगा </string>
-  <string name="five_star_four_text">पसंद आया </string>
-  <string name="five_star_three_text">यह ठीक था </string>
-  <string name="five_star_two_text">यह पसंद नहीं आया </string>
-  <string name="five_star_one_text">खराब लगा </string>
-  <string name="five_star_positive_text">दर्ज करें</string>
+    <string name="five_star_hint_text">हमारे साथ आपका अनुभव कैसा रहा?</string>
+    <string name="five_star_five_text">प्यारा लगा </string>
+    <string name="five_star_four_text">पसंद आया </string>
+    <string name="five_star_three_text">यह ठीक था </string>
+    <string name="five_star_two_text">यह पसंद नहीं आया </string>
+    <string name="five_star_one_text">खराब लगा </string>
+    <string name="five_star_positive_text">दर्ज करें</string>
 
-  <string name="loved_it_desc">धन्‍यवाद! कृपया अच्‍छा, उपयोगी, प्रचलित शब्‍दों से रेट दें</string>
-  <string name="liked_it_desc">कृपया बताएं कि क्‍या नापसंद हैं। इसे सुधारने में हम प्रयास करेंगे!</string>
+    <string name="loved_it_desc">धन्‍यवाद! कृपया अच्‍छा, उपयोगी, प्रचलित शब्‍दों से रेट दें</string>
+    <string name="liked_it_desc">कृपया बताएं कि क्‍या नापसंद हैं। इसे सुधारने में हम प्रयास करेंगे!</string>
+
+    <!--notification access -->
+    <string name="acb_phone_grant_notification_access_title">कॉल का उत्‍तर देने को अधिसूचनाओं की पहुंच सक्षम करें</string>
+    <string name="acb_phone_enable_notification_access_description">आने वाली कॉल का उत्‍तर देने को Color Phone के लिए अधिसूचना पहुंच की अनुमति दें। कृपया इसे हाथ से सक्षम करें।</string>
+    <string name="acb_phone_enable_notification">इसे अभी सक्रिय करें</string>
 </resources>

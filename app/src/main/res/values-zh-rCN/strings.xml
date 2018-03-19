@@ -1,87 +1,90 @@
 <resources>
 
 
+    <!--Need Translate-->
+    <string name="app_name">多彩电话</string>
+    <string name="app_slogan">多彩一触，脱颖而出</string>
+    <string name="color_phone_disable">关闭多彩电话</string>
+    <string name="color_phone_enabled">开启多彩电话</string>
 
-  <!--Need Translate-->
-  <string name="app_name">多彩电话</string>
-  <string name="app_slogan">多彩一触，脱颖而出</string>
-  <string name="color_phone_disable">关闭多彩电话</string>
-  <string name="color_phone_enabled">开启多彩电话</string>
-
-  <string name="settings">设置</string>
-  <string name="feedback">反馈</string>
+    <string name="settings">设置</string>
+    <string name="feedback">反馈</string>
 
 
-  <string name="theme_apply">应用</string>
-  <string name="apply_success">应用成功</string>
-  <string name="theme_current">当前主题</string>
-  <string name="send_email">发送邮件</string>
-  <string name="loading">加载中 </string>
+    <string name="theme_apply">应用</string>
+    <string name="apply_success">应用成功</string>
+    <string name="theme_current">当前主题</string>
+    <string name="send_email">发送邮件</string>
+    <string name="loading">加载中 </string>
 
-  <string name="privacy_policy">隐私政策</string>
-  <string name="terms_of_service">服务条款</string>
+    <string name="privacy_policy">隐私政策</string>
+    <string name="terms_of_service">服务条款</string>
 
 
     <string name="guide_locker_and_call_hint">开启手机助手 &amp; 智能充电，让你不会错过未接来电。
         提供详细的充电数据。</string>
-  <string name="guide_enable_all_module">开启手机助手，智能充电 &amp; 屏幕保护</string>
+    <string name="guide_enable_all_module">开启手机助手，智能充电 &amp; 屏幕保护</string>
 
-  <string name="acb_outapp_guide_screen_flash_content">快试试独特的个性来电，让您的手机更时尚。可能包含广告。</string>
-  <string name="about">关于</string>
+    <string name="acb_outapp_guide_screen_flash_content">快试试独特的个性来电，让您的手机更时尚。可能包含广告。</string>
+    <string name="about">关于</string>
 
-  <string name="guide_apply_theme_hint">来电主题应用成功！尽情享受吧！</string>
+    <string name="guide_apply_theme_hint">来电主题应用成功！尽情享受吧！</string>
 
 
-
-  <string name="smart_charging">智能充电</string>
-  <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。
+    <string name="smart_charging">智能充电</string>
+    <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。
     （可能包含广告）</string>
 
-  <string name="color_lockscreen">多彩屏保</string>
-  <string name="color_lockscreen_hint">用多彩的主题装饰你的屏保（可能包含广告）</string>
-  <string name="sms_assistant">短信助手</string>
-  <string name="sms_assistant_hint">短信助手让你不再错过任何信息（可能包含广告）</string>
-  <string name="call_assistant_hint">来电助手让你不再错过未接来电（可能包含广告）</string>
+    <string name="color_lockscreen">多彩屏保</string>
+    <string name="color_lockscreen_hint">用多彩的主题装饰你的屏保（可能包含广告）</string>
+    <string name="sms_assistant">短信助手</string>
+    <string name="sms_assistant_hint">短信助手让你不再错过任何信息（可能包含广告）</string>
+    <string name="call_assistant_hint">来电助手让你不再错过未接来电（可能包含广告）</string>
 
-  <string name="contact_theme">联系人主题</string>
-  <string name="contact_select_hint">为联系人设置"%1$s"主题</string>
-  <string name="delete">删除</string>
-  <string name="cancel">取消</string>
-  <string name="edit">编辑</string>
-  <string name="theme_set_for_all">设定为默认</string>
-  <string name="theme_set_for_one">设定给某人</string>
-  <string name="select_contacts">选择联系人</string>
-  <string name="boost_plus_free_up">内存释放</string>
-  <string name="boost_plus_exiting">结束中…</string>
+    <string name="contact_theme">联系人主题</string>
+    <string name="contact_select_hint">为联系人设置"%1$s"主题</string>
+    <string name="delete">删除</string>
+    <string name="cancel">取消</string>
+    <string name="edit">编辑</string>
+    <string name="theme_set_for_all">设定为默认</string>
+    <string name="theme_set_for_one">设定给某人</string>
+    <string name="select_contacts">选择联系人</string>
+    <string name="boost_plus_free_up">内存释放</string>
+    <string name="boost_plus_exiting">结束中…</string>
 
-  <string name="boost_tip_optimal">你的手机已达最优！</string>
-  <string name="boost_notification_low_ram_btn">加速</string>
-  <string name="boost_title">加速</string>
+    <string name="boost_tip_optimal">你的手机已达最优！</string>
+    <string name="boost_notification_low_ram_btn">加速</string>
+    <string name="boost_title">加速</string>
 
-  <string name="settings_notification_settings">通知消息设置</string>
-  <string name="settings_notification_boost">手机加速提醒</string>
-  <string name="settings_notification_boost_sub">手机内存使用过高时提醒</string>
+    <string name="settings_notification_settings">通知消息设置</string>
+    <string name="settings_notification_boost">手机加速提醒</string>
+    <string name="settings_notification_boost_sub">手机内存使用过高时提醒</string>
 
-  <string name="may_contain_ads">可能包含广告</string>
+    <string name="may_contain_ads">可能包含广告</string>
 
-  <string name="guide_first_page_title">请开启功能和权限:\n 不再错过未接来电\n 提供详细的充电数据。</string>
+    <string name="guide_first_page_title">请开启功能和权限:\n 不再错过未接来电\n 提供详细的充电数据。</string>
 
-  <string name="avatar_content">立即创建你的头像</string>
-  <string name="action_back">后退</string>
-  <string name="action_install">安装</string>
+    <string name="avatar_content">立即创建你的头像</string>
+    <string name="action_back">后退</string>
+    <string name="action_install">安装</string>
 
-  <!--Ringtone-->
-  <string name="ringtone_hint_after_apply">主题和铃声都已设置成功</string>
-  <string name="ringtone_hint_before_apply">设置主题去享受铃声</string>
+    <!--Ringtone-->
+    <string name="ringtone_hint_after_apply">主题和铃声都已设置成功</string>
+    <string name="ringtone_hint_before_apply">设置主题去享受铃声</string>
 
-  <string name="five_star_hint_text">觉得多彩电话如何？</string>
-  <string name="five_star_positive_text">提交</string>
-  <string name="five_star_one_text">讨厌</string>
-  <string name="five_star_two_text">不喜欢</string>
-  <string name="five_star_three_text">一般</string>
-  <string name="five_star_four_text">喜欢</string>
-  <string name="five_star_five_text">喜爱</string>
+    <string name="five_star_hint_text">觉得多彩电话如何？</string>
+    <string name="five_star_positive_text">提交</string>
+    <string name="five_star_one_text">讨厌</string>
+    <string name="five_star_two_text">不喜欢</string>
+    <string name="five_star_three_text">一般</string>
+    <string name="five_star_four_text">喜欢</string>
+    <string name="five_star_five_text">喜爱</string>
 
-  <string name="loved_it_desc">非常感谢，请为我们评价。推荐您使用这些词：好看、有用、时尚…</string>
-  <string name="liked_it_desc">请给我们反馈您不喜欢的功能，我们会尽力优化的！</string>
+    <string name="loved_it_desc">非常感谢，请为我们评价。推荐您使用这些词：好看、有用、时尚…</string>
+    <string name="liked_it_desc">请给我们反馈您不喜欢的功能，我们会尽力优化的！</string>
+
+    <!--notification access -->
+    <string name="acb_phone_grant_notification_access_title">为了轻松接听来电请开启通知访问权限</string>
+    <string name="acb_phone_enable_notification_access_description">请手动为多彩电话开启通知访问权限，轻松接听来电。</string>
+    <string name="acb_phone_enable_notification">立即开启</string>
 </resources>
