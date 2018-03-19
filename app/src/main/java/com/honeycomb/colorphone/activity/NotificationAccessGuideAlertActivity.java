@@ -13,14 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.utils.NavUtils;
-import com.acb.utils.PermissionHelper;
-import com.acb.utils.PermissionUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
-import com.honeycomb.colorphone.notification.NotificationConfig;
+import com.honeycomb.colorphone.notification.permission.PermissionHelper;
+import com.honeycomb.colorphone.notification.permission.PermissionUtils;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
-import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
 public class NotificationAccessGuideAlertActivity extends Activity {
