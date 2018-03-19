@@ -134,7 +134,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 Context context = HSApplication.getContext();
                 Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
                 NavUtils.startActivitySafely(context, intent);
-//                FloatWindowController.getInstance().createUsageAccessTip(context);
+                FloatWindowController.getInstance().createUsageAccessTip(context);
             }
         };
     }
