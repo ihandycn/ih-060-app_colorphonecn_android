@@ -21,7 +21,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.acb.call.views.CallIdleAlert;
 import com.acb.utils.CommonUtils;
 import com.acb.utils.ConcurrentUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
