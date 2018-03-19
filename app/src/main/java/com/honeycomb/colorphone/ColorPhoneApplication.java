@@ -77,6 +77,7 @@ import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.HSFrameworkAdapter.AcbHSFrameworkAdapter;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
+import net.appcloudbox.service.AcbService;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -151,6 +152,7 @@ public class ColorPhoneApplication extends HSApplication {
         mHeight = Utils.getPhoneHeight(this);
         mWidth = Utils.getPhoneWidth(this);
         AcbApplicationHelper.init(this);
+        AcbService.initialize(this);
         if (TextUtils.equals(processName, packageName)) {
             onMainProcessCreate();
         }
