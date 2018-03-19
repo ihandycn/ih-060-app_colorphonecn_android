@@ -113,7 +113,9 @@ public class ColorPhoneApplication extends HSApplication {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
                 Theme.updateThemes();
-                downloadNewType();
+
+                // remove download New Type when config changed to reduce
+//                downloadNewType();
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
                 HSPermanentUtils.checkAliveForProcess();
             } else {
