@@ -105,6 +105,21 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             }
 
             @Override
+            public boolean showGmailMessage() {
+                return true;
+            }
+
+            @Override
+            public boolean showGmailWhenScreenOff() {
+                return true;
+            }
+
+            @Override
+            public boolean showGmailWhenScreenOn() {
+                return true;
+            }
+
+            @Override
             public int getAppNameDrawable() {
                 return R.drawable.color_phone_logo;
             }
