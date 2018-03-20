@@ -10,6 +10,7 @@ import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
+import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
@@ -157,7 +158,6 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 LauncherAnalytics.logEvent("Message_View_AD_Clicked");
 
             }
-
 
             @Override
             public void onAdFlurryRecord(boolean isShown) {
