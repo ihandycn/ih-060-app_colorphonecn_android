@@ -106,7 +106,7 @@
         },
         "avatar_type": {
           "type": "string",
-          "value": "facemoji"
+          "value": "pick02_gif"
         }
       },
       "events": [
@@ -356,6 +356,14 @@
           "type": "boolean",
           "value": true
         },
+        "gmail_assistant_show_on_unlock": {
+          "type": "boolean",
+          "value": false
+        },
+        "gmail_assistant_enable": {
+          "type": "boolean",
+          "value": false
+        },
         "fbmessenger_assistant_enable": {
           "type": "boolean",
           "value": true
@@ -367,6 +375,10 @@
         "whatsapp_assistant_show_on_lock": {
           "type": "boolean",
           "value": true
+        },
+        "gmail_assistant_show_on_lock": {
+          "type": "boolean",
+          "value": false
         },
         "fbmessenger_assistant_show_on_lock": {
           "type": "boolean",
@@ -382,15 +394,6 @@
         },
         {
           "name": "message_assistant_ad_show"
-        },
-        {
-          "name": "message_assistant_whatsapp_show"
-        },
-        {
-          "name": "message_assistant_messenger_show"
-        },
-        {
-          "name": "message_assistant_sms_show"
         },
         {
           "name": "message_assistant_show_onlockscreen"

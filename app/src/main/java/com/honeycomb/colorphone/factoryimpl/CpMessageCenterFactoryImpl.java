@@ -107,17 +107,17 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean showGmailMessage() {
-                return true;
+                return NotificationAutoPilotUtils.isGmailEnabled();
             }
 
             @Override
             public boolean showGmailWhenScreenOff() {
-                return true;
+                return NotificationAutoPilotUtils.isGmailEnabledWhenScreenOff();
             }
 
             @Override
             public boolean showGmailWhenScreenOn() {
-                return true;
+                return NotificationAutoPilotUtils.isGmailEnabledWhenScreenOn();
             }
 
             @Override
@@ -148,20 +148,25 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             public void onAdShow() {
                 NotificationAutoPilotUtils.logMessageAssistantAdShow();
                 LauncherAnalytics.logEvent("Message_View_AD_Shown");
-
-                CallUtils.recordAlertDailyCount(com.acb.Constants.PREFS_ALERT_DAILY_SHOW_COUNT_FILE, com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_AD_SHOW_TIME_STAMP,
-                        com.acb.Constants.PREFS_ALERT_MESSAGE_VIEW_AD_DAILY_SHOW_COUNT, "Message_View_AD_Daily_Shown");
             }
 
             @Override
             public void onAdClick() {
                 LauncherAnalytics.logEvent("Message_View_AD_Clicked");
-
             }
 
             @Override
             public void onAdFlurryRecord(boolean isShown) {
 
+            }
+
+            @Override
+            public void messageViewShowed(int msgSrcCount, String flurryMessageType, String flurryAlertShowWhere) {
+                NotificationAutoPilotUtils.logMessageAssistantShow();
+                LauncherAnalytics.logEvent("Message_View_Shown");
+                if (flurryAlertShowWhere.equals("OnLockScreen")) {
+                    NotificationAutoPilotUtils.logMessageAssistantShowOnLockScreen();
+                }
             }
 
         };

@@ -137,19 +137,26 @@ public class NotificationAutoPilotUtils {
         AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_ad_show");
     }
 
-    public static void logMessageAssistantSmsShowWhenScreenOn() {
-        AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_sms_show");
-    }
-
-    public static void logMessageAssistantWhatsappShowWhenScreenOn() {
-        AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_whatsapp_show");
-    }
-
-    public static void logMessageAssistantMessengerShowWhenScreenOn() {
-        AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_messenger_show");
-    }
-
     public static void logMessageAssistantShowOnLockScreen() {
         AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_show_onlockscreen");
     }
+
+    /**
+     * Gmail
+     */
+    public static boolean isGmailEnabled() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "gmail_assistant_enable", false);
+
+    }
+
+    public static boolean isGmailEnabledWhenScreenOn() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "gmail_assistant_show_on_unlock", false);
+
+    }
+
+    public static boolean isGmailEnabledWhenScreenOff() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "gmail_assistant_show_on_lock", false);
+
+    }
+
 }
