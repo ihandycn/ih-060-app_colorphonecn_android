@@ -79,7 +79,7 @@ dependencies {
     compile project(':lock')
 
     //  -------- GoldEye ------
-    compile 'net.appcloudbox.goldeneye:210:2018.03.15.001'
+    compile 'net.appcloudbox.goldeneye:210:2018.03.20.001'
 
     compile 'net.appcloudbox.common:libAcbHSFrameworkAdapter.gm:1.0.2.gm'
 
