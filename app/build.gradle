@@ -87,7 +87,7 @@ dependencies {
 
     compile (USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.0.5.+"
             : "net.appcloudbox.autopilot:libAutoPilot.gm:5.0.5.gm")
-    compile (USE_BETA_ACB_LIBS ? 'com.ihandy.appframework:libAppframework.beta:4.5.5.+' :
-            'com.ihandy.appframework:libAppframework.gm:4.5.5.gm')
+    compile (USE_BETA_ACB_LIBS ? 'com.ihandy.appframework:libAppframework.beta:4.6.2.+' :
+            'com.ihandy.appframework:libAppframework.gm:4.6.2.gm')
 
 }
