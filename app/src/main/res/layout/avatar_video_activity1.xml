@@ -20,11 +20,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/avatar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="6dp"
         android:lineSpacingExtra="2.9sp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
@@ -33,7 +33,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nav_back"
-        tools:text="Create funny avatars for your frieddd" />
+        app:typeface="@string/proxima_nova_semibold"
+        tools:text="Create funny avatars for your frieddd"
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <FrameLayout
         android:layout_width="0dp"
@@ -45,9 +47,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/avatar_title"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_marginRight="8dp" >
+        app:layout_constraintVertical_bias="1.0">
 
         <VideoView
             android:id="@+id/avatar_video"
