@@ -472,7 +472,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     public static void checkChargingReportAdPlacement() {
-        checkNativeAd(AdPlacements.AD_CHARGING_REPORT, SmartChargingSettings.isChargingReportEnabled());
+        checkExpressAd(AdPlacements.AD_CHARGING_REPORT, SmartChargingSettings.isChargingReportEnabled());
     }
 
     private void checkModuleAdPlacement() {
