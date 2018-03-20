@@ -102,7 +102,7 @@ public class NotificationAutoPilotUtils {
      */
 
     public static boolean isMessageCenterEnabled() {
-        return isWhatsAppEnabled() || isFacebookMessengerEnabled();
+        return isWhatsAppEnabled() || isFacebookMessengerEnabled() || isGmailEnabled();
     }
 
     public static boolean isWhatsAppEnabled() {
