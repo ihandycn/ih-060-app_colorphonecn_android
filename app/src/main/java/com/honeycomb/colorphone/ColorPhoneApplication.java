@@ -511,18 +511,6 @@ public class ColorPhoneApplication extends HSApplication {
         return mConfigLog;
     }
 
-    private void downloadNewType() {
-        if (ColorPhoneApplication.isAppForeground()) {
-            return;
-        }
-        int maxId = HSPreferenceHelper.getDefault().getInt(PREFS_NOTIFICATION_OLD_MAX_ID, Integer.MAX_VALUE);
-        for (Theme newType : Theme.themes()) {
-            if (maxId < newType.getId()) {
-                NotificationUtils.downloadMedia(newType);
-            }
-        }
-    }
-
     public static void initNotificationAlarm() {
         AlarmManager alarmMgr = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getContext(), NotificationAlarmReceiver.class);
