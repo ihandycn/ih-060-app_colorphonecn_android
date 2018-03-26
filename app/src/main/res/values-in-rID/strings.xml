@@ -1,15 +1,9 @@
 <resources>
-
-
     <!--Need Translate-->
-    <string name="app_name">Color Phone</string>
     <string name="app_slogan">Tampil beda dengan sentuhan penuh warna</string>
-    <string name="color_phone_disable">Color Phone Dinonaktifkan</string>
-    <string name="color_phone_enabled">Color Phone Diaktifkan</string>
 
     <string name="settings">Setelan</string>
     <string name="feedback">Masukan</string>
-
 
     <string name="theme_apply">Terapkan</string>
     <string name="apply_success">Berhasil Diatur</string>
@@ -20,15 +14,12 @@
     <string name="privacy_policy">Kebijakan Privasi</string>
     <string name="terms_of_service">Ketentuan Layanan</string>
 
-
-    <string name="guide_locker_and_call_hint">Aktifkan Asisten Panggilan &amp; Pengisian Pintar untuk:\n Mengingatkan Anda panggilan tak terjawab\n Memberikan status pengisian yang mendetail</string>
     <string name="guide_enable_all_module">Aktifkan Asisten Telepon, Pengisian Daya Cerdas &amp; Screensaver</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Coba panggilan antarmuka unik untuk membuat ponsel Anda lebih gaya. Mungkin mengandung iklan.</string>
     <string name="about">Tentang</string>
 
     <string name="guide_apply_theme_hint">Tema Layar Pemanggil sudah berhasil disiapkan! Nikmati!</string>
-
 
     <string name="smart_charging">Pengisian Pintar</string>
     <string name="smart_charging_hint">Pantau status pengisian daya secara otomatis dan hentikan pengisian daya berlebih untuk mencegah kerusakan baterai. (Mungkin berisi iklan.)</string>

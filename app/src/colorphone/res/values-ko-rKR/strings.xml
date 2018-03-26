@@ -1,0 +1,6 @@
+<resources>
+  <!--Need Translate-->
+  <string name="app_name">컬러 전화</string>
+  <string name="color_phone_disable">컬러 전화 비활성화됨</string>
+  <string name="color_phone_enabled">컬러 전화 활성화됨</string>
+</resources>

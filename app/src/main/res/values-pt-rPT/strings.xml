@@ -1,15 +1,9 @@
 <resources>
-
-
     <!--Need Translate-->
-    <string name="app_name">Chamadas coloridas</string>
     <string name="app_slogan">Dê nas vistas com um toque de cor</string>
-    <string name="color_phone_disable">Chamadas coloridas desativadas</string>
-    <string name="color_phone_enabled">Chamadas coloridas ativadas</string>
 
     <string name="settings">Definições</string>
     <string name="feedback">Opinião</string>
-
 
     <string name="theme_apply">Aplicar</string>
     <string name="apply_success">Definição com sucesso</string>
@@ -20,8 +14,6 @@
     <string name="privacy_policy">Política de Privacidade</string>
     <string name="terms_of_service">Termos de serviço</string>
 
-
-    <string name="guide_locker_and_call_hint">Ative o Assistente de Chamadas e o Carregamento Inteligente para:\n Lembrá-lo das chamadas perdidas\n Fornecer detalhadamente o status do carregamento</string>
     <string name="guide_enable_all_module">Ative o Assistente do Telefone, o Carregamento Inteligente e o Protetor de Tela</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Experimente a interface de chamadas única para dar mais estilo
@@ -29,7 +21,6 @@
     <string name="about">Sobre</string>
 
     <string name="guide_apply_theme_hint">O tema da tela de quem está ligando foi definido com sucesso!</string>
-
 
     <string name="smart_charging">Carregamento inteligente</string>
     <string name="smart_charging_hint">Monitorize automaticamente o estado de carga e pare os carregamentos exagerados para impedir danos à bateria. (Pode conter anúncios.)</string>

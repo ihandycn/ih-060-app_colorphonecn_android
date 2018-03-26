@@ -1,15 +1,9 @@
 <resources>
-
-
     <!--Need Translate-->
-    <string name="app_name">Color Phone</string>
     <string name="app_slogan">Destaca con un toque colorido</string>
-    <string name="color_phone_disable">Color Phone deshabilitado</string>
-    <string name="color_phone_enabled">Color Phone habilitado</string>
 
     <string name="settings">Ajustes</string>
     <string name="feedback">Comentarios</string>
-
 
     <string name="theme_apply">Aplicar</string>
     <string name="apply_success">Establecido correctamente</string>
@@ -20,8 +14,6 @@
     <string name="privacy_policy">Política de privacidad</string>
     <string name="terms_of_service">Términos de servicio</string>
 
-
-    <string name="guide_locker_and_call_hint">Habilita el asistente de llamada y la carga inteligente para:\n Recordarte las llamadas perdidas\n Indicar el estado de la carga en detalle</string>
     <string name="guide_enable_all_module">Habilita el salvapantallas, la carga inteligente y el asistente telefónico.</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Prueba la interfaz de pantalla exclusiva para que tu teléfono tenga un aspecto más moderno. Puede contener publicidad.</string>
@@ -29,13 +21,11 @@
 
     <string name="guide_apply_theme_hint">¡Se estableció correctamente el tema de la pantalla de llamada! ¡Disfrútalo!</string>
 
-
     <string name="smart_charging">Carga inteligente</string>
     <string name="smart_charging_hint">Supervisa automáticamente el estado de la carga y detén la sobrecarga para impedir daños en la batería. (Puede contener publicidad.)</string>
 
     <string name="color_lockscreen">Salvapantallas de color</string>
-    <string name="color_lockscreen_hint">Decora tu salvapantallas con diversos temas modernos y molones (puede contener
-    publicidad).</string>
+    <string name="color_lockscreen_hint">Decora tu salvapantallas con diversos temas modernos y molones (puede contener publicidad).</string>
     <string name="sms_assistant">Asistente de SMS</string>
     <string name="sms_assistant_hint">El asistente de SMS te avisará cuando tengas nuevos mensajes (puede contener publicidad).</string>
     <string name="call_assistant_hint">El asistente de llamada te avisará cuando tengas llamadas perdidas (puede contener publicidad).</string>

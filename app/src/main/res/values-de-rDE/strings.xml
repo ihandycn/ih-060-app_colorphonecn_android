@@ -1,15 +1,9 @@
 <resources>
-
-
     <!--Need Translate-->
-    <string name="app_name">Color Phone</string>
     <string name="app_slogan">Falle mit einem farbenfrohen Touch auf</string>
-    <string name="color_phone_disable">Color Phone deaktiviert</string>
-    <string name="color_phone_enabled">Color Phone aktiviert</string>
 
     <string name="settings">Einstellungen</string>
     <string name="feedback">Feedback</string>
-
 
     <string name="theme_apply">Übernehmen</string>
     <string name="apply_success">Erfolgreich eingerichtet!</string>
@@ -20,20 +14,15 @@
     <string name="privacy_policy">Datenschutzrichtlinie</string>
     <string name="terms_of_service">Nutzungsbedingungen</string>
 
-
-    <string name="guide_locker_and_call_hint">Anrufassistent und Intelligentes Aufladen aktivieren für:\n Erinnerung an verpasste Anrufe\nAngabe eines detaillierten Ladestatus</string>
-    "
-    <string name="guide_enable_all_module">Bildschirmsperre, Intelligentes Aufladen &amp;amp; Anrufassistenten aktivieren</string>
-
     <string name="acb_outapp_guide_screen_flash_content">Probiere das einzigartige Anrufinterface aus, um dein Handy noch trendiger zu machen. Kann Werbung enthalten.</string>
     <string name="about">Über</string>
+    <string name="guide_enable_all_module">Bildschirmsperre, Intelligentes Aufladen &amp;amp; Anrufassistenten aktivieren</string>
 
     <string name="guide_apply_theme_hint">Ihr Design des Anrufbildschirmes wurde erfolgreich eingerichtet! Viel Spaß!</string>
 
 
     <string name="smart_charging">Intelligentes Aufladen</string>
     <string name="smart_charging_hint">Automatisch Aufladestatus überwachen und Überladung sowie Beschädigungen des Akkus vermeiden. (Kann Werbung enthalten.)</string>
-
 
     <string name="color_lockscreen">Farb-Bildschirmschoner</string>
     <string name="color_lockscreen_hint">Verehren Sie Ihren Bildschirmschoner mit verschiedenen fantastischen und coolen Designs (Kann Werbung enthalten)</string>

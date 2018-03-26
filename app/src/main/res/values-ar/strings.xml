@@ -1,13 +1,9 @@
 <resources>
     <!--Need Translate-->
-    <string name="app_name">الهاتف الملون</string>
     <string name="app_slogan">تميّز عن الآخرين بلمسة تملؤها الألوان</string>
-    <string name="color_phone_disable">الهاتف الملون معطل</string>
-    <string name="color_phone_enabled">الهاتف الملون مفعّل</string>
 
     <string name="settings">الإعدادات</string>
     <string name="feedback">الاقتراحات</string>
-
 
     <string name="theme_apply">تطبيق</string>
     <string name="apply_success">تم الإعداد بنجاح</string>
@@ -18,8 +14,6 @@
     <string name="privacy_policy">سياسة الخصوصية</string>
     <string name="terms_of_service">شروط الخدمة</string>
 
-
-    <string name="guide_locker_and_call_hint">فعّل مساعد المكالمات والتغيير لكي:\nيذكرك بالمكالمات الفائتة\nيبين لك معلومات الشحن المفصلة</string>
     <string name="guide_enable_all_module">مكّن مساعد المكالمات والشحن الذكي وشاشة التوقف</string>
 
     <string name="acb_outapp_guide_screen_flash_content">جرّب واجهة المكالمات الفريدة لتجعل هاتفك أكثر أناقة. قد يحتوي على الإعلانات.</string>
@@ -35,7 +29,6 @@
     <string name="sms_assistant">مساعد الرسائل القصيرة</string>
     <string name="sms_assistant_hint">يذكرك مساعد الرسائل القصيرة بالرسائل الجديدة (قد يتضمن إعلانات).</string>
     <string name="call_assistant_hint">يذكرك مساعد المكالمات بالمكالمات الفائتة (قد يتضمن إعلانات).</string>
-
 
     <string name="theme_set_for_all">التعيين للكل</string>
     <string name="theme_set_for_one">التعيين للبعض</string>

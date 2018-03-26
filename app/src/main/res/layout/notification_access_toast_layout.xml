@@ -44,7 +44,7 @@
         android:layout_toStartOf="@id/imageView2"
         android:maxLines="2"
         android:text="@string/acb_phone_grant_notification_access_title"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         android:textSize="14sp"
         app:typeface="@string/proxima_nova_semibold" />
 

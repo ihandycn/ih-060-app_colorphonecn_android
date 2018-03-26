@@ -110,7 +110,7 @@
             android:background="@drawable/acb_blue_button_selector"
             android:gravity="center"
             android:text="@string/acb_phone_enable_notification"
-            android:textColor="@color/white" />
+            android:textColor="@android:color/white" />
 
         <View
             android:layout_width="match_parent"

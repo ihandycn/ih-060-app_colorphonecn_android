@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Color Phone</string>
+    <string name="color_phone_disable">Color Phone Disabled</string>
+    <string name="color_phone_enabled">Color Phone Enabled</string>
+</resources>

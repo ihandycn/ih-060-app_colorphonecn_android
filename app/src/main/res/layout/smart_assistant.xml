@@ -71,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="266dp"
         android:layout_below="@id/recent_apps"
-        android:background="@color/white"
+        android:background="@android:color/white"
         >
     </FrameLayout>
 
@@ -87,7 +87,7 @@
         android:includeFontPadding="false"
         android:maxLines="3"
         android:text="@string/smart_assistant_tip_msg"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         android:textSize="17sp"
         android:visibility="gone"
         app:typeface="@string/proxima_nova_semibold" />

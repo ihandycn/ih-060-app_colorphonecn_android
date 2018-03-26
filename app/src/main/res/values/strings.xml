@@ -11,14 +11,10 @@
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
     <!--Need Translate-->
-    <string name="app_name">Color Phone</string>
     <string name="app_slogan">Stand out with a colorful touch</string>
-    <string name="color_phone_disable">Color Phone Disabled</string>
-    <string name="color_phone_enabled">Color Phone Enabled</string>
 
     <string name="settings">Settings</string>
     <string name="feedback">Feedback</string>
-
 
     <string name="theme_apply">Apply</string>
 

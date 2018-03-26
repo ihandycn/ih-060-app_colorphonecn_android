@@ -6,15 +6,47 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
     defaultConfig {
-        applicationId "com.colorphone.smooth.dialer"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 25
-        versionName "1.1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
+
+    productFlavors {
+        colorphone {
+            applicationId "com.colorphone.smooth.dialer"
+            versionCode 25
+            versionName "1.1.6"
+        }
+        colorflash {
+            applicationId "com.app.phone.call.flash.screen"
+            versionCode 1
+            versionName "1.0.0"
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            res.srcDirs = ['src/main/res']
+            assets.srcDirs = ['src/main/assets']
+            java.srcDirs = ['src/main/java']
+        }
+        colorphone {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            res.srcDirs = ['src/colorphone/res', 'src/main/res']
+            assets.srcDirs = ['src/colorphone/assets', 'src/main/assets']
+            java.srcDirs = ['src/colorphone/src', 'src/main/java']
+        }
+        colorflash {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            res.srcDirs = ['src/colorflash/res', 'src/main/res']
+            assets.srcDirs = ['src/colorflash/assets', 'src/main/assets']
+            java.srcDirs = ['src/colorflash/src', 'src/main/java']
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -37,19 +69,43 @@ final SUPPORT_LIBRARY_VERSION = '26.0.1'
 final GOOGLE_PLAY_SERVICES_VERSION = '10.2.0'
 
 dependencies {
-    compile 'com.android.support:multidex:1.0.1'
-    compile "com.google.android.gms:play-services-gcm:$GOOGLE_PLAY_SERVICES_VERSION"
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
+        transitive = true
     }
 
-    // ==== Support ====
-    compile("com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION")
-    compile("com.android.support:design:$SUPPORT_LIBRARY_VERSION")
-    compile("com.android.support:palette-v7:$SUPPORT_LIBRARY_VERSION")
-    compile("com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION")
-    compile("com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION")
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    final USE_BETA_ACB_LIBS = false
+
+    final COMMON_DEPENDENCIES = [
+            // ==== Support ====
+            "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION".toString(),
+            "com.android.support:design:$SUPPORT_LIBRARY_VERSION".toString(),
+            "com.android.support:palette-v7:$SUPPORT_LIBRARY_VERSION".toString(),
+            "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION".toString(),
+            "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION".toString(),
+            "com.android.support.constraint:constraint-layout:1.0.2",
+
+            "com.android.support:multidex:1.0.1",
+
+            "com.google.android.gms:play-services-gcm:$GOOGLE_PLAY_SERVICES_VERSION".toString(),
+
+            USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.0.5.+"
+                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.0.5.gm",
+            USE_BETA_ACB_LIBS ?
+                    'com.ihandy.appframework:libAppframework.beta:4.6.2.+' :
+                    'com.ihandy.appframework:libAppframework.gm:4.6.2.gm',
+    ]
+
+    for (dependency in COMMON_DEPENDENCIES) compile dependency
+
+    final DEPENDENCIES_AAR = [
+            'libChargingReport/libChargingReport-release',
+            'libChargingReport/libChargingCommon-release',
+    ]
+
+    for (dependency in DEPENDENCIES_AAR) {
+        compile(name: dependency, ext: 'aar')
+    }
 
     // ==== Third part ====
     compile 'com.github.bumptech.glide:glide:4.0.0'
@@ -79,15 +135,9 @@ dependencies {
     compile project(':lock')
 
     //  -------- GoldEye ------
-    compile 'net.appcloudbox.goldeneye:210:2018.03.20.001'
+    colorphoneCompile 'net.appcloudbox.goldeneye:210:2018.03.20.001'
+    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.03.26.001'
 
     compile 'net.appcloudbox.common:libAcbHSFrameworkAdapter.gm:1.0.2.gm'
-
-    final USE_BETA_ACB_LIBS = false
-
-    compile (USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.0.5.+"
-            : "net.appcloudbox.autopilot:libAutoPilot.gm:5.0.5.gm")
-    compile (USE_BETA_ACB_LIBS ? 'com.ihandy.appframework:libAppframework.beta:4.6.2.+' :
-            'com.ihandy.appframework:libAppframework.gm:4.6.2.gm')
 
 }

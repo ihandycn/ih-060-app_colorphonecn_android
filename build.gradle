@@ -56,6 +56,13 @@ allprojects {
                 password project.credentials."${project.username}"
             }
         }
+        maven {
+            url "http://git.ihandysoft.com:8081/nexus/content/repositories/goldeneye" // goldeneye仓库
+            credentials {
+                username project.username // 使用之前配置的用户名
+                password project.credentials."${project.username}" // 使用之前配置的密码
+            }
+        }
 
         configurations.all {
             resolutionStrategy {

@@ -1,15 +1,9 @@
 <resources>
-
-
     <!--Need Translate-->
-    <string name="app_name">カラーフォン</string>
     <string name="app_slogan">カラフルなタッチで目立とう</string>
-    <string name="color_phone_disable">カラーフォンを無効にしました</string>
-    <string name="color_phone_enabled">カラーフォンを有効にしました</string>
 
     <string name="settings">設定</string>
     <string name="feedback">フィードバック</string>
-
 
     <string name="theme_apply">適用</string>
     <string name="apply_success">設定に成功</string>
@@ -20,8 +14,6 @@
     <string name="privacy_policy">プライバシー規約</string>
     <string name="terms_of_service">利用規約</string>
 
-
-    <string name="guide_locker_and_call_hint">コールアシスタント＆スマート充電を有効にする：\n不在着信をリマインドする\n充電の詳細を提供\n</string>
     <string name="guide_enable_all_module">電話アシスタント、スマートチャージ＆スクリーンセーバーを有効にする</string>
 
     <string name="acb_outapp_guide_screen_flash_content">携帯電話をよりおしゃれにするために、ユニークな通話インターフェイスをお試しください。広告が含まれる可能性があります。</string>
