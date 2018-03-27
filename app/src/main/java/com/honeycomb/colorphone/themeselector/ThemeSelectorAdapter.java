@@ -546,6 +546,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void initChildView() {
             mCallActionView = (InCallActionView) itemView.findViewById(R.id.card_in_call_action_view);
             mCallActionView.setAutoRun(false);
+            if (TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+                mCallActionView.setVisibility(View.INVISIBLE);
+            }
             mAvatar = (ImageView) mContentView.findViewById(R.id.caller_avatar);
             mAvatarName = (TextView) mContentView.findViewById(R.id.first_line);
             mAccept = (ImageView) mContentView.findViewById(R.id.call_accept);
@@ -589,7 +592,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (theme.isSelected()) {
                 mThemeFlashPreviewWindow.playAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(true);
-                mCallActionView.setAutoRun(true);
+                if (!TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+                    mCallActionView.setAutoRun(true);
+                }
             } else {
                 mThemeFlashPreviewWindow.clearAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(false);
@@ -667,7 +672,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         private void endLoadingScene() {
             mThemeLoadingImg.setVisibility(View.INVISIBLE);
-            mCallActionView.setVisibility(View.VISIBLE);
+            if (!TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+                mCallActionView.setVisibility(View.VISIBLE);
+            }
             mThemeFlashPreviewWindow.getCallView().setVisibility(View.VISIBLE);
         }
 
@@ -814,7 +821,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void startAnimation() {
             if (mHolderDataReady) {
                 mThemeFlashPreviewWindow.startAnimations();
-                mCallActionView.doAnimation();
+                if (!TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+                    mCallActionView.doAnimation();
+                }
             }
         }
     }

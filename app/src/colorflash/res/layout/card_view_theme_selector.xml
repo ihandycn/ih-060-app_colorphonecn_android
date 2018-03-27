@@ -26,7 +26,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/theme_card_margin_horizontal"
         android:layout_marginStart="@dimen/theme_card_margin_horizontal"
-        android:paddingBottom="16dp"
+        android:paddingBottom="24dp"
         android:layout_marginBottom="@dimen/theme_text_margin_top"
         android:textColor="@color/textDark"
         android:textSize="18sp"
@@ -50,6 +50,7 @@
         android:layout_alignLeft="@id/card_title"
         android:layout_alignStart="@id/card_title"
         android:layout_below="@id/card_title"
+        android:paddingBottom="8dp"
         app:lottie_fileName="lottie/like.json"
         app:lottie_loop="false"
         app:lottie_progress="0" />
@@ -66,19 +67,21 @@
         android:layout_toRightOf="@id/like_count_icon"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
+        android:paddingBottom="8dp"
         android:textColor="@color/textLightGray"
         android:textSize="12sp"
         tools:text="6622335" />
 
     <android.support.percent.PercentRelativeLayout
         android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_height="50dp"
         android:layout_alignBottom="@id/like_count_icon"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:gravity="center"
         android:layout_marginEnd="@dimen/theme_card_margin_horizontal"
         android:layout_marginRight="@dimen/theme_card_margin_horizontal"
+        android:paddingBottom="8dp"
         android:clickable="false">
 
         <com.airbnb.lottie.LottieAnimationView

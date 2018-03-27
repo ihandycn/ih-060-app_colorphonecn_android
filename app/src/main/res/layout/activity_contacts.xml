@@ -61,13 +61,13 @@
 
         <com.honeycomb.colorphone.fastscroller.FastScrollRecyclerView
             android:id="@+id/recycler_view"
-            android:background="#fafafa"
+            android:background="@color/colorPrimary"
             android:layout_width="match_parent"
             app:fastScrollPopupTextSize="40dp"
             app:fastScrollPopupBackgroundSize="64dp"
-            app:fastScrollPopupTextColor="#ff303030"
+            app:fastScrollPopupTextColor="@color/primaryText"
             app:fastScrollPopupBgColor="#ffffcc00"
-            app:fastScrollThumbColor="#ff696969"
+            app:fastScrollThumbColor="@color/textLightGray"
             app:fastScrollTrackColor="#28000000"
             android:layout_height="match_parent">
 
@@ -111,7 +111,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:gravity="center"
-                android:textColor="#4c000000"
+                android:textColor="@color/primaryText"
+                android:alpha="0.3"
                 android:textSize="19.3sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

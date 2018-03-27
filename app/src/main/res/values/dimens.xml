@@ -12,7 +12,6 @@
     <dimen name="theme_card_radius">8dp</dimen>
     <dimen name="theme_badge_margin">24dp</dimen>
     <dimen name="theme_text_margin_top">7dp</dimen>
-    <dimen name="theme_text_margin_bottom_half">7dp</dimen>
     <dimen name="theme_text_space">0dp</dimen>
     <dimen name="theme_heart_size">14dp</dimen>
     <dimen name="recycler_section_header_Margin">45dp</dimen>
