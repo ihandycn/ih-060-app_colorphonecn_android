@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.view.View;
 
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
+import com.ihs.commons.utils.HSLog;
 
 import java.io.IOException;
 
@@ -37,12 +41,22 @@ public class WelcomeActivity extends Activity {
 
         if (coldLaunch) {
             mVidView.setCover(cover);
-            mVidView.setPlayEndListener(new WelcomeVideoView.PlayEndListener() {
-                @Override
-                public void onEnd() {
-                    toMainView();
-                }
-            });
+            if (TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override public void run() {
+                        HSLog.i("endVideo", "handler");
+                        toMainView();
+                    }
+                }, 5000);
+            } else {
+                mVidView.setPlayEndListener(new WelcomeVideoView.PlayEndListener() {
+                    @Override
+                    public void onEnd() {
+                        HSLog.i("endVideo", "listener");
+                        toMainView();
+                    }
+                });
+            }
             showVideo(mVidView);
             coldLaunch = false;
         } else {

@@ -9,7 +9,7 @@
     <include
         android:id="@+id/card_view"
         layout="@layout/card_layout_preview"
-        android:visibility="visible"
+        android:visibility="invisible"
         tools:visibility="invisible"/>
 
     <View
@@ -47,7 +47,6 @@
         android:id="@+id/like_count_icon"
         android:layout_width="@dimen/theme_heart_size"
         android:layout_height="19dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignLeft="@id/card_title"
         android:layout_alignStart="@id/card_title"
         android:layout_below="@id/card_title"
@@ -60,7 +59,6 @@
         style="@style/NormalText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignBottom="@id/like_count_icon"
         android:layout_marginBottom="@dimen/theme_text_space"
         android:layout_marginTop="@dimen/theme_text_space"
@@ -75,7 +73,6 @@
     <android.support.percent.PercentRelativeLayout
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignBottom="@id/like_count_icon"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"

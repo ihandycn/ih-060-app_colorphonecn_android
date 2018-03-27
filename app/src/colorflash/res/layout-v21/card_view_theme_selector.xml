@@ -4,14 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/theme_text_margin_bottom_half"
     android:clipChildren="false">
 
     <include
         android:id="@+id/card_view"
         layout="@layout/card_layout_preview"
         android:visibility="visible"
-        tools:visibility="invisible"/>
+        tools:visibility="visible"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="111dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/wallpaper_item_bg"/>
 
     <ImageView
         android:id="@+id/theme_hot_mark"
@@ -21,6 +28,7 @@
         android:layout_alignStart="@id/card_view"
         android:layout_alignTop="@id/card_view"
         android:layout_gravity="start|top"
+        android:elevation="@dimen/preview_window_elevation"
         android:src="@drawable/theme_card_badge_hot" />
 
     <ImageView
@@ -31,19 +39,22 @@
         android:layout_alignRight="@id/card_view"
         android:layout_alignTop="@id/card_view"
         android:layout_gravity="end|top"
+        android:elevation="@dimen/preview_window_elevation"
         android:src="@drawable/ic_ringtone_badge" />
     
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/card_title"
         style="@style/NormalText"
+        android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/theme_card_margin_horizontal"
         android:layout_marginStart="@dimen/theme_card_margin_horizontal"
-        android:layout_marginBottom="16dp"
+        android:paddingBottom="16dp"
+        android:layout_marginBottom="@dimen/theme_text_margin_top"
         android:textColor="@color/textDark"
         android:textSize="18sp"
+        android:elevation="@dimen/preview_window_elevation"
         app:typeface="@string/proxima_nova_semibold"
         tools:text="Neon" />
 
@@ -61,9 +72,11 @@
         android:id="@+id/like_count_icon"
         android:layout_width="@dimen/theme_heart_size"
         android:layout_height="19dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignLeft="@id/card_title"
         android:layout_alignStart="@id/card_title"
         android:layout_below="@id/card_title"
+        android:elevation="@dimen/preview_window_elevation"
         app:lottie_fileName="lottie/like.json"
         app:lottie_loop="false"
         app:lottie_progress="0" />
@@ -73,11 +86,13 @@
         style="@style/NormalText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignBottom="@id/like_count_icon"
         android:layout_marginBottom="@dimen/theme_text_space"
         android:layout_marginTop="@dimen/theme_text_space"
         android:layout_toEndOf="@id/like_count_icon"
         android:layout_toRightOf="@id/like_count_icon"
+        android:elevation="@dimen/preview_window_elevation"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
         android:textColor="@color/textLightGray"
@@ -87,11 +102,12 @@
     <android.support.percent.PercentRelativeLayout
         android:layout_width="42dp"
         android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignBottom="@id/like_count_icon"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:elevation="@dimen/preview_window_elevation"
         android:gravity="center"
-        android:layout_alignTop="@id/card_title"
         android:layout_marginEnd="@dimen/theme_card_margin_horizontal"
         android:layout_marginRight="@dimen/theme_card_margin_horizontal"
 

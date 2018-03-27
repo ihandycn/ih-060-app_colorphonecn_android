@@ -776,7 +776,6 @@ public final class Utils {
         activity.setSupportActionBar(toolbar);
         final Drawable upArrow = ContextCompat.getDrawable(activity, upDrawable);
         upArrow.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
-        upArrow.setColorFilter(0xffff0000, PorterDuff.Mode.SRC_ATOP);
         activity.getSupportActionBar().setHomeAsUpIndicator(upArrow);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.getSupportActionBar().setDisplayShowHomeEnabled(true);

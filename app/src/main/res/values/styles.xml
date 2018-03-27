@@ -138,15 +138,6 @@
         <item name="aspectRatioOverride">0.5627</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
-    <style name="RatioView.Container">
-        <item name="android:layout_alignParentTop">true</item>
-        <item name="android:layout_marginLeft">@dimen/theme_card_margin_horizontal</item>
-        <item name="android:layout_marginRight">@dimen/theme_card_margin_horizontal</item>
-        <item name="android:clipChildren">false</item>
-        <item name="cardCornerRadius">@dimen/theme_card_radius</item>
-        <item name="cardPreventCornerOverlap">false</item>
-        <item name="cardBackgroundColor">@android:color/transparent</item>
-    </style>
 
     <style name="guide_all_features_image">
         <item name="android:layout_marginLeft">24dp</item>

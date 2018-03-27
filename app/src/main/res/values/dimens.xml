@@ -52,4 +52,5 @@
 
     <dimen name="promote_screen_icon_half_height">32dp</dimen>
 
+    <dimen name="preview_window_elevation">6dp</dimen>
 </resources>
