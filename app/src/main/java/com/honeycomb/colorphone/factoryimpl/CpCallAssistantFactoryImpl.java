@@ -9,7 +9,6 @@ import android.media.AudioManager;
 import android.os.Handler;
 
 import com.acb.call.service.InCallWindow;
-import com.acb.utils.PermissionUtils;
 import com.call.assistant.receiver.IncomingCallReceiver;
 import com.call.assistant.ui.CallIdleAlert;
 import com.honeycomb.colorphone.AdPlacements;
@@ -20,6 +19,7 @@ import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
+import com.honeycomb.colorphone.notification.permission.PermissionUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -227,10 +227,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             return R.drawable.color_phone_logo;
         }
 
-        @Override
-        public int getMarkAsSpamAppNameDrawable() {
-            return R.drawable.mark_as_spam_app_logo;
-        }
     }
 
 }
