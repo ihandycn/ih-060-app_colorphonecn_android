@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="RatioView.Container">
+        <item name="android:layout_marginTop">@dimen/theme_text_margin_bottom_half</item>
         <item name="android:layout_marginEnd">@dimen/theme_card_margin_horizontal</item>
         <item name="android:layout_marginLeft">@dimen/theme_card_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/theme_card_margin_horizontal</item>

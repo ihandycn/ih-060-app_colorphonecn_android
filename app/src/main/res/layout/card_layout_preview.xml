@@ -8,7 +8,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/theme_text_margin_bottom_half"
     tools:showIn="@layout/card_view_theme_selector">
 
     <com.honeycomb.colorphone.view.RatioCornerImageView

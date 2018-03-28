@@ -5,6 +5,7 @@
     </style>
 
     <style name="RatioView.Container">
+        <item name="android:layout_marginTop">@dimen/theme_text_margin_bottom_half</item>
         <item name="android:layout_marginLeft">2dp</item>
         <item name="android:layout_marginStart">2dp</item>
         <item name="android:layout_marginRight">2dp</item>
@@ -14,4 +15,5 @@
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardBackgroundColor">@android:color/transparent</item>
     </style>
+
 </resources>

@@ -10,7 +10,7 @@
         android:id="@+id/card_view"
         layout="@layout/card_layout_preview"
         android:visibility="visible"
-        tools:visibility="visible"/>
+        tools:visibility="invisible"/>
 
     <View
         android:layout_width="match_parent"
