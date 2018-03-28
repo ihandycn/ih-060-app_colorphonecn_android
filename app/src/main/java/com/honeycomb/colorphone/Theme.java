@@ -10,6 +10,7 @@ import android.support.annotation.AnyRes;
 import android.text.TextUtils;
 
 import com.acb.call.themes.Type;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
@@ -67,7 +68,13 @@ public class Theme extends Type {
     public static void updateThemes() {
         updateTypes();
         themes.clear();
-        for (Type type : Type.values()) {
+
+        ArrayList<Type> types = Type.values();
+        if (types.isEmpty() || !(types.get(0) instanceof Theme)) {
+            CrashlyticsCore.getInstance().logException(new Exception("Theme load fail!"));
+            return;
+        }
+        for (Type type : types) {
             if (type.getValue() == NONE) {
                 continue;
             }

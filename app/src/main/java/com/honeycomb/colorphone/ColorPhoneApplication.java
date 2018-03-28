@@ -260,6 +260,9 @@ public class ColorPhoneApplication extends HSApplication {
         });
 
         initNotificationAlarm();
+
+        Theme.updateThemes();
+
     }
 
     private void initRecentApps() {
