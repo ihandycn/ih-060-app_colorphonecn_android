@@ -13,6 +13,7 @@ import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.messagecenter.notification.NotificationMessageAlertActivity;
@@ -163,9 +164,11 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             @Override
             public void messageViewShowed(int msgSrcCount, String flurryMessageType, String flurryAlertShowWhere) {
                 NotificationAutoPilotUtils.logMessageAssistantShow();
-                LauncherAnalytics.logEvent("Message_View_Shown");
+                HSAnalytics.logEvent("Message_View_Shown", "msgSrcCount", String.valueOf(msgSrcCount),
+                        "messageType", flurryMessageType, "AlertShowWhere", flurryAlertShowWhere);
+
                 if (flurryAlertShowWhere.equals("OnLockScreen")) {
-                    NotificationAutoPilotUtils.logMessageAssistantShowOnLockScreen();
+                    HSAnalytics.logEvent("Message_View_Shown_OnLockScreen", "messageType", flurryMessageType);
                 }
             }
 
