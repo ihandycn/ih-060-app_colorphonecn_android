@@ -56,8 +56,7 @@ public class AppInfo {
             try {
                 icon = aInfo.loadIcon(HSApplication.getContext().getPackageManager());
                 mIconReference = new WeakReference<Drawable>(icon);
-            } catch (Resources.NotFoundException e) {
-            } catch (OutOfMemoryError e) {
+            } catch (Resources.NotFoundException | IllegalArgumentException e) {
                 // do nothing
             }
         }
