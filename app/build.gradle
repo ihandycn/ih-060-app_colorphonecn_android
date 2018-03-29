@@ -43,6 +43,8 @@ dependencies {
         transitive = true;
     }
 
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.3'
+
     // ==== Support ====
     compile("com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION")
     compile("com.android.support:design:$SUPPORT_LIBRARY_VERSION")
