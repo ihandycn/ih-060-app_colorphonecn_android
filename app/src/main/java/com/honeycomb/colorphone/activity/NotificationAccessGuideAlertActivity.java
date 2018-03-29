@@ -107,7 +107,7 @@ public class NotificationAccessGuideAlertActivity extends Activity {
     private void initAppIconAndName() {
         ImageView appIcon = findViewById(R.id.app_icon);
         TextView appName = findViewById(R.id.app_name);
-        appIcon.setImageResource(R.drawable.drawer_icon);
+        appIcon.setImageResource(R.mipmap.ic_launcher);
         appName.setText(R.string.app_name);
     }
 
