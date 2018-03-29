@@ -2,14 +2,11 @@ package com.honeycomb.colorphone.factoryimpl;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 
-import com.acb.call.utils.CallUtils;
 import com.acb.utils.NavUtils;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
-import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
