@@ -15,4 +15,5 @@
 
     <color name="title_color">#cc000000</color>
     <color name="subtitle_color">#66000000</color>
+    <color name="dialog_bg">#282432</color>
 </resources>
