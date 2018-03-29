@@ -72,7 +72,6 @@
     <string name="promote_add_for_free" translatable="false">ADD FOR FREE</string>
     <string name="promote_no_thanks" translatable="false">NO, THANKS</string>
     <string name="promote_apply_success" translatable="false">APPLY SUCCESS!</string>
-    <string name="promote_apply_subtitle" translatable="false">Begin to enjoy color phone</string>
 
     <!--Ringtone-->
     <string name="ringtone_hint_after_apply">Set the theme and ringtone successfully</string>
@@ -146,7 +145,6 @@
 
     <!--notification access -->
     <string name="acb_phone_grant_notification_access_title">Enable Notifications Access to Answer Calls</string>
-    <string name="acb_phone_enable_notification_access_description">Grant notification access for Color Phone to answer incoming calls. Please enable it manually</string>
     <string name="acb_phone_enable_notification">Enable it Now</string>
 
 </resources>
