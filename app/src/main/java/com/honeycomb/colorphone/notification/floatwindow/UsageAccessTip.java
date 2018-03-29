@@ -52,11 +52,9 @@ public class UsageAccessTip extends RelativeLayout {
 
     private void initRes() {
         ImageView appIcon = findViewById(R.id.app_icon);
-        appIcon.setImageResource(R.drawable.drawer_icon);
-
+        appIcon.setImageResource(R.mipmap.ic_launcher);
         TextView appName = findViewById(R.id.app_name);
         appName.setText(R.string.app_name);
-
 
         LottieAnimationView lottieAnimationView = findViewById(R.id.lottie_anim);
         if (NotificationAutoPilotUtils.isNotificationAccessTipAnimated()) {
