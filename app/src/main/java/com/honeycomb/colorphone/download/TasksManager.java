@@ -31,15 +31,16 @@ public class TasksManager {
 
     public static void doDownload(TasksManagerModel model, Object tag) {
         if (model != null) {
-            FileDownloadListener listener;
-            listener = FileDownloadMultiListener.getDefault();
-
-            if (getImpl().getTask(model.getId()) != null) {
+            BaseDownloadTask oldTask = getImpl().getTask(model.getId());
+            if (oldTask != null && oldTask.isRunning()) {
                 if (DEBUG_PROGRESS) {
                     HSLog.d("SUNDXING", "Task Exist, taskId = " + model.getId());
                 }
                 return;
             }
+
+            FileDownloadListener listener;
+            listener = FileDownloadMultiListener.getDefault();
             final BaseDownloadTask task = FileDownloader.getImpl().create(model.getUrl())
                     .setPath(model.getPath())
                     .setCallbackProgressTimes(100)
