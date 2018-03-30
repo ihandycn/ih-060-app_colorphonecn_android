@@ -39,7 +39,7 @@
             android:layout_height="66dp"
             android:elevation="@dimen/dialog_elevation"
             android:background="@drawable/avatar_selector"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
 
     </LinearLayout>
 
