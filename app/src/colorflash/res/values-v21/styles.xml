@@ -10,4 +10,9 @@
         <item name="cardElevation">6dp</item>
         <item name="cardBackgroundColor">@android:color/transparent</item>
     </style>
+
+
+    <style name="AppLightStatusBarTheme" parent="AppTheme">
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+    </style>
 </resources>

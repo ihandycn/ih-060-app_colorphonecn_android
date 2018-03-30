@@ -54,7 +54,6 @@ public class WelcomeActivity extends Activity {
     private void toMainView() {
         mVidView.destroy();
         startActivity(new Intent(WelcomeActivity.this, ColorPhoneActivity.class));
-        overridePendingTransition(R.anim.slide_up, R.anim.slide_up);
     }
 
     @Override

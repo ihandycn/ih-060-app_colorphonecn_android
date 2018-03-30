@@ -1,7 +1,6 @@
 <resources>
 
     <!--No Translate-->
-    <string name="facebook_app_id" translatable="false">1477114002355335</string>
     <string name="loading_progress" translatable="false">%1$d %%</string>
     <string name="acb_phone_caller_default_name" translatable="false">Marry</string>
     <string name="acb_phone_caller_default_number" translatable="false">626-202-3399</string>
