@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -450,7 +451,10 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
     }
 
     private static boolean isNewUser() {
-        return HSApplication.getFirstLaunchInfo().appVersionCode >= 19;
+        if (TextUtils.equals(BuildConfig.FLAVOR, "colorphone")) {
+            return HSApplication.getFirstLaunchInfo().appVersionCode >= 19;
+        }
+        return true;
     }
 
     private static boolean isHadFiveStarRate() {

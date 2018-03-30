@@ -4,7 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.FontUtils;
@@ -78,13 +82,18 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
         mLayoutTransY = getResources().getDimensionPixelOffset(R.dimen.contact_item_footer_offset);
         mHeaderOffset = getResources().getDimensionPixelOffset(R.dimen.contact_item_header_offset);
         setContentView(R.layout.activity_contacts);
-        View navBack = findViewById(R.id.nav_back);
+
+        ImageView navBack = findViewById(R.id.nav_back);
+        final Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.back_dark);
+        upArrow.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+        navBack.setImageDrawable(upArrow);
         navBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+
         TextView textViewTitle = findViewById(R.id.nav_title);
         textViewTitle.setText(R.string.contact_theme);
 

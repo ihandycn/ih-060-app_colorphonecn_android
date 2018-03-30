@@ -1,15 +1,9 @@
 <resources>
-
-
     <!--Need Translate-->
-    <string name="app_name">Color Phone</string>
     <string name="app_slogan">Nổi bật với điểm nhấn màu sắc</string>
-    <string name="color_phone_disable">Hủy kích hoạt Color Phone</string>
-    <string name="color_phone_enabled">Kích hoạt Color Phone</string>
 
     <string name="settings">Cài đặt</string>
     <string name="feedback">Phản hồi</string>
-
 
     <string name="theme_apply">Áp dụng</string>
     <string name="apply_success">Thiết lập Thành công</string>
@@ -20,15 +14,12 @@
     <string name="privacy_policy">Chính sách Bảo mật</string>
     <string name="terms_of_service">Điều khoản Dịch vụ</string>
 
-
-    <string name="guide_locker_and_call_hint">Bật Trình Hỗ trợ Cuộc gọi &amp; Sạc Thông minh để:\n Nhắc bạn về các cuộc gọi nhỡ\n Cung cấp tình trạng sạc pin chi tiết</string>
     <string name="guide_enable_all_module">Bật Trình Hỗ trợ Điện thoại, Sạc Thông minh &amp; Trình Bảo vệ Màn hình</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Thử giao diện cuộc gọi độc đáo để khiến điện thoại của bạn trở nên thời trang hơn. Tính năng có thể chứa quảng cáo.</string>
     <string name="about">Giới thiệu</string>
 
     <string name="guide_apply_theme_hint">Chủ đề Màn hình Người gọi của bạn đã được cài đặt thành công! Chúc vui vẻ!</string>
-
 
     <string name="smart_charging">Sạc Thông Minh</string>
     <string name="smart_charging_hint">Tự động theo dõi trạng thái sạc và chấm dứt tình trạng sạc quá mức để ngăn chặn hỏng pin. (Có thể chứa quảng cáo.)</string>

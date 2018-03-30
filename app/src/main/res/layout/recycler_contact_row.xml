@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:layout_width="40dp"
         app:rlv_titleSize="28sp"
-        app:rlv_titleColor="@color/white"
+        app:rlv_titleColor="@color/primaryText"
         android:layout_height="40dp" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
@@ -29,7 +29,8 @@
         android:gravity="center_vertical"
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
-        android:textColor="#b2000000"
+        android:textColor="@color/primaryText"
+        android:alpha="0.7"
         android:textSize="20sp"
         app:typeface="@string/proxima_nova_regular"
         tools:text="Arank" />
@@ -48,7 +49,8 @@
         android:gravity="center_vertical"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
-        android:textColor="#b2000000"
+        android:textColor="@color/primaryText"
+        android:alpha="0.7"
         android:textSize="16sp"
         app:typeface="@string/proxima_nova_semibold"
         tools:text="Arank Great Last One" />

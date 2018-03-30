@@ -1,15 +1,9 @@
 <resources>
-
-
     <!--Need Translate-->
-    <string name="app_name">Kleurentelefoon</string>
     <string name="app_slogan">Val op met een kleurrijk tintje</string>
-    <string name="color_phone_disable">Kleurentelefoon is uitgeschakeld</string>
-    <string name="color_phone_enabled">Kleurentelefoon is ingeschakeld</string>
 
     <string name="settings">Instellingen</string>
     <string name="feedback">Feedback</string>
-
 
     <string name="theme_apply">Toepassen</string>
     <string name="apply_success">Instellen is gelukt</string>
@@ -20,8 +14,6 @@
     <string name="privacy_policy">Privacybeleid</string>
     <string name="terms_of_service">Servicevoorwaarden</string>
 
-
-    <string name="guide_locker_and_call_hint">Schakel Oproephulp &amp; Slim opladen in om:\n je te herinneren aan gemiste oproepen\n oplaaddetails te bekijken</string>
     <string name="guide_enable_all_module">Telefoonassistent, Slim opladen &amp; Screensaver inschakelen</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Probeer de unieke oproepinterface om je telefoon nog modieuzer
@@ -29,7 +21,6 @@
     <string name="about">Ongeveer</string>
 
     <string name="guide_apply_theme_hint">Het thema van je Oproepscherm is ingesteld! Veel plezier!</string>
-
 
     <string name="smart_charging">Slim opladen</string>
     <string name="smart_charging_hint">Oplaadstatus automatisch volgen en schade aan de batterij door overladen voorkomen. (Mag advertenties bevatten)</string>

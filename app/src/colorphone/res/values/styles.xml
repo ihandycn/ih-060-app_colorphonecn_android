@@ -1,0 +1,33 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorWindowBackground</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/black</item>
+    </style>
+
+    <style name="NormalText.Drawer">
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="RatioView.Container">
+        <item name="android:layout_marginTop">@dimen/theme_text_margin_bottom_half</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginLeft">@dimen/theme_card_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/theme_card_margin_horizontal</item>
+        <item name="android:clipChildren">false</item>
+        <item name="cardCornerRadius">@dimen/theme_card_radius</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardBackgroundColor">@android:color/transparent</item>
+    </style>
+
+</resources>

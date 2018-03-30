@@ -1,13 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/colorWindowBackground</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    <style name="AppLightStatusBarTheme.Welcome" parent="AppLightStatusBarTheme">
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="ContactTheme" parent="AppLightStatusBarTheme">
@@ -18,11 +13,6 @@
         <item name="android:windowBackground">@drawable/page_start_bg</item>
     </style>
 
-    <style name="AppLightStatusBarTheme.Welcome" parent="AppLightStatusBarTheme">
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
     <style name="AppLightStatusBarTheme" parent="AppTheme"/>
 
     <style name="Theme.AppCompat.Translucent" parent="AppTheme">
@@ -31,10 +21,6 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
-    </style>
-    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">true</item>
-        <item name="color">@android:color/black</item>
     </style>
 
     <style name="AppTheme.FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
@@ -112,11 +98,11 @@
     </style>
 
     <style name="NormalText.Settings">
-        <item name="android:textColor">#101010</item>
+        <item name="android:textColor">@color/primaryText</item>
         <item name="android:textSize">16dp</item>
     </style>
     <style name="NormalText.SettingsHint">
-        <item name="android:textColor">#606060</item>
+        <item name="android:textColor">@color/primarySubText</item>
         <item name="android:textSize">14dp</item>
     </style>
 
@@ -141,15 +127,6 @@
     <style name="RatioView.Image">
         <item name="aspectRatioOverride">0.5627</item>
         <item name="android:scaleType">fitCenter</item>
-    </style>
-    <style name="RatioView.Container">
-        <item name="android:layout_alignParentTop">true</item>
-        <item name="android:layout_marginLeft">@dimen/theme_card_margin_horizontal</item>
-        <item name="android:layout_marginRight">@dimen/theme_card_margin_horizontal</item>
-        <item name="android:clipChildren">false</item>
-        <item name="cardCornerRadius">@dimen/theme_card_radius</item>
-        <item name="cardPreventCornerOverlap">false</item>
-        <item name="cardBackgroundColor">@color/transparent</item>
     </style>
 
     <style name="guide_all_features_image">

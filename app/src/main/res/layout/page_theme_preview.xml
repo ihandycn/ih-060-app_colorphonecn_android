@@ -47,7 +47,7 @@
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:background="@drawable/bubble_h"
-            android:textColor="@color/textDark"
+            android:textColor="@color/transparent_black"
             android:textSize="14sp"
             android:minHeight="48dp"
             android:visibility="gone"/>

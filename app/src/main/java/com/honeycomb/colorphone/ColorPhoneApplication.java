@@ -44,7 +44,6 @@ import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
-import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -90,7 +89,6 @@ import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 
 import static android.content.IntentFilter.SYSTEM_HIGH_PRIORITY;
-import static com.honeycomb.colorphone.notification.NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID;
 
 public class ColorPhoneApplication extends HSApplication {
     private static ConfigLog mConfigLog;

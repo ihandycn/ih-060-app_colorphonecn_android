@@ -1,15 +1,9 @@
 <resources>
-
-
     <!--Need Translate-->
-    <string name="app_name">Renkli Arama</string>
     <string name="app_slogan">Renkli bir dokunuş ile göze çarpın</string>
-    <string name="color_phone_disable">Renkli Arama Devreden Çıkarıldı</string>
-    <string name="color_phone_enabled">Renkli Arama Etkinleştirildi</string>
 
     <string name="settings">Ayarlar</string>
     <string name="feedback">Geri bildirim</string>
-
 
     <string name="theme_apply">Uygula</string>
     <string name="apply_success">Başarıyla ayarlandı</string>
@@ -20,15 +14,12 @@
     <string name="privacy_policy">Gizlilik Politikası</string>
     <string name="terms_of_service">Hizmet Şartları</string>
 
-
-    <string name="guide_locker_and_call_hint">Arama Asistanı ve Akıllı Şarjı etkinleştir:\n Cevapsız aramalar hatırlatılsın\n Ayrıntılı şarj durumu verilsin</string>
     <string name="guide_enable_all_module">Telefon Asistanı, Akıllı Şarj ve Ekran Koruyucuyu Etkinleştir</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Telefonunu modaya daha uygun hale getirmek için benzersiz arama arayüzünü dene. Reklam içerebilir.</string>
     <string name="about">Hakkında</string>
 
     <string name="guide_apply_theme_hint">Arama Ekranı teman başarıyla ayarlandı! Keyfini Sür!</string>
-
 
     <string name="smart_charging">Akıllı Şarj</string>
     <string name="smart_charging_hint">Şarj durumunu otomatik olarak izle ve pilin hasar görmesini engellemek için aşırı şarjı durdur. (reklam içerebilir.)</string>

@@ -106,7 +106,8 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginStart="2dp"
                 android:text="@string/guide_enable_all_module"
-                android:textColor="#99000000"
+                android:textColor="@color/primaryText"
+                android:alpha="0.6"
                 android:textSize="10sp"
                 app:typeface="@string/proxima_nova_regular" />
         </LinearLayout>
@@ -138,7 +139,7 @@
                 android:gravity="center"
                 android:padding="2dp"
                 android:text=" &amp; "
-                android:textColor="#66000000"
+                android:textColor="@color/subtitle_color"
                 android:textSize="10sp"
                 app:typeface="@string/proxima_nova_regular" />
 

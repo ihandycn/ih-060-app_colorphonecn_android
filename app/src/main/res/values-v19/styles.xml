@@ -2,7 +2,7 @@
 <resources>
     <style name="AppLightStatusBarTheme.Welcome" parent="AppLightStatusBarTheme">
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 

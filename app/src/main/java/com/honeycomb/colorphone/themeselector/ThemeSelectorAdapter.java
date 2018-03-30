@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -145,11 +146,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         };
         layoutManager = new GridLayoutManager(HSApplication.getContext(), 2);
         layoutManager.setSpanSizeLookup(spanSizeLookup);
-        mTransX = activity.getResources().getDimensionPixelOffset(R.dimen.theme_card_margin_horizontal) * 0.6f;
+        if (TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+            mTransX = -Utils.pxFromDp(1);
+        } else {
+            mTransX = activity.getResources().getDimensionPixelOffset(R.dimen.theme_card_margin_horizontal) * 0.6f;
+        }
         if (Dimensions.isRtl()) {
             mTransX = -mTransX;
         }
-
     }
 
     public void setHeaderTipVisible(boolean visible) {
@@ -542,6 +546,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void initChildView() {
             mCallActionView = (InCallActionView) itemView.findViewById(R.id.card_in_call_action_view);
             mCallActionView.setAutoRun(false);
+            if (TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+                mCallActionView.setVisibility(View.INVISIBLE);
+            }
             mAvatar = (ImageView) mContentView.findViewById(R.id.caller_avatar);
             mAvatarName = (TextView) mContentView.findViewById(R.id.first_line);
             mAccept = (ImageView) mContentView.findViewById(R.id.call_accept);
@@ -550,8 +557,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mRingtoneMark = itemView.findViewById(R.id.theme_ringtone_mark);
             mThemeHotMark = itemView.findViewById(R.id.theme_hot_mark);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mRingtoneMark.setElevation(Utils.pxFromDp(6));
-                mThemeHotMark.setElevation(Utils.pxFromDp(6));
                 mThemeHotMark.setTranslationX(pxFromDp(-1));
             }
 
@@ -587,7 +592,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (theme.isSelected()) {
                 mThemeFlashPreviewWindow.playAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(true);
-                mCallActionView.setAutoRun(true);
+                if (!TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+                    mCallActionView.setAutoRun(true);
+                }
             } else {
                 mThemeFlashPreviewWindow.clearAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(false);
@@ -665,7 +672,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         private void endLoadingScene() {
             mThemeLoadingImg.setVisibility(View.INVISIBLE);
-            mCallActionView.setVisibility(View.VISIBLE);
+            if (!TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+                mCallActionView.setVisibility(View.VISIBLE);
+            }
             mThemeFlashPreviewWindow.getCallView().setVisibility(View.VISIBLE);
         }
 
@@ -812,7 +821,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void startAnimation() {
             if (mHolderDataReady) {
                 mThemeFlashPreviewWindow.startAnimations();
-                mCallActionView.doAnimation();
+                if (!TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+                    mCallActionView.doAnimation();
+                }
             }
         }
     }

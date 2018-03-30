@@ -1,15 +1,9 @@
 <resources>
-
-
     <!--Need Translate-->
-    <string name="app_name">रंगीन फोन</string>
     <string name="app_slogan">रंगीन टच के साथ अलग दिखें</string>
-    <string name="color_phone_disable">रंगीन फोन अक्षम</string>
-    <string name="color_phone_enabled">रंगीन फोन सक्षम</string>
 
     <string name="settings">सेटिंग्स</string>
     <string name="feedback">प्रतिक्रिया</string>
-
 
     <string name="theme_apply">लागू करें</string>
     <string name="apply_success">सफलतापूर्वक सेट</string>
@@ -20,15 +14,12 @@
     <string name="privacy_policy">गोपनीयता नीति</string>
     <string name="terms_of_service">सेवा की शर्तें</string>
 
-
-    <string name="guide_locker_and_call_hint">कॉल सहायक एवं स्‍मार्ट चार्जिंग सक्षम करने के लिए:\n आपको छूटी हुई कॉल की याद दिलाए\nविस्‍तृत चार्जिंग स्‍तर उपलब्‍ध करवाए</string>
     <string name="guide_enable_all_module">फोन सहायक, स्‍मार्ट चार्जिंग एवं स्‍क्रीनसेवर सक्षम करें</string>
 
     <string name="acb_outapp_guide_screen_flash_content">अपने फोन को और फैशनेबल बनाने के लिए यूनिक कॉल इंटफेस ट्राई करें। इसमें विज्ञापन हो सकते हैं।</string>
     <string name="about">परिचय</string>
 
     <string name="guide_apply_theme_hint">कॉलर स्‍क्रीन पर आपकी थीम सफलतापूर्वक सेट हो चुकी है! इसका आनंद लें!</string>
-
 
     <string name="smart_charging">स्मार्ट चार्जिंग</string>
     <string name="smart_charging_hint">बैटरी को क्षति से बचाने के लिए चार्जिंग के स्तर को स्वत: मॉनिटर करें और ओवरचार्जिंग रोके (ज्ञापन हो सकते हैं।)</string>

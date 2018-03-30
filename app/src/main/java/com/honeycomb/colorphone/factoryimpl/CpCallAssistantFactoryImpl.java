@@ -218,10 +218,19 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         }
 
         @Override
+        public boolean showMarkAsSpam() {
+            return true;
+        }
+
+        @Override
         public int getAppNameDrawable() {
             return R.drawable.color_phone_logo;
         }
 
+//        @Override
+//        public int getMarkAsSpamAppNameDrawable() {
+//            return R.drawable.mark_as_spam_app_logo;
+//        }
     }
 
 }

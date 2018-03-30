@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start|left"
-            android:background="@color/white"
+            android:background="@color/colorPrimary"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/app_name"
-                android:textColor="#404040"
+                android:textColor="@color/drawerText"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:typeface="@string/proxima_nova_semibold" />
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@string/app_slogan"
-                android:textColor="#8a8a8a"
+                android:textColor="@color/drawerSubText"
                 app:typeface="@string/proxima_nova_regular" />
 
             <RelativeLayout
@@ -65,7 +65,7 @@
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     android:id="@+id/settings_main_switch_txt"
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -97,7 +97,7 @@
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     android:id="@+id/led_flash_switch_txt"
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -128,7 +128,7 @@
                     android:src="@drawable/settings_icon_contacts" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/nav_item_inner_spacing"
@@ -148,7 +148,7 @@
                     android:src="@drawable/settings_icon_feedback" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/nav_item_inner_spacing"
@@ -168,7 +168,7 @@
                     android:src="@drawable/settings_icon_setting" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/nav_item_inner_spacing"
@@ -188,7 +188,7 @@
                     android:src="@drawable/settings_icon_about" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/nav_item_inner_spacing"

@@ -770,7 +770,7 @@ public final class Utils {
     }
 
     public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar, int upDrawable) {
-        toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.white));
+        toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimary));
         toolbar.setTitleTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
 
         activity.setSupportActionBar(toolbar);

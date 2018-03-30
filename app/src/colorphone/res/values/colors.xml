@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorWindowBackground">@android:color/white</color>
+    <color name="colorPrimary">@android:color/white</color>
+    <color name="colorPrimaryDark">#0d0d0d</color>
+    <color name="colorAccent">#ffe400</color>
+    <color name="primaryText">#101010</color>
+    <color name="primarySubText">#606060</color>
+    <color name="drawerText">#404040</color>
+    <color name="drawerSubText">#8a8a8a</color>
+
+    <color name="textLightGray">#999999</color>
+    <color name="textDark">#cc000000</color>
+    <color name="textBlack">#E8000000</color>
+
+    <color name="title_color">#cc000000</color>
+    <color name="subtitle_color">#66000000</color>
+    <color name="dialog_bg">#282432</color>
+</resources>
