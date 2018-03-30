@@ -65,7 +65,7 @@
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     android:id="@+id/settings_main_switch_txt"
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -97,7 +97,7 @@
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     android:id="@+id/led_flash_switch_txt"
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -128,7 +128,7 @@
                     android:src="@drawable/settings_icon_contacts" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/nav_item_inner_spacing"
@@ -148,7 +148,7 @@
                     android:src="@drawable/settings_icon_feedback" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/nav_item_inner_spacing"
@@ -168,7 +168,7 @@
                     android:src="@drawable/settings_icon_setting" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/nav_item_inner_spacing"
@@ -188,7 +188,7 @@
                     android:src="@drawable/settings_icon_about" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
-                    style="@style/NormalText.Settings"
+                    style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/nav_item_inner_spacing"

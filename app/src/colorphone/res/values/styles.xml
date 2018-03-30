@@ -14,6 +14,11 @@
         <item name="color">@android:color/black</item>
     </style>
 
+    <style name="NormalText.Drawer">
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
     <style name="RatioView.Container">
         <item name="android:layout_marginTop">@dimen/theme_text_margin_bottom_half</item>
         <item name="android:layout_alignParentTop">true</item>

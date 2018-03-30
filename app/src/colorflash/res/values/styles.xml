@@ -16,6 +16,12 @@
         <item name="color">@android:color/white</item>
     </style>
 
+    <style name="NormalText.Drawer">
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:alpha">0.8</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
     <style name="RatioView.Container">
         <item name="android:layout_marginTop">@dimen/theme_text_margin_bottom_half</item>
         <item name="android:layout_marginLeft">1dp</item>
