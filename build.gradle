@@ -35,22 +35,7 @@ allprojects {
         maven { url 'https://maven.fabric.io/public' }
         maven { url "https://s3.amazonaws.com/avocarrot-android-builds/dist" }
         maven {
-            url "http://git.ihandysoft.com:8081/nexus/content/repositories/beta" // beta仓库
-            credentials {
-                username project.username // 使用之前配置的用户名
-                password project.credentials."${project.username}" // 使用之前配置的密码
-            }
-        }
-        maven {
-            url "http://git.ihandysoft.com:8081/nexus/content/repositories/gm" // gm仓库
-            credentials {
-                username project.username
-                password project.credentials."${project.username}"
-            }
-        }
-        maven {
-            url "http://git.ihandysoft.com:8081/nexus/content/repositories/thirdparty/"
-            // thirdparty仓库
+            url "http://git.ihandysoft.com:8081/repository/ihandygroup/"
             credentials {
                 username project.username
                 password project.credentials."${project.username}"
