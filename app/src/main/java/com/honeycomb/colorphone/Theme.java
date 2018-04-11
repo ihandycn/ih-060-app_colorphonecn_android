@@ -17,6 +17,7 @@ import com.ihs.commons.utils.HSLog;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Color phone theme.
@@ -33,6 +34,8 @@ public class Theme extends Type {
     private boolean isSelected;
     private boolean isLike;
     private boolean isNotificationEnabled;
+    private boolean isLocked;
+    private boolean canDownload;
     private String ringtoneUrl;
     private String ringtonePath;
 
@@ -231,5 +234,21 @@ public class Theme extends Type {
 
     public void setRingtonePath(String ringtonePath) {
         this.ringtonePath = ringtonePath;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public boolean isCanDownload() {
+        return canDownload;
+    }
+
+    public void setCanDownload(boolean canDownload) {
+        this.canDownload = canDownload;
     }
 }

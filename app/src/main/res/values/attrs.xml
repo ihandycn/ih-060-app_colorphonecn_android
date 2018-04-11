@@ -89,4 +89,13 @@
     <declare-styleable name="FixedRatioLayout">
         <attr name="aspectRatio" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="InsetAttr">
+        <attr name="layout_insetWay" format="enum">
+            <enum name="none" value="0" />
+            <enum name="padding" value="1" />
+            <enum name="margin" value="2" />
+        </attr>
+    </declare-styleable>
+
 </resources>

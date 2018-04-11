@@ -73,6 +73,7 @@ import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
+import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.HSFrameworkAdapter.AcbHSFrameworkAdapter;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
@@ -183,6 +184,12 @@ public class ColorPhoneApplication extends HSApplication {
                 type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
                 type.setRingtoneUrl(HSMapUtils.optString(map, "", Theme.CONFIG_RINGTONE));
 
+
+                if(type.getId() == 10) {
+                    type.setLocked(true);
+                    type.setCanDownload(true);
+                }
+
                 return type;
             }
         });
@@ -191,7 +198,7 @@ public class ColorPhoneApplication extends HSApplication {
         ContactManager.init();
 
 
-
+        AcbRewardAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_REWARD_VIDEO);
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
 

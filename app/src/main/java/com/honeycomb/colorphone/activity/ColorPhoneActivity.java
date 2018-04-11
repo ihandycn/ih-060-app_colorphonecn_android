@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -69,6 +71,8 @@ import hugo.weaving.DebugLog;
 public class ColorPhoneActivity extends HSAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
 
+    public static final String NOTIFICATION_ON_REWARDED = "notification_on_rewarded";
+
     public static final String PREFS_THEME_APPLY = "theme_apply_array";
     private static final String PREFS_THEME_LIKE = "theme_like_array";
     private static final String PREFS_SCROLL_TO_BOTTOM = "prefs_main_scroll_to_bottom";
@@ -76,6 +80,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
+    private RewardVideoView mRewardVideoView;
 
     private SwitchCompat mainSwitch;
     private SwitchCompat ledFlaseSwitch;
@@ -153,6 +158,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         HSLog.d("XXX", " focus change:" + hasFocus);
+    }
+
+    public void showRewardVideoView() {
+        requestRewardAd();
     }
 
     @DebugLog
@@ -351,6 +360,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (mRecyclerView != null) {
             mRecyclerView.setAdapter(null);
         }
+
+        if (mRewardVideoView != null) {
+            mRewardVideoView.onCancel();
+        }
         super.onDestroy();
     }
 
@@ -503,6 +516,30 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void toggle() {
         boolean isChecked = mainSwitch.isChecked();
         mainSwitch.setChecked(!isChecked);
+    }
+
+    private void requestRewardAd() {
+        if (mRewardVideoView == null) {
+            mRewardVideoView = new RewardVideoView((ViewGroup) findViewById(R.id.drawer_layout), new RewardVideoView.OnRewarded() {
+                @Override
+                public void onRewarded() {
+
+                    HSBundle bundle = new HSBundle();
+                    HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED);
+                }
+
+                @Override
+                public void onAdClose() {
+
+                }
+
+                @Override
+                public void onAdCloseAndRewarded() {
+
+                }
+            });
+        }
+        mRewardVideoView.onRequestRewardVideo();
     }
 
     @Override

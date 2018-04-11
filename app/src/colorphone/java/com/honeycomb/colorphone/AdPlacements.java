@@ -15,4 +15,6 @@ public class AdPlacements {
     public static final String AD_RESULT_PAGE = "ColorPhone_A(NativeAds)Boost";
     public static final String AD_RESULT_PAGE_INTERSTITIAL = "ColorPhone_A(InterstitialAds)Weel";
     public static final String SMART_ASSISTANT_PLACEMENT_NAME = "RecentAppsPlus";
+    public static final String AD_REWARD_VIDEO = "Reward";
+
 }

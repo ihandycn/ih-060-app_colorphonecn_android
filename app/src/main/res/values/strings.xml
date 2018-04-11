@@ -146,4 +146,11 @@
     <string name="acb_phone_grant_notification_access_title">Enable Notifications Access to Answer Calls</string>
     <string name="acb_phone_enable_notification">Enable it Now</string>
 
+
+    <!--reward_video-->
+
+    <string name="watch_video_to_unlock">"Watch a video to unlock</string>
+    <string name="showing_ads">Showing Ads...</string>
+    <string name="load_reward_ad_error">Oops… try again later.</string>
+
 </resources>

@@ -35,6 +35,48 @@
         android:layout_gravity="center"
         android:src="@drawable/theme_loading_holder" />
 
+    <RelativeLayout
+        android:id="@+id/lock_action_view"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:gravity="center_horizontal|bottom"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/watch_video_to_unlock_gradient_bg"
+        >
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/unlock_button"
+            android:layout_width="23dp"
+            android:layout_height="19dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            app:srcCompat="@drawable/ic_video_to_unlock"
+            />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toLeftOf="@+id/unlock_button"
+            android:layout_toStartOf="@+id/unlock_button"
+            android:gravity="center_vertical"
+            android:textColor="#c1ffffff"
+            android:layout_marginBottom="15dp"
+            app:typeface="@string/proxima_nova_semibold"
+            android:text="@string/watch_video_to_unlock"
+            />
+
+    </RelativeLayout>
+
     <com.acb.call.views.InCallActionView
         android:id="@+id/card_in_call_action_view"
         android:layout_width="match_parent"
