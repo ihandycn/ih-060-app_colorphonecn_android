@@ -585,13 +585,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (mLockLayout == null) {
             mLockLayout = stub.inflate();
             mUnLockButton = mLockLayout.findViewById(R.id.unlock_button_container);
+
             mUnLockButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showRewardVideoToUnlockTheme();
-                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Clicked");
+                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Clicked", "from", "detail_page", "themeName", mTheme.getName());
                 }
             });
+            LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show");
+
         }
         mActionLayout.setVisibility(GONE);
     }
