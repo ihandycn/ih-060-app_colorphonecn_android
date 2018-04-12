@@ -13,7 +13,9 @@
     <color name="textDark">#cc000000</color>
     <color name="textBlack">#E8000000</color>
 
+    <color name="promote_locker_guide_bg">#CC000000</color>
+
     <color name="title_color">#cc000000</color>
     <color name="subtitle_color">#66000000</color>
-    <color name="dialog_bg">#282432</color>
+    <color name="dialog_bg">#FFFFFF</color>
 </resources>

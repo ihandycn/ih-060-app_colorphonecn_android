@@ -12,6 +12,7 @@
     <color name="textLightGray">#999999</color>
     <color name="textDark">#ccffffff</color>
     <color name="textBlack">#E8ffffff</color>
+    <color name="promote_locker_guide_bg">#0c0217</color>
 
     <color name="title_color">#ccffffff</color>
     <color name="subtitle_color">#66ffffff</color>

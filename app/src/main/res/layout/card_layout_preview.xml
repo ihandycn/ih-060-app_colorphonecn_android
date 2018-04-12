@@ -41,6 +41,7 @@
         android:layout_height="84dp"
         android:gravity="center_horizontal|bottom"
         android:layout_gravity="bottom|center_horizontal"
+        android:visibility="gone"
         android:background="@drawable/watch_video_to_unlock_gradient_bg"
         >
 
