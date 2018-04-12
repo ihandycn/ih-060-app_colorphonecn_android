@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Toasts;
 
@@ -103,6 +104,10 @@ public class RewardVideoView {
                     });
 
                     ad.show();
+                    AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
+                    if (mOnRewardedCallback != null) {
+                        mOnRewardedCallback.onAdShow();
+                    }
                     onHideAdLoading();
                 }
             }
@@ -136,5 +141,7 @@ public class RewardVideoView {
         void onAdClose();
 
         void onAdCloseAndRewarded();
+
+        void onAdShow();
     }
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -45,14 +46,14 @@ public class AdLoadingView extends InsettableFrameLayout {
         View container = findViewById(R.id.bg_view);
 
         if (mFullScreenAdLoading) {
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) container.getLayoutParams();
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) container.getLayoutParams();
             params.width = ViewGroup.LayoutParams.MATCH_PARENT;
             params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-            params.gravity = Gravity.CENTER;
+            params.gravity = Gravity.CENTER_VERTICAL;
             container.setLayoutParams(params);
         }
 
-        container.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0x80000000, Dimensions.pxFromDp(4), false));
+        container.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xA0000000, Dimensions.pxFromDp(4), false));
         progressView = findViewById(R.id.dialog_loading_image_view);
         progressView.startAnimation(rotatingAnimation);
     }

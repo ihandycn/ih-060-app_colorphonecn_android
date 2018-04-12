@@ -38,19 +38,6 @@
         android:textSize="15sp"
         app:typeface="@string/proxima_nova_light" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
-        android:id="@+id/tv_contains_ads"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/welcome_guide_function_enable_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/guide_txt_margin_vertical"
-        android:layout_marginTop="6dp"
-        android:text="@string/acb_call_guide_sub_content"
-        android:textColor="#999999"
-        android:textSize="13sp"
-        app:typeface="@string/proxima_nova_light" />
-
     <Button
         android:id="@+id/welcome_guide_function_enable_btn"
         app:layout_widthPercent="78%"

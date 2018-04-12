@@ -59,4 +59,6 @@
 
     <color name="transparent">#00000000</color>
     <color name="transparent_black_in_lock">#B0000000</color>
+    <color name="transparent_black_in_theme_preview">#A0000000</color>
+
 </resources>

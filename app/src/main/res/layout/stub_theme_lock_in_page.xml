@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@color/transparent_black">
+    android:background="@color/transparent_black_in_theme_preview">
 
     <ImageView
         android:layout_width="94dp"

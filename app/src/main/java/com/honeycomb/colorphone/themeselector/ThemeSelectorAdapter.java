@@ -185,6 +185,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
 
+
     public void setHeaderTipVisible(boolean visible) {
         mTipHeaderVisible = visible;
     }
@@ -447,6 +448,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                             ((ColorPhoneActivity) activity).showRewardVideoView();
                         }
                         mUnLockThemeId = curTheme.getId();
+                        LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Clicked", "from", "list",  "themeName", curTheme.getName());
                     }
                 });
 

@@ -30,6 +30,7 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
+import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
@@ -60,6 +61,8 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
+
+import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -286,6 +289,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Show");
             }
         }
+        AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
     }
 
     @Override
@@ -528,6 +532,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mAdapter.getUnLockThemeId());
                     }
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
+                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "list");
                 }
 
                 @Override
@@ -538,6 +543,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 @Override
                 public void onAdCloseAndRewarded() {
 
+                }
+
+                @Override
+                public void onAdShow() {
+
+                    //todo theme name needs to be recorded
+                    LauncherAnalytics.logEvent("Colorphone_Rewardvideo_show", "from", "list");
                 }
             }, false);
         }

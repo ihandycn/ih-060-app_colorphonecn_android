@@ -1072,20 +1072,27 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     HSBundle bundle = new HSBundle();
                     bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mTheme.getId());
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
-                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "themeName", mTheme.getName());
+                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "detail_page", "themeName", mTheme.getName());
                 }
 
                 @Override
                 public void onAdClose() {
-
+                    mUnLockButton.setClickable(true);
                 }
 
                 @Override
                 public void onAdCloseAndRewarded() {
 
                 }
+
+                @Override
+                public void onAdShow() {
+                    LauncherAnalytics.logEvent("Colorphone_Rewardvideo_show", "from", "detail_page", "themeName", mTheme.getName());
+                }
             }, true);
         }
+
+        mUnLockButton.setClickable(false);
         mRewardVideoView.onRequestRewardVideo();
     }
 
