@@ -163,8 +163,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSLog.d("XXX", " focus change:" + hasFocus);
     }
 
-    public void showRewardVideoView() {
-        requestRewardAd();
+    public void showRewardVideoView(String themeName) {
+        requestRewardAd(themeName);
     }
 
     @DebugLog
@@ -522,7 +522,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mainSwitch.setChecked(!isChecked);
     }
 
-    private void requestRewardAd() {
+    private void requestRewardAd(final String themeName) {
         if (mRewardVideoView == null) {
             mRewardVideoView = new RewardVideoView((ViewGroup) findViewById(R.id.drawer_layout), new RewardVideoView.OnRewarded() {
                 @Override
@@ -532,7 +532,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mAdapter.getUnLockThemeId());
                     }
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
-                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "list");
+                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "list", "themeName",themeName);
                 }
 
                 @Override
@@ -549,7 +549,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 public void onAdShow() {
 
                     //todo theme name needs to be recorded
-                    LauncherAnalytics.logEvent("Colorphone_Rewardvideo_show", "from", "list");
+                    LauncherAnalytics.logEvent("Colorphone_Rewardvideo_show", "from", "list", "themeName", themeName);
                 }
             }, false);
         }

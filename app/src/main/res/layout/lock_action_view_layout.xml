@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="84dp"
     android:gravity="center_horizontal|bottom"
+    android:visibility="gone"
     android:layout_gravity="bottom|center_horizontal"
     android:background="@drawable/watch_video_to_unlock_gradient_bg"
     xmlns:android="http://schemas.android.com/apk/res/android"

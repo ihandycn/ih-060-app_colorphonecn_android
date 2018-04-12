@@ -53,7 +53,7 @@ public class AdLoadingView extends InsettableFrameLayout {
             container.setLayoutParams(params);
         }
 
-        container.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xA0000000, Dimensions.pxFromDp(4), false));
+        container.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xCC000000, Dimensions.pxFromDp(4), false));
         progressView = findViewById(R.id.dialog_loading_image_view);
         progressView.startAnimation(rotatingAnimation);
     }
