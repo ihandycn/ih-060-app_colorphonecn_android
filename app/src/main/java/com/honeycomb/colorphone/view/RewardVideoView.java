@@ -27,19 +27,21 @@ public class RewardVideoView {
     private AdLoadingView mAdLoadingView;
     private AcbRewardAdLoader mRewardAdLoader;
     private OnRewarded mOnRewardedCallback;
+    private boolean mFullScreenAdLoading;
 
     public RewardVideoView(ViewGroup root) {
-        this(root, null);
+        this(root, null, false);
     }
 
-    public RewardVideoView(ViewGroup root, OnRewarded callback) {
+    public RewardVideoView(ViewGroup root, OnRewarded callback, boolean fullScreenAdLoading) {
         mRootView = root;
         mOnRewardedCallback = callback;
+        mFullScreenAdLoading = fullScreenAdLoading;
     }
 
     private void onShowAdLoading() {
         if (mAdLoadingView == null) {
-            mAdLoadingView = new AdLoadingView(mRootView.getContext());
+            mAdLoadingView = new AdLoadingView(mRootView.getContext(), mFullScreenAdLoading);
             mRootView.addView(mAdLoadingView, MATCH_PARENT);
         }
     }

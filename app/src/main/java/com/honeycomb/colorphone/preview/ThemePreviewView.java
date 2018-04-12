@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -59,6 +60,7 @@ import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
+import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
@@ -71,6 +73,7 @@ import java.util.Locale;
 
 import hugo.weaving.DebugLog;
 
+import static com.honeycomb.colorphone.activity.ColorPhoneActivity.NOTIFICATION_ON_REWARDED;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
@@ -120,6 +123,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private Theme mTheme;
     private Type mThemeType;
     private View dimCover;
+
+    private View mLockLayout; //may be null
+    private ViewGroup mUnLockButton;
+    private RewardVideoView mRewardVideoView;
+
 
     // DownloadTask
     private SparseArray<DownloadTask> mDownloadTasks = new SparseArray<>(2);
@@ -413,6 +421,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mProgressViewHolder.hide();
         previewWindow.updateThemeLayout(mThemeType);
 
+        if (mTheme.isLocked()) {
+            switchToLockState();
+        }
+
         setCustomStyle();
 
         if (needTransAnim) {
@@ -566,6 +578,25 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return false;
     }
 
+    private void switchToLockState() {
+        ViewStub stub = findViewById(R.id.lock_layout);
+        dimCover.setVisibility(INVISIBLE);
+        mRingtoneViewHolder.hide();
+        if (mLockLayout == null) {
+            mLockLayout = stub.inflate();
+            mUnLockButton = mLockLayout.findViewById(R.id.unlock_button_container);
+            mUnLockButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showRewardVideoToUnlockTheme();
+                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Clicked");
+                }
+            });
+        }
+        mActionLayout.setVisibility(GONE);
+    }
+
+
     private void playTransInAnimation(final Runnable completeRunnable) {
         View callName = findViewById(R.id.first_line);
         View numberName = findViewById(R.id.second_line);
@@ -575,14 +606,26 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             userView = findViewById(R.id.caller_avatar);
         }
 
-        if (mNoTransition) {
+        if (mTheme.isLocked()) {
+            callName.setVisibility(INVISIBLE);
+            numberName.setVisibility(INVISIBLE);
+            userView.setVisibility(INVISIBLE);
+            callActionView.setVisibility(INVISIBLE);
+
             if (completeRunnable != null) {
                 completeRunnable.run();
             }
             return;
         }
 
+        if (mNoTransition) {
+            if (completeRunnable != null) {
+                completeRunnable.run();
+            }
+            return;
+        }
         int pHeight = Utils.getPhoneHeight(mActivity);
+
         final View[] animViews = new View[] {userView, callName, numberName, callActionView};
         final int[] alpha = new int[] {0, 0, 0 ,0};
         final float[] transY = new float[] {-pHeight * 0.15f, -pHeight * 0.12f, -pHeight * 0.12f, pHeight * 0.15f};
@@ -738,7 +781,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         getTransBottomLayout().setTranslationY(0);
         mRingtoneViewHolder.transIn(true, false);
         animationDelay = 0;
-        if (isSelectedPos()) {
+        if (isSelectedPos() && !mTheme.isLocked()) {
             checkNewFeatureGuideView();
         } else {
             scheduleNextHide();
@@ -819,6 +862,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
                 request.into(previewImage);
 
+            }
+
+            if (mTheme.isLocked()) {
+                switchToLockState();
             }
         }
     }
@@ -914,6 +961,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void download(DownloadTask task) {
+        if (mTheme.isLocked()) {
+            if (!mTheme.canBeDownloaded()) {
+                mProgressViewHolder.hide();
+                return;
+            }
+        }
+
         task.setStatus(DownloadTask.DOWNLOADING);
         if (task.isMediaTheme()) {
             downloadTheme(task.getTasksManagerModel());
@@ -933,9 +987,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         TasksManager.doDownload(model, null);
 
         // Notify download status.
-        HSBundle bundle = new HSBundle();
-        bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
-        HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_DOWNLOAD, bundle);
+
+        if (!mTheme.isLocked()) {
+            HSBundle bundle = new HSBundle();
+            bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
+            HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_DOWNLOAD, bundle);
+        }
+
 
         FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mDownloadStateListener);
     }
@@ -971,6 +1029,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         onStop();
 
+        if (mRewardVideoView != null) {
+            mRewardVideoView.onCancel();
+        }
         super.onDetachedFromWindow();
     }
 
@@ -1002,6 +1063,32 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             setButtonState(isCurrentTheme());
         }
     }
+
+    private void showRewardVideoToUnlockTheme() {
+        if (mRewardVideoView == null) {
+            mRewardVideoView = new RewardVideoView((ViewGroup) findViewById(R.id.root), new RewardVideoView.OnRewarded() {
+                @Override
+                public void onRewarded() {
+                    HSBundle bundle = new HSBundle();
+                    bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mTheme.getId());
+                    HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
+                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "themeName", mTheme.getName());
+                }
+
+                @Override
+                public void onAdClose() {
+
+                }
+
+                @Override
+                public void onAdCloseAndRewarded() {
+
+                }
+            }, true);
+        }
+        mRewardVideoView.onRequestRewardVideo();
+    }
+
 
     private boolean isCurrentTheme() {
         return ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();

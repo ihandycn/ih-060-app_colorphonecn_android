@@ -523,9 +523,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mRewardVideoView = new RewardVideoView((ViewGroup) findViewById(R.id.drawer_layout), new RewardVideoView.OnRewarded() {
                 @Override
                 public void onRewarded() {
-
                     HSBundle bundle = new HSBundle();
-                    HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED);
+                    if (mAdapter.getUnLockThemeId() != -1) {
+                        bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mAdapter.getUnLockThemeId());
+                    }
+                    HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
                 }
 
                 @Override
@@ -537,7 +539,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 public void onAdCloseAndRewarded() {
 
                 }
-            });
+            }, false);
         }
         mRewardVideoView.onRequestRewardVideo();
     }

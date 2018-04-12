@@ -150,7 +150,10 @@
     <!--reward_video-->
 
     <string name="watch_video_to_unlock">"Watch a video to unlock</string>
-    <string name="showing_ads">Showing Ads...</string>
+    <string name="loading_reward_videos">loading video...</string>
     <string name="load_reward_ad_error">Oops… try again later.</string>
+    <string name="watch_video_to_unlock_free_theme">Watch an video to unlock the free theme</string>
+    <string name="unlock">UNLOCK</string>
+
 
 </resources>

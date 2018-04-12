@@ -183,12 +183,8 @@ public class ColorPhoneApplication extends HSApplication {
                 type.setNotificationEnabled(HSMapUtils.optBoolean(map, false, "LocalPush", "Enable"));
                 type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
                 type.setRingtoneUrl(HSMapUtils.optString(map, "", Theme.CONFIG_RINGTONE));
-
-
-                if(type.getId() == 10) {
-                    type.setLocked(true);
-                    type.setCanDownload(true);
-                }
+                type.setLocked(HSMapUtils.optBoolean(map,false, "Status", "Lock"));
+                type.setCanDownload(!HSMapUtils.optBoolean(map,false, "Status", "StaticPreview"));
 
                 return type;
             }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -133,6 +134,13 @@
             android:background="@drawable/btn_bg_yellow"
             android:src="@drawable/icon_contact" />
     </LinearLayout>
+
+    <ViewStub
+        android:id="@+id/lock_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout="@layout/stub_theme_lock_in_page"
+        />
 
     <!--Display guide window, dim behind -->
     <ViewStub

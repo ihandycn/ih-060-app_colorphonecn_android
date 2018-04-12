@@ -14,6 +14,7 @@ import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,6 +30,9 @@ public class Theme extends Type {
     public static final String CONFIG_RINGTONE = "Ringtone";
 
     private static final boolean DEBUG_THEME_CHANGE = BuildConfig.DEBUG & false;
+
+    private static final String PREFS_FILE_THEME_LOCK_STATE = "prefs_theme_lock_state_file";
+    private static final String PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX ="prefs_theme_lock_id_prefix";
 
     private long download;
     private boolean isSelected;
@@ -241,10 +245,19 @@ public class Theme extends Type {
     }
 
     public void setLocked(boolean locked) {
-        isLocked = locked;
+        Preferences file = Preferences.get(PREFS_FILE_THEME_LOCK_STATE);
+        boolean userUnLock = file.getBoolean(PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX + getId(), false);
+        if (userUnLock) {
+            isLocked = false;
+        } else if (!locked){
+            isLocked = false;
+            file.putBoolean(PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX + getId(), true);
+        } else {
+            isLocked = true;
+        }
     }
 
-    public boolean isCanDownload() {
+    public boolean canBeDownloaded() {
         return canDownload;
     }
 
