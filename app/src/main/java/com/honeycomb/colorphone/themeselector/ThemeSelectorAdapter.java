@@ -445,7 +445,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     @Override
                     public void onClick(View v) {
                         if (activity instanceof ColorPhoneActivity) {
-                            ((ColorPhoneActivity) activity).showRewardVideoView();
+                            ((ColorPhoneActivity) activity).showRewardVideoView(curTheme.getName());
                         }
                         mUnLockThemeId = curTheme.getId();
                         LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Clicked", "from", "list",  "themeName", curTheme.getName());
