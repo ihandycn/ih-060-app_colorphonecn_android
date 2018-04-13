@@ -33,8 +33,7 @@ public class LockerSettings {
     }
 
     public static boolean isLockerConfigEnabled() {
-        return ConfigUtils.isShowModulesDueToConfig()
-                || (ConfigUtils.isEnabled(LOCKER_ENABLE_PATH) && ConfigUtils.isScreenAdEnabledThisVersion());
+        return (ConfigUtils.isEnabled(LOCKER_ENABLE_PATH) && ConfigUtils.isScreenAdEnabledThisVersion());
     }
 
     public static boolean isLockerUserEnabled() {

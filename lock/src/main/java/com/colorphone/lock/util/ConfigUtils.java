@@ -80,7 +80,7 @@ public class ConfigUtils {
         if (HSApplication.getContext().getPackageName().equals("com.colorphone.smooth.dialer")) {
             return HSApplication.getFirstLaunchInfo().appVersionCode < SHOW_AD_VERSION_CODE;
         }
-        return true;
+        return false;
     }
 
 }
