@@ -22,12 +22,12 @@
 
 
     <string name="smart_charging">Intelligentes Aufladen</string>
-    <string name="smart_charging_hint">Automatisch Aufladestatus überwachen und Überladung sowie Beschädigungen des Akkus vermeiden. (Kann Werbung enthalten.)</string>
+    <string name="smart_charging_hint">Automatisch Aufladestatus überwachen und Überladung sowie Beschädigungen des Akkus vermeiden.</string>
 
     <string name="color_lockscreen">Farb-Bildschirmschoner</string>
     <string name="color_lockscreen_hint">Verehren Sie Ihren Bildschirmschoner mit verschiedenen fantastischen und coolen Designs (Kann Werbung enthalten)</string>
     <string name="sms_assistant">SMS-Assistent</string>
-    <string name="sms_assistant_hint">Der SMS-Assistent erinnert Sie an neue Nachrichten (Kann Werbung enthalten)</string>
+    <string name="sms_assistant_hint">Der SMS-Assistent erinnert Sie an neue Nachrichten</string>
     <string name="call_assistant_hint">Der Anrufassistent erinnert Sie an verpasste Anrufe (Kann Werbung enthalten)</string>
 
     <string name="theme_set_for_all">FÜR ALLE FESTLEGEN</string>
@@ -53,7 +53,7 @@
 
     <string name="may_contain_ads">Kann Werbung enthalten.</string>
 
-    <string name="guide_first_page_title">Bitte Funktionen und Genehmigungen aktivieren für:\\nErinnerung an verpasste Anrufe\nAngabe eines detaillierten Ladestatus</string>
+    <string name="guide_first_page_title">Bitte Funktionen und Genehmigungen aktivieren für:\\nErinnerung an verpasste Anrufe</string>
 
     <string name="avatar_content">Avatar sofort erstellen</string>
     <string name="action_back">ZURÜCK</string>

@@ -14,7 +14,7 @@
     <string name="privacy_policy">Informativa sulla privacy</string>
     <string name="terms_of_service">Condizioni per l’utilizzo del servizio</string>
 
-    <string name="guide_enable_all_module">Attiva assistente telefono, Ricarica intelligente e salvaschermo</string>
+    <string name="guide_enable_all_module">Attiva assistente telefono</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Prova l’esclusiva interfaccia per le chiamate per avere un
         telefono alla moda. Potrebbe contenere annunci pubblicitari.</string>
@@ -23,12 +23,12 @@
     <string name="guide_apply_theme_hint">Il tema per la schermata delle chiamate è stato impostato. Buon divertimento!</string>
 
     <string name="smart_charging">Ricarica intelligente</string>
-    <string name="smart_charging_hint">Monitora automaticamente lo stato della ricarica impedendo un caricamento eccessivo, evitando così il danneggiamento della batteria. (Potrebbe contenere annunci pubblicitari.)</string>
+    <string name="smart_charging_hint">Monitora automaticamente lo stato della ricarica impedendo un caricamento eccessivo, evitando così il danneggiamento della batteria.</string>
 
     <string name="color_lockscreen">Salvaschermo colorato</string>
     <string name="color_lockscreen_hint">Metti in risalto il tuo screensaver utilizzando temi fantastici e colorati (sono presenti contenuti pubblicitari)</string>
     <string name="sms_assistant">Assistente SMS</string>
-    <string name="sms_assistant_hint">L\'Assistente SMS ti ricorda i nuovi messaggi (sono presenti contenuti pubblicitari)</string>
+    <string name="sms_assistant_hint">L\'Assistente SMS ti ricorda i nuovi messaggi</string>
     <string name="call_assistant_hint">L\'Assistente di chiamata ti ricorda le chiamate perse (sono presenti contenuti pubblicitari)</string>
 
     <string name="theme_set_for_all">IMPOSTA PER TUTTI</string>
@@ -54,7 +54,7 @@
 
     <string name="may_contain_ads">Potrebbe contenere annunci pubblicitari.</string>
 
-    <string name="guide_first_page_title">Attiva le funzioni e consenti le autorizzazioni:\ Ricevi notifiche sulle chiamate perse\nOttieni informazioni dettagliate sullo stato della ricarica</string>
+    <string name="guide_first_page_title">Attiva le funzioni e consenti le autorizzazioni:\ Ricevi notifiche sulle chiamate perse</string>
 
     <string name="avatar_content">Crea subito il tuo avatar</string>
     <string name="action_back">INDIETRO</string>

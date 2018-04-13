@@ -14,7 +14,7 @@
     <string name="privacy_policy">Gizlilik Politikası</string>
     <string name="terms_of_service">Hizmet Şartları</string>
 
-    <string name="guide_enable_all_module">Telefon Asistanı, Akıllı Şarj ve Ekran Koruyucuyu Etkinleştir</string>
+    <string name="guide_enable_all_module">Telefon Asistanı Etkinleştir</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Telefonunu modaya daha uygun hale getirmek için benzersiz arama arayüzünü dene. Reklam içerebilir.</string>
     <string name="about">Hakkında</string>
@@ -22,12 +22,12 @@
     <string name="guide_apply_theme_hint">Arama Ekranı teman başarıyla ayarlandı! Keyfini Sür!</string>
 
     <string name="smart_charging">Akıllı Şarj</string>
-    <string name="smart_charging_hint">Şarj durumunu otomatik olarak izle ve pilin hasar görmesini engellemek için aşırı şarjı durdur. (reklam içerebilir.)</string>
+    <string name="smart_charging_hint">Şarj durumunu otomatik olarak izle ve pilin hasar görmesini engellemek için aşırı şarjı durdur.</string>
 
     <string name="color_lockscreen">Renkli Ekran Koruyucu</string>
     <string name="color_lockscreen_hint">Çeşitli şık ve havalı temalar kullanarak ekran koruyucunu güzelleştir (Reklam içerebilir)</string>
     <string name="sms_assistant">SMS Asistanı</string>
-    <string name="sms_assistant_hint">SMS Asistanı size yeni mesajları hatırlatır (Reklam içerebilir)</string>
+    <string name="sms_assistant_hint">SMS Asistanı size yeni mesajları hatırlatır</string>
     <string name="call_assistant_hint">Çağrı Asistanı size cevapsız aramaları hatırlatır (Reklam içerebilir)</string>
 
     <string name="theme_set_for_all">TÜMÜ İÇİN AYARLA</string>
@@ -54,7 +54,7 @@
     <string name="may_contain_ads">reklam içerebilir.</string>
 
 
-    <string name="guide_first_page_title">Lütfen özellikleri ve izinleri etkinleştirin:\ Cevapsız aramalar hatırlatılsın\nAyrıntılı şarj durumu verilsin.</string>
+    <string name="guide_first_page_title">Lütfen özellikleri ve izinleri etkinleştirin:\ Cevapsız aramalar hatırlatılsın.</string>
 
     <string name="avatar_content">Hemen avatar oluştur</string>
     <string name="action_back">GERİ</string>

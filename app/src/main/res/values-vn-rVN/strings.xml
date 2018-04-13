@@ -14,7 +14,7 @@
     <string name="privacy_policy">Chính sách Bảo mật</string>
     <string name="terms_of_service">Điều khoản Dịch vụ</string>
 
-    <string name="guide_enable_all_module">Bật Trình Hỗ trợ Điện thoại, Sạc Thông minh &amp; Trình Bảo vệ Màn hình</string>
+    <string name="guide_enable_all_module">Bật Trình Hỗ trợ Điện thoại</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Thử giao diện cuộc gọi độc đáo để khiến điện thoại của bạn trở nên thời trang hơn. Tính năng có thể chứa quảng cáo.</string>
     <string name="about">Giới thiệu</string>
@@ -22,12 +22,12 @@
     <string name="guide_apply_theme_hint">Chủ đề Màn hình Người gọi của bạn đã được cài đặt thành công! Chúc vui vẻ!</string>
 
     <string name="smart_charging">Sạc Thông Minh</string>
-    <string name="smart_charging_hint">Tự động theo dõi trạng thái sạc và chấm dứt tình trạng sạc quá mức để ngăn chặn hỏng pin. (Có thể chứa quảng cáo.)</string>
+    <string name="smart_charging_hint">Tự động theo dõi trạng thái sạc và chấm dứt tình trạng sạc quá mức để ngăn chặn hỏng pin.</string>
 
     <string name="color_lockscreen">Trình Bảo vệ Màn hình Màu sắc</string>
     <string name="color_lockscreen_hint">Tô điểm cho trình bảo vệ màn hình với nhiều chủ đề kiểu cách và thú vị (Có thể chứa quảng cáo)</string>
     <string name="sms_assistant">Trình Hỗ trợ SMS</string>
-    <string name="sms_assistant_hint">Trình Hỗ trợ SMS sẽ nhắc bạn về những tin nhắn mới (Có thể chứa quảng cáo)</string>
+    <string name="sms_assistant_hint">Trình Hỗ trợ SMS sẽ nhắc bạn về những tin nhắn mới</string>
     <string name="call_assistant_hint">Trình Hỗ trợ Cuộc gọi sẽ nhắc bạn về những cuộc gọi nhỡ (Có thể chứa quảng cáo)</string>
 
     <string name="theme_set_for_all">THIẾT LẬP CHO TẤT CẢ</string>
@@ -53,7 +53,7 @@
 
     <string name="may_contain_ads">Có thể chứa quảng cáo.</string>
 
-    <string name="guide_first_page_title">Hãy kích hoạt các tính năng và cấp phép:\ Nhắc nhở bạn về cuộc gọi nhỡ\n Cung cấp trạng thái sạc pin chi tiết.</string>
+    <string name="guide_first_page_title">Hãy kích hoạt các tính năng và cấp phép:\ Nhắc nhở bạn về cuộc gọi nhỡ.</string>
 
     <string name="avatar_content">Tạo hình đại diện của bạn ngay lập tức</string>
     <string name="action_back">QUAY LẠI</string>

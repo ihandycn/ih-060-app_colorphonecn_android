@@ -14,7 +14,7 @@
     <string name="privacy_policy">Политика конфиденциальности</string>
     <string name="terms_of_service">Условия использования</string>
 
-    <string name="guide_enable_all_module">Включить телефонный помощник, интеллектуальную зарядку и экранную заставку</string>
+    <string name="guide_enable_all_module">Включить телефонный помощник</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Сделайте ваш смартфон современнее с помощью уникального интерфейса звонков. Может содержать рекламу.</string>
     <string name="about">О приложении</string>
@@ -22,12 +22,12 @@
     <string name="guide_apply_theme_hint">Тема для экрана вызова успешно установлена! Наслаждайтесь!</string>
 
     <string name="smart_charging">Интеллектуальная зарядка</string>
-    <string name="smart_charging_hint">Автоматическое отслеживание зарядки позволяет избежать чрезмерного заряда и повреждения аккумулятора. (Может содержать рекламу.)</string>
+    <string name="smart_charging_hint">Автоматическое отслеживание зарядки позволяет избежать чрезмерного заряда и повреждения аккумулятора.</string>
 
     <string name="color_lockscreen">Цветная экранная заставка</string>
     <string name="color_lockscreen_hint">Украсьте экранную заставку с помощью потрясающих тем (может содержать рекламу)</string>
     <string name="sms_assistant">СМС-помощник</string>
-    <string name="sms_assistant_hint">СМС-помощник будет напоминать вам о новых сообщениях (может содержать рекламу)</string>
+    <string name="sms_assistant_hint">СМС-помощник будет напоминать вам о новых сообщениях</string>
     <string name="call_assistant_hint">Телефонный помощник будет напоминать вам о пропущенных вызовах (может содержать рекламу)</string>
 
     <string name="theme_set_for_all">УСТАНОВИТЬ ДЛЯ ВСЕХ</string>
@@ -54,7 +54,7 @@
     <string name="may_contain_ads">Может содержать рекламу.</string>
 
 
-    <string name="guide_first_page_title">Включите функции и предоставьте разрешения, чтобы:\ Получать напоминания о пропущенных вызовах\nПолучать подробную информацию о состоянии зарядки.</string>
+    <string name="guide_first_page_title">Включите функции и предоставьте разрешения, чтобы:\ Получать напоминания о пропущенных вызовах.</string>
 
     <string name="avatar_content">Создайте аватар прямо сейчас</string>
     <string name="action_back">НАЗАД</string>

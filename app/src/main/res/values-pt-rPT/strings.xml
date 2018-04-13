@@ -14,7 +14,7 @@
     <string name="privacy_policy">Política de Privacidade</string>
     <string name="terms_of_service">Termos de serviço</string>
 
-    <string name="guide_enable_all_module">Ative o Assistente do Telefone, o Carregamento Inteligente e o Protetor de Tela</string>
+    <string name="guide_enable_all_module">Ative o Assistente do Telefone</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Experimente a interface de chamadas única para dar mais estilo
         ao seu telefone. Pode conter anúncios.</string>
@@ -23,12 +23,12 @@
     <string name="guide_apply_theme_hint">O tema da tela de quem está ligando foi definido com sucesso!</string>
 
     <string name="smart_charging">Carregamento inteligente</string>
-    <string name="smart_charging_hint">Monitorize automaticamente o estado de carga e pare os carregamentos exagerados para impedir danos à bateria. (Pode conter anúncios.)</string>
+    <string name="smart_charging_hint">Monitorize automaticamente o estado de carga e pare os carregamentos exagerados para impedir danos à bateria.</string>
 
     <string name="color_lockscreen">Protetor de Tela Colorido</string>
     <string name="color_lockscreen_hint">Deixe seu protetor de tela mais bonito com vários temas bacanas e modernos (Pode conter anúncios)</string>
     <string name="sms_assistant">Assistente de SMS</string>
-    <string name="sms_assistant_hint">O Assistente de SMS lembrará você das mensagens novas (Pode conter anúncios)</string>
+    <string name="sms_assistant_hint">O Assistente de SMS lembrará você das mensagens novas</string>
     <string name="call_assistant_hint">O Assistente de Chamadas lembrará você das chamadas perdidas (Pode conter anúncios)</string>
 
     <string name="theme_set_for_all">DEFINIR PARA TODOS</string>
@@ -54,7 +54,7 @@
 
     <string name="may_contain_ads">Pode conter anúncios.</string>
 
-    <string name="guide_first_page_title">Por favor, ative os recursos e as permissões:\ Lembra você das chamadas perdidas\nFornece status detalhado de carregamento.</string>
+    <string name="guide_first_page_title">Por favor, ative os recursos e as permissões:\ Lembra você das chamadas perdidas.</string>
 
     <string name="avatar_content">Crie seu avatar agora mesmo</string>
     <string name="action_back">VOLTAR</string>

@@ -14,7 +14,7 @@
     <string name="privacy_policy">プライバシー規約</string>
     <string name="terms_of_service">利用規約</string>
 
-    <string name="guide_enable_all_module">電話アシスタント、スマートチャージ＆スクリーンセーバーを有効にする</string>
+    <string name="guide_enable_all_module">電話アシスタント有効にする</string>
 
     <string name="acb_outapp_guide_screen_flash_content">携帯電話をよりおしゃれにするために、ユニークな通話インターフェイスをお試しください。広告が含まれる可能性があります。</string>
     <string name="about">アバウト</string>
@@ -23,13 +23,13 @@
 
 
     <string name="smart_charging">スマート充電</string>
-    <string name="smart_charging_hint">自動的に充電状態を監視し、過充電を止めてバッテリの損傷を防止します。 （広告を含む場合があります。）</string>
+    <string name="smart_charging_hint">自動的に充電状態を監視し、過充電を止めてバッテリの損傷を防止します。</string>
 
     <string name="color_lockscreen">カラー・スクリーンセーバー</string>
     <string name="color_lockscreen_hint">さまざまなファンシーでクールなテーマを使ってスクリーンセーバーを輝かせましょう
   （広告が含まれている可能性があります）</string>
     <string name="sms_assistant">SMSアシスタント</string>
-    <string name="sms_assistant_hint">SMSアシスタントは新しいメッセージの着信をお知らせします（広告が含まれている可能性があります）</string>
+    <string name="sms_assistant_hint">SMSアシスタントは新しいメッセージの着信をお知らせします</string>
     <string name="call_assistant_hint">SMSアシスタントは不在着信をお知らせします（広告が含まれている可能性があります）</string>
 
     <string name="theme_set_for_all">すべてを設定</string>
@@ -55,7 +55,7 @@
 
     <string name="may_contain_ads">広告を含む場合があります。</string>
 
-    <string name="guide_first_page_title">機能と権限を有効にしてください:\ 不在着信をリマインドする\n詳細な充電状況を提供。</string>
+    <string name="guide_first_page_title">機能と権限を有効にしてください:\ 不在着信をリマインドする。</string>
 
     <string name="avatar_content">自分のアバターをすぐに作ってください</string>
     <string name="action_back">戻る</string>

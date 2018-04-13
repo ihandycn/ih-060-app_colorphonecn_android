@@ -25,8 +25,8 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="terms_of_service">Terms of service</string>
 
-    <string name="guide_enable_all_module">Enable Phone Assistant, Smart Charging &amp; Screensaver</string>
-    <string name="guide_first_page_title">Please enable the features and permissions:\n Remind you about missed calls\n Provide detailed charging status.</string>
+    <string name="guide_enable_all_module">Enable Phone Assistant</string>
+    <string name="guide_first_page_title">Please enable the features and permissions:\n Remind you about missed calls.</string>
     <string name="guide_first_page_title_old">Enable Call Assistant &amp; Smart Charging to:\n Remind you about missed calls\n Provide detailed charging status.</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Try the unique call interface to make your phone more fashionable. It may contain ads.</string>
@@ -35,13 +35,13 @@
 
     <string name="smart_charging">Smart Charging</string>
     <string name="smart_charging_hint">Automatically monitor charging status and stop over-charging to prevent
-        battery damage (May contain ads)</string>
+        battery damage</string>
 
     <string name="color_lockscreen">Color Screensaver</string>
     <string name="color_lockscreen_hint">Glorify your screensaver using various fancy and cool themes (May contain
         ads)</string>
     <string name="sms_assistant">SMS Assistant</string>
-    <string name="sms_assistant_hint">SMS Assistant will remind you of new messages (May contain ads)</string>
+    <string name="sms_assistant_hint">SMS Assistant will remind you of new messages</string>
     <string name="call_assistant_hint">Call Assistant will remind you of missed calls (May contain ads)</string>
 
 

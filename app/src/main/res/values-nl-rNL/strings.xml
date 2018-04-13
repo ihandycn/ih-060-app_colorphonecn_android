@@ -14,7 +14,7 @@
     <string name="privacy_policy">Privacybeleid</string>
     <string name="terms_of_service">Servicevoorwaarden</string>
 
-    <string name="guide_enable_all_module">Telefoonassistent, Slim opladen &amp; Screensaver inschakelen</string>
+    <string name="guide_enable_all_module">Telefoonassistent inschakelen</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Probeer de unieke oproepinterface om je telefoon nog modieuzer
         te maken. Kan advertenties bevatten.</string>
@@ -23,13 +23,13 @@
     <string name="guide_apply_theme_hint">Het thema van je Oproepscherm is ingesteld! Veel plezier!</string>
 
     <string name="smart_charging">Slim opladen</string>
-    <string name="smart_charging_hint">Oplaadstatus automatisch volgen en schade aan de batterij door overladen voorkomen. (Mag advertenties bevatten)</string>
+    <string name="smart_charging_hint">Oplaadstatus automatisch volgen en schade aan de batterij door overladen voorkomen.</string>
 
     <string name="color_lockscreen">Screensaver Color</string>
     <string name="color_lockscreen_hint">Verfraai je screensaver met allerlei gave en coole thema\'s
   (Kan advertenties bevatten)</string>
     <string name="sms_assistant">SMS-assistent</string>
-    <string name="sms_assistant_hint">SMS-assistent herinnert je aan nieuwe berichten (Kan advertenties bevatten)</string>
+    <string name="sms_assistant_hint">SMS-assistent herinnert je aan nieuwe berichten</string>
     <string name="call_assistant_hint">Oproepassistent herinnert je aan gemiste oproepen (Kan advertenties bevatten)</string>
 
     <string name="theme_set_for_all">VOOR ALLES INSTELLEN</string>
@@ -55,7 +55,7 @@
 
     <string name="may_contain_ads">Mag advertenties bevatten</string>
 
-    <string name="guide_first_page_title">Schakel de functies in en geef toestemming:\ \n- Laat je herinneren aan gemiste oproepen\n- Bekijk informatie over de oplaadstatus</string>
+    <string name="guide_first_page_title">Schakel de functies in en geef toestemming:\ \n- Laat je herinneren aan gemiste oproepen</string>
 
     <string name="avatar_content">Maak direct je avatar</string>
     <string name="action_back">TERUG</string>

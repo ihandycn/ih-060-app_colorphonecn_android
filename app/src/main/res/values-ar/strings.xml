@@ -14,7 +14,7 @@
     <string name="privacy_policy">سياسة الخصوصية</string>
     <string name="terms_of_service">شروط الخدمة</string>
 
-    <string name="guide_enable_all_module">مكّن مساعد المكالمات والشحن الذكي وشاشة التوقف</string>
+    <string name="guide_enable_all_module">مكّن مساعد المكالمات</string>
 
     <string name="acb_outapp_guide_screen_flash_content">جرّب واجهة المكالمات الفريدة لتجعل هاتفك أكثر أناقة. قد يحتوي على الإعلانات.</string>
     <string name="about">نبذة</string>
@@ -22,12 +22,12 @@
     <string name="guide_apply_theme_hint">تم إعداد تصميم شاشة الرد على المكالمات الخاصة بك! استمتع بها!</string>
 
     <string name="smart_charging">الشحن الذكي</string>
-    <string name="smart_charging_hint">راقب حالة الشحن تلقائياً وأوقف الشحن الزائد لمنع تلف البطارية. (قد يحتوي على الإعلانات.)</string>
+    <string name="smart_charging_hint">راقب حالة الشحن تلقائياً وأوقف الشحن الزائد لمنع تلف البطارية.</string>
 
     <string name="color_lockscreen">شاشة توقف ملونة</string>
     <string name="color_lockscreen_hint">زيّن شاشة التوقف بتصاميم عديدة جميلة وفاخرة (قد تتضمن إعلانات)</string>
     <string name="sms_assistant">مساعد الرسائل القصيرة</string>
-    <string name="sms_assistant_hint">يذكرك مساعد الرسائل القصيرة بالرسائل الجديدة (قد يتضمن إعلانات).</string>
+    <string name="sms_assistant_hint">يذكرك مساعد الرسائل القصيرة بالرسائل الجديدة.</string>
     <string name="call_assistant_hint">يذكرك مساعد المكالمات بالمكالمات الفائتة (قد يتضمن إعلانات).</string>
 
     <string name="theme_set_for_all">التعيين للكل</string>
@@ -53,7 +53,7 @@
 
     <string name="may_contain_ads">قد يحتوي على الإعلانات.</string>
 
-    <string name="guide_first_page_title">يرجى تمكين الميزات والأذونات:\ ليتم تذكيرك بالمكالمات الفائتة\nولتحصل على حالة الشحن مفصلة.</string>
+    <string name="guide_first_page_title">يرجى تمكين الميزات والأذونات:\ ليتم تذكيرك بالمكالمات الفائتة.</string>
 
     <string name="avatar_content">أنشئ صورتك الرمزية فوراً</string>
     <string name="action_back">عودة</string>

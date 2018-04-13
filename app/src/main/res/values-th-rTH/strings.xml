@@ -14,7 +14,7 @@
     <string name="privacy_policy">นโยบายความเป็นส่วนตัว</string>
     <string name="terms_of_service">เงื่อนไขการให้บริการ</string>
 
-    <string name="guide_enable_all_module">เปิดใช้งานผู้ช่วยโทรศัพท์ การชาร์จอัจฉริยะ และภาพพักหน้าจอ</string>
+    <string name="guide_enable_all_module">เปิดใช้งานผู้ช่วยโทรศัพท์</string>
 
     <string name="acb_outapp_guide_screen_flash_content">ลองใช้หน้าจอโทรศัพท์ที่ไม่เหมือนใครเพื่อให้โทรศัพท์คุณทันแฟชั่นมากขึ. อาจมีโฆษณา.</string>
     <string name="about">เกี่ยวกับ</string>
@@ -22,12 +22,12 @@
     <string name="guide_apply_theme_hint">ตั้งค่าธีมสำหรับหน้าจอผู้โทรของคุณสำเร็จแล้ว! ขอให้สนุก!</string>
 
     <string name="smart_charging">การชาร์จอัจฉริยะ</string>
-    <string name="smart_charging_hint">ติดตามสถานะการชาร์จโดยอัตโนมัติ และหยุดไม่ให้ชาร์จเกินเพื่อป้องกันความเสียหายต่อแบตเตอรี (อาจมีโฆษณา)</string>
+    <string name="smart_charging_hint">ติดตามสถานะการชาร์จโดยอัตโนมัติ และหยุดไม่ให้ชาร์จเกินเพื่อป้องกันความเสียหายต่อแบตเตอรี</string>
 
     <string name="color_lockscreen">ภาพพักหน้าจอสี</string>
     <string name="color_lockscreen_hint">ยกระดับภาพพักหน้าจอของคุณโดยให้ธีมสวยงามและเจ๋ง ๆ มากมาย (อาจมีโฆษณา)</string>
     <string name="sms_assistant">ผู้ช่วย SMS</string>
-    <string name="sms_assistant_hint">ผู้ช่วย SMS จะเตือนคุณเมื่อมีข้อความใหม่ (อาจมีโฆษณา)</string>
+    <string name="sms_assistant_hint">ผู้ช่วย SMS จะเตือนคุณเมื่อมีข้อความใหม่</string>
     <string name="call_assistant_hint">ผู้ช่วยโทรศัพท์จะเตือนคุณเมื่อมีสายที่ไม่ได้รับ (อาจมีโฆษณา)</string>
 
     <string name="theme_set_for_all">ตั้งทั้งหมด</string>
@@ -53,7 +53,7 @@
 
     <string name="may_contain_ads">อาจมีโฆษณา</string>
 
-    <string name="guide_first_page_title">กรุณาเปิดใช้คุณสมบัติและอนุญาตการเข้าถึง:\ เตือนเมื่อคุณมีสายที่ไม่ได้รับ\n รายงานสถานะการชาร์จโดยละเอียด</string>
+    <string name="guide_first_page_title">กรุณาเปิดใช้คุณสมบัติและอนุญาตการเข้าถึง:\ เตือนเมื่อคุณมีสายที่ไม่ได้รับ</string>
 
     <string name="avatar_content">สร้างรูปประจำตัวของคุณได้ทันที</string>
     <string name="action_back">ย้อนกลับ</string>

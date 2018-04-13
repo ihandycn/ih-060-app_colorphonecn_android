@@ -14,7 +14,7 @@
     <string name="privacy_policy">隱私政策</string>
     <string name="terms_of_service">服務條款</string>
 
-    <string name="guide_enable_all_module">開啟手機助手，智能充電 &amp; 屏幕保護</string>
+    <string name="guide_enable_all_module">開啟手機助手</string>
 
     <string name="acb_outapp_guide_screen_flash_content">快試試獨特的個性來電，讓您的手機更時尚。可能包含廣告。</string>
     <string name="about">關於</string>
@@ -22,13 +22,12 @@
     <string name="guide_apply_theme_hint">來電主題應用成功！盡情享受吧！</string>
 
     <string name="smart_charging">智能充電</string>
-    <string name="smart_charging_hint">自動監控充電狀態並停止過渡充電以防止電池損壞。
-        （可能包含廣告）</string>
+    <string name="smart_charging_hint">自動監控充電狀態並停止過渡充電以防止電池損壞。</string>
 
     <string name="color_lockscreen">多彩屏保</string>
     <string name="color_lockscreen_hint">用多彩的主題裝飾你的屏保（可能包含廣告）</string>
     <string name="sms_assistant">短信助手</string>
-    <string name="sms_assistant_hint">短信助手讓您不再錯過任何信息（可能包含廣告）</string>
+    <string name="sms_assistant_hint">短信助手讓您不再錯過任何信息</string>
     <string name="call_assistant_hint">來電助手讓您不再錯過未接來電（可能包含廣告）</string>
 
     <string name="contact_theme">聯繫人主題</string>
@@ -53,7 +52,7 @@
 
     <string name="may_contain_ads">可能包含廣告</string>
 
-    <string name="guide_first_page_title">請開啟功能和權限:\n 不再錯過未接來電\n 提供詳細的充電數據。</string>
+    <string name="guide_first_page_title">請開啟功能和權限:\n 不再錯過未接來電。</string>
 
     <string name="avatar_content">立即創建你的頭像</string>
     <string name="action_back">後退</string>

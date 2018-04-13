@@ -14,7 +14,7 @@
     <string name="privacy_policy">隐私政策</string>
     <string name="terms_of_service">服务条款</string>
 
-    <string name="guide_enable_all_module">开启手机助手，智能充电 &amp; 屏幕保护</string>
+    <string name="guide_enable_all_module">开启手机助手</string>
 
     <string name="acb_outapp_guide_screen_flash_content">快试试独特的个性来电，让您的手机更时尚。可能包含广告。</string>
     <string name="about">关于</string>
@@ -22,13 +22,12 @@
     <string name="guide_apply_theme_hint">来电主题应用成功！尽情享受吧！</string>
 
     <string name="smart_charging">智能充电</string>
-    <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。
-        （可能包含广告）</string>
+    <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。</string>
 
     <string name="color_lockscreen">多彩屏保</string>
     <string name="color_lockscreen_hint">用多彩的主题装饰你的屏保（可能包含广告）</string>
     <string name="sms_assistant">短信助手</string>
-    <string name="sms_assistant_hint">短信助手让你不再错过任何信息（可能包含广告）</string>
+    <string name="sms_assistant_hint">短信助手让你不再错过任何信息</string>
     <string name="call_assistant_hint">来电助手让你不再错过未接来电（可能包含广告）</string>
 
     <string name="contact_theme">联系人主题</string>
@@ -53,7 +52,7 @@
 
     <string name="may_contain_ads">可能包含广告</string>
 
-    <string name="guide_first_page_title">请开启功能和权限:\n 不再错过未接来电\n 提供详细的充电数据。</string>
+    <string name="guide_first_page_title">请开启功能和权限:\n 不再错过未接来电。</string>
 
     <string name="avatar_content">立即创建你的头像</string>
     <string name="action_back">后退</string>

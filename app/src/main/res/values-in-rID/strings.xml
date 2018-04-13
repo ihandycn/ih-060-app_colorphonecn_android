@@ -14,7 +14,7 @@
     <string name="privacy_policy">Kebijakan Privasi</string>
     <string name="terms_of_service">Ketentuan Layanan</string>
 
-    <string name="guide_enable_all_module">Aktifkan Asisten Telepon, Pengisian Daya Cerdas &amp; Screensaver</string>
+    <string name="guide_enable_all_module">Aktifkan Asisten Telepon</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Coba panggilan antarmuka unik untuk membuat ponsel Anda lebih gaya. Mungkin mengandung iklan.</string>
     <string name="about">Tentang</string>
@@ -22,12 +22,12 @@
     <string name="guide_apply_theme_hint">Tema Layar Pemanggil sudah berhasil disiapkan! Nikmati!</string>
 
     <string name="smart_charging">Pengisian Pintar</string>
-    <string name="smart_charging_hint">Pantau status pengisian daya secara otomatis dan hentikan pengisian daya berlebih untuk mencegah kerusakan baterai. (Mungkin berisi iklan.)</string>
+    <string name="smart_charging_hint">Pantau status pengisian daya secara otomatis dan hentikan pengisian daya berlebih untuk mencegah kerusakan baterai.</string>
 
     <string name="color_lockscreen">Screensaver Warna</string>
     <string name="color_lockscreen_hint">Percantik screensaver Anda menggunakan beragam tema yang cantik dan keren (Mungkin berisi iklan)</string>
     <string name="sms_assistant">Asisten SMS</string>
-    <string name="sms_assistant_hint">Asisten SMS akan mengingatkan Anda tentang pesan baru (Mungkin berisi iklan)</string>
+    <string name="sms_assistant_hint">Asisten SMS akan mengingatkan Anda tentang pesan baru</string>
     <string name="call_assistant_hint">Asisten Panggilan akan mengingatkan Anda tentang panggilan tidak terjawab (Mungkin berisi iklan)</string>
 
     <string name="theme_set_for_all">ATUR UNTUK SEMUA</string>
@@ -53,7 +53,7 @@
 
     <string name="may_contain_ads">Mungkin berisi iklan.</string>
 
-    <string name="guide_first_page_title">Aktifkan fitur dan izin:\ Mengingatkan Anda panggilan tak terjawab\nMemberikan status pengisian daya secara terperinci.</string>
+    <string name="guide_first_page_title">Aktifkan fitur dan izin:\ Mengingatkan Anda panggilan tak terjawab.</string>
 
     <string name="avatar_content">Buat avatar Anda sekarang juga</string>
     <string name="action_back">KEMBALI</string>

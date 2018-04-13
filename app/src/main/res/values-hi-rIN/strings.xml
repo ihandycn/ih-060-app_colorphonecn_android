@@ -14,7 +14,7 @@
     <string name="privacy_policy">गोपनीयता नीति</string>
     <string name="terms_of_service">सेवा की शर्तें</string>
 
-    <string name="guide_enable_all_module">फोन सहायक, स्‍मार्ट चार्जिंग एवं स्‍क्रीनसेवर सक्षम करें</string>
+    <string name="guide_enable_all_module">फोन सहायक सक्षम करें</string>
 
     <string name="acb_outapp_guide_screen_flash_content">अपने फोन को और फैशनेबल बनाने के लिए यूनिक कॉल इंटफेस ट्राई करें। इसमें विज्ञापन हो सकते हैं।</string>
     <string name="about">परिचय</string>
@@ -22,12 +22,12 @@
     <string name="guide_apply_theme_hint">कॉलर स्‍क्रीन पर आपकी थीम सफलतापूर्वक सेट हो चुकी है! इसका आनंद लें!</string>
 
     <string name="smart_charging">स्मार्ट चार्जिंग</string>
-    <string name="smart_charging_hint">बैटरी को क्षति से बचाने के लिए चार्जिंग के स्तर को स्वत: मॉनिटर करें और ओवरचार्जिंग रोके (ज्ञापन हो सकते हैं।)</string>
+    <string name="smart_charging_hint">बैटरी को क्षति से बचाने के लिए चार्जिंग के स्तर को स्वत: मॉनिटर करें और ओवरचार्जिंग रोके</string>
 
     <string name="color_lockscreen">शांत स्‍क्रीनसेवर</string>
     <string name="color_lockscreen_hint">प्रचलित और शानदार थीम का प्रयोग करते हुए स्‍क्रीनसेवर को सुंदर बनाएं (विज्ञापन शामिल हैं)</string>
     <string name="sms_assistant">एसएमएस सहायक</string>
-    <string name="sms_assistant_hint">एसएमएस सहायक आपको नए संदेशों की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
+    <string name="sms_assistant_hint">एसएमएस सहायक आपको नए संदेशों की याद दिलाएगा</string>
     <string name="call_assistant_hint">कॉल सहायक आपको छुटी कॉल की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
 
     <string name="theme_set_for_all">सभी के लिए सेट</string>
@@ -53,7 +53,7 @@
 
     <string name="may_contain_ads">िज्ञापन हो सकते हैं।</string>
 
-    <string name="guide_first_page_title">कृपया विशेषताएं और अनुमतियां सक्षम करें:\ आपको छूटी कॉल्‍स की याद दिलाए\n विस्‍तृत चार्जिंग स्‍तर उपलब्‍ध करवाए।</string>
+    <string name="guide_first_page_title">कृपया विशेषताएं और अनुमतियां सक्षम करें:\ आपको छूटी कॉल्‍स की याद दिलाए\n</string>
 
     <string name="avatar_content">अपना अवतार तुरंत बनाएं</string>
     <string name="action_back">वापस</string>
