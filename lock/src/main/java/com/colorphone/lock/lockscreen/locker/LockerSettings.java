@@ -2,6 +2,7 @@ package com.colorphone.lock.lockscreen.locker;
 
 
 import com.colorphone.lock.util.ConfigUtils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -32,8 +33,8 @@ public class LockerSettings {
     }
 
     public static boolean isLockerConfigEnabled() {
-        return  ConfigUtils.isEnabled(LOCKER_ENABLE_PATH)
-                && ConfigUtils.isScreenAdEnabledThisVersion();
+        return ConfigUtils.isShowModulesDueToConfig()
+                || (ConfigUtils.isEnabled(LOCKER_ENABLE_PATH) && ConfigUtils.isScreenAdEnabledThisVersion());
     }
 
     public static boolean isLockerUserEnabled() {

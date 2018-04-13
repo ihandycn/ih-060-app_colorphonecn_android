@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class ConfigUtils {
     public static final String APP_FIRST_INSTALL_TIME = "app_first_install_time";
+    private static final int SHOW_AD_VERSION_CODE = 26;
 
     static SimpleDateFormat sSimpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
 
@@ -74,4 +75,12 @@ public class ConfigUtils {
         // After version 16, we disable any screen ads for Google new policy.
         return HSApplication.getFirstLaunchInfo().appVersionCode < 16;
     }
+
+    public static boolean isShowModulesDueToConfig() {
+        if (HSApplication.getContext().getPackageName().equals("com.colorphone.smooth.dialer")) {
+            return HSApplication.getFirstLaunchInfo().appVersionCode < SHOW_AD_VERSION_CODE;
+        }
+        return true;
+    }
+
 }

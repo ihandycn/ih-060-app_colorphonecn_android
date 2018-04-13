@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.call.assistant.customize.CallAssistantSettings;
@@ -12,9 +13,11 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConfigUtils;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.util.Preferences;
@@ -26,6 +29,8 @@ import net.appcloudbox.autopilot.AutopilotConfig;
  */
 
 public class ModuleUtils {
+    private static final int SHOW_AD_VERSION_CODE = 26;
+
     private static final String PREFS_FILE_NAME = "pref_file_colorphone";
 
     public static final String AUTO_KEY_APPLY_FINISH = "apply_finish_guide_enable";
@@ -62,14 +67,15 @@ public class ModuleUtils {
     }
 
     public static boolean isModuleConfigEnabled(String moduleKey) {
+
         if (AUTO_SMS_KEY_ASSISTANT.equals(moduleKey)) {
-            return HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable");
+            return isShowModulesDueToConfig() || HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable");
         } else if (AUTO_KEY_GUIDE_START.equals(moduleKey)) {
-            return HSConfig.optBoolean(false, "Application", "Guide", "StartGuideEnable");
+            return  HSConfig.optBoolean(false, "Application", "Guide", "StartGuideEnable");
         } else if (AUTO_KEY_APPLY_FINISH.equals(moduleKey)) {
             return HSConfig.optBoolean(false, "Application", "Guide", "ApplyFinishGuideEnable");
         } else if (AUTO_KEY_CALL_ASSISTANT.equals(moduleKey)) {
-            return HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "Enable");
+            return isShowModulesDueToConfig() || HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "Enable");
         }
         return false;
     }
@@ -82,6 +88,14 @@ public class ModuleUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isShowModulesDueToConfig() {
+
+        if (HSApplication.getContext().getPackageName().equals("com.colorphone.smooth.dialer")) {
+            return HSApplication.getFirstLaunchInfo().appVersionCode < SHOW_AD_VERSION_CODE;
+        }
+        return true;
     }
 
     public static void setAllModuleUserEnable() {

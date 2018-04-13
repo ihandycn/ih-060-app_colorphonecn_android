@@ -1,7 +1,11 @@
 package com.colorphone.lock.lockscreen.chargingscreen;
 
 
+import android.app.Application;
+import android.text.TextUtils;
+
 import com.colorphone.lock.util.ConfigUtils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 
@@ -33,7 +37,8 @@ public class SmartChargingSettings {
     }
 
     public static boolean isChargingScreenConfigEnabled() {
-        return isChargingScreenEnabledWithGooglePolicy();
+        return ConfigUtils.isShowModulesDueToConfig()
+                || isChargingScreenEnabledWithGooglePolicy();
     }
 
     public static boolean isChargingScreenEnabledWithGooglePolicy() {
@@ -59,7 +64,9 @@ public class SmartChargingSettings {
     }
 
     private static boolean isChargingReportConfigEnabled() {
-        return isChargingReportEnabledWithGooglePolicy();
+
+        return ConfigUtils.isShowModulesDueToConfig()
+                || isChargingReportEnabledWithGooglePolicy();
     }
 
     public static boolean isChargingReportEnabledWithGooglePolicy() {
