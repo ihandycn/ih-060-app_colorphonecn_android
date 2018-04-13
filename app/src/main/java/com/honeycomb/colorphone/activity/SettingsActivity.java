@@ -57,7 +57,7 @@ public class SettingsActivity extends HSAppCompatActivity {
 
         Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
 
-        mModuleStates.add(new ModuleState(true, CallAssistantSettings.isCallAssistantModuleEnabled(),
+        mModuleStates.add(new ModuleState(ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CALL_ASSISTANT), CallAssistantSettings.isCallAssistantModuleEnabled(),
                 R.id.setting_item_call_assistant_toggle,
                 R.id.setting_item_call_assistant) {
             @Override

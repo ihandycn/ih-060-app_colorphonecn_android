@@ -5,6 +5,7 @@ import android.text.format.DateUtils;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
 import com.honeycomb.colorphone.notification.NotificationCondition;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 
 /**
@@ -15,12 +16,7 @@ public class BoostAutoPilotUtils {
     private static final String BOOST_TEST_TOPIC_ID = "topic-1514209960668-50";
 
     public static boolean isBoostPushEnable() {
-        boolean enable = AutopilotConfig.getBooleanToTestNow(BOOST_TEST_TOPIC_ID, "boost_push_enable", false);
-        HSLog.i(NotificationCondition.TAG, "Debug isBoostPushEnable == " + enable);
-        if (NotificationCondition.DEBUG_BOOST_PLUS_NOTIFICATION) {
-            return true;
-        }
-        return enable;
+        return HSConfig.optBoolean(false, "Application", "Boost", "Enable");
     }
 
     public static double getBoostPushInterval() {

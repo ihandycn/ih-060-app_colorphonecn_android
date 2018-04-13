@@ -31,6 +31,7 @@ public class ModuleUtils {
     public static final String AUTO_KEY_APPLY_FINISH = "apply_finish_guide_enable";
     public static final String AUTO_SMS_KEY_ASSISTANT = "sms_assistant_enable";
     public static final String AUTO_KEY_GUIDE_START = "start_guide_enable";
+    public static final String AUTO_KEY_CALL_ASSISTANT = "call_assistant_enable";
 
     public static boolean isNeedGuideAfterApply() {
 
@@ -67,6 +68,8 @@ public class ModuleUtils {
             return HSConfig.optBoolean(false, "Application", "Guide", "StartGuideEnable");
         } else if (AUTO_KEY_APPLY_FINISH.equals(moduleKey)) {
             return HSConfig.optBoolean(false, "Application", "Guide", "ApplyFinishGuideEnable");
+        } else if (AUTO_KEY_CALL_ASSISTANT.equals(moduleKey)) {
+            return HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "Enable");
         }
         return false;
     }
