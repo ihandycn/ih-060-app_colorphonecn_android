@@ -111,7 +111,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else if (ColorPhoneActivity.NOTIFICATION_ON_REWARDED.equals(s)) {
                 if (hsBundle != null) {
                     notifyItemChanged(unlockThemeAndGetAdapterPos(hsBundle));
-
                 }
             }
 

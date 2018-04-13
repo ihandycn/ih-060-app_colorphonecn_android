@@ -94,6 +94,7 @@ public class RewardVideoView {
 
                             if (isRewarded && mOnRewardedCallback != null) {
                                 mOnRewardedCallback.onAdCloseAndRewarded();
+                                Toasts.showToast(R.string.unlock_succeed, Toast.LENGTH_LONG);
                             }
                         }
 

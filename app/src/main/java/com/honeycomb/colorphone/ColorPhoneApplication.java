@@ -184,7 +184,7 @@ public class ColorPhoneApplication extends HSApplication {
                 type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
                 type.setRingtoneUrl(HSMapUtils.optString(map, "", Theme.CONFIG_RINGTONE));
                 type.setLocked(HSMapUtils.optBoolean(map,false, "Status", "Lock"));
-                type.setCanDownload(!HSMapUtils.optBoolean(map,false, "Status", "StaticPreview"));
+                type.setCanDownload(!HSMapUtils.optBoolean(map,true, "Status", "StaticPreview"));
 
                 return type;
             }

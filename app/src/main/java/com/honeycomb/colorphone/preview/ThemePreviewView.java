@@ -1075,6 +1075,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     HSBundle bundle = new HSBundle();
                     bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mTheme.getId());
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
+                    mTheme.setLocked(false);
                     LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "detail_page", "themeName", mTheme.getName());
                 }
 
