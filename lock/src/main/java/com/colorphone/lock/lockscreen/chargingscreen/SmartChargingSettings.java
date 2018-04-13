@@ -37,8 +37,7 @@ public class SmartChargingSettings {
     }
 
     public static boolean isChargingScreenConfigEnabled() {
-        return ConfigUtils.isShowModulesDueToConfig()
-                || isChargingScreenEnabledWithGooglePolicy();
+        return isChargingScreenEnabledWithGooglePolicy();
     }
 
     public static boolean isChargingScreenEnabledWithGooglePolicy() {
