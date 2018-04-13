@@ -21,7 +21,7 @@
 
     <string name="guide_apply_theme_hint">¡Se estableció correctamente el tema de la pantalla de llamada! ¡Disfrútalo!</string>
 
-    <string name="smart_charging">Carga inteligente</string>
+    <string name="smart_charging">Supervisor de carga</string>
     <string name="smart_charging_hint">Supervisa automáticamente el estado de la carga y detén la sobrecarga para impedir daños en la batería.</string>
 
     <string name="color_lockscreen">Salvapantallas de color</string>
@@ -79,5 +79,12 @@
     <string name="acb_phone_grant_notification_access_title">Habilitar acceso a las notificaciones para responder a llamadas</string>
     <string name="acb_phone_enable_notification_access_description">Concede acceso a las notificaciones para que Teléfono de color responda a las llamadas recibidas. Habilítalo de forma manual.</string>
     <string name="acb_phone_enable_notification">Habilitar ahora</string>
+
+    <!--reward_video -->
+    <string name="watch_video_to_unlock">Mira un vídeo para desbloquear</string>
+    <string name="load_reward_ad_error">Vaya, inténtalo de nuevo más tarde</string>
+    <string name="watch_video_to_unlock_free_theme">Mira un vídeo para desbloquear un hermoso tema</string>
+    <string name="unlock">Desbloquear</string>
+    <string name="unlock_succeed">Desbloqueado correctamente</string>
 
 </resources>

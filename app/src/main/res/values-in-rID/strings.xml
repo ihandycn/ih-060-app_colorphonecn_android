@@ -21,7 +21,7 @@
 
     <string name="guide_apply_theme_hint">Tema Layar Pemanggil sudah berhasil disiapkan! Nikmati!</string>
 
-    <string name="smart_charging">Pengisian Pintar</string>
+    <string name="smart_charging">Monitor Pengisian</string>
     <string name="smart_charging_hint">Pantau status pengisian daya secara otomatis dan hentikan pengisian daya berlebih untuk mencegah kerusakan baterai.</string>
 
     <string name="color_lockscreen">Screensaver Warna</string>
@@ -78,4 +78,11 @@
     <string name="acb_phone_grant_notification_access_title">Aktifkan Akses Pemberitahuan untuk Menjawab Panggilan</string>
     <string name="acb_phone_enable_notification_access_description">Berikan akses notifikasi untuk Telepon Warna untuk menjawab panggilan masuk. Aktifkan secara manual.</string>
     <string name="acb_phone_enable_notification">Aktifkan Sekarang</string>
+
+    <!--reward_video -->
+    <string name="watch_video_to_unlock">Tonton video untuk membuka kunci</string>
+    <string name="load_reward_ad_error">Ups， coba lagi nanti</string>
+    <string name="watch_video_to_unlock_free_theme">Tonton video untuk membuka kunci tema indah</string>
+    <string name="unlock">Buka kunci</string>
+    <string name="unlock_succeed">Berhasil membuka</string>
 </resources>

@@ -22,7 +22,7 @@
 
     <string name="guide_apply_theme_hint">Het thema van je Oproepscherm is ingesteld! Veel plezier!</string>
 
-    <string name="smart_charging">Slim opladen</string>
+    <string name="smart_charging">Oplaadcontrole</string>
     <string name="smart_charging_hint">Oplaadstatus automatisch volgen en schade aan de batterij door overladen voorkomen.</string>
 
     <string name="color_lockscreen">Screensaver Color</string>
@@ -80,4 +80,11 @@
     <string name="acb_phone_grant_notification_access_title">Toegang tot meldingen inschakelen om oproepen te beantwoorden</string>
     <string name="acb_phone_enable_notification_access_description">Toegang tot meldingen geven zodat Color Phone inkomende oproepen kan beantwoorden. Schakel het handmatig in.</string>
     <string name="acb_phone_enable_notification">Nu inschakelen</string>
+
+    <!--reward video -->
+    <string name="watch_video_to_unlock">Bekijk een video om te ontgrendelen</string>
+    <string name="load_reward_ad_error">Oeps, probeer het later opnieuw.</string>
+    <string name="watch_video_to_unlock_free_theme">Bekijk een video om het prachtige thema te ontgrendelen</string>
+    <string name="unlock">Ontgrendelen</string>
+    <string name="unlock_succeed">Ontgrendelen is gelukt</string>
 </resources>

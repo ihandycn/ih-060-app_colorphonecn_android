@@ -21,7 +21,7 @@
     <string name="guide_apply_theme_hint">Ihr Design des Anrufbildschirmes wurde erfolgreich eingerichtet! Viel Spaß!</string>
 
 
-    <string name="smart_charging">Intelligentes Aufladen</string>
+    <string name="smart_charging">Lademonitor</string>
     <string name="smart_charging_hint">Automatisch Aufladestatus überwachen und Überladung sowie Beschädigungen des Akkus vermeiden.</string>
 
     <string name="color_lockscreen">Farb-Bildschirmschoner</string>
@@ -78,4 +78,11 @@
     <string name="acb_phone_grant_notification_access_title">Benachrichtigungsberechtigung zum Annehmen von Anrufen aktivieren</string>
     <string name="acb_phone_enable_notification_access_description">Color Phone Benachrichtigungsberechtigung zur Annahme eingehender Anrufe gewähren. Bitte manuell aktivieren.</string>
     <string name="acb_phone_enable_notification">Jetzt aktivieren</string>
+
+    <!--reward_video -->
+    <string name="watch_video_to_unlock">Zum Freischalten Video anschauen</string>
+    <string name="load_reward_ad_error">Ups! Später erneut versuchen.</string>
+    <string name="watch_video_to_unlock_free_theme">Video anschauen, um das wunderschöne Design freizuschalten</string>
+    <string name="unlock">Freischalten</string>
+    <string name="unlock_succeed">Erfolgreich freigeschalten</string>
 </resources>

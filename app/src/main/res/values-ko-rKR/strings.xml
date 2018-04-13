@@ -21,7 +21,7 @@
 
     <string name="guide_apply_theme_hint">발신자 화면 테마를 성공적으로 설정했습니다! 재밌게 사용하세요!</string>
 
-    <string name="smart_charging">스마트 충전</string>
+    <string name="smart_charging">충전 모니터링</string>
     <string name="smart_charging_hint">자동으로 충전 상태를 모니터링하고 과충전을 정지시켜서 배터리 손상을 막습니다.</string>
 
     <string name="color_lockscreen">칼라 화면보호기</string>
@@ -79,4 +79,11 @@
     <string name="acb_phone_enable_notification_access_description">Color Phone이 발신 전화에 응답하도록 알림 액세스를 승인해주세요.
   수동으로 활성화해주세요.</string>
     <string name="acb_phone_enable_notification">지금 활성화</string>
+
+    <!--reward_video -->
+    <string name="watch_video_to_unlock">비디오를 보고 잠금 해제</string>
+    <string name="load_reward_ad_error">이런, 나중에 다시 시도하세요</string>
+    <string name="watch_video_to_unlock_free_theme">비디오를 보고 아름다운 테마 잠금 해제</string>
+    <string name="unlock">잠금 해제</string>
+    <string name="unlock_succeed">잠금 해제 성공</string>
 </resources>

@@ -21,7 +21,7 @@
 
     <string name="guide_apply_theme_hint">कॉलर स्‍क्रीन पर आपकी थीम सफलतापूर्वक सेट हो चुकी है! इसका आनंद लें!</string>
 
-    <string name="smart_charging">स्मार्ट चार्जिंग</string>
+    <string name="smart_charging">चार्जिंग मॉनिटर</string>
     <string name="smart_charging_hint">बैटरी को क्षति से बचाने के लिए चार्जिंग के स्तर को स्वत: मॉनिटर करें और ओवरचार्जिंग रोके</string>
 
     <string name="color_lockscreen">शांत स्‍क्रीनसेवर</string>
@@ -78,4 +78,11 @@
     <string name="acb_phone_grant_notification_access_title">कॉल का उत्‍तर देने को अधिसूचनाओं की पहुंच सक्षम करें</string>
     <string name="acb_phone_enable_notification_access_description">आने वाली कॉल का उत्‍तर देने को Color Phone के लिए अधिसूचना पहुंच की अनुमति दें। कृपया इसे हाथ से सक्षम करें।</string>
     <string name="acb_phone_enable_notification">इसे अभी सक्रिय करें</string>
+
+    <!--reward_video -->
+    <string name="watch_video_to_unlock">अनलॉक करने के लिए एक वीडियो देखें</string>
+    <string name="load_reward_ad_error">उफ्फ, बाद में दुबारा प्रयास करें</string>
+    <string name="watch_video_to_unlock_free_theme">सुंदर थीम अनलॉक करने के लिए एक वीडियो देखें</string>
+    <string name="unlock">अनलॉक</string>
+    <string name="unlock_succeed">सफलतापूर्वक अनलॉक हो गया</string>
 </resources>

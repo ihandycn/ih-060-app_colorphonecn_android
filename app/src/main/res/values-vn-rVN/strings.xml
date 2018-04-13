@@ -21,7 +21,7 @@
 
     <string name="guide_apply_theme_hint">Chủ đề Màn hình Người gọi của bạn đã được cài đặt thành công! Chúc vui vẻ!</string>
 
-    <string name="smart_charging">Sạc Thông Minh</string>
+    <string name="smart_charging">Giám Sát Sạc Pin</string>
     <string name="smart_charging_hint">Tự động theo dõi trạng thái sạc và chấm dứt tình trạng sạc quá mức để ngăn chặn hỏng pin.</string>
 
     <string name="color_lockscreen">Trình Bảo vệ Màn hình Màu sắc</string>
@@ -78,4 +78,11 @@
     <string name="acb_phone_grant_notification_access_title">Bật Truy cập Thông báo để Trả lời Cuộc gọi</string>
     <string name="acb_phone_enable_notification_access_description">Cấp quyền truy cập thông báo cho Color Phone để trả lời cuộc gọi đến. Vui lòng bật bằng cách thủ công.</string>
     <string name="acb_phone_enable_notification">Bật nó Ngay</string>
+
+    <!--Reward_video -->
+    <string name="watch_video_to_unlock">Xem một video để mở khóa</string>
+    <string name="load_reward_ad_error">Rất tiếc， hãy thử lại sau</string>
+    <string name="watch_video_to_unlock_free_theme">Xem một video để mở khóa chủ đề đẹp mắt</string>
+    <string name="unlock">Mở khóa</string>
+    <string name="unlock_succeed">Đã mở khóa thành công</string>
 </resources>

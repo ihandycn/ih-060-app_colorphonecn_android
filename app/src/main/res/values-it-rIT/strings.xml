@@ -22,7 +22,7 @@
 
     <string name="guide_apply_theme_hint">Il tema per la schermata delle chiamate è stato impostato. Buon divertimento!</string>
 
-    <string name="smart_charging">Ricarica intelligente</string>
+    <string name="smart_charging">Caricamento monitor</string>
     <string name="smart_charging_hint">Monitora automaticamente lo stato della ricarica impedendo un caricamento eccessivo, evitando così il danneggiamento della batteria.</string>
 
     <string name="color_lockscreen">Salvaschermo colorato</string>
@@ -79,4 +79,11 @@
     <string name="acb_phone_grant_notification_access_title">Consenti l’accesso alle notifiche per rispondere alle chiamate</string>
     <string name="acb_phone_enable_notification_access_description">Consenti a Color Phone di accedere alle notifiche per poter rispondere alle chiamate in arrivo. Consenti l’accesso manualmente.</string>
     <string name="acb_phone_enable_notification">Attiva ora</string>
+
+    <!--reward_video -->
+    <string name="watch_video_to_unlock">Guarda un video per sbloccare</string>
+    <string name="load_reward_ad_error">Ops... riprova più tardi</string>
+    <string name="watch_video_to_unlock_free_theme">Guarda un video per sbloccare il fantastico tema</string>
+    <string name="unlock">Sblocca</string>
+    <string name="unlock_succeed">Sblocco completato</string>
 </resources>

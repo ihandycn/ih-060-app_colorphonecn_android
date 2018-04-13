@@ -22,7 +22,7 @@
     <string name="guide_apply_theme_hint">通話画面のテーマの設定に成功しました！お楽しみください！</string>
 
 
-    <string name="smart_charging">スマート充電</string>
+    <string name="smart_charging">充電モニター</string>
     <string name="smart_charging_hint">自動的に充電状態を監視し、過充電を止めてバッテリの損傷を防止します。</string>
 
     <string name="color_lockscreen">カラー・スクリーンセーバー</string>
@@ -80,4 +80,11 @@
     <string name="acb_phone_grant_notification_access_title">通話に応答する通知アクセスを有効にする</string>
     <string name="acb_phone_enable_notification_access_description">着信コールに応答するためにColor Phoneの通知アクセスを許可します。手動で有効にしてください。</string>
     <string name="acb_phone_enable_notification">今すぐ有効にする</string>
+
+    <!--reward_video -->
+    <string name="watch_video_to_unlock">ビデオを観てアンロックする</string>
+    <string name="load_reward_ad_error">おっと、後でもう一度お試しください。</string>
+    <string name="watch_video_to_unlock_free_theme">ビデオを観て美しいテーマをアンロックする</string>
+    <string name="unlock">アンロック</string>
+    <string name="unlock_succeed">アンロックに成功</string>
 </resources>

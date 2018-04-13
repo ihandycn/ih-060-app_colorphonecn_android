@@ -21,7 +21,7 @@
 
     <string name="guide_apply_theme_hint">Arama Ekranı teman başarıyla ayarlandı! Keyfini Sür!</string>
 
-    <string name="smart_charging">Akıllı Şarj</string>
+    <string name="smart_charging">Şarj Takibi</string>
     <string name="smart_charging_hint">Şarj durumunu otomatik olarak izle ve pilin hasar görmesini engellemek için aşırı şarjı durdur.</string>
 
     <string name="color_lockscreen">Renkli Ekran Koruyucu</string>
@@ -74,4 +74,11 @@
 
     <string name="loved_it_desc">Teşekkürler! Lütfen Güzel, Kullanışlı, Tarz gibi sözcüklerle puan verin.</string>
     <string name="liked_it_desc">Neleri beğenmediğinizi söyleyin. İyileştirmek için elimizden geleni yapalım.</string>
+
+    <!--Reward_video-->
+    <string name="watch_video_to_unlock">Kilidi açmak için video seyret</string>
+    <string name="load_reward_ad_error">Hay aksi, daha sonra tekrar deneyin</string>
+    <string name="watch_video_to_unlock_free_theme">Güzel temanın kilidini açmak için video seyret</string>
+    <string name="unlock">Kilidi Aç</string>
+    <string name="unlock_succeed">Kilit başarıyla açıldı</string>
 </resources>

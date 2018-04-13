@@ -21,7 +21,7 @@
 
     <string name="guide_apply_theme_hint">Тема для экрана вызова успешно установлена! Наслаждайтесь!</string>
 
-    <string name="smart_charging">Интеллектуальная зарядка</string>
+    <string name="smart_charging">Контроль зарядки</string>
     <string name="smart_charging_hint">Автоматическое отслеживание зарядки позволяет избежать чрезмерного заряда и повреждения аккумулятора.</string>
 
     <string name="color_lockscreen">Цветная экранная заставка</string>
@@ -80,4 +80,11 @@
     <string name="acb_phone_grant_notification_access_title">Чтобы отвечать на звонки, предоставьте доступ к уведомлениям</string>
     <string name="acb_phone_enable_notification_access_description">Предоставьте приложению Color Phone доступ к уведомлениям, чтобы отвечать на входящие звонки. Предоставить доступ нужно вручную.</string>
     <string name="acb_phone_enable_notification">Предоставить</string>
+
+    <!--reward_video -->
+    <string name="watch_video_to_unlock">Для разблокировки посмотрите видеоролик</string>
+    <string name="load_reward_ad_error">Ой, попробуйте еще раз позже</string>
+    <string name="watch_video_to_unlock_free_theme">Чтобы разблокировать эту красивую тему, посмотрите видеоролик</string>
+    <string name="unlock">Разблокировать</string>
+    <string name="unlock_succeed">Успешно разблокировано</string>
 </resources>

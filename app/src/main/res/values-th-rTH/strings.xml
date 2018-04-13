@@ -21,7 +21,7 @@
 
     <string name="guide_apply_theme_hint">ตั้งค่าธีมสำหรับหน้าจอผู้โทรของคุณสำเร็จแล้ว! ขอให้สนุก!</string>
 
-    <string name="smart_charging">การชาร์จอัจฉริยะ</string>
+    <string name="smart_charging">ติดตามการชาร์จ</string>
     <string name="smart_charging_hint">ติดตามสถานะการชาร์จโดยอัตโนมัติ และหยุดไม่ให้ชาร์จเกินเพื่อป้องกันความเสียหายต่อแบตเตอรี</string>
 
     <string name="color_lockscreen">ภาพพักหน้าจอสี</string>
@@ -78,4 +78,11 @@
     <string name="acb_phone_grant_notification_access_title">อนุญาตการเข้าถึงการแจ้งเตือนเพื่อรับสายเรียกเข้า</string>
     <string name="acb_phone_enable_notification_access_description">อนุญาตการเข้าถึงโทรศัพท์สีเพื่อรับสายเรียกเข้า กรุณาอนุญาตด้วยตนเอง</string>
     <string name="acb_phone_enable_notification">อนุญาตทันที</string>
+
+    <!--reward_video -->
+    <string name="watch_video_to_unlock">ดูวีดีโอเพื่อปลดล็อก</string>
+    <string name="load_reward_ad_error">อ๊ะ ลองอีกครั้งภายหลัง</string>
+    <string name="watch_video_to_unlock_free_theme">ดูวีดีโอเพื่อปลดล็อกธีมสวย ๆ</string>
+    <string name="unlock">ปลดล็อก</string>
+    <string name="unlock_succeed">ปลดล็อกสำเร็จแล้ว</string>
 </resources>

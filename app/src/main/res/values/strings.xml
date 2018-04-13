@@ -27,13 +27,13 @@
 
     <string name="guide_enable_all_module">Enable Phone Assistant</string>
     <string name="guide_first_page_title">Please enable the features and permissions:\n Remind you about missed calls.</string>
-    <string name="guide_first_page_title_old">Enable Call Assistant &amp; Smart Charging to:\n Remind you about missed calls\n Provide detailed charging status.</string>
+    <string name="guide_first_page_title_old">Enable Call Assistant &amp; Charging Monitor to:\n Remind you about missed calls\n Provide detailed charging status.</string>
 
     <string name="acb_outapp_guide_screen_flash_content">Try the unique call interface to make your phone more fashionable. It may contain ads.</string>
     <string name="about">About</string>
     <string name="guide_apply_theme_hint">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
 
-    <string name="smart_charging">Smart Charging</string>
+    <string name="smart_charging">Charging Monitor</string>
     <string name="smart_charging_hint">Automatically monitor charging status and stop over-charging to prevent
         battery damage</string>
 
@@ -149,10 +149,10 @@
 
     <!--reward_video-->
 
-    <string name="watch_video_to_unlock">"Watch a video to unlock</string>
     <string name="loading_reward_videos">loading video...</string>
-    <string name="load_reward_ad_error">Oops… try again later.</string>
-    <string name="watch_video_to_unlock_free_theme">Watch an video to unlock the free theme</string>
+    <string name="watch_video_to_unlock">Watch a video to unlock</string>
+    <string name="load_reward_ad_error">Oops， try again later</string>
+    <string name="watch_video_to_unlock_free_theme">Watch a video to unlock the beautiful theme</string>
     <string name="unlock">UNLOCK</string>
     <string name="unlock_succeed">Unlocked successfully</string>
 

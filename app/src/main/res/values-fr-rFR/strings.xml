@@ -20,7 +20,7 @@
 
     <string name="guide_apply_theme_hint">Votre thème d\'écran d\'appel a été correctement paramétré. Profitez-en !</string>
 
-    <string name="smart_charging">Recharge intelligente</string>
+    <string name="smart_charging">Contrôle de la recharge</string>
     <string name="smart_charging_hint">Surveillez automatiquement le statut de la recharge et empêchez la surcharge pour prévenir les dégâts sur la batterie.</string>
 
     <string name="color_lockscreen">Économiseur d\'écran en couleur</string>
@@ -77,4 +77,11 @@
     <string name="acb_phone_grant_notification_access_title">Activer les notifications d’accès pour répondre aux appels</string>
     <string name="acb_phone_enable_notification_access_description">Autorisez les notifications d’accès afin que Color Phone puisse répondre aux appels entrants. Veuillez les activer manuellement.</string>
     <string name="acb_phone_enable_notification">Activer maintenant</string>
+
+    <!--reward_video -->
+    <string name="watch_video_to_unlock">Regardez une vidéo pour débloquer</string>
+    <string name="load_reward_ad_error">Oups, réessayez plus tard</string>
+    <string name="watch_video_to_unlock_free_theme">Regardez une vidéo pour débloquer le magnifique thème</string>
+    <string name="unlock">Débloquer</string>
+    <string name="unlock_succeed">Débloqué avec succès</string>
 </resources>

@@ -22,7 +22,7 @@
 
     <string name="guide_apply_theme_hint">O tema da tela de quem está ligando foi definido com sucesso!</string>
 
-    <string name="smart_charging">Carregamento inteligente</string>
+    <string name="smart_charging">Monitor de carregamento</string>
     <string name="smart_charging_hint">Monitorize automaticamente o estado de carga e pare os carregamentos exagerados para impedir danos à bateria.</string>
 
     <string name="color_lockscreen">Protetor de Tela Colorido</string>
@@ -79,4 +79,12 @@
     <string name="acb_phone_grant_notification_access_title">Ative o acesso às notificações para atender chamadas</string>
     <string name="acb_phone_enable_notification_access_description">Conceda acesso às notificações ao Color Phone para atender chamadas. Ative manualmente.</string>
     <string name="acb_phone_enable_notification">Ative agora</string>
+
+    <!--reward_video -->
+    <string name="watch_video_to_unlock">Assista a um vídeo para desbloquear</string>
+    <string name="load_reward_ad_error">Ops! Tente novamente mais tarde</string>
+    <string name="watch_video_to_unlock_free_theme">Assista a um vídeo para desbloquear um belo tema</string>
+    <string name="unlock">Desbloquear</string>
+    <string name="unlock_succeed">Desbloqueio com sucesso</string>
+
 </resources>

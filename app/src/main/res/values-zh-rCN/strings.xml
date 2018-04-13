@@ -22,7 +22,7 @@
 
     <string name="guide_apply_theme_hint">来电主题应用成功！尽情享受吧！</string>
 
-    <string name="smart_charging">智能充电</string>
+    <string name="smart_charging">充电监视器</string>
     <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。</string>
 
     <string name="color_lockscreen">多彩屏保</string>
@@ -77,4 +77,11 @@
     <string name="acb_phone_grant_notification_access_title">为了轻松接听来电请开启通知访问权限</string>
     <string name="acb_phone_enable_notification_access_description">请手动为多彩电话开启通知访问权限，轻松接听来电。</string>
     <string name="acb_phone_enable_notification">立即开启</string>
+
+    <!--Reward_video -->
+    <string name="watch_video_to_unlock">观看视频即可解锁</string>
+    <string name="load_reward_ad_error">糟糕，稍后再试</string>
+    <string name="watch_video_to_unlock_free_theme">观看视频已解锁美丽的主题</string>
+    <string name="unlock">解锁</string>
+    <string name="unlock_succeed">成功解锁</string>
 </resources>
