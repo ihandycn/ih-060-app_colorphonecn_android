@@ -14,6 +14,10 @@
     <color name="textBlack">#E8ffffff</color>
     <color name="promote_locker_guide_bg">#0c0217</color>
 
+    <color name="promote_locker_guide_top_title_color">@android:color/white</color>
+    <color name="promote_locker_guide_bottom_title_color">@android:color/white</color>
+    <color name="promote_locker_guide_bottom_subtitle_color">@android:color/white</color>
+
     <color name="title_color">#ccffffff</color>
     <color name="subtitle_color">#66ffffff</color>
     <color name="dialog_bg">#282432</color>
