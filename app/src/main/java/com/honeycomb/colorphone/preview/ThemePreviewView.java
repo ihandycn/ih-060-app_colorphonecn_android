@@ -1067,7 +1067,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         triggerPageChangeWhenIdle = true;
 
-        if (mTheme.isLocked()) {
+        if (isSelectedPos() && mTheme.isLocked()) {
             LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
     }
