@@ -16,6 +16,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import java.util.ArrayList;
@@ -80,6 +81,10 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         });
         mMediaPlayer = new MediaPlayer();
 
+
+        if (mTheme.isLocked()) {
+            LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
+        }
     }
 
     public MediaPlayer getMediaPlayer() {

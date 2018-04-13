@@ -551,6 +551,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     //todo theme name needs to be recorded
                     LauncherAnalytics.logEvent("Colorphone_Rewardvideo_show", "from", "list", "themeName", themeName);
                 }
+
+                @Override
+                public void onAdFailed() {
+
+                }
             }, false);
         }
         mRewardVideoView.onRequestRewardVideo();

@@ -593,10 +593,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Clicked", "from", "detail_page", "themeName", mTheme.getName());
                 }
             });
-            LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show");
-
         }
         mActionLayout.setVisibility(GONE);
+    }
+
+    private void hideLock() {
+        ViewStub stub = findViewById(R.id.lock_layout);
+        if (mLockLayout != null) {
+            mLockLayout.setVisibility(GONE);
+        }
     }
 
 
@@ -869,6 +874,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
             if (mTheme.isLocked()) {
                 switchToLockState();
+            } else {
+                hideLock();
             }
         }
     }
@@ -1048,6 +1055,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (DEBUG_LIFE_CALLBACK) {
             HSLog.d("onPageSelected " + position);
         }
+
         mPageSelectedPos = position;
         if ((isSelectedPos() && mDownloadTasks != null)) {
             for (int i = 0; i < mDownloadTasks.size(); i++) {
@@ -1059,6 +1067,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         triggerPageChangeWhenIdle = true;
 
+        if (mTheme.isLocked()) {
+            LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
+        }
     }
 
     public void updateButtonState() {
@@ -1092,6 +1103,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 @Override
                 public void onAdShow() {
                     LauncherAnalytics.logEvent("Colorphone_Rewardvideo_show", "from", "detail_page", "themeName", mTheme.getName());
+                }
+
+                @Override
+                public void onAdFailed() {
+                    mUnLockButton.setClickable(true);
                 }
             }, true);
         }

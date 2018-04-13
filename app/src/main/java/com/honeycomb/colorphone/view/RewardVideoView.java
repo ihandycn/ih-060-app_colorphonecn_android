@@ -119,6 +119,9 @@ public class RewardVideoView {
                 if (acbError != null) {
                     onHideAdLoading();
                     Toasts.showToast(R.string.load_reward_ad_error, Toast.LENGTH_LONG);
+                    if (mOnRewardedCallback != null) {
+                        mOnRewardedCallback.onAdFailed();
+                    }
                 }
             }
         });
@@ -144,5 +147,7 @@ public class RewardVideoView {
         void onAdCloseAndRewarded();
 
         void onAdShow();
+
+        void onAdFailed();
     }
 }
