@@ -30,6 +30,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.app.utils.HSMarketUtils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -49,6 +50,7 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
     private static final boolean DEBUG_FIVE_STAR = false && BuildConfig.DEBUG;
 
     private static final String PREF_KEY_FIVE_STAR_SHOWED_THEME = "PREF_KEY_FIVE_STAR_SHOWED_THEME";
+    private static final String PREF_KEY_FIVE_STAR_SHOWED_COUNT = "PREF_KEY_FIVE_STAR_SHOWE_COUNT";
     private static final String PREF_KEY_FIVE_STAR_SHOWED_END_CALL = "PREF_KEY_FIVE_STAR_SHOWED_END_CALL";
     private static final String PREF_KEY_HAD_FIVE_STAR_RATE = "pref_key_had_five_star_rate";
 
@@ -58,9 +60,11 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
     private static final long ONE_STEP_DURATION = 200;
     private static final long ANIM_DELAY = 200;
     private static final long ALL_STEPS_DURATION = 5 * ONE_STEP_DURATION;
+    private static int sCurrentSessionId = -1;
 
     public enum From {
         SET_THEME(0),
+        @Deprecated
         END_CALL(1);
 
         private int code = 0;
@@ -168,7 +172,8 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
             mGuideStarViews[i].setImageResource(R.drawable.star_dark);
         }
 
-        logShown();
+        Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(PREF_KEY_FIVE_STAR_SHOWED_COUNT);
+        sCurrentSessionId = SessionMgr.getInstance().getCurrentSessionId();
     }
 
     @Override
@@ -255,7 +260,8 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
                 LauncherAnalytics.logEvent("RateAlert_Lessthanfive_Submit", "type", mFrom.toString());
             }
             Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREF_KEY_HAD_FIVE_STAR_RATE, true);
-            super.onClickPositiveButton(v);
+            markAlertLifeOver();
+            dismiss();
         } else {
             guideAnim(false);
         }
@@ -407,7 +413,10 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         return animator;
     }
 
-    private void logShown() {
+    /**
+     * We do not need show this alert again.
+     */
+    private void markAlertLifeOver() {
         LauncherAnalytics.logEvent("RateAlert_Showed", "type", mFrom.toString());
 
         switch (mFrom) {
@@ -465,13 +474,25 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         switch (from) {
             case SET_THEME:
                 return DEBUG_FIVE_STAR ||
-                        (HSConfig.optBoolean(true, "Application", "RateAlert", "ApplyFinished", "Enable")
-                        && !Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIVE_STAR_SHOWED_THEME, false));
+                        SessionMgr.getInstance().getCurrentSessionId() != sCurrentSessionId
+                        && !Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIVE_STAR_SHOWED_THEME, false)
+                        && isApplyCountValid();
             case END_CALL:
                 return DEBUG_FIVE_STAR ||
                         (HSConfig.optBoolean(true, "Application", "RateAlert", "CallFinished", "Enable")
                         && !Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_FIVE_STAR_SHOWED_END_CALL, false));
         }
         return true;
+    }
+
+    private static boolean isApplyCountValid() {
+        int hasShowCount = Preferences.get(Constants.DESKTOP_PREFS).getInt(PREF_KEY_FIVE_STAR_SHOWED_COUNT, 0);
+        if (hasShowCount == 0) {
+            return HSConfig.optBoolean(true, "Application", "RateAlert", "ApplyFinished", "Enable");
+        } else if (hasShowCount == 1) {
+            return HSConfig.optBoolean(true, "Application", "RateAlert", "SecondApplyFinished", "Enable");
+        }
+        return false;
+
     }
 }
