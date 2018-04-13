@@ -47,6 +47,10 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         return HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "DefaultEnabled");
     }
 
+    @Override
+    public boolean isCallAssistantConfigEnabled() {
+        return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CALL_ASSISTANT);
+    }
 
     @Override
     public CallIdleAlert.Config getCallIdleConfig() {
