@@ -12,6 +12,8 @@ import android.text.TextUtils;
 import com.acb.call.themes.Type;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.notification.NotificationConstants;
+import com.honeycomb.colorphone.util.Utils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
@@ -241,7 +243,10 @@ public class Theme extends Type {
     }
 
     public boolean isLocked() {
-        return isLocked;
+        if (HSApplication.getFirstLaunchInfo().appVersionCode == HSApplication.getCurrentLaunchInfo().appVersionCode) {
+            return isLocked;
+        }
+        return false;
     }
 
     public void setLocked(boolean locked) {

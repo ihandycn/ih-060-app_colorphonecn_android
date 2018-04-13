@@ -37,7 +37,7 @@
         android:layout_marginBottom="@dimen/guide_txt_margin_vertical"
         android:gravity="center"
         android:textColor="@color/textDark"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:typeface="@string/proxima_nova_semibold"
         tools:text="Please enable the features and permissions: Remind your missed calls"/>
 
