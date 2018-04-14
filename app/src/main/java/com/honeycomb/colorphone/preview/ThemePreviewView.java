@@ -108,6 +108,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private ThemePreviewWindow previewWindow;
     private InCallActionView callActionView;
 
+    private View mUserView;
+    private View mCallName;
+    private View mNumberName;
+
     private ThemePreviewActivity mActivity;
     private View mRootView;
 
@@ -419,6 +423,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         themeReady = true;
         dimCover.setVisibility(View.INVISIBLE);
         mProgressViewHolder.hide();
+
         previewWindow.updateThemeLayout(mThemeType);
 
         if (mTheme.isLocked()) {
@@ -427,7 +432,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         setCustomStyle();
 
-        if (needTransAnim) {
+        if (needTransAnim || mCallName.getVisibility() != VISIBLE) {
             playTransInAnimation(transEndRunnable);
         } else {
             transEndRunnable.run();
@@ -594,11 +599,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
             });
         }
-        mActionLayout.setVisibility(GONE);
+        mActionLayout.setVisibility(INVISIBLE);
     }
 
     private void hideLock() {
-        ViewStub stub = findViewById(R.id.lock_layout);
         if (mLockLayout != null) {
             mLockLayout.setVisibility(GONE);
         }
@@ -606,18 +610,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
 
     private void playTransInAnimation(final Runnable completeRunnable) {
-        View callName = findViewById(R.id.first_line);
-        View numberName = findViewById(R.id.second_line);
+        mCallName = findViewById(R.id.first_line);
+        mNumberName = findViewById(R.id.second_line);
 
-        View userView = findViewById(R.id.caller_avatar_container);
-        if (userView == null) {
-            userView = findViewById(R.id.caller_avatar);
+        mUserView = findViewById(R.id.caller_avatar_container);
+        if (mUserView == null) {
+            mUserView = findViewById(R.id.caller_avatar);
         }
 
         if (mTheme.isLocked()) {
-            callName.setVisibility(INVISIBLE);
-            numberName.setVisibility(INVISIBLE);
-            userView.setVisibility(INVISIBLE);
+            mCallName.setVisibility(INVISIBLE);
+            mNumberName.setVisibility(INVISIBLE);
+            mUserView.setVisibility(INVISIBLE);
             callActionView.setVisibility(INVISIBLE);
 
             if (completeRunnable != null) {
@@ -625,6 +629,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
             return;
         }
+
+        mUserView.setVisibility(VISIBLE);
+        mCallName.setVisibility(VISIBLE);
+        mNumberName.setVisibility(VISIBLE);
+        callActionView.setVisibility(VISIBLE);
+        mActionLayout.setVisibility(VISIBLE);
 
         if (mNoTransition) {
             if (completeRunnable != null) {
@@ -634,7 +644,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         int pHeight = Utils.getPhoneHeight(mActivity);
 
-        final View[] animViews = new View[] {userView, callName, numberName, callActionView};
+
+
+        final View[] animViews = new View[] {mUserView, mCallName, mNumberName, callActionView};
         final int[] alpha = new int[] {0, 0, 0 ,0};
         final float[] transY = new float[] {-pHeight * 0.15f, -pHeight * 0.12f, -pHeight * 0.12f, pHeight * 0.15f};
         final TimeInterpolator transInterpolator = new DecelerateInterpolator(2f);
@@ -938,8 +950,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void onThemeLoading() {
         dimCover.setVisibility(View.VISIBLE);
+        mProgressViewHolder.show();
         previewWindow.updateThemeLayout(mThemeType);
         setCustomStyle();
+
 
         mProgressViewHolder.mProgressTxtGroup.setAlpha(0);
         mProgressViewHolder.mProgressBar.setAlpha(0);
@@ -1087,6 +1101,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mTheme.getId());
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
                     mTheme.setLocked(false);
+                    hideLock();
                     LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "detail_page", "themeName", mTheme.getName());
                 }
 
@@ -1170,6 +1185,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public void hide() {
             mProgressBar.setVisibility(View.INVISIBLE);
             mProgressTxtGroup.setVisibility(View.INVISIBLE);
+        }
+
+        public void show() {
+            mProgressBar.setVisibility(View.VISIBLE);
+            mProgressTxtGroup.setVisibility(View.VISIBLE);
         }
 
         public void fadeOut() {

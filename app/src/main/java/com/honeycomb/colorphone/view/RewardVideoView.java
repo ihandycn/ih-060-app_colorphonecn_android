@@ -135,6 +135,7 @@ public class RewardVideoView {
     public void onCancel() {
         if (mRewardAdLoader != null) {
             mRewardAdLoader.cancel();
+            mOnRewardedCallback = null;
             onHideAdLoading();
         }
     }
