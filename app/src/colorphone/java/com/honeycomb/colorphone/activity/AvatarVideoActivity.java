@@ -32,20 +32,6 @@ public class AvatarVideoActivity extends HSAppCompatActivity {
 
     private static String HEAD_PATH = VIDEO_ROOT_PATH + R.raw.facemoji;
     private static Map<String, Integer> videoPathMap = new HashMap<>();
-    static {
-        videoPathMap.put("happy01_face", R.raw.happy01_face);
-        videoPathMap.put("happy01_gif", R.raw.happy01_gif);
-        videoPathMap.put("happy02_face", R.raw.happy02_face);
-        videoPathMap.put("happy02_gif", R.raw.happy02_gif);
-        videoPathMap.put("pick01_face", R.raw.pick01_face);
-        videoPathMap.put("pick01_face_meme", R.raw.pick01_face_meme);
-        videoPathMap.put("pick01_gif", R.raw.pick01_gif);
-        videoPathMap.put("pick01_gif_meme", R.raw.pick01_gif_meme);
-        videoPathMap.put("pick02_face", R.raw.pick02_face);
-        videoPathMap.put("pick02_face_meme", R.raw.pick02_face_meme);
-        videoPathMap.put("pick02_gif", R.raw.pick02_gif);
-        videoPathMap.put("pick02_gif_meme", R.raw.pick02_gif_meme);
-    }
 
     private VideoView video;
     private String videoPath;
