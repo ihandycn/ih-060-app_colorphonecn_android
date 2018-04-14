@@ -40,18 +40,22 @@ public class RewardVideoView {
         mFullScreenAdLoading = fullScreenAdLoading;
     }
 
-    private void onShowAdLoading() {
+    public void onShowAdLoading() {
         if (mAdLoadingView == null) {
             mAdLoadingView = new AdLoadingView(mRootView.getContext(), mFullScreenAdLoading);
             mRootView.addView(mAdLoadingView, MATCH_PARENT);
         }
     }
 
-    private void onHideAdLoading() {
+    public void onHideAdLoading() {
         if (mAdLoadingView != null) {
             mRootView.removeView(mAdLoadingView);
             mAdLoadingView = null;
         }
+    }
+
+    public boolean isLoading() {
+        return mAdLoadingView != null;
     }
 
     private void tryShowRewardVideo() {

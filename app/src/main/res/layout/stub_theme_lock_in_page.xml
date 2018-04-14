@@ -27,11 +27,12 @@
         app:typeface="@string/proxima_nova_semibold"
         />
     
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/unlock_button_container"
         android:layout_width="208dp"
         android:layout_height="44dp"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:layout_marginTop="46dp"
         android:background="@drawable/btn_bg_yellow">
 
@@ -39,8 +40,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="65dp"
-            android:layout_marginStart="65dp"
             android:src="@drawable/unlock_tiny_icon"/>
 
         <com.honeycomb.colorphone.view.TypefacedTextView
@@ -49,11 +48,11 @@
             android:textSize="15sp"
             android:layout_gravity="center_vertical|end"
             android:textColor="#000000"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:text="@string/unlock"
-            android:layout_marginRight="55dp"
-            android:layout_marginEnd="55dp"
             app:typeface="@string/proxima_nova_bold"
             />
-    </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -349,6 +349,20 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         name.setText(mTheme.getAvatarName());
     }
 
+    public boolean isRewardVideoLoading() {
+        if (mRewardVideoView != null && mRewardVideoView.isLoading()) {
+            return true;
+        }
+        return false;
+    }
+
+    public void stopRewardVideoLoading() {
+        if (mRewardVideoView != null) {
+            mRewardVideoView.onHideAdLoading();
+            mRewardVideoView.onCancel();
+        }
+    }
+
     protected void onCreate() {
         previewWindow = (ThemePreviewWindow) findViewById(R.id.card_flash_preview_window);
         previewWindow.setOnClickListener(new View.OnClickListener() {

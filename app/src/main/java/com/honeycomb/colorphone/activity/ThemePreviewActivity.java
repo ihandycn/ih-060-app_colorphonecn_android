@@ -113,6 +113,17 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        for (ThemePreviewView previewView : mViews) {
+            if (previewView.isRewardVideoLoading()) {
+                previewView.stopRewardVideoLoading();
+                return;
+            }
+        }
+        super.onBackPressed();
+    }
+
     private class ThemePagerAdapter extends PagerAdapter {
 
         @Override

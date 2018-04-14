@@ -90,7 +90,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private TextView mainSwitchTxt;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
-    private int defaultThemeId = 14;
+    private int defaultThemeId = 1;
     private boolean initCheckState;
 
     private Handler mHandler = new Handler();
@@ -376,6 +376,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (mRewardVideoView != null && mRewardVideoView.isLoading()){
+            mRewardVideoView.onHideAdLoading();
+            mRewardVideoView.onCancel();
         } else {
             super.onBackPressed();
         }
