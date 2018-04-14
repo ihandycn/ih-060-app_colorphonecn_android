@@ -360,6 +360,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (mRewardVideoView != null) {
             mRewardVideoView.onHideAdLoading();
             mRewardVideoView.onCancel();
+            mUnLockButton.setClickable(true);
         }
     }
 
@@ -1107,6 +1108,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void showRewardVideoToUnlockTheme() {
+        mUnLockButton.setClickable(false);
         if (mRewardVideoView == null) {
             mRewardVideoView = new RewardVideoView((ViewGroup) findViewById(R.id.root), new RewardVideoView.OnRewarded() {
                 @Override
@@ -1141,7 +1143,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }, true);
         }
 
-        mUnLockButton.setClickable(false);
+
         mRewardVideoView.onRequestRewardVideo();
     }
 
