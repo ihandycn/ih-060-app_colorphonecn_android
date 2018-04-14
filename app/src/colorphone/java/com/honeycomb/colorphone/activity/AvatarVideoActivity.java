@@ -30,7 +30,6 @@ public class AvatarVideoActivity extends HSAppCompatActivity {
 
     private static String VIDEO_ROOT_PATH = "android.resource://" + HSApplication.getContext().getPackageName() + "/";
 
-    private static String HEAD_PATH = VIDEO_ROOT_PATH + R.raw.facemoji;
     private static Map<String, Integer> videoPathMap = new HashMap<>();
 
     private VideoView video;
