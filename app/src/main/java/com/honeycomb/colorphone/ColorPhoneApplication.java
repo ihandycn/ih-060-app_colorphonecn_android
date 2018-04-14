@@ -271,26 +271,26 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void copyMediaFromAssertToFile() {
-        final long startMills = SystemClock.elapsedRealtime();
-        Threads.postOnThreadPoolExecutor(new Runnable() {
-            @Override
-            public void run() {
-                final File file = new File(FileUtils.getMediaDirectory(), "Mp4_12");
-                try {
-                    if (file.isFile() && file.exists()) {
-                        return;
-                    }
-                    Utils.copyAssetFileTo(getApplicationContext(),
-                            "shining.mp4", file);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    if (file.isFile() && file.exists()) {
-                        file.delete();
-                    }
-                }
-            }
-        });
+//        final long startMills = SystemClock.elapsedRealtime();
+//        Threads.postOnThreadPoolExecutor(new Runnable() {
+//            @Override
+//            public void run() {
+//                final File file = new File(FileUtils.getMediaDirectory(), "Mp4_12");
+//                try {
+//                    if (file.isFile() && file.exists()) {
+//                        return;
+//                    }
+//                    Utils.copyAssetFileTo(getApplicationContext(),
+//                            "shining.mp4", file);
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    if (file.isFile() && file.exists()) {
+//                        file.delete();
+//                    }
+//                }
+//            }
+//        });
     }
 
     private void initChargingReport() {
