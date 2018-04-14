@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Build;
@@ -381,6 +382,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mRewardVideoView.onCancel();
         } else {
             super.onBackPressed();
+            // Stop all download tasks;
+            TasksManager.getImpl().stopAllTasks();
         }
     }
 

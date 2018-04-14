@@ -93,7 +93,7 @@ public class TasksManager {
     }
 
 
-    public void releaseTask() {
+    public void unbindAllTasks() {
         int size = taskSparseArray.size();
         for (int i = 0; i < size; i++) {
             BaseDownloadTask task = taskSparseArray.valueAt(i);
@@ -102,6 +102,19 @@ public class TasksManager {
             }
         }
     }
+
+    public void stopAllTasks() {
+        int size = taskSparseArray.size();
+        for (int i = 0; i < size; i++) {
+            BaseDownloadTask task = taskSparseArray.valueAt(i);
+            if (task != null) {
+                if (task.isRunning()) {
+                    task.pause();
+                }
+            }
+        }
+    }
+
 
     private FileDownloadConnectListener listener;
 
@@ -146,7 +159,7 @@ public class TasksManager {
 
     public void onDestroy() {
         unregisterServiceConnectionListener();
-        releaseTask();
+        unbindAllTasks();
     }
 
     public boolean isReady() {
