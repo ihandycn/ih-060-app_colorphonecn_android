@@ -58,8 +58,10 @@ public class ContactManager {
             public void run() {
                 final List<SimpleContact> all = ContactUtils.readAllContacts(HSApplication.getContext());
                 fillThemeContacts(all);
-                mAllContacts.clear();
-                mAllContacts.addAll(all);
+                synchronized (ContactManager.this) {
+                    mAllContacts.clear();
+                    mAllContacts.addAll(all);
+                }
                 needFilterTheme = true;
             }
         });

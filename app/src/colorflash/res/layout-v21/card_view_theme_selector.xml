@@ -178,6 +178,15 @@
                 app:lottie_loop="false" />
         </android.support.percent.PercentRelativeLayout>
 
+
+        <ImageView
+            android:id="@+id/lock_icon"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:src="@drawable/lock_small_icon"/>
+
     </android.support.percent.PercentRelativeLayout>
 
 </RelativeLayout>
