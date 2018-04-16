@@ -751,8 +751,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     mCallActionView.setVisibility(View.VISIBLE);
                     mLockActionView.setVisibility(View.INVISIBLE);
                 }
-                mThemeFlashPreviewWindow.getCallView().setVisibility(View.VISIBLE);
             }
+            mThemeFlashPreviewWindow.getCallView().setVisibility(View.VISIBLE);
         }
 
         private void setHotBadge(boolean hot) {
