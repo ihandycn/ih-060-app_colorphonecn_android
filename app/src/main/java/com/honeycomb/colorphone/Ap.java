@@ -3,11 +3,10 @@ package com.honeycomb.colorphone;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.superapps.util.Toasts;
+
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
-import com.acb.utils.ToastUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.ihs.app.framework.HSApplication;
 
 import java.util.Locale;
 
@@ -30,7 +29,7 @@ public class Ap {
         public static boolean isEnable() {
             boolean ringtoneBtnShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1516083421924-90", "ringtone_btn_show", false);
             if (BuildConfig.DEBUG) {
-                ToastUtils.showToast("【Autopilot】铃声功能：" + ringtoneBtnShowBoolean, Toast.LENGTH_SHORT);
+                Toasts.showToast("【Autopilot】铃声功能：" + ringtoneBtnShowBoolean, Toast.LENGTH_SHORT);
             }
             return ringtoneBtnShowBoolean;
         }
@@ -46,7 +45,7 @@ public class Ap {
         public static boolean isAutoPlay() {
             boolean ringtoneAutoPlayBoolean = AutopilotConfig.getBooleanToTestNow("topic-1516083421924-90", "ringtone_auto_play", false);
             if (BuildConfig.DEBUG) {
-                ToastUtils.showToast("【Autopilot】铃声自动播放：" + ringtoneAutoPlayBoolean, Toast.LENGTH_SHORT);
+                Toasts.showToast("【Autopilot】铃声自动播放：" + ringtoneAutoPlayBoolean, Toast.LENGTH_SHORT);
             }
             return ringtoneAutoPlayBoolean;
         }

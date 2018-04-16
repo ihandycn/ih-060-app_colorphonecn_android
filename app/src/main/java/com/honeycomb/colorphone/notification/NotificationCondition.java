@@ -23,7 +23,6 @@ import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.acb.utils.ConcurrentUtils;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.BuildConfig;
@@ -46,6 +45,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.ScreenStateMgr;
 import com.superapps.util.Preferences;
+import com.superapps.util.Threads;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -813,6 +813,6 @@ public class NotificationCondition implements INotificationObserver {
             }
         };
 
-        ConcurrentUtils.postOnSingleThreadExecutor(notifyRunnable); // Keep notifications in original order
+        Threads.postOnSingleThreadExecutor(notifyRunnable); // Keep notifications in original order
     }
 }

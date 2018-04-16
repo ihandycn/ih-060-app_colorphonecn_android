@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.utils.NavUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
@@ -20,6 +19,7 @@ import com.honeycomb.colorphone.notification.permission.PermissionUtils;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Navigations;
 
 public class NotificationAccessGuideAlertActivity extends Activity {
 
@@ -57,7 +57,7 @@ public class NotificationAccessGuideAlertActivity extends Activity {
         Intent intent = new Intent(context, NotificationAccessGuideAlertActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
-        NavUtils.startActivitySafely(context, intent);
+        Navigations.startActivitySafely(context, intent);
     }
 
     @Override

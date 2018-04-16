@@ -7,11 +7,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.text.TextUtils;
 
-import com.acb.utils.ConcurrentUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.PackageList;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +41,7 @@ public class SystemAppsManager {
     }
 
     public void init() {
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 initAllInstalledAppInfo();

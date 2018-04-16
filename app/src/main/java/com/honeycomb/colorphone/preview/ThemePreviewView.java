@@ -34,7 +34,6 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
-import com.acb.utils.ConcurrentUtils;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.honeycomb.colorphone.Ap;
@@ -66,6 +65,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Threads;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -1306,7 +1306,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             if (currentSelect) {
                 unSelect();
                 stopRingtone();
-                ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+                Threads.postOnThreadPoolExecutor(new Runnable() {
                     @Override
                     public void run() {
                         RingtoneHelper.ringtoneActive(mTheme.getId(), false);
@@ -1322,7 +1322,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 startRingtone();
                 toastLimit(isCurrentTheme());
 
-                ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+                Threads.postOnThreadPoolExecutor(new Runnable() {
                     @Override
                     public void run() {
                         RingtoneHelper.ringtoneActive(mTheme.getId(), true);
