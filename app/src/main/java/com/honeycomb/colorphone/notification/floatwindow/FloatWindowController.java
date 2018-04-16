@@ -12,11 +12,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 
-import com.acb.utils.CompatUtils;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
-import com.honeycomb.colorphone.notification.NotificationConfig;
-import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.ihs.app.framework.HSApplication;
+import com.superapps.util.Compats;
 
 
 public class FloatWindowController {
@@ -69,7 +67,7 @@ public class FloatWindowController {
             usageAccessTipWindowParams.format = PixelFormat.TRANSLUCENT;
             // In HuaWei System Settings - Notification Center - Dropzones, Default block app float window but TYPE_TOAST
             // TYPE_TOAST float window will dissmiss above api 25
-            usageAccessTipWindowParams.type = CompatUtils.IS_HUAWEI_DEVICE ? WindowManager.LayoutParams.TYPE_TOAST : WindowManager.LayoutParams.TYPE_PHONE;
+            usageAccessTipWindowParams.type = Compats.IS_HUAWEI_DEVICE ? WindowManager.LayoutParams.TYPE_TOAST : WindowManager.LayoutParams.TYPE_PHONE;
             if(NotificationAutoPilotUtils.isNotificationAccessTipAtBottom()) {
                 usageAccessTipWindowParams.gravity = Gravity.BOTTOM;
             } else {

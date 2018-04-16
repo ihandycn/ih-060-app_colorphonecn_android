@@ -3,7 +3,6 @@ package com.honeycomb.colorphone.factoryimpl;
 import android.content.Context;
 import android.content.Intent;
 
-import com.acb.utils.NavUtils;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
@@ -15,6 +14,7 @@ import com.ihs.app.framework.HSApplication;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.messagecenter.notification.NotificationMessageAlertActivity;
 import com.messagecenter.sms.SmsMessageAlertActivity;
+import com.superapps.util.Navigations;
 
 /**
  * Created by jelly on 2018/3/17.
@@ -132,7 +132,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             public void requestNotificationPermission() {
                 Context context = HSApplication.getContext();
                 Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-                NavUtils.startActivitySafely(context, intent);
+                Navigations.startActivitySafely(context, intent);
                 FloatWindowController.getInstance().createUsageAccessTip(context);
             }
         };

@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.acb.utils.ConcurrentUtils;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
@@ -35,6 +34,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
+import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
@@ -158,7 +158,7 @@ public class ResultPageActivity extends HSAppCompatActivity
             mIsResultPageShow = true;
         }
         Globals.sAttached = true;
-        ConcurrentUtils.postOnMainThread(new Runnable() {
+        Threads.postOnMainThread(new Runnable() {
             @Override public void run() {
                 if (Globals.sAttached) {
                     HSLog.d(TAG, "onAttachedToWindow sendNotification");

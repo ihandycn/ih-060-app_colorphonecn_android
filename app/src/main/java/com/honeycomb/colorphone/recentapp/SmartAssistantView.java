@@ -21,8 +21,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.acb.utils.CommonUtils;
-import com.acb.utils.ConcurrentUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.BuildConfig;
@@ -34,6 +32,8 @@ import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
+import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.base.ContainerView.AcbContentLayout;
 import net.appcloudbox.ads.expressad.AcbExpressAdView;
@@ -95,7 +95,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         findViewById(R.id.recent_app_close).setOnClickListener(this);
         findViewById(R.id.recent_app_menu).setOnClickListener(this);
         mAppsContainerView = findViewById(R.id.recent_apps_container_view);
-        mAppWidth = (CommonUtils.getPhoneWidth(getContext()) - CommonUtils.pxFromDp(18 * 4)) / 4;
+        mAppWidth = (Dimensions.getPhoneWidth(getContext()) - Dimensions.pxFromDp(18 * 4)) / 4;
 
         TypefacedTextView appText = findViewById(R.id.app_name_text);
         if (SmartAssistantUtils.isFirstShowSmartAssistant()) {
@@ -112,7 +112,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
     @SuppressWarnings("RedundantCast")
     private void bindRecentApps() {
         final WeakReference<View> weakReference = new WeakReference<View>(this);
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 final List<RecentAppInfo> apps = SmartAssistantUtils.getSmartAssistantApps();
@@ -168,7 +168,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         });
 
         TableLayout.LayoutParams rowParams = new TableLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        rowParams.topMargin = CommonUtils.pxFromDp(10);
+        rowParams.topMargin = Dimensions.pxFromDp(10);
 
         int count = mAppsContainerView.getChildCount();
         if (count > 0) {
@@ -207,7 +207,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
     private void loadAppIconInto(ImageView imageView, final AppInfo appInfo) {
         final WeakReference<ImageView> weakReference = new WeakReference<ImageView>(imageView);
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 Drawable drawable = appInfo.getIcon();
@@ -346,7 +346,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
         mMenuPopupView.showAsDropDown(anchorView,
                 -(leftShiftDistance - anchorView.getWidth()),
-                -(CommonUtils.pxFromDp(80)
+                -(Dimensions.pxFromDp(80)
                         + anchorView.getHeight()) / 2);
     }
 

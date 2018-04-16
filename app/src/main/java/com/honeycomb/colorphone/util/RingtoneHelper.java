@@ -10,8 +10,6 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.acb.utils.ConcurrentUtils;
-import com.acb.utils.ToastUtils;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
@@ -20,6 +18,8 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Threads;
+import com.superapps.util.Toasts;
 
 import java.io.File;
 import java.util.HashSet;
@@ -163,7 +163,7 @@ public class RingtoneHelper {
     }
 
     public static void setDefaultRingtoneInBackground(final Theme theme) {
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 setDefaultRingtone(theme);
@@ -222,7 +222,7 @@ public class RingtoneHelper {
         }
 
         if (BuildConfig.DEBUG) {
-            ToastUtils.showToast("Ringtone change to: " + title, Toast.LENGTH_SHORT);
+            Toasts.showToast("Ringtone change to: " + title, Toast.LENGTH_SHORT);
         }
     }
 

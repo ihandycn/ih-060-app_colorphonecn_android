@@ -8,8 +8,6 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.widget.Toast;
 
-import com.acb.utils.ConcurrentUtils;
-
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.boost.AppInfo;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
@@ -20,6 +18,7 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.monitor.topapp.TopAppManager;
 import com.superapps.util.Preferences;
+import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +50,7 @@ public class SmartAssistantUtils {
 
     public static void tryShowSmartAssistant() {
         HSLog.d(TAG, "tryShowSmartAssistant");
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
 
@@ -84,7 +83,7 @@ public class SmartAssistantUtils {
                 }
                 HSLog.d(TAG, "do ShowSmartAssistant");
 
-                ConcurrentUtils.postOnMainThread(new Runnable() {
+                Threads.postOnMainThread(new Runnable() {
                     @Override
                     public void run() {
                         Intent recentApp = new Intent(HSApplication.getContext(), SmartAssistantActivity.class);
@@ -100,7 +99,7 @@ public class SmartAssistantUtils {
         HSLog.d(TAG, msg);
 
         if (BuildConfig.DEBUG) {
-            ConcurrentUtils.postOnMainThread(new Runnable() {
+            Threads.postOnMainThread(new Runnable() {
 
                 @Override
                 public void run() {

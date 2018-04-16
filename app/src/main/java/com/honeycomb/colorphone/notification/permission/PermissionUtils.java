@@ -10,10 +10,10 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
 
-import com.acb.utils.NavUtils;
 import com.acb.utils.Utils;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
 import com.ihs.app.framework.HSApplication;
+import com.superapps.util.Navigations;
 
 public class PermissionUtils {
     public static boolean isNotificationAccessGranted(Context context) {
@@ -45,7 +45,7 @@ public class PermissionUtils {
 
     public static void requestNotificationPermissionNoGuide(final Activity activity, boolean recordGrantedFlurry, Handler handler, final String fromType) {
         if (Utils.ATLEAST_JB_MR2) {
-            NavUtils.startActivityForResultSafely(activity, getNotificationPermissionIntent(false), 100);
+            Navigations.startActivityForResultSafely(activity, getNotificationPermissionIntent(false), 100);
             if (recordGrantedFlurry && handler != null) {
                 handler.postDelayed(new Runnable() {
                     @Override

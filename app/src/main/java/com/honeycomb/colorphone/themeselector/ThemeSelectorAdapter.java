@@ -18,7 +18,6 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
-import com.acb.utils.ConcurrentUtils;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -55,6 +54,7 @@ import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Threads;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -336,7 +336,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 theme.getIdName().toLowerCase(),
                 ConfigLog.FROM_LIST);
 
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 if (RingtoneHelper.isActive(theme.getId())) {

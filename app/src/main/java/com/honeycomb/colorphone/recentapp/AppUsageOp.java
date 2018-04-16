@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteException;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
-import com.acb.utils.ConcurrentUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +38,7 @@ public class AppUsageOp {
         if (dataSync) {
             return;
         }
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 List<AppUsage> appUsages = getAppUsagesFromDb();
@@ -149,7 +149,7 @@ public class AppUsageOp {
         updateAppUsageCache(mAppUsages, packageName, timeStamp);
 
         // Update db.
-        ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 insert(packageName, timeStamp);
@@ -189,7 +189,7 @@ public class AppUsageOp {
 
         if (targetDelete != null) {
             final AppUsage appToDelete = targetDelete;
-            ConcurrentUtils.postOnThreadPoolExecutor(new Runnable() {
+            Threads.postOnThreadPoolExecutor(new Runnable() {
                 @Override
                 public void run() {
                     delete(appToDelete.getPackageName());
