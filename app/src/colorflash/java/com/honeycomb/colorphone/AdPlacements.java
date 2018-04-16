@@ -15,5 +15,6 @@ public class AdPlacements {
     public static final String AD_RESULT_PAGE = "Boost";
     public static final String AD_RESULT_PAGE_INTERSTITIAL = "Weel";
     public static final String SMART_ASSISTANT_PLACEMENT_NAME = "RecentApps";
+    public static final String AD_REWARD_VIDEO = "Reward";
 
 }
