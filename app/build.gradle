@@ -40,7 +40,7 @@ android {
             java.srcDirs = ['src/colorphone/java', 'src/main/java']
         }
         colorflash {
-            manifest.srcFile 'src/main/AndroidManifest.xml'
+            manifest.srcFile 'src/colorflash/AndroidManifest.xml'
             res.srcDirs = ['src/colorflash/res', 'src/main/res']
             assets.srcDirs = ['src/colorflash/assets', 'src/main/assets']
             java.srcDirs = ['src/colorflash/java', 'src/main/java']
