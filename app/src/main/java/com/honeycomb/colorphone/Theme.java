@@ -250,7 +250,7 @@ public class Theme extends Type {
         }
         if (HSApplication.getFirstLaunchInfo().appVersionCode >= LOCK_THEME_VERSION_CODE) {
             return isLocked;
-        }equals()
+        }
         return false;
     }
 
