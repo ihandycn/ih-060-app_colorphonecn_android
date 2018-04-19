@@ -36,6 +36,8 @@ public class Theme extends Type {
     private static final String PREFS_FILE_THEME_LOCK_STATE = "prefs_theme_lock_state_file";
     private static final String PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX ="prefs_theme_lock_id_prefix";
 
+    private static final int LOCK_THEME_VERSION_CODE = 26;
+
     private long download;
     private boolean isSelected;
     private boolean isLike;
@@ -243,9 +245,12 @@ public class Theme extends Type {
     }
 
     public boolean isLocked() {
-        if (HSApplication.getFirstLaunchInfo().appVersionCode == HSApplication.getCurrentLaunchInfo().appVersionCode) {
-            return isLocked;
+        if (!HSApplication.getContext().getPackageName().equals("com.colorphone.smooth.dialer")) {
+            return false;
         }
+        if (HSApplication.getFirstLaunchInfo().appVersionCode >= LOCK_THEME_VERSION_CODE) {
+            return isLocked;
+        }equals()
         return false;
     }
 
