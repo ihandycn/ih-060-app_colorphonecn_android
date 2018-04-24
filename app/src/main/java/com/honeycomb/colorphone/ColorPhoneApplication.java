@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
@@ -18,7 +17,7 @@ import android.text.format.DateUtils;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
-import com.acb.call.utils.FileUtils;
+import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.call.assistant.customize.CallAssistantConsts;
@@ -67,7 +66,6 @@ import com.ihs.libcharging.HSChargingManager;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.messagecenter.customize.MessageCenterSettings;
-import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
@@ -79,7 +77,6 @@ import net.appcloudbox.common.HSFrameworkAdapter.AcbHSFrameworkAdapter;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
 import net.appcloudbox.service.AcbService;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -162,11 +159,13 @@ public class ColorPhoneApplication extends HSApplication {
         AcbAds.getInstance().initializeFromGoldenEye(this);
 
         AcbHSFrameworkAdapter.initialize(this);
+        String customId = HSApplication.getInstallationUUID();
+        AppsFlyerLib.getInstance().setCustomerUserId(customId);
 
         if (BuildConfig.DEBUG) {
-            AutopilotConfig.initialize(this, "Autopilot_10000_Config_test.json");
+            AutopilotConfig.initialize(this, "Autopilot_10000_Config_test.json", customId);
         } else {
-            AutopilotConfig.initialize(this, "Autopilot_10000_Config_v1.json");
+            AutopilotConfig.initialize(this, "Autopilot_10000_Config_v1.json", customId);
         }
 
         CallAssistantManager.init(new CpCallAssistantFactoryImpl());
