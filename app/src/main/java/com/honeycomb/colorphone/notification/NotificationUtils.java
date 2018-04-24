@@ -240,9 +240,7 @@ public class NotificationUtils {
 
             @Override
             public void onSuccess(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask) {
-                if (Utils.isWifiEnabled()) {
-                    downloadMedia(theme, listener);
-                } else if (!ColorPhoneApplication.isAppForeground()) {
+                if (!ColorPhoneApplication.isAppForeground()) {
                     listener.onSuccess(theme);
                 }
             }
@@ -254,61 +252,61 @@ public class NotificationUtils {
         });
     }
 
-    public static void downloadMedia(Theme type) {
-        downloadMedia(type, null);
-    }
+//    public static void downloadMedia(Theme type) {
+//        downloadMedia(type, null);
+//    }
 
-    public static void downloadMedia(final Theme type, final ThemeNotificationListener listener) {
-        HSLog.d(TAG, "start download Mp4");
-
-        final boolean canShowNotification = !ColorPhoneApplication.isAppForeground();
-        if (!canShowNotification) {
-            if (listener != null) {
-                listener.onFailed();
-            }
-        }
-
-        if (mediaDownloadManager.isDownloaded(type.getFileName())) {
-            if (canShowNotification) {
-                if (listener != null) listener.onSuccess(type);
-            }
-            HSLog.d(TAG, "already downLoaded");
-            return;
-        }
-
-        mediaDownloadManager.downloadMedia(type.getMp4Url(), type.getFileName(), new MediaDownloadManager.DownloadCallback() {
-            @Override
-            public void onUpdate(long l) {
-
-            }
-
-            @Override
-            public void onFail(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask, String s) {
-                if (canShowNotification) {
-                    if (listener != null) listener.onSuccess(type);
-                }
-                HSLog.d(TAG, "download media failed");
-            }
-
-            @Override
-            public void onSuccess(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask) {
-                HSLog.d(TAG, "download media success " + "app foreGround = " + ColorPhoneApplication.isAppForeground());
-
-                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
-
-                if (canShowNotification) {
-                    if (listener != null) listener.onSuccess(type);
-                }
-            }
-
-            @Override
-            public void onCancel() {
-                if (canShowNotification) {
-                    if (listener != null) listener.onSuccess(type);
-                }
-            }
-        });
-    }
+//    public static void downloadMedia(final Theme type, final ThemeNotificationListener listener) {
+//        HSLog.d(TAG, "start download Mp4");
+//
+//        final boolean canShowNotification = !ColorPhoneApplication.isAppForeground();
+//        if (!canShowNotification) {
+//            if (listener != null) {
+//                listener.onFailed();
+//            }
+//        }
+//
+//        if (mediaDownloadManager.isDownloaded(type.getFileName())) {
+//            if (canShowNotification) {
+//                if (listener != null) listener.onSuccess(type);
+//            }
+//            HSLog.d(TAG, "already downLoaded");
+//            return;
+//        }
+//
+//        mediaDownloadManager.downloadMedia(type.getMp4Url(), type.getFileName(), new MediaDownloadManager.DownloadCallback() {
+//            @Override
+//            public void onUpdate(long l) {
+//
+//            }
+//
+//            @Override
+//            public void onFail(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask, String s) {
+//                if (canShowNotification) {
+//                    if (listener != null) listener.onSuccess(type);
+//                }
+//                HSLog.d(TAG, "download media failed");
+//            }
+//
+//            @Override
+//            public void onSuccess(MediaDownloadManager.MediaDownLoadTask mediaDownLoadTask) {
+//                HSLog.d(TAG, "download media success " + "app foreGround = " + ColorPhoneApplication.isAppForeground());
+//
+//                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+//
+//                if (canShowNotification) {
+//                    if (listener != null) listener.onSuccess(type);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                if (canShowNotification) {
+//                    if (listener != null) listener.onSuccess(type);
+//                }
+//            }
+//        });
+//    }
 
     public static void saveThemeNotificationSent(Theme theme) {
         StringBuilder sb = new StringBuilder();
@@ -438,24 +436,10 @@ public class NotificationUtils {
                 @Override
                 public void onSuccess(Theme type) {
                     HSLog.d(TAG, "start download preview image");
-                    onOldThemePreviewImageDownloaded(type);
+                    doShowNotification(type, false);
                 }
             });
         }
-    }
-
-    private static void onOldThemePreviewImageDownloaded(Theme type) {
-        downloadMedia(type, new ThemeNotificationListener() {
-            @Override
-            public void onFailed() {
-
-            }
-
-            @Override
-            public void onSuccess(Theme type) {
-                doShowNotification(type, false);
-            }
-        });
     }
 
     private static boolean isShowOldThemeNotificationAtValidInterval() {
