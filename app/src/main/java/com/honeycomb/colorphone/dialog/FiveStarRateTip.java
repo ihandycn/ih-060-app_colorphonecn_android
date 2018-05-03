@@ -80,7 +80,12 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         public String toString() {
             switch (this.code) {
                 case 0:
-                    return "ApplyFinished";
+                    int showCount = Preferences.get(Constants.DESKTOP_PREFS).getInt(PREF_KEY_FIVE_STAR_SHOWED_COUNT, 0);
+                    if (showCount <= 1) {
+                        return "ApplyFinished";
+                    } else {
+                        return "SecondApplyFinished";
+                    }
                 case 1:
                     return "CallFinished";
                 default:
