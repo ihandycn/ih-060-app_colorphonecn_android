@@ -174,6 +174,9 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
 
         Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(PREF_KEY_FIVE_STAR_SHOWED_COUNT);
         sCurrentSessionId = SessionMgr.getInstance().getCurrentSessionId();
+
+        LauncherAnalytics.logEvent("RateAlert_Showed", "type", mFrom.toString());
+
     }
 
     @Override
@@ -417,8 +420,6 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
      * We do not need show this alert again.
      */
     private void markAlertLifeOver() {
-        LauncherAnalytics.logEvent("RateAlert_Showed", "type", mFrom.toString());
-
         switch (mFrom) {
             case SET_THEME:
                 Preferences.get(Constants.DESKTOP_PREFS).putBoolean(FiveStarRateTip.PREF_KEY_FIVE_STAR_SHOWED_THEME, true);
