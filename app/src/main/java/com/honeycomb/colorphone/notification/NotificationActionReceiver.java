@@ -50,7 +50,6 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                 Intent[] intents = {parentActivityIntent, themePreviewIntent};
                 context.startActivities(intents);
 
-                ThemePreviewActivity.start(HSApplication.getContext(), index);
                 if (isNewTheme) {
                     LauncherAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Clicked",
                             "ThemeName", themeName, "isDownloaded", String.valueOf(isMp4Downloaded));
