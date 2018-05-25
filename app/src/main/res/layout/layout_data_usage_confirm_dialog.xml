@@ -88,7 +88,6 @@
         android:background="@drawable/material_compat_bg"
         app:typeface="@string/custom_font_semibold"
         app:layout_constraintEnd_toStartOf="@id/tv_ok"
-        app:layout_constraintBaseline_toBaselineOf="@id/tv_ok"
         app:layout_constraintTop_toBottomOf="@id/message" />
 
 

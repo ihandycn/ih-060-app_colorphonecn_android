@@ -16,8 +16,8 @@ android {
     productFlavors {
         colorphone {
             applicationId "com.colorphone.smooth.dialer"
-            versionCode 28
-            versionName "1.1.9"
+            versionCode 29
+            versionName "1.2.0"
         }
         colorflash {
             applicationId "com.app.phone.call.flash.screen"
@@ -90,12 +90,12 @@ dependencies {
 
             "com.google.android.gms:play-services-gcm:$GOOGLE_PLAY_SERVICES_VERSION".toString(),
 
-            USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.2.0.+"
-                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.2.0.gm",
+            USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.2.4.beta03"
+                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.2.4.gm",
 
             USE_BETA_ACB_LIBS ?
-                    'com.ihandy.appframework:libAppframework.beta:4.6.4.+' :
-                    'com.ihandy.appframework:libAppframework.gm:4.6.4.gm',
+                    'com.ihandy.appframework:libAppframework.beta:4.6.6.beta04' :
+                    'com.ihandy.appframework:libAppframework.gm:4.6.6.gm',
     ]
 
     for (dependency in COMMON_DEPENDENCIES) compile dependency
@@ -137,7 +137,7 @@ dependencies {
     compile project(':lock')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.05.03.001'
+    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.05.24.002'
     colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.03.26.001'
 
     compile 'net.appcloudbox.common:libAcbHSFrameworkAdapter.gm:1.0.2.gm'

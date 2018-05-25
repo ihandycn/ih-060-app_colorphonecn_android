@@ -4,6 +4,7 @@ package com.honeycomb.colorphone.gdpr;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 
@@ -31,10 +32,21 @@ public class DataUsageSettingsActivity extends HSAppCompatActivity
         Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
         mDataUsageSwitchButton = findViewById(R.id.data_usage_toggle_button);
         mDataUsageSwitchButton.setOnCheckedChangeListener(this);
+        mDataUsageSwitchButton.setFocusableInTouchMode(false);
+        mDataUsageSwitchButton.setClickable(false);
         mDataUsageSwitchButton.setChecked(HSGdprConsent.getConsentState() == HSGdprConsent.ConsentState.ACCEPTED);
 
         mContainer = findViewById(R.id.data_usage_cell);
         mContainer.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

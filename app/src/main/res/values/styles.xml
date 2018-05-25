@@ -153,5 +153,9 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
+    <style name="GdpToggleButton">
+        <item name="android:clickable">false</item>
+    </style>
+
 
 </resources>
