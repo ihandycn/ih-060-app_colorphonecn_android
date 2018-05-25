@@ -40,6 +40,7 @@ import com.bumptech.glide.request.target.Target;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.receiver.ShareReceiver;
+import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ShareAlertAutoPilotUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -397,7 +398,7 @@ public class ShareAlertActivity extends Activity {
         if (v.getWidth() <= 0 || v.getHeight() <= 0) {
             HSLog.d("ShareAlertActivity", "view measure failed");
             Exception exception = new Exception("ViewSizeInvalidException");
-            CrashlyticsCore.getInstance().logException(exception);
+            ColorPhoneCrashlytics.getInstance().logException(exception);
             return null;
         }
         HSLog.d("ShareAlertActivity", "max cache size = " + ViewConfiguration.get(this).getScaledMaximumDrawingCacheSize() + "");
@@ -405,7 +406,7 @@ public class ShareAlertActivity extends Activity {
 
         if (v.getDrawingCache() == null) {
             Exception exception = new Exception("OutOfMaxCacheSizeException");
-            CrashlyticsCore.getInstance().logException(exception);
+            ColorPhoneCrashlytics.getInstance().logException(exception);
             return null;
         }
         HSLog.d("ShareAlertActivity", "drawing cache size = " + v.getDrawingCache().getByteCount() + "");

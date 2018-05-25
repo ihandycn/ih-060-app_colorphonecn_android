@@ -33,6 +33,7 @@ import com.honeycomb.colorphone.boost.BoostAnimationManager;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.receiver.UserPresentReceiver;
+import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.DeviceUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Thunk;
@@ -808,7 +809,7 @@ public class NotificationCondition implements INotificationObserver {
                     HSLog.d(TAG, "notify()");
                     notifyMgr.notify(id, notification);
                 } catch (Exception e) {
-                    CrashlyticsCore.getInstance().logException(e);
+                    ColorPhoneCrashlytics.getInstance().logException(e);
                 }
             }
         };

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Permissions;
@@ -31,7 +32,7 @@ public class SafeWindowManager {
                 mWindowManager.addView(view, params);
                 useActivityManager = false;
             } catch (SecurityException e) {
-                CrashlyticsCore.getInstance().logException(e);
+                ColorPhoneCrashlytics.getInstance().logException(e);
                 e.printStackTrace();
             }
         } else {
@@ -58,7 +59,7 @@ public class SafeWindowManager {
         try {
             getInnerManager(view).removeView(view);
         }catch (Exception e){
-            CrashlyticsCore.getInstance().logException(e);
+            ColorPhoneCrashlytics.getInstance().logException(e);
             e.printStackTrace();
         }
     }

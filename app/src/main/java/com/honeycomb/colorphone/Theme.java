@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import com.acb.call.themes.Type;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.notification.NotificationConstants;
+import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -82,7 +83,7 @@ public class Theme extends Type {
 
         ArrayList<Type> types = Type.values();
         if (types.isEmpty() || !(types.get(0) instanceof Theme)) {
-            CrashlyticsCore.getInstance().logException(new Exception("Theme load fail!"));
+            ColorPhoneCrashlytics.getInstance().logException(new Exception("Theme load fail!"));
             return;
         }
         for (Type type : types) {

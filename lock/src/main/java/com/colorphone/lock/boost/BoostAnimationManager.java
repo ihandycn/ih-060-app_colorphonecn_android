@@ -700,7 +700,7 @@ public class BoostAnimationManager {
             }
         } catch (RuntimeException e) {
             // queryIntentActivities() call may kill package manager for TransactionTooLargeException
-//            CrashlyticsCore.getInstance().logException(e);
+//            ColorPhoneCrashlytics.getInstance().logException(e);
             infos = new ArrayList<>();
         }
         return infos;
