@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.notification.permission.PermissionUtils;
@@ -94,6 +95,8 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
 
         TextView tvTitle = (TextView) findViewById(R.id.tv_title);
         tvTitle.setText(titleNew() ? R.string.guide_first_page_title : R.string.guide_first_page_title_old);
+
+        GdprUtils.showGdprAlertIfNeeded(this);
     }
 
     private boolean titleNew() {

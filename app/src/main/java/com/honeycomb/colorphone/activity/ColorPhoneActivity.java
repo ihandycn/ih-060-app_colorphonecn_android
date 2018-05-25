@@ -1,6 +1,5 @@
 package com.honeycomb.colorphone.activity;
 
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Build;
@@ -39,8 +38,6 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
-import com.honeycomb.colorphone.gdpr.GdprConsts;
-import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
@@ -53,7 +50,6 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
-import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
@@ -153,7 +149,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             PromoteLockerActivity.startPromoteLockerActivity(this, PromoteLockerActivity.WHEN_APP_LAUNCH);
             HSAlertMgr.delayRateAlert();
         }
-        showGdprAlertIfNeeded();
         setTheme(R.style.AppLightStatusBarTheme);
 
         setContentView(R.layout.activity_main);
@@ -570,43 +565,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mRewardVideoView.onRequestRewardVideo();
     }
 
-    private boolean showGdprAlertIfNeeded() {
-        if (!GdprUtils.isGdprNewUser()) {
-            return false;
-        }
-
-        if (!GdprUtils.isGdprUser()) {
-            return false;
-        }
-
-        HSGdprConsent.ConsentState consentState = HSGdprConsent.getConsentState();
-        if (consentState == HSGdprConsent.ConsentState.TO_BE_CONFIRMED) {
-            return Utils.doLimitedTimes(new Runnable() {
-                @Override
-                public void run() {
-                    HSGdprConsent.showConsentAlert(ColorPhoneActivity.this, HSGdprConsent.AlertStyle.AGREE_STYLE,
-                            Constants.URL_PRIVACY, new HSGdprConsent.GDPRAlertListener() {
-                        @Override
-                        public void onAccept() {
-                            LauncherAnalytics.logEvent("GDPR_Access_Gain");
-                            GdprUtils.setDataUsageUserEnabled(true);
-                        }
-
-                        @Override
-                        public void onDecline() {
-                            LauncherAnalytics.logEvent("GDPR_Access_Decline");
-
-                        }
-                    });
-
-                    LauncherAnalytics.logEvent("GDPR_Access_Alert_Shown");
-
-                }
-            }, GdprConsts.PREFS_KEY_CONSTENT_ALERT_SHOW_TIMES, 1);
-
-        }
-        return false;
-    }
 
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
