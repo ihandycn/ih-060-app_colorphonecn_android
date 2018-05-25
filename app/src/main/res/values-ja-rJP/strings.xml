@@ -87,4 +87,12 @@
     <string name="watch_video_to_unlock_free_theme">ビデオを観て美しいテーマをアンロックする</string>
     <string name="unlock">アンロック</string>
     <string name="unlock_succeed">アンロックに成功</string>
+
+
+    <string name="gdpr_settings_cell">アナリティクス＆広告</string>
+    <string name="gdpr_share_data">開発者とデータを共有する</string>
+    <string name="gdpr_dialog_title">オフにしてよろしいですか？</string>
+    <string name="gdpr_dialog_content">これらの収集されたデータは、開発者がアプリをより使いやすくするために役立ちます。</string>
+    <string name="gdpr_dialog_turn_off">オフにする</string>
+    <string name="gdpr_dialog_not_now">今はしない</string>
 </resources>

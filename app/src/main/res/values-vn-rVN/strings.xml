@@ -85,4 +85,11 @@
     <string name="watch_video_to_unlock_free_theme">Xem một video để mở khóa chủ đề đẹp mắt</string>
     <string name="unlock">Mở khóa</string>
     <string name="unlock_succeed">Đã mở khóa thành công</string>
+
+    <string name="gdpr_settings_cell">Phân tích &amp; Quảng cáo</string>
+    <string name="gdpr_share_data">Chia sẻ dữ liệu với các nhà phát triển</string>
+    <string name="gdpr_dialog_title">Xác nhận tắt?</string>
+    <string name="gdpr_dialog_content">Những dữ liệu này được thu thập và sử dụng để giúp nhà phát triển cải tiến các ứng dụng để nâng cao trải nghiệm sử dụng.</string>
+    <string name="gdpr_dialog_turn_off">TẮT</string>
+    <string name="gdpr_dialog_not_now">KHÔNG PHẢI BÂY GIỜ</string>
 </resources>

@@ -85,4 +85,11 @@
     <string name="watch_video_to_unlock_free_theme">Tonton video untuk membuka kunci tema indah</string>
     <string name="unlock">Buka kunci</string>
     <string name="unlock_succeed">Berhasil membuka</string>
+
+    <string name="gdpr_settings_cell">Analitik dan Periklanan</string>
+    <string name="gdpr_share_data">Bagikan data kepada pengembang</string>
+    <string name="gdpr_dialog_title">Yakin ingin mematikan?</string>
+    <string name="gdpr_dialog_content">Data ini dikumpulkan dan digunakan untuk membantu pengembang meningkatkan aplikasi guna menghadirkan pengalaman penggunaan yang lebih baik.</string>
+    <string name="gdpr_dialog_turn_off">MATIKAN</string>
+    <string name="gdpr_dialog_not_now">LAIN KALI</string>
 </resources>

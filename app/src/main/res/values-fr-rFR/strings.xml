@@ -84,4 +84,11 @@
     <string name="watch_video_to_unlock_free_theme">Regardez une vidéo pour débloquer le magnifique thème</string>
     <string name="unlock">Débloquer</string>
     <string name="unlock_succeed">Débloqué avec succès</string>
+
+    <string name="gdpr_settings_cell">Analyses et publicité</string>
+    <string name="gdpr_share_data">Partager les données avec les développeurs</string>
+    <string name="gdpr_dialog_title">Confirmer pour désactiver ?</string>
+    <string name="gdpr_dialog_content">Ces données sont collectées et utilisées pour aider le développeur à améliorer les applications afin d\'offrir une meilleure expérience d\'utilisation.</string>
+    <string name="gdpr_dialog_turn_off">DÉSACTIVER</string>
+    <string name="gdpr_dialog_not_now">PAS MAINTENANT</string>
 </resources>

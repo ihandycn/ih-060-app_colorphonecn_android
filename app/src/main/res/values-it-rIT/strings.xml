@@ -86,4 +86,11 @@
     <string name="watch_video_to_unlock_free_theme">Guarda un video per sbloccare il fantastico tema</string>
     <string name="unlock">Sblocca</string>
     <string name="unlock_succeed">Sblocco completato</string>
+
+    <string name="gdpr_settings_cell">Analisi e pubblicità</string>
+    <string name="gdpr_share_data">Condividi i dati con gli sviluppatori</string>
+    <string name="gdpr_dialog_title">Vuoi disattivare?</string>
+    <string name="gdpr_dialog_content">Questi dati vengono raccolti e utilizzati per aiutare gli sviluppatori a migliorare l\'app allo scopo di offrire una migliore esperienza di utilizzo.</string>
+    <string name="gdpr_dialog_turn_off">DISATTIVA</string>
+    <string name="gdpr_dialog_not_now">NON ORA</string>
 </resources>

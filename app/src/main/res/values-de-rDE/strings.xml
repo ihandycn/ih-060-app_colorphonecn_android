@@ -85,4 +85,12 @@
     <string name="watch_video_to_unlock_free_theme">Video anschauen, um das wunderschöne Design freizuschalten</string>
     <string name="unlock">Freischalten</string>
     <string name="unlock_succeed">Erfolgreich freigeschalten</string>
+
+
+    <string name="gdpr_settings_cell">Analytik &amp; Werbung</string>
+    <string name="gdpr_share_data">Daten mit Entwicklern teilen</string>
+    <string name="gdpr_dialog_title">Wirklich deaktivieren?</string>
+    <string name="gdpr_dialog_content">Diese Daten werden erfasst und verwendet, um dem Entwickler zu helfen, die Anwendungen noch benutzerfreundlicher zu gestalten.</string>
+    <string name="gdpr_dialog_turn_off">DEAKTIVIEREN</string>
+    <string name="gdpr_dialog_not_now">NICHT JETZT</string>
 </resources>

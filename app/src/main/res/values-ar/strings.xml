@@ -85,4 +85,12 @@
     <string name="watch_video_to_unlock_free_theme">شاهد فيديو لفتح هذا النسق الجميل</string>
     <string name="unlock">فتح</string>
     <string name="unlock_succeed">تم الفتح بنجاح</string>
+
+    <string name="gdpr_settings_cell">التحليلات والاعلان</string>
+    <string name="gdpr_share_data">شارك البيانات مع المطورين</string>
+    <string name="gdpr_dialog_title">تأكيد الإيقاف؟</string>
+    <string name="gdpr_dialog_content">تُجمع هذه البيانات وتُستخدم لمساعدة المطورين على تحسين التطبيقات لتتمتع بتجربة أفضل.</string>
+    <string name="gdpr_dialog_turn_off">إيقاف</string>
+    <string name="gdpr_dialog_not_now">ليس الآن</string>
+
 </resources>

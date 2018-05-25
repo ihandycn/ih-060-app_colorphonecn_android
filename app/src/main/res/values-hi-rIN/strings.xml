@@ -85,4 +85,11 @@
     <string name="watch_video_to_unlock_free_theme">सुंदर थीम अनलॉक करने के लिए एक वीडियो देखें</string>
     <string name="unlock">अनलॉक</string>
     <string name="unlock_succeed">सफलतापूर्वक अनलॉक हो गया</string>
+
+    <string name="gdpr_settings_cell">विश्‍लेषणात्‍मक और विज्ञापन</string>
+    <string name="gdpr_share_data">डेवलपर्स के साथ डाटा सांझा करें</string>
+    <string name="gdpr_dialog_title">बंद करना है?</string>
+    <string name="gdpr_dialog_content">इन डाटा को बेहतर प्रयोक्‍ता अनुभव के लिए डेवलपर के लिए ऐप्स को बेहतर बनाने की मदद में प्रयोग करने के लिए एकत्रित किया जाता है।</string>
+    <string name="gdpr_dialog_turn_off">बंद करें</string>
+    <string name="gdpr_dialog_not_now">अभी नहीं</string>
 </resources>

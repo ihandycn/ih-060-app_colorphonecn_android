@@ -86,4 +86,11 @@
     <string name="watch_video_to_unlock_free_theme">비디오를 보고 아름다운 테마 잠금 해제</string>
     <string name="unlock">잠금 해제</string>
     <string name="unlock_succeed">잠금 해제 성공</string>
+
+    <string name="gdpr_settings_cell">분석 및 광고</string>
+    <string name="gdpr_share_data">개발자와 데이터 공유</string>
+    <string name="gdpr_dialog_title">끄시겠습니까?</string>
+    <string name="gdpr_dialog_content">개발자를 돕기 위해 수집되고 사용된 이러한 데이터는 더 나은 사용 환경으로 앱을 개선합니다.</string>
+    <string name="gdpr_dialog_turn_off">끄기</string>
+    <string name="gdpr_dialog_not_now">나중에</string>
 </resources>

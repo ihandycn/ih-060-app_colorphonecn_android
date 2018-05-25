@@ -81,4 +81,12 @@
     <string name="watch_video_to_unlock_free_theme">Güzel temanın kilidini açmak için video seyret</string>
     <string name="unlock">Kilidi Aç</string>
     <string name="unlock_succeed">Kilit başarıyla açıldı</string>
+
+
+    <string name="gdpr_settings_cell">Analizler ve Reklam</string>
+    <string name="gdpr_share_data">Verileri geliştiricilerle paylaş</string>
+    <string name="gdpr_dialog_title">Kapatmayı onaylıyor musun?</string>
+    <string name="gdpr_dialog_content">Bu veriler, geliştiricilerin daha iyi bir kullanım deneyimi için uygulamaları geliştirmeleri amacıyla toplanmakta ve kullanılmaktadır.</string>
+    <string name="gdpr_dialog_turn_off">KAPAT</string>
+    <string name="gdpr_dialog_not_now">ŞİMDİ DEĞİL</string>
 </resources>

@@ -87,4 +87,11 @@
     <string name="unlock">Desbloquear</string>
     <string name="unlock_succeed">Desbloqueado correctamente</string>
 
+    <string name="gdpr_settings_cell">Analíticas y publicidad</string>
+    <string name="gdpr_share_data">Compartir datos con desarrolladores</string>
+    <string name="gdpr_dialog_title">¿Confirmas que quieres desactivar?</string>
+    <string name="gdpr_dialog_content">Estos datos se recopilan y utilizan para ayudar al desarrollador a mejorar las aplicaciones y ofrecer una mejor experiencia de usuario.</string>
+    <string name="gdpr_dialog_turn_off">DESACTIVAR</string>
+    <string name="gdpr_dialog_not_now">AHORA NO</string>
+
 </resources>

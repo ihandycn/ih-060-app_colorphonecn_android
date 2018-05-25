@@ -87,4 +87,11 @@
     <string name="watch_video_to_unlock_free_theme">Чтобы разблокировать эту красивую тему, посмотрите видеоролик</string>
     <string name="unlock">Разблокировать</string>
     <string name="unlock_succeed">Успешно разблокировано</string>
+
+    <string name="gdpr_settings_cell">Аналитика и реклама</string>
+    <string name="gdpr_share_data">Отправлять данные разработчикам</string>
+    <string name="gdpr_dialog_title">Вы действительно хотите выключить эту опцию?</string>
+    <string name="gdpr_dialog_content">Эти данные собираются и используются разработчиками, чтобы улучшать приложения и делать их более удобными для пользователей.</string>
+    <string name="gdpr_dialog_turn_off">ВЫКЛЮЧИТЬ</string>
+    <string name="gdpr_dialog_not_now">НЕ СЕЙЧАС</string>
 </resources>

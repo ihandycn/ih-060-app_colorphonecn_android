@@ -85,4 +85,11 @@
     <string name="watch_video_to_unlock_free_theme">ดูวีดีโอเพื่อปลดล็อกธีมสวย ๆ</string>
     <string name="unlock">ปลดล็อก</string>
     <string name="unlock_succeed">ปลดล็อกสำเร็จแล้ว</string>
+
+    <string name="gdpr_settings_cell">การวิเคราะห์และการโฆษณา</string>
+    <string name="gdpr_share_data">เปิดเผยข้อมูลกับนักพัฒนา</string>
+    <string name="gdpr_dialog_title">ยืนยันการปิดหรือไม่</string>
+    <string name="gdpr_dialog_content">ข้อมูลเหล่านี้รวบรวมและใช้ในการช่วยให้นักพัฒนาปรับปรุงแอปเพื่อให้มีประสบการณ์การใช้งานที่ดีขึ้น</string>
+    <string name="gdpr_dialog_turn_off">ปิด</string>
+    <string name="gdpr_dialog_not_now">ไม่ใช่ตอนนี้</string>
 </resources>
