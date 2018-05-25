@@ -584,7 +584,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             return Utils.doLimitedTimes(new Runnable() {
                 @Override
                 public void run() {
-                    HSGdprConsent.showConsentAlert(ColorPhoneActivity.this, HSGdprConsent.AlertStyle.AGREE_STYLE, Constants.URL_PRIVACY, new HSGdprConsent.GDPRAlertListener() {
+                    HSGdprConsent.showConsentAlert(ColorPhoneActivity.this, HSGdprConsent.AlertStyle.AGREE_STYLE,
+                            Constants.URL_PRIVACY, new HSGdprConsent.GDPRAlertListener() {
                         @Override
                         public void onAccept() {
                             LauncherAnalytics.logEvent("GDPR_Access_Gain");

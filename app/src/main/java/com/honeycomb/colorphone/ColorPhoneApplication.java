@@ -37,6 +37,7 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
+import com.honeycomb.colorphone.gdpr.GdprConsts;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
@@ -186,6 +187,9 @@ public class ColorPhoneApplication extends HSApplication {
     private void onMainProcessCreate() {
         AcbAds.getInstance().initializeFromGoldenEye(this);
 
+        if (!GdprUtils.isGdprNewUser() && HSGdprConsent.getConsentState() == HSGdprConsent.ConsentState.TO_BE_CONFIRMED) {
+            GdprUtils.setDataUsageUserEnabled(true);
+        }
         AcbHSFrameworkAdapter.initialize(this);
         String customId = GdprUtils.isDataUsageUserEnabled() ? HSApplication.getInstallationUUID()
                 : null;
