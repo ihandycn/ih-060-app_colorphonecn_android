@@ -134,28 +134,26 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
 
         ContactManager.getInstance().update();
-        if (!showGdprAlertIfNeeded()) {
-            // TODO pro show condition ( SESSION_START, or Activity onStart() )
-            if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
-                    && !GuideAllFeaturesActivity.isStarted()
-                    && !ModuleUtils.isAllModuleEnabled()) {
-                GuideAllFeaturesActivity.start(this);
-                HSAlertMgr.delayRateAlert();
-                pendingShowRateAlert = true;
-            } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
-                Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
-                intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_APP_IS_FIRST_SESSION, true);
-                startActivity(intent);
-                HSAlertMgr.delayRateAlert();
-                HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
-            } else if (ModuleUtils.isShowPromoteLockerAlert(PromoteLockerActivity.WHEN_APP_LAUNCH)) {
-                PromoteLockerActivity.startPromoteLockerActivity(this, PromoteLockerActivity.WHEN_APP_LAUNCH);
-                HSAlertMgr.delayRateAlert();
-            }
-
+        // TODO pro show condition ( SESSION_START, or Activity onStart() )
+        if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+                && !GuideAllFeaturesActivity.isStarted()
+                && !ModuleUtils.isAllModuleEnabled()) {
+            GuideAllFeaturesActivity.start(this);
+            HSAlertMgr.delayRateAlert();
+            pendingShowRateAlert = true;
+        } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
+            Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
+            intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_APP_IS_FIRST_SESSION, true);
+            startActivity(intent);
+            HSAlertMgr.delayRateAlert();
+            HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
+        } else if (ModuleUtils.isShowPromoteLockerAlert(PromoteLockerActivity.WHEN_APP_LAUNCH)) {
+            PromoteLockerActivity.startPromoteLockerActivity(this, PromoteLockerActivity.WHEN_APP_LAUNCH);
+            HSAlertMgr.delayRateAlert();
         }
+        showGdprAlertIfNeeded();
         setTheme(R.style.AppLightStatusBarTheme);
 
         setContentView(R.layout.activity_main);
