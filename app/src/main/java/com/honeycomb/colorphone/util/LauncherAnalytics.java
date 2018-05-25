@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.util;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
+import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.utils.HSLog;
 
@@ -41,13 +42,15 @@ public class LauncherAnalytics {
     }
 
     public static void logEvent(final String eventID, final Map<String, String> eventValue) {
-        CustomEvent event = new CustomEvent(eventID);
-        for (String key : eventValue.keySet()) {
-            event.putCustomAttribute(key, eventValue.get(key));
+        if (ColorPhoneApplication.isFabricInitted()) {
+            CustomEvent event = new CustomEvent(eventID);
+            for (String key : eventValue.keySet()) {
+                event.putCustomAttribute(key, eventValue.get(key));
+            }
+            HSLog.d("FlurryWithAnswers", eventID);
+            Answers.getInstance().logCustom(event);
+            HSAnalytics.logEvent(eventID, eventValue);
         }
-        HSLog.d("FlurryWithAnswers", eventID);
-        Answers.getInstance().logCustom(event);
-        HSAnalytics.logEvent(eventID, eventValue);
     }
 
 }

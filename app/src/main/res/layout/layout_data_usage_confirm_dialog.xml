@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:alpha="0.87"
+        android:textSize="20sp"
+        android:layout_marginTop="18dp"
+        android:text="@string/gdpr_dialog_title"
+        app:typeface="@string/custom_font_semibold"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:alpha="0.54"
+        android:textSize="16sp"
+        android:layout_marginTop="18dp"
+        android:lineSpacingExtra="6dp"
+        android:text="@string/gdpr_dialog_content"
+        app:typeface="@string/custom_font_semibold"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintTop_toBottomOf="@id/title"/>
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/tv_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="40dp"
+        android:text="@string/gdpr_dialog_not_now"
+        android:background="@drawable/material_compat_button_bg_blue"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="9dp"
+        android:paddingBottom="9dp"
+        app:typeface="@string/custom_font_semibold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/message"/>
+
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/tv_turn_off"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/gdpr_alert_blue"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="9dp"
+        android:paddingBottom="9dp"
+        android:text="@string/gdpr_dialog_turn_off"
+        android:background="@drawable/material_compat_bg"
+        app:typeface="@string/custom_font_semibold"
+        app:layout_constraintEnd_toStartOf="@id/tv_ok"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_ok"
+        app:layout_constraintTop_toBottomOf="@id/message" />
+
+
+
+</android.support.constraint.ConstraintLayout>

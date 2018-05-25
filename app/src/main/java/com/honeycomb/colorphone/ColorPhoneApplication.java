@@ -37,6 +37,7 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
+import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
@@ -49,6 +50,7 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.chargingreport.ChargingReportCallback;
@@ -127,6 +129,7 @@ public class ColorPhoneApplication extends HSApplication {
     public static int mWidth;
     public static int mHeight;
 
+    private static boolean isFabricInitted;
     public static boolean isAppForeground() {
         return !activityStack.isEmpty();
     }
@@ -136,7 +139,8 @@ public class ColorPhoneApplication extends HSApplication {
     public void onCreate() {
         super.onCreate();
         systemFix();
-        Fabric.with(this, new Crashlytics(), new Answers());
+
+        onAllProcessCreated();
         mConfigLog = new ConfigLogDefault();
         FileDownloader.setup(this);
         LauncherAnalytics.logEvent("Test_Event");
@@ -154,12 +158,37 @@ public class ColorPhoneApplication extends HSApplication {
         }
     }
 
+    public static boolean isFabricInitted() {
+        return isFabricInitted;
+    }
+
+
+    private void onAllProcessCreated() {
+        if (GdprUtils.isNeedToAccessDataUsage()) {
+            initFabric();
+        }
+
+        HSGdprConsent.addListener(new HSGdprConsent.GDPRConsentListener() {
+            @Override
+            public void onGDPRStateChanged(HSGdprConsent.ConsentState oldState, HSGdprConsent.ConsentState newState) {
+                if (GdprUtils.isNeedToAccessDataUsage()) {
+                    initFabric();
+                }
+
+                if (oldState == HSGdprConsent.ConsentState.ACCEPTED && newState != oldState) {
+                    System.exit(0);
+                }
+            }
+        });
+    }
+
     @DebugLog
     private void onMainProcessCreate() {
         AcbAds.getInstance().initializeFromGoldenEye(this);
 
         AcbHSFrameworkAdapter.initialize(this);
-        String customId = HSApplication.getInstallationUUID();
+        String customId = GdprUtils.isDataUsageUserEnabled() ? HSApplication.getInstallationUUID()
+                : null;
         AppsFlyerLib.getInstance().setCustomerUserId(customId);
 
         if (BuildConfig.DEBUG) {
@@ -527,5 +556,14 @@ public class ColorPhoneApplication extends HSApplication {
         long setTime = time.getTimeInMillis();
         long timeInMillis = setTime > System.currentTimeMillis() ? setTime : setTime + DateUtils.DAY_IN_MILLIS;
         alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, DateUtils.DAY_IN_MILLIS, pendingIntent);
+    }
+
+
+    private void initFabric() {
+        // Set up Crashlytics, disabled for debug builds
+        if (!isFabricInitted) {
+            Fabric.with(this, new Crashlytics(), new Answers());
+            isFabricInitted = true;
+        }
     }
 }

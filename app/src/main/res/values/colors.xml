@@ -61,4 +61,6 @@
     <color name="transparent_black_in_lock">#B0000000</color>
     <color name="transparent_black_in_theme_preview">#BB000000</color>
 
+    <color name="gdpr_alert_blue">#4A90E2</color>
+
 </resources>

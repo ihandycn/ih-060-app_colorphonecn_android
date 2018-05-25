@@ -157,4 +157,10 @@
     <string name="unlock_succeed">Unlocked successfully</string>
 
 
+    <string name="gdpr_dialog_title">Confirm to turn off?</string>
+    <string name="gdpr_dialog_content">These data are collected and used to help the developer improve the apps for better using experience.</string>
+    <string name="gdpr_settings_cell">Analytics &amp; Advertising</string>
+    <string name="gdpr_share_data">Share data with developers</string>
+    <string name="gdpr_dialog_not_now">NOT NOW</string>
+    <string name="gdpr_dialog_turn_off">TURN OFF</string>
 </resources>

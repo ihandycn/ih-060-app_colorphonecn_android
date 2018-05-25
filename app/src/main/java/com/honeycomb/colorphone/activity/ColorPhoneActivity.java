@@ -39,6 +39,8 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.gdpr.GdprConsts;
+import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
@@ -51,6 +53,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
+import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
@@ -131,27 +134,28 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
 
         ContactManager.getInstance().update();
+        if (!showGdprAlertIfNeeded()) {
+            // TODO pro show condition ( SESSION_START, or Activity onStart() )
+            if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+                    && !GuideAllFeaturesActivity.isStarted()
+                    && !ModuleUtils.isAllModuleEnabled()) {
+                GuideAllFeaturesActivity.start(this);
+                HSAlertMgr.delayRateAlert();
+                pendingShowRateAlert = true;
+            } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
+                Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
+                intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_APP_IS_FIRST_SESSION, true);
+                startActivity(intent);
+                HSAlertMgr.delayRateAlert();
+                HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
+            } else if (ModuleUtils.isShowPromoteLockerAlert(PromoteLockerActivity.WHEN_APP_LAUNCH)) {
+                PromoteLockerActivity.startPromoteLockerActivity(this, PromoteLockerActivity.WHEN_APP_LAUNCH);
+                HSAlertMgr.delayRateAlert();
+            }
 
-        // TODO pro show condition ( SESSION_START, or Activity onStart() )
-        if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
-                && !GuideAllFeaturesActivity.isStarted()
-                && !ModuleUtils.isAllModuleEnabled()) {
-            GuideAllFeaturesActivity.start(this);
-            HSAlertMgr.delayRateAlert();
-            pendingShowRateAlert = true;
-        } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
-            Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
-            intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_APP_IS_FIRST_SESSION, true);
-            startActivity(intent);
-            HSAlertMgr.delayRateAlert();
-            HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
-        } else if (ModuleUtils.isShowPromoteLockerAlert(PromoteLockerActivity.WHEN_APP_LAUNCH)) {
-            PromoteLockerActivity.startPromoteLockerActivity(this, PromoteLockerActivity.WHEN_APP_LAUNCH);
-            HSAlertMgr.delayRateAlert();
         }
-
         setTheme(R.style.AppLightStatusBarTheme);
 
         setContentView(R.layout.activity_main);
@@ -258,7 +262,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (AvatarAutoPilotUtils.isAvatarBtnShow()) {
             avatar.setVisibility(View.VISIBLE);
             avatar.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
+                @Override
+                public void onClick(View v) {
                     Intent intent = new Intent(ColorPhoneActivity.this, AvatarVideoActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -275,7 +280,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onStart() {
         super.onStart();
         int maxId = -1;
-        for(Type type : Type.values()) {
+        for (Type type : Type.values()) {
             if (maxId < type.getId()) {
                 maxId = type.getId();
             }
@@ -285,7 +290,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         // log event
         long sessionPast = System.currentTimeMillis() - SessionMgr.getInstance().getCurrentSessionStartTime();
         boolean isNearSession = Math.abs(sessionPast) < 2000;
-        if (isNearSession ) {
+        if (isNearSession) {
             if (mAdapter != null && mAdapter.isTipHeaderVisible()) {
                 LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Show");
             }
@@ -377,7 +382,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (mRewardVideoView != null && mRewardVideoView.isLoading()){
+        } else if (mRewardVideoView != null && mRewardVideoView.isLoading()) {
             mRewardVideoView.onHideAdLoading();
             mRewardVideoView.onCancel();
         } else {
@@ -538,7 +543,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mAdapter.getUnLockThemeId());
                     }
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
-                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "list", "themeName",themeName);
+                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "list", "themeName", themeName);
                 }
 
                 @Override
@@ -567,6 +572,43 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mRewardVideoView.onRequestRewardVideo();
     }
 
+    private boolean showGdprAlertIfNeeded() {
+        if (!GdprUtils.isGdprNewUser()) {
+            return false;
+        }
+
+        if (!GdprUtils.isGdprUser()) {
+            return false;
+        }
+
+        HSGdprConsent.ConsentState consentState = HSGdprConsent.getConsentState();
+        if (consentState == HSGdprConsent.ConsentState.TO_BE_CONFIRMED) {
+            return Utils.doLimitedTimes(new Runnable() {
+                @Override
+                public void run() {
+                    HSGdprConsent.showConsentAlert(ColorPhoneActivity.this, HSGdprConsent.AlertStyle.AGREE_STYLE, Constants.URL_PRIVACY, new HSGdprConsent.GDPRAlertListener() {
+                        @Override
+                        public void onAccept() {
+                            LauncherAnalytics.logEvent("GDPR_Access_Gain");
+                            GdprUtils.setDataUsageUserEnabled(true);
+                        }
+
+                        @Override
+                        public void onDecline() {
+                            LauncherAnalytics.logEvent("GDPR_Access_Decline");
+
+                        }
+                    });
+
+                    LauncherAnalytics.logEvent("GDPR_Access_Alert_Shown");
+
+                }
+            }, GdprConsts.PREFS_KEY_CONSTENT_ALERT_SHOW_TIMES, 1);
+
+        }
+        return false;
+    }
+
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
@@ -580,5 +622,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             ColorPhoneApplication.checkChargingReportAdPlacement();
         }
     }
+
 
 }

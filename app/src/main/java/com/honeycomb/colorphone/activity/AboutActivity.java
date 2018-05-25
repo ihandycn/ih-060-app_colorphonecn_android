@@ -10,8 +10,12 @@ import android.view.View;
 
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.gdpr.DataUsageSettingsActivity;
+import com.honeycomb.colorphone.gdpr.GdprConsts;
+import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.superapps.util.Navigations;
 
 
 public class AboutActivity extends HSAppCompatActivity {
@@ -44,6 +48,18 @@ public class AboutActivity extends HSAppCompatActivity {
                 Utils.startActivitySafely(AboutActivity.this, getPrivacyViewIntent(Constants.URL_TERM_SERVICES));
             }
         });
+
+        View dataUsageCell = findViewById(R.id.data_usage_cell);
+        if (GdprUtils.isGdprUser()) {
+            dataUsageCell.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Navigations.startActivitySafely(AboutActivity.this, new Intent(AboutActivity.this, DataUsageSettingsActivity.class));
+                }
+            });
+        } else {
+            dataUsageCell.setVisibility(View.GONE);
+        }
 
     }
 

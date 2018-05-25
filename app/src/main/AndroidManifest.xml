@@ -264,6 +264,10 @@
             android:taskAffinity=".recentapps"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <activity
+            android:name=".gdpr.DataUsageSettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppLightStatusBarTheme" />
         <!-- Facebook全屏 -->
         <activity
             android:name="com.facebook.FacebookActivity"
