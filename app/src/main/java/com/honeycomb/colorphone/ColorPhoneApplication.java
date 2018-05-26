@@ -180,14 +180,11 @@ public class ColorPhoneApplication extends HSApplication {
                     new CountDownTimer(3 * DateUtils.SECOND_IN_MILLIS, DateUtils.SECOND_IN_MILLIS) {
                         @Override
                         public void onTick(long millisUntilFinished) {
-                            if (millisUntilFinished < DateUtils.SECOND_IN_MILLIS) {
-                                System.exit(0);
-                            }
                         }
 
                         @Override
                         public void onFinish() {
-
+                            System.exit(0);
                         }
                     }.start();
 
