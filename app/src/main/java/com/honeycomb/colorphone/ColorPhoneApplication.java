@@ -91,6 +91,8 @@ import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 
 import static android.content.IntentFilter.SYSTEM_HIGH_PRIORITY;
+import static net.appcloudbox.AcbAds.GDPR_NOT_GRANTED;
+import static net.appcloudbox.AcbAds.GDPR_USER;
 
 public class ColorPhoneApplication extends HSApplication {
     private static ConfigLog mConfigLog;
@@ -196,6 +198,12 @@ public class ColorPhoneApplication extends HSApplication {
 
     @DebugLog
     private void onMainProcessCreate() {
+
+        if (HSGdprConsent.isGdprUser()) {
+            if (HSGdprConsent.getConsentState() != HSGdprConsent.ConsentState.ACCEPTED) {
+                AcbAds.getInstance().setGdprInfo(GDPR_USER, GDPR_NOT_GRANTED);
+            }
+        }
         AcbAds.getInstance().initializeFromGoldenEye(this);
 
         if (!GdprUtils.isGdprNewUser() && HSGdprConsent.getConsentState() == HSGdprConsent.ConsentState.TO_BE_CONFIRMED) {
