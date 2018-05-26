@@ -178,20 +178,11 @@ public class ColorPhoneApplication extends HSApplication {
                 if (GdprUtils.isNeedToAccessDataUsage()) {
                     initFabric();
                 }
-                if (oldState == HSGdprConsent.ConsentState.ACCEPTED && newState != oldState) {
-                    new CountDownTimer(3 * DateUtils.SECOND_IN_MILLIS, DateUtils.SECOND_IN_MILLIS) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            System.exit(0);
-                        }
-                    }.start();
-
+                if (!isMainProcess()) {
+                    if (oldState == HSGdprConsent.ConsentState.ACCEPTED && newState != oldState) {
+                        System.exit(0);
+                    }
                 }
-
             }
         });
     }

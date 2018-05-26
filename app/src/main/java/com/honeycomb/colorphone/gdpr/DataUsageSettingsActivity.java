@@ -4,6 +4,7 @@ package com.honeycomb.colorphone.gdpr;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -13,6 +14,7 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.superapps.util.Threads;
 
 public class DataUsageSettingsActivity extends HSAppCompatActivity
         implements View.OnClickListener, SwitchCompat.OnCheckedChangeListener {
@@ -107,6 +109,13 @@ public class DataUsageSettingsActivity extends HSAppCompatActivity
                     GdprUtils.setDataUsageUserEnabled(false);
                     mDataUsageSwitchButton.setChecked(false);
                     showProgressDialog();
+
+                    Threads.postOnMainThreadDelayed((new Runnable() {
+                        @Override
+                        public void run() {
+                            System.exit(0);
+                        }
+                    }), 3 * DateUtils.SECOND_IN_MILLIS);
                 }
             });
         }
