@@ -19,7 +19,8 @@ public class DataUsageSettingsActivity extends HSAppCompatActivity
 
     private SwitchCompat mDataUsageSwitchButton;
     private View mContainer;
-    private DataUsageAlertDialog closeDialog;
+    private DataUsageAlertDialog mCloseDialog;
+    private RestartingAppProgressDialog mProgressDialog;
 
 
     @Override
@@ -52,9 +53,10 @@ public class DataUsageSettingsActivity extends HSAppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (closeDialog != null) {
-            closeDialog.dismiss();
+        if (mCloseDialog != null) {
+            mCloseDialog.dismiss();
         }
+        dismissLoadingDialog();
     }
 
     @Override
@@ -71,41 +73,57 @@ public class DataUsageSettingsActivity extends HSAppCompatActivity
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (buttonView == mDataUsageSwitchButton) {
-            GdprUtils.setDataUsageUserEnabled(true);
+            if (isChecked) {
+                GdprUtils.setDataUsageUserEnabled(true);
+            }
         }
     }
 
     private void showCloseDialog() {
-        if (closeDialog == null) {
-            closeDialog = new DataUsageAlertDialog(this);
+        dismissLoadingDialog();
+        if (mCloseDialog == null) {
+            mCloseDialog = new DataUsageAlertDialog(this);
 
-            closeDialog.setPositiveClickListener(new DataUsageAlertDialog.OnClickListener() {
+            mCloseDialog.setPositiveClickListener(new DataUsageAlertDialog.OnClickListener() {
                 @Override
                 public void onClick() {
-                    if (closeDialog == null) {
+                    if (mCloseDialog == null) {
                         return;
                     }
-                    closeDialog.dismiss();
-                    closeDialog = null;
+                    mCloseDialog.dismiss();
+                    mCloseDialog = null;
                 }
             });
 
-            closeDialog.setNegativeClickListener(new DataUsageAlertDialog.OnClickListener() {
+            mCloseDialog.setNegativeClickListener(new DataUsageAlertDialog.OnClickListener() {
                 @Override
                 public void onClick() {
-                    if (closeDialog == null) {
+                    if (mCloseDialog == null) {
                         return;
                     }
-                    closeDialog.dismiss();
-                    closeDialog = null;
-
+                    mCloseDialog.dismiss();
+                    mCloseDialog = null;
                     LauncherAnalytics.logEvent("GDPR_Access_Closed_Settings");
                     GdprUtils.setDataUsageUserEnabled(false);
                     mDataUsageSwitchButton.setChecked(false);
+                    showProgressDialog();
                 }
             });
         }
-        closeDialog.show();
+        mCloseDialog.show();
+    }
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = RestartingAppProgressDialog.show(getSupportFragmentManager());
+        }
+    }
+
+    private void dismissLoadingDialog() {
+        if (mProgressDialog != null && !isFinishing()) {
+            mProgressDialog.dismissAllowingStateLoss();
+            mProgressDialog = null;
+        }
     }
 }
 

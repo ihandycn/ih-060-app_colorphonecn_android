@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
@@ -174,10 +176,23 @@ public class ColorPhoneApplication extends HSApplication {
                 if (GdprUtils.isNeedToAccessDataUsage()) {
                     initFabric();
                 }
-
                 if (oldState == HSGdprConsent.ConsentState.ACCEPTED && newState != oldState) {
-                    System.exit(0);
+                    new CountDownTimer(3 * DateUtils.SECOND_IN_MILLIS, DateUtils.SECOND_IN_MILLIS) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished < DateUtils.SECOND_IN_MILLIS) {
+                                System.exit(0);
+                            }
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    }.start();
+
                 }
+
             }
         });
     }
