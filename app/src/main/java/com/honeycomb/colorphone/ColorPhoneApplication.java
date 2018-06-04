@@ -9,8 +9,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
@@ -70,6 +68,7 @@ import com.ihs.libcharging.HSChargingManager;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.messagecenter.customize.MessageCenterSettings;
+import com.superapps.debug.SharedPreferencesOptimizer;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
@@ -145,18 +144,10 @@ public class ColorPhoneApplication extends HSApplication {
         systemFix();
 
         onAllProcessCreated();
-        mConfigLog = new ConfigLogDefault();
-        FileDownloader.setup(this);
-        LauncherAnalytics.logEvent("Test_Event");
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         String packageName = getPackageName();
         String processName = getProcessName();
 
-        mHeight = Utils.getPhoneHeight(this);
-        mWidth = Utils.getPhoneWidth(this);
-        AcbApplicationHelper.init(this);
-        AcbService.initialize(this);
         if (TextUtils.equals(processName, packageName)) {
             onMainProcessCreate();
         }
@@ -171,6 +162,15 @@ public class ColorPhoneApplication extends HSApplication {
         if (GdprUtils.isNeedToAccessDataUsage()) {
             initFabric();
         }
+        mConfigLog = new ConfigLogDefault();
+        FileDownloader.setup(this);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
+        mHeight = Utils.getPhoneHeight(this);
+        mWidth = Utils.getPhoneWidth(this);
+        AcbApplicationHelper.init(this);
+        AcbService.initialize(this);
+        SharedPreferencesOptimizer.install(BuildConfig.DEBUG);
 
         HSGdprConsent.addListener(new HSGdprConsent.GDPRConsentListener() {
             @Override
@@ -256,8 +256,6 @@ public class ColorPhoneApplication extends HSApplication {
         initRecentApps();
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
 
-        copyMediaFromAssertToFile();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             LockJobService.startJobScheduler();
         }
@@ -310,29 +308,6 @@ public class ColorPhoneApplication extends HSApplication {
 
     private void initRecentApps() {
         RecentAppManager.getInstance().init();
-    }
-
-    private void copyMediaFromAssertToFile() {
-//        final long startMills = SystemClock.elapsedRealtime();
-//        Threads.postOnThreadPoolExecutor(new Runnable() {
-//            @Override
-//            public void run() {
-//                final File file = new File(FileUtils.getMediaDirectory(), "Mp4_12");
-//                try {
-//                    if (file.isFile() && file.exists()) {
-//                        return;
-//                    }
-//                    Utils.copyAssetFileTo(getApplicationContext(),
-//                            "shining.mp4", file);
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    if (file.isFile() && file.exists()) {
-//                        file.delete();
-//                    }
-//                }
-//            }
-//        });
     }
 
     private void initChargingReport() {
