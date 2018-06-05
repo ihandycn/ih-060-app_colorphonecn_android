@@ -39,6 +39,12 @@
             android:text="Recent-App"
             android:onClick="startRecentApp"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Float-Window"
+            android:onClick="checkFloatWindow"/>
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_anim"
             android:layout_width="80dp"

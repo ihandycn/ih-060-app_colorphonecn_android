@@ -13,6 +13,7 @@ import com.acb.call.service.InCallWindow;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
+import com.honeycomb.colorphone.permission.FloatWindowManager;
 import com.honeycomb.colorphone.recentapp.SmartAssistantActivity;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -75,5 +76,9 @@ public class TestActivity extends AppCompatActivity {
     public void startRecentApp(View view) {
         Intent recentApp = new Intent(HSApplication.getContext(), SmartAssistantActivity.class);
         Utils.startActivitySafely(HSApplication.getContext(), recentApp);
+    }
+
+    public void checkFloatWindow(View view) {
+        FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
     }
 }
