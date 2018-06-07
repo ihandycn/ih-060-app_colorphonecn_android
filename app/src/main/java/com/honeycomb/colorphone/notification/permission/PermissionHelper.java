@@ -5,10 +5,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 
 import com.acb.utils.Utils;
+import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
+import com.honeycomb.colorphone.permission.FloatWindowManager;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 
 import java.util.ArrayList;
@@ -24,6 +32,41 @@ public class PermissionHelper {
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
 
     private static List<ContentObserver> observers = new ArrayList<>();
+    private static Handler sHandler = new Handler(Looper.getMainLooper());
+
+    public static void requestNotificationAccessIfNeeded(@Nullable Activity sourceActivity) {
+        boolean needGuideNotificationPermisson = HSConfig.optBoolean(false,
+                "Application", "NotificationAccess", "GoToAccessPageFromFirstScreen");
+        if (needGuideNotificationPermisson && !PermissionUtils.isNotificationAccessGranted(HSApplication.getContext())) {
+            PermissionUtils.requestNotificationPermission(sourceActivity, true, new Handler(), "FirstScreen");
+            PermissionHelper.startObservingNotificationPermissionOneTime(new PermissionHelper.OneTimeRunnable() {
+                @Override
+                public void oneTimeRun() {
+                    HSGlobalNotificationCenter.sendNotification(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED);
+                    PermissionHelper.bringActivityToFront(ColorPhoneActivity.class, 0);
+
+                }
+            });
+            LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "FirstScreen");
+        }
+    }
+
+    public static boolean requestDrawOverlay() {
+        boolean hasPermission = FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
+        boolean request = !hasPermission
+                && HSConfig.optBoolean(true, "Application", "DrawOverlay", "RequestOnFirstScreen");
+
+        if (request) {
+            boolean needShowTip  = true;
+            if (needShowTip) {
+                String hintTxt = HSApplication.getContext().getString(R.string.draw_overlay_window_hint);
+                FloatWindowController.getInstance().createUsageAccessTip(HSApplication.getContext(), hintTxt);
+            }
+            FloatWindowManager.getInstance().applyPermission(HSApplication.getContext());
+        }
+
+        return request;
+    }
 
     private static ContentObserver startObservingNotificationPermission(final Runnable grantPermissionRunnable) {
 
@@ -90,6 +133,35 @@ public class PermissionHelper {
         requestNotificationPermission(activity, false, null, null);
     }
 
+    public static void waitOverlayGranted() {
+        final TagRunnable checker = new TagRunnable() {
+            @Override
+            public void run() {
+                boolean enable = (Boolean) getTag();
+                boolean hasPermission = FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
+                boolean end = !enable || hasPermission;
+                if (end) {
+                    sHandler.removeCallbacks(this);
+                } else {
+                    sHandler.postDelayed(this, 400);
+                }
+
+                if (hasPermission) {
+                    requestNotificationAccessIfNeeded(null);
+                }
+            }
+        };
+        checker.setTag(Boolean.TRUE);
+
+        sHandler.postDelayed(checker, 1000);
+        sHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checker.setTag(Boolean.FALSE);
+            }
+        }, 8000);
+    }
+
     public abstract static class OneTimeRunnable implements Runnable {
         private boolean mPermissionAcquired;
 
@@ -103,5 +175,18 @@ public class PermissionHelper {
 
         public abstract void oneTimeRun();
     }
+
+    public abstract static class TagRunnable implements Runnable {
+        private Object mTag;
+
+        public Object getTag() {
+            return mTag;
+        }
+
+        public void setTag(Object tag) {
+            mTag = tag;
+        }
+    }
+
 }
 

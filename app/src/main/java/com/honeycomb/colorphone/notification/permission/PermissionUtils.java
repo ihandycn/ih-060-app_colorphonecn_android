@@ -35,7 +35,7 @@ public class PermissionUtils {
     }
 
     public static void requestNotificationPermission(final Activity activity, boolean recordGrantedFlurry, Handler handler, final String fromType) {
-        requestNotificationPermissionNoGuide(activity, recordGrantedFlurry, handler, fromType);
+        Navigations.startActivitySafely(HSApplication.getContext(), getNotificationPermissionIntent(true));
         if (activity != null) {
             showAccessGuideOnActivityStop(activity);
         } else {
