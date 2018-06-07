@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.net.Uri;
@@ -15,6 +16,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
@@ -45,6 +48,7 @@ public class FloatWindowManager {
     private WindowManager.LayoutParams mParams = null;
     private TextView floatView = null;
     private Dialog dialog;
+    private boolean enableDialog = false;
 
     public static FloatWindowManager getInstance() {
         if (instance == null) {
@@ -65,7 +69,7 @@ public class FloatWindowManager {
         }
     }
 
-    private boolean checkPermission(Context context) {
+    public boolean checkPermission(Context context) {
         //6.0 版本之后由于 google 增加了对悬浮窗权限的管理，所以方式就统一了
         if (Build.VERSION.SDK_INT < 23) {
             if (RomUtils.checkIsMiuiRom()) {
@@ -122,7 +126,7 @@ public class FloatWindowManager {
         }
     }
 
-    private void applyPermission(Context context) {
+    public void applyPermission(Context context) {
         if (Build.VERSION.SDK_INT < 23) {
             if (RomUtils.checkIsMiuiRom()) {
                 miuiROMPermissionApply(context);
@@ -252,25 +256,29 @@ public class FloatWindowManager {
             dialog.dismiss();
         }
 
-        dialog = new AlertDialog.Builder(context).setCancelable(true).setTitle("")
-                .setMessage(message)
-                .setPositiveButton("现在去开启",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                result.confirmResult(true);
-                                dialog.dismiss();
-                            }
-                        }).setNegativeButton("暂不开启",
-                        new DialogInterface.OnClickListener() {
+        if (enableDialog) {
+            dialog = new AlertDialog.Builder(context).setCancelable(true).setTitle("")
+                    .setMessage(message)
+                    .setPositiveButton("现在去开启",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    result.confirmResult(true);
+                                    dialog.dismiss();
+                                }
+                            }).setNegativeButton("暂不开启",
+                            new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                result.confirmResult(false);
-                                dialog.dismiss();
-                            }
-                        }).create();
-        dialog.show();
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    result.confirmResult(false);
+                                    dialog.dismiss();
+                                }
+                            }).create();
+            dialog.show();
+        } else {
+            result.confirmResult(true);
+        }
     }
 
     private interface OnConfirmResult {
@@ -309,14 +317,21 @@ public class FloatWindowManager {
         mParams.type = mType;
         mParams.format = PixelFormat.RGBA_8888;
         mParams.gravity = Gravity.LEFT | Gravity.TOP;
-        mParams.x = screenWidth - dp2px(context, 100);
-        mParams.y = screenHeight - dp2px(context, 171);
 
 
 //        ImageView imageView = new ImageView(mContext);
 //        imageView.setImageResource(R.drawable.app_icon);
         floatView = new TextView(context);
+        floatView.setBackgroundColor(Color.BLUE);
+        floatView.setText("悬浮窗");
         floatView.setLayoutParams(mParams);
+        floatView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                dismissWindow();
+                return false;
+            }
+        });
         windowManager.addView(floatView, mParams);
     }
 
