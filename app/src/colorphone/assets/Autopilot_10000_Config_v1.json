@@ -1,7 +1,115 @@
 {
   "custom_audience_properties": [],
   "console_url": "https://ap-console.appcloudbox.net",
+  "app_events": [
+    {
+      "name": "main_app_open"
+    },
+    {
+      "name": "main_app_close"
+    },
+    {
+      "name": "extended_active"
+    },
+    {
+      "name": "active"
+    },
+    {
+      "name": "ad_show"
+    },
+    {
+      "name": "ad_click"
+    },
+    {
+      "name": "iap"
+    }
+  ],
+  "service_url": "https://ap.appcloudbox.net",
   "topics": {
+    "topic-1528196849816-295": {
+      "topic_type": "life_time",
+      "topic_name": "Charing Card Test",
+      "variations": {
+        "gif_card_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "charging_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "game_card_enable": {
+          "type": "boolean",
+          "value": true
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "charging_view_show"
+        },
+        {
+          "name": "charging_gif_card_show"
+        },
+        {
+          "name": "charging_gif_card_click"
+        },
+        {
+          "name": "charging_game_card_show"
+        },
+        {
+          "name": "charging_game_card_click"
+        }
+      ],
+      "topic_id": "topic-1528196849816-295"
+    },
+    "topic-rp-1525855411425-9": {
+      "topic_type": "one_time",
+      "topic_name": "RTOT Popup",
+      "variations": {
+        "body": {
+          "type": "string",
+          "value": ""
+        },
+        "button1_text": {
+          "type": "string",
+          "value": ""
+        },
+        "title": {
+          "type": "string",
+          "value": ""
+        },
+        "button2_text": {
+          "type": "string",
+          "value": ""
+        },
+        "button1_url": {
+          "type": "string",
+          "value": ""
+        },
+        "button2_url": {
+          "type": "string",
+          "value": ""
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "show"
+        },
+        {
+          "name": "button1_click"
+        },
+        {
+          "name": "button2_click"
+        }
+      ],
+      "topic_id": "topic-rp-1525855411425-9"
+    },
     "topic-1512822231846-17": {
       "topic_type": "life_time",
       "topic_name": "Charging Test",
@@ -498,29 +606,7 @@
       "topic_id": "topic-1510751463187"
     }
   },
-  "autopilot_id": 10000,
   "autopilot_name": "Color Phone",
-  "app_events": [
-    {
-      "name": "main_app_open"
-    },
-    {
-      "name": "main_app_close"
-    },
-    {
-      "name": "extended_active"
-    },
-    {
-      "name": "active"
-    },
-    {
-      "name": "ad_show"
-    },
-    {
-      "name": "ad_click"
-    },
-    {
-      "name": "iap"
-    }
-  ]
+  "autopilot_type": "app",
+  "autopilot_id": 10000
 }
