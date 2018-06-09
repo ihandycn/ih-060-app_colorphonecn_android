@@ -24,4 +24,8 @@ public class AutoPilotUtils {
     public static void logRecommendCardGIFShow() {
 
     }
+
+    public static boolean enableScreenModule() {
+        return true;
+    }
 }
