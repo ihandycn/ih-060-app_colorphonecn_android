@@ -4,7 +4,12 @@
     <uses-sdk tools:overrideLibrary="net.appcloudbox.h5game, net.appcloudbox.apevent" />
 
     <application android:allowBackup="true" android:supportsRtl="true">
-        <activity android:name=".gif.GifCenterActivity"/>
+        <activity
+            android:name=".gif.GifCenterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".gif"
+            android:theme="@style/GifCenter" />
     </application>
 
 </manifest>
