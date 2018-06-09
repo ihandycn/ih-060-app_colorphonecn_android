@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:gravity="center">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/container_view"
+        android:layout_below="@+id/title_container_more"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:clipChildren="false"
+        app:layout_aspectRatio="150%"
+        app:layout_widthPercent="100%">
+
+        <ImageView
+            android:id="@+id/security_protection_card_game_issue_bg"
+            android:layout_width="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@color/black_40_transparent"
+            app:layout_aspectRatio="150%"
+            app:layout_marginEndPercent="2.2%"
+            app:layout_marginLeftPercent="2.2%"
+            app:layout_marginRightPercent="2.2%"
+            app:layout_marginStartPercent="2.2%" />
+
+        <TextView
+            android:id="@+id/security_protection_game_issue_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="17dp"
+            android:background="@drawable/security_protection_game_issue_play_btn"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_marginEndPercent="9.17%"
+            app:layout_marginRightPercent="9.17%" />
+
+        <com.superapps.view.AutoResizeTextView
+            android:id="@+id/security_protection_card_game_issue_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/security_protection_card_game_issue_subtitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:minLines="1"
+            android:text="Spider Solitaire"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:font_style="bold"
+            app:layout_marginLeftPercent="8.4%"
+            app:layout_marginStartPercent="8.4%"
+            app:typeface="@string/custom_font_bold"
+            tools:ignore="HardcodedText" />
+
+        <com.superapps.view.AutoResizeTextView
+            android:id="@+id/security_protection_card_game_issue_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/security_protection_game_issue_btn"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/security_protection_game_issue_btn"
+            android:layout_toStartOf="@+id/security_protection_game_issue_btn"
+            android:alpha="0.8"
+            android:ellipsize="end"
+            android:gravity="top|center_vertical"
+            android:maxLines="2"
+            android:minLines="2"
+            android:orientation="horizontal"
+            android:text="Objective of the game is to move all cards onto the four foundatfffffffsfsdfgsdfgsdfion..."
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_marginEndPercent="4.2%"
+            app:layout_marginLeftPercent="8.4%"
+            app:layout_marginRightPercent="4.2%"
+            app:layout_marginStartPercent="8.4%"
+            app:layout_marginTopPercent="2.7%"
+            app:typeface="@string/roboto_regular"
+            tools:ignore="HardcodedText" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/title_container_more"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/material_compat_button_bg_corner"
+        android:clickable="true"
+        app:layout_marginRightPercent="4.17%">
+
+        <ImageView
+            android:id="@+id/title_container_game_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/title_container_game_text"
+            android:scaleType="fitCenter"
+            android:src="@drawable/security_protection_game_issue_game_icon_small" />
+
+        <com.superapps.view.AutoResizeTextView
+            android:id="@+id/title_container_game_text"
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
+            android:layout_toLeftOf="@+id/title_container_game_arrow"
+            android:text="@string/game_center"
+            android:textColor="@color/white"
+            android:translationY="-2dp" />
+
+        <ImageView
+            android:id="@+id/title_container_game_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/security_protection_game_issue_arrow" />
+    </RelativeLayout>
+</android.support.percent.PercentRelativeLayout>

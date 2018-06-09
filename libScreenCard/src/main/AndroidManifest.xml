@@ -1,0 +1,10 @@
+<manifest package="colorphone.acb.com.libscreencard"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-sdk tools:overrideLibrary="net.appcloudbox.h5game, net.appcloudbox.apevent" />
+
+    <application android:allowBackup="true" android:supportsRtl="true">
+        <activity android:name=".gif.GifCenterActivity"/>
+    </application>
+
+</manifest>
