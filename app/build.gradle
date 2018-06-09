@@ -1,18 +1,22 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 22
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
-
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
     productFlavors {
         colorphone {
             applicationId "com.colorphone.smooth.dialer"
@@ -65,7 +69,7 @@ android {
     }
 }
 
-final SUPPORT_LIBRARY_VERSION = '26.0.1'
+final SUPPORT_LIBRARY_VERSION = '26.1.0'
 final GOOGLE_PLAY_SERVICES_VERSION = '10.2.0'
 
 dependencies {

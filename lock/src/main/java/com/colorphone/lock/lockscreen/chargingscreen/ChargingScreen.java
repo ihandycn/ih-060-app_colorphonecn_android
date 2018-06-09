@@ -68,6 +68,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
+import colorphone.acb.com.libscreencard.CustomizeContentContainer;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.ihs.libcharging.HSChargingManager.HSChargingState.STATE_DISCHARGING;
@@ -124,6 +126,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     private ChargingQuantityView chargingQuantityView;
     private ChargingBubbleView chargingBubbleView;
     private ImageView imageBackgroundView;
+    private CustomizeContentContainer customizeContentContainer;
 
     private ObjectAnimator chargingStateAlphaAnimator;
 
@@ -136,6 +139,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
     private boolean isPowerConnected;
     private boolean mDismissed;
+    private boolean adEnabled = false;
 
     private boolean mIsSetup = false;
 
@@ -288,8 +292,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
         context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
-//        requestAds();
-
         if (extra == null) {
             isChargingOnInit = false;
             chargingQuantityView.setTextValue(100);
@@ -324,15 +326,17 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     public void onStart() {
         // ======== onStart ========
         HSLog.d(TAG, "onStart()");
-
-        if (expressAdView == null) {
-            requestAds();
-            showExpressAd();
-        } else if (expressAdView.getParent() == null) {
-            showExpressAd();
-        } else {
-            if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-                expressAdView.switchAd();
+        customizeContentContainer.onVisibilityChange(true);
+        if (adEnabled) {
+            if (expressAdView == null) {
+                requestAds();
+                showExpressAd();
+            } else if (expressAdView.getParent() == null) {
+                showExpressAd();
+            } else {
+                if (HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
+                    expressAdView.switchAd();
+                }
             }
         }
 
@@ -531,6 +535,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         toolTipContainer = (ToolTipRelativeLayout) mRootView.findViewById(R.id.charging_screen_show_tip_container);
 
         advertisementContainer = (LinearLayout) mRootView.findViewById(R.id.charging_screen_advertisement_container);
+        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
 
         chargingBubbleView = (ChargingBubbleView) mRootView.findViewById(R.id.charging_screen_bubble_view);
         chargingBubbleView.setPopupBubbleColor(chargingBubbleColor);
@@ -857,6 +862,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     public void onStop() {
         // ======== onPause ========
 
+        customizeContentContainer.onVisibilityChange(false);
         if (chargingBubbleView != null) {
             chargingBubbleView.pauseAnim();
         }

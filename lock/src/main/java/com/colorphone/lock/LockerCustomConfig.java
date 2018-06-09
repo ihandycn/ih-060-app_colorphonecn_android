@@ -1,6 +1,7 @@
 package com.colorphone.lock;
 
 import com.ihs.app.analytics.HSAnalytics;
+import com.ihs.commons.utils.HSLog;
 
 /**
  * Created by sundxing on 17/9/5.
@@ -156,5 +157,10 @@ public class LockerCustomConfig {
         public void logEvent(String eventID, String... vars) {
             HSAnalytics.logEvent(eventID, vars);
         }
+    }
+
+    public static void logAdViewEvent(String placementName, boolean success) {
+        HSLog.d("ad analytics logAppViewEvent: " + placementName + " - " + success);
+        getLogger().logEvent("AcbAdNative_Viewed_In_App", new String[]{placementName, String.valueOf(success)});
     }
 }

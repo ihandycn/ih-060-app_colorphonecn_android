@@ -409,6 +409,7 @@ public class ColorPhoneApplication extends HSApplication {
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
         screenFilter.addAction(Intent.ACTION_SCREEN_ON);
+        screenFilter.addAction(Intent.ACTION_USER_PRESENT);
         screenFilter.setPriority(SYSTEM_HIGH_PRIORITY);
 
         HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
@@ -418,6 +419,9 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onScreenOff(context);
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                     ScreenStatusReceiver.onScreenOn(context);
+                } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+                    ScreenStatusReceiver.onUserPresent(context);
+
                 }
             }
         }, screenFilter);

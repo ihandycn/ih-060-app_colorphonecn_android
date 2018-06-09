@@ -21,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+//    compileOptions {
+//        targetCompatibility 1.8
+//        sourceCompatibility 1.8
+//    }
 }
 
 dependencies {
@@ -33,10 +37,11 @@ dependencies {
     compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
     compile files('../libs/libFlashlight/libFlashlight.jar')
     compile project(':libSuperApps')
+    compile project(':libScreenCard')
 
-    compile 'com.android.support:appcompat-v7:26.0.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:percent:26.0.1'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.1.0'
+    compile 'com.android.support:percent:26.1.0'
     compile 'com.github.bumptech.glide:glide:4.0.0'
 
     provided ("net.appcloudbox.autopilot:libAutoPilot.gm:5.0.5.gm")

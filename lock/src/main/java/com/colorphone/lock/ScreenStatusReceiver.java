@@ -1,6 +1,10 @@
 package com.colorphone.lock;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.text.format.DateUtils;
 
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
@@ -11,10 +15,12 @@ public class ScreenStatusReceiver {
 
     public static final String NOTIFICATION_SCREEN_ON = "screen_on";
     public static final String NOTIFICATION_SCREEN_OFF = "screen_off";
+    public static final String NOTIFICATION_PRESENT = "user_present";
 
     private static boolean sScreenOn = true;
     private static long sScreenOnTime;
     private static long sScreenOffTime;
+    private static Runnable sPresentRunnable;
 
     public static boolean isScreenOn() {
         return sScreenOn;
@@ -49,4 +55,33 @@ public class ScreenStatusReceiver {
         HSGlobalNotificationCenter.sendNotification(NOTIFICATION_SCREEN_OFF);
 
     }
+
+    public static void onUserPresent(Context context) {
+        HSGlobalNotificationCenter.sendNotification(NOTIFICATION_PRESENT);
+        if (sPresentRunnable != null) {
+            sPresentRunnable.run();
+        }
+    }
+
+    public static void setPresentRunnable(Runnable runnable) {
+        sPresentRunnable = runnable;
+        sHandler.removeCallbacksAndMessages(null);
+        sHandler.sendEmptyMessageDelayed(EVENT_PRESENT_RUNNABLE_EXPIRE, 30 * DateUtils.SECOND_IN_MILLIS);
+    }
+
+    public static final int EVENT_PRESENT_RUNNABLE_EXPIRE = 1;
+    @SuppressLint("HandlerLeak")
+    private static Handler sHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case EVENT_PRESENT_RUNNABLE_EXPIRE:
+                    sPresentRunnable = null;
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
 }
