@@ -36,6 +36,12 @@ public class CustomizeContentContainer extends FrameLayout {
     private static final int RISE_OFFSET = Dimensions.pxFromDp(30);
     private boolean mVisible;
     private boolean DEBUG_MODE = true;
+    private Runnable mDismissCallback;
+
+    public void setDismissCallback(Runnable dismissCallback) {
+        mDismissCallback = dismissCallback;
+    }
+
 
     public enum ContentType {
         PHONE_ISSUE,
@@ -241,6 +247,7 @@ public class CustomizeContentContainer extends FrameLayout {
         }
         currentContent.setTranslationY(RISE_OFFSET + getHeight());
         LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        removeAllViews();
         addView(currentContent, lp);
 
         if (mRiseAnimator.isRunning()) {
@@ -286,7 +293,6 @@ public class CustomizeContentContainer extends FrameLayout {
             gifCard.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CustomizeContentContainer.this.dismiss();
                     Runnable runnable = new Runnable() {
                         @Override
                         public void run() {
@@ -304,6 +310,9 @@ public class CustomizeContentContainer extends FrameLayout {
                     CustomizeContentContainer parent = (CustomizeContentContainer) view.getParent();
                     parent.notifyClicked();
                     AutoPilotUtils.logRecommendCardGIFClick();
+
+                    CustomizeContentContainer.this.dismiss();
+
                 }
             });
             View more = gifCard.findViewById(R.id.more);
@@ -323,25 +332,26 @@ public class CustomizeContentContainer extends FrameLayout {
     }
 
     private void dismiss() {
-        // TODO
+        if (mDismissCallback != null) {
+            mDismissCallback.run();
+        }
     }
 
     private boolean validType(Enum type) {
          if (type == ContentType.GAME) {
+             // TODO
+             boolean isGameCached = false;
             boolean isAutopilotSatisfied = mAutopilotRecommendCardType == AutopilotRecommendCard.GAME ||
                     mAutopilotRecommendCardType == AutopilotRecommendCard.ALL;
             boolean isNetworkAvailable = Networks.isNetworkAvailable(-1);
 
-            return isAutopilotSatisfied && isNetworkAvailable;
+            return isAutopilotSatisfied && isNetworkAvailable && isGameCached;
         } else if (type == ContentType.GIF) {
             boolean isAutopilotSatisfied = mAutopilotRecommendCardType == AutopilotRecommendCard.ALL
                     || mAutopilotRecommendCardType == AutopilotRecommendCard.GIF;
             boolean cached = GifCacheUtils.haveValidCached();
             HSLog.d(TAG, "Gif valid: " + (cached && isAutopilotSatisfied));
             return cached && isAutopilotSatisfied;
-        }
-        if (BuildConfig.DEBUG) {
-            throw new IllegalArgumentException("Error type " + type.toString());
         }
         return false;
     }

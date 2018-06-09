@@ -69,6 +69,7 @@ import java.util.Locale;
 import java.util.Random;
 
 import colorphone.acb.com.libscreencard.CustomizeContentContainer;
+import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -326,6 +327,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
     public void onStart() {
         // ======== onStart ========
+        AutoPilotUtils.chargingViewShow();
         HSLog.d(TAG, "onStart()");
         customizeContentContainer.onVisibilityChange(true);
         if (adEnabled) {
@@ -863,6 +865,13 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         // ======== onPause ========
 
         customizeContentContainer.onVisibilityChange(false);
+        customizeContentContainer.setDismissCallback(new Runnable() {
+            @Override
+            public void run() {
+                dismiss(getContext(), true);
+            }
+        });
+
         if (chargingBubbleView != null) {
             chargingBubbleView.pauseAnim();
         }

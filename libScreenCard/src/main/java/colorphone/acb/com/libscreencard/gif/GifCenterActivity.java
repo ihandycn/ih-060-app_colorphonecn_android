@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -74,6 +75,8 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
     private void initView() {
         if (sBlurWallpaper != null) {
             findViewById(R.id.root_view).setBackgroundDrawable(sBlurWallpaper);
+        } else {
+            findViewById(R.id.root_view).setBackgroundColor(Color.parseColor("#ff4285f4"));
         }
         mVp = findViewById(R.id.vp);
         mVp.setPageMargin(Dimensions.pxFromDp(30));
