@@ -315,6 +315,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         }
+        HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
 
         // Life cycle
         LockScreensLifeCycleRegistry.setChargingScreenActive(true);
@@ -344,7 +345,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
         HSChargingManager.getInstance().addChargingListener(chargingListener);
         getContext().registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
-        HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
 
         PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
         if (powerManager.isScreenOn()) {
@@ -880,7 +880,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        HSGlobalNotificationCenter.removeObserver(this);
 
         cancelChargingStateAlphaAnimation();
 
@@ -896,6 +895,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
         // Life cycle
         LockScreensLifeCycleRegistry.setChargingScreenActive(false);
+        HSGlobalNotificationCenter.removeObserver(this);
+
     }
 
     @Override
