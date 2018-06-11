@@ -110,7 +110,7 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
                     GifCacheUtils.setCurrentViewedGifKey(position + 2);
                     GifCacheUtils.markCachedGifViewedState(false);
                 }
-                Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).putBoolean(PREF_KEY_HAVE_SLID, true);
+                Preferences.get(CardConfig.CARD_MODULE_PREFS).putBoolean(PREF_KEY_HAVE_SLID, true);
             }
 
             @Override
@@ -153,7 +153,7 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
     @Override
     protected void onResume() {
         super.onResume();
-        boolean haveSlid = Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).getBoolean(PREF_KEY_HAVE_SLID, false);
+        boolean haveSlid = Preferences.get(CardConfig.CARD_MODULE_PREFS).getBoolean(PREF_KEY_HAVE_SLID, false);
         if (!haveSlid) {
             Threads.postOnMainThreadDelayed(this::showGuideAnimation, 1000);
         }

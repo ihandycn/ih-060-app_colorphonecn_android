@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ import colorphone.acb.com.libscreencard.game.GameManager;
 import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 import colorphone.acb.com.libscreencard.gif.GifCacheUtils;
 import colorphone.acb.com.libscreencard.gif.GifCenterActivity;
-import colorphone.acb.com.libscreencard.gif.SecurityFiles;
+import colorphone.acb.com.libscreencard.gif.CardConfig;
 
 public class CustomizeContentContainer extends FrameLayout {
 
@@ -49,12 +50,11 @@ public class CustomizeContentContainer extends FrameLayout {
 
 
     public enum ContentType {
-        PHONE_ISSUE,
         GAME,
         GIF,
     }
 
-    private Enum mCurrentType;
+    private ContentType mCurrentType;
 
     private enum AutopilotRecommendCard {
         PHONE_ISSUE,
@@ -63,10 +63,6 @@ public class CustomizeContentContainer extends FrameLayout {
         ALL,
         NONE,
     }
-
-    private static final String PREF_KEY_CONTENT_TYPE_CURSOR = "content_type_cursor";
-    private static final String PREF_KEY_START_SHOW_TIME = "start_show_time";
-    private static final String PREF_KEY_CONTENT_CLICKED = "content_clicked";
 
     private static final long NOT_START = -1L;
 
@@ -93,8 +89,8 @@ public class CustomizeContentContainer extends FrameLayout {
 
         // TODO
         mRecommendInterval = 6;
-        mStartShowTime = Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).getLong(PREF_KEY_START_SHOW_TIME, NOT_START);
-        mClicked = Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).getBoolean(PREF_KEY_CONTENT_CLICKED, false);
+        mStartShowTime = Preferences.get(CardConfig.CARD_MODULE_PREFS).getLong(CardConfig.PREF_KEY_START_SHOW_TIME, NOT_START);
+        mClicked = Preferences.get(CardConfig.CARD_MODULE_PREFS).getBoolean(CardConfig.PREF_KEY_CONTENT_CLICKED, false);
     }
 
     @Override
@@ -118,7 +114,7 @@ public class CustomizeContentContainer extends FrameLayout {
 
     void notifyClicked() {
         mClicked = true;
-        Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).putBoolean(PREF_KEY_CONTENT_CLICKED, mClicked);
+        Preferences.get(CardConfig.CARD_MODULE_PREFS).putBoolean(CardConfig.PREF_KEY_CONTENT_CLICKED, mClicked);
         removeAllViews();
         Enum currentType = getCurrentType();
         LockerCustomConfig.getLogger().logEvent("RecommendCard_Click", "Type", currentType.name());
@@ -185,15 +181,15 @@ public class CustomizeContentContainer extends FrameLayout {
             Enum currentValidType = getCurrentValidType();
             if (currentValidType != null) {
                 mStartShowTime = System.currentTimeMillis();
-                Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).putLong(PREF_KEY_START_SHOW_TIME, mStartShowTime);
+                Preferences.get(CardConfig.CARD_MODULE_PREFS).putLong(CardConfig.PREF_KEY_START_SHOW_TIME, mStartShowTime);
             }
             showContent(currentValidType);
             HSLog.d(TAG, "ShowContent: " + currentValidType);
         } else if (mStartShowTime != NOT_START &&
                 !mClicked) { // Already shown
             Enum currentValidType = null;
-            if ((System.currentTimeMillis() - mStartShowTime) / 1000 / 60 >= mRecommendInterval) { // Overshot interval, Switch to next type
-                Enum before = getCurrentValidType();
+            ContentType before = getCurrentValidType();
+            if (timeIntervalValid()) { // Overshot interval, Switch to next type
                 onSwitchContent(before);
                 move2Next();
                 currentValidType = getCurrentValidType();
@@ -202,7 +198,7 @@ public class CustomizeContentContainer extends FrameLayout {
                 } else {
                     mStartShowTime = NOT_START;
                 }
-                Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).putLong(PREF_KEY_START_SHOW_TIME, mStartShowTime);
+                Preferences.get(CardConfig.CARD_MODULE_PREFS).putLong(CardConfig.PREF_KEY_START_SHOW_TIME, mStartShowTime);
                 HSLog.d(TAG, "switchContent: " + currentValidType);
             } else {
                 currentValidType = getCurrentValidType();
@@ -214,14 +210,14 @@ public class CustomizeContentContainer extends FrameLayout {
             onSwitchContent(before);
             move2Next();
             mClicked = false;
-            Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).putBoolean(PREF_KEY_CONTENT_CLICKED, mClicked);
+            Preferences.get(CardConfig.CARD_MODULE_PREFS).putBoolean(CardConfig.PREF_KEY_CONTENT_CLICKED, mClicked);
             Enum currentValidType = getCurrentValidType();
             if (currentValidType != null) {
                 mStartShowTime = System.currentTimeMillis();
             } else {
                 mStartShowTime = NOT_START;
             }
-            Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).putLong(PREF_KEY_START_SHOW_TIME, mStartShowTime);
+            Preferences.get(CardConfig.CARD_MODULE_PREFS).putLong(CardConfig.PREF_KEY_START_SHOW_TIME, mStartShowTime);
             HSLog.d(TAG, "switchContent: " + currentValidType);
             showContent(currentValidType);
         }
@@ -255,6 +251,9 @@ public class CustomizeContentContainer extends FrameLayout {
         LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         removeAllViews();
         addView(currentContent, lp);
+        if (type == ContentType.GAME) {
+            Preferences.get(CardConfig.CARD_MODULE_PREFS).putLong(CardConfig.PREF_KEY_GAME_SHOW_TIME, System.currentTimeMillis());
+        }
 
         if (mRiseAnimator.isRunning()) {
             mRiseAnimator.cancel();
@@ -263,7 +262,7 @@ public class CustomizeContentContainer extends FrameLayout {
     }
 
     private @Nullable
-    Enum getCurrentValidType() {
+    ContentType getCurrentValidType() {
         if (mCurrentType != null) {
             return mCurrentType;
         }
@@ -283,8 +282,8 @@ public class CustomizeContentContainer extends FrameLayout {
         return mCurrentType;
     }
 
-    public Enum getCurrentType() {
-        ContentType currentContentType = ContentType.valueOf(Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).getString(PREF_KEY_CONTENT_TYPE_CURSOR, "PHONE_ISSUE"));
+    public ContentType getCurrentType() {
+        ContentType currentContentType = ContentType.valueOf(Preferences.get(CardConfig.CARD_MODULE_PREFS).getString(CardConfig.PREF_KEY_CONTENT_TYPE_CURSOR, "PHONE_ISSUE"));
         return currentContentType;
     }
 
@@ -362,6 +361,11 @@ public class CustomizeContentContainer extends FrameLayout {
 
     private boolean validType(Enum type) {
         if (type == ContentType.GAME) {
+            long lastShowTime = Preferences.get(CardConfig.CARD_MODULE_PREFS).getLong(CardConfig.PREF_KEY_GAME_SHOW_TIME, 0);
+            if (System.currentTimeMillis() - lastShowTime > CardConfig.GAME_SHOW_INTERVAL_MIN_HOUR * DateUtils.HOUR_IN_MILLIS) {
+                return false;
+            }
+
             boolean isGameCached = GameManager.getInstance().isGameReady();
 
             boolean isAutopilotSatisfied = mAutopilotRecommendCardType == AutopilotRecommendCard.GAME ||
@@ -386,7 +390,7 @@ public class CustomizeContentContainer extends FrameLayout {
         mCurrentType = null;
         ContentType[] contentTypes = ContentType.values();
         ordinal = (ordinal + 1) % contentTypes.length;
-        Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).putString(PREF_KEY_CONTENT_TYPE_CURSOR, contentTypes[ordinal].name());
+        Preferences.get(CardConfig.CARD_MODULE_PREFS).putString(CardConfig.PREF_KEY_CONTENT_TYPE_CURSOR, contentTypes[ordinal].name());
         Enum after = getCurrentType();
         HSLog.d(TAG, "move from: " + before + " to: " + after);
     }

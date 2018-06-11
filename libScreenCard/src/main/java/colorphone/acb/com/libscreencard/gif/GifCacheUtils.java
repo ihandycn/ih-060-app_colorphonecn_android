@@ -34,11 +34,11 @@ public class GifCacheUtils {
     }
 
     public static void markCachedGifViewedState(boolean state) {
-        Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).putBoolean(PREF_KEY_CACHED_GIF_VIEWED, state);
+        Preferences.get(CardConfig.CARD_MODULE_PREFS).putBoolean(PREF_KEY_CACHED_GIF_VIEWED, state);
     }
 
     private static boolean isCachedGifViewed() {
-        return Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).getBoolean(PREF_KEY_CACHED_GIF_VIEWED, false);
+        return Preferences.get(CardConfig.CARD_MODULE_PREFS).getBoolean(PREF_KEY_CACHED_GIF_VIEWED, false);
     }
 
     public static String getCachedGifPath(String url) {
@@ -66,16 +66,16 @@ public class GifCacheUtils {
         }
         int newKey = getCurrentViewedGifKey() + 1;
         HSLog.d("CustomizeContentContainer", "increaseCurrentViewedGifKey: " + newKey);
-        Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).putInt(PREF_KEY_CURRENT_GIF_KEY, newKey);
+        Preferences.get(CardConfig.CARD_MODULE_PREFS).putInt(PREF_KEY_CURRENT_GIF_KEY, newKey);
         markCachedGifViewedState(false);
     }
 
     public static void setCurrentViewedGifKey(int key) {
-        Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).putInt(PREF_KEY_CURRENT_GIF_KEY, key);
+        Preferences.get(CardConfig.CARD_MODULE_PREFS).putInt(PREF_KEY_CURRENT_GIF_KEY, key);
     }
 
     public static int getCurrentViewedGifKey() {
-        return Preferences.get(SecurityFiles.SECURITY_PROTECTION_PREFS).getInt(PREF_KEY_CURRENT_GIF_KEY, 1);
+        return Preferences.get(CardConfig.CARD_MODULE_PREFS).getInt(PREF_KEY_CURRENT_GIF_KEY, 1);
     }
 
     public static Map<String, String> getGif() {
