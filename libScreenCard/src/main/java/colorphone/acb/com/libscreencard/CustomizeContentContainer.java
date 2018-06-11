@@ -300,7 +300,7 @@ public class CustomizeContentContainer extends FrameLayout {
             titleTv.setText(gameInfo.getTitle());
             subTitleTv.setText(gameInfo.getShortDescription());
 
-            gameCard.setOnClickListener(new OnClickListener() {
+            gameCard.findViewById(R.id.container_view).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     CustomizeContentContainer.this.dismiss();
