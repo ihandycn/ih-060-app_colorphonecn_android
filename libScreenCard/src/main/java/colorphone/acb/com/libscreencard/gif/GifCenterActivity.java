@@ -65,12 +65,12 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
 
     private String getInterstitialAdPlacements() {
         // TODO
-        return "";
+        return "GifInterstitial";
     }
 
     private String getAdPlacements() {
         // TODO
-        return "";
+        return "GifExpress";
     }
     private void initView() {
         if (sBlurWallpaper != null) {

@@ -20,13 +20,14 @@ import net.appcloudbox.h5game.AcbH5ResponseListener;
 
 public class GameManager {
     private static final java.lang.String TAG = "GameManager";
+    private static final String AD_NAME = "Game";
 
     private GameManager() {}
 
     public void startGame() {
         HSLog.d(TAG, "startGame");
         new AcbH5GamePlay(HSApplication.getContext(), mBasketBallInfo)
-                .setInterstitialAdPlacement("111")
+                .setInterstitialAdPlacement(AD_NAME)
                 .setAdListener(new AcbH5GamePlay.AdListener() {
                     @Override
                     public void onAdShowChanceArrived(boolean b) {
