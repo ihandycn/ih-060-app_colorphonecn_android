@@ -538,7 +538,12 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
         advertisementContainer = (LinearLayout) mRootView.findViewById(R.id.charging_screen_advertisement_container);
         customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
-
+        customizeContentContainer.setDismissCallback(new Runnable() {
+            @Override
+            public void run() {
+                dismiss(getContext(), true);
+            }
+        });
         chargingBubbleView = (ChargingBubbleView) mRootView.findViewById(R.id.charging_screen_bubble_view);
         chargingBubbleView.setPopupBubbleColor(chargingBubbleColor);
 
@@ -865,12 +870,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         // ======== onPause ========
 
         customizeContentContainer.onVisibilityChange(false);
-        customizeContentContainer.setDismissCallback(new Runnable() {
-            @Override
-            public void run() {
-                dismiss(getContext(), true);
-            }
-        });
+
 
         if (chargingBubbleView != null) {
             chargingBubbleView.pauseAnim();

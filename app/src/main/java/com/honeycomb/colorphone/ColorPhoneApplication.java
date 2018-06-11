@@ -78,6 +78,8 @@ import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.HSFrameworkAdapter.AcbHSFrameworkAdapter;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
+import net.appcloudbox.h5game.AcbH5GameManager;
+import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
 
 import java.util.ArrayList;
@@ -396,6 +398,12 @@ public class ColorPhoneApplication extends HSApplication {
         LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
         FloatWindowCompat.initLockScreen(this);
         HSChargingManager.getInstance().start();
+
+        // TODO
+        AcbH5GameManager.initialize(this);
+        AcbH5GameManager.setCustomerUserID(DeviceInfo.getUUID());
+        AcbH5GameManager.setGDPRConsentGranted(true);
+
     }
 
     private void addGlobalObservers() {

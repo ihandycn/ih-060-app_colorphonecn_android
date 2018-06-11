@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
@@ -25,6 +27,9 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Networks;
 import com.superapps.util.Preferences;
 
+import net.appcloudbox.h5game.AcbH5GameInfo;
+
+import colorphone.acb.com.libscreencard.game.GameManager;
 import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 import colorphone.acb.com.libscreencard.gif.GifCacheUtils;
 import colorphone.acb.com.libscreencard.gif.GifCenterActivity;
@@ -77,6 +82,7 @@ public class CustomizeContentContainer extends FrameLayout {
         setClipChildren(false);
         initAnim();
         initAutopilotData();
+        GameManager.getInstance().prepare();
     }
 
     @Override
@@ -285,11 +291,28 @@ public class CustomizeContentContainer extends FrameLayout {
     private View getCurrentContent(Enum type) {
         LockerCustomConfig.getLogger().logEvent("RecommendCard_Show", "Type", type.name());
         if (type == ContentType.GAME) {
+            View gameCard = View.inflate(getContext(), R.layout.sc_layout_card_game_issue_custom, null);
+            ImageView imageView = gameCard.findViewById(R.id.security_protection_card_game_issue_bg);
+            TextView titleTv = gameCard.findViewById(R.id.security_protection_card_game_issue_title);
+            TextView subTitleTv = gameCard.findViewById(R.id.security_protection_card_game_issue_subtitle);
+            imageView.setImageResource(R.drawable.game_card_bg_basketball);
+            AcbH5GameInfo gameInfo = GameManager.getInstance().getBasketBallInfo();
+            titleTv.setText(gameInfo.getTitle());
+            subTitleTv.setText(gameInfo.getShortDescription());
 
+            gameCard.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CustomizeContentContainer.this.dismiss();
+                    GameManager.getInstance().startGame();
+                }
+            });
+
+            return gameCard;
 
         } else if (type == ContentType.GIF) {
 
-            View gifCard = View.inflate(getContext(), R.layout.layout_security_protection_card_gif, null);
+            View gifCard = View.inflate(getContext(), R.layout.sc_layout_card_gif, null);
             gifCard.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -338,9 +361,9 @@ public class CustomizeContentContainer extends FrameLayout {
     }
 
     private boolean validType(Enum type) {
-         if (type == ContentType.GAME) {
-             // TODO
-             boolean isGameCached = false;
+        if (type == ContentType.GAME) {
+            boolean isGameCached = GameManager.getInstance().isGameReady();
+
             boolean isAutopilotSatisfied = mAutopilotRecommendCardType == AutopilotRecommendCard.GAME ||
                     mAutopilotRecommendCardType == AutopilotRecommendCard.ALL;
             boolean isNetworkAvailable = Networks.isNetworkAvailable(-1);
