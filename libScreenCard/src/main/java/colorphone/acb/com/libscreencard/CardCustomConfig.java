@@ -7,9 +7,9 @@ import com.ihs.commons.utils.HSLog;
  * Created by sundxing on 17/9/5.
  */
 
-public class LockerCustomConfig {
+public class CardCustomConfig {
 
-    private static LockerCustomConfig INSTANCE = new LockerCustomConfig();
+    private static CardCustomConfig INSTANCE = new CardCustomConfig();
     private String mChargingExpressAdName;
     private String mSPFileName;
     private String mLockerAdName;
@@ -17,7 +17,7 @@ public class LockerCustomConfig {
     private Event mEventDelegate = new DefaultEvent();
     private RemoteLogger mRemoteLogger = new DefaultLogger();
 
-    public static LockerCustomConfig get() {
+    public static CardCustomConfig get() {
         return INSTANCE;
     }
 
@@ -139,7 +139,7 @@ public class LockerCustomConfig {
     }
 
     public static RemoteLogger getLogger() {
-        return LockerCustomConfig.get().getRemoteLogger();
+        return CardCustomConfig.get().getRemoteLogger();
     }
 
     public interface RemoteLogger {
@@ -161,6 +161,6 @@ public class LockerCustomConfig {
 
     public static void logAdViewEvent(String placementName, boolean success) {
         HSLog.d("ad analytics logAppViewEvent: " + placementName + " - " + success);
-        getLogger().logEvent("AcbAdNative_Viewed_In_App", new String[]{placementName, String.valueOf(success)});
+        getLogger().logEvent("Colorphone_AcbAdNative_Viewed_In_App", new String[]{placementName, String.valueOf(success)});
     }
 }

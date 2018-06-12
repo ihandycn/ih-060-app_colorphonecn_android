@@ -161,6 +161,6 @@ public class LockerCustomConfig {
 
     public static void logAdViewEvent(String placementName, boolean success) {
         HSLog.d("ad analytics logAppViewEvent: " + placementName + " - " + success);
-        getLogger().logEvent("AcbAdNative_Viewed_In_App", new String[]{placementName, String.valueOf(success)});
+        getLogger().logEvent("Colorphone_AcbAdNative_Viewed_In_App", new String[]{placementName, String.valueOf(success)});
     }
 }

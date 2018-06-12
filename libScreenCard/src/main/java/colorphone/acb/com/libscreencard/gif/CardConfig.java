@@ -15,5 +15,5 @@ public class CardConfig {
     public static final String PREF_KEY_GAME_SHOW_TIME = "game_show_time_mills";
 
     //TODO use right interval
-    public static final long GAME_SHOW_INTERVAL_MIN_HOUR = 0;
+    public static final long GAME_SHOW_INTERVAL_MIN_HOUR = 6;
 }

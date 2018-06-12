@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
+import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.h5game.AcbH5Error;
 import net.appcloudbox.h5game.AcbH5GameInfo;
 import net.appcloudbox.h5game.AcbH5GameInfoRequest;
@@ -14,6 +16,8 @@ import net.appcloudbox.h5game.AcbH5GamePlay;
 import net.appcloudbox.h5game.AcbH5GameStats;
 import net.appcloudbox.h5game.AcbH5ResponseListener;
 
+import colorphone.acb.com.libscreencard.CardCustomConfig;
+
 /**
  * Created by sundxing on 2018/6/9.
  */
@@ -21,16 +25,21 @@ import net.appcloudbox.h5game.AcbH5ResponseListener;
 public class GameManager {
     private static final java.lang.String TAG = "GameManager";
     private static final String AD_NAME = "Game";
-
+    private static final String AD_REWARD_NAME = "Reward";
     private GameManager() {}
 
     public void startGame() {
         HSLog.d(TAG, "startGame");
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(AD_NAME);
+        AcbRewardAdManager.getInstance().activePlacementInProcess(AD_REWARD_NAME);
+
         new AcbH5GamePlay(HSApplication.getContext(), mBasketBallInfo)
                 .setInterstitialAdPlacement(AD_NAME)
+                .setRewardedVideoAdPlacement(AD_REWARD_NAME)
                 .setAdListener(new AcbH5GamePlay.AdListener() {
                     @Override
                     public void onAdShowChanceArrived(boolean b) {
+                        CardCustomConfig.logAdViewEvent(AD_NAME, b);
 
                     }
 
@@ -64,6 +73,8 @@ public class GameManager {
                     @Override
                     public void onQuit(@NonNull AcbH5GamePlay acbH5GamePlay) {
                         HSLog.d(TAG, "onQuit");
+                        AcbInterstitialAdManager.getInstance().deactivePlacementInProcess(AD_NAME);
+                        AcbRewardAdManager.getInstance().deactivePlacementInProcess(AD_REWARD_NAME);
                     }
                 });
 

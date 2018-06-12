@@ -30,7 +30,7 @@ import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
 import java.util.Map;
 
-import colorphone.acb.com.libscreencard.LockerCustomConfig;
+import colorphone.acb.com.libscreencard.CardCustomConfig;
 import colorphone.acb.com.libscreencard.R;
 
 public class GifCenterActivity extends HSAppCompatActivity implements AcbInterstitialAd.IAcbInterstitialAdListener {
@@ -52,9 +52,9 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
     private PagerAdapter mAdapter;
     private Map<String, String> sGifMap = GifCacheUtils.getGif();
     private ViewGroup mExpressAdContainer;
-    private View mArrow;
-    private Guide mGuide;
 
+    private Guide mGuide;
+    private DisplayTime mDisplayTime = new DisplayTime();
 
     private AdLogger mExpressLogger = new AdLogger(getAdPlacements());
 
@@ -68,6 +68,7 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         LocalInterstitialAdPool.getInstance().preload(getInterstitialAdPlacements());
         mExpressLogger.adSessionStart();
         initView();
+        CardCustomConfig.getLogger().logEvent("Colorphone_Gif_Center_View_Show");
     }
 
     private String getInterstitialAdPlacements() {
@@ -108,10 +109,10 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
                     if (mAcbInterstitialAd != null) {
                         mAcbInterstitialAd.setInterstitialAdListener(GifCenterActivity.this);
                         mAcbInterstitialAd.show();
-                        LockerCustomConfig.logAdViewEvent(getInterstitialAdPlacements(), true);
+                        CardCustomConfig.logAdViewEvent(getInterstitialAdPlacements(), true);
                         AutoPilotUtils.logGIFInterstitialAdShow();
                     } else {
-                        LockerCustomConfig.logAdViewEvent(getInterstitialAdPlacements(), false);
+                        CardCustomConfig.logAdViewEvent(getInterstitialAdPlacements(), false);
                     }
                 }
                 int currentViewedGifKey = GifCacheUtils.getCurrentViewedGifKey();
@@ -133,6 +134,9 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
             }
         });
         mVp.setCurrentItem(mInitPosition);
+        if (mInitPosition == 0) {
+            mGuide.showLeft(false);
+        }
 
         mExpressAdContainer = findViewById(R.id.ad_container);
         AcbExpressAdView expressAdView = new AcbExpressAdView(this, getAdPlacements());
@@ -172,6 +176,13 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         if (!haveSlid || HSLog.isDebugging()) {
             Threads.postOnMainThreadDelayed(this::showGuideAnimation, 1000);
         }
+        mDisplayTime.onShow();
+    }
+
+    @Override
+    protected void onPause() {
+        mDisplayTime.onHide();
+        super.onPause();
     }
 
     @Override
@@ -179,6 +190,10 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         super.onDestroy();
         sBlurWallpaper = null;
         mExpressLogger.adSessionEnd();
+        CardCustomConfig.getLogger().logEvent("Colorphone_Gif_Center_View_Close",
+                "StayTime", "" + mDisplayTime.getTotalTime()/1000,
+                "ShowGifCount", "" + mScrolledCount);
+
         AcbExpressAdManager.getInstance().deactivePlacementInProcess(getAdPlacements());
     }
 
@@ -367,6 +382,21 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         public void scheduleNextHint() {
             cancelSchedule();
             mArrowRight.postDelayed(autoHintTask, 10000);
+        }
+    }
+
+    private class DisplayTime {
+        private long startTimeMills;
+        private long totalTime = 0;
+        public void onShow() {
+            startTimeMills = System.currentTimeMillis();
+        }
+        public void onHide() {
+            totalTime += System.currentTimeMillis() - startTimeMills;
+        }
+
+        public long getTotalTime() {
+            return totalTime;
         }
     }
 }

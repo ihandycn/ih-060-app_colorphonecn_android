@@ -100,7 +100,6 @@ public class CustomizeContentContainer extends FrameLayout {
         boolean visible = isScreenOn && (visibility == VISIBLE);
         if (visible != mVisible) {
             mVisible = visible;
-            onVisibilityChange(visible);
         }
     }
 
@@ -117,7 +116,7 @@ public class CustomizeContentContainer extends FrameLayout {
         Preferences.get(CardConfig.CARD_MODULE_PREFS).putBoolean(CardConfig.PREF_KEY_CONTENT_CLICKED, mClicked);
         removeAllViews();
         Enum currentType = getCurrentType();
-        LockerCustomConfig.getLogger().logEvent("RecommendCard_Click", "Type", currentType.name());
+        CardCustomConfig.getLogger().logEvent("RecommendCard_Click", "Type", currentType.name());
     }
 
     private void initAnim() {
@@ -288,8 +287,8 @@ public class CustomizeContentContainer extends FrameLayout {
     }
 
     private View getCurrentContent(Enum type) {
-        LockerCustomConfig.getLogger().logEvent("RecommendCard_Show", "Type", type.name());
-        if (type == ContentType.GAME) {
+        CardCustomConfig.getLogger().logEvent("RecommendCard_Show", "Type", type.name());
+        if (type == ContentType.GAME && AutoPilotUtils.gameCardEnable()) {
             View gameCard = View.inflate(getContext(), R.layout.sc_layout_card_game_issue_custom, null);
             ImageView imageView = gameCard.findViewById(R.id.security_protection_card_game_issue_bg);
             TextView titleTv = gameCard.findViewById(R.id.security_protection_card_game_issue_title);
@@ -302,14 +301,18 @@ public class CustomizeContentContainer extends FrameLayout {
             gameCard.findViewById(R.id.container_view).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    AutoPilotUtils.gameClick();
+                    CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Clicked");
+
                     CustomizeContentContainer.this.dismiss();
                     GameManager.getInstance().startGame();
                 }
             });
-
+            AutoPilotUtils.gameShow();
+            CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Show");
             return gameCard;
 
-        } else if (type == ContentType.GIF) {
+        } else if (type == ContentType.GIF && AutoPilotUtils.gifCardEnable()) {
 
             View gifCard = View.inflate(getContext(), R.layout.sc_layout_card_gif, null);
             gifCard.setOnClickListener(new OnClickListener() {
@@ -332,7 +335,7 @@ public class CustomizeContentContainer extends FrameLayout {
                     CustomizeContentContainer parent = (CustomizeContentContainer) view.getParent();
                     parent.notifyClicked();
                     AutoPilotUtils.logRecommendCardGIFClick();
-
+                    CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Gif_Card_Clicked");
                     CustomizeContentContainer.this.dismiss();
 
                 }
@@ -345,10 +348,8 @@ public class CustomizeContentContainer extends FrameLayout {
             videoView.play();
             GifCacheUtils.markCachedGifViewedState(true);
             AutoPilotUtils.logRecommendCardGIFShow();
+            CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Gif_Card_Show");
             return gifCard;
-        }
-        if (BuildConfig.DEBUG) {
-            throw new IllegalArgumentException("Error type " + type.toString());
         }
         return null;
     }
@@ -362,7 +363,7 @@ public class CustomizeContentContainer extends FrameLayout {
     private boolean validType(Enum type) {
         if (type == ContentType.GAME) {
             long lastShowTime = Preferences.get(CardConfig.CARD_MODULE_PREFS).getLong(CardConfig.PREF_KEY_GAME_SHOW_TIME, 0);
-            if (System.currentTimeMillis() - lastShowTime > CardConfig.GAME_SHOW_INTERVAL_MIN_HOUR * DateUtils.HOUR_IN_MILLIS) {
+            if (System.currentTimeMillis() - lastShowTime < CardConfig.GAME_SHOW_INTERVAL_MIN_HOUR * DateUtils.HOUR_IN_MILLIS) {
                 return false;
             }
 

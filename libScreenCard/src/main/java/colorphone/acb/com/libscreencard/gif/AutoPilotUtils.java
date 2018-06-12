@@ -1,6 +1,7 @@
 package colorphone.acb.com.libscreencard.gif;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 /**
  * Created by sundxing on 2018/6/8.
@@ -21,28 +22,32 @@ public class AutoPilotUtils {
     }
 
     public static void logRecommendCardGIFClick() {
-//        AutopilotEvent.logAppEvent("charging_gif_card_click");
+        AutopilotEvent.logTopicEvent(TOPIC, "charging_gif_card_click");
     }
 
     public static void logRecommendCardGIFShow() {
-//        AutopilotEvent.logAppEvent("charging_gif_card_show");
+        AutopilotEvent.logTopicEvent(TOPIC, "charging_gif_card_show");
     }
 
     public static void gameClick() {
-//        AutopilotEvent.logAppEvent("charging_game_card_click");
+        AutopilotEvent.logTopicEvent(TOPIC, "charging_game_card_click");
     }
 
     public static void gameShow() {
-//        AutopilotEvent.logAppEvent("charging_game_card_show");
+        AutopilotEvent.logTopicEvent(TOPIC, "charging_game_card_show");
     }
 
     public static void chargingViewShow() {
-//        AutopilotEvent.logAppEvent("charging_view_show");
+        AutopilotEvent.logTopicEvent(TOPIC, "charging_view_show");
     }
 
     public static boolean enableScreenModule() {
-//       return AutopilotConfig.getBooleanToTestNow(TOPIC, "charging_enable", false);
-        return true;
+        try {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC, "charging_enable", false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static boolean gameCardEnable() {
