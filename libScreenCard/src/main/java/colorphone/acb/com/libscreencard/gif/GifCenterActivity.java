@@ -3,6 +3,7 @@ package colorphone.acb.com.libscreencard.gif;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
+import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -10,11 +11,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
@@ -48,6 +55,8 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
     private Map<String, String> sGifMap = GifCacheUtils.getGif();
     private ViewGroup mExpressAdContainer;
     private View mArrow;
+    private Guide mGuide;
+
 
     private AdLogger mExpressLogger = new AdLogger(getAdPlacements());
 
@@ -78,20 +87,22 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         } else {
             findViewById(R.id.root_view).setBackgroundColor(Color.parseColor("#ff4285f4"));
         }
+        mGuide = new Guide(findViewById(R.id.guide_arrow_left), findViewById(R.id.guide_arrow_right));
         mVp = findViewById(R.id.vp);
         mVp.setPageMargin(Dimensions.pxFromDp(30));
         mAdapter = new GifAdapter();
         mVp.setAdapter(mAdapter);
-        mVp.setCurrentItem(mInitPosition);
         mVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                mGuide.setProgress(positionOffset);
             }
 
             @Override
             public void onPageSelected(int position) {
+                mGuide.showLeft(position > 0);
+
                 mScrolledCount++;
                 if (mScrolledCount % mInterstitialAdInterval == 0) {
                     mAcbInterstitialAd = LocalInterstitialAdPool.getInstance().fetch(getInterstitialAdPlacements());
@@ -115,9 +126,15 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    mGuide.scheduleNextHint();
+                } else {
+                    mGuide.cancelSchedule();
+                }
 
             }
         });
+        mVp.setCurrentItem(mInitPosition);
 
         mExpressAdContainer = findViewById(R.id.ad_container);
         AcbExpressAdView expressAdView = new AcbExpressAdView(this, getAdPlacements());
@@ -154,7 +171,7 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
     protected void onResume() {
         super.onResume();
         boolean haveSlid = Preferences.get(CardConfig.CARD_MODULE_PREFS).getBoolean(PREF_KEY_HAVE_SLID, false);
-        if (!haveSlid) {
+        if (!haveSlid || HSLog.isDebugging()) {
             Threads.postOnMainThreadDelayed(this::showGuideAnimation, 1000);
         }
     }
@@ -187,60 +204,7 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
     }
 
     private void showGuideAnimation() {
-        mArrow = findViewById(R.id.guide_arrow);
-
-        int distance1 = Dimensions.pxFromDp(130);
-        ValueAnimator enter1 = ValueAnimator.ofFloat(0f, 1f);
-        enter1.addUpdateListener((animation -> {
-            float animatedFraction = animation.getAnimatedFraction();
-            mArrow.setTranslationX(-animatedFraction * distance1);
-            mArrow.setAlpha(animatedFraction);
-        }));
-        enter1.setDuration(400);
-
-        int distance2 = Dimensions.pxFromDp(90);
-        ValueAnimator quit1 = ValueAnimator.ofFloat(0f, 1f);
-        quit1.addUpdateListener(animation -> {
-            mArrow.setTranslationX(-(distance1 - animation.getAnimatedFraction() * (distance1 - distance2)));
-        });
-        quit1.setDuration(400);
-
-        ValueAnimator enter2 = ValueAnimator.ofFloat(0f, 1f);
-        enter2.addUpdateListener(animation -> {
-            mArrow.setTranslationX(-(distance2 + animation.getAnimatedFraction() * (distance1 - distance2)));
-        });
-        enter2.setDuration(400);
-
-        ValueAnimator quit2 = ValueAnimator.ofFloat(0f, 1f);
-        quit2.addUpdateListener(animation -> {
-            mArrow.setTranslationX(-(distance1 - animation.getAnimatedFraction() * (distance1 - distance2)));
-        });
-        quit2.setDuration(400);
-
-        ValueAnimator enter3 = ValueAnimator.ofFloat(0f, 1f);
-        enter3.addUpdateListener(animation -> {
-            mArrow.setTranslationX(-(distance2 + animation.getAnimatedFraction() * (distance1 - distance2)));
-        });
-        enter3.setDuration(400);
-
-        ValueAnimator quit3 = ValueAnimator.ofFloat(0f, 1f);
-        quit3.addUpdateListener(animation -> {
-            float animatedFraction = animation.getAnimatedFraction();
-            mArrow.setTranslationX(-(distance1 - animatedFraction * (distance1 - distance2)));
-            mArrow.setAlpha(1 - animatedFraction);
-        });
-        quit3.setDuration(500);
-
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.addListener(new AnimatorListenerAdapter() {
-
-            @Override
-            public void onAnimationStart(Animator animation) {
-                mArrow.setVisibility(View.VISIBLE);
-            }
-        });
-        animatorSet.playSequentially(enter1, quit1, enter2, quit2, enter3, quit3);
-        Threads.postOnMainThreadDelayed(animatorSet::start, 1000);
+        mGuide.firstAnim();
     }
 
     private class GifAdapter extends PagerAdapter {
@@ -266,6 +230,136 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         @Override
         public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             container.removeView((View) object);
+        }
+    }
+
+    private class Guide {
+        private View mArrowLeft;
+        private View mArrowRight;
+        private float mDistance = Dimensions.pxFromDp(20);
+        private ValueAnimator valueAnimator;
+        private AnimatorSet startAnim;
+        private TimeInterpolator mTimeInterpolator = PathInterpolatorCompat.create
+                (.58f, .01f, .44f, .99f);
+        private TimeInterpolator mAdInterpolator = new AccelerateDecelerateInterpolator();
+        private TimeInterpolator mLinInterpolator = new LinearInterpolator();
+        private TimeInterpolator mDecInterpolator = new DecelerateInterpolator();
+        private boolean animRight = false;
+        private boolean animLeft = false;
+        private final ValueAnimator.AnimatorUpdateListener mUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float trans = (float) animation.getAnimatedValue();
+                if (animRight) {
+                    mArrowRight.setTranslationX(trans);
+                }
+                if (animLeft) {
+                    mArrowLeft.setTranslationX(-trans);
+                }
+            }
+        };
+        private final ValueAnimator.AnimatorListener mListener = new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                reset();
+            }
+        };
+
+        private Runnable autoHintTask = new Runnable() {
+            @Override
+            public void run() {
+                doAnimattion();
+                scheduleNextHint();
+            }
+        };
+
+        public Guide(View arrowLeft, View arrowRight) {
+            mArrowLeft = arrowLeft;
+            mArrowRight = arrowRight;
+            initAnimators();
+        }
+
+        private void initAnimators() {
+            valueAnimator = ValueAnimator.ofFloat(0, mDistance).setDuration(260);
+            valueAnimator.setRepeatMode(ValueAnimator.RESTART);
+            valueAnimator.setRepeatCount(1);
+            valueAnimator.setInterpolator(new TimeInterpolator() {
+                @Override
+                public float getInterpolation(float input) {
+                    return makeFraction(input);
+                }
+            });
+            valueAnimator.addUpdateListener(mUpdateListener);
+            valueAnimator.addListener(mListener);
+        }
+
+        public void firstAnim() {
+            animLeft = false;
+            animRight = true;
+            startAnim = new AnimatorSet();
+            ValueAnimator outAnim = ValueAnimator.ofFloat(0, mDistance).setDuration(300);
+            outAnim.setInterpolator(new AccelerateInterpolator(1.2f));
+            outAnim.addUpdateListener(mUpdateListener);
+
+            ValueAnimator inAnim = ValueAnimator.ofFloat(mDistance, 0).setDuration(300);
+            inAnim.setInterpolator(mLinInterpolator);
+            outAnim.addUpdateListener(mUpdateListener);
+            startAnim.addListener(mListener);
+            startAnim.playSequentially(outAnim, inAnim, outAnim, inAnim, outAnim, inAnim, outAnim, inAnim);
+            startAnim.start();
+        }
+
+        public void setProgress(float progress) {
+            animLeft = false;
+            animRight = false;
+            float fractionValue = makeFraction(progress);
+
+            float transX = fractionValue * mDistance * 1.3f;
+            mArrowRight.setTranslationX(transX);
+            mArrowLeft.setTranslationX(-transX);
+        }
+
+        private float makeFraction(float progress) {
+            float fractionValue;
+            if (progress <= 0.5f) {
+                fractionValue = mAdInterpolator.getInterpolation(progress * 2f);
+            } else {
+                fractionValue = mDecInterpolator.getInterpolation((1f - progress) * 2f);
+            }
+            return fractionValue;
+        }
+
+        public void doAnimattion() {
+            doAnimation(true, false);
+        }
+
+        private void doAnimation(boolean right, boolean left) {
+            animLeft = left;
+            animRight = right;
+            if (valueAnimator.isRunning()) {
+                valueAnimator.cancel();
+            }
+            valueAnimator.start();
+        }
+
+        private void reset() {
+            animRight = false;
+            animLeft = false;
+            mArrowLeft.setTranslationX(0);
+            mArrowRight.setTranslationX(0);
+        }
+
+        public void showLeft(boolean show) {
+            mArrowLeft.animate().alpha(show ? 1f : 0f).setDuration(200).start();
+        }
+
+        public void cancelSchedule() {
+            mArrowRight.removeCallbacks(autoHintTask);
+        }
+
+        public void scheduleNextHint() {
+            cancelSchedule();
+            mArrowRight.postDelayed(autoHintTask, 10000);
         }
     }
 }
