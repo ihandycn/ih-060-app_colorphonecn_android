@@ -283,7 +283,7 @@ public class CustomizeContentContainer extends FrameLayout {
     }
 
     public ContentType getCurrentType() {
-        ContentType currentContentType = ContentType.valueOf(Preferences.get(CardConfig.CARD_MODULE_PREFS).getString(CardConfig.PREF_KEY_CONTENT_TYPE_CURSOR, "PHONE_ISSUE"));
+        ContentType currentContentType = ContentType.valueOf(Preferences.get(CardConfig.CARD_MODULE_PREFS).getString(CardConfig.PREF_KEY_CONTENT_TYPE_CURSOR, "GAME"));
         return currentContentType;
     }
 
