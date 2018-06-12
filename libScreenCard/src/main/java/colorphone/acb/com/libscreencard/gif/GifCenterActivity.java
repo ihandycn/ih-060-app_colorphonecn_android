@@ -2,7 +2,6 @@ package colorphone.acb.com.libscreencard.gif;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
@@ -15,7 +14,6 @@ import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
@@ -236,9 +234,9 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
     private class Guide {
         private View mArrowLeft;
         private View mArrowRight;
-        private float mDistance = Dimensions.pxFromDp(20);
+        private float mDistance = Dimensions.pxFromDp(16);
         private ValueAnimator valueAnimator;
-        private AnimatorSet startAnim;
+        private ValueAnimator startAnim;
         private TimeInterpolator mTimeInterpolator = PathInterpolatorCompat.create
                 (.58f, .01f, .44f, .99f);
         private TimeInterpolator mAdInterpolator = new AccelerateDecelerateInterpolator();
@@ -268,7 +266,8 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         private Runnable autoHintTask = new Runnable() {
             @Override
             public void run() {
-                doAnimattion();
+                valueAnimator.setRepeatCount(1);
+                doAnimation();
                 scheduleNextHint();
             }
         };
@@ -280,7 +279,7 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         }
 
         private void initAnimators() {
-            valueAnimator = ValueAnimator.ofFloat(0, mDistance).setDuration(260);
+            valueAnimator = ValueAnimator.ofFloat(0, mDistance).setDuration(600);
             valueAnimator.setRepeatMode(ValueAnimator.RESTART);
             valueAnimator.setRepeatCount(1);
             valueAnimator.setInterpolator(new TimeInterpolator() {
@@ -296,16 +295,24 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         public void firstAnim() {
             animLeft = false;
             animRight = true;
-            startAnim = new AnimatorSet();
-            ValueAnimator outAnim = ValueAnimator.ofFloat(0, mDistance).setDuration(300);
-            outAnim.setInterpolator(new AccelerateInterpolator(1.2f));
-            outAnim.addUpdateListener(mUpdateListener);
-
-            ValueAnimator inAnim = ValueAnimator.ofFloat(mDistance, 0).setDuration(300);
-            inAnim.setInterpolator(mLinInterpolator);
-            outAnim.addUpdateListener(mUpdateListener);
+            startAnim = ValueAnimator.ofFloat(0, mDistance).setDuration(600);
+            valueAnimator.setRepeatMode(ValueAnimator.RESTART);
+            startAnim.setRepeatCount(3);
+            startAnim.addUpdateListener(mUpdateListener);
             startAnim.addListener(mListener);
-            startAnim.playSequentially(outAnim, inAnim, outAnim, inAnim, outAnim, inAnim, outAnim, inAnim);
+            startAnim.setInterpolator(new TimeInterpolator() {
+                @Override
+                public float getInterpolation(float input) {
+                    float fractionValue;
+                    if (input <= 0.5f) {
+                        fractionValue = mAdInterpolator.getInterpolation(input * 2f);
+                    } else {
+                        fractionValue = mLinInterpolator.getInterpolation((1f - input) * 2f);
+                    }
+                    return fractionValue;
+                }
+            });
+
             startAnim.start();
         }
 
@@ -329,7 +336,7 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
             return fractionValue;
         }
 
-        public void doAnimattion() {
+        public void doAnimation() {
             doAnimation(true, false);
         }
 

@@ -141,6 +141,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     private boolean isPowerConnected;
     private boolean mDismissed;
     private boolean adEnabled = false;
+    private boolean isStart;
 
     private boolean mIsSetup = false;
 
@@ -323,10 +324,15 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         LockerCustomConfig.get().onEventChargingViewShow();
 
         LockerCustomConfig.getLogger().logEvent("Charging_Screen__Shown_Init");
+        onStart();
     }
 
     public void onStart() {
+        if (isStart) {
+            return;
+        }
         // ======== onStart ========
+        isStart = true;
         AutoPilotUtils.chargingViewShow();
         HSLog.d(TAG, "onStart()");
         customizeContentContainer.onVisibilityChange(true);
@@ -868,7 +874,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
     public void onStop() {
         // ======== onPause ========
-
+        isStart = false;
         customizeContentContainer.onVisibilityChange(false);
 
 
