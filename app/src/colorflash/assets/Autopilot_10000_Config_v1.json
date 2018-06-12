@@ -1,7 +1,115 @@
 {
   "custom_audience_properties": [],
-  "get_url": "https://ap.appcloudbox.net/autopilot/v1/get",
+  "console_url": "https://ap-console.appcloudbox.net",
+  "app_events": [
+    {
+      "name": "main_app_open"
+    },
+    {
+      "name": "main_app_close"
+    },
+    {
+      "name": "extended_active"
+    },
+    {
+      "name": "active"
+    },
+    {
+      "name": "ad_show"
+    },
+    {
+      "name": "ad_click"
+    },
+    {
+      "name": "iap"
+    }
+  ],
+  "service_url": "https://ap.appcloudbox.net",
   "topics": {
+    "topic-1528196849816-295": {
+      "topic_type": "life_time",
+      "topic_name": "Charing Card Test",
+      "variations": {
+        "gif_card_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "charging_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "game_card_enable": {
+          "type": "boolean",
+          "value": true
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "charging_view_show"
+        },
+        {
+          "name": "charging_gif_card_show"
+        },
+        {
+          "name": "charging_gif_card_click"
+        },
+        {
+          "name": "charging_game_card_show"
+        },
+        {
+          "name": "charging_game_card_click"
+        }
+      ],
+      "topic_id": "topic-1528196849816-295"
+    },
+    "topic-rp-1525855411425-9": {
+      "topic_type": "one_time",
+      "topic_name": "RTOT Popup",
+      "variations": {
+        "body": {
+          "type": "string",
+          "value": ""
+        },
+        "button1_text": {
+          "type": "string",
+          "value": ""
+        },
+        "title": {
+          "type": "string",
+          "value": ""
+        },
+        "button2_text": {
+          "type": "string",
+          "value": ""
+        },
+        "button1_url": {
+          "type": "string",
+          "value": ""
+        },
+        "button2_url": {
+          "type": "string",
+          "value": ""
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "show"
+        },
+        {
+          "name": "button1_click"
+        },
+        {
+          "name": "button2_click"
+        }
+      ],
+      "topic_id": "topic-rp-1525855411425-9"
+    },
     "topic-1512822231846-17": {
       "topic_type": "life_time",
       "topic_name": "Charging Test",
@@ -426,32 +534,79 @@
         }
       ],
       "topic_id": "topic-1510752104742"
+    },
+    "topic-1510751463187": {
+      "topic_type": "life_time",
+      "topic_name": "Local Push Test",
+      "variations": {
+        "old_theme_push_enabled": {
+          "type": "boolean",
+          "value": false
+        },
+        "new_theme_push_enabled": {
+          "type": "boolean",
+          "value": false
+        },
+        "push_icon_type": {
+          "type": "string",
+          "value": "ThemeIcon"
+        },
+        "old_theme_push_min_show_interval_by_open_app": {
+          "type": "double",
+          "value": 7
+        },
+        "old_theme_push_detail": {
+          "type": "string",
+          "value": "'%1$s' theme for Color Phone! Try this most popular feature!"
+        },
+        "old_theme_push_min_show_interval": {
+          "type": "double",
+          "value": 3
+        },
+        "old_theme_push_title": {
+          "type": "string",
+          "value": "Hot theme recommended!"
+        },
+        "new_theme_push_detail": {
+          "type": "string",
+          "value": "Newly launched '%1$s' theme for Color Phone"
+        },
+        "new_theme_push_title": {
+          "type": "string",
+          "value": "Brand new theme!"
+        },
+        "push_open_detail_or_mainview": {
+          "type": "string",
+          "value": "detail"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "localpush_newtheme_show"
+        },
+        {
+          "name": "localpush_newtheme_clicked"
+        },
+        {
+          "name": "localpush_newtheme_themeapply"
+        },
+        {
+          "name": "localpush_oldtheme_show"
+        },
+        {
+          "name": "localpush_oldtheme_clicked"
+        },
+        {
+          "name": "localpush_oldtheme_themeapply"
+        }
+      ],
+      "topic_id": "topic-1510751463187"
     }
   },
-  "autopilot_id": 10000,
-  "submit_url": "https://ap.appcloudbox.net/autopilot/v1/submit",
   "autopilot_name": "Color Phone",
-  "app_events": [
-    {
-      "name": "main_app_open"
-    },
-    {
-      "name": "main_app_close"
-    },
-    {
-      "name": "extended_active"
-    },
-    {
-      "name": "active"
-    },
-    {
-      "name": "ad_show"
-    },
-    {
-      "name": "ad_click"
-    },
-    {
-      "name": "iap"
-    }
-  ]
+  "autopilot_type": "app",
+  "autopilot_id": 10000
 }
