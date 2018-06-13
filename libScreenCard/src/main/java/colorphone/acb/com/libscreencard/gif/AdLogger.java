@@ -2,6 +2,8 @@ package colorphone.acb.com.libscreencard.gif;
 
 import com.ihs.commons.utils.HSLog;
 
+import colorphone.acb.com.libscreencard.CardCustomConfig;
+
 /**
  * Handles common logic to log AdAnalytics.logAppViewEvent().
  */
@@ -54,7 +56,7 @@ public class AdLogger {
         HSLog.d(TAG, "ad session end!");
         if (mShouldShowAd) {
             //TODO
-//            AdAnalytics.logAppViewEvent(mPlacementName, mAdShown);
+            CardCustomConfig.logAdViewEvent(mPlacementName, mAdShown);
             reset();
         }
     }
