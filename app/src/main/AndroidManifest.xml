@@ -367,6 +367,12 @@
 
         <receiver android:name=".notification.NotificationAlarmReceiver"></receiver>
 
+        <activity
+            android:name="net.appcloudbox.internal.h5game.GameActivity"
+            android:taskAffinity=".h5game"
+            android:launchMode="singleTask"
+            tools:node="merge"
+             />
     </application>
 
 
