@@ -7,14 +7,6 @@
     <string name="gif_center">GIF Center</string>
 
     <!-- game -->
-    <string name="game_center">Online Games</string>
-    <string name="editors_choice">Editor\'s Choice</string>
-    <string name="best_categories">Best Categories</string>
-    <string name="friends_playing">Your Friends Are Playing</string>
-    <string name="top_games">Top Games</string>
-    <string name="game_loading">Loading...</string>
-    <string name="games">Games</string>
-    <string name="play_game">play</string>
-    <string name="recommend_for_you">Recommend For You</string>
-    <string name="game_loading_title">Nice game is about to start!</string>
+    <string name="game_card_title">Dunk Hit</string>
+    <string name="game_card_desc">CAN YOU BEAT THIS CHALLENGE?!?!</string>
 </resources>

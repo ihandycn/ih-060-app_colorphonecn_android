@@ -295,8 +295,9 @@ public class CustomizeContentContainer extends FrameLayout {
             TextView subTitleTv = gameCard.findViewById(R.id.security_protection_card_game_issue_subtitle);
             imageView.setImageResource(R.drawable.game_card_bg_basketball);
             AcbH5GameInfo gameInfo = GameManager.getInstance().getBasketBallInfo();
-            titleTv.setText(gameInfo.getTitle());
-            subTitleTv.setText(gameInfo.getShortDescription());
+            // Use local for test.
+            titleTv.setText(getContext().getString(R.string.game_card_title));
+            subTitleTv.setText(getContext().getString(R.string.game_card_desc));
 
             gameCard.findViewById(R.id.container_view).setOnClickListener(new OnClickListener() {
                 @Override
