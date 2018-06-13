@@ -36,7 +36,7 @@
         },
         "charging_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "game_card_enable": {
           "type": "boolean",
@@ -61,6 +61,18 @@
         },
         {
           "name": "charging_game_card_click"
+        },
+        {
+          "name": "gif_interstitial_ad_show"
+        },
+        {
+          "name": "gif_express_ad_show"
+        },
+        {
+          "name": "game_interstitial_ad_show"
+        },
+        {
+          "name": "game_reward_ad_show"
         }
       ],
       "topic_id": "topic-1528196849816-295"
