@@ -65,12 +65,17 @@ public class GifCacheUtils {
             return;
         }
         int newKey = getCurrentViewedGifKey() + 1;
-        HSLog.d("CustomizeContentContainer", "increaseCurrentViewedGifKey: " + newKey);
-        Preferences.get(CardConfig.CARD_MODULE_PREFS).putInt(PREF_KEY_CURRENT_GIF_KEY, newKey);
+        setCurrentViewedGifKey(newKey);
         markCachedGifViewedState(false);
     }
 
     public static void setCurrentViewedGifKey(int key) {
+        if (key > sGifMap.size()) {
+            // Loop
+            key = 1;
+        }
+        HSLog.d("CustomizeContentContainer", "CurrentViewedGifKey: " + key);
+
         Preferences.get(CardConfig.CARD_MODULE_PREFS).putInt(PREF_KEY_CURRENT_GIF_KEY, key);
     }
 
