@@ -15,7 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatButton;
@@ -354,18 +353,16 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         HSChargingManager.getInstance().addChargingListener(chargingListener);
         getContext().registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 
-        PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
-        if (powerManager.isScreenOn()) {
-            updateTipTextRandomValue();
-            updateTimeAndDateView();
+        updateTipTextRandomValue();
+        updateTimeAndDateView();
 
-            if (isChargingOnInit || HSChargingManager.getInstance().isCharging()) {
-                isChargingOnInit = false;
-                updateChargingStateTipIconAnimator();
-            }
-
-            LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown");
+        if (isChargingOnInit || HSChargingManager.getInstance().isCharging()) {
+            isChargingOnInit = false;
+            updateChargingStateTipIconAnimator();
         }
+
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown");
+
 
         // ======== onResume ========
 
