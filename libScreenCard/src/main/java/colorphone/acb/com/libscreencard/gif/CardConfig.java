@@ -16,4 +16,6 @@ public class CardConfig {
 
     //TODO use right interval
     public static final long GAME_SHOW_INTERVAL_MIN_HOUR = 6;
+    public static final String AD_GIF_INTERS = "GifInterstitial";
+    public static final String AD_GIF_EXPR = "GifExpress";
 }

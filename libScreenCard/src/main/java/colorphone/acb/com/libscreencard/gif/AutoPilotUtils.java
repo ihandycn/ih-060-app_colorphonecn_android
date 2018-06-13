@@ -10,12 +10,21 @@ import net.appcloudbox.autopilot.AutopilotEvent;
 public class AutoPilotUtils {
     public static final String TOPIC = "topic-1528196849816-295";
     public static void logGIFInterstitialAdShow() {
-        // TODO
+        AutopilotEvent.logTopicEvent(TOPIC, "gif_interstitial_ad_show");
     }
 
     public static void logGIFExpressAdShow() {
-
+        AutopilotEvent.logTopicEvent(TOPIC, "gif_express_ad_show");
     }
+
+    public static void logGameExpressAdShow() {
+        AutopilotEvent.logTopicEvent(TOPIC, "game_interstitial_ad_show");
+    }
+
+    public static void logGameRewardAdShow() {
+        AutopilotEvent.logTopicEvent(TOPIC, "game_reward_ad_show");
+    }
+
 
     public static String getSecurityProtectionRecommendCard() {
         return "all";

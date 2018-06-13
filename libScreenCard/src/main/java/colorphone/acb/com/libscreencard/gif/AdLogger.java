@@ -55,7 +55,6 @@ public class AdLogger {
     public void adSessionEnd() {
         HSLog.d(TAG, "ad session end!");
         if (mShouldShowAd) {
-            //TODO
             CardCustomConfig.logAdViewEvent(mPlacementName, mAdShown);
             reset();
         }

@@ -72,13 +72,11 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
     }
 
     private String getInterstitialAdPlacements() {
-        // TODO
-        return "GifInterstitial";
+        return CardConfig.AD_GIF_INTERS;
     }
 
     private String getAdPlacements() {
-        // TODO
-        return "GifExpress";
+        return CardConfig.AD_GIF_EXPR;
     }
 
     private void initView() {
