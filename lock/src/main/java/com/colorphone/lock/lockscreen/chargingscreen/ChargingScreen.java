@@ -547,6 +547,12 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                 dismiss(getContext(), true);
             }
         });
+        customizeContentContainer.addCardDisplayListener(new CustomizeContentContainer.CardDisplayListener() {
+            @Override
+            public void onCardDisplay(int type) {
+                tipTextView.setVisibility(View.GONE);
+            }
+        });
         chargingBubbleView = (ChargingBubbleView) mRootView.findViewById(R.id.charging_screen_bubble_view);
         chargingBubbleView.setPopupBubbleColor(chargingBubbleColor);
 

@@ -43,11 +43,14 @@ public class CustomizeContentContainer extends FrameLayout {
     private boolean mVisible;
     private boolean DEBUG_MODE = true;
     private Runnable mDismissCallback;
-
+    private CardDisplayListener mCardDisplayListener;
     public void setDismissCallback(Runnable dismissCallback) {
         mDismissCallback = dismissCallback;
     }
 
+    public void addCardDisplayListener(CardDisplayListener displayListener) {
+        mCardDisplayListener = displayListener;
+    }
 
     public enum ContentType {
         GAME,
@@ -258,6 +261,9 @@ public class CustomizeContentContainer extends FrameLayout {
             mRiseAnimator.cancel();
         }
         mRiseAnimator.start();
+        if (mCardDisplayListener != null) {
+            mCardDisplayListener.onCardDisplay(type.ordinal());
+        }
     }
 
     private @Nullable
@@ -395,5 +401,9 @@ public class CustomizeContentContainer extends FrameLayout {
         Preferences.get(CardConfig.CARD_MODULE_PREFS).putString(CardConfig.PREF_KEY_CONTENT_TYPE_CURSOR, contentTypes[ordinal].name());
         Enum after = getCurrentType();
         HSLog.d(TAG, "move from: " + before + " to: " + after);
+    }
+
+    public interface CardDisplayListener {
+        void onCardDisplay(int type);
     }
 }
