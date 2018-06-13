@@ -80,6 +80,7 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         // TODO
         return "GifExpress";
     }
+
     private void initView() {
         if (sBlurWallpaper != null) {
             findViewById(R.id.root_view).setBackgroundDrawable(sBlurWallpaper);
@@ -94,7 +95,7 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         mVp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 mGuide.setProgress(positionOffset);
             }
 
@@ -134,6 +135,7 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
             }
         });
         mVp.setCurrentItem(mInitPosition);
+        mGuide.setViewPaper(mVp);
         if (mInitPosition == 0) {
             mGuide.showLeft(false);
         }
@@ -247,8 +249,11 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
     }
 
     private class Guide {
+        private ViewPager mViewPaper;
+
         private View mArrowLeft;
         private View mArrowRight;
+
         private float mDistance = Dimensions.pxFromDp(16);
         private ValueAnimator valueAnimator;
         private ValueAnimator startAnim;
@@ -257,8 +262,10 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         private TimeInterpolator mAdInterpolator = new AccelerateDecelerateInterpolator();
         private TimeInterpolator mLinInterpolator = new LinearInterpolator();
         private TimeInterpolator mDecInterpolator = new DecelerateInterpolator();
+
         private boolean animRight = false;
         private boolean animLeft = false;
+
         private final ValueAnimator.AnimatorUpdateListener mUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -382,6 +389,24 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         public void scheduleNextHint() {
             cancelSchedule();
             mArrowRight.postDelayed(autoHintTask, 10000);
+        }
+
+        public void setViewPaper(ViewPager viewPaper) {
+            mViewPaper = viewPaper;
+            mArrowRight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int cur = mViewPaper.getCurrentItem();
+                    mViewPaper.setCurrentItem(cur + 1, true);
+                }
+            });
+            mArrowLeft.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int cur = mViewPaper.getCurrentItem();
+                    mViewPaper.setCurrentItem(cur - 1, true);
+                }
+            });
         }
     }
 

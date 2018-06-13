@@ -33,39 +33,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
         android:layout_marginTop="14dp"
         android:clipChildren="false"
         app:aspectRatio="1.25">
 
         <com.superapps.view.ViewPagerFixed
             android:id="@+id/vp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipChildren="false" />
 
         <ImageView
             android:id="@+id/guide_arrow_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="-14dp"
-            android:layout_marginRight="-14dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
+            android:scaleType="centerInside"
             android:src="@drawable/gif_center_arrow_right"
+            android:background="@drawable/material_compat_button_bg_round"
             />
 
         <ImageView
             android:id="@+id/guide_arrow_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="-14dp"
-            android:layout_marginStart="-14dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginStart="6dp"
+            android:scaleType="centerInside"
+            android:background="@drawable/material_compat_button_bg_round"
             android:src="@drawable/gif_center_arrow_left"
             />
         <ImageView
