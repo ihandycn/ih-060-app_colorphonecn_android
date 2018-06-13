@@ -9,7 +9,6 @@
 
     <android.support.percent.PercentRelativeLayout
         android:id="@+id/container_view"
-        android:layout_below="@+id/title_container_more"
         android:layout_marginTop="8dp"
         android:clipChildren="false"
         app:layout_aspectRatio="150%"
@@ -31,14 +30,14 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="17dp"
+            android:layout_marginBottom="18dp"
             android:background="@drawable/security_protection_game_issue_play_btn"
             android:gravity="center_vertical"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_marginEndPercent="9.17%"
-            app:layout_marginRightPercent="9.17%" />
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp" />
 
         <com.superapps.view.AutoResizeTextView
             android:id="@+id/security_protection_card_game_issue_title"
@@ -55,8 +54,8 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:font_style="bold"
-            app:layout_marginLeftPercent="8.4%"
-            app:layout_marginStartPercent="8.4%"
+            android:layout_marginRight="14dp"
+            android:layout_marginLeft="14dp"
             app:typeface="@string/custom_font_bold"
             tools:ignore="HardcodedText" />
 
@@ -78,11 +77,9 @@
             android:text="Objective of the game is to move all cards onto the four foundation dwdwddwdwdwddwdw"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:layout_marginEndPercent="4.2%"
-            app:layout_marginLeftPercent="8.4%"
-            app:layout_marginRightPercent="4.2%"
-            app:layout_marginStartPercent="8.4%"
-            app:layout_marginTopPercent="2.7%"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginLeft="14dp"
             app:typeface="@string/roboto_regular"
             tools:ignore="HardcodedText" />
 
