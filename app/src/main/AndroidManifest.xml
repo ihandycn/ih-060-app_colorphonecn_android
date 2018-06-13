@@ -101,6 +101,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN" />-->
@@ -157,24 +158,28 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".activity.ColorPhoneActivity"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DarkFullScreen" />
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
         <activity
             android:name=".activity.AboutActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
         <activity
             android:name=".activity.NotificationSettingsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
 
@@ -182,6 +187,7 @@
             android:name=".activity.GuideAllFeaturesActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
 
@@ -202,6 +208,7 @@
             android:name=".activity.ContactsSelectActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/ContactTheme" />
 
@@ -209,6 +216,7 @@
             android:name=".activity.ContactsEditActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/ContactTheme" />
 
@@ -216,6 +224,7 @@
             android:name=".activity.AvatarVideoActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:parentActivityName=".activity.ColorPhoneActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DarkFullScreen" />
@@ -267,6 +276,7 @@
         <activity
             android:name=".gdpr.DataUsageSettingsActivity"
             android:screenOrientation="portrait"
+            android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme" />
         <!-- Facebook全屏 -->
         <activity
