@@ -7,13 +7,13 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/app_custom_icon"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
-        android:contentDescription="@null"
-        app:srcCompat="@drawable/ic_charging_screen_logo"/>
+        android:contentDescription="@null"/>
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/ic_menu"

@@ -91,7 +91,7 @@ public class CustomizeContentContainer extends FrameLayout {
         GifCacheUtils.cacheGif();
 
         // TODO
-        mRecommendInterval = 6;
+        mRecommendInterval = 0;
         mStartShowTime = Preferences.get(CardConfig.CARD_MODULE_PREFS).getLong(CardConfig.PREF_KEY_START_SHOW_TIME, NOT_START);
         mClicked = Preferences.get(CardConfig.CARD_MODULE_PREFS).getBoolean(CardConfig.PREF_KEY_CONTENT_CLICKED, false);
     }
@@ -295,6 +295,17 @@ public class CustomizeContentContainer extends FrameLayout {
     private View getCurrentContent(Enum type) {
         CardCustomConfig.getLogger().logEvent("RecommendCard_Show", "Type", type.name());
         if (type == ContentType.GAME && AutoPilotUtils.gameCardEnable()) {
+            View.OnClickListener clickListener = new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AutoPilotUtils.gameClick();
+                    CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Clicked");
+
+                    CustomizeContentContainer.this.dismiss();
+                    GameManager.getInstance().startGame();
+                }
+            };
+
             View gameCard = View.inflate(getContext(), R.layout.sc_layout_card_game_issue_custom, null);
             ImageView imageView = gameCard.findViewById(R.id.security_protection_card_game_issue_bg);
             TextView titleTv = gameCard.findViewById(R.id.security_protection_card_game_issue_title);
@@ -304,17 +315,8 @@ public class CustomizeContentContainer extends FrameLayout {
             // Use local for test.
             titleTv.setText(getContext().getString(R.string.game_card_title));
             subTitleTv.setText(getContext().getString(R.string.game_card_desc));
-
-            gameCard.findViewById(R.id.container_view).setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AutoPilotUtils.gameClick();
-                    CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Clicked");
-
-                    CustomizeContentContainer.this.dismiss();
-                    GameManager.getInstance().startGame();
-                }
-            });
+            gameCard.findViewById(R.id.security_protection_game_issue_btn).setOnClickListener(clickListener);
+            gameCard.findViewById(R.id.container_view).setOnClickListener(clickListener);
             AutoPilotUtils.gameShow();
             CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Show");
             return gameCard;

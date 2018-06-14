@@ -14,6 +14,7 @@ public class LockerCustomConfig {
     private String mSPFileName;
     private String mLockerAdName;
     private int mLauncherIcon;
+    private int mCustomScreenIcon;
     private Event mEventDelegate = new DefaultEvent();
     private RemoteLogger mRemoteLogger = new DefaultLogger();
 
@@ -92,6 +93,14 @@ public class LockerCustomConfig {
 
     public void setRemoteLogger(RemoteLogger remoteLogger) {
         mRemoteLogger = remoteLogger;
+    }
+
+    public int getCustomScreenIcon() {
+        return mCustomScreenIcon;
+    }
+
+    public void setCustomScreenIcon(int customScreenIcon) {
+        mCustomScreenIcon = customScreenIcon;
     }
 
 

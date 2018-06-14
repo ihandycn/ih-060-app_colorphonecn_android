@@ -430,7 +430,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
     private void initView(Bundle extra) {
         final Context context = getContext();
-
+        ImageView appIcon = mRootView.findViewById(R.id.app_custom_icon);
+        appIcon.setImageResource(LockerCustomConfig.get().getCustomScreenIcon());
         int chargingQuantityUpColor;
         int chargingQuantityBottomColor;
         int chargingBubbleColor;

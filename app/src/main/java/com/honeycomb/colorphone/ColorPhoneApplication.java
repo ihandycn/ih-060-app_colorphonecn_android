@@ -392,6 +392,7 @@ public class ColorPhoneApplication extends HSApplication {
 
         HSLog.d("Start", "initLockScreen");
         LockerCustomConfig.get().setLauncherIcon(R.mipmap.ic_launcher);
+        LockerCustomConfig.get().setCustomScreenIcon(R.drawable.ic_charging_screen_logo);
         LockerCustomConfig.get().setSPFileName("colorPhone_locker");
         LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);
         LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHARGING_SCREEN);

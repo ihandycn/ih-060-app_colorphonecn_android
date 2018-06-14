@@ -45,12 +45,12 @@
                 android:layout_marginTop="12dp">
 
                 <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/app_custom_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginStart="20dp"
-                    app:srcCompat="@drawable/ic_charging_screen_logo"/>
+                    android:layout_marginStart="20dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

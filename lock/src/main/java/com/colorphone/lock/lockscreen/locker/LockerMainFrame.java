@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -135,6 +136,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     protected void onFinishInflate() {
         super.onFinishInflate();
 
+        ImageView appIcon = findViewById(R.id.app_custom_icon);
+        appIcon.setImageResource(LockerCustomConfig.get().getCustomScreenIcon());
         if (!FloatWindowCompat.needsSystemErrorFloatWindow()) {
             setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(HSApplication.getContext()));
         }
