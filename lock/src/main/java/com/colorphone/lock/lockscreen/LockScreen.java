@@ -1,9 +1,7 @@
 package com.colorphone.lock.lockscreen;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 
 /**
@@ -23,20 +21,7 @@ public abstract class LockScreen {
      * Initialization.
      */
     public void setup(ViewGroup root, Bundle extra) {
-        updateFullScreenFlags(root);
         mRootView = root;
-    }
-
-    private void updateFullScreenFlags(ViewGroup root) {
-        int viewFlag = root.getSystemUiVisibility();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            viewFlag |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            viewFlag |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-        }
-        viewFlag |= View.SYSTEM_UI_FLAG_FULLSCREEN;
-        root.setSystemUiVisibility(viewFlag);
     }
 
     public ViewGroup getRootView() {
