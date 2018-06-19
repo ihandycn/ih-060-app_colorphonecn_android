@@ -317,11 +317,19 @@ public class CustomizeContentContainer extends FrameLayout {
 
             boolean gamesReady = GameManager.getInstance().isRandomGamesReady();
             if (gamesReady) {
-                List<AcbH5GameInfo> gameInfos = GameManager.getInstance().getRandomGames();
+                final List<AcbH5GameInfo> gameInfos = GameManager.getInstance().getRandomGames();
                 for (int i = 0; i < 4; i++) {
+                    final AcbH5GameInfo gameInfo = gameInfos.get(i);
+                    ImageView gameItem = views.get(i);
+                    gameItem.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            GameManager.getInstance().startGame(gameInfo);
+                        }
+                    });
                     Glide.with(getContext()).asBitmap()
-                            .load(gameInfos.get(i).getLargePictureURL())
-                            .into(views.get(i));
+                            .load(gameInfo.getLargePictureURL())
+                            .into(gameItem);
 
                 }
             } else {

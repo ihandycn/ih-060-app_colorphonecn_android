@@ -47,11 +47,15 @@ public class GameManager {
     private GameManager() {}
 
     public void startGame() {
-        HSLog.d(TAG, "startGame");
+        startGame(mBasketBallInfo);
+    }
+
+    public void startGame(AcbH5GameInfo gameInfo) {
+        HSLog.d(TAG, "startGame : " + gameInfo.getTitle() + ", id = " + gameInfo.getGameID());
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(AD_NAME);
         AcbRewardAdManager.getInstance().activePlacementInProcess(AD_REWARD_NAME);
 
-        new AcbH5GamePlay(HSApplication.getContext(), mBasketBallInfo)
+        new AcbH5GamePlay(HSApplication.getContext(), gameInfo)
                 .setInterstitialAdPlacement(AD_NAME)
                 .setRewardedVideoAdPlacement(AD_REWARD_NAME)
                 .setAdListener(new AcbH5GamePlay.AdListener() {
