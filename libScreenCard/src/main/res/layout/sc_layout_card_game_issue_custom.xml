@@ -15,7 +15,7 @@
         app:layout_widthPercent="100%">
 
         <com.superapps.view.RoundImageView
-            android:id="@+id/security_protection_card_game_issue_bg"
+            android:id="@+id/card_img_top_left"
             android:layout_width="match_parent"
             android:scaleType="centerCrop"
             android:src="@color/black_40_transparent"

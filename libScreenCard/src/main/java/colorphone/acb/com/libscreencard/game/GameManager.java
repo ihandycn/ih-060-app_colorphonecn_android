@@ -1,7 +1,11 @@
 package colorphone.acb.com.libscreencard.game;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 
@@ -16,6 +20,10 @@ import net.appcloudbox.h5game.AcbH5GamePlay;
 import net.appcloudbox.h5game.AcbH5GameStats;
 import net.appcloudbox.h5game.AcbH5ResponseListener;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import colorphone.acb.com.libscreencard.CardCustomConfig;
 import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 
@@ -27,6 +35,15 @@ public class GameManager {
     private static final java.lang.String TAG = "GameManager";
     private static final String AD_NAME = "Game";
     private static final String AD_REWARD_NAME = "Reward";
+
+    private final List<AcbH5GameInfo> mRandomGames = new ArrayList<>(4);
+
+    private static String BasketBallId = "1";
+
+    private AcbH5GameInfo mBasketBallInfo;
+    private boolean mLoading;
+    private List<AcbH5GameInfo> gameHasPicPool = new ArrayList<>();
+
     private GameManager() {}
 
     public void startGame() {
@@ -94,10 +111,6 @@ public class GameManager {
         return InnerClass.INSTANCE;
     }
 
-    private static String BasketBallId = "1";
-
-    private AcbH5GameInfo mBasketBallInfo;
-    private boolean mLoading;
 
     public void prepare() {
         HSLog.d(TAG, "start obtain game list ...");
@@ -116,13 +129,91 @@ public class GameManager {
 
             @Override
             public void onFailure(@NonNull AcbH5Error acbH5Error) {
-                HSLog.e(acbH5Error.getMessage());
+                HSLog.e(TAG, acbH5Error.getMessage());
                 mLoading = false;
             }
         });
     }
 
+    public void prepareRandomGames() {
+        HSLog.d(TAG, "prepare random games");
+        if (gameHasPicPool.size() > 0) {
+            confirmGameList();
+            return;
+        }
+        new AcbH5GameInfoRequest().startForFirstPage(false, new AcbH5ResponseListener<AcbH5GameInfoResponse>() {
+            @Override
+            public void onSuccess(@NonNull AcbH5GameInfoResponse acbH5GameInfoResponse) {
+                AcbH5GameInfo[] gameInfos = acbH5GameInfoResponse.getItems();
+                for (AcbH5GameInfo gameInfo : gameInfos) {
+                    if (!TextUtils.isEmpty(gameInfo.getLargePictureURL())
+                            && !TextUtils.equals(BasketBallId, gameInfo.getGameID())) {
+                        gameHasPicPool.add(gameInfo);
+                    }
+                }
+                confirmGameList();
+            }
+
+            @Override
+            public void onFailure(@NonNull AcbH5Error acbH5Error) {
+                HSLog.e(TAG, acbH5Error.getMessage());
+            }
+        });
+    }
+
+    private void confirmGameList() {
+        int[] gameIndexList = randomCommon(0, gameHasPicPool.size() - 1, 4);
+        mRandomGames.clear();
+        for (int index : gameIndexList) {
+            HSLog.d(TAG, "random games index: " + index);
+            AcbH5GameInfo gameInfo = gameHasPicPool.get(index);
+            downloadPic(gameInfo);
+        }
+    }
+
+    private void downloadPic(AcbH5GameInfo gameInfo) {
+        Glide.with(HSApplication.getContext()).downloadOnly().load(gameInfo.getLargePictureURL()).into(new SimpleTarget<File>() {
+            @Override
+            public void onResourceReady(File resource, Transition<? super File> transition) {
+                HSLog.d(TAG, "gameInfo pic download : " + gameInfo.getTitle());
+                mRandomGames.add(gameInfo);
+            }
+        });
+    }
+
+    public List<AcbH5GameInfo> getRandomGames() {
+        return mRandomGames;
+    }
+
+    public boolean isRandomGamesReady() {
+        return mRandomGames.size() == 4;
+    }
+
+    public static int[] randomCommon(int min, int max, int n){
+        if (n > (max - min + 1) || max < min) {
+            throw new IllegalStateException("random min max value invalid");
+        }
+        int[] result = new int[n];
+        int count = 0;
+        while(count < n) {
+            int num = (int) (Math.random() * (max - min)) + min;
+            boolean flag = true;
+            for (int j = 0; j < n; j++) {
+                if(num == result[j]){
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag){
+                result[count] = num;
+                count++;
+            }
+        }
+        return result;
+    }
+
     private void findBasketballGame(AcbH5GameInfo[] items) {
+        HSLog.d(TAG, "items size = " + items.length);
         for (AcbH5GameInfo gameInfo : items) {
             if (BasketBallId.equals(gameInfo.getGameID())) {
                 HSLog.d(TAG, "basket ball game get!");

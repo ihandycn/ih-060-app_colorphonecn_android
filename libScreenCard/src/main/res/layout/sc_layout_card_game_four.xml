@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:gravity="center">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/container_view"
+        android:clipChildren="false"
+        android:paddingBottom="12dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp"
+        app:layout_aspectRatio="150%"
+        app:layout_widthPercent="100%">
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="The most addictive game on mobile!" />
+
+        <com.superapps.view.RoundImageView
+            android:id="@+id/card_img_top_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="8dp"
+
+            app:layout_constraintBottom_toTopOf="@+id/card_img_bottom_left"
+            app:layout_constraintEnd_toStartOf="@+id/card_img_top_right"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_title"
+            app:layout_constraintVertical_weight="0.5"
+            app:radius="8dp"
+            tools:src="@drawable/game_card_bg_basketball" />
+
+        <com.superapps.view.RoundImageView
+            android:id="@+id/card_img_top_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/card_img_bottom_right"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="0.5"
+            app:layout_constraintStart_toEndOf="@+id/card_img_top_left"
+            app:layout_constraintTop_toBottomOf="@+id/card_title"
+            app:layout_constraintVertical_weight="0.5"
+            app:radius="8dp"
+            tools:src="@drawable/game_card_bg_basketball" />
+
+        <com.superapps.view.RoundImageView
+            android:id="@+id/card_img_bottom_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="6dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/card_img_bottom_right"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_weight="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_img_top_left"
+            app:layout_constraintVertical_weight="0.5"
+            app:radius="8dp"
+            tools:src="@drawable/game_card_bg_basketball" />
+
+        <com.superapps.view.RoundImageView
+            android:id="@+id/card_img_bottom_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="0.5"
+            app:layout_constraintStart_toEndOf="@+id/card_img_bottom_left"
+            app:layout_constraintTop_toBottomOf="@+id/card_img_top_right"
+            app:layout_constraintVertical_weight="0.5"
+            app:radius="8dp"
+            tools:src="@drawable/game_card_bg_basketball" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.percent.PercentRelativeLayout>
