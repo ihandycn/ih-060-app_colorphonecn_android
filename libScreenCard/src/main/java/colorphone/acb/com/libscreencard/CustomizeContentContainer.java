@@ -347,6 +347,8 @@ public class CustomizeContentContainer extends FrameLayout {
             CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Gif_Card_Show");
             return gifCard;
         }
+
+        GameCardHelper.debugToast(type.name(), "Autopilot disabled");
         return null;
     }
 
@@ -360,6 +362,7 @@ public class CustomizeContentContainer extends FrameLayout {
         if (type == ContentType.FM_GAME) {
             long lastShowTime = Preferences.get(CardConfig.CARD_MODULE_PREFS).getLong(CardConfig.PREF_KEY_FM_GAME_SHOW_TIME, 0);
             if (System.currentTimeMillis() - lastShowTime < CardConfig.GAME_FM_SHOW_INTERVAL_MIN_HOUR * DateUtils.HOUR_IN_MILLIS) {
+                GameCardHelper.debugToast(type.name(), "Time interval valid");
                 return false;
             }
             return Networks.isNetworkAvailable(-1);
@@ -367,10 +370,14 @@ public class CustomizeContentContainer extends FrameLayout {
         } else if (type == ContentType.GAME) {
             long lastShowTime = Preferences.get(CardConfig.CARD_MODULE_PREFS).getLong(CardConfig.PREF_KEY_GAME_SHOW_TIME, 0);
             if (System.currentTimeMillis() - lastShowTime < CardConfig.GAME_SHOW_INTERVAL_MIN_HOUR * DateUtils.HOUR_IN_MILLIS) {
+                GameCardHelper.debugToast(type.name(), "Time interval valid");
                 return false;
             }
 
             boolean isGameCached = GameManager.getInstance().isGameReady();
+            if (!isGameCached) {
+                GameCardHelper.debugToast(type.name(), "game Zip not cached");
+            }
             boolean isNetworkAvailable = Networks.isNetworkAvailable(-1);
 
             return isNetworkAvailable && isGameCached;
@@ -378,6 +385,8 @@ public class CustomizeContentContainer extends FrameLayout {
 
             boolean cached = GifCacheUtils.haveValidCached();
             HSLog.d(TAG, "Gif valid: " + (cached));
+            GameCardHelper.debugToast(type.name(), "Gif not cached");
+
             return cached;
         }
         return false;

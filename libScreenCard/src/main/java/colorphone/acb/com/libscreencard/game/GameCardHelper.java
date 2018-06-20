@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
@@ -49,7 +50,10 @@ public class GameCardHelper {
                 gameItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        AutoPilotUtils.logFmCardClick();
                         GameManager.getInstance().startGame(gameInfo);
+                        CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_FM_Game_Card_Clicked",
+                                "GameName", gameInfos.get(0).getTitle(), "CardType", "FourInOne");
                     }
                 });
                 Glide.with(context).asBitmap()
@@ -57,11 +61,18 @@ public class GameCardHelper {
                         .into(gameItem);
 
             }
+
+            AutoPilotUtils.gameShow();
+            CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_FM_Game_Card_Show",
+                    "GameName", gameInfos.get(0).getTitle(), "CardType", "FourInOne");
+
+            return gameCard;
+
         } else {
+            debugToast("fmGame-4in1", "game pic loading");
             GameManager.getInstance().prepareRandomGames();
         }
-
-        return gameCard;
+        return null;
     }
 
     public static View getOneCardGameView(Context context, Runnable dismissRunnable, boolean fmGame) {
@@ -70,23 +81,29 @@ public class GameCardHelper {
             List<AcbH5GameInfo> randomGames = GameManager.getInstance().getRandomGames();
             if (randomGames.isEmpty()) {
                 GameManager.getInstance().prepareRandomGames();
+                debugToast("fmGame", "game pic loading");
                 return null;
             }
             gameInfo = randomGames.get(0);
         }
+        final AcbH5GameInfo game = gameInfo;
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Clicked");
                 if (fmGame) {
                     AutoPilotUtils.logFmCardClick();
+                    GameManager.getInstance().startGame(game);
+                    CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_FM_Game_Card_Clicked",
+                            "GameName", game.getTitle(), "CardType", "One");
                 } else {
                     AutoPilotUtils.gameClick();
+                    GameManager.getInstance().startGame();
+                    CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Clicked");
+
                 }
                 if (dismissRunnable != null) {
                     dismissRunnable.run();
                 }
-                GameManager.getInstance().startGame();
             }
         };
 
@@ -119,10 +136,21 @@ public class GameCardHelper {
         gameCard.findViewById(R.id.container_view).setOnClickListener(clickListener);
         if (fmGame) {
             AutoPilotUtils.gameShow();
+            CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_FM_Game_Card_Show",
+                    "GameName", game.getTitle(), "CardType", "One");
+
         } else {
             AutoPilotUtils.logFmCardShow();
+            CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Show");
+
         }
-        CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Show");
         return gameCard;
+    }
+
+    public static String DEBUG_MSG;
+
+    public static void debugToast(String type, String reason) {
+        DEBUG_MSG = "Card View type =  " + type + "; " + reason;
+        HSLog.e("ChargingCard", DEBUG_MSG);
     }
 }
