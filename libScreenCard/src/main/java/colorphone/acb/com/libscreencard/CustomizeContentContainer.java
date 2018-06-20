@@ -295,7 +295,7 @@ public class CustomizeContentContainer extends FrameLayout {
     private View getCurrentContent(Enum type) {
         CardCustomConfig.getLogger().logEvent("RecommendCard_Show", "Type", type.name());
 
-        Runnable dimissRunnable = new Runnable() {
+        Runnable dismissRunnable = new Runnable() {
             @Override
             public void run() {
                 CustomizeContentContainer.this.dismiss();
@@ -303,11 +303,11 @@ public class CustomizeContentContainer extends FrameLayout {
         };
         if (type == ContentType.FM_GAME && AutoPilotUtils.fmCardEnable()) {
            return AutoPilotUtils.isFmCardFouInOneType() ?
-                   GameCardHelper.getFourInOneView(getContext())
-                   : GameCardHelper.getOneCardGameView(getContext(), dimissRunnable, true);
+                   GameCardHelper.getFourInOneView(getContext(), dismissRunnable)
+                   : GameCardHelper.getOneCardGameView(getContext(), dismissRunnable, true);
         } else if (type == ContentType.GAME && AutoPilotUtils.gameCardEnable()) {
             GameManager.getInstance().prepareRandomGames();
-            return GameCardHelper.getOneCardGameView(getContext(), dimissRunnable, false);
+            return GameCardHelper.getOneCardGameView(getContext(), dismissRunnable, false);
         } else if (type == ContentType.GIF && AutoPilotUtils.gifCardEnable()) {
 
             View gifCard = View.inflate(getContext(), R.layout.sc_layout_card_gif, null);

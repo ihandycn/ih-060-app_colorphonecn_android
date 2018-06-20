@@ -30,7 +30,7 @@ import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 
 public class GameCardHelper {
 
-    public static View getFourInOneView(Context context) {
+    public static View getFourInOneView(Context context, Runnable dismissRunnable) {
         View gameCard = View.inflate(context, R.layout.sc_layout_card_game_four, null);
         gameCard.findViewById(R.id.container_view).setBackgroundDrawable(
                 BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#44ecf3fd"), Dimensions.pxFromDp(8), false));
@@ -54,6 +54,9 @@ public class GameCardHelper {
                         GameManager.getInstance().startGame(gameInfo);
                         CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_FM_Game_Card_Clicked",
                                 "GameName", gameInfos.get(0).getTitle(), "CardType", "FourInOne");
+                        if (dismissRunnable != null) {
+                            dismissRunnable.run();
+                        }
                     }
                 });
                 Glide.with(context).asBitmap()
