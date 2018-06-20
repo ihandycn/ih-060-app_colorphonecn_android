@@ -6,10 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Outline;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -17,13 +14,9 @@ import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewOutlineProvider;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
@@ -33,11 +26,7 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Networks;
 import com.superapps.util.Preferences;
 
-import net.appcloudbox.h5game.AcbH5GameInfo;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import colorphone.acb.com.libscreencard.game.GameCardHelper;
 import colorphone.acb.com.libscreencard.game.GameManager;
 import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 import colorphone.acb.com.libscreencard.gif.CardConfig;
@@ -63,6 +52,7 @@ public class CustomizeContentContainer extends FrameLayout {
     public enum ContentType {
         GAME,
         GIF,
+        FM_GAME,
     }
 
     private ContentType mCurrentType;
@@ -89,7 +79,7 @@ public class CustomizeContentContainer extends FrameLayout {
         setClipChildren(false);
         initAnim();
         initAutopilotData();
-        GameManager.getInstance().prepare();
+        GameManager.getInstance().init();
     }
 
     @Override
@@ -263,6 +253,8 @@ public class CustomizeContentContainer extends FrameLayout {
         addView(currentContent, lp);
         if (type == ContentType.GAME) {
             Preferences.get(CardConfig.CARD_MODULE_PREFS).putLong(CardConfig.PREF_KEY_GAME_SHOW_TIME, System.currentTimeMillis());
+        } else if (type == ContentType.FM_GAME) {
+            Preferences.get(CardConfig.CARD_MODULE_PREFS).putLong(CardConfig.PREF_KEY_FM_GAME_SHOW_TIME, System.currentTimeMillis());
         }
 
         if (mRiseAnimator.isRunning()) {
@@ -303,78 +295,19 @@ public class CustomizeContentContainer extends FrameLayout {
     private View getCurrentContent(Enum type) {
         CardCustomConfig.getLogger().logEvent("RecommendCard_Show", "Type", type.name());
 
-        // TODO four-in-one card
-        if (true) {
-            View gameCard = View.inflate(getContext(), R.layout.sc_layout_card_game_four, null);
-             gameCard.findViewById(R.id.container_view).setBackgroundDrawable(
-                     BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#44ecf3fd"), Dimensions.pxFromDp(8), false));
-
-            List<ImageView> views = new ArrayList<>(4);
-            views.add(gameCard.findViewById(R.id.card_img_top_left));
-            views.add(gameCard.findViewById(R.id.card_img_top_right));
-            views.add(gameCard.findViewById(R.id.card_img_bottom_left));
-            views.add(gameCard.findViewById(R.id.card_img_bottom_right));
-
-            boolean gamesReady = GameManager.getInstance().isRandomGamesReady();
-            if (gamesReady) {
-                final List<AcbH5GameInfo> gameInfos = GameManager.getInstance().getRandomGames();
-                for (int i = 0; i < 4; i++) {
-                    final AcbH5GameInfo gameInfo = gameInfos.get(i);
-                    ImageView gameItem = views.get(i);
-                    gameItem.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            GameManager.getInstance().startGame(gameInfo);
-                        }
-                    });
-                    Glide.with(getContext()).asBitmap()
-                            .load(gameInfo.getLargePictureURL())
-                            .into(gameItem);
-
-                }
-            } else {
-                GameManager.getInstance().prepareRandomGames();
+        Runnable dimissRunnable = new Runnable() {
+            @Override
+            public void run() {
+                CustomizeContentContainer.this.dismiss();
             }
-
-            return gameCard;
-
+        };
+        if (type == ContentType.FM_GAME && AutoPilotUtils.fmCardEnable()) {
+           return AutoPilotUtils.isFmCardFouInOneType() ?
+                   GameCardHelper.getFourInOneView(getContext())
+                   : GameCardHelper.getOneCardGameView(getContext(), dimissRunnable, true);
         } else if (type == ContentType.GAME && AutoPilotUtils.gameCardEnable()) {
-            View.OnClickListener clickListener = new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AutoPilotUtils.gameClick();
-                    CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Clicked");
-
-                    CustomizeContentContainer.this.dismiss();
-                    GameManager.getInstance().startGame();
-                }
-            };
-
-            View gameCard = View.inflate(getContext(), R.layout.sc_layout_card_game_issue_custom, null);
-            ImageView imageView = gameCard.findViewById(R.id.card_img_top_left);
-            TextView titleTv = gameCard.findViewById(R.id.security_protection_card_game_issue_title);
-            TextView subTitleTv = gameCard.findViewById(R.id.security_protection_card_game_issue_subtitle);
-            imageView.setImageResource(R.drawable.game_card_bg_basketball);
-            AcbH5GameInfo gameInfo = GameManager.getInstance().getBasketBallInfo();
-            // Use local for test.
-            titleTv.setText(getContext().getString(R.string.game_card_title));
-            subTitleTv.setText(getContext().getString(R.string.game_card_desc));
-            View playButton = gameCard.findViewById(R.id.security_protection_game_issue_btn);
-            playButton.setOnClickListener(clickListener);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                playButton.setOutlineProvider(new ViewOutlineProvider() {
-                    @Override
-                    public void getOutline(View view, Outline outline) {
-                        outline.setRoundRect(new Rect(0, (int) (0.1f * view.getHeight()),view.getWidth(),view.getHeight()), view.getHeight() / 2);
-                    }
-                });
-            }
-
-            gameCard.findViewById(R.id.container_view).setOnClickListener(clickListener);
-            AutoPilotUtils.gameShow();
-            CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Show");
-            return gameCard;
-
+            GameManager.getInstance().prepareRandomGames();
+            return GameCardHelper.getOneCardGameView(getContext(), dimissRunnable, false);
         } else if (type == ContentType.GIF && AutoPilotUtils.gifCardEnable()) {
 
             View gifCard = View.inflate(getContext(), R.layout.sc_layout_card_gif, null);
@@ -424,25 +357,28 @@ public class CustomizeContentContainer extends FrameLayout {
     }
 
     private boolean validType(Enum type) {
-        if (type == ContentType.GAME) {
+        if (type == ContentType.FM_GAME) {
+            long lastShowTime = Preferences.get(CardConfig.CARD_MODULE_PREFS).getLong(CardConfig.PREF_KEY_FM_GAME_SHOW_TIME, 0);
+            if (System.currentTimeMillis() - lastShowTime < CardConfig.GAME_FM_SHOW_INTERVAL_MIN_HOUR * DateUtils.HOUR_IN_MILLIS) {
+                return false;
+            }
+            return Networks.isNetworkAvailable(-1);
+
+        } else if (type == ContentType.GAME) {
             long lastShowTime = Preferences.get(CardConfig.CARD_MODULE_PREFS).getLong(CardConfig.PREF_KEY_GAME_SHOW_TIME, 0);
             if (System.currentTimeMillis() - lastShowTime < CardConfig.GAME_SHOW_INTERVAL_MIN_HOUR * DateUtils.HOUR_IN_MILLIS) {
                 return false;
             }
 
             boolean isGameCached = GameManager.getInstance().isGameReady();
-
-            boolean isAutopilotSatisfied = mAutopilotRecommendCardType == AutopilotRecommendCard.GAME ||
-                    mAutopilotRecommendCardType == AutopilotRecommendCard.ALL;
             boolean isNetworkAvailable = Networks.isNetworkAvailable(-1);
 
-            return isAutopilotSatisfied && isNetworkAvailable && isGameCached;
+            return isNetworkAvailable && isGameCached;
         } else if (type == ContentType.GIF) {
-            boolean isAutopilotSatisfied = mAutopilotRecommendCardType == AutopilotRecommendCard.ALL
-                    || mAutopilotRecommendCardType == AutopilotRecommendCard.GIF;
+
             boolean cached = GifCacheUtils.haveValidCached();
-            HSLog.d(TAG, "Gif valid: " + (cached && isAutopilotSatisfied));
-            return cached && isAutopilotSatisfied;
+            HSLog.d(TAG, "Gif valid: " + (cached));
+            return cached;
         }
         return false;
     }

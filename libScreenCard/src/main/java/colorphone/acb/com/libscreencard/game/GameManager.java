@@ -35,6 +35,7 @@ public class GameManager {
     private static final java.lang.String TAG = "GameManager";
     private static final String AD_NAME = "Game";
     private static final String AD_REWARD_NAME = "Reward";
+    private static final int CARD_NUM = 4;
 
     private final List<AcbH5GameInfo> mRandomGames = new ArrayList<>(4);
 
@@ -54,6 +55,7 @@ public class GameManager {
         HSLog.d(TAG, "startGame : " + gameInfo.getTitle() + ", id = " + gameInfo.getGameID());
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(AD_NAME);
         AcbRewardAdManager.getInstance().activePlacementInProcess(AD_REWARD_NAME);
+        boolean original = gameInfo.isOriginal();
 
         new AcbH5GamePlay(HSApplication.getContext(), gameInfo)
                 .setInterstitialAdPlacement(AD_NAME)
@@ -68,7 +70,11 @@ public class GameManager {
                     @Override
                     public void onAdDisplayed(String s) {
                         if (AD_NAME.equals(s)) {
-                            AutoPilotUtils.logGameExpressAdShow();
+                            if (original) {
+                                AutoPilotUtils.logFmGameExpressAdShow();
+                            } else {
+                                AutoPilotUtils.logGameExpressAdShow();
+                            }
                         } else if (AD_REWARD_NAME.equals(s)) {
                             AutoPilotUtils.logGameRewardAdShow();
                         }
@@ -116,9 +122,9 @@ public class GameManager {
     }
 
 
-    public void prepare() {
+    public void init() {
         HSLog.d(TAG, "start obtain game list ...");
-        if (mLoading || mBasketBallInfo != null) {
+        if (mLoading || mBasketBallInfo != null || gameHasPicPool.size() > 0) {
             return;
         }
         mLoading = true;
@@ -126,7 +132,10 @@ public class GameManager {
 
             @Override
             public void onSuccess(@NonNull AcbH5GameInfoResponse acbH5GameInfoResponse) {
-                findBasketballGame( acbH5GameInfoResponse.getItems());
+                AcbH5GameInfo[] gameInfos = acbH5GameInfoResponse.getItems();
+
+                findBasketballGame(gameInfos);
+                confirmGameHasPicList(gameInfos);
                 mLoading = false;
                 cache();
             }
@@ -141,52 +150,45 @@ public class GameManager {
 
     public void prepareRandomGames() {
         HSLog.d(TAG, "prepare random games");
-        if (gameHasPicPool.size() > 0) {
-            confirmGameList();
+        if (gameHasPicPool.isEmpty()) {
+            HSLog.e("gameHasPicPool is empty!");
             return;
         }
-        new AcbH5GameInfoRequest().startForFirstPage(false, new AcbH5ResponseListener<AcbH5GameInfoResponse>() {
-            @Override
-            public void onSuccess(@NonNull AcbH5GameInfoResponse acbH5GameInfoResponse) {
-                AcbH5GameInfo[] gameInfos = acbH5GameInfoResponse.getItems();
-                for (AcbH5GameInfo gameInfo : gameInfos) {
-                    if (!TextUtils.isEmpty(gameInfo.getLargePictureURL())
-                            && !TextUtils.equals(BasketBallId, gameInfo.getGameID())) {
-                        gameHasPicPool.add(gameInfo);
-                    }
-                }
-                confirmGameList();
-            }
-
-            @Override
-            public void onFailure(@NonNull AcbH5Error acbH5Error) {
-                HSLog.e(TAG, acbH5Error.getMessage());
-            }
-        });
-    }
-
-    private void confirmGameList() {
-        int[] gameIndexList = randomCommon(0, gameHasPicPool.size() - 1, 4);
+        int[] gameIndexList = randomCommon(0, gameHasPicPool.size() - 1, CARD_NUM);
         mRandomGames.clear();
+        if (gameIndexList.length != CARD_NUM) {
+            throw new IllegalStateException("game random size error.");
+        }
         for (int index : gameIndexList) {
             HSLog.d(TAG, "random games index: " + index);
             AcbH5GameInfo gameInfo = gameHasPicPool.get(index);
-            downloadPic(gameInfo);
+            downloadPic(index, gameInfo);
         }
     }
 
-    private void downloadPic(AcbH5GameInfo gameInfo) {
+    private void confirmGameHasPicList(AcbH5GameInfo[] gameInfos) {
+        for (AcbH5GameInfo gameInfo : gameInfos) {
+            if (!TextUtils.isEmpty(gameInfo.getLargePictureURL())
+                    && !TextUtils.equals(BasketBallId, gameInfo.getGameID())) {
+                gameHasPicPool.add(gameInfo);
+            }
+        }
+    }
+
+    private void downloadPic(int index, AcbH5GameInfo gameInfo) {
         Glide.with(HSApplication.getContext()).downloadOnly().load(gameInfo.getLargePictureURL()).into(new SimpleTarget<File>() {
             @Override
             public void onResourceReady(File resource, Transition<? super File> transition) {
                 HSLog.d(TAG, "gameInfo pic download : " + gameInfo.getTitle());
-                mRandomGames.add(gameInfo);
+                if (mRandomGames.size() < CARD_NUM) {
+                    mRandomGames.add(gameInfo);
+                }
             }
         });
     }
 
     public List<AcbH5GameInfo> getRandomGames() {
-        return mRandomGames;
+        return new ArrayList<>(mRandomGames);
     }
 
     public boolean isRandomGamesReady() {
