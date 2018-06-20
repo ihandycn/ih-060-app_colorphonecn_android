@@ -26,6 +26,32 @@
   ],
   "service_url": "https://ap.appcloudbox.net",
   "topics": {
+    "topic-1510752104742": {
+      "topic_type": "one_time",
+      "topic_name": "Notification Access System Page Enable Rate",
+      "variations": {
+        "guide_type": {
+          "type": "string",
+          "value": "middle"
+        },
+        "show_animation": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "colorphone_system_settings_notification_alert_show"
+        },
+        {
+          "name": "colorphone_notification_access_enable"
+        }
+      ],
+      "topic_id": "topic-1510752104742"
+    },
     "topic-1528196849816-295": {
       "topic_type": "life_time",
       "topic_name": "Charing Card Test",
@@ -39,6 +65,10 @@
           "value": true
         },
         "game_card_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "fm_game_card_enable": {
           "type": "boolean",
           "value": true
         }
@@ -73,6 +103,15 @@
         },
         {
           "name": "game_reward_ad_show"
+        },
+        {
+          "name": "charging_fm_game_card_show"
+        },
+        {
+          "name": "charging_fm_game_card_click"
+        },
+        {
+          "name": "fm_game_interstitial_ad_show"
         }
       ],
       "topic_id": "topic-1528196849816-295"
@@ -122,25 +161,13 @@
       ],
       "topic_id": "topic-rp-1525855411425-9"
     },
-    "topic-1512822231846-17": {
-      "topic_type": "life_time",
-      "topic_name": "Charging Test",
+    "topic-1528955961310-328": {
+      "topic_type": "one_time",
+      "topic_name": "Charing Game Card Click Rate",
       "variations": {
-        "charging_lockscreen_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "chargingreport_oncharger_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "charging_report_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "chargingreport_offcharger_enable": {
-          "type": "boolean",
-          "value": true
+        "game_card_type": {
+          "type": "string",
+          "value": "One"
         }
       },
       "events": [
@@ -148,10 +175,13 @@
           "name": "test"
         },
         {
-          "name": "chargingreport_view_show"
+          "name": "fm_game_card_show"
+        },
+        {
+          "name": "fm_game_card_clicked"
         }
       ],
-      "topic_id": "topic-1512822231846-17"
+      "topic_id": "topic-1528955961310-328"
     },
     "topic-1505294061097": {
       "topic_type": "life_time",
@@ -521,17 +551,25 @@
       ],
       "topic_id": "topic-1512815797473-16"
     },
-    "topic-1510752104742": {
-      "topic_type": "one_time",
-      "topic_name": "Notification Access System Page Enable Rate",
+    "topic-1512822231846-17": {
+      "topic_type": "life_time",
+      "topic_name": "Charging Test",
       "variations": {
-        "guide_type": {
-          "type": "string",
-          "value": "middle"
-        },
-        "show_animation": {
+        "charging_lockscreen_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
+        },
+        "chargingreport_oncharger_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "charging_report_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "chargingreport_offcharger_enable": {
+          "type": "boolean",
+          "value": true
         }
       },
       "events": [
@@ -539,13 +577,10 @@
           "name": "test"
         },
         {
-          "name": "colorphone_system_settings_notification_alert_show"
-        },
-        {
-          "name": "colorphone_notification_access_enable"
+          "name": "chargingreport_view_show"
         }
       ],
-      "topic_id": "topic-1510752104742"
+      "topic_id": "topic-1512822231846-17"
     },
     "topic-1510751463187": {
       "topic_type": "life_time",

@@ -21,6 +21,10 @@ public class AutoPilotUtils {
         AutopilotEvent.logTopicEvent(TOPIC, "game_interstitial_ad_show");
     }
 
+    public static void logFmGameExpressAdShow() {
+        AutopilotEvent.logTopicEvent(TOPIC, "fm_game_interstitial_ad_show");
+    }
+
     public static void logGameRewardAdShow() {
         AutopilotEvent.logTopicEvent(TOPIC, "game_reward_ad_show");
     }
@@ -63,7 +67,31 @@ public class AutoPilotUtils {
         return AutopilotConfig.getBooleanToTestNow(TOPIC, "game_card_enable", false);
     }
 
+    public static boolean fmCardEnable() {
+        return AutopilotConfig.getBooleanToTestNow(TOPIC, "fm_game_card_enable", false);
+    }
+
     public static boolean gifCardEnable() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC, "gif_card_enable", false);
     }
+
+    public static final String TOPIC_FM = "topic-1528955961310-328";
+
+    // FM-Game test
+    public static boolean isFmCardFouInOneType() {
+        String type = AutopilotConfig.getStringToTestNow(TOPIC_FM, "game_card_type", "One");
+        return "FourInOne".equals(type);
+    }
+
+    public static void logFmCardShow() {
+        AutopilotEvent.logTopicEvent(TOPIC, "charging_fm_game_card_show");
+        AutopilotEvent.logTopicEvent(TOPIC_FM, "fm_game_card_show");
+    }
+
+    public static void logFmCardClick() {
+        AutopilotEvent.logTopicEvent(TOPIC, "charging_fm_game_card_click");
+        AutopilotEvent.logTopicEvent(TOPIC_FM, "fm_game_card_clicked");
+    }
+
+
 }
