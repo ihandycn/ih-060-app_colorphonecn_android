@@ -65,7 +65,7 @@ public class GameCardHelper {
 
             }
 
-            AutoPilotUtils.gameShow();
+            AutoPilotUtils.logFmCardShow();
             CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_FM_Game_Card_Show",
                     "GameName", gameInfos.get(0).getTitle(), "CardType", "FourInOne");
 
@@ -138,12 +138,11 @@ public class GameCardHelper {
 
         gameCard.findViewById(R.id.container_view).setOnClickListener(clickListener);
         if (fmGame) {
-            AutoPilotUtils.gameShow();
+            AutoPilotUtils.logFmCardShow();
             CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_FM_Game_Card_Show",
                     "GameName", game.getTitle(), "CardType", "One");
-
         } else {
-            AutoPilotUtils.logFmCardShow();
+            AutoPilotUtils.gameShow();
             CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Show");
 
         }
