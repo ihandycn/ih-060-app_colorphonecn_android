@@ -551,7 +551,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         customizeContentContainer.addCardDisplayListener(new CustomizeContentContainer.CardDisplayListener() {
             @Override
             public void onCardDisplay(int type) {
-                mRootView.findViewById(R.id.charge_state_container).setVisibility(View.GONE);
+                mRootView.findViewById(R.id.charging_tip_container).setVisibility(View.GONE);
             }
         });
         chargingBubbleView = (ChargingBubbleView) mRootView.findViewById(R.id.charging_screen_bubble_view);
