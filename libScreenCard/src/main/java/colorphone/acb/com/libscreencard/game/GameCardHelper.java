@@ -73,7 +73,6 @@ public class GameCardHelper {
 
         } else {
             debugToast("fmGame-4in1", "game pic loading");
-            GameManager.getInstance().prepareRandomGames();
         }
         return null;
     }
@@ -83,7 +82,6 @@ public class GameCardHelper {
         if (fmGame) {
             List<AcbH5GameInfo> randomGames = GameManager.getInstance().getRandomGames();
             if (randomGames.isEmpty()) {
-                GameManager.getInstance().prepareRandomGames();
                 debugToast("fmGame", "game pic loading");
                 return null;
             }

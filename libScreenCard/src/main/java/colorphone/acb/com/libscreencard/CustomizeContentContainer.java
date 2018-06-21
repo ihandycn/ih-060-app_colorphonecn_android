@@ -302,9 +302,13 @@ public class CustomizeContentContainer extends FrameLayout {
             }
         };
         if (type == ContentType.FM_GAME && AutoPilotUtils.fmCardEnable()) {
-           return AutoPilotUtils.isFmCardFouInOneType() ?
+           View cardView = AutoPilotUtils.isFmCardFouInOneType() ?
                    GameCardHelper.getFourInOneView(getContext(), dismissRunnable)
                    : GameCardHelper.getOneCardGameView(getContext(), dismissRunnable, true);
+
+            GameManager.getInstance().prepareRandomGames();
+
+            return cardView;
         } else if (type == ContentType.GAME && AutoPilotUtils.gameCardEnable()) {
             GameManager.getInstance().prepareRandomGames();
             return GameCardHelper.getOneCardGameView(getContext(), dismissRunnable, false);

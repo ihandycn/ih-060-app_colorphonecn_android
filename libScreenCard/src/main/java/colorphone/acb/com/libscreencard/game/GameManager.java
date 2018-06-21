@@ -22,7 +22,9 @@ import net.appcloudbox.h5game.AcbH5ResponseListener;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import colorphone.acb.com.libscreencard.CardCustomConfig;
 import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
@@ -37,7 +39,7 @@ public class GameManager {
     private static final String AD_REWARD_NAME = "Reward";
     private static final int CARD_NUM = 4;
 
-    private final List<AcbH5GameInfo> mRandomGames = new ArrayList<>(4);
+    private final Set<AcbH5GameInfo> mRandomGames = new HashSet<>(4);
 
     private static String BasketBallId = "1";
 
