@@ -62,7 +62,7 @@
         },
         "charging_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "game_card_enable": {
           "type": "boolean",
