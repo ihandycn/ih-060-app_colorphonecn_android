@@ -72,7 +72,7 @@ public class GameManager {
                     @Override
                     public void onAdDisplayed(String s) {
                         if (AD_NAME.equals(s)) {
-                            if (original) {
+                            if (!original) {
                                 AutoPilotUtils.logFmGameExpressAdShow();
                             } else {
                                 AutoPilotUtils.logGameExpressAdShow();
