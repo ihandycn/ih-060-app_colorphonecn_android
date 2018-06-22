@@ -22,6 +22,7 @@ import net.appcloudbox.h5game.AcbH5ResponseListener;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -156,14 +157,11 @@ public class GameManager {
             HSLog.e("gameHasPicPool is empty!");
             return;
         }
-        int[] gameIndexList = randomCommon(0, gameHasPicPool.size() - 1, CARD_NUM);
+        Collections.shuffle(gameHasPicPool);
         mRandomGames.clear();
-        if (gameIndexList.length != CARD_NUM) {
-            throw new IllegalStateException("game random size error.");
-        }
-        for (int index : gameIndexList) {
+        for (int index = 0; index < CARD_NUM; index++) {
+            AcbH5GameInfo gameInfo = (AcbH5GameInfo) gameHasPicPool.get(index);
             HSLog.d(TAG, "random games index: " + index);
-            AcbH5GameInfo gameInfo = gameHasPicPool.get(index);
             downloadPic(index, gameInfo);
         }
     }
@@ -190,34 +188,11 @@ public class GameManager {
     }
 
     public List<AcbH5GameInfo> getRandomGames() {
-        return new ArrayList<>(mRandomGames);
+        return new ArrayList<>(gameHasPicPool.subList(0, CARD_NUM));
     }
 
     public boolean isRandomGamesReady() {
         return mRandomGames.size() == 4;
-    }
-
-    public static int[] randomCommon(int min, int max, int n){
-        if (n > (max - min + 1) || max < min) {
-            throw new IllegalStateException("random min max value invalid");
-        }
-        int[] result = new int[n];
-        int count = 0;
-        while(count < n) {
-            int num = (int) (Math.random() * (max - min)) + min;
-            boolean flag = true;
-            for (int j = 0; j < n; j++) {
-                if(num == result[j]){
-                    flag = false;
-                    break;
-                }
-            }
-            if(flag){
-                result[count] = num;
-                count++;
-            }
-        }
-        return result;
     }
 
     private void findBasketballGame(AcbH5GameInfo[] items) {
