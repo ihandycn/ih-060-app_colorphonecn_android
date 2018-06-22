@@ -108,7 +108,8 @@ public class GameCardHelper {
             }
         };
 
-        View gameCard = View.inflate(context, R.layout.sc_layout_card_game_issue_custom, null);
+        View gameCard = View.inflate(context,
+                fmGame ? R.layout.sc_layout_card_game_fm : R.layout.sc_layout_card_game_issue_custom, null);
         ImageView imageView = gameCard.findViewById(R.id.card_img_top_left);
         TextView titleTv = gameCard.findViewById(R.id.security_protection_card_game_issue_title);
         TextView subTitleTv = gameCard.findViewById(R.id.security_protection_card_game_issue_subtitle);
