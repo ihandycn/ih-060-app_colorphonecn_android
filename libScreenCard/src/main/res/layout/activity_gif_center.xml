@@ -35,7 +35,7 @@
         android:layout_below="@id/title"
         android:layout_marginTop="14dp"
         android:clipChildren="false"
-        app:aspectRatio="1.25">
+        app:aspectRatio="1.6">
 
         <com.superapps.view.ViewPagerFixed
             android:id="@+id/vp"
