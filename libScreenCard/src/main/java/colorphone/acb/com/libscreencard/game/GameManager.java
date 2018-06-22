@@ -188,6 +188,9 @@ public class GameManager {
     }
 
     public List<AcbH5GameInfo> getRandomGames() {
+        if (gameHasPicPool.isEmpty()) {
+            return Collections.EMPTY_LIST;
+        }
         return new ArrayList<>(gameHasPicPool.subList(0, CARD_NUM));
     }
 
