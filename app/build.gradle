@@ -25,7 +25,7 @@ android {
         }
         colorflash {
             applicationId "com.app.phone.call.flash.screen"
-            versionCode 4
+            versionCode 5
             versionName "1.0.3"
         }
     }
