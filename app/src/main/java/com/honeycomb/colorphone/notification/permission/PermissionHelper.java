@@ -62,6 +62,7 @@ public class PermissionHelper {
             if (needShowTip) {
                 String hintTxt = HSApplication.getContext().getString(R.string.draw_overlay_window_hint);
                 FloatWindowController.getInstance().createUsageAccessTip(HSApplication.getContext(), hintTxt);
+                LauncherAnalytics.logEvent("Colorphone_SystemFloatWindowAccessView_Show", "from", eventSource.getName());
             }
             FloatWindowManager.getInstance().applyPermission(HSApplication.getContext());
         }
@@ -143,6 +144,8 @@ public class PermissionHelper {
 
                 if (hasPermission) {
                     HSGlobalNotificationCenter.sendNotification(NOTIFY_OVERLAY_PERMISSION_GRANTED);
+                    LauncherAnalytics.logEvent("Colorphone_FloatWindow_Access_Enabled", "from", source.getName());
+
                     if (requestNotification) {
                         requestNotificationAccessIfNeeded(source, null);
                     }
