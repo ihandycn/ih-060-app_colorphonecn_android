@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
-import com.honeycomb.colorphone.notification.permission.PermissionUtils;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -89,13 +88,9 @@ public class NotificationAccessGuideAlertActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Class parentClass = ColorPhoneActivity.class;
-                if (parentClass != null) {
-                    PermissionHelper.requestNotificationPermission(parentClass, NotificationAccessGuideAlertActivity.this, true, new Handler(),
-                            isFirstSession ? "firstLaunch" : (insideApp ? "insideApp" : "outsideApp"));
-                } else {
-                    PermissionUtils.requestNotificationPermission(NotificationAccessGuideAlertActivity.this, true, new Handler(),
-                            isFirstSession ? "firstLaunch" : (insideApp ? "insideApp" : "outsideApp"));
-                }
+                PermissionHelper.requestNotificationPermission(parentClass, NotificationAccessGuideAlertActivity.this, true, new Handler(),
+                        isFirstSession ? "firstLaunch" : (insideApp ? "insideApp" : "outsideApp"));
+
                 onOpenPermissionSettings(insideApp, isFirstSession);
                 finish();
                 onEnableClick(insideApp, isFirstSession);

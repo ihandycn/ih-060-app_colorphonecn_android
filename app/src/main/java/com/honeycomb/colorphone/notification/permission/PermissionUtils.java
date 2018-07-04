@@ -34,10 +34,10 @@ public class PermissionUtils {
         return false;
     }
 
-    public static void requestNotificationPermission(final Activity activity, boolean recordGrantedFlurry, Handler handler, final String fromType) {
+    public static void requestNotificationPermission(final Activity lifeObserverActivity, boolean recordGrantedFlurry, Handler handler, final String fromType) {
         Navigations.startActivitySafely(HSApplication.getContext(), getNotificationPermissionIntent(true));
-        if (activity != null) {
-            showAccessGuideOnActivityStop(activity);
+        if (lifeObserverActivity != null) {
+            showAccessGuideOnActivityStop(lifeObserverActivity);
         } else {
             FloatWindowController.getInstance().createUsageAccessTip(HSApplication.getContext());
         }

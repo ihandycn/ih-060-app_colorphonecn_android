@@ -42,6 +42,7 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.notification.permission.PermissionUtils;
+import com.honeycomb.colorphone.permission.FloatWindowManager;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
@@ -50,6 +51,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
@@ -249,6 +251,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
+        HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, this);
+        HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
         Button avatar = findViewById(R.id.avatar_btn);
@@ -478,8 +482,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_GIF, 2);
 
         // Header
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-                && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this)) {
+        updatePermissionHeader();
+    }
+
+    private void updatePermissionHeader() {
+        boolean notificationNotGranted = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this);
+        boolean overlayNotGranted = !FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
+        if (notificationNotGranted || overlayNotGranted) {
             mAdapter.setHeaderTipVisible(true);
         } else {
             mAdapter.setHeaderTipVisible(false);
@@ -577,6 +587,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());
             ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
             ColorPhoneApplication.checkChargingReportAdPlacement();
+        } else if (PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED.equals(s)
+                || PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED.equals(s)) {
+            boolean visible = mAdapter.isTipHeaderVisible();
+            updatePermissionHeader();
+            if (visible != mAdapter.isTipHeaderVisible()) {
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 

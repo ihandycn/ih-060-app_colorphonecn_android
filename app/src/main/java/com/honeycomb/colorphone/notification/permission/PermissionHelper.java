@@ -7,6 +7,7 @@ import android.database.ContentObserver;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.acb.utils.Utils;
@@ -29,34 +30,34 @@ import java.util.List;
 public class PermissionHelper {
 
     public static final String NOTIFY_NOTIFICATION_PERMISSION_GRANTED = "notification_permission_grant";
+    public static final String NOTIFY_OVERLAY_PERMISSION_GRANTED = "overlay_permission_grant";
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
 
     private static List<ContentObserver> observers = new ArrayList<>();
     private static Handler sHandler = new Handler(Looper.getMainLooper());
 
-    public static void requestNotificationAccessIfNeeded(@Nullable Activity sourceActivity) {
-        boolean needGuideNotificationPermisson = HSConfig.optBoolean(false,
-                "Application", "NotificationAccess", "GoToAccessPageFromFirstScreen");
+    public static void requestNotificationAccessIfNeeded(@NonNull EventSource eventSource, @Nullable Activity sourceActivity) {
+        boolean needGuideNotificationPermisson = true;
+        if (eventSource == EventSource.FirstScreen) {
+            needGuideNotificationPermisson = HSConfig.optBoolean(false,
+                    "Application", "NotificationAccess", "GoToAccessPageFromFirstScreen");
+        }
         if (needGuideNotificationPermisson && !PermissionUtils.isNotificationAccessGranted(HSApplication.getContext())) {
             PermissionUtils.requestNotificationPermission(sourceActivity, true, new Handler(), "FirstScreen");
-            PermissionHelper.startObservingNotificationPermissionOneTime(new PermissionHelper.OneTimeRunnable() {
-                @Override
-                public void oneTimeRun() {
-                    HSGlobalNotificationCenter.sendNotification(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED);
-                    PermissionHelper.bringActivityToFront(ColorPhoneActivity.class, 0);
-
-                }
-            });
-            LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "FirstScreen");
+            PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class);
+            LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", eventSource.getName());
         }
     }
 
-    public static boolean requestDrawOverlay() {
+    public static boolean requestDrawOverlayIfNeeded(EventSource eventSource) {
         boolean hasPermission = FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
-        boolean request = !hasPermission
-                && HSConfig.optBoolean(true, "Application", "DrawOverlay", "RequestOnFirstScreen");
+        boolean request = !hasPermission;
+        if (eventSource == EventSource.FirstScreen) {
+            request = request && HSConfig.optBoolean(true, "Application", "DrawOverlay", "RequestOnFirstScreen");
+        }
 
         if (request) {
+            // TODO
             boolean needShowTip  = true;
             if (needShowTip) {
                 String hintTxt = HSApplication.getContext().getString(R.string.draw_overlay_window_hint);
@@ -91,9 +92,12 @@ public class PermissionHelper {
         return observer;
     }
 
-    public static void requestNotificationPermission(Class actClass, Activity activity, boolean recordGrantedFlurry, Handler handler, final String fromType) {
-        PermissionUtils.requestNotificationPermission(activity, recordGrantedFlurry, handler, fromType);
-        final Class activityClass = actClass;
+    public static void requestNotificationPermission(Class actClass, Activity lifeObserverActivity, boolean recordGrantedFlurry, Handler handler, final String fromType) {
+        PermissionUtils.requestNotificationPermission(lifeObserverActivity, recordGrantedFlurry, handler, fromType);
+        startObservingNotificationPermissionOneTime(actClass);
+    }
+
+    private static void startObservingNotificationPermissionOneTime(final Class activityClass) {
         ContentObserver observer = startObservingNotificationPermission(new OneTimeRunnable() {
             @Override
             public void oneTimeRun() {
@@ -101,11 +105,6 @@ public class PermissionHelper {
                 bringActivityToFront(activityClass, 0);
             }
         });
-        observers.add(observer);
-    }
-
-    public static void startObservingNotificationPermissionOneTime(Runnable runnable) {
-        ContentObserver observer = startObservingNotificationPermission(runnable);
         observers.add(observer);
     }
 
@@ -129,11 +128,7 @@ public class PermissionHelper {
         requestNotificationPermission(activity.getClass(), activity, recordGrantedFlurry, handler, fromType);
     }
 
-    public static void requestNotificationPermission(Activity activity) {
-        requestNotificationPermission(activity, false, null, null);
-    }
-
-    public static void waitOverlayGranted() {
+    public static void waitOverlayGranted(final EventSource source, final boolean requestNotification) {
         final TagRunnable checker = new TagRunnable() {
             @Override
             public void run() {
@@ -147,7 +142,10 @@ public class PermissionHelper {
                 }
 
                 if (hasPermission) {
-                    requestNotificationAccessIfNeeded(null);
+                    HSGlobalNotificationCenter.sendNotification(NOTIFY_OVERLAY_PERMISSION_GRANTED);
+                    if (requestNotification) {
+                        requestNotificationAccessIfNeeded(source, null);
+                    }
                 }
             }
         };

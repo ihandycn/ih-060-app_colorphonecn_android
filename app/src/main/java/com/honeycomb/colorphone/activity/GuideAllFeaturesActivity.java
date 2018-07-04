@@ -16,6 +16,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
+import com.honeycomb.colorphone.notification.permission.EventSource;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
 import com.honeycomb.colorphone.util.FontUtils;
@@ -72,11 +73,10 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
 
-                if (PermissionHelper.requestDrawOverlay()) {
-                    PermissionHelper.waitOverlayGranted();
-
+                if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.FirstScreen)) {
+                    PermissionHelper.waitOverlayGranted(EventSource.FirstScreen, true);
                 } else {
-                    PermissionHelper.requestNotificationAccessIfNeeded(GuideAllFeaturesActivity.this);
+                    PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
                 }
                 finish();
             }
