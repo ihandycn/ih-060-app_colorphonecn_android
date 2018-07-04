@@ -190,6 +190,9 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
         super.onDestroy();
         sBlurWallpaper = null;
         mExpressLogger.adSessionEnd();
+        if (mGuide != null) {
+            mGuide.cancelSchedule();
+        }
         CardCustomConfig.getLogger().logEvent("Colorphone_Gif_Center_View_Close",
                 "StayTime", "" + mDisplayTime.getTotalTime()/1000,
                 "ShowGifCount", "" + mScrolledCount);
