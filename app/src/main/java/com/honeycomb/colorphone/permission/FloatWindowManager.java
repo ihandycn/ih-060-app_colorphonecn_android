@@ -127,10 +127,10 @@ public class FloatWindowManager {
     }
 
     public void applyPermission(Context context) {
-        if (Build.VERSION.SDK_INT < 23) {
-            if (RomUtils.checkIsMiuiRom()) {
-                miuiROMPermissionApply(context);
-            } else if (RomUtils.checkIsMeizuRom()) {
+        if (RomUtils.checkIsMiuiRom()) {
+            MiuiUtils.applyMiuiPermission(context);
+        } else if (Build.VERSION.SDK_INT < 23) {
+            if (RomUtils.checkIsMeizuRom()) {
                 meizuROMPermissionApply(context);
             } else if (RomUtils.checkIsHuaweiRom()) {
                 huaweiROMPermissionApply(context);
