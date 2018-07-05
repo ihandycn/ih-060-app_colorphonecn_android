@@ -65,6 +65,7 @@ public class FloatWindowController {
     }
 
     public void createUsageAccessTip(Context context, String desc) {
+        removeUsageAccessTip();
         try {
             usageAccessTip = new UsageAccessTip(context);
             usageAccessTip.setOnClickListener(new View.OnClickListener() {
