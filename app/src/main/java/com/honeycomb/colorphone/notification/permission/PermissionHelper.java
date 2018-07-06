@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.notification.permission;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.os.Handler;
@@ -11,14 +12,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.acb.utils.Utils;
-import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
-import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
 import com.honeycomb.colorphone.permission.FloatWindowManager;
+import com.honeycomb.colorphone.permission.OverlayGuideActivity;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.superapps.util.Navigations;
+import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,8 @@ public class PermissionHelper {
     }
 
     public static boolean requestDrawOverlayIfNeeded(EventSource eventSource) {
-        boolean hasPermission = FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
+        final Context context = HSApplication.getContext();
+        boolean hasPermission = FloatWindowManager.getInstance().checkPermission(context);
         boolean request = !hasPermission;
         if (eventSource == EventSource.FirstScreen) {
             request = request && HSConfig.optBoolean(true, "Application", "DrawOverlay", "RequestOnFirstScreen");
@@ -60,11 +63,16 @@ public class PermissionHelper {
             // TODO
             boolean needShowTip  = true;
             if (needShowTip) {
-                String hintTxt = HSApplication.getContext().getString(R.string.draw_overlay_window_hint);
-                FloatWindowController.getInstance().createUsageAccessTip(HSApplication.getContext(), hintTxt);
+                Threads.postOnMainThreadDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Navigations.startActivitySafely(context, new Intent(context, OverlayGuideActivity.class));
+
+                    }
+                }, 200);
                 LauncherAnalytics.logEvent("Colorphone_SystemFloatWindowAccessView_Show", "from", eventSource.getName());
             }
-            FloatWindowManager.getInstance().applyPermission(HSApplication.getContext());
+            FloatWindowManager.getInstance().applyPermission(context);
         }
 
         return request;
