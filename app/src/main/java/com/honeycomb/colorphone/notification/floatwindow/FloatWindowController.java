@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -14,7 +16,7 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
-import com.superapps.util.Compats;
+import com.ihs.commons.utils.HSLog;
 
 
 public class FloatWindowController {
@@ -42,11 +44,28 @@ public class FloatWindowController {
         handler = new Handler();
     }
 
+    public void showTip(View tip, boolean bottom) {
+        try {
+            windowManager.addView(tip, generateWindowLayoutParams(bottom));
+        } catch (Exception e) {
+            HSLog.e(e.getMessage());
+        }
+    }
+
+    public void removeTip(View tip) {
+        try {
+            windowManager.removeViewImmediate(tip);
+        } catch (Exception e) {
+            HSLog.e(e.getMessage());
+        }
+    }
+
     public void createUsageAccessTip(Context context) {
         createUsageAccessTip(context, null);
     }
 
     public void createUsageAccessTip(Context context, String desc) {
+        removeUsageAccessTip();
         try {
             usageAccessTip = new UsageAccessTip(context);
             usageAccessTip.setOnClickListener(new View.OnClickListener() {
@@ -61,20 +80,8 @@ public class FloatWindowController {
                 usageAccessTip.setDescText(desc);
             }
 
-            WindowManager.LayoutParams usageAccessTipWindowParams = new WindowManager.LayoutParams();
-            usageAccessTipWindowParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-            usageAccessTipWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            usageAccessTipWindowParams.format = PixelFormat.TRANSLUCENT;
-            // In HuaWei System Settings - Notification Center - Dropzones, Default block app float window but TYPE_TOAST
-            // TYPE_TOAST float window will dissmiss above api 25
-            usageAccessTipWindowParams.type = Compats.IS_HUAWEI_DEVICE ? WindowManager.LayoutParams.TYPE_TOAST : WindowManager.LayoutParams.TYPE_PHONE;
-            if(NotificationAutoPilotUtils.isNotificationAccessTipAtBottom()) {
-                usageAccessTipWindowParams.gravity = Gravity.BOTTOM;
-            } else {
-                usageAccessTipWindowParams.gravity = Gravity.CENTER;
-            }
-
-            usageAccessTipWindowParams.flags |= WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+            WindowManager.LayoutParams usageAccessTipWindowParams = generateWindowLayoutParams(
+                    NotificationAutoPilotUtils.isNotificationAccessTipAtBottom());
 
             windowManager.addView(usageAccessTip, usageAccessTipWindowParams);
             isShown = true;
@@ -82,6 +89,34 @@ public class FloatWindowController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @NonNull
+    public static WindowManager.LayoutParams generateWindowLayoutParams(boolean bottom) {
+        WindowManager.LayoutParams usageAccessTipWindowParams = new WindowManager.LayoutParams();
+        usageAccessTipWindowParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        usageAccessTipWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        usageAccessTipWindowParams.format = PixelFormat.TRANSLUCENT;
+        // In HuaWei System Settings - Notification Center - Dropzones, Default block app float window but TYPE_TOAST
+        // TYPE_TOAST float window will dissmiss above api 25
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            usageAccessTipWindowParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            usageAccessTipWindowParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+        } else {
+            usageAccessTipWindowParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+        }
+
+        if(bottom) {
+            usageAccessTipWindowParams.gravity = Gravity.BOTTOM;
+        } else {
+            usageAccessTipWindowParams.gravity = Gravity.CENTER;
+        }
+
+        usageAccessTipWindowParams.flags |= WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+        return usageAccessTipWindowParams;
     }
 
     public void removeUsageAccessTipWithAnimation() {

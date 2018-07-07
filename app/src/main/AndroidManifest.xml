@@ -229,6 +229,13 @@
             android:taskAffinity=".RateAlert"
             android:theme="@style/TransparentCompatDialog" />
 
+        <activity android:name=".permission.OverlayGuideActivity"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+
         <!--Activity for test function-->
         <activity android:name=".activity.TestActivity" />
 
