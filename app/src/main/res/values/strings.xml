@@ -144,7 +144,7 @@
 
     <!--notification access -->
     <string name="acb_phone_grant_notification_access_title">Enable Notifications Access to Answer Calls</string>
-    <string name="draw_overlay_window_hint">Enable Access to Show Screen Flash</string>
+    <string name="draw_overlay_window_hint">Enable Drawing Over Other Apps to Show Screen Flash</string>
     <string name="draw_overlay_bar_hint">Enable Access to Use Color Phone</string>
     <string name="acb_phone_enable_notification">Enable it Now</string>
 
