@@ -40,7 +40,7 @@ public class PermissionHelper {
     private static List<ContentObserver> observers = new ArrayList<>();
     private static Handler sHandler = new Handler(Looper.getMainLooper());
 
-    public static void requestNotificationAccessIfNeeded(@NonNull EventSource eventSource, @Nullable Activity sourceActivity) {
+    public static boolean requestNotificationAccessIfNeeded(@NonNull EventSource eventSource, @Nullable Activity sourceActivity) {
         boolean needGuideNotificationPermisson = true;
         if (eventSource == EventSource.FirstScreen) {
             needGuideNotificationPermisson = HSConfig.optBoolean(false,
@@ -50,7 +50,9 @@ public class PermissionHelper {
             PermissionUtils.requestNotificationPermission(sourceActivity, true, new Handler(), "FirstScreen");
             PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class, eventSource.getName());
             LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", eventSource.getName());
+            return true;
         }
+        return false;
     }
 
     public static boolean requestDrawOverlayIfNeeded(EventSource eventSource) {
@@ -162,8 +164,10 @@ public class PermissionHelper {
                     HSGlobalNotificationCenter.sendNotification(NOTIFY_OVERLAY_PERMISSION_GRANTED);
                     LauncherAnalytics.logEvent("Colorphone_FloatWindow_Access_Enabled", "from", source.getName());
 
-                    if (requestNotification) {
-                        requestNotificationAccessIfNeeded(source, null);
+                    if (requestNotification && requestNotificationAccessIfNeeded(source, null)) {
+                        //
+                    } else {
+                        PermissionHelper.bringActivityToFront(ColorPhoneActivity.class, 0);
                     }
                 }
             }
