@@ -13,9 +13,11 @@ import android.support.annotation.Nullable;
 
 import com.acb.utils.Utils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.permission.FloatWindowManager;
 import com.honeycomb.colorphone.permission.OverlayGuideActivity;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -46,7 +48,7 @@ public class PermissionHelper {
         }
         if (needGuideNotificationPermisson && !PermissionUtils.isNotificationAccessGranted(HSApplication.getContext())) {
             PermissionUtils.requestNotificationPermission(sourceActivity, true, new Handler(), "FirstScreen");
-            PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class);
+            PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class, eventSource.getName());
             LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", eventSource.getName());
         }
     }
@@ -103,18 +105,24 @@ public class PermissionHelper {
 
     public static void requestNotificationPermission(Class actClass, Activity lifeObserverActivity, boolean recordGrantedFlurry, Handler handler, final String fromType) {
         PermissionUtils.requestNotificationPermission(lifeObserverActivity, recordGrantedFlurry, handler, fromType);
-        startObservingNotificationPermissionOneTime(actClass);
+        startObservingNotificationPermissionOneTime(actClass, fromType);
     }
 
-    private static void startObservingNotificationPermissionOneTime(final Class activityClass) {
+    private static void startObservingNotificationPermissionOneTime(final Class activityClass, final String fromType) {
         ContentObserver observer = startObservingNotificationPermission(new OneTimeRunnable() {
             @Override
             public void oneTimeRun() {
                 HSGlobalNotificationCenter.sendNotification(NOTIFY_NOTIFICATION_PERMISSION_GRANTED);
+                onNotificationAccessGranted(fromType);
                 bringActivityToFront(activityClass, 0);
             }
         });
         observers.add(observer);
+    }
+
+    private static void onNotificationAccessGranted(String fromType) {
+        HSAnalytics.logEvent("Colorphone_Notification_Access_Enabled", "from", fromType);
+        NotificationAutoPilotUtils.logSettingsAccessEnabled();
     }
 
     public static void bringActivityToFront(Class activity, int launchParam) {

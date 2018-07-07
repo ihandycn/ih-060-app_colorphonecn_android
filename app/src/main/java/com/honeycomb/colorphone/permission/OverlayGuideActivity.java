@@ -20,7 +20,7 @@ public class OverlayGuideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acb_phone_notification_usage_access_bottom_tip);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        getWindow().setGravity(Gravity.BOTTOM);
+        getWindow().setGravity(Gravity.CENTER_VERTICAL);
         initRes();
     }
 
