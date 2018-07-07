@@ -325,7 +325,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         PermissionHelper.requestNotificationAccessIfNeeded(EventSource.List, activity);
                     }
                     LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Clicked");
-                    LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "List");
                 }
             });
             return new TopTipViewHolder(tipView);

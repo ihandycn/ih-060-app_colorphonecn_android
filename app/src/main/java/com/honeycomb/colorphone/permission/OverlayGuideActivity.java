@@ -18,7 +18,7 @@ public class OverlayGuideActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acb_phone_notification_usage_access_bottom_tip);
+        setContentView(R.layout.acb_phone_notification_usage_access_center_tip);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         getWindow().setGravity(Gravity.CENTER_VERTICAL);
         initRes();
