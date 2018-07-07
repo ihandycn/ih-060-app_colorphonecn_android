@@ -311,7 +311,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             View tipView = activity.getLayoutInflater().inflate(R.layout.notification_access_toast_layout, parent, false);
             TextView textView = tipView.findViewById(R.id.hint_title);
             boolean floatPermission = FloatWindowManager.getInstance().checkPermission(activity);
-            if (floatPermission) {
+            if (!floatPermission) {
                 textView.setText(R.string.draw_overlay_bar_hint);
             } else {
                 textView.setText(R.string.acb_phone_grant_notification_access_title);
