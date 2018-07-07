@@ -41,6 +41,7 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.EventSource;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
+import com.honeycomb.colorphone.permission.FloatWindowManager;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
@@ -308,6 +309,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return new StatementViewHolder(stateViewContent);
         } else if (viewType == THEME_SELECTOR_ITEM_TYPE_TIP) {
             View tipView = activity.getLayoutInflater().inflate(R.layout.notification_access_toast_layout, parent, false);
+            TextView textView = tipView.findViewById(R.id.hint_title);
+            boolean floatPermission = FloatWindowManager.getInstance().checkPermission(activity);
+            if (floatPermission) {
+                textView.setText(R.string.draw_overlay_bar_hint);
+            } else {
+                textView.setText(R.string.acb_phone_grant_notification_access_title);
+            }
             tipView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
