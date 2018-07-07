@@ -230,6 +230,7 @@
             android:theme="@style/TransparentCompatDialog" />
 
         <activity android:name=".permission.OverlayGuideActivity"
+            android:launchMode="singleTask"
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:taskAffinity=":guide"
