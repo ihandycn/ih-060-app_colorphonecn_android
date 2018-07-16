@@ -36,6 +36,7 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.base.ContainerView.AcbContentLayout;
+import net.appcloudbox.ads.common.utils.AcbError;
 import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
 import java.lang.ref.WeakReference;
@@ -263,7 +264,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                 }
 
                 @Override
-                public void onPrepareAdFailed(AcbExpressAdView acbExpressAdView) {
+                public void onPrepareAdFailed(AcbExpressAdView acbExpressAdView, AcbError acbError) {
 
                 }
             });

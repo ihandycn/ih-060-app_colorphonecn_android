@@ -562,6 +562,11 @@ public abstract class ResultController implements View.OnClickListener {
                     }
                 }, 250);
             }
+
+            @Override
+            public void onAdDisplayFailed(net.appcloudbox.ads.common.utils.AcbError acbError) {
+
+            }
         });
         mInterstitialAd.show();
     }
