@@ -1,6 +1,7 @@
 package colorphone.acb.com.libscreencard.game;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.bumptech.glide.Glide;
@@ -12,6 +13,7 @@ import com.ihs.commons.utils.HSLog;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.h5game.AcbH5Error;
+import net.appcloudbox.h5game.AcbH5GameEvent;
 import net.appcloudbox.h5game.AcbH5GameInfo;
 import net.appcloudbox.h5game.AcbH5GameInfoRequest;
 import net.appcloudbox.h5game.AcbH5GameInfoResponse;
@@ -64,8 +66,9 @@ public class GameManager {
                 .setInterstitialAdPlacement(AD_NAME)
                 .setRewardedVideoAdPlacement(AD_REWARD_NAME)
                 .setAdListener(new AcbH5GamePlay.AdListener() {
+
                     @Override
-                    public void onAdShowChanceArrived(boolean b) {
+                    public void onAdShowChanceArrived(boolean b, @Nullable AcbH5GamePlay.AdType adType) {
                         CardCustomConfig.logAdViewEvent(AD_NAME, b);
 
                     }
@@ -103,6 +106,11 @@ public class GameManager {
 
                     @Override
                     public void onSessionEnd(@NonNull AcbH5GamePlay acbH5GamePlay, @NonNull AcbH5GameStats acbH5GameStats) {
+
+                    }
+
+                    @Override
+                    public void onLogEvent(@NonNull AcbH5GameEvent acbH5GameEvent) {
 
                     }
 
