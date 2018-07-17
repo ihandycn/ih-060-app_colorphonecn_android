@@ -151,6 +151,9 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             public void onAdShow() {
                 NotificationAutoPilotUtils.logMessageAssistantAdShow();
                 LauncherAnalytics.logEvent("Message_View_AD_Shown");
+                if (getNotificationMessageConfig().isShowFloatingBall()) {
+                    Ap.MsgBall.onAdShow();
+                }
             }
 
             @Override
@@ -176,19 +179,20 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public void floatingBallShow(int count) {
-                super.floatingBallShow(count);
+                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_View_Show", "MsgCount", String.valueOf(count));
                 Ap.MsgBall.onShow();
+
             }
 
             @Override
             public void floatingBallClicked() {
-                super.floatingBallClicked();
+                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_View_Click");
                 Ap.MsgBall.onClick();
             }
 
             @Override
             public void floatingBallCanceled() {
-                super.floatingBallCanceled();
+                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_Cancel");
                 Ap.MsgBall.onCancel();
             }
         };
