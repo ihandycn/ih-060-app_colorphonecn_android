@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.Ap;
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
@@ -77,7 +76,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean isShowFloatingBall() {
-                return BuildConfig.VERSION_CODE > 3 && Ap.MsgBall.enable();
+                return HSApplication.getFirstLaunchInfo().appVersionCode > 5 && Ap.MsgBall.enable();
             }
 
             @Override
