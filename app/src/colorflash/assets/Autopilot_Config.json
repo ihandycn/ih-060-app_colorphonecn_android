@@ -18,10 +18,28 @@
       "name": "ad_show"
     },
     {
-      "name": "ad_click"
+      "name": "iap"
     },
     {
-      "name": "iap"
+      "name": "ad_click_native"
+    },
+    {
+      "name": "ad_click_interstitial"
+    },
+    {
+      "name": "ad_click_rewarded_video"
+    },
+    {
+      "name": "ad_click_banner"
+    },
+    {
+      "name": "daily_active"
+    },
+    {
+      "name": "initial_completed"
+    },
+    {
+      "name": "ad_click"
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
@@ -237,6 +255,63 @@
         }
       ],
       "topic_id": "topic-1505290483207"
+    },
+    "topic-1512815797473-16": {
+      "topic_type": "life_time",
+      "topic_name": "Message Assistant Test",
+      "variations": {
+        "whatsapp_assistant_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "whatsapp_assistant_show_on_unlock": {
+          "type": "boolean",
+          "value": true
+        },
+        "gmail_assistant_show_on_unlock": {
+          "type": "boolean",
+          "value": false
+        },
+        "gmail_assistant_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "fbmessenger_assistant_enable": {
+          "type": "boolean",
+          "value": true
+        },
+        "fbmessenger_assistant_show_on_unlock": {
+          "type": "boolean",
+          "value": true
+        },
+        "whatsapp_assistant_show_on_lock": {
+          "type": "boolean",
+          "value": true
+        },
+        "gmail_assistant_show_on_lock": {
+          "type": "boolean",
+          "value": false
+        },
+        "fbmessenger_assistant_show_on_lock": {
+          "type": "boolean",
+          "value": true
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "message_assistant_show"
+        },
+        {
+          "name": "message_assistant_ad_show"
+        },
+        {
+          "name": "message_assistant_show_onlockscreen"
+        }
+      ],
+      "topic_id": "topic-1512815797473-16"
     },
     "topic-1516620266175-105": {
       "topic_type": "one_time",
@@ -494,45 +569,13 @@
       ],
       "topic_id": "topic-1516083421924-90"
     },
-    "topic-1512815797473-16": {
+    "topic-1531210959452-409": {
       "topic_type": "life_time",
-      "topic_name": "Message Assistant Test",
+      "topic_name": "Message Assistant Suspension Ball Test",
       "variations": {
-        "whatsapp_assistant_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "whatsapp_assistant_show_on_unlock": {
-          "type": "boolean",
-          "value": true
-        },
-        "gmail_assistant_show_on_unlock": {
+        "message_floatingball_enable": {
           "type": "boolean",
           "value": false
-        },
-        "gmail_assistant_enable": {
-          "type": "boolean",
-          "value": false
-        },
-        "fbmessenger_assistant_enable": {
-          "type": "boolean",
-          "value": true
-        },
-        "fbmessenger_assistant_show_on_unlock": {
-          "type": "boolean",
-          "value": true
-        },
-        "whatsapp_assistant_show_on_lock": {
-          "type": "boolean",
-          "value": true
-        },
-        "gmail_assistant_show_on_lock": {
-          "type": "boolean",
-          "value": false
-        },
-        "fbmessenger_assistant_show_on_lock": {
-          "type": "boolean",
-          "value": true
         }
       },
       "events": [
@@ -540,16 +583,19 @@
           "name": "test"
         },
         {
-          "name": "message_assistant_show"
+          "name": "message_floatingball_view_show"
         },
         {
-          "name": "message_assistant_ad_show"
+          "name": "message_floatingball_view_click"
         },
         {
-          "name": "message_assistant_show_onlockscreen"
+          "name": "message_floatingball_cancel"
+        },
+        {
+          "name": "message_floatingball_ad_show"
         }
       ],
-      "topic_id": "topic-1512815797473-16"
+      "topic_id": "topic-1531210959452-409"
     },
     "topic-1512822231846-17": {
       "topic_type": "life_time",
