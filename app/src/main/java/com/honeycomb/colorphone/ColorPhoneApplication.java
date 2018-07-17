@@ -205,11 +205,7 @@ public class ColorPhoneApplication extends HSApplication {
                 : null;
         AppsFlyerLib.getInstance().setCustomerUserId(customId);
 
-        if (BuildConfig.DEBUG) {
-            AutopilotConfig.initialize(this, "Autopilot_10000_Config_test.json", customId);
-        } else {
-            AutopilotConfig.initialize(this, "Autopilot_10000_Config_v1.json", customId);
-        }
+        AutopilotConfig.initialize(this, "Autopilot_Config.json", customId);
 
         CallAssistantManager.init(new CpCallAssistantFactoryImpl());
         MessageCenterManager.init(new CpMessageCenterFactoryImpl());
