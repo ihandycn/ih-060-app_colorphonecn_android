@@ -25,6 +25,7 @@ import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
+import net.appcloudbox.ads.common.utils.AcbError;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
 import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
@@ -148,9 +149,10 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
             }
 
             @Override
-            public void onPrepareAdFailed(AcbExpressAdView acbExpressAdView) {
+            public void onPrepareAdFailed(AcbExpressAdView acbExpressAdView, AcbError acbError) {
 
             }
+
         });
         expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
@@ -217,6 +219,11 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
             mAcbInterstitialAd.setInterstitialAdListener(null);
             mAcbInterstitialAd = null;
         }
+    }
+
+    @Override
+    public void onAdDisplayFailed(AcbError acbError) {
+
     }
 
     private void showGuideAnimation() {

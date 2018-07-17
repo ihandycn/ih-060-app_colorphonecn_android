@@ -51,5 +51,5 @@ dependencies {
 
     provided ("net.appcloudbox.autopilot:libAutoPilot.gm:5.0.5.gm")
     provided 'com.ihandy.appframework:libAppframework.gm:4.6.6.gm'
-    provided 'net.appcloudbox.ads:libAcbAds.gm:1.6.1.gm'
+    provided 'net.appcloudbox.ads:libAcbAds.gm:1.8.0.gm'
 }
