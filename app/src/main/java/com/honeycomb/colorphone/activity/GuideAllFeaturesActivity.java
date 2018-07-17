@@ -16,8 +16,8 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
+import com.honeycomb.colorphone.notification.permission.EventSource;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
-import com.honeycomb.colorphone.notification.permission.PermissionUtils;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -27,7 +27,6 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
-import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.device.monitor.topapp.HSUsageAccessMgr;
 
@@ -73,22 +72,12 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
-                boolean needGuideNotificationPermisson = HSConfig.optBoolean(false,
-                        "Application", "NotificationAccess", "GoToAccessPageFromFirstScreen");
-                if (needGuideNotificationPermisson && !PermissionUtils.isNotificationAccessGranted(GuideAllFeaturesActivity.this)) {
-                    PermissionUtils.requestNotificationPermission(GuideAllFeaturesActivity.this, true, new Handler(), "FirstScreen");
-                    PermissionHelper.startObservingNotificationPermissionOneTime(new PermissionHelper.OneTimeRunnable() {
-                        @Override
-                        public void oneTimeRun() {
-                            HSGlobalNotificationCenter.sendNotification(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED);
-                            if (!requestForUsageAccess()) {
-                                PermissionHelper.bringActivityToFront(ColorPhoneActivity.class, 0);
-                            }
-                        }
-                    });
-                    LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "FirstScreen");
-                }
 
+                if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.FirstScreen)) {
+                    PermissionHelper.waitOverlayGranted(EventSource.FirstScreen, true);
+                } else {
+                    PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+                }
                 finish();
             }
         });
@@ -98,6 +87,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
 
         GdprUtils.showGdprAlertIfNeeded(this);
     }
+
 
     private boolean titleNew() {
         String titleType = HSConfig.optString("new", "Application", "NotificationAccess", "FirstScreenTitle");

@@ -226,7 +226,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             return true;
         }
 
-        @Override
         public int getAppNameDrawable() {
             return R.drawable.color_phone_logo;
         }

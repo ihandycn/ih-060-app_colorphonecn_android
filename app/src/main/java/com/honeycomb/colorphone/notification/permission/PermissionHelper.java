@@ -2,14 +2,27 @@ package com.honeycomb.colorphone.notification.permission;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.acb.utils.Utils;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
+import com.honeycomb.colorphone.permission.FloatWindowManager;
+import com.honeycomb.colorphone.permission.OverlayGuideActivity;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.superapps.util.Navigations;
+import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +34,53 @@ import java.util.List;
 public class PermissionHelper {
 
     public static final String NOTIFY_NOTIFICATION_PERMISSION_GRANTED = "notification_permission_grant";
+    public static final String NOTIFY_OVERLAY_PERMISSION_GRANTED = "overlay_permission_grant";
     private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
 
     private static List<ContentObserver> observers = new ArrayList<>();
+    private static Handler sHandler = new Handler(Looper.getMainLooper());
+
+    public static boolean requestNotificationAccessIfNeeded(@NonNull EventSource eventSource, @Nullable Activity sourceActivity) {
+        boolean needGuideNotificationPermisson = true;
+        if (eventSource == EventSource.FirstScreen) {
+            needGuideNotificationPermisson = HSConfig.optBoolean(false,
+                    "Application", "NotificationAccess", "GoToAccessPageFromFirstScreen");
+        }
+        if (needGuideNotificationPermisson && !PermissionUtils.isNotificationAccessGranted(HSApplication.getContext())) {
+            PermissionUtils.requestNotificationPermission(sourceActivity, true, new Handler(), "FirstScreen");
+            PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class, eventSource.getName());
+            LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", eventSource.getName());
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean requestDrawOverlayIfNeeded(EventSource eventSource) {
+        final Context context = HSApplication.getContext();
+        boolean hasPermission = FloatWindowManager.getInstance().checkPermission(context);
+        boolean request = !hasPermission;
+        if (eventSource == EventSource.FirstScreen) {
+            request = request && HSConfig.optBoolean(true, "Application", "DrawOverlay", "RequestOnFirstScreen");
+        }
+
+        if (request) {
+            // TODO
+            boolean needShowTip  = true;
+            if (needShowTip) {
+                Threads.postOnMainThreadDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Navigations.startActivitySafely(context, new Intent(context, OverlayGuideActivity.class));
+
+                    }
+                }, 200);
+                LauncherAnalytics.logEvent("Colorphone_SystemFloatWindowAccessView_Show", "from", eventSource.getName());
+            }
+            FloatWindowManager.getInstance().applyPermission(context);
+        }
+
+        return request;
+    }
 
     private static ContentObserver startObservingNotificationPermission(final Runnable grantPermissionRunnable) {
 
@@ -48,22 +105,26 @@ public class PermissionHelper {
         return observer;
     }
 
-    public static void requestNotificationPermission(Class actClass, Activity activity, boolean recordGrantedFlurry, Handler handler, final String fromType) {
-        PermissionUtils.requestNotificationPermission(activity, recordGrantedFlurry, handler, fromType);
-        final Class activityClass = actClass;
+    public static void requestNotificationPermission(Class actClass, Activity lifeObserverActivity, boolean recordGrantedFlurry, Handler handler, final String fromType) {
+        PermissionUtils.requestNotificationPermission(lifeObserverActivity, recordGrantedFlurry, handler, fromType);
+        startObservingNotificationPermissionOneTime(actClass, fromType);
+    }
+
+    private static void startObservingNotificationPermissionOneTime(final Class activityClass, final String fromType) {
         ContentObserver observer = startObservingNotificationPermission(new OneTimeRunnable() {
             @Override
             public void oneTimeRun() {
                 HSGlobalNotificationCenter.sendNotification(NOTIFY_NOTIFICATION_PERMISSION_GRANTED);
+                onNotificationAccessGranted(fromType);
                 bringActivityToFront(activityClass, 0);
             }
         });
         observers.add(observer);
     }
 
-    public static void startObservingNotificationPermissionOneTime(Runnable runnable) {
-        ContentObserver observer = startObservingNotificationPermission(runnable);
-        observers.add(observer);
+    private static void onNotificationAccessGranted(String fromType) {
+        HSAnalytics.logEvent("Colorphone_Notification_Access_Enabled", "from", fromType);
+        NotificationAutoPilotUtils.logSettingsAccessEnabled();
     }
 
     public static void bringActivityToFront(Class activity, int launchParam) {
@@ -86,8 +147,40 @@ public class PermissionHelper {
         requestNotificationPermission(activity.getClass(), activity, recordGrantedFlurry, handler, fromType);
     }
 
-    public static void requestNotificationPermission(Activity activity) {
-        requestNotificationPermission(activity, false, null, null);
+    public static void waitOverlayGranted(final EventSource source, final boolean requestNotification) {
+        final TagRunnable checker = new TagRunnable() {
+            @Override
+            public void run() {
+                boolean enable = (Boolean) getTag();
+                boolean hasPermission = FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
+                boolean end = !enable || hasPermission;
+                if (end) {
+                    sHandler.removeCallbacks(this);
+                } else {
+                    sHandler.postDelayed(this, 400);
+                }
+
+                if (hasPermission) {
+                    HSGlobalNotificationCenter.sendNotification(NOTIFY_OVERLAY_PERMISSION_GRANTED);
+                    LauncherAnalytics.logEvent("Colorphone_FloatWindow_Access_Enabled", "from", source.getName());
+
+                    if (requestNotification && requestNotificationAccessIfNeeded(source, null)) {
+                        //
+                    } else {
+                        PermissionHelper.bringActivityToFront(ColorPhoneActivity.class, 0);
+                    }
+                }
+            }
+        };
+        checker.setTag(Boolean.TRUE);
+
+        sHandler.postDelayed(checker, 1000);
+        sHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checker.setTag(Boolean.FALSE);
+            }
+        }, 8000);
     }
 
     public abstract static class OneTimeRunnable implements Runnable {
@@ -103,5 +196,18 @@ public class PermissionHelper {
 
         public abstract void oneTimeRun();
     }
+
+    public abstract static class TagRunnable implements Runnable {
+        private Object mTag;
+
+        public Object getTag() {
+            return mTag;
+        }
+
+        public void setTag(Object tag) {
+            mTag = tag;
+        }
+    }
+
 }
 

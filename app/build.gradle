@@ -20,8 +20,8 @@ android {
     productFlavors {
         colorphone {
             applicationId "com.colorphone.smooth.dialer"
-            versionCode 29
-            versionName "1.2.0"
+            versionCode 30
+            versionName "1.2.1"
         }
         colorflash {
             applicationId "com.app.phone.call.flash.screen"
@@ -141,8 +141,8 @@ dependencies {
     compile project(':lock')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.05.25.001'
-    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.06.12.001'
+    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.07.05.001'
+    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.07.16.001'
 
     compile 'net.appcloudbox.common:libAcbHSFrameworkAdapter.gm:1.0.2.gm'
 

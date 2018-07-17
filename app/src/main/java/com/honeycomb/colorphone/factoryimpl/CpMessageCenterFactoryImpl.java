@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Ap;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
@@ -74,6 +76,11 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             }
 
             @Override
+            public boolean isShowFloatingBall() {
+                return BuildConfig.VERSION_CODE > 3 && Ap.MsgBall.enable();
+            }
+
+            @Override
             public boolean showMessengerMessage() {
                 return NotificationAutoPilotUtils.isFacebookMessengerEnabled();
             }
@@ -118,7 +125,6 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 return NotificationAutoPilotUtils.isGmailEnabledWhenScreenOn();
             }
 
-            @Override
             public int getAppNameDrawable() {
                 return R.drawable.color_phone_logo;
             }
@@ -169,6 +175,23 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 }
             }
 
+            @Override
+            public void floatingBallShow(int count) {
+                super.floatingBallShow(count);
+                Ap.MsgBall.onShow();
+            }
+
+            @Override
+            public void floatingBallClicked() {
+                super.floatingBallClicked();
+                Ap.MsgBall.onClick();
+            }
+
+            @Override
+            public void floatingBallCanceled() {
+                super.floatingBallCanceled();
+                Ap.MsgBall.onCancel();
+            }
         };
     }
 
