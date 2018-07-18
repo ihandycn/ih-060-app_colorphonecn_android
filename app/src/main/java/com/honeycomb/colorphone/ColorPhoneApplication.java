@@ -303,6 +303,8 @@ public class ColorPhoneApplication extends HSApplication {
 
         Theme.updateThemes();
 
+        SmsFlashListener.getInstance().start();
+
     }
 
     private void initRecentApps() {

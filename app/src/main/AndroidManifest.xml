@@ -82,7 +82,8 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <!-- required by libAppFramework & libNativeAds -->
         <meta-data
             android:name="com.google.android.gms.version"
@@ -163,6 +164,13 @@
             android:theme="@style/AppTheme.DarkFullScreen" />
         <activity
             android:name=".activity.SettingsActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:taskAffinity=":main"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppLightStatusBarTheme" />
+        <activity
+            android:name=".activity.LedFlashSettingsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:taskAffinity=":main"
