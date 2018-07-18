@@ -66,7 +66,7 @@
                         style="@style/NormalText.Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Call reminder"
+                        android:text="@string/led_flash_for_calls"
                         />
 
                     <com.honeycomb.colorphone.view.TypefacedTextView
@@ -74,6 +74,7 @@
                         android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="@string/smart_charging_hint"
                         android:textSize="12sp"
                         />
@@ -127,13 +128,14 @@
                         style="@style/NormalText.Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SMS reminder"
+                        android:text="@string/led_flash_for_messages"
                         />
 
                     <com.honeycomb.colorphone.view.TypefacedTextView
                         style="@style/NormalText.SettingsHint"
                         android:layout_marginTop="2dp"
                         android:layout_width="wrap_content"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:text="@string/color_lockscreen_hint"
                         android:textSize="12sp"
