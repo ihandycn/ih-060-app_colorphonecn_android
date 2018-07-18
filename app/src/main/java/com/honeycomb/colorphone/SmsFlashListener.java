@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.flashlight.FlashlightManager;
-import com.superapps.util.Preferences;
 
 public class SmsFlashListener {
 
@@ -41,7 +40,6 @@ public class SmsFlashListener {
     }
 
     public void start() {
-        Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_SMS_ENABLE, false);
         SharedPreferences sharedPreferences = HSApplication.getContext().getSharedPreferences(
                 Constants.DESKTOP_PREFS, Context.MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(mSharedPreferenceChangeListener);
@@ -59,7 +57,9 @@ public class SmsFlashListener {
 
     private void bind() {
         Context context = HSApplication.getContext();
-        context.registerReceiver(mReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+        try {
+            context.registerReceiver(mReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+        } catch (SecurityException ignore) {}
     }
 
     private void unbind() {
