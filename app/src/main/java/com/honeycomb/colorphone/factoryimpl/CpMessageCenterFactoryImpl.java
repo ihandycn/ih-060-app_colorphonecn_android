@@ -185,14 +185,14 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             }
 
             @Override
-            public void floatingBallClicked() {
-                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_View_Click");
+            public void floatingBallClicked(int count) {
+                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_View_Click", "MsgCount", String.valueOf(count));
                 Ap.MsgBall.onClick();
             }
 
             @Override
-            public void floatingBallCanceled() {
-                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_Cancel");
+            public void floatingBallCanceled(int count) {
+                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_Cancel", "MsgCount", String.valueOf(count));
                 Ap.MsgBall.onCancel();
             }
         };
