@@ -178,7 +178,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             }
 
             @Override
-            public void floatingBallShow(int count) {
+            public void floatingBallShow(int count, String from) {
                 LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_View_Show", "MsgCount", String.valueOf(count));
                 Ap.MsgBall.onShow();
 
