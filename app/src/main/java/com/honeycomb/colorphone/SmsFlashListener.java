@@ -43,6 +43,7 @@ public class SmsFlashListener {
         SharedPreferences sharedPreferences = HSApplication.getContext().getSharedPreferences(
                 Constants.DESKTOP_PREFS, Context.MODE_PRIVATE);
         sharedPreferences.registerOnSharedPreferenceChangeListener(mSharedPreferenceChangeListener);
+        checkState(sharedPreferences.getBoolean(Constants.PREFS_LED_SMS_ENABLE, false));
     }
 
     private void checkState(boolean enable) {
