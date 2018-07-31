@@ -199,6 +199,17 @@ public class ColorPhoneApplication extends HSApplication {
             }
         }
         AcbAds.getInstance().initializeFromGoldenEye(this);
+        //
+        AcbAds.getInstance().setLogEventListener(new AcbAds.logEventListener() {
+            @Override
+            public void logFirebaseEvent(String s, Bundle bundle) {
+
+                if (GdprUtils.isNeedToAccessDataUsage()) {
+                    // TODO Firebase event.
+                }
+                
+            }
+        });
 
         if (!GdprUtils.isGdprNewUser() && HSGdprConsent.getConsentState() == HSGdprConsent.ConsentState.TO_BE_CONFIRMED) {
             GdprUtils.setDataUsageUserEnabled(true);
