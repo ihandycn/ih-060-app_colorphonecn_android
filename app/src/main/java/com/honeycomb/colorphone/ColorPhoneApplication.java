@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
@@ -57,6 +59,7 @@ import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
 import com.ihs.chargingreport.ChargingReportManager;
 import com.ihs.chargingreport.DismissType;
+import com.ihs.commons.analytics.publisher.HSPublisherMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -69,6 +72,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.debug.SharedPreferencesOptimizer;
+import com.superapps.util.Preferences;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
@@ -82,6 +86,7 @@ import net.appcloudbox.service.AcbService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -99,6 +104,21 @@ public class ColorPhoneApplication extends HSApplication {
     private List<Module> mModules = new ArrayList<>();
 
     private static Stack<Integer> activityStack = new Stack<>();
+
+    private boolean mAppsFlyerResultReceived;
+    private BroadcastReceiver mAgencyBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (!mAppsFlyerResultReceived
+                    && HSNotificationConstant.HS_APPSFLYER_RESULT.equals(intent.getAction())) {
+                mAppsFlyerResultReceived = true;
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    recordInstallType();
+                    HSGlobalNotificationCenter.sendNotification(HSNotificationConstant.HS_CONFIG_CHANGED);
+                }, 1000);
+            }
+        }
+    };
 
     private INotificationObserver mObserver = new INotificationObserver() {
 
@@ -195,6 +215,8 @@ public class ColorPhoneApplication extends HSApplication {
                 AcbAds.getInstance().setGdprInfo(GDPR_USER, GDPR_NOT_GRANTED);
             }
         }
+
+        registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
         AcbAds.getInstance().initializeFromGoldenEye(this);
 
         if (!GdprUtils.isGdprNewUser() && HSGdprConsent.getConsentState() == HSGdprConsent.ConsentState.TO_BE_CONFIRMED) {
@@ -555,4 +577,31 @@ public class ColorPhoneApplication extends HSApplication {
             isFabricInitted = true;
         }
     }
+
+    private void recordInstallType() {
+        HSPublisherMgr.PublisherData data = HSPublisherMgr.getPublisherData(this);
+        if (data.isDefault()) {
+            return;
+        }
+
+        Map<String, String> parameters = new HashMap<>();
+        String installType = data.getInstallMode().name();
+        parameters.put("ad_set", data.getAdset());
+        parameters.put("ad_set_id", data.getAdsetId());
+        parameters.put("ad_id", data.getAdId());
+        String debugInfo = "" + installType + "|" + data.getMediaSource() + "|" + data.getAdset();
+        parameters.put("install_type", installType);
+        parameters.put("publisher_debug_info", debugInfo);
+        LauncherAnalytics.logEvent("Agency_Info", "install_type", installType, "campaign_id", "" + data.getCampaignID(), "user_level", "" + HSConfig.optString("not_configured", "UserLevel"));
+
+        final String PREF_KEY_AGENCY_INFO_LOGGED = "PREF_KEY_AGENCY_INFO_LOGGED";
+
+        if (HSApplication.getFirstLaunchInfo().appVersionCode == HSApplication.getCurrentLaunchInfo().appVersionCode) {
+            if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_AGENCY_INFO_LOGGED)) {
+                HSPreferenceHelper.getDefault().putBoolean(PREF_KEY_AGENCY_INFO_LOGGED, true);
+                LauncherAnalytics.logEvent("New_User_Agency_Info", "install_type", installType, "user_level", "" + HSConfig.optString("not_configured", "UserLevel"), "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
+            }
+        }
+    }
+
 }
