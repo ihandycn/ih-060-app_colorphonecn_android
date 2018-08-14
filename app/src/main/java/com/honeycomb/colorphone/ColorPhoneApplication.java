@@ -112,9 +112,12 @@ public class ColorPhoneApplication extends HSApplication {
             if (!mAppsFlyerResultReceived
                     && HSNotificationConstant.HS_APPSFLYER_RESULT.equals(intent.getAction())) {
                 mAppsFlyerResultReceived = true;
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    recordInstallType();
-                    HSGlobalNotificationCenter.sendNotification(HSNotificationConstant.HS_CONFIG_CHANGED);
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recordInstallType();
+                        HSGlobalNotificationCenter.sendNotification(HSNotificationConstant.HS_CONFIG_CHANGED);
+                    }
                 }, 1000);
             }
         }
