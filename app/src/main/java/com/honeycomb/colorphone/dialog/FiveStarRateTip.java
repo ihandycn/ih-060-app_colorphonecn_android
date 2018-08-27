@@ -39,6 +39,8 @@ import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.view.TypefacedTextView;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.RejectedExecutionException;
 
 import static android.view.View.GONE;
@@ -467,7 +469,20 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
 
     private static boolean isNewUser() {
         if (TextUtils.equals(BuildConfig.FLAVOR, "colorphone")) {
-            return HSApplication.getFirstLaunchInfo().appVersionCode >= 19;
+            if (HSApplication.getFirstLaunchInfo().appVersionCode < 19) {
+                return false;
+            }
+
+            Locale current = Dimensions.getLocale(HSApplication.getContext());
+            String myCountry = current.getCountry().toLowerCase();
+            List<String> filter = (List<String>) HSConfig.getList("Application", "RateAlert", "UnsupportedCountry");
+            if (filter != null && filter.size() > 0) {
+                for (String country : filter) {
+                    if (TextUtils.equals(country.toLowerCase(), myCountry)) {
+                        return false;
+                    }
+                }
+            }
         }
         return true;
     }
