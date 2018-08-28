@@ -3,7 +3,7 @@ apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.hugo'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     buildToolsVersion "26.0.2"
     defaultConfig {
         minSdkVersion 14
@@ -29,7 +29,10 @@ android {
     sourceSets {
         main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
-            res.srcDirs = ['src/main/res']
+            res.srcDirs = ['src/main/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/notification/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/common/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/res']
             assets.srcDirs = ['src/main/assets']
             java.srcDirs = ['src/main/java']
         }
