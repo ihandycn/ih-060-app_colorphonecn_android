@@ -47,6 +47,7 @@ import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
+import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -328,7 +329,7 @@ public class ColorPhoneApplication extends HSApplication {
         initNotificationAlarm();
 
         Theme.updateThemes();
-
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
     }
 
     private void initRecentApps() {
