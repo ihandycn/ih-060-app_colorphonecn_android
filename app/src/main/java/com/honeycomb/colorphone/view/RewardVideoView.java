@@ -106,6 +106,11 @@ public class RewardVideoView {
                         public void onAdDisplay() {
                             HSLog.d(TAG, "show reward video ad");
                         }
+
+                        @Override
+                        public void onAdDisplayFailed(AcbError acbError) {
+
+                        }
                     });
 
                     ad.show();

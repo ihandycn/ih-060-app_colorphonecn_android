@@ -51,14 +51,14 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void startCallRingingWindow(View view) {
-        String number = editText.getText().toString().trim();
-        InCallWindow.show(this, TextUtils.isEmpty(number) ? "8888888" : number);
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                InCallWindow.dismiss(TestActivity.this.getApplicationContext());
-            }
-        }, 8000);
+//        String number = editText.getText().toString().trim();
+//        InCallWindow.show(this, TextUtils.isEmpty(number) ? "8888888" : number);
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                InCallWindow.dismiss(TestActivity.this.getApplicationContext());
+//            }
+//        }, 8000);
 
     }
 

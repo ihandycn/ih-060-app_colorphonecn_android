@@ -121,6 +121,11 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             public int getAppNameDrawable() {
                 return R.drawable.color_phone_logo;
             }
+
+            @Override
+            public boolean isShowFloatingBall() {
+                return false;
+            }
         };
     }
 

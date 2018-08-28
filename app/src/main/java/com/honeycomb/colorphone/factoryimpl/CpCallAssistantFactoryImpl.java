@@ -21,6 +21,7 @@ import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.notification.permission.PermissionUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -102,21 +103,25 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onCallFinished() {
                 CallFinishUtils.logCallFinish();
+                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
             }
 
             @Override
             public void onCallFinishedCallAssistantShow() {
                 CallFinishUtils.logCallFinishCallAssistantShow();
+                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Call_Assistant_Show");
             }
 
             @Override
             public void onFullScreenAdShouldShow() {
                 CallFinishUtils.logCallFinishWiredShouldShow();
+                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Should_Show");
             }
 
             @Override
             public void onFullScreenAdShow() {
                 CallFinishUtils.logCallFinishWiredShow();
+                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
             }
         };
     }
