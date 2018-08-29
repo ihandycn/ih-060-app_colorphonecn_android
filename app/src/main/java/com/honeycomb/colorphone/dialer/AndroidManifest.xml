@@ -13,7 +13,7 @@
  ~ See the License for the specific language governing permissions and
  ~ limitations under the License
  -->
-<manifest package="com.honeycomb.colorphone.dialer"
+<manifest package="com.honeycomb.colorphone"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -40,7 +40,7 @@
 
         </activity>
         <activity
-            android:name=".DialerActivity"
+            android:name=".dialer.DialerActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.DIAL" />
