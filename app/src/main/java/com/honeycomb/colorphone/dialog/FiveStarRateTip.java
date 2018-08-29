@@ -34,6 +34,7 @@ import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.app.utils.HSMarketUtils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
@@ -479,6 +480,7 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
             if (filter != null && filter.size() > 0) {
                 for (String country : filter) {
                     if (TextUtils.equals(country.toLowerCase(), myCountry)) {
+                        HSLog.i("FiveStarRateTip", "not support " + country);
                         return false;
                     }
                 }

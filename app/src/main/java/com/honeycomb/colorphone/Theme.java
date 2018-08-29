@@ -10,10 +10,8 @@ import android.support.annotation.AnyRes;
 import android.text.TextUtils;
 
 import com.acb.call.themes.Type;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
-import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
@@ -21,7 +19,6 @@ import com.superapps.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
 /**
  * Color phone theme.

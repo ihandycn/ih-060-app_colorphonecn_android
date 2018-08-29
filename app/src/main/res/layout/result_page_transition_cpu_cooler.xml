@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout android:id="@+id/view_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:ignore="ContentDescription">
+
+    <View
+        android:id="@+id/transition_toolbar_space_v"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        tools:ignore="PrivateResource" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/result_page_header_height"
+        android:layout_below="@+id/transition_toolbar_space_v"
+        android:layout_marginTop="@dimen/result_page_header_tag_margin"
+        android:clipChildren="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/anchor_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/boost_plus_optimal"
+            android:textColor="@android:color/white"
+            android:textSize="36sp"
+            android:visibility="invisible"
+            app:typeface="@string/roboto_regular" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/label_thermometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:clipChildren="false"
+        android:visibility="invisible"
+        app:layout_marginTopPercent="@fraction/cpu_result_thermometer_top"
+        tools:visibility="visible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cpu_cooler_result_thermometer_box" />
+
+        <ImageView
+            android:id="@+id/label_thermometer_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/cpu_cooler_result_thermometer_mark"
+            android:translationY="-15dp" />
+    </FrameLayout>
+
+    <Button />
+
+    <com.honeycomb.colorphone.cpucooler.view.SnowView
+        android:id="@+id/left_falling_snow_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_aspectRatio="100%"
+        app:layout_marginLeftPercent="@fraction/cpu_result_left_falling_snow_margin_left"
+        app:layout_marginStartPercent="@fraction/cpu_result_left_falling_snow_margin_left"
+        app:layout_marginTopPercent="@fraction/cpu_result_left_falling_snow_margin_top"
+        app:layout_widthPercent="@fraction/cpu_result_left_falling_snow_bound"
+        tools:visibility="visible" />
+
+    <com.honeycomb.colorphone.cpucooler.view.SnowView
+        android:id="@+id/middle_falling_snow_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+
+        app:layout_aspectRatio="100%"
+        app:layout_marginLeftPercent="@fraction/cpu_result_middle_falling_snow_margin_left"
+        app:layout_marginStartPercent="@fraction/cpu_result_middle_falling_snow_margin_left"
+        app:layout_marginTopPercent="@fraction/cpu_result_middle_falling_snow_margin_top"
+        app:layout_widthPercent="@fraction/cpu_result_middle_falling_snow_bound"
+        tools:visibility="visible" />
+
+    <com.honeycomb.colorphone.cpucooler.view.SnowView
+        android:id="@+id/right_falling_snow_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        app:layout_aspectRatio="100%"
+        app:layout_marginLeftPercent="@fraction/cpu_result_right_falling_snow_margin_left"
+        app:layout_marginStartPercent="@fraction/cpu_result_right_falling_snow_margin_left"
+        app:layout_marginTopPercent="@fraction/cpu_result_right_falling_snow_margin_top"
+        app:layout_widthPercent="@fraction/cpu_result_right_falling_snow_bound"
+        tools:visibility="visible" />
+
+    <FrameLayout
+        android:id="@+id/optimal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/label_thermometer"
+        android:layout_marginTop="24dp"
+        android:clipChildren="false">
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/label_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="26dp"
+            android:gravity="center"
+            android:text="@string/boost_plus_optimal"
+            android:textColor="#1e1e1e"
+            android:textSize="33sp"
+            android:visibility="invisible"
+            app:typeface="@string/roboto_medium"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/label_title_size_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            tools:visibility="visible">
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/label_title_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5°C"
+                android:textColor="#2e8ef7"
+                android:textSize="43sp"
+                app:typeface="@string/roboto_regular" />
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/label_title_size_describe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="top|center_horizontal"
+                android:text="@string/cpu_positive_feedback_title"
+                android:textColor="#6d6d6d"
+                android:textSize="18sp"
+                android:visibility="visible"
+                app:typeface="@string/roboto_medium" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+    <com.honeycomb.colorphone.view.RevealFlashButton
+        android:id="@+id/page_button_ok"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:text="@android:string/ok"
+        android:textColor="@android:color/white"
+        style="?android:attr/borderlessButtonStyle"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        tools:visibility="visible"/>
+
+    <LinearLayout
+        android:id="@+id/label_title_guide_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/optimal_layout"
+        android:alpha="0"
+        android:clipChildren="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/result_page_guide_tip_icon" />
+
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
+            android:gravity="center"
+            android:text="@string/result_page_click_guide_tip"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            app:typeface="@string/roboto_regular" />
+    </LinearLayout>
+
+</android.support.percent.PercentRelativeLayout>

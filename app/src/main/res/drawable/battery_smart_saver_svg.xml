@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="72.0"
+    android:viewportWidth="72.0">
+    <path
+        android:fillColor="@color/battery_mode_green"
+        android:pathData="M52,30.4h9.3v5.5h-9.3z" />
+    <path
+        android:fillColor="@color/battery_mode_green"
+        android:pathData="M51.32,19.29l8.66,-3.4l2.01,5.12l-8.66,3.4z" />
+    <path
+        android:fillColor="@color/battery_mode_green"
+        android:pathData="M51.36,47.11l2.01,-5.12l8.66,3.4l-2.01,5.12z" />
+    <path
+        android:fillColor="@color/battery_mode_green"
+        android:pathData="M30.2,33.2m-7.7,0a7.7,7.7 0,1 1,15.4 0a7.7,7.7 0,1 1,-15.4 0" />
+    <path
+        android:fillColor="@color/battery_mode_green"
+        android:pathData="M49.1,16.4v-5.3c0,-2.1 -1.7,-3.9 -3.9,-3.9H15c-2.1,0 -3.9,1.7 -3.9,3.9v49.2c0,2.1 1.7,3.9 3.9,3.9h30.2c2.1,0 3.9,-1.7 3.9,-3.9V50h-6.8v1.8H17.9V14.1h24.4v2.3H49.1zM24.7,58.2c0,-1.4 1.1,-2.5 2.5,-2.5H33c1.4,0 2.5,1.1 2.5,2.5l0,0c0,1.4 -1.1,2.5 -2.5,2.5h-5.8C25.9,60.7 24.7,59.6 24.7,58.2L24.7,58.2z" />
+</vector>

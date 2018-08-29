@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:layout_centerVertical="true"
+    android:background="#FF1C1C1E"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="5dp">
+
+    <!-- Cpu Cooler -->
+    <LinearLayout
+        android:id="@+id/cpu_cooler_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/material_compat_toolbar_bg"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_cpu_cooler"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerInside" />
+
+        <TextView
+            style="@style/NotificationToolbarIconText"
+            android:text="@string/cpu_cooler_notification_title" />
+
+    </LinearLayout>
+    <!-- Battery -->
+    <RelativeLayout
+        android:id="@+id/battery_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/material_compat_toolbar_bg">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_battery"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="centerInside"
+                />
+
+            <TextView
+                android:id="@+id/tv_battery_level"
+                style="@style/NotificationToolbarIconText" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!-- Flashlight -->
+    <LinearLayout
+        android:id="@+id/flashlight_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/material_compat_toolbar_bg"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_flash_light"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/notification_toolbar_flashlight_off" />
+
+        <TextView
+            style="@style/NotificationToolbarIconText"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="@string/app_name" />
+
+    </LinearLayout>
+
+    <!-- Settings -->
+    <LinearLayout
+        android:id="@+id/clock_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/material_compat_toolbar_bg"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_clock"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/settings_toolbar" />
+
+        <TextView
+            style="@style/NotificationToolbarIconText"
+            android:text="@string/notification_toolbar_settings" />
+
+    </LinearLayout>
+
+    <!-- Boost -->
+    <LinearLayout
+        android:id="@+id/boost_layout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/material_compat_toolbar_bg"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_boost"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            style="@style/NotificationToolbarIconText"
+            android:text="@string/boost_title" />
+
+    </LinearLayout>
+
+</LinearLayout>

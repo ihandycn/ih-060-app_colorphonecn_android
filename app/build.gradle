@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 26
@@ -11,6 +12,11 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     productFlavors {
@@ -119,14 +125,17 @@ dependencies {
 
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
     compile 'jp.wasabeef:recyclerview-animators:2.2.7'
+    compile "eu.davidea:flexible-adapter:5.0.0-rc1"
 
     // LeakCanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
     // ==== ihandy ====
-    compile'com.ihandy.device:device-clean-memory.gm:4.4.5.gm'
-    compile "com.ihandy.device:device-monitor-top-app.gm:4.4.5.gm"
+    final LIB_DEVICE_VERSION = '.special:4.4.9.special02'
+    compile "com.ihandy.device:device-clean-memory$LIB_DEVICE_VERSION".toString()
+    compile "com.ihandy.device:device-monitor-app-usage$LIB_DEVICE_VERSION".toString()
+    compile "com.ihandy.device:device-monitor-top-app$LIB_DEVICE_VERSION".toString()
 
     // Submodule
     compile(name: 'libChargingReport/libChargingReport-release', ext: 'aar')
@@ -135,6 +144,7 @@ dependencies {
     compile project(':libMessageCenter')
     compile project(':libScreenFlash')
     compile project(':lock')
+    compile project(':libSuperApps')
 
     //  -------- GoldEye ------
     colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.08.28.001'

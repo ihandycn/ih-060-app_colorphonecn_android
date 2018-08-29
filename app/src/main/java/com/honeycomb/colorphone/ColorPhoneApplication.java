@@ -48,14 +48,17 @@ import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
 import com.honeycomb.colorphone.util.CallFinishUtils;
+import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.HSSessionMgr;
+import com.ihs.app.utils.HSVersionControlUtils;
 import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
 import com.ihs.chargingreport.ChargingReportManager;
@@ -73,7 +76,6 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.debug.SharedPreferencesOptimizer;
-import com.superapps.util.Preferences;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
@@ -330,10 +332,26 @@ public class ColorPhoneApplication extends HSApplication {
 
         Theme.updateThemes();
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
+
+        initNotificationToolbar();
+        NotificationManager.getInstance().showNotificationToolbarIfEnabled();
     }
 
     private void initRecentApps() {
         RecentAppManager.getInstance().init();
+    }
+
+    private void initNotificationToolbar() {
+        if (HSVersionControlUtils.isFirstLaunchSinceInstallation() || HSVersionControlUtils.isFirstLaunchSinceUpgrade()) {
+            UserSettings.checkNotificationToolbarToggleClicked();
+        }
+
+        if (!UserSettings.isNotificationToolbarToggleClicked()) {
+            boolean defaultSwitch = HSConfig.optBoolean(true, "Application", "NotificationToolbarToggle", "DefaultSwitch");
+            UserSettings.setNotificationToolbarEnabled(defaultSwitch);
+        }
+
+        NotificationManager.getInstance().showNotificationToolbarIfEnabled();
     }
 
     private void initChargingReport() {

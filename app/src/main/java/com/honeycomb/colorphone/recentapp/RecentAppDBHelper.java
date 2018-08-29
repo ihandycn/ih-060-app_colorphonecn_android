@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.honeycomb.colorphone.contact.ThemeEntry;
-
 public class RecentAppDBHelper extends SQLiteOpenHelper {
     public final static int DATABASE_VERSION = 1;
     public final static String DATABASE_NAME = "recent_app.db";

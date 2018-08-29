@@ -11,7 +11,6 @@ import android.view.View;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.gdpr.DataUsageSettingsActivity;
-import com.honeycomb.colorphone.gdpr.GdprConsts;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;

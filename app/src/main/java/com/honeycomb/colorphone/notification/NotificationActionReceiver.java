@@ -10,7 +10,6 @@ import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.boost.BoostPlusCleanDialog;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 
 

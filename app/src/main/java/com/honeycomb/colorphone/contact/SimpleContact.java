@@ -5,8 +5,6 @@ import android.telephony.PhoneNumberUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.name;
-
 /**
  * Created by sundxing on 17/11/29.
  */

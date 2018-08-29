@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 
 import com.honeycomb.colorphone.boost.LauncherAnimUtils;
-import com.superapps.util.Compats;
-import com.superapps.util.Dimensions;
 
 import java.util.ArrayList;
 import java.util.List;

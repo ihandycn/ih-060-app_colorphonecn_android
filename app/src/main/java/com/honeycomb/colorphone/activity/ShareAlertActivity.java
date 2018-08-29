@@ -37,7 +37,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.receiver.ShareReceiver;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;

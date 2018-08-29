@@ -4,7 +4,6 @@ import android.support.annotation.Nullable;
 
 import com.honeycomb.colorphone.resultpage.data.CardData;
 
-import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
 
 import java.util.List;
@@ -21,9 +20,7 @@ class ResultPageContracts {
         /**
          * Configure and show result page view of given content type.
          */
-        void show(ResultController.Type content, @Nullable AcbInterstitialAd interstitialAd, @Nullable AcbNativeAd ad, @Nullable List<CardData> cards);
-
-        void showExitBtn();
+        void show(ResultController.Type content, @Nullable List<CardData> cards);
     }
 
     /**
@@ -33,9 +30,9 @@ class ResultPageContracts {
         /**
          * Determine content type and show result page. Caller is responsible for passing a ready ads manager in case
          * an ad shall be shown.
-         * <p>
-         * Implementation calls {@link View#show(ResultController.Type, AcbInterstitialAd, AcbNativeAd, List)} and pass content type to view.
+         *
+         * Implementation calls {@link View#show(ResultController.Type, List)} and pass content type to view.
          */
-        void show();
+        void show(AcbNativeAd ad);
     }
 }

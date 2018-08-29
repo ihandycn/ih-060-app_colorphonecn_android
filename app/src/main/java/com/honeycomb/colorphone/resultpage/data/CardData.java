@@ -25,6 +25,7 @@ public class CardData implements Comparable {
             case ResultConstants.CARD_VIEW_TYPE_BOOST_PLUS: return 4;
             case ResultConstants.CARD_VIEW_TYPE_JUNK_CLEANER: return 3;
             case ResultConstants.CARD_VIEW_TYPE_CPU_COOLER: return 2;
+            case ResultConstants.CARD_VIEW_TYPE_ACCESSIBILITY: return 1;
             case ResultConstants.CARD_VIEW_TYPE_DEFAULT: return 0;
             default: return 0;
         }
@@ -57,6 +58,7 @@ public class CardData implements Comparable {
             case ResultConstants.CARD_VIEW_TYPE_MAX_GAME_BOOSTER: return "Max|GameBooster";
             case ResultConstants.CARD_VIEW_TYPE_MAX_APP_LOCKER: return "Max|AppLocker";
             case ResultConstants.CARD_VIEW_TYPE_MAX_DATA_THIEVES: return "Max|DataThieves";
+            case ResultConstants.CARD_VIEW_TYPE_ACCESSIBILITY: return "Accessibility";
             case ResultConstants.CARD_VIEW_TYPE_DEFAULT: return "Default";
             default: return "Unknown";
         }

@@ -1,10 +1,11 @@
 package com.honeycomb.colorphone.util;
 
-import net.appcloudbox.autopilot.AutopilotConfig;
-import net.appcloudbox.autopilot.AutopilotEvent;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.activity.AvatarVideoActivity;
 import com.ihs.commons.utils.HSLog;
+
+import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 /**
  * Created by zhewang on 23/01/2018.

@@ -1,60 +1,45 @@
 package com.honeycomb.colorphone.resultpage;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
-import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.boost.FloatWindowManager;
+import com.honeycomb.colorphone.base.BaseAppCompatActivity;
+import com.honeycomb.colorphone.battery.BatteryUtils;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
+import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.FontUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.honeycomb.colorphone.util.Thunk;
 import com.honeycomb.colorphone.util.Utils;
-import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Preferences;
-import com.superapps.util.Threads;
 
-import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import hugo.weaving.DebugLog;
+import static com.honeycomb.colorphone.resultpage.ResultPageManager.RESULT_PAGE_AD_PLACEMENT_NAME;
 
-public class ResultPageActivity extends HSAppCompatActivity
+
+public class ResultPageActivity extends BaseAppCompatActivity
         implements ResultPageContracts.View, INotificationObserver {
 
     public static final String TAG = "ResultPageActivity";
-
-    // FIXME: Too much global states here. Needs serious refactoring.
-    static class Globals {
-        static long sLastResultPageUnfocusedTime;
-
-        private static boolean sAttached;
-    }
 
     /**
      * Notification sent when this activity becomes visible to user.
@@ -67,10 +52,18 @@ public class ResultPageActivity extends HSAppCompatActivity
     public static final String EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE = "EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE";
     public static final String EXTRA_KEY_BATTERY_OPTIMAL = "EXTRA_KEY_BATTERY_OPTIMAL";
     public static final String EXTRA_KEY_BATTERY_EXTEND_HOUR = "EXTRA_KEY_BATTERY_EXTEND_HOUR";
-    public static final String EXTRA_KEY_SCAN_IS_FILE_SCAN = "EXTRA_KEY_SCAN_IS_FILE_SCAN";
     public static final String EXTRA_KEY_BATTERY_EXTEND_MINUTE = "EXTRA_KEY_BATTERY_EXTEND_MINUTE";
     public static final String EXTRA_KEY_CLEAR_NOTIFICATONS_COUNT = "EXTRA_KEY_CLEAR_NOTIFICATONS_COUNT";
     public static final String EXTRA_KEY_SHOULD_START_TO_LAUNCHER = "EXTRA_KEY_SHOULD_START_TO_LAUNCHER";
+
+    public static final String PREF_KEY_INTO_BATTERY_PROTECTION_COUNT = "into_battery_protection_count";
+    public static final String PREF_KEY_INTO_NOTIFICATION_CLEANER_COUNT = "into_notification_cleaner_count";
+    public static final String PREF_KEY_INTO_APP_LOCK_COUNT = "into_app_lock_count";
+
+    public static final int INTO_RESULT_PAGE_COUNT_NULL = -1;
+    public static final int BATTERY_PROTECTION_LIMIT_COUNT = 1;
+    public static final int NOTIFICATION_CLEANER_LIMIT_COUNT = 1;
+    public static final int APP_LOCK_LIMIT_COUNT = 1;
 
     /**
      * Responsible for resolving {@link ResultController.Type} and performing ad preload if needed.
@@ -78,63 +71,90 @@ public class ResultPageActivity extends HSAppCompatActivity
     private ResultPagePresenter mPresenter;
 
     private AcbNativeAd mAd;
-    private MenuItem mExitBtn;
 
     private int mResultType;
-    private boolean mShouldStartToLauncher;
     private boolean mIsResultPageShow;
 
     /**
      * Responsible for doing actual animations.
      */
     private ResultController mResultController;
+
+    private static boolean sAttached;
     private int mClearNotificationsCount;
+    private boolean isPaused;
 
-    // make list static to restore last scanning result
-    private static List<String> sAppList = new ArrayList<>();
-
-    public static void startForBoost(Context context, int cleanedSizeMbs, boolean shouldStartToLauncher) {
+    public static void startForBoost(Context context, int cleanedSizeMbs) {
         if (context == null) {
             return;
         }
-
         Intent intent = new Intent(context, ResultPageActivity.class);
         intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
         intent.putExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, cleanedSizeMbs);
-        intent.putExtra(EXTRA_KEY_SHOULD_START_TO_LAUNCHER, shouldStartToLauncher);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
-        LauncherAnalytics.logEvent("ResultPage_Show", "Type", ResultConstants.BOOST_TOOLBAR);
     }
 
-    @DebugLog
+    public static void startForBoostPlus(Activity activity, int cleanedSizeMbs, int resultType) {
+        if (activity == null) {
+            return;
+        }
+        Intent intent = new Intent(activity, ResultPageActivity.class);
+        intent.putExtra(EXTRA_KEY_RESULT_TYPE, resultType);
+        intent.putExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, cleanedSizeMbs);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
+//        activity.overridePendingTransition(0, 0);
+    }
+
+    public static void startForBattery(Activity activity, boolean isBatteryOptimal, int extendHour, int extendMinute) {
+        if (activity == null) {
+            return;
+        }
+
+        Intent intent = new Intent(activity, ResultPageActivity.class);
+        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BATTERY);
+        intent.putExtra(EXTRA_KEY_BATTERY_OPTIMAL, isBatteryOptimal);
+        intent.putExtra(EXTRA_KEY_BATTERY_EXTEND_HOUR, extendHour);
+        intent.putExtra(EXTRA_KEY_BATTERY_EXTEND_MINUTE, extendMinute);
+        boolean shouldStartToLauncher = BatteryUtils.shouldReturnToLauncherFromResultPage();
+        intent.putExtra(EXTRA_KEY_SHOULD_START_TO_LAUNCHER, shouldStartToLauncher);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
+    }
+
+    public static void startForCpuCooler(Activity activity) {
+        if (activity == null) {
+            return;
+        }
+
+        Intent intent = new Intent(activity, ResultPageActivity.class);
+        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_CPU_COOLER);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
+    }
+
+    private void recordIntoBpAndNcCardTimes() {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         HSLog.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result_page);
-        overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
+        Utils.showWhenLocked(this);
 
-        mIsResultPageShow = false;
-        onNewStart(getIntent());
-    }
+        setContentView(R.layout.result_page_activity);
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        HSLog.d(TAG, "onNewIntent");
-        super.onNewIntent(intent);
+        recordIntoBpAndNcCardTimes();
 
-        onNewStart(intent);
-    }
-
-    private void onNewStart(Intent intent) {
-
+        Intent intent = getIntent();
         if (null != intent) {
-            mResultType = intent.getIntExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
-            mShouldStartToLauncher = intent.getBooleanExtra(EXTRA_KEY_SHOULD_START_TO_LAUNCHER, false);
+            mResultType = intent.getIntExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
             mClearNotificationsCount = intent.getIntExtra(EXTRA_KEY_CLEAR_NOTIFICATONS_COUNT, 0);
             mPresenter = new ResultPagePresenter(this, mResultType);
-            recordFeatureLastUsedTime();
 
         } else {
             finish();
@@ -144,100 +164,105 @@ public class ResultPageActivity extends HSAppCompatActivity
         ViewUtils.findViewById(this, R.id.bg_view).setBackgroundColor(getBackgroundColor());
     }
 
+
     @SuppressLint("NewApi")
     @Override
     public void onAttachedToWindow() {
         HSLog.d(TAG, "onAttachedToWindow mResultType = " + mResultType + " mIsResultPageShow = " + mIsResultPageShow);
         super.onAttachedToWindow();
-        Utils.setupTransparentStatusBarsForLmp(this);
-        View viewContainer = ViewUtils.findViewById(this, R.id.container_view);
-        viewContainer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        viewContainer.setPadding(0, Dimensions.getStatusBarHeight(this), 0, 0);
+//        setupTransparentSystemBarsForLmp(this);
+//        View viewContainer = Utils.findViewById(this, R.id.view_container);
+//        viewContainer.setPadding(0, getStatusBarHeight(this), 0, 0);
+        sAttached = true;
         if (!mIsResultPageShow) {
-            mPresenter.show();
+            mPresenter.show(ResultPageManager.getInstance().getAd());
             mIsResultPageShow = true;
         }
-        Globals.sAttached = true;
-        Threads.postOnMainThread(new Runnable() {
-            @Override public void run() {
-                if (Globals.sAttached) {
-                    HSLog.d(TAG, "onAttachedToWindow sendNotification");
-                    HSGlobalNotificationCenter.sendNotification(NOTIFICATION_RESULT_PAGE_ATTACHED);
-                }
-            }
-        });
     }
 
     @Override
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        releaseCurrentAd();
-        Globals.sAttached = false;
+        sAttached = false;
     }
 
     public static boolean isAttached() {
-        return Globals.sAttached;
+        return sAttached;
     }
 
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
         if (NOTIFICATION_VISIBLE_TO_USER.equals(s)) {
             HSLog.d(TAG, NOTIFICATION_VISIBLE_TO_USER + " notified, start show mIsResultPageShow = " + mIsResultPageShow);
-            if (!mIsResultPageShow) {
-                mPresenter.show();
-                mIsResultPageShow = true;
-            }
+
         }
     }
 
     public @ColorInt int getBackgroundColor() {
+        switch (mResultType) {
+            case ResultConstants.RESULT_TYPE_BOOST_PLUS:
+            case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
+                return ContextCompat.getColor(this, R.color.boost_plus_clean_bg);
+            case ResultConstants.CARD_VIEW_TYPE_BATTERY:
+                return ContextCompat.getColor(this, R.color.battery_green);
+            case ResultConstants.RESULT_TYPE_JUNK_CLEAN:
+                return ContextCompat.getColor(this, R.color.clean_primary_blue);
+            case ResultConstants.RESULT_TYPE_CPU_COOLER:
+                return ContextCompat.getColor(this, R.color.cpu_cooler_primary_blue);
+        }
         return ContextCompat.getColor(this, R.color.boost_plus_clean_bg);
     }
 
-    @Override
-    public void show(ResultController.Type type, @Nullable AcbInterstitialAd interstitalAd, @Nullable AcbNativeAd ad, @Nullable List<CardData> cards) {
+    public void show(ResultController.Type type, @Nullable List<CardData> cards) {
         String titleText;
+        int titleColor = Color.WHITE;
         Intent intent = getIntent();
-        int cleanedSizeMbs = intent.getIntExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, 0);
-        mResultController = new BoostPlusResultController(this, cleanedSizeMbs, type, interstitalAd, ad, cards);
-        titleText = getString(R.string.boost_title);
+        switch (mResultType) {
+            case ResultConstants.RESULT_TYPE_BOOST_PLUS:
+                int cleanedSizeMbs = intent.getIntExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, 0);
+                mResultController = new BoostPlusResultController(this, mResultType, cleanedSizeMbs, type,  cards);
+                titleText = getString(R.string.boost_title);
+                break;
+            case ResultConstants.RESULT_TYPE_BATTERY:
+                boolean isBatteryOptimal = intent.getBooleanExtra(EXTRA_KEY_BATTERY_OPTIMAL, false);
+                int extendHour = intent.getIntExtra(EXTRA_KEY_BATTERY_EXTEND_HOUR, 0);
+                int extendMinute = intent.getIntExtra(EXTRA_KEY_BATTERY_EXTEND_MINUTE, 0);
+                mResultController = new BatteryResultController(this, isBatteryOptimal, extendHour, extendMinute, type, cards);
+                titleText = getString(R.string.battery_title);
+                break;
+            case ResultConstants.RESULT_TYPE_CPU_COOLER:
+                mResultController = new CpuCoolerResultController(this, type, cards);
+                titleText = getString(R.string.promotion_max_card_title_cpu_cooler);
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
+                cleanedSizeMbs = intent.getIntExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, 0);
+                mResultController = new BoostPlusResultController(this, mResultType, cleanedSizeMbs, type, cards);
+                titleText = getString(R.string.boost_title);
+                break;
+
+            default:
+                throw new IllegalArgumentException("Unsupported result type.");
+        }
 
         if (BuildConfig.DEBUG && mAd != null) {
             throw new IllegalStateException("mAd must be null");
         }
-        releaseCurrentAd();
-        mAd = ad;
+
         ActivityUtils.configSimpleAppBar(this, titleText,
-                FontUtils.getTypeface(FontUtils.Font.ROBOTO_MEDIUM), Color.TRANSPARENT);
-        Drawable backButton = getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
-        backButton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-        getSupportActionBar().setHomeAsUpIndicator(backButton);
-        mResultController.startTransitionAnimation();
-        Preferences.get(Constants.NOTIFICATION_PREFS).incrementAndGetInt(ResultConstants.PREF_KEY_RESULT_PAGE_SHOWN_COUNT);
+                FontUtils.getTypeface(FontUtils.Font.ROBOTO_MEDIUM), titleColor, Color.TRANSPARENT, false);
+
+        TextView textView = (TextView) findViewById(R.id.title_text);
+        textView.setTextSize(17);
+        int padding = Dimensions.pxFromDp(12);
+        textView.setPadding(padding, 0, padding, 0);
+        releaseCurrentAd();
+        startTransitionAnimation();
+
     }
 
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.result_page, menu);
-        return true;
-    }
-
-    @Override public boolean onPrepareOptionsMenu(Menu menu) {
-        mExitBtn = menu.findItem(R.id.action_bar_exit);
-        if (mExitBtn != null) {
-            mExitBtn.setVisible(false);
-            mExitBtn.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override public boolean onMenuItemClick(MenuItem menuItem) {
-                    ResultPageActivity.this.finishSelfAndParentActivity();
-                    return false;
-                }
-            });
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override public void showExitBtn() {
-        if (mExitBtn != null) {
-            mExitBtn.setVisible(true);
+    private void startTransitionAnimation() {
+        if (null != mResultController) {
+            mResultController.startTransitionAnimation();
         }
     }
 
@@ -257,51 +282,49 @@ public class ResultPageActivity extends HSAppCompatActivity
     }
 
     void finishAndNotify() {
-        FloatWindowManager.getInstance().removeAllDialogs();
         finish();
+    }
+
+
+    @Override
+    protected void onResume() {
+        isPaused = false;
+        super.onResume();
     }
 
     @Override
     protected void onPause() {
+        isPaused = true;
         super.onPause();
-        Globals.sLastResultPageUnfocusedTime = SystemClock.elapsedRealtime();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStop() {
+        super.onStop();
+        releaseCurrentAd();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mIsResultPageShow = false;
-        HSGlobalNotificationCenter.removeObserver(this);
-        if (mPresenter != null) {
-            mPresenter = null;
-        }
-        if (mExitBtn != null) {
-            mExitBtn = null;
-        }
+        boolean isAdShow = false;
         if (mResultController != null) {
-            mResultController = null;
+            isAdShow = mResultController.isAdShown();
         }
+        AcbNativeAdAnalytics.logAppViewEvent(RESULT_PAGE_AD_PLACEMENT_NAME,  isAdShow);
+
+        ResultPageManager.getInstance().releaseAd();
+        ResultPageManager.getInstance().releaseInterstitialAd();
+        ResultPageManager.getInstance().markAdDirty();
+        HSGlobalNotificationCenter.removeObserver(this);
     }
 
-    @Thunk void releaseCurrentAd() {
+    void releaseCurrentAd() {
         if (mAd != null) {
             mAd.release();
             mAd = null;
         }
     }
 
-    public void finishSelfAndParentActivity() {
-        HSLog.d(ResultPageActivity.TAG, "ResultPageActivity finishSelfAndParentActivity");
-        finish();
-    }
-
-    private void recordFeatureLastUsedTime() {
-        Preferences.get(Constants.NOTIFICATION_PREFS)
-                .putLong(ResultConstants.PREF_KEY_LAST_BOOST_PLUS_USED_TIME, System.currentTimeMillis());
-    }
 }

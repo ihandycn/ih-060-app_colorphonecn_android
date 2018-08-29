@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <com.honeycomb.colorphone.view.FixRatioPreviewWindow xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/theme_text_margin_bottom_half"
-    tools:showIn="@layout/card_view_theme_selector"
-    style="@style/RatioView.Container">
+                                                     xmlns:tools="http://schemas.android.com/tools"
+                                                     android:id="@+id/card_view"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="wrap_content"
+                                                     android:layout_marginTop="@dimen/theme_text_margin_bottom_half"
+                                                     tools:showIn="@layout/card_view_theme_selector"
+                                                     style="@style/RatioView.Container">
 
     <com.honeycomb.colorphone.view.RatioImageView
         android:id="@+id/card_preview_img"

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clip
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/result_page_boost_plus_tick"
+    android:clipOrientation="horizontal"
+    android:gravity="left" >
+</clip>

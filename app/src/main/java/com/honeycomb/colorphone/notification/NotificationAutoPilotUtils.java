@@ -2,7 +2,6 @@ package com.honeycomb.colorphone.notification;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
-import com.colorphone.lock.util.ActivityUtils;
 
 
 public class NotificationAutoPilotUtils {

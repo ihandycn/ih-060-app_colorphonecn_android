@@ -5,7 +5,6 @@ import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 
 import com.honeycomb.colorphone.ColorPhoneApplication;
-import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;

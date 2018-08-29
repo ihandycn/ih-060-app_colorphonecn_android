@@ -303,6 +303,9 @@
             android:name="com.google.android.gms.ads.AdActivity"
             android:noHistory="true"
             android:taskAffinity=".acb_interstitial_quiet" />
+        <activity android:name=".battery.BatteryCleanActivity"/>
+        <activity android:name=".cpucooler.CpuCoolDownActivity"/>
+        <activity android:name=".toolbar.NotificationActivity"/>
 
         <!-- permanent -->
         <service

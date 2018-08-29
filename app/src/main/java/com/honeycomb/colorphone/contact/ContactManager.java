@@ -8,7 +8,6 @@ import android.os.Looper;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;

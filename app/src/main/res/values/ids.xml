@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="all">
+
+    <!-- Pin all notification bar related IDs -->
+    <item name="notification_toolbar" type="id" />
+
+    <!-- View IDs -->
+    <item name="boost_layout" type="id" />
+    <item name="iv_boost" type="id" />
+    <item name="cpu_cooler_layout" type="id" />
+    <item name="iv_cpu_cooler" type="id" />
+    <item name="flashlight_layout" type="id" />
+    <item name="iv_flash_light" type="id" />
+    <item name="clock_layout" type="id" />
+    <item name="iv_clock" type="id" />
+    <item name="battery_layout" type="id" />
+    <item name="iv_battery" type="id" />
+    <item name="tv_battery_level" type="id" />
+    <item name="title_text" type="id" />
+
+    <!-- Drawables -->
+    <item name="ic_launcher" type="id" />
+    <item name="boost_icon" type="id" />
+    <item name="material_compat_toolbar_bg" type="id" />
+    <item name="notification_clear" type="id" />
+    <item name="notification_toolbar_flashlight_on" type="id" />
+    <item name="notification_toolbar_flashlight_off" type="id" />
+    <item name="notification_toolbar_small_icon" type="id" />
+
+    <item name="cpu_cooler_notification_red_svg" type="id" />
+    <item name="cpu_cooler_notification_yellow_svg" type="id" />
+    <item name="cpu_cooler_notification_green_svg" type="id" />
+
+    <item name="notification_toolbar_clock_icon" type="id" />
+
+    <item name="battery_toolbar_first" type="id" />
+    <item name="battery_toolbar_first_optimized" type="id" />
+    <item name="battery_toolbar_second" type="id" />
+    <item name="battery_toolbar_second_optimized" type="id" />
+    <item name="battery_toolbar_third" type="id" />
+    <item name="battery_toolbar_forth" type="id" />
+    <item name="settings_toolbar" type="id" />
+    <item name="empty" type="id" />
+
+    <!-- Colors -->
+    <item name="cpu_cooler_notification_red" type="id" />
+    <item name="cpu_cooler_notification_yellow" type="id" />
+    <item name="cpu_cooler_notification_blue" type="id" />
+
+    <!-- Strings -->
+    <item name="boost_title" type="id" />
+    <item name="app_name" type="id" />
+    <item name="notification_toolbar_clock" type="id" />
+    <item name="cpu_cooler_notification_title" type="id" />
+    <item name="notification_toolbar_settings" type="id" />
+
+    <!-- Style -->
+    <item name="NotificationToolbarIconText" type="id" />
+</resources>

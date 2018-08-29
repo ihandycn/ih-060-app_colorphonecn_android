@@ -6,7 +6,6 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;

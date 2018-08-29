@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clipChildren="false"
+    android:fitsSystemWindows="false">
+
+    <View
+        android:id="@+id/status_bar_empty_v"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/status_bar_default_height"
+        android:visibility="invisible" />
+
+    <include
+        android:id="@+id/action_bar"
+        layout="@layout/white_toolbar"
+        android:visibility="invisible" />
+
+    <com.honeycomb.colorphone.cpucooler.view.SnowView
+        android:id="@+id/left_falling_snow_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/status_bar_empty_v"
+        android:visibility="invisible"
+        app:layout_aspectRatio="100%"
+        app:layout_marginLeftPercent="@fraction/cpu_left_falling_snow_margin_left"
+        app:layout_widthPercent="@fraction/cpu_left_falling_snow_bound" />
+
+    <com.honeycomb.colorphone.cpucooler.view.SnowView
+        android:id="@+id/middle_falling_snow_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/status_bar_empty_v"
+        android:visibility="invisible"
+        app:layout_aspectRatio="100%"
+        app:layout_marginLeftPercent="@fraction/cpu_middle_falling_snow_margin_left"
+        app:layout_widthPercent="@fraction/cpu_middle_falling_snow_bound" />
+
+    <com.honeycomb.colorphone.cpucooler.view.SnowView
+        android:id="@+id/right_falling_snow_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/status_bar_empty_v"
+        android:visibility="invisible"
+        app:layout_aspectRatio="100%"
+        app:layout_marginLeftPercent="@fraction/cpu_right_falling_snow_margin_left"
+        app:layout_widthPercent="@fraction/cpu_right_falling_snow_bound" />
+
+    <com.honeycomb.colorphone.cpucooler.view.CircleView
+        android:id="@+id/circle_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/status_bar_empty_v"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        app:layout_aspectRatio="100%"
+        app:layout_marginTopPercent="@fraction/cpu_circle_view_margin_top"
+        app:layout_widthPercent="@fraction/cpu_circle_bound" />
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/growing_snow_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/status_bar_empty_v"
+        android:layout_centerHorizontal="true"
+        app:layout_aspectRatio="100%"
+        app:layout_marginTopPercent="@fraction/cpu_circle_view_margin_top"
+        app:layout_widthPercent="@fraction/cpu_circle_bound">
+
+        <com.honeycomb.colorphone.cpucooler.view.SnowView
+            android:id="@+id/growing_snow_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            app:layout_aspectRatio="100%"
+            app:layout_widthPercent="@fraction/cpu_growing_snow_bound" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/circle_view"
+        android:layout_marginLeft="@dimen/cpu_app_icon_margin_side"
+        android:layout_marginRight="@dimen/cpu_app_icon_margin_side"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        app:layout_marginTopPercent="@fraction/cpu_clean_hint_margin_top">
+
+        <ImageView
+            android:id="@+id/app_icon_img_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/app_icon_img_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/app_icon_img_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/app_icon_img_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/close_app_hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/circle_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:gravity="center_horizontal"
+        android:text="@string/cpu_cooler_cleaning_hint"
+        android:textAlignment="center"
+        android:textColor="@color/cpu_cooler_black_disable"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        app:layout_marginTopPercent="@fraction/cpu_clean_hint_margin_top" />
+
+</android.support.percent.PercentRelativeLayout>

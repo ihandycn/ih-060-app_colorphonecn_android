@@ -1,7 +1,8 @@
 package com.honeycomb.colorphone.module;
 
-import net.appcloudbox.autopilot.AutopilotEvent;
 import com.colorphone.lock.LockerCustomConfig;
+
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 /**
  * Created by sundxing on 2018/1/5.
