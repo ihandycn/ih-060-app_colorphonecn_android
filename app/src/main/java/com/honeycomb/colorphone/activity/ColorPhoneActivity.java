@@ -35,6 +35,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -44,9 +45,11 @@ import com.honeycomb.colorphone.notification.permission.PermissionUtils;
 import com.honeycomb.colorphone.permission.FloatWindowManager;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -86,6 +89,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RewardVideoView mRewardVideoView;
 
     private SwitchCompat mainSwitch;
+    private SwitchCompat notificationToolbarSwitch;
     private TextView mainSwitchTxt;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
@@ -208,9 +212,24 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
+        notificationToolbarSwitch = leftDrawer.findViewById(R.id.notification_toolbar_switch);
+
+        initCheckState = UserSettings.isNotificationToolbarEnabled();
+        notificationToolbarSwitch.setChecked(initCheckState);
+
+        notificationToolbarSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                UserSettings.setNotificationToolbarEnabled(isChecked);
+                NotificationManager.getInstance().showNotificationToolbarIfEnabled();
+            }
+        });
+
         leftDrawer.findViewById(R.id.settings_main_switch).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_led_flash).setOnClickListener(this);
+        leftDrawer.findViewById(R.id.settings_notification_toolbar).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_feedback).setOnClickListener(this);
+        leftDrawer.findViewById(R.id.settings_boost).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_setting).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_contacts).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_about).setOnClickListener(this);
@@ -486,9 +505,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             case R.id.settings_led_flash:
                 LedFlashSettingsActivity.start(this);
                 break;
+            case R.id.settings_notification_toolbar:
+                toggleNotificationToolbar();
+                break;
             case R.id.settings_feedback:
                 feedBack();
                 ColorPhoneApplication.getConfigLog().getEvent().onFeedBackClick();
+                break;
+            case R.id.settings_boost:
+                BoostActivity.start(ColorPhoneActivity.this, false);
                 break;
             case R.id.settings_setting:
                 SettingsActivity.start(this);
@@ -501,6 +526,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 AboutActivity.start(this);
                 break;
         }
+    }
+
+    private void toggleNotificationToolbar() {
+        boolean isChecked = notificationToolbarSwitch.isChecked();
+        notificationToolbarSwitch.setChecked(!isChecked);
     }
 
     private void feedBack() {
