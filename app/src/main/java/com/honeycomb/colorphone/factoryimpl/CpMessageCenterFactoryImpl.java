@@ -128,10 +128,6 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 return R.drawable.color_phone_logo;
             }
 
-            @Override
-            public boolean isShowFloatingBall() {
-                return false;
-            }
         };
     }
 
