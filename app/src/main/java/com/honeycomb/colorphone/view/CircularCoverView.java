@@ -118,11 +118,7 @@ public class CircularCoverView extends View {
         paint.setStyle(Paint.Style.FILL);
 
         //create a canvas layer to show the mix-result
-        int sc = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.MATRIX_SAVE_FLAG |
-                Canvas.CLIP_SAVE_FLAG |
-                Canvas.HAS_ALPHA_LAYER_SAVE_FLAG |
-                Canvas.FULL_COLOR_LAYER_SAVE_FLAG |
-                Canvas.CLIP_TO_LAYER_SAVE_FLAG);
+        int sc = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);
 
         //draw sector-dst-bitmap at first.
         canvas.drawBitmap(drawSector(getWidth(), getHeight()), 0, 0, paint);

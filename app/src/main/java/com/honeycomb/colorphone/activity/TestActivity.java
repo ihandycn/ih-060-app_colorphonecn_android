@@ -27,6 +27,7 @@ public class TestActivity extends AppCompatActivity {
     Handler mHandler = new Handler();
     EditText editText;
     LottieAnimationView mLottieAnimationView;
+    InCallWindow mInCallWindow;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,17 +47,17 @@ public class TestActivity extends AppCompatActivity {
                 lottieAnimationView2.playAnimation();
             }
         });
-
+        mInCallWindow = new InCallWindow(this);
 
     }
 
     public void startCallRingingWindow(View view) {
         String number = editText.getText().toString().trim();
-        InCallWindow.show(this, TextUtils.isEmpty(number) ? "8888888" : number);
+        mInCallWindow.show( TextUtils.isEmpty(number) ? "8888888" : number);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                InCallWindow.dismiss(TestActivity.this.getApplicationContext());
+                mInCallWindow.endFlashCall();
             }
         }, 8000);
 
