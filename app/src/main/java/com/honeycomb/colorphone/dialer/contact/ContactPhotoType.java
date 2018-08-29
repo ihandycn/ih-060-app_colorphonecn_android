@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2016 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,23 @@
  * limitations under the License
  */
 
-package com.honeycomb.colorphone.dialer.disconnectdialog;
+package com.honeycomb.colorphone.dialer.contact;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.telecom.DisconnectCause;
-import android.util.Pair;
+import android.support.annotation.IntDef;
 
-import com.honeycomb.colorphone.dialer.call.DialerCall;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-/** Interface for disconnect dialog. */
-public interface DisconnectDialog {
+/** Types of contact photos we can have. */
+@Retention(RetentionPolicy.SOURCE)
+@IntDef({
+  ContactPhotoType.DEFAULT_PLACEHOLDER,
+  ContactPhotoType.BUSINESS,
+  ContactPhotoType.CONTACT,
+})
+public @interface ContactPhotoType {
 
-  boolean shouldShow(DisconnectCause disconnectCause);
-
-  Pair<Dialog, CharSequence> createDialog(@NonNull Context context, DialerCall call);
+  int DEFAULT_PLACEHOLDER = 0;
+  int BUSINESS = 1;
+  int CONTACT = 2;
 }

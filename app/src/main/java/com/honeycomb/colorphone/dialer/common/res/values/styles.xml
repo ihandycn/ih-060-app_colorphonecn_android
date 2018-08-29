@@ -44,4 +44,12 @@
     <item name="android:layout_marginStart">20dp</item>
     <item name="android:paddingLeft">12dp</item>
   </style>
+
+  <style name="Theme.Incall.DialogHolder" parent="Theme.AppCompat.Translucent">
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:windowActivityTransitions">false</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:navigationBarColor">@android:color/transparent</item>
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+  </style>
 </resources>

@@ -19,20 +19,25 @@ package com.honeycomb.colorphone.telecomeventui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.os.UserManagerCompat;
 import android.view.View;
 import android.widget.CheckBox;
-import com.android.dialer.common.Assert;
-import com.android.dialer.common.FragmentUtils;
-import com.android.dialer.common.LogUtil;
-import com.android.dialer.storage.StorageComponent;
-import com.android.incallui.call.CallList;
-import com.android.incallui.call.DialerCall;
+
+import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.dialer.Assert;
+import com.honeycomb.colorphone.dialer.LogUtil;
+import com.honeycomb.colorphone.dialer.call.CallList;
+import com.honeycomb.colorphone.dialer.call.DialerCall;
+import com.honeycomb.colorphone.dialer.util.FragmentUtils;
+import com.ihs.app.framework.HSApplication;
 
 /**
  * Dialog that may be shown when users place an outgoing call to an international number while on
@@ -41,6 +46,7 @@ import com.android.incallui.call.DialerCall;
  * <p>The android.telephony.event.EVENT_NOTIFY_INTERNATIONAL_CALL_ON_WFC event is sent when users
  * attempt to place a call under these circumstances.
  */
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class InternationalCallOnWifiDialogFragment extends DialogFragment {
 
   /**
@@ -55,11 +61,16 @@ public class InternationalCallOnWifiDialogFragment extends DialogFragment {
       return false;
     }
 
-    SharedPreferences preferences = StorageComponent.get(context).unencryptedSharedPrefs();
+    SharedPreferences preferences = unencryptedSharedPrefs();
     boolean shouldShow = preferences.getBoolean(ALWAYS_SHOW_WARNING_PREFERENCE_KEY, true);
 
     LogUtil.i("InternationalCallOnWifiDialogFragment.shouldShow", "result: %b", shouldShow);
     return shouldShow;
+  }
+
+  private static SharedPreferences unencryptedSharedPrefs() {
+    return HSApplication.getContext().getSharedPreferences(
+            "dialer", Context.MODE_PRIVATE);
   }
 
   /**
@@ -101,9 +112,9 @@ public class InternationalCallOnWifiDialogFragment extends DialogFragment {
     View dialogView =
         View.inflate(getActivity(), R.layout.frag_international_call_on_wifi_dialog, null);
 
-    CheckBox alwaysWarn = dialogView.findViewById(R.id.always_warn);
+    final CheckBox alwaysWarn = dialogView.findViewById(R.id.always_warn);
 
-    SharedPreferences preferences = StorageComponent.get(getActivity()).unencryptedSharedPrefs();
+    final SharedPreferences preferences = unencryptedSharedPrefs();
     // The default is set to false in this case to ensure that the first time the dialog opens,
     // the checkbox is unchecked.
     alwaysWarn.setChecked(preferences.getBoolean(ALWAYS_SHOW_WARNING_PREFERENCE_KEY, false));
@@ -114,10 +125,20 @@ public class InternationalCallOnWifiDialogFragment extends DialogFragment {
             .setView(dialogView)
             .setPositiveButton(
                 android.R.string.ok,
-                (dialog, which) -> onPositiveButtonClick(preferences, alwaysWarn.isChecked()))
+                    new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                        InternationalCallOnWifiDialogFragment.this.onPositiveButtonClick(preferences, alwaysWarn.isChecked());
+                      }
+                    })
             .setNegativeButton(
                 android.R.string.cancel,
-                (dialog, which) -> onNegativeButtonClick(preferences, alwaysWarn.isChecked()))
+                    new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface dialog, int which) {
+                        InternationalCallOnWifiDialogFragment.this.onNegativeButtonClick(preferences, alwaysWarn.isChecked());
+                      }
+                    })
             .create();
 
     alertDialog.setCanceledOnTouchOutside(false);

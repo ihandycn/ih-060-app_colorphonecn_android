@@ -19,13 +19,17 @@ package com.honeycomb.colorphone.dialer.disconnectdialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.telecom.DisconnectCause;
 import android.text.TextUtils;
 import android.util.Pair;
-import com.android.incallui.call.DialerCall;
+
+import com.honeycomb.colorphone.dialer.call.DialerCall;
 
 /** Default error dialog shown to user after disconnect. */
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class DefaultErrorDialog implements DisconnectDialog {
 
   @Override

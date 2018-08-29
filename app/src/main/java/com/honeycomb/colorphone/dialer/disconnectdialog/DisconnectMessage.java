@@ -36,7 +36,8 @@ public class DisconnectMessage {
   // Disconnect dialog catalog. Default error dialog MUST be last one.
   private static final DisconnectDialog[] DISCONNECT_DIALOGS =
       new DisconnectDialog[] {
-        new EnableWifiCallingPrompt(), new VideoCallNotAvailablePrompt(), new DefaultErrorDialog()
+//        new EnableWifiCallingPrompt(), new VideoCallNotAvailablePrompt(), 
+              new DefaultErrorDialog()
       };
 
   public final Dialog dialog;
