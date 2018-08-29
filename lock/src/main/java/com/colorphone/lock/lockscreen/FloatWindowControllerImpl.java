@@ -25,6 +25,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreen;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Navigations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -190,6 +191,7 @@ public class FloatWindowControllerImpl {
             } catch (SecurityException e) {
             }
         }
+        startDismissActivity();
     }
 
     public void showLockScreen() {
@@ -214,6 +216,12 @@ public class FloatWindowControllerImpl {
         }
     }
 
+    private void startDismissActivity() {
+        Intent intentActivity = new Intent(context, DismissActivity.class);
+        intentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Navigations.startActivitySafely(context, intentActivity);
+    }
+
     public void hideLockScreen(boolean dismissKeyguard) {
         HSLog.i("hideLockScreen(), auto lock = " + dismissKeyguard);
         doHideLockScreen(dismissKeyguard);
@@ -229,6 +237,7 @@ public class FloatWindowControllerImpl {
     }
 
     private void doHideLockScreen(boolean dismissKeyguard) {
+        DismissActivity.hide();
         if (addedToWindowMgr) {
             try {
                 windowMgr.removeView(container);

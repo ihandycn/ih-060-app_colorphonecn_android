@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
@@ -71,6 +72,11 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT)
                         && NotificationAutoPilotUtils.isMessageCenterEnabled()
                         && MessageCenterSettings.isSMSAssistantModuleEnabled();
+            }
+
+            @Override
+            public boolean isShowFloatingBall() {
+                return HSApplication.getFirstLaunchInfo().appVersionCode > 5 && Ap.MsgBall.enable();
             }
 
             @Override
@@ -150,6 +156,9 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             public void onAdShow() {
                 NotificationAutoPilotUtils.logMessageAssistantAdShow();
                 LauncherAnalytics.logEvent("Message_View_AD_Shown");
+                if (getNotificationMessageConfig().isShowFloatingBall()) {
+                    Ap.MsgBall.onAdShow();
+                }
             }
 
             @Override
@@ -173,6 +182,24 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 }
             }
 
+            @Override
+            public void floatingBallShow(int count, String from) {
+                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_View_Show", "MsgCount", String.valueOf(count));
+                Ap.MsgBall.onShow();
+
+            }
+
+            @Override
+            public void floatingBallClicked(int count) {
+                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_View_Click", "MsgCount", String.valueOf(count));
+                Ap.MsgBall.onClick();
+            }
+
+            @Override
+            public void floatingBallCanceled(int count) {
+                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_Cancel", "MsgCount", String.valueOf(count));
+                Ap.MsgBall.onCancel();
+            }
         };
     }
 

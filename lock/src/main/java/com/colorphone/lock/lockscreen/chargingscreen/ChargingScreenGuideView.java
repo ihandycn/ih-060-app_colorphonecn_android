@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -50,6 +51,9 @@ public class ChargingScreenGuideView extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
+        ImageView appIcon = findViewById(R.id.app_custom_icon);
+        appIcon.setImageResource(LockerCustomConfig.get().getCustomScreenIcon());
+        
         setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(getContext()));
 
         ViewUtils.findViewById(this, R.id.ic_close).setOnClickListener(new OnClickListener() {

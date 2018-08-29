@@ -86,10 +86,6 @@
         <attr name="fastScrollThumbInactiveColor" format="reference|boolean" />
     </declare-styleable>
 
-    <declare-styleable name="FixedRatioLayout">
-        <attr name="aspectRatio" format="float" />
-    </declare-styleable>
-
     <declare-styleable name="InsetAttr">
         <attr name="layout_insetWay" format="enum">
             <enum name="none" value="0" />

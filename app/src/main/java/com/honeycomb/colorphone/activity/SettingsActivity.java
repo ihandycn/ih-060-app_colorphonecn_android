@@ -26,6 +26,8 @@ import com.messagecenter.customize.MessageCenterSettings;
 import java.util.ArrayList;
 import java.util.List;
 
+import colorphone.acb.com.libscreencard.gif.GifCacheUtils;
+
 public class SettingsActivity extends HSAppCompatActivity {
 
     private static final String TAG = SettingsActivity.class.getSimpleName();
@@ -81,6 +83,7 @@ public class SettingsActivity extends HSAppCompatActivity {
                 R.id.setting_item_charging) {
             @Override
             public void onCheckChanged(boolean isChecked) {
+                GifCacheUtils.cacheGif();
                 SmartChargingSettings.setModuleEnabled(isChecked);
             }
         });

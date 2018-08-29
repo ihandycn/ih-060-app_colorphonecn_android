@@ -18,12 +18,12 @@
         android:paddingTop="8dp">
 
         <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/app_custom_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:contentDescription="@null"
-            android:tint="#498ced"
-            app:srcCompat="@drawable/ic_charging_screen_logo"/>
+            android:tint="#498ced"/>
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ic_close"

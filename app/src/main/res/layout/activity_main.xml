@@ -107,13 +107,6 @@
                     android:layout_toRightOf="@id/led_flash_switch_icon"
                     android:text="@string/led_flash_switch_text" />
 
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/led_flash_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
             </RelativeLayout>
 
             <LinearLayout

@@ -59,7 +59,9 @@ public class FloatWindowCompat {
     }
 
     public static boolean needsSystemErrorFloatWindow() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                || (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP && Compats.IS_SAMSUNG_DEVICE);
+        int sdkLevel = Build.VERSION.SDK_INT;
+        return sdkLevel >= Build.VERSION_CODES.LOLLIPOP
+                || (sdkLevel == Build.VERSION_CODES.KITKAT && Compats.IS_HUAWEI_DEVICE)
+                || (sdkLevel == Build.VERSION_CODES.JELLY_BEAN_MR2 && Compats.IS_HTC_DEVICE);
     }
 }

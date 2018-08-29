@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">libScreenCard</string>
+
+    <!-- for gif center -->
+    <string name="more_gif">المزيد</string>
+    <string name="funny_gif">صور GIF مضحكة</string>
+    <string name="gif_center">GIF Center</string>
+
+    <!-- game -->
+    <string name="game_card_title">Dunk Hit</string>
+    <string name="game_card_desc">هل تستطيع التغلب على هذا التحدي؟!؟!</string>
+    <string name="game_card_play">العب</string>
+
+</resources>

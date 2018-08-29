@@ -1,13 +1,11 @@
 package com.colorphone.lock.lockscreen.chargingscreen;
 
 
-import android.app.Application;
-import android.text.TextUtils;
-
 import com.colorphone.lock.util.ConfigUtils;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
+
+import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 
 public class SmartChargingSettings {
 
@@ -41,6 +39,9 @@ public class SmartChargingSettings {
     }
 
     public static boolean isChargingScreenEnabledWithGooglePolicy() {
+        if (AutoPilotUtils.enableScreenModule()) {
+            return true;
+        }
         return ConfigUtils.isEnabled("Application", "Charging", "ChargingLockScreen", "Enable")
                 && ConfigUtils.isScreenAdEnabledThisVersion();
     }

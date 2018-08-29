@@ -26,10 +26,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <!-- Ringtone -->
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
@@ -61,16 +60,12 @@
     <uses-permission
         android:name="android.permission.RESTART_PACKAGES"
         tools:node="remove" />
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS"
+        tools:node="remove"/>
 
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-    <!-- Screen Flash 里面接听电话 -->
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_MMS" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -82,7 +77,8 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <!-- required by libAppFramework & libNativeAds -->
         <meta-data
             android:name="com.google.android.gms.version"
@@ -100,6 +96,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
+            android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN" />-->
@@ -113,6 +110,7 @@
             android:label="@string/app_name"
             android:noHistory="true"
             android:screenOrientation="portrait"
+            android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme.Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -156,24 +154,35 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".activity.ColorPhoneActivity"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DarkFullScreen" />
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppLightStatusBarTheme" />
+        <activity
+            android:name=".activity.LedFlashSettingsActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
         <activity
             android:name=".activity.AboutActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
         <activity
             android:name=".activity.NotificationSettingsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
 
@@ -181,6 +190,7 @@
             android:name=".activity.GuideAllFeaturesActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/AppLightStatusBarTheme" />
 
@@ -201,6 +211,7 @@
             android:name=".activity.ContactsSelectActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/ContactTheme" />
 
@@ -208,6 +219,7 @@
             android:name=".activity.ContactsEditActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:screenOrientation="portrait"
             android:theme="@style/ContactTheme" />
 
@@ -215,6 +227,7 @@
             android:name=".activity.AvatarVideoActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
+            android:taskAffinity=":main"
             android:parentActivityName=".activity.ColorPhoneActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DarkFullScreen" />
@@ -273,6 +286,7 @@
         <activity
             android:name=".gdpr.DataUsageSettingsActivity"
             android:screenOrientation="portrait"
+            android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme" />
         <!-- Facebook全屏 -->
         <activity
@@ -376,6 +390,12 @@
 
         <receiver android:name=".notification.NotificationAlarmReceiver"></receiver>
 
+        <activity
+            android:name="net.appcloudbox.internal.h5game.GameActivity"
+            android:taskAffinity=".h5game"
+            android:launchMode="singleTask"
+            tools:node="merge"
+             />
     </application>
 
 

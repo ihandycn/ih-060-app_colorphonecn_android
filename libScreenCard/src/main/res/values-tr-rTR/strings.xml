@@ -1,0 +1,13 @@
+<resources>
+  <string name="app_name">libScreenCard</string>
+
+  <!-- for gif center -->
+  <string name="more_gif">DAHA FAZLA</string>
+  <string name="funny_gif">Komik GIF</string>
+  <string name="gif_center">GIF Center</string>
+
+  <!-- game -->
+  <string name="game_card_title">Sert Vuruş</string>
+  <string name="game_card_desc">BU GÖREVİ BAŞARABİLECEK MİSİN?</string>
+  <string name="game_card_play">OYNA</string>
+</resources>
