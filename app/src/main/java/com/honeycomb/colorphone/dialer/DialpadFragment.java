@@ -18,6 +18,7 @@ package com.honeycomb.colorphone.dialer;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.view.KeyEvent;
 import android.view.animation.Animation;
 
 /** Fragment for call control buttons */
@@ -34,5 +35,21 @@ public class DialpadFragment {
 
   public boolean isVisible() {
     return false;
+  }
+
+  public void setDtmfText(String dtmfTextToPrepopulate) {
+
+  }
+
+  public boolean onDialerKeyUp(KeyEvent event) {
+    return false;
+  }
+
+  public boolean onDialerKeyDown(KeyEvent event) {
+    return false;
+  }
+
+  public String getDtmfText() {
+    return null;
   }
 }

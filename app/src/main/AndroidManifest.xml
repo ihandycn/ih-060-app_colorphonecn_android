@@ -410,7 +410,7 @@
         </activity>
         <activity
             android:name=".dialer.DialerActivity"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.DIAL" />
                 <category android:name="android.intent.category.DEFAULT" />
