@@ -5,7 +5,6 @@ import com.ihs.commons.utils.HSLog;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
-import net.appcloudbox.ads.expressad.AcbExpressAdManager;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdLoader;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
@@ -48,9 +47,6 @@ public class ResultPageManager {
         HSLog.d(TAG, "preloadResultPageAds");
         AcbNativeAdManager.getInstance().activePlacementInProcess(RESULT_PAGE_AD_PLACEMENT_NAME);
         AcbNativeAdManager.preload(1, RESULT_PAGE_AD_PLACEMENT_NAME);
-
-        AcbExpressAdManager.getInstance().activePlacementInProcess(RESULT_PAGE_AD_PLACEMENT_NAME);
-        AcbExpressAdManager.preload(1, RESULT_PAGE_AD_PLACEMENT_NAME);
 
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(RESULT_PAGE_INTERSTITIAL_AD_PLACEMENT_NAME);
         AcbInterstitialAdManager.preload(1, RESULT_PAGE_INTERSTITIAL_AD_PLACEMENT_NAME);
