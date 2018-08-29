@@ -103,4 +103,30 @@ public class Ap {
             return avatarButtonTextString;
         }
     }
+
+    public static class MsgBall {
+        public static boolean enable() {
+            boolean ringtoneBtnShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1531210959452-409", "message_floatingball_enable", false);
+            if (BuildConfig.DEBUG) {
+                Toasts.showToast("【Autopilot】MsgBall：" + ringtoneBtnShowBoolean, Toast.LENGTH_SHORT);
+            }
+            return ringtoneBtnShowBoolean;
+        }
+
+        public static void onShow() {
+            AutopilotEvent.logTopicEvent("topic-1531210959452-409", "message_floatingball_view_show");
+        }
+
+        public static void onClick() {
+            AutopilotEvent.logTopicEvent("topic-1531210959452-409", "message_floatingball_view_click");
+        }
+
+        public static void onCancel() {
+            AutopilotEvent.logTopicEvent("topic-1531210959452-409", "message_floatingball_cancel");
+        }
+
+        public static void onAdShow() {
+            AutopilotEvent.logTopicEvent("topic-1531210959452-409", "message_floatingball_ad_show");
+        }
+    }
 }

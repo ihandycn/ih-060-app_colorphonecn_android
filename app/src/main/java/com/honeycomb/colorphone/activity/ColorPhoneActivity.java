@@ -33,7 +33,6 @@ import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
-import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -55,7 +54,6 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
-import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -88,7 +86,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RewardVideoView mRewardVideoView;
 
     private SwitchCompat mainSwitch;
-    private SwitchCompat ledFlaseSwitch;
     private TextView mainSwitchTxt;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
@@ -208,22 +205,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
 
                 ScreenFlashSettings.setScreenFlashModuleEnabled(isChecked);
-            }
-        });
-
-        ledFlaseSwitch = leftDrawer.findViewById(R.id.led_flash_switch);
-        ledFlaseSwitch.setChecked(Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE,
-                HSConfig.optBoolean(false, "Application", "LEDReminder", "DefaultSwitch")));
-        ledFlaseSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Preferences.get(Constants.DESKTOP_PREFS).putBoolean(Constants.PREFS_LED_FLASH_ENABLE, isChecked);
-                if (isChecked) {
-                    FlashManager.getInstance().startFlash(3);
-                    LauncherAnalytics.logEvent("LEDReminder_Enabled_FromSettings");
-                } else {
-                    LauncherAnalytics.logEvent("LEDReminder_Disabled_FromSettings");
-                }
             }
         });
 
@@ -503,7 +484,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 toggle();
                 break;
             case R.id.settings_led_flash:
-                toggleFlash();
+                LedFlashSettingsActivity.start(this);
                 break;
             case R.id.settings_feedback:
                 feedBack();
@@ -520,11 +501,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 AboutActivity.start(this);
                 break;
         }
-    }
-
-    private void toggleFlash() {
-        boolean isChecked = ledFlaseSwitch.isChecked();
-        ledFlaseSwitch.setChecked(!isChecked);
     }
 
     private void feedBack() {

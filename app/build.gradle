@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 28
@@ -12,7 +13,10 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
-
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
     productFlavors {
         colorphone {
             applicationId "com.colorphone.smooth.dialer"
@@ -21,8 +25,8 @@ android {
         }
         colorflash {
             applicationId "com.app.phone.call.flash.screen"
-            versionCode 3
-            versionName "1.0.2"
+            versionCode 6
+            versionName "1.0.4"
         }
     }
 
@@ -97,8 +101,8 @@ dependencies {
                     : "net.appcloudbox.autopilot:libAutoPilot.gm:5.2.4.gm",
 
             USE_BETA_ACB_LIBS ?
-                    'com.ihandy.appframework:libAppframework.beta:4.6.6.beta04' :
-                    'com.ihandy.appframework:libAppframework.gm:4.6.6.gm',
+                    'com.ihandy.appframework:libAppframework.beta:4.6.8.+' :
+                    'com.ihandy.appframework:libAppframework.gm:4.6.8.gm',
     ]
 
     for (dependency in COMMON_DEPENDENCIES) compile dependency
@@ -141,7 +145,7 @@ dependencies {
 
     //  -------- GoldEye ------
     colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.07.05.001'
-    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.03.26.001'
+    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.07.16.001'
 
     compile 'net.appcloudbox.common:libAcbHSFrameworkAdapter.gm:1.0.2.gm'
 

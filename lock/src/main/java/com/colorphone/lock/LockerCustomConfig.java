@@ -1,6 +1,7 @@
 package com.colorphone.lock;
 
 import com.ihs.app.analytics.HSAnalytics;
+import com.ihs.commons.utils.HSLog;
 
 /**
  * Created by sundxing on 17/9/5.
@@ -13,6 +14,7 @@ public class LockerCustomConfig {
     private String mSPFileName;
     private String mLockerAdName;
     private int mLauncherIcon;
+    private int mCustomScreenIcon;
     private Event mEventDelegate = new DefaultEvent();
     private RemoteLogger mRemoteLogger = new DefaultLogger();
 
@@ -93,6 +95,14 @@ public class LockerCustomConfig {
         mRemoteLogger = remoteLogger;
     }
 
+    public int getCustomScreenIcon() {
+        return mCustomScreenIcon;
+    }
+
+    public void setCustomScreenIcon(int customScreenIcon) {
+        mCustomScreenIcon = customScreenIcon;
+    }
+
 
     public static abstract class Event {
         public abstract void onEventLockerAdShow();
@@ -156,5 +166,10 @@ public class LockerCustomConfig {
         public void logEvent(String eventID, String... vars) {
             HSAnalytics.logEvent(eventID, vars);
         }
+    }
+
+    public static void logAdViewEvent(String placementName, boolean success) {
+        HSLog.d("ad analytics logAppViewEvent: " + placementName + " - " + success);
+        getLogger().logEvent("Colorphone_AcbAdNative_Viewed_In_App", new String[]{placementName, String.valueOf(success)});
     }
 }

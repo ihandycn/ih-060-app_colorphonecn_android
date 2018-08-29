@@ -40,7 +40,7 @@
                 android:paddingRight="6dp"
                 android:paddingTop="12dp">
 
-                <com.honeycomb.colorphone.view.FixedRatioLayout
+                <com.superapps.view.FixedRatioLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:aspectRatio="1.9">
@@ -59,7 +59,7 @@
                         android:layout_height="match_parent"
                         android:visibility="gone" />
 
-                </com.honeycomb.colorphone.view.FixedRatioLayout>
+                </com.superapps.view.FixedRatioLayout>
 
             </FrameLayout>
         </FrameLayout>

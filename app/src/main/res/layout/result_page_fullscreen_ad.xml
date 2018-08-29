@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/white_rounded_corner_bg" >
 
-    <com.honeycomb.colorphone.view.FixedRatioLayout
+    <com.superapps.view.FixedRatioLayout
         android:id="@+id/result_image_container_ad_primaryview_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.honeycomb.colorphone.view.FixedRatioLayout>
+    </com.superapps.view.FixedRatioLayout>
 
     <FrameLayout
         android:id="@+id/result_ad_choice"

@@ -166,4 +166,6 @@
     <string name="gdpr_share_data">Share data with developers</string>
     <string name="gdpr_dialog_not_now">NOT NOW</string>
     <string name="gdpr_dialog_turn_off">TURN OFF</string>
+    <string name="led_flash_for_messages">Led Flash for Messages</string>
+    <string name="led_flash_for_calls">Led Flash for Calls</string>
 </resources>

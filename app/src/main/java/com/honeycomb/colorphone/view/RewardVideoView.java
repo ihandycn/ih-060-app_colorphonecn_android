@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Toasts;
 
@@ -105,6 +104,11 @@ public class RewardVideoView {
                         @Override
                         public void onAdDisplay() {
                             HSLog.d(TAG, "show reward video ad");
+                        }
+
+                        @Override
+                        public void onAdDisplayFailed(AcbError acbError) {
+
                         }
                     });
 

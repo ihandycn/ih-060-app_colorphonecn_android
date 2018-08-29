@@ -1,0 +1,13 @@
+<resources>
+  <string name="app_name">libScreenCard</string>
+
+  <!-- for gif center -->
+  <string name="more_gif">अधिक</string>
+  <string name="funny_gif">मजेदार जीआईएफ</string>
+  <string name="gif_center">GIF Center</string>
+
+  <!-- game -->
+  <string name="game_card_title">डंक हिट</string>
+  <string name="game_card_desc">क्या आप इस चुनौती को पूरा कर सकते हैं?!?</string>
+  <string name="game_card_play">खेलें</string>
+</resources>

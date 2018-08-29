@@ -82,6 +82,8 @@ import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.HSFrameworkAdapter.AcbHSFrameworkAdapter;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
+import net.appcloudbox.h5game.AcbH5GameManager;
+import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
 
 import java.util.ArrayList;
@@ -91,6 +93,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import colorphone.acb.com.libscreencard.CardCustomConfig;
 import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 
@@ -221,6 +224,17 @@ public class ColorPhoneApplication extends HSApplication {
 
         registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
         AcbAds.getInstance().initializeFromGoldenEye(this);
+        //
+        AcbAds.getInstance().setLogEventListener(new AcbAds.logEventListener() {
+            @Override
+            public void logFirebaseEvent(String s, Bundle bundle) {
+
+                if (GdprUtils.isNeedToAccessDataUsage()) {
+                    // TODO Firebase event.
+                }
+                
+            }
+        });
 
         if (!GdprUtils.isGdprNewUser() && HSGdprConsent.getConsentState() == HSGdprConsent.ConsentState.TO_BE_CONFIRMED) {
             GdprUtils.setDataUsageUserEnabled(true);
@@ -230,11 +244,7 @@ public class ColorPhoneApplication extends HSApplication {
                 : null;
         AppsFlyerLib.getInstance().setCustomerUserId(customId);
 
-        if (BuildConfig.DEBUG) {
-            AutopilotConfig.initialize(this, "Autopilot_10000_Config_test.json", customId);
-        } else {
-            AutopilotConfig.initialize(this, "Autopilot_10000_Config_v1.json", customId);
-        }
+        AutopilotConfig.initialize(this, "Autopilot_Config.json", customId);
 
         CallAssistantManager.init(new CpCallAssistantFactoryImpl());
         MessageCenterManager.init(new CpMessageCenterFactoryImpl());
@@ -329,6 +339,8 @@ public class ColorPhoneApplication extends HSApplication {
 
         Theme.updateThemes();
 
+        SmsFlashListener.getInstance().start();
+
     }
 
     private void initRecentApps() {
@@ -414,6 +426,7 @@ public class ColorPhoneApplication extends HSApplication {
 
         HSLog.d("Start", "initLockScreen");
         LockerCustomConfig.get().setLauncherIcon(R.mipmap.ic_launcher);
+        LockerCustomConfig.get().setCustomScreenIcon(R.drawable.ic_charging_screen_logo);
         LockerCustomConfig.get().setSPFileName("colorPhone_locker");
         LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);
         LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHARGING_SCREEN);
@@ -421,6 +434,22 @@ public class ColorPhoneApplication extends HSApplication {
         LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
         FloatWindowCompat.initLockScreen(this);
         HSChargingManager.getInstance().start();
+
+        CardCustomConfig.get().setRemoteLogger(new CardCustomConfig.RemoteLogger() {
+            @Override
+            public void logEvent(String eventID) {
+                LauncherAnalytics.logEvent(eventID);
+            }
+
+            @Override
+            public void logEvent(String eventID, String... vars) {
+                LauncherAnalytics.logEvent(eventID, vars);
+            }
+        });
+        AcbH5GameManager.initialize(this);
+        AcbH5GameManager.setCustomerUserID(DeviceInfo.getUUID());
+        AcbH5GameManager.setGDPRConsentGranted(true);
+
     }
 
     private void addGlobalObservers() {
@@ -434,6 +463,7 @@ public class ColorPhoneApplication extends HSApplication {
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
         screenFilter.addAction(Intent.ACTION_SCREEN_ON);
+        screenFilter.addAction(Intent.ACTION_USER_PRESENT);
         screenFilter.setPriority(SYSTEM_HIGH_PRIORITY);
 
         HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
@@ -443,6 +473,9 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onScreenOff(context);
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                     ScreenStatusReceiver.onScreenOn(context);
+                } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+                    ScreenStatusReceiver.onUserPresent(context);
+
                 }
             }
         }, screenFilter);
