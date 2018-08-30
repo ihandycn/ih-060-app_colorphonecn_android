@@ -49,7 +49,7 @@
 
     <!-- Strings -->
     <item name="boost_title" type="id" />
-    <item name="app_name" type="id" />
+    <item name="notification_toolbar_flash_light" type="id" />
     <item name="notification_toolbar_clock" type="id" />
     <item name="cpu_cooler_notification_title" type="id" />
     <item name="notification_toolbar_settings" type="id" />
