@@ -87,4 +87,6 @@
     <string name="watch_video_to_unlock_free_theme">Bekijk een video om het prachtige thema te ontgrendelen</string>
     <string name="unlock">Ontgrendelen</string>
     <string name="unlock_succeed">Ontgrendelen is gelukt</string>
+
+    <string name="settings_activity_notification_reminder">Meldingsbalk aan/uit</string>
 </resources>
