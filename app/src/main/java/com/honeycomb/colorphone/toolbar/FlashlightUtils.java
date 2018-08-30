@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.toolbar;
 import android.support.annotation.Nullable;
 
 import com.honeycomb.colorphone.FlashManager;
+import com.ihs.commons.utils.HSLog;
 import com.ihs.flashlight.FlashlightManager;
 
 public class FlashlightUtils {
@@ -14,6 +15,7 @@ public class FlashlightUtils {
     public static int toggleFlashlight(@Nullable Runnable turnOnRunnable, @Nullable Runnable turnOffRunnable) {
         FlashlightManager manager = FlashlightManager.getInstance();
         if (!manager.init()) {
+            HSLog.w("Flashlight", "toggleFlashlight !manager.init");
             return FLASHLIGHT_STATUS_FAIL;
         }
         if (FlashManager.getInstance().isSOS()) {

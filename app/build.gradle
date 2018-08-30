@@ -138,6 +138,7 @@ dependencies {
     compile "com.ihandy.device:device-monitor-top-app$LIB_DEVICE_VERSION".toString()
 
     // Submodule
+    compile files('../libs/ihs/libFlashlight/libFlashlight.jar')
     compile(name: 'libChargingReport/libChargingReport-release', ext: 'aar')
     compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
     compile project(':libCallAssistant')

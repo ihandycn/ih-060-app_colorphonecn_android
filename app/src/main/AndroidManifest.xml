@@ -391,6 +391,7 @@
         </receiver>
 
         <receiver android:name=".notification.NotificationAlarmReceiver"></receiver>
+        <receiver android:name=".toolbar.NotificationReceiver"/>
 
         <activity
             android:name="net.appcloudbox.internal.h5game.GameActivity"
