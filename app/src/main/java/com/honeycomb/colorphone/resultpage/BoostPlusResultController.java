@@ -161,9 +161,15 @@ class BoostPlusResultController extends ResultController {
                     @Override
                     public void run() {
                         resetTextVisible();
+
+                        isAdReady = ResultPageManager.getInstance().getAd() != null;
+                        if (isAdReady) {
                         showAd(ad);
                         showAdWithAnimation();
                         startRealTransitionAnimation();
+                        } else {
+                            startTickAnimation();
+                        }
                     }
                 };
                 mHandler.postDelayed(mAdTransitionRunnable, 250);

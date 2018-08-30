@@ -290,6 +290,9 @@ public class ResultPageActivity extends BaseAppCompatActivity
     protected void onResume() {
         isPaused = false;
         super.onResume();
+        if (mResultController != null) {
+            mResultController.notifyInterstitialAdClosedByCustomer();
+        }
     }
 
     @Override
@@ -311,6 +314,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
         boolean isAdShow = false;
         if (mResultController != null) {
             isAdShow = mResultController.isAdShown();
+            mResultController.release();
         }
         AcbNativeAdAnalytics.logAppViewEvent(RESULT_PAGE_AD_PLACEMENT_NAME,  isAdShow);
 

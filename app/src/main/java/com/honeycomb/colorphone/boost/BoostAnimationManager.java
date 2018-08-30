@@ -43,7 +43,7 @@ public class BoostAnimationManager {
         static final int ICON_SEVEN = 6;
     }
 
-    private static final int FRAME = 68;
+    private static final int FRAME = 80;
     private static final float ALPHA_REDUCE_MIN = 0.15f;
     private static final float WIDTH_SCREEN = Utils.getPhoneWidth(HSApplication.getContext());
     private static final float HEIGHT_SCREEN = Utils.getPhoneHeight(HSApplication.getContext());

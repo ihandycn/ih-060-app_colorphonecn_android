@@ -73,13 +73,6 @@ class CpuCoolerResultController extends ResultController {
 
     CpuCoolerResultController(ResultPageActivity activity, Type type, List<CardData> cardDataList) {
         super.init(activity, ResultConstants.RESULT_TYPE_CPU_COOLER, type, cardDataList);
-//        if (ad != null) {
-//            LauncherAnalytics.logEvent(AdPlacements.SHARED_POOL_NATIVE_AD_FLURRY_EVENT_SHOWN_NAME_RESULT_PAGE, "Type", "CPUCoolerDone");
-//            ad.setNativeClickListener(acbAd -> {
-//                LauncherAnalytics.logEvent(AdPlacements.SHARED_POOL_NATIVE_AD_FLURRY_EVENT_CLICKED_NAME_RESULT_PAGE, "Type", "CPUCoolerDone");
-//                LauncherAnalytics.logEvent("ResultPage_Cards_Click","Type", ResultConstants.AD);
-//            });
-//        }
     }
 
     @Override
@@ -154,11 +147,10 @@ class CpuCoolerResultController extends ResultController {
         }
 
         boolean showAd = popupInterstitialAdIfNeeded();
-        HSLog.d(TAG, "onStartTransitionAnimation showAd == " + showAd);
         if (showAd) {
             startTextAppear(false);
         } else {
-            new Handler().postDelayed(this::onInterruptActionClosed, 200);
+            mHandler.postDelayed(this::onInterruptActionClosed, 200);
         }
         return true;
     }
@@ -185,7 +177,7 @@ class CpuCoolerResultController extends ResultController {
             @Override
             public void onAnimationEnd(Animator animation) {
                 startTextAppearAnimation();
-                new Handler().postDelayed(() -> startButtonAppearAnimation(), 260);
+                mHandler.postDelayed(() -> startButtonAppearAnimation(), 260);
             }
         });
     }
@@ -195,7 +187,7 @@ class CpuCoolerResultController extends ResultController {
         okButton.setRevealDuration(240);
         okButton.setFlashDuration(560);
         okButton.reveal();
-        okButton.postDelayed(() -> okButton.flash(), 260);
+        mHandler.postDelayed(() -> okButton.flash(), 260);
     }
 
     void startTextAppearAnimation() {

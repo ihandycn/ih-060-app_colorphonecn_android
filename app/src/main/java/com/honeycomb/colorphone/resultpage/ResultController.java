@@ -96,8 +96,13 @@ abstract class ResultController implements View.OnClickListener {
     private List<CardData> mCardDataList;
     private View mResultContentView;
     private boolean mAdShown;
-
+    protected final Handler mHandler = new Handler();
     public Interpolator softStopAccDecInterpolator = PathInterpolatorCompat.create(0.26f, 1f, 0.48f, 1f);
+    private boolean mInterstitialAdDisplaying;
+
+    public void release() {
+        mHandler.removeCallbacksAndMessages(null);
+    }
 
     enum Type {
         AD,
@@ -288,7 +293,7 @@ abstract class ResultController implements View.OnClickListener {
     protected boolean popupInterstitialAdIfNeeded() {
         logInterstitialAdNeedShow();
         if (shouldShowInterstitialAd()) {
-            popupInterstitialAd();
+            popupInterstitialAd(ResultPageManager.getInstance().getInterstitialAd());
             return true;
         }
         return false;
@@ -301,9 +306,9 @@ abstract class ResultController implements View.OnClickListener {
         return true;
     }
 
-    private void popupInterstitialAd() {
-        AcbInterstitialAd ad = ResultPageManager.getInstance().getInterstitialAd();
-        if (ad != null) {
+    private void popupInterstitialAd(AcbInterstitialAd ad) {
+        mInterstitialAdDisplaying = true;
+        mActivity.getIntent().putExtra("extra_ad_display", true);
             ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
                 @Override
                 public void onAdDisplayed() {
@@ -318,21 +323,25 @@ abstract class ResultController implements View.OnClickListener {
                 @Override
                 public void onAdClosed() {
                     ResultPageManager.getInstance().releaseInterstitialAd();
-                    new Handler().postDelayed(() -> onInterruptActionClosed(), 250);
                 }
 
                 public void onAdDisplayFailed(AcbError acbError) {
-                    new Handler().postDelayed(() -> onInterruptActionClosed(), 250);
+                HSLog.d(TAG, "onAdDisplayFailed");
                 }
             });
             ad.show();
-        } else {
-            new Handler().postDelayed(() -> onInterruptActionClosed(), 250);
+    }
+
+    public void notifyInterstitialAdClosedByCustomer() {
+        if (mInterstitialAdDisplaying
+                || mActivity.getIntent().getBooleanExtra("extra_ad_display", false)) {
+            mActivity.getIntent().putExtra("extra_ad_display", false);
+            onInterruptActionClosed();
         }
     }
 
     public void startAdOrFunctionResultAnimation(long startDelay) {
-        mResultView.postDelayed(() -> {
+        mHandler.postDelayed(() -> {
 
             mResultView.setVisibility(View.VISIBLE);
 
@@ -366,33 +375,6 @@ abstract class ResultController implements View.OnClickListener {
         HSLog.d(TAG, "startTransitionAnimation mTransitionView = " + mTransitionView);
         if (null != mTransitionView) {
             boolean hasChildPageAnimation = onStartTransitionAnimation(mTransitionView);
-//            if (mType == Type.AD || mType == Type.CHARGE_SCREEN || mType == Type.NOTIFICATION_CLEANER || mType == Type.APP_LOCK) {
-//                if (mResultType != ResultConstants.RESULT_TYPE_JUNK_CLEAN
-//                        && mResultType != ResultConstants.RESULT_TYPE_CPU_COOLER
-//                        && mResultType != ResultConstants.RESULT_TYPE_BOOST_PLUS//
-//                        && mResultType != ResultConstants.RESULT_TYPE_NOTIFICATION_CLEANER) {
-//                    // animation self
-//                    startAdOrChargingScreenResultAnimation(hasChildPageAnimation ? START_DELAY_AD_OR_CHARGING_SCREEN : 100);
-//                }
-//            } else {
-//                if (mResultType != ResultConstants.RESULT_TYPE_BOOST_PLUS && mResultType != ResultConstants.RESULT_TYPE_JUNK_CLEAN
-//                        && mResultType != ResultConstants.RESULT_TYPE_CPU_COOLER && mResultType != ResultConstants.RESULT_TYPE_NOTIFICATION_CLEANER) {
-//                    // animation self
-//                    startCardResultAnimation(START_DELAY_CARDS);
-//                }
-//            }
-        }
-    }
-
-    private void startAdOrChargingScreenResultAnimation(long startDelay) {
-        HSLog.d(TAG, "startAdOrChargingScreenResultAnimation startDelay = " + startDelay + " mResultView = " + mResultView);
-        if (null != mResultView) {
-            mResultView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                  showAdWithAnimation();
-                }
-            }, startDelay);
         }
     }
 

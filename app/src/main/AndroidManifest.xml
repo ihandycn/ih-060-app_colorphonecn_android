@@ -80,6 +80,18 @@
         android:name="android.permission.REQUEST_INSTALL_PACKAGES"
         tools:node="remove"/>
 
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        tools:node="remove"/>
+
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:node="remove"/>
+
+    <uses-permission
+        android:name="android.permission.GET_PACKAGE_SIZE"
+        tools:node="remove"/>
+
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -285,6 +297,20 @@
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
+        <activity android:name=".battery.BatteryCleanActivity"
+                  android:excludeFromRecents="true"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="nosensor"
+                  android:taskAffinity=".acb_interstitial_quiet"
+                  android:theme="@style/SwitchCompatTheme" />
+
+        <activity android:name=".cpucooler.CpuCoolDownActivity"
+                  android:excludeFromRecents="true"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="nosensor"
+                  android:taskAffinity=".acb_interstitial_quiet"
+                  android:theme="@style/SwitchCompatTheme"/>
+
         <activity
             android:name=".resultpage.ResultPageActivity"
             android:excludeFromRecents="true"
@@ -335,8 +361,7 @@
             android:name="com.google.android.gms.ads.AdActivity"
             android:noHistory="true"
             android:taskAffinity=".acb_interstitial_quiet"/>
-        <activity android:name=".battery.BatteryCleanActivity"/>
-        <activity android:name=".cpucooler.CpuCoolDownActivity"/>
+
         <activity android:name=".toolbar.NotificationActivity"/>
 
         <!-- permanent -->
