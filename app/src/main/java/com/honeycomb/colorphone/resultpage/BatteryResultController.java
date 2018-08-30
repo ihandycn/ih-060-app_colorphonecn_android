@@ -292,7 +292,7 @@ class BatteryResultController extends ResultController {
     @Override protected void onInterruptActionClosed() {
         AcbNativeAd ad = ResultPageManager.getInstance().getAd();
 
-        LauncherAnalytics.logEvent("Flashlight_BatteryDone_Ad_Should_Shown");
+        LauncherAnalytics.logEvent("Colorphone_BatteryDone_Ad_Should_Shown");
 
         HSLog.d(TAG, "Back from Ad Screen");
         if (ad == null) {

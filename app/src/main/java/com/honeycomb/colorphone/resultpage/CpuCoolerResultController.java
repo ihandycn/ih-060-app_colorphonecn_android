@@ -320,7 +320,7 @@ class CpuCoolerResultController extends ResultController {
     @Override protected void onInterruptActionClosed() {
 
         AcbNativeAd ad = ResultPageManager.getInstance().getAd();
-        LauncherAnalytics.logEvent("Flashlight_CPUDone_Ad_Should_Shown");
+        LauncherAnalytics.logEvent("Colorphone_CPUDone_Ad_Should_Shown");
 
         HSLog.d(TAG, "Back from Ad Screen ad ==  " + ad);
         if (ad == null) {

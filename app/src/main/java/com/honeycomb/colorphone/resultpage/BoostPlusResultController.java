@@ -150,9 +150,9 @@ class BoostPlusResultController extends ResultController {
     public boolean tryShowNativeAd(boolean waitForBoostResult) {
         HSLog.d(TAG, "BoostPlusResultController showAdWithAnimation");
         if (mResultType == ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
-            LauncherAnalytics.logEvent("Flashlight_BoostDone_Ad_Should_Shown_FromToolbar");
+            LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromToolbar");
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PLUS) {
-            LauncherAnalytics.logEvent("Flashlight_BoostDone_Ad_Should_Shown_FromMainview");
+            LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromMainview");
         }
         final AcbNativeAd ad = ResultPageManager.getInstance().getAd();
         if (ad != null) {
@@ -238,7 +238,7 @@ class BoostPlusResultController extends ResultController {
                     }
                 }
             });
-            LauncherAnalytics.logEvent("Flashlight_BoostDone_Page_Optimal_Shown");
+            LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Optimal_Shown");
             return;
         }
         for (final View v : mFadeOutViews) {

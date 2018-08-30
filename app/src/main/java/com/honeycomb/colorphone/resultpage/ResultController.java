@@ -482,16 +482,16 @@ abstract class ResultController implements View.OnClickListener {
     private void logViewEvent() {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
-                LauncherAnalytics.logEvent("Flashlight_BatteryDone_Page_Shown");
+                LauncherAnalytics.logEvent("Colorphone_BatteryDone_Page_Shown");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Flashlight_BoostDone_Page_Shown_FromMainview");
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromMainview");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                LauncherAnalytics.logEvent("Flashlight_BoostDone_Page_Shown_FromToolbar");
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromToolbar");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                LauncherAnalytics.logEvent("Flashlight_CPUDone_Page_Shown");
+                LauncherAnalytics.logEvent("Colorphone_CPUDone_Page_Shown");
                 break;
         }
     }
@@ -511,16 +511,16 @@ abstract class ResultController implements View.OnClickListener {
     private void logInterstitialAdNeedShow() {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
-                LauncherAnalytics.logEvent("Flashlight_BatteryWire_Ad_Should_Shown");
+                LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Flashlight_BoostWire_Ad_Should_Shown_FromMainview");
+                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromMainview");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                LauncherAnalytics.logEvent("Flashlight_BoostWire_Ad_Should_Shown_FromToolbar");
+                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromToolbar");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                LauncherAnalytics.logEvent("Flashlight_CPUWire_Ad_Should_Shown");
+                LauncherAnalytics.logEvent("Colorphone_CPUWire_Ad_Should_Shown");
                 break;
         }
     }
@@ -528,18 +528,18 @@ abstract class ResultController implements View.OnClickListener {
     private void logInterstitialAdShow() {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
-                LauncherAnalytics.logEvent("Flashlight_BatteryWire_Ad_Shown");
+                LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Shown");
                 AutoPilotUtils.logBatterywireAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Flashlight_BoostWire_Ad_Shown_FromMainview");
+                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromMainview");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                LauncherAnalytics.logEvent("Flashlight_BoostWire_Ad_Shown_FromToolbar");
+                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromToolbar");
                 AutoPilotUtils.logBoostwireAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                LauncherAnalytics.logEvent("Flashlight_CPUWire_Ad_Shown");
+                LauncherAnalytics.logEvent("Colorphone_CPUWire_Ad_Shown");
                 AutoPilotUtils.logCpuwireAdShow();
                 break;
         }
@@ -548,18 +548,18 @@ abstract class ResultController implements View.OnClickListener {
     private void logBoostDoneAdShow() {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
-                LauncherAnalytics.logEvent("Flashlight_BatteryDone_Ad_Shown");
+                LauncherAnalytics.logEvent("Colorphone_BatteryDone_Ad_Shown");
                 AutoPilotUtils.logBatterydoneAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Flashlight_BoostDone_Ad_Shown_FromMainview");
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromMainview");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                LauncherAnalytics.logEvent("Flashlight_BoostDone_Ad_Shown_FromToolbar");
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromToolbar");
                 AutoPilotUtils.logBoostdoneAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                LauncherAnalytics.logEvent("Flashlight_CPUDone_Ad_Shown");
+                LauncherAnalytics.logEvent("Colorphone_CPUDone_Ad_Shown");
                 AutoPilotUtils.logCpudoneAdShow();
                 break;
         }
@@ -568,16 +568,16 @@ abstract class ResultController implements View.OnClickListener {
     private void logBoostDoneAdClicked() {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
-                LauncherAnalytics.logEvent("Flashlight_BatteryDone_Ad_Clicked");
+                LauncherAnalytics.logEvent("Colorphone_BatteryDone_Ad_Clicked");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Flashlight_BoostDone_Ad_Clicked_FromMainview");
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromMainview");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                LauncherAnalytics.logEvent("Flashlight_BoostDone_Ad_Clicked_FromToolbar");
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromToolbar");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                LauncherAnalytics.logEvent("Flashlight_CPUDone_Ad_Clicked");
+                LauncherAnalytics.logEvent("Colorphone_CPUDone_Ad_Clicked");
                 break;
         }
     }
