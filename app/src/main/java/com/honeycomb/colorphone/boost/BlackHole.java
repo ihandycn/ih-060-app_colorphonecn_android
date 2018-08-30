@@ -39,7 +39,7 @@ public class BlackHole extends RelativeLayout {
     private static final int DURATION_CIRCLE_ALPHA_ADD = 28 * FRAME_TIME;
     private static final int DURATION_CIRCLE_MIDDLE_ALPHA_START_OFF = 8 * FRAME_TIME;
     private static final int DURATION_CIRCLE_OUT_ALPHA_START_OFF = 16 * FRAME_TIME;
-    private static final int DURATION_ROTATE_MAIN = 110 * FRAME_TIME;
+    private static final int DURATION_ROTATE_MAIN = 190 * FRAME_TIME;
 
     private View background;
     private View container;

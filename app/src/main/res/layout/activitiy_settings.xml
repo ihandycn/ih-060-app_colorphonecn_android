@@ -169,12 +169,10 @@
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     android:id="@+id/notification_toolbar_switch_txt"
-                    style="@style/NormalText.Drawer"
+                    style="@style/NormalText.Settings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
                     android:layout_toLeftOf="@id/notification_toolbar_switch"
                     android:layout_toStartOf="@id/notification_toolbar_switch"
                     android:text="@string/settings_activity_notification_reminder" />
