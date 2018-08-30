@@ -230,9 +230,11 @@ public class ContactManager {
                         }
                         Log.d("Update theme contact", entry.toString());
                         // Ringtone set
-                        if (entry.mAction != null) {
-                            setContactRingtone(entry, entry.mAction != DELETE);
-                        }
+
+                        //todo null pointer Exception which result in database write failed;
+//                        if (entry.mAction != null) {
+//                            setContactRingtone(entry, entry.mAction != DELETE);
+//                        }
                     }
                     database.setTransactionSuccessful();
 
