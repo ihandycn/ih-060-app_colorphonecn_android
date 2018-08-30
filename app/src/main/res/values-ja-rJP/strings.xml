@@ -164,4 +164,6 @@
     <string name="cool_capital">クール</string>
 
     <string name="settings_activity_notification_reminder">通知ツールバー切り替え</string>
+
+    <string name="notification_toolbar_flash_light">懐中電灯</string>
 </resources>

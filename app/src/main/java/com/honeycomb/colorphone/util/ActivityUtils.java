@@ -233,7 +233,7 @@ public class ActivityUtils {
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         } else {
-            activity.getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+            activity.getSupportActionBar().setLogo(R.drawable.app_icon);
         }
     }
 

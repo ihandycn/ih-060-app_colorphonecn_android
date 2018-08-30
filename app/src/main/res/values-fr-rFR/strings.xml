@@ -160,4 +160,6 @@
     <string name="cool_capital">REFROIDIR</string>
 
     <string name="settings_activity_notification_reminder">Interrupteur de la barre d’outils de notification</string>
+
+    <string name="notification_toolbar_flash_light">Lampe torche</string>
 </resources>

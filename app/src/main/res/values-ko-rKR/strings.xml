@@ -162,4 +162,5 @@
     <string name="cool_capital">냉각</string>
 
     <string name="settings_activity_notification_reminder">알림 툴바 토글</string>
+    <string name="notification_toolbar_flash_light">손전등</string>
 </resources>

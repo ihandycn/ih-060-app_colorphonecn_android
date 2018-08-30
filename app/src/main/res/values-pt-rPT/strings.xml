@@ -162,4 +162,6 @@
     <string name="cool_capital">ARREFECER</string>
 
     <string name="settings_activity_notification_reminder">Comutador da barra de ferramentas de notificações</string>
+
+    <string name="notification_toolbar_flash_light">Lanterna</string>
 </resources>

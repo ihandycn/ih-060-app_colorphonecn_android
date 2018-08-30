@@ -247,4 +247,5 @@
     <string name="result_page_click_guide_tip">Continue to optimize</string>
     <string name="promotion_max_card_title_cpu_cooler">CPU Cooler</string>
 
+    <string name="notification_toolbar_flash_light">Flashlight</string>
 </resources>

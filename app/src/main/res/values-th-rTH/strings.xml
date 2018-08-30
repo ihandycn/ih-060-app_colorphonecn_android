@@ -161,4 +161,6 @@
     <string name="cool_capital">ลดความร้อน</string>
 
     <string name="settings_activity_notification_reminder">เปิดปิดแถบแจ้งเตือน</string>
+
+    <string name="notification_toolbar_flash_light">ไฟฉาย</string>
 </resources>
