@@ -22,8 +22,8 @@ android {
     productFlavors {
         colorphone {
             applicationId "com.colorphone.smooth.dialer"
-            versionCode 30
-            versionName "1.2.1"
+            versionCode 31
+            versionName "1.2.2.develop"
         }
         colorflash {
             applicationId "com.app.phone.call.flash.screen"
