@@ -140,6 +140,39 @@
                         />
                 </LinearLayout>
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/settings_notification_toolbar"
+                style="@style/LayoutSettings" >
+
+                <ImageView
+                    android:id="@+id/notification_toolbar_switch_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/settings_led_flash_switch" />
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    android:id="@+id/notification_toolbar_switch_txt"
+                    style="@style/NormalText.Drawer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_toEndOf="@id/notification_toolbar_switch_icon"
+                    android:layout_toRightOf="@id/notification_toolbar_switch_icon"
+                    android:text="@string/led_flash_switch_text" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/notification_toolbar_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/setting_item_call_assistant"
                 android:layout_width="match_parent"

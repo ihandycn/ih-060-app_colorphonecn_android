@@ -186,6 +186,59 @@
       ],
       "topic_id": "topic-1528196849816-295"
     },
+    "topic-rp-1525855411425-9": {
+      "topic_type": "one_time",
+      "topic_name": "RTOT Popup",
+      "variations": {
+        "body": {
+          "type": "string",
+          "value": ""
+        },
+        "button1_text": {
+          "type": "string",
+          "value": ""
+        },
+        "title": {
+          "type": "string",
+          "value": ""
+        },
+        "start_time": {
+          "type": "string",
+          "value": ""
+        },
+        "button2_text": {
+          "type": "string",
+          "value": ""
+        },
+        "end_time": {
+          "type": "string",
+          "value": ""
+        },
+        "button1_url": {
+          "type": "string",
+          "value": ""
+        },
+        "button2_url": {
+          "type": "string",
+          "value": ""
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "show"
+        },
+        {
+          "name": "button1_click"
+        },
+        {
+          "name": "button2_click"
+        }
+      ],
+      "topic_id": "topic-rp-1525855411425-9"
+    },
     "topic-1528955961310-328": {
       "topic_type": "one_time",
       "topic_name": "Charing Game Card Click Rate",
