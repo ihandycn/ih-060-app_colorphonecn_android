@@ -25,6 +25,7 @@ import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
+import com.honeycomb.colorphone.util.AutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
@@ -528,15 +529,18 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 LauncherAnalytics.logEvent("Flashlight_BatteryWire_Ad_Shown");
+                AutoPilotUtils.logBatterywireAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
                 LauncherAnalytics.logEvent("Flashlight_BoostWire_Ad_Shown_FromMainview");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Flashlight_BoostWire_Ad_Shown_FromToolbar");
+                AutoPilotUtils.logBoostwireAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 LauncherAnalytics.logEvent("Flashlight_CPUWire_Ad_Shown");
+                AutoPilotUtils.logCpuwireAdShow();
                 break;
         }
     }
@@ -545,15 +549,18 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 LauncherAnalytics.logEvent("Flashlight_BatteryDone_Ad_Shown");
+                AutoPilotUtils.logBatterydoneAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
                 LauncherAnalytics.logEvent("Flashlight_BoostDone_Ad_Shown_FromMainview");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Flashlight_BoostDone_Ad_Shown_FromToolbar");
+                AutoPilotUtils.logBoostdoneAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 LauncherAnalytics.logEvent("Flashlight_CPUDone_Ad_Shown");
+                AutoPilotUtils.logCpudoneAdShow();
                 break;
         }
     }

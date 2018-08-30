@@ -210,7 +210,7 @@ public class ModuleUtils {
     }
 
     public static boolean isNotificationToolBarEnabled() {
-        return HSConfig.optBoolean(false, "Application", "NotificationToolbar", "Enable")
+        return AutoPilotUtils.getNotificationToolbarEnable()
                 && Utils.ATLEAST_JELLY_BEAN;
     }
 

@@ -166,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/nav_item_inner_spacing"
                     android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                    android:text="@string/feedback" />
+                    android:text="@string/boost_title" />
             </LinearLayout>
 
             <LinearLayout

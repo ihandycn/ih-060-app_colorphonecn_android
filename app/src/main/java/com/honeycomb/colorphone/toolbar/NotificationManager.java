@@ -39,6 +39,7 @@ import com.honeycomb.colorphone.cpucooler.CpuCoolDownActivity;
 import com.honeycomb.colorphone.cpucooler.CpuCoolerManager;
 import com.honeycomb.colorphone.cpucooler.util.CpuCoolerConstant;
 import com.honeycomb.colorphone.cpucooler.util.CpuCoolerUtils;
+import com.honeycomb.colorphone.util.AutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
@@ -411,10 +412,12 @@ public class NotificationManager implements FlashlightStatusListener {
                         LauncherAnalytics.logEvent("Flashlight_Notification_Toolbar_Flashlight_Clicked", "action", "fail");
                         break;
                 }
+                AutoPilotUtils.logNotificationToolbarFlashlightClick();
                 break;
             case NotificationManager.ACTION_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Flashlight_Notification_Toolbar_Boost_Clicked");
                 BoostActivity.start(context, true);
+                AutoPilotUtils.logNotificationToolbarBoostClick();
                 break;
             case NotificationManager.ACTION_MOBILE_DATA:
                 Navigations.startSystemDataUsageSetting(context, true);
@@ -423,7 +426,7 @@ public class NotificationManager implements FlashlightStatusListener {
                 // com.android.alarm.permission.SET_ALARM
                 LauncherAnalytics.logEvent("Flashlight_Notification_Toolbar_Settings_Clicked");
                 Navigations.startActivitySafely(context, new Intent(Settings.ACTION_SETTINGS));
-
+                AutoPilotUtils.logNotificationToolbarSettingClick();
                 break;
             case NotificationManager.ACTION_CPU_COOLER_TOOLBAR:
                 LauncherAnalytics.logEvent("Flashlight_Notification_Toolbar_CPU_Clicked");
@@ -431,6 +434,7 @@ public class NotificationManager implements FlashlightStatusListener {
                 cpuCoolerIntent.putExtra(CpuCoolDownActivity.EXTRA_KEY_NEED_SCAN, true);
                 cpuCoolerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Navigations.startActivitySafely(context, cpuCoolerIntent);
+                AutoPilotUtils.logNotificationToolbarCpuClick();
                 break;
 
             case NotificationManager.ACTION_BATTERY_TOOLBAR:
@@ -438,6 +442,7 @@ public class NotificationManager implements FlashlightStatusListener {
                 Intent batteryIntent = new Intent(context, BatteryCleanActivity.class);
                 batteryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Navigations.startActivitySafely(context, batteryIntent);
+                AutoPilotUtils.logNotificationToolbarBatteryClick();
                 break;
             default:
                 HSLog.w(TAG, "Unsupported action");

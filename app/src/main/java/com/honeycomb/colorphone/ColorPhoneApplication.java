@@ -47,10 +47,10 @@ import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
-import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.Upgrader;
@@ -84,6 +84,7 @@ import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.HSFrameworkAdapter.AcbHSFrameworkAdapter;
+import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
 import net.appcloudbox.h5game.AcbH5GameManager;
 import net.appcloudbox.internal.service.DeviceInfo;
@@ -152,6 +153,13 @@ public class ColorPhoneApplication extends HSApplication {
             } else {
                 checkModuleAdPlacement();
             }
+        }
+    };
+
+    private BroadcastReceiver mAutopilotFetchReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initNotificationToolbar();
         }
     };
 
@@ -345,8 +353,15 @@ public class ColorPhoneApplication extends HSApplication {
 
         SmsFlashListener.getInstance().start();
 
-        initNotificationToolbar();
-        NotificationManager.getInstance().showNotificationToolbarIfEnabled();
+
+        if (AutopilotConfig.hasConfigFetchFinished()) {
+            initNotificationToolbar();
+        } else {
+            IntentFilter configFinishedFilter = new IntentFilter();
+            configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
+            registerReceiver(mAutopilotFetchReceiver, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
+        }
+
     }
 
     private void initRecentApps() {
@@ -359,11 +374,12 @@ public class ColorPhoneApplication extends HSApplication {
         }
 
         if (!UserSettings.isNotificationToolbarToggleClicked()) {
-            boolean defaultSwitch = HSConfig.optBoolean(true, "Application", "NotificationToolbarToggle", "DefaultSwitch");
-            UserSettings.setNotificationToolbarEnabled(defaultSwitch);
+            UserSettings.setNotificationToolbarEnabled(ModuleUtils.isNotificationToolBarEnabled());
         }
 
         NotificationManager.getInstance().showNotificationToolbarIfEnabled();
+
+
     }
 
     private void initChargingReport() {

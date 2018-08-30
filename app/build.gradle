@@ -97,7 +97,7 @@ dependencies {
             "com.google.android.gms:play-services-gcm:$GOOGLE_PLAY_SERVICES_VERSION".toString(),
 
             USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.2.4.beta03"
-                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.2.4.gm",
+                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.2.5.gm",
 
             USE_BETA_ACB_LIBS ?
                     'com.ihandy.appframework:libAppframework.beta:4.6.8.+' :
