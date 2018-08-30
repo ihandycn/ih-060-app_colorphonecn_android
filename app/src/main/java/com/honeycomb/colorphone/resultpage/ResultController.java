@@ -247,9 +247,6 @@ abstract class ResultController implements View.OnClickListener {
 
         logBoostDoneAdShow();
 
-        if (mAd != null) {
-            mAd.release();
-        }
         mAdShown = true;
         mAd = ad;
         ad.setNativeClickListener(new AcbNativeAd.AcbNativeClickListener() {
@@ -467,7 +464,7 @@ abstract class ResultController implements View.OnClickListener {
                 LauncherAnalytics.logEvent("Colorphone_BatteryDone_Page_Shown");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromMainview");
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromToolbar");
@@ -496,7 +493,7 @@ abstract class ResultController implements View.OnClickListener {
                 LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromMainview");
+                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromToolbar");
@@ -514,7 +511,7 @@ abstract class ResultController implements View.OnClickListener {
                 AutoPilotUtils.logBatterywireAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromMainview");
+                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromToolbar");
@@ -534,7 +531,7 @@ abstract class ResultController implements View.OnClickListener {
                 AutoPilotUtils.logBatterydoneAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromMainview");
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromToolbar");
@@ -553,7 +550,7 @@ abstract class ResultController implements View.OnClickListener {
                 LauncherAnalytics.logEvent("Colorphone_BatteryDone_Ad_Clicked");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromMainview");
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromToolbar");

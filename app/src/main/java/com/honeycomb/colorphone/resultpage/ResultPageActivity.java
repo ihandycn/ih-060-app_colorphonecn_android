@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.battery.BatteryUtils;
@@ -28,8 +27,6 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
-
-import net.appcloudbox.ads.base.AcbNativeAd;
 
 import java.util.List;
 
@@ -69,8 +66,6 @@ public class ResultPageActivity extends BaseAppCompatActivity
      * Responsible for resolving {@link ResultController.Type} and performing ad preload if needed.
      */
     private ResultPagePresenter mPresenter;
-
-    private AcbNativeAd mAd;
 
     private int mResultType;
     private boolean mIsResultPageShow;
@@ -244,10 +239,6 @@ public class ResultPageActivity extends BaseAppCompatActivity
                 throw new IllegalArgumentException("Unsupported result type.");
         }
 
-        if (BuildConfig.DEBUG && mAd != null) {
-            throw new IllegalStateException("mAd must be null");
-        }
-
         ActivityUtils.configSimpleAppBar(this, titleText,
                 FontUtils.getTypeface(FontUtils.Font.ROBOTO_MEDIUM), titleColor, Color.TRANSPARENT, false);
 
@@ -255,7 +246,6 @@ public class ResultPageActivity extends BaseAppCompatActivity
         textView.setTextSize(17);
         int padding = Dimensions.pxFromDp(12);
         textView.setPadding(padding, 0, padding, 0);
-        releaseCurrentAd();
         startTransitionAnimation();
 
     }
@@ -304,7 +294,6 @@ public class ResultPageActivity extends BaseAppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        releaseCurrentAd();
     }
 
     @Override
@@ -316,19 +305,12 @@ public class ResultPageActivity extends BaseAppCompatActivity
             isAdShow = mResultController.isAdShown();
             mResultController.release();
         }
-        AcbNativeAdAnalytics.logAppViewEvent(RESULT_PAGE_AD_PLACEMENT_NAME,  isAdShow);
+        AcbNativeAdAnalytics.logAppViewEvent(RESULT_PAGE_AD_PLACEMENT_NAME, isAdShow);
 
         ResultPageManager.getInstance().releaseAd();
         ResultPageManager.getInstance().releaseInterstitialAd();
         ResultPageManager.getInstance().markAdDirty();
         HSGlobalNotificationCenter.removeObserver(this);
-    }
-
-    void releaseCurrentAd() {
-        if (mAd != null) {
-            mAd.release();
-            mAd = null;
-        }
     }
 
 }

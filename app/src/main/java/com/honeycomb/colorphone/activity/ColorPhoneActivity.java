@@ -183,6 +183,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onDrawerOpened(View drawerView) {
+                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Shown");
             }
         };
         DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
@@ -512,6 +513,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 break;
             case R.id.settings_boost:
                 BoostActivity.start(ColorPhoneActivity.this, false);
+                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
                 break;
             case R.id.settings_setting:
                 SettingsActivity.start(this);
