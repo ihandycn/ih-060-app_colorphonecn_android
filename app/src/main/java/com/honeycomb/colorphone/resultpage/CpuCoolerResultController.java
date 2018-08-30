@@ -72,7 +72,7 @@ class CpuCoolerResultController extends ResultController {
     private RevealFlashButton okButton;
 
     CpuCoolerResultController(ResultPageActivity activity, Type type, List<CardData> cardDataList) {
-        super(activity, ResultConstants.RESULT_TYPE_CPU_COOLER, type, cardDataList);
+        super.init(activity, ResultConstants.RESULT_TYPE_CPU_COOLER, type, cardDataList);
 //        if (ad != null) {
 //            LauncherAnalytics.logEvent(AdPlacements.SHARED_POOL_NATIVE_AD_FLURRY_EVENT_SHOWN_NAME_RESULT_PAGE, "Type", "CPUCoolerDone");
 //            ad.setNativeClickListener(acbAd -> {
