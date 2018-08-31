@@ -53,4 +53,8 @@ public class CardCustomConfig {
         HSLog.d("ad analytics logAppViewEvent: " + placementName + " - " + success);
         getLogger().logEvent("Colorphone_AcbAdNative_Viewed_In_App", new String[]{placementName, String.valueOf(success)});
     }
+
+    public boolean enableAdChard() {
+        return true;
+    }
 }

@@ -255,11 +255,11 @@
                 android:layout_below="@+id/charge_state_container"
                 android:layout_marginTop="-4dp">
 
-                <colorphone.acb.com.libscreencard.CustomizeContentContainer
-                    android:id="@+id/customize_card_container"
-                    android:layout_margin="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                <!--<colorphone.acb.com.libscreencard.CustomizeContentContainer-->
+                    <!--android:id="@+id/customize_card_container"-->
+                    <!--android:layout_margin="16dp"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"/>-->
 
                 <LinearLayout
                     android:id="@+id/charging_screen_advertisement_container"
