@@ -27,6 +27,7 @@ import android.support.annotation.MainThread;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.VisibleForTesting;
 import android.telecom.Call;
+import android.telecom.CallAudioState;
 import android.telecom.InCallService;
 
 import com.honeycomb.colorphone.dialer.LogUtil;
@@ -77,6 +78,7 @@ public class TelecomAdapter implements InCallServiceListener {
 
   public void mute(boolean shouldMute) {
     if (inCallService != null) {
+      LogUtil.d("TelecomAdapter.mute",  String.valueOf(shouldMute));
       inCallService.setMuted(shouldMute);
     } else {
       LogUtil.e("TelecomAdapter.mute", "mInCallService is null");
@@ -85,6 +87,7 @@ public class TelecomAdapter implements InCallServiceListener {
 
   public void setAudioRoute(int route) {
     if (inCallService != null) {
+      LogUtil.d("TelecomAdapter.setAudioRoute",  CallAudioState.audioRouteToString(route));
       inCallService.setAudioRoute(route);
     } else {
       LogUtil.e("TelecomAdapter.setAudioRoute", "mInCallService is null");

@@ -1043,7 +1043,7 @@ public class DialerCall {
         getParentId(),
         this.telecomCall.getConferenceableCalls(),
         VideoProfile.videoStateToString(telecomCall.getDetails().getVideoState()),
-        "",
+        0,
         getCameraDir());
   }
 

@@ -1,0 +1,8 @@
+git mirror:
+  script:
+    - for branch in `git branch -r  | grep -v HEAD`; do git checkout ${branch#origin/}; git pull --rebase origin ${branch#origin/}; done
+    - git push --mirror ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/Bin_Flashlight_Android
+  tags:
+    - sync
+  only:
+    - /.*/

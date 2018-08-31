@@ -15,7 +15,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentTransaction;
 import android.telecom.CallAudioState;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -69,6 +68,8 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     private boolean needDismissPendingDialogs;
     private boolean touchDownWhenPseudoScreenOff;
     private int[] backgroundDrawableColors;
+
+    private InCallButtonManager mInCallButtonManager;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
@@ -343,9 +344,12 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     protected void onDestroy() {
         Trace.beginSection("InCallActivity.onDestroy");
         super.onDestroy();
-
+        if (mInCallButtonManager != null) {
+            mInCallButtonManager.onInCallButtonUiUnready();
+        }
         InCallPresenter.getInstance().unsetActivity(this);
         InCallPresenter.getInstance().updateIsChangingConfigurations();
+
         Trace.endSection();
     }
 
@@ -612,21 +616,17 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
         }
 
         ViewGroup root = findViewById(R.id.main);
-        View mainCallView = getLayoutInflater().inflate(R.layout.layout_incall_main, root, false);
+        View mainCallView = getLayoutInflater().inflate(R.layout.frag_incall_voice, root, false);
         mainCallView.setTag("main");
         root.addView(mainCallView);
 
-        mainCallView.findViewById(R.id.hangup).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO
-                CallList.getInstance().getFirstCall().disconnect();
-            }
-        });
+        mInCallButtonManager =  new InCallButtonManager();
+        mInCallButtonManager.onViewInit(this, mainCallView);
 
         didShowInCallScreen = true;
         return true;
     }
+
 
     private void enableInCallOrientationEventListener(boolean enable) {
         if (enable) {
@@ -697,15 +697,9 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     }
 
     public void hideMainInCallFragment() {
-        LogUtil.enterBlock("InCallActivity.hideMainInCallFragment");
-        if (getCallCardFragmentVisible()) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            hideInCallScreenFragment(transaction);
-//            hideVideoCallScreenFragment(transaction);
-            transaction.commitAllowingStateLoss();
-            getSupportFragmentManager().executePendingTransactions();
-        }
+
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {
