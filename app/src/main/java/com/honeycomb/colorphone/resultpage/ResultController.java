@@ -280,10 +280,8 @@ abstract class ResultController implements View.OnClickListener {
     }
 
     public void onTransitionAnimationEnd() {
-        if (mResultType != ResultConstants.RESULT_TYPE_BOOST_PLUS || mResultType != ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
-            if (mType == Type.AD || mType == Type.CHARGE_SCREEN || mType == Type.NOTIFICATION_CLEANER || mType == Type.APP_LOCK) {
-                startAdOrFunctionResultAnimation(DURATION_AD_OR_FUNCTION_TRANSLATE_DELAY);
-            }
+        if (mType == Type.AD || mType == Type.CHARGE_SCREEN || mType == Type.NOTIFICATION_CLEANER || mType == Type.APP_LOCK) {
+            startAdOrFunctionResultAnimation(DURATION_AD_OR_FUNCTION_TRANSLATE_DELAY);
         }
     }
 
@@ -468,6 +466,9 @@ abstract class ResultController implements View.OnClickListener {
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
                 LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromSettings");
                 break;
+            case ResultConstants.RESULT_TYPE_BOOST_PUSH:
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromPush");
+                break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromToolbar");
                 break;
@@ -498,6 +499,9 @@ abstract class ResultController implements View.OnClickListener {
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
                 LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromSettings");
                 break;
+            case ResultConstants.RESULT_TYPE_BOOST_PUSH:
+                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromPush");
+                break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromToolbar");
                 break;
@@ -515,6 +519,9 @@ abstract class ResultController implements View.OnClickListener {
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
                 LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromSettings");
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_PUSH:
+                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromToolbar");
@@ -535,6 +542,9 @@ abstract class ResultController implements View.OnClickListener {
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
                 LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromSettings");
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_PUSH:
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromToolbar");
@@ -557,6 +567,9 @@ abstract class ResultController implements View.OnClickListener {
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromToolbar");
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_PUSH:
+                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 LauncherAnalytics.logEvent("Colorphone_CPUDone_Ad_Clicked");

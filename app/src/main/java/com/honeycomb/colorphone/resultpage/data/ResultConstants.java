@@ -8,6 +8,7 @@ public class ResultConstants {
     public static final int RESULT_TYPE_CPU_COOLER = 3;
     public static final int RESULT_TYPE_NOTIFICATION_CLEANER = 4;
     public static final int RESULT_TYPE_BOOST_TOOLBAR = 5;
+    public static final int RESULT_TYPE_BOOST_PUSH = 6;
 
     public static final int CARD_VIEW_TYPE_INVALID = 0;
 

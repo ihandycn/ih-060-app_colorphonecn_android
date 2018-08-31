@@ -84,7 +84,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
             return;
         }
         Intent intent = new Intent(context, ResultPageActivity.class);
-        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
+        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PUSH);
         intent.putExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, cleanedSizeMbs);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
@@ -196,6 +196,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
     public @ColorInt int getBackgroundColor() {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
+            case ResultConstants.RESULT_TYPE_BOOST_PUSH:
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 return ContextCompat.getColor(this, R.color.boost_plus_clean_bg);
             case ResultConstants.CARD_VIEW_TYPE_BATTERY:
@@ -214,6 +215,8 @@ public class ResultPageActivity extends BaseAppCompatActivity
         Intent intent = getIntent();
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
+            case ResultConstants.RESULT_TYPE_BOOST_PUSH:
+            case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 int cleanedSizeMbs = intent.getIntExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, 0);
                 mResultController = new BoostPlusResultController(this, mResultType, cleanedSizeMbs, type,  cards);
                 titleText = getString(R.string.boost_title);
@@ -229,12 +232,6 @@ public class ResultPageActivity extends BaseAppCompatActivity
                 mResultController = new CpuCoolerResultController(this, type, cards);
                 titleText = getString(R.string.promotion_max_card_title_cpu_cooler);
                 break;
-            case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                cleanedSizeMbs = intent.getIntExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, 0);
-                mResultController = new BoostPlusResultController(this, mResultType, cleanedSizeMbs, type, cards);
-                titleText = getString(R.string.boost_title);
-                break;
-
             default:
                 throw new IllegalArgumentException("Unsupported result type.");
         }

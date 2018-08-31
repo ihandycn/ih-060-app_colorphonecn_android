@@ -153,6 +153,8 @@ class BoostPlusResultController extends ResultController {
             LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromToolbar");
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PLUS) {
             LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromSettings");
+        } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PUSH) {
+            LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromPush");
         }
         final AcbNativeAd ad = ResultPageManager.getInstance().getAd();
         isAdReady = ad != null;
