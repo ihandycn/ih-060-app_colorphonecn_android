@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.util;
 
+import com.honeycomb.colorphone.BuildConfig;
+
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
 
@@ -7,7 +9,7 @@ public class AutoPilotUtils {
     private static final String NOTIFICATION_TOOLBAR_TOPIC = "topic-1535427355191-617";
 
     public static boolean getNotificationToolbarEnable() {
-        return AutopilotConfig.getBooleanToTestNow(NOTIFICATION_TOOLBAR_TOPIC, "notificationtoolbar_enable", false);
+        return BuildConfig.DEBUG || AutopilotConfig.getBooleanToTestNow(NOTIFICATION_TOOLBAR_TOPIC, "notificationtoolbar_enable", false);
     }
 
     public static void logNotificationToolbarBoostClick() {
