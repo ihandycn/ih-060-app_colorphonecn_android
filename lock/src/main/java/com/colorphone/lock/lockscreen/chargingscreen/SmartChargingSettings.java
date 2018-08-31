@@ -39,9 +39,9 @@ public class SmartChargingSettings {
     }
 
     public static boolean isChargingScreenEnabledWithGooglePolicy() {
-        if (AutoPilotUtils.enableScreenModule()) {
-            return true;
-        }
+//        if (AutoPilotUtils.enableScreenModule()) {
+//            return true;
+//        }
         return ConfigUtils.isEnabled("Application", "Charging", "ChargingLockScreen", "Enable")
                 && ConfigUtils.isScreenAdEnabledThisVersion();
     }
