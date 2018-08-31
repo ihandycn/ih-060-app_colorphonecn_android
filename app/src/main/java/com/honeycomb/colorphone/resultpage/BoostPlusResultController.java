@@ -129,6 +129,7 @@ class BoostPlusResultController extends ResultController {
 
         if (!popupInterstitialAdIfNeeded()) {
             if (!tryShowNativeAd(true)) {
+                HSLog.d(TAG, "BoostPlusResultController NoAds here");
                 startTickAnimation();
             }
         }
@@ -148,13 +149,15 @@ class BoostPlusResultController extends ResultController {
     }
 
     public boolean tryShowNativeAd(boolean waitForBoostResult) {
-        HSLog.d(TAG, "BoostPlusResultController showAdWithAnimation");
         if (mResultType == ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
             LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromToolbar");
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PLUS) {
             LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromSettings");
         }
         final AcbNativeAd ad = ResultPageManager.getInstance().getAd();
+        isAdReady = ad != null;
+
+        HSLog.d(TAG, "BoostPlusResultController showAdWithAnimation isAdReady == " + isAdReady);
         if (ad != null) {
             if (waitForBoostResult) {
                 mAdTransitionRunnable = new Runnable() {
@@ -162,11 +165,10 @@ class BoostPlusResultController extends ResultController {
                     public void run() {
                         resetTextVisible();
 
-                        isAdReady = ResultPageManager.getInstance().getAd() != null;
                         if (isAdReady) {
-                        showAd(ad);
-                        showAdWithAnimation();
-                        startRealTransitionAnimation();
+                            showAd(ad);
+                            showAdWithAnimation();
+                            startRealTransitionAnimation();
                         } else {
                             startTickAnimation();
                         }
@@ -177,6 +179,7 @@ class BoostPlusResultController extends ResultController {
                 resetTextVisible();
                 showAd(ad);
                 showAdWithAnimation();
+                startRealTransitionAnimation();
             }
             return true;
         } else {
@@ -212,7 +215,7 @@ class BoostPlusResultController extends ResultController {
             @Override
             public void onAnimationEnd(Animation animation) {
                 super.onAnimationEnd(animation);
-
+                HSLog.d(TAG, "BoostPlusResultController mAdTransitionRunnable == " + mAdTransitionRunnable);
                 if (mAdTransitionRunnable == null) {
                     startRealTransitionAnimation();
                 }
@@ -230,8 +233,7 @@ class BoostPlusResultController extends ResultController {
     }
 
     private void startRealTransitionAnimation() {
-        HSLog.d(TAG, "BoostPlusResultController startRealTransitionAnimation");
-        isAdReady = ResultPageManager.getInstance().getAd() != null;
+        HSLog.d(TAG, "BoostPlusResultController startRealTransitionAnimation isAdReady == " + isAdReady);
         if (!isAdReady) {
             mFreedResultBtn.setAlpha(0);
             mFreedResultBtn.setVisibility(View.VISIBLE);

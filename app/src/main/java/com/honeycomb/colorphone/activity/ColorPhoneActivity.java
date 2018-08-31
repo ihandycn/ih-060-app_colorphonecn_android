@@ -224,6 +224,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //            }
 //        });
 
+        if (Utils.ATLEAST_JELLY_BEAN) {
+            leftDrawer.findViewById(R.id.settings_boost).setVisibility(View.VISIBLE);
+        } else {
+            leftDrawer.findViewById(R.id.settings_boost).setVisibility(View.GONE);
+        }
+
         leftDrawer.findViewById(R.id.settings_main_switch).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_led_flash).setOnClickListener(this);
 //        leftDrawer.findViewById(R.id.settings_notification_toolbar).setOnClickListener(this);

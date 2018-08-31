@@ -341,20 +341,20 @@ class BatteryResultController extends ResultController {
         ViewUtils.findViewById((ResultPageActivity) getContext(), R.id.bg_view).setBackgroundColor(getContext().getResources().getColor(R.color.battery_green));
 
         onTransitionAnimationEnd();
-        showGuideTipIfNeeded();
+//        showGuideTipIfNeeded();
     }
 
-    private void showGuideTipIfNeeded() {
-        if (mType == Type.CARD_VIEW) {
-            ValueAnimator guideTipAppear = ValueAnimator.ofFloat(0f, 1f);
-            guideTipAppear.setDuration(4 * DURATION_CARD_TRANSLATE);
-            guideTipAppear.setInterpolator(softStopAccDecInterpolator);
-            guideTipAppear.setStartDelay(3 * DURATION_CARD_TRANSLATE_DELAY);
-            guideTipAppear.addUpdateListener(valueAnimator -> {
-                float frame = (float) valueAnimator.getAnimatedValue();
-                guideTip.setAlpha(frame);
-            });
-            guideTipAppear.start();
-        }
-    }
+//    private void showGuideTipIfNeeded() {
+//        if (mType == Type.CARD_VIEW) {
+//            ValueAnimator guideTipAppear = ValueAnimator.ofFloat(0f, 1f);
+//            guideTipAppear.setDuration(4 * DURATION_CARD_TRANSLATE);
+//            guideTipAppear.setInterpolator(softStopAccDecInterpolator);
+//            guideTipAppear.setStartDelay(3 * DURATION_CARD_TRANSLATE_DELAY);
+//            guideTipAppear.addUpdateListener(valueAnimator -> {
+//                float frame = (float) valueAnimator.getAnimatedValue();
+//                guideTip.setAlpha(frame);
+//            });
+//            guideTipAppear.start();
+//        }
+//    }
 }

@@ -290,9 +290,11 @@ abstract class ResultController implements View.OnClickListener {
     protected boolean popupInterstitialAdIfNeeded() {
         logInterstitialAdNeedShow();
         if (shouldShowInterstitialAd()) {
+            HSLog.d(TAG, "popupInterstitialAdIfNeeded true ");
             popupInterstitialAd(ResultPageManager.getInstance().getInterstitialAd());
             return true;
         }
+        HSLog.d(TAG, "popupInterstitialAdIfNeeded false ");
         return false;
     }
 
@@ -488,6 +490,7 @@ abstract class ResultController implements View.OnClickListener {
     }
 
     private void logInterstitialAdNeedShow() {
+        HSLog.d(TAG, "logInterstitialAdNeedShow mResultType: " + mResultType);
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
