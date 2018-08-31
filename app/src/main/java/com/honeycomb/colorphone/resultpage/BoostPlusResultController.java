@@ -156,12 +156,7 @@ class BoostPlusResultController extends ResultController {
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PUSH) {
             LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromPush");
         }
-        final AcbNativeAd ad;
-        if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PUSH) {
-            ad = ResultPageManager.getInstance().getBoostPushAd();
-        } else {
-            ad = ResultPageManager.getInstance().getAd();
-        }
+        final AcbNativeAd ad = ResultPageManager.getInstance().getAd();
         isAdReady = ad != null;
 
         HSLog.d(TAG, "BoostPlusResultController showAdWithAnimation isAdReady == " + isAdReady);

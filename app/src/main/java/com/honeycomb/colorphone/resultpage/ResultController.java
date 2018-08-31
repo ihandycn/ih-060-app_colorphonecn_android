@@ -297,8 +297,7 @@ abstract class ResultController implements View.OnClickListener {
     }
 
     private boolean shouldShowInterstitialAd() {
-        if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PUSH
-                || ResultPageManager.getInstance().getInterstitialAd() == null) {
+        if (ResultPageManager.getInstance().getInterstitialAd() == null) {
             return false;
         }
         return true;

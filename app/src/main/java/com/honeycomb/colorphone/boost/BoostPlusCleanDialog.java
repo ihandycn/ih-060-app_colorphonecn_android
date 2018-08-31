@@ -39,7 +39,6 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
-import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -260,8 +259,6 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
 
         startBoostAnimation();
         startClean(mType);
-
-        ResultPageManager.preloadPushResultPageAds();
     }
 
     public BoostPlusCleanDialog(Context context) {

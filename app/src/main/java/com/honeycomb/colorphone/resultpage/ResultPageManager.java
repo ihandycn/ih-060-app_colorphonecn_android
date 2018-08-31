@@ -19,7 +19,6 @@ public class ResultPageManager {
     public static final String RESULT_PAGE_INTERSTITIAL_AD_PLACEMENT_NAME = Placements.BOOST_WIRE;
 
     private AcbNativeAd mAd = null;
-    private AcbNativeAd mPushAd = null;
     private AcbInterstitialAd mInterstitialAd = null;
 
     private static ResultPageManager sInstance;
@@ -44,12 +43,6 @@ public class ResultPageManager {
         return sInstance;
     }
 
-    public static void preloadPushResultPageAds() {
-        HSLog.d(TAG, "preloadPushPageAds");
-        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.BOOST_PUSH);
-        AcbNativeAdManager.preload(1, Placements.BOOST_PUSH);
-    }
-
     public static void preloadResultPageAds() {
         HSLog.d(TAG, "preloadResultPageAds");
         AcbNativeAdManager.getInstance().activePlacementInProcess(RESULT_PAGE_AD_PLACEMENT_NAME);
@@ -69,16 +62,6 @@ public class ResultPageManager {
         return mAd;
     }
 
-    public AcbNativeAd getBoostPushAd() {
-        if (mPushAd == null) {
-            List<AcbNativeAd> ads = AcbNativeAdManager.fetch(Placements.BOOST_PUSH, 1);
-            if (ads != null && ads.size() > 0) {
-                mPushAd = ads.get(0);
-            }
-        }
-        return mPushAd;
-    }
-
     public AcbInterstitialAd getInterstitialAd() {
         if (mInterstitialAd == null) {
             List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(RESULT_PAGE_INTERSTITIAL_AD_PLACEMENT_NAME, 1);
@@ -93,11 +76,6 @@ public class ResultPageManager {
         if (mAd != null) {
             mAd.release();
             mAd = null;
-        }
-
-        if (mPushAd != null) {
-            mPushAd.release();
-            mPushAd = null;
         }
     }
 
