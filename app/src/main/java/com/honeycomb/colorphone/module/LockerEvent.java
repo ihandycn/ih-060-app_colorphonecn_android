@@ -17,7 +17,6 @@ public class LockerEvent extends LockerCustomConfig.Event {
     @Override
     public void onEventLockerShow() {
         super.onEventChargingAdClick();
-        AutopilotEvent.logTopicEvent("topic-1505294061097", "color_screensaver_show");
     }
 
     @Override
