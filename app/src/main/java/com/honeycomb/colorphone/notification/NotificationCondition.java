@@ -391,7 +391,7 @@ public class NotificationCondition implements INotificationObserver {
             return true;
         }
 
-        return NotificationSettingsActivity.isNotificationBoostOn() && BoostAutoPilotUtils.isBoostPushEnable();
+        return Utils.ATLEAST_JELLY_BEAN && NotificationSettingsActivity.isNotificationBoostOn() && BoostAutoPilotUtils.isBoostPushEnable();
     }
 
     private boolean sendBoostPlusNotificationIfNeeded() {
