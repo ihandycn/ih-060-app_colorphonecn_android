@@ -203,7 +203,7 @@ public class BlackHole extends RelativeLayout {
         boostCenterIv.getLocationOnScreen(location);
         float endX = location[0];
         float endY = location[1];
-        BoostAnimationManager boostAnimationManager = new BoostAnimationManager(endX, endY - Utils.pxFromDp(100));
+        BoostAnimationManager boostAnimationManager = new BoostAnimationManager(endX, endY - Utils.pxFromDp(0));
 
         ImageView iconOneV = (ImageView) findViewById(R.id.boost_icon_1_iv);
         ImageView iconTwoV = (ImageView) findViewById(R.id.boost_icon_2_iv);
