@@ -1,0 +1,28 @@
+
+android {
+    applicationVariants.all { variant ->
+        def buildType = variant.buildType.name
+        def flavor = variant.flavorName
+        def taskMiddleName = variant.variantData.name.capitalize()
+
+        if (flavor != '') {
+            def scope = variant.variantData.getScope()
+
+            // Pin all resource ids related to notification toolbar to fix "Bad notification posted from ..." crash
+            String mergeResourcesTaskName = scope.getMergeResourcesTask().name
+            def mergeResourcesTask = tasks.getByName(mergeResourcesTaskName)
+            mergeResourcesTask.doLast {
+                copy {
+                    int i = 0
+                    from('src/main/res') {
+                        include 'values/public.xml'
+                        rename 'public.xml', (i == 0 ? "public.xml" : "public_${i}.xml")
+                        i++
+                    }
+                    into(mergeResourcesTask.outputDir)
+                }
+            }
+
+        }
+    }
+}
