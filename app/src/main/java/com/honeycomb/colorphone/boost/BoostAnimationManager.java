@@ -43,7 +43,7 @@ public class BoostAnimationManager {
         static final int ICON_SEVEN = 6;
     }
 
-    private static final int FRAME = 80;
+    private static final int FRAME = 90;
     private static final float ALPHA_REDUCE_MIN = 0.15f;
     private static final float WIDTH_SCREEN = Utils.getPhoneWidth(HSApplication.getContext());
     private static final float HEIGHT_SCREEN = Utils.getPhoneHeight(HSApplication.getContext());
@@ -532,7 +532,7 @@ public class BoostAnimationManager {
     }
 
     static Animation getBoostRotateAnimation(long duration) {
-        final RotateAnimation animation = new RotateAnimation(0f, 3600, Animation.RELATIVE_TO_SELF,
+        final RotateAnimation animation = new RotateAnimation(0f, 5400, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         animation.setDuration(duration);
         animation.setRepeatCount(0);
