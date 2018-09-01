@@ -334,7 +334,7 @@ interface ButtonController {
     public BluetoothButtonController(InCallButtonUiDelegate delegate) {
       super(
               delegate,
-              InCallButtonIds.BUTTON_AUDIO_SPEAKER,
+              InCallButtonIds.BUTTON_AUDIO_BLUE,
               R.string.incall_content_description_muted,
               R.string.incall_content_description_unmuted,
               R.string.incall_content_description_speaker,

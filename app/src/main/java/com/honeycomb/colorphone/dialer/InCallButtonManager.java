@@ -313,7 +313,9 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
     public void onEndCallClicked() {
         HSLog.d(TAG,
                 "onEndCallClicked");
-        CallList.getInstance().getFirstCall().disconnect();
+        if (call != null) {
+            call.disconnect();
+        }
     }
 
     @Override
@@ -418,14 +420,15 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
                 || id == InCallButtonIds.BUTTON_AUDIO_SPEAKER
                 || id == InCallButtonIds.BUTTON_MUTE
                 || id == InCallButtonIds.BUTTON_DIALPAD
-                || id == InCallButtonIds.BUTTON_HOLD
-                || id == InCallButtonIds.BUTTON_SWAP
-                || id == InCallButtonIds.BUTTON_UPGRADE_TO_VIDEO
-                || id == InCallButtonIds.BUTTON_ADD_CALL
-                || id == InCallButtonIds.BUTTON_MERGE
-                || id == InCallButtonIds.BUTTON_MANAGE_VOICE_CONFERENCE
-                || id == InCallButtonIds.BUTTON_SWAP_SIM
-                || id == InCallButtonIds.BUTTON_UPGRADE_TO_RTT;
+//                || id == InCallButtonIds.BUTTON_HOLD
+//                || id == InCallButtonIds.BUTTON_SWAP
+//                || id == InCallButtonIds.BUTTON_UPGRADE_TO_VIDEO
+//                || id == InCallButtonIds.BUTTON_ADD_CALL
+//                || id == InCallButtonIds.BUTTON_MERGE
+//                || id == InCallButtonIds.BUTTON_MANAGE_VOICE_CONFERENCE
+//                || id == InCallButtonIds.BUTTON_SWAP_SIM
+//                || id == InCallButtonIds.BUTTON_UPGRADE_TO_RTT
+                ;
     }
 
     /**

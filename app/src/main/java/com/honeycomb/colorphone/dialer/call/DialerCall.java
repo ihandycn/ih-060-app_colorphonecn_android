@@ -461,23 +461,23 @@ public class DialerCall {
     int oldState = getState();
     // Clear any cache here that could potentially change on update.
 //    videoTech = null;
-//    // We want to potentially register a video call callback here.
-//    updateFromTelecomCall();
-//    if (oldState != getState() && getState() == DialerCallState.DISCONNECTED) {
-//      for (DialerCallListener listener : listeners) {
-//        listener.onDialerCallDisconnect();
-//      }
+    // We want to potentially register a video call callback here.
+    updateFromTelecomCall();
+    if (oldState != getState() && getState() == DialerCallState.DISCONNECTED) {
+      for (DialerCallListener listener : listeners) {
+        listener.onDialerCallDisconnect();
+      }
 //      EnrichedCallComponent.get(context)
 //          .getEnrichedCallManager()
 //          .unregisterCapabilitiesListener(this);
 //      EnrichedCallComponent.get(context)
 //          .getEnrichedCallManager()
 //          .unregisterStateChangedListener(this);
-//    } else {
-//      for (DialerCallListener listener : listeners) {
-//        listener.onDialerCallUpdate();
-//      }
-//    }
+    } else {
+      for (DialerCallListener listener : listeners) {
+        listener.onDialerCallUpdate();
+      }
+    }
     Trace.endSection();
   }
 
