@@ -1,12 +1,13 @@
 package com.honeycomb.colorphone.dialer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Trace;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.os.UserManagerCompat;
 import android.telecom.CallAudioState;
 import android.telecom.PhoneAccountHandle;
 import android.view.View;
@@ -66,10 +67,6 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
         buttons[1] = ((CheckableLabeledButton) root.findViewById(R.id.incall_second_button));
         buttons[2] = ((CheckableLabeledButton) root.findViewById(R.id.incall_third_button));
         buttons[3] = ((CheckableLabeledButton) root.findViewById(R.id.incall_fourth_button));
-
-        for (int i = 0; i < BUTTON_COUNT; i++) {
-            ButtonController buttonController = getOrderedController(i);
-        }
 
         root.findViewById(R.id.incall_end_call).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,37 +146,42 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
         // Show either HOLD or SWAP, but not both. If neither HOLD or SWAP is available:
         //     (1) If the device normally can hold, show HOLD in a disabled state.
         //     (2) If the device doesn't have the concept of hold/swap, remove the button.
-        final boolean showSwap = call.can(android.telecom.Call.Details.CAPABILITY_SWAP_CONFERENCE);
-        final boolean showHold =
-                !showSwap
-                        && call.can(android.telecom.Call.Details.CAPABILITY_SUPPORT_HOLD)
-                        && call.can(android.telecom.Call.Details.CAPABILITY_HOLD);
-        final boolean isCallOnHold = call.getState() == DialerCallState.ONHOLD;
-
-        final boolean showAddCall =
-                TelecomAdapter.getInstance().canAddCall() && UserManagerCompat.isUserUnlocked(getContext());
+//        final boolean showSwap = call.can(android.telecom.Call.Details.CAPABILITY_SWAP_CONFERENCE);
+//        final boolean showHold =
+//                !showSwap
+//                        && call.can(android.telecom.Call.Details.CAPABILITY_SUPPORT_HOLD)
+//                        && call.can(android.telecom.Call.Details.CAPABILITY_HOLD);
+//        final boolean isCallOnHold = call.getState() == DialerCallState.ONHOLD;
+//
+//        final boolean showAddCall =
+//                TelecomAdapter.getInstance().canAddCall() && UserManagerCompat.isUserUnlocked(getContext());
 
         final boolean showMute = call.can(android.telecom.Call.Details.CAPABILITY_MUTE);
 
 
-        otherAccount = TelecomUtil.getOtherAccount(getContext(), call.getAccountHandle());
-        boolean showSwapSim =
-                !call.isEmergencyCall()
-                        && otherAccount != null
-                        && !call.isVoiceMailNumber()
-                        && DialerCallState.isDialing(call.getState())
-                        // Most devices cannot make calls on 2 SIMs at the same time.
-                        && InCallPresenter.getInstance().getCallList().getAllCalls().size() == 1;
+//        otherAccount = TelecomUtil.getOtherAccount(getContext(), call.getAccountHandle());
+//        boolean showSwapSim =
+//                !call.isEmergencyCall()
+//                        && otherAccount != null
+//                        && !call.isVoiceMailNumber()
+//                        && DialerCallState.isDialing(call.getState())
+//                        // Most devices cannot make calls on 2 SIMs at the same time.
+//                        && InCallPresenter.getInstance().getCallList().getAllCalls().size() == 1;
 
 
-        inCallButtonUi.showButton(InCallButtonIds.BUTTON_AUDIO, true);
-        inCallButtonUi.showButton(InCallButtonIds.BUTTON_SWAP, showSwap);
-        inCallButtonUi.showButton(InCallButtonIds.BUTTON_HOLD, showHold);
+//        inCallButtonUi.showButton(InCallButtonIds.BUTTON_AUDIO, true);
+        inCallButtonUi.showButton(InCallButtonIds.BUTTON_AUDIO_SPEAKER, true);
+        inCallButtonUi.showButton(InCallButtonIds.BUTTON_AUDIO_BLUE, true);
+
+//        inCallButtonUi.showButton(InCallButtonIds.BUTTON_SWAP, showSwap);
+//        inCallButtonUi.showButton(InCallButtonIds.BUTTON_HOLD, showHold);
         inCallButtonUi.showButton(InCallButtonIds.BUTTON_MUTE, showMute);
-        inCallButtonUi.showButton(InCallButtonIds.BUTTON_SWAP_SIM, showSwapSim);
-        inCallButtonUi.showButton(InCallButtonIds.BUTTON_ADD_CALL, true);
-        inCallButtonUi.enableButton(InCallButtonIds.BUTTON_ADD_CALL, showAddCall);
+//        inCallButtonUi.showButton(InCallButtonIds.BUTTON_SWAP_SIM, showSwapSim);
+//        inCallButtonUi.showButton(InCallButtonIds.BUTTON_ADD_CALL, true);
+//        inCallButtonUi.enableButton(InCallButtonIds.BUTTON_ADD_CALL, showAddCall);
         inCallButtonUi.showButton(InCallButtonIds.BUTTON_DIALPAD, true);
+
+        AudioHelper.support(getCurrentAudioState(), CallAudioState.ROUTE_BLUETOOTH);
 
         inCallButtonUi.updateButtonStates();
     }
@@ -273,6 +275,10 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
     @Override
     public void bluetoothClicked(boolean checked, boolean clickedByUser) {
         if (!AudioHelper.support(getCurrentAudioState(), CallAudioState.ROUTE_BLUETOOTH)) {
+            Intent intent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+            if (null != intent.resolveActivity(getContext().getPackageManager())) {
+                mInCallActivity.startActivity(intent);
+            }
             return;
         }
         if (checked) {
@@ -285,8 +291,8 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
 
     @Override
     public void showDialpadClicked(boolean checked) {
-        // TODO dialpad.
-
+        LogUtil.v("showDialpadClicked", "show dialpad " + String.valueOf(checked));
+        mInCallActivity.showDialpadFragment(checked /* show */, true /* animate */);
     }
 
     /**
@@ -369,7 +375,7 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
         @Override
         public void showButton(int buttonId, boolean show) {
             LogUtil.v(
-                    "InCallFragment.showButton",
+                    "InCallSimpleButtonUi.showButton",
                     "buttionId: %s, show: %b",
                     InCallButtonIdsExtension.toString(buttonId),
                     show);
@@ -381,7 +387,7 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
         @Override
         public void enableButton(int buttonId, boolean enable) {
             LogUtil.v(
-                    "InCallFragment.enableButton",
+                    "InCallSimpleButtonUi.enableButton",
                     "buttonId: %s, enable: %b",
                     InCallButtonIdsExtension.toString(buttonId),
                     enable);
@@ -401,17 +407,30 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
         @Override
         public void setAudioState(CallAudioState audioState) {
             LogUtil.i("InCallSimpleButtonUi", "audioState: " + audioState);
-            getButtonController(InCallButtonIds.BUTTON_AUDIO_BLUE)
-                    .setChecked(AudioHelper.isUseRoute(audioState, CallAudioState.ROUTE_BLUETOOTH));
+
+            ButtonController bluetoothController = getButtonController(InCallButtonIds.BUTTON_AUDIO_BLUE);
+            boolean supportBluetooth = AudioHelper.support(audioState, CallAudioState.ROUTE_BLUETOOTH);
+                bluetoothController.setCheckable(supportBluetooth);
+            bluetoothController.setChecked(AudioHelper.isUseRoute(audioState, CallAudioState.ROUTE_BLUETOOTH));
+
             getButtonController(InCallButtonIds.BUTTON_AUDIO_SPEAKER)
                     .setChecked(AudioHelper.isUseRoute(audioState, CallAudioState.ROUTE_SPEAKER));
+
             getButtonController(InCallButtonIds.BUTTON_MUTE)
                     .setChecked(audioState.isMuted());
+
+            updateButtonStates();
         }
 
+        /**
+         *
+         */
         @Override
         public void updateButtonStates() {
-            // Nothing
+            for (int i = 0; i < BUTTON_COUNT; i++) {
+                ButtonController buttonController = getOrderedController(i);
+                buttonController.setButton(buttons[i]);
+            }
         }
     }
 
