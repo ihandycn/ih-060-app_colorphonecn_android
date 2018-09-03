@@ -42,6 +42,7 @@ android {
                            'src/main/java/com/honeycomb/colorphone/dialer/lettertile/res',
                            'src/main/java/com/honeycomb/colorphone/dialer/commontheme/res',
                            'src/main/java/com/honeycomb/colorphone/dialer/impl/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/contactgrid/res',
                            'src/main/java/com/honeycomb/colorphone/dialer/theme/res',
                            'src/main/java/com/honeycomb/colorphone/dialer/res']
             assets.srcDirs = ['src/main/assets']

@@ -70,6 +70,7 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     private int[] backgroundDrawableColors;
 
     private InCallButtonManager mInCallButtonManager;
+    private InCallCardManager mInCallCardManager;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
@@ -347,6 +348,9 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
         if (mInCallButtonManager != null) {
             mInCallButtonManager.onInCallButtonUiUnready();
         }
+        if (mInCallCardManager != null) {
+            mInCallCardManager.onViewUnReady();
+        }
         InCallPresenter.getInstance().unsetActivity(this);
         InCallPresenter.getInstance().updateIsChangingConfigurations();
 
@@ -620,12 +624,17 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
         mainCallView.setTag("main");
         root.addView(mainCallView);
 
+
         mInCallButtonManager =  new InCallButtonManager();
         mInCallButtonManager.onViewInit(this, mainCallView);
+
+        mInCallCardManager = new InCallCardManager();
+        mInCallCardManager.onViewInit(this, mainCallView);
 
         didShowInCallScreen = true;
         return true;
     }
+
 
 
     private void enableInCallOrientationEventListener(boolean enable) {
