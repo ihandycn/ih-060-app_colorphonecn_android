@@ -24,7 +24,8 @@ import com.superapps.util.Threads;
 public class InCallCardManager implements
         InCallPresenter.InCallStateListener,
         InCallPresenter.InCallDetailsListener,
-        InCallPresenter.IncomingCallListener {
+        InCallPresenter.IncomingCallListener,
+        ViewManager {
 
     private TextView mContactView;
     private ViewAnimator bottomTextSwitcher;
@@ -34,12 +35,18 @@ public class InCallCardManager implements
     private DialerCall mOutCall;
     private boolean isTimerStarted;
 
+    @Override
     public void onViewInit(InCallActivity activity, View mainCallView) {
         mContactView = (TextView) mainCallView.findViewById(R.id.contactgrid_contact_name);
         bottomTextSwitcher = mainCallView.findViewById(R.id.contactgrid_bottom_text_switcher);
         bottomTextView = mainCallView.findViewById(R.id.contactgrid_bottom_text);
         bottomTimerView = mainCallView.findViewById(R.id.contactgrid_bottom_timer);
         onViewReady();
+    }
+
+    @Override
+    public void onViewDestroy() {
+        onViewUnReady();
     }
 
     public void onViewReady() {

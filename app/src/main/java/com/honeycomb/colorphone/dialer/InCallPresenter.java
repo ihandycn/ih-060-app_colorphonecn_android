@@ -1370,6 +1370,11 @@ public class InCallPresenter implements CallList.Listener, AudioModeProvider.Aud
       return newState;
     }
 
+    if (newState == InCallState.INCOMING) {
+      //
+      startIncomingCallActivity();
+    }
+
     // A new Incoming call means that the user needs to be notified of the the call (since
     // it wasn't them who initiated it).  We do this through full screen notifications and
     // happens indirectly through {@link StatusBarNotifier}.
@@ -1417,6 +1422,11 @@ public class InCallPresenter implements CallList.Listener, AudioModeProvider.Aud
         (InCallState.PENDING_OUTGOING == inCallState
             && InCallState.INCALL == newState
             && !isShowingInCallUi());
+
+    // Incoming call accept.
+    showCallUi |=
+            (InCallState.INCOMING == inCallState
+                    && InCallState.INCALL == newState);
 
     // Another exception - InCallActivity is in charge of disconnecting a call with no
     // valid accounts set. Bring the UI up if this is true for the current pending outgoing
@@ -1563,6 +1573,11 @@ public class InCallPresenter implements CallList.Listener, AudioModeProvider.Aud
       }
       LogUtil.d("InCallPresenter.attemptCleanup", "finished");
     }
+  }
+
+  private void startIncomingCallActivity() {
+    LogUtil.i("InCallPresenter.showInCall", "Showing IncomingCallActivity");
+    context.startActivity(InCallActivity.getIncomingCallIntent(context));
   }
 
   public void showInCall(boolean showDialpad, boolean newOutgoingCall) {

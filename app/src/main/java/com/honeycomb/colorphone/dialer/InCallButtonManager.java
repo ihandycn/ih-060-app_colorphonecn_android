@@ -27,7 +27,8 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
         AudioModeProvider.AudioModeListener,
         InCallPresenter.InCallStateListener,
         InCallPresenter.InCallDetailsListener,
-        InCallPresenter.IncomingCallListener {
+        InCallPresenter.IncomingCallListener,
+        ViewManager {
     public static final String TAG = "InCallButtonManager";
     private static final int BUTTON_COUNT = 4;
     private static final int BUTTONS_PER_ROW = 3;
@@ -53,6 +54,7 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
     private boolean isInCallButtonUiReady;
     private PhoneAccountHandle otherAccount;
 
+    @Override
     public void onViewInit(InCallActivity activity, View root) {
 
         mInCallActivity = activity;
@@ -77,6 +79,11 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
 
         onInCallButtonUiReady(new InCallSimpleButtonUi());
 
+    }
+
+    @Override
+    public void onViewDestroy() {
+        onInCallButtonUiUnready();
     }
 
     private ButtonController getOrderedController(int i) {

@@ -25,6 +25,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import com.acb.call.service.InCallWindow;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.LauncherAnimationUtils;
 import com.honeycomb.colorphone.dialer.animation.AnimUtils;
@@ -39,6 +40,7 @@ import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
@@ -69,8 +71,12 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     private boolean touchDownWhenPseudoScreenOff;
     private int[] backgroundDrawableColors;
 
-    private InCallButtonManager mInCallButtonManager;
-    private InCallCardManager mInCallCardManager;
+    private List<ViewManager> mViewManagers = new ArrayList<>();
+
+    /**
+     *
+     */
+    private boolean mIncomingCallUI;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
@@ -98,6 +104,7 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     }
 
     private static final class IntentExtraNames {
+        static final String INCOMING_CALL = "InCallActivity.incoming_call";
         static final String FOR_FULL_SCREEN = "InCallActivity.for_full_screen_intent";
         static final String NEW_OUTGOING_CALL = "InCallActivity.new_outgoing_call";
         static final String SHOW_DIALPAD = "InCallActivity.show_dialpad";
@@ -149,10 +156,23 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
         return intent;
     }
 
+    public static Intent getIncomingCallIntent(
+            Context context) {
+        Intent intent = new Intent(Intent.ACTION_MAIN, null);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setClass(context, InCallActivity.class);
+        intent.putExtra(IntentExtraNames.SHOW_DIALPAD, false);
+        intent.putExtra(IntentExtraNames.INCOMING_CALL, true);
+        intent.putExtra(IntentExtraNames.FOR_FULL_SCREEN, true);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         inCallOrientationEventListener = new InCallOrientationEventListener(this);
+
+        mIncomingCallUI = getIntent().getBooleanExtra(IntentExtraNames.INCOMING_CALL, false);
 
         setWindowFlags();
         setContentView(R.layout.incall_screen);
@@ -345,11 +365,8 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     protected void onDestroy() {
         Trace.beginSection("InCallActivity.onDestroy");
         super.onDestroy();
-        if (mInCallButtonManager != null) {
-            mInCallButtonManager.onInCallButtonUiUnready();
-        }
-        if (mInCallCardManager != null) {
-            mInCallCardManager.onViewUnReady();
+        for (ViewManager manager : mViewManagers) {
+            manager.onViewDestroy();
         }
         InCallPresenter.getInstance().unsetActivity(this);
         InCallPresenter.getInstance().updateIsChangingConfigurations();
@@ -493,8 +510,7 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     }
 
     private int getAudioRoute() {
-        // TODO
-        return 0;
+        return AudioModeProvider.getInstance().getAudioState().getRoute();
     }
 
     public void setExcludeFromRecents(boolean exclude) {
@@ -620,16 +636,30 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
         }
 
         ViewGroup root = findViewById(R.id.main);
-        View mainCallView = getLayoutInflater().inflate(R.layout.frag_incall_voice, root, false);
-        mainCallView.setTag("main");
-        root.addView(mainCallView);
 
+        if (mIncomingCallUI) {
+            InCallWindow inCallWindow = new InCallWindow(this);
+            View mainCallView = inCallWindow.getFlashRootView();
+            mainCallView.setTag("incoming");
+            root.addView(mainCallView);
 
-        mInCallButtonManager =  new InCallButtonManager();
-        mInCallButtonManager.onViewInit(this, mainCallView);
+            IncomingViewManager incomingViewManager = new IncomingViewManager();
+            incomingViewManager.setInCallWindow(inCallWindow);
+            incomingViewManager.onViewInit(this, mainCallView);
+            mViewManagers.add(incomingViewManager);
+        } else {
+            View mainCallView = getLayoutInflater().inflate(R.layout.frag_incall_voice, root, false);
+            mainCallView.setTag("main");
+            root.addView(mainCallView);
 
-        mInCallCardManager = new InCallCardManager();
-        mInCallCardManager.onViewInit(this, mainCallView);
+            InCallButtonManager inCallButtonManager = new InCallButtonManager();
+            inCallButtonManager.onViewInit(this, mainCallView);
+            mViewManagers.add(inCallButtonManager);
+
+            InCallCardManager inCallCardManager = new InCallCardManager();
+            inCallCardManager.onViewInit(this, mainCallView);
+            mViewManagers.add(inCallCardManager);
+        }
 
         didShowInCallScreen = true;
         return true;
@@ -719,7 +749,7 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
         // when the activity is first created. Therefore, to ensure the screen is turned on
         // for the call waiting case, we recreate() the current activity. There should be no jank from
         // this since the screen is already off and will remain so until our new activity is up.
-        if (!isVisible) {
+        if (!isVisible || mIncomingCallUI) {
             onNewIntent(intent, true /* isRecreating */);
             LogUtil.i("InCallActivity.onNewIntent", "Restarting InCallActivity to force screen on.");
             recreate();

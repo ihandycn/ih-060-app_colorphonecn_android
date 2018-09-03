@@ -21,6 +21,9 @@ import android.support.annotation.Nullable;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 
+import com.honeycomb.colorphone.BuildConfig;
+import com.ihs.commons.utils.HSLog;
+
 /** Provides logging functions. */
 public class LogUtil {
 
@@ -206,7 +209,7 @@ public class LogUtil {
     String formattedMsg;
     // Either null is passed as a single argument or more than one argument is passed.
     boolean hasArgs = args == null || args.length > 0;
-    if ((level >= android.util.Log.INFO) || android.util.Log.isLoggable(tag, level)) {
+    if (BuildConfig.DEBUG || HSLog.isEnabled()) {
       formattedMsg = localTag;
       if (!TextUtils.isEmpty(msg)) {
         formattedMsg += SEPARATOR + (hasArgs ? String.format(msg, args) : msg);

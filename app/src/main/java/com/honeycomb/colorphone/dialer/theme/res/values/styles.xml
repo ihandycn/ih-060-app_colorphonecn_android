@@ -39,6 +39,11 @@
     <item name="android:windowBackground">@drawable/incall_background_gradient</item>
     <item name="android:windowShowWallpaper">true</item>
   </style>
+
+  <style name="Theme.InCallScreen.IncomingCall">
+    <item name="android:windowShowWallpaper">false</item>
+  </style>
+
   <!-- This Checkbox style helps align checkboxes with the common list element layout(Image + text) -->
   <style name="DialerCheckboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
     <item name="android:layout_marginStart">20dp</item>
