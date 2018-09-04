@@ -45,8 +45,10 @@ import android.telecom.CallAudioState;
 import android.telecom.PhoneAccount;
 import android.telecom.TelecomManager;
 import android.telecom.VideoProfile;
+import android.text.BidiFormatter;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextDirectionHeuristics;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
@@ -56,6 +58,7 @@ import com.honeycomb.colorphone.dialer.call.CallList;
 import com.honeycomb.colorphone.dialer.call.DialerCall;
 import com.honeycomb.colorphone.dialer.call.DialerCallListener;
 import com.honeycomb.colorphone.dialer.call.TelecomAdapter;
+import com.honeycomb.colorphone.dialer.contact.CallerInfoUtils;
 import com.honeycomb.colorphone.dialer.contact.ContactInfoCache;
 import com.honeycomb.colorphone.dialer.contactphoto.BitmapUtil;
 import com.honeycomb.colorphone.dialer.lettertile.LetterTileDrawable;
@@ -552,8 +555,26 @@ public class StatusBarNotifier
   @VisibleForTesting
   @Nullable
   String getContentTitle(ContactInfoCache.ContactCacheEntry contactInfo, DialerCall call) {
-    // TODO
-    return "";
+    if (call.isConferenceCall()) {
+      return CallerInfoUtils.getConferenceString(
+              context, call.hasProperty(Details.PROPERTY_GENERIC_CONFERENCE));
+    }
+
+    String preferredName = getDisplayName(contactInfo.namePrimary, contactInfo.nameAlternative);
+    if (TextUtils.isEmpty(preferredName)) {
+      return TextUtils.isEmpty(contactInfo.number)
+              ? null
+              : BidiFormatter.getInstance()
+              .unicodeWrap(contactInfo.number, TextDirectionHeuristics.LTR);
+    }
+    return preferredName;
+  }
+
+  private String getDisplayName(@Nullable String primaryName, @Nullable String alternativeName) {
+    if (TextUtils.isEmpty(alternativeName)) {
+      return primaryName;
+    }
+    return alternativeName;
   }
 
   private void addPersonReference(

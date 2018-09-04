@@ -146,16 +146,16 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
   }
 
   private void markIncomingCallAsSpeakeasyCall() {
-//    CallList callList = InCallPresenter.getInstance().getCallList();
-//    if (callList == null) {
-//      LogUtil.e(
-//          "NotificationBroadcastReceiver.markIncomingCallAsSpeakeasyCall", "call list is empty");
-//    } else {
-//      DialerCall call = callList.getIncomingCall();
-//      if (call != null) {
+    CallList callList = InCallPresenter.getInstance().getCallList();
+    if (callList == null) {
+      LogUtil.e(
+          "NotificationBroadcastReceiver.markIncomingCallAsSpeakeasyCall", "call list is empty");
+    } else {
+      DialerCall call = callList.getIncomingCall();
+      if (call != null) {
 //        call.setIsSpeakEasyCall(true);
-//      }
-//    }
+      }
+    }
   }
 
   private void answerIncomingCall(int videoState, @NonNull Context context) {
@@ -166,8 +166,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
     } else {
       DialerCall call = callList.getIncomingCall();
       if (call != null) {
-        // TODO
-        // handle call
+        answerIncomingCallCallback(call, videoState);
       }
     }
   }
