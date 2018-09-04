@@ -22,6 +22,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -143,15 +144,19 @@ interface ButtonController {
                 button.setOnClickListener(null);
                 button.setOnCheckedChangeListener(this);
                 button.setContentDescription(
-                        button.getContext().getText(isChecked ? checkedDescription : uncheckedDescription));
+                        getDescription());
             }
+        }
+
+        protected CharSequence getDescription() {
+            return delegate.getContext().getText(isChecked ? checkedDescription : uncheckedDescription);
         }
 
         @Override
         public void onCheckedChanged(CheckableLabeledButton checkableLabeledButton, boolean isChecked) {
             if (isCheckable) {
-                button.setContentDescription(
-                        button.getContext().getText(isChecked ? checkedDescription : uncheckedDescription));
+                button.setContentDescription(getDescription()
+                        );
             }
             doCheckedChanged(isChecked);
         }
@@ -346,6 +351,14 @@ interface ButtonController {
         }
 
         @Override
+        protected CharSequence getDescription() {
+            CharSequence lableContent = delegate.getContext().getString(R.string.incall_content_description_speaker);
+            return  TextUtils.concat(lableContent, delegate.getContext().getString(
+                    isChecked ? R.string.incall_talkback_speaker_on
+                            : R.string.incall_talkback_speaker_off));
+        }
+
+        @Override
         public void doCheckedChanged(boolean isChecked) {
             delegate.speakerClicked(isChecked, true /* clickedByUser */);
         }
@@ -357,11 +370,19 @@ interface ButtonController {
             super(
                     delegate,
                     InCallButtonIds.BUTTON_AUDIO_BLUE,
-                    R.string.incall_content_description_muted,
-                    R.string.incall_content_description_unmuted,
-                    R.string.incall_content_description_speaker,
+                    0,
+                    0,
+                    R.string.incall_content_description_bluetooth,
                     R.drawable.incall_bluetooth_normal,
                     R.drawable.incall_bluetooth_pressed);
+        }
+
+        @Override
+        protected CharSequence getDescription() {
+            CharSequence lableContent = delegate.getContext().getString(R.string.incall_content_description_bluetooth);
+            return  TextUtils.concat(lableContent, delegate.getContext().getString(
+                    isChecked ? R.string.incall_talkback_speaker_on
+                            : R.string.incall_talkback_speaker_off));
         }
 
         @Override
