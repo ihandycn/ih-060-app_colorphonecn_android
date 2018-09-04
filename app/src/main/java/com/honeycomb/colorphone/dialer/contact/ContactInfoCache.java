@@ -20,14 +20,19 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.SystemClock;
 import android.os.Trace;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.Contacts;
+import android.support.annotation.AnyThread;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.WorkerThread;
+import android.support.v4.content.ContextCompat;
 import android.telecom.TelecomManager;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -40,6 +45,7 @@ import com.honeycomb.colorphone.dialer.Assert;
 import com.honeycomb.colorphone.dialer.PhoneNumberService;
 import com.honeycomb.colorphone.dialer.call.DialerCall;
 import com.honeycomb.colorphone.dialer.util.ContactsUtils;
+import com.honeycomb.colorphone.dialer.util.PhoneNumberHelper;
 
 import java.util.Map;
 import java.util.Objects;
@@ -64,10 +70,16 @@ public class ContactInfoCache implements ContactsAsyncHelper.OnImageLoadComplete
     private final ConcurrentHashMap<String, ContactCacheEntry> infoMap = new ConcurrentHashMap<>();
     private final Map<String, Set<ContactInfoCacheCallback>> callBacks = new ArrayMap<>();
     private int queryId;
-
+    PhoneNumberService phoneNumberService;
 
     private ContactInfoCache(Context context) {
         Trace.beginSection("ContactInfoCache constructor");
+        phoneNumberService = new PhoneNumberService() {
+            @Override
+            public void getPhoneNumberInfo(String phoneNumber, NumberLookupListener listener) {
+                // TODO
+            }
+        };
         this.context = context;
         Trace.endSection();
     }
@@ -77,6 +89,135 @@ public class ContactInfoCache implements ContactsAsyncHelper.OnImageLoadComplete
             cache = new ContactInfoCache(mContext.getApplicationContext());
         }
         return cache;
+    }
+
+    /** Populate a cache entry from a call (which got converted into a caller info). */
+    private static void populateCacheEntry(
+            @NonNull Context context,
+            @NonNull CallerInfo info,
+            @NonNull ContactCacheEntry cce,
+            int presentation) {
+        Objects.requireNonNull(info);
+        String displayName = null;
+        String displayNumber = null;
+        String label = null;
+        boolean isSipCall = false;
+
+        // It appears that there is a small change in behaviour with the
+        // PhoneUtils' startGetCallerInfo whereby if we query with an
+        // empty number, we will get a valid CallerInfo object, but with
+        // fields that are all null, and the isTemporary boolean input
+        // parameter as true.
+
+        // In the past, we would see a NULL callerinfo object, but this
+        // ends up causing null pointer exceptions elsewhere down the
+        // line in other cases, so we need to make this fix instead. It
+        // appears that this was the ONLY call to PhoneUtils
+        // .getCallerInfo() that relied on a NULL CallerInfo to indicate
+        // an unknown contact.
+
+        // Currently, info.phoneNumber may actually be a SIP address, and
+        // if so, it might sometimes include the "sip:" prefix. That
+        // prefix isn't really useful to the user, though, so strip it off
+        // if present. (For any other URI scheme, though, leave the
+        // prefix alone.)
+        // TODO: It would be cleaner for CallerInfo to explicitly support
+        // SIP addresses instead of overloading the "phoneNumber" field.
+        // Then we could remove this hack, and instead ask the CallerInfo
+        // for a "user visible" form of the SIP address.
+        String number = info.phoneNumber;
+
+        if (!TextUtils.isEmpty(number)) {
+            isSipCall = PhoneNumberHelper.isUriNumber(number);
+            if (number.startsWith("sip:")) {
+                number = number.substring(4);
+            }
+        }
+
+        if (TextUtils.isEmpty(info.name)) {
+            // No valid "name" in the CallerInfo, so fall back to
+            // something else.
+            // (Typically, we promote the phone number up to the "name" slot
+            // onscreen, and possibly display a descriptive string in the
+            // "number" slot.)
+            if (TextUtils.isEmpty(number) && TextUtils.isEmpty(info.cnapName)) {
+                // No name *or* number! Display a generic "unknown" string
+                // (or potentially some other default based on the presentation.)
+                displayName = getPresentationString(context, presentation, info.callSubject);
+                Log.d(TAG, "  ==> no name *or* number! displayName = " + displayName);
+            } else if (presentation != TelecomManager.PRESENTATION_ALLOWED) {
+                // This case should never happen since the network should never send a phone #
+                // AND a restricted presentation. However we leave it here in case of weird
+                // network behavior
+                displayName = getPresentationString(context, presentation, info.callSubject);
+                Log.d(TAG, "  ==> presentation not allowed! displayName = " + displayName);
+            } else if (!TextUtils.isEmpty(info.cnapName)) {
+                // No name, but we do have a valid CNAP name, so use that.
+                displayName = info.cnapName;
+                info.name = info.cnapName;
+                displayNumber = PhoneNumberHelper.formatNumber(context, number, info.countryIso);
+                Log.d(
+                        TAG,
+                        "  ==> cnapName available: displayName '"
+                                + displayName
+                                + "', displayNumber '"
+                                + displayNumber
+                                + "'");
+            } else {
+                // No name; all we have is a number. This is the typical
+                // case when an incoming call doesn't match any contact,
+                // or if you manually dial an outgoing number using the
+                // dialpad.
+                displayNumber = PhoneNumberHelper.formatNumber(context, number, info.countryIso);
+
+                Log.d(
+                        TAG,
+                        "  ==>  no name; falling back to number:"
+                                + " displayNumber '"
+                                + "'");
+            }
+        } else {
+            // We do have a valid "name" in the CallerInfo. Display that
+            // in the "name" slot, and the phone number in the "number" slot.
+            if (presentation != TelecomManager.PRESENTATION_ALLOWED) {
+                // This case should never happen since the network should never send a name
+                // AND a restricted presentation. However we leave it here in case of weird
+                // network behavior
+                displayName = getPresentationString(context, presentation, info.callSubject);
+                Log.d(
+                        TAG,
+                        "  ==> valid name, but presentation not allowed!" + " displayName = " + displayName);
+            } else {
+                // Causes cce.namePrimary to be set as info.name below. CallCardPresenter will
+                // later determine whether to use the name or nameAlternative when presenting
+                displayName = info.name;
+                cce.nameAlternative = info.nameAlternative;
+                displayNumber = PhoneNumberHelper.formatNumber(context, number, info.countryIso);
+                label = info.phoneLabel;
+                Log.d(
+                        TAG,
+                        "  ==>  name is present in CallerInfo: displayName '"
+                                + displayName
+                                + "', displayNumber '"
+                                + displayNumber
+                                + "'");
+            }
+        }
+
+        cce.namePrimary = displayName;
+        cce.number = displayNumber;
+        cce.location = info.geoDescription;
+        cce.label = label;
+        cce.isSipCall = isSipCall;
+        cce.userType = info.userType;
+        cce.originalPhoneNumber = info.phoneNumber;
+        cce.shouldShowLocation = info.shouldShowGeoDescription;
+        cce.isEmergencyNumber = info.isEmergencyNumber();
+        cce.isVoicemailNumber = info.isVoiceMailNumber();
+
+        if (info.contactExists) {
+//            cce.contactLookupResult = info.contactLookupResultType;
+        }
     }
 
 
@@ -105,7 +246,25 @@ public class ContactInfoCache implements ContactsAsyncHelper.OnImageLoadComplete
         return infoMap.get(callId);
     }
 
+    void maybeInsertCnapInformationIntoCache(
+            Context context, final DialerCall call, final CallerInfo info) {
+//        final CachedNumberLookupService cachedNumberLookupService =
+//                PhoneNumberCache.get(context).getCachedNumberLookupService();
+//        if (!UserManagerCompat.isUserUnlocked(context)) {
+//            Log.i(TAG, "User locked, not inserting cnap info into cache");
+//            return;
+//        }
+//        if (cachedNumberLookupService == null
+//                || TextUtils.isEmpty(info.cnapName)
+//                || infoMap.get(call.getId()) != null) {
+//            return;
+//        }
+//        Log.i(TAG, "Found contact with CNAP name - inserting into cache");
 
+//        cachedNumberLookupExecutor.executeParallel(
+//                new CnapInformationWrapper(
+//                        call.getNumber(), info.cnapName, context, cachedNumberLookupService));
+    }
     /**
      * Requests contact data for the DialerCall object passed in. Returns the data through callback.
      * If callback is null, no response is made, however the query is still performed and cached.
@@ -172,12 +331,12 @@ public class ContactInfoCache implements ContactsAsyncHelper.OnImageLoadComplete
          */
         final CallerInfoQueryToken queryToken = new CallerInfoQueryToken(queryId, callId);
         queryId++;
-//    final CallerInfo callerInfo =
-//        CallerInfoUtils.getCallerInfoForCall(
-//            context,
-//            call,
-//            new DialerCallCookieWrapper(callId, call.getNumberPresentation(), call.getCnapName()),
-//            new FindInfoCallback(isIncoming, queryToken));
+        final CallerInfo callerInfo =
+        CallerInfoUtils.getCallerInfoForCall(
+            context,
+            call,
+            new DialerCallCookieWrapper(callId, call.getNumberPresentation(), call.getCnapName()),
+            new FindInfoCallback(isIncoming, queryToken));
         Trace.endSection();
 
         if (cacheEntry != null) {
@@ -188,11 +347,92 @@ public class ContactInfoCache implements ContactsAsyncHelper.OnImageLoadComplete
             cacheEntry.queryId = queryToken.queryId;
             Log.d(TAG, "There is an existing cache. Do not override until new query is back");
         } else {
-            // TODO load contact
-            ContactCacheEntry initialCacheEntry = new ContactCacheEntry();
+            ContactCacheEntry initialCacheEntry =
+                    updateCallerInfoInCacheOnAnyThread(
+                            callId, call.getNumberPresentation(), callerInfo, false, queryToken);
             sendInfoNotifications(callId, initialCacheEntry);
         }
         Trace.endSection();
+    }
+
+
+    @AnyThread
+    private ContactCacheEntry updateCallerInfoInCacheOnAnyThread(
+            String callId,
+            int numberPresentation,
+            CallerInfo callerInfo,
+            boolean didLocalLookup,
+            CallerInfoQueryToken queryToken) {
+        Trace.beginSection("ContactInfoCache.updateCallerInfoInCacheOnAnyThread");
+        Log.d(
+                TAG,
+                "updateCallerInfoInCacheOnAnyThread: callId = "
+                        + callId
+                        + "; queryId = "
+                        + queryToken.queryId
+                        + "; didLocalLookup = "
+                        + didLocalLookup);
+
+        ContactCacheEntry existingCacheEntry = infoMap.get(callId);
+        Log.d(TAG, "Existing cacheEntry in hashMap " + existingCacheEntry);
+
+        // Mark it as emergency/voicemail if the cache exists and was emergency/voicemail before the
+        // number changed.
+        if (existingCacheEntry != null) {
+            if (existingCacheEntry.isEmergencyNumber) {
+                callerInfo.markAsEmergency(context);
+            } else if (existingCacheEntry.isVoicemailNumber) {
+                callerInfo.markAsVoiceMail(context);
+            }
+        }
+
+        int presentationMode = numberPresentation;
+        if (callerInfo.contactExists
+                || callerInfo.isEmergencyNumber()
+                || callerInfo.isVoiceMailNumber()) {
+            presentationMode = TelecomManager.PRESENTATION_ALLOWED;
+        }
+
+        // We always replace the entry. The only exception is the same photo case.
+        ContactCacheEntry cacheEntry = buildEntry(context, callerInfo, presentationMode);
+        cacheEntry.queryId = queryToken.queryId;
+
+        if (didLocalLookup) {
+            if (cacheEntry.displayPhotoUri != null) {
+                // When the difference between 2 numbers is only the prefix (e.g. + or IDD),
+                // we will still trigger force query so that the number can be updated on
+                // the calling screen. We need not query the image again if the previous
+                // query already has the image to avoid flickering.
+                if (existingCacheEntry != null
+                        && existingCacheEntry.displayPhotoUri != null
+                        && existingCacheEntry.displayPhotoUri.equals(cacheEntry.displayPhotoUri)
+                        && existingCacheEntry.photo != null) {
+                    Log.d(TAG, "Same picture. Do not need start image load.");
+                    cacheEntry.photo = existingCacheEntry.photo;
+                    cacheEntry.photoType = existingCacheEntry.photoType;
+                    return cacheEntry;
+                }
+
+                Log.d(TAG, "Contact lookup. Local contact found, starting image load");
+                // Load the image with a callback to update the image state.
+                // When the load is finished, onImageLoadComplete() will be called.
+                cacheEntry.hasPendingQuery = true;
+                ContactsAsyncHelper.startObtainPhotoAsync(
+                        TOKEN_UPDATE_PHOTO_FOR_CALL_STATE,
+                        context,
+                        cacheEntry.displayPhotoUri,
+                        ContactInfoCache.this,
+                        queryToken);
+            }
+            Log.d(TAG, "put entry into map: " + cacheEntry);
+            infoMap.put(callId, cacheEntry);
+        } else {
+            // Don't overwrite if there is existing cache.
+            Log.d(TAG, "put entry into map if not exists: " + cacheEntry);
+            infoMap.putIfAbsent(callId, cacheEntry);
+        }
+        Trace.endSection();
+        return cacheEntry;
     }
 
     /**
@@ -270,6 +510,41 @@ public class ContactInfoCache implements ContactsAsyncHelper.OnImageLoadComplete
         infoMap.clear();
         callBacks.clear();
         queryId = 0;
+    }
+
+    private ContactCacheEntry buildEntry(Context context, CallerInfo info, int presentation) {
+        final ContactCacheEntry cce = new ContactCacheEntry();
+        populateCacheEntry(context, info, cce, presentation);
+
+        // This will only be true for emergency numbers
+        if (info.photoResource != 0) {
+            cce.photo = ContextCompat.getDrawable(context, info.photoResource);
+        } else if (info.isCachedPhotoCurrent) {
+            if (info.cachedPhoto != null) {
+                cce.photo = info.cachedPhoto;
+                cce.photoType = ContactPhotoType.CONTACT;
+            } else {
+                cce.photoType = ContactPhotoType.DEFAULT_PLACEHOLDER;
+            }
+        } else {
+            cce.displayPhotoUri = info.contactDisplayPhotoUri;
+            cce.photo = null;
+        }
+
+        if (info.lookupKeyOrNull != null && info.contactIdOrZero != 0) {
+            cce.lookupUri = Contacts.getLookupUri(info.contactIdOrZero, info.lookupKeyOrNull);
+        } else {
+            Log.v(TAG, "lookup key is null or contact ID is 0 on M. Don't create a lookup uri.");
+            cce.lookupUri = null;
+        }
+
+        cce.lookupKey = info.lookupKeyOrNull;
+        cce.contactRingtoneUri = info.contactRingtoneUri;
+        if (cce.contactRingtoneUri == null || Uri.EMPTY.equals(cce.contactRingtoneUri)) {
+            cce.contactRingtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        }
+
+        return cce;
     }
 
     /**
@@ -365,6 +640,81 @@ public class ContactInfoCache implements ContactsAsyncHelper.OnImageLoadComplete
             this.callId = callId;
             this.numberPresentation = numberPresentation;
             this.cnapName = cnapName;
+        }
+    }
+    private void maybeUpdateFromCequintCallerId(
+            CallerInfo callerInfo, String cnapName, boolean isIncoming) {
+//        if (!CequintCallerIdManager.isCequintCallerIdEnabled(context)) {
+//            return;
+//        }
+
+    }
+
+    private class FindInfoCallback implements CallerInfoAsyncQuery.OnQueryCompleteListener {
+
+        private final boolean isIncoming;
+        private final CallerInfoQueryToken queryToken;
+
+        FindInfoCallback(boolean isIncoming, CallerInfoQueryToken queryToken) {
+            this.isIncoming = isIncoming;
+            this.queryToken = queryToken;
+        }
+
+        @Override
+        public void onDataLoaded(int token, Object cookie, CallerInfo ci) {
+            Assert.isWorkerThread();
+            DialerCallCookieWrapper cw = (DialerCallCookieWrapper) cookie;
+            if (!isWaitingForThisQuery(cw.callId, queryToken.queryId)) {
+                return;
+            }
+            long start = SystemClock.uptimeMillis();
+            maybeUpdateFromCequintCallerId(ci, cw.cnapName, isIncoming);
+            long time = SystemClock.uptimeMillis() - start;
+            Log.d(TAG, "Cequint Caller Id look up takes " + time + " ms.");
+            updateCallerInfoInCacheOnAnyThread(cw.callId, cw.numberPresentation, ci, true, queryToken);
+        }
+
+        @Override
+        public void onQueryComplete(int token, Object cookie, CallerInfo callerInfo) {
+            Trace.beginSection("ContactInfoCache.FindInfoCallback.onQueryComplete");
+            Assert.isMainThread();
+            DialerCallCookieWrapper cw = (DialerCallCookieWrapper) cookie;
+            String callId = cw.callId;
+            if (!isWaitingForThisQuery(cw.callId, queryToken.queryId)) {
+                Trace.endSection();
+                return;
+            }
+            ContactCacheEntry cacheEntry = infoMap.get(callId);
+            // This may happen only when InCallPresenter attempt to cleanup.
+            if (cacheEntry == null) {
+                Log.w(TAG, "Contact lookup done, but cache entry is not found.");
+                clearCallbacks(callId);
+                Trace.endSection();
+                return;
+            }
+            // Before issuing a request for more data from other services, we only check that the
+            // contact wasn't found in the local DB.  We don't check the if the cache entry already
+            // has a name because we allow overriding cnap data with data from other services.
+            if (!callerInfo.contactExists && phoneNumberService != null) {
+                Log.d(TAG, "Contact lookup. Local contacts miss, checking remote");
+                final PhoneNumberServiceListener listener =
+                        new PhoneNumberServiceListener(callId, queryToken.queryId);
+                cacheEntry.hasPendingQuery = true;
+                phoneNumberService.getPhoneNumberInfo(cacheEntry.number, listener);
+            }
+            sendInfoNotifications(callId, cacheEntry);
+            if (!cacheEntry.hasPendingQuery) {
+                if (callerInfo.contactExists) {
+                    Log.d(TAG, "Contact lookup done. Local contact found, no image.");
+                } else {
+                    Log.d(
+                            TAG,
+                            "Contact lookup done. Local contact not found and"
+                                    + " no remote lookup service available.");
+                }
+                clearCallbacks(callId);
+            }
+            Trace.endSection();
         }
     }
 

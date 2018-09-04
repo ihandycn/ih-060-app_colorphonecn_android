@@ -83,7 +83,7 @@ import static com.honeycomb.colorphone.dialer.call.CallCompat.Details.PROPERTY_E
 /** This class adds Notifications to the status bar for the in-call experience. */
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class StatusBarNotifier
-        implements InCallPresenter.InCallStateListener {
+        implements InCallPresenter.InCallStateListener, ContactInfoCache.ContactInfoCacheCallback {
 
   private static final int NOTIFICATION_ID = 1;
 
@@ -238,7 +238,7 @@ public class StatusBarNotifier
     // This callback will always get called immediately and synchronously with whatever data
     // it has available, and may make a subsequent call later (same thread) if it had to
     // call into the contacts provider for more data.
-//    contactInfoCache.findInfo(call, isIncoming, this);
+    contactInfoCache.findInfo(call, isIncoming, this);
     Trace.endSection();
   }
 
@@ -962,7 +962,7 @@ public class StatusBarNotifier
     return call.getCallCapableAccounts().size() > 1;
   }
 
-  // TODO
+  @Override
   @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
   public void onContactInfoComplete(String callId, ContactInfoCache.ContactCacheEntry entry) {
     DialerCall call = CallList.getInstance().getCallById(callId);
@@ -971,6 +971,7 @@ public class StatusBarNotifier
     }
   }
 
+  @Override
   @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
   public void onImageLoadComplete(String callId, ContactInfoCache.ContactCacheEntry entry) {
     DialerCall call = CallList.getInstance().getCallById(callId);

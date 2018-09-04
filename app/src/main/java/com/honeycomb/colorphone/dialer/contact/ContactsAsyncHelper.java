@@ -28,6 +28,7 @@ import android.support.annotation.WorkerThread;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialer.LogUtil;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
 
 import java.io.IOException;
@@ -96,12 +97,7 @@ public class ContactsAsyncHelper {
     args.displayPhotoUri = displayPhotoUri;
     args.listener = listener;
 
-    Threads.postOnThreadPoolExecutor(new Runnable() {
-      @Override
-      public void run() {
-        // DO load
-      }
-    });
+    Threads.postOnThreadPoolExecutor(new Worker(args));
 
   }
 
@@ -118,7 +114,12 @@ public class ContactsAsyncHelper {
     public OnImageLoadCompleteListener listener;
   }
 
-  private static class Worker {
+  private static class Worker implements Runnable {
+    WorkerArgs mWorkerArgs;
+
+    public Worker(WorkerArgs args) {
+      mWorkerArgs = args;
+    }
 
     @Nullable
     public Void doInBackground(WorkerArgs args) throws Throwable {
@@ -199,6 +200,16 @@ public class ContactsAsyncHelper {
         return Bitmap.createScaledBitmap(orgBitmap, newWidth, newHeight, true);
       } else {
         return orgBitmap;
+      }
+    }
+
+    @Override
+    public void run() {
+      try {
+        doInBackground(mWorkerArgs);
+      } catch (Throwable throwable) {
+        throwable.printStackTrace();
+        HSLog.e(throwable.getMessage());
       }
     }
   }

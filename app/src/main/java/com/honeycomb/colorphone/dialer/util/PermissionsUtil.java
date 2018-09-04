@@ -190,7 +190,7 @@ public class PermissionsUtil {
    * interested listeners are notified of the change.
    */
   public static void registerPermissionReceiver(
-          Context context, BroadcastReceiver receiver, String permission) {
+      Context context, BroadcastReceiver receiver, String permission) {
     LogUtil.i("PermissionsUtil.registerPermissionReceiver", permission);
     final IntentFilter filter = new IntentFilter(permission);
     LocalBroadcastManager.getInstance(context).registerReceiver(receiver, filter);
@@ -218,7 +218,7 @@ public class PermissionsUtil {
    */
   @NonNull
   public static String[] getPermissionsCurrentlyDenied(
-          @NonNull Context context, @NonNull List<String> permissionsList) {
+      @NonNull Context context, @NonNull List<String> permissionsList) {
     List<String> permissionsCurrentlyDenied = new ArrayList<>();
     for (String permission : permissionsList) {
       if (!hasPermission(context, permission)) {
@@ -227,4 +227,5 @@ public class PermissionsUtil {
     }
     return permissionsCurrentlyDenied.toArray(new String[permissionsCurrentlyDenied.size()]);
   }
+
 }

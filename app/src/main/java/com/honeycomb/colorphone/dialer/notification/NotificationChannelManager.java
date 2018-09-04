@@ -77,11 +77,11 @@ public final class NotificationChannelManager {
     // this later then any user settings will be restored. An example is SIM specific voicemail
     // channel that gets deleted when the user removes the SIM and is then restored when the user
     // re-inserts the SIM.
-    for (String existingChannelId : existingChannelIds) {
-      if (!desiredChannelIds.contains(existingChannelId)) {
-        notificationManager.deleteNotificationChannel(existingChannelId);
-      }
-    }
+//    for (String existingChannelId : existingChannelIds) {
+//      if (!desiredChannelIds.contains(existingChannelId)) {
+//        notificationManager.deleteNotificationChannel(existingChannelId);
+//      }
+//    }
 
     // Just recreate all desired channels. We won't do this often so it's ok to do this now.
     createIncomingCallChannel(context);
