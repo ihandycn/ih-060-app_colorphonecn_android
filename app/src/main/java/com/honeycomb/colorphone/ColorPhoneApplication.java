@@ -36,6 +36,7 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
@@ -215,6 +216,9 @@ public class ColorPhoneApplication extends HSApplication {
 
     @DebugLog
     private void onMainProcessCreate() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationChannelManager.initChannels(this);
+        }
 
         if (HSGdprConsent.isGdprUser()) {
             if (HSGdprConsent.getConsentState() != HSGdprConsent.ConsentState.ACCEPTED) {
