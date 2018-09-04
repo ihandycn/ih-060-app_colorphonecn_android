@@ -33,6 +33,8 @@
   <color name="blue_grey_100">#CFD8DC</color>
 
   <!--Incall activity-->
+  <color name="incall_dialpad_background">#ffffff</color>
+
   <color name="incall_background_gradient_top">#E9054B4E</color>
   <color name="incall_background_gradient_bottom">#CC256F9F</color>
 </resources>

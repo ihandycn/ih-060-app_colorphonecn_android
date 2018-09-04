@@ -46,7 +46,6 @@ import java.util.List;
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class InCallActivity extends HSAppCompatActivity implements PseudoScreenState.StateChangedListener {
 
-
     private Animation dialpadSlideInAnimation;
     private Animation dialpadSlideOutAnimation;
     private Dialog errorDialog;
@@ -77,6 +76,7 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
      *
      */
     private boolean mIncomingCallUI;
+    private DialpadFragment mDialpadFragment;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
@@ -231,6 +231,8 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
 
         pseudoBlackScreenOverlay = findViewById(R.id.psuedo_black_screen_overlay);
 
+        mDialpadFragment = new DialpadFragment();
+
 //        sendBroadcast(CallPendingActivity.getFinishBroadcast());
     }
     @Override
@@ -370,6 +372,10 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
         }
         InCallPresenter.getInstance().unsetActivity(this);
         InCallPresenter.getInstance().updateIsChangingConfigurations();
+
+        if (mDialpadFragment != null) {
+            mDialpadFragment.onDestroyView();
+        }
 
         Trace.endSection();
     }
@@ -625,9 +631,15 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
 
         isInShowMainInCallFragment = true;
         showInCallScreenFragment();
-        // TODO Show view;
+        // Init after showInCallFragment
+        createDialPadFragment();
         isInShowMainInCallFragment = false;
         Trace.endSection();
+    }
+
+    private void createDialPadFragment() {
+        ViewGroup container = findViewById(R.id.incall_dialpad_container);
+        mDialpadFragment.onCreateView(this, container);
     }
 
     private boolean showInCallScreenFragment() {
@@ -715,11 +727,12 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     }
 
     private void showDialpadFragment() {
-       // TODO
+        mDialpadFragment.attach();
+        mDialpadFragment.onResume();
     }
 
     private void hideDialpadFragment() {
-      // TODO
+        mDialpadFragment.detach();
     }
 
     public boolean isDialpadVisible() {
@@ -731,14 +744,8 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     /** Returns the {@link DialpadFragment} that's shown by this activity, or {@code null} */
     @Nullable
     private DialpadFragment getDialpadFragment() {
-        // TODO
-        return null;
+        return mDialpadFragment;
     }
-
-    public void hideMainInCallFragment() {
-
-    }
-
 
     @Override
     protected void onNewIntent(Intent intent) {

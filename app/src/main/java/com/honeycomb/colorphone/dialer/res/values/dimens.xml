@@ -15,15 +15,6 @@
   ~ limitations under the License
   -->
 <resources>
-  <!-- Text dimensions for dialpad keys -->
-  <dimen name="dialpad_key_numbers_default_size">36dp</dimen>
-  <dimen name="dialpad_key_letters_default_size_for_single_alphabet">12sp</dimen>
-  <dimen name="dialpad_key_letters_default_size_for_dual_alphabets">10sp</dimen>
-  <dimen name="dialpad_key_number_default_margin_bottom">3dp</dimen>
-  <dimen name="dialpad_digits_text_size">34sp</dimen>
-  <dimen name="dialpad_digits_height">60dp</dimen>
-  <!-- The bottom space of the dialpad to account for the dial button -->
-  <dimen name="dialpad_bottom_space_height">80dp</dimen>
 
   <dimen name="incall_button_label_margin">8dp</dimen>
   <dimen name="incall_button_elevation">0dp</dimen>
@@ -34,4 +25,15 @@
   <dimen name="incall_labeled_button_icon_size">36dp</dimen>
   <dimen name="tools_button_height">76dp</dimen>
   <dimen name="incall_window_margin_horizontal">24dp</dimen>
+
+
+  <dimen name="incall_dialpad_key_number_margin_bottom">1dp</dimen>
+  <dimen name="incall_dialpad_digits_adjustable_text_size">20sp</dimen>
+  <dimen name="incall_dialpad_digits_adjustable_height">50dp</dimen>
+  <dimen name="incall_dialpad_key_letters_size_for_dual_alphabets">9sp</dimen>
+  <dimen name="incall_dialpad_key_letters_size_for_single_alphabet">
+    @dimen/dialpad_key_letters_default_size_for_single_alphabet
+  </dimen>
+  <dimen name="incall_dialpad_key_numbers_size">36dp</dimen>
+  <dimen name="incall_end_call_spacing">116dp</dimen>
 </resources>

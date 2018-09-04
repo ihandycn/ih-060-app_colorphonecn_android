@@ -43,7 +43,9 @@ android {
                            'src/main/java/com/honeycomb/colorphone/dialer/commontheme/res',
                            'src/main/java/com/honeycomb/colorphone/dialer/impl/res',
                            'src/main/java/com/honeycomb/colorphone/dialer/contactgrid/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/dialpadview/res',
                            'src/main/java/com/honeycomb/colorphone/dialer/theme/res',
+
                            'src/main/java/com/honeycomb/colorphone/dialer/res']
             assets.srcDirs = ['src/main/assets']
             java.srcDirs = ['src/main/java']
