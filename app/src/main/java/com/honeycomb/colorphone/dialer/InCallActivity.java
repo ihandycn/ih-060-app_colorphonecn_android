@@ -1,5 +1,8 @@
 package com.honeycomb.colorphone.dialer;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.app.KeyguardManager;
@@ -21,13 +24,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.acb.call.service.InCallWindow;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.boost.LauncherAnimationUtils;
 import com.honeycomb.colorphone.dialer.animation.AnimUtils;
 import com.honeycomb.colorphone.dialer.call.CallList;
 import com.honeycomb.colorphone.dialer.call.DialerCall;
@@ -46,8 +46,8 @@ import java.util.List;
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class InCallActivity extends HSAppCompatActivity implements PseudoScreenState.StateChangedListener {
 
-    private Animation dialpadSlideInAnimation;
-    private Animation dialpadSlideOutAnimation;
+    private ValueAnimator dialpadSlideInAnimation;
+    private ValueAnimator dialpadSlideOutAnimation;
     private Dialog errorDialog;
     private GradientDrawable backgroundDrawable;
 //    private InCallOrientationEventListener inCallOrientationEventListener;
@@ -182,27 +182,32 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
         boolean isLandscape =
                 getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         boolean isRtl = ViewUtil.isRtl();
-        if (isLandscape) {
-            dialpadSlideInAnimation =
-                    AnimationUtils.loadAnimation(
-                            this, isRtl ? R.anim.dialpad_slide_in_left : R.anim.dialpad_slide_in_right);
-            dialpadSlideOutAnimation =
-                    AnimationUtils.loadAnimation(
-                            this, isRtl ? R.anim.dialpad_slide_out_left : R.anim.dialpad_slide_out_right);
-        } else {
-            dialpadSlideInAnimation = AnimationUtils.loadAnimation(this, R.anim.dialpad_slide_in_bottom);
-            dialpadSlideOutAnimation =
-                    AnimationUtils.loadAnimation(this, R.anim.dialpad_slide_out_bottom);
-        }
+
+//        if (isLandscape) {
+//            dialpadSlideInAnimation =
+//                    AnimationUtils.loadAnimation(
+//                            this, isRtl ? R.anim.dialpad_slide_in_left : R.anim.dialpad_slide_in_right);
+//            dialpadSlideOutAnimation =
+//                    AnimationUtils.loadAnimation(
+//                            this, isRtl ? R.anim.dialpad_slide_out_left : R.anim.dialpad_slide_out_right);
+//        } else {
+//            dialpadSlideInAnimation = AnimationUtils.loadAnimation(this, R.anim.dialpad_slide_in_bottom);
+//            dialpadSlideOutAnimation =
+//                    AnimationUtils.loadAnimation(this, R.anim.dialpad_slide_out_bottom);
+//        }
+
+        dialpadSlideInAnimation = ValueAnimator.ofFloat(1, 0).setDuration(400);
+        dialpadSlideOutAnimation = ValueAnimator.ofFloat(0, 1).setDuration(400);
         dialpadSlideInAnimation.setInterpolator(AnimUtils.EASE_IN);
         dialpadSlideOutAnimation.setInterpolator(AnimUtils.EASE_OUT);
-        dialpadSlideOutAnimation.setAnimationListener(
-                new LauncherAnimationUtils.AnimationListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        hideDialpadFragment();
-                    }
-                });
+
+        dialpadSlideOutAnimation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                hideDialpadFragment();
+            }
+        });
 
         if (bundle != null && showDialpadRequest == DIALPAD_REQUEST_NONE) {
             // If the dialpad was shown before, set related variables so that it can be shown and
@@ -411,6 +416,7 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     private void setWindowFlags() {
         // Allow the activity to be shown when the screen is locked and filter out touch events that are
         // "too fat".
+
         int flags =
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                         | WindowManager.LayoutParams.FLAG_IGNORE_CHEEK_PRESSES;

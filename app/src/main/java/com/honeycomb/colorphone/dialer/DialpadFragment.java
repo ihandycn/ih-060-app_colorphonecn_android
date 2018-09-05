@@ -16,6 +16,7 @@
 
 package com.honeycomb.colorphone.dialer;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -31,14 +32,14 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialer.dialpadview.DialpadKeyButton;
 import com.honeycomb.colorphone.dialer.dialpadview.DialpadView;
+import com.superapps.util.Dimensions;
 
 import java.util.Map;
 
@@ -47,7 +48,7 @@ import java.util.Map;
 public class DialpadFragment implements DialpadPresenter.DialpadUi,
         View.OnKeyListener,
         View.OnClickListener,
-        DialpadKeyButton.OnPressedListener {
+        DialpadKeyButton.OnPressedListener, ValueAnimator.AnimatorUpdateListener {
 
 
   public static String TAG = "DialpadFragment";
@@ -97,7 +98,7 @@ public class DialpadFragment implements DialpadPresenter.DialpadUi,
 
   private InCallActivity mActivity;
   private ViewGroup mContainer;
-  private View mRootView;
+  private DialpadSlidingLinearLayout mRootView;
 
 
   public void init(InCallActivity inCallActivity) {
@@ -154,10 +155,9 @@ public class DialpadFragment implements DialpadPresenter.DialpadUi,
     LayoutInflater layoutInflater = mActivity.getLayoutInflater().cloneInContext(contextThemeWrapper);
     final View parent = layoutInflater.inflate(R.layout.incall_dialpad_fragment, container, false);
     mContainer = container;
-    mRootView = parent;
+    mRootView = (DialpadSlidingLinearLayout) parent;
     dialpadView = (DialpadView) parent.findViewById(R.id.dialpad_view);
     dialpadView.setCanDigitsBeEdited(false);
-    dialpadView.setBackgroundResource(R.color.incall_dialpad_background);
     dtmfDialerField = (EditText) parent.findViewById(R.id.digits);
     if (dtmfDialerField != null) {
       LogUtil.i("DialpadFragment.onCreateView", "creating dtmfKeyListener");
@@ -312,15 +312,25 @@ public class DialpadFragment implements DialpadPresenter.DialpadUi,
     mContainer.removeView(mRootView);
   }
 
-  public void startAnimation(Animation animation) {
-    mRootView.startAnimation(animation);
+  public void startAnimation(ValueAnimator animation) {
+    animation.removeAllUpdateListeners();
+    animation.addUpdateListener(this);
+    animation.start();
+  }
+
+  @Override
+  public void onAnimationUpdate(ValueAnimator animation) {
+    mRootView.setYFraction((Float) animation.getAnimatedValue());
   }
 
   /**
    * LinearLayout with getter and setter methods for the translationY property using floats, for
    * animation purposes.
    */
-  public static class DialpadSlidingLinearLayout extends LinearLayout {
+  public static class DialpadSlidingLinearLayout extends FrameLayout {
+
+    private int navBarHeight;
+    private View navBarCover;
 
     public DialpadSlidingLinearLayout(Context context) {
       super(context);
@@ -334,16 +344,42 @@ public class DialpadFragment implements DialpadPresenter.DialpadUi,
       super(context, attrs, defStyle);
     }
 
+    @Override
+    protected void onFinishInflate() {
+      super.onFinishInflate();
+
+      init();
+
+      View dialpadView = findViewById(R.id.dialpad_view);
+      dialpadView.setPadding(0, 0 ,0 , navBarHeight);
+
+      navBarCover = findViewById(R.id.nav_bottom_cover);
+      ViewGroup.LayoutParams lp = navBarCover.getLayoutParams();
+      lp.height = navBarHeight;
+      navBarCover.setLayoutParams(lp);
+    }
+
+    private void init() {
+      navBarHeight = Dimensions.getNavigationBarHeight(getContext());
+      setTranslationY(navBarHeight);
+    }
+
     public float getYFraction() {
       final int height = getHeight();
       if (height == 0) {
         return 0;
       }
-      return getTranslationY() / height;
+      return (getTranslationY() - navBarHeight) / height;
     }
 
     public void setYFraction(float yFraction) {
-      setTranslationY(yFraction * getHeight());
+      float transY = yFraction * getHeight();
+      float transYCover = transY -(getHeight() - navBarHeight);
+      if (transYCover < 0f) {
+        transYCover = -transY;
+      }
+      navBarCover.setTranslationY(transYCover);
+      setTranslationY(transY + navBarHeight);
     }
   }
 }
