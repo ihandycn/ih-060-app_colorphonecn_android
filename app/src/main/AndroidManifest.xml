@@ -200,12 +200,12 @@
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:taskAffinity=".call"
-            android:theme="@style/Theme.AppCompat.Translucent" />
+            android:theme="@style/AppTranslucent" />
 
         <activity
             android:name=".activity.PromoteLockerActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Translucent" />
+            android:theme="@style/AppTranslucent" />
 
         <activity
             android:name=".activity.ContactsSelectActivity"
@@ -273,7 +273,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
-            android:theme="@style/Theme.AppCompat.Translucent"/>
+            android:theme="@style/AppTranslucent"/>
 
         <activity
             android:name=".recentapp.SmartAssistantActivity"
@@ -471,7 +471,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
             android:noHistory="true"
-            android:theme="@style/AppDialog" />
+            android:theme="@style/AppTranslucent" />
         <!--===== Dialer Module End =====-->
 
     </application>

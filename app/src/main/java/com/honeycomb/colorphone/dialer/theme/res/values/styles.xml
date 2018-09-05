@@ -93,7 +93,7 @@
     <item name="android:paddingLeft">12dp</item>
   </style>
 
-  <style name="Theme.Incall.DialogHolder" parent="Theme.AppCompat.Translucent">
+  <style name="Theme.Incall.DialogHolder" parent="Theme.AppCompat.Dialog">
     <item name="android:windowBackground">@android:color/transparent</item>
     <item name="android:windowActivityTransitions">false</item>
     <item name="android:statusBarColor">@android:color/transparent</item>
