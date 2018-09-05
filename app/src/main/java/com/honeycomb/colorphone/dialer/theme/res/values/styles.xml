@@ -67,18 +67,13 @@
     <item name="cardCornerRadius">2dp</item>
     <item name="cardBackgroundColor">?android:attr/colorBackgroundFloating</item>
   </style>
+
   <style name="Theme.InCallScreen" parent="AppTheme">
-    <item name="android:textColorPrimary">@android:color/white</item>
-    <item name="android:textColorSecondary">#DDFFFFFF</item>
     <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="android:navigationBarColor">@android:color/transparent</item>
     <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
-    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     <item name="dialpad_key_button_touch_tint">?attr/colorPrimary20pct</item>
     <item name="dialpad_style">@style/InCallDialpad</item>
-    <item name="android:windowAnimationStyle">@null</item>
-
     <item name="android:windowBackground">@drawable/incall_background_gradient</item>
     <item name="android:windowShowWallpaper">true</item>
   </style>
