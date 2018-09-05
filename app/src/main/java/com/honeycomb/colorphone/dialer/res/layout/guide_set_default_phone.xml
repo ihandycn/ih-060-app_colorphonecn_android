@@ -8,11 +8,12 @@
     android:background="#88000000">
 
     <LinearLayout
+        android:id="@+id/dialog_content_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="32dp"
-        android:background="@drawable/btn_bg_round_white"
+        tools:background="@color/white"
         android:orientation="vertical">
 
         <ImageButton
@@ -44,7 +45,7 @@
             android:layout_marginRight="24dp"
             android:layout_marginTop="24dp"
             android:text="@string/guide_default_phone_title"
-            android:textColor="@color/textBlack"
+            android:textColor="@android:color/black"
             android:textSize="22sp"
             app:typeface="@string/proxima_nova_semibold" />
 
@@ -56,7 +57,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/guide_default_phone_content"
-            android:textColor="@color/textDark"
+            android:textColor="#454545"
             android:textSize="16sp"
             app:typeface="@string/proxima_nova_regular" />
 

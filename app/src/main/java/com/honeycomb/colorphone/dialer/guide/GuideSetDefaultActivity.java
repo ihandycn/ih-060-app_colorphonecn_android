@@ -37,6 +37,11 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide_set_default_phone);
+
+        findViewById(R.id.dialog_content_container)
+                .setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#ffffff"),
+                        Dimensions.pxFromDp(24),
+                        false));
         Button actionBtn = findViewById(R.id.guide_action);
         actionBtn.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_BOLD));
         actionBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#448AFF"),
