@@ -394,6 +394,7 @@
             tools:node="merge"
              />
 
+        <!--===== Dialer Module =====-->
 
         <activity
             android:name="com.honeycomb.colorphone.dialer.InCallActivity"
@@ -464,6 +465,15 @@
             android:name="com.honeycomb.colorphone.dialer.NotificationBroadcastReceiver"
             android:directBootAware="true"
             android:exported="false" />
+
+        <activity
+            android:name=".dialer.guide.GuideSetDefaultActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/AppDialog" />
+        <!--===== Dialer Module End =====-->
+
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->

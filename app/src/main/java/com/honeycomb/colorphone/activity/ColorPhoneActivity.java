@@ -36,6 +36,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
@@ -130,7 +131,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         ContactManager.getInstance().update();
         // TODO pro show condition ( SESSION_START, or Activity onStart() )
-        if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+        if (GuideSetDefaultActivity.start(this)) {
+            HSAlertMgr.delayRateAlert();
+            pendingShowRateAlert = true;
+        } else if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                 && !GuideAllFeaturesActivity.isStarted()
                 && !ModuleUtils.isAllModuleEnabled()) {
             GuideAllFeaturesActivity.start(this);
