@@ -68,7 +68,7 @@
     <item name="cardBackgroundColor">?android:attr/colorBackgroundFloating</item>
   </style>
 
-  <style name="Theme.InCallScreen" parent="AppTheme">
+  <style name="Theme.InCallScreen" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="android:statusBarColor">@android:color/transparent</item>
     <item name="android:navigationBarColor">@android:color/transparent</item>
     <item name="android:windowDrawsSystemBarBackgrounds">true</item>

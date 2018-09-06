@@ -60,10 +60,10 @@
           android:layout_height="wrap_content"
           android:layout_marginBottom="4dp"
           android:layout_marginStart="@dimen/incall_window_margin_horizontal"
-          android:textColor="@color/white"
           android:layout_marginEnd="@dimen/incall_window_margin_horizontal"
           android:singleLine="true"
           android:textAppearance="@style/Dialer.Incall.TextAppearance.Large"
+          android:textColor="@color/white"
           app:autoSizeMinTextSize="28sp"
           tools:ignore="Deprecated"
           tools:text="Jake Peralta"/>

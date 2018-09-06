@@ -16,6 +16,7 @@ import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Preferences;
 
 public class GuideSetDefaultActivity extends AppCompatActivity {
 
@@ -25,9 +26,13 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
             return false;
         }
         if (!DefaultPhoneUtils.isDefaultPhone()) {
-            Intent starter = new Intent(context, GuideSetDefaultActivity.class);
-            context.startActivity(starter);
-            return true;
+            return Preferences.get("phone_guide").doOnce(new Runnable() {
+                @Override
+                public void run() {
+                    Intent starter = new Intent(context, GuideSetDefaultActivity.class);
+                    context.startActivity(starter);
+                }
+            }, "prefs_guide_show");
         }
         return false;
     }
