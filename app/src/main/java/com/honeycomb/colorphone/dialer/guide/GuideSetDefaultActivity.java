@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.dialer.guide;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,9 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.telecom.TelecomManager;
 import android.widget.Button;
 
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.dialer.AP;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.util.FontUtils;
+import com.ihs.app.framework.HSApplication;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
@@ -25,14 +29,22 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
             // Not support default phone.
             return false;
         }
-        if (!DefaultPhoneUtils.isDefaultPhone()) {
-            return Preferences.get("phone_guide").doOnce(new Runnable() {
-                @Override
-                public void run() {
-                    Intent starter = new Intent(context, GuideSetDefaultActivity.class);
-                    context.startActivity(starter);
-                }
-            }, "prefs_guide_show");
+
+        if (AP.dialerEnable()) {
+            if (!DefaultPhoneUtils.isDefaultPhone()) {
+                return Preferences.get("phone_guide").doOnce(new Runnable() {
+                    @SuppressLint("NewApi")
+                    @Override
+                    public void run() {
+                        if (AP.setDefualtGuideShow()) {
+                            Intent starter = new Intent(context, GuideSetDefaultActivity.class);
+                            context.startActivity(starter);
+                        } else {
+                            checkDefaultPhoneSettings();
+                        }
+                    }
+                }, "prefs_guide_show");
+            }
         }
         return false;
     }
@@ -42,6 +54,7 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide_set_default_phone);
+        AP.guideShow();
 
         findViewById(R.id.dialog_content_container)
                 .setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#ffffff"),
@@ -52,16 +65,20 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
         actionBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#448AFF"),
                 Dimensions.pxFromDp(6),
                 true));
-        actionBtn.setOnClickListener(v -> checkDefaultPhoneSettings());
+        actionBtn.setOnClickListener(v ->
+        {
+            AP.guideConfirmed();
+            checkDefaultPhoneSettings();
+            finish();
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void checkDefaultPhoneSettings() {
+    private static void checkDefaultPhoneSettings() {
+        Preferences.get(Constants.DESKTOP_PREFS).putBoolean(Constants.PREFS_CHECK_DEFAULT_PHONE, true);
         Intent intent = new Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER);
-        intent.putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, getPackageName());
-        startActivity(intent);
-
-        finish();
+        intent.putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, HSApplication.getContext().getPackageName());
+        HSApplication.getContext().startActivity(intent);
     }
 
     @Override
