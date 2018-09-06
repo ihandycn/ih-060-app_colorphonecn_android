@@ -20,6 +20,7 @@ import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
@@ -130,6 +131,11 @@ public class CheckableLabeledButton extends LinearLayout implements Checkable {
     iconView.setAlpha(isEnabled() ? 1f : DISABLED_STATE_OPACITY);
     labelView.setAlpha(isEnabled() ? 1f : DISABLED_STATE_OPACITY);
   }
+
+  public void setTypeface(Typeface typeface) {
+    labelView.setTypeface(typeface);
+  }
+
 
   public void setCheckedColor(@ColorInt int color) {
     iconView.setImageTintList(

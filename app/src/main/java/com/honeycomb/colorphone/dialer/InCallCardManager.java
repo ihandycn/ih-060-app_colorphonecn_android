@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.dialer;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.SystemClock;
@@ -41,6 +42,13 @@ public class InCallCardManager implements
         bottomTextSwitcher = mainCallView.findViewById(R.id.contactgrid_bottom_text_switcher);
         bottomTextView = mainCallView.findViewById(R.id.contactgrid_bottom_text);
         bottomTimerView = mainCallView.findViewById(R.id.contactgrid_bottom_timer);
+
+        Typeface typeface = ConfigProvider.get().getCustomTypeface();
+        if (typeface != null) {
+            mContactView.setTypeface(typeface);
+            bottomTextView.setTypeface(typeface);
+            bottomTimerView.setTypeface(typeface);
+        }
         onViewReady();
     }
 

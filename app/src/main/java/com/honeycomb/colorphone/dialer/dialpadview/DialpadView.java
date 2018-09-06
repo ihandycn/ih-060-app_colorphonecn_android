@@ -22,6 +22,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -43,6 +44,7 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialer.Assert;
+import com.honeycomb.colorphone.dialer.ConfigProvider;
 import com.honeycomb.colorphone.dialer.LogUtil;
 import com.honeycomb.colorphone.dialer.animation.AnimUtils;
 import com.honeycomb.colorphone.dialer.i18n.LocaleUtils;
@@ -95,6 +97,8 @@ public class DialpadView extends LinearLayout {
   private TextView ildCountry;
   private TextView ildRate;
   private boolean isLandscapeMode;
+  private Typeface primaryLetterTypeface;
+  private Typeface numberTypeface;
 
   public DialpadView(Context context) {
     this(context, null);
@@ -138,9 +142,15 @@ public class DialpadView extends LinearLayout {
     // OnPreDrawListenerForKeyLayoutAdjust under rare circumstances.
     isLandscapeMode =
         (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
+    numberTypeface = ConfigProvider.get().getCustomTypeface();
+    primaryLetterTypeface = ConfigProvider.get().getCustomMediumTypeface();
 
     setupKeypad();
     digits = (EditText) findViewById(R.id.digits);
+    if (numberTypeface != null) {
+      digits.setTypeface(numberTypeface);
+    }
+
     digitsHint = findViewById(R.id.digits_hint);
     delete = (ImageButton) findViewById(R.id.deleteButton);
     overflowMenuButton = findViewById(R.id.dialpad_overflow);
@@ -202,6 +212,9 @@ public class DialpadView extends LinearLayout {
         rippleBackground.setColor(rippleColor);
       }
 
+      if (numberTypeface != null) {
+        numberView.setTypeface(numberTypeface);
+      }
       numberView.setText(numberString);
       numberView.setElegantTextHeight(false);
       dialpadKey.setContentDescription(numberContentDescription);
@@ -212,6 +225,9 @@ public class DialpadView extends LinearLayout {
           (TextView) dialpadKey.findViewById(R.id.dialpad_key_secondary_letters);
       if (primaryLettersView != null) {
         primaryLettersView.setText(primaryLettersMapping[i]);
+        if (primaryLetterTypeface != null) {
+          primaryLettersView.setTypeface(primaryLetterTypeface);
+        }
       }
       if (primaryLettersView != null && secondaryLettersView != null) {
         if (secondaryLettersMapping == null) {

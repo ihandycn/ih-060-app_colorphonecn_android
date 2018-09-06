@@ -421,13 +421,11 @@ public class StatusBarNotifier
   }
 
   private int getPrimaryColor() {
-    // TODO
-    return Color.BLUE;
+    return Color.WHITE;
   }
 
   private int getColorPrimary() {
-    // TODO
-    return Color.BLUE;
+    return Color.WHITE;
   }
 
   private ConfigProvider getConfigProvider() {

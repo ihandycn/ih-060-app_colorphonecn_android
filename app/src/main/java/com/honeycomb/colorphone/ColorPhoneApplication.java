@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +37,7 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.dialer.ConfigProvider;
 import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
@@ -48,6 +50,7 @@ import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
+import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -344,6 +347,24 @@ public class ColorPhoneApplication extends HSApplication {
         Theme.updateThemes();
 
         SmsFlashListener.getInstance().start();
+
+        ConfigProvider.set(new ConfigProvider() {
+            @Override
+            public Typeface getCustomBoldTypeface() {
+                return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_BOLD);
+            }
+
+            @Override
+            public Typeface getCustomMediumTypeface() {
+                return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD);
+            }
+
+            @Override
+            public Typeface getCustomTypeface() {
+                return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR);
+            }
+        });
+
 
     }
 

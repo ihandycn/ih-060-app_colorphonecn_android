@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.dialer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Trace;
@@ -69,6 +70,13 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
         buttons[1] = ((CheckableLabeledButton) root.findViewById(R.id.incall_second_button));
         buttons[2] = ((CheckableLabeledButton) root.findViewById(R.id.incall_third_button));
         buttons[3] = ((CheckableLabeledButton) root.findViewById(R.id.incall_fourth_button));
+
+        Typeface typeface = ConfigProvider.get().getCustomMediumTypeface();
+        if (typeface != null) {
+            for (CheckableLabeledButton button : buttons) {
+                button.setTypeface(typeface);
+            }
+        }
 
         root.findViewById(R.id.incall_end_call).setOnClickListener(new View.OnClickListener() {
             @Override
