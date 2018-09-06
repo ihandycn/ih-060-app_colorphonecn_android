@@ -209,6 +209,15 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme"/>
+
+        <activity
+            android:name=".activity.PopularThemeActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme"/>
+
         <activity
             android:name=".activity.NotificationSettingsActivity"
             android:label="@string/app_name"

@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.download;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -22,8 +23,7 @@ public class DownloadViewHolder implements DownloadHolder {
     /**
      * Progress display
      */
-    protected ProgressView taskProgressBar;
-    protected TypefacedTextView taskProgressTxt;
+    protected LottieAnimationView taskProgressBar;
     protected LottieAnimationView taskSuccessAnim;
     protected LottieAnimationView taskStartAnim;
     /**
@@ -40,10 +40,8 @@ public class DownloadViewHolder implements DownloadHolder {
     private long mDelayTime = 600;
     private boolean enablePause = false;
 
-
-    public DownloadViewHolder(View taskActionBtn, ProgressView progressView, TypefacedTextView progressTxt, LottieAnimationView successAnim) {
+    public DownloadViewHolder(View taskActionBtn, LottieAnimationView progressView, LottieAnimationView successAnim, final View selectedLayout) {
         this.taskProgressBar = progressView;
-        this.taskProgressTxt = progressTxt;
         this.taskSuccessAnim = successAnim;
         this.taskActionBtn = taskActionBtn;
         this.taskActionBtn.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +53,8 @@ public class DownloadViewHolder implements DownloadHolder {
                 } else if (canStartDownload()) {
                     startDownload();
                 }
+
+                selectedLayout.performClick();
             }
         });
     }
@@ -71,26 +71,30 @@ public class DownloadViewHolder implements DownloadHolder {
         return id;
     }
 
-
     public void setProxyHolder(DownloadHolder downloadHolder) {
         mProxy = downloadHolder;
     }
 
+
     public void startDownload() {
         final TasksManagerModel model = TasksManager.getImpl().getById(id);
         final TasksManagerModel ringtoneModel = TasksManager.getImpl().getById(ringtoneId);
+
         if (ringtoneModel != null) {
-            boolean fileReady = TasksManager.getImpl().isDownloaded(ringtoneModel);
+            final boolean fileReady = TasksManager.getImpl().isDownloaded(ringtoneModel);
             if (!fileReady) {
                 TasksManager.doDownload(ringtoneModel, null);
             }
         }
+
         if (model == null) {
             if (BuildConfig.DEBUG) {
                 throw new IllegalStateException("start download but get null taskModel");
             }
             return;
         }
+
+        final boolean fileReady = model != null && TasksManager.getImpl().isDownloaded(model);
         boolean needPrologue = taskActionBtn.getVisibility() == View.VISIBLE;
         if (needPrologue) {
             if (taskStartAnim != null) {
@@ -103,7 +107,8 @@ public class DownloadViewHolder implements DownloadHolder {
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
                         taskStartAnim.setVisibility(View.GONE);
-                        taskProgressBar.setProgress(3);
+                        taskStartAnim.setProgress(0f);
+                        taskProgressBar.setVisibility(fileReady ? View.GONE : View.VISIBLE);
                         v.setVisibility(View.VISIBLE);
                         doDownload(model);
                     }
@@ -111,7 +116,7 @@ public class DownloadViewHolder implements DownloadHolder {
                 taskStartAnim.playAnimation();
             } else {
                 // animation handle by task progress bar.
-                taskProgressBar.onDownloadStart();
+                taskProgressBar.setProgress(0f);
                 taskActionBtn.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -131,8 +136,8 @@ public class DownloadViewHolder implements DownloadHolder {
     }
 
     public void updateDownloaded(boolean progressFlag) {
-        taskProgressBar.setProgress(100);
-        taskProgressTxt.setVisibility(View.INVISIBLE);
+        taskProgressBar.setProgress(1.0f);
+        taskProgressBar.setVisibility(View.GONE);
         if (progressFlag) {
             taskSuccessAnim.setVisibility(View.VISIBLE);
             taskSuccessAnim.playAnimation();
@@ -140,16 +145,16 @@ public class DownloadViewHolder implements DownloadHolder {
         if (TasksManager.DEBUG_PROGRESS) {
             HSLog.d("sundxing", getId() + " download success!");
         }
-
     }
 
+    @Override
     public void updateNotDownloaded(final int status, final long sofar, final long total) {
         if (sofar > 0 && total > 0) {
             updateProgressView(sofar, total);
         } else {
-            taskProgressBar.reset();
-            taskProgressTxt.setVisibility(View.INVISIBLE);
+            taskProgressBar.setProgress(0f);
         }
+        taskProgressBar.setVisibility(View.GONE);
         if (status == FileDownloadStatus.error && BuildConfig.DEBUG) {
             Toast.makeText(HSApplication.getContext(), R.string.network_err, Toast.LENGTH_SHORT).show();
         }
@@ -162,8 +167,10 @@ public class DownloadViewHolder implements DownloadHolder {
         }
     }
 
+    @Override
     public void updateDownloading(final int status, final long sofar, final long total) {
         if (sofar >= 0 && total >= 0) {
+            taskProgressBar.setVisibility(View.VISIBLE);
             final int percent = updateProgressView(sofar, total == 0 ? Long.MAX_VALUE : total);
             if (TasksManager.DEBUG_PROGRESS) {
                 HSLog.d("sundxing", getId() + " download process, percent = " + percent + "%");
@@ -176,9 +183,8 @@ public class DownloadViewHolder implements DownloadHolder {
 
     private int updateProgressView(long sofar, float total) {
         final int percent = (int) (100 * sofar / total);
-        taskProgressBar.setProgress(percent);
-        taskProgressTxt.setVisibility(View.VISIBLE);
-        taskProgressTxt.setText(percent + "%");
+        float p = sofar / total;
+        taskProgressBar.setProgress(p);
         mDelayTime = 0;
         return percent;
     }

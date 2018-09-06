@@ -460,6 +460,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
+        mAdapter.setHotThemeHolderVisible(true);
         mRecyclerView.setAdapter(mAdapter);
         RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
 
@@ -587,6 +588,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onReceive(String s, HSBundle hsBundle) {
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mainSwitch.setChecked(true);
+//            mAdapter.notifyDataSetChanged();
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
             initData();
             mAdapter.notifyDataSetChanged();

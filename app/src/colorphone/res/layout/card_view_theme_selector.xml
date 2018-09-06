@@ -65,6 +65,7 @@
         tools:text="6622335" />
 
     <android.support.percent.PercentRelativeLayout
+        android:id="@+id/download_view_container"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_alignBottom="@id/like_count_icon"
@@ -79,7 +80,7 @@
 
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/card_download_start_anim"
+            android:id="@+id/card_apply_clicked"
             app:layout_widthPercent="100%"
             app:layout_heightPercent="100%"
             android:layout_centerInParent="true"

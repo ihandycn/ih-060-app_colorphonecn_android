@@ -1,7 +1,11 @@
 package com.honeycomb.colorphone.themeselector;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.acb.call.MediaDownloadManager;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -22,8 +27,10 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -32,6 +39,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
+import com.honeycomb.colorphone.activity.PopularThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.DownloadHolder;
@@ -45,9 +53,7 @@ import com.honeycomb.colorphone.permission.FloatWindowManager;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
-import com.honeycomb.colorphone.view.DownloadProgressBar;
 import com.honeycomb.colorphone.view.GlideApp;
-import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -56,6 +62,7 @@ import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import java.io.File;
@@ -76,9 +83,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private float mTransX;
     private ArrayList<Theme> data = null;
     private GridLayoutManager layoutManager;
-    private Handler mHandler = new Handler();
     private boolean mTipHeaderVisible;
+    private boolean mHotThemeHolderVisible;
     private int mUnLockThemeId = -1;
+    private MediaDownloadManager mediaDownloadManager = new MediaDownloadManager();
+
+    //autopilot test
+    private boolean isThemeInformationVisible = true;
+    private boolean isApplyButtonVisible = true;
+    private boolean isApplyAnimationVisible = false;
+
+    private Handler adapterHandler = new Handler();
 
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_GIF = 0x1;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO = 0x8;
@@ -87,6 +102,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public static final int THEME_SELECTOR_ITEM_TYPE_STATEMENT = 0x20;
     public static final int THEME_SELECTOR_ITEM_TYPE_TIP = 0x30;
+    public static final int THEME_SELECTOR_ITEM_TYPE_HOT_THEME_HOLDER = 0x40;
 
     private static final int THEME_TYPE_MASK = 0x0F;
 
@@ -112,7 +128,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     notifyItemChanged(unlockThemeAndGetAdapterPos(hsBundle));
                 }
             }
-
         }
 
         private int unlockThemeAndGetDatePos(HSBundle hsBundle) {
@@ -160,6 +175,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 switch (getItemViewType(position)) {
                     case THEME_SELECTOR_ITEM_TYPE_STATEMENT:
                     case THEME_SELECTOR_ITEM_TYPE_TIP:
+                    case THEME_SELECTOR_ITEM_TYPE_HOT_THEME_HOLDER:
                         return 2;
                     default:
                         return 1;
@@ -182,8 +198,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         return mUnLockThemeId;
     }
 
-
-
     public void setHeaderTipVisible(boolean visible) {
         mTipHeaderVisible = visible;
     }
@@ -191,6 +205,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     public boolean isTipHeaderVisible() {
         return mTipHeaderVisible;
     }
+
+    public boolean isHotThemeHolderVisible() {
+        return mHotThemeHolderVisible;
+    }
+
+    public void setHotThemeHolderVisible(boolean visible) {
+        mHotThemeHolderVisible = visible;
+    }
+
 
     public GridLayoutManager getLayoutManager() {
         return layoutManager;
@@ -270,25 +293,47 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
 
-            final int pos = holder.getPositionTag();
-            final Theme theme = data.get(pos);
-            if (theme.isLocked()) {
+
+
+
+//            if (theme.isLocked()) {
                 holder.mLockIcon.setVisibility(View.VISIBLE);
                 holder.mLockIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        final int pos = holder.getPositionTag();
+                        final Theme theme = data.get(pos);
+
                         theme.setLocked(false);
                         notifyItemSelected(pos, theme);
                     }
                 });
-            } else {
-                holder.mLockIcon.setVisibility(View.INVISIBLE);
-            }
+//            } else {
+//                holder.mLockIcon.setVisibility(View.INVISIBLE);
+//            }
+
+            holder.setDownloadedUpdateListener(new ThemeCardViewHolder.DownloadedUpdateListener() {
+                @Override
+                public void onUpdateDownloaded() {
+                    if (recyclerView.isComputingLayout()) {
+                        return;
+                    }
+                    final int pos = holder.getPositionTag();
+                    final Theme theme = data.get(pos);
+                    if (theme.isSelected()) {
+                        HSLog.d(TAG, "update downloaded");
+//                        (holder).setSelected(theme);
+                    }
+                }
+            });
 
 
             holder.setLikeClick(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    final int pos = holder.getPositionTag();
+                    final Theme theme = data.get(pos);
 
                     theme.setLike(!theme.isLike());
                     if (theme.isLike()) {
@@ -302,6 +347,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
 
+            if (!isThemeInformationVisible) {
+                holder.mThemeLikeAnim.setVisibility(View.GONE);
+                holder.mThemeLikeCount.setVisibility(View.GONE);
+                holder.mThemeTitle.setVisibility(View.GONE);
+            }
+
+            if (!isApplyButtonVisible) {
+                holder.mThemeSelectedAnim.setVisibility(View.GONE);
+                holder.mLockIcon.setVisibility(View.GONE);
+                holder.mDownloadViewContainer.setVisibility(View.GONE);
+            }
             return holder;
 
         } else if (viewType == THEME_SELECTOR_ITEM_TYPE_STATEMENT) {
@@ -328,8 +384,26 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
             return new TopTipViewHolder(tipView);
+        } else if (viewType == THEME_SELECTOR_ITEM_TYPE_HOT_THEME_HOLDER) {
+            View view = activity.getLayoutInflater().inflate(R.layout.acb_layout_hot_theme_view, parent, false);
+
+            final ImageView target = view.findViewById(R.id.hot_theme_image);
+            GlideApp.with(activity)
+                    .load("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?cs=srgb&dl=beach-exotic-holiday-248797.jpg&fm=jpg")
+                    .apply(new RequestOptions().transform(new RoundedCorners(Dimensions.pxFromDp(5f))))
+                    .placeholder(new ColorDrawable(0xffffb7a4))
+                    .into(target);
+            target.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, PopularThemeActivity.class);
+                    activity.startActivity(intent);
+                }
+            });
+
+            return new HotThemeHolder(view);
         } else {
-            throw new IllegalArgumentException("View type not valid " + viewType);
+            throw new IllegalStateException("error viewtype");
         }
     }
 
@@ -396,12 +470,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void notifyItemSelected(int pos, Theme theme) {
+        if (theme.getSuggestMediaType() == Type.MEDIA_MP4 && !mediaDownloadManager.isDownloaded(theme.getFileName())) {
+            return;
+        }
         int adapterPos = pos + getHeaderCount();
         RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
         if (holder == null) {
             // Item not visible in screen.
             notifyItemChanged(adapterPos);
         } else if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+
+            HSLog.d(TAG, "notifyItemSelected, setSelected ");
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).setSelected(theme);
         }
 
@@ -466,6 +545,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             HSLog.d("onBindVieHolder", "contains ads statement.");
         } else if (holder instanceof TopTipViewHolder) {
 
+        } else if (holder instanceof HotThemeHolder) {
+
         }
 
 
@@ -475,8 +556,12 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemViewType(int position) {
         int headerCount = getHeaderCount();
         if (position < headerCount) {
-            return THEME_SELECTOR_ITEM_TYPE_TIP;
+            if (position == 0 && isTipHeaderVisible()) {
+                return THEME_SELECTOR_ITEM_TYPE_TIP;
+            }
+            return THEME_SELECTOR_ITEM_TYPE_HOT_THEME_HOLDER;
         }
+
         int dateIndex = position - headerCount;
         if (dateIndex < data.size()) {
             Theme theme = data.get(dateIndex);
@@ -553,12 +638,30 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private int getHeaderCount() {
-        return mTipHeaderVisible ? 1 : 0;
+        int count = 0;
+        count += mTipHeaderVisible ? 1 : 0;
+        count += mHotThemeHolderVisible ? 1 : 0;
+        return count;
     }
 
     public static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
+
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG;
         private static int[] sThumbnailSize = Utils.getThumbnailImageSize();
+
+        public interface DownloadedUpdateListener {
+            void onUpdateDownloaded();
+        }
+
+        private AnimatorListenerAdapter animatorListenerAdapter = new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mThemeSelectedAnim.playAnimation();
+                mThemeSelectedAnim.setVisibility(View.VISIBLE);
+                mApplyClickedAnim.setVisibility(View.GONE);
+            }
+        };
 
         ImageView mThemePreviewImg;
         ImageView mThemeLoadingImg;
@@ -572,11 +675,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         InCallActionView mCallActionView;
         ViewGroup mLockActionView;
         ImageView mLockIcon;
+        View mDownloadViewContainer;
 
         LottieAnimationView mThemeLikeAnim;
         LottieAnimationView mDownloadFinishedAnim;
         LottieAnimationView mThemeSelectedAnim;
+        LottieAnimationView mApplyClickedAnim;
         View mThemeSelectLayout;
+        DownloadedUpdateListener mDownloadedUpdateListener;
 
         DownloadViewHolder mDownloadViewHolder;
 
@@ -584,8 +690,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private View mContentView;
         private View mThemeHotMark;
         private View mRingtoneMark;
-
-        private Handler mHandler = new Handler();
 
         // Indicates this holder has bound by Adapter. All Views has bounded data.
         // In case, we call start animation before ViewHolder bind.
@@ -615,6 +719,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             mLockIcon = (ImageView) itemView.findViewById(R.id.lock_icon);
 
+            mDownloadViewContainer = itemView.findViewById(R.id.download_view_container);
+
             mThemeFlashPreviewWindow = (ThemePreviewWindow) itemView.findViewById(R.id.card_flash_preview_window);
             mThemeFlashPreviewWindow.setPreviewType(ThemePreviewWindow.PreviewType.PREVIEW);
         }
@@ -637,32 +743,45 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 mThemeHotMark.setTranslationX(pxFromDp(-1));
             }
 
-            mDownloadTaskProgressTxt = (TypefacedTextView) itemView.findViewById(R.id.card_downloading_progress_txt);
-            mDownloadTaskProgressTxt.setVisibility(View.GONE);
             mDownloadFinishedAnim = (LottieAnimationView) itemView.findViewById(R.id.card_download_finished_anim);
             mDownloadFinishedAnim.setVisibility(View.GONE);
             mThemeSelectedAnim = (LottieAnimationView) itemView.findViewById(R.id.card_theme_selected_anim);
             mThemeSelectLayout = itemView.findViewById(R.id.card_theme_selected_layout);
+            mThemeSelectedAnim.setVisibility(View.GONE);
 
-            DownloadProgressBar pb = (DownloadProgressBar) itemView.findViewById(R.id.card_downloading_progress_bar);
+            LottieAnimationView pb = itemView.findViewById(R.id.card_downloading_progress_bar);
+            pb.setVisibility(View.GONE);
 
-            mDownloadViewHolder = new DownloadViewHolder(pb, pb, mDownloadTaskProgressTxt, mDownloadFinishedAnim);
-            mDownloadViewHolder.setStartAnim((LottieAnimationView) itemView.findViewById(R.id.card_download_start_anim));
+            mApplyClickedAnim = itemView.findViewById(R.id.card_apply_clicked);
+            mDownloadViewHolder = new DownloadViewHolder(mApplyClickedAnim, pb, mDownloadFinishedAnim, mThemeSelectLayout);
+            mDownloadViewHolder.setStartAnim(mApplyClickedAnim);
             mDownloadViewHolder.setProxyHolder(this);
             mDownloadTaskProgressBar = pb;
         }
 
         private void setSelected(Theme theme, boolean animation) {
-            if (mThemeSelectedAnim != null) {
+            if (mApplyClickedAnim != null) {
                 if (theme.isSelected()) {
                     if (animation) {
-                        mThemeSelectedAnim.playAnimation();
+                        mApplyClickedAnim.removeAnimatorListener(animatorListenerAdapter);
+                        mApplyClickedAnim.addAnimatorListener(animatorListenerAdapter);
+                        mApplyClickedAnim.clearAnimation();
+                        mApplyClickedAnim.setVisibility(View.VISIBLE);
+                        mApplyClickedAnim.playAnimation();
+
+                        HSLog.d(TAG, "AppClickedAnim play start");
                     } else if (!mThemeSelectedAnim.isAnimating()) {
                         setLottieProgress(mThemeSelectedAnim, 1f);
                     }
                 } else {
-                    mThemeSelectedAnim.cancelAnimation();
-                    setLottieProgress(mThemeSelectedAnim, 0f);
+                    if (mDownloadTaskProgressBar.getProgress() == 1.0f) {
+                        mApplyClickedAnim.setProgress(0f);
+                        mApplyClickedAnim.setVisibility(View.VISIBLE);
+                        mThemeSelectedAnim.setVisibility(View.GONE);
+                        mDownloadTaskProgressBar.setVisibility(View.GONE);
+                        mThemeSelectedAnim.cancelAnimation();
+                        setLottieProgress(mThemeSelectedAnim, 0f);
+                    }
                 }
             }
 
@@ -682,8 +801,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         }
 
+        void setDownloadedUpdateListener(DownloadedUpdateListener listener) {
+            this.mDownloadedUpdateListener = listener;
+        }
+
+
         public void setSelected(Theme selected) {
-            setSelected(selected, false);
+            setSelected(selected, true);
         }
 
         public ImageView getCoverView(final Theme theme) {
@@ -785,8 +909,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
          */
         private int id;
 
-        private View mDownloadTaskProgressBar;
-        private TypefacedTextView mDownloadTaskProgressTxt;
+        private LottieAnimationView mDownloadTaskProgressBar;
 
         private Runnable mAniamtionEndStateRunnable = new Runnable() {
             @Override
@@ -804,15 +927,20 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         @Override
         public void updateDownloaded(final boolean progressFlag) {
             // If file already downloaded, not play animation
-
             mDownloadViewHolder.updateDownloaded(progressFlag);
             mDownloadTaskProgressBar.removeCallbacks(mAniamtionEndStateRunnable);
             if (progressFlag) {
                 mDownloadTaskProgressBar.postDelayed(mAniamtionEndStateRunnable, 600);
+
             }
             if (DEBUG_PROGRESS) {
                 HSLog.d("sundxing", position + " download success!");
             }
+
+            if (mDownloadedUpdateListener != null) {
+                mDownloadedUpdateListener.onUpdateDownloaded();
+            }
+
         }
 
         @Override
@@ -832,33 +960,32 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 HSLog.d("sundxing", position + " download process, percent = " + percent);
             }
             mDownloadViewHolder.updateDownloading(status, sofar, total);
-
         }
 
         public void switchToReadyState(boolean ready) {
-            mDownloadTaskProgressBar.setVisibility(ready ? View.GONE : View.VISIBLE);
+            mDownloadTaskProgressBar.setVisibility(View.GONE);
             mThemeSelectLayout.setVisibility(ready ? View.VISIBLE : View.GONE);
             if (ready) {
                 mDownloadFinishedAnim.setVisibility(View.GONE);
-                mDownloadTaskProgressTxt.setVisibility(View.GONE);
             }
+            mThemeSelectedAnim.setVisibility(View.GONE);
+
             if (ready) {
-                mThemeSelectedAnim.setVisibility(View.VISIBLE);
-            } else {
-                mThemeSelectedAnim.setVisibility(View.GONE);
+                mApplyClickedAnim.setVisibility(View.VISIBLE);
+            } else if (mDownloadTaskProgressBar.getProgress() == 0f) {
+                mApplyClickedAnim.setVisibility(View.VISIBLE);
             }
         }
+
 
         public void switchToLockState() {
             mLockIcon.setVisibility(View.VISIBLE);
             mDownloadFinishedAnim.setVisibility(View.GONE);
             mDownloadTaskProgressBar.setVisibility(View.GONE);
-            mDownloadTaskProgressTxt.setVisibility(View.GONE);
             mThemeSelectLayout.setVisibility(View.GONE);
             mThemeSelectedAnim.setVisibility(View.GONE);
-
+            mApplyClickedAnim.setVisibility(View.GONE);
         }
-
 
         public DownloadViewHolder getDownloadHolder() {
             return mDownloadViewHolder;
@@ -908,7 +1035,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             setLike(theme, true);
         }
 
-
         public void stopAnimation() {
             mThemeFlashPreviewWindow.stopAnimations();
             mCallActionView.stopAnimations();
@@ -933,6 +1059,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     static class TopTipViewHolder extends RecyclerView.ViewHolder {
 
         public TopTipViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    static class HotThemeHolder extends RecyclerView.ViewHolder {
+
+        public HotThemeHolder(View itemView) {
             super(itemView);
         }
     }
