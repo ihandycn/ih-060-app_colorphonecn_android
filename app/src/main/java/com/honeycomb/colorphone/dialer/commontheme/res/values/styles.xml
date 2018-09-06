@@ -15,7 +15,8 @@
   ~ limitations under the License
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:targetApi="M">
 
   <style name="Dialer.Incall.TextAppearance" parent="android:TextAppearance.Material">
     <item name="android:textColor">?android:attr/textColorSecondary</item>

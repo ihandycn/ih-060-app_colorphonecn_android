@@ -236,8 +236,6 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
 
         pseudoBlackScreenOverlay = findViewById(R.id.psuedo_black_screen_overlay);
 
-        mDialpadFragment = new DialpadFragment();
-
 //        sendBroadcast(CallPendingActivity.getFinishBroadcast());
     }
     @Override
@@ -638,12 +636,14 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
         isInShowMainInCallFragment = true;
         showInCallScreenFragment();
         // Init after showInCallFragment
-        createDialPadFragment();
         isInShowMainInCallFragment = false;
         Trace.endSection();
     }
 
     private void createDialPadFragment() {
+        if (mDialpadFragment == null) {
+            mDialpadFragment = new DialpadFragment();
+        }
         ViewGroup container = findViewById(R.id.incall_dialpad_container);
         mDialpadFragment.onCreateView(this, container);
     }
@@ -677,6 +677,9 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
             InCallCardManager inCallCardManager = new InCallCardManager();
             inCallCardManager.onViewInit(this, mainCallView);
             mViewManagers.add(inCallCardManager);
+
+            createDialPadFragment();
+
         }
 
         didShowInCallScreen = true;

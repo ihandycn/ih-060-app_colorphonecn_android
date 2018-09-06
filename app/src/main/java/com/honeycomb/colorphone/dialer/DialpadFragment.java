@@ -155,6 +155,8 @@ public class DialpadFragment implements DialpadPresenter.DialpadUi,
     LayoutInflater layoutInflater = mActivity.getLayoutInflater().cloneInContext(contextThemeWrapper);
     final View parent = layoutInflater.inflate(R.layout.incall_dialpad_fragment, container, false);
     mContainer = container;
+    underneathNavigationBar(container);
+
     mRootView = (DialpadSlidingLinearLayout) parent;
     dialpadView = (DialpadView) parent.findViewById(R.id.dialpad_view);
     dialpadView.setCanDigitsBeEdited(false);
@@ -178,6 +180,11 @@ public class DialpadFragment implements DialpadPresenter.DialpadUi,
     mPresenter.onUiReady(this);
 
     return parent;
+  }
+
+  public void underneathNavigationBar(View container) {
+    ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) mContainer.getLayoutParams();
+    marginLayoutParams.bottomMargin = - Dimensions.getNavigationBarHeight(getActivity());
   }
 
   public void onResume() {
@@ -361,7 +368,6 @@ public class DialpadFragment implements DialpadPresenter.DialpadUi,
 
     private void init() {
       navBarHeight = Dimensions.getNavigationBarHeight(getContext());
-      setTranslationY(navBarHeight);
     }
 
     public float getYFraction() {
@@ -369,7 +375,7 @@ public class DialpadFragment implements DialpadPresenter.DialpadUi,
       if (height == 0) {
         return 0;
       }
-      return (getTranslationY() - navBarHeight) / height;
+      return (getTranslationY()) / height;
     }
 
     public void setYFraction(float yFraction) {
@@ -379,7 +385,7 @@ public class DialpadFragment implements DialpadPresenter.DialpadUi,
         transYCover = -transY;
       }
       navBarCover.setTranslationY(transYCover);
-      setTranslationY(transY + navBarHeight);
+      setTranslationY(transY);
     }
   }
 }
