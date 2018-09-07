@@ -22,7 +22,7 @@ public class DefaultPhoneUtils {
         return false;
     }
 
-    public static void checkGuideResult() {
+    public static boolean checkGuideResult() {
         boolean needCheckDefaultSetResult =
                 Preferences.get(Constants.DESKTOP_PREFS)
                         .getBoolean(Constants.PREFS_CHECK_DEFAULT_PHONE, false);
@@ -33,7 +33,9 @@ public class DefaultPhoneUtils {
             HSLog.d("DefaultPhoneUtils", "default phone now : " + defaultPhone);
             if (defaultPhone) {
                 AP.successSetAsDefault();
+                return true;
             }
         }
+        return false;
     }
 }

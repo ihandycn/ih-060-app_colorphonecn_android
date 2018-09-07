@@ -10,9 +10,8 @@ public class AP {
         return dialerEnableBoolean;
     }
 
-    public static boolean setDefualtGuideShow() {
-        boolean setDefaultGuideShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1536215679114-660", "set default guide show", false);
-        return setDefaultGuideShowBoolean;
+    public static boolean setDefaultGuideShow() {
+        return false;
     }
 
     public static void guideShow() {

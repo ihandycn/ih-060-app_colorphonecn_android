@@ -132,10 +132,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         ContactManager.getInstance().update();
         // TODO pro show condition ( SESSION_START, or Activity onStart() )
-        if (GuideSetDefaultActivity.start(this)) {
-            HSAlertMgr.delayRateAlert();
-            pendingShowRateAlert = true;
-        } else if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+       if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                 && !GuideAllFeaturesActivity.isStarted()
                 && !ModuleUtils.isAllModuleEnabled()) {
             GuideAllFeaturesActivity.start(this);
@@ -287,7 +284,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         // clear previous observers.
         PermissionHelper.stopObservingPermission();
 
-        DefaultPhoneUtils.checkGuideResult();
+        boolean setDefaultSuccess = DefaultPhoneUtils.checkGuideResult();
+        if (setDefaultSuccess) {
+            mAdapter.setHeaderTipVisible(false);
+            mAdapter.notifyDataSetChanged();
+        }
 
         HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
@@ -477,7 +478,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         boolean notificationNotGranted = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
                 && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this);
         boolean overlayNotGranted = !FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
-        if (notificationNotGranted || overlayNotGranted) {
+        if (!DefaultPhoneUtils.isDefaultPhone()
+                && (notificationNotGranted || overlayNotGranted)) {
             mAdapter.setHeaderTipVisible(true);
         } else {
             mAdapter.setHeaderTipVisible(false);

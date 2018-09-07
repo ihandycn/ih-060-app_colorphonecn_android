@@ -36,7 +36,7 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
                     @SuppressLint("NewApi")
                     @Override
                     public void run() {
-                        if (AP.setDefualtGuideShow()) {
+                        if (AP.setDefaultGuideShow()) {
                             Intent starter = new Intent(context, GuideSetDefaultActivity.class);
                             context.startActivity(starter);
                         } else {

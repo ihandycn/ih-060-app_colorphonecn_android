@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
 import com.honeycomb.colorphone.notification.permission.EventSource;
@@ -73,11 +74,14 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
 
-                if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.FirstScreen)) {
-                    PermissionHelper.waitOverlayGranted(EventSource.FirstScreen, true);
-                } else {
-                    PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+                if (!GuideSetDefaultActivity.start(GuideAllFeaturesActivity.this)) {
+                    if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.FirstScreen)) {
+                        PermissionHelper.waitOverlayGranted(EventSource.FirstScreen, true);
+                    } else {
+                        PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+                    }
                 }
+
                 finish();
             }
         });
