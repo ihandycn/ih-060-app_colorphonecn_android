@@ -20,6 +20,7 @@ import com.honeycomb.colorphone.util.FontUtils;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 
 public class GuideSetDefaultActivity extends AppCompatActivity {
@@ -78,7 +79,8 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
         Preferences.get(Constants.DESKTOP_PREFS).putBoolean(Constants.PREFS_CHECK_DEFAULT_PHONE, true);
         Intent intent = new Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER);
         intent.putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, HSApplication.getContext().getPackageName());
-        HSApplication.getContext().startActivity(intent);
+
+        Navigations.startActivitySafely(HSApplication.getContext(), intent);
     }
 
     @Override
