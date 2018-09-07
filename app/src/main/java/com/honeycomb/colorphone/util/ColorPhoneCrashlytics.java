@@ -3,18 +3,23 @@ package com.honeycomb.colorphone.util;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 
-public class ColorPhoneCrashlytics extends CrashlyticsCore {
-    @Override
+public class ColorPhoneCrashlytics  {
+    private static ColorPhoneCrashlytics INSTANCE = new ColorPhoneCrashlytics();
+    private ColorPhoneCrashlytics() {}
+
+    public static ColorPhoneCrashlytics getInstance() {
+        return INSTANCE;
+    }
+
     public void log(String msg) {
         if (ColorPhoneApplication.isFabricInitted()) {
-            super.log(msg);
+            CrashlyticsCore.getInstance().log(msg);
         }
     }
 
-    @Override
     public void logException(Throwable throwable) {
         if (ColorPhoneApplication.isFabricInitted()) {
-            super.logException(throwable);
+            CrashlyticsCore.getInstance().logException(throwable);
         }
     }
 }
