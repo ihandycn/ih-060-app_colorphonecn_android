@@ -1,260 +1,352 @@
 package com.honeycomb.colorphone.resultpage;
 
 import android.animation.Animator;
-import android.animation.ValueAnimator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.TimeInterpolator;
+import android.graphics.drawable.ClipDrawable;
 import android.os.Handler;
-import android.support.annotation.Nullable;
+import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.colorphone.lock.AnimatorListenerAdapter;
 import com.colorphone.lock.util.ViewUtils;
-import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.honeycomb.colorphone.util.Thunk;
 import com.ihs.commons.utils.HSLog;
-import com.superapps.util.Dimensions;
 
-import net.appcloudbox.ads.base.AcbAd;
-import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
 
 import java.util.List;
 
-@SuppressWarnings("WeakerAccess") class BoostPlusResultController extends ResultController {
+
+@SuppressWarnings("WeakerAccess")
+class BoostPlusResultController extends ResultController {
+
+    private static final int PERCENT_FROM_Y_DELTA = 156;
+    private static final int BOOST_FROM_Y_DELTA = 216;
+
+    public static final int DEVICE_SCREEN_HEIGHT_TAG = 1920;
+    public static final long START_OFF_CIRCLE_ROTATE_MAIN = 0;
+
+    // Result percentage
+    private static final long DURATION_RESULT_START_OFF = START_OFF_CIRCLE_ROTATE_MAIN + 7 * FRAME;
+    private static final long DURATION_RESULT_PERCENT_ALPHA_ADD = 5 * FRAME;
+
+    // Result boosted
+    private static final long DURATION_RESULT_BOOSTED_ALPHA_ADD = 8 * FRAME;
+
+    private static final int TICK_LEVEL_ACCELERATE = 60;
+    private static final int TICK_BG_LEVEL_ACCELERATE = 80;
+
+    // Tick
+    private static final long DURATION_TICK = 9 * FRAME;
+    private static final long START_OFFSET_TICK = 3 * FRAME;
+    private static final long START_OFFSET_MAIN_TICK = START_OFF_CIRCLE_ROTATE_MAIN;
+    private static final int CLIP_LEVEL_TICK_BG_START = 1000;
+    private static final int CLIP_LEVEL_TICK_START = 100;
+    private static final int CLIP_LEVEL_TICK_BG_END = 9000;
+    private static final int CLIP_LEVEL_TICK_END = 9500;
+    private static final int CLIP_MAX_LEVEL = 10000;
+    private static final int CLIP_BG_TIMES = 40;
+    private static final int CLIP_TICK_TIMES = 40;
+    private static final long CLIP_INTERVAL_BG = DURATION_TICK / CLIP_BG_TIMES;
+    private static final long CLIP_INTERVAL_TICK = DURATION_TICK / CLIP_TICK_TIMES;
+    private static final int TICK_BG_LEVEL_INTERVAL = (CLIP_LEVEL_TICK_BG_END - CLIP_LEVEL_TICK_BG_START) / CLIP_BG_TIMES;
+    private static final int TICK_LEVEL_INTERVAL = (CLIP_LEVEL_TICK_END - CLIP_LEVEL_TICK_START) / CLIP_TICK_TIMES;
+
+    private static final long DURATION_FADE_OUT = 200;
+    private static final long DURATION_SLIDE_OUT = 400;
+    private static final long DURATION_OPTIMAL_TEXT_TRANSLATION = 640;
 
     private int mCleanedSizeMbs;
 
-    @Thunk
-    Handler mHandler = new Handler();
+    private View mTitleAnchor;
+    RelativeLayout mTickRl;
+    BoostBgImageView mTickBgIv;
+    ImageView mTickIv;
+    TextView mOptimalTv;
+    TextView mFreedUpNumberTv;
+    private TextView mFreedUpTv;
 
-    private View sizeContainer;
-    private TextView sizeTv;
-    private TextView unitTv;
-    private TextView freeUpTv;
+    ClipDrawable mBoostTickClipDrawable;
+    ClipDrawable mBoostTickBgClipDrawable;
 
-    private ImageView leftStar;
-    private ImageView middleStar;
-    private ImageView rightStar;
+     int mTickLevelInterval = TICK_LEVEL_INTERVAL;
+     int mTickLevelBgInterval = TICK_BG_LEVEL_INTERVAL;
 
-    private ImageView rocket;
+     boolean mIsTickBgFirstStart = true;
+     boolean mIsTickFirstStart = true;
 
-    private TextView optimalTv;
-    private TextView titleAnchor;
-    private LinearLayout mMiddleLayout;
+     Handler mHandler = new Handler();
 
-    private float phoneHeight;
+    private View[] mSlideOutViews;
+    private View[] mFadeOutViews;
+    private boolean isAdReady;
+    private View mFreedResultBtn;
+    private Runnable mAdTransitionRunnable;
 
-    BoostPlusResultController(ResultPageActivity activity, int cleanedSizeMbs, Type type, AcbInterstitialAd interstitialAd, @Nullable AcbNativeAd ad, List<CardData> cardDataList) {
-        super.init(activity, ResultConstants.RESULT_TYPE_BOOST_PLUS, type, interstitialAd, ad, cardDataList);
-        HSLog.d(TAG, "BoostPlusResultController ***");
+
+    BoostPlusResultController(ResultPageActivity activity, int resultType, int cleanedSizeMbs, Type type, List<CardData> cardDataList) {
         mCleanedSizeMbs = cleanedSizeMbs;
-        if (ad != null) {
-            LauncherAnalytics.logEvent(AdPlacements.AD_RESULT_PAGE, "Type", "BoostPlusDone");
-            ad.setNativeClickListener(new AcbNativeAd.AcbNativeClickListener() {
-                @Override public void onAdClick(AcbAd acbAd) {
-                    LauncherAnalytics.logEvent(AdPlacements.AD_RESULT_PAGE, "Type", "BoostPlusDone");
-                    LauncherAnalytics.logEvent("ResultPage_Cards_Click", "Type", ResultConstants.AD);
-                }
-            });
-        }
+        HSLog.d(TAG, "BoostPlusResultController ***");
+        super.init(activity, resultType, type, cardDataList);
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.result_page_transition_boost_plus;
+        return R.layout.result_page_boost_plus_transition;
     }
 
     @Override
     protected void onFinishInflateTransitionView(View transitionView) {
         HSLog.d(TAG, "BoostPlusResultController onFinishInflateTransitionView");
+        mTitleAnchor = ViewUtils.findViewById(transitionView, R.id.description_title_tag_tv);
+        mTickRl = ViewUtils.findViewById(transitionView, R.id.tick_rl);
+        mTickBgIv = ViewUtils.findViewById(transitionView, R.id.tick_bg);
+        mTickIv = ViewUtils.findViewById(transitionView, R.id.tick_iv);
+        mOptimalTv = ViewUtils.findViewById(transitionView, R.id.optimal_tv);
+        mFreedUpNumberTv = ViewUtils.findViewById(transitionView, R.id.freed_up_number_tv);
+        mFreedUpTv = ViewUtils.findViewById(transitionView, R.id.freed_up_tv);
+        mFreedResultBtn = ViewUtils.findViewById(transitionView, R.id.freed_up_action_btn);
 
-        sizeContainer = ViewUtils.findViewById(transitionView, R.id.size_container);
-        sizeTv = ViewUtils.findViewById(transitionView, R.id.label_title_size);
-        unitTv = ViewUtils.findViewById(transitionView, R.id.label_title_unit);
-        freeUpTv = ViewUtils.findViewById(transitionView, R.id.label_title_free_up);
+        mSlideOutViews = new View[]{mTickBgIv, mTickIv};
+        mFadeOutViews = new View[]{mFreedUpNumberTv, mFreedUpTv};
 
-        leftStar = ViewUtils.findViewById(transitionView, R.id.label_star_left);
-        middleStar = ViewUtils.findViewById(transitionView, R.id.label_star_middle);
-        rightStar = ViewUtils.findViewById(transitionView, R.id.label_star_right);
-
-        rocket = ViewUtils.findViewById(transitionView, R.id.label_rocket);
-
-        optimalTv = ViewUtils.findViewById(transitionView, R.id.label_title);
-        titleAnchor = ViewUtils.findViewById(transitionView, R.id.anchor_title_tv);
-        mMiddleLayout = ViewUtils.findViewById(transitionView, R.id.middle_layout);
-        mMiddleLayout.post(new Runnable() {
-            @Override public void run() {
-                int height = mMiddleLayout.getHeight();
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mMiddleLayout.getLayoutParams();
-                params.topMargin = (Dimensions.getPhoneHeight(BoostPlusResultController.this.getContext()) - height) / 2;
-                mMiddleLayout.setLayoutParams(params);
-            }
-        });
-
-        phoneHeight = (float) Dimensions.getPhoneHeight(getContext());
+        mBoostTickClipDrawable = (ClipDrawable) mTickIv.getDrawable();
+        mBoostTickBgClipDrawable = (ClipDrawable) mTickBgIv.getDrawable();
     }
 
     @Override
-    protected void onStartTransitionAnimation(View transitionView) {
+    protected boolean onStartTransitionAnimation(View transitionView) {
         HSLog.d(TAG, "BoostPlusResultController onStartTransitionAnimation mTransitionView = " + transitionView);
+        startCleanResultSizeAnimation();
 
-        mHandler.postDelayed(new Runnable() {
-            @Override public void run() {
-                BoostPlusResultController.this.startAnimation();
+        if (!popupInterstitialAdIfNeeded()) {
+            if (!tryShowNativeAd(true)) {
+                HSLog.d(TAG, "BoostPlusResultController NoAds here");
+                startTickAnimation();
             }
-        }, 200);
-    }
-
-    private void startAnimation() {
-        final boolean shouldDisplaySize = mCleanedSizeMbs > 0;
-//        JunkCleanUtils.setPositiveFeedDisplayType(JunkCleanUtils.POSITIVE_FEEDBACK_DISPLAY_TYPE_OPTIMAL);
-
-        // text appear
-        if (shouldDisplaySize) {
-            sizeTv.setText(String.valueOf(mCleanedSizeMbs));
-            unitTv.setText("MB");
-            playTextAppearAnimation(sizeContainer, 2 * FRAME_HALF);
-            playTextAppearAnimation(freeUpTv, 4 * FRAME_HALF);
-        } else {
-            playTextAppearAnimation(optimalTv, 2 * FRAME_HALF);
         }
 
-        // star rotation
-        playStarRotationAnimation(middleStar, 2 * FRAME_HALF);
-        playStarRotationAnimation(leftStar, 4 * FRAME_HALF);
-        playStarRotationAnimation(rightStar, 8 * FRAME_HALF);
-
-        // rocket appear
-        playRocketAnimation();
-    }
-
-    private void playStarRotationAnimation(final View view, long startDelayTime) {
-        ValueAnimator animator = ValueAnimator.ofFloat(0f, 180f);
-        animator.setStartDelay(startDelayTime);
-        animator.setInterpolator(new LinearInterpolator());
-        animator.setDuration(22 * FRAME_HALF).addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float frame = (float) valueAnimator.getAnimatedValue();
-                view.setRotation(frame);
-                if (frame <= 135f) {
-                    view.setAlpha(frame / 135f);
-                } else {
-                    view.setAlpha((180f - frame) / 45f);
-                }
-            }
-        });
-        animator.start();
-    }
-
-    private void playTextAppearAnimation(final View view, long startDelay) {
-        final float startTranslationY = phoneHeight * 0.25f;
-
-        view.setTranslationY(startTranslationY);
-        view.setAlpha(0f);
-
-        long duration = 14 * FRAME_HALF - startDelay;
-        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.setDuration(duration).setInterpolator(softStopAccDecInterpolator);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float frame = (float) valueAnimator.getAnimatedValue();
-                view.setAlpha(frame);
-                view.setTranslationY(startTranslationY * (1 - frame));
-            }
-        });
-        animator.setStartDelay(startDelay);
-        animator.start();
-    }
-
-    private void playRocketAnimation() {
-        final float startTranslationY = phoneHeight * 0.7f;
-
-        rocket.setTranslationY(phoneHeight * 0.7f);
-        rocket.setAlpha(0f);
-
-        ValueAnimator p1 = ValueAnimator.ofFloat(0f, 1f);
-        p1.setDuration(14 * FRAME_HALF).setInterpolator(softStopAccDecInterpolator);
-        p1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float frame = (float) valueAnimator.getAnimatedValue();
-                rocket.setAlpha(frame);
-                rocket.setTranslationY(startTranslationY * (1 - frame));
-            }
-        });
-        p1.addListener(new AnimatorListenerAdapter() {
-            @Override public void onAnimationEnd(Animator animation) {
-                popupInterstitialAdIfNeeded();
-            }
-        });
-        p1.start();
-
-
+        return true;
     }
 
     @Override protected void onInterruptActionClosed() {
-        final boolean shouldDisplaySize = mCleanedSizeMbs > 0;
-        final float endTranslationY = -phoneHeight * 0.3f;
+        HSLog.d(TAG, "BoostPlusResultController onInterruptActionClosed");
+        if (!tryShowNativeAd()) {
+            startTickAnimation();
+        }
+    }
 
-        ValueAnimator p2 = ValueAnimator.ofFloat(1f, 0f);
-        p2.setStartDelay(8 * FRAME_HALF);
-        p2.setDuration(DURATION_OPTIMAL_TEXT_TRANSLATION).setInterpolator(softStopAccDecInterpolator);
-        p2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float frame = (float) valueAnimator.getAnimatedValue();
-                rocket.setAlpha(frame);
-                rocket.setTranslationY(endTranslationY * (1 - frame));
+    public boolean tryShowNativeAd() {
+        return tryShowNativeAd(false);
+    }
+
+    public boolean tryShowNativeAd(boolean waitForBoostResult) {
+        if (mResultType == ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
+            LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromToolbar");
+        } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PLUS) {
+            LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromSettings");
+        } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PUSH) {
+            LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromPush");
+        }
+        final AcbNativeAd ad = ResultPageManager.getInstance().getAd();
+        isAdReady = ad != null;
+
+        HSLog.d(TAG, "BoostPlusResultController showAdWithAnimation isAdReady == " + isAdReady);
+        if (ad != null) {
+            if (waitForBoostResult) {
+                mAdTransitionRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        resetTextVisible();
+
+                        if (isAdReady) {
+                            showAd(ad);
+                            showAdWithAnimation();
+                            startRealTransitionAnimation();
+                        } else {
+                            startTickAnimation();
+                        }
+                    }
+                };
+                mHandler.postDelayed(mAdTransitionRunnable, 250);
+            } else {
+                resetTextVisible();
+                showAd(ad);
+                showAdWithAnimation();
+                startRealTransitionAnimation();
             }
-        });
-        p2.addListener(new AnimatorListenerAdapter() {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void resetTextVisible() {
+        mOptimalTv.setVisibility(View.VISIBLE);
+    }
+
+    private void startCleanResultSizeAnimation() {
+        HSLog.d(TAG, "BoostPlusResultController startCleanResultSizeAnimation");
+        String cleanPercentRandomText = mCleanedSizeMbs + getContext().getString(R.string.megabyte_abbr);
+
+        mFreedUpNumberTv.setText(cleanPercentRandomText);
+
+        float percentFromYDelta = mScreenHeight * PERCENT_FROM_Y_DELTA / DEVICE_SCREEN_HEIGHT_TAG;
+        Animation cleanPercentAlphaAppearAnimation = LauncherAnimationUtils.getAlphaAppearAnimation(
+                DURATION_RESULT_PERCENT_ALPHA_ADD, DURATION_RESULT_START_OFF);
+        Runnable resultRunnable = new Runnable() {
             @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                int[] location = new int[2];
-                optimalTv.getLocationInWindow(location);
-                int oldOptimalTvCenterY = location[1] + optimalTv.getHeight() / 2;
+            public void run() {
+                mFreedUpNumberTv.setVisibility(View.VISIBLE);
+            }
+        };
+        mHandler.postDelayed(resultRunnable, DURATION_RESULT_START_OFF);
 
-                titleAnchor.getLocationInWindow(location);
-                int newOptimalTvCenterY = location[1] + titleAnchor.getHeight() / 2;
+        Animation cleanPercentTranslateAnimation = LauncherAnimationUtils.getTranslateYAnimation(
+                percentFromYDelta, 0, DURATION_RESULT_PERCENT_ALPHA_ADD,
+                DURATION_RESULT_START_OFF, true, new DecelerateInterpolator());
+        LauncherAnimationUtils.startSetAnimation(mFreedUpNumberTv, new LauncherAnimationUtils.AnimationListenerAdapter(){
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                super.onAnimationEnd(animation);
+                HSLog.d(TAG, "BoostPlusResultController mAdTransitionRunnable == " + mAdTransitionRunnable);
+                if (mAdTransitionRunnable == null) {
+                    startRealTransitionAnimation();
+                }
+            }
+        }, cleanPercentAlphaAppearAnimation, cleanPercentTranslateAnimation);
 
-                if (shouldDisplaySize) {
-                    final float endTranslationY = newOptimalTvCenterY - oldOptimalTvCenterY - 0.5f * sizeContainer.getTop();
-                    ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-                    animator.setDuration(DURATION_OPTIMAL_TEXT_TRANSLATION)
-                            .setInterpolator(softStopAccDecInterpolator);
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            float frame = (float) valueAnimator.getAnimatedValue();
-                            sizeContainer.setTranslationY(endTranslationY * frame);
-                            freeUpTv.setTranslationY(endTranslationY * frame);
+        float boostFromYDelta = mScreenHeight * BOOST_FROM_Y_DELTA / DEVICE_SCREEN_HEIGHT_TAG;
+        Animation cleanBoostAlphaAppearAnimation = LauncherAnimationUtils.getAlphaAppearAnimation(
+                DURATION_RESULT_BOOSTED_ALPHA_ADD, DURATION_RESULT_START_OFF);
+        Animation cleanBoostTranslateAnimation = LauncherAnimationUtils.getTranslateYAnimation(
+                boostFromYDelta, 0, DURATION_RESULT_PERCENT_ALPHA_ADD, DURATION_RESULT_START_OFF,
+                true, new DecelerateInterpolator());
+        LauncherAnimationUtils.startSetAnimation(mFreedUpTv, false,
+                cleanBoostAlphaAppearAnimation, cleanBoostTranslateAnimation);
+    }
+
+    private void startRealTransitionAnimation() {
+        HSLog.d(TAG, "BoostPlusResultController startRealTransitionAnimation isAdReady == " + isAdReady);
+        if (!isAdReady) {
+            mFreedResultBtn.setAlpha(0);
+            mFreedResultBtn.setVisibility(View.VISIBLE);
+            mFreedResultBtn.animate().alpha(1).setDuration(200).start();
+            mFreedResultBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mActivity != null && !mActivity.isFinishing()) {
+                        mActivity.finish();
+                    }
+                }
+            });
+            LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Optimal_Shown");
+            return;
+        }
+        for (final View v : mFadeOutViews) {
+            v.animate()
+                    .alpha(0f)
+                    .setDuration(DURATION_FADE_OUT)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            v.setVisibility(View.INVISIBLE);
                         }
-                    });
-                    animator.start();
+                    })
+                    .start();
+        }
+
+        int[] location = new int[2];
+        mTickBgIv.getLocationInWindow(location);
+        int slideUpTranslation = location[1] + mTickBgIv.getHeight();
+
+        for (View v : mSlideOutViews) {
+            v.animate()
+                    .translationYBy(-slideUpTranslation)
+                    .alpha(0f)
+                    .setDuration(DURATION_SLIDE_OUT)
+                    .setInterpolator(LauncherAnimUtils.ACCELERATE_QUAD)
+                    .start();
+        }
+
+        mOptimalTv.getLocationInWindow(location);
+        int oldOptimalTvCenterY = location[1] + mOptimalTv.getHeight() / 2;
+        mTitleAnchor.getLocationInWindow(location);
+        int newOptimalTvCenterY = location[1] + mTitleAnchor.getHeight() / 2;
+
+        TimeInterpolator softStopAccDecInterpolator = PathInterpolatorCompat.create(0.79f, 0.37f, 0.28f, 1f);
+        mOptimalTv.animate()
+                .translationYBy(newOptimalTvCenterY - oldOptimalTvCenterY)
+                .scaleX(1.8f)
+                .scaleY(1.8f)
+                .setDuration(DURATION_OPTIMAL_TEXT_TRANSLATION)
+                .setInterpolator(softStopAccDecInterpolator)
+                .start();
+    }
+
+    private void startTickAnimation() {
+        HSLog.d(TAG, "BoostPlusResultController startTickAnimation");
+        mIsTickBgFirstStart = true;
+        Runnable tickRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mTickRl.setVisibility(View.VISIBLE);
+                int currentLevel = mBoostTickClipDrawable.getLevel() + mTickLevelInterval;
+                mTickLevelInterval += TICK_LEVEL_ACCELERATE;
+                if (mIsTickFirstStart) {
+                    currentLevel = CLIP_LEVEL_TICK_START;
+                }
+                mIsTickFirstStart = false;
+
+                if (mBoostTickClipDrawable.getLevel() < CLIP_LEVEL_TICK_END) {
+                    mHandler.postDelayed(this, CLIP_INTERVAL_TICK);
                 } else {
-                    final float endTranslationY = newOptimalTvCenterY - oldOptimalTvCenterY;
-                    ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-                    animator.setDuration(DURATION_OPTIMAL_TEXT_TRANSLATION)
-                            .setInterpolator(softStopAccDecInterpolator);
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            float frame = (float) valueAnimator.getAnimatedValue();
-                            optimalTv.setTranslationY(endTranslationY * frame);
-                        }
-                    });
-                    animator.start();
+                    currentLevel = CLIP_MAX_LEVEL;
                 }
 
-                onTransitionAnimationEnd();
+                mBoostTickClipDrawable.setLevel(currentLevel);
+
+                float currentAlpha = (float) currentLevel / CLIP_MAX_LEVEL;
+                mTickIv.setAlpha(currentAlpha);
             }
-        });
-        p2.start();
+        };
+
+        Runnable tickBgRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mTickRl.setVisibility(View.VISIBLE);
+                int currentLevel = mBoostTickBgClipDrawable.getLevel() + mTickLevelBgInterval;
+                mTickLevelBgInterval += TICK_BG_LEVEL_ACCELERATE;
+                if (mIsTickBgFirstStart) {
+                    // optimal alpha appear animation
+                    Animation optimalAlphaAppearAnimation = LauncherAnimationUtils.getAlphaAppearAnimation(DURATION_TICK, 0);
+                    LauncherAnimationUtils.startAnimation(mOptimalTv, false, optimalAlphaAppearAnimation);
+                    currentLevel = CLIP_LEVEL_TICK_BG_START;
+                }
+                mIsTickBgFirstStart = false;
+
+                if (mBoostTickBgClipDrawable.getLevel() < CLIP_LEVEL_TICK_BG_END) {
+                    mHandler.postDelayed(this, CLIP_INTERVAL_BG);
+                } else {
+                    currentLevel = CLIP_MAX_LEVEL;
+                }
+                mBoostTickBgClipDrawable.setLevel(currentLevel);
+
+                float currentAlpha = (float) currentLevel / CLIP_MAX_LEVEL;
+                mTickBgIv.setAlpha(currentAlpha);
+            }
+        };
+
+        mHandler.postDelayed(tickRunnable, START_OFFSET_MAIN_TICK);
+        mHandler.postDelayed(tickBgRunnable, START_OFFSET_MAIN_TICK + START_OFFSET_TICK);
     }
 
     @Override

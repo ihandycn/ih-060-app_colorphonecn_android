@@ -1,104 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/white_rounded_corner_bg" >
+    android:clipToPadding="false">
 
-    <com.superapps.view.FixedRatioLayout
-        android:id="@+id/result_image_container_ad_primaryview_container"
+    <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="3dp"
-        app:aspectRatio="1.9">
+        android:background="@drawable/white_rounded_corner_bg">
 
-        <net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView
-            android:id="@+id/result_image_container_ad"
+        <com.superapps.view.FixedRatioLayout
+            android:id="@+id/result_image_container_charging_screen"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:padding="3dp"
+            app:aspectRatio="1.9">
 
-    </com.superapps.view.FixedRatioLayout>
+            <net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView
+                android:id="@+id/result_image_container_ad"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    <FrameLayout
-        android:id="@+id/result_ad_choice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/result_image_container_ad_primaryview_container"
-        android:layout_marginRight="6dp"
-        android:layout_marginTop="6dp"
-        tools:background="@android:color/holo_orange_dark"
-        tools:layout_height="10dp"
-        tools:layout_width="30dp" />
+        </com.superapps.view.FixedRatioLayout>
 
-    <LinearLayout
-        android:id="@+id/promote_charging_bottom_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/result_image_container_ad_primaryview_container"
-        android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <com.honeycomb.colorphone.view.CircleImageView
-            android:id="@+id/result_ad_icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/shape_promote_circle_bg" />
-
-        <TextView
-            android:id="@+id/promote_charging_title"
+        <FrameLayout
+            android:id="@+id/result_ad_choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/result_image_container_charging_screen"
+            android:layout_marginRight="6dp"
             android:layout_marginTop="6dp"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="titlettttttt"
-            android:textColor="#333333"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            tools:background="@android:color/holo_orange_dark"
+            tools:layout_height="10dp"
+            tools:layout_width="30dp" />
 
-        <TextView
-            android:id="@+id/promote_charging_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:lineSpacingExtra="1dp"
-            android:lines="2"
-            android:text="contentttttttt"
-            android:textColor="#666666"
-            android:textSize="13sp" />
-
-        <View
+        <LinearLayout
+            android:id="@+id/promote_charging_bottom_container"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/result_image_container_charging_screen"
+            android:orientation="vertical">
 
-        <com.colorphone.lock.lockscreen.chargingscreen.view.FlashButton
-            android:id="@+id/promote_charging_button"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/material_compat_button_bg_blue"
-            android:textColor="#fff"
-            android:textSize="18sp" />
-    </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-</android.support.percent.PercentRelativeLayout>
+            <net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView
+                android:id="@+id/result_ad_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/description_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="titlettttttt"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/description_content_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:lineSpacingExtra="1dp"
+                android:lines="2"
+                android:text="contentttttttt"
+                android:textColor="#666666"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/result_action_btn"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </android.support.percent.PercentRelativeLayout>
+</FrameLayout>

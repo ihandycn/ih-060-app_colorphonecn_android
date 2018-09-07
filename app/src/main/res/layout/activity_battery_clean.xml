@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.honeycomb.colorphone.battery.BatteryCleanActivity">
+
+    <RelativeLayout
+        android:id="@+id/battery_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        android:layout_marginTop="@dimen/status_bar_default_height">
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/title_battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:layout_marginStart="17dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/battery_title"
+            android:textColor="#7C7C7C"
+            android:textSize="18sp"
+            app:typeface="@string/roboto_regular" />
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="19dp"
+            android:layout_marginStart="19dp"
+            android:alpha="0"
+            android:src="@drawable/battery_back_arrow"
+            android:visibility="gone" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/title_clean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_toEndOf="@id/back_arrow"
+            android:layout_toRightOf="@id/back_arrow"
+            android:alpha="0"
+            android:text="@string/battery_clean_title"
+            android:textColor="#CC000000"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:typeface="@string/roboto_regular" />
+
+    </RelativeLayout>
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/clean_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_aspectRatio="158.59%"
+        app:layout_marginTopPercent="23%"
+        app:layout_widthPercent="100%">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            app:layout_aspectRatio="100%"
+            app:layout_widthPercent="63.3%"
+            app:srcCompat="@drawable/battery_clean_circle" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/clean_scale_circle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            app:layout_aspectRatio="100%"
+            app:layout_widthPercent="63.3%"
+            app:srcCompat="@drawable/battery_clean_circle" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/out_dot_circle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:alpha="0"
+            app:layout_aspectRatio="100%"
+            app:layout_widthPercent="58%"
+            app:srcCompat="@drawable/dot_circle_out" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/in_dot_circle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true"
+            android:alpha="0"
+            app:layout_aspectRatio="100%"
+            app:layout_widthPercent="53%"
+            app:srcCompat="@drawable/dot_circle_in" />
+
+        <LinearLayout
+            android:id="@+id/count_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:alpha="0"
+            android:orientation="horizontal"
+            app:layout_marginTopPercent="35%">
+
+            <TextView
+                android:id="@+id/clean_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF65BD43"
+                android:textSize="36sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/"
+                android:textColor="#DF000000"
+                android:textSize="36sp"
+                tools:ignore="HardcodedText"/>
+
+            <TextView
+                android:id="@+id/sum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#DF000000"
+                android:textSize="36sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/scan_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="#DF000000"
+            android:textSize="36sp"
+            app:layout_marginTopPercent="35%" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/count_layout"
+            android:layout_centerHorizontal="true"
+            android:alpha="0"
+            android:text="@string/battery_clean_description"
+            android:textColor="#8A000000"
+            android:textSize="12sp" />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/icon_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/clean_layout"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        app:layout_marginTopPercent="10%">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/icon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:textColor="#DF585858"
+            app:typeface="@string/roboto_regular" />
+    </RelativeLayout>
+</android.support.percent.PercentRelativeLayout>

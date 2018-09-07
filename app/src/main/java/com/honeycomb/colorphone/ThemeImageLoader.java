@@ -7,12 +7,9 @@ import android.widget.ImageView;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
 import com.honeycomb.colorphone.view.GlideRequests;
-import com.ihs.commons.utils.HSLog;
 
 import hugo.weaving.DebugLog;
 

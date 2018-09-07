@@ -53,11 +53,11 @@ public class TestActivity extends AppCompatActivity {
 
     public void startCallRingingWindow(View view) {
         String number = editText.getText().toString().trim();
-        mInCallWindow.show( TextUtils.isEmpty(number) ? "8888888" : number);
+        InCallWindow.show(this, TextUtils.isEmpty(number) ? "8888888" : number);
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mInCallWindow.endFlashCall();
+                InCallWindow.dismiss(TestActivity.this.getApplicationContext());
             }
         }, 8000);
 

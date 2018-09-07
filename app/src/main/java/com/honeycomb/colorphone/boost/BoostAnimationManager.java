@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -22,9 +23,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
-
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +43,7 @@ public class BoostAnimationManager {
         static final int ICON_SEVEN = 6;
     }
 
-    private static final int FRAME = 68;
+    private static final int FRAME = 90;
     private static final float ALPHA_REDUCE_MIN = 0.15f;
     private static final float WIDTH_SCREEN = Utils.getPhoneWidth(HSApplication.getContext());
     private static final float HEIGHT_SCREEN = Utils.getPhoneHeight(HSApplication.getContext());
@@ -118,6 +119,7 @@ public class BoostAnimationManager {
     private float endY;
 
     private List<String> drawablePackageList = new ArrayList<>();
+    private List<String> boostDrawablePackageList = new ArrayList<>();
 
     public BoostAnimationManager(float endX, float endY) {
         this.endX = endX;
@@ -394,8 +396,9 @@ public class BoostAnimationManager {
         return bitmaps;
     }
 
-    Drawable[] getBoostAppIconDrawables(Context context) {
+    public @NonNull Drawable[] getBoostAppIconDrawables(Context context) {
         drawablePackageList.clear();
+        boostDrawablePackageList.clear();
         Drawable[] drawables = new Drawable[COUNT_ICON];
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = am.getRunningAppProcesses();
@@ -409,21 +412,26 @@ public class BoostAnimationManager {
                 String processName = appProcessInfo.processName;
                 if (!TextUtils.isEmpty(processName)) {
                     String packageName = processName.split(":")[0].trim();
+                    if (packageName.equals(BuildConfig.APPLICATION_ID)) {
+                        continue;
+                    }
                     String securityPackageName = context.getPackageName();
-                    boolean isLaunchAbleApp = isLaunchAbleUserInstallApp(context, packageName);
+                    boolean isSystemApp = isSystemApp(context, packageName);
+                    boolean isLaunchAbleApp = isLaunchAbleApp(context, packageName);
                     boolean isSelf = false;
                     boolean isDuplicate = drawablePackageList.contains(packageName);
                     if (!TextUtils.isEmpty(securityPackageName)) {
                         isSelf = securityPackageName.equals(packageName);
                     }
 
-                    if (!TextUtils.isEmpty(packageName) && isLaunchAbleApp && !isSelf && !isDuplicate) {
+                    if (!TextUtils.isEmpty(packageName) && !isSystemApp && isLaunchAbleApp && !isSelf && !isDuplicate) {
                         if (i >= drawables.length) {
                             break;
                         }
                         Drawable currentDrawable = Utils.getAppIcon(packageName);
                         drawables[i] = currentDrawable;
                         drawablePackageList.add(packageName);
+                        boostDrawablePackageList.add(packageName);
                         i++;
                     }
                 }
@@ -436,23 +444,7 @@ public class BoostAnimationManager {
         return drawables;
     }
 
-    private boolean isLaunchAbleUserInstallApp(Context context, String packageName) {
-        List<AppInfo> appInfoList = SystemAppsManager.getInstance().getAllAppInfos();
-
-        // Find in cached app info list.
-        if (appInfoList != null && !appInfoList.isEmpty()) {
-            for (AppInfo appInfo : appInfoList) {
-                if (TextUtils.equals(packageName, appInfo.getPackageName())) {
-                    ApplicationInfo applicationInfo = appInfo.getAInfo();
-                    return null != applicationInfo && (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
-                }
-            }
-        }
-
-        if (isSystemApp(context, packageName)) {
-            return false;
-        }
-
+    private boolean isLaunchAbleApp(Context context, String packageName) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -460,14 +452,19 @@ public class BoostAnimationManager {
         return null != context.getPackageManager().resolveActivity(intent, 0);
     }
 
+    public List<String> getBoostDrawablePackageList(Context context) {
+        getBoostAppIconDrawables(context);
+        return boostDrawablePackageList;
+    }
+
     private Drawable[] getRandomAppIcon(Drawable[] drawables, int currentIndex) {
         if (null == drawables) {
-            return null;
+            return new Drawable[0];
         }
 
-        Collection<String> applicationInfoList = SystemAppsManager.getInstance().getAllAppPackageNames();
+        Collection<String> applicationInfoList = getAllAppPackageNames();
         if (null == applicationInfoList || applicationInfoList.size() == 0) {
-            return null;
+            return new Drawable[0];
         }
 
         List<String> apps = new ArrayList<>();
@@ -483,19 +480,20 @@ public class BoostAnimationManager {
 
         int size = apps.size();
         if (apps.size() == 0 || size < drawables.length) {
-            return null;
+            return new Drawable[0];
         }
 
         if (currentIndex >= drawables.length) {
-            return null;
+            return new Drawable[0];
         }
 
         int[] randomIndex = Utils.getUniqueRandomInts(0, size, drawables.length - currentIndex);
         for (int i = currentIndex; i < drawables.length; i++) {
             if (null != randomIndex && (i - currentIndex) < randomIndex.length) {
                 int index = randomIndex[i - currentIndex];
-                // TODO use
+                String packageName = apps.get(index);
                 drawables[i] = Utils.getAppIcon(apps.get(index));
+                boostDrawablePackageList.add(packageName);
             }
         }
         return drawables;
@@ -534,7 +532,7 @@ public class BoostAnimationManager {
     }
 
     static Animation getBoostRotateAnimation(long duration) {
-        final RotateAnimation animation = new RotateAnimation(0f, 3600, Animation.RELATIVE_TO_SELF,
+        final RotateAnimation animation = new RotateAnimation(0f, 5400, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         animation.setDuration(duration);
         animation.setRepeatCount(0);
@@ -568,7 +566,19 @@ public class BoostAnimationManager {
         return new float[]{a, b, c};
     }
 
-    public static Bitmap drawableToBitmap(Drawable drawable) {
+    private Collection<String> getAllAppPackageNames() {
+        List<String> packageNames = new ArrayList<>();
+        List<AppInfo> allAppInfos = SystemAppsManager.getInstance().getAllAppInfos();
+        for (AppInfo appInfo : allAppInfos) {
+            packageNames.add(appInfo.getPackageName());
+        }
+        return packageNames;
+    }
+
+    private static @NonNull Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable == null) {
+            return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+        }
         Bitmap bitmap;
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:ignore="ContentDescription">
+
+    <ImageView
+        android:id="@+id/bg_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:tint="#4c000000"/>
+
+    <FrameLayout
+        android:id="@+id/view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:fitsSystemWindows="true">
+
+        <!-- Do not change container_view id -->
+        <RelativeLayout
+            android:id="@+id/container_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/action_bar"
+                layout="@layout/white_toolbar"/>
+
+            <FrameLayout
+                android:id="@+id/transition_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"/>
+
+            <RelativeLayout
+                android:id="@+id/result_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/action_bar"
+                android:visibility="invisible">
+
+                <View
+                    android:id="@+id/result_header_tag_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/result_page_header_height"/>
+
+                <!-- Container for AD / charging screen only -->
+                <FrameLayout
+                    android:id="@+id/ad_or_charging_screen_view_container"
+                    android:layout_below="@+id/result_header_tag_view"
+                    android:padding="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <include layout="@layout/navigation_bar_bg"/>
+
+    </FrameLayout>
+</FrameLayout>

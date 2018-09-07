@@ -20,6 +20,8 @@ import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.notification.permission.PermissionUtils;
+import com.honeycomb.colorphone.util.CallFinishUtils;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -93,6 +95,35 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 >= NotificationConfig.getOutsideAppAccessAlertShowMaxTime();
 
         return isAcceptCallFailed && isEnabled && isAtValidTime && !PermissionUtils.isNotificationAccessGranted(context) && !beyondMaxCount;
+    }
+
+    @Override
+    public CallIdleAlert.Event getCallIdleEvent() {
+        return new CallIdleAlert.FlurryEvent() {
+            @Override
+            public void onCallFinished() {
+                CallFinishUtils.logCallFinish();
+                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
+            }
+
+            @Override
+            public void onCallFinishedCallAssistantShow() {
+                CallFinishUtils.logCallFinishCallAssistantShow();
+                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Call_Assistant_Show");
+            }
+
+            @Override
+            public void onFullScreenAdShouldShow() {
+                CallFinishUtils.logCallFinishWiredShouldShow();
+                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Should_Show");
+            }
+
+            @Override
+            public void onFullScreenAdShow() {
+                CallFinishUtils.logCallFinishWiredShow();
+                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
+            }
+        };
     }
 
     @Override
@@ -230,10 +261,15 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             return R.drawable.color_phone_logo;
         }
 
-//        @Override
-//        public int getMarkAsSpamAppNameDrawable() {
-//            return R.drawable.mark_as_spam_app_logo;
-//        }
+        @Override
+        public String getFullScreenAdPlacement() {
+            return AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN;
+        }
+
+        @Override
+        public boolean enableFullScreenAd() {
+            return CallFinishUtils.isCallFinishFullScreenAdEnabled();
+        }
     }
 
 }

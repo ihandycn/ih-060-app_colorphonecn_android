@@ -140,6 +140,45 @@
                         />
                 </LinearLayout>
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/settings_notification_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:background="@drawable/material_compat_bg"
+                android:clickable="true" >
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/notification_toolbar_switch_icon"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:src="@drawable/settings_led_flash_switch" />-->
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/notification_toolbar_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    android:id="@+id/notification_toolbar_switch_txt"
+                    style="@style/NormalText.Settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/notification_toolbar_switch"
+                    android:layout_toStartOf="@id/notification_toolbar_switch"
+                    android:text="@string/settings_activity_notification_reminder" />
+
+            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/setting_item_call_assistant"
                 android:layout_width="match_parent"

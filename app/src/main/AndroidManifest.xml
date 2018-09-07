@@ -1,73 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.honeycomb.colorphone">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.honeycomb.colorphone">
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.hardware.camera.autofocus"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.hardware.camera.flash"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.hardware.camera.front"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.hardware.camera.any"
-        android:required="false" />
+        android:required="false"/>
 
-    <uses-sdk tools:overrideLibrary="net.appcloudbox.autopilot" />
+    <uses-sdk tools:overrideLibrary="net.appcloudbox.ads, net.appcloudbox.ads.adadapter.MopubCommon, net.appcloudbox.ads.adadapter.MopubInterstitialAdapter, net.appcloudbox.ads.adadapter.MopubNativeAdapter, net.appcloudbox.ads.adadapter.MopubBannerAdapter, net.appcloudbox.trident, net.appcloudbox.autopilot, com.facebook, com.facebook.ads, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs, net.appcloudbox.ads.adadapter.AmazonBannerAdapter"/>
 
     <!-- Required by libAppFramework -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <!-- Ringtone -->
-    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
 
     <!-- Recent Apps -->
     <uses-permission android:name="android.permission.GET_TASKS"/>
 
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
+        tools:ignore="ProtectedPermissions"/>
     <!-- Required by Flash light -->
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission
         android:name="android.permission.FLASHLIGHT"
-        android:permissionGroup="android.permission-group.HARDWARE_CONTROLS" />
+        android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"/>
 
     <uses-permission
         android:name="android.permission.WRITE_INTERNAL_STORAGE"
-        tools:node="remove" />
-    
+        tools:node="remove"/>
+
     <uses-permission
         android:name="android.permission.KILL_BACKGROUND_PROCESSES"
-        tools:node="remove" />
+        tools:node="remove"/>
 
     <uses-permission
         android:name="android.permission.VIBRATE"
-        tools:node="remove" />
+        tools:node="remove"/>
 
     <uses-permission
         android:name="android.permission.RESTART_PACKAGES"
-        tools:node="remove" />
-    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS"
+        tools:node="remove"/>
+    <uses-permission
+        android:name="android.permission.ANSWER_PHONE_CALLS"
         tools:node="remove"/>
 
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission
+        android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"
+        tools:node="remove"/>
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:node="remove"/>
+
+    <uses-permission
+        android:name="android.permission.READ_NETWORK_USAGE_HISTORY"
+        tools:node="remove"/>
+
+    <uses-permission
+        android:name="android.permission.REQUEST_INSTALL_PACKAGES"
+        tools:node="remove"/>
+
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        tools:node="remove"/>
+
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:node="remove"/>
+
+    <uses-permission
+        android:name="android.permission.GET_PACKAGE_SIZE"
+        tools:node="remove"/>
+
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:name=".ColorPhoneApplication"
@@ -82,14 +113,14 @@
         <!-- required by libAppFramework & libNativeAds -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="af46bdc38bf1267984ed38b9784a45489a5dc2c3" />
+            android:value="af46bdc38bf1267984ed38b9784a45489a5dc2c3"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id"/>
 
         <activity
             android:name=".activity.ColorPhoneActivity"
@@ -113,9 +144,9 @@
             android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme.Welcome">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -125,7 +156,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.LOCALE_CHANGED" />
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
             </intent-filter>
         </receiver>
 
@@ -133,7 +164,7 @@
             android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
             </intent-filter>
         </receiver>
 
@@ -141,7 +172,7 @@
             android:name=".receiver.OurAppInstalledReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
             </intent-filter>
         </receiver>
 
@@ -154,45 +185,45 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".activity.ColorPhoneActivity"
-            android:taskAffinity=":main"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.DarkFullScreen" />
+            android:taskAffinity=":main"
+            android:theme="@style/AppTheme.DarkFullScreen"/>
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:taskAffinity=":main"
             android:screenOrientation="portrait"
-            android:theme="@style/AppLightStatusBarTheme" />
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme"/>
         <activity
             android:name=".activity.LedFlashSettingsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:taskAffinity=":main"
             android:screenOrientation="portrait"
-            android:theme="@style/AppLightStatusBarTheme" />
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme"/>
         <activity
             android:name=".activity.AboutActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:taskAffinity=":main"
             android:screenOrientation="portrait"
-            android:theme="@style/AppLightStatusBarTheme" />
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme"/>
         <activity
             android:name=".activity.NotificationSettingsActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:taskAffinity=":main"
             android:screenOrientation="portrait"
-            android:theme="@style/AppLightStatusBarTheme" />
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme"/>
 
         <activity
             android:name=".activity.GuideAllFeaturesActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:taskAffinity=":main"
             android:screenOrientation="portrait"
-            android:theme="@style/AppLightStatusBarTheme" />
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme"/>
 
         <activity
             android:name=".activity.GuideApplyThemeActivity"
@@ -211,26 +242,26 @@
             android:name=".activity.ContactsSelectActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:taskAffinity=":main"
             android:screenOrientation="portrait"
-            android:theme="@style/ContactTheme" />
+            android:taskAffinity=":main"
+            android:theme="@style/ContactTheme"/>
 
         <activity
             android:name=".activity.ContactsEditActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:taskAffinity=":main"
             android:screenOrientation="portrait"
-            android:theme="@style/ContactTheme" />
+            android:taskAffinity=":main"
+            android:theme="@style/ContactTheme"/>
 
         <activity
             android:name=".activity.AvatarVideoActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:taskAffinity=":main"
             android:parentActivityName=".activity.ColorPhoneActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.DarkFullScreen" />
+            android:taskAffinity=":main"
+            android:theme="@style/AppTheme.DarkFullScreen"/>
 
         <activity
             android:name=".activity.RateAlertActivity"
@@ -239,17 +270,18 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:taskAffinity=".RateAlert"
-            android:theme="@style/TransparentCompatDialog" />
+            android:theme="@style/TransparentCompatDialog"/>
 
-        <activity android:name=".permission.OverlayGuideActivity"
-            android:launchMode="singleTask"
+        <activity
+            android:name=".permission.OverlayGuideActivity"
             android:excludeFromRecents="true"
+            android:launchMode="singleTask"
             android:noHistory="true"
             android:taskAffinity=":guide"
             android:theme="@style/TransparentCompatDialog"/>
 
         <!--Activity for test function-->
-        <activity android:name=".activity.TestActivity" />
+        <activity android:name=".activity.TestActivity"/>
 
         <activity
             android:name=".activity.ShareAlertActivity"
@@ -257,7 +289,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity=".share"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
             android:name=".boost.BoostActivity"
@@ -266,6 +298,20 @@
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <activity android:name=".battery.BatteryCleanActivity"
+                  android:excludeFromRecents="true"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="nosensor"
+                  android:taskAffinity=".acb_interstitial_quiet"
+                  android:theme="@style/SwitchCompatTheme" />
+
+        <activity android:name=".cpucooler.CpuCoolDownActivity"
+                  android:excludeFromRecents="true"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="nosensor"
+                  android:taskAffinity=".acb_interstitial_quiet"
+                  android:theme="@style/SwitchCompatTheme"/>
 
         <activity
             android:name=".resultpage.ResultPageActivity"
@@ -281,51 +327,53 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity=".recentapps"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
             android:name=".gdpr.DataUsageSettingsActivity"
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
-            android:theme="@style/AppLightStatusBarTheme" />
+            android:theme="@style/AppLightStatusBarTheme"/>
         <!-- Facebook全屏 -->
         <activity
             android:name="com.facebook.FacebookActivity"
             android:noHistory="true"
-            android:taskAffinity=".acb_interstitial_quiet" />
+            android:taskAffinity=".acb_interstitial_quiet"/>
         <activity
             android:name="com.facebook.CustomTabMainActivity"
             android:noHistory="true"
-            android:taskAffinity=".acb_interstitial_quiet" />
+            android:taskAffinity=".acb_interstitial_quiet"/>
         <activity
             android:name="com.facebook.ads.AudienceNetworkActivity"
             android:noHistory="true"
-            android:taskAffinity=".acb_interstitial_quiet" />
+            android:taskAffinity=".acb_interstitial_quiet"/>
 
         <activity
             android:name=".activity.NotificationAccessGuideAlertActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <!-- AdMob全屏和Adx全屏 -->
         <activity
             android:name="com.google.android.gms.ads.purchase.InAppPurchaseActivity"
             android:noHistory="true"
-            android:taskAffinity=".acb_interstitial_quiet" />
+            android:taskAffinity=".acb_interstitial_quiet"/>
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:noHistory="true"
-            android:taskAffinity=".acb_interstitial_quiet" />
+            android:taskAffinity=".acb_interstitial_quiet"/>
+
+        <activity android:name=".toolbar.NotificationActivity"/>
 
         <!-- permanent -->
         <service
             android:name=".PermanentService"
             android:exported="true"
             android:label="GuardService"
-            android:stopWithTask="false" />
+            android:stopWithTask="false"/>
 
-        <service android:name=".PermanentService$PermanentServiceInner" />
+        <service android:name=".PermanentService$PermanentServiceInner"/>
 
         <service
             android:name=".LockJobService"
@@ -333,7 +381,7 @@
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter android:priority="1000">
-                <action android:name="com.intellectualflame.ledflashlight.washer.lockscreen.LockJobService" />
+                <action android:name="com.intellectualflame.ledflashlight.washer.lockscreen.LockJobService"/>
             </intent-filter>
         </service>
 
@@ -342,22 +390,22 @@
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
-                <action android:name="android.service.notification.NotificationListenerService" />
+                <action android:name="android.service.notification.NotificationListenerService"/>
             </intent-filter>
         </service>
 
         <receiver android:name=".receiver.UserPresentReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.USER_PRESENT"/>
             </intent-filter>
         </receiver>
 
         <receiver android:name=".receiver.PackageAddReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_INSTALL" />
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
 
-                <data android:scheme="package" />
+                <data android:scheme="package"/>
             </intent-filter>
         </receiver>
 
@@ -370,29 +418,30 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.intent.action.ACTION_BATTERY_CHANGED" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.ACTION_BATTERY_CHANGED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
             <intent-filter>
-                <data android:scheme="package" />
+                <data android:scheme="package"/>
 
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
             </intent-filter>
         </receiver>
 
         <receiver android:name=".notification.NotificationAlarmReceiver"></receiver>
+        <receiver android:name=".toolbar.NotificationReceiver"/>
 
         <activity
             android:name="net.appcloudbox.internal.h5game.GameActivity"
-            android:taskAffinity=".h5game"
             android:launchMode="singleTask"
+            android:taskAffinity=".h5game"
             tools:node="merge"
-             />
+            />
 
         <!--===== Dialer Module =====-->
 
@@ -473,7 +522,6 @@
             android:noHistory="true"
             android:theme="@style/AppTranslucent" />
         <!--===== Dialer Module End =====-->
-
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->

@@ -67,6 +67,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
+import colorphone.acb.com.libscreencard.CardCustomConfig;
 import colorphone.acb.com.libscreencard.CustomizeContentContainer;
 import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 
@@ -139,7 +140,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
     private boolean isPowerConnected;
     private boolean mDismissed;
-    private boolean adEnabled = false;
+    private boolean adEnabled = true;
     private boolean isStart;
 
     private boolean mIsSetup = false;
@@ -265,6 +266,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
 
         mIsSetup = true;
+        adEnabled = CardCustomConfig.get().enableAdChard();
+
         // ======== onCreate ========
         HSLog.d(TAG, "onCreate()");
 
@@ -334,7 +337,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         isStart = true;
         AutoPilotUtils.chargingViewShow();
         HSLog.d(TAG, "onStart()");
-        customizeContentContainer.onVisibilityChange(true);
+        if (customizeContentContainer != null) {
+            customizeContentContainer.onVisibilityChange(true);
+        }
         if (adEnabled) {
             if (expressAdView == null) {
                 requestAds();
@@ -541,19 +546,19 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         toolTipContainer = (ToolTipRelativeLayout) mRootView.findViewById(R.id.charging_screen_show_tip_container);
 
         advertisementContainer = (LinearLayout) mRootView.findViewById(R.id.charging_screen_advertisement_container);
-        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
-        customizeContentContainer.setDismissCallback(new Runnable() {
-            @Override
-            public void run() {
-                dismiss(getContext(), true);
-            }
-        });
-        customizeContentContainer.addCardDisplayListener(new CustomizeContentContainer.CardDisplayListener() {
-            @Override
-            public void onCardDisplay(int type) {
-                mRootView.findViewById(R.id.charging_tip_container).setVisibility(View.GONE);
-            }
-        });
+//        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
+//        customizeContentContainer.setDismissCallback(new Runnable() {
+//            @Override
+//            public void run() {
+//                dismiss(getContext(), true);
+//            }
+//        });
+//        customizeContentContainer.addCardDisplayListener(new CustomizeContentContainer.CardDisplayListener() {
+//            @Override
+//            public void onCardDisplay(int type) {
+//                mRootView.findViewById(R.id.charging_tip_container).setVisibility(View.GONE);
+//            }
+//        });
         chargingBubbleView = (ChargingBubbleView) mRootView.findViewById(R.id.charging_screen_bubble_view);
         chargingBubbleView.setPopupBubbleColor(chargingBubbleColor);
 
@@ -879,7 +884,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     public void onStop() {
         // ======== onPause ========
         isStart = false;
-        customizeContentContainer.onVisibilityChange(false);
+        if (customizeContentContainer != null) {
+            customizeContentContainer.onVisibilityChange(false);
+        }
 
 
         if (chargingBubbleView != null) {

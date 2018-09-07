@@ -7,14 +7,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.text.TextUtils;
 
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.PackageList;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -139,4 +137,5 @@ public class SystemAppsManager {
         }
         return null;
     }
+
 }

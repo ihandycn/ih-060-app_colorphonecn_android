@@ -2,26 +2,29 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'me.tatarka.retrolambda'
+apply from: 'stable-Ids.gradle'
 
 android {
     compileSdkVersion 28
     buildToolsVersion "26.0.2"
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 22
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
+
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
+
     productFlavors {
         colorphone {
             applicationId "com.colorphone.smooth.dialer"
-            versionCode 30
-            versionName "1.2.1"
+            versionCode 31
+            versionName "1.2.2"
         }
         colorflash {
             applicationId "com.app.phone.call.flash.screen"
@@ -108,7 +111,7 @@ dependencies {
             "com.google.android.gms:play-services-gcm:$GOOGLE_PLAY_SERVICES_VERSION".toString(),
 
             USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.2.4.beta03"
-                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.2.4.gm",
+                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.2.5.gm",
 
             USE_BETA_ACB_LIBS ?
                     'com.ihandy.appframework:libAppframework.beta:4.6.8.+' :
@@ -136,25 +139,30 @@ dependencies {
 
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
     compile 'jp.wasabeef:recyclerview-animators:2.2.7'
+    compile "eu.davidea:flexible-adapter:5.0.0-rc1"
 
     // LeakCanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 
     // ==== ihandy ====
-    compile'com.ihandy.device:device-clean-memory.gm:4.4.5.gm'
-    compile "com.ihandy.device:device-monitor-top-app.gm:4.4.5.gm"
+    final LIB_DEVICE_VERSION = '.special:4.4.9.special02'
+    compile "com.ihandy.device:device-clean-memory$LIB_DEVICE_VERSION".toString()
+    compile "com.ihandy.device:device-monitor-app-usage$LIB_DEVICE_VERSION".toString()
+    compile "com.ihandy.device:device-monitor-top-app$LIB_DEVICE_VERSION".toString()
 
     // Submodule
+    compile files('../libs/ihs/libFlashlight/libFlashlight.jar')
     compile(name: 'libChargingReport/libChargingReport-release', ext: 'aar')
     compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
     compile project(':libCallAssistant')
     compile project(':libMessageCenter')
     compile project(':libScreenFlash')
     compile project(':lock')
+    compile project(':libSuperApps')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.07.05.001'
+    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.08.30.001'
     colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.07.16.001'
 
     compile 'net.appcloudbox.common:libAcbHSFrameworkAdapter.gm:1.0.2.gm'

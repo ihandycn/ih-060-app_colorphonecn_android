@@ -78,7 +78,6 @@
 
     <!-- Boost+ -->
     <string name="boost_plus_memory_used">Memory Used</string>
-    <string name="boost_plus_optimal">OPTIMAL</string>
     <string name="boost_plus_freeable">Memory to Clean</string>
     <string name="optimalpage_boostplus">Perfect</string>
     <string name="optimalpage_boostplus_desc">Your phone is as fast as a rocket!</string>
@@ -166,6 +165,87 @@
     <string name="gdpr_share_data">Share data with developers</string>
     <string name="gdpr_dialog_not_now">NOT NOW</string>
     <string name="gdpr_dialog_turn_off">TURN OFF</string>
+
     <string name="led_flash_for_messages">Led Flash for Messages</string>
     <string name="led_flash_for_calls">Led Flash for Calls</string>
+
+    <string name="notification_toolbar_settings">Settings</string>
+    <string name="settings_activity_notification_reminder">Notification Toolbar Toggle</string>
+
+    <string name="ok_btn_text" translatable="false">OK</string>
+    <string name="result_page_boost_plus_optimal" translatable="false">OPTIMAL</string>
+    <string name="result_page_boost_plus_free_up" translatable="false">Freed Up</string>
+
+    <!-- Cpu Cooler -->
+    <string name="cpu_cooler_notification_title" translatable="false">CPU</string>
+    <string name="cpu_cooler_list_head_title">CPU-heating Apps</string>
+    <string name="cpu_cooler_button_title">COOL DOWN</string>
+    <string name="cpu_cooler_state_hint">CPU is %1$s</string>
+    <string name="cpu_cooler_state_cool">cool</string>
+    <string name="cpu_cooler_state_overheated">overheated</string>
+    <string name="cpu_cooler_state_extremely_heated">Heated</string>
+    <string name="cpu_cooler_cleaning_hint">Closing CPU consumers…</string>
+    <string name="cool_capital">COOL</string>
+
+    <!-- Battery Main-->
+    <string name="battery_title">Battery</string>
+    <string name="battery_bluetooth">Bluetooth</string>
+    <string name="battery_mobile_data">Mobile Data</string>
+    <string name="battery_current">Current</string>
+    <string name="battery_already_optimal">Your battery is in good condition!</string>
+    <string name="battery_auto">Auto</string>
+    <string name="battery_auto_sync">Auto Sync</string>
+    <string name="battery_brightness">Brightness</string>
+    <string name="battery_careful">Careful</string>
+    <string name="battery_charging_left">CHARGING LEFT</string>
+    <string name="battery_current_content">Your current settings will be saved here.</string>
+    <string name="battery_haptic_feedback">Haptic Feedback</string>
+    <string name="battery_hide_system_apps">Hide System Apps</string>
+    <string name="battery_low">Low Battery</string>
+    <string name="battery_low_content">Optimize to extend your battery life.</string>
+    <string name="battery_max_saver">Max Saver</string>
+    <string name="battery_max_saver_content">Turn off WiFi, Bluetooth, vibrate and set screen timeout to 15s.</string>
+    <string name="battery_mode">Mode</string>
+    <string name="battery_off">Off</string>
+    <string name="battery_on">On</string>
+    <string name="battery_optimize">OPTIMIZE</string>
+    <string name="battery_optimize_new">SAVE POWER</string>
+    <string name="battery_previous">Previous</string>
+    <string name="battery_previous_content">Change back to your last settings.</string>
+    <string name="battery_rank">Rank</string>
+    <string name="battery_reapply">Reapply</string>
+    <string name="battery_screen_timeout">Screen Timeout</string>
+    <string name="battery_smart_saver">Smart Saver</string>
+    <string name="battery_smart_saver_content">Turn off Bluetooth, vibrate and set screen timeout to 30s.</string>
+    <string name="battery_stop">STOP</string>
+    <string name="battery_vibrate">Vibrate</string>
+    <string name="battery_view">VIEW</string>
+    <string name="battery_wifi">Wifi</string>
+    <string name="battery_low_tip_title">Low Battery!</string>
+    <string name="battery_low_tip_desc">Try battery saver to minimize power consumption.</string>
+    <string name="battery_low_tip_btn_cancel">LATER</string>
+    <string name="battery_low_tip_btn_ok">TRY IT NOW</string>
+    <string name="battery_draining_apps">Battery-draining apps!</string>
+    <string name="battery_scaning">Scaning…</string>
+    <string name="battery_healthy">Healthy</string>
+    <string name="battery_time_remainning">Time remaining</string>
+    <string name="battery_call_time">Call time:</string>
+    <string name="battery_wifi_time">Wifi time:</string>
+    <string name="battery_video_time">Video time:</string>
+    <string name="battery_clean_description">Power consuming apps</string>
+    <string name="battery_extended">Battery Life Extended</string>
+    <string name="battery_careful_content">Your battery is draining faster than usual.</string>
+
+    <string name="menu_item_settings">Settings</string>
+    <string name="charging_screen_settings_title">Battery protection</string>
+    <string name="charging_screen_settings_subtitle">(May contain ads)</string>
+    <string name="charging_screen_settings_description">Monitor charging status.</string>
+    <string name="apply_btn">APPLY</string>
+    <string name="battery_clean_title">Battery Saver</string>
+    <string name="boost_plus_optimal">OPTIMAL</string>
+    <string name="cpu_positive_feedback_title">Cooled Down</string>
+    <string name="result_page_click_guide_tip">Continue to optimize</string>
+    <string name="promotion_max_card_title_cpu_cooler">CPU Cooler</string>
+
+    <string name="notification_toolbar_flash_light">Flashlight</string>
 </resources>

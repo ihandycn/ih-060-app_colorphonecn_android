@@ -8,6 +8,8 @@ import com.superapps.util.Preferences;
 
 import java.util.Map;
 
+import colorphone.acb.com.libscreencard.CardCustomConfig;
+
 public class GifCacheUtils {
 
     private static final String PREF_KEY_CURRENT_GIF_KEY = "current_gif_key";
@@ -50,6 +52,9 @@ public class GifCacheUtils {
     }
 
     public static void cacheGif() {
+        if (CardCustomConfig.get().enableAdChard()) {
+            return;
+        }
         int key = getCurrentViewedGifKey();
         String url = sGifMap.get(String.valueOf(key));
         if (!TextUtils.isEmpty(url) && !Downloader.isCachedSuccess(DOWNLOAD_DIRECTORY, url)) {

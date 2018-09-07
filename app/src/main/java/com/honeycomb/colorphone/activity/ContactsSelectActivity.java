@@ -12,8 +12,8 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
 import com.honeycomb.colorphone.notification.NotificationUtils;
-import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -23,8 +23,10 @@ import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.app.Notification;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -82,6 +84,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -903,5 +906,64 @@ public final class Utils {
             HSLog.e(TAG, "Error building notification: " + builder + ", exception: " + e);
             return null;
         }
+    }
+
+    public static float celsiusCoolerByToFahrenheit(float celsius) {
+        return celsius * 1.8f;
+    }
+
+    public static
+    @NonNull
+    Bitmap decodeResourceWithFallback(Resources res, int id) {
+        Bitmap decoded = BitmapFactory.decodeResource(res, id);
+        if (decoded == null) {
+            decoded = createFallbackBitmap();
+        }
+        return decoded;
+    }
+
+    public static
+    @NonNull
+    Bitmap createFallbackBitmap() {
+        return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+    }
+
+    public static boolean unregisterReceiver(Context context, BroadcastReceiver receiver) {
+        if (receiver == null) {
+            return true;
+        }
+        try {
+            context.unregisterReceiver(receiver);
+            return true;
+        } catch (Exception e) {
+            HSLog.e(TAG, "Error unregistering broadcast receiver: " + receiver + " at ");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static double formatNumberTwoDigit(double number) {
+        BigDecimal bg = new BigDecimal(number);
+        return bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
+    public static String getAppTitle(String packageName) {
+        String title = "";
+        try {
+            PackageManager pm = HSApplication.getContext().getPackageManager();
+            ApplicationInfo info = pm.getApplicationInfo(packageName, 0);
+            if (info != null) {
+                title = info.loadLabel(pm).toString();
+                if (TextUtils.isEmpty(title) && !TextUtils.isEmpty(info.name)) {
+                    title = info.name;
+                }
+
+                if (TextUtils.isEmpty(title)) {
+                    title = packageName;
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return title;
     }
 }

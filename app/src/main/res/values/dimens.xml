@@ -43,13 +43,97 @@
     <!-- Result Page -->
     <dimen name="result_page_header_height">90dp</dimen>
     <dimen name="result_page_card_margin">8dp</dimen>
+    <dimen name="result_page_image_frame_height">146dp</dimen>
+    <dimen name="result_page_image_frame_horizontal_margin">27dp</dimen>
     <dimen name="result_page_header_tag_margin">-14dp</dimen>
+    <dimen name="app_bar_elevation">4dp</dimen>
 
     <!-- Battery -->
-    <dimen name="battery_content_margin_top">5dp</dimen>
-    <dimen name="battery_content_margin_bottom">5dp</dimen>
 
     <dimen name="promote_screen_icon_half_height">32dp</dimen>
 
     <dimen name="preview_window_elevation">8dp</dimen>
+
+    <dimen name="status_bar_default_height">24dp</dimen>
+    <dimen name="bottom_bar_default_height">56dp</dimen>
+
+    <!-- Cpu Cooler -->
+    <dimen name="cpu_square_margin">4dp</dimen>
+
+    <!-- CpuDetail -->
+    <dimen name="cpu_head_title_text_size">14sp</dimen>
+    <dimen name="cpu_head_title_margin_left">16dp</dimen>
+    <dimen name="cpu_list_item_min_height">72dp</dimen>
+    <dimen name="cpu_app_icon_bound">40dp</dimen>
+    <dimen name="cpu_app_icon_margin_left">16dp</dimen>
+    <dimen name="cpu_app_name_margin_left">16dp</dimen>
+    <dimen name="cpu_circle_stroke_width">7dp</dimen>
+    <dimen name="cpu_app_icon_margin_side">30dp</dimen>
+    <dimen name="cpu_checkbox_bound">28dp</dimen>
+    <dimen name="cpu_scan_app_name_text_size">16sp</dimen>
+
+    <fraction name="cpu_growing_snow_bound">42.32%</fraction>
+
+    <fraction name="cpu_left_falling_snow_bound">9.5%</fraction>
+    <fraction name="cpu_left_falling_snow_start_y">15.2%</fraction>
+    <fraction name="cpu_left_falling_snow_end_y">30.99%</fraction>
+    <fraction name="cpu_left_falling_snow_margin_left">11.11%</fraction>
+
+    <fraction name="cpu_middle_falling_snow_bound">12.83%</fraction>
+    <fraction name="cpu_middle_falling_snow_start_y">26.94%</fraction>
+    <fraction name="cpu_middle_falling_snow_end_y">44.06%</fraction>
+    <fraction name="cpu_middle_falling_snow_margin_left">20.22%</fraction>
+
+    <fraction name="cpu_right_falling_snow_bound">20.5%</fraction>
+    <fraction name="cpu_right_falling_snow_start_y">9.73%</fraction>
+    <fraction name="cpu_right_falling_snow_end_y">26.03%</fraction>
+    <fraction name="cpu_right_falling_snow_margin_left">70.33%</fraction>
+
+    <fraction name="cpu_falling_app_icon_bound">10.65%</fraction>
+    <fraction name="cpu_circle_view_margin_top">21.13%</fraction>
+    <fraction name="cpu_circle_bound">66.94%</fraction>
+    <fraction name="cpu_clean_hint_margin_top">6.2%</fraction>
+
+    <!-- Cpu Result Transition -->
+
+    <fraction name="cpu_result_left_falling_snow_bound">9.8%</fraction>
+    <fraction name="cpu_result_left_falling_snow_margin_left">20%</fraction>
+    <fraction name="cpu_result_left_falling_snow_margin_top">14.9%</fraction>
+    <fraction name="cpu_result_left_falling_snow_start_y">14.9%</fraction>
+    <fraction name="cpu_result_left_falling_snow_end_y">18.9%</fraction>
+
+    <fraction name="cpu_result_middle_falling_snow_bound">7.96%</fraction>
+    <fraction name="cpu_result_middle_falling_snow_margin_left">52.22%</fraction>
+    <fraction name="cpu_result_middle_falling_snow_margin_top">9.13%</fraction>
+    <fraction name="cpu_result_middle_falling_snow_start_y">9.13%</fraction>
+    <fraction name="cpu_result_middle_falling_snow_end_y">13.13%</fraction>
+
+    <fraction name="cpu_result_right_falling_snow_bound">13.3%</fraction>
+    <fraction name="cpu_result_right_falling_snow_margin_left">68.15%</fraction>
+    <fraction name="cpu_result_right_falling_snow_margin_top">17.81%</fraction>
+    <fraction name="cpu_result_right_falling_snow_start_y">17.81%</fraction>
+    <fraction name="cpu_result_right_falling_snow_end_y">21.81%</fraction>
+    <fraction name="cpu_result_thermometer_top">27%</fraction>
+
+    <dimen name="air_launcher_settings_single_line_item_row_height">72dp</dimen>
+
+    <dimen name="settings_item_content_text_size">16sp</dimen>
+    <dimen name="settings_item_text_size">16sp</dimen>
+
+    <!-- Battery -->
+    <dimen name="battery_optimize_btn_height">48dp</dimen>
+    <dimen name="battery_content_padding_horizontal">10dp</dimen>
+    <dimen name="battery_content_margin_top">5dp</dimen>
+    <dimen name="battery_content_margin_bottom">5dp</dimen>
+    <dimen name="battery_mode_icon">36dp</dimen>
+    <dimen name="battery_mode_item_padding">12dp</dimen>
+    <dimen name="battery_mode_item_center_margin">10dp</dimen>
+    <dimen name="battery_app_icon">45dp</dimen>
+    <dimen name="battery_button_margin">26dp</dimen>
+
+    <dimen name="battery_mode_title_size">16sp</dimen>
+    <dimen name="battery_rank_content_size">14sp</dimen>
+    <dimen name="battery_mode_content_size">12sp</dimen>
+    <dimen name="battery_alert_padding_vertical">8dp</dimen>
+    <dimen name="result_page_guide_tip_translation_top">10dp</dimen>
 </resources>

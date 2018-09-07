@@ -35,6 +35,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
@@ -88,6 +89,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RewardVideoView mRewardVideoView;
 
     private SwitchCompat mainSwitch;
+    private SwitchCompat notificationToolbarSwitch;
     private TextView mainSwitchTxt;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
@@ -183,6 +185,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onDrawerOpened(View drawerView) {
+                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Shown");
             }
         };
         DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
@@ -210,9 +213,30 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
+//        notificationToolbarSwitch = leftDrawer.findViewById(R.id.notification_toolbar_switch);
+//
+//        initCheckState = UserSettings.isNotificationToolbarEnabled();
+//        notificationToolbarSwitch.setChecked(initCheckState);
+//
+//        notificationToolbarSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                UserSettings.setNotificationToolbarEnabled(isChecked);
+//                NotificationManager.getInstance().showNotificationToolbarIfEnabled();
+//            }
+//        });
+
+        if (Utils.ATLEAST_JELLY_BEAN) {
+            leftDrawer.findViewById(R.id.settings_boost).setVisibility(View.VISIBLE);
+        } else {
+            leftDrawer.findViewById(R.id.settings_boost).setVisibility(View.GONE);
+        }
+
         leftDrawer.findViewById(R.id.settings_main_switch).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_led_flash).setOnClickListener(this);
+//        leftDrawer.findViewById(R.id.settings_notification_toolbar).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_feedback).setOnClickListener(this);
+        leftDrawer.findViewById(R.id.settings_boost).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_setting).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_contacts).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_about).setOnClickListener(this);
@@ -495,9 +519,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             case R.id.settings_led_flash:
                 LedFlashSettingsActivity.start(this);
                 break;
+//            case R.id.settings_notification_toolbar:
+//                toggleNotificationToolbar();
+//                break;
             case R.id.settings_feedback:
                 feedBack();
                 ColorPhoneApplication.getConfigLog().getEvent().onFeedBackClick();
+                break;
+            case R.id.settings_boost:
+                BoostActivity.start(ColorPhoneActivity.this, false);
+                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
                 break;
             case R.id.settings_setting:
                 SettingsActivity.start(this);

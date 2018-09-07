@@ -8,7 +8,6 @@ import android.os.Looper;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
@@ -231,9 +230,11 @@ public class ContactManager {
                         }
                         Log.d("Update theme contact", entry.toString());
                         // Ringtone set
-                        if (entry.mAction != null) {
-                            setContactRingtone(entry, entry.mAction != DELETE);
-                        }
+
+                        //todo null pointer Exception which result in database write failed;
+//                        if (entry.mAction != null) {
+//                            setContactRingtone(entry, entry.mAction != DELETE);
+//                        }
                     }
                     database.setTransactionSuccessful();
 

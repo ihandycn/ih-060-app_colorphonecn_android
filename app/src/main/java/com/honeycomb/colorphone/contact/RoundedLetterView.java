@@ -14,9 +14,6 @@ import android.util.AttributeSet;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.view.CircleImageView;
-import com.honeycomb.colorphone.view.RoundCornerImageView;
-
-import static android.R.attr.centerX;
 
 /**
  * From https://github.com/pavlospt/RoundedLetterView

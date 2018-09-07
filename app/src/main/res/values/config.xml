@@ -1,0 +1,10 @@
+<resources>
+
+<!-- Notification -->
+    <bool name="notification_listener_service_enabled">false</bool>
+    <bool name="accessibility_service_enabled">true</bool>
+
+    <!-- Result pages -->
+    <integer name="config_resultPageActionButtonRevealDuration">420</integer>
+    <integer name="config_resultPageActionButtonFlashDuration">750</integer>
+</resources>

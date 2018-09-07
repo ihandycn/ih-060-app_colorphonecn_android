@@ -39,7 +39,7 @@ public class BlackHole extends RelativeLayout {
     private static final int DURATION_CIRCLE_ALPHA_ADD = 28 * FRAME_TIME;
     private static final int DURATION_CIRCLE_MIDDLE_ALPHA_START_OFF = 8 * FRAME_TIME;
     private static final int DURATION_CIRCLE_OUT_ALPHA_START_OFF = 16 * FRAME_TIME;
-    private static final int DURATION_ROTATE_MAIN = 110 * FRAME_TIME;
+    private static final int DURATION_ROTATE_MAIN = 190 * FRAME_TIME;
 
     private View background;
     private View container;
@@ -203,7 +203,7 @@ public class BlackHole extends RelativeLayout {
         boostCenterIv.getLocationOnScreen(location);
         float endX = location[0];
         float endY = location[1];
-        BoostAnimationManager boostAnimationManager = new BoostAnimationManager(endX, endY - Utils.pxFromDp(100));
+        BoostAnimationManager boostAnimationManager = new BoostAnimationManager(endX, endY - Utils.pxFromDp(0));
 
         ImageView iconOneV = (ImageView) findViewById(R.id.boost_icon_1_iv);
         ImageView iconTwoV = (ImageView) findViewById(R.id.boost_icon_2_iv);

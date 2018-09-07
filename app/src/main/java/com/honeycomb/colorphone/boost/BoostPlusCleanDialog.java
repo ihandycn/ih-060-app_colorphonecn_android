@@ -838,7 +838,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
                 int total = mSelectedAppList.size();
                 startNormalCleanImgCurveAnimation(0, total, totalSizeMbs);
 
-                HSAppMemoryManager.getInstance().startClean(mSelectedAppList, false, new HSAppMemoryManager.MemoryTaskListener() {
+                HSAppMemoryManager.getInstance().startClean(mSelectedAppList,  new HSAppMemoryManager.MemoryTaskListener() {
                     @Override
                     public void onStarted() {
                     }
@@ -1165,7 +1165,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
 //                    ResultPageActivity.startForBoostPlus((Activity) getContext(), getAppTotalSizeMbs(), true);
 //                }
                 HSLog.d(TAG, "startResultPageActivity ");
-                ResultPageActivity.startForBoost(getContext(), getAppTotalSizeMbs(), true);
+                ResultPageActivity.startForBoost(getContext(), getAppTotalSizeMbs());
             }
         }, 450L);
     }

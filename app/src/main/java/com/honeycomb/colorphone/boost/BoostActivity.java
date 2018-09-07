@@ -3,9 +3,14 @@ package com.honeycomb.colorphone.boost;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.resultpage.ResultPageActivity;
+import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -14,29 +19,27 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 
-
 public class BoostActivity extends HSActivity implements INotificationObserver {
 
     private static final String EXTRA_KEY_RESULT_TYPE = "EXTRA_KEY_RESULT_TYPE";
 
     private ViewGroup mContent;
+    private WindowManager.LayoutParams mBoostTipParams;
 
     private BlackHole mBlackHole;
     private ViewGroup.LayoutParams mParams;
-//    private int resultPageType = ResultConstants.RESULT_TYPE_BOOST_PLUS;
+    private int resultPageType = ResultConstants.RESULT_TYPE_BOOST_PLUS;
 
     public static void start(Context context, boolean toolbar) {
         Intent intent = new Intent(context, BoostActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//        if (toolbar) {
-//            intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
-//        } else {
-//            intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
-//        }
-        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
+        if (toolbar) {
+            intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
+        } else {
+            intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
+        }
         context.startActivity(intent);
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +56,9 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
 
         mContent = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
 
-//        if (getIntent() != null) {
-//            resultPageType = getIntent().getIntExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
-//        }
+        if (getIntent() != null) {
+            resultPageType = getIntent().getIntExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
+        }
 
 //        String wallpaperUrl = HSPreferenceHelper.create(HSApplication.getContext(),
 //                WallpaperContainer.LOCKER_PREFS).getString(PREF_KEY_CURRENT_WALLPAPER_HD_URL,
@@ -63,6 +66,9 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
 //
 //        ImageView wallpaper = (ImageView) findViewById(R.id.background);
 //        wallpaper.setImageBitmap(ImageLoader.getInstance().loadImageSync(wallpaperUrl));
+
+        ImageView wallpaper = findViewById(R.id.background);
+        wallpaper.setBackgroundColor(0xff2572E3);
 
         startForeignIconAnimation();
         HSGlobalNotificationCenter.addObserver(BlackHole.EVENT_BLACK_HOLE_ANIMATION_END, this);
@@ -90,7 +96,7 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
                 mBlackHole.startAnimation();
             }
         }, 300);
-//        ResultPageManager.getInstance().preLoadAdsAndMemInfo();
+        ResultPageManager.getInstance().preloadResultPageAds();
     }
 
     private void finishWithoutAnimation() {
@@ -108,25 +114,21 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
     public void onReceive(String s, HSBundle hsBundle) {
         switch (s) {
             case BlackHole.EVENT_BLACK_HOLE_ANIMATION_END:
-//                showBoostTip(this, mBlackHole.getBoostedPercentage());
-//                break;
-                finishWithoutAnimation();
-
-                int cleanSizeMb = BoostUtils.getBoostedMemSizeBytes(this, mBlackHole.getBoostedPercentage()) / (1024 * 1024);
-//                ResultPageActivity.startForBoostPlus(this, cleanSizeMb, resultPageType);
-
-
-
-
-//            case BoostTip.EVENT_BOOST_TIP_FINISHED:
-//                finishWithoutAnimation();
-//
-//                int cleanSizeMb = BoostUtils.getBoostedMemSizeBytes(this, mBlackHole.getBoostedPercentage()) / (1024 * 1024);
-//                ResultPageActivity.startForBoostPlus(this, cleanSizeMb, resultPageType);
-//
-//                break;
+                startResultPageActivity();
+                break;
             default:
                 break;
         }
+    }
+
+    private void startResultPageActivity() {
+        int cleanSizeMb = BoostUtils.getBoostedMemSizeBytes(this, mBlackHole.getBoostedPercentage()) / (1024 * 1024);
+        ResultPageActivity.startForBoostPlus(this, cleanSizeMb, resultPageType);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override public void run() {
+                finishWithoutAnimation();
+            }
+        }, 400);
     }
 }

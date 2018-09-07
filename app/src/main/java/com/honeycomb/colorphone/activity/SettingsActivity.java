@@ -17,7 +17,9 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
+import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.chargingreport.utils.ActivityUtils;
@@ -85,6 +87,18 @@ public class SettingsActivity extends HSAppCompatActivity {
             public void onCheckChanged(boolean isChecked) {
                 GifCacheUtils.cacheGif();
                 SmartChargingSettings.setModuleEnabled(isChecked);
+            }
+        });
+
+
+        mModuleStates.add(new ModuleState(ModuleUtils.isNotificationToolBarEnabled(),
+                UserSettings.isNotificationToolbarEnabled(),
+                R.id.notification_toolbar_switch,
+                R.id.settings_notification_toolbar) {
+            @Override
+            public void onCheckChanged(boolean isChecked) {
+                UserSettings.setNotificationToolbarEnabled(isChecked);
+                NotificationManager.getInstance().showNotificationToolbarIfEnabled();
             }
         });
 

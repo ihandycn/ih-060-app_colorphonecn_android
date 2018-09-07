@@ -94,4 +94,7 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="RevealFlashButton">
+        <attr name="flashLightAlpha" format="float"/>
+    </declare-styleable>
 </resources>

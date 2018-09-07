@@ -8,4 +8,23 @@
     android:background="@android:color/transparent"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    tools:ignore="PrivateResource" />
+    tools:ignore="PrivateResource">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|center_vertical"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        >
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="?attr/selectableItemBackground"
+            android:scaleType="centerInside"
+            android:src="@drawable/close_icon"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </FrameLayout>
+</android.support.v7.widget.Toolbar>

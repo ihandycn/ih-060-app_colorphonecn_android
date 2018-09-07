@@ -163,4 +163,21 @@
         <item name="android:clickable">false</item>
     </style>
 
+    <style name="SwitchCompatTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorControlActivated">#3ada45</item>
+    </style>
+
+    <style name="ResultPagePrimaryImage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/result_page_image_frame_height</item>
+        <item name="android:layout_marginLeft">@dimen/result_page_image_frame_horizontal_margin
+        </item>
+        <item name="android:layout_marginRight">@dimen/result_page_image_frame_horizontal_margin
+        </item>
+        <item name="android:paddingBottom">9dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">9dp</item>
+    </style>
+
 </resources>

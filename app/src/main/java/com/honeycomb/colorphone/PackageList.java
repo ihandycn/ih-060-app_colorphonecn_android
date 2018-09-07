@@ -12,6 +12,7 @@ import java.util.Map;
 public class PackageList {
     final static Map<String, String> mMap = new HashMap();
     static {
+        mMap.put("com.honeycomb.colorphone", "ColorPhone");
         mMap.put("com.surpax.ledflashlight.panel", "Panel");
         mMap.put("com.honeycomb.launcher", "Launcher");
         mMap.put("com.smart.color.phone.emoji", "Launcher2");

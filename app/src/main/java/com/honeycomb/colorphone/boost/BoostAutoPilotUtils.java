@@ -2,12 +2,13 @@ package com.honeycomb.colorphone.boost;
 
 import android.text.format.DateUtils;
 
-import net.appcloudbox.autopilot.AutopilotConfig;
-import net.appcloudbox.autopilot.AutopilotEvent;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+
+import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 /**
  * Created by zhewang on 12/01/2018.

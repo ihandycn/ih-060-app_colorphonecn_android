@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.Utils;

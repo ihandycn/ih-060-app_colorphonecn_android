@@ -1,9 +1,7 @@
 package com.honeycomb.colorphone.contact;
 
-import android.graphics.Bitmap;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,19 +12,12 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.acb.call.themes.Type;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.fastscroller.FastScrollRecyclerView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.utils.HSLog;
 
 import java.util.List;
-
-import static com.flurry.sdk.nr.d;
 
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder>
