@@ -76,7 +76,6 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.debug.SharedPreferencesOptimizer;
-import com.superapps.util.Preferences;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
@@ -84,8 +83,10 @@ import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.core.AutopilotProvider;
 import net.appcloudbox.common.HSFrameworkAdapter.AcbHSFrameworkAdapter;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
+import net.appcloudbox.common.utils.AcbContentProviderUtils;
 import net.appcloudbox.h5game.AcbH5GameManager;
 import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
@@ -252,6 +253,8 @@ public class ColorPhoneApplication extends HSApplication {
         AppsFlyerLib.getInstance().setCustomerUserId(customId);
 
         AutopilotConfig.initialize(this, "Autopilot_Config.json", customId);
+        AcbContentProviderUtils.call(this, AutopilotProvider.createContentUri(this),
+                AutopilotProvider.CALL_FETCH_REMOTE_CONFIG, null, null);
 
         CallAssistantManager.init(new CpCallAssistantFactoryImpl());
         MessageCenterManager.init(new CpMessageCenterFactoryImpl());
