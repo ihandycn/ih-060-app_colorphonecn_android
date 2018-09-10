@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -11,6 +12,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.view.ProgressView;
 import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.app.framework.HSApplication;
@@ -26,6 +28,9 @@ public class DownloadViewHolder implements DownloadHolder {
     protected LottieAnimationView taskProgressBar;
     protected LottieAnimationView taskSuccessAnim;
     protected LottieAnimationView taskStartAnim;
+
+    private TextView applyText;
+
     /**
      * Control progress, start or pause download task.
      */
@@ -39,8 +44,9 @@ public class DownloadViewHolder implements DownloadHolder {
     private int ringtoneId;
     private long mDelayTime = 600;
     private boolean enablePause = false;
+    private ThemeSelectorAdapter.ThemeCardViewHolder.DownloadedUpdateListener listener;
 
-    public DownloadViewHolder(View taskActionBtn, LottieAnimationView progressView, LottieAnimationView successAnim, final View selectedLayout) {
+    public DownloadViewHolder(View taskActionBtn, LottieAnimationView progressView, LottieAnimationView successAnim) {
         this.taskProgressBar = progressView;
         this.taskSuccessAnim = successAnim;
         this.taskActionBtn = taskActionBtn;
@@ -53,8 +59,6 @@ public class DownloadViewHolder implements DownloadHolder {
                 } else if (canStartDownload()) {
                     startDownload();
                 }
-
-                selectedLayout.performClick();
             }
         });
     }
@@ -75,6 +79,9 @@ public class DownloadViewHolder implements DownloadHolder {
         mProxy = downloadHolder;
     }
 
+    public void setDownloadUpdateListener(ThemeSelectorAdapter.ThemeCardViewHolder.DownloadedUpdateListener listener) {
+        this.listener = listener;
+    }
 
     public void startDownload() {
         final TasksManagerModel model = TasksManager.getImpl().getById(id);
@@ -111,9 +118,15 @@ public class DownloadViewHolder implements DownloadHolder {
                         taskProgressBar.setVisibility(fileReady ? View.GONE : View.VISIBLE);
                         v.setVisibility(View.VISIBLE);
                         doDownload(model);
+                        if (listener != null) {
+                            listener.onStartDownload();
+                        }
+
+                        taskStartAnim.removeAnimatorListener(this);
                     }
                 });
                 taskStartAnim.playAnimation();
+                applyText.animate().alpha(0f).setDuration(100L).start();
             } else {
                 // animation handle by task progress bar.
                 taskProgressBar.setProgress(0f);
@@ -135,6 +148,7 @@ public class DownloadViewHolder implements DownloadHolder {
         TasksManager.doDownload(model, mProxy != null ? mProxy : this);
     }
 
+    @Override
     public void updateDownloaded(boolean progressFlag) {
         taskProgressBar.setProgress(1.0f);
         taskProgressBar.setVisibility(View.GONE);
@@ -200,4 +214,9 @@ public class DownloadViewHolder implements DownloadHolder {
     public void setStartAnim(LottieAnimationView startAnim) {
         taskStartAnim = startAnim;
     }
+
+    public void setApplyText(TextView applyText) {
+        this.applyText = applyText;
+    }
+
 }
