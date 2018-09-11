@@ -51,6 +51,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -184,6 +185,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onDrawerOpened(View drawerView) {
                 LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Shown");
+                LauncherAnalytics.logEvent("Colorphone_Settings_Shown");
             }
         };
         DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
@@ -206,8 +208,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
-
                 ScreenFlashSettings.setScreenFlashModuleEnabled(isChecked);
+                LauncherAnalytics.logEvent("ColorPhone_Settings_Enable_Icon_Clicked", "type", String.valueOf(isChecked));
             }
         });
 
@@ -315,6 +317,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //            HSAlertMgr.showRateAlert();
 //            pendingShowRateAlert = false;
 //        }
+        mAdapter.updateApplyInformationAutoPilotValue();
         mHandler.postDelayed(mainViewRunnable, 1000);
 
     }

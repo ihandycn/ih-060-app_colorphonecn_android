@@ -13,6 +13,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
 import com.honeycomb.colorphone.view.ProgressView;
 import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.app.framework.HSApplication;
@@ -59,6 +60,7 @@ public class DownloadViewHolder implements DownloadHolder {
                 } else if (canStartDownload()) {
                     startDownload();
                 }
+                ApplyInfoAutoPilotUtils.logApplyButtonClicked();
             }
         });
     }

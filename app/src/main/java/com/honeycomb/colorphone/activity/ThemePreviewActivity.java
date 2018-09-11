@@ -59,7 +59,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mThemes.addAll(Theme.themes());
+        mThemes.addAll(getThemes());
         int pos = getIntent().getIntExtra("position", 0);
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
@@ -80,8 +80,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
         });
         mMediaPlayer = new MediaPlayer();
-
-
         if (mTheme.isLocked()) {
             LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
@@ -89,6 +87,10 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     public MediaPlayer getMediaPlayer() {
         return mMediaPlayer;
+    }
+
+    protected List<Theme> getThemes() {
+        return Theme.themes();
     }
 
     @Override

@@ -40,6 +40,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemeActivity;
+import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.DownloadHolder;
@@ -50,6 +51,7 @@ import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.EventSource;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.FloatWindowManager;
+import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
@@ -88,9 +90,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private MediaDownloadManager mediaDownloadManager = new MediaDownloadManager();
 
     //autopilot test
-    private boolean isThemeInformationVisible = true;
-    private boolean isApplyButtonVisible = true;
-    private boolean isApplyAnimationVisible = false;
+    private boolean mIsThemeInformationVisible = true;
+    private boolean mIsApplyButtonVisible = true;
 
     private Handler adapterHandler = new Handler();
 
@@ -193,6 +194,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    public void updateApplyInformationAutoPilotValue() {
+        mIsApplyButtonVisible = ApplyInfoAutoPilotUtils.showApplyButton();
+        mIsThemeInformationVisible = ApplyInfoAutoPilotUtils.showThemeInfomation();
+    }
+
     public int getUnLockThemeId() {
         return mUnLockThemeId;
     }
@@ -277,10 +283,16 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View view) {
                     final int pos = holder.getPositionTag();
-                    ThemePreviewActivity.start(activity, pos);
+
+                    if (activity instanceof PopularThemeActivity) {
+                        LauncherAnalytics.logEvent("ColorPhone_BanboList_ThemeDetail_View");
+                        PopularThemePreviewActivity.start(activity, pos);
+                    } else {
+                        ThemePreviewActivity.start(activity, pos);
+                    }
+                    ApplyInfoAutoPilotUtils.logThumbnailClicked();
                 }
             });
-
 
             holder.mThemeSelectLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -289,24 +301,26 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if (selectTheme(pos, holder, true)) {
                         onThemeSelected(pos);
                     }
+                    ApplyInfoAutoPilotUtils.logApplyButtonClicked();
+
+                    if (activity instanceof ColorPhoneActivity) {
+                        LauncherAnalytics.logEvent("ColorPhone_MainView_Apply_Icon_Clicked");
+                    } else if (activity instanceof PopularThemeActivity) {
+                        LauncherAnalytics.logEvent("ColorPhone_BanboList_Apply_icon_Clicked");
+                    }
                 }
             });
 
-//            if (theme.isLocked()) {
-                holder.mLockIcon.setVisibility(View.VISIBLE);
-                holder.mLockIcon.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final int pos = holder.getPositionTag();
-                        final Theme theme = data.get(pos);
+            holder.mLockIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final int pos = holder.getPositionTag();
+                    final Theme theme = data.get(pos);
 
-                        theme.setLocked(false);
-                        notifyItemSelected(pos, theme);
-                    }
-                });
-//            } else {
-//                holder.mLockIcon.setVisibility(View.INVISIBLE);
-//            }
+                    theme.setLocked(false);
+                    notifyItemSelected(pos, theme);
+                }
+            });
 
             holder.setDownloadedUpdateListener(new ThemeCardViewHolder.DownloadedUpdateListener() {
                 @Override
@@ -352,13 +366,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
 
-            if (!isThemeInformationVisible) {
+            if (!mIsThemeInformationVisible) {
                 holder.mThemeLikeAnim.setVisibility(View.GONE);
                 holder.mThemeLikeCount.setVisibility(View.GONE);
                 holder.mThemeTitle.setVisibility(View.GONE);
             }
 
-            if (!isApplyButtonVisible) {
+            if (!mIsApplyButtonVisible) {
                 holder.mThemeSelectedAnim.setVisibility(View.GONE);
                 holder.mLockIcon.setVisibility(View.GONE);
                 holder.mDownloadViewContainer.setVisibility(View.GONE);
@@ -403,6 +417,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, PopularThemeActivity.class);
                     activity.startActivity(intent);
+                    LauncherAnalytics.logEvent("ColorPhone_MainView_BanboEntrance_Clicked");
                 }
             });
 
@@ -538,7 +553,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                             ((ColorPhoneActivity) activity).showRewardVideoView(curTheme.getName());
                         }
                         mUnLockThemeId = curTheme.getId();
-                        LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Clicked", "from", "list",  "themeName", curTheme.getName());
+                        LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Clicked", "from", "list", "themeName", curTheme.getName());
                     }
                 });
 
@@ -655,6 +670,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public interface DownloadedUpdateListener {
             void onUpdateDownloaded();
+
             void onStartDownload();
         }
 
@@ -781,7 +797,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                         HSLog.d(TAG, "AppClickedAnim play start" + theme.getIdName());
                     } else {
-
                         HSLog.d(TAG, "展示 apply界面 : " + theme.getIdName());
                         mApplyClickedAnim.setVisibility(View.GONE);
                         mApplyText.setAlpha(0f);

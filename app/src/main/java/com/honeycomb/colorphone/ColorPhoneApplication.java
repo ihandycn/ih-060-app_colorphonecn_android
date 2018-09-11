@@ -48,6 +48,7 @@ import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
+import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -193,7 +194,6 @@ public class ColorPhoneApplication extends HSApplication {
     public static boolean isFabricInitted() {
         return isFabricInitted;
     }
-
 
     private void onAllProcessCreated() {
         if (GdprUtils.isNeedToAccessDataUsage()) {
@@ -353,7 +353,6 @@ public class ColorPhoneApplication extends HSApplication {
 
         SmsFlashListener.getInstance().start();
 
-
         if (AutopilotConfig.hasConfigFetchFinished()) {
             initNotificationToolbar();
         } else {
@@ -361,6 +360,54 @@ public class ColorPhoneApplication extends HSApplication {
             configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
             registerReceiver(mAutopilotFetchReceiver, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
         }
+
+        ScreenFlashManager.getInstance().setLogEventListener(new ScreenFlashManager.LogEventListener() {
+            @Override
+            public void onListPageItemClicked() {
+
+            }
+
+            @Override
+            public void onListPageScrollUp() {
+
+            }
+
+            @Override
+            public void onListItemDownloadIconClicked() {
+
+            }
+
+            @Override
+            public void onDetailContactIconClicked() {
+
+            }
+
+            @Override
+            public void onContactSetIconClicked() {
+
+            }
+
+            @Override
+            public void onSelectedFromList() {
+
+            }
+
+            @Override
+            public void onSelectedFromDetail() {
+
+            }
+
+            @Override
+            public void onInCallFlashShown(String themeId) {
+
+            }
+
+            @Override
+            public void onScreenFlashSetSucceed(String idName) {
+                ApplyInfoAutoPilotUtils.logCallFlashSet();
+                LauncherAnalytics.logEvent("ColorPhone_Set_Success");
+            }
+        });
 
     }
 
@@ -378,8 +425,6 @@ public class ColorPhoneApplication extends HSApplication {
         }
 
         NotificationManager.getInstance().showNotificationToolbarIfEnabled();
-
-
     }
 
     private void initChargingReport() {

@@ -45,6 +45,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
+import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.DownloadStateListener;
@@ -402,14 +403,23 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     return;
                 }
                 onThemeApply();
+
+                if (mActivity instanceof PopularThemePreviewActivity) {
+                    LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
+                }
             }
         });
 
         mApplyForOne.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ContactsActivity.startSelect(mActivity, mTheme);
                 LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
+                if (mActivity instanceof PopularThemePreviewActivity) {
+                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
+                    LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
+                } else {
+                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
+                }
             }
         });
         bottomBtnTransY = getTransBottomLayout().getTranslationY();

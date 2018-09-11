@@ -76,7 +76,7 @@
       "variations": {
         "notificationtoolbar_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         }
       },
       "events": [
@@ -372,6 +372,67 @@
         }
       ],
       "topic_id": "topic-1512815797473-16"
+    },
+    "topic-1536215679114-660": {
+      "topic_type": "life_time",
+      "topic_name": "Dialer Test",
+      "variations": {
+        "set default guide show": {
+          "type": "boolean",
+          "value": false
+        },
+        "dialer enable": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "set_default_guide_show"
+        },
+        {
+          "name": "set_default_guide_set_clicked"
+        },
+        {
+          "name": "set_default_success"
+        },
+        {
+          "name": "dailer_page_show"
+        }
+      ],
+      "topic_id": "topic-1536215679114-660"
+    },
+    "topic-1536046257588-648": {
+      "topic_type": "life_time",
+      "topic_name": "Color Phone About List Style Test",
+      "variations": {
+        "information_display": {
+          "type": "boolean",
+          "value": true
+        },
+        "apply_button": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "apply_button_clicked"
+        },
+        {
+          "name": "thumbnail_clicked"
+        },
+        {
+          "name": "call flash_set"
+        }
+      ],
+      "topic_id": "topic-1536046257588-648"
     },
     "topic-1516620266175-105": {
       "topic_type": "one_time",

@@ -188,6 +188,16 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
             android:theme="@style/AppTheme.DarkFullScreen"/>
+
+        <activity
+            android:name=".activity.PopularThemePreviewActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activity.ColorPhoneActivity"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppTheme.DarkFullScreen"/>
+
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/app_name"
