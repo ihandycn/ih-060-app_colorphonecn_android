@@ -173,7 +173,8 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
         AP.dilerShow();
         inCallOrientationEventListener = new InCallOrientationEventListener(this);
 
-        mIncomingCallUI = getIntent().getBooleanExtra(IntentExtraNames.INCOMING_CALL, false);
+        mIncomingCallUI = getIntent().getBooleanExtra(IntentExtraNames.INCOMING_CALL, false)
+        || InCallPresenter.getInstance().getInCallState().isIncoming();
 
         setWindowFlags();
         setContentView(R.layout.incall_screen);
@@ -766,7 +767,8 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
         // when the activity is first created. Therefore, to ensure the screen is turned on
         // for the call waiting case, we recreate() the current activity. There should be no jank from
         // this since the screen is already off and will remain so until our new activity is up.
-        if (!isVisible || mIncomingCallUI) {
+        if (!isVisible || (mIncomingCallUI &&
+                !InCallPresenter.getInstance().getInCallState().isIncoming())) {
             onNewIntent(intent, true /* isRecreating */);
             LogUtil.i("InCallActivity.onNewIntent", "Restarting InCallActivity to force screen on.");
             recreate();
