@@ -38,6 +38,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.honeycomb.colorphone.dialer.util.PhoneNumberHelper;
+import com.ihs.commons.utils.HSLog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -187,7 +188,10 @@ public class CallerInfoAsyncQuery {
       OnQueryCompleteListener listener,
       Object cookie) {
     Trace.beginSection("CallerInfoAsyncQuery.startOtherDirectoriesQuery");
-    long[] directoryIds = getDirectoryIds(context);
+    long[] directoryIds = new long[0];
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+      directoryIds = getDirectoryIds(context);
+    }
     int size = directoryIds.length;
     if (size == 0) {
       Trace.endSection();
@@ -214,14 +218,20 @@ public class CallerInfoAsyncQuery {
     return true;
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.N)
   private static long[] getDirectoryIds(Context context) {
     ArrayList<Long> results = new ArrayList<>();
 
-    Uri uri = Uri.withAppendedPath(ContactsContract.AUTHORITY_URI, "directories_enterprise");
+    // 6.0 crash when query database.
+    try {
+      Uri uri = Uri.withAppendedPath(ContactsContract.AUTHORITY_URI, "directories_enterprise");
 
-    ContentResolver cr = context.getContentResolver();
-    Cursor cursor = cr.query(uri, DIRECTORY_PROJECTION, null, null, null);
-    addDirectoryIdsFromCursor(cursor, results);
+      ContentResolver cr = context.getContentResolver();
+      Cursor cursor = cr.query(uri, DIRECTORY_PROJECTION, null, null, null);
+      addDirectoryIdsFromCursor(cursor, results);
+    } catch (Exception e) {
+      HSLog.e(e.getMessage());
+    }
 
     long[] result = new long[results.size()];
     for (int i = 0; i < results.size(); i++) {
@@ -230,6 +240,7 @@ public class CallerInfoAsyncQuery {
     return result;
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.N)
   private static void addDirectoryIdsFromCursor(Cursor cursor, ArrayList<Long> results) {
     if (cursor != null) {
       int idIndex = cursor.getColumnIndex(Directory._ID);
