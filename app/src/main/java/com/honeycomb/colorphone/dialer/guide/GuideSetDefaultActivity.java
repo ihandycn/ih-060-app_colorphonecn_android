@@ -9,18 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.telecom.TelecomManager;
 import android.widget.Button;
 
-import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialer.AP;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.util.FontUtils;
-import com.ihs.app.framework.HSApplication;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 
 public class GuideSetDefaultActivity extends AppCompatActivity {
@@ -37,11 +33,13 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
                     @SuppressLint("NewApi")
                     @Override
                     public void run() {
+                        DefaultPhoneUtils.saveSystemDefaultPhone();
+
                         if (AP.setDefaultGuideShow()) {
                             Intent starter = new Intent(context, GuideSetDefaultActivity.class);
                             context.startActivity(starter);
                         } else {
-                            checkDefaultPhoneSettings();
+                            DefaultPhoneUtils.checkDefaultPhoneSettings();
                         }
                     }
                 }, "prefs_guide_show");
@@ -69,19 +67,11 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
         actionBtn.setOnClickListener(v ->
         {
             AP.guideConfirmed();
-            checkDefaultPhoneSettings();
+            DefaultPhoneUtils.checkDefaultPhoneSettings();
             finish();
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private static void checkDefaultPhoneSettings() {
-        Preferences.get(Constants.DESKTOP_PREFS).putBoolean(Constants.PREFS_CHECK_DEFAULT_PHONE, true);
-        Intent intent = new Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER);
-        intent.putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, HSApplication.getContext().getPackageName());
-
-        Navigations.startActivitySafely(HSApplication.getContext(), intent);
-    }
 
     @Override
     public void onBackPressed() {

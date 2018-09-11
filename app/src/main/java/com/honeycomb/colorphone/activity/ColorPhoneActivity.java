@@ -37,7 +37,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
-import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
+import com.honeycomb.colorphone.dialer.AP;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -90,6 +90,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private SwitchCompat mainSwitch;
     private SwitchCompat notificationToolbarSwitch;
+    private SwitchCompat defaultDialer;
+
     private TextView mainSwitchTxt;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
@@ -161,6 +163,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        if (defaultDialer != null) {
+            defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
+        }
         if (hasFocus) {
             boolean setDefaultSuccess = DefaultPhoneUtils.checkGuideResult();
             if (setDefaultSuccess) {
@@ -207,6 +212,26 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mainSwitch = leftDrawer.findViewById(R.id.main_switch);
         mainSwitchTxt = leftDrawer.findViewById(R.id.settings_main_switch_txt);
 
+
+        boolean dialerEnable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && AP.dialerEnable();
+        leftDrawer.findViewById(R.id.settings_default_dialer_switch)
+                .setVisibility(dialerEnable ? View.VISIBLE : View.INVISIBLE);
+
+        defaultDialer = leftDrawer.findViewById(R.id.default_dialer_switch);
+        defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
+        defaultDialer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (isChecked) {
+                        DefaultPhoneUtils.checkDefaultPhoneSettings();
+                    } else {
+                        DefaultPhoneUtils.resetDefaultPhone();
+                    }
+                }
+            }
+        });
         initCheckState = ScreenFlashSettings.isScreenFlashModuleEnabled();
         mainSwitch.setChecked(initCheckState);
         mainSwitchTxt.setText(getString(initCheckState ? R.string.color_phone_enabled : R.string.color_phone_disable));
@@ -240,6 +265,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
 
         leftDrawer.findViewById(R.id.settings_main_switch).setOnClickListener(this);
+        leftDrawer.findViewById(R.id.settings_default_dialer_switch).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_led_flash).setOnClickListener(this);
 //        leftDrawer.findViewById(R.id.settings_notification_toolbar).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_feedback).setOnClickListener(this);
@@ -515,7 +541,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.settings_main_switch:
-                toggle();
+                mainSwitch.toggle();
+                break;
+            case  R.id.settings_default_dialer_switch:
+                defaultDialer.toggle();
                 break;
             case R.id.settings_led_flash:
                 LedFlashSettingsActivity.start(this);
@@ -546,11 +575,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void feedBack() {
         Utils.sentEmail(this, new String[]{Constants.FEED_BACK_EMAIL}, null, null);
-    }
-
-    private void toggle() {
-        boolean isChecked = mainSwitch.isChecked();
-        mainSwitch.setChecked(!isChecked);
     }
 
     private void requestRewardAd(final String themeName) {
