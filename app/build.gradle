@@ -163,7 +163,7 @@ dependencies {
 
     //  -------- GoldEye ------
     colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.08.30.001'
-    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.09.07.001'
+    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.09.10.002'
 
     compile 'net.appcloudbox.common:libAcbHSFrameworkAdapter.gm:1.0.2.gm'
 
