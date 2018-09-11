@@ -216,7 +216,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         boolean dialerEnable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && AP.dialerEnable();
         leftDrawer.findViewById(R.id.settings_default_dialer_switch)
-                .setVisibility(dialerEnable ? View.VISIBLE : View.INVISIBLE);
+                .setVisibility(dialerEnable ? View.VISIBLE : View.GONE);
 
         defaultDialer = leftDrawer.findViewById(R.id.default_dialer_switch);
         defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
