@@ -273,7 +273,7 @@ public class ColorPhoneApplication extends HSApplication {
                 type.setRingtoneUrl(HSMapUtils.optString(map, "", Theme.CONFIG_RINGTONE));
                 type.setLocked(HSMapUtils.optBoolean(map,false, "Status", "Lock"));
                 type.setCanDownload(!HSMapUtils.optBoolean(map,true, "Status", "StaticPreview"));
-
+                type.setSpecialTopic(HSMapUtils.optBoolean(map, false, "SpecialTopic"));
                 return type;
             }
         });

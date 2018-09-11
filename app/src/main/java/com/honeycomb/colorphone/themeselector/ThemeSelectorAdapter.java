@@ -196,7 +196,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void updateApplyInformationAutoPilotValue() {
         mIsApplyButtonVisible = ApplyInfoAutoPilotUtils.showApplyButton();
-        mIsThemeInformationVisible = ApplyInfoAutoPilotUtils.showThemeInfomation();
+        mIsThemeInformationVisible = ApplyInfoAutoPilotUtils.showThemeInformation();
     }
 
     public int getUnLockThemeId() {

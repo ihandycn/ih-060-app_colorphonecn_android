@@ -54,7 +54,11 @@ public class PopularThemeActivity extends HSAppCompatActivity {
 
     private void initData() {
         mRecyclerViewData.clear();
-        mRecyclerViewData.addAll(Theme.themes());
+        for (Theme theme : Theme.themes()) {
+            if (theme.isSpecialTopic()) {
+                mRecyclerViewData.add(theme);
+            }
+        }
         Collections.sort(mRecyclerViewData, new Comparator<Theme>() {
             @Override
             public int compare(Theme o1, Theme o2) {

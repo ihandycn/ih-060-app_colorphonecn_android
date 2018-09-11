@@ -41,6 +41,7 @@ public class Theme extends Type {
     private boolean isLike;
     private boolean isNotificationEnabled;
     private boolean isLocked;
+    private boolean isSpecialTopic;
     private boolean canDownload;
     private String ringtoneUrl;
     private String ringtonePath;
@@ -271,5 +272,14 @@ public class Theme extends Type {
 
     public void setCanDownload(boolean canDownload) {
         this.canDownload = canDownload;
+    }
+
+
+    public boolean isSpecialTopic() {
+        return isSpecialTopic;
+    }
+
+    public void setSpecialTopic(boolean specialTopic) {
+        isSpecialTopic = specialTopic;
     }
 }
