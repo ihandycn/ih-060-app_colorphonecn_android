@@ -161,6 +161,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            boolean setDefaultSuccess = DefaultPhoneUtils.checkGuideResult();
+            if (setDefaultSuccess) {
+                mAdapter.setHeaderTipVisible(false);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
         HSLog.d("XXX", " focus change:" + hasFocus);
     }
 
@@ -307,12 +314,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onResume();
         // clear previous observers.
         PermissionHelper.stopObservingPermission();
-
-        boolean setDefaultSuccess = DefaultPhoneUtils.checkGuideResult();
-        if (setDefaultSuccess) {
-            mAdapter.setHeaderTipVisible(false);
-            mAdapter.notifyDataSetChanged();
-        }
 
         HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
