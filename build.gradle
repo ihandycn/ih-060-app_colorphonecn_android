@@ -38,7 +38,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven { url "https://s3.amazonaws.com/avocarrot-android-builds/dist" }
         maven {
-            url "http://git.ihandysoft.com:8081/repository/ihandygroup/"
+            url "http://maven.ihandysoft.com:8081/repository/ihandygroup/"
             credentials {
                 username project.username
                 password project.credentials."${project.username}"
