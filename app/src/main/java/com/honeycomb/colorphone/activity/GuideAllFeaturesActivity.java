@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.dialer.AP;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
@@ -52,7 +53,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         HSPreferenceHelper.getDefault().putBoolean("guide_locker_stated", true);
-
+        AP.guideShow();
         setContentView(R.layout.guide_all_features);
         StatusBarUtils.hideStatusBar(this);
 
@@ -73,6 +74,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
+                AP.guideConfirmed();
 
                 if (!GuideSetDefaultActivity.start(GuideAllFeaturesActivity.this)) {
                     if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.FirstScreen)) {
