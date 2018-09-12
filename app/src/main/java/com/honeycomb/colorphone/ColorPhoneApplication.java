@@ -665,7 +665,11 @@ public class ColorPhoneApplication extends HSApplication {
 
         long setTime = time.getTimeInMillis();
         long timeInMillis = setTime > System.currentTimeMillis() ? setTime : setTime + DateUtils.DAY_IN_MILLIS;
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, DateUtils.DAY_IN_MILLIS, pendingIntent);
+        if (alarmMgr != null) {
+            try {
+                alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, DateUtils.DAY_IN_MILLIS, pendingIntent);
+            } catch (NullPointerException ingore) {}
+        }
     }
 
 
