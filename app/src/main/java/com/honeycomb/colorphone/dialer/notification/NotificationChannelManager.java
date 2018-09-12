@@ -88,7 +88,7 @@ public final class NotificationChannelManager {
     createOngoingCallChannel(context);
     createMissedCallChannel(context);
     createDefaultChannel(context);
-    VoicemailChannelUtils.createAllChannels(context);
+//    VoicemailChannelUtils.createAllChannels(context);
   }
 
   @NonNull
@@ -114,7 +114,7 @@ public final class NotificationChannelManager {
     result.add(NotificationChannelId.ONGOING_CALL);
     result.add(NotificationChannelId.MISSED_CALL);
     result.add(NotificationChannelId.DEFAULT);
-    result.addAll(VoicemailChannelUtils.getAllChannelIds(context));
+//    result.addAll(VoicemailChannelUtils.getAllChannelIds(context));
     return result;
   }
 
