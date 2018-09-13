@@ -14,6 +14,8 @@ import java.util.Comparator;
 
 public class PopularThemeActivity extends HSAppCompatActivity {
 
+    public static final String NOTIFY_UNSELECTED = "notify_unselected";
+
     private ThemeSelectorAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
@@ -25,7 +27,6 @@ public class PopularThemeActivity extends HSAppCompatActivity {
 
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setItemAnimator(null);
-        mRecyclerView.setHasFixedSize(true);
 
         initData();
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
@@ -41,6 +42,7 @@ public class PopularThemeActivity extends HSAppCompatActivity {
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
         }
+        mAdapter.updateApplyInformationAutoPilotValue();
     }
 
     @Override

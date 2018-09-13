@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -72,6 +73,8 @@ import java.util.ArrayList;
 import hugo.weaving.DebugLog;
 
 import static com.acb.utils.Utils.getTypeByThemeId;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
 import static com.honeycomb.colorphone.preview.ThemePreviewView.saveThemeApplys;
 import static com.honeycomb.colorphone.util.Utils.pxFromDp;
 
@@ -87,7 +90,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private boolean mTipHeaderVisible;
     private boolean mHotThemeHolderVisible;
     private int mUnLockThemeId = -1;
-    private MediaDownloadManager mediaDownloadManager = new MediaDownloadManager();
 
     //autopilot test
     private boolean mIsThemeInformationVisible = true;
@@ -236,6 +238,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         });
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
+
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD, observer);
         HSGlobalNotificationCenter.addObserver(ColorPhoneActivity.NOTIFICATION_ON_REWARDED, observer);
     }
@@ -432,6 +435,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         saveThemeApplys(theme.getId());
         ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
         HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
+        if (activity instanceof PopularThemeActivity) {
+            HSBundle bundle = new HSBundle();
+            bundle.putInt(NOTIFY_THEME_KEY, theme.getId());
+            HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
+        }
         GuideApplyThemeActivity.start(activity, false, null);
         NotificationUtils.logThemeAppliedFlurry(data.get(pos));
         ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
@@ -472,9 +480,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             Theme t = data.get(i);
             if (t.isSelected()) {
                 prePos = i;
+
+                if (activity instanceof ColorPhoneActivity) {
+                    HSLog.d("guodong", "prePos idName " + t.getIdName() + "prepos = " + prePos + "   pos " + pos);
+                }
                 break;
             }
         }
+
         if (prePos == pos) {
             return false;
         } else {
@@ -509,8 +522,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (DEBUG_ADAPTER) {
-            HSLog.d(TAG, "bindViewHolder : " + position);
+
         }
+        HSLog.d(TAG, "bindViewHolder : " + position);
         if (holder instanceof ThemeCardViewHolder) {
 
             int themeIndex = position - getHeaderCount();
@@ -539,6 +553,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     cardViewHolder.setRingtoneId(ringtoneModel.getId());
                 }
                 boolean fileExist = updateTaskHolder((ThemeCardViewHolder) holder, model);
+
+                HSLog.d(TAG, "switchToReadyState" + " fileExist : " + fileExist + " " + curTheme.getIdName() + "isSelected" + curTheme.isSelected());
+
                 cardViewHolder.switchToReadyState(fileExist, curTheme.isSelected());
             } else {
                 cardViewHolder.switchToReadyState(true, curTheme.isSelected());
@@ -680,7 +697,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 super.onAnimationEnd(animation);
                 mThemeSelectedAnim.playAnimation();
                 mThemeSelectedAnim.setVisibility(View.VISIBLE);
+
+
                 mApplyClickedAnim.setVisibility(View.GONE);
+
+                HSLog.d("guodong", "apply button visible gone 2" );
             }
         };
 
@@ -797,14 +818,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                         HSLog.d(TAG, "AppClickedAnim play start" + theme.getIdName());
                     } else {
-                        HSLog.d(TAG, "展示 apply界面 : " + theme.getIdName());
+                        HSLog.d(TAG, "展示已经apply界面 : " + theme.getIdName());
                         mApplyClickedAnim.setVisibility(View.GONE);
+                        HSLog.d("guodong", "apply button visible gone 3" );
                         mApplyText.setAlpha(0f);
                         mThemeSelectedAnim.setVisibility(View.VISIBLE);
                         setLottieProgress(mThemeSelectedAnim, 1f);
                     }
                 } else {
-                    HSLog.d(TAG, "取消 selected : " + theme.getIdName());
                     mApplyClickedAnim.setProgress(0f);
                     mApplyClickedAnim.setVisibility(View.VISIBLE);
                     mApplyText.setAlpha(1f);
@@ -818,12 +839,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             if (theme.isSelected()) {
+                HSLog.d(TAG, "selected : " + theme.getIdName());
                 mThemeFlashPreviewWindow.playAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(true);
                 if (!TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
                     mCallActionView.setAutoRun(true);
                 }
             } else {
+
+                HSLog.d(TAG, "取消 selected : " + theme.getIdName());
                 mThemeFlashPreviewWindow.clearAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(false);
                 mCallActionView.setAutoRun(false);
@@ -993,7 +1017,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         / (float) total;
                 HSLog.d("sundxing", position + " download process, percent = " + percent);
             }
-            mApplyClickedAnim.setVisibility(View.GONE);
+            if (sofar > 0L && sofar < total) {
+                mApplyClickedAnim.setVisibility(View.GONE);
+                HSLog.d("guodong", "apply button visible gone 4" );
+            }
             mApplyText.setAlpha(0f);
             mDownloadViewHolder.updateDownloading(status, sofar, total);
         }
@@ -1006,20 +1033,19 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
             mThemeSelectedAnim.setVisibility(View.GONE);
 
-            HSLog.d(TAG, "switchToReadyState");
             if (ready && !isSelected) {
                 mApplyClickedAnim.setVisibility(View.VISIBLE);
                 mApplyText.setAlpha(1f);
             } else if (ready) {
                 mThemeSelectedAnim.setVisibility(View.VISIBLE);
                 mApplyClickedAnim.setVisibility(View.GONE);
+                HSLog.d("guodong", "apply button visible gone 5");
                 mApplyText.setAlpha(0f);
             } else {
                 mApplyClickedAnim.setVisibility(View.VISIBLE);
                 mApplyText.setAlpha(1f);
             }
         }
-
 
         public void switchToLockState() {
             mLockIcon.setVisibility(View.VISIBLE);

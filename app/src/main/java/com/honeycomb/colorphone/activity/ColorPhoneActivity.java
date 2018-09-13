@@ -94,6 +94,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
     private int defaultThemeId = 1;
     private boolean initCheckState;
+    private boolean isPaused;
 
     private Handler mHandler = new Handler();
 
@@ -209,7 +210,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
                 ScreenFlashSettings.setScreenFlashModuleEnabled(isChecked);
-                LauncherAnalytics.logEvent("ColorPhone_Settings_Enable_Icon_Clicked", "type", String.valueOf(isChecked));
+                LauncherAnalytics.logEvent("ColorPhone_Settings_Enable_Icon_Clicked", "type", isChecked ? "on" : "off");
             }
         });
 
@@ -319,6 +320,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //        }
         mAdapter.updateApplyInformationAutoPilotValue();
         mHandler.postDelayed(mainViewRunnable, 1000);
+        isPaused = false;
 
     }
 
@@ -326,6 +328,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onPause() {
         super.onPause();
 
+        isPaused = true;
         HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
@@ -591,7 +594,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onReceive(String s, HSBundle hsBundle) {
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mainSwitch.setChecked(true);
-//            mAdapter.notifyDataSetChanged();
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
             initData();
             mAdapter.notifyDataSetChanged();
