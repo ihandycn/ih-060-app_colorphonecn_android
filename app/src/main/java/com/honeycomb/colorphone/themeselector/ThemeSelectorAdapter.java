@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.call.MediaDownloadManager;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -124,6 +122,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
                             selectedTheme.getIdName().toLowerCase(),
                             ConfigLog.FROM_DETAIL);
+                    notifyDataSetChanged();
+
                 }
             } else if (ColorPhoneActivity.NOTIFICATION_ON_REWARDED.equals(s)) {
                 if (hsBundle != null) {
@@ -197,8 +197,20 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void updateApplyInformationAutoPilotValue() {
-        mIsApplyButtonVisible = ApplyInfoAutoPilotUtils.showApplyButton();
-        mIsThemeInformationVisible = ApplyInfoAutoPilotUtils.showThemeInformation();
+        boolean tempIsApplyVisible = ApplyInfoAutoPilotUtils.showApplyButton();
+        boolean tempIsThemeInformationVisible = ApplyInfoAutoPilotUtils.showThemeInformation();
+
+        boolean needNotifyDataSetChanged = false;
+        if (mIsApplyButtonVisible != tempIsApplyVisible
+                || mIsThemeInformationVisible != tempIsThemeInformationVisible) {
+            needNotifyDataSetChanged = true;
+        }
+        if (needNotifyDataSetChanged) {
+            mIsApplyButtonVisible = tempIsApplyVisible;
+            mIsThemeInformationVisible = tempIsThemeInformationVisible;
+            notifyDataSetChanged();
+        }
+
     }
 
     public int getUnLockThemeId() {
@@ -522,9 +534,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (DEBUG_ADAPTER) {
-
+            HSLog.d(TAG, "bindViewHolder : " + position);
         }
-        HSLog.d(TAG, "bindViewHolder : " + position);
         if (holder instanceof ThemeCardViewHolder) {
 
             int themeIndex = position - getHeaderCount();

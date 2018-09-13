@@ -4,25 +4,41 @@
     android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:overScrollMode="never">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            >
+
             <ImageView
+                android:id="@+id/image_bg"
                 android:layout_width="match_parent"
                 android:layout_height="190dp"
-                android:background="@drawable/banbo_kitty_bg"
+                android:src="@drawable/banbo_kitty_bg"
                 android:scaleType="centerCrop" />
 
-            <include layout="@layout/acb_layout_popular_content_scroll_view" />
+            <ImageView
+                android:id="@+id/nav_back"
+                style="@style/NormalButton"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_alignTop="@+id/image_bg"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_round_material_compat"
+                android:src="@drawable/back_indicator_white_selector" />
 
-        </LinearLayout>
 
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image_bg"
+                layout="@layout/acb_layout_popular_content_scroll_view" />
+
+        </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
-
-
 
 </FrameLayout>

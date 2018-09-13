@@ -1,7 +1,9 @@
 package com.honeycomb.colorphone.activity;
 
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
@@ -33,6 +35,15 @@ public class PopularThemeActivity extends HSAppCompatActivity {
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setAdapter(mAdapter);
+
+        NestedScrollView scrollView = findViewById(R.id.nested_scroll_view);
+        scrollView.scrollTo(0, 0);
+        findViewById(R.id.nav_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
