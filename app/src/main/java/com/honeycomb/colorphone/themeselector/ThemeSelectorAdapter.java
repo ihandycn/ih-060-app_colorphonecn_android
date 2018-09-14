@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
@@ -60,6 +61,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSPreferenceHelper;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.superapps.util.Dimensions;
@@ -70,6 +72,7 @@ import java.util.ArrayList;
 
 import hugo.weaving.DebugLog;
 
+import static com.acb.call.constant.ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID;
 import static com.acb.utils.Utils.getTypeByThemeId;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_CONTEXT_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
@@ -457,31 +460,39 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private void onThemeSelected(int pos) {
         final Theme theme = data.get(pos);
         saveThemeApplys(theme.getId());
-        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
-        HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
-        if (activity instanceof PopularThemeActivity) {
-            HSBundle bundle = new HSBundle();
-            bundle.putInt(NOTIFY_THEME_KEY, theme.getId());
-            bundle.putObject(NOTIFY_CONTEXT_KEY, activity);
-            HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
-        }
-        GuideApplyThemeActivity.start(activity, false, null);
-        NotificationUtils.logThemeAppliedFlurry(data.get(pos));
-        ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
-                theme.getIdName().toLowerCase(),
-                ConfigLog.FROM_LIST);
+        ScreenFlashSettings.putInt(PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
 
-        Threads.postOnThreadPoolExecutor(new Runnable() {
-            @Override
-            public void run() {
-                if (RingtoneHelper.isActive(theme.getId())) {
-                    RingtoneHelper.setDefaultRingtone(theme);
-                    ContactManager.getInstance().updateRingtoneOnTheme(theme, true);
-                } else {
-                    RingtoneHelper.resetDefaultRingtone();
-                }
+        int preId = HSPreferenceHelper.getDefault().getInt(PREFS_SCREEN_FLASH_THEME_ID, Type.NONE);
+        if (theme.getId() != preId) {
+            HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
+            if (activity instanceof PopularThemeActivity) {
+                HSBundle bundle = new HSBundle();
+                bundle.putInt(NOTIFY_THEME_KEY, theme.getId());
+                bundle.putObject(NOTIFY_CONTEXT_KEY, activity);
+                HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
+                LauncherAnalytics.logEvent("ColorPhone_BanboList_Set_Success");
+            } else if (activity instanceof ColorPhoneActivity) {
+                LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success");
             }
-        });
+
+            GuideApplyThemeActivity.start(activity, false, null);
+            NotificationUtils.logThemeAppliedFlurry(data.get(pos));
+            ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
+                    theme.getIdName().toLowerCase(),
+                    ConfigLog.FROM_LIST);
+
+            Threads.postOnThreadPoolExecutor(new Runnable() {
+                @Override
+                public void run() {
+                    if (RingtoneHelper.isActive(theme.getId())) {
+                        RingtoneHelper.setDefaultRingtone(theme);
+                        ContactManager.getInstance().updateRingtoneOnTheme(theme, true);
+                    } else {
+                        RingtoneHelper.resetDefaultRingtone();
+                    }
+                }
+            });
+        }
     }
 
     public int getLastSelectedLayoutPos() {
