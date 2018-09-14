@@ -71,6 +71,7 @@ import java.util.ArrayList;
 import hugo.weaving.DebugLog;
 
 import static com.acb.utils.Utils.getTypeByThemeId;
+import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_CONTEXT_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
 import static com.honeycomb.colorphone.preview.ThemePreviewView.saveThemeApplys;
@@ -118,12 +119,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     int pos = getDataPos(hsBundle);
                     Theme selectedTheme = data.get(pos);
 
-                    selectTheme(pos, null, false);
+                    if (!selectTheme(pos, null, false)) {
+                        if (!activity.equals(hsBundle.getObject(NOTIFY_CONTEXT_KEY))) {
+                            notifyDataSetChanged();
+                        }
+                    }
+
                     ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
                             selectedTheme.getIdName().toLowerCase(),
                             ConfigLog.FROM_DETAIL);
-                    notifyDataSetChanged();
-
                 }
             } else if (ColorPhoneActivity.NOTIFICATION_ON_REWARDED.equals(s)) {
                 if (hsBundle != null) {
@@ -392,6 +396,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 holder.mLockIcon.setVisibility(View.GONE);
                 holder.mDownloadViewContainer.setVisibility(View.GONE);
             }
+
+            if (activity instanceof PopularThemeActivity) {
+                holder.mApplyText.setTextColor(0xFFffffff);
+                holder.mDownloadFinishedAnim.setAnimation("lottie/white/theme_downloaded.json");
+                holder.mApplyClickedAnim.setAnimation("lottie/white/theme_apply_clicked.json");
+                holder.mThemeSelectedAnim.setAnimation("lottie/white/theme_downloaded.json");
+                holder.mDownloadTaskProgressBar.setAnimation("lottie/white/theme_progress.json");
+            }
             return holder;
 
         } else if (viewType == THEME_SELECTOR_ITEM_TYPE_STATEMENT) {
@@ -450,6 +462,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (activity instanceof PopularThemeActivity) {
             HSBundle bundle = new HSBundle();
             bundle.putInt(NOTIFY_THEME_KEY, theme.getId());
+            bundle.putObject(NOTIFY_CONTEXT_KEY, activity);
             HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
         }
         GuideApplyThemeActivity.start(activity, false, null);
@@ -799,6 +812,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             mDownloadFinishedAnim = (LottieAnimationView) itemView.findViewById(R.id.card_download_finished_anim);
             mDownloadFinishedAnim.setVisibility(View.GONE);
+
             mThemeSelectedAnim = (LottieAnimationView) itemView.findViewById(R.id.card_theme_selected_anim);
             mThemeSelectLayout = itemView.findViewById(R.id.card_theme_selected_layout);
             mThemeSelectedAnim.setVisibility(View.GONE);
@@ -809,6 +823,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mApplyClickedAnim = itemView.findViewById(R.id.card_apply_clicked);
             mApplyText = itemView.findViewById(R.id.apply_text);
             mDownloadViewHolder = new DownloadViewHolder(mApplyClickedAnim, pb, mDownloadFinishedAnim);
+
+
             mDownloadViewHolder.setStartAnim(mApplyClickedAnim);
             mDownloadViewHolder.setApplyText(mApplyText);
             mDownloadViewHolder.setProxyHolder(this);

@@ -27,6 +27,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_SELECT = "notify_theme_select";
     public static final String NOTIFY_THEME_DOWNLOAD = "notify_theme_download";
     public static final String NOTIFY_THEME_KEY = "notify_theme_select_key";
+    public static final String NOTIFY_CONTEXT_KEY = "notify_theme_context_key";
 
     private Theme mTheme;
     private ArrayList<Theme> mThemes = new ArrayList<>();
