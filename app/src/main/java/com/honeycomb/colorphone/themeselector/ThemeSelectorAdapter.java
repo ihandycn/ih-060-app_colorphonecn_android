@@ -460,11 +460,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private void onThemeSelected(int pos) {
         final Theme theme = data.get(pos);
         saveThemeApplys(theme.getId());
-        ScreenFlashSettings.putInt(PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
-
         int preId = HSPreferenceHelper.getDefault().getInt(PREFS_SCREEN_FLASH_THEME_ID, Type.NONE);
         if (theme.getId() != preId) {
             HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
+            ScreenFlashSettings.putInt(PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
             if (activity instanceof PopularThemeActivity) {
                 HSBundle bundle = new HSBundle();
                 bundle.putInt(NOTIFY_THEME_KEY, theme.getId());
