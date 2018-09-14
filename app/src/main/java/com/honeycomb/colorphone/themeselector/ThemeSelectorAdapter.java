@@ -469,9 +469,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 bundle.putInt(NOTIFY_THEME_KEY, theme.getId());
                 bundle.putObject(NOTIFY_CONTEXT_KEY, activity);
                 HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
-                LauncherAnalytics.logEvent("ColorPhone_BanboList_Set_Success");
+                LauncherAnalytics.logEvent("ColorPhone_BanboList_Set_Success", "type", theme.getIdName());
             } else if (activity instanceof ColorPhoneActivity) {
-                LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success");
+                LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success", "type", theme.getIdName());
             }
 
             GuideApplyThemeActivity.start(activity, false, null);
