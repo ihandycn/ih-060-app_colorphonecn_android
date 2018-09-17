@@ -41,8 +41,10 @@ public class PopularThemeActivity extends HSAppCompatActivity {
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setFocusable(false);
 
         NestedScrollView scrollView = findViewById(R.id.nested_scroll_view);
+        findViewById(R.id.container).requestFocus();
         String bgColor = HSConfig.optString("#7641DB", "Application", "Special", "SpecialColor");
         scrollView.setBackgroundColor(Color.parseColor(bgColor));
 
@@ -58,6 +60,7 @@ public class PopularThemeActivity extends HSAppCompatActivity {
         GlideApp.with(this).load(bgUrl)
                 .placeholder(new ColorDrawable(Color.parseColor(bgColor)))
                 .centerCrop().into(imageBg);
+
     }
 
     @Override
