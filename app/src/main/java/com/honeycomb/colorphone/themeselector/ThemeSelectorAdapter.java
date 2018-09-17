@@ -424,6 +424,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             View view = activity.getLayoutInflater().inflate(R.layout.acb_layout_hot_theme_view, parent, false);
 
             final ImageView target = view.findViewById(R.id.hot_theme_image);
+            ViewGroup.LayoutParams params = target.getLayoutParams();
+            params.height = (int ) activity.getResources().getDimension(R.dimen.popular_theme_thumbnail_height);
+
             GlideApp.with(activity)
                     .load(HSConfig.optString("#7641DB", "Application", "Special", "SpecialThumbnail"))
                     .centerCrop()
@@ -503,10 +506,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             Theme t = data.get(i);
             if (t.isSelected()) {
                 prePos = i;
-
-                if (activity instanceof ColorPhoneActivity) {
-                    HSLog.d("guodong", "prePos idName " + t.getIdName() + "prepos = " + prePos + "   pos " + pos);
-                }
                 break;
             }
         }
@@ -576,7 +575,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
                 boolean fileExist = updateTaskHolder((ThemeCardViewHolder) holder, model);
 
-                HSLog.d(TAG, "switchToReadyState" + " fileExist : " + fileExist + " " + curTheme.getIdName() + "isSelected" + curTheme.isSelected());
+                HSLog .d(TAG, "switchToReadyState" + " fileExist : " + fileExist + " " + curTheme.getIdName() + "isSelected" + curTheme.isSelected());
 
                 cardViewHolder.switchToReadyState(fileExist, curTheme.isSelected());
             } else {
@@ -738,7 +737,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 mApplyClickedAnim.setVisibility(View.GONE);
 
-                HSLog.d("guodong", "apply button visible gone 2" );
             }
         };
 
@@ -860,7 +858,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     } else {
                         HSLog.d(TAG, "展示已经apply界面 : " + theme.getIdName());
                         mApplyClickedAnim.setVisibility(View.GONE);
-                        HSLog.d("guodong", "apply button visible gone 3" );
                         mApplyText.setAlpha(0f);
                         mThemeSelectedAnim.setVisibility(View.VISIBLE);
                         setLottieProgress(mThemeSelectedAnim, 1f);
@@ -1059,7 +1056,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
             if (sofar > 0L && sofar < total) {
                 mApplyClickedAnim.setVisibility(View.GONE);
-                HSLog.d("guodong", "apply button visible gone 4" );
             }
             mApplyText.setAlpha(0f);
             mDownloadViewHolder.updateDownloading(status, sofar, total);
@@ -1079,7 +1075,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else if (ready) {
                 mThemeSelectedAnim.setVisibility(View.VISIBLE);
                 mApplyClickedAnim.setVisibility(View.GONE);
-                HSLog.d("guodong", "apply button visible gone 5");
                 mApplyText.setAlpha(0f);
             } else {
                 mApplyClickedAnim.setVisibility(View.VISIBLE);
