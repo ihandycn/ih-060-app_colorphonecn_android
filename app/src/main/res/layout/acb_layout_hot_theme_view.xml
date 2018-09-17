@@ -9,7 +9,8 @@
     <ImageView
         android:id="@+id/hot_theme_image"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/popular_theme_thumbnail_height"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         />

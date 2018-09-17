@@ -424,14 +424,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             View view = activity.getLayoutInflater().inflate(R.layout.acb_layout_hot_theme_view, parent, false);
 
             final ImageView target = view.findViewById(R.id.hot_theme_image);
-            ViewGroup.LayoutParams params = target.getLayoutParams();
-            params.height = (int ) activity.getResources().getDimension(R.dimen.popular_theme_thumbnail_height);
 
             GlideApp.with(activity)
                     .load(HSConfig.optString("#7641DB", "Application", "Special", "SpecialThumbnail"))
-                    .centerCrop()
+                    .centerInside()
                     .apply(new RequestOptions().transform(new RoundedCorners(Dimensions.pxFromDp(5f))))
-                    .placeholder(new ColorDrawable(0xffffb7a4))
                     .into(target);
             target.setOnClickListener(new View.OnClickListener() {
                 @Override
