@@ -137,5 +137,5 @@
     <dimen name="battery_alert_padding_vertical">8dp</dimen>
     <dimen name="result_page_guide_tip_translation_top">10dp</dimen>
 
-    <dimen name="popular_theme__thumbnail_height">134dp</dimen>
+    <dimen name="popular_theme_thumbnail_height">134dp</dimen>
 </resources>

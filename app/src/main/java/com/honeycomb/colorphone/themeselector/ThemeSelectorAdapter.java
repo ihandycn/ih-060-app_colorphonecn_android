@@ -389,18 +389,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
 
-            if (!mIsThemeInformationVisible) {
-                holder.mThemeLikeAnim.setVisibility(View.GONE);
-                holder.mThemeLikeCount.setVisibility(View.GONE);
-                holder.mThemeTitle.setVisibility(View.GONE);
-            }
-
-            if (!mIsApplyButtonVisible) {
-                holder.mThemeSelectedAnim.setVisibility(View.GONE);
-                holder.mLockIcon.setVisibility(View.GONE);
-                holder.mDownloadViewContainer.setVisibility(View.GONE);
-            }
-
             if (activity instanceof PopularThemeActivity) {
                 holder.mApplyText.setTextColor(0xFFffffff);
                 holder.mDownloadFinishedAnim.setAnimation("lottie/white/theme_downloaded.json");
@@ -613,6 +601,20 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else {
                 cardViewHolder.mLockIcon.setVisibility(View.INVISIBLE);
             }
+
+            if (!mIsApplyButtonVisible) {
+                cardViewHolder.mThemeSelectedAnim.setVisibility(View.GONE);
+                cardViewHolder.mLockIcon.setVisibility(View.GONE);
+                cardViewHolder.mThemeSelectLayout.setVisibility(View.GONE);
+                cardViewHolder.mDownloadViewContainer.setVisibility(View.GONE);
+            }
+
+            if (!mIsThemeInformationVisible) {
+                cardViewHolder.mThemeLikeAnim.setVisibility(View.GONE);
+                cardViewHolder.mThemeLikeCount.setVisibility(View.GONE);
+                cardViewHolder.mThemeTitle.setVisibility(View.GONE);
+            }
+
         } else if (holder instanceof StatementViewHolder) {
             HSLog.d("onBindVieHolder", "contains ads statement.");
         } else if (holder instanceof TopTipViewHolder) {
