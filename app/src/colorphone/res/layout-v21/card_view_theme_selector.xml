@@ -12,26 +12,6 @@
         layout="@layout/card_layout_preview"
         android:visibility="visible"
         tools:visibility="invisible"/>
-
-    <ImageView
-        android:id="@+id/theme_hot_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/card_view"
-        android:layout_alignStart="@id/card_view"
-        android:layout_alignTop="@id/card_view"
-        android:layout_gravity="start|top"
-        android:src="@drawable/theme_card_badge_hot" />
-
-    <ImageView
-        android:id="@+id/theme_ringtone_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/card_view"
-        android:layout_alignRight="@id/card_view"
-        android:layout_alignTop="@id/card_view"
-        android:layout_gravity="end|top"
-        android:src="@drawable/ic_ringtone_badge" />
     
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/card_title"
@@ -177,5 +157,30 @@
 
 
     </android.support.percent.PercentRelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/theme_hot_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/card_view"
+        android:layout_alignStart="@id/card_view"
+        android:layout_alignTop="@id/card_view"
+        android:layout_gravity="start|top"
+        android:visibility="visible"
+        android:elevation="20dp"
+        android:src="@drawable/theme_card_badge_hot" />
+
+    <ImageView
+        android:id="@+id/theme_ringtone_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/card_view"
+        android:layout_alignRight="@id/card_view"
+        android:layout_alignTop="@id/card_view"
+        android:layout_gravity="end|top"
+        android:visibility="visible"
+        android:elevation="20dp"
+        android:src="@drawable/ic_ringtone_badge" />
 
 </RelativeLayout>
