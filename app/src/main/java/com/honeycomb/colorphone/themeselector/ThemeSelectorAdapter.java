@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.call.constant.ScreenFlashConst;
-import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
@@ -38,7 +36,6 @@ import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
-import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
@@ -391,6 +388,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             if (activity instanceof PopularThemeActivity) {
                 holder.mApplyText.setTextColor(0xFFffffff);
+                holder.mThemeTitle.setTextColor(0xFFffffff);
                 holder.mDownloadFinishedAnim.setAnimation("lottie/white/theme_downloaded.json");
                 holder.mApplyClickedAnim.setAnimation("lottie/white/theme_apply_clicked.json");
                 holder.mThemeSelectedAnim.setAnimation("lottie/white/theme_downloaded.json");
@@ -464,7 +462,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success", "type", theme.getIdName());
             }
 
-            GuideApplyThemeActivity.start(activity, false, null);
+//            GuideApplyThemeActivity.start(activity, false, null);
             NotificationUtils.logThemeAppliedFlurry(data.get(pos));
             ColorPhoneApplication.getConfigLog().getEvent().onChooseTheme(
                     theme.getIdName().toLowerCase(),
@@ -614,6 +612,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 cardViewHolder.mThemeLikeCount.setVisibility(View.GONE);
                 cardViewHolder.mThemeTitle.setVisibility(View.GONE);
             }
+
 
         } else if (holder instanceof StatementViewHolder) {
             HSLog.d("onBindVieHolder", "contains ads statement.");
