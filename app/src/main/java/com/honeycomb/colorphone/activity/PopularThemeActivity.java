@@ -1,14 +1,20 @@
 package com.honeycomb.colorphone.activity;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.config.HSConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,13 +43,21 @@ public class PopularThemeActivity extends HSAppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         NestedScrollView scrollView = findViewById(R.id.nested_scroll_view);
-        scrollView.scrollTo(0, 0);
+        String bgColor = HSConfig.optString("#7641DB", "Application", "Special", "SpecialColor");
+        scrollView.setBackgroundColor(Color.parseColor(bgColor));
+
         findViewById(R.id.nav_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+        ImageView imageBg = findViewById(R.id.image_bg);
+        String bgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
+        GlideApp.with(this).load(bgUrl)
+                .placeholder(new ColorDrawable(Color.parseColor(bgColor)))
+                .centerCrop().into(imageBg);
     }
 
     @Override

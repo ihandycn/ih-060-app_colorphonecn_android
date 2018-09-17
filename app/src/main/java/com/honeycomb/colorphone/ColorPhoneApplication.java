@@ -54,6 +54,7 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
@@ -301,6 +302,8 @@ public class ColorPhoneApplication extends HSApplication {
 
         initRecentApps();
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
+        String popularThemeBgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
+        GlideApp.with(this).downloadOnly().load(popularThemeBgUrl);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             LockJobService.startJobScheduler();

@@ -57,6 +57,7 @@ import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -438,7 +439,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             final ImageView target = view.findViewById(R.id.hot_theme_image);
             GlideApp.with(activity)
-                    .load("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?cs=srgb&dl=beach-exotic-holiday-248797.jpg&fm=jpg")
+                    .load(HSConfig.optString("#7641DB", "Application", "Special", "SpecialThumbnail"))
+                    .centerCrop()
                     .apply(new RequestOptions().transform(new RoundedCorners(Dimensions.pxFromDp(5f))))
                     .placeholder(new ColorDrawable(0xffffb7a4))
                     .into(target);
