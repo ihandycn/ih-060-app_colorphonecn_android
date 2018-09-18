@@ -765,12 +765,12 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 super.onAnimationEnd(animation);
                 mThemeSelectedAnim.playAnimation();
                 mThemeSelectedAnim.setVisibility(View.VISIBLE);
-
-
                 mApplyClickedAnim.setVisibility(View.GONE);
 
             }
         };
+
+        private boolean mIsDownloading;
 
         ImageView mThemePreviewImg;
         ImageView mThemeLoadingImg;
@@ -867,7 +867,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mApplyText = itemView.findViewById(R.id.apply_text);
             mDownloadViewHolder = new DownloadViewHolder(mApplyClickedAnim, pb, mDownloadFinishedAnim);
 
-
             mDownloadViewHolder.setStartAnim(mApplyClickedAnim);
             mDownloadViewHolder.setApplyText(mApplyText);
             mDownloadViewHolder.setProxyHolder(this);
@@ -895,13 +894,18 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         setLottieProgress(mThemeSelectedAnim, 1f);
                     }
                 } else {
-                    mApplyClickedAnim.setProgress(0f);
-                    mApplyClickedAnim.setVisibility(View.VISIBLE);
-                    mApplyText.setAlpha(1f);
+
+                    // TODO: 2018/9/18 判断是否文件 ready 即可
+
+                    if (!mIsDownloading) {
+                        mApplyClickedAnim.setProgress(0f);
+                        mApplyClickedAnim.setVisibility(View.VISIBLE);
+                        mApplyText.setAlpha(1f);
+                        mDownloadTaskProgressBar.setVisibility(View.GONE);
+                    }
 
                     mDownloadFinishedAnim.setVisibility(View.GONE);
                     mThemeSelectedAnim.setVisibility(View.GONE);
-                    mDownloadTaskProgressBar.setVisibility(View.GONE);
                     mThemeSelectedAnim.cancelAnimation();
                     setLottieProgress(mThemeSelectedAnim, 0f);
                 }
@@ -930,7 +934,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             this.mDownloadedUpdateListener = listener;
             mDownloadViewHolder.setDownloadUpdateListener(mDownloadedUpdateListener);
         }
-
 
         public ImageView getCoverView(final Theme theme) {
             return theme.isVideo() ? mThemeFlashPreviewWindow.getImageCover() : mThemePreviewImg;
@@ -1068,6 +1071,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 mDownloadedUpdateListener.onUpdateDownloaded();
             }
 
+            mIsDownloading = false;
         }
 
         @Override
@@ -1077,6 +1081,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 HSLog.d("sundxing", position + " download stopped, status = " + status);
             }
             mDownloadViewHolder.updateNotDownloaded(status, sofar, total);
+            mIsDownloading = false;
         }
 
         @Override
@@ -1088,6 +1093,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
             if (sofar > 0L && sofar < total) {
                 mApplyClickedAnim.setVisibility(View.GONE);
+                mIsDownloading = true;
+            } else {
+                mIsDownloading = false;
             }
             mApplyText.setAlpha(0f);
             mDownloadViewHolder.updateDownloading(status, sofar, total);
