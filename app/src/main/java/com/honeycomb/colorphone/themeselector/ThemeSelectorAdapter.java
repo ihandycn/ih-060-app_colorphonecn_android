@@ -566,7 +566,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 cardViewHolder.getContentView().setTranslationX(-mTransX);
             }
 
-            if (themeIndex == 0 || themeIndex == 1) {
+            if (position == 1 || position == 2) {
                 if (activity instanceof PopularThemeActivity) {
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT);
