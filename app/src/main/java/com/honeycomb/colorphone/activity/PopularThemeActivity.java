@@ -1,28 +1,19 @@
 package com.honeycomb.colorphone.activity;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
-import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
-import com.ihs.commons.config.HSConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class PopularThemeActivity extends HSAppCompatActivity {
-
-    public static final String NOTIFY_UNSELECTED = "notify_unselected";
 
     private ThemeSelectorAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -39,14 +30,8 @@ public class PopularThemeActivity extends HSAppCompatActivity {
         initData();
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
-        mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setFocusable(false);
 
-        NestedScrollView scrollView = findViewById(R.id.nested_scroll_view);
-        findViewById(R.id.container).requestFocus();
-        String bgColor = HSConfig.optString("#7641DB", "Application", "Special", "SpecialColor");
-        scrollView.setBackgroundColor(Color.parseColor(bgColor));
 
         findViewById(R.id.nav_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,11 +40,8 @@ public class PopularThemeActivity extends HSAppCompatActivity {
             }
         });
 
-        ImageView imageBg = findViewById(R.id.image_bg);
-        String bgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
-        GlideApp.with(this).load(bgUrl)
-                .placeholder(new ColorDrawable(Color.parseColor(bgColor)))
-                .centerCrop().into(imageBg);
+        RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
+        pool.setMaxRecycledViews(ThemeSelectorAdapter.THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO, 2);
 
     }
 
@@ -80,6 +62,8 @@ public class PopularThemeActivity extends HSAppCompatActivity {
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
         }
+        RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
+        pool.clear();
     }
 
     private void initData() {

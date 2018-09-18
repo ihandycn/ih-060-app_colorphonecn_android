@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.acb.call.customize.ScreenFlashSettings;
@@ -105,6 +107,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static final int THEME_SELECTOR_ITEM_TYPE_STATEMENT = 0x20;
     public static final int THEME_SELECTOR_ITEM_TYPE_TIP = 0x30;
     public static final int THEME_SELECTOR_ITEM_TYPE_HOT_THEME_HOLDER = 0x40;
+    public static final int THEME_SELECTOR_ITEM_TYPE_POPULAR_THEME_HOLDER = 0x80;
 
     private static final int THEME_TYPE_MASK = 0x0F;
 
@@ -183,6 +186,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     case THEME_SELECTOR_ITEM_TYPE_STATEMENT:
                     case THEME_SELECTOR_ITEM_TYPE_TIP:
                     case THEME_SELECTOR_ITEM_TYPE_HOT_THEME_HOLDER:
+                    case THEME_SELECTOR_ITEM_TYPE_POPULAR_THEME_HOLDER:
                         return 2;
                     default:
                         return 1;
@@ -274,6 +278,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
         if ((viewType & THEME_TYPE_MASK) == viewType) {
             View cardViewContent = activity.getLayoutInflater().inflate(R.layout.card_view_theme_selector, null);
+
             final ThemeCardViewHolder holder = new ThemeCardViewHolder(cardViewContent);
             // Theme
             switch (viewType) {
@@ -438,6 +443,16 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
 
             return new HotThemeHolder(view);
+        } else if (viewType == THEME_SELECTOR_ITEM_TYPE_POPULAR_THEME_HOLDER) {
+            View view = activity.getLayoutInflater().inflate(R.layout.acb_item_popular_theme_bg, parent, false);
+            ImageView imageBg = view.findViewById(R.id.image_bg);
+            String bgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
+            String bgColor = HSConfig.optString("#7641DB", "Application", "Special", "SpecialColor");
+            GlideApp.with(activity).load(bgUrl)
+                    .placeholder(new ColorDrawable(Color.parseColor(bgColor)))
+                    .centerCrop().into(imageBg);
+
+            return new PopularThemeBgHolder(view);
         } else {
             throw new IllegalStateException("error viewtype");
         }
@@ -553,6 +568,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else {
                 cardViewHolder.getContentView().setTranslationX(-mTransX);
             }
+
+            if (themeIndex == 0 || themeIndex == 1) {
+                if (activity instanceof PopularThemeActivity) {
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lp.setMargins(0, -Dimensions.pxFromDp(120f), 0, 0);
+                    cardViewHolder.itemView.setLayoutParams(lp);
+                }
+            }
             final Theme curTheme = data.get(themeIndex);
 
             cardViewHolder.mThemeTitle.setText(curTheme.getName());
@@ -623,6 +647,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemViewType(int position) {
         int headerCount = getHeaderCount();
         if (position < headerCount) {
+            if (activity instanceof PopularThemeActivity) {
+                return THEME_SELECTOR_ITEM_TYPE_POPULAR_THEME_HOLDER;
+            }
+
             if (position == 0 && isTipHeaderVisible()) {
                 return THEME_SELECTOR_ITEM_TYPE_TIP;
             }
@@ -705,6 +733,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private int getHeaderCount() {
+        if (activity instanceof PopularThemeActivity) {
+            return 1;
+        }
         int count = 0;
         count += mTipHeaderVisible ? 1 : 0;
         count += mHotThemeHolderVisible ? 1 : 0;
@@ -1166,6 +1197,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     static class HotThemeHolder extends RecyclerView.ViewHolder {
 
         public HotThemeHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    static class PopularThemeBgHolder extends RecyclerView.ViewHolder {
+
+        public PopularThemeBgHolder(View itemView) {
             super(itemView);
         }
     }

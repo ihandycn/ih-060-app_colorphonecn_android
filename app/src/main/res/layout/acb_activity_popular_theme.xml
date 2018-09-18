@@ -1,49 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#7641DB">
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nested_scroll_view"
+    <include
+        layout="@layout/acb_layout_popular_content_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#7641DB"
-        android:overScrollMode="never">
+        />
 
-        <RelativeLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-
-            >
-
-            <ImageView
-                android:id="@+id/image_bg"
-                android:layout_width="match_parent"
-                android:layout_height="320dp"
-                android:src="@drawable/banbo_kitty_bg"
-                android:scaleType="centerCrop" />
-
-            <ImageView
-                android:id="@+id/nav_back"
-                style="@style/NormalButton"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_alignTop="@+id/image_bg"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_round_material_compat"
-                android:src="@drawable/back_indicator_white_selector" />
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-120dp"
-                android:layout_below="@+id/image_bg"
-                layout="@layout/acb_layout_popular_content_scroll_view" />
-
-        </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+    <ImageView
+        android:id="@+id/nav_back"
+        style="@style/NormalButton"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_round_material_compat"
+        android:src="@drawable/back_indicator_white_selector" />
 
 </FrameLayout>
