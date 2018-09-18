@@ -428,10 +428,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             GlideApp.with(activity)
                     .load(HSConfig.optString("#7641DB", "Application", "Special", "SpecialThumbnail"))
-                    .centerCrop()
-                    .dontAnimate()
-                    .placeholder(new ColorDrawable(0xffffb7a4))
+                    .fitCenter()
                     .apply(new RequestOptions().transform(new RoundedCorners(Dimensions.pxFromDp(5f))))
+                    .override(Dimensions.pxFromDp(328f), Dimensions.pxFromDp(134f))
                     .into(target);
             target.setOnClickListener(new View.OnClickListener() {
                 @Override
