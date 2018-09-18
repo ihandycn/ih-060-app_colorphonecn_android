@@ -308,8 +308,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View view) {
                     final int pos = holder.getPositionTag();
 
+                    Theme theme = data.get(pos);
                     if (activity instanceof PopularThemeActivity) {
-                        LauncherAnalytics.logEvent("ColorPhone_BanboList_ThemeDetail_View");
+                        LauncherAnalytics.logEvent("ColorPhone_BanboList_ThemeDetail_View", "type", theme.getIdName());
                         PopularThemePreviewActivity.start(activity, pos);
                     } else {
                         ThemePreviewActivity.start(activity, pos);
@@ -327,10 +328,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                     ApplyInfoAutoPilotUtils.logApplyButtonClicked();
 
+                    Theme theme = data.get(pos);
                     if (activity instanceof ColorPhoneActivity) {
-                        LauncherAnalytics.logEvent("ColorPhone_MainView_Apply_Icon_Clicked");
+                        LauncherAnalytics.logEvent("ColorPhone_MainView_Apply_Icon_Clicked", "type", theme.getIdName());
                     } else if (activity instanceof PopularThemeActivity) {
-                        LauncherAnalytics.logEvent("ColorPhone_BanboList_Apply_icon_Clicked");
+                        LauncherAnalytics.logEvent("ColorPhone_BanboList_Apply_icon_Clicked", "type", theme.getIdName());
                     }
                 }
             });
