@@ -97,8 +97,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private boolean mIsThemeInformationVisible = true;
     private boolean mIsApplyButtonVisible = true;
 
-    private Handler adapterHandler = new Handler();
-
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_GIF = 0x1;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO = 0x8;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_LED = 0x2;
@@ -593,7 +591,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
                 boolean fileExist = updateTaskHolder((ThemeCardViewHolder) holder, model);
 
-                HSLog .d(TAG, "switchToReadyState" + " fileExist : " + fileExist + " " + curTheme.getIdName() + "isSelected" + curTheme.isSelected());
+                HSLog.d(TAG, "switchToReadyState" + " fileExist : " + fileExist + " " + curTheme.getIdName() + "isSelected" + curTheme.isSelected());
 
                 cardViewHolder.switchToReadyState(fileExist, curTheme.isSelected());
             } else {
@@ -622,13 +620,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 cardViewHolder.mLockIcon.setVisibility(View.GONE);
                 cardViewHolder.mThemeSelectLayout.setVisibility(View.GONE);
                 cardViewHolder.mDownloadViewContainer.setVisibility(View.GONE);
+            } else {
+                cardViewHolder.mDownloadViewContainer.setVisibility(View.VISIBLE);
             }
 
-            if (!mIsThemeInformationVisible) {
-                cardViewHolder.mThemeLikeAnim.setVisibility(View.GONE);
-                cardViewHolder.mThemeLikeCount.setVisibility(View.GONE);
-                cardViewHolder.mThemeTitle.setVisibility(View.GONE);
-            }
+
+            cardViewHolder.mThemeLikeAnim.setVisibility(mIsThemeInformationVisible ? View.VISIBLE : View.GONE);
+            cardViewHolder.mThemeLikeCount.setVisibility(mIsThemeInformationVisible ? View.VISIBLE : View.GONE);
+            cardViewHolder.mThemeTitle.setVisibility(mIsThemeInformationVisible ? View.VISIBLE : View.GONE);
 
 
         } else if (holder instanceof StatementViewHolder) {
