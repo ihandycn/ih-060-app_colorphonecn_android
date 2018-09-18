@@ -65,6 +65,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.superapps.util.Dimensions;
+import com.superapps.util.PostOnNextFrameReceiver;
 import com.superapps.util.Threads;
 
 import java.io.File;
@@ -568,14 +569,19 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 cardViewHolder.getContentView().setTranslationX(-mTransX);
             }
 
-            if (position == 1 || position == 2) {
-                if (activity instanceof PopularThemeActivity) {
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            if (activity instanceof PopularThemeActivity) {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                if (position == 1 || position == 2) {
                     lp.setMargins(0, -Dimensions.pxFromDp(120f), 0, 0);
+                    cardViewHolder.itemView.setLayoutParams(lp);
+                } else {
+                    lp.setMargins(0, 0, 0, 0);
                     cardViewHolder.itemView.setLayoutParams(lp);
                 }
             }
+
             final Theme curTheme = data.get(themeIndex);
 
             cardViewHolder.mThemeTitle.setText(curTheme.getName());
