@@ -18,17 +18,17 @@ public class AP {
 
     public static void guideShow() {
         AutopilotEvent.logTopicEvent("topic-1536215679114-660", "set_default_guide_show");
-        LauncherAnalytics.logEvent(upperFirstCh("set_default_guide_show"));
+        LauncherAnalytics.logEvent(upperFirstCh("Color_" + "set_default_guide_show"));
     }
 
     public static void guideConfirmed() {
         AutopilotEvent.logTopicEvent("topic-1536215679114-660", "set_default_guide_set_clicked");
-        LauncherAnalytics.logEvent(upperFirstCh("set_default_guide_set_clicked"));
+        LauncherAnalytics.logEvent(upperFirstCh("Color_" + "set_default_guide_set_clicked"));
     }
 
     public static void successSetAsDefault() {
         AutopilotEvent.logTopicEvent("topic-1536215679114-660", "set_default_success");
-        LauncherAnalytics.logEvent(upperFirstCh("set_default_success"));
+        LauncherAnalytics.logEvent(upperFirstCh("Color_" + "set_default_success"));
     }
 
     public static void dilerShow() {
