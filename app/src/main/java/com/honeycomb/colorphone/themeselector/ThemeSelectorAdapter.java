@@ -424,11 +424,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             final ImageView target = view.findViewById(R.id.hot_theme_image);
 
+            int w = Dimensions.getPhoneWidth(activity) - Dimensions.pxFromDp(40f);
+            int h = (int) (w * (134f / 328f));
             GlideApp.with(activity)
                     .load(HSConfig.optString("#7641DB", "Application", "Special", "SpecialThumbnail"))
                     .fitCenter()
                     .apply(new RequestOptions().transform(new RoundedCorners(Dimensions.pxFromDp(5f))))
-                    .override(Dimensions.pxFromDp(328f), Dimensions.pxFromDp(134f))
+                    .override(w, h)
                     .into(target);
             target.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -612,7 +614,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 });
 
             } else {
-                cardViewHolder.mLockIcon.setVisibility(View.INVISIBLE);
+                cardViewHolder.mLockIcon.setVisibility(View.GONE);
             }
 
             if (!mIsApplyButtonVisible) {
