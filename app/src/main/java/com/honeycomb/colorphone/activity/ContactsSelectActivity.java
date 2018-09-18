@@ -81,6 +81,8 @@ public class ContactsSelectActivity extends ContactsActivity {
         int fromType = getIntent().getIntExtra(INTENT_KEY_FROM_TYPE, FROM_TYPE_MAIN);
         if (fromType == FROM_TYPE_POPULAR_THEME) {
             LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Success");
+        } else {
+            LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Success");
         }
         if (!themeEntries.isEmpty()) {
             ContactManager.getInstance().markDataChanged();

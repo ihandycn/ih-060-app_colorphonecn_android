@@ -406,6 +406,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 if (mActivity instanceof PopularThemePreviewActivity) {
                     LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
+                } else {
+                    LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SetForAll");
                 }
             }
         });
@@ -418,6 +420,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
                     LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
                 } else {
+                    LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Started");
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
                 }
             }

@@ -313,6 +313,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         LauncherAnalytics.logEvent("ColorPhone_BanboList_ThemeDetail_View", "type", theme.getIdName());
                         PopularThemePreviewActivity.start(activity, pos);
                     } else {
+                        LauncherAnalytics.logEvent("ColorPhone_MainView_ThemeDetail_View", "type", theme.getIdName());
                         ThemePreviewActivity.start(activity, pos);
                     }
                     ApplyInfoAutoPilotUtils.logThumbnailClicked();
