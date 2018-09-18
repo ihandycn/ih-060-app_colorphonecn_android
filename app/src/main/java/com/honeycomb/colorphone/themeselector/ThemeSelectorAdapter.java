@@ -334,11 +334,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             holder.mLockIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final int pos = holder.getPositionTag();
-                    final Theme theme = data.get(pos);
 
-                    theme.setLocked(false);
-                    notifyItemSelected(pos, theme);
                 }
             });
 
