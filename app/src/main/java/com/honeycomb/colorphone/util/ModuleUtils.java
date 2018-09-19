@@ -17,10 +17,14 @@ import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSLog;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.util.Preferences;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -210,8 +214,25 @@ public class ModuleUtils {
     }
 
     public static boolean isNotificationToolBarEnabled() {
-        return AutoPilotUtils.getNotificationToolbarEnable()
+        return (HSConfig.optBoolean(false, "Application", "NotificationToolbar", "Enable")
+                || versionNumberValid())
                 && Utils.ATLEAST_JELLY_BEAN;
+    }
+
+    private static boolean versionNumberValid() {
+        int versionCode = HSApplication.getFirstLaunchInfo().appVersionCode;
+        List<Integer> list = null;
+        try {
+            list = (List<Integer>)
+                    HSConfig.getList("Application", "NotificationToolbar", "ToolbarEnableVersionCode");
+        } catch (Exception ignore) {
+        }
+
+        if (list != null) {
+            HSLog.d("versionNumberValid" , Arrays.toString(list.toArray()));
+            return list.contains(versionCode);
+        }
+        return false;
     }
 
 }
