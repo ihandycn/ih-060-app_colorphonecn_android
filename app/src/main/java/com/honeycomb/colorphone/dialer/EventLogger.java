@@ -54,7 +54,7 @@ public class EventLogger {
                 "State",
                 mDuration > 0 ? "Success" : "Fail");
 
-        LauncherAnalytics.logEvent("ColorPhone_Call_Finished",
+        LauncherAnalytics.logEvent("ColorPhone_Call_Finished2",
                 "Timing", formatDuration(mDuration),
                 "Closetoear", near ? "Yes" : "NO",
                 "ForeignCall", PhoneNumberUtils.isInternationalNumber(number, GeoUtil.getCurrentCountryIso(HSApplication.getContext()))
