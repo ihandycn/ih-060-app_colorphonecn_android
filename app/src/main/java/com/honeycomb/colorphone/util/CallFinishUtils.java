@@ -5,7 +5,7 @@ import net.appcloudbox.autopilot.AutopilotEvent;
 
 public class CallFinishUtils {
 
-    private static final String TOPIC_ID = "topic-1535439684386-619";
+    private static final String TOPIC_ID = "topic-1536215679114-660";
 
     public static boolean isCallFinishFullScreenAdEnabled() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "call_finish_wire_show", false);

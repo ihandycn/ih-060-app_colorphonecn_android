@@ -43,6 +43,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
+  "json_id": "f9989dc6-31d4-426a-ae2b-4ae6550d13db",
   "topics": {
     "topic-1510752104742": {
       "topic_type": "one_time",
@@ -128,19 +129,19 @@
       "variations": {
         "gif_card_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "charging_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "game_card_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "fm_game_card_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         }
       },
       "events": [
@@ -381,6 +382,10 @@
           "type": "boolean",
           "value": false
         },
+        "call_finish_wire_show": {
+          "type": "boolean",
+          "value": false
+        },
         "dialer enable": {
           "type": "boolean",
           "value": false
@@ -401,6 +406,18 @@
         },
         {
           "name": "dailer_page_show"
+        },
+        {
+          "name": "colorphone_call_finished"
+        },
+        {
+          "name": "colorphone_call_finished_call_assistant_show"
+        },
+        {
+          "name": "colorphone_call_finished_wire_should_show"
+        },
+        {
+          "name": "colorphone_call_finished_wire_show"
         }
       ],
       "topic_id": "topic-1536215679114-660"
