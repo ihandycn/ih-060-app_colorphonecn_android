@@ -45,6 +45,7 @@ import com.honeycomb.colorphone.notification.permission.PermissionUtils;
 import com.honeycomb.colorphone.permission.FloatWindowManager;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
 import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -56,6 +57,7 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -470,7 +472,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
-        mAdapter.setHotThemeHolderVisible(true);
+        mAdapter.setHotThemeHolderVisible(HSConfig.optBoolean(false, "Application", "Special", "SpecialEntrance") &&
+                ApplyInfoAutoPilotUtils.showPopularThemeEntrance());
         mRecyclerView.setAdapter(mAdapter);
         RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
 

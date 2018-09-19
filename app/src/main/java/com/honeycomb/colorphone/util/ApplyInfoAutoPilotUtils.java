@@ -15,6 +15,10 @@ public class ApplyInfoAutoPilotUtils {
         }
     }
 
+    public static boolean showPopularThemeEntrance() {
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "special_entrance", false);
+    }
+
     public static boolean showApplyButton() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "apply_button", false);
     }
