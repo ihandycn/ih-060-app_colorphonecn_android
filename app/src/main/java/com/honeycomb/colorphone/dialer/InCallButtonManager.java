@@ -137,7 +137,6 @@ public class InCallButtonManager implements InCallButtonUiDelegate,
             }
         } else if (newState == InCallState.INCOMING) {
             call = callList.getIncomingCall();
-            // TODO incomming
         } else {
             call = null;
         }

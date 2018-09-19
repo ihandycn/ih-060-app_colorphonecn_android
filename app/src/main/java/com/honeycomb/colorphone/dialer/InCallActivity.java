@@ -170,11 +170,14 @@ public class InCallActivity extends HSAppCompatActivity implements PseudoScreenS
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        AP.dilerShow();
         inCallOrientationEventListener = new InCallOrientationEventListener(this);
 
         mIncomingCallUI = getIntent().getBooleanExtra(IntentExtraNames.INCOMING_CALL, false)
         || InCallPresenter.getInstance().getInCallState().isIncoming();
+
+        if (!mIncomingCallUI) {
+            AP.dialerShow();
+        }
 
         setWindowFlags();
         setContentView(R.layout.incall_screen);

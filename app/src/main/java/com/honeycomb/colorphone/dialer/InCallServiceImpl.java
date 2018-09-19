@@ -63,6 +63,11 @@ public class InCallServiceImpl extends InCallService {
   public void onCallAdded(Call call) {
     HSLog.d("InCallServiceImpl.onCallAdded");
     InCallPresenter.getInstance().onCallAdded(call);
+    if (call.getState() == Call.STATE_RINGING) {
+      EventLogger.get().onIncomingCall(TelecomCallUtil.getNumber(call));
+    } else {
+      EventLogger.get().onOutGoing(TelecomCallUtil.getNumber(call));
+    }
   }
 
   @Override
@@ -70,6 +75,7 @@ public class InCallServiceImpl extends InCallService {
     HSLog.d("InCallServiceImpl.onCallRemoved");
 
     InCallPresenter.getInstance().onCallRemoved(call);
+    EventLogger.get().onEnd();
   }
 
   @Override

@@ -72,10 +72,9 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AP.guideConfirmed();
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
-                AP.guideConfirmed();
-
                 if (!GuideSetDefaultActivity.start(GuideAllFeaturesActivity.this)) {
                     if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.FirstScreen)) {
                         PermissionHelper.waitOverlayGranted(EventSource.FirstScreen, true);

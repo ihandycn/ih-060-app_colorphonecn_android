@@ -1,6 +1,8 @@
 package com.honeycomb.colorphone.dialer;
 
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.ihs.app.framework.HSApplication;
+import com.superapps.util.Commons;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
@@ -18,22 +20,24 @@ public class AP {
 
     public static void guideShow() {
         AutopilotEvent.logTopicEvent("topic-1536215679114-660", "set_default_guide_show");
-        LauncherAnalytics.logEvent(upperFirstCh("Color_" + "set_default_guide_show"));
+        LauncherAnalytics.logEvent(upperFirstCh("ColorPhone_" + "set_default_guide_show"));
     }
 
     public static void guideConfirmed() {
         AutopilotEvent.logTopicEvent("topic-1536215679114-660", "set_default_guide_set_clicked");
-        LauncherAnalytics.logEvent(upperFirstCh("Color_" + "set_default_guide_set_clicked"));
+        LauncherAnalytics.logEvent(upperFirstCh("ColorPhone_" + "set_default_guide_set_clicked"));
     }
 
     public static void successSetAsDefault() {
         AutopilotEvent.logTopicEvent("topic-1536215679114-660", "set_default_success");
-        LauncherAnalytics.logEvent(upperFirstCh("Color_" + "set_default_success"));
+        LauncherAnalytics.logEvent(upperFirstCh("ColorPhone_" + "set_default_success"));
     }
 
-    public static void dilerShow() {
+    public static void dialerShow() {
         AutopilotEvent.logTopicEvent("topic-1536215679114-660", "dailer_page_show");
-        LauncherAnalytics.logEvent(upperFirstCh("dailer_page_show"));
+        LauncherAnalytics.logEvent(upperFirstCh("dialer_page_show"), "Type",
+                Commons.isKeyguardLocked(HSApplication.getContext(), false) ?
+                        "Withlock" : "Withoutlock");
     }
 
     private static String upperFirstCh(String event) {

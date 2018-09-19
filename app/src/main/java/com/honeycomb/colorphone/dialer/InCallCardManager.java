@@ -182,6 +182,10 @@ public class InCallCardManager implements
                 }
             } else {
                 bottomTextSwitcher.setDisplayedChild(0);
+                if (isTimerStarted) {
+                    long duration = SystemClock.elapsedRealtime() - bottomTimerView.getBase();
+                    EventLogger.get().setDuration(duration);
+                }
                 bottomTimerView.stop();
                 isTimerStarted = false;
             }
