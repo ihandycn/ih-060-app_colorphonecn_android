@@ -95,8 +95,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private int mUnLockThemeId = -1;
 
     //autopilot test
-    private boolean mIsThemeInformationVisible = true;
-    private boolean mIsApplyButtonVisible = true;
+    private boolean mIsThemeInformationVisible = ApplyInfoAutoPilotUtils.showThemeInformation();
+    private boolean mIsApplyButtonVisible = ApplyInfoAutoPilotUtils.showApplyButton();
 
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_GIF = 0x1;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO = 0x8;
