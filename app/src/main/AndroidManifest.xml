@@ -526,6 +526,9 @@
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <!--Samsung need this to open Bluetooth settings-->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <!--Phone Speaker-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 </manifest>
