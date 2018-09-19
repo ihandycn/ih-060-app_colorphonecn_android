@@ -5,7 +5,7 @@ apply plugin: 'me.tatarka.retrolambda'
 apply from: 'stable-Ids.gradle'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 27
     buildToolsVersion "26.0.2"
     defaultConfig {
         minSdkVersion 15
@@ -152,6 +152,7 @@ dependencies {
     compile "com.ihandy.device:device-monitor-top-app$LIB_DEVICE_VERSION".toString()
 
     // Submodule
+    provided files('../libs/api/android_27.jar')
     compile files('../libs/ihs/libFlashlight/libFlashlight.jar')
     compile(name: 'libChargingReport/libChargingReport-release', ext: 'aar')
     compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
