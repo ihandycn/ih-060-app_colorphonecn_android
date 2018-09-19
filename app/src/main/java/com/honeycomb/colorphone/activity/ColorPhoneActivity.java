@@ -552,6 +552,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
                 break;
             case R.id.settings_setting:
+                LauncherAnalytics.logEvent("Colorphone_Settings_Clicked");
                 SettingsActivity.start(this);
                 break;
             case R.id.settings_contacts:
