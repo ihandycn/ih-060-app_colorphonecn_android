@@ -61,6 +61,10 @@ public class DownloadViewHolder implements DownloadHolder {
                     startDownload();
                 }
                 ApplyInfoAutoPilotUtils.logApplyButtonClicked();
+
+                if (listener != null) {
+                    listener.onApplyClick();
+                }
             }
         });
     }

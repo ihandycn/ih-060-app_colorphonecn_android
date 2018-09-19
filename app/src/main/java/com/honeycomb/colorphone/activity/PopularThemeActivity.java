@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.acb.call.customize.ScreenFlashManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import java.util.ArrayList;
@@ -18,6 +20,10 @@ public class PopularThemeActivity extends HSAppCompatActivity {
     private ThemeSelectorAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<>();
+
+    private boolean mIsHandsDown = false;
+    private boolean mIsFirstScrollThisTimeHandsDown = true;
+    public static final int SCROLL_STATE_DRAGGING = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,29 @@ public class PopularThemeActivity extends HSAppCompatActivity {
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
         mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (mIsFirstScrollThisTimeHandsDown && mIsHandsDown && dy > 0) {
+                    mIsFirstScrollThisTimeHandsDown = false;
+                    LauncherAnalytics.logEvent("ColorPhone_BanboList_Slide");
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == SCROLL_STATE_DRAGGING) {
+                    mIsHandsDown = true;
+                } else {
+                    mIsHandsDown = false;
+                    mIsFirstScrollThisTimeHandsDown = true;
+                }
+            }
+        });
+
 
 
         findViewById(R.id.nav_back).setOnClickListener(new View.OnClickListener() {

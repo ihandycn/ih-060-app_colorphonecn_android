@@ -406,8 +406,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 if (mActivity instanceof PopularThemePreviewActivity) {
                     LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
+                    LauncherAnalytics.logEvent("ColorPhone_BanboList_Set_Success");
                 } else {
                     LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SetForAll");
+                    LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success");
                 }
             }
         });

@@ -338,13 +338,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
 
-            holder.mLockIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-
             holder.setDownloadedUpdateListener(new ThemeCardViewHolder.DownloadedUpdateListener() {
                 @Override
                 public void onUpdateDownloaded() {
@@ -365,6 +358,16 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     int pos = holder.getPositionTag();
                     if (selectTheme(pos, holder, false)) {
                         onThemeSelected(pos);
+
+                    }
+                }
+
+                @Override
+                public void onApplyClick() {
+                    if (activity instanceof PopularThemeActivity) {
+                        LauncherAnalytics.logEvent("ColorPhone_BanboList_Apply_icon_Clicked");
+                    } else if (activity instanceof ColorPhoneActivity) {
+                        LauncherAnalytics.logEvent("ColorPhone_MainView_Apply_Icon_Clicked");
                     }
                 }
             });
@@ -760,6 +763,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             void onUpdateDownloaded();
 
             void onStartDownload();
+
+            void onApplyClick();
         }
 
         private AnimatorListenerAdapter applyClickAnimatorListenerAdapter = new AnimatorListenerAdapter() {

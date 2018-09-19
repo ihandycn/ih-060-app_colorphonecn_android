@@ -98,6 +98,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private Handler mHandler = new Handler();
 
+    private boolean mIsHandsDown = false;
+    private boolean mIsFirstScrollThisTimeHandsDown = true;
+    public static final int SCROLL_STATE_DRAGGING = 1;
+
     private Runnable UpdateRunnable = new Runnable() {
 
         @Override
@@ -484,6 +488,22 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     //End of list
                     LauncherAnalytics.logEvent("ColorPhone_List_Bottom_Show");
                     prefsFile.putBoolean(PREFS_SCROLL_TO_BOTTOM, true);
+                }
+
+                if (mIsFirstScrollThisTimeHandsDown && mIsHandsDown && dy > 0) {
+                    mIsFirstScrollThisTimeHandsDown = false;
+                    LauncherAnalytics.logEvent("ColorPhone_MainView_Slide");
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == SCROLL_STATE_DRAGGING) {
+                    mIsHandsDown = true;
+                } else {
+                    mIsHandsDown = false;
+                    mIsFirstScrollThisTimeHandsDown = true;
                 }
             }
         });
