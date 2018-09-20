@@ -43,6 +43,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
+  "json_id": "018f69b4-af73-45c9-8baf-c77fce5f8551",
   "topics": {
     "topic-1510752104742": {
       "topic_type": "one_time",
@@ -76,7 +77,7 @@
       "variations": {
         "notificationtoolbar_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         }
       },
       "events": [
@@ -128,19 +129,19 @@
       "variations": {
         "gif_card_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "charging_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "game_card_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "fm_game_card_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         }
       },
       "events": [
@@ -372,6 +373,87 @@
         }
       ],
       "topic_id": "topic-1512815797473-16"
+    },
+    "topic-1536215679114-660": {
+      "topic_type": "life_time",
+      "topic_name": "Dialer Test",
+      "variations": {
+        "set default guide show": {
+          "type": "boolean",
+          "value": false
+        },
+        "call_finish_wire_show": {
+          "type": "boolean",
+          "value": false
+        },
+        "dialer enable": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "set_default_guide_show"
+        },
+        {
+          "name": "set_default_guide_set_clicked"
+        },
+        {
+          "name": "set_default_success"
+        },
+        {
+          "name": "dailer_page_show"
+        },
+        {
+          "name": "colorphone_call_finished"
+        },
+        {
+          "name": "colorphone_call_finished_call_assistant_show"
+        },
+        {
+          "name": "colorphone_call_finished_wire_should_show"
+        },
+        {
+          "name": "colorphone_call_finished_wire_show"
+        }
+      ],
+      "topic_id": "topic-1536215679114-660"
+    },
+    "topic-1536046257588-648": {
+      "topic_type": "life_time",
+      "topic_name": "Color Phone About List Style Test",
+      "variations": {
+        "information_display": {
+          "type": "boolean",
+          "value": true
+        },
+        "apply_button": {
+          "type": "boolean",
+          "value": true
+        },
+        "special_entrance": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "apply_button_clicked"
+        },
+        {
+          "name": "thumbnail_clicked"
+        },
+        {
+          "name": "call flash_set"
+        }
+      ],
+      "topic_id": "topic-1536046257588-648"
     },
     "topic-1516620266175-105": {
       "topic_type": "one_time",
