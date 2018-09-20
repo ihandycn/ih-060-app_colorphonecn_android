@@ -966,4 +966,8 @@ public final class Utils {
         }
         return title;
     }
+
+    public static boolean isNewUser() {
+        return HSApplication.getFirstLaunchInfo().appVersionCode == HSApplication.getCurrentLaunchInfo().appVersionCode;
+    }
 }
