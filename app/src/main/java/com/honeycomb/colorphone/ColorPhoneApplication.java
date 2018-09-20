@@ -353,7 +353,6 @@ public class ColorPhoneApplication extends HSApplication {
 
         SmsFlashListener.getInstance().start();
 
-
         if (AutopilotConfig.hasConfigFetchFinished()) {
             initNotificationToolbar();
         } else {
@@ -361,6 +360,7 @@ public class ColorPhoneApplication extends HSApplication {
             configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
             registerReceiver(mAutopilotFetchReceiver, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
         }
+        logUserLevelDistribution();
 
     }
 
@@ -671,6 +671,41 @@ public class ColorPhoneApplication extends HSApplication {
             if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_AGENCY_INFO_LOGGED)) {
                 HSPreferenceHelper.getDefault().putBoolean(PREF_KEY_AGENCY_INFO_LOGGED, true);
                 LauncherAnalytics.logEvent("New_User_Agency_Info", "install_type", installType, "user_level", "" + HSConfig.optString("not_configured", "UserLevel"), "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
+            }
+        }
+    }
+
+    private void logUserLevelDistribution() {
+        String PREF_KEY_New_User_User_Level_LOGGED = "lv_logged";
+        if (Utils.isNewUser()) {
+            if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_New_User_User_Level_LOGGED)) {
+                int delayTimes [] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
+                for (int delay : delayTimes) {
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            LauncherAnalytics.logEvent("New_User_Agency_Info_" + delay, LauncherAnalytics.FLAG_LOG_FABRIC,
+                                    "user_level", "" + HSConfig.optString("not_configured", "UserLevel"),
+                                    "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
+                        }
+                    }, delay * 1000);
+                }
+                HSPreferenceHelper.getDefault().putBoolean(PREF_KEY_New_User_User_Level_LOGGED, true);
+            }
+        } else {
+            final String PREF_KEY_ATTRIBUTION_OLD_USER_TEST = "old_user_attribution";
+            if (HSApplication.getFirstLaunchInfo().appVersionCode <= 64
+                    && !HSPreferenceHelper.getDefault().contains(PREF_KEY_ATTRIBUTION_OLD_USER_TEST)) {
+                HSPreferenceHelper.getDefault().putBoolean(PREF_KEY_ATTRIBUTION_OLD_USER_TEST, true);
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        LauncherAnalytics.logEvent("Old_User_Agency_Info", LauncherAnalytics.FLAG_LOG_FABRIC,
+                                "user_level", "" + HSConfig.optString("not_configured", "UserLevel"),
+                                "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode,
+                                "first_version_code", "" + HSApplication.getFirstLaunchInfo().appVersionCode);
+                    }
+                }, 20 * 1000);
             }
         }
     }
