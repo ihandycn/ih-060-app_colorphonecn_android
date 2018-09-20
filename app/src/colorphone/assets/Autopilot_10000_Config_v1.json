@@ -43,7 +43,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "ea22ca64-9612-429c-bbdd-e6ad1f8df792",
+  "json_id": "756c2ebd-f1c1-44ce-b260-5fb9ca9127a4",
   "topics": {
     "topic-1510752104742": {
       "topic_type": "one_time",
@@ -432,11 +432,11 @@
         },
         "apply_button": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "special_entrance": {
           "type": "boolean",
-          "value": true
+          "value": false
         }
       },
       "events": [
