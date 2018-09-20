@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.dialer;
 
+import android.os.Build;
+
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Commons;
@@ -19,11 +21,21 @@ public class AP {
     }
 
     public static void guideShow() {
+        boolean dialerEnable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && AP.dialerEnable();
+        if (!dialerEnable) {
+            return;
+        }
         AutopilotEvent.logTopicEvent("topic-1536215679114-660", "set_default_guide_show");
         LauncherAnalytics.logEvent(upperFirstCh("ColorPhone_" + "set_default_guide_show"));
     }
 
     public static void guideConfirmed() {
+        boolean dialerEnable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && AP.dialerEnable();
+        if (!dialerEnable) {
+            return;
+        }
         AutopilotEvent.logTopicEvent("topic-1536215679114-660", "set_default_guide_set_clicked");
         LauncherAnalytics.logEvent(upperFirstCh("ColorPhone_" + "set_default_guide_set_clicked"));
     }
