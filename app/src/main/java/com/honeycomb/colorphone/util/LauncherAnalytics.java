@@ -2,8 +2,8 @@ package com.honeycomb.colorphone.util;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.ColorPhoneApplication;
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.utils.HSLog;
 
 import java.util.HashMap;
@@ -15,11 +15,22 @@ import java.util.Map;
 
 public class LauncherAnalytics {
 
+    public static int FLAG_LOG_FLURRY = 0x1;
+    public static int FLAG_LOG_FABRIC = 0x2;
+
     public static void logEvent(String eventID) {
-        logEvent(eventID, (Map) (new HashMap()));
+        logEvent(eventID, FLAG_LOG_FABRIC | FLAG_LOG_FLURRY, (Map) (new HashMap()));
+    }
+
+    public static void logEvent(String eventID, int flag) {
+        logEvent(eventID, flag, (Map) (new HashMap()));
     }
 
     public static void logEvent(String eventID, String... vars) {
+        logEvent(eventID, FLAG_LOG_FABRIC | FLAG_LOG_FLURRY, vars);
+    }
+
+    public static void logEvent(String eventID, int flag, String... vars) {
         HashMap item = new HashMap();
         if (null != vars) {
             int length = vars.length;
@@ -38,18 +49,37 @@ public class LauncherAnalytics {
             }
         }
 
-        logEvent(eventID, (Map) item);
+        logEvent(eventID, flag, (Map) item);
     }
 
     public static void logEvent(final String eventID, final Map<String, String> eventValue) {
+        logEvent(eventID, FLAG_LOG_FABRIC | FLAG_LOG_FLURRY, eventValue);
+    }
+
+    public static void logEvent(final String eventID, int flag, final Map<String, String> eventValue) {
         if (ColorPhoneApplication.isFabricInitted()) {
             CustomEvent event = new CustomEvent(eventID);
             for (String key : eventValue.keySet()) {
                 event.putCustomAttribute(key, eventValue.get(key));
             }
             HSLog.d("FlurryWithAnswers", eventID);
-            Answers.getInstance().logCustom(event);
-            HSAnalytics.logEvent(eventID, eventValue);
+            if ((flag & FLAG_LOG_FABRIC) == FLAG_LOG_FABRIC) {
+                Answers.getInstance().logCustom(event);
+            }
+            if ((flag & FLAG_LOG_FLURRY) == FLAG_LOG_FLURRY) {
+                com.ihs.app.analytics.HSAnalytics.logEvent(eventID, eventValue);
+            }
+        } else {
+            HSLog.i("FlurryWithAnswers", "not init fabric event: " + eventID);
+        }
+    }
+
+    public static void logException(Exception e) {
+        if (ColorPhoneApplication.isFabricInitted()) {
+            try {
+                CrashlyticsCore.getInstance().logException(e);
+            } catch (Exception ignore) {
+            }
         }
     }
 
