@@ -102,7 +102,7 @@ dependencies {
 
             USE_BETA_ACB_LIBS ?
                     'com.ihandy.appframework:libAppframework.beta:4.6.8.+' :
-                    'com.ihandy.appframework:libAppframework.gm:4.6.8.gm',
+                    'com.ihandy.appframework:libAppframework.gm:4.7.1.gm',
     ]
 
     for (dependency in COMMON_DEPENDENCIES) compile dependency
