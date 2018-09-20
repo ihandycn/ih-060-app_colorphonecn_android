@@ -49,6 +49,8 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
+import com.honeycomb.colorphone.util.CallFinishUtils;
+import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -161,6 +163,7 @@ public class ColorPhoneApplication extends HSApplication {
     private BroadcastReceiver mAutopilotFetchReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            updateCallFinishFullScreenAdPlacement();
             initNotificationToolbar();
         }
     };
@@ -352,7 +355,7 @@ public class ColorPhoneApplication extends HSApplication {
         initNotificationAlarm();
 
         Theme.updateThemes();
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
+
 
         SmsFlashListener.getInstance().start();
 
@@ -429,6 +432,12 @@ public class ColorPhoneApplication extends HSApplication {
         }
 
         NotificationManager.getInstance().showNotificationToolbarIfEnabled();
+    }
+
+    private void updateCallFinishFullScreenAdPlacement() {
+        if (CallFinishUtils.isCallFinishFullScreenAdEnabled()) {
+            AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
+        }
     }
 
     private void initChargingReport() {
