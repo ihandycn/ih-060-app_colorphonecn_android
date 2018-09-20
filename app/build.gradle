@@ -24,7 +24,7 @@ android {
         colorphone {
             applicationId "com.colorphone.smooth.dialer"
             versionCode 32
-            versionName "1.2.3.develop"
+            versionName "1.2.3"
         }
         colorflash {
             applicationId "com.app.phone.call.flash.screen"
