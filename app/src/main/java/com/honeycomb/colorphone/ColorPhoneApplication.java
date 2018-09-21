@@ -167,7 +167,6 @@ public class ColorPhoneApplication extends HSApplication {
         @Override
         public void onReceive(Context context, Intent intent) {
             updateCallFinishFullScreenAdPlacement();
-            initNotificationToolbar();
         }
     };
 
@@ -176,6 +175,8 @@ public class ColorPhoneApplication extends HSApplication {
      */
     public static int mWidth;
     public static int mHeight;
+
+    private boolean isCallAssistantActivated;
 
     private static boolean isFabricInitted;
     public static boolean isAppForeground() {
@@ -367,7 +368,6 @@ public class ColorPhoneApplication extends HSApplication {
         SmsFlashListener.getInstance().start();
 
         if (AutopilotConfig.hasConfigFetchFinished()) {
-            initNotificationToolbar();
         } else {
             IntentFilter configFinishedFilter = new IntentFilter();
             configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
@@ -398,22 +398,10 @@ public class ColorPhoneApplication extends HSApplication {
         RecentAppManager.getInstance().init();
     }
 
-    private void initNotificationToolbar() {
-        if (HSVersionControlUtils.isFirstLaunchSinceInstallation() || HSVersionControlUtils.isFirstLaunchSinceUpgrade()) {
-            UserSettings.checkNotificationToolbarToggleClicked();
-        }
-
-        if (!UserSettings.isNotificationToolbarToggleClicked()) {
-            UserSettings.setNotificationToolbarEnabled(ModuleUtils.isNotificationToolBarEnabled());
-        }
-
-        NotificationManager.getInstance().showNotificationToolbarIfEnabled();
-
-    }
-
     private void updateCallFinishFullScreenAdPlacement() {
-        if (CallFinishUtils.isCallFinishFullScreenAdEnabled()) {
+        if (CallFinishUtils.isCallFinishFullScreenAdEnabled() && !isCallAssistantActivated) {
             AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
+            isCallAssistantActivated = true;
         }
     }
 
