@@ -193,11 +193,23 @@ public class ColorPhoneApplication extends HSApplication {
 
         String packageName = getPackageName();
         String processName = getProcessName();
-
         if (TextUtils.equals(processName, packageName)) {
             onMainProcessCreate();
         }
     }
+
+    private void initNotificationToolbar() {
+        if (HSVersionControlUtils.isFirstLaunchSinceInstallation() || HSVersionControlUtils.isFirstLaunchSinceUpgrade()) {
+            UserSettings.checkNotificationToolbarToggleClicked();
+        }
+
+        if (!UserSettings.isNotificationToolbarToggleClicked()) {
+            UserSettings.setNotificationToolbarEnabled(ModuleUtils.isNotificationToolBarEnabled());
+        }
+
+        NotificationManager.getInstance().showNotificationToolbarIfEnabled();
+    }
+
 
     public static boolean isFabricInitted() {
         return isFabricInitted;
@@ -312,6 +324,7 @@ public class ColorPhoneApplication extends HSApplication {
 
         initChargingReport();
         initLockerCharging();
+        initNotificationToolbar();
 
         initRecentApps();
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
