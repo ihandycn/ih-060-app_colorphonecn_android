@@ -15,6 +15,7 @@ import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
@@ -742,6 +743,7 @@ public class ColorPhoneApplication extends HSApplication {
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            Log.e("WifiStateChange2", HSConfig.optString("not_configured", "UserLevel"));
                             LauncherAnalytics.logEvent("New_User_Agency_Info_" + delay, LauncherAnalytics.FLAG_LOG_FABRIC,
                                     "user_level", "" + HSConfig.optString("not_configured", "UserLevel"),
                                     "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
@@ -758,6 +760,7 @@ public class ColorPhoneApplication extends HSApplication {
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        Log.e("WifiStateChange2", HSConfig.optString("not_configured", "UserLevel"));
                         LauncherAnalytics.logEvent("Old_User_Agency_Info", LauncherAnalytics.FLAG_LOG_FABRIC,
                                 "user_level", "" + HSConfig.optString("not_configured", "UserLevel"),
                                 "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode,
