@@ -150,7 +150,7 @@ public class ColorPhoneApplication extends HSApplication {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
                 Theme.updateThemes();
-
+                initNotificationToolbar();
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
@@ -158,14 +158,6 @@ public class ColorPhoneApplication extends HSApplication {
             } else {
                 checkModuleAdPlacement();
             }
-        }
-    };
-
-    private BroadcastReceiver mAutopilotFetchReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            updateCallFinishFullScreenAdPlacement();
-            initNotificationToolbar();
         }
     };
 
@@ -360,13 +352,7 @@ public class ColorPhoneApplication extends HSApplication {
 
         SmsFlashListener.getInstance().start();
 
-        if (AutopilotConfig.hasConfigFetchFinished()) {
-            initNotificationToolbar();
-        } else {
-            IntentFilter configFinishedFilter = new IntentFilter();
-            configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
-            registerReceiver(mAutopilotFetchReceiver, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
-        }
+        initNotificationToolbar();
         logUserLevelDistribution();
 
         ScreenFlashManager.getInstance().setLogEventListener(new ScreenFlashManager.LogEventListener() {
