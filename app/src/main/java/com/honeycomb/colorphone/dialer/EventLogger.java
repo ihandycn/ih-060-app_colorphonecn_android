@@ -1,9 +1,7 @@
 package com.honeycomb.colorphone.dialer;
 
-import android.telephony.PhoneNumberUtils;
 import android.text.format.DateUtils;
 
-import com.honeycomb.colorphone.dialer.util.GeoUtil;
 import com.honeycomb.colorphone.dialer.util.HardwareProximitySensor;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
@@ -56,9 +54,7 @@ public class EventLogger {
 
         LauncherAnalytics.logEvent("ColorPhone_Call_Finished2",
                 "Timing", formatDuration(mDuration),
-                "Closetoear", near ? "Yes" : "NO",
-                "ForeignCall", PhoneNumberUtils.isInternationalNumber(number, GeoUtil.getCurrentCountryIso(HSApplication.getContext()))
-        ? "Yes" : "NO");
+        "Closetoear", near ? "Yes" : "NO");
 
     }
 
