@@ -744,6 +744,7 @@ public class ColorPhoneApplication extends HSApplication {
         HSPreferenceHelper hsPreferenceHelper = HSPreferenceHelper.create(HSApplication.getContext(), "framework_config");
         String newUrl = hsPreferenceHelper.getString("hs.commons.config.remote.file.url", "");
         Log.e("SUNDXING", "Remote url =" + newUrl);
+        HSConfig.fetchRemote();
 
         if (Utils.isNewUser()) {
             if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_New_User_User_Level_LOGGED)) {
