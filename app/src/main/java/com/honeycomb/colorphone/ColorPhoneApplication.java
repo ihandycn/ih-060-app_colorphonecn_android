@@ -152,7 +152,7 @@ public class ColorPhoneApplication extends HSApplication {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
                 Theme.updateThemes();
-
+                initNotificationToolbar();
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
