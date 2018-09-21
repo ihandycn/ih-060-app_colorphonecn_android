@@ -23,7 +23,7 @@ android {
     productFlavors {
         colorphone {
             applicationId "com.colorphone.smooth.dialer"
-            versionCode 32
+            versionCode 33
             versionName "1.2.3"
         }
         colorflash {
