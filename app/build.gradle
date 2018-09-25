@@ -26,8 +26,8 @@ android {
         colorphone {
             dimension "mode"
             applicationId "com.colorphone.smooth.dialer"
-            versionCode 31
-            versionName "1.2.2"
+            versionCode 32
+            versionName "1.2.3.develop"
         }
         colorflash {
             dimension "mode"
@@ -61,6 +61,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -69,20 +70,20 @@ android {
         abortOnError false
     }
     ihandyProGuard {
-        packageName "com.honeycomb.colorphone"
+        packageNames = ["com.honeycomb.colorphone"]
     }
     dexOptions {
         javaMaxHeapSize "4g"
     }
 
-    splits {
-        abi {
-            enable true
-            reset()
-            include "armeabi"
-            universalApk false
-        }
-    }
+//    splits {
+//        abi {
+//            enable true
+//            reset()
+//            include "armeabi"
+//            universalApk false
+//        }
+//    }
 }
 
 final SUPPORT_LIBRARY_VERSION = '26.1.0'
