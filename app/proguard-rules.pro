@@ -23,15 +23,31 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+-printconfiguration "build/outputs/mapping/configuration.txt"
 
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep public class * extends android.app.Service
+#-keep public class * extends android.app.Activity
+#-keep public class * extends android.app.Application
+#-keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
--keep public class * extends android.content.ContentProvider
--keep public class * extends android.app.backup.BackupAgentHelper
--keep public class * extends android.preference.Preference
+#-keep public class * extends android.content.ContentProvider
+#-keep public class * extends android.app.backup.BackupAgentHelper
+#-keep public class * extends android.preference.Preference
+
+-keep class com.honeycomb.colorphone.activity.WelcomeActivity {
+  *;
+}
+
+-keepnames class com.honeycomb.colorphone.PermanentService$* {
+    public <fields>;
+    public <methods>;
+}
+-keep class com.honeycomb.colorphone.PermanentService {
+*;
+}
+-keepnames class com.honeycomb.colorphone.LockJobService
+
+-keepnames class com.honeycomb.colorphone.notification.NotificationServiceV18
+
 -keep public class com.android.vending.licensing.ILicensingService
 
 -keepclasseswithmembers class * {
@@ -39,11 +55,7 @@
 }
 
 -keepclasseswithmembers class * {
-    public <init>(android.content.Context, android.util.AttributeSet, int);
-}
-
--keepclassmembers class * extends android.app.Activity {
-   public void *(android.view.View);
+    publåic <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
 -keepclassmembers enum * {

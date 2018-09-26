@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.hugo'
-apply plugin: 'me.tatarka.retrolambda'
-apply from: 'stable-Ids.gradle'
+//apply from: 'stable-Ids.gradle'
+apply plugin: 'ihandy.proguard.rewrite'
 
 android {
     compileSdkVersion 27
@@ -20,16 +20,25 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    flavorDimensions "mode"
+
     productFlavors {
         colorphone {
+            dimension "mode"
             applicationId "com.colorphone.smooth.dialer"
-            versionCode 31
-            versionName "1.2.2"
+            versionCode 32
+            versionName "1.2.3.develop"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'src/colorphone/proguard-rules.pro'
+
         }
         colorflash {
+            dimension "mode"
             applicationId "com.app.phone.call.flash.screen"
             versionCode 9
             versionName "1.0.7"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro',
+                    'src/colorflash/proguard-rules.pro'
+
         }
     }
 
@@ -70,19 +79,36 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
         }
     }
     lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
+
         abortOnError false
     }
-
+    ihandyProGuard {
+        packageNames = ['com.acb.call',
+                        'com.call.assistant',
+                        'com.ihs.chargingreport',
+                        'com.superapps',
+                        'colorphone.acb.com']
+        packageNameMap = [
+                "colorflash":['cfl'],
+                "colorphone":['cph']
+        ]
+    }
     dexOptions {
         javaMaxHeapSize "4g"
     }
+
+//    splits {
+//        abi {
+//            enable true
+//            reset()
+//            include "armeabi"
+//            universalApk false
+//        }
+//    }
 }
 
 final SUPPORT_LIBRARY_VERSION = '26.1.0'
@@ -152,8 +178,7 @@ dependencies {
     compile "com.ihandy.device:device-monitor-top-app$LIB_DEVICE_VERSION".toString()
 
     // Submodule
-    provided files('../libs/api/android_27.jar')
-    compile files('../libs/ihs/libFlashlight/libFlashlight.jar')
+    compile files('../libs/libFlashlight/libFlashlight.jar')
     compile(name: 'libChargingReport/libChargingReport-release', ext: 'aar')
     compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
     compile project(':libCallAssistant')
