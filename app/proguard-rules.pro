@@ -23,8 +23,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--repackageclasses 'com.honeycomb.colorphone'
--allowaccessmodification
 -printconfiguration "build/outputs/mapping/configuration.txt"
 
 #-keep public class * extends android.app.Activity

@@ -28,12 +28,17 @@ android {
             applicationId "com.colorphone.smooth.dialer"
             versionCode 32
             versionName "1.2.3.develop"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'src/colorphone/proguard-rules.pro'
+
         }
         colorflash {
             dimension "mode"
             applicationId "com.app.phone.call.flash.screen"
             versionCode 6
             versionName "1.0.4"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro',
+                    'src/colorflash/proguard-rules.pro'
+
         }
     }
 
@@ -62,7 +67,6 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     lintOptions {
@@ -70,7 +74,15 @@ android {
         abortOnError false
     }
     ihandyProGuard {
-        packageNames = ["com.honeycomb.colorphone"]
+        packageNames = ['com.acb.call',
+                        'com.call.assistant',
+                        'com.ihs.chargingreport',
+                        'com.superapps',
+                        'colorphone.acb.com']
+        packageNameMap = [
+                "colorflash":['cfl'],
+                "colorphone":['cph']
+        ]
     }
     dexOptions {
         javaMaxHeapSize "4g"
