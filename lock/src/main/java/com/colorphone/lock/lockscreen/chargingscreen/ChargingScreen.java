@@ -335,7 +335,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
         // ======== onStart ========
         isStart = true;
-        AutoPilotUtils.chargingViewShow();
         HSLog.d(TAG, "onStart()");
         if (customizeContentContainer != null) {
             customizeContentContainer.onVisibilityChange(true);

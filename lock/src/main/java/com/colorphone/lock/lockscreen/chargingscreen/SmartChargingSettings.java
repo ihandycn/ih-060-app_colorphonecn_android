@@ -5,7 +5,6 @@ import com.colorphone.lock.util.ConfigUtils;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 
-import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 
 public class SmartChargingSettings {
 
