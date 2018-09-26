@@ -88,7 +88,6 @@ android {
                         'com.call.assistant',
                         'com.ihs.chargingreport',
                         'com.superapps',
-                        'com.honeycomb.colorphone',
                         'colorphone.acb.com']
         packageNameMap = [
                 "colorflash":['cfl'],
