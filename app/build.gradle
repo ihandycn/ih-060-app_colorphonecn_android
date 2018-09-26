@@ -28,7 +28,8 @@ android {
             applicationId "com.colorphone.smooth.dialer"
             versionCode 32
             versionName "1.2.3.develop"
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'src/colorphone/proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro',
+                    'src/colorphone/proguard-rules.pro'
 
         }
         colorflash {
@@ -44,9 +45,6 @@ android {
 
     sourceSets {
         main {
-//            proto {
-//                srcDir 'src/main/proto' //指定.proto文件路径
-//            }
             manifest.srcFile 'src/main/AndroidManifest.xml'
             res.srcDirs = ['src/main/res',
                            'src/main/java/com/honeycomb/colorphone/telecomeventui/res',
