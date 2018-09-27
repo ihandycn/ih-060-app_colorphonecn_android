@@ -2,8 +2,8 @@ package com.honeycomb.colorphone.download;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.os.Handler;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,8 +14,6 @@ import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
-import com.honeycomb.colorphone.view.ProgressView;
-import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -124,9 +122,14 @@ public class DownloadViewHolder implements DownloadHolder {
                         taskProgressBar.setVisibility(fileReady ? View.GONE : View.VISIBLE);
                         v.setVisibility(View.VISIBLE);
                         doDownload(model);
-                        if (listener != null) {
-                            listener.onStartDownload();
-                        }
+                        new Handler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (listener != null) {
+                                    listener.onStartDownload();
+                                }
+                            }
+                        });
 
                         taskStartAnim.removeAnimatorListener(this);
                     }
