@@ -29,7 +29,7 @@ android {
             applicationId "com.colorphone.smooth.dialer"
             versionCode 33
             versionName "1.2.3"
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'src/colorphone/proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'src/colorphone/proguard-rules.pro'
 
         }
         colorflash {
@@ -37,7 +37,7 @@ android {
             applicationId "com.app.phone.call.flash.screen"
             versionCode 6
             versionName "1.0.4"
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro',
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
                     'src/colorflash/proguard-rules.pro'
 
         }
