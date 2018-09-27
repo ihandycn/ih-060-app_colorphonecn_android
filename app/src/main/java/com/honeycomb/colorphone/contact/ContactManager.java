@@ -75,7 +75,7 @@ public class ContactManager {
         }
     }
 
-    private void updateFilterContactsIfNeeded() {
+    private synchronized void updateFilterContactsIfNeeded() {
         if (needFilterTheme || mThemeFilterContacts.isEmpty()) {
             mThemeFilterContacts.clear();
             synchronized(this) {
