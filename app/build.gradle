@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.hugo'
-//apply from: 'stable-Ids.gradle'
+apply from: 'stable-Ids.gradle'
 apply plugin: 'ihandy.proguard.rewrite'
+apply plugin: 'com.miracles.stableid'
 
 android {
     compileSdkVersion 27
@@ -95,6 +96,11 @@ android {
                 "colorphone":['cph']
         ]
     }
+
+    stableXmlConfig{
+        inXmlPath file("public.xml").absolutePath
+    }
+
     dexOptions {
         javaMaxHeapSize "4g"
     }
