@@ -27,7 +27,7 @@ android {
         colorphone {
             dimension "mode"
             applicationId "com.colorphone.smooth.dialer"
-            versionCode 33
+            versionCode 34
             versionName "1.2.3"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'src/colorphone/proguard-rules.pro'
 
