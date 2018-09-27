@@ -71,7 +71,7 @@ public class ContactManager {
             updateFilterContactsIfNeeded();
             return mThemeFilterContacts;
         } else {
-            return new ArrayList<>(mAllContacts);
+            return mAllContacts;
         }
     }
 
@@ -331,7 +331,7 @@ public class ContactManager {
         return themeId;
     }
 
-    public synchronized void clearThemeStatus() {
+    public void clearThemeStatus() {
         for (SimpleContact contact : mAllContacts) {
             contact.setSelected(false);
         }
