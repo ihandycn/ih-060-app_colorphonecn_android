@@ -22,7 +22,6 @@ import java.util.List;
 
 import hugo.weaving.DebugLog;
 
-import static com.honeycomb.colorphone.contact.ContactDBHelper.Action.DELETE;
 import static com.honeycomb.colorphone.contact.ContactDBHelper.Action.INSERT;
 
 /**
@@ -72,11 +71,11 @@ public class ContactManager {
             updateFilterContactsIfNeeded();
             return mThemeFilterContacts;
         } else {
-            return mAllContacts;
+            return new ArrayList<>(mAllContacts);
         }
     }
 
-    private void updateFilterContactsIfNeeded() {
+    private synchronized void updateFilterContactsIfNeeded() {
         if (needFilterTheme || mThemeFilterContacts.isEmpty()) {
             mThemeFilterContacts.clear();
             for (SimpleContact c : mAllContacts) {
@@ -332,7 +331,7 @@ public class ContactManager {
         return themeId;
     }
 
-    public void clearThemeStatus() {
+    public synchronized void clearThemeStatus() {
         for (SimpleContact contact : mAllContacts) {
             contact.setSelected(false);
         }
