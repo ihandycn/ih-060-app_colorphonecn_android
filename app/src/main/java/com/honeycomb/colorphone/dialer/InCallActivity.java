@@ -18,6 +18,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.VisibleForTesting;
+import android.support.v7.app.AppCompatActivity;
 import android.telecom.CallAudioState;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -36,7 +37,6 @@ import com.honeycomb.colorphone.dialer.disconnectdialog.DisconnectMessage;
 import com.honeycomb.colorphone.dialer.incalluilock.InCallUiLock;
 import com.honeycomb.colorphone.dialer.util.ViewUtil;
 import com.honeycomb.colorphone.telecomeventui.InternationalCallOnWifiDialogFragment;
-import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class InCallActivity extends HSAppCompatActivity implements PseudoScreenState.StateChangedListener {
+public class InCallActivity extends AppCompatActivity implements PseudoScreenState.StateChangedListener {
 
     private ValueAnimator dialpadSlideInAnimation;
     private ValueAnimator dialpadSlideOutAnimation;
