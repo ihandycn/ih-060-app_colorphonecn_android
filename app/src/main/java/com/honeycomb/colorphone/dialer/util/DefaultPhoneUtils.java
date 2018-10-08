@@ -66,7 +66,7 @@ public class DefaultPhoneUtils {
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void resetDefaultPhone() {
         String systemPhone = Preferences.get(Constants.DESKTOP_PREFS)
-                .getString(PREFS_DEFAULT_PHONE_PKG, "");
+                .getString(PREFS_DEFAULT_PHONE_PKG, "com.android.phone");
         if (!TextUtils.isEmpty(systemPhone)) {
             Intent intent = new Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER);
             intent.putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, systemPhone);
