@@ -558,9 +558,13 @@ public class DialerCall {
     }
     // TODO(a bug): This may take several seconds to complete, revisit it to move it to worker
     // thread.
-    carrierConfig =
-        TelephonyManagerCompat.getTelephonyManagerForPhoneAccountHandle(context, accountHandle)
-            .getCarrierConfig();
+    try {
+      carrierConfig =
+              TelephonyManagerCompat.getTelephonyManagerForPhoneAccountHandle(context, accountHandle)
+                      .getCarrierConfig();
+    } catch (Exception e) {
+
+    }
   }
 
   /**
