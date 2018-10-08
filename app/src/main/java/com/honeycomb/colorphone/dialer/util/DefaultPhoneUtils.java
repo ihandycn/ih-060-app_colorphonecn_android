@@ -2,6 +2,9 @@ package com.honeycomb.colorphone.dialer.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.telecom.TelecomManager;
@@ -13,6 +16,8 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
+
+import java.util.List;
 
 public class DefaultPhoneUtils {
 
@@ -66,12 +71,32 @@ public class DefaultPhoneUtils {
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void resetDefaultPhone() {
         String systemPhone = Preferences.get(Constants.DESKTOP_PREFS)
-                .getString(PREFS_DEFAULT_PHONE_PKG, "com.android.phone");
+                .getString(PREFS_DEFAULT_PHONE_PKG, "");
+        if (TextUtils.isEmpty(systemPhone)) {
+            systemPhone = findDefaultDialerPkg();
+            HSLog.d("findDefaultDialerPkg", "pkg=" + systemPhone);
+        }
         if (!TextUtils.isEmpty(systemPhone)) {
             Intent intent = new Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER);
             intent.putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, systemPhone);
             Navigations.startActivitySafely(HSApplication.getContext(), intent);
         }
 
+    }
+
+    public static String findDefaultDialerPkg() {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        Uri data = Uri.parse("tel:" + "911");
+        intent.setData(data);
+
+        PackageManager packageManager = HSApplication.getContext().getPackageManager();
+        final String myPkg = HSApplication.getContext().getPackageName();
+        List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, 0);
+        for (ResolveInfo resolveInfo : resolveInfos) {
+            if (!TextUtils.equals(resolveInfo.activityInfo.packageName, myPkg)) {
+                return resolveInfo.activityInfo.packageName;
+            }
+        }
+        return null;
     }
 }
