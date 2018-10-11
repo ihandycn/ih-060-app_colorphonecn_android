@@ -214,7 +214,7 @@ public class BlackHole extends RelativeLayout {
         ImageView iconSevenV = (ImageView) findViewById(R.id.boost_icon_7_iv);
 
         Drawable[] drawables = boostAnimationManager.getBoostAppIconDrawables(getContext());
-        if (null != drawables) {
+        if (null != drawables && drawables.length == BoostAnimationManager.COUNT_ICON) {
             iconOneV.setImageDrawable(drawables[BoostAnimationManager.Boost.ICON_ONE]);
             iconTwoV.setImageDrawable(drawables[BoostAnimationManager.Boost.ICON_TWO]);
             iconThreeV.setImageDrawable(drawables[BoostAnimationManager.Boost.ICON_THREE]);

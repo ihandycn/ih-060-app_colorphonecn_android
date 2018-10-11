@@ -585,7 +585,7 @@ public class NotificationCondition implements INotificationObserver {
         Bitmap[] bitmaps = boostAnimationManager.getBoostAppIconBitmaps(HSApplication.getContext());
         for (int i = 0; i < bitmaps.length && i < ICON_CONTAINER_RES_ID.length && i < runningApps; i++) {
             remoteViews.setViewVisibility(ICON_CONTAINER_RES_ID[i], View.VISIBLE);
-            if (i != 4) {
+            if (i != 4 && bitmaps[i] != null) {
                 remoteViews.setImageViewBitmap(ICON_CONTAINER_RES_ID[i], bitmaps[i]);
             }
         }
