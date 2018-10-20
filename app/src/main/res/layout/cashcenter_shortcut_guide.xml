@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#60000000">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/view_container"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        tools:background="#22000000"
+        tools:layout_gravity="center"
+        tools:layout_width="320dp">
+
+        <ImageView
+            android:id="@+id/basketball_shortcut_guide_icon"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/basketball_shortcut_guide_btn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.545"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/basketball_shortcut_guide_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/basketball_shortcut_guide_icon"
+            android:layout_toRightOf="@+id/basketball_shortcut_guide_icon"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/crash_guide_content"
+            android:textColor="#67696d"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/basketball_shortcut_guide_icon"
+            app:layout_constraintEnd_toStartOf="@+id/basketball_shortcut_guide_close"
+            app:layout_constraintStart_toEndOf="@+id/basketball_shortcut_guide_icon"
+            app:layout_constraintTop_toTopOf="@+id/basketball_shortcut_guide_icon"
+            tools:ignore="RelativeOverlap"
+            tools:text="ddgasdgssdfljdM37.7109375,416.25 C104.523438,268.065104 198.992188,174.605469 321.117188,135.871" />
+
+        <TextView
+            android:id="@+id/basketball_shortcut_guide_btn"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:text="@android:string/ok"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <ImageView
+            android:id="@+id/basketball_shortcut_guide_close"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:padding="10dp"
+            android:scaleType="center"
+            android:src="@drawable/close_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.98"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="ContentDescription" />
+
+    </android.support.constraint.ConstraintLayout>
+</RelativeLayout>
+

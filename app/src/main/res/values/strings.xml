@@ -248,4 +248,6 @@
     <string name="promotion_max_card_title_cpu_cooler">CPU Cooler</string>
 
     <string name="notification_toolbar_flash_light">Flashlight</string>
+    <string name="crash_guide_content">TODO</string>
+    <string name="cashcenter_title">Cash Center</string>
 </resources>
