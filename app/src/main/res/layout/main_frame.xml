@@ -42,5 +42,23 @@
             android:visibility="gone"/>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="4dp" >
+
+        <Button
+            android:id="@+id/cash_center_entrance_icon"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:elevation="@dimen/dialog_elevation"
+            android:background="@drawable/cashcenter_icon"
+            android:visibility="visible"/>
+
+    </LinearLayout>
 
 </FrameLayout>

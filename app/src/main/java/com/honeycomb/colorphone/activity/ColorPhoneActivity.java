@@ -36,6 +36,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.boost.BoostActivity;
+import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -52,7 +53,6 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -285,6 +285,22 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         } else {
             avatar.setVisibility(View.GONE);
         }
+
+        Button cashFloatButton = findViewById(R.id.cash_center_entrance_icon);
+        if (CashUtils.needShowMainFloatButton()) {
+            cashFloatButton.setVisibility(View.VISIBLE);
+            cashFloatButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CashUtils.Event.onMainviewFloatButtonClick();
+                }
+            });
+            CashUtils.Event.onMainviewFloatButtonShow();
+        } else {
+            cashFloatButton.setVisibility(View.GONE);
+        }
+
+
     }
 
     @Override

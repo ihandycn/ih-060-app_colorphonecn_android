@@ -1,13 +1,16 @@
 package com.honeycomb.colorphone.cashcenter;
 
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Preferences;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
 
-public class Utils {
+import java.util.List;
+
+public class CashUtils {
 
     public static boolean hasUserEnterCrashCenter() {
         return Preferences.get("cash_center").getBoolean("user_visit", false);
@@ -16,11 +19,13 @@ public class Utils {
         Preferences.get("cash_center").putBoolean("user_visit", true);
     }
 
-    public static boolean mainFloatButtonShow() {
-        boolean mainviewFloatButtonShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
-                "mainview_float_button_show", false);
-        return mainviewFloatButtonShowBoolean
-                || HSConfig.optBoolean(false, "Application", "EarnCash", "MainviewFloatButtonShow");
+    public static boolean enabledThisVersion() {
+        List<Integer> enableList = (List<Integer>) HSConfig.getList("Application", "EarnCash", "EarnCashEnableVersioncode");
+        int versionCode = HSApplication.getFirstLaunchInfo().appVersionCode;
+        if (enableList != null && enableList.contains(versionCode)) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean masterSwitch() {
@@ -29,6 +34,21 @@ public class Utils {
         return HSConfig.optBoolean(false, "Application", "EarnCash", "MasterSwitch")
                 || masterSwitch;
     }
+
+    private static boolean checkGlobalSwitch() {
+        return masterSwitch() && enabledThisVersion();
+    }
+
+    public static boolean needShowMainFloatButton() {
+        if (!checkGlobalSwitch()) {
+            return false;
+        }
+        boolean mainviewFloatButtonShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
+                "mainview_float_button_show", false);
+        return mainviewFloatButtonShowBoolean
+                || HSConfig.optBoolean(false, "Application", "EarnCash", "MainviewFloatButtonShow");
+    }
+
 
     public static boolean guideShowOnUnlockScreeen() {
         boolean earncashAlertShowWhenUnlockscreenBoolean = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
@@ -79,22 +99,29 @@ public class Utils {
     public static class Event {
         public static final String TOPIC_ID = "topic-1539675249991-758";
 
-        public static void onDesktopShortcutClick() {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_desktop_icon_click");
-            LauncherAnalytics.logEvent("colorphone_earncash_desktop_icon_click");
+        private static void logEvent(String name) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
+            LauncherAnalytics.logEvent(name);
+        }
 
+        public static void onDesktopShortcutClick() {
+            logEvent("colorphone_earncash_desktop_icon_click");
         }
 
         public static void onAdShouldShow() {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_ad_should_show");
-            LauncherAnalytics.logEvent("colorphone_earncash_ad_should_show");
-
+            logEvent("colorphone_earncash_ad_should_show");
         }
 
         public static void onAdShow() {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_ad_show");
-            LauncherAnalytics.logEvent("colorphone_earncash_ad_show");
+            logEvent("colorphone_earncash_ad_show");
+        }
 
+        public static void onMainviewFloatButtonShow() {
+            logEvent("colorphone_mainview_float_button_show");
+        }
+
+        public static void onMainviewFloatButtonClick() {
+            logEvent("colorphone_mainview_float_button_click");
         }
     }
 
