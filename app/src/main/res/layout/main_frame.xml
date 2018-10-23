@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="false"
     tools:context="com.honeycomb.colorphone.activity.ColorPhoneActivity">
 
@@ -50,15 +51,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
         android:padding="4dp" >
-
-        <Button
-            android:id="@+id/cash_center_entrance_icon"
-            android:layout_width="66dp"
-            android:layout_height="66dp"
-            android:elevation="@dimen/dialog_elevation"
-            android:background="@drawable/cashcenter_icon"
-            android:visibility="visible"/>
-
+        <include layout="@layout/cash_guide_button"/>
     </LinearLayout>
 
 </FrameLayout>

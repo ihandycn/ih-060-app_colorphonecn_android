@@ -286,7 +286,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             avatar.setVisibility(View.GONE);
         }
 
-        Button cashFloatButton = findViewById(R.id.cash_center_entrance_icon);
+        View cashFloatButton = findViewById(R.id.cash_center_entrance_icon);
         if (CashUtils.needShowMainFloatButton()) {
             cashFloatButton.setVisibility(View.VISIBLE);
             cashFloatButton.setOnClickListener(new View.OnClickListener() {

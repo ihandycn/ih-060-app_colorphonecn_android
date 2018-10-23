@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.cashcenter;
 
+import android.os.Build;
+
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -36,7 +38,10 @@ public class CashUtils {
     }
 
     private static boolean checkGlobalSwitch() {
-        return masterSwitch() && enabledThisVersion();
+        return masterSwitch()
+                && enabledThisVersion()
+                // Lottie support
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     }
 
     public static boolean needShowMainFloatButton() {
