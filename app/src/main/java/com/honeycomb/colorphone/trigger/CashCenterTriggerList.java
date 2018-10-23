@@ -16,6 +16,7 @@ public class CashCenterTriggerList {
             Trigger.Options options = new Trigger.Options();
             options.intervalHours = 2;
             options.totalLimitCount = 3;
+            return options;
         }
 
         @Override
