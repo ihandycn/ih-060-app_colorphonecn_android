@@ -16,3 +16,6 @@
 [submodule "libs/libNewColorPhone"]
 	path = libs/libNewColorPhone
 	url = http://git.ihandysoft.com/nogroup/Lib_ColorPhone_Android.git
+[submodule "libs/libCashCenter"]
+	path = libs/libCashCenter
+	url = http://git.ihandysoft.com/bingroup/Bin_CashCenter_Android.git
