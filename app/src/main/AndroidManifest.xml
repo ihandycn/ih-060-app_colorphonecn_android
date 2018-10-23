@@ -19,7 +19,8 @@
         android:name="android.hardware.camera.any"
         android:required="false"/>
 
-    <uses-sdk tools:overrideLibrary="net.appcloudbox.ads, net.appcloudbox.ads.adadapter.MopubCommon, net.appcloudbox.ads.adadapter.MopubInterstitialAdapter, net.appcloudbox.ads.adadapter.MopubNativeAdapter, net.appcloudbox.ads.adadapter.MopubBannerAdapter, net.appcloudbox.trident, net.appcloudbox.autopilot, com.facebook, com.facebook.ads, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs, net.appcloudbox.ads.adadapter.AmazonBannerAdapter"/>
+    <uses-sdk
+        tools:overrideLibrary="com.acb.cashcenter, net.appcloudbox.ads, net.appcloudbox.ads.adadapter.MopubCommon, net.appcloudbox.ads.adadapter.MopubInterstitialAdapter, net.appcloudbox.ads.adadapter.MopubNativeAdapter, net.appcloudbox.ads.adadapter.MopubBannerAdapter, net.appcloudbox.trident, net.appcloudbox.autopilot, com.facebook, com.facebook.ads, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs, net.appcloudbox.ads.adadapter.AmazonBannerAdapter"/>
 
     <!-- Required by libAppFramework -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -479,6 +480,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".cashcenter.OuterCashGuideActivity" />
+        <activity android:name=".cashcenter.InnerCashGuideActivity" />
     </application>
 
 
