@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
@@ -274,6 +275,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         View cashFloatButton = findViewById(R.id.cash_center_entrance_icon);
         if (CashUtils.needShowMainFloatButton()) {
             cashFloatButton.setVisibility(View.VISIBLE);
+            if (cashFloatButton instanceof LottieAnimationView) {
+                ((LottieAnimationView) cashFloatButton).playAnimation();
+            }
             cashFloatButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

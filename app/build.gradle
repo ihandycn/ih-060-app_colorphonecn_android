@@ -153,7 +153,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
     compile 'com.liulishuo.filedownloader:library:1.7.4'
-    compile ("com.airbnb.android:lottie:2.3.1") {
+    compile ("com.airbnb.android:lottie:2.5.5") {
         transitive = false;
     }
 
