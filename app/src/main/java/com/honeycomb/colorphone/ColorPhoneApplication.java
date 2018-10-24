@@ -36,6 +36,7 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
+import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
@@ -288,6 +289,8 @@ public class ColorPhoneApplication extends HSApplication {
         CallAssistantManager.init(new CpCallAssistantFactoryImpl());
         MessageCenterManager.init(new CpMessageCenterFactoryImpl());
         ScreenFlashManager.init(new CpScreenFlashFactoryImpl());
+
+        CashUtils.initCashCenter();
 
         ScreenFlashManager.getInstance().setParser(new ScreenFlashManager.TypeParser() {
             @Override

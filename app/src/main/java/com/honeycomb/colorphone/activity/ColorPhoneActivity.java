@@ -282,6 +282,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 @Override
                 public void onClick(View v) {
                     CashUtils.Event.onMainviewFloatButtonClick();
+                    CashUtils.startWheelActivity(ColorPhoneActivity.this, CashUtils.Source.FloatIcon);
                 }
             });
             CashUtils.Event.onMainviewFloatButtonShow();
