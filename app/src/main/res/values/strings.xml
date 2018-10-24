@@ -250,4 +250,5 @@
     <string name="notification_toolbar_flash_light">Flashlight</string>
     <string name="crash_guide_content">TODO</string>
     <string name="cashcenter_title">Cash Center</string>
+    <string name="cash_guide_hint">Enjoy Cash Wheel to  earn up to 0.25$ a day</string>
 </resources>

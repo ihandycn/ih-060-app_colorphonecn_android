@@ -4,12 +4,22 @@ import com.honeycomb.colorphone.cashcenter.CashUtils;
 
 public class CashCenterTriggerList {
 
+    private static CashCenterTriggerList INSTANCE = new CashCenterTriggerList();
+
+    private CashCenterTriggerList() {
+    }
+
+    public static CashCenterTriggerList getInstance() {
+        return INSTANCE;
+    }
+
+
     private NormalTrigger onceEntranceTrigger = new NormalTrigger() {
 
         @Override
         public boolean enabled() {
             // Autopilot & config
-            return CashUtils.hasUserEnterCrashCenter();
+            return !CashUtils.hasUserEnterCrashCenter();
         }
 
         @Override
@@ -119,6 +129,7 @@ public class CashCenterTriggerList {
             if (isTrigger && autoConsume) {
                 trigger.onConsumeChance();
             }
+            return isTrigger;
         }
         return false;
     }

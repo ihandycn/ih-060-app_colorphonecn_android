@@ -341,6 +341,8 @@ public class ColorPhoneApplication extends HSApplication {
         }
 
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            private Class<? extends Activity> exitActivityClazz;
+
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
 
@@ -355,6 +357,7 @@ public class ColorPhoneApplication extends HSApplication {
             public void onActivityResumed(Activity activity) {
                 activityStack.push(1);
                 HSPreferenceHelper.getDefault().putLong(NotificationConstants.PREFS_APP_OPENED_TIME, System.currentTimeMillis());
+                ActivitySwitchUtil.onActivityChange(exitActivityClazz, activity);
             }
 
             @Override
@@ -362,6 +365,8 @@ public class ColorPhoneApplication extends HSApplication {
                 if (!activityStack.isEmpty()) {
                     activityStack.pop();
                 }
+
+                exitActivityClazz = activity.getClass();
             }
 
             @Override

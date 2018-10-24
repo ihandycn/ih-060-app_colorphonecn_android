@@ -88,7 +88,7 @@ public class CashUtils {
 
     }
 
-    public static void startWheelActivity(@Nullable Activity activity, Source floatIcon) {
+    public static void startWheelActivity(@Nullable Activity activity, Source srouce) {
         Navigations.startActivity(activity == null ? HSApplication.getContext() : activity, LotteryWheelActivity.class);
     }
 
