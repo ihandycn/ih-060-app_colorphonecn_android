@@ -47,7 +47,6 @@ import com.honeycomb.colorphone.permission.FloatWindowManager;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
-import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -270,21 +269,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
         Button avatar = findViewById(R.id.avatar_btn);
-        if (AvatarAutoPilotUtils.isAvatarBtnShow()) {
-            avatar.setVisibility(View.VISIBLE);
-            avatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(ColorPhoneActivity.this, AvatarVideoActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-//                    overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
-                }
-            });
-            AvatarAutoPilotUtils.logAvatarButtonShown();
-        } else {
-            avatar.setVisibility(View.GONE);
-        }
+        avatar.setVisibility(View.GONE);
 
         View cashFloatButton = findViewById(R.id.cash_center_entrance_icon);
         if (CashUtils.needShowMainFloatButton()) {
