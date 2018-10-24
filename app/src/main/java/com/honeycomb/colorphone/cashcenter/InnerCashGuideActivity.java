@@ -43,6 +43,7 @@ public class InnerCashGuideActivity extends AppCompatActivity {
         hintTv.setText(spannableString);
 
         findViewById(R.id.cash_spin_panel).setOnClickListener(v -> {
+            finish();
             CashUtils.startWheelActivity(InnerCashGuideActivity.this, mSource);
         });
 

@@ -2,6 +2,7 @@ package com.honeycomb.colorphone;
 
 import android.app.Activity;
 
+import com.acb.cashcenter.lottery.LotteryWheelActivity;
 import com.call.assistant.ui.CallIdleAlertActivity;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
@@ -14,6 +15,12 @@ class ActivitySwitchUtil {
                 && activity instanceof ColorPhoneActivity) {
             // Exit ThemePreviewActivity, enter ColorPhoneActivity
            CashUtils.showGuideIfNeeded(activity, CashUtils.Source.Inner);
+        }
+
+        if (exitActivityClazz != null &&
+                exitActivityClazz.getName().equals(LotteryWheelActivity.class.getName())
+                && activity instanceof ColorPhoneActivity) {
+            CashUtils.showShortcutGuide(activity);
         }
     }
 

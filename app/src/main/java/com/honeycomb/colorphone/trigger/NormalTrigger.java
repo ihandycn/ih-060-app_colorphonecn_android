@@ -76,6 +76,10 @@ public abstract class NormalTrigger extends Trigger {
         return getName() + "_count_daily";
     }
 
+    public int currentTriggerCount() {
+        return mPreferences.getInt(getCountKeyName(), 0);
+    }
+
     /**
      * Call when use this chance to do something.
      */

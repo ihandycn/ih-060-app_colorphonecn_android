@@ -583,7 +583,7 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onScreenOn(context);
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
                     ScreenStatusReceiver.onUserPresent(context);
-                    CashUtils.showGuideIfNeeded(null, CashUtils.Source.CallAlertClose);
+                    CashUtils.showGuideIfNeeded(null, CashUtils.Source.UnlockScreen);
                 }
             }
         }, screenFilter);

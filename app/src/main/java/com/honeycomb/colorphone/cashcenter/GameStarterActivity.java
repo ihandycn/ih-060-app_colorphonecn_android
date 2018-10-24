@@ -19,9 +19,8 @@ public class GameStarterActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO start
-
-
+        CashUtils.startWheelActivity(this, CashUtils.Source.Shortcut);
+        CashUtils.Event.logEvent("colorphone_earncash_desktop_icon_click");
     }
 
     @Override

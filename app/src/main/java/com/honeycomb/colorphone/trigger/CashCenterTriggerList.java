@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.trigger;
 
 import com.honeycomb.colorphone.cashcenter.CashUtils;
+import com.ihs.commons.config.HSConfig;
 
 public class CashCenterTriggerList {
 
@@ -26,7 +27,8 @@ public class CashCenterTriggerList {
         Options getTriggerOptions() {
             Trigger.Options options = new Trigger.Options();
             options.intervalHours = 0; // No time limit
-            options.dailyLimitCount = 3; // Consume change only 3 times a day.
+            // Consume change only 3(x) times a day.
+            options.dailyLimitCount = HSConfig.optInteger(3,"Application", "EarnCash", "AlertShowMaxTime");
             return options;
         }
 
@@ -122,6 +124,41 @@ public class CashCenterTriggerList {
         }
     };
 
+    private NormalTrigger mShortcutTrigger = new NormalTrigger() {
+
+        @Override
+        public boolean enabled() {
+            // Autopilot & config
+            return true;
+        }
+
+        @Override
+        Options getTriggerOptions() {
+            Trigger.Options options = new Trigger.Options();
+            options.intervalHours = 0;
+            options.totalLimitCount = 3;
+            return options;
+        }
+
+        @Override
+        String getName() {
+            return "ShortcutGuide";
+        }
+
+        @Override
+        Trigger getParentTrigger() {
+            return onceEntranceTrigger;
+        }
+    };
+
+    public boolean checkShortcut() {
+        boolean isTrigger = mShortcutTrigger.onChance();
+        if (isTrigger) {
+            mShortcutTrigger.onConsumeChance();
+        }
+        return isTrigger;
+    }
+
     public boolean checkAt(CashUtils.Source source, boolean autoConsume) {
         Trigger trigger = getTriggerBySource(source);
         if (trigger != null) {
@@ -158,4 +195,7 @@ public class CashCenterTriggerList {
     }
 
 
+    public int getShortcutTriggerCount() {
+        return mShortcutTrigger.currentTriggerCount();
+    }
 }

@@ -1,7 +1,7 @@
 package com.honeycomb.colorphone.cashcenter;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.pm.ShortcutInfoCompat;
 import android.support.v4.content.pm.ShortcutManagerCompat;
@@ -12,11 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.trigger.CashCenterTriggerList;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
-
-import java.util.HashMap;
 
 
 public class ShortcutGuideActivity extends AppCompatActivity {
@@ -24,38 +22,33 @@ public class ShortcutGuideActivity extends AppCompatActivity {
     public static final String EXTRA_GAME = "EXTRA_GAME";
 
     private TextView tvAction;
-    private ImageView ivIcon;
-    private Bitmap icon;
-    private HashMap<String, String> params;
+
+    private int triggerCount;
+
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, ShortcutGuideActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        triggerCount = CashCenterTriggerList.getInstance().getShortcutTriggerCount();
 
         overridePendingTransition(0, 0);
-
-        String gameId = null;
-        if (getIntent().getExtras() != null) {
-            gameId = getIntent().getStringExtra(EXTRA_GAME);
-        }
-        if (gameId == null) {
-            gameId = "1";
-        }
 
         setContentView(R.layout.cashcenter_shortcut_guide);
 
 
-        LauncherAnalytics.logEvent("Flashlight_Game_Shortcut_Alert_Show", params);
-
-        ivIcon = findViewById(R.id.basketball_shortcut_guide_icon);
-
+        CashUtils.Event.onShortcutGuideShow(triggerCount);
 
         tvAction = findViewById(R.id.basketball_shortcut_guide_btn);
         tvAction.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xff028dff, Dimensions.pxFromDp(21), true));
         tvAction.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 createShortCut();
-                LauncherAnalytics.logEvent("Flashlight_Game_Shortcut_Alert_Ok_Clicked", params);
-
+                CashCenterTriggerList.getInstance().checkShortcut();
+                CashUtils.Event.onShortcutGuideClick(triggerCount);
                 finish();
             }
         });
@@ -64,7 +57,6 @@ public class ShortcutGuideActivity extends AppCompatActivity {
         findViewById(R.id.basketball_shortcut_guide_close).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 finish();
-                LauncherAnalytics.logEvent("Flashlight_Game_Shortcut_Alert_Close_Clicked", params);
             }
         });
     }

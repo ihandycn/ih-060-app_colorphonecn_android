@@ -89,14 +89,29 @@ public class CashUtils {
 
     }
 
+    public static void showGuideIfNeeded(Activity activity, Source source) {
+        boolean active = CashCenterTriggerList.getInstance().checkAt(source, true);
+        if (active) {
+            InnerCashGuideActivity.start(activity == null ? HSApplication.getContext() : activity, source);
+        }
+    }
+
+    public static void showShortcutGuide(Activity activity) {
+        if (CashCenterTriggerList.getInstance().checkShortcut()) {
+            ShortcutGuideActivity.start(activity);
+        }
+    }
+
     public static void startWheelActivity(@Nullable Activity activity, Source srouce) {
         Navigations.startActivity(activity == null ? HSApplication.getContext() : activity, LotteryWheelActivity.class);
+        userEnterCashCenter();
     }
 
     public static boolean hasUserEnterCrashCenter() {
         return Preferences.get("cash_center").getBoolean("user_visit", false);
     }
-    public static void userEnterCashCenter() {
+
+    private static void userEnterCashCenter() {
         Preferences.get("cash_center").putBoolean("user_visit", true);
     }
 
@@ -192,17 +207,11 @@ public class CashUtils {
         return (int) enable;
     }
 
-    public static void showGuideIfNeeded(Activity activity, Source source) {
-        boolean active = CashCenterTriggerList.getInstance().checkAt(source, true);
-        if (active) {
-            InnerCashGuideActivity.start(activity == null ? HSApplication.getContext() : activity, source);
-        }
-    }
 
     public static class Event {
         public static final String TOPIC_ID = "topic-1539675249991-758";
 
-        private static void logEvent(String name) {
+        public static void logEvent(String name) {
             AutopilotEvent.logTopicEvent(TOPIC_ID, name);
             LauncherAnalytics.logEvent(name);
         }
@@ -226,9 +235,20 @@ public class CashUtils {
         public static void onMainviewFloatButtonClick() {
             logEvent("colorphone_mainview_float_button_click");
         }
+
+
+        public static void onShortcutGuideShow(int triggerCount) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_shortcut_alert_show");
+            LauncherAnalytics.logEvent("colorphone_earncash_shortcut_alert_show", "ShowTime", String.valueOf(triggerCount));
+        }
+
+        public static void onShortcutGuideClick(int triggerCount) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_shortcut_alert_ok_click");
+            LauncherAnalytics.logEvent("colorphone_earncash_shortcut_alert_ok_click", "ShowTime", String.valueOf(triggerCount));
+        }
     }
 
     public enum Source {
-        FloatIcon, Inner, UnlockScreen, CallAlertClose
+        FloatIcon, Inner, UnlockScreen, CallAlertClose, Shortcut
     }
 }
