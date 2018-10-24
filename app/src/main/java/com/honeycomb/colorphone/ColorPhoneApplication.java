@@ -230,6 +230,7 @@ public class ColorPhoneApplication extends HSApplication {
             public void onGDPRStateChanged(HSGdprConsent.ConsentState oldState, HSGdprConsent.ConsentState newState) {
                 if (GdprUtils.isNeedToAccessDataUsage()) {
                     initFabric();
+                    initAutopilot();
                 }
                 if (!isMainProcess()) {
                     if (oldState == HSGdprConsent.ConsentState.ACCEPTED && newState != oldState) {
@@ -238,6 +239,19 @@ public class ColorPhoneApplication extends HSApplication {
                 }
             }
         });
+    }
+
+    private void initAutopilot() {
+        String customId = GdprUtils.isDataUsageUserEnabled() ? HSApplication.getInstallationUUID()
+                : null;
+        AppsFlyerLib.getInstance().setCustomerUserId(customId);
+        AutopilotConfig.initialize(this, "Autopilot_Config.json", customId);
+
+        if (!AutopilotConfig.hasConfigFetchFinished()) {
+            IntentFilter configFinishedFilter = new IntentFilter();
+            configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
+            registerReceiver(mAutopilotFetchReceiver, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
+        }
     }
 
     @DebugLog
@@ -266,11 +280,10 @@ public class ColorPhoneApplication extends HSApplication {
         if (!GdprUtils.isGdprNewUser() && HSGdprConsent.getConsentState() == HSGdprConsent.ConsentState.TO_BE_CONFIRMED) {
             GdprUtils.setDataUsageUserEnabled(true);
         }
-        String customId = GdprUtils.isDataUsageUserEnabled() ? HSApplication.getInstallationUUID()
-                : null;
-        AppsFlyerLib.getInstance().setCustomerUserId(customId);
 
-        AutopilotConfig.initialize(this, "Autopilot_Config.json", customId);
+        if (GdprUtils.isNeedToAccessDataUsage()) {
+            initAutopilot();
+        }
 
         CallAssistantManager.init(new CpCallAssistantFactoryImpl());
         MessageCenterManager.init(new CpMessageCenterFactoryImpl());
@@ -371,12 +384,6 @@ public class ColorPhoneApplication extends HSApplication {
 
         SmsFlashListener.getInstance().start();
 
-        if (AutopilotConfig.hasConfigFetchFinished()) {
-        } else {
-            IntentFilter configFinishedFilter = new IntentFilter();
-            configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
-            registerReceiver(mAutopilotFetchReceiver, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
-        }
         logUserLevelDistribution();
 
         ScreenFlashManager.getInstance().setLogEventListener(new ScreenFlashManager.LogEventListener() {
