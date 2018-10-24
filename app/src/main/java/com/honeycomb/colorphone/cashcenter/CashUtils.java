@@ -8,6 +8,7 @@ import com.acb.cashcenter.CashCenterCallback;
 import com.acb.cashcenter.CashCenterConfiguration;
 import com.acb.cashcenter.CashCenterManager;
 import com.acb.cashcenter.lottery.LotteryWheelActivity;
+import com.honeycomb.colorphone.trigger.CashCenterTriggerList;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -189,6 +190,13 @@ public class CashUtils {
         double enable = AutopilotConfig.getDoubleToTestNow("topic-1539675249991-758",
                 "earncash_alert_show_maxtime_when_back_to_mianview_from_detail", 1);
         return (int) enable;
+    }
+
+    public static void showGuideIfNeeded(Activity activity, Source source) {
+        boolean active = CashCenterTriggerList.getInstance().checkAt(source, true);
+        if (active) {
+            InnerCashGuideActivity.start(activity == null ? HSApplication.getContext() : activity, source);
+        }
     }
 
     public static class Event {

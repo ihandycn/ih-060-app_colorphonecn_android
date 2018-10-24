@@ -371,7 +371,7 @@ public class ColorPhoneApplication extends HSApplication {
 
             @Override
             public void onActivityStopped(Activity activity) {
-
+                ActivitySwitchUtil.onActivityExit(activity);
             }
 
             @Override
@@ -583,7 +583,7 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onScreenOn(context);
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
                     ScreenStatusReceiver.onUserPresent(context);
-
+                    CashUtils.showGuideIfNeeded(null, CashUtils.Source.CallAlertClose);
                 }
             }
         }, screenFilter);

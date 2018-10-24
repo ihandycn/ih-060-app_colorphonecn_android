@@ -11,17 +11,24 @@ import android.text.style.ForegroundColorSpan;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
+import com.superapps.util.Navigations;
 
 public class InnerCashGuideActivity extends AppCompatActivity {
+
+    public CashUtils.Source mSource;
     
-    public static void start(Context context) {
+    public static void start(Context context, CashUtils.Source source) {
         Intent starter = new Intent(context, InnerCashGuideActivity.class);
-        context.startActivity(starter);
+        starter.putExtra("source_name", source.name());
+        Navigations.startActivitySafely(context, starter);
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String sourceName = getIntent().getStringExtra("source_name");
+        mSource = CashUtils.Source.valueOf(sourceName);
 
         setContentView(R.layout.activity_cash_guide);
 
@@ -34,6 +41,15 @@ public class InnerCashGuideActivity extends AppCompatActivity {
                 startIndex, endIndex, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
                 );
         hintTv.setText(spannableString);
+
+        findViewById(R.id.cash_spin_panel).setOnClickListener(v -> {
+            CashUtils.startWheelActivity(InnerCashGuideActivity.this, mSource);
+        });
+
+        startHandAnim();
+    }
+
+    private void startHandAnim() {
 
     }
 }

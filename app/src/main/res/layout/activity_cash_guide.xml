@@ -28,6 +28,7 @@
         tools:text="@string/cash_guide_hint" />
 
     <FrameLayout
+        android:id="@+id/cash_spin_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
