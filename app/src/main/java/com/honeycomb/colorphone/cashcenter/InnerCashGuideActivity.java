@@ -30,6 +30,8 @@ public class InnerCashGuideActivity extends AppCompatActivity {
         String sourceName = getIntent().getStringExtra("source_name");
         mSource = CashUtils.Source.valueOf(sourceName);
 
+        CashUtils.Event.onGuideViewShow(mSource);
+
         setContentView(R.layout.activity_cash_guide);
 
         TextView hintTv = findViewById(R.id.cash_title);
@@ -44,6 +46,7 @@ public class InnerCashGuideActivity extends AppCompatActivity {
 
         findViewById(R.id.cash_spin_panel).setOnClickListener(v -> {
             finish();
+            CashUtils.Event.onGuideViewClick(mSource);
             CashUtils.startWheelActivity(InnerCashGuideActivity.this, mSource);
         });
 

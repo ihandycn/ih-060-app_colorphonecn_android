@@ -8,7 +8,6 @@ import android.support.v4.content.pm.ShortcutManagerCompat;
 import android.support.v4.graphics.drawable.IconCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
@@ -52,6 +51,7 @@ public class ShortcutGuideActivity extends AppCompatActivity {
                 finish();
             }
         });
+
 
         findViewById(R.id.basketball_shortcut_guide_close).setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(14), true));
         findViewById(R.id.basketball_shortcut_guide_close).setOnClickListener(new View.OnClickListener() {

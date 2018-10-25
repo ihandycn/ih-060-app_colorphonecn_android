@@ -55,7 +55,7 @@ public class CashCenterTriggerList {
         Options getTriggerOptions() {
             Trigger.Options options = new Trigger.Options();
             options.intervalHours = 2;
-            options.totalLimitCount = 3;
+            options.totalLimitCount = CashUtils.maxTimeOnBacktoMain();
             return options;
         }
 
@@ -75,14 +75,14 @@ public class CashCenterTriggerList {
         @Override
         public boolean enabled() {
             // Autopilot & config
-            return CashUtils.guideShowOnBacktoMain();
+            return CashUtils.guideShowOnUnlockScreeen();
         }
 
         @Override
         Options getTriggerOptions() {
             Trigger.Options options = new Trigger.Options();
             options.intervalHours = 2;
-            options.totalLimitCount = 3;
+            options.totalLimitCount = CashUtils.maxTimeOnUnlockScreen();
             return options;
         }
 
@@ -102,14 +102,14 @@ public class CashCenterTriggerList {
         @Override
         public boolean enabled() {
             // Autopilot & config
-            return CashUtils.guideShowOnBacktoMain();
+            return CashUtils.guideShowOnCallAlertClose();
         }
 
         @Override
         Options getTriggerOptions() {
             Trigger.Options options = new Trigger.Options();
             options.intervalHours = 2;
-            options.totalLimitCount = 3;
+            options.totalLimitCount = CashUtils.maxTimeOnCallAlertClose();
             return options;
         }
 
@@ -147,7 +147,7 @@ public class CashCenterTriggerList {
 
         @Override
         Trigger getParentTrigger() {
-            return onceEntranceTrigger;
+            return null;
         }
     };
 
