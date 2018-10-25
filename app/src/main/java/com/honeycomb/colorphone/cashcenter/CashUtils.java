@@ -108,6 +108,14 @@ public class CashUtils {
         userEnterCashCenter();
     }
 
+    public static boolean hasShortcut() {
+        return Preferences.get("cash_center").getBoolean("shortcut", false);
+    }
+
+    public static void markCreateShortcut() {
+        Preferences.get("cash_center").putBoolean("shortcut", true);
+    }
+
     public static boolean hasUserEnterCrashCenter() {
         return Preferences.get("cash_center").getBoolean("user_visit", false);
     }
@@ -260,6 +268,9 @@ public class CashUtils {
                 case CallAlertClose:
                     name = "colorphone_earncash_alert_show_when_callassistant_close";
                     break;
+                case CallAlertFloatBar:
+                    name = "colorphone_earncash_alert_show_on_callassistant";
+                    break;
 
             }
             if (TextUtils.isEmpty(name)) {
@@ -279,6 +290,9 @@ public class CashUtils {
                 case CallAlertClose:
                     name = "colorphone_earncash_alert_click_when_callassistant_close";
                     break;
+                case CallAlertFloatBar:
+                    name = "colorphone_earncash_alert_click_on_callassistant";
+                    break;
 
             }
             if (TextUtils.isEmpty(name)) {
@@ -288,6 +302,6 @@ public class CashUtils {
     }
 
     public enum Source {
-        FloatIcon, Inner, UnlockScreen, CallAlertClose, Shortcut
+        FloatIcon, Inner, UnlockScreen, CallAlertClose, Shortcut, CallAlertFloatBar
     }
 }

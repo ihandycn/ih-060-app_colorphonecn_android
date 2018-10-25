@@ -88,6 +88,7 @@ public class ShortcutGuideActivity extends AppCompatActivity {
                 .build();
 
         ShortcutManagerCompat.requestPinShortcut(this.getApplicationContext(),shortcutInfoCompat, null);
+        CashUtils.markCreateShortcut();
     }
 
     @Override public void finish() {

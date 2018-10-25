@@ -43,7 +43,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "c137a054-882d-4b39-bb4e-3199425de679",
+  "json_id": "71f06a40-3db2-4328-abb1-e795d61447bd",
   "topics": {
     "topic-1510752104742": {
       "topic_type": "one_time",
@@ -775,11 +775,7 @@
           "type": "boolean",
           "value": false
         },
-        "earncash_alert_show_when_back_to_mainview_from_detail": {
-          "type": "boolean",
-          "value": false
-        },
-        "earncash_alert_show_maxtime_when_unlockscreen": {
+        "earncash_alert_show_maxtime_when_back_to_mainview_from_detail": {
           "type": "double",
           "value": 1
         },
@@ -787,13 +783,21 @@
           "type": "boolean",
           "value": false
         },
+        "earncash_alert_show_maxtime_when_unlockscreen": {
+          "type": "double",
+          "value": 1
+        },
+        "earncash_icon_show_on_toolbar": {
+          "type": "boolean",
+          "value": false
+        },
         "earncash_alert_show_on_callassistant": {
           "type": "boolean",
           "value": false
         },
-        "earncash_alert_show_maxtime_when_back_to_mainview_from_detail": {
-          "type": "double",
-          "value": 1
+        "earncash_alert_show_when_back_to_mainview_from_detail": {
+          "type": "boolean",
+          "value": false
         },
         "earncash_master_switch": {
           "type": "boolean",
@@ -850,6 +854,18 @@
         },
         {
           "name": "colorphone_earncash_alert_click_when_back_to_mainview_from_detail"
+        },
+        {
+          "name": "colorphone_earncash_alert_show_on_callassistant"
+        },
+        {
+          "name": "colorphone_earncash_alert_click_on_callassistant"
+        },
+        {
+          "name": "colorphone_earncash_icon_show_on_toolbar"
+        },
+        {
+          "name": "colorphone_earncash_icon_click_on_toolbar"
         }
       ],
       "topic_id": "topic-1539675249991-758"

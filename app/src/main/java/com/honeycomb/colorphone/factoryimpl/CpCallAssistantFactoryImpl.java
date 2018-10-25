@@ -9,14 +9,18 @@ import android.media.AudioManager;
 import android.os.Handler;
 
 import com.acb.call.service.InCallWindow;
+import com.call.assistant.customize.ThemeViewConfig;
 import com.call.assistant.receiver.IncomingCallReceiver;
 import com.call.assistant.ui.CallIdleAlert;
+import com.call.assistant.ui.CallIdleAlertActivity;
+import com.call.assistant.ui.CallIdleAlertView;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
+import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.notification.permission.PermissionUtils;
@@ -122,6 +126,16 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onFullScreenAdShow() {
                 CallFinishUtils.logCallFinishWiredShow();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
+            }
+        };
+    }
+
+    @Override
+    public ThemeViewConfig getViewConfig() {
+        return new ThemeViewConfig() {
+            @Override
+            public CallIdleAlertView getCallIdleAlertView(CallIdleAlertActivity callIdleAlertActivity, CallIdleAlertActivity.Data data) {
+                return new CustomCallIdleAlert(callIdleAlertActivity, data);
             }
         };
     }

@@ -129,7 +129,7 @@ public class CashCenterTriggerList {
         @Override
         public boolean enabled() {
             // Autopilot & config
-            return true;
+            return !CashUtils.hasShortcut();
         }
 
         @Override
