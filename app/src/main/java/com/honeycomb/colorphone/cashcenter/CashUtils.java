@@ -221,6 +221,8 @@ public class CashUtils {
         public static final String TOPIC_ID = "topic-1539675249991-758";
 
         public static void logEvent(String name) {
+            // For start autopilot test
+            CashUtils.masterSwitch();
             AutopilotEvent.logTopicEvent(TOPIC_ID, name);
             LauncherAnalytics.logEvent(name);
         }

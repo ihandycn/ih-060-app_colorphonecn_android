@@ -27,8 +27,7 @@ public class CashCenterTriggerList {
         Options getTriggerOptions() {
             Trigger.Options options = new Trigger.Options();
             options.intervalHours = 0; // No time limit
-            // Consume change only 3(x) times a day.
-            options.dailyLimitCount = HSConfig.optInteger(3,"Application", "EarnCash", "AlertShowMaxTime");
+            options.totalLimitCount = HSConfig.optInteger(3,"Application", "EarnCash", "AlertShowMaxTime");
             return options;
         }
 
