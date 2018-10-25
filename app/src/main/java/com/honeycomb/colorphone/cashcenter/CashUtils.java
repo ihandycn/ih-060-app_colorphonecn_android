@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.cashcenter;
 import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.acb.cashcenter.CashCenterCallback;
 import com.acb.cashcenter.CashCenterConfiguration;
@@ -164,7 +165,7 @@ public class CashUtils {
             return false;
         }
         boolean enable = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
-                "earncash_alert_show_maxtime_when_callassistant_closed", false);
+                "earncash_alert_show_when_callassistant_close", false);
         return HSConfig.optBoolean(false, "Application", "EarnCash", "CloseCallAssistantAlertShow")
                 || enable;
     }
@@ -184,7 +185,7 @@ public class CashUtils {
             return false;
         }
         boolean enable = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
-                "earncash_alert_show_when_back_to_mianview_from_detail", false);
+                "earncash_alert_show_when_back_to_mainview_from_detail", false);
         return HSConfig.optBoolean(false, "Application", "EarnCash", "InsideAppAlertShow")
                 || enable;
     }
@@ -197,13 +198,13 @@ public class CashUtils {
 
     public static int maxTimeOnCallAlertClose() {
         double enable = AutopilotConfig.getDoubleToTestNow("topic-1539675249991-758",
-                        "earncash_alert_show_maxtime_when_callassistant_closed", 1);
+                        "earncash_alert_show_maxtime_when_callassistant_close", 1);
         return (int) enable;
     }
 
     public static int maxTimeOnBacktoMain() {
         double enable = AutopilotConfig.getDoubleToTestNow("topic-1539675249991-758",
-                "earncash_alert_show_maxtime_when_back_to_mianview_from_detail", 1);
+                "earncash_alert_show_maxtime_when_back_to_mainview_from_detail", 1);
         return (int) enable;
     }
 
@@ -245,6 +246,44 @@ public class CashUtils {
         public static void onShortcutGuideClick(int triggerCount) {
             AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_shortcut_alert_ok_click");
             LauncherAnalytics.logEvent("colorphone_earncash_shortcut_alert_ok_click", "ShowTime", String.valueOf(triggerCount));
+        }
+
+        public static void onGuideViewShow(Source source) {
+            String name = "";
+            switch (source) {
+                case Inner:
+                    name = "colorphone_earncash_alert_show_when_back_to_mainview_from_detail";
+                    break;
+                case UnlockScreen:
+                    name = "colorphone_earncash_alert_show_when_unlockscreen";
+                    break;
+                case CallAlertClose:
+                    name = "colorphone_earncash_alert_show_when_callassistant_close";
+                    break;
+
+            }
+            if (TextUtils.isEmpty(name)) {
+                logEvent(name);
+            }
+        }
+
+        public static void onGuideViewClick(Source source) {
+            String name = "";
+            switch (source) {
+                case Inner:
+                    name = "colorphone_earncash_alert_click_when_back_to_mainview_from_detail";
+                    break;
+                case UnlockScreen:
+                    name = "colorphone_earncash_alert_click_when_unlockscreen";
+                    break;
+                case CallAlertClose:
+                    name = "colorphone_earncash_alert_click_when_callassistant_close";
+                    break;
+
+            }
+            if (TextUtils.isEmpty(name)) {
+                logEvent(name);
+            }
         }
     }
 

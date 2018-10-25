@@ -43,7 +43,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "4591b6d1-60d5-41b4-92a8-b0554a75b4bd",
+  "json_id": "c137a054-882d-4b39-bb4e-3199425de679",
   "topics": {
     "topic-1510752104742": {
       "topic_type": "one_time",
@@ -775,7 +775,7 @@
           "type": "boolean",
           "value": false
         },
-        "earncash_alert_show_when_back_to_mianview_from_detail": {
+        "earncash_alert_show_when_back_to_mainview_from_detail": {
           "type": "boolean",
           "value": false
         },
@@ -783,15 +783,7 @@
           "type": "double",
           "value": 1
         },
-        "earncash_alert_show_maxtime_when_callassistant_closed": {
-          "type": "double",
-          "value": 1
-        },
         "earncash_alert_show_when_unlockscreen": {
-          "type": "boolean",
-          "value": false
-        },
-        "earncash_alert_show_when_callassistant_closed": {
           "type": "boolean",
           "value": false
         },
@@ -799,13 +791,21 @@
           "type": "boolean",
           "value": false
         },
-        "earncash_alert_show_maxtime_when_back_to_mianview_from_detail": {
+        "earncash_alert_show_maxtime_when_back_to_mainview_from_detail": {
           "type": "double",
           "value": 1
         },
         "earncash_master_switch": {
           "type": "boolean",
           "value": false
+        },
+        "earncash_alert_show_when_callassistant_close": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_alert_show_maxtime_when_callassistant_close": {
+          "type": "double",
+          "value": 1
         }
       },
       "events": [
@@ -844,6 +844,12 @@
         },
         {
           "name": "colorphone_earncash_desktop_icon_click"
+        },
+        {
+          "name": "colorphone_earncash_alert_show_when_back_to_mainview_from_detail"
+        },
+        {
+          "name": "colorphone_earncash_alert_click_when_back_to_mainview_from_detail"
         }
       ],
       "topic_id": "topic-1539675249991-758"
