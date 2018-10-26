@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.View;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
@@ -16,6 +17,7 @@ import com.superapps.util.Navigations;
 public class InnerCashGuideActivity extends AppCompatActivity {
 
     public CashUtils.Source mSource;
+    private HandAnimHelper mHandAnimHelper = new HandAnimHelper();
     
     public static void start(Context context, CashUtils.Source source) {
         Intent starter = new Intent(context, InnerCashGuideActivity.class);
@@ -50,10 +52,22 @@ public class InnerCashGuideActivity extends AppCompatActivity {
             CashUtils.startWheelActivity(InnerCashGuideActivity.this, mSource);
         });
 
-        startHandAnim();
+
+        View handView = findViewById(R.id.cash_spin_hand);
+
+        mHandAnimHelper.init(handView);
+        mHandAnimHelper.start();
     }
 
-    private void startHandAnim() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mHandAnimHelper.start();
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mHandAnimHelper.stop();
     }
 }
