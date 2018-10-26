@@ -35,6 +35,7 @@ import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.BoostIcon;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.boost.RamUsageDisplayUpdater;
+import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cpucooler.CpuCoolDownActivity;
 import com.honeycomb.colorphone.cpucooler.CpuCoolerManager;
 import com.honeycomb.colorphone.cpucooler.util.CpuCoolerConstant;
@@ -187,6 +188,13 @@ public class NotificationManager implements FlashlightStatusListener {
             mBoostIconCanvas = new Canvas(mBoostIcon);
             mClearPaint = new Paint();
             mClearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        }
+
+        // Settings or Cash-center
+        if (CashUtils.checkGlobalSwitch()) {
+            mRemoteViews.setImageViewResource(R.id.iv_clock, R.drawable.cash_icon_toolbar);
+            // TODO use short name.
+            mRemoteViews.setTextViewText(R.id.tv_clock, context.getString(R.string.cashcenter_title));
         }
 
         // cpu cooler
@@ -426,7 +434,13 @@ public class NotificationManager implements FlashlightStatusListener {
             case NotificationManager.ACTION_SETTINGS_CLICK:
                 // com.android.alarm.permission.SET_ALARM
                 LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_Settings_Clicked");
-                Navigations.startActivitySafely(context, new Intent(Settings.ACTION_SETTINGS));
+                if (CashUtils.checkGlobalSwitch()) {
+                    CashUtils.startWheelActivity(null, CashUtils.Source.Toolbar);
+                    CashUtils.Event.logEvent("colorphone_earncash_icon_click_on_toolbar");
+                } else {
+                    Navigations.startActivitySafely(context, new Intent(Settings.ACTION_SETTINGS));
+                }
+
                 AutoPilotUtils.logNotificationToolbarSettingClick();
                 break;
             case NotificationManager.ACTION_CPU_COOLER_TOOLBAR:
