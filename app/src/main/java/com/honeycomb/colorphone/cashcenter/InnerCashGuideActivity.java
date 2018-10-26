@@ -51,6 +51,7 @@ public class InnerCashGuideActivity extends AppCompatActivity {
             CashUtils.Event.onGuideViewClick(mSource);
             CashUtils.startWheelActivity(InnerCashGuideActivity.this, mSource);
         });
+        findViewById(R.id.cash_guide_close).setOnClickListener(v -> finish());
 
 
         View handView = findViewById(R.id.cash_spin_hand);
