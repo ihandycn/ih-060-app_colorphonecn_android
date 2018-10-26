@@ -97,7 +97,7 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent=".86" />
     <ImageView
-        android:id="@+id/cash_guide_close"
+        android:id="@+id/cash_close_btn"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_alignParentEnd="true"

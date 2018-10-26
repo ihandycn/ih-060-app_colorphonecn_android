@@ -9,6 +9,7 @@ import com.acb.cashcenter.CashCenterCallback;
 import com.acb.cashcenter.CashCenterConfiguration;
 import com.acb.cashcenter.CashCenterManager;
 import com.acb.cashcenter.lottery.LotteryWheelActivity;
+import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.trigger.CashCenterTriggerList;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CashUtils {
+
+    private static Source sCashWheelSource;
 
     public static void initCashCenter() {
         CashCenterManager.getInstance().init(new CashCenterConfiguration() {
@@ -39,7 +42,7 @@ public class CashUtils {
 
             @Override
             public String getWheelAdPlacement() {
-                return "";
+                return Placements.CASHCENTER;
             }
         }, new CashCenterCallback() {
             @Override
@@ -54,17 +57,18 @@ public class CashUtils {
 
             @Override
             public void onWheelSpinClick() {
-
+                CashUtils.Event.onAdShow();
             }
 
             @Override
             public void onWheelAdShow() {
-
+                LauncherAnalytics.logEvent("colorphone_earncash_spin",
+                        "From", sCashWheelSource == null ? "NULL" : sCashWheelSource.getDisplayName());
             }
 
             @Override
             public void onWheelAdChance(boolean b) {
-
+                CashUtils.Event.onAdShouldShow();
             }
 
             @Override
@@ -103,8 +107,9 @@ public class CashUtils {
         }
     }
 
-    public static void startWheelActivity(@Nullable Activity activity, Source srouce) {
+    public static void startWheelActivity(@Nullable Activity activity, Source source) {
         Navigations.startActivity(activity == null ? HSApplication.getContext() : activity, LotteryWheelActivity.class);
+        sCashWheelSource = source;
         userEnterCashCenter();
     }
 
@@ -133,13 +138,13 @@ public class CashUtils {
         return false;
     }
 
-    public static boolean masterSwitch() {
+    private static boolean masterSwitch() {
         boolean masterSwitch = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
                 "earncash_master_switch", false);
         return  masterSwitch;
     }
 
-    private static boolean checkGlobalSwitch() {
+    public static boolean checkGlobalSwitch() {
         return masterSwitch()
                 && enabledThisVersion()
                 // Lottie support
@@ -303,6 +308,17 @@ public class CashUtils {
     }
 
     public enum Source {
-        FloatIcon, Inner, UnlockScreen, CallAlertClose, Shortcut, CallAlertFloatBar
+        FloatIcon("FloatButton"), Inner("BackToMainview"), UnlockScreen("Unlockscreen"),
+        CallAlertClose("CallAssistantClose"), Shortcut("Desktop"), CallAlertFloatBar("OnCallAssistant"), Toolbar("Toolbar");
+
+        String displayName;
+
+        Source(String name) {
+            displayName = name;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
     }
 }
