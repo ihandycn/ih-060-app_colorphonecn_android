@@ -125,7 +125,7 @@ public class CashUtils {
     }
 
     public static boolean enabledThisVersion() {
-        List<Integer> enableList = (List<Integer>) HSConfig.getList("Application", "EarnCash", "EarnCashEnableVersioncode");
+        List<Integer> enableList = (List<Integer>) HSConfig.getList("Application", "EarnCash", "MasterSwitch");
         int versionCode = HSApplication.getFirstLaunchInfo().appVersionCode;
         if (enableList != null && enableList.contains(versionCode)) {
             return true;
@@ -136,8 +136,7 @@ public class CashUtils {
     public static boolean masterSwitch() {
         boolean masterSwitch = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
                 "earncash_master_switch", false);
-        return HSConfig.optBoolean(false, "Application", "EarnCash", "MasterSwitch")
-                || masterSwitch;
+        return  masterSwitch;
     }
 
     private static boolean checkGlobalSwitch() {
