@@ -193,8 +193,7 @@ public class NotificationManager implements FlashlightStatusListener {
         // Settings or Cash-center
         if (CashUtils.checkGlobalSwitch()) {
             mRemoteViews.setImageViewResource(R.id.iv_clock, R.drawable.cash_icon_toolbar);
-            // TODO use short name.
-            mRemoteViews.setTextViewText(R.id.tv_clock, context.getString(R.string.cashcenter_title));
+            mRemoteViews.setTextViewText(R.id.tv_clock, context.getString(R.string.spin));
         }
 
         // cpu cooler
