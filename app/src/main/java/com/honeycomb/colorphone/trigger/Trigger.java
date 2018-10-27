@@ -16,9 +16,16 @@ public abstract class Trigger {
     public static class Options {
         public int intervalHours;
         public int totalLimitCount;
-
-        //TODO
         public int dailyLimitCount;
+
+        public Options() {
+        }
+
+        public Options(int intervalHours, int totalLimitCount, int dailyLimitCount) {
+            this.intervalHours = intervalHours;
+            this.totalLimitCount = totalLimitCount;
+            this.dailyLimitCount = dailyLimitCount;
+        }
     }
 
 }

@@ -29,4 +29,8 @@ class ActivitySwitchUtil {
             CashUtils.showGuideIfNeeded(activity, CashUtils.Source.CallAlertClose);
         }
     }
+
+    public static void onMainViewCreate() {
+
+    }
 }

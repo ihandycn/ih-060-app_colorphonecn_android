@@ -17,7 +17,7 @@ public abstract class NormalTrigger extends Trigger {
     public abstract boolean enabled();
 
     @Override
-    boolean onChance() {
+    public boolean onChance() {
         if (!enabled()) {
             return false;
         }

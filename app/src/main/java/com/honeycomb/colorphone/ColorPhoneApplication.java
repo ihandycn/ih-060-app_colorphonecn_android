@@ -35,6 +35,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -50,6 +51,7 @@ import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
+import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
@@ -81,6 +83,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.debug.SharedPreferencesOptimizer;
+import com.superapps.util.Permissions;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
@@ -340,51 +343,7 @@ public class ColorPhoneApplication extends HSApplication {
             LockJobService.startJobScheduler();
         }
 
-        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
-            private Class<? extends Activity> exitActivityClazz;
-
-            @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
-            }
-
-            @Override
-            public void onActivityStarted(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
-                activityStack.push(1);
-                HSPreferenceHelper.getDefault().putLong(NotificationConstants.PREFS_APP_OPENED_TIME, System.currentTimeMillis());
-                ActivitySwitchUtil.onActivityChange(exitActivityClazz, activity);
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-                if (!activityStack.isEmpty()) {
-                    activityStack.pop();
-                }
-
-                exitActivityClazz = activity.getClass();
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-                ActivitySwitchUtil.onActivityExit(activity);
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-
-            }
-        });
-
+        lifeCallback();
         initNotificationAlarm();
 
         Theme.updateThemes();
@@ -439,6 +398,70 @@ public class ColorPhoneApplication extends HSApplication {
             public void onScreenFlashSetSucceed(String idName) {
                 ApplyInfoAutoPilotUtils.logCallFlashSet();
                 LauncherAnalytics.logEvent("ColorPhone_Set_Success", "type", idName);
+            }
+        });
+
+        checkDailyTask();
+
+    }
+
+    private void checkDailyTask() {
+        DailyTrigger dailyTrigger = new DailyTrigger();
+        boolean active = dailyTrigger.onChance();
+        if (active) {
+            // Do something once a day.
+            dailyTrigger.onConsumeChance();
+            LauncherAnalytics.logEvent("DailyCheckNotificationAccess", "Enable",
+                    Permissions.isNotificationAccessGranted() ? "Yes" : "No");
+        }
+    }
+
+    private void lifeCallback() {
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            private Class<? extends Activity> exitActivityClazz;
+
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                if (activity instanceof ColorPhoneActivity) {
+                    ActivitySwitchUtil.onMainViewCreate();
+                }
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+                activityStack.push(1);
+                HSPreferenceHelper.getDefault().putLong(NotificationConstants.PREFS_APP_OPENED_TIME, System.currentTimeMillis());
+                ActivitySwitchUtil.onActivityChange(exitActivityClazz, activity);
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+                if (!activityStack.isEmpty()) {
+                    activityStack.pop();
+                }
+
+                exitActivityClazz = activity.getClass();
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+                ActivitySwitchUtil.onActivityExit(activity);
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
             }
         });
 
