@@ -153,6 +153,7 @@ public class ColorPhoneApplication extends HSApplication {
                 // Call-Themes update timely.
                 Theme.updateThemes();
                 initNotificationToolbar();
+                ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
@@ -255,6 +256,7 @@ public class ColorPhoneApplication extends HSApplication {
             IntentFilter configFinishedFilter = new IntentFilter();
             configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
             registerReceiver(mAutopilotFetchReceiver, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
+            ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
         }
     }
 

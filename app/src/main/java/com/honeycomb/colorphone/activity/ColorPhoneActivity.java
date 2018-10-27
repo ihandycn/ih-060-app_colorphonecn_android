@@ -33,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
@@ -130,8 +131,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     };
 
+    private ConfigChangeManager.Callback configChangeCallback =  new ConfigChangeManager.Callback() {
+        @Override
+        public void onChange(int type) {
+            refreshCashButton();
+        }
+    };
+
     private boolean logOpenEvent;
     private boolean pendingShowRateAlert = true;
+    private View cashFloatButton;
 
     @DebugLog
     @Override
@@ -272,24 +281,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         Button avatar = findViewById(R.id.avatar_btn);
         avatar.setVisibility(View.GONE);
 
-        View cashFloatButton = findViewById(R.id.cash_center_entrance_icon);
-        if (CashUtils.needShowMainFloatButton()) {
-            cashFloatButton.setVisibility(View.VISIBLE);
-            if (cashFloatButton instanceof LottieAnimationView) {
-                ((LottieAnimationView) cashFloatButton).playAnimation();
-            }
-            cashFloatButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CashUtils.Event.onMainviewFloatButtonClick();
-                    CashUtils.startWheelActivity(ColorPhoneActivity.this, CashUtils.Source.FloatIcon);
-                }
-            });
-            CashUtils.Event.onMainviewFloatButtonShow();
-        } else {
-            cashFloatButton.setVisibility(View.GONE);
-        }
-
+        cashFloatButton = findViewById(R.id.cash_center_entrance_icon);
+        ConfigChangeManager.getInstance().registerCallbacks(
+                ConfigChangeManager.AUTOPILOT | ConfigChangeManager.REMOTE_CONFIG, configChangeCallback);
 
     }
 
@@ -334,6 +328,29 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mHandler.postDelayed(mainViewRunnable, 1000);
         isPaused = false;
 
+        refreshCashButton();
+    }
+
+    private void refreshCashButton() {
+        if (isPaused) {
+            return;
+        }
+        if (CashUtils.needShowMainFloatButton()) {
+            cashFloatButton.setVisibility(View.VISIBLE);
+            if (cashFloatButton instanceof LottieAnimationView) {
+                ((LottieAnimationView) cashFloatButton).playAnimation();
+            }
+            cashFloatButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CashUtils.Event.onMainviewFloatButtonClick();
+                    CashUtils.startWheelActivity(ColorPhoneActivity.this, CashUtils.Source.FloatIcon);
+                }
+            });
+            CashUtils.Event.onMainviewFloatButtonShow();
+        } else {
+            cashFloatButton.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -348,6 +365,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         mRecyclerView.getRecycledViewPool().clear();
         mHandler.removeCallbacks(mainViewRunnable);
+
+        if (cashFloatButton instanceof LottieAnimationView) {
+            ((LottieAnimationView) cashFloatButton).cancelAnimation();
+        }
     }
 
     @Override
@@ -394,6 +415,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (mRewardVideoView != null) {
             mRewardVideoView.onCancel();
         }
+        ConfigChangeManager.getInstance().removeCallback(configChangeCallback);
         super.onDestroy();
     }
 
