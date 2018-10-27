@@ -319,7 +319,7 @@ public class ColorPhoneApplication extends HSApplication {
 
         AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
-
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.CASHCENTER);
         HSPermanentUtils.keepAlive();
 
         Upgrader.upgrade();

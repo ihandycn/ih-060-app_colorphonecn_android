@@ -57,13 +57,13 @@ public class CashUtils {
 
             @Override
             public void onWheelSpinClick() {
-                CashUtils.Event.onAdShow();
+                CashUtils.Event.onSpinClick(sCashWheelSource);
+
             }
 
             @Override
             public void onWheelAdShow() {
-                LauncherAnalytics.logEvent("colorphone_earncash_spin",
-                        "From", sCashWheelSource == null ? "NULL" : sCashWheelSource.getDisplayName());
+                CashUtils.Event.onAdShow();
             }
 
             @Override
@@ -304,6 +304,12 @@ public class CashUtils {
             if (!TextUtils.isEmpty(name)) {
                 logEvent(name);
             }
+        }
+
+        public static void onSpinClick(Source cashWheelSource) {
+            LauncherAnalytics.logEvent("colorphone_earncash_spin",
+                    "From", cashWheelSource == null ? "NULL" : cashWheelSource.getDisplayName());
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_spin");
         }
     }
 
