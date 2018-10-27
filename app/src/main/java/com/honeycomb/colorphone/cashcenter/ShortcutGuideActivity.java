@@ -66,7 +66,7 @@ public class ShortcutGuideActivity extends AppCompatActivity {
         sIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         sIntent.setClass(this, GameStarterActivity.class );
 
-        String name = getString(R.string.cashcenter_title);
+        String name = getString(R.string.cash_center_cash_center);
 //        Intent installer = new Intent();
 //        installer.putExtra("duplicate", false);
 //        installer.putExtra(Intent.EXTRA_SHORTCUT_INTENT, sIntent);

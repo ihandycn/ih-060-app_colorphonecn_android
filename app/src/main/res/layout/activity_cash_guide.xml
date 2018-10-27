@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.14"
         app:typeface="@string/proxima_nova_bold"
-        tools:text="@string/cash_guide_hint" />
+        tools:text="@string/cash_center_claim_cash" />
 
     <FrameLayout
         android:id="@+id/cash_spin_panel"
