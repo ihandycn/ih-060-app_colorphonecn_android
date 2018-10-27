@@ -196,7 +196,6 @@ public class NotificationManager implements FlashlightStatusListener {
             mRemoteViews.setTextViewText(R.id.tv_clock, context.getString(R.string.spin));
         }
 
-        // cpu cooler
         boolean isForceUpdate = (mRemoteViews == null);
 
         initCpuCoolerView(mRemoteViews == null, isForceUpdate);

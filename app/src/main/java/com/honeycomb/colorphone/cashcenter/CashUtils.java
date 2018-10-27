@@ -158,7 +158,7 @@ public class CashUtils {
         boolean mainviewFloatButtonShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
                 "mainview_float_button_show", false);
         return mainviewFloatButtonShowBoolean
-                || HSConfig.optBoolean(false, "Application", "EarnCash", "MainviewFloatButtonShow");
+                && HSConfig.optBoolean(false, "Application", "EarnCash", "MainviewFloatButtonShow");
     }
 
 
@@ -169,7 +169,7 @@ public class CashUtils {
         boolean earncashAlertShowWhenUnlockscreenBoolean = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
                 "earncash_alert_show_when_unlockscreen", false);
         return HSConfig.optBoolean(false, "Application", "EarnCash", "UnlockAlertShow")
-                || earncashAlertShowWhenUnlockscreenBoolean;
+                && earncashAlertShowWhenUnlockscreenBoolean;
     }
 
     public static boolean guideShowOnCallAlertClose() {
@@ -179,7 +179,7 @@ public class CashUtils {
         boolean enable = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
                 "earncash_alert_show_when_callassistant_close", false);
         return HSConfig.optBoolean(false, "Application", "EarnCash", "CloseCallAssistantAlertShow")
-                || enable;
+                && enable;
     }
 
     public static boolean showEntranceAtCallAlert() {
@@ -189,7 +189,7 @@ public class CashUtils {
         boolean enable = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
                 "earncash_alert_show_on_callassistant", false);
         return HSConfig.optBoolean(false, "Application", "EarnCash", "OnCallAssistantEntranceShow")
-                || enable;
+                && enable;
     }
 
     public static boolean guideShowOnBacktoMain() {
@@ -199,7 +199,7 @@ public class CashUtils {
         boolean enable = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
                 "earncash_alert_show_when_back_to_mainview_from_detail", false);
         return HSConfig.optBoolean(false, "Application", "EarnCash", "InsideAppAlertShow")
-                || enable;
+                && enable;
     }
 
     public static int maxTimeOnUnlockScreen() {

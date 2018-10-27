@@ -20,6 +20,7 @@ import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
+import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
@@ -135,7 +136,11 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         return new ThemeViewConfig() {
             @Override
             public CallIdleAlertView getCallIdleAlertView(CallIdleAlertActivity callIdleAlertActivity, CallIdleAlertActivity.Data data) {
-                return new CustomCallIdleAlert(callIdleAlertActivity, data);
+                if (CashUtils.showEntranceAtCallAlert()) {
+                    return new CustomCallIdleAlert(callIdleAlertActivity, data);
+                }  else {
+                    return super.getCallIdleAlertView(callIdleAlertActivity, data);
+                }
             }
         };
     }
