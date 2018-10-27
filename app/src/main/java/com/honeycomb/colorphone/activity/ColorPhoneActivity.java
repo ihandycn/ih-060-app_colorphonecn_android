@@ -501,7 +501,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 if (mIsFirstScrollThisTimeHandsDown && mIsHandsDown && dy > 0) {
                     mIsFirstScrollThisTimeHandsDown = false;
-                    LauncherAnalytics.logEvent("ColorPhone_MainView_Slide");
                 }
             }
 
