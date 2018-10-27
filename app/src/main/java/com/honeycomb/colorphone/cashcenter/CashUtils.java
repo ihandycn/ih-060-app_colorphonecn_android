@@ -279,7 +279,7 @@ public class CashUtils {
                     break;
 
             }
-            if (TextUtils.isEmpty(name)) {
+            if (!TextUtils.isEmpty(name)) {
                 logEvent(name);
             }
         }
@@ -301,7 +301,7 @@ public class CashUtils {
                     break;
 
             }
-            if (TextUtils.isEmpty(name)) {
+            if (!TextUtils.isEmpty(name)) {
                 logEvent(name);
             }
         }
