@@ -151,9 +151,9 @@
     <!--reward_video-->
 
     <string name="loading_reward_videos">loading video...</string>
-    <string name="watch_video_to_unlock">Watch a video to unlock</string>
+    <string name="watch_video_to_unlock">Watch an ad to unlock</string>
     <string name="load_reward_ad_error">Oops， try again later</string>
-    <string name="watch_video_to_unlock_free_theme">Watch a video to unlock the beautiful theme</string>
+    <string name="watch_video_to_unlock_free_theme">Watch an ad to unlock the beautiful theme</string>
     <string name="unlock">UNLOCK</string>
     <string name="unlock_succeed">Unlocked successfully</string>
 
