@@ -80,9 +80,9 @@
     <string name="acb_phone_enable_notification">इसे अभी सक्रिय करें</string>
 
     <!--reward_video -->
-    <string name="watch_video_to_unlock">अनलॉक करने के लिए एक वीडियो देखें</string>
+    <string name="watch_video_to_unlock">अनलॉक करने के लिए एक विज्ञापन देखें</string>
     <string name="load_reward_ad_error">उफ्फ, बाद में दुबारा प्रयास करें</string>
-    <string name="watch_video_to_unlock_free_theme">सुंदर थीम अनलॉक करने के लिए एक वीडियो देखें</string>
+    <string name="watch_video_to_unlock_free_theme">एक सुंदर थीम अनलॉक करने के लिए एक विज्ञापन देखें</string>
     <string name="unlock">अनलॉक</string>
     <string name="unlock_succeed">सफलतापूर्वक अनलॉक हो गया</string>
 

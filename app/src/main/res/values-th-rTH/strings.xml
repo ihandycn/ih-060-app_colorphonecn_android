@@ -80,9 +80,9 @@
     <string name="acb_phone_enable_notification">อนุญาตทันที</string>
 
     <!--reward_video -->
-    <string name="watch_video_to_unlock">ดูวีดีโอเพื่อปลดล็อก</string>
+    <string name="watch_video_to_unlock">ชมโฆษณาเพื่อปลดล็อก</string>
     <string name="load_reward_ad_error">อ๊ะ ลองอีกครั้งภายหลัง</string>
-    <string name="watch_video_to_unlock_free_theme">ดูวีดีโอเพื่อปลดล็อกธีมสวย ๆ</string>
+    <string name="watch_video_to_unlock_free_theme">ชมโฆษณาเพื่อปลดล็อกธีมที่สวยงาม</string>
     <string name="unlock">ปลดล็อก</string>
     <string name="unlock_succeed">ปลดล็อกสำเร็จแล้ว</string>
 

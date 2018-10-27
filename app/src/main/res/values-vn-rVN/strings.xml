@@ -80,9 +80,9 @@
     <string name="acb_phone_enable_notification">Bật nó Ngay</string>
 
     <!--Reward_video -->
-    <string name="watch_video_to_unlock">Xem một video để mở khóa</string>
+    <string name="watch_video_to_unlock">Xem một quảng cáo để mở khóa</string>
     <string name="load_reward_ad_error">Rất tiếc， hãy thử lại sau</string>
-    <string name="watch_video_to_unlock_free_theme">Xem một video để mở khóa chủ đề đẹp mắt</string>
+    <string name="watch_video_to_unlock_free_theme">Xem một quảng cáo để mở khóa chủ đề đẹp mắt</string>
     <string name="unlock">Mở khóa</string>
     <string name="unlock_succeed">Đã mở khóa thành công</string>
 

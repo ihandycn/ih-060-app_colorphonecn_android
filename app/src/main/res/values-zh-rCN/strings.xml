@@ -79,9 +79,9 @@
     <string name="acb_phone_enable_notification">立即开启</string>
 
     <!--Reward_video -->
-    <string name="watch_video_to_unlock">观看视频即可解锁</string>
+    <string name="watch_video_to_unlock">观看广告即可解锁</string>
     <string name="load_reward_ad_error">糟糕，稍后再试</string>
-    <string name="watch_video_to_unlock_free_theme">观看视频已解锁美丽的主题</string>
+    <string name="watch_video_to_unlock_free_theme">观看广告以解锁精美的主题</string>
     <string name="unlock">解锁</string>
     <string name="unlock_succeed">成功解锁</string>
 

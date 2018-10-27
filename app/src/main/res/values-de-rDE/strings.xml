@@ -80,9 +80,9 @@
     <string name="acb_phone_enable_notification">Jetzt aktivieren</string>
 
     <!--reward_video -->
-    <string name="watch_video_to_unlock">Zum Freischalten Video anschauen</string>
+    <string name="watch_video_to_unlock">Für die Freischaltung einen Werbespot anschauen</string>
     <string name="load_reward_ad_error">Ups! Später erneut versuchen.</string>
-    <string name="watch_video_to_unlock_free_theme">Video anschauen, um das wunderschöne Design freizuschalten</string>
+    <string name="watch_video_to_unlock_free_theme">Für die Freischaltung des herrlichen Motivs einen Werbespot anschauen</string>
     <string name="unlock">Freischalten</string>
     <string name="unlock_succeed">Erfolgreich freigeschalten</string>
 
