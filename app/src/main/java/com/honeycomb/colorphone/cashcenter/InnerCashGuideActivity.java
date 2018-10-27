@@ -37,9 +37,9 @@ public class InnerCashGuideActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cash_guide);
 
         TextView hintTv = findViewById(R.id.cash_title);
-        String rawStr = getString(R.string.cash_center_claim_cash, 0.25f);
-        int startIndex = rawStr.indexOf("$0.25");
-        int endIndex = startIndex + "$0.25".length();
+        String rawStr = getString(R.string.cash_center_claim_cash, 1.00f);
+        int startIndex = rawStr.indexOf("$1.00");
+        int endIndex = startIndex + "$1.00".length();
         SpannableString spannableString = SpannableString.valueOf(rawStr);
         spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#ffba00")),
                 startIndex, endIndex, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE

@@ -49,6 +49,7 @@
 -keepnames class com.honeycomb.colorphone.notification.NotificationServiceV18
 
 -keep public class com.android.vending.licensing.ILicensingService
+-keep com.acb.cashcenter.model.UserInfoResult
 
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
