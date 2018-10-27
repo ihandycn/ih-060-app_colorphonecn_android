@@ -43,7 +43,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "71f06a40-3db2-4328-abb1-e795d61447bd",
+  "json_id": "300bfc2e-52bf-4af6-8dec-785dff017b54",
   "topics": {
     "topic-1510752104742": {
       "topic_type": "one_time",
@@ -866,6 +866,9 @@
         },
         {
           "name": "colorphone_earncash_icon_click_on_toolbar"
+        },
+        {
+          "name": "colorphone_earncash_spin"
         }
       ],
       "topic_id": "topic-1539675249991-758"
