@@ -431,15 +431,15 @@ public class NotificationManager implements FlashlightStatusListener {
                 break;
             case NotificationManager.ACTION_SETTINGS_CLICK:
                 // com.android.alarm.permission.SET_ALARM
-                LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_Settings_Clicked");
                 if (CashUtils.checkGlobalSwitch()) {
                     CashUtils.startWheelActivity(null, CashUtils.Source.Toolbar);
                     CashUtils.Event.logEvent("colorphone_earncash_icon_click_on_toolbar");
                 } else {
                     Navigations.startActivitySafely(context, new Intent(Settings.ACTION_SETTINGS));
+                    LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_Settings_Clicked");
+                    AutoPilotUtils.logNotificationToolbarSettingClick();
                 }
 
-                AutoPilotUtils.logNotificationToolbarSettingClick();
                 break;
             case NotificationManager.ACTION_CPU_COOLER_TOOLBAR:
                 LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_CPU_Clicked");
