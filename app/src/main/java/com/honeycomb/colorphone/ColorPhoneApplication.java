@@ -91,8 +91,10 @@ import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.core.AutopilotProvider;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
+import net.appcloudbox.common.utils.AcbContentProviderUtils;
 import net.appcloudbox.h5game.AcbH5GameManager;
 import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
@@ -251,6 +253,8 @@ public class ColorPhoneApplication extends HSApplication {
                 : null;
         AppsFlyerLib.getInstance().setCustomerUserId(customId);
         AutopilotConfig.initialize(this, "Autopilot_Config.json", customId);
+        AcbContentProviderUtils.call(this, AutopilotProvider.createContentUri(this),
+                AutopilotProvider.CALL_FETCH_REMOTE_CONFIG, null, null);
 
         if (!AutopilotConfig.hasConfigFetchFinished()) {
             IntentFilter configFinishedFilter = new IntentFilter();
