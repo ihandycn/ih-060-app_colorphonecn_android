@@ -183,7 +183,7 @@ dependencies {
     compile project(':libSuperApps')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.10.26.001'
+    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.10.29.001'
     colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.07.16.001'
 
 }
