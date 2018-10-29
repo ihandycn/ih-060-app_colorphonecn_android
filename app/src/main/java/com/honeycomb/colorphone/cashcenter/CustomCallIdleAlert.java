@@ -49,12 +49,14 @@ public class CustomCallIdleAlert extends CallIdleAlert {
         });
         title = cashTipRoot.findViewById(R.id.call_extra_cash_title);
         String rawStr= getResources().getString(R.string.cash_center_earn_up_limit, "0.25");
-        int startIndex = rawStr.indexOf("$0.25");
+        int startIndex = rawStr.indexOf("$");
         int endIndex = startIndex + "$0.25".length();
         SpannableString spannableString = SpannableString.valueOf(rawStr);
-        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#ffba00")),
-                startIndex, endIndex, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
-        );
+        if (startIndex >= 0) {
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#ffba00")),
+                    startIndex, endIndex, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            );
+        }
         title.setText(spannableString);
         title.setVisibility(INVISIBLE);
 
@@ -71,6 +73,8 @@ public class CustomCallIdleAlert extends CallIdleAlert {
         if (hasWindowFocus) {
             lottieAnimationView.playAnimation();
             mHandler.post(() -> doPopAnimationShow());
+        } else {
+            lottieAnimationView.cancelAnimation();
         }
     }
 

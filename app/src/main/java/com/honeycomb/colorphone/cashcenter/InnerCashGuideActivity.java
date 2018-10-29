@@ -38,12 +38,14 @@ public class InnerCashGuideActivity extends AppCompatActivity {
 
         TextView hintTv = findViewById(R.id.cash_title);
         String rawStr = getString(R.string.cash_center_claim_cash, 1.00f);
-        int startIndex = rawStr.indexOf("$1.00");
+        int startIndex = rawStr.indexOf("$");
         int endIndex = startIndex + "$1.00".length();
         SpannableString spannableString = SpannableString.valueOf(rawStr);
-        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#ffba00")),
-                startIndex, endIndex, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
-                );
+        if (startIndex >= 0) {
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#ffba00")),
+                    startIndex, endIndex, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+            );
+        }
         hintTv.setText(spannableString);
 
         findViewById(R.id.cash_spin_panel).setOnClickListener(v -> {
