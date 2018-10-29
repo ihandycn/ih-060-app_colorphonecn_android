@@ -20,7 +20,6 @@ import android.util.Log;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
-import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.call.assistant.customize.CallAssistantConsts;
@@ -91,10 +90,8 @@ import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
-import net.appcloudbox.autopilot.core.AutopilotProvider;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
-import net.appcloudbox.common.utils.AcbContentProviderUtils;
 import net.appcloudbox.h5game.AcbH5GameManager;
 import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
@@ -222,6 +219,8 @@ public class ColorPhoneApplication extends HSApplication {
         if (GdprUtils.isNeedToAccessDataUsage()) {
             initFabric();
         }
+        AutopilotConfig.initialize(this, "Autopilot_Config.json");
+
         mConfigLog = new ConfigLogDefault();
         FileDownloader.setup(this);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -249,12 +248,9 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void initAutopilot() {
-        String customId = GdprUtils.isDataUsageUserEnabled() ? HSApplication.getInstallationUUID()
-                : null;
-        AppsFlyerLib.getInstance().setCustomerUserId(customId);
-        AutopilotConfig.initialize(this, "Autopilot_Config.json", customId);
-        AcbContentProviderUtils.call(this, AutopilotProvider.createContentUri(this),
-                AutopilotProvider.CALL_FETCH_REMOTE_CONFIG, null, null);
+//        String customId = GdprUtils.isDataUsageUserEnabled() ? HSApplication.getInstallationUUID()
+//                : null;
+//        AppsFlyerLib.getInstance().setCustomerUserId(customId);
 
         if (!AutopilotConfig.hasConfigFetchFinished()) {
             IntentFilter configFinishedFilter = new IntentFilter();
