@@ -167,6 +167,7 @@ public class ColorPhoneApplication extends HSApplication {
         @Override
         public void onReceive(Context context, Intent intent) {
             updateCallFinishFullScreenAdPlacement();
+            ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
         }
     };
 
@@ -256,7 +257,6 @@ public class ColorPhoneApplication extends HSApplication {
             IntentFilter configFinishedFilter = new IntentFilter();
             configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
             registerReceiver(mAutopilotFetchReceiver, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
-            ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
         }
     }
 

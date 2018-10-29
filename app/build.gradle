@@ -134,8 +134,8 @@ dependencies {
                     : "net.appcloudbox.autopilot:libAutoPilot.gm:5.3.2.gm",
 
             USE_BETA_ACB_LIBS ?
-                    'com.ihandy.appframework:libAppframework.beta:4.7.1.+' :
-                    'com.ihandy.appframework:libAppframework.gm:4.7.1.gm',
+                    'com.ihandy.appframework:libAppframework.beta:4.8.1.+' :
+                    'com.ihandy.appframework:libAppframework.gm:4.8.1.gm',
     ]
 
     for (dependency in COMMON_DEPENDENCIES) compile dependency
