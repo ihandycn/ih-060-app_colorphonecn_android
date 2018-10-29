@@ -335,6 +335,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (isPaused) {
             return;
         }
+        CashUtils.logSwitchStatusToServer();
         if (CashUtils.needShowMainFloatButton()) {
             cashFloatButton.setVisibility(View.VISIBLE);
             if (cashFloatButton instanceof LottieAnimationView) {

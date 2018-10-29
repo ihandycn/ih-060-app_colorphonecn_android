@@ -10,9 +10,12 @@ import com.acb.cashcenter.CashCenterConfiguration;
 import com.acb.cashcenter.CashCenterManager;
 import com.acb.cashcenter.lottery.LotteryWheelActivity;
 import com.honeycomb.colorphone.Placements;
+import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.trigger.CashCenterTriggerList;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
@@ -218,6 +221,16 @@ public class CashUtils {
         double enable = AutopilotConfig.getDoubleToTestNow("topic-1539675249991-758",
                 "earncash_alert_show_maxtime_when_back_to_mainview_from_detail", 1);
         return (int) enable;
+    }
+
+    public static void logSwitchStatusToServer() {
+        if (!Utils.isNewUser()) {
+            return;
+        }
+        boolean open = masterSwitch();
+        int sessionId = HSSessionMgr.getCurrentSessionId();
+        LauncherAnalytics.logEvent("NewUser_Cash_Switch", "Switch", String.valueOf(open),
+                "Session", String.valueOf(sessionId), "GdprUser", String.valueOf(GdprUtils.isGdprUser()));
     }
 
 
