@@ -1,8 +1,11 @@
 package com.honeycomb.colorphone.factoryimpl;
 
+import android.Manifest;
+import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Build;
 
+import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.receiver.IncomingCallReceiver;
 import com.acb.call.themes.Type;
@@ -11,7 +14,10 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.util.FontUtils;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.superapps.util.RuntimePermissions;
 
 import java.util.Iterator;
 import java.util.List;
@@ -112,4 +118,84 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
         }
     }
 
+    public String from;
+    @Override public RequestPermissionsActivity.Event requestPermissionsEvents() {
+        return new RequestPermissionsActivity.Event() {
+
+            @Override
+            public void logScreenFlashPhoneContactsAllowClicked() {
+                // No use.
+                // See #logScreenFlashPhoneAccessRequested
+                //     #logScreenFlashContactsAccessRequested
+            }
+
+            @Override
+            public void logScreenFlashAllOpenDefault(Activity activity) {
+
+            }
+
+            @Override
+            public void logScreenFlashAccessPageShowed(String source, String type) {
+                if (type.contains(RequestPermissionsActivity.ITEM_DRAW_OVERLAY)) {
+                    LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Overlay_Allow_Click", "type", source);
+                }
+                if (type.contains(RequestPermissionsActivity.ITEM_NOTIFICATION)) {
+                    LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_NotificationAccess_Allow_Click", "type", source);
+                }
+
+                if (type.contains(RequestPermissionsActivity.ITEM_PHONE_CONTACT)) {
+                    boolean hasPhonePerm = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE)
+                            == RuntimePermissions.PERMISSION_GRANTED;
+                    boolean hasContactPerm = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_CONTACTS)
+                            == RuntimePermissions.PERMISSION_GRANTED;
+                    if (!hasContactPerm) {
+                        LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Contact_Allow_Click", "type", source);
+                    }
+                    if (!hasPhonePerm) {
+                        LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Click", "type", source);
+                    }
+
+                }
+            }
+
+            @Override
+            public void logScreenFlashPhoneAccessRequested() {
+            }
+
+            @Override
+            public void logScreenFlashPhoneAccessSucceed(RequestPermissionsActivity.PermissionSource permissionSource) {
+            }
+
+            @Override
+            public void logScreenFlashContactsAccessRequested() {
+            }
+
+            @Override
+            public void logScreenFlashContactsAccessSucceed(RequestPermissionsActivity.PermissionSource permissionSource) {
+            }
+
+            @Override
+            public void logScreenFlashDrawOverAppsRequested() {
+            }
+
+            @Override
+            public void logScreenFlashDrawOverAppsSucceeded() {
+            }
+
+            @Override
+            public void logScreenFlashNotificationAccessRequested() {
+                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_NotificationAccess_Allow_Click");
+            }
+
+            @Override
+            public void logScreenFlashNotificationAccessSucceed() {
+                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_NotificationAccess_Allow_Success");
+            }
+
+            @Override
+            public void logScreenFlashAccessAllOpenGuide() {
+
+            }
+        };
+    }
 }

@@ -29,6 +29,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -403,7 +404,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     return;
                 }
                 if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity);
+                    PermissionChecker.getInstance().check(mActivity, RequestPermissionsActivity.EventSource.SetForAll);
                 }
                 onThemeApply();
             }
@@ -413,7 +414,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             @Override
             public void onClick(View v) {
                 if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity);
+                    PermissionChecker.getInstance().check(mActivity, RequestPermissionsActivity.EventSource.ContactsSet);
                 }
 
                 ContactsActivity.startSelect(mActivity, mTheme);

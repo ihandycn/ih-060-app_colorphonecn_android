@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -319,7 +320,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View v) {
                     if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                        PermissionChecker.getInstance().check(activity);
+                        PermissionChecker.getInstance().check(activity, RequestPermissionsActivity.EventSource.Banner);
                     }
 //                    if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.List)) {
 //                        PermissionHelper.waitOverlayGranted(EventSource.List, true);
@@ -336,7 +337,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void onThemeSelected(int pos) {
-        PermissionChecker.getInstance().check(activity);
+        PermissionChecker.getInstance().check(activity, RequestPermissionsActivity.EventSource.SetForAll);
 
         final Theme theme = data.get(pos);
         saveThemeApplys(theme.getId());

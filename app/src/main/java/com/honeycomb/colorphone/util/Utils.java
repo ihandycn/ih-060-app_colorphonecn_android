@@ -970,4 +970,19 @@ public final class Utils {
     public static boolean isNewUser() {
         return HSApplication.getFirstLaunchInfo().appVersionCode == HSApplication.getCurrentLaunchInfo().appVersionCode;
     }
+
+
+    private static long sInstallTime;
+
+    public static long getAppInstallTimeMillis() {
+        if (sInstallTime <= 0) {
+            sInstallTime = getInstallTime();
+        }
+        return sInstallTime;
+    }
+
+    public static long getInstallTime() {
+        long firstSessionTime = HSSessionMgr.getFirstSessionStartTime();
+        return firstSessionTime > 0 ? firstSessionTime : System.currentTimeMillis();
+    }
 }

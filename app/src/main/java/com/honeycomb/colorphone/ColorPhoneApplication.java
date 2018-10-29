@@ -52,6 +52,7 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.CallFinishUtils;
+import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -116,6 +117,7 @@ public class ColorPhoneApplication extends HSApplication {
     private static ConfigLog mConfigLog;
 
     private List<Module> mModules = new ArrayList<>();
+    private DailyLogger mDailyLogger;
 
     private static Stack<Integer> activityStack = new Stack<>();
 
@@ -145,6 +147,9 @@ public class ColorPhoneApplication extends HSApplication {
 
             if (HSNotificationConstant.HS_SESSION_START.equals(notificationName)) {
                 checkModuleAdPlacement();
+                if (mDailyLogger != null) {
+                    mDailyLogger.checkAndLog();
+                }
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
                 HSLog.d("Session End.");
@@ -162,6 +167,12 @@ public class ColorPhoneApplication extends HSApplication {
             }
         }
     };
+
+    public void logOnceFirstSessionEndStatus() {
+        if (mDailyLogger != null) {
+            mDailyLogger.logOnceFirstSessionEndStatus();
+        }
+    }
 
     private BroadcastReceiver mAutopilotFetchReceiver = new BroadcastReceiver() {
         @Override
@@ -221,6 +232,7 @@ public class ColorPhoneApplication extends HSApplication {
             initFabric();
         }
         mConfigLog = new ConfigLogDefault();
+        mDailyLogger = new DailyLogger();
         FileDownloader.setup(this);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 

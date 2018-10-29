@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.acb.call.activity.RequestPermissionsActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -57,7 +58,7 @@ public class DownloadViewHolder implements DownloadHolder {
                 } else if (canStartDownload()) {
                     if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
                         if (taskActionBtn.getContext() instanceof Activity) {
-                            PermissionChecker.getInstance().check((Activity) taskActionBtn.getContext());
+                            PermissionChecker.getInstance().check((Activity) taskActionBtn.getContext(), RequestPermissionsActivity.EventSource.SetForAll);
                         }
                     }
                     startDownload();

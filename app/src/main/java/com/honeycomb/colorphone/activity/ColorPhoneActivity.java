@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
@@ -402,7 +403,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             // Not support lottie.
             runnable = () -> requiresPermission();
         } else {
-            runnable = () -> PermissionChecker.getInstance().check(this);
+            runnable = () -> PermissionChecker.getInstance().check(this, RequestPermissionsActivity.EventSource.HomeSet);
         }
 
         Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(
@@ -741,6 +742,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (visible != mAdapter.isTipHeaderVisible()) {
                 mAdapter.notifyDataSetChanged();
             }
+        } else if (HSNotificationConstant.HS_SESSION_END.equals(s)) {
+            Preferences.get(Constants.DESKTOP_PREFS).doOnce(() -> {
+                if (ColorPhoneApplication.getContext() instanceof ColorPhoneApplication) {
+                    ((ColorPhoneApplication) ColorPhoneApplication.getContext()).logOnceFirstSessionEndStatus();
+                }
+            }, "Permission_Check_Above23_FirstSessionEnd");
+
         }
     }
 

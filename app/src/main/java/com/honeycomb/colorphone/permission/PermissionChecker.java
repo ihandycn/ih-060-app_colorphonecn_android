@@ -41,9 +41,9 @@ public class PermissionChecker {
 
     static List<Module> sModules = new ArrayList<>();
 
-    public void check(Activity activity) {
+    public void check(Activity activity, RequestPermissionsActivity.EventSource source) {
         if (Build.VERSION.SDK_INT >= 16 && hasNoGrantedPermissions(ScreenFlash)) {
-            RequestPermissionsActivity.checkPermissionAndStart(activity, RequestPermissionsActivity.EventSource.SetForAll);
+            RequestPermissionsActivity.checkPermissionAndStart(activity, source);
         }
     }
 
