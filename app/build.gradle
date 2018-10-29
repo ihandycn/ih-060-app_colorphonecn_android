@@ -10,7 +10,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 26
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -116,7 +116,7 @@ android {
 }
 
 final SUPPORT_LIBRARY_VERSION = '26.1.0'
-final GOOGLE_PLAY_SERVICES_VERSION = '10.2.0'
+final GOOGLE_PLAY_SERVICES_VERSION = '15.0.0'
 
 dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
@@ -190,6 +190,7 @@ dependencies {
     compile project(':libScreenFlash')
     compile project(':lock')
     compile project(':libSuperApps')
+    compile project(':permissions')
 
     //  -------- GoldEye ------
     colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.08.30.001'

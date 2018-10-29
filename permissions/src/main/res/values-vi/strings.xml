@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">Không thể cấp quyền truy cập</string>
+<string name="normal_permission_guide_dialog_content">Chọn "Quyền" và kích hoạt "Điện thoại", "Tin nhắn SMS", "Danh bạ"</string>
+  <string name="draw_overlay_window_hint">Bật "Hiển thị trên các ứng dụng khác" Để Hiện Đèn Nháy Màn Hình.</string>
+  <string name="normal_permission_guide_permission">Quyền</string>
+  <string name="permission_request_call">Điện thoại</string>
+  <string name="permission_request_sms">Tin nhắn SMS</string>
+  <string name="permission_request_contacts">Danh bạ</string>
+</resources>

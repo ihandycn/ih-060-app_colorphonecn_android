@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -12,6 +13,8 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 
+import com.acb.call.customize.ScreenFlashManager;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialer.AP;
@@ -29,14 +32,23 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.device.monitor.topapp.HSUsageAccessMgr;
+import com.superapps.util.RuntimePermissions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sundxing on 17/9/13.
  */
 
 public class GuideAllFeaturesActivity extends HSAppCompatActivity {
+    private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 1000;
+
+    private String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
+    private int permsCount = 0;
 
     Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -76,14 +88,10 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
                 if (!GuideSetDefaultActivity.start(GuideAllFeaturesActivity.this)) {
-                    if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.FirstScreen)) {
-                        PermissionHelper.waitOverlayGranted(EventSource.FirstScreen, true);
-                    } else {
-                        PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
-                    }
+                    requiresPermission();
                 }
 
-                finish();
+//                finish();
             }
         });
 
@@ -158,6 +166,80 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         }
 
         return needUsageAccess;
+    }
+
+    /**
+     * Only request first launch. (if Enabled and not has permission)
+     */
+    private void requiresPermission() {
+        boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
+                && ScreenFlashSettings.isScreenFlashModuleEnabled();
+        HSLog.d("ScreenFlash state change : " + isEnabled);
+        if (!isEnabled) {
+            HSLog.w("Permissions ScreenFlash state change : " + isEnabled);
+            return;
+        }
+
+        boolean phonePerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                == RuntimePermissions.PERMISSION_GRANTED;
+        boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                == RuntimePermissions.PERMISSION_GRANTED;
+        if (!phonePerm) {
+            LauncherAnalytics.logEvent("Flashlight_Permission_Phone_View_Showed");
+        }
+        if (!contactPerm) {
+            LauncherAnalytics.logEvent("Flashlight_Permission_Contact_View_Showed");
+        }
+        if (!phonePerm || !contactPerm){
+            // Do not have permissions, request them now
+            RuntimePermissions.requestPermissions(this, perms, FIRST_LAUNCH_PERMISSION_REQUEST);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        RuntimePermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+
+        List<String> granted = new ArrayList<>(permissions.length);
+        List<String> denied = new ArrayList<>(permissions.length);
+
+        for(int i = 0; i < permissions.length; ++i) {
+            String perm = permissions[i];
+            if (grantResults[i] == 0) {
+                granted.add(perm);
+            } else {
+                denied.add(perm);
+            }
+        }
+
+        onPermissionsGranted(requestCode, granted);
+        onPermissionsDenied(requestCode, denied);
+
+//        if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.FirstScreen)) {
+//            PermissionHelper.waitOverlayGranted(EventSource.FirstScreen, true);
+//        } else {
+        PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+//        }
+        finish();
+
+    }
+
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
+            if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
+                LauncherAnalytics.logEvent("Flashlight_Permission_Phone_Allow_Success");
+            }
+            if (list.contains(Manifest.permission.READ_CONTACTS)) {
+                LauncherAnalytics.logEvent("Flashlight_Permission_Contact_Allow_Success");
+
+            }
+        }
+    }
+
+    public void onPermissionsDenied(int requestCode, List<String> list) {
+        // Some permissions have been denied
+        // ...
     }
 
 }

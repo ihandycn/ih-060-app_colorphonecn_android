@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">एक्‍सेस प्रदान करने में असफल</string>
+<string name="normal_permission_guide_dialog_content">कृपया "अनुमतियां" चुनें और "फ़ोन", "SMS", "संपर्क" को सक्रिय करें</string>
+  <string name="draw_overlay_window_hint">स्‍क्रीन फ्लैश दिखाने के लिए "दूसरे ऐप्लिकेशन के ऊपर दिखाए जाने का एक्सेस" को सक्षम करें</string>
+  <string name="normal_permission_guide_permission">अनुमतियां</string>
+  <string name="permission_request_call">फ़ोन</string>
+  <string name="permission_request_sms">SMS</string>
+  <string name="permission_request_contacts">संपर्क</string>
+</resources>

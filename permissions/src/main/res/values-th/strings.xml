@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">อนุญาตการเข้าถึงไม่สำเร็จ</string>
+<string name="normal_permission_guide_dialog_content">เลือก "Permissions" และเปิดใช้งาน "โทรศัพท์", "SMS", "รายชื่อติดต่อ"</string>
+  <string name="draw_overlay_window_hint">เปิดใช้งาน "แสดงทับแอปอื่นๆ" เพื่อแสดงหน้าจอกระพริบ</string>
+  <string name="normal_permission_guide_permission">การอนุญาต</string>
+  <string name="permission_request_call">โทรศัพท์</string>
+  <string name="permission_request_sms">SMS</string>
+  <string name="permission_request_contacts">รายชื่อติดต่อ</string>
+</resources>

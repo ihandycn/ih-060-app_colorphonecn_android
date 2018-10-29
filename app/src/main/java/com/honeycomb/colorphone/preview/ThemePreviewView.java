@@ -52,6 +52,7 @@ import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
+import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -401,6 +402,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (inTransition) {
                     return;
                 }
+                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                    PermissionChecker.getInstance().check(mActivity);
+                }
                 onThemeApply();
             }
         });
@@ -408,6 +412,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mApplyForOne.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                    PermissionChecker.getInstance().check(mActivity);
+                }
+
                 ContactsActivity.startSelect(mActivity, mTheme);
                 LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
             }

@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.download;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.view.ProgressView;
 import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.app.framework.HSApplication;
@@ -53,6 +55,11 @@ public class DownloadViewHolder implements DownloadHolder {
                     // to pause
                     FileDownloader.getImpl().pause(id);
                 } else if (canStartDownload()) {
+                    if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                        if (taskActionBtn.getContext() instanceof Activity) {
+                            PermissionChecker.getInstance().check((Activity) taskActionBtn.getContext());
+                        }
+                    }
                     startDownload();
                 }
             }

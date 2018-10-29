@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">Échec de l\'autorisation d\'accès</string>
+<string name="normal_permission_guide_dialog_content">Sélectionnez « Autorisations » et activez « Téléphone », « SMS », « Contacts »</string>
+  <string name="draw_overlay_window_hint">Activez "Afficher par-dessus les autres applications" pour afficher le flash d\'écran</string>
+  <string name="normal_permission_guide_permission">Autorisations</string>
+  <string name="permission_request_call">Téléphone</string>
+  <string name="permission_request_sms">SMS</string>
+  <string name="permission_request_contacts">Contacts</string>
+</resources>

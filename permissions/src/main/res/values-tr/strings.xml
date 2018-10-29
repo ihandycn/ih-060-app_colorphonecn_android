@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">Erişim izni verilemedi</string>
+<string name="normal_permission_guide_dialog_content">"İzinler"i seçin ve "Telefon", "SMS", "Kişiler" etkinleştirin</string>
+  <string name="draw_overlay_window_hint">Ekran Flaşını Göstermek için "Diğer uygulamaların üzerinde göster" Etkinleştir</string>
+  <string name="normal_permission_guide_permission">İzinler</string>
+  <string name="permission_request_call">Telefon</string>
+  <string name="permission_request_sms">SMS</string>
+  <string name="permission_request_contacts">Kişiler</string>
+</resources>

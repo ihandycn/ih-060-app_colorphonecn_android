@@ -36,6 +36,7 @@ public class NotificationAccessGuideAlertActivity extends Activity {
     public static HSPreferenceHelper prefs = HSPreferenceHelper.create(HSApplication.getContext(), ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_PREFS_FILE);
 
     private boolean insideApp;
+    private boolean isFirstSession;
 
     public static void startOutAppGuide(final Context context) {
         HSPreferenceHelper.getDefault().putLong(ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_LAST_SHOW_TIME, System.currentTimeMillis());
@@ -64,7 +65,7 @@ public class NotificationAccessGuideAlertActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         insideApp = getIntent().getBooleanExtra(ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, false);
-        final boolean isFirstSession = getIntent().getBooleanExtra(ACB_PHONE_NOTIFICATION_APP_IS_FIRST_SESSION, false);
+        isFirstSession = getIntent().getBooleanExtra(ACB_PHONE_NOTIFICATION_APP_IS_FIRST_SESSION, false);
         if (insideApp) {
             setContentView(R.layout.acb_phone_notification_access_guide_alert_activity_without_icon);
         } else {
@@ -97,6 +98,7 @@ public class NotificationAccessGuideAlertActivity extends Activity {
             }
         });
         onShow(insideApp, isFirstSession);
+
     }
 
     private void initAppIconAndName() {
