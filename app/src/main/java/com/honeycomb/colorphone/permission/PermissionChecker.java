@@ -41,9 +41,18 @@ public class PermissionChecker {
 
     static List<Module> sModules = new ArrayList<>();
 
+    public static String[] sDefaultRequestPermissions = new String[] {
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_CONTACTS,
+            RequestPermissionsActivity.PERMISSION_NOTIFICATION
+    };
+
     public void check(Activity activity, RequestPermissionsActivity.EventSource source) {
         if (Build.VERSION.SDK_INT >= 16 && hasNoGrantedPermissions(ScreenFlash)) {
-            RequestPermissionsActivity.checkPermissionAndStart(activity, source);
+            final ArrayList<String> permissions = new ArrayList<>(Arrays.asList(sDefaultRequestPermissions));
+            if (RequestPermissionsActivity.hasNoGrantedPermission(permissions)) {
+                RequestPermissionsActivity.start(activity, source.getName(), permissions);
+            }
         }
     }
 
