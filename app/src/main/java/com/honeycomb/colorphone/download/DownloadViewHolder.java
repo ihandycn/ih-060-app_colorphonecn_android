@@ -58,7 +58,7 @@ public class DownloadViewHolder implements DownloadHolder {
                 } else if (canStartDownload()) {
                     if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
                         if (taskActionBtn.getContext() instanceof Activity) {
-                            PermissionChecker.getInstance().check((Activity) taskActionBtn.getContext(), RequestPermissionsActivity.EventSource.SetForAll);
+                            PermissionChecker.getInstance().check((Activity) taskActionBtn.getContext(), "List");
                         }
                     }
                     startDownload();

@@ -404,7 +404,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     return;
                 }
                 if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity, RequestPermissionsActivity.EventSource.SetForAll);
+                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
                 }
                 onThemeApply();
             }
@@ -414,7 +414,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             @Override
             public void onClick(View v) {
                 if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity, RequestPermissionsActivity.EventSource.ContactsSet);
+                    PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
                 }
 
                 ContactsActivity.startSelect(mActivity, mTheme);

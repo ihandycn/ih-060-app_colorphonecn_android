@@ -135,6 +135,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private boolean logOpenEvent;
     private boolean pendingShowRateAlert = false;
+    private boolean showAllFeatureGuide = false;
 
     @DebugLog
     @Override
@@ -149,6 +150,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             GuideAllFeaturesActivity.start(this);
             HSAlertMgr.delayRateAlert();
             pendingShowRateAlert = true;
+            showAllFeatureGuide = true;
         } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
             Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -359,6 +361,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //            pendingShowRateAlert = false;
 //        }
         mHandler.postDelayed(mainViewRunnable, 1000);
+        if (showAllFeatureGuide) {
+            dispatchPermissionRequest();
+            showAllFeatureGuide = false;
+        }
 
     }
 
@@ -403,7 +409,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             // Not support lottie.
             runnable = () -> requiresPermission();
         } else {
-            runnable = () -> PermissionChecker.getInstance().check(this, RequestPermissionsActivity.EventSource.HomeSet);
+            runnable = () -> PermissionChecker.getInstance().check(this, "AppOpen");
         }
 
         Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(
