@@ -286,10 +286,7 @@ public class ColorPhoneApplication extends HSApplication {
         if (!GdprUtils.isGdprNewUser() && HSGdprConsent.getConsentState() == HSGdprConsent.ConsentState.TO_BE_CONFIRMED) {
             GdprUtils.setDataUsageUserEnabled(true);
         }
-        AcbHSFrameworkAdapter.initialize(this);
-        String customId = GdprUtils.isDataUsageUserEnabled() ? HSApplication.getInstallationUUID()
-                : null;
-        AppsFlyerLib.getInstance().setCustomerUserId(customId);
+
 
         AutopilotConfig.initialize(this, "Autopilot_Config.json");
 

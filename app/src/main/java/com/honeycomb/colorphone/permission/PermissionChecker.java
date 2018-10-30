@@ -40,7 +40,7 @@ public class PermissionChecker {
     public static final String PERM_OVERLAY = "perms_overlay";
 
     static List<Module> sModules = new ArrayList<>();
-    
+
     public void check(Activity activity, String source) {
         if (Build.VERSION.SDK_INT >= 16 && hasNoGrantedPermissions(ScreenFlash)) {
             RequestPermissionsActivity.start(activity, source);

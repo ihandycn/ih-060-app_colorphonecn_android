@@ -343,6 +343,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
         AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
+        if (!showAllFeatureGuide) {
+            dispatchPermissionRequest();
+        }
     }
 
     @Override
@@ -361,11 +364,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //            pendingShowRateAlert = false;
 //        }
         mHandler.postDelayed(mainViewRunnable, 1000);
-        if (showAllFeatureGuide) {
-            dispatchPermissionRequest();
-            showAllFeatureGuide = false;
-        }
-
     }
 
     @Override
@@ -737,10 +735,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());
             ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
             ColorPhoneApplication.checkChargingReportAdPlacement();
-            if (!pendingShowRateAlert) {
-                HSLog.i("Permissions", "show Permission dialog");
-                dispatchPermissionRequest();
-            }
+//            if (!pendingShowRateAlert) {
+//                HSLog.i("Permissions", "show Permission dialog");
+//                dispatchPermissionRequest();
+//            }
         } else if (PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED.equals(s)
                 || PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED.equals(s)) {
             boolean visible = mAdapter.isTipHeaderVisible();

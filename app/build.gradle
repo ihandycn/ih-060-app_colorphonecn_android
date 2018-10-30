@@ -80,6 +80,10 @@ android {
             minifyEnabled true
             shrinkResources true
         }
+//
+//        debug {
+//            minifyEnabled false
+//        }
     }
     lintOptions {
 
@@ -145,7 +149,7 @@ dependencies {
 
             USE_BETA_ACB_LIBS ?
                     'com.ihandy.appframework:libAppframework.beta:4.8.1.+' :
-                    'com.ihandy.appframework:libAppframework.gm:4.7.1.gm',
+                    'com.ihandy.appframework:libAppframework.gm:4.8.1.gm',
     ]
 
     for (dependency in COMMON_DEPENDENCIES) compile dependency
