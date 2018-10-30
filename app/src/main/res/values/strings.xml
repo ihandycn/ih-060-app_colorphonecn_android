@@ -250,4 +250,6 @@
     <string name="notification_toolbar_flash_light">Flashlight</string>
     <!--TODO-->
     <string name="default_dialer">Default Dialer</string>
+    <string name="notification_permission_toolbar_title">Notification</string>
+
 </resources>

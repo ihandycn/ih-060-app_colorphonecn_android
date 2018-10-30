@@ -166,4 +166,5 @@
     <string name="settings_activity_notification_reminder">通知ツールバー切り替え</string>
 
     <string name="notification_toolbar_flash_light">懐中電灯</string>
+  <string name="notification_permission_toolbar_title">通知</string>
 </resources>

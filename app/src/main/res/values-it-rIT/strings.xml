@@ -164,4 +164,6 @@
     <string name="settings_activity_notification_reminder">Pulsante di notifica nella barra degli strumenti</string>
 
     <string name="notification_toolbar_flash_light">Torcia</string>
+    <string name="notification_permission_toolbar_title">Notifica</string>
+
 </resources>

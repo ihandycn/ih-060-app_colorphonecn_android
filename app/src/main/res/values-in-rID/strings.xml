@@ -163,5 +163,6 @@
     <string name="settings_activity_notification_reminder">Tombol Toolbar Pemberitahuan</string>
 
     <string name="notification_toolbar_flash_light">Flashlight</string>
+    <string name="notification_permission_toolbar_title">Pemberitahuan</string>
 
 </resources>

@@ -164,4 +164,5 @@
     <string name="settings_activity_notification_reminder">Comutador da barra de ferramentas de notificações</string>
 
     <string name="notification_toolbar_flash_light">Lanterna</string>
+    <string name="notification_permission_toolbar_title">Notificação</string>
 </resources>

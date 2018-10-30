@@ -165,4 +165,6 @@
     <string name="settings_activity_notification_reminder">Barra de notofocaciones</string>
 
     <string name="notification_toolbar_flash_light">Linterna</string>
+    <string name="notification_permission_toolbar_title">Notificación</string>
+
 </resources>

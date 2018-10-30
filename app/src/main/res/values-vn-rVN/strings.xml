@@ -163,4 +163,6 @@
     <string name="settings_activity_notification_reminder">Công Tắc Thanh Công Cụ Thông Báo</string>
 
     <string name="notification_toolbar_flash_light">Đèn flash</string>
+    <string name="notification_permission_toolbar_title">Thông báo</string>
+
 </resources>

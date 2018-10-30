@@ -165,4 +165,5 @@
     <string name="settings_activity_notification_reminder">通知欄開關</string>
 
     <string name="notification_toolbar_flash_light">手電筒</string>
+    <string name="notification_permission_toolbar_title">通知</string>
 </resources>

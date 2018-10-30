@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.toolbar;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -19,11 +20,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.ArraySet;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 
@@ -54,6 +58,7 @@ import com.superapps.util.Navigations;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 public class NotificationManager implements FlashlightStatusListener {
@@ -76,6 +81,8 @@ public class NotificationManager implements FlashlightStatusListener {
     static final String ACTION_CPU_COOLER_TOOLBAR = "action_cpu_cooler_toolbar";
     static final String ACTION_BATTERY_TOOLBAR = "action_battery_toolbar";
     private static final String TAG = "NotificationManager";
+
+    private  final String sNotificationChannelId = "notification_tool_bar";
 
     private static final int NOTIFICATION_TOOLBAR_ICON_BITMAP_SIZE = Dimensions.pxFromDp(30);
 
@@ -122,6 +129,34 @@ public class NotificationManager implements FlashlightStatusListener {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             mPreLollipopIconHolder = new SparseArray<>(16);
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Set<String> existChannels = getAllExistingChannelIds(HSApplication.getContext());
+            if (!existChannels.contains(sNotificationChannelId)) {
+                createChannel(HSApplication.getContext());
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createChannel(@NonNull Context context) {
+        NotificationChannel channel =
+                new NotificationChannel(
+                        sNotificationChannelId,
+                        context.getText(R.string.notification_permission_toolbar_title),
+                        android.app.NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setShowBadge(false);
+        channel.enableVibration(false);
+        context.getSystemService(android.app.NotificationManager.class).createNotificationChannel(channel);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static Set<String> getAllExistingChannelIds(@NonNull Context context) {
+        Set<String> result = new ArraySet<>();
+        android.app.NotificationManager notificationManager = context.getSystemService(android.app.NotificationManager.class);
+        for (NotificationChannel channel : notificationManager.getNotificationChannels()) {
+            result.add(channel.getId());
+        }
+        return result;
     }
 
     RamUsageDisplayUpdater.RamUsageChangeListener mRamUsageChangeListener = new RamUsageDisplayUpdater.RamUsageChangeListener() {
@@ -204,6 +239,7 @@ public class NotificationManager implements FlashlightStatusListener {
                     .setSmallIcon(R.drawable.notification_toolbar_small_icon)
                     .setWhen(0)
                     .setContent(mRemoteViews)
+                    .setChannelId(sNotificationChannelId)
                     .build();
         }
 
