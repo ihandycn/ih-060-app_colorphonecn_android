@@ -3,9 +3,10 @@ package com.honeycomb.colorphone.permission;
 import com.honeycomb.colorphone.R;
 
 
-public class OverlayGuideActivity extends SimplePermissionGuideActivity {
+public class NotificationGuideActivity extends SimplePermissionGuideActivity {
+
     @Override
     protected int getTitleStringResId() {
-        return R.string.draw_overlay_window_hint;
+        return R.string.acb_phone_grant_notification_access_title;
     }
 }

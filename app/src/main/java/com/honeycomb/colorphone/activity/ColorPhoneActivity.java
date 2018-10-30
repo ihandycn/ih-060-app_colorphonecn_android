@@ -26,7 +26,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
@@ -176,8 +175,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
         }
         if (hasFocus) {
-            boolean setDefaultSuccess = DefaultPhoneUtils.checkGuideResult();
-            if (setDefaultSuccess) {
+            if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
                 mAdapter.setHeaderTipVisible(false);
                 mAdapter.notifyDataSetChanged();
             }
@@ -346,6 +344,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (!showAllFeatureGuide) {
             dispatchPermissionRequest();
         }
+        showAllFeatureGuide = false;
     }
 
     @Override

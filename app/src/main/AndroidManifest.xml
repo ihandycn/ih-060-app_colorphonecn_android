@@ -286,6 +286,22 @@
             android:taskAffinity=":guide"
             android:theme="@style/TransparentCompatDialog"/>
 
+        <activity
+            android:name=".permission.SettingPermissionsGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+
+        <activity
+            android:name=".permission.OverlayGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+
         <!--Activity for test function-->
         <activity android:name=".activity.TestActivity"/>
 

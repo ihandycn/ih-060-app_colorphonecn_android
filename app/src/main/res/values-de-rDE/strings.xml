@@ -164,5 +164,6 @@
 
     <string name="notification_toolbar_flash_light">Taschenlampe</string>
     <string name="notification_permission_toolbar_title">Benachrichtigung</string>
+    <string name="phone_contact_permission_settings_guide_title">„Berechtigungen“ wählen und „Phone“, „Contacts“ aktivieren</string>
 
 </resources>

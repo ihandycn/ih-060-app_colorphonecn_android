@@ -1,9 +1,14 @@
 package com.honeycomb.colorphone.permission;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
+import android.os.Handler;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -40,29 +45,29 @@ public class PermissionUI {
         return request;
     }
 
-//    public static void tryRequestPermissionFromSystemSettings(Activity activity, boolean needGuide) {
-//        Intent intent = new Intent();
-//        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
-//        intent.setData(uri);
-//        activity.startActivity(intent);
-//        if (needGuide){
-//            Intent i = new Intent(activity, SettingPermissionsGuideActivity.class);
-//            new Handler().postDelayed(() -> {
-//                try {
-//                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-//                        ActivityOptions options = ActivityOptions.makeCustomAnimation(activity, android.R.anim.fade_in, android.R.anim.fade_out);
-//                        activity.startActivity(i, options.toBundle());
-//                    } else {
-//                        activity.startActivity(i);
-//                    }
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }, 1000);
-//        }
-//    }
+    public static void tryRequestPermissionFromSystemSettings(Activity activity, boolean needGuide) {
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+        intent.setData(uri);
+        activity.startActivity(intent);
+        if (needGuide){
+            Intent i = new Intent(activity, SettingPermissionsGuideActivity.class);
+            new Handler().postDelayed(() -> {
+                try {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                        ActivityOptions options = ActivityOptions.makeCustomAnimation(activity, android.R.anim.fade_in, android.R.anim.fade_out);
+                        activity.startActivity(i, options.toBundle());
+                    } else {
+                        activity.startActivity(i);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }, 1000);
+        }
+    }
 
     public static void showPermissionRequestToast(boolean success) {
         if (success) {

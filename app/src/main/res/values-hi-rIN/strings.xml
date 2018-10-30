@@ -164,5 +164,6 @@
 
     <string name="notification_toolbar_flash_light"> फ़्लैशलाइट </string>
     <string name="notification_permission_toolbar_title">नोटिफिकेशन</string>
+    <string name="phone_contact_permission_settings_guide_title">कृपया "अनुमतियां" चुनें और "Phone", "Contacts" को सक्रिय करें</string>
 
 </resources>

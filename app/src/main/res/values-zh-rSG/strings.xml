@@ -173,5 +173,6 @@
     <string name="settings_activity_notification_reminder">通知栏开关</string>
     <string name="notification_toolbar_flash_light">手电筒</string>
     <string name="notification_permission_toolbar_title">通知</string>
+    <string name="phone_contact_permission_settings_guide_title">选择"权限"，然后开启"电话"、"通讯录"权限</string>
 
 </resources>

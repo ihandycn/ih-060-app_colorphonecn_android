@@ -251,5 +251,6 @@
     <!--TODO-->
     <string name="default_dialer">Default Dialer</string>
     <string name="notification_permission_toolbar_title">Notification</string>
+    <string name="phone_contact_permission_settings_guide_title">Select "Permissions" and activate "Phone", "Contacts"</string>
 
 </resources>
