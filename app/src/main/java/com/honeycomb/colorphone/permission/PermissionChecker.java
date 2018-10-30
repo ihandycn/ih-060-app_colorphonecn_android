@@ -50,9 +50,7 @@ public class PermissionChecker {
     public void check(Activity activity, String source) {
         if (Build.VERSION.SDK_INT >= 16 && hasNoGrantedPermissions(ScreenFlash)) {
             final ArrayList<String> permissions = new ArrayList<>(Arrays.asList(sDefaultRequestPermissions));
-            if (RequestPermissionsActivity.hasNoGrantedPermission(permissions)) {
-                RequestPermissionsActivity.start(activity, source, permissions);
-            }
+            RequestPermissionsActivity.start(activity, source, permissions);
         }
     }
 
