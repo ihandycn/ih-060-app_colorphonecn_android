@@ -410,6 +410,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             runnable = () -> PermissionChecker.getInstance().check(this, "AppOpen");
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                && RuntimePermissions.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS)
+                        == RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
+            RuntimePermissions.requestPermissions(this,
+                    new String[]{Manifest.permission.ANSWER_PHONE_CALLS}, FIRST_LAUNCH_PERMISSION_REQUEST);
+        }
+
         Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(
                 runnable,
                 "permission_launch", HSConfig.optInteger(2,"GrantAccess", "MaxCount"));
