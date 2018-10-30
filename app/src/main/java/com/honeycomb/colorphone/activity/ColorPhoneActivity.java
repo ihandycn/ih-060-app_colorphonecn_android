@@ -175,7 +175,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
         }
         if (hasFocus) {
-            if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+            if (!PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
                 mAdapter.setHeaderTipVisible(false);
                 mAdapter.notifyDataSetChanged();
             }
