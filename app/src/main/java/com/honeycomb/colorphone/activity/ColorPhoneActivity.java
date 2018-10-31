@@ -529,6 +529,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (mRewardVideoView != null) {
             mRewardVideoView.onCancel();
         }
+
+        Preferences.get(Constants.DESKTOP_PREFS).doOnce(() -> {
+            if (ColorPhoneApplication.getContext().getApplicationContext() instanceof ColorPhoneApplication) {
+                ((ColorPhoneApplication) ColorPhoneApplication.getContext().getApplicationContext()).logOnceFirstSessionEndStatus();
+            }
+        }, "Permission_Check_Above23_FirstSessionEnd");
         super.onDestroy();
     }
 
@@ -758,13 +764,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (visible != mAdapter.isTipHeaderVisible()) {
                 mAdapter.notifyDataSetChanged();
             }
-        } else if (HSNotificationConstant.HS_SESSION_END.equals(s)) {
-            Preferences.get(Constants.DESKTOP_PREFS).doOnce(() -> {
-                if (ColorPhoneApplication.getContext() instanceof ColorPhoneApplication) {
-                    ((ColorPhoneApplication) ColorPhoneApplication.getContext()).logOnceFirstSessionEndStatus();
-                }
-            }, "Permission_Check_Above23_FirstSessionEnd");
-
         }
     }
 

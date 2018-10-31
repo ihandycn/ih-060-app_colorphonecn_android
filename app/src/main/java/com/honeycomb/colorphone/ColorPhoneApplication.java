@@ -63,7 +63,6 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.HSSessionMgr;
-import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.app.utils.HSVersionControlUtils;
 import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
@@ -149,7 +148,6 @@ public class ColorPhoneApplication extends HSApplication {
                 }
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
-                logOnceFirstSessionEndStatus();
                 HSLog.d("Session End.");
             } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
                 checkModuleAdPlacement();
@@ -168,9 +166,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     public void logOnceFirstSessionEndStatus() {
         if (mDailyLogger != null) {
-            if (SessionMgr.getInstance().isFirstSessionSinceInstallation()) {
-                mDailyLogger.logOnceFirstSessionEndStatus();
-            }
+            mDailyLogger.logOnceFirstSessionEndStatus();
         }
     }
 
