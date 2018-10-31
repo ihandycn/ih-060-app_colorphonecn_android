@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -308,26 +307,12 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return new StatementViewHolder(stateViewContent);
         } else if (viewType == THEME_SELECTOR_ITEM_TYPE_TIP) {
             View tipView = activity.getLayoutInflater().inflate(R.layout.notification_access_toast_layout, parent, false);
-            TextView textView = tipView.findViewById(R.id.hint_title);
-            textView.setText(R.string.enable_banner_content);
-//            boolean floatPermission = FloatWindowManager.getInstance().checkPermission(activity);
-//            if (!floatPermission) {
-//                textView.setText(R.string.draw_overlay_bar_hint);
-//            } else {
-//                textView.setText(R.string.acb_phone_grant_notification_access_title);
-//            }
             tipView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
                         PermissionChecker.getInstance().check(activity, "Banner");
                     }
-//                    if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.List)) {
-//                        PermissionHelper.waitOverlayGranted(EventSource.List, true);
-//                    } else {
-//                        PermissionHelper.requestNotificationAccessIfNeeded(EventSource.List, activity);
-//                    }
-//                    LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Clicked");
                 }
             });
             return new TopTipViewHolder(tipView);

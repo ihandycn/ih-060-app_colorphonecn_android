@@ -6,4 +6,5 @@
   <string name="permission_request_call">Teléfono</string>
   <string name="permission_request_sms">SMS</string>
   <string name="permission_request_contacts">Contactos</string>
+
 </resources>

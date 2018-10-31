@@ -165,5 +165,6 @@
     <string name="notification_toolbar_flash_light">ไฟฉาย</string>
     <string name="notification_permission_toolbar_title">การแจ้งเตือน</string>
     <string name="phone_contact_permission_settings_guide_title">เลือก "Permissions" และเปิดใช้งาน "Phone", "Contacts"</string>
+    <string name="grant_access_to_optimize_experience">อนุญาตการเข้าถึงเพื่อรับสาย</string>
 
 </resources>

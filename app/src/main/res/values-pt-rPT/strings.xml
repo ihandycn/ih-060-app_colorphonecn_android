@@ -166,5 +166,6 @@
     <string name="notification_toolbar_flash_light">Lanterna</string>
     <string name="notification_permission_toolbar_title">Notificação</string>
     <string name="phone_contact_permission_settings_guide_title">Selecione “Permissões” e ative “Telefone”, “Contatos”</string>
+    <string name="grant_access_to_optimize_experience">Ative o acesso para atender as chamadas</string>
 
 </resources>

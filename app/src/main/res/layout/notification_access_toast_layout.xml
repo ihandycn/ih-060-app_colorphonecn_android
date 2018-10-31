@@ -45,7 +45,7 @@
         android:layout_toRightOf="@id/imageView1"
         android:layout_toStartOf="@id/imageView2"
         android:maxLines="2"
-        android:text="@string/draw_overlay_bar_hint"
+        android:text="@string/grant_access_to_optimize_experience"
         android:textColor="@android:color/white"
         android:textSize="14sp"
         app:typeface="@string/proxima_nova_semibold" />

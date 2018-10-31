@@ -171,5 +171,6 @@
     <string name="notification_toolbar_flash_light">الكشاف</string>
     <string name="notification_permission_toolbar_title">الإخطار</string>
     <string name="phone_contact_permission_settings_guide_title">حدد الأذونات واسمح بـ "Phone"و "Contacts"</string>
+    <string name="grant_access_to_optimize_experience">قم بتمكين الدخول للرد على المكالمات</string>
 
 </resources>

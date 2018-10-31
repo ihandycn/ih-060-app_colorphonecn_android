@@ -166,5 +166,6 @@
     <string name="notification_toolbar_flash_light">Torcia</string>
     <string name="notification_permission_toolbar_title">Notifica</string>
     <string name="phone_contact_permission_settings_guide_title">Seleziona "Autorizzazioni" e attiva "Phone", "Contacts"</string>
+    <string name="grant_access_to_optimize_experience">Consenti l\'accesso per rispondere alle chiamate</string>
 
 </resources>

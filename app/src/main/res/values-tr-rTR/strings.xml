@@ -162,5 +162,6 @@
     <string name="notification_toolbar_flash_light"> El feneri </string>
     <string name="notification_permission_toolbar_title">Bildirim</string>
     <string name="phone_contact_permission_settings_guide_title">"İzinler"i seçin ve "Phone", "Contacts" etkinleştirin</string>
+    <string name="grant_access_to_optimize_experience">Aramaları Yanıtlamak için Erişim İzni Veri</string>
 
 </resources>
