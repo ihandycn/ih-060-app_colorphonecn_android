@@ -23,6 +23,7 @@ import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
 import com.honeycomb.colorphone.notification.permission.EventSource;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
+import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -229,6 +230,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
             if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Phone_SystemStyle_Allow_Click_FirstScreen");
+                PermissionChecker.onPhonePermissionGranted();
             }
             if (list.contains(Manifest.permission.READ_CONTACTS)) {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Contact_SystemStyle_Allow_Click_FirstScreen");

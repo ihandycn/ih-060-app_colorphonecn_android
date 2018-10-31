@@ -47,6 +47,11 @@ public class PermissionChecker {
             RequestPermissionsActivity.PERMISSION_NOTIFICATION
     };
 
+    public static void onPhonePermissionGranted() {
+        com.call.assistant.receiver.IncomingCallReceiver.IncomingCallListener.init();
+        com.acb.call.receiver.IncomingCallReceiver.IncomingCallListener.init();
+    }
+
     public void check(Activity activity, String source) {
         if (Build.VERSION.SDK_INT >= 16 && hasNoGrantedPermissions(ScreenFlash)) {
             final ArrayList<String> permissions = new ArrayList<>(Arrays.asList(sDefaultRequestPermissions));

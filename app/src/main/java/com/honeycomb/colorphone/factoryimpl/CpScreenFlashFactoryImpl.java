@@ -17,6 +17,7 @@ import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.permission.NotificationGuideActivity;
 import com.honeycomb.colorphone.permission.OverlayGuideActivity;
 import com.honeycomb.colorphone.permission.PermissionUI;
+import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
@@ -207,6 +208,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             @Override
             public void logScreenFlashPhoneAccessSucceed(RequestPermissionsActivity.PermissionSource permissionSource) {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Success", "type", source);
+                PermissionChecker.onPhonePermissionGranted();
             }
 
             @Override
