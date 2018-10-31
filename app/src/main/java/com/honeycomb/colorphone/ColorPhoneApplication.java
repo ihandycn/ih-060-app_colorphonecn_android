@@ -20,7 +20,6 @@ import android.text.format.DateUtils;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
-import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.call.assistant.customize.CallAssistantConsts;
@@ -64,6 +63,7 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.HSSessionMgr;
+import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.app.utils.HSVersionControlUtils;
 import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
@@ -89,11 +89,8 @@ import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
-import net.appcloudbox.autopilot.core.AutopilotProvider;
-import net.appcloudbox.common.HSFrameworkAdapter.AcbHSFrameworkAdapter;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
-import net.appcloudbox.common.utils.AcbContentProviderUtils;
 import net.appcloudbox.h5game.AcbH5GameManager;
 import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
@@ -152,6 +149,7 @@ public class ColorPhoneApplication extends HSApplication {
                 }
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
+                logOnceFirstSessionEndStatus();
                 HSLog.d("Session End.");
             } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
                 checkModuleAdPlacement();
@@ -170,7 +168,9 @@ public class ColorPhoneApplication extends HSApplication {
 
     public void logOnceFirstSessionEndStatus() {
         if (mDailyLogger != null) {
-            mDailyLogger.logOnceFirstSessionEndStatus();
+            if (SessionMgr.getInstance().isFirstSessionSinceInstallation()) {
+                mDailyLogger.logOnceFirstSessionEndStatus();
+            }
         }
     }
 
