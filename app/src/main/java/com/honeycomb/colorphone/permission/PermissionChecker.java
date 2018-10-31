@@ -47,7 +47,16 @@ public class PermissionChecker {
             RequestPermissionsActivity.PERMISSION_NOTIFICATION
     };
 
-    public static void onPhonePermissionGranted() {
+    public static String[] customPhonePermission = new String[] {
+            Manifest.permission.CALL_PHONE, // reject call
+            Manifest.permission.ANSWER_PHONE_CALLS, // answer call
+    };
+
+    public static void onPhonePermissionGranted(Activity activity) {
+        if (activity != null) {
+            String[] perms = isAtleastO() ? customPhonePermission : new String[]{Manifest.permission.CALL_PHONE};
+            RuntimePermissions.requestPermissions(activity, perms, 1000);
+        }
         com.call.assistant.receiver.IncomingCallReceiver.IncomingCallListener.init();
         com.acb.call.receiver.IncomingCallReceiver.IncomingCallListener.init();
     }
@@ -57,6 +66,10 @@ public class PermissionChecker {
             final ArrayList<String> permissions = new ArrayList<>(Arrays.asList(sDefaultRequestPermissions));
             RequestPermissionsActivity.start(activity, source, permissions);
         }
+    }
+
+    private static boolean isAtleastO() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
     public abstract static class Module {

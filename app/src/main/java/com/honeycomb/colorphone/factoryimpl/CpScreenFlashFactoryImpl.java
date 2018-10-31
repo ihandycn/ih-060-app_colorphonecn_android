@@ -26,6 +26,7 @@ import com.superapps.util.Navigations;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 
+import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -181,6 +182,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     @Override public RequestPermissionsActivity.Event requestPermissionsEvents() {
         return new RequestPermissionsActivity.Event() {
             private String source;
+            WeakReference<Activity> mActivityWeakReference;
 
             @Override
             public void logScreenFlashPhoneContactsAllowClicked() {
@@ -191,7 +193,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
             @Override
             public void logScreenFlashAllOpenDefault(Activity activity) {
-
+                mActivityWeakReference = new WeakReference<>(activity);
             }
 
             @Override
@@ -208,7 +210,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             @Override
             public void logScreenFlashPhoneAccessSucceed(RequestPermissionsActivity.PermissionSource permissionSource) {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Success", "type", source);
-                PermissionChecker.onPhonePermissionGranted();
+                PermissionChecker.onPhonePermissionGranted(mActivityWeakReference != null ? mActivityWeakReference.get() : null);
             }
 
             @Override
