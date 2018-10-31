@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
+import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialer.AP;
@@ -89,7 +90,12 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
                 if (!GuideSetDefaultActivity.start(GuideAllFeaturesActivity.this)) {
-                    requiresPermission();
+                    if (CommonUtils.ATLEAST_MARSHMALLOW) {
+                        requiresPermission();
+                    } else {
+                        PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+                        finish();
+                    }
                 }
 
 //                finish();
