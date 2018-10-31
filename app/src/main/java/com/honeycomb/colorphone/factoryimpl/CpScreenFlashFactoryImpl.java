@@ -225,15 +225,15 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                                                   boolean notificationAccessGranted) {
                 StringBuilder permission = new StringBuilder();
 
-                if (phoneAccessGranted) {
+                if (!phoneAccessGranted) {
                     permission.append("Phone");
                 }
 
-                if (contactsAccessGranted) {
+                if (!contactsAccessGranted) {
                     permission.append("Contact");
                 }
 
-                if (notificationAccessGranted) {
+                if (!notificationAccessGranted) {
                     permission.append("NA");
                 }
 
