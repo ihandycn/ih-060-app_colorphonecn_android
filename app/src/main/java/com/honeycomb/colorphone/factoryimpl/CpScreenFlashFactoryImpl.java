@@ -2,22 +2,25 @@ package com.honeycomb.colorphone.factoryimpl;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.text.TextUtils;
 
 import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.receiver.IncomingCallReceiver;
 import com.acb.call.themes.Type;
+import com.acb.call.utils.PermissionHelper;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.permission.NotificationGuideActivity;
 import com.honeycomb.colorphone.permission.OverlayGuideActivity;
-import com.honeycomb.colorphone.permission.PermissionUI;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.permission.PermissionUI;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
@@ -199,7 +202,48 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             @Override
             public void logScreenFlashAccessPageShowed(String source, String type) {
                 this.source = source;
-                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Show_From_" + source);
+                logPermissionGuideShowEvent(source);
+            }
+
+            private void logPermissionGuideShowEvent(String source) {
+                Context context = HSApplication.getContext();
+                boolean phoneAccessGranted = RuntimePermissions.checkSelfPermission(
+                        context, Manifest.permission.READ_PHONE_STATE) >= 0;
+                boolean contactsAccessGranted = RuntimePermissions.checkSelfPermission(
+                        context, Manifest.permission.READ_CONTACTS) >= 0;
+
+                boolean notificationAccessGranted = PermissionHelper.isNotificationAccessGranted(context);
+
+                logPermissionStatusEvent("ColorPhone_Permission_Guide_Show_From_" + source,
+                        phoneAccessGranted, contactsAccessGranted,
+                        notificationAccessGranted);
+            }
+
+            private void logPermissionStatusEvent(String eventName,
+                                                  boolean phoneAccessGranted,
+                                                  boolean contactsAccessGranted,
+                                                  boolean notificationAccessGranted) {
+                StringBuilder permission = new StringBuilder();
+
+                if (phoneAccessGranted) {
+                    permission.append("Phone");
+                }
+
+                if (contactsAccessGranted) {
+                    permission.append("Contact");
+                }
+
+                if (notificationAccessGranted) {
+                    permission.append("NA");
+                }
+
+                if (TextUtils.isEmpty(permission.toString())) {
+                    permission.append("None");
+                }
+
+                LauncherAnalytics.logEvent(eventName,
+                        "type", permission.toString()
+                );
             }
 
             @Override
