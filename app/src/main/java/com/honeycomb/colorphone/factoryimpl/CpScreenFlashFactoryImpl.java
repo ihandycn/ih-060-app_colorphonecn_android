@@ -245,4 +245,9 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             }
         };
     }
+
+    @Override
+    public void logEvent(String eventID, String... vars) {
+        LauncherAnalytics.logEvent(eventID, vars);
+    }
 }
