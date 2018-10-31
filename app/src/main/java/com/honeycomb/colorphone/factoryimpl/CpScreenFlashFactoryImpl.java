@@ -170,7 +170,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             }
 
             @Override public void showRequestPermissionSuccessToast() {
-                PermissionUI.showPermissionRequestToast(true);
+//                PermissionUI.showPermissionRequestToast(true);
             }
 
         };
