@@ -295,7 +295,7 @@
             android:theme="@style/TransparentCompatDialog"/>
 
         <activity
-            android:name=".permission.OverlayGuideActivity"
+            android:name=".permission.NotificationGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
