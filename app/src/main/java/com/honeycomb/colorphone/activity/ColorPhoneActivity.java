@@ -135,6 +135,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean logOpenEvent;
     private boolean pendingShowRateAlert = false;
     private boolean showAllFeatureGuide = false;
+    private boolean isCreate = false;
 
     @DebugLog
     @Override
@@ -166,6 +167,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         setContentView(R.layout.activity_main);
         initMainFrame();
+        isCreate = true;
     }
 
     @Override
@@ -341,10 +343,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
         AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
-        if (!showAllFeatureGuide) {
+        if (!showAllFeatureGuide && isCreate) {
             dispatchPermissionRequest();
         }
+        if (!showAllFeatureGuide) {
+            isCreate = false;
+        }
         showAllFeatureGuide = false;
+
     }
 
     @Override
