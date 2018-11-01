@@ -61,8 +61,9 @@ public class LedFlashSettingsActivity extends HSAppCompatActivity {
             }
         });
 
+        // Disabled
         mModuleStates.add(new ModuleState(
-                true,
+                false,
                 Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_SMS_ENABLE, false),
                 R.id.setting_item_sms_toggle,
                 R.id.setting_item_sms) {
