@@ -6,7 +6,6 @@ import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -122,7 +121,7 @@ class CpuCoolerResultController extends ResultController {
 
     @Override
     protected int getButtonBgColor() {
-        return Color.parseColor("#1d64e7");
+        return Color.parseColor("#1fb70b");
     }
 
     private void dismiss() {
