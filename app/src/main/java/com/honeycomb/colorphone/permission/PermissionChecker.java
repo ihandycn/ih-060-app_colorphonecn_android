@@ -10,6 +10,7 @@ import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.utils.PermissionHelper;
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.contact.ContactManager;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Preferences;
@@ -59,6 +60,10 @@ public class PermissionChecker {
         }
         com.call.assistant.receiver.IncomingCallReceiver.IncomingCallListener.init();
         com.acb.call.receiver.IncomingCallReceiver.IncomingCallListener.init();
+    }
+
+    public static void onContactPermissionGranted(Activity activity) {
+        ContactManager.getInstance().update();
     }
 
     public void check(Activity activity, String source) {

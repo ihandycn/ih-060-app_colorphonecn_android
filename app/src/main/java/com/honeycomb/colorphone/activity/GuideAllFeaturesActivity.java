@@ -240,7 +240,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             }
             if (list.contains(Manifest.permission.READ_CONTACTS)) {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Contact_SystemStyle_Allow_Click_FirstScreen");
-
+                PermissionChecker.onContactPermissionGranted(this);
             }
         }
     }
