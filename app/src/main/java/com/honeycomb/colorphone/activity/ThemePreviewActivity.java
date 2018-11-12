@@ -15,9 +15,14 @@ import android.view.ViewGroup;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.superapps.util.Threads;
+
+import net.appcloudbox.ads.base.AcbInterstitialAd;
+import net.appcloudbox.ads.common.utils.AcbError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +90,42 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         if (mTheme.isLocked()) {
             LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
+        AdManager.getInstance().preload();
+        Threads.postOnMainThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showInterstitialAd();
+            }
+        },200);
+    }
+
+    private void showInterstitialAd() {
+        AcbInterstitialAd ad = AdManager.getInstance().getInterstitialAd();
+        if (ad != null) {
+            ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
+                @Override
+                public void onAdDisplayed() {
+
+                }
+
+                @Override
+                public void onAdClicked() {
+
+                }
+
+                @Override
+                public void onAdClosed() {
+                    AdManager.getInstance().releaseInterstitialAd();
+
+                }
+
+                @Override
+                public void onAdDisplayFailed(AcbError acbError) {
+
+                }
+            });
+            ad.show();
+        }
     }
 
     public MediaPlayer getMediaPlayer() {
@@ -103,6 +144,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             previewView.setBlockAnimationForPageChange(false);
             previewView.onStart();
         }
+
+
     }
 
     @Override

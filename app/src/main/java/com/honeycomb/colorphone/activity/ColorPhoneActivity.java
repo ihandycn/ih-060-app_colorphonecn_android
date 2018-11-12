@@ -37,6 +37,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.AP;
@@ -167,6 +168,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         setContentView(R.layout.activity_main);
         initMainFrame();
+        AdManager.getInstance().preload();
         isCreate = true;
     }
 
