@@ -12,17 +12,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.Threads;
-
-import net.appcloudbox.ads.base.AcbInterstitialAd;
-import net.appcloudbox.ads.common.utils.AcbError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,43 +89,22 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         if (mTheme.isLocked()) {
             LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
-        AdManager.getInstance().preload();
-        Threads.postOnMainThreadDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showInterstitialAd();
-            }
-        },200);
-    }
-
-    private void showInterstitialAd() {
-        AcbInterstitialAd ad = AdManager.getInstance().getInterstitialAd();
-        if (ad != null) {
-            ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
+        if (ConfigSettings.showAdOnDetailView()) {
+            AdManager.getInstance().preload();
+            Threads.postOnMainThreadDelayed(new Runnable() {
                 @Override
-                public void onAdDisplayed() {
-
+                public void run() {
+                    Ap.DetailAd.logEvent("colorphone_themedetail_ad_should_show");
+                    boolean show = AdManager.getInstance().showInterstitialAd();
+                    if (show) {
+                        Ap.DetailAd.logEvent("colorphone_themedetail_ad_show");
+                    }
                 }
-
-                @Override
-                public void onAdClicked() {
-
-                }
-
-                @Override
-                public void onAdClosed() {
-                    AdManager.getInstance().releaseInterstitialAd();
-
-                }
-
-                @Override
-                public void onAdDisplayFailed(AcbError acbError) {
-
-                }
-            });
-            ad.show();
+            }, 200);
         }
     }
+
+
 
     public MediaPlayer getMediaPlayer() {
         return mMediaPlayer;

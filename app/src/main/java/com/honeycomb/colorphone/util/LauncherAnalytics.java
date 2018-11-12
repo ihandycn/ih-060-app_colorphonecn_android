@@ -83,4 +83,18 @@ public class LauncherAnalytics {
         }
     }
 
+    public static String upperFirstCh(String event) {
+        StringBuilder sb = new StringBuilder();
+        char aheadCh = 0;
+        char spitCh = '_';
+        for (int i = 0; i < event.length(); i++) {
+            if (aheadCh == 0 || aheadCh == spitCh) {
+                sb.append(Character.toUpperCase(event.charAt(i)));
+            } else {
+                sb.append(event.charAt(i));
+            }
+            aheadCh = event.charAt(i);
+        }
+        return sb.toString();
+    }
 }

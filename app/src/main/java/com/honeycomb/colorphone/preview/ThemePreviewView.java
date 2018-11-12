@@ -46,6 +46,8 @@ import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
+import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
@@ -551,6 +553,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     "RingtoneState", mRingtoneViewHolder.isSelect() ? "On" : "Off");
         }
         NotificationUtils.logThemeAppliedFlurry(mTheme);
+
+        if (ConfigSettings.showAdOnApplyTheme()) {
+            Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_should_show");
+            boolean show = AdManager.getInstance().showInterstitialAd();
+            if (show) {
+                Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_show");
+            }
+        }
 
     }
 

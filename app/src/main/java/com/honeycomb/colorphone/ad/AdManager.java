@@ -6,6 +6,7 @@ import com.ihs.commons.utils.HSLog;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
+import net.appcloudbox.ads.common.utils.AcbError;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class AdManager {
     private AcbInterstitialAd mInterstitialAd = null;
 
     private static AdManager sInstance;
+    private boolean mEnable;
 
 
     private AdManager() {
@@ -34,8 +36,15 @@ public class AdManager {
         return sInstance;
     }
 
+    public void setEnable(boolean enable) {
+        mEnable = enable;
+    }
+
     public void preload() {
         HSLog.d(TAG, "preload");
+        if (!mEnable) {
+            return;
+        }
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(getInterstitialAdPlacementName());
         AcbInterstitialAdManager.preload(1, getInterstitialAdPlacementName());
     }
@@ -59,6 +68,37 @@ public class AdManager {
             mInterstitialAd.release();
             mInterstitialAd = null;
         }
+    }
+
+    public boolean showInterstitialAd() {
+        AcbInterstitialAd ad = AdManager.getInstance().getInterstitialAd();
+        if (ad != null) {
+            ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
+                @Override
+                public void onAdDisplayed() {
+
+                }
+
+                @Override
+                public void onAdClicked() {
+
+                }
+
+                @Override
+                public void onAdClosed() {
+                    AdManager.getInstance().releaseInterstitialAd();
+                    AdManager.getInstance().preload();
+                }
+
+                @Override
+                public void onAdDisplayFailed(AcbError acbError) {
+
+                }
+            });
+            ad.show();
+            return true;
+        }
+        return false;
     }
 
 

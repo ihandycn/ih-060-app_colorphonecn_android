@@ -34,6 +34,8 @@ import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
+import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.ConfigProvider;
@@ -154,6 +156,7 @@ public class ColorPhoneApplication extends HSApplication {
                 // Call-Themes update timely.
                 Theme.updateThemes();
                 initNotificationToolbar();
+                AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
@@ -174,6 +177,7 @@ public class ColorPhoneApplication extends HSApplication {
         @Override
         public void onReceive(Context context, Intent intent) {
             updateCallFinishFullScreenAdPlacement();
+            AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
         }
     };
 
