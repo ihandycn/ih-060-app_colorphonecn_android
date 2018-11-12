@@ -29,7 +29,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -706,6 +705,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     completeRunnable.run();
                 }
                 for (View v : animViews) {
+                    v.setAlpha(1.0f);
+                    v.setTranslationY(0f);
                     v.setLayerType(View.LAYER_TYPE_NONE, null);
                 }
             }
@@ -923,9 +924,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         getTransBottomLayout().animate().cancel();
         mHandler.removeCallbacksAndMessages(null);
         if (transAnimator != null && transAnimator.isStarted()) {
+            transAnimator.end();
+
             transAnimator.removeAllUpdateListeners();
             transAnimator.removeAllListeners();
-            transAnimator.end();
         }
 
         for (int i = 0; i < mDownloadTasks.size(); i++) {
