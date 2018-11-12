@@ -25,6 +25,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
@@ -258,15 +259,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
 
 
-            holder.mThemeSelectLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = holder.getPositionTag();
-                    if (selectTheme(pos, holder)) {
-                        onThemeSelected(pos);
+            if (Ap.DetailAd.enableMainViewDownloadButton()) {
+                holder.mThemeSelectLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int pos = holder.getPositionTag();
+                        if (selectTheme(pos, holder)) {
+                            onThemeSelected(pos);
+                        }
                     }
-                }
-            });
+                });
+            }
 
             final int pos = holder.getPositionTag();
             final Theme theme = data.get(pos);
@@ -645,12 +648,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private void setSelected(Theme theme, boolean animation) {
             if (mThemeSelectedAnim != null) {
                 if (theme.isSelected()) {
+                    mThemeSelectedAnim.setVisibility(View.VISIBLE);
                     if (animation) {
                         mThemeSelectedAnim.playAnimation();
                     } else if (!mThemeSelectedAnim.isAnimating()) {
                         setLottieProgress(mThemeSelectedAnim, 1f);
                     }
                 } else {
+                    mThemeSelectedAnim.setVisibility(Ap.DetailAd.enableMainViewDownloadButton() ?
+                     View.VISIBLE : View.INVISIBLE);
                     mThemeSelectedAnim.cancelAnimation();
                     setLottieProgress(mThemeSelectedAnim, 0f);
                 }
@@ -826,16 +832,21 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void switchToReadyState(boolean ready) {
-            mDownloadTaskProgressBar.setVisibility(ready ? View.GONE : View.VISIBLE);
+            boolean enableActionButton = Ap.DetailAd.enableMainViewDownloadButton();
+            boolean canDownload = !ready && enableActionButton;
+            mDownloadTaskProgressBar.setVisibility(canDownload ? View.VISIBLE :  View.GONE);
             mThemeSelectLayout.setVisibility(ready ? View.VISIBLE : View.GONE);
-            if (ready) {
+            if (!canDownload) {
                 mDownloadFinishedAnim.setVisibility(View.GONE);
                 mDownloadTaskProgressTxt.setVisibility(View.GONE);
             }
-            if (ready) {
-                mThemeSelectedAnim.setVisibility(View.VISIBLE);
-            } else {
-                mThemeSelectedAnim.setVisibility(View.GONE);
+            // Only update when enable action button.
+            if (enableActionButton) {
+                if (ready) {
+                    mThemeSelectedAnim.setVisibility(View.VISIBLE);
+                } else {
+                    mThemeSelectedAnim.setVisibility(View.GONE);
+                }
             }
         }
 

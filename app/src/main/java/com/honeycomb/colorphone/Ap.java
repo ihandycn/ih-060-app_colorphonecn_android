@@ -129,4 +129,17 @@ public class Ap {
             AutopilotEvent.logTopicEvent("topic-1531210959452-409", "message_floatingball_ad_show");
         }
     }
+
+    public static class DetailAd {
+
+        public static String TOPIC_ID = "topic-6wzryt9bs";
+        public static boolean enableMainViewDownloadButton() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "mainviewapplyicon", false);
+        }
+
+        public static boolean enableThemeSlide() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "detailslide", false);
+        }
+
+    }
 }
