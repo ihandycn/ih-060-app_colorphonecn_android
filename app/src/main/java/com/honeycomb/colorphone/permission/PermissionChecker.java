@@ -66,11 +66,22 @@ public class PermissionChecker {
         ContactManager.getInstance().update();
     }
 
-    public void check(Activity activity, String source) {
+    public void checkForcely(Activity activity, String source) {
         if (Build.VERSION.SDK_INT >= 16 && hasNoGrantedPermissions(ScreenFlash)) {
             final ArrayList<String> permissions = new ArrayList<>(Arrays.asList(sDefaultRequestPermissions));
             RequestPermissionsActivity.start(activity, source, permissions);
         }
+    }
+
+    public void check(Activity activity, String source) {
+        int limitTime = HSConfig.optInteger(3, "Application", "PermissionGuideTime");
+        Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(new Runnable() {
+            @Override
+            public void run() {
+               checkForcely(activity, source);
+            }
+        }, "request_colorflash_permission", limitTime);
+
     }
 
     private static boolean isAtleastO() {

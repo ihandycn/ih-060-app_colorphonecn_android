@@ -314,7 +314,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View v) {
                     if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                        PermissionChecker.getInstance().check(activity, "Banner");
+                        PermissionChecker.getInstance().checkForcely(activity, "Banner");
                     }
                 }
             });
