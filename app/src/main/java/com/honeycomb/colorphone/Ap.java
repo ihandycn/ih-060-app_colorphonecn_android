@@ -167,5 +167,9 @@ public class Ap {
         public static void onPageScroll(int scrollCount) {
             LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_Slide", "Count", String.valueOf(scrollCount));
         }
+
+        public static void onThemeChooseForOne() {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_seletcontactfortheme_success");
+        }
     }
 }

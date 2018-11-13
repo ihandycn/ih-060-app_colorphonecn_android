@@ -81,6 +81,8 @@ public class ContactsSelectActivity extends ContactsActivity {
                 "ThemeName", mTheme.getIdName(),
                 "SelectedContactsNumber", themeEntries.size() + "");
 
+        Ap.DetailAd.onThemeChooseForOne();
+
         if (!themeEntries.isEmpty()) {
             ContactManager.getInstance().markDataChanged();
         }
@@ -103,16 +105,14 @@ public class ContactsSelectActivity extends ContactsActivity {
                 ContactsSelectActivity.this.finish();
 
                 if (ConfigSettings.showAdOnApplyTheme()) {
-                    Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_should_show");
+                    Ap.DetailAd.logEvent("colorphone_seletcontactfortheme_ad_should_show");
                     boolean show = AdManager.getInstance().showInterstitialAd();
                     if (show) {
-                        Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_show");
+                        Ap.DetailAd.logEvent("colorphone_seletcontactfortheme_ad_show");
                     }
                 }
             }
         });
-
-
 
     }
 
