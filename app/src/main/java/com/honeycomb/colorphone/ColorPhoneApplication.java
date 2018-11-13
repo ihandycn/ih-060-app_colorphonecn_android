@@ -178,6 +178,7 @@ public class ColorPhoneApplication extends HSApplication {
         public void onReceive(Context context, Intent intent) {
             updateCallFinishFullScreenAdPlacement();
             AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
+            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
         }
     };
 
