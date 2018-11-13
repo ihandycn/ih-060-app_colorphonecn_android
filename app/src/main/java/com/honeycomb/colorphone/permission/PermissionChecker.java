@@ -128,6 +128,10 @@ public class PermissionChecker {
     }
 
     public boolean hasNoGrantedPermissions(String moduleName) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            // Not check permission under 16.
+            return false;
+        }
         List<String> list = getNoGrantedPermissionsForModule(moduleName);
         return !list.isEmpty();
     }
