@@ -32,6 +32,10 @@ public class ViewPagerFixed extends android.support.v4.view.ViewPager {
         isCanScroll = canScroll;
     }
 
+    public boolean isCanScroll() {
+        return isCanScroll;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         try {

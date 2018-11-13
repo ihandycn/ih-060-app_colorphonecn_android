@@ -163,5 +163,9 @@ public class Ap {
             AutopilotEvent.logTopicEvent(TOPIC_ID, event);
             LauncherAnalytics.logEvent(LauncherAnalytics.upperFirstCh(event));
         }
+
+        public static void onPageScroll(int scrollCount) {
+            LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_Slide", "Count", String.valueOf(scrollCount));
+        }
     }
 }

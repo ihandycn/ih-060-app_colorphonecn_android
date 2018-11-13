@@ -20,6 +20,7 @@ import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.Threads;
 
@@ -39,6 +40,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private ThemePagerAdapter mAdapter;
     private List<ThemePreviewView> mViews = new ArrayList<>();
     private MediaPlayer mMediaPlayer;
+    private int scrollCount = 0;
+    private int lastPos = -1;
 
     public static void start(Context context, int position) {
         Intent starter = new Intent(context, ThemePreviewActivity.class);
@@ -75,6 +78,26 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(pos);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (lastPos != position) {
+                    scrollCount++;
+                    lastPos = position;
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         mNavBack = findViewById(R.id.nav_back);
         mNavBack.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +166,15 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
         }
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mViewPager instanceof ViewPagerFixed
+                && ((ViewPagerFixed) mViewPager).isCanScroll()) {
+            Ap.DetailAd.onPageScroll(scrollCount);
+        }
     }
 
     private class ThemePagerAdapter extends PagerAdapter {
