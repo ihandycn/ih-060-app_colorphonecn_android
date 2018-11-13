@@ -83,6 +83,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.debug.SharedPreferencesOptimizer;
+import com.superapps.util.Preferences;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
@@ -145,9 +146,6 @@ public class ColorPhoneApplication extends HSApplication {
 
             if (HSNotificationConstant.HS_SESSION_START.equals(notificationName)) {
                 checkModuleAdPlacement();
-                if (mDailyLogger != null) {
-                    mDailyLogger.checkAndLog();
-                }
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
                 HSLog.d("Session End.");
@@ -168,8 +166,16 @@ public class ColorPhoneApplication extends HSApplication {
     };
 
     public void logOnceFirstSessionEndStatus() {
+        Preferences.get(Constants.DESKTOP_PREFS).doOnce(() -> {
+            if (ColorPhoneApplication.getContext().getApplicationContext() instanceof ColorPhoneApplication) {
+                if (mDailyLogger != null) {
+                    mDailyLogger.logOnceFirstSessionEndStatus();
+                }
+            }
+        }, "Permission_Check_Above23_FirstSessionEnd");
+
         if (mDailyLogger != null) {
-            mDailyLogger.logOnceFirstSessionEndStatus();
+            mDailyLogger.checkAndLog();
         }
     }
 

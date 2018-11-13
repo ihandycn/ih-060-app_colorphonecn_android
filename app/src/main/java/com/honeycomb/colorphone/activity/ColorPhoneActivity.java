@@ -532,11 +532,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mRewardVideoView.onCancel();
         }
 
-        Preferences.get(Constants.DESKTOP_PREFS).doOnce(() -> {
-            if (ColorPhoneApplication.getContext().getApplicationContext() instanceof ColorPhoneApplication) {
-                ((ColorPhoneApplication) ColorPhoneApplication.getContext().getApplicationContext()).logOnceFirstSessionEndStatus();
-            }
-        }, "Permission_Check_Above23_FirstSessionEnd");
+        ((ColorPhoneApplication) ColorPhoneApplication.getContext().getApplicationContext()).logOnceFirstSessionEndStatus();
+
         super.onDestroy();
     }
 
