@@ -90,6 +90,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     scrollCount++;
                     lastPos = position;
                 }
+                Ap.DetailAd.onPageScrollOnce();
 
             }
 
