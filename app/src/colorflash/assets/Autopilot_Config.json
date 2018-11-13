@@ -43,7 +43,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "e122c4af-1d96-45ba-b954-e5bd46cc33cd",
+  "json_id": "b6731f02-4a38-44e7-96b7-008e4f55ed06",
   "topics": {
     "topic-1510752104742": {
       "topic_type": "one_time",
@@ -773,7 +773,7 @@
       "variations": {
         "mainview_float_button_show": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "earncash_alert_show_maxtime_when_back_to_mainview_from_detail": {
           "type": "double",
@@ -801,7 +801,7 @@
         },
         "earncash_master_switch": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "earncash_alert_show_when_callassistant_close": {
           "type": "boolean",
@@ -1019,15 +1019,6 @@
         },
         {
           "name": "colorphone_themedetail_slide"
-        },
-        {
-          "name": "colorphone_theme_download_from_detailview"
-        },
-        {
-          "name": "colorphone_theme_download_from_mainlview"
-        },
-        {
-          "name": "colorphone_mainview_choosetheme"
         },
         {
           "name": "colorphone_seletcontactfortheme_success"
