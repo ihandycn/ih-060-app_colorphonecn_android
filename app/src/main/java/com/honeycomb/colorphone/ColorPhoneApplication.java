@@ -266,6 +266,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     @DebugLog
     private void onMainProcessCreate() {
+        CrashFix.fix();
         if (Build.VERSION.SDK_INT >= 26) {
             NotificationChannelManager.initChannels(this);
         }
