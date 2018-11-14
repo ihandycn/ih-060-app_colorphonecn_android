@@ -139,8 +139,8 @@
         <activity
             android:name=".activity.WelcomeActivity"
             android:label="@string/app_name"
-            android:noHistory="true"
             android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
             android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme.Welcome">
             <intent-filter>
