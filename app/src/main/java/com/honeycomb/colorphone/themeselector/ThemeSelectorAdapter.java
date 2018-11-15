@@ -906,8 +906,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
 
                     mDownloadFinishedAnim.setVisibility(View.GONE);
-                    mThemeSelectedAnim.setVisibility(Ap.DetailAd.enableMainViewDownloadButton() ?
-                            View.VISIBLE : View.INVISIBLE);
+                    mThemeSelectedAnim.setVisibility(View.GONE);
                     mThemeSelectedAnim.cancelAnimation();
                     setLottieProgress(mThemeSelectedAnim, 0f);
                 }
