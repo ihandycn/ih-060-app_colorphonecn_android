@@ -18,8 +18,6 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.dialer.AP;
-import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
 import com.honeycomb.colorphone.notification.permission.EventSource;
@@ -67,7 +65,6 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         HSPreferenceHelper.getDefault().putBoolean("guide_locker_stated", true);
-        AP.guideShow();
         setContentView(R.layout.guide_all_features);
         StatusBarUtils.hideStatusBar(this);
 
@@ -86,16 +83,13 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AP.guideConfirmed();
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
-                if (!GuideSetDefaultActivity.start(GuideAllFeaturesActivity.this)) {
-                    if (CommonUtils.ATLEAST_MARSHMALLOW) {
-                        requiresPermission();
-                    } else {
-                        PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
-                        finish();
-                    }
+                if (CommonUtils.ATLEAST_MARSHMALLOW) {
+                    requiresPermission();
+                } else {
+                    PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+                    finish();
                 }
 
 //                finish();

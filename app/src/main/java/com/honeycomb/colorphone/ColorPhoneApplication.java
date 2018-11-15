@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,8 +37,6 @@ import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.contact.ContactManager;
-import com.honeycomb.colorphone.dialer.ConfigProvider;
-import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
@@ -54,7 +51,6 @@ import com.honeycomb.colorphone.recentapp.RecentAppManager;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -267,9 +263,6 @@ public class ColorPhoneApplication extends HSApplication {
     @DebugLog
     private void onMainProcessCreate() {
         CrashFix.fix();
-        if (Build.VERSION.SDK_INT >= 26) {
-            NotificationChannelManager.initChannels(this);
-        }
 
         if (HSGdprConsent.isGdprUser()) {
             if (HSGdprConsent.getConsentState() != HSGdprConsent.ConsentState.ACCEPTED) {
@@ -403,22 +396,6 @@ public class ColorPhoneApplication extends HSApplication {
         }
         logUserLevelDistribution();
 
-        ConfigProvider.set(new ConfigProvider() {
-            @Override
-            public Typeface getCustomBoldTypeface() {
-                return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_BOLD);
-            }
-
-            @Override
-            public Typeface getCustomMediumTypeface() {
-                return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD);
-            }
-
-            @Override
-            public Typeface getCustomTypeface() {
-                return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR);
-            }
-        });
 
     }
 
