@@ -68,9 +68,7 @@ allprojects {
             options.compilerArgs.add('-Xbootclasspath/p:libs/api/android_27.jar')
         }
     }
-
 }
-
 
 task clean(type: Delete) {
     delete rootProject.buildDir

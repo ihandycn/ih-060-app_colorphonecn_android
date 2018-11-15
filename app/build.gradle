@@ -9,7 +9,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion "26.0.2"
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -27,8 +27,8 @@ android {
         colorphone {
             dimension "mode"
             applicationId "com.colorphone.smooth.dialer"
-            versionCode 32
-            versionName "1.2.3.develop"
+            versionCode 36
+            versionName "1.2.4"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
                     'src/colorphone/proguard-rules.pro'
 
@@ -47,17 +47,7 @@ android {
     sourceSets {
         main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
-            res.srcDirs = ['src/main/res',
-                           'src/main/java/com/honeycomb/colorphone/telecomeventui/res',
-                           'src/main/java/com/honeycomb/colorphone/dialer/notification/res',
-                           'src/main/java/com/honeycomb/colorphone/dialer/lettertile/res',
-                           'src/main/java/com/honeycomb/colorphone/dialer/commontheme/res',
-                           'src/main/java/com/honeycomb/colorphone/dialer/impl/res',
-                           'src/main/java/com/honeycomb/colorphone/dialer/contactgrid/res',
-                           'src/main/java/com/honeycomb/colorphone/dialer/dialpadview/res',
-                           'src/main/java/com/honeycomb/colorphone/dialer/theme/res',
-
-                           'src/main/java/com/honeycomb/colorphone/dialer/res']
+            res.srcDirs = ['src/main/res']
             assets.srcDirs = ['src/main/assets']
             java.srcDirs = ['src/main/java']
         }
@@ -80,10 +70,6 @@ android {
             minifyEnabled true
             shrinkResources true
         }
-//
-//        debug {
-//            minifyEnabled false
-//        }
     }
     lintOptions {
 
@@ -143,6 +129,7 @@ dependencies {
             "com.android.support:multidex:1.0.1",
 
             "com.google.android.gms:play-services-gcm:$GOOGLE_PLAY_SERVICES_VERSION".toString(),
+            "com.google.android.gms:play-services-ads:$GOOGLE_PLAY_SERVICES_VERSION".toString(),
 
             USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.3.+"
                     : "net.appcloudbox.autopilot:libAutoPilot.gm:5.3.3.gm",
@@ -167,7 +154,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
     compile 'com.liulishuo.filedownloader:library:1.7.4'
-    compile ("com.airbnb.android:lottie:2.3.1") {
+    compile ("com.airbnb.android:lottie:2.5.5") {
         transitive = false;
     }
 
@@ -187,6 +174,7 @@ dependencies {
 
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
+    compile(name: 'libCashCenter/cashcenter-release', ext: 'aar')
     compile(name: 'libChargingReport/libChargingReport-release', ext: 'aar')
     compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
     compile project(':libCallAssistant')
@@ -197,9 +185,7 @@ dependencies {
     compile project(':permissions')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.08.30.001'
+    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.10.29.001'
     colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.11.12.001'
-
-    compile 'net.appcloudbox.common:libAcbHSFrameworkAdapter.gm:1.0.2.gm'
 
 }

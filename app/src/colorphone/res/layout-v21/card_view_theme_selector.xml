@@ -12,26 +12,6 @@
         layout="@layout/card_layout_preview"
         android:visibility="visible"
         tools:visibility="invisible"/>
-
-    <ImageView
-        android:id="@+id/theme_hot_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/card_view"
-        android:layout_alignStart="@id/card_view"
-        android:layout_alignTop="@id/card_view"
-        android:layout_gravity="start|top"
-        android:src="@drawable/theme_card_badge_hot" />
-
-    <ImageView
-        android:id="@+id/theme_ringtone_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/card_view"
-        android:layout_alignRight="@id/card_view"
-        android:layout_alignTop="@id/card_view"
-        android:layout_gravity="end|top"
-        android:src="@drawable/ic_ringtone_badge" />
     
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/card_title"
@@ -42,6 +22,13 @@
         android:layout_marginLeft="@dimen/theme_card_margin_horizontal"
         android:layout_marginStart="@dimen/theme_card_margin_horizontal"
         android:layout_marginTop="@dimen/theme_text_margin_top"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/download_view_container"
+        android:layout_toStartOf="@+id/download_view_container"
+        android:gravity="start"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="@color/textDark"
         android:textSize="18sp"
         app:typeface="@string/proxima_nova_semibold"
@@ -82,80 +69,81 @@
         android:paddingRight="2dp"
         android:textColor="@color/textLightGray"
         android:textSize="12sp"
+        app:typeface="@string/proxima_nova_semibold"
         tools:text="6622335" />
 
     <android.support.percent.PercentRelativeLayout
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_alignBottom="@id/like_count_icon"
+        android:id="@+id/download_view_container"
+        android:layout_width="63dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/card_view"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:gravity="center"
-        android:layout_alignTop="@id/card_title"
+        android:layout_marginTop="13dp"
         android:layout_marginEnd="@dimen/theme_card_margin_horizontal"
         android:layout_marginRight="@dimen/theme_card_margin_horizontal"
-
         android:clickable="false">
 
+
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/card_download_start_anim"
+            android:id="@+id/card_downloading_progress_bar"
             app:layout_widthPercent="100%"
             app:layout_heightPercent="100%"
             android:layout_centerInParent="true"
             android:visibility="gone"
-            app:lottie_fileName="lottie/download.json"
+            app:lottie_fileName="lottie/theme_progress.json"
             app:lottie_loop="false" />
 
-        <com.honeycomb.colorphone.view.DownloadProgressBar
-            android:id="@+id/card_downloading_progress_bar"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/card_apply_clicked"
+            app:layout_widthPercent="100%"
+            app:layout_heightPercent="100%"
             android:layout_centerInParent="true"
-            app:circleBackgroundColor="@color/colorMaskDark"
-            app:circleRadius="15dp"
-            app:drawingColor="#10a2ff"
-            app:layout_heightPercent="90%"
-            app:layout_widthPercent="90%"
-            app:lineWidth="1.7dp"
-            app:overshootValue="2"
-            app:progressBackgroundColor="@color/colorMaskDark"
-            app:progressColor="#10a2ff"
-            app:progressDuration="2000"
-            app:strokeWidth="1.7dp" />
+            app:lottie_progress="0"
+            android:visibility="visible"
+            app:lottie_fileName="lottie/theme_apply_clicked.json"
+            app:lottie_loop="false" />
 
         <com.honeycomb.colorphone.view.TypefacedTextView
-            android:id="@+id/card_downloading_progress_txt"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
+            android:id="@+id/apply_text"
+            app:layout_widthPercent="100%"
+            app:layout_heightPercent="100%"
             android:gravity="center"
-            android:textColor="#10a2ff"
-            android:textSize="11sp"
-            android:visibility="gone"
-            app:typeface="@string/proxima_nova_regular"
-            tools:text="55%" />
+            android:textSize="12sp"
+            android:text="@string/apply_btn"
+            android:layout_centerInParent="true"
+            android:textColor="#00A3FF"
+            app:typeface="@string/proxima_nova_semibold"
+            app:autoSizeMaxTextSize="12sp"
+            app:autoSizeMinTextSize="9sp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeStepGranularity="1sp"
+            />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/card_download_finished_anim"
             android:layout_centerInParent="true"
             android:visibility="gone"
-            app:layout_heightPercent="89%"
-            app:layout_widthPercent="89%"
-            app:lottie_fileName="lottie/theme_selector_card_downloaded_anim.json"
+            app:layout_heightPercent="100%"
+            app:layout_widthPercent="100%"
+            app:lottie_fileName="lottie/theme_downloaded.json"
             app:lottie_loop="false" />
 
         <android.support.percent.PercentRelativeLayout
             android:id="@+id/card_theme_selected_layout"
-            app:layout_widthPercent="95%"
-            app:layout_heightPercent="95%"
+            app:layout_widthPercent="100%"
+            app:layout_heightPercent="100%"
             android:layout_centerInParent="true"
-            android:background="@drawable/bg_circle_material_compat">
+            >
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/card_theme_selected_anim"
                 android:layout_centerInParent="true"
-                app:layout_widthPercent="93%"
-                app:layout_heightPercent="93%"
+                app:layout_widthPercent="100%"
+                app:layout_heightPercent="100%"
                 android:visibility="gone"
-                app:lottie_fileName="lottie/theme_selector_card_selected_anim.json"
+                app:lottie_fileName="lottie/theme_downloaded.json"
                 app:lottie_loop="false" />
         </android.support.percent.PercentRelativeLayout>
 
@@ -169,5 +157,30 @@
 
 
     </android.support.percent.PercentRelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/theme_hot_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/card_view"
+        android:layout_alignStart="@id/card_view"
+        android:layout_alignTop="@id/card_view"
+        android:layout_gravity="start|top"
+        android:visibility="visible"
+        android:elevation="20dp"
+        android:src="@drawable/theme_card_badge_hot" />
+
+    <ImageView
+        android:id="@+id/theme_ringtone_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/card_view"
+        android:layout_alignRight="@id/card_view"
+        android:layout_alignTop="@id/card_view"
+        android:layout_gravity="end|top"
+        android:visibility="visible"
+        android:elevation="20dp"
+        android:src="@drawable/ic_ringtone_badge" />
 
 </RelativeLayout>

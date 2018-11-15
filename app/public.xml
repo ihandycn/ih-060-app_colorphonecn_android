@@ -6,6 +6,7 @@
     <public type="id" name="iv_boost" id="0x7f12001e" />
     <public type="id" name="clock_layout" id="0x7f120049" />
     <public type="id" name="iv_clock" id="0x7f120046" />
+    <public type="id" name="tv_clock" id="0x7f120045" />
     <public type="id" name="flashlight_layout" id="0x7f120019" />
     <public type="id" name="iv_flash_light" id="0x7f120021" />
 
@@ -33,6 +34,7 @@
     <public type="drawable" name="battery_toolbar_forth" id="0x7f020123" />
     <public type="drawable" name="settings_toolbar" id="0x7f020127" />
     <public type="drawable" name="empty" id="0x7f020205" />
+    <public type="drawable" name="cash_icon_toolbar" id="0x7f020206" />
 
     <public type="color" name="cpu_cooler_notification_red" id="0x7f10009c" />
     <public type="color" name="cpu_cooler_notification_yellow" id="0x7f10009d" />

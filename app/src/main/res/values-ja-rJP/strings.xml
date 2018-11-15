@@ -82,9 +82,9 @@
     <string name="acb_phone_enable_notification">今すぐ有効にする</string>
 
     <!--reward_video -->
-    <string name="watch_video_to_unlock">ビデオを観てアンロックする</string>
+    <string name="watch_video_to_unlock">広告を観てアンロック</string>
     <string name="load_reward_ad_error">おっと、後でもう一度お試しください。</string>
-    <string name="watch_video_to_unlock_free_theme">ビデオを観て美しいテーマをアンロックする</string>
+    <string name="watch_video_to_unlock_free_theme">広告を観て美しいテーマをアンロックしましょう</string>
     <string name="unlock">アンロック</string>
     <string name="unlock_succeed">アンロックに成功</string>
 

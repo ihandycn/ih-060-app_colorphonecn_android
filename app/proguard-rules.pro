@@ -49,6 +49,9 @@
 -keepnames class com.honeycomb.colorphone.notification.NotificationServiceV18
 
 -keep public class com.android.vending.licensing.ILicensingService
+-keep class com.acb.cashcenter.model.* {
+*;
+}
 
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
@@ -83,7 +86,7 @@
 -dontwarn org.apache.**
 
 -dontwarn com.ihs.affiliateads.**
-
+-keep class * implements Serializable {*;}
 -keep class * implements android.os.Parcelable {*;}
 -keep class * extends android.os.IInterface
 -keep class com.android.internal.** { *; }

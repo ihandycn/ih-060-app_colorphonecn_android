@@ -45,6 +45,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
+import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
@@ -408,6 +409,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     PermissionChecker.getInstance().check(mActivity, "SetForAll");
                 }
                 onThemeApply();
+
+                if (mActivity instanceof PopularThemePreviewActivity) {
+                    LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
+                    LauncherAnalytics.logEvent("ColorPhone_BanboList_Set_Success");
+                } else {
+                    LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SetForAll");
+                    LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success");
+                }
             }
         });
 
@@ -418,8 +427,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
                 }
 
-                ContactsActivity.startSelect(mActivity, mTheme);
                 LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
+                if (mActivity instanceof PopularThemePreviewActivity) {
+                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
+                    LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
+                } else {
+                    LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Started");
+                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
+                }
             }
         });
         bottomBtnTransY = getTransBottomLayout().getTranslationY();

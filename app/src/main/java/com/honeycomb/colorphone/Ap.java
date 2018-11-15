@@ -28,11 +28,7 @@ public class Ap {
          * Topic.x 描述:         铃声功能及按钮是否显示
          */
         public static boolean isEnable() {
-            boolean ringtoneBtnShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1516083421924-90", "ringtone_btn_show", false);
-            if (BuildConfig.DEBUG) {
-                Toasts.showToast("【Autopilot】铃声功能：" + ringtoneBtnShowBoolean, Toast.LENGTH_SHORT);
-            }
-            return ringtoneBtnShowBoolean;
+            return false;
         }
 
         /**

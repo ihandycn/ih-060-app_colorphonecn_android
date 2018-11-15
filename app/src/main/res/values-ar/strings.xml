@@ -80,9 +80,9 @@
     <string name="acb_phone_enable_notification">تمكين الآن</string>
 
     <!--reward_video -->
-    <string name="watch_video_to_unlock">شاهد فيديو للفتح</string>
+    <string name="watch_video_to_unlock">شاهد إعلانًا لفتحه</string>
     <string name="load_reward_ad_error">عذراً، أعد المحاولة لاحقاً</string>
-    <string name="watch_video_to_unlock_free_theme">شاهد فيديو لفتح هذا النسق الجميل</string>
+    <string name="watch_video_to_unlock_free_theme">شاهد إعلانًا لفتح هذا التصميم الجميل</string>
     <string name="unlock">فتح</string>
     <string name="unlock_succeed">تم الفتح بنجاح</string>
 

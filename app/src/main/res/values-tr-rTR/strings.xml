@@ -76,9 +76,9 @@
     <string name="liked_it_desc">Neleri beğenmediğinizi söyleyin. İyileştirmek için elimizden geleni yapalım.</string>
 
     <!--Reward_video-->
-    <string name="watch_video_to_unlock">Kilidi açmak için video seyret</string>
+    <string name="watch_video_to_unlock">Kilidi açmak için reklamı izle</string>
     <string name="load_reward_ad_error">Hay aksi, daha sonra tekrar deneyin</string>
-    <string name="watch_video_to_unlock_free_theme">Güzel temanın kilidini açmak için video seyret</string>
+    <string name="watch_video_to_unlock_free_theme">Güzel temanın kilidini açmak için reklamı izle</string>
     <string name="unlock">Kilidi Aç</string>
     <string name="unlock_succeed">Kilit başarıyla açıldı</string>
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--PlaceHolder -->
+<FrameLayout android:id="@+id/cash_center_entrance_icon"
+    android:layout_width="66dp"
+    android:layout_height="66dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

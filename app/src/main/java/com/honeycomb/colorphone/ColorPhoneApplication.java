@@ -15,6 +15,7 @@ import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
@@ -33,9 +34,11 @@ import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
+import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
@@ -49,6 +52,8 @@ import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
+import com.honeycomb.colorphone.trigger.DailyTrigger;
+import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
@@ -56,6 +61,7 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
@@ -79,6 +85,7 @@ import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.debug.SharedPreferencesOptimizer;
+import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 
 import net.appcloudbox.AcbAds;
@@ -150,6 +157,7 @@ public class ColorPhoneApplication extends HSApplication {
                 // Call-Themes update timely.
                 Theme.updateThemes();
                 initNotificationToolbar();
+                ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
                 AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
@@ -181,6 +189,8 @@ public class ColorPhoneApplication extends HSApplication {
             updateCallFinishFullScreenAdPlacement();
             AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
             HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+            ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
+
         }
     };
 
@@ -229,11 +239,12 @@ public class ColorPhoneApplication extends HSApplication {
         return isFabricInitted;
     }
 
-
     private void onAllProcessCreated() {
         if (GdprUtils.isNeedToAccessDataUsage()) {
             initFabric();
         }
+        AutopilotConfig.initialize(this, "Autopilot_Config.json");
+
         mConfigLog = new ConfigLogDefault();
         mDailyLogger = new DailyLogger();
         FileDownloader.setup(this);
@@ -250,6 +261,7 @@ public class ColorPhoneApplication extends HSApplication {
             public void onGDPRStateChanged(HSGdprConsent.ConsentState oldState, HSGdprConsent.ConsentState newState) {
                 if (GdprUtils.isNeedToAccessDataUsage()) {
                     initFabric();
+                    initAutopilot();
                 }
                 if (!isMainProcess()) {
                     if (oldState == HSGdprConsent.ConsentState.ACCEPTED && newState != oldState) {
@@ -258,6 +270,18 @@ public class ColorPhoneApplication extends HSApplication {
                 }
             }
         });
+    }
+
+    private void initAutopilot() {
+//        String customId = GdprUtils.isDataUsageUserEnabled() ? HSApplication.getInstallationUUID()
+//                : null;
+//        AppsFlyerLib.getInstance().setCustomerUserId(customId);
+
+        if (!AutopilotConfig.hasConfigFetchFinished()) {
+            IntentFilter configFinishedFilter = new IntentFilter();
+            configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
+            registerReceiver(mAutopilotFetchReceiver, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
+        }
     }
 
     @DebugLog
@@ -295,6 +319,8 @@ public class ColorPhoneApplication extends HSApplication {
         MessageCenterManager.init(new CpMessageCenterFactoryImpl());
         ScreenFlashManager.init(new CpScreenFlashFactoryImpl());
 
+        CashUtils.initCashCenter();
+
         ScreenFlashManager.getInstance().setParser(new ScreenFlashManager.TypeParser() {
             @Override
             public Type parse(Map<String, ?> map) {
@@ -307,7 +333,7 @@ public class ColorPhoneApplication extends HSApplication {
                 type.setRingtoneUrl(HSMapUtils.optString(map, "", Theme.CONFIG_RINGTONE));
                 type.setLocked(HSMapUtils.optBoolean(map,false, "Status", "Lock"));
                 type.setCanDownload(!HSMapUtils.optBoolean(map,true, "Status", "StaticPreview"));
-
+                type.setSpecialTopic(HSMapUtils.optBoolean(map, false, "SpecialTopic"));
                 return type;
             }
         });
@@ -322,7 +348,7 @@ public class ColorPhoneApplication extends HSApplication {
 
         AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
-
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.CASHCENTER);
         HSPermanentUtils.keepAlive();
 
         Upgrader.upgrade();
@@ -336,14 +362,95 @@ public class ColorPhoneApplication extends HSApplication {
 
         initRecentApps();
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
+        String popularThemeBgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
+        GlideApp.with(this).downloadOnly().load(popularThemeBgUrl);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             LockJobService.startJobScheduler();
         }
 
+        lifeCallback();
+        initNotificationAlarm();
+
+        Theme.updateThemes();
+
+
+        SmsFlashListener.getInstance().start();
+
+        logUserLevelDistribution();
+
+        ScreenFlashManager.getInstance().setLogEventListener(new ScreenFlashManager.LogEventListener() {
+            @Override
+            public void onListPageItemClicked() {
+
+            }
+
+            @Override
+            public void onListPageScrollUp() {
+
+            }
+
+            @Override
+            public void onListItemDownloadIconClicked() {
+
+            }
+
+            @Override
+            public void onDetailContactIconClicked() {
+
+            }
+
+            @Override
+            public void onContactSetIconClicked() {
+
+            }
+
+            @Override
+            public void onSelectedFromList() {
+
+            }
+
+            @Override
+            public void onSelectedFromDetail() {
+
+            }
+
+            @Override
+            public void onInCallFlashShown(String themeId) {
+
+            }
+
+            @Override
+            public void onScreenFlashSetSucceed(String idName) {
+                ApplyInfoAutoPilotUtils.logCallFlashSet();
+                LauncherAnalytics.logEvent("ColorPhone_Set_Success", "type", idName);
+            }
+        });
+
+        checkDailyTask();
+
+    }
+
+    private void checkDailyTask() {
+        DailyTrigger dailyTrigger = new DailyTrigger();
+        boolean active = dailyTrigger.onChance();
+        if (active) {
+            // Do something once a day.
+            dailyTrigger.onConsumeChance();
+            LauncherAnalytics.logEvent("DailyCheckNotificationAccess", "Enable",
+                    Permissions.isNotificationAccessGranted() ? "Yes" : "No");
+        }
+    }
+
+    private void lifeCallback() {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            private Class<? extends Activity> exitActivityClazz;
+
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                if (activity instanceof ColorPhoneActivity) {
+                    ActivitySwitchUtil.onMainViewCreate();
+                }
 
             }
 
@@ -356,6 +463,7 @@ public class ColorPhoneApplication extends HSApplication {
             public void onActivityResumed(Activity activity) {
                 activityStack.push(1);
                 HSPreferenceHelper.getDefault().putLong(NotificationConstants.PREFS_APP_OPENED_TIME, System.currentTimeMillis());
+                ActivitySwitchUtil.onActivityChange(exitActivityClazz, activity);
             }
 
             @Override
@@ -363,11 +471,13 @@ public class ColorPhoneApplication extends HSApplication {
                 if (!activityStack.isEmpty()) {
                     activityStack.pop();
                 }
+
+                exitActivityClazz = activity.getClass();
             }
 
             @Override
             public void onActivityStopped(Activity activity) {
-
+                ActivitySwitchUtil.onActivityExit(activity);
             }
 
             @Override
@@ -380,22 +490,6 @@ public class ColorPhoneApplication extends HSApplication {
 
             }
         });
-
-        initNotificationAlarm();
-
-        Theme.updateThemes();
-
-
-        SmsFlashListener.getInstance().start();
-
-        if (AutopilotConfig.hasConfigFetchFinished()) {
-        } else {
-            IntentFilter configFinishedFilter = new IntentFilter();
-            configFinishedFilter.addAction(AutopilotConfig.ACTION_CONFIG_FETCH_FINISHED);
-            registerReceiver(mAutopilotFetchReceiver, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
-        }
-        logUserLevelDistribution();
-
 
     }
 
@@ -538,7 +632,7 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onScreenOn(context);
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
                     ScreenStatusReceiver.onUserPresent(context);
-
+                    CashUtils.showGuideIfNeeded(null, CashUtils.Source.UnlockScreen);
                 }
             }
         }, screenFilter);
@@ -709,6 +803,14 @@ public class ColorPhoneApplication extends HSApplication {
 
     private void logUserLevelDistribution() {
         String PREF_KEY_New_User_User_Level_LOGGED = "lv_logged";
+        Log.e("SUNDXING", "WifiStateChange2：" + HSConfig.optString("not_configured", "UserLevel"));
+        Log.e("SUNDXING", "USER_ID =" + HSApplication.getCustomerUserIDInWorkThread());
+        Logger.e("SUNDXING", "All_Map =" + HSConfig.getMap("Application"));
+        HSPreferenceHelper hsPreferenceHelper = HSPreferenceHelper.create(HSApplication.getContext(), "framework_config");
+        String newUrl = hsPreferenceHelper.getString("hs.commons.config.remote.file.url", "");
+        Log.e("SUNDXING", "Remote url =" + newUrl);
+        HSConfig.fetchRemote();
+
         if (Utils.isNewUser()) {
             if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_New_User_User_Level_LOGGED)) {
                 int delayTimes [] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
@@ -716,6 +818,7 @@ public class ColorPhoneApplication extends HSApplication {
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            Log.e("WifiStateChange2", HSConfig.optString("not_configured", "UserLevel"));
                             LauncherAnalytics.logEvent("New_User_Agency_Info_" + delay, LauncherAnalytics.FLAG_LOG_FABRIC,
                                     "user_level", "" + HSConfig.optString("not_configured", "UserLevel"),
                                     "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
@@ -732,6 +835,7 @@ public class ColorPhoneApplication extends HSApplication {
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        Log.e("WifiStateChange2", HSConfig.optString("not_configured", "UserLevel"));
                         LauncherAnalytics.logEvent("Old_User_Agency_Info", LauncherAnalytics.FLAG_LOG_FABRIC,
                                 "user_level", "" + HSConfig.optString("not_configured", "UserLevel"),
                                 "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode,

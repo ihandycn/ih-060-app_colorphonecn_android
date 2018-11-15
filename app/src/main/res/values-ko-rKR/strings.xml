@@ -81,9 +81,9 @@
     <string name="acb_phone_enable_notification">지금 활성화</string>
 
     <!--reward_video -->
-    <string name="watch_video_to_unlock">비디오를 보고 잠금 해제</string>
+    <string name="watch_video_to_unlock">광고를 보고 잠금 해제</string>
     <string name="load_reward_ad_error">이런, 나중에 다시 시도하세요</string>
-    <string name="watch_video_to_unlock_free_theme">비디오를 보고 아름다운 테마 잠금 해제</string>
+    <string name="watch_video_to_unlock_free_theme">광고를 보고 아름다운 테마 잠금 해제</string>
     <string name="unlock">잠금 해제</string>
     <string name="unlock_succeed">잠금 해제 성공</string>
 

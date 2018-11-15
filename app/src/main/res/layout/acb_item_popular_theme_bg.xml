@@ -1,0 +1,15 @@
+<RelativeLayout android:id="@+id/notification_access_toast"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/image_bg"
+        android:layout_width="match_parent"
+        android:layout_height="321dp"
+        android:src="@drawable/banbo_kitty_bg"
+        android:scaleType="centerCrop" />
+
+</RelativeLayout>

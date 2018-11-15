@@ -43,7 +43,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "018f69b4-af73-45c9-8baf-c77fce5f8551",
+  "json_id": "300bfc2e-52bf-4af6-8dec-785dff017b54",
   "topics": {
     "topic-1510752104742": {
       "topic_type": "one_time",
@@ -70,6 +70,34 @@
         }
       ],
       "topic_id": "topic-1510752104742"
+    },
+    "topic-1531210959452-409": {
+      "topic_type": "life_time",
+      "topic_name": "Message Assistant Suspension Ball Test",
+      "variations": {
+        "message_floatingball_enable": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "message_floatingball_view_show"
+        },
+        {
+          "name": "message_floatingball_view_click"
+        },
+        {
+          "name": "message_floatingball_cancel"
+        },
+        {
+          "name": "message_floatingball_ad_show"
+        }
+      ],
+      "topic_id": "topic-1531210959452-409"
     },
     "topic-1535427355191-617": {
       "topic_type": "life_time",
@@ -739,13 +767,49 @@
       ],
       "topic_id": "topic-1535439684386-619"
     },
-    "topic-1531210959452-409": {
+    "topic-1539675249991-758": {
       "topic_type": "life_time",
-      "topic_name": "Message Assistant Suspension Ball Test",
+      "topic_name": "Earn Cash",
       "variations": {
-        "message_floatingball_enable": {
+        "mainview_float_button_show": {
           "type": "boolean",
           "value": false
+        },
+        "earncash_alert_show_maxtime_when_back_to_mainview_from_detail": {
+          "type": "double",
+          "value": 1
+        },
+        "earncash_alert_show_when_unlockscreen": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_alert_show_maxtime_when_unlockscreen": {
+          "type": "double",
+          "value": 1
+        },
+        "earncash_icon_show_on_toolbar": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_alert_show_on_callassistant": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_alert_show_when_back_to_mainview_from_detail": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_master_switch": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_alert_show_when_callassistant_close": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_alert_show_maxtime_when_callassistant_close": {
+          "type": "double",
+          "value": 1
         }
       },
       "events": [
@@ -753,19 +817,61 @@
           "name": "test"
         },
         {
-          "name": "message_floatingball_view_show"
+          "name": "colorphone_mainview_float_button_show"
         },
         {
-          "name": "message_floatingball_view_click"
+          "name": "colorphone_mainview_float_button_click"
         },
         {
-          "name": "message_floatingball_cancel"
+          "name": "colorphone_earncash_shortcut_alert_show"
         },
         {
-          "name": "message_floatingball_ad_show"
+          "name": "colorphone_earncash_shortcut_alert_ok_click"
+        },
+        {
+          "name": "colorphone_earncash_alert_show_when_callassistant_close"
+        },
+        {
+          "name": "colorphone_earncash_alert_click_when_callassistant_close"
+        },
+        {
+          "name": "colorphone_earncash_alert_show_when_unlockscreen"
+        },
+        {
+          "name": "colorphone_earncash_alert_click_when_unlockscreen"
+        },
+        {
+          "name": "colorphone_earncash_ad_should_show"
+        },
+        {
+          "name": "colorphone_earncash_ad_show"
+        },
+        {
+          "name": "colorphone_earncash_desktop_icon_click"
+        },
+        {
+          "name": "colorphone_earncash_alert_show_when_back_to_mainview_from_detail"
+        },
+        {
+          "name": "colorphone_earncash_alert_click_when_back_to_mainview_from_detail"
+        },
+        {
+          "name": "colorphone_earncash_alert_show_on_callassistant"
+        },
+        {
+          "name": "colorphone_earncash_alert_click_on_callassistant"
+        },
+        {
+          "name": "colorphone_earncash_icon_show_on_toolbar"
+        },
+        {
+          "name": "colorphone_earncash_icon_click_on_toolbar"
+        },
+        {
+          "name": "colorphone_earncash_spin"
         }
       ],
-      "topic_id": "topic-1531210959452-409"
+      "topic_id": "topic-1539675249991-758"
     },
     "topic-1512822231846-17": {
       "topic_type": "life_time",

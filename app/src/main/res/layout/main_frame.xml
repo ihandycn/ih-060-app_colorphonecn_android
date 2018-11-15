@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="false"
     tools:context="com.honeycomb.colorphone.activity.ColorPhoneActivity">
 
@@ -41,6 +42,16 @@
             android:background="@drawable/avatar_selector"
             android:visibility="gone"/>
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="4dp" >
+        <include layout="@layout/cash_guide_button"/>
     </LinearLayout>
 
 </FrameLayout>

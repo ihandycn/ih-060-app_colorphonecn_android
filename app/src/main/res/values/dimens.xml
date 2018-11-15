@@ -136,4 +136,6 @@
     <dimen name="battery_mode_content_size">12sp</dimen>
     <dimen name="battery_alert_padding_vertical">8dp</dimen>
     <dimen name="result_page_guide_tip_translation_top">10dp</dimen>
+
+    <dimen name="popular_theme_thumbnail_height">134dp</dimen>
 </resources>

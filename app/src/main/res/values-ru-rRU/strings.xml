@@ -82,9 +82,9 @@
     <string name="acb_phone_enable_notification">Предоставить</string>
 
     <!--reward_video -->
-    <string name="watch_video_to_unlock">Для разблокировки посмотрите видеоролик</string>
+    <string name="watch_video_to_unlock">Посмотрите рекламу для разблокировки</string>
     <string name="load_reward_ad_error">Ой, попробуйте еще раз позже</string>
-    <string name="watch_video_to_unlock_free_theme">Чтобы разблокировать эту красивую тему, посмотрите видеоролик</string>
+    <string name="watch_video_to_unlock_free_theme">Посмотрите рекламу, чтобы разблокировать эту потрясающую тему</string>
     <string name="unlock">Разблокировать</string>
     <string name="unlock_succeed">Успешно разблокировано</string>
 

@@ -80,9 +80,9 @@
     <string name="acb_phone_enable_notification">Aktifkan Sekarang</string>
 
     <!--reward_video -->
-    <string name="watch_video_to_unlock">Tonton video untuk membuka kunci</string>
+    <string name="watch_video_to_unlock">Tonton iklan untuk membuka</string>
     <string name="load_reward_ad_error">Ups， coba lagi nanti</string>
-    <string name="watch_video_to_unlock_free_theme">Tonton video untuk membuka kunci tema indah</string>
+    <string name="watch_video_to_unlock_free_theme">Tonton iklan untuk membuka tema yang indah</string>
     <string name="unlock">Buka kunci</string>
     <string name="unlock_succeed">Berhasil membuka</string>
 

@@ -81,9 +81,9 @@
     <string name="acb_phone_enable_notification">Attiva ora</string>
 
     <!--reward_video -->
-    <string name="watch_video_to_unlock">Guarda un video per sbloccare</string>
+    <string name="watch_video_to_unlock">Guarda un annuncio per sbloccare</string>
     <string name="load_reward_ad_error">Ops... riprova più tardi</string>
-    <string name="watch_video_to_unlock_free_theme">Guarda un video per sbloccare il fantastico tema</string>
+    <string name="watch_video_to_unlock_free_theme">Guarda un annuncio per sbloccare il bellissimo tema</string>
     <string name="unlock">Sblocca</string>
     <string name="unlock_succeed">Sblocco completato</string>
 

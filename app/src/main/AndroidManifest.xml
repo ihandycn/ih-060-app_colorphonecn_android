@@ -19,7 +19,8 @@
         android:name="android.hardware.camera.any"
         android:required="false"/>
 
-    <uses-sdk tools:overrideLibrary="net.appcloudbox.ads, net.appcloudbox.ads.adadapter.MopubCommon, net.appcloudbox.ads.adadapter.MopubInterstitialAdapter, net.appcloudbox.ads.adadapter.MopubNativeAdapter, net.appcloudbox.ads.adadapter.MopubBannerAdapter, net.appcloudbox.trident, net.appcloudbox.autopilot, com.facebook, com.facebook.ads, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs, net.appcloudbox.ads.adadapter.AmazonBannerAdapter"/>
+    <uses-sdk
+        tools:overrideLibrary="com.airbnb.lottie, com.acb.cashcenter, net.appcloudbox.ads, net.appcloudbox.ads.adadapter.MopubCommon, net.appcloudbox.ads.adadapter.MopubInterstitialAdapter, net.appcloudbox.ads.adadapter.MopubNativeAdapter, net.appcloudbox.ads.adadapter.MopubBannerAdapter, net.appcloudbox.trident, net.appcloudbox.autopilot, com.facebook, com.facebook.ads, net.pubnative.mediation, net.pubnative.library, net.pubnative.url_driller, net.pubnative.advertising_id_client, android.support.customtabs, net.appcloudbox.ads.adadapter.AmazonBannerAdapter"/>
 
     <!-- Required by libAppFramework -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -30,6 +31,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS"/>
 
     <!-- Ringtone -->
@@ -187,6 +189,16 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
             android:theme="@style/AppTheme.DarkFullScreen"/>
+
+        <activity
+            android:name=".activity.PopularThemePreviewActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activity.ColorPhoneActivity"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppTheme.DarkFullScreen"/>
+
         <activity
             android:name=".activity.SettingsActivity"
             android:label="@string/app_name"
@@ -208,6 +220,15 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme"/>
+
+        <activity
+            android:name=".activity.PopularThemeActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme"/>
+
         <activity
             android:name=".activity.NotificationSettingsActivity"
             android:label="@string/app_name"
@@ -230,7 +251,7 @@
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:taskAffinity=".call"
-            android:theme="@style/AppTranslucent" />
+            android:theme="@style/Theme.AppCompat.Translucent"/>
 
         <activity
             android:name=".activity.PromoteLockerActivity"
@@ -463,6 +484,26 @@
             tools:node="merge"
             />
 
+        <activity
+            android:name=".cashcenter.ShortcutGuideActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ShortcutGuideTheme" />
+
+        <activity android:name=".cashcenter.GameStarterActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
+            android:icon="@drawable/cashcenter_icon"
+            android:label="@string/cash_center_cash_center"
+            android:excludeFromRecents="true"
+            android:theme="@style/INVisibleTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".cashcenter.OuterCashGuideActivity" />
+        <activity android:name=".cashcenter.InnerCashGuideActivity" />
+
         <!--&lt;!&ndash;===== Dialer Module =====&ndash;&gt;-->
 
         <!--<activity-->
@@ -546,9 +587,6 @@
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
-    <!--Samsung need this to open Bluetooth settings-->
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <!--Phone Speaker-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />

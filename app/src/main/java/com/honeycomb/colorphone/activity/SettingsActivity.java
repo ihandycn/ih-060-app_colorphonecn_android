@@ -18,6 +18,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
@@ -58,6 +59,7 @@ public class SettingsActivity extends HSAppCompatActivity {
             });
         }
 
+
         Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
 
         mModuleStates.add(new ModuleState(ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CALL_ASSISTANT), CallAssistantSettings.isCallAssistantModuleEnabled(),
@@ -65,6 +67,8 @@ public class SettingsActivity extends HSAppCompatActivity {
                 R.id.setting_item_call_assistant) {
             @Override
             public void onCheckChanged(boolean isChecked) {
+                LauncherAnalytics.logEvent("ColorPhone_Settings_ChargingReport_Clicked_" +
+                        (isChecked ? "Enabled" : "Disabled"));
                 CallAssistantSettings.setCallAssistantModuleEnabled(isChecked);
             }
         });
@@ -75,6 +79,8 @@ public class SettingsActivity extends HSAppCompatActivity {
                 R.id.setting_item_sms_assistant) {
             @Override
             public void onCheckChanged(boolean isChecked) {
+                LauncherAnalytics.logEvent("ColorPhone_Settings_SMSAssistant_Clicked_" +
+                        (isChecked ? "Enabled" : "Disabled"));
                 MessageCenterSettings.setSMSAssistantModuleEnabled(isChecked);
             }
         });
@@ -85,6 +91,8 @@ public class SettingsActivity extends HSAppCompatActivity {
                 R.id.setting_item_charging) {
             @Override
             public void onCheckChanged(boolean isChecked) {
+                LauncherAnalytics.logEvent("ColorPhone_Settings_ChargingReport_Clicked_" +
+                        (isChecked ? "Enabled" : "Disabled"));
                 GifCacheUtils.cacheGif();
                 SmartChargingSettings.setModuleEnabled(isChecked);
             }
@@ -97,6 +105,8 @@ public class SettingsActivity extends HSAppCompatActivity {
                 R.id.settings_notification_toolbar) {
             @Override
             public void onCheckChanged(boolean isChecked) {
+                LauncherAnalytics.logEvent("ColorPhone_Settings_Toolbar_Clicked_" +
+                        (isChecked ? "Enabled" : "Disabled"));
                 UserSettings.setNotificationToolbarEnabled(isChecked);
                 NotificationManager.getInstance().showNotificationToolbarIfEnabled();
             }

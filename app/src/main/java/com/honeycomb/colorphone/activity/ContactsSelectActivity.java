@@ -27,6 +27,7 @@ import java.util.List;
 
 public class ContactsSelectActivity extends ContactsActivity {
 
+
     private Theme mTheme;
     ContactManager.LoadCallback mCallback = new ContactManager.LoadCallback() {
         @Override
@@ -80,7 +81,12 @@ public class ContactsSelectActivity extends ContactsActivity {
         LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Success",
                 "ThemeName", mTheme.getIdName(),
                 "SelectedContactsNumber", themeEntries.size() + "");
-
+        int fromType = getIntent().getIntExtra(INTENT_KEY_FROM_TYPE, FROM_TYPE_MAIN);
+        if (fromType == FROM_TYPE_POPULAR_THEME) {
+            LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Success");
+        } else {
+            LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Success");
+        }
         Ap.DetailAd.onThemeChooseForOne();
 
         if (!themeEntries.isEmpty()) {

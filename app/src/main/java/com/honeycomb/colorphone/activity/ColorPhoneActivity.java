@@ -30,15 +30,18 @@ import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.boost.BoostActivity;
+import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -47,7 +50,7 @@ import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
-import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
+import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -102,8 +105,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
     private int defaultThemeId = 1;
     private boolean initCheckState;
+    private boolean isPaused;
 
     private Handler mHandler = new Handler();
+
+    private boolean mIsHandsDown = false;
+    private boolean mIsFirstScrollThisTimeHandsDown = true;
+    public static final int SCROLL_STATE_DRAGGING = 1;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -131,10 +139,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     };
 
+    private ConfigChangeManager.Callback configChangeCallback =  new ConfigChangeManager.Callback() {
+        @Override
+        public void onChange(int type) {
+            refreshCashButton();
+        }
+    };
+
     private boolean logOpenEvent;
     private boolean pendingShowRateAlert = false;
     private boolean showAllFeatureGuide = false;
     private boolean isCreate = false;
+    private View cashFloatButton;
 
     @DebugLog
     @Override
@@ -232,8 +248,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
-
                 ScreenFlashSettings.setScreenFlashModuleEnabled(isChecked);
+                LauncherAnalytics.logEvent("ColorPhone_Settings_Enable_Icon_Clicked", "type", isChecked ? "on" : "off");
             }
         });
 
@@ -288,21 +304,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
         Button avatar = findViewById(R.id.avatar_btn);
-        if (AvatarAutoPilotUtils.isAvatarBtnShow()) {
-            avatar.setVisibility(View.VISIBLE);
-            avatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(ColorPhoneActivity.this, AvatarVideoActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-//                    overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
-                }
-            });
-            AvatarAutoPilotUtils.logAvatarButtonShown();
-        } else {
-            avatar.setVisibility(View.GONE);
-        }
+        avatar.setVisibility(View.GONE);
+
+        cashFloatButton = findViewById(R.id.cash_center_entrance_icon);
+        ConfigChangeManager.getInstance().registerCallbacks(
+                ConfigChangeManager.AUTOPILOT | ConfigChangeManager.REMOTE_CONFIG, configChangeCallback);
+
     }
 
     @Override
@@ -350,13 +357,41 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //            HSAlertMgr.showRateAlert();
 //            pendingShowRateAlert = false;
 //        }
+        mAdapter.updateApplyInformationAutoPilotValue();
         mHandler.postDelayed(mainViewRunnable, 1000);
+        isPaused = false;
+
+        refreshCashButton();
+    }
+
+    private void refreshCashButton() {
+        if (isPaused) {
+            return;
+        }
+        CashUtils.logSwitchStatusToServer();
+        if (CashUtils.needShowMainFloatButton()) {
+            cashFloatButton.setVisibility(View.VISIBLE);
+            if (cashFloatButton instanceof LottieAnimationView) {
+                ((LottieAnimationView) cashFloatButton).playAnimation();
+            }
+            cashFloatButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CashUtils.Event.onMainviewFloatButtonClick();
+                    CashUtils.startWheelActivity(ColorPhoneActivity.this, CashUtils.Source.FloatIcon);
+                }
+            });
+            CashUtils.Event.onMainviewFloatButtonShow();
+        } else {
+            cashFloatButton.setVisibility(View.GONE);
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
+        isPaused = true;
         HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
@@ -364,6 +399,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         mRecyclerView.getRecycledViewPool().clear();
         mHandler.removeCallbacks(mainViewRunnable);
+
+        if (cashFloatButton instanceof LottieAnimationView) {
+            ((LottieAnimationView) cashFloatButton).cancelAnimation();
+        }
     }
 
     @Override
@@ -511,6 +550,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (mRewardVideoView != null) {
             mRewardVideoView.onCancel();
         }
+        ConfigChangeManager.getInstance().removeCallback(configChangeCallback);
 
         ((ColorPhoneApplication) ColorPhoneApplication.getContext().getApplicationContext()).logOnceFirstSessionEndStatus();
 
@@ -598,6 +638,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
         mRecyclerView.setLayoutManager(mAdapter.getLayoutManager());
+        mAdapter.setHotThemeHolderVisible(HSConfig.optBoolean(false, "Application", "Special", "SpecialEntrance") &&
+                ApplyInfoAutoPilotUtils.showPopularThemeEntrance());
         mRecyclerView.setAdapter(mAdapter);
         RecyclerView.RecycledViewPool pool = mRecyclerView.getRecycledViewPool();
 
@@ -615,6 +657,21 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     //End of list
                     LauncherAnalytics.logEvent("ColorPhone_List_Bottom_Show");
                     prefsFile.putBoolean(PREFS_SCROLL_TO_BOTTOM, true);
+                }
+
+                if (mIsFirstScrollThisTimeHandsDown && mIsHandsDown && dy > 0) {
+                    mIsFirstScrollThisTimeHandsDown = false;
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == SCROLL_STATE_DRAGGING) {
+                    mIsHandsDown = true;
+                } else {
+                    mIsHandsDown = false;
+                    mIsFirstScrollThisTimeHandsDown = true;
                 }
             }
         });
@@ -665,6 +722,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
                 break;
             case R.id.settings_setting:
+                LauncherAnalytics.logEvent("Colorphone_Settings_Clicked");
                 SettingsActivity.start(this);
                 break;
             case R.id.settings_contacts:
@@ -732,10 +790,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());
             ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
             ColorPhoneApplication.checkChargingReportAdPlacement();
-//            if (!pendingShowRateAlert) {
-//                HSLog.i("Permissions", "show Permission dialog");
-//                dispatchPermissionRequest();
-//            }
         } else if (PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED.equals(s)
                 || PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED.equals(s)) {
             boolean visible = mAdapter.isTipHeaderVisible();

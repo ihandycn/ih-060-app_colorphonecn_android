@@ -44,6 +44,11 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
     private static final String TAG = "ContactsActivity";
 
     public static final String EXTRA_THEME = "contact_theme";
+    public static final String INTENT_KEY_FROM_TYPE = "INTENT_KEY_FROM_TYPE";
+
+    public static final int FROM_TYPE_MAIN = 1;
+    public static final int FROM_TYPE_POPULAR_THEME = 2;
+
     private OvershootInterpolator mInter = new OvershootInterpolator(1.5f);
     private Interpolator mFadeInter = new AccelerateDecelerateInterpolator();
 
@@ -64,9 +69,10 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
     private int mHeaderOffset;
     private TextView mTopActionView;
 
-    public static void startSelect(Context context, Theme theme) {
+    public static void startSelect(Context context, Theme theme, int type) {
         Intent starter = new Intent(context, ContactsSelectActivity.class);
         starter.putExtra(EXTRA_THEME, theme);
+        starter.putExtra(INTENT_KEY_FROM_TYPE, type);
         context.startActivity(starter);
     }
 
