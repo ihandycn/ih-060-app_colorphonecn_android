@@ -3,6 +3,7 @@ package com.honeycomb.colorphone;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.superapps.util.Toasts;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
@@ -127,6 +128,51 @@ public class Ap {
 
         public static void onAdShow() {
             AutopilotEvent.logTopicEvent("topic-1531210959452-409", "message_floatingball_ad_show");
+        }
+    }
+
+    public static class DetailAd {
+
+        public static String TOPIC_ID = "topic-6wzryt9bs";
+        public static boolean enableMainViewDownloadButton() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "mainviewapplyicon", false);
+        }
+
+        public static boolean enableThemeSlide() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "detailslide", false);
+        }
+
+        public static boolean enableAdOnApply() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "applywire", false);
+        }
+
+        public static boolean enableAdOnDetailView() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "detailviewwire", false);
+        }
+
+
+        public static void onThemeView() {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themedetail_view");
+        }
+
+        public static void onThemeChoose() {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themedetail_choosetheme");
+        }
+
+        public static void logEvent(String event) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, event);
+            LauncherAnalytics.logEvent(LauncherAnalytics.upperFirstCh(event));
+        }
+
+        public static void onPageScroll(int scrollCount) {
+            LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_Slide", "Count", String.valueOf(scrollCount));
+        }
+
+        public static void onPageScrollOnce() {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themedetail_slide");
+        }
+        public static void onThemeChooseForOne() {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_seletcontactfortheme_success");
         }
     }
 }

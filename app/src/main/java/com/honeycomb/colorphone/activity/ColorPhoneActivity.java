@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Build;
@@ -26,6 +27,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.bumptech.glide.Glide;
@@ -35,14 +37,16 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.dialer.AP;
+import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
-import com.honeycomb.colorphone.notification.permission.PermissionUtils;
-import com.honeycomb.colorphone.permission.FloatWindowManager;
+import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
@@ -51,10 +55,10 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -62,6 +66,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
+import com.superapps.util.RuntimePermissions;
 
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
@@ -69,6 +74,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import hugo.weaving.DebugLog;
 
@@ -81,6 +87,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final String PREFS_THEME_LIKE = "theme_like_array";
     private static final String PREFS_SCROLL_TO_BOTTOM = "prefs_main_scroll_to_bottom";
 
+    private static final int WELCOME_REQUEST_CODE = 2;
+    private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
+
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
@@ -88,6 +97,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private SwitchCompat mainSwitch;
     private SwitchCompat notificationToolbarSwitch;
+    private SwitchCompat defaultDialer;
+
     private TextView mainSwitchTxt;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
@@ -123,7 +134,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     };
 
     private boolean logOpenEvent;
-    private boolean pendingShowRateAlert = true;
+    private boolean pendingShowRateAlert = false;
+    private boolean showAllFeatureGuide = false;
+    private boolean isCreate = false;
 
     @DebugLog
     @Override
@@ -132,12 +145,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         ContactManager.getInstance().update();
         // TODO pro show condition ( SESSION_START, or Activity onStart() )
-        if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+       if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                 && !GuideAllFeaturesActivity.isStarted()
                 && !ModuleUtils.isAllModuleEnabled()) {
             GuideAllFeaturesActivity.start(this);
             HSAlertMgr.delayRateAlert();
             pendingShowRateAlert = true;
+            showAllFeatureGuide = true;
         } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
             Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -154,11 +168,22 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         setContentView(R.layout.activity_main);
         initMainFrame();
+        AdManager.getInstance().preload();
+        isCreate = true;
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        if (defaultDialer != null) {
+            defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
+        }
+        if (hasFocus) {
+            if (!PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                mAdapter.setHeaderTipVisible(false);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
         HSLog.d("XXX", " focus change:" + hasFocus);
     }
 
@@ -184,6 +209,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onDrawerOpened(View drawerView) {
                 LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Shown");
+                LauncherAnalytics.logEvent("Colorphone_Sidebar_Shown");
             }
         };
         DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
@@ -198,6 +224,26 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mainSwitch = leftDrawer.findViewById(R.id.main_switch);
         mainSwitchTxt = leftDrawer.findViewById(R.id.settings_main_switch_txt);
 
+
+        boolean dialerEnable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && AP.dialerEnable();
+        leftDrawer.findViewById(R.id.settings_default_dialer_switch)
+                .setVisibility(dialerEnable ? View.VISIBLE : View.GONE);
+
+        defaultDialer = leftDrawer.findViewById(R.id.default_dialer_switch);
+        defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
+        defaultDialer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (isChecked) {
+                        DefaultPhoneUtils.checkDefaultPhoneSettings();
+                    } else {
+                        DefaultPhoneUtils.resetDefaultPhone();
+                    }
+                }
+            }
+        });
         initCheckState = ScreenFlashSettings.isScreenFlashModuleEnabled();
         mainSwitch.setChecked(initCheckState);
         mainSwitchTxt.setText(getString(initCheckState ? R.string.color_phone_enabled : R.string.color_phone_disable));
@@ -231,6 +277,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
 
         leftDrawer.findViewById(R.id.settings_main_switch).setOnClickListener(this);
+        leftDrawer.findViewById(R.id.settings_default_dialer_switch).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_led_flash).setOnClickListener(this);
 //        leftDrawer.findViewById(R.id.settings_notification_toolbar).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_feedback).setOnClickListener(this);
@@ -298,6 +345,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
         AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
+        if (!showAllFeatureGuide && isCreate) {
+            dispatchPermissionRequest();
+        }
+        if (!showAllFeatureGuide) {
+            isCreate = false;
+        }
+        showAllFeatureGuide = false;
+
     }
 
     @Override
@@ -316,7 +371,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //            pendingShowRateAlert = false;
 //        }
         mHandler.postDelayed(mainViewRunnable, 1000);
-
     }
 
     @Override
@@ -345,6 +399,107 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         saveThemeLikes();
         // TODO: has better solution for OOM?
         Glide.get(this).clearMemory();
+    }
+
+    private void dispatchPermissionRequest() {
+        boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
+                && ScreenFlashSettings.isScreenFlashModuleEnabled();
+        if (!isEnabled) {
+            return;
+        }
+
+        Runnable runnable;
+
+        if (Build.VERSION.SDK_INT < 16) {
+            // Not support lottie.
+            runnable = () -> requiresPermission();
+        } else {
+            runnable = () -> PermissionChecker.getInstance().check(this, "AppOpen");
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                && RuntimePermissions.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS)
+                        == RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
+            RuntimePermissions.requestPermissions(this,
+                    new String[]{Manifest.permission.ANSWER_PHONE_CALLS}, FIRST_LAUNCH_PERMISSION_REQUEST);
+        }
+
+        Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(
+                runnable,
+                "permission_launch", HSConfig.optInteger(2,"GrantAccess", "MaxCount"));
+    }
+
+    /**
+     * Only request first launch. (if Enabled and not has permission)
+     */
+    private void requiresPermission() {
+        boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
+                && ScreenFlashSettings.isScreenFlashModuleEnabled();
+        HSLog.i("Permissions ScreenFlash state change : " + isEnabled);
+        if (!isEnabled) {
+            return;
+        }
+
+        String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
+        boolean phonePerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                == RuntimePermissions.PERMISSION_GRANTED;
+        boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                == RuntimePermissions.PERMISSION_GRANTED;
+        if (!phonePerm) {
+            LauncherAnalytics.logEvent("Flashlight_Permission_Phone_View_Showed");
+        }
+        if (!contactPerm) {
+            LauncherAnalytics.logEvent("Flashlight_Permission_Contact_View_Showed");
+        }
+        if (!phonePerm || !contactPerm){
+            // Do not have permissions, request them now
+            RuntimePermissions.requestPermissions(this, perms, FIRST_LAUNCH_PERMISSION_REQUEST);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        RuntimePermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+
+        List<String> granted = new ArrayList();
+        List<String> denied = new ArrayList();
+
+        for(int i = 0; i < permissions.length; ++i) {
+            String perm = permissions[i];
+            if (grantResults[i] == 0) {
+                granted.add(perm);
+            } else {
+                denied.add(perm);
+            }
+        }
+
+        onPermissionsGranted(requestCode, granted);
+        onPermissionsDenied(requestCode, denied);
+    }
+
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
+            if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
+                LauncherAnalytics.logEvent("Flashlight_Permission_Phone_Allow_Success");
+            }
+            if (list.contains(Manifest.permission.READ_CONTACTS)) {
+                LauncherAnalytics.logEvent("Flashlight_Permission_Contact_Allow_Success");
+            }
+        }
+    }
+
+    public void onPermissionsDenied(int requestCode, List<String> list) {
+        // Some permissions have been denied
+        // ...
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case WELCOME_REQUEST_CODE:
+                break;
+        }
     }
 
     private void saveThemeLikes() {
@@ -376,6 +531,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (mRewardVideoView != null) {
             mRewardVideoView.onCancel();
         }
+
+        ((ColorPhoneApplication) ColorPhoneApplication.getContext().getApplicationContext()).logOnceFirstSessionEndStatus();
+
         super.onDestroy();
     }
 
@@ -491,10 +649,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void updatePermissionHeader() {
-        boolean notificationNotGranted = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-                && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this);
-        boolean overlayNotGranted = !FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
-        if (notificationNotGranted || overlayNotGranted) {
+//        boolean notificationNotGranted = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+//                && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this);
+//        boolean overlayNotGranted = !FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
+//        if (!DefaultPhoneUtils.isDefaultPhone()
+//                && (notificationNotGranted || overlayNotGranted)) {
+        if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
             mAdapter.setHeaderTipVisible(true);
         } else {
             mAdapter.setHeaderTipVisible(false);
@@ -505,7 +665,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.settings_main_switch:
-                toggle();
+                mainSwitch.toggle();
+                break;
+            case  R.id.settings_default_dialer_switch:
+                defaultDialer.toggle();
                 break;
             case R.id.settings_led_flash:
                 LedFlashSettingsActivity.start(this);
@@ -536,11 +699,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void feedBack() {
         Utils.sentEmail(this, new String[]{Constants.FEED_BACK_EMAIL}, null, null);
-    }
-
-    private void toggle() {
-        boolean isChecked = mainSwitch.isChecked();
-        mainSwitch.setChecked(!isChecked);
     }
 
     private void requestRewardAd(final String themeName) {
@@ -594,6 +752,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());
             ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
             ColorPhoneApplication.checkChargingReportAdPlacement();
+//            if (!pendingShowRateAlert) {
+//                HSLog.i("Permissions", "show Permission dialog");
+//                dispatchPermissionRequest();
+//            }
         } else if (PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED.equals(s)
                 || PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED.equals(s)) {
             boolean visible = mAdapter.isTipHeaderVisible();

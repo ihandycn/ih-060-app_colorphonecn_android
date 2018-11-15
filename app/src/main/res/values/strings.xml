@@ -146,7 +146,7 @@
     <string name="draw_overlay_window_hint">Enable Drawing Over Other Apps to Show Screen Flash</string>
     <string name="draw_overlay_bar_hint">Enable Access to Use Color Phone</string>
     <string name="acb_phone_enable_notification">Enable it Now</string>
-
+    <string name="grant_access_to_optimize_experience">Enable Access to Answer Calls</string>
 
     <!--reward_video-->
 
@@ -248,4 +248,9 @@
     <string name="promotion_max_card_title_cpu_cooler">CPU Cooler</string>
 
     <string name="notification_toolbar_flash_light">Flashlight</string>
+    <!--TODO-->
+    <string name="default_dialer">Default Dialer</string>
+    <string name="notification_permission_toolbar_title">Notification</string>
+    <string name="phone_contact_permission_settings_guide_title">Select "Permissions" and activate "Phone", "Contacts"</string>
+
 </resources>

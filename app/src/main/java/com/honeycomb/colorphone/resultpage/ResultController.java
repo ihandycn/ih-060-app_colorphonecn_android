@@ -231,7 +231,7 @@ abstract class ResultController implements View.OnClickListener {
     }
 
     protected int getButtonBgColor() {
-        return Color.parseColor("#2953f1");
+        return Color.parseColor("#1fb70b");
     }
 
     protected void setTitleColor(int color) {

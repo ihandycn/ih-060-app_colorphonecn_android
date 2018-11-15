@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">Falha na concessão de acesso</string>
+<string name="normal_permission_guide_dialog_content">Selecione “Permissões” e ative “Telefone”, “SMS” e “Contatos”</string>
+  <string name="draw_overlay_window_hint">Ative o "Sobrepor a outros apps" para mostrar a animação de tela</string>
+  <string name="normal_permission_guide_permission">Permissões</string>
+  <string name="permission_request_call">Telefone</string>
+  <string name="permission_request_sms">SMS</string>
+  <string name="permission_request_contacts">Contatos</string>
+</resources>

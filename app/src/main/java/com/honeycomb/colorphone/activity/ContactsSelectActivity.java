@@ -5,8 +5,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
@@ -78,6 +81,8 @@ public class ContactsSelectActivity extends ContactsActivity {
                 "ThemeName", mTheme.getIdName(),
                 "SelectedContactsNumber", themeEntries.size() + "");
 
+        Ap.DetailAd.onThemeChooseForOne();
+
         if (!themeEntries.isEmpty()) {
             ContactManager.getInstance().markDataChanged();
         }
@@ -98,10 +103,16 @@ public class ContactsSelectActivity extends ContactsActivity {
                 }
                 Utils.showToast(getString(R.string.apply_success));
                 ContactsSelectActivity.this.finish();
+
+                if (ConfigSettings.showAdOnApplyTheme()) {
+                    Ap.DetailAd.logEvent("colorphone_seletcontactfortheme_ad_should_show");
+                    boolean show = AdManager.getInstance().showInterstitialAd();
+                    if (show) {
+                        Ap.DetailAd.logEvent("colorphone_seletcontactfortheme_ad_show");
+                    }
+                }
             }
         });
-
-
 
     }
 

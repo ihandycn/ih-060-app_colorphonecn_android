@@ -162,5 +162,9 @@
     <string name="cool_capital">KÜHL</string>
     <string name="settings_activity_notification_reminder">Benachrichtigungs-Toolbar</string>
 
-    <string name="notification_toolbar_flash_light">الكشاف</string>
+    <string name="notification_toolbar_flash_light">Taschenlampe</string>
+    <string name="notification_permission_toolbar_title">Benachrichtigung</string>
+    <string name="phone_contact_permission_settings_guide_title">„Berechtigungen“ wählen und „Phone“, „Contacts“ aktivieren</string>
+    <string name="grant_access_to_optimize_experience">Berechtigung zum Annehmen von Anrufen aktivieren</string>
+
 </resources>

@@ -165,4 +165,8 @@
     <string name="settings_activity_notification_reminder">通知欄開關</string>
 
     <string name="notification_toolbar_flash_light">手電筒</string>
+    <string name="notification_permission_toolbar_title">通知</string>
+    <string name="phone_contact_permission_settings_guide_title">選擇"權限"，然後開啟"電話"、"通訊錄"權限</string>
+    <string name="grant_access_to_optimize_experience">開啟權限來接聽電話</string>
+
 </resources>

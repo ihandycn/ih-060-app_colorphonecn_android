@@ -15,7 +15,6 @@ import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.fastscroller.FastScrollRecyclerView;
 import com.honeycomb.colorphone.view.GlideApp;
-import com.ihs.commons.utils.HSLog;
 
 import java.util.List;
 
@@ -99,24 +98,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                people.get(holder.getAdapterPosition()).setSelected(isChecked);
-                int lastTimeCount = selectedCount;
-                if (isChecked) {
-                    selectedCount++;
-                } else {
-                    selectedCount--;
+                int pos = holder.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                   onItemChecked(pos, isChecked);
                 }
-                /**
-                 *  last - current
-                 *  0 - 0
-                 *  0 - 1
-                 *  1 - 0
-                 */
-                boolean trigger = lastTimeCount + selectedCount <= 1;
-                if (trigger) {
-                    onTriggerSelectedCount(selectedCount);
-                }
-                HSLog.d(TAG, "");
             }
         });
         return holder;
@@ -125,6 +110,26 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     private void onTriggerSelectedCount(int selectedCount) {
         if (mCountTriggerListener != null) {
             mCountTriggerListener.onTrigger(selectedCount);
+        }
+    }
+
+    private void onItemChecked(int pos, boolean isChecked) {
+        people.get(pos).setSelected(isChecked);
+        int lastTimeCount = selectedCount;
+        if (isChecked) {
+            selectedCount++;
+        } else {
+            selectedCount--;
+        }
+        /**
+         *  last - current
+         *  0 - 0
+         *  0 - 1
+         *  1 - 0
+         */
+        boolean trigger = lastTimeCount + selectedCount <= 1;
+        if (trigger) {
+            onTriggerSelectedCount(selectedCount);
         }
     }
 

@@ -91,4 +91,7 @@
     <string name="settings_activity_notification_reminder">Meldingsbalk aan/uit</string>
 
     <string name="notification_toolbar_flash_light">Flashlight</string>
+    <string name="notification_permission_toolbar_title">Melding</string>
+    <string name="phone_contact_permission_settings_guide_title">Select "Permissions" and activate "Phone", "Contacts"</string>
+
 </resources>

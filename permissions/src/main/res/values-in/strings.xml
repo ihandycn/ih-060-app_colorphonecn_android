@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">Gagal memberikan akses</string>
+<string name="normal_permission_guide_dialog_content">Pilih "Izin" dan aktifkan "Telepon", "SMS", "Kontak"</string>
+  <string name="draw_overlay_window_hint">Aktifkan "Tampilkan di atas aplikasi lain" untuk Menampilkan Flash Layar</string>
+  <string name="normal_permission_guide_permission">Izin</string>
+  <string name="permission_request_call">Telepon</string>
+  <string name="permission_request_sms">SMS</string>
+  <string name="permission_request_contacts">Kontak</string>
+</resources>

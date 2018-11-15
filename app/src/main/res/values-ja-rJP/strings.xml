@@ -166,4 +166,8 @@
     <string name="settings_activity_notification_reminder">通知ツールバー切り替え</string>
 
     <string name="notification_toolbar_flash_light">懐中電灯</string>
+  <string name="notification_permission_toolbar_title">通知</string>
+  <string name="phone_contact_permission_settings_guide_title">"許可"を選択して"電話"、"連絡先"を有効にします</string>
+  <string name="grant_access_to_optimize_experience">アクセスを有効にして通話に応答する</string>
+
 </resources>

@@ -165,4 +165,8 @@
     <string name="settings_activity_notification_reminder">Переключатель панели уведомлений</string>
 
     <string name="notification_toolbar_flash_light">Фонарик</string>
+    <string name="notification_permission_toolbar_title">Уведомление</string>
+    <string name="phone_contact_permission_settings_guide_title">Выберите «Разрешения» и включите «Телефон», «Контакты»</string>
+    <string name="grant_access_to_optimize_experience">Разрешение отвечать на звонки</string>
+
 </resources>

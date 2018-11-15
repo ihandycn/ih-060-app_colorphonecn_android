@@ -25,6 +25,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
@@ -39,9 +40,7 @@ import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
-import com.honeycomb.colorphone.notification.permission.EventSource;
-import com.honeycomb.colorphone.notification.permission.PermissionHelper;
-import com.honeycomb.colorphone.permission.FloatWindowManager;
+import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
@@ -260,15 +259,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             });
 
 
-            holder.mThemeSelectLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = holder.getPositionTag();
-                    if (selectTheme(pos, holder)) {
-                        onThemeSelected(pos);
+            if (Ap.DetailAd.enableMainViewDownloadButton()) {
+                holder.mThemeSelectLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int pos = holder.getPositionTag();
+                        if (selectTheme(pos, holder)) {
+                            onThemeSelected(pos);
+                        }
                     }
-                }
-            });
+                });
+            }
 
             final int pos = holder.getPositionTag();
             final Theme theme = data.get(pos);
@@ -309,22 +310,12 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return new StatementViewHolder(stateViewContent);
         } else if (viewType == THEME_SELECTOR_ITEM_TYPE_TIP) {
             View tipView = activity.getLayoutInflater().inflate(R.layout.notification_access_toast_layout, parent, false);
-            TextView textView = tipView.findViewById(R.id.hint_title);
-            boolean floatPermission = FloatWindowManager.getInstance().checkPermission(activity);
-            if (!floatPermission) {
-                textView.setText(R.string.draw_overlay_bar_hint);
-            } else {
-                textView.setText(R.string.acb_phone_grant_notification_access_title);
-            }
             tipView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.List)) {
-                        PermissionHelper.waitOverlayGranted(EventSource.List, true);
-                    } else {
-                        PermissionHelper.requestNotificationAccessIfNeeded(EventSource.List, activity);
+                    if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                        PermissionChecker.getInstance().checkForcely(activity, "Banner");
                     }
-                    LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Clicked");
                 }
             });
             return new TopTipViewHolder(tipView);
@@ -334,6 +325,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void onThemeSelected(int pos) {
+        PermissionChecker.getInstance().check(activity, "SetForAll");
+
         final Theme theme = data.get(pos);
         saveThemeApplys(theme.getId());
         ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, theme.getId());
@@ -655,12 +648,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         private void setSelected(Theme theme, boolean animation) {
             if (mThemeSelectedAnim != null) {
                 if (theme.isSelected()) {
+                    mThemeSelectedAnim.setVisibility(View.VISIBLE);
                     if (animation) {
                         mThemeSelectedAnim.playAnimation();
                     } else if (!mThemeSelectedAnim.isAnimating()) {
                         setLottieProgress(mThemeSelectedAnim, 1f);
                     }
                 } else {
+                    mThemeSelectedAnim.setVisibility(Ap.DetailAd.enableMainViewDownloadButton() ?
+                     View.VISIBLE : View.INVISIBLE);
                     mThemeSelectedAnim.cancelAnimation();
                     setLottieProgress(mThemeSelectedAnim, 0f);
                 }
@@ -836,16 +832,21 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void switchToReadyState(boolean ready) {
-            mDownloadTaskProgressBar.setVisibility(ready ? View.GONE : View.VISIBLE);
+            boolean enableActionButton = Ap.DetailAd.enableMainViewDownloadButton();
+            boolean canDownload = !ready && enableActionButton;
+            mDownloadTaskProgressBar.setVisibility(canDownload ? View.VISIBLE :  View.GONE);
             mThemeSelectLayout.setVisibility(ready ? View.VISIBLE : View.GONE);
-            if (ready) {
+            if (!canDownload) {
                 mDownloadFinishedAnim.setVisibility(View.GONE);
                 mDownloadTaskProgressTxt.setVisibility(View.GONE);
             }
-            if (ready) {
-                mThemeSelectedAnim.setVisibility(View.VISIBLE);
-            } else {
-                mThemeSelectedAnim.setVisibility(View.GONE);
+            // Only update when enable action button.
+            if (enableActionButton) {
+                if (ready) {
+                    mThemeSelectedAnim.setVisibility(View.VISIBLE);
+                } else {
+                    mThemeSelectedAnim.setVisibility(View.GONE);
+                }
             }
         }
 

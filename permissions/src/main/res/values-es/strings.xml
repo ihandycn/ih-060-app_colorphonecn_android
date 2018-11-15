@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">No se ha podido conceder acceso</string>
+<string name="normal_permission_guide_dialog_content">Selecciona "Permisos" y activa "Teléfono", "SMS" y "Contactos"</string>
+  <string name="draw_overlay_window_hint">Habilita "Mostrar sobre otras aplicaciones" para mostrar el parpadeo de pantalla.</string>
+  <string name="normal_permission_guide_permission">Permisos</string>
+  <string name="permission_request_call">Teléfono</string>
+  <string name="permission_request_sms">SMS</string>
+  <string name="permission_request_contacts">Contactos</string>
+
+</resources>

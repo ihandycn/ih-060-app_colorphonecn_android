@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">Impossibile concedere l\'accesso</string>
+<string name="normal_permission_guide_dialog_content">Seleziona "Autorizzazioni" e attiva "Telefono", "SMS", "Contatti"</string>
+  <string name="draw_overlay_window_hint">Abilita "Mostra sopra altre app" per mostrare lo schermo Flash</string>
+  <string name="normal_permission_guide_permission">Autorizzazioni</string>
+  <string name="permission_request_call">Telefono</string>
+  <string name="permission_request_sms">SMS</string>
+  <string name="permission_request_contacts">Contatti</string>
+</resources>

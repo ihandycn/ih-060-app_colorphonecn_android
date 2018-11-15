@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <public type="layout" name="notification_toolbar" id="0x7f040183" />
+
+    <public type="id" name="boost_layout" id="0x7f12000d" />
+    <public type="id" name="iv_boost" id="0x7f12001e" />
+    <public type="id" name="clock_layout" id="0x7f120049" />
+    <public type="id" name="iv_clock" id="0x7f120046" />
+    <public type="id" name="flashlight_layout" id="0x7f120019" />
+    <public type="id" name="iv_flash_light" id="0x7f120021" />
+
+
+    <public type="id" name="cpu_cooler_layout" id="0x7f12000f" />
+    <public type="id" name="iv_cpu_cooler" id="0x7f12001f" />
+
+    <public type="id" name="battery_layout" id="0x7f120006" />
+    <public type="id" name="iv_battery" id="0x7f12001d" />
+    <public type="id" name="tv_battery_level" id="0x7f120044" />
+
+    <public type="mipmap" name="ic_launcher" id="0x7f03000b" />
+    <public type="drawable" name="material_compat_toolbar_bg" id="0x7f020389" />
+    <public type="drawable" name="notification_toolbar_flashlight_on" id="0x7f020433" />
+    <public type="drawable" name="notification_toolbar_flashlight_off" id="0x7f020432" />
+    <public type="drawable" name="notification_toolbar_small_icon" id="0x7f020434" />
+    <public type="drawable" name="cpu_cooler_notification_red_svg" id="0x7f0201af" />
+    <public type="drawable" name="cpu_cooler_notification_yellow_svg" id="0x7f0201b0" />
+    <public type="drawable" name="cpu_cooler_notification_green_svg" id="0x7f0201ae" />
+    <public type="drawable" name="battery_toolbar_first" id="0x7f020121" />
+    <public type="drawable" name="battery_toolbar_first_optimized" id="0x7f020122" />
+    <public type="drawable" name="battery_toolbar_second" id="0x7f020124" />
+    <public type="drawable" name="battery_toolbar_second_optimized" id="0x7f020125" />
+    <public type="drawable" name="battery_toolbar_third" id="0x7f020126" />
+    <public type="drawable" name="battery_toolbar_forth" id="0x7f020123" />
+    <public type="drawable" name="settings_toolbar" id="0x7f020127" />
+    <public type="drawable" name="empty" id="0x7f020205" />
+
+    <public type="color" name="cpu_cooler_notification_red" id="0x7f10009c" />
+    <public type="color" name="cpu_cooler_notification_yellow" id="0x7f10009d" />
+    <public type="color" name="cpu_cooler_notification_blue" id="0x7f10009b" />
+
+    <public type="string" name="boost_title" id="0x7f0a016f" />
+    <public type="string" name="app_name" id="0x7f0a02c3" />
+    <public type="string" name="notification_toolbar_clock" id="0x7f0a02c7" />
+    <public type="string" name="notification_toolbar_settings" id="0x7f0a02c6" />
+    <public type="string" name="cpu_cooler_notification_title" id="0x7f0a02c5" />
+
+    <public type="style" name="NotificationToolbarIconText" id="0x7f0d0136" />
+</resources>

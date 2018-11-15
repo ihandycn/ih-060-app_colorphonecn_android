@@ -12,12 +12,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +40,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private ThemePagerAdapter mAdapter;
     private List<ThemePreviewView> mViews = new ArrayList<>();
     private MediaPlayer mMediaPlayer;
+    private int scrollCount = 0;
+    private int lastPos = -1;
 
     public static void start(Context context, int position) {
         Intent starter = new Intent(context, ThemePreviewActivity.class);
@@ -71,6 +78,27 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(pos);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (lastPos != position) {
+                    scrollCount++;
+                    lastPos = position;
+                }
+                Ap.DetailAd.onPageScrollOnce();
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         mNavBack = findViewById(R.id.nav_back);
         mNavBack.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +113,22 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         if (mTheme.isLocked()) {
             LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
+        if (ConfigSettings.showAdOnDetailView()) {
+            AdManager.getInstance().preload();
+            Threads.postOnMainThreadDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Ap.DetailAd.logEvent("colorphone_themedetail_ad_should_show");
+                    boolean show = AdManager.getInstance().showInterstitialAd();
+                    if (show) {
+                        Ap.DetailAd.logEvent("colorphone_themedetail_ad_show");
+                    }
+                }
+            }, 200);
+        }
     }
+
+
 
     public MediaPlayer getMediaPlayer() {
         return mMediaPlayer;
@@ -103,6 +146,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             previewView.setBlockAnimationForPageChange(false);
             previewView.onStart();
         }
+
+
     }
 
     @Override
@@ -122,6 +167,15 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
         }
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mViewPager instanceof ViewPagerFixed
+                && ((ViewPagerFixed) mViewPager).isCanScroll()) {
+            Ap.DetailAd.onPageScroll(scrollCount);
+        }
     }
 
     private class ThemePagerAdapter extends PagerAdapter {

@@ -83,6 +83,38 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/settings_default_dialer_switch"
+                style="@style/LayoutSettings"
+                >
+
+                <ImageView
+                    android:id="@+id/settings_default_dialer_switch_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    app:srcCompat="@drawable/ic_default_dialer" />
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    android:id="@+id/settings_default_dialer_switch_txt"
+                    style="@style/NormalText.Drawer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                    android:layout_toEndOf="@id/settings_default_dialer_switch_icon"
+                    android:layout_toRightOf="@id/settings_default_dialer_switch_icon"
+                    android:text="@string/default_dialer" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/default_dialer_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/settings_led_flash"

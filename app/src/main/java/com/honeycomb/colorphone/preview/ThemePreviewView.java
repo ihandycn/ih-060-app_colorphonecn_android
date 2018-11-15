@@ -46,12 +46,15 @@ import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
+import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
+import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -401,6 +404,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (inTransition) {
                     return;
                 }
+                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
+                }
                 onThemeApply();
             }
         });
@@ -408,6 +414,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mApplyForOne.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                    PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
+                }
+
                 ContactsActivity.startSelect(mActivity, mTheme);
                 LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
             }
@@ -543,6 +553,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     "RingtoneState", mRingtoneViewHolder.isSelect() ? "On" : "Off");
         }
         NotificationUtils.logThemeAppliedFlurry(mTheme);
+
+        if (ConfigSettings.showAdOnApplyTheme()) {
+            Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_should_show");
+            boolean show = AdManager.getInstance().showInterstitialAd();
+            if (show) {
+                Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_show");
+            }
+        }
 
     }
 
@@ -697,6 +715,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     completeRunnable.run();
                 }
                 for (View v : animViews) {
+                    v.setAlpha(1.0f);
+                    v.setTranslationY(0f);
                     v.setLayerType(View.LAYER_TYPE_NONE, null);
                 }
             }
@@ -914,9 +934,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         getTransBottomLayout().animate().cancel();
         mHandler.removeCallbacksAndMessages(null);
         if (transAnimator != null && transAnimator.isStarted()) {
+            transAnimator.end();
+
             transAnimator.removeAllUpdateListeners();
             transAnimator.removeAllListeners();
-            transAnimator.end();
         }
 
         for (int i = 0; i < mDownloadTasks.size(); i++) {

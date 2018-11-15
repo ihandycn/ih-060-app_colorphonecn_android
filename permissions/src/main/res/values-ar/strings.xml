@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">فشل منح الدخول</string>
+<string name="acb_phone_grant_notification_access_title">مكّن الوصول إلى الإخطارات للرد على المكالمات</string>
+  <string name="draw_overlay_window_hint">قم بتمكين "إظهار فوق التطبيقات الأخرى" لعرض فلاش الشاشة</string>
+  <!-- TODO: string name="draw_overlay_window_hint" -->
+<string name="normal_permission_guide_dialog_content">حدد الأذونات واسمح بـ "الهاتف"و "SMS"و "جهات الاتصال"</string>
+  <string name="normal_permission_guide_permission">الأذونات</string>
+  <string name="permission_request_call">الهاتف</string>
+  <string name="permission_request_sms">SMS</string>
+  <string name="permission_request_contacts">جهات الاتصال</string>
+</resources>

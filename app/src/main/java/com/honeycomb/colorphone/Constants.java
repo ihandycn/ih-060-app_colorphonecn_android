@@ -11,4 +11,5 @@ public class Constants {
 
     public static final String PREFS_LED_FLASH_ENABLE = "led_flash_enable";
     public static final String PREFS_LED_SMS_ENABLE = "led_flash_sms_enable";
+    public static final String PREFS_CHECK_DEFAULT_PHONE = "PREFS_CHECK_DEFAULT_PHONE";
 }

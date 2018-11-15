@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">권한 부여 실패</string>
+<string name="normal_permission_guide_dialog_content">"권한"을 선택하고 "전화", "SMS", "주소록"를 활성화</string>
+  <string name="draw_overlay_window_hint">"다른 앱 위에 표시"을(를) 활성화하여 화면 플래시 보기</string>
+  <string name="normal_permission_guide_permission">권한</string>
+  <string name="permission_request_call">전화</string>
+  <string name="permission_request_sms">SMS</string>
+  <string name="permission_request_contacts">주소록</string>
+</resources>

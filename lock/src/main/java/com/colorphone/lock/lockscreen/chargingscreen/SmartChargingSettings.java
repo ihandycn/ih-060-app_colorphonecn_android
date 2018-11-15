@@ -46,6 +46,7 @@ public class SmartChargingSettings {
                 && ConfigUtils.isScreenAdEnabledThisVersion();
     }
 
+
     /**
      * charging report
      */

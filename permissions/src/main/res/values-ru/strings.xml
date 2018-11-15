@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+  <string name="permission_request_failed_message">Не удалось предоставить доступ</string>
+<string name="normal_permission_guide_dialog_content">Выберите «Разрешения» и включите «Телефон», «SMS», «Контакты»</string>
+  <string name="draw_overlay_window_hint">Включите "Поверх других приложений" для активации мигающего экрана</string>
+  <string name="normal_permission_guide_permission">Разрешения</string>
+  <string name="permission_request_call">Телефон</string>
+  <string name="permission_request_sms">SMS</string>
+  <string name="permission_request_contacts">Контакты</string>
+</resources>

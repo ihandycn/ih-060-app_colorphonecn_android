@@ -43,6 +43,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
+  "json_id": "b6731f02-4a38-44e7-96b7-008e4f55ed06",
   "topics": {
     "topic-1510752104742": {
       "topic_type": "one_time",
@@ -70,25 +71,105 @@
       ],
       "topic_id": "topic-1510752104742"
     },
+    "topic-1531210959452-409": {
+      "topic_type": "life_time",
+      "topic_name": "Message Assistant Suspension Ball Test",
+      "variations": {
+        "message_floatingball_enable": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "message_floatingball_view_show"
+        },
+        {
+          "name": "message_floatingball_view_click"
+        },
+        {
+          "name": "message_floatingball_cancel"
+        },
+        {
+          "name": "message_floatingball_ad_show"
+        }
+      ],
+      "topic_id": "topic-1531210959452-409"
+    },
+    "topic-1535427355191-617": {
+      "topic_type": "life_time",
+      "topic_name": "NotificationToolbar Test",
+      "variations": {
+        "notificationtoolbar_enable": {
+          "type": "boolean",
+          "value": true
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "colorphone_notification_toolbar_boost_clicked"
+        },
+        {
+          "name": "colorphone_notification_toolbar_settings_clicked"
+        },
+        {
+          "name": "colorphone_notification_toolbar_flashlight_clicked"
+        },
+        {
+          "name": "colorphone_notification_toolbar_battery_clicked"
+        },
+        {
+          "name": "colorphone_notification_toolbar_cpu_clicked"
+        },
+        {
+          "name": "colorphone_boostwire_ad_shown_fromtoolbar"
+        },
+        {
+          "name": "colorphone_boostdone_ad_shown_fromtoolbar"
+        },
+        {
+          "name": "colorphone_cpuwire_ad_shown"
+        },
+        {
+          "name": "colorphone_cpudone_ad_shown"
+        },
+        {
+          "name": "colorphone_batterywire_ad_shown"
+        },
+        {
+          "name": "colorphone_batterydone_ad_shown"
+        },
+        {
+          "name": "colorphone_notification_toolbar_clicked"
+        }
+      ],
+      "topic_id": "topic-1535427355191-617"
+    },
     "topic-1528196849816-295": {
       "topic_type": "life_time",
       "topic_name": "Charing Card Test",
       "variations": {
         "gif_card_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "charging_enable": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "game_card_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         },
         "fm_game_card_enable": {
           "type": "boolean",
-          "value": true
+          "value": false
         }
       },
       "events": [
@@ -150,7 +231,15 @@
           "type": "string",
           "value": ""
         },
+        "start_time": {
+          "type": "string",
+          "value": ""
+        },
         "button2_text": {
+          "type": "string",
+          "value": ""
+        },
+        "end_time": {
           "type": "string",
           "value": ""
         },
@@ -312,6 +401,87 @@
         }
       ],
       "topic_id": "topic-1512815797473-16"
+    },
+    "topic-1536215679114-660": {
+      "topic_type": "life_time",
+      "topic_name": "Dialer Test",
+      "variations": {
+        "set default guide show": {
+          "type": "boolean",
+          "value": false
+        },
+        "call_finish_wire_show": {
+          "type": "boolean",
+          "value": false
+        },
+        "dialer enable": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "set_default_guide_show"
+        },
+        {
+          "name": "set_default_guide_set_clicked"
+        },
+        {
+          "name": "set_default_success"
+        },
+        {
+          "name": "dailer_page_show"
+        },
+        {
+          "name": "colorphone_call_finished"
+        },
+        {
+          "name": "colorphone_call_finished_call_assistant_show"
+        },
+        {
+          "name": "colorphone_call_finished_wire_should_show"
+        },
+        {
+          "name": "colorphone_call_finished_wire_show"
+        }
+      ],
+      "topic_id": "topic-1536215679114-660"
+    },
+    "topic-1536046257588-648": {
+      "topic_type": "life_time",
+      "topic_name": "Color Phone About List Style Test",
+      "variations": {
+        "information_display": {
+          "type": "boolean",
+          "value": true
+        },
+        "apply_button": {
+          "type": "boolean",
+          "value": true
+        },
+        "special_entrance": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "apply_button_clicked"
+        },
+        {
+          "name": "thumbnail_clicked"
+        },
+        {
+          "name": "call flash_set"
+        }
+      ],
+      "topic_id": "topic-1536046257588-648"
     },
     "topic-1516620266175-105": {
       "topic_type": "one_time",
@@ -569,11 +739,11 @@
       ],
       "topic_id": "topic-1516083421924-90"
     },
-    "topic-1531210959452-409": {
+    "topic-1535439684386-619": {
       "topic_type": "life_time",
-      "topic_name": "Message Assistant Suspension Ball Test",
+      "topic_name": "Call Finish Wire Test",
       "variations": {
-        "message_floatingball_enable": {
+        "call_finish_wire_show": {
           "type": "boolean",
           "value": false
         }
@@ -583,19 +753,125 @@
           "name": "test"
         },
         {
-          "name": "message_floatingball_view_show"
+          "name": "colorphone_call_finished_wire_should_show"
         },
         {
-          "name": "message_floatingball_view_click"
+          "name": "colorphone_call_finished_wire_show"
         },
         {
-          "name": "message_floatingball_cancel"
+          "name": "colorphone_call_finished"
         },
         {
-          "name": "message_floatingball_ad_show"
+          "name": "colorphone_call_finished_call_assistant_show"
         }
       ],
-      "topic_id": "topic-1531210959452-409"
+      "topic_id": "topic-1535439684386-619"
+    },
+    "topic-1539675249991-758": {
+      "topic_type": "life_time",
+      "topic_name": "Earn Cash",
+      "variations": {
+        "mainview_float_button_show": {
+          "type": "boolean",
+          "value": true
+        },
+        "earncash_alert_show_maxtime_when_back_to_mainview_from_detail": {
+          "type": "double",
+          "value": 1
+        },
+        "earncash_alert_show_when_unlockscreen": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_alert_show_maxtime_when_unlockscreen": {
+          "type": "double",
+          "value": 1
+        },
+        "earncash_icon_show_on_toolbar": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_alert_show_on_callassistant": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_alert_show_when_back_to_mainview_from_detail": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_master_switch": {
+          "type": "boolean",
+          "value": true
+        },
+        "earncash_alert_show_when_callassistant_close": {
+          "type": "boolean",
+          "value": false
+        },
+        "earncash_alert_show_maxtime_when_callassistant_close": {
+          "type": "double",
+          "value": 1
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "colorphone_mainview_float_button_show"
+        },
+        {
+          "name": "colorphone_mainview_float_button_click"
+        },
+        {
+          "name": "colorphone_earncash_shortcut_alert_show"
+        },
+        {
+          "name": "colorphone_earncash_shortcut_alert_ok_click"
+        },
+        {
+          "name": "colorphone_earncash_alert_show_when_callassistant_close"
+        },
+        {
+          "name": "colorphone_earncash_alert_click_when_callassistant_close"
+        },
+        {
+          "name": "colorphone_earncash_alert_show_when_unlockscreen"
+        },
+        {
+          "name": "colorphone_earncash_alert_click_when_unlockscreen"
+        },
+        {
+          "name": "colorphone_earncash_ad_should_show"
+        },
+        {
+          "name": "colorphone_earncash_ad_show"
+        },
+        {
+          "name": "colorphone_earncash_desktop_icon_click"
+        },
+        {
+          "name": "colorphone_earncash_alert_show_when_back_to_mainview_from_detail"
+        },
+        {
+          "name": "colorphone_earncash_alert_click_when_back_to_mainview_from_detail"
+        },
+        {
+          "name": "colorphone_earncash_alert_show_on_callassistant"
+        },
+        {
+          "name": "colorphone_earncash_alert_click_on_callassistant"
+        },
+        {
+          "name": "colorphone_earncash_icon_show_on_toolbar"
+        },
+        {
+          "name": "colorphone_earncash_icon_click_on_toolbar"
+        },
+        {
+          "name": "colorphone_earncash_spin"
+        }
+      ],
+      "topic_id": "topic-1539675249991-758"
     },
     "topic-1512822231846-17": {
       "topic_type": "life_time",
@@ -697,6 +973,64 @@
         }
       ],
       "topic_id": "topic-1510751463187"
+    },
+    "topic-6wzryt9bs": {
+      "topic_type": "life_time",
+      "topic_name": "DetailView and Apply WIre Test",
+      "variations": {
+        "applywire": {
+          "type": "boolean",
+          "value": false
+        },
+        "detailviewwire": {
+          "type": "boolean",
+          "value": false
+        },
+        "mainviewapplyicon": {
+          "type": "boolean",
+          "value": false
+        },
+        "detailslide": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "colorphone_themedetail_view"
+        },
+        {
+          "name": "colorphone_themedetail_ad_should_show"
+        },
+        {
+          "name": "colorphone_themedetail_ad_show"
+        },
+        {
+          "name": "colorphone_themedetail_choosetheme"
+        },
+        {
+          "name": "colorphone_themedetail_choosetheme_ad_should_show"
+        },
+        {
+          "name": "colorphone_themedetail_choosetheme_ad_show"
+        },
+        {
+          "name": "colorphone_themedetail_slide"
+        },
+        {
+          "name": "colorphone_seletcontactfortheme_success"
+        },
+        {
+          "name": "colorphone_seletcontactfortheme_ad_should_show"
+        },
+        {
+          "name": "colorphone_seletcontactfortheme_ad_show"
+        }
+      ],
+      "topic_id": "topic-6wzryt9bs"
     }
   },
   "autopilot_name": "Color Phone",
