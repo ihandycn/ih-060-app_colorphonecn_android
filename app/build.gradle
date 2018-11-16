@@ -27,8 +27,8 @@ android {
         colorphone {
             dimension "mode"
             applicationId "com.colorphone.smooth.dialer"
-            versionCode 36
-            versionName "1.2.4"
+            versionCode 37
+            versionName "1.2.5.develop"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
                     'src/colorphone/proguard-rules.pro'
 
@@ -36,8 +36,8 @@ android {
         colorflash {
             dimension "mode"
             applicationId "com.app.phone.call.flash.screen"
-            versionCode 35
-            versionName "1.1.1"
+            versionCode 36
+            versionName "1.1.2"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
                     'src/colorflash/proguard-rules.pro'
 
