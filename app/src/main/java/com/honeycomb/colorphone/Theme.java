@@ -43,6 +43,10 @@ public class Theme extends Type {
     private boolean isLocked;
     private boolean isSpecialTopic;
     private boolean canDownload;
+    // User selected but file not ready
+    // (e.g Theme file is downloading or download fail)
+    private boolean pendingSelected;
+
     private String ringtoneUrl;
     private String ringtonePath;
 
@@ -281,5 +285,13 @@ public class Theme extends Type {
 
     public void setSpecialTopic(boolean specialTopic) {
         isSpecialTopic = specialTopic;
+    }
+
+    public void setPendingSelected(boolean pendingSelected) {
+        this.pendingSelected = pendingSelected;
+    }
+
+    public boolean isPendingSelected() {
+        return pendingSelected;
     }
 }

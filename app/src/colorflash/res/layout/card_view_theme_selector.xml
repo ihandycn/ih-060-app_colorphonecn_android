@@ -75,7 +75,7 @@
         tools:text="6622335" />
 
     <android.support.percent.PercentRelativeLayout
-        android:id="@+id/download_view_container"
+        android:id="@+id/action_view_container"
         android:layout_width="63dp"
         android:layout_height="35dp"
         android:layout_alignParentBottom="true"

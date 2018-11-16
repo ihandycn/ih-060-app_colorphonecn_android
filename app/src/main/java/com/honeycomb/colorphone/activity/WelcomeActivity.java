@@ -53,6 +53,7 @@ public class WelcomeActivity extends Activity {
 
     private void toMainView() {
         mVidView.destroy();
+        finish();
         startActivity(new Intent(WelcomeActivity.this, ColorPhoneActivity.class));
     }
 

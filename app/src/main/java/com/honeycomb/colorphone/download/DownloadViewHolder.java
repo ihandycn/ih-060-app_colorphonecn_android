@@ -2,24 +2,19 @@ package com.honeycomb.colorphone.download;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.acb.call.activity.RequestPermissionsActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
-import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
-import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 
 public class DownloadViewHolder implements DownloadHolder {
@@ -33,10 +28,6 @@ public class DownloadViewHolder implements DownloadHolder {
 
     private TextView applyText;
 
-    /**
-     * Control progress, start or pause download task.
-     */
-    protected View taskActionBtn;
 
     private DownloadHolder mProxy;
 
@@ -48,31 +39,9 @@ public class DownloadViewHolder implements DownloadHolder {
     private boolean enablePause = false;
     private ThemeSelectorAdapter.ThemeCardViewHolder.DownloadedUpdateListener listener;
 
-    public DownloadViewHolder(View taskActionBtn, LottieAnimationView progressView, LottieAnimationView successAnim) {
+    public DownloadViewHolder(LottieAnimationView progressView, LottieAnimationView successAnim) {
         this.taskProgressBar = progressView;
         this.taskSuccessAnim = successAnim;
-        this.taskActionBtn = taskActionBtn;
-        this.taskActionBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (canPaused()) {
-                    // to pause
-                    FileDownloader.getImpl().pause(id);
-                } else if (canStartDownload()) {
-                    if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                        if (taskActionBtn.getContext() instanceof Activity) {
-                            PermissionChecker.getInstance().check((Activity) taskActionBtn.getContext(), "List");
-                        }
-                    }
-                    startDownload();
-                }
-                ApplyInfoAutoPilotUtils.logApplyButtonClicked();
-
-                if (listener != null) {
-                    listener.onApplyClick();
-                }
-            }
-        });
     }
 
     public void bindTaskId(int id) {
@@ -95,7 +64,7 @@ public class DownloadViewHolder implements DownloadHolder {
         this.listener = listener;
     }
 
-    public void startDownload() {
+    public void startDownload(boolean needPrologue) {
         final TasksManagerModel model = TasksManager.getImpl().getById(id);
         final TasksManagerModel ringtoneModel = TasksManager.getImpl().getById(ringtoneId);
 
@@ -114,7 +83,15 @@ public class DownloadViewHolder implements DownloadHolder {
         }
 
         final boolean fileReady = model != null && TasksManager.getImpl().isDownloaded(model);
-        boolean needPrologue = taskActionBtn.getVisibility() == View.VISIBLE;
+
+        // Try extra fix (In case)
+        // If
+        boolean oldStatus = canStart;
+        canStart = !fileReady;
+        if (oldStatus != canStart) {
+            HSLog.e("DownloadViewHolder", "flag canStart fixed!!");
+        }
+
         if (needPrologue) {
             if (taskStartAnim != null) {
                 taskStartAnim.setVisibility(View.VISIBLE);
@@ -130,14 +107,6 @@ public class DownloadViewHolder implements DownloadHolder {
                         taskProgressBar.setVisibility(fileReady ? View.GONE : View.VISIBLE);
                         v.setVisibility(View.VISIBLE);
                         doDownload(model);
-                        new Handler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (listener != null) {
-                                    listener.onStartDownload();
-                                }
-                            }
-                        });
 
                         taskStartAnim.removeAnimatorListener(this);
                     }
@@ -147,7 +116,8 @@ public class DownloadViewHolder implements DownloadHolder {
             } else {
                 // animation handle by task progress bar.
                 taskProgressBar.setProgress(0f);
-                taskActionBtn.postDelayed(new Runnable() {
+                // TODO remove runnable
+                taskProgressBar.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         doDownload(model);
@@ -162,11 +132,21 @@ public class DownloadViewHolder implements DownloadHolder {
     }
 
     private void doDownload(TasksManagerModel model) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                if (listener != null) {
+                    listener.onStartDownload();
+                }
+            }
+        });
         TasksManager.doDownload(model, mProxy != null ? mProxy : this);
     }
 
     @Override
     public void updateDownloaded(boolean progressFlag) {
+        canStart = false;
+
         taskProgressBar.setProgress(1.0f);
         taskProgressBar.setVisibility(View.GONE);
         if (progressFlag) {
@@ -180,6 +160,9 @@ public class DownloadViewHolder implements DownloadHolder {
 
     @Override
     public void updateNotDownloaded(final int status, final long sofar, final long total) {
+        canPaused = false;
+        canStart = true;
+
         if (sofar > 0 && total > 0) {
             updateProgressView(sofar, total);
         } else {
@@ -189,9 +172,6 @@ public class DownloadViewHolder implements DownloadHolder {
         if (status == FileDownloadStatus.error && BuildConfig.DEBUG) {
             Toast.makeText(HSApplication.getContext(), R.string.network_err, Toast.LENGTH_SHORT).show();
         }
-
-        canPaused = false;
-        canStart = true;
 
         if (TasksManager.DEBUG_PROGRESS) {
             HSLog.d("sundxing", getId() + " download stopped, status = " + status);
@@ -234,6 +214,11 @@ public class DownloadViewHolder implements DownloadHolder {
 
     public void setApplyText(TextView applyText) {
         this.applyText = applyText;
+    }
+
+
+    public void onViewUnBind() {
+
     }
 
 }
