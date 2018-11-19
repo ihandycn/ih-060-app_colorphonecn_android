@@ -6,4 +6,6 @@
   <string name="permission_request_call">Telefon</string>
   <string name="permission_request_sms">SMS</string>
   <string name="permission_request_contacts">Kontakte</string>
+  <string name="acb_phone_grant_notification_access_title">Benachrichtigungsberechtigung zum Annehmen von Anrufen aktivieren</string>
+  <string name="phone_contact_permission_settings_guide_title">„Berechtigungen“ wählen und „Phone“, „Contacts“ aktivieren</string>
 </resources>

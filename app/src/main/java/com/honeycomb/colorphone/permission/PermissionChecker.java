@@ -8,10 +8,10 @@ import android.support.annotation.Nullable;
 import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
-import com.acb.call.utils.PermissionHelper;
+import com.acb.colorphone.permissions.Module;
+import com.acb.colorphone.permissions.NormalChecker;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.contact.ContactManager;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
@@ -20,13 +20,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.acb.colorphone.permissions.NormalChecker.PERM_NOTIFICATION;
+
 public class PermissionChecker {
 
-    private static final PermissionChecker INSTANCE = new PermissionChecker();
+    private static PermissionChecker INSTANCE;
 
-    public static PermissionChecker getInstance() {
-        return INSTANCE;
-    }
 
     /**
      * Special
@@ -36,9 +35,6 @@ public class PermissionChecker {
     public static final String MessageAssistant = "MessageAssistant";
     public static final String CallReminder = "CallReminder";
     public static final String SmsReminder = "SmsReminder";
-
-    public static final String PERM_NOTIFICATION = "perms_notification";
-    public static final String PERM_OVERLAY = "perms_overlay";
 
     static List<Module> sModules = new ArrayList<>();
 
@@ -66,6 +62,18 @@ public class PermissionChecker {
         ContactManager.getInstance().update();
     }
 
+    public static PermissionChecker getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new PermissionChecker();
+        }
+        return INSTANCE;
+    }
+
+    private NormalChecker mNormalChecker;
+    private PermissionChecker() {
+        mNormalChecker = new NormalChecker(sModules);
+    }
+
     public void checkForcely(Activity activity, String source) {
         if (Build.VERSION.SDK_INT >= 16 && hasNoGrantedPermissions(ScreenFlash)) {
             final ArrayList<String> permissions = new ArrayList<>(Arrays.asList(sDefaultRequestPermissions));
@@ -88,16 +96,6 @@ public class PermissionChecker {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
-    public abstract static class Module {
-        String name;
-        String[] needPermissions;
-        public Module(String name, String[] needPermissions) {
-            this.name = name;
-            this.needPermissions = needPermissions;
-        }
-
-        public abstract boolean enabled();
-    }
 
     static {
         sModules.add(new Module(ScreenFlash, new String[]{Manifest.permission.READ_PHONE_STATE,
@@ -119,66 +117,11 @@ public class PermissionChecker {
     }
 
     public @Nullable Module getModuleByName(String name) {
-        for (Module module : sModules) {
-            if (module.name.equals(name)) {
-                return module;
-            }
-        }
-        return null;
+        return mNormalChecker.getModuleByName(name);
     }
 
     public boolean hasNoGrantedPermissions(String moduleName) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            // Not check permission under 16.
-            return false;
-        }
-        List<String> list = getNoGrantedPermissionsForModule(moduleName);
+        List<String> list = mNormalChecker.getNoGrantedPermissionsForModule(moduleName);
         return !list.isEmpty();
     }
-
-    public List<String> getAllNoGrantedPermissions() {
-        List<String> noGrantedPermissions =  new ArrayList<>();
-        List<String> neededPermissions = getAllNeededPermissions();
-        for (String perm : neededPermissions) {
-            if (!hasPermission(perm)) {
-                noGrantedPermissions.add(perm);
-            }
-        }
-        return noGrantedPermissions;
-    }
-
-    public List<String> getNoGrantedPermissionsForModule(String name) {
-        Module module = getModuleByName(name);
-        return getNoGrantedPermissions(module.needPermissions);
-    }
-
-    public List<String> getNoGrantedPermissions(String... list) {
-        List<String> noGrantedPermissions = new ArrayList<>();
-        for (String perm : list) {
-            if (!hasPermission(perm)) {
-                noGrantedPermissions.add(perm);
-            }
-        }
-        return noGrantedPermissions;
-    }
-    public List<String> getAllNeededPermissions() {
-        List<String> result = new ArrayList<>();
-        for (Module module : sModules) {
-            if (module.enabled()) {
-                result.addAll(Arrays.asList(module.needPermissions));
-            }
-        }
-        return result;
-    }
-
-    public static boolean hasPermission(String params) {
-        if (PERM_NOTIFICATION.equals(params)) {
-            return PermissionHelper.isNotificationAccessGranted(HSApplication.getContext());
-        } else if (PERM_OVERLAY.equals(params)) {
-            return PermissionHelper.isDrawOverlayGranted();
-        }
-        return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), params)
-                == RuntimePermissions.PERMISSION_GRANTED;
-    }
-
 }

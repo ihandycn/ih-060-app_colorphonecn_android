@@ -2,7 +2,6 @@ package com.honeycomb.colorphone.notification.permission;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.os.Handler;
@@ -14,15 +13,11 @@ import android.support.annotation.Nullable;
 import com.acb.utils.Utils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
-import com.honeycomb.colorphone.permission.FloatWindowManager;
-import com.honeycomb.colorphone.permission.OverlayGuideActivity;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
-import com.superapps.util.Navigations;
-import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,32 +50,6 @@ public class PermissionHelper {
         return false;
     }
 
-    public static boolean requestDrawOverlayIfNeeded(EventSource eventSource) {
-        final Context context = HSApplication.getContext();
-        boolean hasPermission = FloatWindowManager.getInstance().checkPermission(context);
-        boolean request = !hasPermission;
-        if (eventSource == EventSource.FirstScreen) {
-            request = request && HSConfig.optBoolean(true, "Application", "DrawOverlay", "RequestOnFirstScreen");
-        }
-
-        if (request) {
-            // TODO
-            boolean needShowTip  = true;
-            if (needShowTip) {
-                Threads.postOnMainThreadDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Navigations.startActivitySafely(context, new Intent(context, OverlayGuideActivity.class));
-
-                    }
-                }, 200);
-                LauncherAnalytics.logEvent("Colorphone_SystemFloatWindowAccessView_Show", "from", eventSource.getName());
-            }
-            FloatWindowManager.getInstance().applyPermission(context);
-        }
-
-        return request;
-    }
 
     private static ContentObserver startObservingNotificationPermission(final Runnable grantPermissionRunnable) {
 
@@ -141,46 +110,6 @@ public class PermissionHelper {
                 HSApplication.getContext().getContentResolver().unregisterContentObserver(observer);
             }
         } catch (Exception ignore) {}
-    }
-
-    public static void requestNotificationPermission(Activity activity, boolean recordGrantedFlurry, Handler handler, final String fromType) {
-        requestNotificationPermission(activity.getClass(), activity, recordGrantedFlurry, handler, fromType);
-    }
-
-    public static void waitOverlayGranted(final EventSource source, final boolean requestNotification) {
-        final TagRunnable checker = new TagRunnable() {
-            @Override
-            public void run() {
-                boolean enable = (Boolean) getTag();
-                boolean hasPermission = FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
-                boolean end = !enable || hasPermission;
-                if (end) {
-                    sHandler.removeCallbacks(this);
-                } else {
-                    sHandler.postDelayed(this, 400);
-                }
-
-                if (hasPermission) {
-                    HSGlobalNotificationCenter.sendNotification(NOTIFY_OVERLAY_PERMISSION_GRANTED);
-                    LauncherAnalytics.logEvent("Colorphone_FloatWindow_Access_Enabled", "from", source.getName());
-
-                    if (requestNotification && requestNotificationAccessIfNeeded(source, null)) {
-                        //
-                    } else {
-                        PermissionHelper.bringActivityToFront(ColorPhoneActivity.class, 0);
-                    }
-                }
-            }
-        };
-        checker.setTag(Boolean.TRUE);
-
-        sHandler.postDelayed(checker, 1000);
-        sHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                checker.setTag(Boolean.FALSE);
-            }
-        }, 8000);
     }
 
     public abstract static class OneTimeRunnable implements Runnable {

@@ -6,4 +6,7 @@
   <string name="permission_request_call">फ़ोन</string>
   <string name="permission_request_sms">SMS</string>
   <string name="permission_request_contacts">संपर्क</string>
+  <string name="acb_phone_grant_notification_access_title">कॉल का उत्‍तर देने को अधिसूचनाओं की पहुंच सक्षम करें</string>
+  <!-- TODO: string name="draw_overlay_window_hint" -->
+  <string name="phone_contact_permission_settings_guide_title">कृपया "अनुमतियां" चुनें और "Phone", "Contacts" को सक्रिय करें</string>
 </resources>

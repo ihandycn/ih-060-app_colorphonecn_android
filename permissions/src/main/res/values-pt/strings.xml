@@ -6,4 +6,7 @@
   <string name="permission_request_call">Telefone</string>
   <string name="permission_request_sms">SMS</string>
   <string name="permission_request_contacts">Contatos</string>
+  <string name="acb_phone_grant_notification_access_title">Ative o acesso às notificações para atender chamadas</string>
+  <!-- TODO: string name="draw_overlay_window_hint" -->
+  <string name="phone_contact_permission_settings_guide_title">Selecione “Permissões” e ative “Telefone”, “Contatos”</string>
 </resources>

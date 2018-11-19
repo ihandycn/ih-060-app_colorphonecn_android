@@ -6,5 +6,6 @@
   <string name="permission_request_call">Teléfono</string>
   <string name="permission_request_sms">SMS</string>
   <string name="permission_request_contacts">Contactos</string>
+  <string name="phone_contact_permission_settings_guide_title">Selecciona "Permisos" y activa "Teléfono", "Contactos"</string>
 
 </resources>

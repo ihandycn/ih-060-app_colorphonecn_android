@@ -7,4 +7,6 @@
   <string name="permission_request_call">电话</string>
   <string name="permission_request_sms">短信</string>
   <string name="permission_request_contacts">通讯录</string>
+  <!-- TODO: string name="draw_overlay_window_hint" -->
+  <string name="phone_contact_permission_settings_guide_title">选择"权限"，然后开启"电话"、"通讯录"权限</string>
 </resources>

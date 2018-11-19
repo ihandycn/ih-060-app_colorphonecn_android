@@ -6,4 +6,7 @@
   <string name="permission_request_call">โทรศัพท์</string>
   <string name="permission_request_sms">SMS</string>
   <string name="permission_request_contacts">รายชื่อติดต่อ</string>
+  <string name="acb_phone_grant_notification_access_title">อนุญาตการเข้าถึงการแจ้งเตือนเพื่อรับสายเรียกเข้า</string>
+  <!-- TODO: string name="draw_overlay_window_hint" -->
+  <string name="phone_contact_permission_settings_guide_title">เลือก "Permissions" และเปิดใช้งาน "Phone", "Contacts"</string>
 </resources>

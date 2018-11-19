@@ -8,4 +8,5 @@
   <string name="permission_request_call">電話</string>
   <string name="permission_request_sms">短信</string>
   <string name="permission_request_contacts">通訊錄</string>
+<string name="phone_contact_permission_settings_guide_title">選擇"權限"，然後開啟"電話"、"通訊錄"權限</string>
 </resources>

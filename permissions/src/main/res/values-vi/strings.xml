@@ -6,4 +6,7 @@
   <string name="permission_request_call">Điện thoại</string>
   <string name="permission_request_sms">Tin nhắn SMS</string>
   <string name="permission_request_contacts">Danh bạ</string>
+  <string name="acb_phone_grant_notification_access_title">Bật Truy cập Thông báo để Trả lời Cuộc gọi</string>
+  <string name="phone_contact_permission_settings_guide_title">Chọn "Quyền" và kích hoạt "Phone", "Contacts"</string>
+
 </resources>

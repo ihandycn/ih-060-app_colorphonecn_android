@@ -6,4 +6,7 @@
   <string name="permission_request_call">전화</string>
   <string name="permission_request_sms">SMS</string>
   <string name="permission_request_contacts">주소록</string>
+  <string name="acb_phone_grant_notification_access_title">응답 통화에 알림 액세스 활성화</string>
+  <!-- TODO: string name="draw_overlay_window_hint" -->
+  <string name="phone_contact_permission_settings_guide_title">"권한"을 선택하고 "Phone", "Contacts"를 활성화</string>
 </resources>
