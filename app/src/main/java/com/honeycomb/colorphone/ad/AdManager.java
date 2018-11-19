@@ -50,7 +50,7 @@ public class AdManager {
     }
 
     private static String getInterstitialAdPlacementName() {
-        return Placements.BOOST_WIRE;
+        return Placements.THEME_WIRE;
     }
 
     public AcbInterstitialAd getInterstitialAd() {
