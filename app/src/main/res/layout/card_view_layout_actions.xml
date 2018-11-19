@@ -2,7 +2,6 @@
 <android.support.percent.PercentRelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/action_view_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:showIn="@layout/card_view_theme_selector">

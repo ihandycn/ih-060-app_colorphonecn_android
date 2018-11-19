@@ -74,7 +74,7 @@
         android:textSize="12sp"
         tools:text="6622335" />
 
-    <android.support.percent.PercentRelativeLayout
+    <FrameLayout
         android:id="@+id/action_view_container"
         android:layout_width="63dp"
         android:layout_height="35dp"
@@ -90,7 +90,7 @@
 
         <include layout="@layout/card_view_layout_actions"/>
 
-    </android.support.percent.PercentRelativeLayout>
+    </FrameLayout>
 
 
 </RelativeLayout>
