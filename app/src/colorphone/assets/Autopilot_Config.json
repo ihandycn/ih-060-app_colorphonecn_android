@@ -43,7 +43,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "300bfc2e-52bf-4af6-8dec-785dff017b54",
+  "json_id": "b6731f02-4a38-44e7-96b7-008e4f55ed06",
   "topics": {
     "topic-1510752104742": {
       "topic_type": "one_time",
@@ -773,7 +773,7 @@
       "variations": {
         "mainview_float_button_show": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "earncash_alert_show_maxtime_when_back_to_mainview_from_detail": {
           "type": "double",
@@ -801,7 +801,7 @@
         },
         "earncash_master_switch": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "earncash_alert_show_when_callassistant_close": {
           "type": "boolean",
@@ -973,6 +973,64 @@
         }
       ],
       "topic_id": "topic-1510751463187"
+    },
+    "topic-6wzryt9bs": {
+      "topic_type": "life_time",
+      "topic_name": "DetailView and Apply WIre Test",
+      "variations": {
+        "applywire": {
+          "type": "boolean",
+          "value": false
+        },
+        "detailviewwire": {
+          "type": "boolean",
+          "value": false
+        },
+        "mainviewapplyicon": {
+          "type": "boolean",
+          "value": false
+        },
+        "detailslide": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "colorphone_themedetail_view"
+        },
+        {
+          "name": "colorphone_themedetail_ad_should_show"
+        },
+        {
+          "name": "colorphone_themedetail_ad_show"
+        },
+        {
+          "name": "colorphone_themedetail_choosetheme"
+        },
+        {
+          "name": "colorphone_themedetail_choosetheme_ad_should_show"
+        },
+        {
+          "name": "colorphone_themedetail_choosetheme_ad_show"
+        },
+        {
+          "name": "colorphone_themedetail_slide"
+        },
+        {
+          "name": "colorphone_seletcontactfortheme_success"
+        },
+        {
+          "name": "colorphone_seletcontactfortheme_ad_should_show"
+        },
+        {
+          "name": "colorphone_seletcontactfortheme_ad_show"
+        }
+      ],
+      "topic_id": "topic-6wzryt9bs"
     }
   },
   "autopilot_name": "Color Phone",
