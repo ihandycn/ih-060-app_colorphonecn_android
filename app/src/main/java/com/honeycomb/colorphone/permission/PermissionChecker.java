@@ -14,7 +14,6 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Preferences;
-import com.superapps.util.RuntimePermissions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,16 +48,16 @@ public class PermissionChecker {
             Manifest.permission.ANSWER_PHONE_CALLS, // answer call
     };
 
-    public static void onPhonePermissionGranted(Activity activity) {
-        if (activity != null) {
-            String[] perms = isAtleastO() ? customPhonePermission : new String[]{Manifest.permission.CALL_PHONE};
-            RuntimePermissions.requestPermissions(activity, perms, 1000);
-        }
+    public static void onPhonePermissionGranted() {
+//        if (activity != null) {
+//            String[] perms = isAtleastO() ? customPhonePermission : new String[]{Manifest.permission.CALL_PHONE};
+//            RuntimePermissions.requestPermissions(activity, perms, 1000);
+//        }
         com.call.assistant.receiver.IncomingCallReceiver.IncomingCallListener.init();
         com.acb.call.receiver.IncomingCallReceiver.IncomingCallListener.init();
     }
 
-    public static void onContactPermissionGranted(Activity activity) {
+    public static void onContactPermissionGranted() {
         ContactManager.getInstance().update();
     }
 

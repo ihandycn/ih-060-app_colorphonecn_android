@@ -230,11 +230,11 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
             if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Phone_SystemStyle_Allow_Click_FirstScreen");
-                PermissionChecker.onPhonePermissionGranted(this);
+                PermissionChecker.onPhonePermissionGranted();
             }
             if (list.contains(Manifest.permission.READ_CONTACTS)) {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Contact_SystemStyle_Allow_Click_FirstScreen");
-                PermissionChecker.onContactPermissionGranted(this);
+                PermissionChecker.onContactPermissionGranted();
             }
         }
     }
