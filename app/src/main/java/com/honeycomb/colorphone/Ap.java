@@ -28,7 +28,11 @@ public class Ap {
          * Topic.x 描述:         铃声功能及按钮是否显示
          */
         public static boolean isEnable() {
-            return false;
+            boolean ringtoneBtnShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1516083421924-90", "ringtone_btn_show", false);
+            if (BuildConfig.DEBUG) {
+                Toasts.showToast("【Autopilot】铃声功能：" + ringtoneBtnShowBoolean, Toast.LENGTH_SHORT);
+            }
+            return ringtoneBtnShowBoolean;
         }
 
         /**
@@ -51,7 +55,7 @@ public class Ap {
          * 上传日志: topic-1516083421924-90 - 主题详情页展示
          */
         public static void onShow(Theme theme) {
-            if (theme != null && !TextUtils.isEmpty(theme.getRingtoneUrl())) {
+            if (theme != null && !TextUtils.isEmpty(theme.getRingtoneUrl()) && isEnable()) {
                 try {
                     String formatString = String.format(Locale.ENGLISH, "theme_%s_detail_page_show", theme.getIdName().toLowerCase());
                     AutopilotEvent.logTopicEvent("topic-1516083421924-90", formatString);
@@ -63,7 +67,7 @@ public class Ap {
          * 上传日志: topic-1516083421924-90 - 主题在详情页被应用
          */
         public static void onApply(Theme theme) {
-            if (theme != null && !TextUtils.isEmpty(theme.getRingtoneUrl())) {
+            if (theme != null && !TextUtils.isEmpty(theme.getRingtoneUrl()) && isEnable()) {
                 String formatString = String.format(Locale.ENGLISH, "theme_%s_detail_page_apply", theme.getIdName().toLowerCase());
                 AutopilotEvent.logTopicEvent("topic-1516083421924-90", formatString);
             }
