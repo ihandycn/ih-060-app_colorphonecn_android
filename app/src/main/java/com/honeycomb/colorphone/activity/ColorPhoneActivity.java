@@ -552,8 +552,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         ConfigChangeManager.getInstance().removeCallback(configChangeCallback);
 
-        ((ColorPhoneApplication) ColorPhoneApplication.getContext().getApplicationContext()).logOnceFirstSessionEndStatus();
-
         super.onDestroy();
     }
 
