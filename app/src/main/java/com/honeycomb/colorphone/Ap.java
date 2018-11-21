@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Toasts;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
@@ -135,10 +136,20 @@ public class Ap {
 
         public static String TOPIC_ID = "topic-6wzryt9bs";
         public static boolean enableMainViewDownloadButton() {
+            if (isUserOlder()) {
+                return true;
+            }
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "mainviewapplyicon", false);
         }
 
+        private static boolean isUserOlder() {
+            return HSApplication.getFirstLaunchInfo().appVersionCode < (BuildConfig.FLAVOR.equals("colorphone") ? 37 : 35);
+        }
+
         public static boolean enableThemeSlide() {
+            if (isUserOlder()) {
+                return true;
+            }
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "detailslide", false);
         }
 

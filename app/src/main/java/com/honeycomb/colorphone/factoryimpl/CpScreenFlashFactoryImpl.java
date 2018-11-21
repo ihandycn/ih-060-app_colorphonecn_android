@@ -254,7 +254,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             @Override
             public void logScreenFlashPhoneAccessSucceed(RequestPermissionsActivity.PermissionSource permissionSource) {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Success", "type", source);
-                PermissionChecker.onPhonePermissionGranted(mActivityWeakReference != null ? mActivityWeakReference.get() : null);
+                PermissionChecker.onPhonePermissionGranted();
             }
 
             @Override
