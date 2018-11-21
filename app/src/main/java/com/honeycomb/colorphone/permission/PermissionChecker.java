@@ -23,6 +23,7 @@ import static com.acb.colorphone.permissions.NormalChecker.PERM_NOTIFICATION;
 
 public class PermissionChecker {
 
+    public static final String CUSTOM_PERMISSION_ALERT = "request_colorflash_permission";
     private static PermissionChecker INSTANCE;
 
 
@@ -87,7 +88,7 @@ public class PermissionChecker {
             public void run() {
                checkForcely(activity, source);
             }
-        }, "request_colorflash_permission", limitTime);
+        }, CUSTOM_PERMISSION_ALERT, limitTime);
 
     }
 

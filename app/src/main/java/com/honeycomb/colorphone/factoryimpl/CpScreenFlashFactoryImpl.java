@@ -16,6 +16,7 @@ import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -26,6 +27,7 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Navigations;
+import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 
@@ -184,6 +186,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     public String from;
     @Override public RequestPermissionsActivity.Event requestPermissionsEvents() {
         return new RequestPermissionsActivity.Event() {
+            private int launchTime;
             private String source;
             WeakReference<Activity> mActivityWeakReference;
 
@@ -202,6 +205,8 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             @Override
             public void logScreenFlashAccessPageShowed(String source, String type) {
                 this.source = source;
+                launchTime = Preferences.get(Constants.DESKTOP_PREFS).getInt(PermissionChecker.CUSTOM_PERMISSION_ALERT, 0);
+
                 logPermissionGuideShowEvent(source);
             }
 
@@ -248,23 +253,28 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
             @Override
             public void logScreenFlashPhoneAccessRequested() {
-                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Click", "type", source);
+                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Click",
+                        "type", source, "from", String.valueOf(launchTime));
             }
+
 
             @Override
             public void logScreenFlashPhoneAccessSucceed(RequestPermissionsActivity.PermissionSource permissionSource) {
-                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Success", "type", source);
+                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Success",
+                        "type", source, "from", String.valueOf(launchTime));
                 PermissionChecker.onPhonePermissionGranted();
             }
 
             @Override
             public void logScreenFlashContactsAccessRequested() {
-                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Contact_Allow_Click", "type", source);
+                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Contact_Allow_Click",
+                        "type", source, "from", String.valueOf(launchTime));
             }
 
             @Override
             public void logScreenFlashContactsAccessSucceed(RequestPermissionsActivity.PermissionSource permissionSource) {
-                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Contact_Allow_Success", "type", source);
+                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Contact_Allow_Success",
+                        "type", source, "from", String.valueOf(launchTime));
                 PermissionChecker.onContactPermissionGranted();
 
             }
@@ -279,12 +289,14 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
             @Override
             public void logScreenFlashNotificationAccessRequested() {
-                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_NotificationAccess_Allow_Click", "type", source);
+                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_NotificationAccess_Allow_Click",
+                        "type", source, "from", String.valueOf(launchTime));
             }
 
             @Override
             public void logScreenFlashNotificationAccessSucceed() {
-                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_NotificationAccess_Allow_Success", "type", source);
+                LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_NotificationAccess_Allow_Success",
+                        "type", source, "from", String.valueOf(launchTime));
             }
 
             @Override
