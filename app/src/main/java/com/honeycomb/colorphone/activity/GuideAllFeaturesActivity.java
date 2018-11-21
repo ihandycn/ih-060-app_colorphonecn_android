@@ -51,6 +51,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
     private int permsCount = 0;
 
     Handler mHandler = new Handler(Looper.getMainLooper());
+    private boolean ingoreNotificationPermission;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, GuideAllFeaturesActivity.class);
@@ -74,8 +75,11 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             @Override
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_Cancel_Clicked");
-
-                finish();
+                if (CommonUtils.ATLEAST_MARSHMALLOW) {
+                    requiresPermission();
+                } else {
+                    finish();
+                }
             }
         });
         TextView enableBtn = (TextView) findViewById(R.id.welcome_guide_function_enable_btn);
@@ -220,7 +224,9 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
 //        if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.FirstScreen)) {
 //            PermissionHelper.waitOverlayGranted(EventSource.FirstScreen, true);
 //        } else {
-        PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+        if (!ingoreNotificationPermission) {
+            PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+        }
 //        }
         finish();
 
