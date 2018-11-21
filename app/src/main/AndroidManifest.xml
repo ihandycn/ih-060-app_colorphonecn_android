@@ -94,7 +94,7 @@
         android:name="android.permission.GET_PACKAGE_SIZE"
         tools:node="remove"/>
 
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
@@ -566,5 +566,5 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <!--Phone Speaker-->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!--<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />-->
 </manifest>
