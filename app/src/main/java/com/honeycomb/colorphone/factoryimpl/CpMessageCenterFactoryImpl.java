@@ -168,6 +168,12 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             }
 
             @Override
+            public void onShow() {
+                super.onShow();
+                LauncherAnalytics.logEvent("Message_View_Shown");
+            }
+
+            @Override
             public void messageViewShowed(int msgSrcCount, String flurryMessageType, String flurryAlertShowWhere) {
                 NotificationAutoPilotUtils.logMessageAssistantShow();
                 HSAnalytics.logEvent("Message_View_Shown", "msgSrcCount", String.valueOf(msgSrcCount),
