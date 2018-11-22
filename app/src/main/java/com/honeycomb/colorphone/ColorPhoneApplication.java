@@ -158,9 +158,8 @@ public class ColorPhoneApplication extends HSApplication {
                 // Call-Themes update timely.
                 Theme.updateThemes();
                 initNotificationToolbar();
-                updateCallFinishFullScreenAdPlacement();
                 ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
-                AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
+
                 CrashGuard.updateIgnoredCrashes();
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
@@ -729,6 +728,9 @@ public class ColorPhoneApplication extends HSApplication {
         }
 
         HSPermanentUtils.checkAliveForProcess();
+
+        updateCallFinishFullScreenAdPlacement();
+        AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
     }
 
     private static void checkExpressAd(String adName, boolean enable) {
