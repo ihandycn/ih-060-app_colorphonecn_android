@@ -158,6 +158,7 @@ public class ColorPhoneApplication extends HSApplication {
                 // Call-Themes update timely.
                 Theme.updateThemes();
                 initNotificationToolbar();
+                updateCallFinishFullScreenAdPlacement();
                 ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
                 AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
                 CrashGuard.updateIgnoredCrashes();
@@ -344,7 +345,7 @@ public class ColorPhoneApplication extends HSApplication {
         ScreenFlashManager.getInstance().setImageLoader(new ThemeImageLoader());
         ScreenFlashManager.getInstance().logTest = true;
         ContactManager.init();
-
+        updateCallFinishFullScreenAdPlacement();
 
         AcbRewardAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_REWARD_VIDEO);
         SystemAppsManager.getInstance().init();
