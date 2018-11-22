@@ -135,7 +135,12 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
         return new RequestPermissionsActivity.RequestPermissions() {
             @Override
             public void onPhonePermissionGranted() {
-                com.call.assistant.receiver.IncomingCallReceiver.IncomingCallListener.init();
+                PermissionChecker.onPhonePermissionGranted();
+            }
+
+            @Override
+            public void onContactsPermissionGranted() {
+
             }
 
             @Override
@@ -262,7 +267,6 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void logScreenFlashPhoneAccessSucceed(RequestPermissionsActivity.PermissionSource permissionSource) {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Success",
                         "type", source, "from", String.valueOf(launchTime));
-                PermissionChecker.onPhonePermissionGranted();
             }
 
             @Override

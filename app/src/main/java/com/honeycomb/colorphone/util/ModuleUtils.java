@@ -15,6 +15,7 @@ import com.colorphone.lock.util.ConfigUtils;
 import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
+import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -71,7 +72,9 @@ public class ModuleUtils {
     public static boolean isModuleConfigEnabled(String moduleKey) {
 
         if (AUTO_SMS_KEY_ASSISTANT.equals(moduleKey)) {
-            return isShowModulesDueToConfig() || HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable");
+            return isShowModulesDueToConfig() ||
+                    (HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable")
+                    && NotificationAutoPilotUtils.isMessageAssistantEnabled());
         } else if (AUTO_KEY_GUIDE_START.equals(moduleKey)) {
             return  HSConfig.optBoolean(false, "Application", "Guide", "StartGuideEnable");
         } else if (AUTO_KEY_APPLY_FINISH.equals(moduleKey)) {

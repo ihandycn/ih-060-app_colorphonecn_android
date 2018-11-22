@@ -124,6 +124,21 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 return NotificationAutoPilotUtils.isGmailEnabledWhenScreenOn();
             }
 
+            @Override
+            public boolean showSmsMessage() {
+                return NotificationAutoPilotUtils.isSmsEnabled();
+            }
+
+            @Override
+            public boolean showSmsWhenScreenOff() {
+                return NotificationAutoPilotUtils.isSmsEnabledWhenScreenOff();
+            }
+
+            @Override
+            public boolean showSmsWhenScreenOn() {
+                return NotificationAutoPilotUtils.isSmsEnabledWhenScreenOn();
+            }
+
             public int getAppNameDrawable() {
                 return R.drawable.color_phone_logo;
             }

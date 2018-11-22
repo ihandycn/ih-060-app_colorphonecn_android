@@ -130,6 +130,7 @@ public class NotificationAutoPilotUtils {
 
     public static void logMessageAssistantShow() {
         AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_show");
+        AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_ad_should_show");
     }
 
     public static void logMessageAssistantAdShow() {
@@ -138,6 +139,29 @@ public class NotificationAutoPilotUtils {
 
     public static void logMessageAssistantShowOnLockScreen() {
         AutopilotEvent.logTopicEvent(WHATS_APP_ASSISTANT_TEST, "message_assistant_show_onlockscreen");
+    }
+
+
+    /**
+     * Upgrade users get default value, return true
+     * @return
+     */
+    public static boolean isMessageAssistantEnabled() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "message_assistant_enable", false);
+    }
+
+    public static boolean isSmsEnabled() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "sms_assistant_enable", false);
+    }
+
+    public static boolean isSmsEnabledWhenScreenOn() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "sms_assistant_show_on_unlock", false);
+
+    }
+
+    public static boolean isSmsEnabledWhenScreenOff() {
+        return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "sms_assistant_show_on_lock", false);
+
     }
 
     /**
