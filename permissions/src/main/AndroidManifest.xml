@@ -1,2 +1,26 @@
 <manifest package="com.acb.colorphone.permissions"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <application>
+        <activity
+            android:name="com.acb.colorphone.permissions.OverlayGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name="com.acb.colorphone.permissions.NotificationGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name="com.acb.colorphone.permissions.SettingPermissionsGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+    </application>
+</manifest>
