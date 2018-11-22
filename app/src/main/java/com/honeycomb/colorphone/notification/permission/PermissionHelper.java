@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.utils.Utils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
@@ -18,6 +19,8 @@ import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.superapps.util.Navigations;
+import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,7 @@ import java.util.List;
  * Created by sundxing on 2018/1/5.
  */
 
+// TODO use lib class
 public class PermissionHelper {
 
     public static final String NOTIFY_NOTIFICATION_PERMISSION_GRANTED = "notification_permission_grant";
@@ -45,6 +49,9 @@ public class PermissionHelper {
             PermissionUtils.requestNotificationPermission(sourceActivity, true, new Handler(), "FirstScreen");
             PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class, eventSource.getName());
             LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", eventSource.getName());
+            Threads.postOnMainThreadDelayed(() -> {
+                Navigations.startActivity(HSApplication.getContext(), NotificationGuideActivity.class);
+            }, 1000);
             return true;
         }
         return false;

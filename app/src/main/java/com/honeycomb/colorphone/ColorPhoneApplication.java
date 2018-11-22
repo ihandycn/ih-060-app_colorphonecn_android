@@ -504,6 +504,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     private void updateCallFinishFullScreenAdPlacement() {
         if (CallFinishUtils.isCallFinishFullScreenAdEnabled() && !isCallAssistantActivated) {
+            HSLog.d("Ad Active ： " + AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
             AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
             isCallAssistantActivated = true;
         }
