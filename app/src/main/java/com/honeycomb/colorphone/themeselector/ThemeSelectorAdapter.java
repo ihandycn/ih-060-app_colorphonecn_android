@@ -48,7 +48,6 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
-import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
@@ -91,9 +90,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private boolean mHotThemeHolderVisible;
     private int mUnLockThemeId = -1;
 
-    //autopilot test
-    private boolean mIsThemeInformationVisible = ApplyInfoAutoPilotUtils.showThemeInformation();
-    private boolean mIsApplyButtonVisible = ApplyInfoAutoPilotUtils.showApplyButton();
 
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_GIF = 0x1;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO = 0x8;
@@ -202,20 +198,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    @Deprecated
     public void updateApplyInformationAutoPilotValue() {
-        boolean tempIsApplyVisible = ApplyInfoAutoPilotUtils.showApplyButton();
-        boolean tempIsThemeInformationVisible = ApplyInfoAutoPilotUtils.showThemeInformation();
-
-        boolean needNotifyDataSetChanged = false;
-        if (mIsApplyButtonVisible != tempIsApplyVisible
-                || mIsThemeInformationVisible != tempIsThemeInformationVisible) {
-            needNotifyDataSetChanged = true;
-        }
-        if (needNotifyDataSetChanged) {
-            mIsApplyButtonVisible = tempIsApplyVisible;
-            mIsThemeInformationVisible = tempIsThemeInformationVisible;
-            notifyDataSetChanged();
-        }
 
     }
 
@@ -314,7 +298,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         LauncherAnalytics.logEvent("ColorPhone_MainView_ThemeDetail_View", "type", theme.getIdName());
                         ThemePreviewActivity.start(activity, pos);
                     }
-                    ApplyInfoAutoPilotUtils.logThumbnailClicked();
                 }
             });
 
@@ -623,16 +606,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else {
                 cardViewHolder.mLockIcon.setVisibility(View.GONE);
             }
-
-            if (!mIsApplyButtonVisible) {
-                cardViewHolder.mActionViewContainer.setVisibility(View.GONE);
-            } else {
-                cardViewHolder.mActionViewContainer.setVisibility(View.VISIBLE);
-            }
-
-            cardViewHolder.mThemeLikeAnim.setVisibility(mIsThemeInformationVisible ? View.VISIBLE : View.GONE);
-            cardViewHolder.mThemeLikeCount.setVisibility(mIsThemeInformationVisible ? View.VISIBLE : View.GONE);
-            cardViewHolder.mThemeTitle.setVisibility(mIsThemeInformationVisible ? View.VISIBLE : View.GONE);
 
         } else if (holder instanceof StatementViewHolder) {
             HSLog.d("onBindVieHolder", "contains ads statement.");

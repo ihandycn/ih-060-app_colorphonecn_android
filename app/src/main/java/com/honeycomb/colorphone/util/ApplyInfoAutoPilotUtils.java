@@ -2,7 +2,6 @@ package com.honeycomb.colorphone.util;
 
 import com.honeycomb.colorphone.BuildConfig;
 
-import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
 
 public class ApplyInfoAutoPilotUtils {
@@ -15,16 +14,12 @@ public class ApplyInfoAutoPilotUtils {
         }
     }
 
-    public static boolean showPopularThemeEntrance() {
-        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "special_entrance", false);
-    }
-
     public static boolean showApplyButton() {
-        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "apply_button", false);
+        return true;
     }
 
     public static boolean showThemeInformation() {
-        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "information_display", false);
+        return true;
     }
 
     public static void logApplyButtonClicked() {

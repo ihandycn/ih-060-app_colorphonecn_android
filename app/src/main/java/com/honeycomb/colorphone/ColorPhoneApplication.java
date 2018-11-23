@@ -426,7 +426,6 @@ public class ColorPhoneApplication extends HSApplication {
 
             @Override
             public void onScreenFlashSetSucceed(String idName) {
-                ApplyInfoAutoPilotUtils.logCallFlashSet();
                 LauncherAnalytics.logEvent("ColorPhone_Set_Success", "type", idName);
             }
         });
