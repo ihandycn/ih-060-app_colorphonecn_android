@@ -33,6 +33,12 @@
       "name": "ad_click_banner"
     },
     {
+      "name": "get_remote_config"
+    },
+    {
+      "name": "extended_deactive"
+    },
+    {
       "name": "daily_active"
     },
     {
@@ -43,7 +49,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "b6731f02-4a38-44e7-96b7-008e4f55ed06",
+  "json_id": "0a050b33-cc26-46d5-b8ab-a9678bed5836",
   "topics": {
     "topic-1510752104742": {
       "topic_type": "one_time",
@@ -349,6 +355,10 @@
       "topic_type": "life_time",
       "topic_name": "Message Assistant Test",
       "variations": {
+        "sms_assistant_show_on_unlock": {
+          "type": "boolean",
+          "value": true
+        },
         "whatsapp_assistant_enable": {
           "type": "boolean",
           "value": true
@@ -369,6 +379,10 @@
           "type": "boolean",
           "value": true
         },
+        "message_assistant_enable": {
+          "type": "boolean",
+          "value": true
+        },
         "fbmessenger_assistant_show_on_unlock": {
           "type": "boolean",
           "value": true
@@ -377,11 +391,19 @@
           "type": "boolean",
           "value": true
         },
+        "sms_assistant_show_on_lock": {
+          "type": "boolean",
+          "value": true
+        },
         "gmail_assistant_show_on_lock": {
           "type": "boolean",
           "value": false
         },
         "fbmessenger_assistant_show_on_lock": {
+          "type": "boolean",
+          "value": true
+        },
+        "sms_assistant_enable": {
           "type": "boolean",
           "value": true
         }
@@ -398,6 +420,9 @@
         },
         {
           "name": "message_assistant_show_onlockscreen"
+        },
+        {
+          "name": "message_assistant_ad_should_show"
         }
       ],
       "topic_id": "topic-1512815797473-16"
@@ -489,7 +514,7 @@
       "variations": {
         "avatar_title": {
           "type": "string",
-          "value": "Display your avatar in your friends’ phone right away"
+          "value": "Display your avatar in your friends\u2019 phone right away"
         },
         "avatar_button_text": {
           "type": "string",
@@ -527,9 +552,9 @@
       "topic_type": "one_time",
       "topic_name": "Share Test",
       "variations": {
-        "outapp_share_text": {
+        "inapp_share_alert_btn_text": {
           "type": "string",
-          "value": "My latest call screen theme from Color Phone. https://app.appsflyer.com/com.colorphone.smooth.dialer?pid=Userinvite2"
+          "value": "Share"
         },
         "outapp_share_enable": {
           "type": "boolean",
@@ -567,9 +592,9 @@
           "type": "boolean",
           "value": false
         },
-        "inapp_share_alert_btn_text": {
+        "outapp_share_text": {
           "type": "string",
-          "value": "Share"
+          "value": "My latest call screen theme from Color Phone. https://app.appsflyer.com/com.colorphone.smooth.dialer?pid=Userinvite2"
         },
         "inapp_share_alert_show_interval": {
           "type": "double",
@@ -666,6 +691,10 @@
       "topic_type": "life_time",
       "topic_name": "Boost Push Test",
       "variations": {
+        "boost_push_maxcount": {
+          "type": "double",
+          "value": 4
+        },
         "boost_push_interval": {
           "type": "double",
           "value": 1
@@ -673,10 +702,6 @@
         "boost_push_enable": {
           "type": "boolean",
           "value": true
-        },
-        "boost_push_maxcount": {
-          "type": "double",
-          "value": 4
         }
       },
       "events": [
@@ -775,17 +800,17 @@
           "type": "boolean",
           "value": true
         },
-        "earncash_alert_show_maxtime_when_back_to_mainview_from_detail": {
-          "type": "double",
-          "value": 1
-        },
-        "earncash_alert_show_when_unlockscreen": {
+        "earncash_alert_show_when_back_to_mainview_from_detail": {
           "type": "boolean",
           "value": false
         },
         "earncash_alert_show_maxtime_when_unlockscreen": {
           "type": "double",
           "value": 1
+        },
+        "earncash_alert_show_when_unlockscreen": {
+          "type": "boolean",
+          "value": false
         },
         "earncash_icon_show_on_toolbar": {
           "type": "boolean",
@@ -795,9 +820,9 @@
           "type": "boolean",
           "value": false
         },
-        "earncash_alert_show_when_back_to_mainview_from_detail": {
-          "type": "boolean",
-          "value": false
+        "earncash_alert_show_maxtime_when_back_to_mainview_from_detail": {
+          "type": "double",
+          "value": 1
         },
         "earncash_master_switch": {
           "type": "boolean",
@@ -881,11 +906,11 @@
           "type": "boolean",
           "value": true
         },
-        "chargingreport_oncharger_enable": {
+        "charging_report_enable": {
           "type": "boolean",
           "value": true
         },
-        "charging_report_enable": {
+        "chargingreport_oncharger_enable": {
           "type": "boolean",
           "value": true
         },
@@ -980,11 +1005,11 @@
       "variations": {
         "applywire": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "detailviewwire": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "mainviewapplyicon": {
           "type": "boolean",
