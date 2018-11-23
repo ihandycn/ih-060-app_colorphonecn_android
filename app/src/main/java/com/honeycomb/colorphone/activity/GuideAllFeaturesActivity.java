@@ -75,8 +75,8 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             @Override
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_Cancel_Clicked");
-                if (CommonUtils.ATLEAST_MARSHMALLOW) {
-                    requiresPermission();
+                if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
+
                 } else {
                     finish();
                 }
@@ -89,8 +89,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
-                if (CommonUtils.ATLEAST_MARSHMALLOW) {
-                    requiresPermission();
+                if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
                 } else {
                     PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
                     finish();
@@ -176,13 +175,13 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
     /**
      * Only request first launch. (if Enabled and not has permission)
      */
-    private void requiresPermission() {
+    private boolean requiresPermission() {
         boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
                 && ScreenFlashSettings.isScreenFlashModuleEnabled();
         HSLog.d("ScreenFlash state change : " + isEnabled);
         if (!isEnabled) {
             HSLog.w("Permissions ScreenFlash state change : " + isEnabled);
-            return;
+            return false;
         }
 
         boolean phonePerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
@@ -198,7 +197,9 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         if (!phonePerm || !contactPerm){
             // Do not have permissions, request them now
             RuntimePermissions.requestPermissions(this, perms, FIRST_LAUNCH_PERMISSION_REQUEST);
+            return true;
         }
+        return false;
     }
 
     @Override
