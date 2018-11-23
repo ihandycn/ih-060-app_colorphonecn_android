@@ -38,7 +38,7 @@ public abstract class SimplePermissionGuideActivity extends AppCompatActivity {
 
     private void initRes() {
         ImageView appIcon = findViewById(R.id.app_icon);
-        appIcon.setImageResource(R.drawable.ic_launcher);
+        appIcon.setImageResource(R.drawable.app_icon);
         TextView appName = findViewById(R.id.app_name);
         appName.setText(R.string.app_name);
         String hintTxt = getString(getTitleStringResId());
