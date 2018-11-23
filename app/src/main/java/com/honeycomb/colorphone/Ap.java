@@ -5,6 +5,8 @@ import android.widget.Toast;
 
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Toasts;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
@@ -139,7 +141,11 @@ public class Ap {
             if (isUserOlder()) {
                 return true;
             }
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "mainviewapplyicon", false);
+            boolean autopilotEnable = AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "mainviewapplyicon", false);
+            boolean configEnable = HSConfig.optBoolean(false,"Application", "ThemeStyle", "ApplyIcon");
+
+            HSLog.d("Settings", "ApplyButton {ap: " + autopilotEnable + ", config: " + configEnable + "}");
+            return autopilotEnable && configEnable;
         }
 
         private static boolean isUserOlder() {
@@ -150,7 +156,11 @@ public class Ap {
             if (isUserOlder()) {
                 return true;
             }
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "detailslide", false);
+            boolean autopilotEnable = AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "detailslide", false);
+            boolean configEnable = HSConfig.optBoolean(false,"Application", "ThemeStyle", "DetailSlide");
+
+            HSLog.d("Settings", "DetailSlide {ap: " + autopilotEnable + ", config: " + configEnable + "}");
+            return autopilotEnable && configEnable;
         }
 
         public static boolean enableAdOnApply() {
