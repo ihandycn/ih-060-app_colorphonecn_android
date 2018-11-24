@@ -189,6 +189,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                         "messageType", flurryMessageType, "AlertShowWhere", flurryAlertShowWhere);
 
                 if (flurryAlertShowWhere.equals("OnLockScreen")) {
+                    NotificationAutoPilotUtils.logMessageAssistantShowOnLockScreen();
                     HSAnalytics.logEvent("Message_View_Shown_OnLockScreen", "messageType", flurryMessageType);
                 }
             }
