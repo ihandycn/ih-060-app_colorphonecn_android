@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.ContentObserver;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
@@ -13,7 +14,6 @@ import android.support.annotation.Nullable;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.utils.Utils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
-import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
@@ -41,6 +41,9 @@ public class PermissionHelper {
     private static Handler sHandler = new Handler(Looper.getMainLooper());
 
     public static boolean requestNotificationAccessIfNeeded(@NonNull EventSource eventSource, @Nullable Activity sourceActivity) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            return false;
+        }
         boolean needGuideNotificationPermisson = true;
         if (eventSource == EventSource.FirstScreen) {
             needGuideNotificationPermisson = HSConfig.optBoolean(false,
