@@ -37,7 +37,7 @@ android {
             dimension "mode"
             applicationId "com.app.phone.call.flash.screen"
             versionCode 36
-            versionName "1.1.2.develop"
+            versionName "1.1.2"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
                     'src/colorflash/proguard-rules.pro'
 
