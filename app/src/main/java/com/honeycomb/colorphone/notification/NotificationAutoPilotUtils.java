@@ -6,27 +6,8 @@ import net.appcloudbox.autopilot.AutopilotEvent;
 
 public class NotificationAutoPilotUtils {
 
-    private static final String NOTIFICATION_ACCESS_TEST_TOPIC_ID = "topic-1510752104742";
     private static final String LOCAL_NOTIFICATION_TEST = "topic-1510751463187";
     private static final String WHATS_APP_ASSISTANT_TEST = "topic-1512815797473-16";
-
-
-    public static boolean isNotificationAccessTipAtBottom() {
-        return AutopilotConfig.getStringToTestNow(NOTIFICATION_ACCESS_TEST_TOPIC_ID, "guide_type", "bottom").equals("bottom");
-    }
-
-    public static boolean isNotificationAccessTipAnimated() {
-        return AutopilotConfig.getBooleanToTestNow(NOTIFICATION_ACCESS_TEST_TOPIC_ID, "show_animation", true);
-    }
-
-    public static void logSettingsAlertShow() {
-        AutopilotEvent.logTopicEvent(NOTIFICATION_ACCESS_TEST_TOPIC_ID, "colorphone_system_settings_notification_alert_show");
-    }
-
-    public static void logSettingsAccessEnabled() {
-        AutopilotEvent.logTopicEvent(NOTIFICATION_ACCESS_TEST_TOPIC_ID, "colorphone_notification_access_enable");
-    }
-
 
     /**
      * local notification new theme autopilot

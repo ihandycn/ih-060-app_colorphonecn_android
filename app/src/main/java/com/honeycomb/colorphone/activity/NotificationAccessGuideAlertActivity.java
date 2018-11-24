@@ -146,13 +146,11 @@ public class NotificationAccessGuideAlertActivity extends Activity {
         }
 
         HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", insideApp ? "insideApp" : "outsideApp");
-        NotificationAutoPilotUtils.logSettingsAlertShow();
     }
 
     private void onNotificationAccessGranted(String fromType) {
         HSAnalytics.logEvent("Colorphone_Notification_Access_Enabled", "from", fromType);
 
-        NotificationAutoPilotUtils.logSettingsAccessEnabled();
 
     }
 }

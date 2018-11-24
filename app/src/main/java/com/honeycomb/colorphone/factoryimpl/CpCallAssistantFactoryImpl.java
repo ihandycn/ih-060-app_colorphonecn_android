@@ -24,7 +24,6 @@ import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
-import com.honeycomb.colorphone.notification.permission.PermissionUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -37,6 +36,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.flashlight.FlashlightManager;
 import com.ihs.libcharging.ScreenStateMgr;
+import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 
 import static com.acb.call.activity.AcceptCallActivity.PREFS_ACCEPT_FAIL;
@@ -99,7 +99,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         boolean beyondMaxCount = HSPreferenceHelper.getDefault().getInt(ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_SHOW_COUNT, 0)
                 >= NotificationConfig.getOutsideAppAccessAlertShowMaxTime();
 
-        return isAcceptCallFailed && isEnabled && isAtValidTime && !PermissionUtils.isNotificationAccessGranted(context) && !beyondMaxCount;
+        return isAcceptCallFailed && isEnabled && isAtValidTime && !Permissions.isNotificationAccessGranted() && !beyondMaxCount;
     }
 
     @Override

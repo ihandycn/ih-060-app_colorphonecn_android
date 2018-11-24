@@ -7,7 +7,6 @@ import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
-import com.honeycomb.colorphone.notification.floatwindow.FloatWindowController;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.analytics.HSAnalytics;
@@ -154,7 +153,6 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 Context context = HSApplication.getContext();
                 Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
                 Navigations.startActivitySafely(context, intent);
-                FloatWindowController.getInstance().createUsageAccessTip(context);
             }
         };
     }

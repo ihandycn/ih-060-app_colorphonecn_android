@@ -20,6 +20,7 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.Navigations;
+import com.superapps.util.Permissions;
 import com.superapps.util.Threads;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class PermissionHelper {
             needGuideNotificationPermisson = HSConfig.optBoolean(false,
                     "Application", "NotificationAccess", "GoToAccessPageFromFirstScreen");
         }
-        if (needGuideNotificationPermisson && !PermissionUtils.isNotificationAccessGranted(HSApplication.getContext())) {
+        if (needGuideNotificationPermisson && !Permissions.isNotificationAccessGranted()) {
             PermissionUtils.requestNotificationPermission(sourceActivity, true, new Handler(), "FirstScreen");
             PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class, eventSource.getName());
             LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", eventSource.getName());
@@ -65,7 +66,7 @@ public class PermissionHelper {
             @Override
             public void onChange(boolean selfChange) {
                 super.onChange(selfChange);
-                if (PermissionUtils.isNotificationAccessGranted(HSApplication.getContext())) {
+                if (Permissions.isNotificationAccessGranted()) {
                     if (grantPermissionRunnable != null) {
                         grantPermissionRunnable.run();
                     }
@@ -100,7 +101,6 @@ public class PermissionHelper {
 
     private static void onNotificationAccessGranted(String fromType) {
         HSAnalytics.logEvent("Colorphone_Notification_Access_Enabled", "from", fromType);
-        NotificationAutoPilotUtils.logSettingsAccessEnabled();
     }
 
     public static void bringActivityToFront(Class activity, int launchParam) {

@@ -27,7 +27,6 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
-import com.honeycomb.colorphone.notification.permission.PermissionUtils;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -36,6 +35,7 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Permissions;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class NotificationUtils {
             return false;
         }
 
-        if (PermissionUtils.isNotificationAccessGranted(context)) {
+        if (Permissions.isNotificationAccessGranted()) {
             return false;
         }
         return true;
@@ -94,7 +94,7 @@ public class NotificationUtils {
             return false;
         }
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || PermissionUtils.isNotificationAccessGranted(context)) {
+        if (Permissions.isNotificationAccessGranted()) {
             return false;
         }
         return true;
