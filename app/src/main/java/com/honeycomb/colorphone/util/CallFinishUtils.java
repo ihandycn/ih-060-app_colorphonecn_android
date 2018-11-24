@@ -1,10 +1,13 @@
 package com.honeycomb.colorphone.util;
 
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
+
+import java.util.List;
 
 public class CallFinishUtils {
 
@@ -12,9 +15,21 @@ public class CallFinishUtils {
 
     public static boolean isCallFinishFullScreenAdEnabled() {
         boolean autopilotEnable = AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "call_finish_wire_show", false);
-        boolean configEnable = HSConfig.optBoolean(false, "Application", "CallFinishWire", "Enable");
+        boolean configEnable = HSConfig.optBoolean(false, "Application", "CallFinishWire", "Enable")
+                || enabledThisVersion();
+
         HSLog.d("CallFinish", "config enable : " + configEnable +", autopilot : " + autopilotEnable);
         return autopilotEnable && configEnable;
+    }
+
+
+    private static boolean enabledThisVersion() {
+        List<Integer> enableList = (List<Integer>) HSConfig.getList("Application", "CallFinishWire", "EnableVersionList");
+        int versionCode = HSApplication.getFirstLaunchInfo().appVersionCode;
+        if (enableList != null && enableList.contains(versionCode)) {
+            return true;
+        }
+        return false;
     }
 
     public static void logCallFinishWiredShow() {
