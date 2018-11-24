@@ -75,7 +75,7 @@ public class PermissionChecker {
     }
 
     public void checkForcely(Activity activity, String source) {
-        if (Build.VERSION.SDK_INT >= 16 && hasNoGrantedPermissions(ScreenFlash)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && hasNoGrantedPermissions(ScreenFlash)) {
             final ArrayList<String> permissions = new ArrayList<>(Arrays.asList(sDefaultRequestPermissions));
             RequestPermissionsActivity.start(activity, source, permissions);
         }

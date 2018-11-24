@@ -190,12 +190,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
+            // TODO
             if (!PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
                 mAdapter.setHeaderTipVisible(false);
                 mAdapter.notifyDataSetChanged();
             }
         }
-        HSLog.d("XXX", " focus change:" + hasFocus);
+
     }
 
     public void showRewardVideoView(String themeName) {
@@ -687,7 +688,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //        boolean overlayNotGranted = !FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
 //        if (!DefaultPhoneUtils.isDefaultPhone()
 //                && (notificationNotGranted || overlayNotGranted)) {
-        if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
+                PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
             mAdapter.setHeaderTipVisible(true);
         } else {
             mAdapter.setHeaderTipVisible(false);
