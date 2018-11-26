@@ -361,7 +361,7 @@ public final class Utils {
     }
 
     public static Drawable getAppIcon(String packageName) {
-        Drawable icon = HSApplication.getContext().getResources().getDrawable(R.mipmap.ic_launcher);
+        Drawable icon = HSApplication.getContext().getResources().getDrawable(R.drawable.ic_launcher);
         try {
             icon = HSApplication.getContext().getPackageManager().getApplicationIcon(packageName);
         } catch (Exception ignored) {

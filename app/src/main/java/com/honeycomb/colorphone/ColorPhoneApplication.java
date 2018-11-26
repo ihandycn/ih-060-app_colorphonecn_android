@@ -53,7 +53,6 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.recentapp.RecentAppManager;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
-import com.honeycomb.colorphone.util.ApplyInfoAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.HSPermanentUtils;
@@ -514,7 +513,7 @@ public class ColorPhoneApplication extends HSApplication {
         ChargingReportConfiguration configuration = new ChargingReportConfiguration.Builder()
                 .adPlacement(AdPlacements.AD_CHARGING_REPORT)
                 .appName(getResources().getString(R.string.smart_charging))
-                .appIconResourceId(R.mipmap.ic_launcher)
+                .appIconResourceId(R.drawable.ic_launcher)
                 .timeAppInstall(firstInstallTime > 0 ? firstInstallTime : System.currentTimeMillis())
                 .lockerConflic(new ChargingReportConfiguration.LockScreenConflict() {
                     @Override
@@ -586,7 +585,7 @@ public class ColorPhoneApplication extends HSApplication {
         LockScreenStarter.init();
 
         HSLog.d("Start", "initLockScreen");
-        LockerCustomConfig.get().setLauncherIcon(R.mipmap.ic_launcher);
+        LockerCustomConfig.get().setLauncherIcon(R.drawable.ic_launcher);
         LockerCustomConfig.get().setCustomScreenIcon(R.drawable.ic_charging_screen_logo);
         LockerCustomConfig.get().setSPFileName("colorPhone_locker");
         LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);

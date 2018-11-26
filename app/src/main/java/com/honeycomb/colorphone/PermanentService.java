@@ -123,7 +123,7 @@ public class PermanentService extends Service {
                 builder.setContentTitle(title);
                 builder.setContentText(content);
                 builder.setContentIntent(pendingIntent);
-                builder.setSmallIcon(R.mipmap.ic_launcher);
+                builder.setSmallIcon(R.drawable.app_icon);
                 builder.setAutoCancel(true);
                 if (date > 0) {
                     builder.setWhen(date);
