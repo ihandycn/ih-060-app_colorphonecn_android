@@ -9,6 +9,8 @@ import com.ihs.commons.utils.HSMapUtils;
 import com.superapps.util.Commons;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +55,18 @@ public final class CrashGuard {
                             } else if (isOOM(e)) {
                                 recordProcessLifespan();
                             }
+
+                            List<StackTraceElement> oTraces = new ArrayList<>(Arrays.asList(e.getStackTrace()));
+
+                            Iterator<StackTraceElement> iterator = oTraces.iterator();
+                            while(iterator.hasNext()) {
+                                StackTraceElement element = iterator.next();
+                                if (element.getClassName().contains(CrashGuard.class.getName())){
+                                    iterator.remove();
+                                    HSLog.d(TAG, "Remove guard stacktrace :" + element.toString());
+                                }
+                            }
+                            e.setStackTrace(oTraces.toArray(new StackTraceElement[0]));
                             throw e;
                         }
                     }
