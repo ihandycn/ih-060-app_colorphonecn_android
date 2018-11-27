@@ -249,6 +249,7 @@ public class TasksManager {
         return modelList.size();
     }
 
+    //FIXME block ui thread.
     public void addTask(Type type) {
         File ringtoneFile = null;
         if (type instanceof Theme && ((Theme) type).hasRingtone()) {
