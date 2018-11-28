@@ -43,9 +43,13 @@ public class RecentAppManager {
     private static final String TAG = "RecentAppManager";
 
     private static RecentAppManager INSTANCE = new RecentAppManager();
+    private static volatile boolean inited;
     private boolean isStarted;
 
     public static RecentAppManager getInstance() {
+        if (!inited) {
+            INSTANCE.init();
+        }
         return INSTANCE;
     }
 
@@ -277,6 +281,7 @@ public class RecentAppManager {
     };
 
     public void init() {
+        inited = true;
         updateStatus();
         HSLog.d(TAG, "init");
 
