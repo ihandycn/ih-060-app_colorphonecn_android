@@ -307,6 +307,11 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void logScreenFlashAccessAllOpenGuide() {
 
             }
+
+            @Override
+            public void onClose() {
+
+            }
         };
     }
 

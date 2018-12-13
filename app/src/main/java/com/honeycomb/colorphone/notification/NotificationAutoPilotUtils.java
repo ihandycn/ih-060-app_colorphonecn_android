@@ -77,14 +77,6 @@ public class NotificationAutoPilotUtils {
         AutopilotEvent.logTopicEvent(LOCAL_NOTIFICATION_TEST, "localpush_oldtheme_themeapply");
     }
 
-    /**
-     * WhatsApp message
-     */
-
-    public static boolean isMessageCenterEnabled() {
-        return isWhatsAppEnabled() || isFacebookMessengerEnabled() || isGmailEnabled();
-    }
-
     public static boolean isWhatsAppEnabled() {
         return AutopilotConfig.getBooleanToTestNow(WHATS_APP_ASSISTANT_TEST, "whatsapp_assistant_enable", false);
     }
