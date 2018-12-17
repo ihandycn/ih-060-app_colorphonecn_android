@@ -67,6 +67,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
@@ -602,10 +603,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (theme.getId() == selectedThemeId) {
                 theme.setSelected(true);
             }
-
-            if (theme.isMedia()) {
-                TasksManager.getImpl().addTask(theme);
-            }
         }
 
         Collections.sort(mRecyclerViewData, new Comparator<Theme>() {
@@ -614,6 +611,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 return o1.getIndex() - o2.getIndex();
             }
         });
+
+        Threads.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                for (Theme theme : mRecyclerViewData) {
+                    if (theme.isMedia()) {
+                        TasksManager.getImpl().addTask(theme);
+                    }
+                }
+                UpdateRunnable.run();
+            }
+        });
+
 
     }
 

@@ -16,9 +16,11 @@ import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
+import com.superapps.util.Threads;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -71,11 +73,23 @@ public class TasksManager {
     }
 
     private TasksManagerDBController dbController;
-    private List<TasksManagerModel> modelList;
+    private List<TasksManagerModel> modelList = new ArrayList<>();
 
     private TasksManager() {
         dbController = new TasksManagerDBController();
-        modelList = dbController.getAllTasks();
+        loadTasks();
+    }
+
+    private void loadTasks() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                List<TasksManagerModel> temp = dbController.getAllTasks();
+                synchronized (TasksManager.this) {
+                    modelList.addAll(temp);
+                }
+            }
+        });
     }
 
     private SparseArray<BaseDownloadTask> taskSparseArray = new SparseArray<>();
@@ -127,7 +141,7 @@ public class TasksManager {
 
             @Override
             public void connected() {
-                Runnable runnable  = taskWeakReference.get();
+                Runnable runnable = taskWeakReference.get();
                 if (runnable != null) {
                     runnable.run();
                 }
@@ -135,7 +149,7 @@ public class TasksManager {
 
             @Override
             public void disconnected() {
-                Runnable runnable  = taskWeakReference.get();
+                Runnable runnable = taskWeakReference.get();
                 if (runnable != null) {
                     runnable.run();
                 }
@@ -169,9 +183,14 @@ public class TasksManager {
 
     private TasksManagerModel getByThemeId(int themeId, String extraToken) {
         Type theme = com.acb.utils.Utils.getTypeByThemeId(themeId);
-        for (TasksManagerModel model : modelList) {
-            if (TextUtils.equals(model.getName(), theme.getIdName() + extraToken)) {
-                return model;
+        if (theme != null) {
+            final String name = theme.getIdName() + extraToken;
+            synchronized (this) {
+                for (TasksManagerModel model : modelList) {
+                    if (TextUtils.equals(model.getName(), name)) {
+                        return model;
+                    }
+                }
             }
         }
         return null;
@@ -186,11 +205,10 @@ public class TasksManager {
     }
 
     /**
-     *
      * @param id taskId, generate by theme url & path.
      * @return
      */
-    public TasksManagerModel getById(final int id) {
+    public synchronized TasksManagerModel getById(final int id) {
         for (TasksManagerModel model : modelList) {
             if (model.getId() == id) {
                 return model;
@@ -276,7 +294,7 @@ public class TasksManager {
         return addTask(url, createPath(url), token);
     }
 
-    public TasksManagerModel addTask(final String url, final String path, String token) {
+    public synchronized TasksManagerModel addTask(final String url, final String path, String token) {
         HSLog.d(TAG, "## Add new task ##:" + url);
 
         if (TextUtils.isEmpty(url) || TextUtils.isEmpty(path)) {
