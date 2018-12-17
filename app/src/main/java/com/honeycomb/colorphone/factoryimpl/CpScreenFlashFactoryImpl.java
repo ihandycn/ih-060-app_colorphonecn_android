@@ -9,8 +9,8 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.acb.call.activity.RequestPermissionsActivity;
+import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ThemeViewConfig;
-import com.acb.call.receiver.IncomingCallReceiver;
 import com.acb.call.themes.Type;
 import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
@@ -49,8 +49,8 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     }
 
     @Override
-    public IncomingCallReceiver.Config getIncomingReceiverConfig() {
-        return new IncomingCallReceiver.Config() {
+    public ScreenFlashManager.Config getIncomingReceiverConfig() {
+        return new ScreenFlashManager.Config() {
             @Override
             public int getThemeIdByPhoneNumber(String number) {
                 int themeId = ContactManager.getInstance().getThemeIdByNumber(number);

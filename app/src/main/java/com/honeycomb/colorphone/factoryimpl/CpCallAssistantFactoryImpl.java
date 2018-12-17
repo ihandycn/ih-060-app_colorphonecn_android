@@ -169,11 +169,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             }
 
-            @Override
-            public void inCallWindowShow(String themeName) {
-
-            }
-
         };
     }
 

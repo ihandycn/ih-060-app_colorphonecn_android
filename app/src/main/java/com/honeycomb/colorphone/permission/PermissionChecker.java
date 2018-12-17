@@ -55,7 +55,7 @@ public class PermissionChecker {
 //            RuntimePermissions.requestPermissions(activity, perms, 1000);
 //        }
         com.call.assistant.receiver.IncomingCallReceiver.IncomingCallListener.init();
-        com.acb.call.receiver.IncomingCallReceiver.IncomingCallListener.init();
+        com.acb.call.receiver.IncomingCallListener.init();
     }
 
     public static void onContactPermissionGranted() {
