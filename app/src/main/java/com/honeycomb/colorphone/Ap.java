@@ -196,4 +196,41 @@ public class Ap {
             AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_seletcontactfortheme_success");
         }
     }
+
+    public static class ScreenFlash {
+        public static String TOPIC_ID = "topic-6ydyea3j6";
+
+        public static boolean isCallAssistantOpen() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "callassistantenable", true);
+        }
+
+        public static boolean isDefaultThemeEnable() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "defaultthemeenable", true);
+        }
+
+        public static String getDefaultThemeId() {
+            return AutopilotConfig.getStringToTestNow(TOPIC_ID, "defaultthemeid", "Moving");
+        }
+
+        public static void onMainViewShow() {
+            isCallAssistantOpen();
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "mainview_opened");
+        }
+
+        public static void onScreenFlashSet() {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "screenflash_set");
+        }
+
+        public static void onScreenFlashShow() {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "screenflash_show");
+        }
+
+        public static void onCallAssistantShow() {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "call_assistant_show");
+        }
+
+        public static void onCallAssitantAdShow() {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "call_assistant_ad_show");
+        }
+    }
 }
