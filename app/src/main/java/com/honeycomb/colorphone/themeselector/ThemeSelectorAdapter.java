@@ -89,7 +89,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private boolean mTipHeaderVisible;
     private boolean mHotThemeHolderVisible;
     private int mUnLockThemeId = -1;
-
+    private int mMaxShowThemeIndex = 2;
 
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_GIF = 0x1;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO = 0x8;
@@ -556,6 +556,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 cardViewHolder.getContentView().setTranslationX(-mTransX);
             }
 
+            int index = themeIndex / 2;
+            if (index > mMaxShowThemeIndex) {
+                mMaxShowThemeIndex = index;
+                LauncherAnalytics.logEvent("ColorPhone_Mainview_Slide");
+            }
 
             if (activity instanceof PopularThemeActivity) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -700,6 +705,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public int getItemCount() {
         return data.size() + getHeaderCount() + getFooterCount();
+    }
+
+    public void resetShownCount() {
+        mMaxShowThemeIndex = 2;
     }
 
     private int getFooterCount() {

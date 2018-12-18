@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
@@ -173,6 +174,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
      */
     private boolean waitingForThemeReady = false;
     private boolean resumed;
+
+    private long startDownloadTime;
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -476,6 +479,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             playTransInAnimation(transEndRunnable);
         } else {
             transEndRunnable.run();
+        }
+
+        if (startDownloadTime != 0) {
+            LauncherAnalytics.logEvent("ColorPhone_Theme_Download_Time", "Time",
+                    String.valueOf((System.currentTimeMillis() - startDownloadTime + 999) / DateUtils.SECOND_IN_MILLIS));
         }
     }
 
@@ -880,6 +888,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
                 themeLoading = true;
+                startDownloadTime = System.currentTimeMillis();
                 onThemeLoading();
             }
         } else {

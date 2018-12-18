@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.honeycomb.colorphone.R;
@@ -24,11 +23,10 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
     private static final String EXTRA_KEY_RESULT_TYPE = "EXTRA_KEY_RESULT_TYPE";
 
     private ViewGroup mContent;
-    private WindowManager.LayoutParams mBoostTipParams;
 
     private BlackHole mBlackHole;
-    private ViewGroup.LayoutParams mParams;
     private int resultPageType = ResultConstants.RESULT_TYPE_BOOST_PLUS;
+    private boolean isStart = false;
 
     public static void start(Context context, boolean toolbar) {
         Intent intent = new Intent(context, BoostActivity.class);
@@ -48,10 +46,6 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
 
         Utils.showWhenLocked(this);
 
-//        View decorView = getWindow().getDecorView();
-//        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
-//        decorView.setSystemUiVisibility(uiOptions);
-
         setContentView(R.layout.activity_boost);
 
         mContent = (ViewGroup) ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
@@ -60,18 +54,21 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
             resultPageType = getIntent().getIntExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
         }
 
-//        String wallpaperUrl = HSPreferenceHelper.create(HSApplication.getContext(),
-//                WallpaperContainer.LOCKER_PREFS).getString(PREF_KEY_CURRENT_WALLPAPER_HD_URL,
-//                HSConfig.optString(DEFAULT_WALLPAPER_URL, "Application", "WallPaper", "DefaultWallpaper"));
-//
-//        ImageView wallpaper = (ImageView) findViewById(R.id.background);
-//        wallpaper.setImageBitmap(ImageLoader.getInstance().loadImageSync(wallpaperUrl));
-
         ImageView wallpaper = findViewById(R.id.background);
         wallpaper.setBackgroundColor(0xff2572E3);
 
         startForeignIconAnimation();
         HSGlobalNotificationCenter.addObserver(BlackHole.EVENT_BLACK_HOLE_ANIMATION_END, this);
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        isStart = true;
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        isStart = false;
     }
 
     @Override
@@ -82,21 +79,13 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
 
     private void startForeignIconAnimation() {
         mBlackHole = new BlackHole(BoostActivity.this);
-        mParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        ViewGroup.LayoutParams mParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mContent.addView(mBlackHole, mParams);
-        mBlackHole.setBlackHoleAnimationListener(new BlackHole.BlackHoleAnimationListener() {
-            @Override
-            public void onEnd() {
+        mBlackHole.setBlackHoleAnimationListener(() -> {
 //                finishWithoutAnimation();
-            }
         });
-        mBlackHole.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mBlackHole.startAnimation();
-            }
-        }, 300);
-        ResultPageManager.getInstance().preloadResultPageAds();
+        mBlackHole.postDelayed(() -> mBlackHole.startAnimation(), 300);
+        ResultPageManager.preloadResultPageAds();
     }
 
     private void finishWithoutAnimation() {
@@ -114,7 +103,11 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
     public void onReceive(String s, HSBundle hsBundle) {
         switch (s) {
             case BlackHole.EVENT_BLACK_HOLE_ANIMATION_END:
-                startResultPageActivity();
+                if (isStart) {
+                    startResultPageActivity();
+                } else {
+                    finishWithoutAnimation();
+                }
                 break;
             default:
                 break;
@@ -125,10 +118,6 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
         int cleanSizeMb = BoostUtils.getBoostedMemSizeBytes(this, mBlackHole.getBoostedPercentage()) / (1024 * 1024);
         ResultPageActivity.startForBoostPlus(this, cleanSizeMb, resultPageType);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override public void run() {
-                finishWithoutAnimation();
-            }
-        }, 400);
+        new Handler().postDelayed(() -> finishWithoutAnimation(), 400);
     }
 }

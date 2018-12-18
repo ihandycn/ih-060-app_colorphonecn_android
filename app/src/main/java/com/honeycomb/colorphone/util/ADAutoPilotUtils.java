@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.util;
 
 import android.text.format.DateUtils;
 
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
 
@@ -30,7 +31,7 @@ public class ADAutoPilotUtils {
             sMaxCallFinishShow = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "callfinishwire_show_maxtime", 100);
         }
         HSLog.d("ADAutoPilotUtils", "getCallFinishWireShowMaxTime == " + sMaxCallFinishShow);
-        return sMaxCallFinishShow;
+        return Math.min(sMaxCallFinishShow, HSConfig.optInteger(1000, "Application", "CallFinishWire", "Maxtime"));
     }
 
     public static int getCallFinishWireTimeInterval() {
@@ -46,7 +47,7 @@ public class ADAutoPilotUtils {
             sMaxThemeShow = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "themewire_show_maxtime", 100);
         }
         HSLog.d("ADAutoPilotUtils", "getThemeWireShowMaxTime == " + sMaxThemeShow);
-        return sMaxThemeShow;
+        return Math.min(sMaxThemeShow, HSConfig.optInteger(1000, "Application", "FullScreen", "Maxtime"));
     }
 
     public static int getThemeWireShowInterval() {
