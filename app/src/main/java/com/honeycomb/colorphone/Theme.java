@@ -77,9 +77,12 @@ public class Theme extends Type {
         if (themes.isEmpty()) {
             updateThemes();
         }
-        if (mThemeNone != null && Ap.ScreenFlash.isDefaultThemeEnable()) {
-            themes.remove(mThemeNone);
-            mThemeNone = null;
+        if (mThemeNone != null ) {
+            if (Ap.ScreenFlash.isDefaultThemeEnable()) {
+                themes.remove(mThemeNone);
+            } else if (!themes.contains(mThemeNone)){
+                themes.add(mThemeNone);
+            }
         }
         return themes;
     }
