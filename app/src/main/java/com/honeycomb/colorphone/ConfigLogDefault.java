@@ -24,6 +24,7 @@ public class ConfigLogDefault implements ConfigLog {
         @Override
         public void onMainViewOpen() {
             LauncherAnalytics.logEvent("ColorPhone_MainView_Opened");
+            Ap.ScreenFlash.onMainViewShow();
         }
 
         @Override

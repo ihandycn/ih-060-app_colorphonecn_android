@@ -12,6 +12,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConfigUtils;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
@@ -80,7 +81,9 @@ public class ModuleUtils {
         } else if (AUTO_KEY_APPLY_FINISH.equals(moduleKey)) {
             return HSConfig.optBoolean(false, "Application", "Guide", "ApplyFinishGuideEnable");
         } else if (AUTO_KEY_CALL_ASSISTANT.equals(moduleKey)) {
-            return isShowModulesDueToConfig() || HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "Enable");
+            return isShowModulesDueToConfig() ||
+                    (HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "Enable")
+                    && Ap.ScreenFlash.isCallAssistantOpen());
         }
         return false;
     }

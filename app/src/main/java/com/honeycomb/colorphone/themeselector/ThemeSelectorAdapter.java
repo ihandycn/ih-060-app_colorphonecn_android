@@ -95,6 +95,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO = 0x8;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_LED = 0x2;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_TECH = 0x3;
+    public static final int THEME_SELECTOR_ITEM_TYPE_THEME_NONE = 0x4;
+
 
     public static final int THEME_SELECTOR_ITEM_TYPE_STATEMENT = 0x20;
     public static final int THEME_SELECTOR_ITEM_TYPE_TIP = 0x30;
@@ -281,6 +283,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 case THEME_SELECTOR_ITEM_TYPE_THEME_TECH:
                     holder.mThemeFlashPreviewWindow.updateThemeLayout(getTypeByThemeId(Type.TECH));
                     break;
+
+                case THEME_SELECTOR_ITEM_TYPE_THEME_NONE:
+                    holder.mThemeFlashPreviewWindow.updateThemeLayout(getTypeByThemeId(Type.NONE));
+                    holder.mThemePreviewImg.setBackgroundResource(R.drawable.card_bg_round_dark);
+                    holder.mThemeFlashPreviewWindow.findViewById(R.id.acb_phone_none_system).setVisibility(View.GONE);
+
+                    break;
             }
 
             holder.initChildView();
@@ -315,9 +324,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     final Theme theme = data.get(pos);
 
                     if (theme.isPendingSelected()) {
-                        theme.setSelected(true);
-                    }
-                    if (theme.isSelected()) {
                         if (selectTheme(pos, holder, false)) {
                             onThemeSelected(pos);
                         }
@@ -483,7 +489,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public int getLastSelectedLayoutPos() {
-        int prePos = 0;
+        int prePos = -1;
         // Clear before.
         for (int i = 0; i < data.size(); i++) {
             Theme t = data.get(i);
@@ -587,6 +593,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             // CardView
+            if (!fileExist && curTheme.isSelected()) {
+                HSLog.d(TAG, "selected theme start downloading : " + curTheme.getIdName());
+                curTheme.setSelected(false);
+                curTheme.setPendingSelected(true);
+                cardViewHolder.startDownload();
+            }
+
             cardViewHolder.updateTheme(curTheme, fileExist);
 
             // Update lock status
@@ -635,7 +648,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         int dateIndex = position - headerCount;
         if (dateIndex < data.size()) {
             Theme theme = data.get(dateIndex);
-            if (theme.getValue() == Type.LED) {
+            if (theme.getValue() == Type.NONE) {
+                return THEME_SELECTOR_ITEM_TYPE_THEME_NONE;
+            } else if (theme.getValue() == Type.LED) {
                 return THEME_SELECTOR_ITEM_TYPE_THEME_LED;
             } else if (theme.getValue() == Type.TECH) {
                 return THEME_SELECTOR_ITEM_TYPE_THEME_TECH;

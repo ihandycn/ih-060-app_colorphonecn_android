@@ -16,6 +16,7 @@ import com.call.assistant.ui.CallIdleAlert;
 import com.call.assistant.ui.CallIdleAlertActivity;
 import com.call.assistant.ui.CallIdleAlertView;
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
@@ -147,17 +148,24 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onShow(int callType, boolean isLocked) {
-                Threads.removeOnMainThread(mDisplyTimeoutRunnable);
+                Threads.removeOnMainThread(mDisplayTimeoutRunnable);
                 LauncherAnalytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
                     LauncherAnalytics.logEvent("Test_CallAssistantShow" + Build.BRAND + getDeviceInfo());
                 }
+                Ap.ScreenFlash.onCallAssistantShow();
             }
 
             @Override
             public void onCallFinished() {
                 CallFinishUtils.logCallFinish();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
+            }
+
+            @Override
+            public void onAdShow(int callType) {
+                super.onAdShow(callType);
+                Ap.ScreenFlash.onCallAssitantAdShow();
             }
 
             @Override

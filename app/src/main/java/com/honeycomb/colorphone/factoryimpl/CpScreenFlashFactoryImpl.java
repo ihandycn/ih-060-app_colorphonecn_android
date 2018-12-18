@@ -16,6 +16,7 @@ import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
@@ -123,9 +124,6 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 Type t = iter.next();
                 if (t instanceof Theme) {
                     ((Theme) t).configAvatar();
-                }
-                if (t.getValue() == Type.NONE) {
-                    iter.remove();
                 }
             }
         }
@@ -318,5 +316,8 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     @Override
     public void logEvent(String eventID, String... vars) {
         LauncherAnalytics.logEvent(eventID, vars);
+        if ("Acb_Screenflash_Show".equalsIgnoreCase(eventID)) {
+            Ap.ScreenFlash.onScreenFlashShow();
+        }
     }
 }

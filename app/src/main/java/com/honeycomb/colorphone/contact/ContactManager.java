@@ -200,7 +200,7 @@ public class ContactManager {
         } else if (contact.getOtherNumbers() != null) {
             // Other phone numbers
             for (String otherNumber : contact.getOtherNumbers()) {
-                if (PhoneNumberUtils.compare(contact.getRawNumber(), rawNumber)) {
+                if (PhoneNumberUtils.compare(otherNumber, rawNumber)) {
                     return true;
                 }
             }

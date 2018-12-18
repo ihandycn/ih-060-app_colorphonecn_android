@@ -35,6 +35,7 @@ public class Theme extends Type {
     private static final String PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX ="prefs_theme_lock_id_prefix";
 
     private static final int LOCK_THEME_VERSION_CODE = 26;
+    private static Theme mThemeNone;
 
     private long download;
     private boolean isSelected;
@@ -76,6 +77,10 @@ public class Theme extends Type {
         if (themes.isEmpty()) {
             updateThemes();
         }
+        if (mThemeNone != null && Ap.ScreenFlash.isDefaultThemeEnable()) {
+            themes.remove(mThemeNone);
+            mThemeNone = null;
+        }
         return themes;
     }
 
@@ -89,8 +94,11 @@ public class Theme extends Type {
             return;
         }
         for (Type type : types) {
-            if (type.getValue() == NONE) {
+            if (!(type instanceof Theme)) {
                 continue;
+            }
+            if (type.getId() == Type.NONE) {
+                mThemeNone = (Theme) type;
             }
             themes.add((Theme) type);
         }
@@ -114,6 +122,7 @@ public class Theme extends Type {
     }
 
     public void setSelected(boolean selected) {
+        HSLog.d("AP-ScreenFlash", getIdName() + " setSelected " + selected);
         isSelected = selected;
     }
 
@@ -187,7 +196,10 @@ public class Theme extends Type {
     }
 
     public void configAvatar() {
-        if (getValue() == Type.TECH) {
+        if (getValue() == Type.NONE) {
+            setAvatarName("Jack");
+            setAvatar(R.drawable.acb_phone_theme_none_default);
+        } else if (getValue() == Type.TECH) {
             setAvatarName("Alexis");
             setAvatar(R.drawable.acb_phone_theme_default_technological_caller_avatar);
         } else {
@@ -288,6 +300,7 @@ public class Theme extends Type {
     }
 
     public void setPendingSelected(boolean pendingSelected) {
+        HSLog.d("AP-ScreenFlash", getIdName() + " setPendingSelected " + pendingSelected);
         this.pendingSelected = pendingSelected;
     }
 

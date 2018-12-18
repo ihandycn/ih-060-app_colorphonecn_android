@@ -7,9 +7,12 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.utils.PermissionHelper;
 import com.call.assistant.customize.CallAssistantSettings;
 import com.call.assistant.util.CommonUtils;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Calendars;
@@ -110,6 +113,12 @@ public class DailyLogger {
     }
 
     public void logOnceFirstSessionEndStatus() {
+        // Theme id valid.
+        int curThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
+        if (curThemeId > 0) {
+            Ap.ScreenFlash.onScreenFlashSet();
+        }
+
         Context context = HSApplication.getContext();
         boolean phoneAccessGranted = RuntimePermissions.checkSelfPermission(
                 context, Manifest.permission.READ_PHONE_STATE) >= 0;

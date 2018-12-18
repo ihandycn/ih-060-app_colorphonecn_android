@@ -34,6 +34,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
@@ -93,7 +94,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
-    private ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
+    private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
     private RewardVideoView mRewardVideoView;
 
     private SwitchCompat mainSwitch;
@@ -354,10 +355,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
         }
-//        if (pendingShowRateAlert && SessionMgr.getInstance().getCurrentSessionId() >= 3) {
-//            HSAlertMgr.showRateAlert();
-//            pendingShowRateAlert = false;
-//        }
+
         mAdapter.updateApplyInformationAutoPilotValue();
         mHandler.postDelayed(mainViewRunnable, 1000);
         isPaused = false;
@@ -581,16 +579,26 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void initData() {
-        mRecyclerViewData.clear();
-        mRecyclerViewData.addAll(Theme.themes());
-        final int count = mRecyclerViewData.size();
+
+
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
-        if (selectedThemeId == -1) {
-            selectedThemeId = defaultThemeId;
-            ThemePreviewView.saveThemeApplys(defaultThemeId);
-            ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, defaultThemeId);
+
+        boolean defaultThemeEnable = Ap.ScreenFlash.isDefaultThemeEnable();
+        HSLog.d("AP-ScreenFlash", "defaultTheme : " + defaultThemeEnable);
+        if (selectedThemeId == -1 && defaultThemeEnable) {
+            selectedThemeId = getDefaultIdByName(Ap.ScreenFlash.getDefaultThemeId(), defaultThemeId);
+            HSLog.d("AP-ScreenFlash", "defaultThemeID : " + selectedThemeId);
+            ThemePreviewView.saveThemeApplys(selectedThemeId);
+            ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, selectedThemeId);
         }
+
+        synchronized (mRecyclerViewData) {
+            mRecyclerViewData.clear();
+            mRecyclerViewData.addAll(Theme.themes());
+        }
+
         String[] likeThemes = getThemeLikes();
+        final int count = mRecyclerViewData.size();
         for (int i = 0; i < count; i++) {
             final Theme theme = mRecyclerViewData.get(i);
             // Like ?
@@ -615,9 +623,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
-                for (Theme theme : mRecyclerViewData) {
-                    if (theme.isMedia()) {
-                        TasksManager.getImpl().addTask(theme);
+                synchronized (mRecyclerViewData) {
+                    for (Theme theme : mRecyclerViewData) {
+                        if (theme.isMedia()) {
+                            TasksManager.getImpl().addTask(theme);
+                        }
                     }
                 }
                 UpdateRunnable.run();
@@ -625,6 +635,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         });
 
 
+    }
+
+    private int getDefaultIdByName(String defaultThemeId, int defaultThemeIdInt) {
+        for (Theme theme : Theme.themes()) {
+            if (TextUtils.equals(theme.getIdName(), defaultThemeId)) {
+                return theme.getId();
+            }
+        }
+        return defaultThemeIdInt;
     }
 
     private boolean isLikeTheme(String[] likeThemes, int themeId) {
