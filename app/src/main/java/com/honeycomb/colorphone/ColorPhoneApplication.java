@@ -146,7 +146,7 @@ public class ColorPhoneApplication extends HSApplication {
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
                 HSLog.d("Session End.");
-                logOnceFirstSessionEndStatus();
+                onSessionEnd();
             } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
@@ -165,7 +165,7 @@ public class ColorPhoneApplication extends HSApplication {
         }
     };
 
-    public void logOnceFirstSessionEndStatus() {
+    public void onSessionEnd() {
         Preferences.get(Constants.DESKTOP_PREFS).doOnce(() -> {
             if (ColorPhoneApplication.getContext().getApplicationContext() instanceof ColorPhoneApplication) {
                 if (mDailyLogger != null) {

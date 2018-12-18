@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Handler;
 
 import com.acb.call.service.InCallWindow;
@@ -25,6 +26,7 @@ import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.util.CallFinishUtils;
+import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
@@ -36,8 +38,10 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.flashlight.FlashlightManager;
 import com.ihs.libcharging.ScreenStateMgr;
+import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
+import com.superapps.util.Threads;
 
 import static com.acb.call.activity.AcceptCallActivity.PREFS_ACCEPT_FAIL;
 import static com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_LAST_SHOW_TIME;
@@ -105,6 +109,51 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
     @Override
     public CallIdleAlert.Event getCallIdleEvent() {
         return new CallIdleAlert.FlurryEvent() {
+
+            final Runnable mDisplayTimeoutRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("TimeOutNotShowCallAssistant"));
+                }
+            };
+
+            @Override
+            public void onShouldShow(int callType, boolean isLocked) {
+                LauncherAnalytics.logEvent("CallFinished_View_Should_Show", "callType", getCallTypeStr(callType));
+                if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
+                    LauncherAnalytics.logEvent("Test_CallAssistantShouldShow" +  Build.BRAND + getDeviceInfo());
+                } else {
+                    Threads.postOnMainThreadDelayed(mDisplayTimeoutRunnable, 8000);
+                }
+            }
+
+            private boolean isTargetBrand() {
+                return Compats.IS_HUAWEI_DEVICE
+                        || Compats.IS_XIAOMI_DEVICE
+                        || Compats.IS_OPPO_DEVICE
+                        || Compats.IS_VIVO_DEVICE;
+            }
+
+            private String getDeviceInfo() {
+                if (Build.VERSION.SDK_INT >= 26) {
+                    return "8";
+                } else if (Build.VERSION.SDK_INT >= 24) {
+                    return "7";
+                } else if (Build.VERSION.SDK_INT >= 23) {
+                    return "6";
+                }
+                return "";
+            }
+
+            @Override
+            public void onShow(int callType, boolean isLocked) {
+                Threads.removeOnMainThread(mDisplyTimeoutRunnable);
+                LauncherAnalytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType));
+                if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
+                    LauncherAnalytics.logEvent("Test_CallAssistantShow" + Build.BRAND + getDeviceInfo());
+                }
+            }
+
             @Override
             public void onCallFinished() {
                 CallFinishUtils.logCallFinish();

@@ -8,6 +8,7 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.acb.call.utils.PermissionHelper;
+import com.call.assistant.customize.CallAssistantSettings;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.ihs.app.framework.HSApplication;
@@ -42,7 +43,49 @@ public class DailyLogger {
         }
     }
 
+    private void throwExceptionFirstDay() {
+        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("FirstDay"));
+    }
+
+    private void throwExceptionAfterDay() {
+        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("Day3"));
+    }
+
+    private void throwExceptionDay7() {
+        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("Day7"));
+    }
+
+
     private void logDailyStatus(int daysSinceInstall) {
+        if (daysSinceInstall == 0) {
+            Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
+                @Override
+                public void run() {
+                    throwExceptionFirstDay();
+                }
+            }, "ColorPhone_Daily_Exception1");
+        } else if (daysSinceInstall == 3) {
+            Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
+                @Override
+                public void run() {
+                    throwExceptionAfterDay();
+                }
+            }, "ColorPhone_Daily_Exception3");
+        } else if (daysSinceInstall == 7) {
+            Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
+                @Override
+                public void run() {
+                    throwExceptionDay7();
+                }
+            }, "ColorPhone_Daily_Exception7");
+        }
+
+        boolean isCallAssistantEnable = ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CALL_ASSISTANT)
+                && CallAssistantSettings.isCallAssistantModuleEnabled();
+
+        LauncherAnalytics.logEvent("ColorPhone_Daily_CallAssistant_Open", "Switch",
+                String.valueOf(isCallAssistantEnable));
+
         Context context = HSApplication.getContext();
         boolean phoneAccessGranted = RuntimePermissions.checkSelfPermission(
                 context, Manifest.permission.READ_PHONE_STATE) >= 0;
