@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.util;
 
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.ihs.commons.config.HSConfig;
 
 public class ColorPhoneCrashlytics  {
     private static ColorPhoneCrashlytics INSTANCE = new ColorPhoneCrashlytics();
@@ -18,7 +19,7 @@ public class ColorPhoneCrashlytics  {
     }
 
     public void logException(Throwable throwable) {
-        if (ColorPhoneApplication.isFabricInitted()) {
+        if (ColorPhoneApplication.isFabricInitted() && HSConfig.optBoolean(true, "Application", "EnableCrashLog")) {
             CrashlyticsCore.getInstance().logException(throwable);
         }
     }

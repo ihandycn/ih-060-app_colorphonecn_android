@@ -23,6 +23,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
@@ -318,6 +319,18 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
         LauncherAnalytics.logEvent(eventID, vars);
         if ("Acb_Screenflash_Show".equalsIgnoreCase(eventID)) {
             Ap.ScreenFlash.onScreenFlashShow();
+        } else if ("Acb_ScreenFlash_AcceptFail_Reject".equalsIgnoreCase(eventID)) {
+            logExceptionAcceptFailTurn();
+        } else if ("Acb_ScreenFlash_AcceptFail_TimeOut".equalsIgnoreCase(eventID)) {
+            logExceptionAcceptFailTimeout();
         }
+    }
+
+    private void logExceptionAcceptFailTimeout() {
+        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("AcceptFail_TimeOut"));
+    }
+
+    private void logExceptionAcceptFailTurn() {
+        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("AcceptFail_Reject"));
     }
 }
