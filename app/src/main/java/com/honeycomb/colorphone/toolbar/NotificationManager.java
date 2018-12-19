@@ -24,6 +24,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.os.BuildCompat;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -147,6 +148,8 @@ public class NotificationManager implements FlashlightStatusListener {
                         android.app.NotificationManager.IMPORTANCE_DEFAULT);
         channel.setShowBadge(false);
         channel.enableVibration(false);
+        channel.setVibrationPattern(new long[]{0});
+        channel.setSound(null, null);
         context.getSystemService(android.app.NotificationManager.class).createNotificationChannel(channel);
     }
 
@@ -239,14 +242,18 @@ public class NotificationManager implements FlashlightStatusListener {
         mRemoteViews.setImageViewBitmap(R.id.iv_boost, getBoostIcon(mRamUsageDisplayUpdater.getDisplayedRamUsage() / 100f));
 
         if (mNotificationToolbar == null) {
-            mNotificationToolbar = new NotificationCompat.Builder(context)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                     .setOngoing(true)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     .setSmallIcon(R.drawable.notification_toolbar_small_icon)
                     .setWhen(0)
-                    .setContent(mRemoteViews)
-                    .setChannelId(sNotificationChannelId)
-                    .build();
+                    .setSound(null)
+                    .setContent(mRemoteViews);
+
+            if (BuildCompat.isAtLeastO()) {
+                builder.setChannelId(sNotificationChannelId);
+            }
+            mNotificationToolbar = builder.build();
         }
 
         if (mTurnOnRunnable == null) {
