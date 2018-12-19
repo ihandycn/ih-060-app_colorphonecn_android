@@ -8,6 +8,7 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.utils.PermissionHelper;
 import com.call.assistant.customize.CallAssistantSettings;
@@ -86,8 +87,14 @@ public class DailyLogger {
         boolean isCallAssistantEnable = ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CALL_ASSISTANT)
                 && CallAssistantSettings.isCallAssistantModuleEnabled();
 
-        LauncherAnalytics.logEvent("ColorPhone_Daily_CallAssistant_Open", "Switch",
-                String.valueOf(isCallAssistantEnable));
+        if (isCallAssistantEnable) {
+            LauncherAnalytics.logEvent("ColorPhone_Daily_CallAssistant_Open");
+        }
+
+        if (ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
+                && ScreenFlashSettings.isScreenFlashModuleEnabled()) {
+            LauncherAnalytics.logEvent("ColorPhone_Daily_ScreenFlash_Open");
+        }
 
         Context context = HSApplication.getContext();
         boolean phoneAccessGranted = RuntimePermissions.checkSelfPermission(
