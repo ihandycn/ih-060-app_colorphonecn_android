@@ -217,27 +217,33 @@ public class Ap {
 
         public static void onMainViewShow() {
             isCallAssistantOpen();
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "mainview_opened");
+            logEvent(TOPIC_ID, "mainview_opened");
         }
 
         public static void onScreenFlashSet() {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "screenflash_set");
+            logEvent(TOPIC_ID, "screenflash_set");
         }
 
         public static void onScreenFlashShow() {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "screenflash_show");
+            logEvent(TOPIC_ID, "screenflash_show");
         }
 
         public static void onCallAssistantShow() {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "call_assistant_show");
+            logEvent(TOPIC_ID, "call_assistant_show");
         }
 
         public static void onCallAssistantAdShow() {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "call_assistant_ad_show");
+            logEvent(TOPIC_ID, "call_assistant_ad_show");
         }
 
         public static void onDefaultThemeDownloaded() {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "default_theme_download_success");
+            logEvent(TOPIC_ID, "default_theme_download_success");
         }
     }
+
+    public static void logEvent(String topicId, String eventName) {
+        AutopilotEvent.logTopicEvent(topicId, eventName);
+        LauncherAnalytics.logEvent(eventName);
+    }
+
 }
