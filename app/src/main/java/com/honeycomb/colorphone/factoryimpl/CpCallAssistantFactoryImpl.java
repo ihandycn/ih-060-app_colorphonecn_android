@@ -31,6 +31,7 @@ import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -186,6 +187,9 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 CallFinishUtils.logCallFinishWiredShow();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
                 ADAutoPilotUtils.logCallFinishWireShow();
+                if (Utils.isNewUser()) {
+                    LauncherAnalytics.logEvent("ColorPhone_CallFinishWire_Show");
+                }
             }
         };
     }

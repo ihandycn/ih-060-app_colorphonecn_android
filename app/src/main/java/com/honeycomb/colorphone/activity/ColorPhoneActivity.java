@@ -622,14 +622,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
+        final List<Theme> bgThemes = new ArrayList<>(mRecyclerViewData);
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
-                synchronized (mRecyclerViewData) {
-                    for (Theme theme : mRecyclerViewData) {
-                        if (theme.isMedia()) {
-                            TasksManager.getImpl().addTask(theme);
-                        }
+                for (Theme theme : bgThemes) {
+                    if (theme.isMedia()) {
+                        TasksManager.getImpl().addTask(theme);
                     }
                 }
                 UpdateRunnable.run();
