@@ -4,8 +4,12 @@ import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSMapUtils;
+import com.superapps.util.Preferences;
+
+import net.appcloudbox.autopilot.AutopilotConfig;
 
 import java.util.Map;
 
@@ -68,7 +72,28 @@ public class ScreenFlashInit extends AppMainInit {
 
             @Override
             public void onInCallFlashShown(String themeId) {
+                if (Utils.isNewUser()) {
 
+                    Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
+                        @Override
+                        public void run() {
+                            logOnceFlashShowNewUser(themeId);
+                        }
+                    }, "flash_show_log_once");
+                }
+            }
+
+            private void logOnceFlashShowNewUser(String themeId) {
+                String idName = "NULL";
+                for (Theme theme : Theme.themes()) {
+                    if (String.valueOf(theme.getId()).equals(themeId)) {
+                        idName = theme.getIdName();
+                    }
+                }
+                if (!"NULL".equals(idName)) {
+                    AutopilotConfig.setAudienceProperty("theme_id", idName);
+                }
+                LauncherAnalytics.logEvent("ColorPhone_ScreenFlash_Set_NewUser", "themename", idName);
             }
 
             @Override
