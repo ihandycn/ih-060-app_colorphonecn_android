@@ -185,6 +185,7 @@
                 android:id="@+id/settings_boost"
                 style="@style/LayoutSettings"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <ImageView

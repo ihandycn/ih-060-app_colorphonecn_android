@@ -269,18 +269,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //            }
 //        });
 
-        if (Utils.ATLEAST_JELLY_BEAN) {
-            leftDrawer.findViewById(R.id.settings_boost).setVisibility(View.VISIBLE);
-        } else {
-            leftDrawer.findViewById(R.id.settings_boost).setVisibility(View.GONE);
-        }
+//        if (Utils.ATLEAST_JELLY_BEAN) {
+//            leftDrawer.findViewById(R.id.settings_boost).setVisibility(View.VISIBLE);
+//        } else {
+//            leftDrawer.findViewById(R.id.settings_boost).setVisibility(View.GONE);
+//        }
 
         leftDrawer.findViewById(R.id.settings_main_switch).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_default_dialer_switch).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_led_flash).setOnClickListener(this);
 //        leftDrawer.findViewById(R.id.settings_notification_toolbar).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_feedback).setOnClickListener(this);
-        leftDrawer.findViewById(R.id.settings_boost).setOnClickListener(this);
+//        leftDrawer.findViewById(R.id.settings_boost).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_setting).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_contacts).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_about).setOnClickListener(this);
@@ -745,9 +745,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 feedBack();
                 ColorPhoneApplication.getConfigLog().getEvent().onFeedBackClick();
                 break;
-            case R.id.settings_boost:
-                BoostActivity.start(ColorPhoneActivity.this, false);
-                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
+//            case R.id.settings_boost:
+//                BoostActivity.start(ColorPhoneActivity.this, false);
+//                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
                 break;
             case R.id.settings_setting:
                 LauncherAnalytics.logEvent("Colorphone_Settings_Clicked");
