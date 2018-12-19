@@ -165,7 +165,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onAdShow(int callType) {
                 super.onAdShow(callType);
-                Ap.ScreenFlash.onCallAssitantAdShow();
+                Ap.ScreenFlash.onCallAssistantAdShow();
             }
 
             @Override

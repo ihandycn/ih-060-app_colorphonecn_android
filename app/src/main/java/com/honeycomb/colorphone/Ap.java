@@ -232,7 +232,7 @@ public class Ap {
             AutopilotEvent.logTopicEvent(TOPIC_ID, "call_assistant_show");
         }
 
-        public static void onCallAssitantAdShow() {
+        public static void onCallAssistantAdShow() {
             AutopilotEvent.logTopicEvent(TOPIC_ID, "call_assistant_ad_show");
         }
 
