@@ -29,6 +29,8 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
     private BlackHole mBlackHole;
     private ViewGroup.LayoutParams mParams;
     private int resultPageType = ResultConstants.RESULT_TYPE_BOOST_PLUS;
+    private boolean isResumed;
+    private Runnable mResumePendingRunnable;
 
     public static void start(Context context, boolean toolbar) {
         Intent intent = new Intent(context, BoostActivity.class);
@@ -71,25 +73,29 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
 
         ImageView wallpaper = findViewById(R.id.background);
         wallpaper.setBackgroundColor(0xff2572E3);
-
         startForeignIconAnimation();
+        HSGlobalNotificationCenter.addObserver(BlackHole.EVENT_BLACK_HOLE_ANIMATION_END, this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        HSGlobalNotificationCenter.addObserver(BlackHole.EVENT_BLACK_HOLE_ANIMATION_END, this);
-
+        isResumed = true;
+        if (mResumePendingRunnable != null) {
+            mResumePendingRunnable.run();
+            mResumePendingRunnable = null;
+        }
     }
 
     @Override
     protected void onPause() {
-        HSGlobalNotificationCenter.removeObserver(this);
+        isResumed = false;
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
+        HSGlobalNotificationCenter.removeObserver(this);
         super.onDestroy();
     }
 
@@ -127,7 +133,16 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
     public void onReceive(String s, HSBundle hsBundle) {
         switch (s) {
             case BlackHole.EVENT_BLACK_HOLE_ANIMATION_END:
-                startResultPageActivity();
+                if (isResumed) {
+                    startResultPageActivity();
+                } else {
+                    mResumePendingRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            startResultPageActivity();
+                        }
+                    };
+                }
                 break;
             default:
                 break;
