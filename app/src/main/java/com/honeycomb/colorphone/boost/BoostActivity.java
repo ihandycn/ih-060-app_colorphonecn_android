@@ -32,7 +32,9 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
 
     public static void start(Context context, boolean toolbar) {
         Intent intent = new Intent(context, BoostActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_NO_ANIMATION
+                | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         if (toolbar) {
             intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
         } else {
@@ -71,12 +73,23 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
         wallpaper.setBackgroundColor(0xff2572E3);
 
         startForeignIconAnimation();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         HSGlobalNotificationCenter.addObserver(BlackHole.EVENT_BLACK_HOLE_ANIMATION_END, this);
+
+    }
+
+    @Override
+    protected void onPause() {
+        HSGlobalNotificationCenter.removeObserver(this);
+        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        HSGlobalNotificationCenter.removeObserver(this);
         super.onDestroy();
     }
 
