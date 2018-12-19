@@ -44,7 +44,10 @@ import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.download.DownloadHolder;
+import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
@@ -587,17 +590,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         boolean defaultThemeEnable = Ap.ScreenFlash.isDefaultThemeEnable();
         HSLog.d("AP-ScreenFlash", "defaultTheme : " + defaultThemeEnable);
-        if (selectedThemeId == -1 && defaultThemeEnable) {
+        final boolean applyDefaultTheme = selectedThemeId == -1
+                && defaultThemeEnable;
+
+        if (applyDefaultTheme) {
             selectedThemeId = getDefaultIdByName(Ap.ScreenFlash.getDefaultThemeId(), defaultThemeId);
             HSLog.d("AP-ScreenFlash", "defaultThemeID : " + selectedThemeId);
             ThemePreviewView.saveThemeApplys(selectedThemeId);
             ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, selectedThemeId);
         }
 
-        synchronized (mRecyclerViewData) {
-            mRecyclerViewData.clear();
-            mRecyclerViewData.addAll(Theme.themes());
-        }
+        mRecyclerViewData.clear();
+        mRecyclerViewData.addAll(Theme.themes());
 
         String[] likeThemes = getThemeLikes();
         final int count = mRecyclerViewData.size();
@@ -623,19 +627,59 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         });
 
         final List<Theme> bgThemes = new ArrayList<>(mRecyclerViewData);
+        final int idDefault = selectedThemeId;
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
+                boolean needPreload  = false;
                 for (Theme theme : bgThemes) {
                     if (theme.isMedia()) {
                         TasksManager.getImpl().addTask(theme);
+                        if (applyDefaultTheme && theme.getId() == idDefault) {
+                            needPreload = true;
+                        }
                     }
+                }
+                if (needPreload) {
+                    Threads.postOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            prepareThemeMediaFile(idDefault);
+                        }
+                    });
                 }
                 UpdateRunnable.run();
             }
         });
 
 
+    }
+
+    private void prepareThemeMediaFile(int idDefault) {
+        TasksManagerModel model = TasksManager.getImpl().getByThemeId(idDefault);
+        TasksManager.doDownload(model, null);
+        FileDownloadMultiListener.getDefault().addStateListener(model.getId(), new DownloadHolder() {
+            @Override
+            public int getId() {
+                return 0;
+            }
+
+            @Override
+            public void updateDownloaded(boolean progressFlag) {
+                Ap.ScreenFlash.themeDownloaded = true;
+
+            }
+
+            @Override
+            public void updateNotDownloaded(int status, long sofar, long total) {
+
+            }
+
+            @Override
+            public void updateDownloading(int status, long sofar, long total) {
+
+            }
+        });
     }
 
     private int getDefaultIdByName(String defaultThemeId, int defaultThemeIdInt) {
