@@ -16,6 +16,7 @@ import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Calendars;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
@@ -116,6 +117,10 @@ public class DailyLogger {
                     phoneAccessGranted, contactsAccessGranted,
                     notificationAccessGranted);
         }
+
+        LauncherAnalytics.logEvent("ColorPhone_VersionCode_Check", "versioncode", String.valueOf(HSApplication.getFirstLaunchInfo().appVersionCode));
+        LauncherAnalytics.logEvent("Agency_Info_Dau", "userlevel", HSConfig.optString("not_configured", "UserLevel"));
+        LauncherAnalytics.logEvent("ColorPhone_ScreenFlash_Enabled", "type", String.valueOf(ScreenFlashSettings.isScreenFlashModuleEnabled()));
 
     }
 

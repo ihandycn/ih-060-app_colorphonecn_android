@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.ad;
 
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.ihs.commons.utils.HSLog;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
@@ -71,6 +72,10 @@ public class AdManager {
     }
 
     public boolean showInterstitialAd() {
+        if (!ADAutoPilotUtils.canShowThemeWireADThisTime()) {
+            return false;
+        }
+
         AcbInterstitialAd ad = AdManager.getInstance().getInterstitialAd();
         if (ad != null) {
             ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
@@ -88,6 +93,7 @@ public class AdManager {
                 public void onAdClosed() {
                     AdManager.getInstance().releaseInterstitialAd();
                     AdManager.getInstance().preload();
+                    ADAutoPilotUtils.recordShowThemeWireTime();
                 }
 
                 @Override
@@ -96,6 +102,8 @@ public class AdManager {
                 }
             });
             ad.show();
+            ADAutoPilotUtils.logThemeWireShow();
+            ADAutoPilotUtils.recordShowThemeWireCount();
             return true;
         }
         return false;

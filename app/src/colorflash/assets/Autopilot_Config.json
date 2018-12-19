@@ -1,5 +1,255 @@
 {
-  "custom_audience_properties": [],
+  "custom_audience_properties": [
+    {
+      "select_value": [
+        {
+          "name": "Moving",
+          "key": "Moving"
+        },
+        {
+          "name": "Dance",
+          "key": "Dance"
+        },
+        {
+          "name": "Monkey",
+          "key": "Monkey"
+        },
+        {
+          "name": "FlashingRing",
+          "key": "FlashingRing"
+        },
+        {
+          "name": "Skeleton",
+          "key": "Skeleton"
+        },
+        {
+          "name": "ColorRay",
+          "key": "ColorRay"
+        },
+        {
+          "name": "CoolBanbu",
+          "key": "CoolBanbu"
+        },
+        {
+          "name": "Shining",
+          "key": "Shining"
+        },
+        {
+          "name": "STARS",
+          "key": "STARS"
+        },
+        {
+          "name": "Colorlight",
+          "key": "Colorlight"
+        },
+        {
+          "name": "Stars2",
+          "key": "Stars2"
+        },
+        {
+          "name": "CuteBanbu",
+          "key": "CuteBanbu"
+        },
+        {
+          "name": "TECH",
+          "key": "TECH"
+        },
+        {
+          "name": "Rotate",
+          "key": "Rotate"
+        },
+        {
+          "name": "Hearts",
+          "key": "Hearts"
+        },
+        {
+          "name": "MerryChristmas",
+          "key": "MerryChristmas"
+        },
+        {
+          "name": "DJ",
+          "key": "DJ"
+        },
+        {
+          "name": "FitnessBanbu",
+          "key": "FitnessBanbu"
+        },
+        {
+          "name": "Pub",
+          "key": "Pub"
+        },
+        {
+          "name": "HappySanta",
+          "key": "HappySanta"
+        },
+        {
+          "name": "NEON",
+          "key": "NEON"
+        },
+        {
+          "name": "DeepLove",
+          "key": "DeepLove"
+        },
+        {
+          "name": "BanboKitty",
+          "key": "BanboKitty"
+        },
+        {
+          "name": "MiniSanta",
+          "key": "MiniSanta"
+        },
+        {
+          "name": "Whelp",
+          "key": "Whelp"
+        },
+        {
+          "name": "Panda",
+          "key": "Panda"
+        },
+        {
+          "name": "Palette",
+          "key": "Palette"
+        },
+        {
+          "name": "DancingSanta",
+          "key": "DancingSanta"
+        },
+        {
+          "name": "LovelyBanbu",
+          "key": "LovelyBanbu"
+        },
+        {
+          "name": "Waves",
+          "key": "Waves"
+        },
+        {
+          "name": "Cash",
+          "key": "Cash"
+        },
+        {
+          "name": "RotatingSanta",
+          "key": "RotatingSanta"
+        },
+        {
+          "name": "Floating",
+          "key": "Floating"
+        },
+        {
+          "name": "HappyBanbu",
+          "key": "HappyBanbu"
+        },
+        {
+          "name": "Maze",
+          "key": "Maze"
+        },
+        {
+          "name": "Petal",
+          "key": "Petal"
+        },
+        {
+          "name": "Gingerbread",
+          "key": "Gingerbread"
+        },
+        {
+          "name": "FunnyBanbo",
+          "key": "FunnyBanbo"
+        },
+        {
+          "name": "Puppy",
+          "key": "Puppy"
+        },
+        {
+          "name": "GoldMyth",
+          "key": "GoldMyth"
+        },
+        {
+          "name": "Dazzle",
+          "key": "Dazzle"
+        },
+        {
+          "name": "StylishBanbu",
+          "key": "StylishBanbu"
+        },
+        {
+          "name": "Modern",
+          "key": "Modern"
+        },
+        {
+          "name": "Universe",
+          "key": "Universe"
+        },
+        {
+          "name": "Brownian",
+          "key": "Brownian"
+        },
+        {
+          "name": "SUN",
+          "key": "SUN"
+        },
+        {
+          "name": "Snow",
+          "key": "Snow"
+        },
+        {
+          "name": "Raining",
+          "key": "Raining"
+        },
+        {
+          "name": "Sea",
+          "key": "Sea"
+        },
+        {
+          "name": "Hearts2",
+          "key": "Hearts2"
+        },
+        {
+          "name": "Color",
+          "key": "Color"
+        },
+        {
+          "name": "Fire",
+          "key": "Fire"
+        },
+        {
+          "name": "Fancy",
+          "key": "Fancy"
+        },
+        {
+          "name": "Galaxy",
+          "key": "Galaxy"
+        },
+        {
+          "name": "Cube",
+          "key": "Cube"
+        },
+        {
+          "name": "Disc",
+          "key": "Disc"
+        },
+        {
+          "name": "Moon",
+          "key": "Moon"
+        },
+        {
+          "name": "Mixture",
+          "key": "Mixture"
+        },
+        {
+          "name": "BarLight",
+          "key": "BarLight"
+        },
+        {
+          "name": "Luxurious",
+          "key": "Luxurious"
+        }
+      ],
+      "display_name": "\u7528\u6237\u9009\u62e9\u7684\u4e3b\u9898id",
+      "field": "theme_id",
+      "content_type": "string",
+      "attributes": "select_field",
+      "type": "App"
+    }
+  ],
   "console_url": "https://ap-console.appcloudbox.net",
   "app_events": [
     {
@@ -49,7 +299,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "9e4ddb1b-f6dd-4b1f-a098-da2955f474a7",
+  "json_id": "c432b9cd-784d-4463-a28f-839cc3519f4f",
   "topics": {
     "topic-6y9jgfwg2": {
       "topic_type": "life_time",
@@ -334,6 +584,9 @@
         },
         {
           "name": "call_assistant_ad_show"
+        },
+        {
+          "name": "default_theme_download_success"
         }
       ],
       "topic_id": "topic-6ydyea3j6"

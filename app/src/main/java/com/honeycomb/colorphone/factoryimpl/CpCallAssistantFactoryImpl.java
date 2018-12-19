@@ -26,6 +26,7 @@ import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
+import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -184,6 +185,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onFullScreenAdShow() {
                 CallFinishUtils.logCallFinishWiredShow();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
+                ADAutoPilotUtils.logCallFinishWireShow();
             }
         };
     }
@@ -340,6 +342,18 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         @Override
         public boolean enableFullScreenAd() {
             return CallFinishUtils.isCallFinishFullScreenAdEnabled();
+        }
+
+        @Override public int getFullScreenAdShowTimesEachDay() {
+            return ADAutoPilotUtils.getCallFinishWireShowMaxTime();
+        }
+
+        @Override public long getFullScreenAdShowIntervalTime() {
+            return ADAutoPilotUtils.getCallFinishWireTimeInterval();
+        }
+
+        @Override public int getAdRefreshInterval() {
+            return super.getAdRefreshInterval();
         }
     }
 
