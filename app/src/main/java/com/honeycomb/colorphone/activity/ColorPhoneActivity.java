@@ -66,6 +66,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
@@ -283,6 +284,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         leftDrawer.findViewById(R.id.settings_setting).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_contacts).setOnClickListener(this);
         leftDrawer.findViewById(R.id.settings_about).setOnClickListener(this);
+        leftDrawer.findViewById(R.id.settings_facebook).setOnClickListener(this);
         leftDrawer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -758,6 +760,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 break;
             case R.id.settings_about:
                 AboutActivity.start(this);
+                break;
+            case R.id.settings_facebook:
+                Navigations.openBrowser(this, "https://www.facebook.com/pg/Color-Phone-560161334373476");
                 break;
         }
     }
