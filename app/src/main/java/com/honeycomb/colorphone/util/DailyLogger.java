@@ -125,6 +125,9 @@ public class DailyLogger {
         if (curThemeId > 0) {
             Ap.ScreenFlash.onScreenFlashSet();
         }
+        if (Ap.ScreenFlash.themeDownloaded) {
+            Ap.ScreenFlash.onDefaultThemeDownloaded();
+        }
 
         Context context = HSApplication.getContext();
         boolean phoneAccessGranted = RuntimePermissions.checkSelfPermission(

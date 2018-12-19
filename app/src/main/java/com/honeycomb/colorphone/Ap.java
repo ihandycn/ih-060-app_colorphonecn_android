@@ -200,6 +200,9 @@ public class Ap {
     public static class ScreenFlash {
         public static String TOPIC_ID = "topic-6ydyea3j6";
 
+        // for log
+        public static boolean themeDownloaded;
+
         public static boolean isCallAssistantOpen() {
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "callassistantenable", true);
         }
@@ -231,6 +234,10 @@ public class Ap {
 
         public static void onCallAssitantAdShow() {
             AutopilotEvent.logTopicEvent(TOPIC_ID, "call_assistant_ad_show");
+        }
+
+        public static void onDefaultThemeDownloaded() {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "default_theme_download_success");
         }
     }
 }
