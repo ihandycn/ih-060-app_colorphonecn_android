@@ -1,8 +1,6 @@
 package com.honeycomb.colorphone.util;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 
 import com.acb.call.customize.ScreenFlashSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
@@ -33,7 +31,7 @@ import com.ihs.commons.utils.HSLog;
  * Api 5 及以上, 利用 Account 保活
  * </p>
  */
-public class HSPermanentUtils {
+public class ColorPhonePermanentUtils {
     public static final boolean proxyGuardByAccountSync = false, proxyGuardByNativeProcess = false;
     public static String proxyUninstallFeedbackUrl;
 
@@ -53,7 +51,6 @@ public class HSPermanentUtils {
      */
     public static void startKeepAlive(boolean guardByAccountSync, boolean guardByNativeProcess, String uninstallFeedbackUrl,
                                       PermanentServiceListener listener) {
-        enableReceiver(true);
         try {
             Intent serviceIntent = new Intent(HSApplication.getContext(), PermanentService.class);
             HSApplication.getContext().startService(serviceIntent);
@@ -75,21 +72,10 @@ public class HSPermanentUtils {
     }
 
     public static void stopSelf() {
-        enableReceiver(false);
         Intent serviceIntent = new Intent(HSApplication.getContext(), PermanentService.class);
         HSApplication.getContext().stopService(serviceIntent);
     }
 
-    private static void enableReceiver( boolean enable) {
-        String name = "com.honeycomb.colorphone.PermanentService$PermanentReceiver";
-        String logStr = (enable ? "enable " : "disable") +  "static receiver : "  + name;
-        HSLog.d("Permanent", logStr);
-        ComponentName c = new ComponentName(HSApplication.getContext().getPackageName(), name);
-        PackageManager pm =  HSApplication.getContext().getPackageManager();
-        pm.setComponentEnabledSetting(c,
-                enable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
-    }
     private static class PermanentServiceListener {
     }
 
@@ -100,9 +86,9 @@ public class HSPermanentUtils {
 
         HSLog.d("Utils", "Guard Process enable = " + needKeepAlive);
         if (needKeepAlive) {
-            HSPermanentUtils.keepAlive();
+            ColorPhonePermanentUtils.keepAlive();
         } else {
-            HSPermanentUtils.stopSelf();
+            ColorPhonePermanentUtils.stopSelf();
         }
     }
 }

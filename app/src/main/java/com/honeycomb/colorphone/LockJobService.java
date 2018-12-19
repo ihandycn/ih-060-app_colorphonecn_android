@@ -10,7 +10,7 @@ import android.content.Context;
 import android.os.Build;
 import android.text.format.DateUtils;
 
-import com.honeycomb.colorphone.util.HSPermanentUtils;
+import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.ihs.app.framework.HSApplication;
 
 /**
@@ -33,7 +33,7 @@ public class LockJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        HSPermanentUtils.checkAliveForProcess();
+        ColorPhonePermanentUtils.checkAliveForProcess();
         return false;
     }
 
