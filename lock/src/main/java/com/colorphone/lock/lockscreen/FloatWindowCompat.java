@@ -29,7 +29,11 @@ public class FloatWindowCompat {
     static WindowManager.LayoutParams getLockScreenParams() {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         if (needsSystemErrorFloatWindow()) {
-            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+            } else  {
+                layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
+            }
             layoutParams.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
             layoutParams.systemUiVisibility |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
             layoutParams.systemUiVisibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
