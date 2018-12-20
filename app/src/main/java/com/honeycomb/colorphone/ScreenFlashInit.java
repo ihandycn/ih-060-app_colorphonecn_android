@@ -2,6 +2,8 @@ package com.honeycomb.colorphone;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
+import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -84,16 +86,35 @@ public class ScreenFlashInit extends AppMainInit {
             }
 
             private void logOnceFlashShowNewUser(String themeId) {
-                String idName = "NULL";
+                Theme targetTheme = null;
                 for (Theme theme : Theme.themes()) {
                     if (String.valueOf(theme.getId()).equals(themeId)) {
-                        idName = theme.getIdName();
+                        targetTheme = theme;
+                        break;
                     }
                 }
-                if (!"NULL".equals(idName)) {
-                    AutopilotConfig.setAudienceProperty("theme_id", idName);
+
+                boolean themeNotReady = false;
+                if (targetTheme != null && targetTheme.isMedia()) {
+                    TasksManager.getImpl().addTask(targetTheme);
+                    TasksManagerModel model = TasksManager.getImpl().getByThemeId(targetTheme.getId());
+                    if (model != null) {
+                        themeNotReady = !TasksManager.getImpl().isDownloaded(model);
+                    }
                 }
-                LauncherAnalytics.logEvent("ColorPhone_ScreenFlash_Set_NewUser", "themename", idName);
+
+                if (targetTheme != null) {
+                    AutopilotConfig.setAudienceProperty("theme_id", targetTheme.getIdName());
+                }
+
+                String name = "Null";
+                if (targetTheme != null) {
+                    name = targetTheme.getIdName();
+                    if (themeNotReady) {
+                        name += "_NotReady";
+                    }
+                }
+                LauncherAnalytics.logEvent("ColorPhone_ScreenFlash_Set_NewUser", "themename", name);
             }
 
             @Override
