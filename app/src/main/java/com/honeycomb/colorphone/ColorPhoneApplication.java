@@ -361,6 +361,7 @@ public class ColorPhoneApplication extends HSApplication {
             }
         }, TIME_NEED_LOW);
 
+
         lifeCallback();
         initNotificationAlarm();
 
@@ -523,6 +524,10 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void initLockerCharging() {
+        if (!SmartChargingSettings.isChargingScreenConfigEnabled()
+                && !LockerSettings.isLockerConfigEnabled()) {
+            return;
+        }
         LockScreenStarter.init();
 
         HSLog.d("Start", "initLockScreen");
