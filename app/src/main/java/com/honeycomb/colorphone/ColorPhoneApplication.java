@@ -283,7 +283,13 @@ public class ColorPhoneApplication extends HSApplication {
                 false,
                 null, null);
 
-        HSPermanentUtils.startKeepAlive();    }
+        Threads.postOnMainThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                HSPermanentUtils.startKeepAlive();
+            }
+        }, TIME_NEED_LOW);
+    }
 
     private void initAutopilot() {
         AutopilotConfig.initialize(this, "Autopilot_Config.json");
