@@ -41,7 +41,6 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
-import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.DownloadHolder;
@@ -792,7 +791,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 //            case R.id.settings_boost:
 //                BoostActivity.start(ColorPhoneActivity.this, false);
 //                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
-                break;
+//                break;
             case R.id.settings_setting:
                 LauncherAnalytics.logEvent("Colorphone_Settings_Clicked");
                 SettingsActivity.start(this);
