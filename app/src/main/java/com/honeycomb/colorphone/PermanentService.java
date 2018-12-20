@@ -18,7 +18,7 @@ import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
-import com.honeycomb.colorphone.util.HSPermanentUtils;
+import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.ihs.app.framework.HSApplication;
 
 public class PermanentService extends Service {
@@ -43,7 +43,7 @@ public class PermanentService extends Service {
             String action = intent.getAction();
             L.line("onReceive:" + action + " keepAlive!");
 
-            HSPermanentUtils.keepAlive();
+            ColorPhonePermanentUtils.keepAlive();
         }
     }
 
@@ -223,7 +223,7 @@ public class PermanentService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         L.l("-------onTaskRemoved:" + rootIntent);
-        HSPermanentUtils.keepAlive();
+        ColorPhonePermanentUtils.keepAlive();
     }
 
 }

@@ -52,7 +52,7 @@ import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
-import com.honeycomb.colorphone.util.HSPermanentUtils;
+import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
@@ -75,6 +75,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.ihs.device.permanent.HSPermanentUtils;
 import com.ihs.libcharging.HSChargingManager;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
@@ -159,7 +160,7 @@ public class ColorPhoneApplication extends HSApplication {
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
-                HSPermanentUtils.checkAliveForProcess();
+                ColorPhonePermanentUtils.checkAliveForProcess();
             } else {
                 checkModuleAdPlacement();
             }
@@ -220,6 +221,14 @@ public class ColorPhoneApplication extends HSApplication {
         if (TextUtils.equals(processName, packageName)) {
             onMainProcessCreate();
         }
+
+        if (processName.endsWith(":work")) {
+            onWorkProcessCreate();
+        }
+    }
+
+    private void onWorkProcessCreate() {
+        HSPermanentUtils.setJobSchedulePeriodic(2 * DateUtils.HOUR_IN_MILLIS);
     }
 
     private void initNotificationToolbar() {
@@ -259,7 +268,18 @@ public class ColorPhoneApplication extends HSApplication {
 
         initAutopilot();
 
-    }
+        HSPermanentUtils.initKeepAlive(
+                true,
+                false,
+                false,
+                true,
+                true,
+                false,
+                false,
+                false,
+                null, null);
+
+        HSPermanentUtils.startKeepAlive();    }
 
     private void initAutopilot() {
         AutopilotConfig.initialize(this, "Autopilot_Config.json");
@@ -312,7 +332,7 @@ public class ColorPhoneApplication extends HSApplication {
         AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.CASHCENTER);
-        HSPermanentUtils.keepAlive();
+        ColorPhonePermanentUtils.keepAlive();
 
         Upgrader.upgrade();
         addGlobalObservers();
@@ -636,7 +656,7 @@ public class ColorPhoneApplication extends HSApplication {
             }
         }
 
-        HSPermanentUtils.checkAliveForProcess();
+        ColorPhonePermanentUtils.checkAliveForProcess();
 
         updateCallFinishFullScreenAdPlacement();
         AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
