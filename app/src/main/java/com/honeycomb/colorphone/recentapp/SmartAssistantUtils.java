@@ -16,7 +16,6 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
-import com.ihs.device.monitor.topapp.TopAppManager;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -110,13 +109,7 @@ public class SmartAssistantUtils {
     }
 
     private static boolean isOnDesktop() {
-        String topPkg = TopAppManager.getInstance().getTopApp();
-        if (TextUtils.isEmpty(topPkg)) {
-            return false;
-        }
-
-        String defaultLauncher = getDefaultLauncher();
-        return TextUtils.equals(topPkg, defaultLauncher);
+       return false;
     }
 
     /**

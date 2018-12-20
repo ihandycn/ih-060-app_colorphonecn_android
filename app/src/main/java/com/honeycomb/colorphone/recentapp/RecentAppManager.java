@@ -171,7 +171,7 @@ public class RecentAppManager {
         }
         isStarted = false;
         HSLog.d(TAG, "stop");
-        TopAppManager.getInstance().stopMonitor(TOP_MANAGER_TAG);
+        TopAppManager.getInstance().stopMonitorFast(TOP_MANAGER_TAG);
         HSTopAppManager.getInstance().unregister(this.mTopAppListener);
         HSUsageAccessMgr.getInstance().uncheckPermission(this.usageAccessListener);
         HSGlobalNotificationCenter.removeObserver(screenOnObserver);
