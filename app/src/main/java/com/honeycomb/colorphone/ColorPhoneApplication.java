@@ -80,9 +80,12 @@ import com.ihs.libcharging.HSChargingManager;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.messagecenter.customize.MessageCenterSettings;
+import com.superapps.broadcast.BroadcastCenter;
+import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
+import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
@@ -111,6 +114,7 @@ import static net.appcloudbox.AcbAds.GDPR_NOT_GRANTED;
 import static net.appcloudbox.AcbAds.GDPR_USER;
 
 public class ColorPhoneApplication extends HSApplication {
+    private static final long TIME_NEED_LOW = 10 * 1000; // 10s
     private static ConfigLog mConfigLog;
 
     private List<Module> mModules = new ArrayList<>();
@@ -347,9 +351,15 @@ public class ColorPhoneApplication extends HSApplication {
         String popularThemeBgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
         GlideApp.with(this).downloadOnly().load(popularThemeBgUrl);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            LockJobService.startJobScheduler();
-        }
+
+        Threads.postOnMainThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    LockJobService.startJobScheduler();
+                }
+            }
+        }, TIME_NEED_LOW);
 
         lifeCallback();
         initNotificationAlarm();
@@ -551,13 +561,14 @@ public class ColorPhoneApplication extends HSApplication {
         HSGlobalNotificationCenter.addObserver(ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH, mObserver);
         HSGlobalNotificationCenter.addObserver(LockerSettings.NOTIFY_LOCKER_STATE, mObserver);
         HSGlobalNotificationCenter.addObserver(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE, mObserver);
+
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
         screenFilter.addAction(Intent.ACTION_SCREEN_ON);
         screenFilter.addAction(Intent.ACTION_USER_PRESENT);
         screenFilter.setPriority(SYSTEM_HIGH_PRIORITY);
 
-        HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
+        BroadcastCenter.register(this, new BroadcastListener() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
