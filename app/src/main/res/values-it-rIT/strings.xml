@@ -168,4 +168,10 @@
     <string name="phone_contact_permission_settings_guide_title">Seleziona "Autorizzazioni" e attiva "Phone", "Contacts"</string>
     <string name="grant_access_to_optimize_experience">Consenti l\'accesso per rispondere alle chiamate</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">Creare un collegamento sul desktop per ottenere ancora soldi più tardi?</string>
+    <string name="spin">rotazione</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">Seguici su Facebook</string>
 </resources>

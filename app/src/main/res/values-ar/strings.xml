@@ -173,4 +173,11 @@
     <string name="phone_contact_permission_settings_guide_title">حدد الأذونات واسمح بـ "Phone"و "Contacts"</string>
     <string name="grant_access_to_optimize_experience">قم بتمكين الدخول للرد على المكالمات</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">إنشاء اختصار سطح مكتب لكسب المال مرة أخرى في وقت لاحق؟</string>
+    <string name="spin">غزل</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">تابعنا على Facebook</string>
+
 </resources>

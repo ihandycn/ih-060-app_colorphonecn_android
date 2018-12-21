@@ -167,4 +167,10 @@
     <string name="phone_contact_permission_settings_guide_title">Chọn "Quyền" và kích hoạt "Phone", "Contacts"</string>
     <string name="grant_access_to_optimize_experience">Cấp quyền truy cập để trả lời cuộc gọi</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">Tạo một lối tắt màn hình để kiếm tiền sau?</string>
+    <string name="spin">quay</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">Theo dõi chúng tôi trên Facebook</string>
 </resources>

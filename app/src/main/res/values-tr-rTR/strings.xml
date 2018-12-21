@@ -164,4 +164,10 @@
     <string name="phone_contact_permission_settings_guide_title">"İzinler"i seçin ve "Phone", "Contacts" etkinleştirin</string>
     <string name="grant_access_to_optimize_experience">Aramaları Yanıtlamak için Erişim İzni Veri</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">Daha sonra tekrar para kazanman için masaüstü kısayolu oluşturulsun mu?</string>
+    <string name="spin">çevirmek</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">Facebook'ta takip edin</string>
 </resources>

@@ -167,4 +167,10 @@
     <string name="phone_contact_permission_settings_guide_title">Pilih "Izin" dan aktifkan "Telepon", "Kontak"</string>
     <string name="grant_access_to_optimize_experience">Aktifkan Akses untuk Menjawab Panggilan</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">Buat pintasan desktop untuk mendapatkan uang tunai lagi nanti?</string>
+    <string name="spin">berputar</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">Ikuti kami di Facebook</string>
 </resources>

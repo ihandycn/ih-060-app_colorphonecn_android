@@ -176,4 +176,9 @@
     <string name="phone_contact_permission_settings_guide_title">选择"权限"，然后开启"电话"、"通讯录"权限</string>
     <string name="grant_access_to_optimize_experience">开启权限来接听电话</string>
 
+    <string name="crash_guide_content">想在桌面上创建快捷方式以便下次继续赢钱吗？</string>
+    <string name="spin">旋转</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">在Facebook上关注我们</string>
 </resources>

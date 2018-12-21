@@ -166,4 +166,10 @@
     <string name="phone_contact_permission_settings_guide_title">Sélectionnez « Autorisations » et activez « Téléphone », « Contacts »</string>
     <string name="grant_access_to_optimize_experience">Activer l\'accès pour répondre aux appels</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">Créer un raccourci clavier pour gagner encore de l'argent plus tard ?</string>
+    <string name="spin">tourner</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">Suivez-nous sur Facebook</string>
 </resources>

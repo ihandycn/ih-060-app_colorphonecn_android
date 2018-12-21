@@ -256,5 +256,7 @@
     <!--Cash-Center-->
     <string name="crash_guide_content">Create a desktop to earn cash again later?</string>
     <string name="spin">Spin</string>
+
+    <!--Facebook fan page-->
     <string name="follow_facebook">Follow us on facebook</string>
 </resources>

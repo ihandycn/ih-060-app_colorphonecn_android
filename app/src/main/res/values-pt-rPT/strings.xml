@@ -168,4 +168,10 @@
     <string name="phone_contact_permission_settings_guide_title">Selecione “Permissões” e ative “Telefone”, “Contatos”</string>
     <string name="grant_access_to_optimize_experience">Ative o acesso para atender as chamadas</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">Criar um atalho na área de trabalho para ganhar dinheiro novamente mais tarde?</string>
+    <string name="spin">girar</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">Siga-nos no Facebook</string>
 </resources>

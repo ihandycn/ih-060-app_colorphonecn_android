@@ -169,4 +169,10 @@
     <string name="phone_contact_permission_settings_guide_title">Selecciona "Permisos" y activa "Teléfono", "Contactos"</string>
     <string name="grant_access_to_optimize_experience">Habilitar acceso para responder llamadas</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">¿Crear un acceso directo en el escritorio para volver a ganar dinero en otro momento?</string>
+    <string name="spin">girar</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">Síguenos en Facebook</string>
 </resources>

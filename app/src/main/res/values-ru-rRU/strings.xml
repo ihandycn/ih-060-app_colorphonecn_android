@@ -169,4 +169,10 @@
     <string name="phone_contact_permission_settings_guide_title">Выберите «Разрешения» и включите «Телефон», «Контакты»</string>
     <string name="grant_access_to_optimize_experience">Разрешение отвечать на звонки</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">Создать значок на рабочем столе, чтобы заработать еще позже?</string>
+    <string name="spin">вращение</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">Подпишитесь на нас в Facebook</string>
 </resources>

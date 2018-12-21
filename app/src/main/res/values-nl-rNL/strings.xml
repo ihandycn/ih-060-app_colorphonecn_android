@@ -94,4 +94,10 @@
     <string name="notification_permission_toolbar_title">Melding</string>
     <string name="phone_contact_permission_settings_guide_title">Select "Permissions" and activate "Phone", "Contacts"</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">Een snelkoppeling op je bureaublad plaatsen om later weer geld te verdienen?</string>
+    <string name="spin">spinnen</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">Volg ons op Facebook</string>
 </resources>

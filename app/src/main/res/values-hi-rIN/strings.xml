@@ -167,4 +167,10 @@
     <string name="phone_contact_permission_settings_guide_title">कृपया "अनुमतियां" चुनें और "Phone", "Contacts" को सक्रिय करें</string>
     <string name="grant_access_to_optimize_experience">कॉल्‍स का जवाब देने के लिए एक्‍सेस सक्षम करें</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">बाद में दुबारा नकदी अर्जित करने के लिए डेस्‍कटॉप शॉर्टकट बनाना है?</string>
+    <string name="spin">स्पिन</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">हमें फेसबुक पर फॉलो करें</string>
 </resources>

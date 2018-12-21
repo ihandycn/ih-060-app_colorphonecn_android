@@ -169,4 +169,10 @@
     <string name="phone_contact_permission_settings_guide_title">選擇"權限"，然後開啟"電話"、"通訊錄"權限</string>
     <string name="grant_access_to_optimize_experience">開啟權限來接聽電話</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">想在桌面上創建快捷方式以便下次繼續贏錢嗎？</string>
+    <string name="spin">旋轉</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">在Facebook上關注我們</string>
 </resources>

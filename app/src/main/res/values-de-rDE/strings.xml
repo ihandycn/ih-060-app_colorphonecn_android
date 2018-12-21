@@ -167,4 +167,10 @@
     <string name="phone_contact_permission_settings_guide_title">„Berechtigungen“ wählen und „Phone“, „Contacts“ aktivieren</string>
     <string name="grant_access_to_optimize_experience">Berechtigung zum Annehmen von Anrufen aktivieren</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">Eine Desktop-Verknüpfung erstellen, um später wieder Geld zu verdienen?</string>
+    <string name="spin">Dreh</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">Folgen Sie uns auf Facebook</string>
 </resources>

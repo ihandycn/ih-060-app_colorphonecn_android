@@ -167,4 +167,10 @@
     <string name="phone_contact_permission_settings_guide_title">"권한"을 선택하고 "Phone", "Contacts"를 활성화</string>
     <string name="grant_access_to_optimize_experience">권한을 활성화하여 전화 받기</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">나중에 캐시를 획득할 수 있는 바탕화면 바로가기를 만들까요?</string>
+    <string name="spin">회전</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">Facebook에서 팔로우하기</string>
 </resources>

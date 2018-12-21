@@ -167,4 +167,10 @@
     <string name="phone_contact_permission_settings_guide_title">เลือก "Permissions" และเปิดใช้งาน "Phone", "Contacts"</string>
     <string name="grant_access_to_optimize_experience">อนุญาตการเข้าถึงเพื่อรับสาย</string>
 
+    <!--Cash-Center-->
+    <string name="crash_guide_content">สร้างทางลัดเดสก์ท็อปเพื่อสร้างเงินอีกครั้งภายหลังหรือไม่</string>
+    <string name="spin">ปั่น</string>
+
+    <!--Facebook fan page-->
+    <string name="follow_facebook">ติดตามเราใน Facebook</string>
 </resources>

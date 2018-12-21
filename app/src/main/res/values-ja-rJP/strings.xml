@@ -170,4 +170,10 @@
   <string name="phone_contact_permission_settings_guide_title">"許可"を選択して"電話"、"連絡先"を有効にします</string>
   <string name="grant_access_to_optimize_experience">アクセスを有効にして通話に応答する</string>
 
+  <!--Cash-Center-->
+  <string name="crash_guide_content">後でまた現金を稼ぐためのデスクトップショートカットを作成しますか？</string>
+  <string name="spin">スピン</string>
+
+  <!--Facebook fan page-->
+  <string name="follow_facebook">Facebookでフォローしてください</string>
 </resources>
