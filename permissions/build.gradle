@@ -38,7 +38,7 @@ dependencies {
     })
     provided project(':libSuperApps')
     provided "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    compile ('com.ihandy.appframework:libAppframework.gm:4.8.1.gm')
+    provided 'com.ihandy.appframework:libAppframework.gm:4.8.4.gm'
     provided 'com.airbnb.android:lottie:2.5.5'
 
 }
