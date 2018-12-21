@@ -9,23 +9,17 @@ import java.util.List;
 
 public class ConfigSettings {
     public static boolean showAdOnApplyTheme() {
-        if (!enabledThisVersion()) {
-            return false;
-        }
         boolean configEnable = HSConfig.optBoolean(false,"Application", "FullScreen", "ThemeApply");
         boolean autopilotEnable = Ap.DetailAd.enableAdOnApply();
         HSLog.d("ConfigSettings", "AdOnApplyTheme:" + configEnable + "," + autopilotEnable);
-        return configEnable && autopilotEnable;
+        return (configEnable || enabledThisVersion()) && autopilotEnable;
     }
 
     public static boolean showAdOnDetailView() {
-        if (!enabledThisVersion()) {
-            return false;
-        }
         boolean configEnable = HSConfig.optBoolean(false,"Application", "FullScreen", "DetailView");
         boolean autopilotEnable = Ap.DetailAd.enableAdOnDetailView();
         HSLog.d("ConfigSettings", "AdOnDetailView:" + configEnable + "," + autopilotEnable);
-        return configEnable && autopilotEnable;
+        return (configEnable || enabledThisVersion()) && autopilotEnable;
     }
 
     private static boolean enabledThisVersion() {
