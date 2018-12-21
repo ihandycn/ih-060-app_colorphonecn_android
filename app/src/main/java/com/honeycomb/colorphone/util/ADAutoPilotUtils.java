@@ -123,4 +123,23 @@ public class ADAutoPilotUtils {
         getThemeWireShowInterval();
         getThemeWireLastShowTime();
     }
+
+    public static void logAutopilotEventToFaric() {
+        int p1 = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID,
+                "callfinishwire_show_maxtime", 100);
+        int p2 = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID,
+                "callfinishwire_time_interval_minute", 0);
+
+        LauncherAnalytics.logEvent("ColorPhone_CallFinishWire_Show_" + p1 + "_" + p2,
+                LauncherAnalytics.FLAG_LOG_FABRIC);
+
+
+        int themeWire = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID,
+                "themewire_show_maxtime", 100);
+        int themeWire2 = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID,
+                "themewire_show_interval_second", 0);
+
+        LauncherAnalytics.logEvent("ColorPhone_ThemeWire_Show_" + themeWire + "_" + themeWire2,
+                LauncherAnalytics.FLAG_LOG_FABRIC);
+    }
 }

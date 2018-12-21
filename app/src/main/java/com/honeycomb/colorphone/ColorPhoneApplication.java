@@ -192,7 +192,7 @@ public class ColorPhoneApplication extends HSApplication {
             HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
-
+            ADAutoPilotUtils.logAutopilotEventToFaric();
         }
     };
 
