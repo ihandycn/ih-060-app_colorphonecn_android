@@ -60,7 +60,6 @@ public class DailyLogger {
         ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("Day7"));
     }
 
-
     private void logDailyStatus(int daysSinceInstall) {
         if (daysSinceInstall == 0) {
             Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {

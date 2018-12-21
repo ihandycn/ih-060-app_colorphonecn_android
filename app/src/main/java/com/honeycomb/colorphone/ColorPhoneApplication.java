@@ -51,8 +51,8 @@ import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
-import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
+import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
@@ -83,7 +83,6 @@ import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
-import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -378,7 +377,6 @@ public class ColorPhoneApplication extends HSApplication {
 
         logUserLevelDistribution();
 
-
         checkDailyTask();
 
     }
@@ -390,8 +388,6 @@ public class ColorPhoneApplication extends HSApplication {
         if (active) {
             // Do something once a day.
             dailyTrigger.onConsumeChance();
-            LauncherAnalytics.logEvent("DailyCheckNotificationAccess", "Enable",
-                    Permissions.isNotificationAccessGranted() ? "Yes" : "No");
         }
     }
 

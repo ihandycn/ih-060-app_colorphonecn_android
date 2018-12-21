@@ -254,7 +254,7 @@ public class FloatWindowControllerImpl {
                     windowMgr.addView(emptyView, getEmptyParams());
                     windowMgr.removeView(emptyView);
                 }
-            } catch (IllegalStateException exception) {
+            } catch (Exception exception) {
                 //window operation is not sync, this exception would occur.
                 exception.printStackTrace();
             }
@@ -285,7 +285,11 @@ public class FloatWindowControllerImpl {
         emptyParams.flags |= WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN;
         emptyParams.height = 1;
         emptyParams.width = 1;
-        emptyParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            emptyParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else  {
+            emptyParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        }
         emptyParams.format = PixelFormat.TRANSPARENT;
 
         return emptyParams;
