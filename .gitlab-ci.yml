@@ -21,7 +21,7 @@ build_colorphone:
   artifacts:
     paths:
     - outputs/build-dependencies.txt
-    - app/colorphone/
+    - app/colorphone/release/*.apk
     - app/build/outputs/mapping/colorphone/release/mapping.txt
     - app/build/outputs/apk/colorphone/debug/*.apk
 
@@ -48,7 +48,7 @@ build_colorflash:
   artifacts:
     paths:
     - outputs/build-dependencies.txt
-    - app/colorflash/
+    - app/colorflash/release/*.apk
     - app/build/outputs/mapping/colorflash/release/mapping.txt
     - app/build/outputs/apk/colorflash/debug/*.apk
 
