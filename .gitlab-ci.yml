@@ -22,8 +22,8 @@ build_colorphone:
     paths:
     - outputs/build-dependencies.txt
     - app/colorphone/
-    - app/build/outputs/mapping/colorphone/release/*.apk
-    - app/build/outputs/apk/colorphone/debug/mapping.txt
+    - app/build/outputs/mapping/colorphone/release/mapping.txt
+    - app/build/outputs/apk/colorphone/debug/*.apk
 
     expire_in: 1 week
   tags:
