@@ -1,0 +1,37 @@
+tasks.whenTaskAdded { task ->
+    android.productFlavors.all { flavor ->
+        if (task.name.startsWith("assemble") && task.name.endsWith("Release")) {
+            task.doLast {
+                copyFile()
+            }
+        }
+    }
+}
+
+void copyFile() {
+    String desktopDir = "$rootDir"
+    println(desktopDir)
+    File cacheFile = new File(desktopDir + java.io.File.separator + "outputs");
+    if (!cacheFile.exists()) {
+        cacheFile.mkdirs();
+    }
+    android.productFlavors.all { flavorTow ->
+        copy {
+            from "$buildDir" + '/outputs/apk'
+            //注意通配符
+            include "*" + flavorTow.name + "*.apk"
+            into cacheFile.getPath()
+//            rename {
+//                flavorTow.name + android.defaultConfig.versionName + "_" + secondTime + ".apk"
+//            }
+        }
+        copy {
+            from "$buildDir" + '/outputs/mapping/' + flavorTow.name + "/release"
+            include "mapping.txt"
+            into cacheFile.getPath()
+//            rename {
+//                flavorTow.name + android.defaultConfig.versionName + "_" + secondTime + ".txt"
+//            }
+        }
+    }
+}
