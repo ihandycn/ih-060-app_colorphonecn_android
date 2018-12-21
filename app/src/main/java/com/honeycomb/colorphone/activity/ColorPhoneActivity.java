@@ -35,6 +35,7 @@ import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.Ap;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
@@ -804,7 +805,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 AboutActivity.start(this);
                 break;
             case R.id.settings_facebook:
-                Navigations.openBrowser(this, "https://www.facebook.com/pg/Color-Phone-560161334373476");
+                Navigations.openBrowser(this,
+                        BuildConfig.FLAVOR.equals("colorflash") ?
+                                "https://business.facebook.com/Color-Call-Call-Screen-LED-Flash-Ringtones-342916819531161"
+                                :
+                                "https://www.facebook.com/pg/Color-Phone-560161334373476");
                 break;
         }
     }
