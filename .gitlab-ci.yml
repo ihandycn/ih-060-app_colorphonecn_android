@@ -1,0 +1,39 @@
+stages:
+- build
+- cleanup_build
+
+build_colorphone:
+  stage: build
+  script:
+  - commit_msg=$(git log --format=%B -n 1)
+  - echo $commit_msg
+  - mkdir outputs
+  - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
+  -   git submodule update --init
+  -   ./gradlew :app:assembleColorphoneDebug
+  -   ./gradlew -p . dependencies > outputs/build-dependencies.txt
+  - fi
+  - if [[ $commit_msg == *"[Build]"* ]]; then
+  -   git submodule update --init
+  -   ./gradlew :app:assembleColorphoneRelease
+  -   ./gradlew -p . dependencies > outputs/build-dependencies.txt
+  - fi
+  artifacts:
+    paths:
+    - outputs/build-dependencies.txt
+    - app/colorphone/
+    - app/build/outputs/mapping/colorphone/release/*.apk
+    - app/build/outputs/apk/colorphone/debug/mapping.txt
+
+    expire_in: 1 week
+  tags:
+  - android
+
+cleanup_build_job:
+    stage: cleanup_build
+    script:
+    - ./gradlew clean
+    - ./rm -r outputs
+    when: on_failure
+    tags:
+    - android
