@@ -14,6 +14,7 @@ import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.libcharging.HSChargingManager;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
@@ -108,7 +109,7 @@ public class ChargingScreenUtils {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent.putExtras(bundle);
             HSGlobalNotificationCenter.sendNotification(LockerActivity.EVENT_FINISH_SELF);
-            HSApplication.getContext().startActivity(intent);
+            Navigations.startActivitySafely(HSApplication.getContext(),intent);
         } else {
             FloatWindowController.getInstance().showChargingScreen(bundle);
         }
@@ -123,7 +124,7 @@ public class ChargingScreenUtils {
                 Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                         | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                HSApplication.getContext().startActivity(intent);
+                Navigations.startActivitySafely(HSApplication.getContext(), intent);
             } catch (ActivityNotFoundException ignore) {
                 // crash #749 some device report.
             }

@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 
-import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
@@ -91,18 +89,14 @@ public class LockScreenStarter {
         }
     }
 
-    /**
-     * Issue a start command to be handled by {@link LockScreenStarterService} in main process.
-     */
+
     private void notifyToStart(String target) {
         HSLog.d(TAG, "notify : " + target);
         Context context = HSApplication.getContext();
-        Intent intent = new Intent(context, LockScreenStarterService.class);
+        Intent intent = new Intent();
         intent.setPackage(context.getPackageName());
         intent.putExtra(EXTRA_LAUNCHER_ACTIVITY, target);
-        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-
-        context.startService(intent);
+        LockScreenStarter.handleStart(intent);
     }
 
     /**

@@ -50,11 +50,6 @@
             android:label="@string/app_name"
             android:launchMode="singleInstance" />
 
-        <!-- This service is used to bring main-process's life back. -->
-        <service android:name=".lockscreen.LockScreenStarterService"
-            android:exported="false">
-        </service>
-
         <service
             android:name=".lockscreen.LockScreenService"
             android:enabled="true"
