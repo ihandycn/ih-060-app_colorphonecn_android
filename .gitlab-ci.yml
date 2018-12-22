@@ -21,6 +21,9 @@ build_colorphone:
   -   cp app/build/outputs/apk/colorphone/release/*.apk outputs/
   -   cp app/build/outputs/mapping/colorphone/release/mapping.txt outputs/
   - fi
+  only:
+    variables:
+    - $CI_COMMIT_MESSAGE =~ /^\[Build.*/
   artifacts:
     paths:
     - outputs/build-dependencies.txt
@@ -50,6 +53,9 @@ build_colorflash:
   -   cp app/build/outputs/apk/colorflash/release/*.apk outputs/
   -   cp app/build/outputs/mapping/colorflash/release/mapping.txt outputs/
   - fi
+  only:
+    variables:
+    - $CI_COMMIT_MESSAGE =~ /^\[Build.*/
   artifacts:
     paths:
     - outputs/build-dependencies.txt
