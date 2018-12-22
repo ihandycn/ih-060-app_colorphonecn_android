@@ -11,13 +11,13 @@ build_colorphone:
   - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
   -   git submodule update --init
   -   ./gradlew :app:assembleColorphoneDebug
-  -   ./gradlew -p . dependencies > outputs/build-dependencies.txt
+  -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
   -   cp app/build/outputs/apk/colorphone/debug/*.apk outputs/
   - fi
   - if [[ $commit_msg == *"[BuildColorPhone]"* ]]; then
   -   git submodule update --init
   -   ./gradlew :app:assembleColorphoneRelease
-  -   ./gradlew -p . dependencies > outputs/build-dependencies.txt
+  -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
   -   cp app/build/outputs/apk/colorphone/release/*.apk outputs/
   -   cp app/build/outputs/mapping/colorphone/release/mapping.txt outputs/
   - fi
@@ -40,13 +40,13 @@ build_colorflash:
   - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
   -   git submodule update --init
   -   ./gradlew :app:assembleColorflashDebug
-  -   ./gradlew -p . dependencies > outputs/build-dependencies.txt
+  -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
   -   cp app/build/outputs/apk/colorflash/debug/*.apk outputs/
   - fi
   - if [[ $commit_msg == *"[BuildColorFlash]"* ]]; then
   -   git submodule update --init
   -   ./gradlew :app:assembleColorflashRelease
-  -   ./gradlew -p . dependencies > outputs/build-dependencies.txt
+  -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
   -   cp app/build/outputs/apk/colorflash/release/*.apk outputs/
   -   cp app/build/outputs/mapping/colorflash/release/mapping.txt outputs/
   - fi
