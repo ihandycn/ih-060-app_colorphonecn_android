@@ -759,14 +759,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     private void logUserLevelDistribution() {
         String PREF_KEY_New_User_User_Level_LOGGED = "lv_logged";
-        Log.e("SUNDXING", "WifiStateChange2：" + HSConfig.optString("not_configured", "UserLevel"));
-        Log.e("SUNDXING", "USER_ID =" + HSApplication.getCustomerUserIDInWorkThread());
-        Logger.e("SUNDXING", "All_Map =" + HSConfig.getMap("Application"));
-        HSPreferenceHelper hsPreferenceHelper = HSPreferenceHelper.create(HSApplication.getContext(), "framework_config");
-        String newUrl = hsPreferenceHelper.getString("hs.commons.config.remote.file.url", "");
-        Log.e("SUNDXING", "Remote url =" + newUrl);
         HSConfig.fetchRemote();
-
         if (Utils.isNewUser()) {
             if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_New_User_User_Level_LOGGED)) {
                 int delayTimes [] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
