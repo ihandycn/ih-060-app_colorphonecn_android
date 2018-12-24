@@ -416,6 +416,10 @@ public class NotificationManager implements FlashlightStatusListener {
     @Override
     public void flashlightStatusChanged(boolean b) {
         if (mNotificationManager != null && mNotificationToolbar != null && mRemoteViews != null) {
+            if (FlashManager.getInstance().isFlash()) {
+                // When flash not handle notification status.
+                return;
+            }
             if (FlashManager.getInstance().isSOS()) {
                 mRemoteViews.setImageViewResource(R.id.iv_flash_light, R.drawable.notification_toolbar_flashlight_on);
             } else {
