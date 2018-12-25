@@ -299,7 +299,7 @@
     }
   ],
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "df775f14-d277-4dcb-8025-c8bacebb1366",
+  "json_id": "2887ed99-9a4d-4812-b65c-bbfa4541dfdb",
   "topics": {
     "topic-6y9jgfwg2": {
       "topic_type": "life_time",
@@ -648,6 +648,56 @@
         }
       ],
       "topic_id": "topic-6wzryt9bs"
+    },
+    "topic-6yb8007c4": {
+      "topic_type": "life_time",
+      "topic_name": "ThemeGuide in CallAssistant Test",
+      "variations": {
+        "apply_button_show": {
+          "type": "boolean",
+          "value": false
+        },
+        "themeguideshow": {
+          "type": "boolean",
+          "value": false
+        },
+        "themeguide_maxtime": {
+          "type": "double",
+          "value": 0
+        },
+        "themeguide_interval_hour": {
+          "type": "double",
+          "value": 3
+        },
+        "themeguide_interval_applysuccess": {
+          "type": "double",
+          "value": 0
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "colorphone_themewiread_show"
+        },
+        {
+          "name": "colorphone_calassistant_themeguide_show"
+        },
+        {
+          "name": "colorphone_themedetail_view_fromthemeguide"
+        },
+        {
+          "name": "colorphone_choosetheme_fromthemeguide"
+        },
+        {
+          "name": "colorphone_callassistant_themeguide_theme_click"
+        },
+        {
+          "name": "colorphone_callassistant_themeguide_button_click"
+        }
+      ],
+      "topic_id": "topic-6yb8007c4"
     },
     "topic-rp-1525855411425-9": {
       "topic_type": "one_time",

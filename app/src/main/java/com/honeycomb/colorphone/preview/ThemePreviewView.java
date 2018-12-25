@@ -57,6 +57,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -584,6 +585,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_show");
             }
         }
+        ThemeGuide.logThemeApplied();
 
     }
 

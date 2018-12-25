@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.ad;
 
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.themeselector.ThemeGuideTest;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -108,6 +109,7 @@ public class AdManager {
                 LauncherAnalytics.logEvent("ColorPhone_ThemeWire_Show");
             }
             ADAutoPilotUtils.logThemeWireShow();
+            ThemeGuideTest.logThemewireADShow();
             ADAutoPilotUtils.recordShowThemeWireCount();
             return true;
         }
