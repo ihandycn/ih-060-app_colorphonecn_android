@@ -35,6 +35,7 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
     public static void start(Context context, boolean toolbar) {
         Intent intent = new Intent(context, BoostActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NO_ANIMATION
                 | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
         if (toolbar) {
