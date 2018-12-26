@@ -71,7 +71,9 @@ public class SmartChargingSettings {
     }
 
     private static boolean isChargingReportConfigEnabled() {
-
+        if (isNewUser()) {
+            return false;
+        }
         return ConfigUtils.isShowModulesDueToConfig()
                 || isChargingReportEnabledWithGooglePolicy();
     }
