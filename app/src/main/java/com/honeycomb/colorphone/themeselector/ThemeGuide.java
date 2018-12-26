@@ -27,9 +27,9 @@ public class ThemeGuide {
 
     private static final String TAG = ThemeGuide.class.getSimpleName();
     private static final String LAST_GUIDE_THEME_ID_NAME = "last_guide_theme_id_name";
-    private static final String LAST_GUIDE_THEME_TIME = "last_guide_theme_id_name";
-    private static final String LAST_GUIDE_THEME_COUNT = "last_guide_theme_id_name";
-    private static final String LAST_GUIDE_THEME_APPLY_TIME = "last_guide_theme_id_name";
+    private static final String LAST_GUIDE_THEME_TIME = "last_guide_theme_time";
+    private static final String LAST_GUIDE_THEME_COUNT = "last_guide_theme_count";
+    private static final String LAST_GUIDE_THEME_APPLY_TIME = "last_guide_theme_apply_time";
 
     private static ThemeGuide sThemeGuide;
     private final int sessionID;
