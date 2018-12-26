@@ -157,14 +157,14 @@ dependencies {
 
     final  COMMON_COLORPHONE = [
             USE_BETA_ACB_LIBS ?
-                    'com.ihandy.appframework:libAppframework.beta:4.7.1.+' :
-                    'com.ihandy.appframework:libAppframework.gm:4.7.1.gm',
+                    'com.ihandy.appframework:libAppframework.beta:4.8.5.+' :
+                    'com.ihandy.appframework:libAppframework.gm:4.8.5.gm',
     ]
 
     final  COMMON_COLORFLASH = [
             USE_BETA_ACB_LIBS ?
-                    'com.ihandy.appframework:libAppframework.beta:4.8.1.+' :
-                    'com.ihandy.appframework:libAppframework.beta:4.8.5.beta05',
+                    'com.ihandy.appframework:libAppframework.beta:4.8.5.+' :
+                    'com.ihandy.appframework:libAppframework.gm:4.8.5.gm',
     ]
 
 
@@ -219,7 +219,7 @@ dependencies {
     compile project(':permissions')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.11.22.001'
+    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2018.12.26.001'
     colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2018.11.23.001'
 
 }
