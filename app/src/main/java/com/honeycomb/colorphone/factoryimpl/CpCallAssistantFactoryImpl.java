@@ -32,6 +32,7 @@ import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -156,6 +157,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                     LauncherAnalytics.logEvent("Test_CallAssistantShow" + Build.BRAND + getDeviceInfo());
                 }
                 Ap.ScreenFlash.onCallAssistantShow();
+                HSAnalytics.logEventToAppsFlyer("Call_Assistant_Can_Show");
             }
 
             @Override
