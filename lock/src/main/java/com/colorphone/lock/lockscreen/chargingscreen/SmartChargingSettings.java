@@ -2,6 +2,7 @@ package com.colorphone.lock.lockscreen.chargingscreen;
 
 
 import com.colorphone.lock.util.ConfigUtils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 
@@ -45,11 +46,17 @@ public class SmartChargingSettings {
                 && ConfigUtils.isScreenAdEnabledThisVersion();
     }
 
+    public static boolean isNewUser() {
+        return HSApplication.getFirstLaunchInfo().appVersionCode == HSApplication.getCurrentLaunchInfo().appVersionCode;
+    }
 
     /**
      * charging report
      */
     public static boolean isChargingReportEnabled() {
+        if (isNewUser()) {
+            return false;
+        }
         return isChargingReportUserEnabled()
                 && isChargingReportConfigEnabled()
                 && !ConfigUtils.isAnyLockerAppInstalled("Application", "Charging", "ChargingReport", "AppConflictList");

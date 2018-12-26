@@ -73,6 +73,9 @@ public class ModuleUtils {
     public static boolean isModuleConfigEnabled(String moduleKey) {
 
         if (AUTO_SMS_KEY_ASSISTANT.equals(moduleKey)) {
+            if (Utils.isNewUser()) {
+                return false;
+            }
             return isShowModulesDueToConfig() ||
                     (HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable")
                     && NotificationAutoPilotUtils.isMessageAssistantEnabled());
