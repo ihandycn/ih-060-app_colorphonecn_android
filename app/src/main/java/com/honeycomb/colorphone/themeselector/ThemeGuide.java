@@ -144,9 +144,10 @@ public class ThemeGuide {
     }
 
     private void fillThemeImage(ImageView iv, Theme theme) {
+        String url = !TextUtils.isEmpty(theme.getThemeGuideImage()) ? theme.getThemeGuideImage() : theme.getPreviewImage();
         Glide.with(iv.getContext())
                 .asBitmap()
-                .load(theme.getPreviewImage())
+                .load(url)
                 .into(iv);
         iv.setOnClickListener(v -> {
             sThemeGuide.showThemeDetail = true;
