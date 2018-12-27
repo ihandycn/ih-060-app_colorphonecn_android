@@ -49,6 +49,11 @@ public class AdManager {
         if (!mEnable) {
             return;
         }
+
+        if (!ADAutoPilotUtils.canShowThemeWireADThisTime()) {
+            return;
+        }
+
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(getInterstitialAdPlacementName());
         AcbInterstitialAdManager.preload(1, getInterstitialAdPlacementName());
     }
