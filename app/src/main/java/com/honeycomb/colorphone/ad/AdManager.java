@@ -113,6 +113,7 @@ public class AdManager {
             if (Utils.isNewUser()) {
                 LauncherAnalytics.logEvent("ColorPhone_ThemeWire_Show");
             }
+            LauncherAnalytics.logEvent("ColorPhone_ThemeWireAd_Show");
             ADAutoPilotUtils.logThemeWireShow();
             ThemeGuideTest.logThemewireADShow();
             ADAutoPilotUtils.recordShowThemeWireCount();

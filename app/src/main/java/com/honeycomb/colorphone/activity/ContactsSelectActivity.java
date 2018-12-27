@@ -15,6 +15,7 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
 import com.honeycomb.colorphone.notification.NotificationUtils;
+import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 
@@ -87,6 +88,7 @@ public class ContactsSelectActivity extends ContactsActivity {
         } else {
             LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Success");
         }
+        ThemeGuide.logThemeApplied();
         Ap.DetailAd.onThemeChooseForOne();
 
         if (!themeEntries.isEmpty()) {
@@ -115,6 +117,9 @@ public class ContactsSelectActivity extends ContactsActivity {
                     boolean show = AdManager.getInstance().showInterstitialAd();
                     if (show) {
                         Ap.DetailAd.logEvent("colorphone_seletcontactfortheme_ad_show");
+                        if (ThemeGuide.isFromThemeGuide()) {
+                            LauncherAnalytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
+                        }
                     }
                 }
             }

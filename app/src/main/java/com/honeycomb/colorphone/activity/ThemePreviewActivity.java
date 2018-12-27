@@ -129,6 +129,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     boolean show = AdManager.getInstance().showInterstitialAd();
                     if (show) {
                         Ap.DetailAd.logEvent("colorphone_themedetail_ad_show");
+                        if (ThemeGuide.isFromThemeGuide()) {
+                            LauncherAnalytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
+                        }
                     }
                 }
             }, 200);

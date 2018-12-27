@@ -583,6 +583,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             boolean show = AdManager.getInstance().showInterstitialAd();
             if (show) {
                 Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_show");
+                if (ThemeGuide.isFromThemeGuide()) {
+                    LauncherAnalytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
+                }
             }
         }
         ThemeGuide.logThemeApplied();

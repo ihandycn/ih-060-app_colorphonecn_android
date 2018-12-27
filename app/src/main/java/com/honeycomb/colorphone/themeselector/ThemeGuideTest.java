@@ -2,6 +2,8 @@ package com.honeycomb.colorphone.themeselector;
 
 import android.text.format.DateUtils;
 
+import com.honeycomb.colorphone.util.LauncherAnalytics;
+
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
 
@@ -41,20 +43,24 @@ public class ThemeGuideTest {
     public static void logThemeGuideDetailShow() {
         isThemeGuideShow();
         AutopilotEvent.logTopicEvent(THEME_TEST_TOPICID, "colorphone_themedetail_view_fromthemeguide");
+        LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_View_FromThemeGuide");
     }
 
     public static void logThemeGuideApply() {
         isThemeGuideShow();
         AutopilotEvent.logTopicEvent(THEME_TEST_TOPICID, "colorphone_choosetheme_fromthemeguide");
+        LauncherAnalytics.logEvent("ColorPhone_ChooseTheme_FromThemeGuide");
     }
 
     public static void logThemeGuideThemeClicked() {
         isThemeGuideShow();
         AutopilotEvent.logTopicEvent(THEME_TEST_TOPICID, "colorphone_callassistant_themeguide_theme_click");
+        LauncherAnalytics.logEvent("colorphone_callassistant_themeguide_theme_click");
     }
 
     public static void logThemeGuideMoreClicked() {
         isThemeGuideShow();
         AutopilotEvent.logTopicEvent(THEME_TEST_TOPICID, "colorphone_callassistant_themeguide_button_click");
+        LauncherAnalytics.logEvent("colorphone_callassistant_themeguide_button_click");
     }
 }

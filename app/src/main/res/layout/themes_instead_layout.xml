@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="240dp"
+    android:layout_height="248dp"
     android:padding="12dp"
     android:background="@drawable/acb_alert_call_dialog_normal_bg"
     tools:ignore="UnusedAttribute"

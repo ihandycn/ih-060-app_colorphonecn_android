@@ -14,6 +14,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -79,6 +80,7 @@ public class ThemeGuide {
                 Preferences.getDefault().putLong(LAST_GUIDE_THEME_TIME, now);
                 Preferences.getDefault().incrementAndGetInt(LAST_GUIDE_THEME_COUNT);
 
+                LauncherAnalytics.logEvent("ColorPhone_CallAssistant_ThemeGuide_Show");
                 return R.layout.themes_instead_layout;
             }
         }
@@ -86,29 +88,27 @@ public class ThemeGuide {
     }
 
     public static void logThemeDetailShow() {
-        if (sThemeGuide == null) {
-            return;
-        }
-        HSLog.i(TAG, "logThemeDetailShow d == " + sThemeGuide.showThemeDetail + "  m == " + sThemeGuide.showThemeMain
-                + "  cID == " + SessionMgr.getInstance().getCurrentSessionId() + "  TGID == " + sThemeGuide.sessionID);
-        if ((sThemeGuide.showThemeDetail || sThemeGuide.showThemeMain)
-                && SessionMgr.getInstance().getCurrentSessionId() == sThemeGuide.sessionID) {
+        if (isFromThemeGuide()) {
             ThemeGuideTest.logThemeGuideDetailShow();
         }
     }
 
     public static void logThemeApplied() {
         Preferences.getDefault().putLong(LAST_GUIDE_THEME_APPLY_TIME, System.currentTimeMillis());
+        if (isFromThemeGuide()) {
+            ThemeGuideTest.logThemeGuideApply();
+        }
+//        ColorPhone_ThemeWireAd_Show_FromThemeGuide
+    }
 
+    public static boolean isFromThemeGuide() {
         if (sThemeGuide == null) {
-            return;
+            return false;
         }
         HSLog.i(TAG, "logThemeApplied d == " + sThemeGuide.showThemeDetail + "  m == " + sThemeGuide.showThemeMain
                 + "  cID == " + SessionMgr.getInstance().getCurrentSessionId() + "  TGID == " + sThemeGuide.sessionID);
-        if ((sThemeGuide.showThemeDetail || sThemeGuide.showThemeMain)
-                && SessionMgr.getInstance().getCurrentSessionId() == sThemeGuide.sessionID) {
-            ThemeGuideTest.logThemeGuideApply();
-        }
+        return  ((sThemeGuide.showThemeDetail || sThemeGuide.showThemeMain)
+                && SessionMgr.getInstance().getCurrentSessionId() == sThemeGuide.sessionID);
     }
 
     private void fillView(View view) {
@@ -150,6 +150,7 @@ public class ThemeGuide {
                 .into(iv);
         iv.setOnClickListener(v -> {
             sThemeGuide.showThemeDetail = true;
+            Navigations.startActivitySafely(iv.getContext(), new Intent(iv.getContext(), ColorPhoneActivity.class));
             ThemePreviewActivity.start(iv.getContext(), theme.getIndex(), "ThemeGuide");
             ThemeGuideTest.logThemeGuideThemeClicked();
             HSGlobalNotificationCenter.sendNotification(CallIdleAlertActivity.FINISH_CALL_IDLE_ALERT_ACTIVITY);
