@@ -6,6 +6,7 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.acb.call.themes.Type;
 import com.bumptech.glide.Glide;
 import com.call.assistant.ui.CallIdleAlertActivity;
 import com.honeycomb.colorphone.Ap;
@@ -17,11 +18,14 @@ import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.acb.call.constant.ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID;
 
 public class ThemeGuide {
 
@@ -156,7 +160,15 @@ public class ThemeGuide {
         List allGuideThemesIds = HSConfig.getList("Application", "ThemeGuide");
 
         if (allGuideThemesIds != null && allGuideThemesIds.size() > 0) {
+            List<Theme> allThemes = Theme.themes();
+            int currentIndex = HSPreferenceHelper.getDefault().getInt(PREFS_SCREEN_FLASH_THEME_ID, Type.NONE);
             String current = Ap.ScreenFlash.getDefaultThemeId();
+            for (Theme theme : allThemes) {
+                if (currentIndex == theme.getId()) {
+                    current = theme.getIdName();
+                }
+            }
+
             String last = getLastGuideTheme();
             List<String> guideThemeIds = new ArrayList<>(3);
 
@@ -171,7 +183,7 @@ public class ThemeGuide {
             }
             putLastGuideTheme(themeId);
 
-            List<Theme> allThemes = Theme.themes();
+
             List<Theme> guideThemes = new ArrayList<>(3);
             for (String id : guideThemeIds) {
                 for (Theme theme : allThemes) {
