@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone;
 
+import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 
 import java.util.HashSet;
@@ -29,14 +30,18 @@ public class ConfigLogDefault implements ConfigLog {
 
         @Override
         public void onThemePreviewOpen(String name) {
-            LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_View", "ThemeName", name);
-            Ap.DetailAd.onThemeView();
+            if (!ThemeGuide.isFromThemeGuide()) {
+                LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_View", "ThemeName", name);
+                Ap.DetailAd.onThemeView();
+            }
         }
 
         @Override
         public void onChooseTheme(String name, String from) {
-            LauncherAnalytics.logEvent("ColorPhone_ChooseTheme", "ThemeName", name, "from", from);
-            Ap.DetailAd.onThemeChoose();
+            if (!ThemeGuide.isFromThemeGuide()) {
+                LauncherAnalytics.logEvent("ColorPhone_ChooseTheme", "ThemeName", name, "from", from);
+                Ap.DetailAd.onThemeChoose();
+            }
         }
 
         @Override

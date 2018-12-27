@@ -579,10 +579,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         NotificationUtils.logThemeAppliedFlurry(mTheme);
 
         if (ConfigSettings.showAdOnApplyTheme()) {
-            Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_should_show");
+            if (!ThemeGuide.isFromThemeGuide()) {
+                Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_should_show");
+            }
             boolean show = AdManager.getInstance().showInterstitialAd();
             if (show) {
-                Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_show");
+                if (!ThemeGuide.isFromThemeGuide()) {
+                    Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_show");
+                }
                 if (ThemeGuide.isFromThemeGuide()) {
                     LauncherAnalytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
                 }

@@ -125,10 +125,14 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             Threads.postOnMainThreadDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Ap.DetailAd.logEvent("colorphone_themedetail_ad_should_show");
+                    if (!ThemeGuide.isFromThemeGuide()) {
+                        Ap.DetailAd.logEvent("colorphone_themedetail_ad_should_show");
+                    }
                     boolean show = AdManager.getInstance().showInterstitialAd();
                     if (show) {
-                        Ap.DetailAd.logEvent("colorphone_themedetail_ad_show");
+                        if (!ThemeGuide.isFromThemeGuide()) {
+                            Ap.DetailAd.logEvent("colorphone_themedetail_ad_show");
+                        }
                         if (ThemeGuide.isFromThemeGuide()) {
                             LauncherAnalytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
                         }
