@@ -176,4 +176,9 @@
 
   <!--Facebook fan page-->
   <string name="follow_facebook">Facebookでフォローしてください</string>
+
+
+  <string name="theme_instead_title">テーマをもっと見つける</string>
+
+
 </resources>

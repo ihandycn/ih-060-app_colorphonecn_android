@@ -175,4 +175,9 @@
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Подпишитесь на нас в Facebook</string>
+
+
+    <string name="theme_instead_title">Найти больше тем</string>
+
+
 </resources>

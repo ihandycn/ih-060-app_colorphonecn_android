@@ -173,4 +173,10 @@
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Facebook에서 팔로우하기</string>
+
+
+    <string name="theme_instead_title">다른 테마 찾기</string>
+
+
+
 </resources>

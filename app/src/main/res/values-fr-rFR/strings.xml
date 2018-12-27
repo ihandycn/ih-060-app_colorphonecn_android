@@ -172,4 +172,9 @@
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Suivez-nous sur Facebook</string>
+
+
+    <string name="theme_instead_title">Trouver plus de thèmes</string>
+
+
 </resources>

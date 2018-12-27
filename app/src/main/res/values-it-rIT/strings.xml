@@ -174,4 +174,9 @@
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Seguici su Facebook</string>
+
+
+    <string name="theme_instead_title">Trova altri temi</string>
+
+
 </resources>

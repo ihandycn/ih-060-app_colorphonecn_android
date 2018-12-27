@@ -175,4 +175,9 @@
 
     <!--Facebook fan page-->
     <string name="follow_facebook">在Facebook上關注我們</string>
+
+
+    <string name="theme_instead_title">發現更多的主題</string>
+
+
 </resources>
