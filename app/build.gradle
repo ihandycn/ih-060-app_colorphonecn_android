@@ -164,7 +164,7 @@ dependencies {
     final  COMMON_COLORFLASH = [
             USE_BETA_ACB_LIBS ?
                     'com.ihandy.appframework:libAppframework.beta:4.8.1.+' :
-                    'com.ihandy.appframework:libAppframework.beta:4.8.5.beta05',
+                    'com.ihandy.appframework:libAppframework.gm:4.8.5.gm',
     ]
 
 
