@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:maxLines="1"
@@ -25,6 +25,9 @@
         android:textColor="#e6000000"
         android:textSize="15sp"
         app:typeface="@string/roboto_medium"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         tools:ignore="HardcodedText,SpUsage" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
