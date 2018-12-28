@@ -985,4 +985,8 @@ public final class Utils {
         long firstSessionTime = HSSessionMgr.getFirstSessionStartTime();
         return firstSessionTime > 0 ? firstSessionTime : System.currentTimeMillis();
     }
+
+    public static boolean installVersionAfter(int versionCode) {
+        return HSApplication.getFirstLaunchInfo().appVersionCode >= versionCode;
+    }
 }
