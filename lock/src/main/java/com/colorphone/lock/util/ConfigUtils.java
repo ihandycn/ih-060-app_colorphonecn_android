@@ -1,7 +1,6 @@
 package com.colorphone.lock.util;
 
 import android.content.pm.PackageManager;
-import android.text.TextUtils;
 
 import com.colorphone.lock.BuildConfig;
 import com.ihs.app.framework.HSApplication;
@@ -80,8 +79,6 @@ public class ConfigUtils {
     public static boolean isShowModulesDueToConfig() {
         if (HSApplication.getContext().getPackageName().equals("com.colorphone.smooth.dialer")) {
             return HSApplication.getFirstLaunchInfo().appVersionCode < SHOW_AD_VERSION_CODE;
-        } else if (TextUtils.equals(HSApplication.getContext().getPackageName(), "com.app.phone.call.flash.screen")) {
-            return HSApplication.getFirstLaunchInfo().appVersionCode < 38;
         }
         return false;
     }
