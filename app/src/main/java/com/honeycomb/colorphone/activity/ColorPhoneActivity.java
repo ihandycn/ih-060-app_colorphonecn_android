@@ -35,6 +35,7 @@ import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.Ap;
+import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
@@ -188,6 +189,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         setContentView(R.layout.activity_main);
         initMainFrame();
         AdManager.getInstance().preload();
+        AppflyerLogger.logAppOpen();
         isCreate = true;
     }
 

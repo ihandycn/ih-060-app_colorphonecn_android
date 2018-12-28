@@ -316,6 +316,7 @@
         <activity
             android:name=".boost.BoostActivity"
             android:excludeFromRecents="true"
+            android:noHistory="true"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"

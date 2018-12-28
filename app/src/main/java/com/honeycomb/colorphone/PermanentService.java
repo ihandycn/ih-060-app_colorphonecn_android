@@ -114,7 +114,7 @@ public class PermanentService extends Service {
                 } else if (useDefaultSound) {
                     notification.defaults |= Notification.DEFAULT_SOUND;
                 }
-                notification.icon = R.mipmap.ic_launcher;
+                notification.icon = R.drawable.notification_toolbar_small_icon;
             } else {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(HSApplication.getContext());
                 if (!TextUtils.isEmpty(ticker)) {
@@ -123,7 +123,7 @@ public class PermanentService extends Service {
                 builder.setContentTitle(title);
                 builder.setContentText(content);
                 builder.setContentIntent(pendingIntent);
-                builder.setSmallIcon(R.drawable.app_icon);
+                builder.setSmallIcon(R.drawable.notification_toolbar_small_icon);
                 builder.setAutoCancel(true);
                 if (date > 0) {
                     builder.setWhen(date);
