@@ -82,7 +82,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/theme_instead_theme1"
         app:layout_constraintLeft_toLeftOf="@+id/theme_instead_theme1"
         app:layout_constraintRight_toRightOf="@+id/theme_instead_theme1"
-        app:typeface="@string/roboto_regular"
+        app:typeface="@string/roboto_black"
         />
 
     <com.acb.call.views.InCallActionView
@@ -134,7 +134,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/theme_instead_theme2"
         app:layout_constraintLeft_toLeftOf="@+id/theme_instead_theme2"
         app:layout_constraintRight_toRightOf="@+id/theme_instead_theme2"
-        app:typeface="@string/roboto_regular"
+        app:typeface="@string/roboto_black"
         />
 
     <com.acb.call.views.InCallActionView
@@ -185,7 +185,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/theme_instead_theme3"
         app:layout_constraintLeft_toLeftOf="@+id/theme_instead_theme3"
         app:layout_constraintRight_toRightOf="@+id/theme_instead_theme3"
-        app:typeface="@string/roboto_regular"
+        app:typeface="@string/roboto_black"
         />
 
     <com.acb.call.views.InCallActionView
