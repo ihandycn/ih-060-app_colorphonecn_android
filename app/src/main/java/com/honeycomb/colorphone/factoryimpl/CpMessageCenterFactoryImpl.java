@@ -9,6 +9,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.messagecenter.customize.MessageCenterSettings;
@@ -32,6 +33,9 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean configEnabled() {
+                if (Utils.installVersionAfter(38)) {
+                    return false;
+                }
                 return  ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT)
                         && MessageCenterSettings.isSMSAssistantModuleEnabled();
             }
