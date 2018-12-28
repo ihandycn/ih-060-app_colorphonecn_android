@@ -128,11 +128,19 @@
     </style>
 
     <style name="RatioView">
-        <item name="aspectRatioOverride">0.5627</item>
+        <item name="aspectRatioOverride">0.5625</item>
     </style>
     <style name="RatioView.Image">
-        <item name="aspectRatioOverride">0.5627</item>
+        <item name="aspectRatioOverride">0.5625</item>
         <item name="android:scaleType">fitCenter</item>
+    </style>
+    <style name="RatioView.Theme">
+        <item name="aspectRatioOverride">0.6</item>
+        <item name="round_left_top_corner_radius">5.3dp</item>
+        <item name="round_left_bottom_corner_radius">5.3dp</item>
+        <item name="round_right_top_corner_radius">5.3dp</item>
+        <item name="round_right_bottom_corner_radius">5.3dp</item>
+        <item name="android:scaleType">centerCrop</item>
     </style>
 
     <style name="guide_all_features_image">

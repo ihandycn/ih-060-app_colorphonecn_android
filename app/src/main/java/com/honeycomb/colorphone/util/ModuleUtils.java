@@ -102,6 +102,8 @@ public class ModuleUtils {
 
         if (HSApplication.getContext().getPackageName().equals("com.colorphone.smooth.dialer")) {
             return HSApplication.getFirstLaunchInfo().appVersionCode < SHOW_AD_VERSION_CODE;
+        } else if (HSApplication.getContext().getPackageName().equals("com.app.phone.call.flash.screen")) {
+            return HSApplication.getFirstLaunchInfo().appVersionCode < 38;
         }
         return false;
     }
