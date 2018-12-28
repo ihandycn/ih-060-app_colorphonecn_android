@@ -75,13 +75,14 @@
         android:gravity="center"
         android:textAllCaps="true"
         android:textColor="#000000"
-        android:textSize="12sp"
         android:text="@string/apply_btn"
+        android:textSize="12sp"
+        android:textStyle="bold"
         android:background="@drawable/btn_bg_round_theme_instead"
         app:layout_constraintBottom_toBottomOf="@+id/theme_instead_theme1"
         app:layout_constraintLeft_toLeftOf="@+id/theme_instead_theme1"
         app:layout_constraintRight_toRightOf="@+id/theme_instead_theme1"
-        app:typeface="@string/roboto_medium"
+        app:typeface="@string/roboto_regular"
         />
 
     <com.acb.call.views.InCallActionView
@@ -126,13 +127,14 @@
         android:gravity="center"
         android:textAllCaps="true"
         android:textColor="#000000"
-        android:textSize="12sp"
         android:text="@string/apply_btn"
+        android:textSize="12sp"
+        android:textStyle="bold"
         android:background="@drawable/btn_bg_round_theme_instead"
         app:layout_constraintBottom_toBottomOf="@+id/theme_instead_theme2"
         app:layout_constraintLeft_toLeftOf="@+id/theme_instead_theme2"
         app:layout_constraintRight_toRightOf="@+id/theme_instead_theme2"
-        app:typeface="@string/roboto_medium"
+        app:typeface="@string/roboto_regular"
         />
 
     <com.acb.call.views.InCallActionView
@@ -176,15 +178,15 @@
         android:gravity="center"
         android:textAllCaps="true"
         android:textColor="#000000"
-        android:textSize="12sp"
         android:text="@string/apply_btn"
+        android:textSize="12sp"
+        android:textStyle="bold"
         android:background="@drawable/btn_bg_round_theme_instead"
         app:layout_constraintBottom_toBottomOf="@+id/theme_instead_theme3"
         app:layout_constraintLeft_toLeftOf="@+id/theme_instead_theme3"
         app:layout_constraintRight_toRightOf="@+id/theme_instead_theme3"
-        app:typeface="@string/roboto_medium"
+        app:typeface="@string/roboto_regular"
         />
-
 
     <com.acb.call.views.InCallActionView
         android:id="@+id/card_in_call_action_view3"
