@@ -15,7 +15,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -23,8 +22,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
@@ -36,7 +33,6 @@ import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.AppflyerLogger;
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
@@ -49,6 +45,7 @@ import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
@@ -70,7 +67,6 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
-import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
@@ -101,12 +97,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
     private RewardVideoView mRewardVideoView;
-
-    private SwitchCompat mainSwitch;
-    private SwitchCompat notificationToolbarSwitch;
-    private SwitchCompat defaultDialer;
-
-    private TextView mainSwitchTxt;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
     private int defaultThemeId = 1;
@@ -157,6 +147,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean showAllFeatureGuide = false;
     private boolean isCreate = false;
     private View cashFloatButton;
+    private SettingsPage mSettingsPage = new SettingsPage();
 
     @DebugLog
     @Override
@@ -241,61 +232,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         View leftDrawer = findViewById(R.id.left_drawer);
-        mainSwitch = leftDrawer.findViewById(R.id.main_switch);
-        mainSwitchTxt = leftDrawer.findViewById(R.id.settings_main_switch_txt);
-
-
-        boolean dialerEnable = false;
-        leftDrawer.findViewById(R.id.settings_default_dialer_switch)
-                .setVisibility(dialerEnable ? View.VISIBLE : View.GONE);
-        initCheckState = ScreenFlashSettings.isScreenFlashModuleEnabled();
-        mainSwitch.setChecked(initCheckState);
-        mainSwitchTxt.setText(getString(initCheckState ? R.string.color_phone_enabled : R.string.color_phone_disable));
-
-        mainSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
-                ScreenFlashSettings.setScreenFlashModuleEnabled(isChecked);
-                LauncherAnalytics.logEvent("ColorPhone_Settings_Enable_Icon_Clicked", "type", isChecked ? "on" : "off");
-            }
-        });
-
-//        notificationToolbarSwitch = leftDrawer.findViewById(R.id.notification_toolbar_switch);
-//
-//        initCheckState = UserSettings.isNotificationToolbarEnabled();
-//        notificationToolbarSwitch.setChecked(initCheckState);
-//
-//        notificationToolbarSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                UserSettings.setNotificationToolbarEnabled(isChecked);
-//                NotificationManager.getInstance().showNotificationToolbarIfEnabled();
-//            }
-//        });
-
-//        if (Utils.ATLEAST_JELLY_BEAN) {
-//            leftDrawer.findViewById(R.id.settings_boost).setVisibility(View.VISIBLE);
-//        } else {
-//            leftDrawer.findViewById(R.id.settings_boost).setVisibility(View.GONE);
-//        }
-
-        leftDrawer.findViewById(R.id.settings_main_switch).setOnClickListener(this);
-        leftDrawer.findViewById(R.id.settings_default_dialer_switch).setOnClickListener(this);
-        leftDrawer.findViewById(R.id.settings_led_flash).setOnClickListener(this);
-//        leftDrawer.findViewById(R.id.settings_notification_toolbar).setOnClickListener(this);
-        leftDrawer.findViewById(R.id.settings_feedback).setOnClickListener(this);
-//        leftDrawer.findViewById(R.id.settings_boost).setOnClickListener(this);
-        leftDrawer.findViewById(R.id.settings_setting).setOnClickListener(this);
-        leftDrawer.findViewById(R.id.settings_contacts).setOnClickListener(this);
-        leftDrawer.findViewById(R.id.settings_about).setOnClickListener(this);
-        leftDrawer.findViewById(R.id.settings_facebook).setOnClickListener(this);
         leftDrawer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
+        mSettingsPage.initPage(leftDrawer);
 
         return drawer;
     }
@@ -414,12 +357,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        if (mainSwitch != null) {
-            boolean nowEnable = mainSwitch.isChecked();
-            if (nowEnable != initCheckState) {
-                initCheckState = nowEnable;
-                ColorPhoneApplication.getConfigLog().getEvent().onColorPhoneEnableFromSetting(nowEnable);
-            }
+        if (mSettingsPage != null) {
+            mSettingsPage.onSaveToggleState();
         }
         saveThemeLikes();
         // TODO: has better solution for OOM?
@@ -775,49 +714,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.settings_main_switch:
-                mainSwitch.toggle();
-                break;
-            case  R.id.settings_default_dialer_switch:
-                defaultDialer.toggle();
-                break;
-            case R.id.settings_led_flash:
-                LedFlashSettingsActivity.start(this);
-                break;
-//            case R.id.settings_notification_toolbar:
-//                toggleNotificationToolbar();
-//                break;
-            case R.id.settings_feedback:
-                feedBack();
-                ColorPhoneApplication.getConfigLog().getEvent().onFeedBackClick();
-                break;
-//            case R.id.settings_boost:
-//                BoostActivity.start(ColorPhoneActivity.this, false);
-//                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
-//                break;
-            case R.id.settings_setting:
-                LauncherAnalytics.logEvent("Colorphone_Settings_Clicked");
-                SettingsActivity.start(this);
-                break;
-            case R.id.settings_contacts:
-                ContactsActivity.startEdit(this);
-                LauncherAnalytics.logEvent("Colorphone_Settings_ContactTheme_Clicked");
-                break;
-            case R.id.settings_about:
-                AboutActivity.start(this);
-                break;
-            case R.id.settings_facebook:
-                Navigations.openBrowser(this,
-                        BuildConfig.FLAVOR.equals("colorflash") ?
-                                "https://business.facebook.com/Color-Call-Call-Screen-LED-Flash-Ringtones-342916819531161"
-                                :
-                                "https://www.facebook.com/pg/Color-Phone-560161334373476");
-                break;
-        }
-    }
 
-    private void feedBack() {
-        Utils.sentEmail(this, new String[]{Constants.FEED_BACK_EMAIL}, null, null);
+        }
     }
 
     private void requestRewardAd(final String themeName) {
@@ -863,7 +761,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
-            mainSwitch.setChecked(true);
+            mSettingsPage.onThemeSelected();
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
             initData();
             mAdapter.notifyDataSetChanged();
