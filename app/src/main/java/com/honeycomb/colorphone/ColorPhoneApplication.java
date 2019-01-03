@@ -41,6 +41,7 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
+import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
@@ -64,6 +65,7 @@ import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.app.utils.HSVersionControlUtils;
+import com.ihs.chargingimprover.ChargingImproverManager;
 import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
 import com.ihs.chargingreport.ChargingReportManager;
@@ -523,6 +525,8 @@ public class ColorPhoneApplication extends HSApplication {
 
             }
         });
+
+        ChargingImproverManager.getInstance().init(new ChargingImproverCallbackImpl());
     }
 
     private void initLockerCharging() {

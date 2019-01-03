@@ -174,15 +174,6 @@ dependencies {
     for (dependency in COMMON_COLORFLASH) colorflashCompile dependency
 
 
-    final DEPENDENCIES_AAR = [
-            'libChargingReport/libChargingReport-release',
-            'libChargingReport/libChargingCommon-release',
-    ]
-
-    for (dependency in DEPENDENCIES_AAR) {
-        compile(name: dependency, ext: 'aar')
-    }
-
     // ==== Third part ====
     compile 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
@@ -209,8 +200,9 @@ dependencies {
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
     compile(name: 'libCashCenter/cashcenter-release', ext: 'aar')
-    compile(name: 'libChargingReport/libChargingReport-release', ext: 'aar')
-    compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
+
+    compile project(':libChargingCommon')
+    compile project(':libChargingReport')
     compile project(':libCallAssistant')
     compile project(':libMessageCenter')
     compile project(':libScreenFlash')

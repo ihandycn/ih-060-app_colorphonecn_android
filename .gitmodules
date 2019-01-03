@@ -16,3 +16,6 @@
 [submodule "libs/libCashCenter"]
 	path = libs/libCashCenter
 	url = http://git.ihandysoft.com/bingroup/Bin_CashCenter_Android.git
+[submodule "libs/libChargingImprover"]
+	path = libs/libChargingImprover
+	url = https://git.ihandysoft.com/nogroup/Lib_FlashlightCharging_Android.git

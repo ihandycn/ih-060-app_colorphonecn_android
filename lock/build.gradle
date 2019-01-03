@@ -30,8 +30,8 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
 
-    compile(name: 'libChargingReport/libChargingCommon-release', ext: 'aar')
     compile files('../libs/libFlashlight/libFlashlight.jar')
+    compile project(':libChargingCommon')
     compile project(':libSuperApps')
     compile project(':libScreenCard')
 
