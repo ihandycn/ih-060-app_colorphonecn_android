@@ -66,6 +66,7 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
 
     @Override public void onImproverShow() {
 //                ChargingImproverTest.logShow();
+        ResultPageManager.getInstance().setInBatteryImprover(true);
         ResultPageManager.preloadResultPageAds();
     }
 
@@ -91,6 +92,11 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
 
     @Override public int minAlertShowRate() {
         return HSConfig.optInteger(15, "Application", "ChargingImprover", "MinAlertShowRate");
+    }
+
+    @Override
+    public boolean showOnlyOnceBeforeUnplug() {
+        return false;
     }
 
     @Override public void logEvent(String eventID, String... vars) {

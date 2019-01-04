@@ -88,9 +88,8 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         mFromMainPage = getIntent().getBooleanExtra(EXTRA_KEY_COME_FROM_MAIN_PAGE, false);
         cleanAppList = getIntent().getStringArrayListExtra(EXTRA_KEY_SCANNED_LIST);
         saveTime = getIntent().getIntExtra(EXTRA_KEY_SAVE_TIME, 0);
-
+        ResultPageManager.preloadResultPageAds();
         if (!mFromMainPage) {
-            ResultPageManager.preloadResultPageAds();
             if (BatteryUtils.isCleanTimeFrozen()) {
                 ResultPageActivity.startForBattery(BatteryCleanActivity.this, true, 0, 0);
                 finish();
