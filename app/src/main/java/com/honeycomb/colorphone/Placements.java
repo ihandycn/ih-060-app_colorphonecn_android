@@ -11,4 +11,7 @@ public class Placements {
 
     public static final String QUIZ_WIRE = "QuizWire";
     public static final String CASHCENTER = "EarnCashWire";
+
+    public static final String CABLE_DOWN = "CableDone";
+    public static final String CABLE_WIRE = "CableWire";
 }

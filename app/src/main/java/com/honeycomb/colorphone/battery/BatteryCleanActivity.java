@@ -101,6 +101,9 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         setContentView(R.layout.activity_battery_clean);
         initView();
         startAnimation();
+        if (ResultPageManager.getInstance().isFromBatteryImprover()) {
+            LauncherAnalytics.logEvent("Flashlight_CableImprover_CleanPage_Show");
+        }
     }
 
     private void startAnimation() {

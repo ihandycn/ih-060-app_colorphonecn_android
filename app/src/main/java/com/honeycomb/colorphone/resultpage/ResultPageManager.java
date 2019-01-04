@@ -6,7 +6,6 @@ import com.ihs.commons.utils.HSLog;
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
-import net.appcloudbox.ads.nativead.AcbNativeAdLoader;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 
 import java.util.ArrayList;
@@ -15,8 +14,6 @@ import java.util.List;
 public class ResultPageManager {
 
     private static final String TAG = ResultPageManager.class.getSimpleName();
-    public static final String RESULT_PAGE_AD_PLACEMENT_NAME = Placements.BOOST_DOWN;
-    public static final String RESULT_PAGE_INTERSTITIAL_AD_PLACEMENT_NAME = Placements.BOOST_WIRE;
 
     private AcbNativeAd mAd = null;
     private AcbInterstitialAd mInterstitialAd = null;
@@ -28,6 +25,7 @@ public class ResultPageManager {
     private long mAdJunkSize;
     private long mAppMemorySize;
     private boolean mAdDirty;
+    private boolean inBatteryImprover;
 
     private ResultPageManager() {
     }
@@ -45,16 +43,16 @@ public class ResultPageManager {
 
     public static void preloadResultPageAds() {
         HSLog.d(TAG, "preloadResultPageAds");
-        AcbNativeAdManager.getInstance().activePlacementInProcess(RESULT_PAGE_AD_PLACEMENT_NAME);
-        AcbNativeAdManager.preload(1, RESULT_PAGE_AD_PLACEMENT_NAME);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(ResultPageManager.getInstance().getExpressAdPlacement());
+        AcbNativeAdManager.preload(1, ResultPageManager.getInstance().getExpressAdPlacement());
 
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(RESULT_PAGE_INTERSTITIAL_AD_PLACEMENT_NAME);
-        AcbInterstitialAdManager.preload(1, RESULT_PAGE_INTERSTITIAL_AD_PLACEMENT_NAME);
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(ResultPageManager.getInstance().getInterstitialAdPlacement());
+        AcbInterstitialAdManager.preload(1, ResultPageManager.getInstance().getInterstitialAdPlacement());
     }
 
     public AcbNativeAd getAd() {
         if (mAd == null) {
-            List<AcbNativeAd> ads = AcbNativeAdManager.fetch(RESULT_PAGE_AD_PLACEMENT_NAME, 1);
+            List<AcbNativeAd> ads = AcbNativeAdManager.fetch(ResultPageManager.getInstance().getExpressAdPlacement(), 1);
             if (ads != null && ads.size() > 0) {
                 mAd = ads.get(0);
             }
@@ -64,7 +62,7 @@ public class ResultPageManager {
 
     public AcbInterstitialAd getInterstitialAd() {
         if (mInterstitialAd == null) {
-            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(RESULT_PAGE_INTERSTITIAL_AD_PLACEMENT_NAME, 1);
+            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(ResultPageManager.getInstance().getInterstitialAdPlacement(), 1);
             if (ads != null && ads.size() > 0) {
                 mInterstitialAd = ads.get(0);
             }
@@ -106,8 +104,19 @@ public class ResultPageManager {
         mAdDirty = true;
     }
 
-    public void loadAd( AcbNativeAdLoader.AcbNativeAdLoadListener acbNativeAdLoadListener) {
-        AcbNativeAdLoader loader = AcbNativeAdManager.createLoaderWithPlacement(RESULT_PAGE_AD_PLACEMENT_NAME);
-        loader.load(1,acbNativeAdLoadListener);
+    public String getExpressAdPlacement() {
+        return isFromBatteryImprover() ? Placements.CABLE_DOWN : Placements.BOOST_DOWN;
+    }
+
+    public String getInterstitialAdPlacement() {
+        return  isFromBatteryImprover() ? Placements.CABLE_WIRE : Placements.BOOST_WIRE;
+    }
+
+    public boolean isFromBatteryImprover() {
+        return inBatteryImprover;
+    }
+
+    public void setInBatteryImprover(boolean inBatteryImprover) {
+        this.inBatteryImprover = inBatteryImprover;
     }
 }

@@ -461,7 +461,11 @@ abstract class ResultController implements View.OnClickListener {
     private void logViewEvent() {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
-                LauncherAnalytics.logEvent("Colorphone_BatteryDone_Page_Shown");
+                if (ResultPageManager.getInstance().isFromBatteryImprover()) {
+                    LauncherAnalytics.logEvent("ColorPhone_CableImprover_Clean_ResultPage_Show");
+                } else {
+                    LauncherAnalytics.logEvent("Colorphone_BatteryDone_Page_Shown");
+                }
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
                 LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromSettings");
@@ -494,7 +498,11 @@ abstract class ResultController implements View.OnClickListener {
         HSLog.d(TAG, "logInterstitialAdNeedShow mResultType: " + mResultType);
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
-                LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
+                if (ResultPageManager.getInstance().isFromBatteryImprover()) {
+                    LauncherAnalytics.logEvent("ColorPhone_CableImproverWire_Should_Show");
+                } else {
+                    LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
+                }
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
                 LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromSettings");
@@ -514,7 +522,11 @@ abstract class ResultController implements View.OnClickListener {
     private void logInterstitialAdShow() {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
-                LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Shown");
+                if (ResultPageManager.getInstance().isFromBatteryImprover()) {
+                    LauncherAnalytics.logEvent("ColorPhone_CableImproverWire_Show");
+                } else {
+                    LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Shown");
+                }
                 AutoPilotUtils.logBatterywireAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:

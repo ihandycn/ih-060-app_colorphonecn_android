@@ -45,6 +45,7 @@ import com.honeycomb.colorphone.cpucooler.CpuCoolDownActivity;
 import com.honeycomb.colorphone.cpucooler.CpuCoolerManager;
 import com.honeycomb.colorphone.cpucooler.util.CpuCoolerConstant;
 import com.honeycomb.colorphone.cpucooler.util.CpuCoolerUtils;
+import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.util.AutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -502,6 +503,7 @@ public class NotificationManager implements FlashlightStatusListener {
                 LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_Battery_Clicked");
                 LauncherAnalytics.logEvent("ColorPhone_Notification_Toolbar_Clicked");
                 Intent batteryIntent = new Intent(context, BatteryCleanActivity.class);
+                ResultPageManager.getInstance().setInBatteryImprover(false);
                 batteryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 Navigations.startActivitySafely(context, batteryIntent);
                 AutoPilotUtils.logNotificationToolbarBatteryClick();

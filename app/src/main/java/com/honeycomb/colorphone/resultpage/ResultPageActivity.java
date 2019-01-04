@@ -27,10 +27,10 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 
 import java.util.List;
 
-import static com.honeycomb.colorphone.resultpage.ResultPageManager.RESULT_PAGE_AD_PLACEMENT_NAME;
 
 
 public class ResultPageActivity extends BaseAppCompatActivity
@@ -102,12 +102,12 @@ public class ResultPageActivity extends BaseAppCompatActivity
 //        activity.overridePendingTransition(0, 0);
     }
 
-    public static void startForBattery(Activity activity, boolean isBatteryOptimal, int extendHour, int extendMinute) {
-        if (activity == null) {
+    public static void startForBattery(Context context, boolean isBatteryOptimal, int extendHour, int extendMinute) {
+        if (context == null) {
             return;
         }
 
-        Intent intent = new Intent(activity, ResultPageActivity.class);
+        Intent intent = new Intent(context, ResultPageActivity.class);
         intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BATTERY);
         intent.putExtra(EXTRA_KEY_BATTERY_OPTIMAL, isBatteryOptimal);
         intent.putExtra(EXTRA_KEY_BATTERY_EXTEND_HOUR, extendHour);
@@ -115,8 +115,10 @@ public class ResultPageActivity extends BaseAppCompatActivity
         boolean shouldStartToLauncher = BatteryUtils.shouldReturnToLauncherFromResultPage();
         intent.putExtra(EXTRA_KEY_SHOULD_START_TO_LAUNCHER, shouldStartToLauncher);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
+        Navigations.startActivitySafely(context, intent);
+        if (context instanceof Activity) {
+            ((Activity) context).overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
+        }
     }
 
     public static void startForCpuCooler(Activity activity) {
@@ -302,7 +304,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
             isAdShow = mResultController.isAdShown();
             mResultController.release();
         }
-        AcbNativeAdAnalytics.logAppViewEvent(RESULT_PAGE_AD_PLACEMENT_NAME, isAdShow);
+        AcbNativeAdAnalytics.logAppViewEvent(ResultPageManager.getInstance().getExpressAdPlacement(), isAdShow);
 
         ResultPageManager.getInstance().releaseAd();
         ResultPageManager.getInstance().releaseInterstitialAd();

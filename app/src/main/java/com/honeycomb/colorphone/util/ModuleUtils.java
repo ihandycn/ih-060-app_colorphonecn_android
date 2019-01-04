@@ -244,4 +244,15 @@ public class ModuleUtils {
         return false;
     }
 
+
+    public static boolean isChargingImproverEnabled() {
+        return HSConfig.optBoolean(false, "Application", "ChargingImprover", "Enabled")
+                && isChargingImproverNewUser();
+    }
+
+    public static boolean isChargingImproverNewUser() {
+        return HSApplication.getFirstLaunchInfo().appVersionCode
+                >= HSConfig.optInteger(39, "Application", "ChargingImprover", "FirstVersionCode");
+    }
+
 }
