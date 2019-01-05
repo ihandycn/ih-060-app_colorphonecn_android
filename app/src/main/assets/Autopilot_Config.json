@@ -251,6 +251,9 @@
     }
   ],
   "console_url": "https://ap-console.appcloudbox.net",
+  "app_meta": {
+    "is_support_languages": false
+  },
   "app_events": [
     {
       "name": "main_app_open"
@@ -298,8 +301,6 @@
       "name": "ad_click"
     }
   ],
-  "service_url": "https://ap.appcloudbox.net",
-  "json_id": "ea3c03cf-8a2a-4f3f-9a51-6f6e2197c53e",
   "topics": {
     "topic-6y9jgfwg2": {
       "topic_type": "life_time",
@@ -649,10 +650,86 @@
       ],
       "topic_id": "topic-6wzryt9bs"
     },
+    "topic-6z38sqqys": {
+      "topic_type": "life_time",
+      "topic_name": "Charging Improver Test",
+      "variations": {
+        "clean_page_show_skip_btn": {
+          "type": "boolean",
+          "value": false
+        },
+        "show_alert_once_when_one_charging": {
+          "type": "boolean",
+          "value": false
+        },
+        "charging_improver_show_interval": {
+          "type": "double",
+          "value": 15
+        },
+        "clean_click_back_to_result_page": {
+          "type": "boolean",
+          "value": false
+        },
+        "clean_allow_back": {
+          "type": "boolean",
+          "value": false
+        },
+        "charging_improver_enable": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "batteryboost_alert_show"
+        },
+        {
+          "name": "batteryboost_alert_improve_btnclicked"
+        },
+        {
+          "name": "batteryboost_alert_ok_btnclicked"
+        },
+        {
+          "name": "cleanpage_show"
+        },
+        {
+          "name": "cleanpage_back_click"
+        },
+        {
+          "name": "cleanpage_home_click"
+        },
+        {
+          "name": "cableimproverwire_should_show"
+        },
+        {
+          "name": "cableimproverwire_show"
+        },
+        {
+          "name": "cableimproverdone_should_show"
+        },
+        {
+          "name": "cableimproverdone_show"
+        },
+        {
+          "name": "cleanpage_skip_click"
+        },
+        {
+          "name": "cleanpage_resultpage_show"
+        }
+      ],
+      "topic_id": "topic-6z38sqqys"
+    },
     "topic-6yb8007c4": {
       "topic_type": "life_time",
       "topic_name": "ThemeGuide in CallAssistant Test",
       "variations": {
+        "apply_button_show": {
+          "type": "boolean",
+          "value": false
+        },
         "themeguideshow": {
           "type": "boolean",
           "value": false
@@ -1020,6 +1097,17 @@
         }
       ],
       "topic_id": "topic-1512822231846-17"
+    },
+    "topic-6z2dn7nbq": {
+      "topic_type": "life_time",
+      "topic_name": "Access Alert Test",
+      "variations": {},
+      "events": [
+        {
+          "name": "test"
+        }
+      ],
+      "topic_id": "topic-6z2dn7nbq"
     },
     "topic-1514209960668-50": {
       "topic_type": "life_time",
@@ -1430,7 +1518,9 @@
       "topic_id": "topic-1512825907890-18"
     }
   },
+  "autopilot_id": 10000,
+  "service_url": "https://ap.appcloudbox.net",
+  "json_id": "8cd500a6-1827-4031-bf3c-6730c149b087",
   "autopilot_name": "Color Phone",
-  "autopilot_type": "app",
-  "autopilot_id": 10000
+  "autopilot_type": "app"
 }
