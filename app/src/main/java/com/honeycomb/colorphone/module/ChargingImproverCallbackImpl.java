@@ -96,7 +96,7 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
 
     @Override
     public boolean showOnlyOnceBeforeUnplug() {
-        return false;
+        return HSConfig.optBoolean(false, "Application", "ChargingImprover", "ShowAlertOnceWhenOneCharging");
     }
 
     @Override public void logEvent(String eventID, String... vars) {
@@ -104,6 +104,5 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
     }
 
     @Override public void onChargingImproverDismiss() {
-
     }
 }
