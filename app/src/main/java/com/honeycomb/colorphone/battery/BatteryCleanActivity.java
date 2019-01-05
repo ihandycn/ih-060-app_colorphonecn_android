@@ -33,6 +33,8 @@ import com.ihs.device.clean.memory.HSAppMemory;
 import com.ihs.device.clean.memory.HSAppMemoryManager;
 import com.ihs.device.common.HSAppUsageInfo;
 import com.ihs.device.monitor.usage.HSAppUsageInfoManager;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
@@ -255,6 +257,8 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         View skipBtn = findViewById(R.id.skip_button);
         if (showShowSkipButton()) {
             skipBtn.setVisibility(View.VISIBLE);
+            skipBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                    getResources().getColor(R.color.battery_green), Dimensions.pxFromDp(3), false));
         } else {
             skipBtn.setVisibility(View.GONE);
         }
@@ -297,7 +301,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         boolean config = HSConfig.optBoolean(false, "Application", "ChargingImprover", "CleanPageShowSkipBtn");
         boolean autopilot = AutopilotConfig.getBooleanToTestNow(Ap.Improver.TOPIC_ID, "clean_page_show_skip_btn", false);
         HSLog.d("SkipButton", "config : " + config + "; autopilot : " + autopilot);
-        return false;
+        return config && autopilot;
     }
 
     private void startScan() {

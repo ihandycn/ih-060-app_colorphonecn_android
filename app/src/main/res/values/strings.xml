@@ -259,4 +259,5 @@
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Follow us on facebook</string>
+    <string name="skip">SKIP</string>
 </resources>

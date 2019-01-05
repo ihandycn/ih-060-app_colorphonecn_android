@@ -182,20 +182,19 @@
             android:layout_marginTop="5dp"
             android:textColor="#DF585858"
             app:typeface="@string/roboto_regular" />
-
-        <TextView
-            android:id="@+id/skip_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:minWidth="96dp"
-            android:padding="16dp"
-            android:layout_marginBottom="24dp"
-            android:textColor="@color/primary_blue"
-            android:gravity="center"
-            android:text="Skip"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
+    <TextView
+        android:id="@+id/skip_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/skip"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 </android.support.percent.PercentRelativeLayout>
