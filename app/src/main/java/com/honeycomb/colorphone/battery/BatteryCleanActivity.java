@@ -235,7 +235,8 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         containerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         mTitleBattery = findViewById(R.id.title_battery);
         mTitleClean = findViewById(R.id.title_clean);
-        mBackArrow = findViewById(R.id.back_arrow);
+        // Not Used TODO code clean
+        mBackArrow = new View(this);
 
         cleanLayout = (ViewGroup) findViewById(R.id.clean_layout);
 
