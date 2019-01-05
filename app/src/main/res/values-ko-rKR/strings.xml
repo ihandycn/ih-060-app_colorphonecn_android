@@ -173,4 +173,5 @@
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Facebook에서 팔로우하기</string>
+    <string name="skip">건너뛰기</string>
 </resources>

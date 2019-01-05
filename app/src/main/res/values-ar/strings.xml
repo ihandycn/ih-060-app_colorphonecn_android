@@ -1,4 +1,4 @@
-<resources>
+<?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
     <string name="app_slogan">تميّز عن الآخرين بلمسة تملؤها الألوان</string>
 
@@ -180,4 +180,5 @@
     <!--Facebook fan page-->
     <string name="follow_facebook">تابعنا على Facebook</string>
 
+    <string name="skip">تخطي</string>
 </resources>

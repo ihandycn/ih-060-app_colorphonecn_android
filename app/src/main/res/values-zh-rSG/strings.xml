@@ -181,4 +181,6 @@
 
     <!--Facebook fan page-->
     <string name="follow_facebook">在Facebook上关注我们</string>
+    <string name="skip">跳过</string>
+
 </resources>

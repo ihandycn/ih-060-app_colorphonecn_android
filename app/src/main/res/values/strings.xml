@@ -1,4 +1,4 @@
-<resources>
+<?xml version="1.0" encoding="UTF-8"?><resources>
 
     <!--No Translate-->
     <string name="loading_progress" translatable="false">%1$d %%</string>

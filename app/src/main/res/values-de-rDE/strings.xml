@@ -173,4 +173,6 @@
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Folgen Sie uns auf Facebook</string>
+    <string name="skip">ÜBERSPRINGEN</string>
+
 </resources>

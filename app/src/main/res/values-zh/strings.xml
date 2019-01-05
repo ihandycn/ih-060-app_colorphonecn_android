@@ -1,4 +1,4 @@
-<resources>
+<?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
     <string name="app_slogan">多彩一觸，脫穎而出</string>
 
@@ -175,4 +175,5 @@
 
     <!--Facebook fan page-->
     <string name="follow_facebook">在Facebook上關注我們</string>
+    <string name="skip">跳過</string>
 </resources>
