@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
@@ -462,7 +463,9 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-                    LauncherAnalytics.logEvent("ColorPhone_CableImprover_Clean_ResultPage_Show");
+                    LauncherAnalytics.logEvent("ColorPhone_CableImprover_Clean_ResultPage_Show",
+                            "From", ResultPageManager.getInstance().getFromTag());
+                    Ap.Improver.logEvent("cleanpage_resultpage_show");
                 } else {
                     LauncherAnalytics.logEvent("Colorphone_BatteryDone_Page_Shown");
                 }
@@ -499,7 +502,9 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-                    LauncherAnalytics.logEvent("ColorPhone_CableImproverWire_Should_Show");
+                    LauncherAnalytics.logEvent("ColorPhone_CableImproverWire_Should_Show",
+                            "From", ResultPageManager.getInstance().getFromTag());
+                    Ap.Improver.logEvent("cableimproverwire_should_show");
                 } else {
                     LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
                 }
@@ -523,7 +528,10 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-                    LauncherAnalytics.logEvent("ColorPhone_CableImproverWire_Show");
+                    LauncherAnalytics.logEvent("ColorPhone_CableImproverWire_Show",
+                            "From", ResultPageManager.getInstance().getFromTag());
+                    Ap.Improver.logEvent("cableimproverwire_show");
+
                 } else {
                     LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Shown");
                 }
@@ -549,7 +557,13 @@ abstract class ResultController implements View.OnClickListener {
     private void logBoostDoneAdShow() {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
-                LauncherAnalytics.logEvent("Colorphone_BatteryDone_Ad_Shown");
+                if (ResultPageManager.getInstance().isFromBatteryImprover()) {
+                    LauncherAnalytics.logEvent("ColorPhone_CableImproverDone_Show",
+                            "From", ResultPageManager.getInstance().getFromTag());
+                    Ap.Improver.logEvent("cableimproverdone_show");
+                } else {
+                    LauncherAnalytics.logEvent("Colorphone_BatteryDone_Ad_Shown");
+                }
                 AutoPilotUtils.logBatterydoneAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:

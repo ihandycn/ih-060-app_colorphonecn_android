@@ -26,6 +26,7 @@ public class ResultPageManager {
     private long mAppMemorySize;
     private boolean mAdDirty;
     private boolean inBatteryImprover;
+    private boolean fromOkClick;
 
     private ResultPageManager() {
     }
@@ -118,5 +119,17 @@ public class ResultPageManager {
 
     public void setInBatteryImprover(boolean inBatteryImprover) {
         this.inBatteryImprover = inBatteryImprover;
+    }
+
+    public void setFromImproverOK(boolean fromOkClick) {
+        this.fromOkClick = fromOkClick;
+    }
+
+    public boolean isFromOkClick() {
+        return fromOkClick;
+    }
+
+    public String getFromTag() {
+        return isFromOkClick() ? "OK" : "CleanPage";
     }
 }

@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
@@ -292,7 +293,9 @@ class BatteryResultController extends ResultController {
     @Override protected void onInterruptActionClosed() {
         AcbNativeAd ad = ResultPageManager.getInstance().getAd();
         if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-            LauncherAnalytics.logEvent("ColorPhone_CableImproverDone_Should_Show");
+            LauncherAnalytics.logEvent("ColorPhone_CableImproverDone_Should_Show",
+                    "From", ResultPageManager.getInstance().getFromTag());
+            Ap.Improver.logEvent("cableimproverdone_should_show");
         } else {
             LauncherAnalytics.logEvent("Colorphone_BatteryDone_Ad_Should_Shown");
         }

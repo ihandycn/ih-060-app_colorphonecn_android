@@ -246,4 +246,17 @@ public class Ap {
         LauncherAnalytics.logEvent(eventName);
     }
 
+    public static class Improver {
+
+        public static String TOPIC_ID = "topic-6z38sqqys";
+        public static boolean enable() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "charging_improver_enable", false);
+        }
+
+        public static void logEvent(String name) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
+        }
+
+    }
+
 }

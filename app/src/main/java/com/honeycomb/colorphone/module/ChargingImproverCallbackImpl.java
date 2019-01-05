@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.module;
 import android.content.Context;
 import android.content.Intent;
 
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.battery.BatteryCleanActivity;
 import com.honeycomb.colorphone.battery.BatteryUtils;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
@@ -12,8 +13,11 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.chargingimprover.ChargingImproverCallBack;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSLog;
 import com.ihs.device.clean.memory.HSAppMemory;
 import com.superapps.util.Navigations;
+
+import net.appcloudbox.autopilot.AutopilotConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +28,7 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
         ResultPageManager.getInstance().setInBatteryImprover(true);
         Intent intent = new Intent(getApplicationContext(), BatteryCleanActivity.class);
         Navigations.startActivitySafely(getApplicationContext(), intent);
+        Ap.Improver.logEvent("batteryboost_alert_improve_btnclicked");
     }
 
     private Context getApplicationContext() {
@@ -33,6 +38,7 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
     @Override
     public void onClickWhenBatteryScanFinished(boolean hasAppsToClean, List<HSAppMemory> appList) {
         if (hasAppsToClean && !appList.isEmpty()) {
+            Ap.Improver.logEvent("batteryboost_alert_improve_btnclicked");
             ResultPageManager.getInstance().setInBatteryImprover(true);
             Intent intent = new Intent(getApplicationContext(), BatteryCleanActivity.class);
             ArrayList<String> packageList = new ArrayList<>();
@@ -43,9 +49,11 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
             intent.putExtra(BatteryCleanActivity.EXTRA_KEY_COME_FROM_MAIN_PAGE, true);
             Navigations.startActivitySafely(getApplicationContext(), intent);
         } else {
+            Ap.Improver.logEvent("batteryboost_alert_ok_btnclicked");
             boolean startResultPage = HSConfig.optBoolean(false, "Application", "ChargingImprover", "ChargingImproverXAdEnabled");
             if (startResultPage) {
                 ResultPageManager.getInstance().setInBatteryImprover(true);
+                ResultPageManager.getInstance().setFromImproverOK(true);
                 ResultPageActivity.startForBattery(HSApplication.getContext(), true, 0, 0);
             }
         }
@@ -65,17 +73,16 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
     }
 
     @Override public void onImproverShow() {
-//                ChargingImproverTest.logShow();
+        Ap.Improver.logEvent("batteryboost_alert_show");
         ResultPageManager.getInstance().setInBatteryImprover(true);
         ResultPageManager.preloadResultPageAds();
     }
 
     @Override public void onImproveButtonClick() {
-//                ChargingImproverTest.logImproveButtonClick();
+
     }
 
     @Override public void onLaterButtonClick() {
-//                ChargingImproverTest.logLaterButtonClick();
     }
 
     @Override public boolean allowAlertBack() {
@@ -83,7 +90,8 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
     }
 
     @Override public int intervalInMinutes() {
-        return HSConfig.optInteger(15, "Application", "ChargingImprover", "IntervalTimeMinutes");
+        return Math.max(HSConfig.optInteger(15, "Application", "ChargingImprover", "IntervalTimeMinutes"),
+                (int) AutopilotConfig.getDoubleToTestNow(Ap.Improver.TOPIC_ID, "charging_improver_show_interval", 15));
     }
 
     @Override public int afterInstallInHour() {
@@ -96,7 +104,10 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
 
     @Override
     public boolean showOnlyOnceBeforeUnplug() {
-        return HSConfig.optBoolean(false, "Application", "ChargingImprover", "ShowAlertOnceWhenOneCharging");
+        boolean config = HSConfig.optBoolean(false, "Application", "ChargingImprover", "ShowAlertOnceWhenOneCharging");
+        boolean autopilot = AutopilotConfig.getBooleanToTestNow(Ap.Improver.TOPIC_ID, "show_alert_once_when_one_charging", false);
+        HSLog.d("ChargingImprove", "only once config : " + config + "; autopilot : " + autopilot);
+        return config && autopilot;
     }
 
     @Override public void logEvent(String eventID, String... vars) {

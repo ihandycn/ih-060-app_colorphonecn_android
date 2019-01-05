@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.ActivityUtils;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
@@ -26,11 +27,15 @@ import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.clean.memory.HSAppMemory;
 import com.ihs.device.clean.memory.HSAppMemoryManager;
 import com.ihs.device.common.HSAppUsageInfo;
 import com.ihs.device.monitor.usage.HSAppUsageInfoManager;
+import com.superapps.util.HomeKeyWatcher;
+
+import net.appcloudbox.autopilot.AutopilotConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,29 +85,56 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
     private boolean stopped;
 
     private int cleanedAppCount = 0;
+    private long startTimeMills;
+    private HomeKeyWatcher mHomeKeyWatcher;
+    private boolean isFromBatteryImprover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityUtils.configStatusBarColor(this);
+
         mFromMainPage = getIntent().getBooleanExtra(EXTRA_KEY_COME_FROM_MAIN_PAGE, false);
         cleanAppList = getIntent().getStringArrayListExtra(EXTRA_KEY_SCANNED_LIST);
         saveTime = getIntent().getIntExtra(EXTRA_KEY_SAVE_TIME, 0);
+        isFromBatteryImprover = ResultPageManager.getInstance().isFromBatteryImprover();
+
         ResultPageManager.preloadResultPageAds();
-        if (!mFromMainPage) {
-            if (BatteryUtils.isCleanTimeFrozen()) {
-                ResultPageActivity.startForBattery(BatteryCleanActivity.this, true, 0, 0);
-                finish();
-                return;
-            }
-        }
 
         setContentView(R.layout.activity_battery_clean);
         initView();
         startAnimation();
-        if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-            LauncherAnalytics.logEvent("Flashlight_CableImprover_CleanPage_Show");
+        mHomeKeyWatcher = new HomeKeyWatcher(this);
+
+        if (isFromBatteryImprover) {
+            LauncherAnalytics.logEvent("ColorPhone_CableImprover_CleanPage_Show");
+            Ap.Improver.logEvent("cleanpage_show");
+            mHomeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+                @Override
+                public void onHomePressed() {
+                    long runningTime = System.currentTimeMillis() - startTimeMills;
+                    Ap.Improver.logEvent("cleanpage_home_click");
+                    LauncherAnalytics.logEvent("ColorPhone_CableImprover_CleanPage_Home_Click", "Time", formatTime(runningTime));
+                }
+
+                @Override
+                public void onRecentsPressed() {
+
+                }
+            });
         }
+    }
+
+    private String formatTime(long runningTime) {
+        long timeSeconds = runningTime / 1000;
+        if (timeSeconds < 1) {
+            return "0-1s";
+        } else if (timeSeconds < 3) {
+            return "1-3s";
+        } else if (timeSeconds < 5) {
+            return "3-5s";
+        }
+        return "above5s";
     }
 
     private void startAnimation() {
@@ -220,6 +252,18 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         iconAppNameLayout = (RelativeLayout) findViewById(R.id.icon_name);
         iconImageView = (ImageView) findViewById(R.id.icon);
         appNameTextView = (TextView) findViewById(R.id.app_name);
+        View skipBtn = findViewById(R.id.skip_button);
+        if (showShowSkipButton()) {
+            skipBtn.setVisibility(View.VISIBLE);
+        } else {
+            skipBtn.setVisibility(View.GONE);
+        }
+        skipBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSkipPressed();
+            }
+        });
 
         if (mFromMainPage) {
             mTitleBattery.setVisibility(View.VISIBLE);
@@ -244,6 +288,16 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private boolean showShowSkipButton() {
+        if (!isFromBatteryImprover) {
+            return false;
+        }
+        boolean config = HSConfig.optBoolean(false, "Application", "ChargingImprover", "CleanPageShowSkipBtn");
+        boolean autopilot = AutopilotConfig.getBooleanToTestNow(Ap.Improver.TOPIC_ID, "clean_page_show_skip_btn", false);
+        HSLog.d("SkipButton", "config : " + config + "; autopilot : " + autopilot);
+        return false;
     }
 
     private void startScan() {
@@ -478,12 +532,46 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
     protected void onStart() {
         super.onStart();
         stopped = false;
+        startTimeMills = System.currentTimeMillis();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         stopped = true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        boolean canBack = true;
+        if (ResultPageManager.getInstance().isFromBatteryImprover()) {
+            canBack = HSConfig.optBoolean(true, "Application", "ChargingImprover", "CleanAllowBack")
+            && AutopilotConfig.getBooleanToTestNow(Ap.Improver.TOPIC_ID, "clean_allow_back", false);
+            boolean backToResult = HSConfig.optBoolean(false, "Application", "ChargingImprover", "CleanClickBackToResultPage")
+                    && AutopilotConfig.getBooleanToTestNow(Ap.Improver.TOPIC_ID, "clean_click_back_to_result_page", false);
+            if (canBack && backToResult) {
+                ResultPageActivity.startForBattery(this, true, 0, 0);
+            }
+            logTimeConsumes(System.currentTimeMillis() - startTimeMills);
+
+        }
+        if (canBack) {
+            super.onBackPressed();
+        }
+    }
+
+    /**
+     * Skip clean animation
+     */
+    public void onSkipPressed() {
+        Ap.Improver.logEvent("cleanpage_skip_click");
+        ResultPageActivity.startForBattery(this, true, 0, 0);
+        finish();
+    }
+
+    private void logTimeConsumes(long showTime) {
+        Ap.Improver.logEvent("cleanpage_back_click");
+        LauncherAnalytics.logEvent("ColorPhone_CableImprover_CleanPage_Back_Click", "Time", formatTime(showTime));
     }
 
     @Override
@@ -498,6 +586,10 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         }
 
         handler.removeCallbacksAndMessages(null);
+
+        if (mHomeKeyWatcher != null) {
+            mHomeKeyWatcher.stopWatch();
+        }
     }
 
     public static String getAppTitle(String packageName) {
