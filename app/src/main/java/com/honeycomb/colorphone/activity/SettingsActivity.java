@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.call.assistant.customize.CallAssistantSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
@@ -23,6 +24,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.chargingimprover.ChargingImproverUtils;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.util.Navigations;
 
@@ -85,8 +87,17 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
-        mModuleStates.add(new ModuleState(SmartChargingSettings.isSmartChargingConfigEnabled(),
-                SmartChargingSettings.isSmartChargingUserEnabled(),
+
+        boolean chargingImproverOpen = ModuleUtils.isChargingImproverEnabled();
+        if (chargingImproverOpen) {
+            TextView tv = findViewById(R.id.setting_item_charging_title);
+            tv.setText(R.string.charging_improver_title);
+        }
+        mModuleStates.add(new ModuleState(
+                chargingImproverOpen || SmartChargingSettings.isSmartChargingConfigEnabled(),
+                chargingImproverOpen ?
+                        ChargingImproverUtils.isChargingImproverUserEnabled() :
+                        SmartChargingSettings.isSmartChargingUserEnabled(),
                 R.id.setting_item_charging_toggle,
                 R.id.setting_item_charging) {
             @Override
@@ -95,6 +106,7 @@ public class SettingsActivity extends HSAppCompatActivity {
                         (isChecked ? "Enabled" : "Disabled"));
                 GifCacheUtils.cacheGif();
                 SmartChargingSettings.setModuleEnabled(isChecked);
+                ChargingImproverUtils.setChargingImproverUserEnabled(isChecked);
             }
         });
 
