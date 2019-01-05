@@ -660,7 +660,7 @@
         },
         "show_alert_once_when_one_charging": {
           "type": "boolean",
-          "value": false
+          "value": true
         },
         "charging_improver_show_interval": {
           "type": "double",
@@ -1520,7 +1520,7 @@
   },
   "autopilot_id": 10000,
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "8cd500a6-1827-4031-bf3c-6730c149b087",
+  "json_id": "3a68de9b-6b10-46c4-8e85-b8d876452d28",
   "autopilot_name": "Color Phone",
   "autopilot_type": "app"
 }
