@@ -125,13 +125,6 @@ public class DailyLogger {
 
     public void logOnceFirstSessionEndStatus() {
         // Theme id valid.
-        int curThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
-        if (curThemeId > 0) {
-            Ap.ScreenFlash.onScreenFlashSet();
-        }
-        if (Ap.ScreenFlash.themeDownloaded) {
-            Ap.ScreenFlash.onDefaultThemeDownloaded();
-        }
 
         Context context = HSApplication.getContext();
         boolean phoneAccessGranted = RuntimePermissions.checkSelfPermission(

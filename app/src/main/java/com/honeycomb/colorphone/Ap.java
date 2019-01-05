@@ -197,50 +197,6 @@ public class Ap {
         }
     }
 
-    public static class ScreenFlash {
-        public static String TOPIC_ID = "topic-6ydyea3j6";
-
-        // for log
-        public static boolean themeDownloaded;
-
-        public static boolean isCallAssistantOpen() {
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "callassistantenable", true);
-        }
-
-        public static boolean isDefaultThemeEnable() {
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "defaultthemeenable", true);
-        }
-
-        public static String getDefaultThemeId() {
-            return AutopilotConfig.getStringToTestNow(TOPIC_ID, "defaultthemeid", "Moving");
-        }
-
-        public static void onMainViewShow() {
-            isCallAssistantOpen();
-            logEvent(TOPIC_ID, "mainview_opened");
-        }
-
-        public static void onScreenFlashSet() {
-            logEvent(TOPIC_ID, "screenflash_set");
-        }
-
-        public static void onScreenFlashShow() {
-            logEvent(TOPIC_ID, "screenflash_show");
-        }
-
-        public static void onCallAssistantShow() {
-            logEvent(TOPIC_ID, "call_assistant_show");
-        }
-
-        public static void onCallAssistantAdShow() {
-            logEvent(TOPIC_ID, "call_assistant_ad_show");
-        }
-
-        public static void onDefaultThemeDownloaded() {
-            logEvent(TOPIC_ID, "default_theme_download_success");
-        }
-    }
-
     public static void logEvent(String topicId, String eventName) {
         AutopilotEvent.logTopicEvent(topicId, eventName);
         LauncherAnalytics.logEvent(eventName);

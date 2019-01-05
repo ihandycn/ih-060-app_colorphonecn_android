@@ -156,7 +156,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
                     LauncherAnalytics.logEvent("Test_CallAssistantShow" + Build.BRAND + getDeviceInfo());
                 }
-                Ap.ScreenFlash.onCallAssistantShow();
                 HSAnalytics.logEventToAppsFlyer("Call_Assistant_Can_Show");
             }
 
@@ -169,7 +168,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onAdShow(int callType) {
                 super.onAdShow(callType);
-                Ap.ScreenFlash.onCallAssistantAdShow();
             }
 
             @Override

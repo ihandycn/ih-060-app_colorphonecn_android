@@ -24,19 +24,16 @@ public class ConfigLogDefault implements ConfigLog {
         @Override
         public void onMainViewOpen() {
             LauncherAnalytics.logEvent("ColorPhone_MainView_Opened");
-            Ap.ScreenFlash.onMainViewShow();
         }
 
         @Override
         public void onThemePreviewOpen(String name) {
             LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_View", "ThemeName", name);
-            Ap.DetailAd.onThemeView();
         }
 
         @Override
         public void onChooseTheme(String name, String from) {
             LauncherAnalytics.logEvent("ColorPhone_ChooseTheme", "ThemeName", name, "from", from);
-            Ap.DetailAd.onThemeChoose();
         }
 
         @Override

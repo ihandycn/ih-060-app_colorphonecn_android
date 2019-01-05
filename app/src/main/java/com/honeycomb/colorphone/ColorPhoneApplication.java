@@ -18,6 +18,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.utils.FileUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.call.assistant.customize.CallAssistantConsts;
@@ -99,6 +100,7 @@ import net.appcloudbox.h5game.AcbH5GameManager;
 import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -304,6 +306,7 @@ public class ColorPhoneApplication extends HSApplication {
     @DebugLog
     private void onMainProcessCreate() {
         CrashFix.fix();
+        copyMediaFromAssertToFile();
 
         for (AppInit appInit : mAppInitList) {
             if (appInit.onlyInMainProcess()) {
@@ -391,6 +394,29 @@ public class ColorPhoneApplication extends HSApplication {
             // Do something once a day.
             dailyTrigger.onConsumeChance();
         }
+    }
+
+    private void copyMediaFromAssertToFile() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                final File file = new File(FileUtils.getMediaDirectory(), "Mp4_6");
+                try {
+                    if (file.isFile() && file.exists()) {
+                        return;
+                    }
+                    Utils.copyAssetFileTo(getApplicationContext(),
+                            "deeplove.mp4", file);
+                    HSLog.d("CopyFile", "deeplove copy ok");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (file.isFile() && file.exists()) {
+                        file.delete();
+                    }
+                }
+            }
+        });
     }
 
     private void lifeCallback() {

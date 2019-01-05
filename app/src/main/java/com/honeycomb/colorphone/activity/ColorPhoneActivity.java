@@ -31,7 +31,6 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
@@ -41,8 +40,6 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
-import com.honeycomb.colorphone.download.DownloadHolder;
-import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.menu.SettingsPage;
@@ -99,7 +96,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RewardVideoView mRewardVideoView;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
-    private int defaultThemeId = 1;
     private boolean initCheckState;
     private boolean isPaused;
 
@@ -525,17 +521,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void initData() {
-
-
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
 
-        boolean defaultThemeEnable = Ap.ScreenFlash.isDefaultThemeEnable();
-        HSLog.d("AP-ScreenFlash", "defaultTheme : " + defaultThemeEnable);
+        boolean defaultThemeEnable = true;
         final boolean applyDefaultTheme = selectedThemeId == -1
                 && defaultThemeEnable;
 
         if (applyDefaultTheme) {
-            selectedThemeId = getDefaultIdByName(Ap.ScreenFlash.getDefaultThemeId(), defaultThemeId);
+            selectedThemeId = Utils.getDefaultThemeId();
             HSLog.d("AP-ScreenFlash", "defaultThemeID : " + selectedThemeId);
             ThemePreviewView.saveThemeApplys(selectedThemeId);
             ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, selectedThemeId);
@@ -581,7 +574,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         }
                     }
                 }
-                if (needPreload) {
+                if (needPreload
+                        && idDefault != Utils.localThemeId) {
                     Threads.postOnMainThread(new Runnable() {
                         @Override
                         public void run() {
@@ -599,37 +593,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void prepareThemeMediaFile(int idDefault) {
         TasksManagerModel model = TasksManager.getImpl().getByThemeId(idDefault);
         TasksManager.doDownload(model, null);
-        FileDownloadMultiListener.getDefault().addStateListener(model.getId(), new DownloadHolder() {
-            @Override
-            public int getId() {
-                return 0;
-            }
-
-            @Override
-            public void updateDownloaded(boolean progressFlag) {
-                Ap.ScreenFlash.themeDownloaded = true;
-
-            }
-
-            @Override
-            public void updateNotDownloaded(int status, long sofar, long total) {
-
-            }
-
-            @Override
-            public void updateDownloading(int status, long sofar, long total) {
-
-            }
-        });
-    }
-
-    private int getDefaultIdByName(String defaultThemeId, int defaultThemeIdInt) {
-        for (Theme theme : Theme.themes()) {
-            if (TextUtils.equals(theme.getIdName(), defaultThemeId)) {
-                return theme.getId();
-            }
-        }
-        return defaultThemeIdInt;
     }
 
     private boolean isLikeTheme(String[] likeThemes, int themeId) {

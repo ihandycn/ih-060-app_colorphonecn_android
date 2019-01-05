@@ -70,6 +70,7 @@ import android.widget.Toast;
 import com.colorphone.lock.ReflectionHelper;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.Theme;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.commons.config.HSConfig;
@@ -113,6 +114,8 @@ public final class Utils {
 
     private static int THUMBNAIL_HEIGHT = 0;
     private static int THUMBNAIL_WIDTH = 0;
+
+    public static int localThemeId = 8;
 
     public static void startActivitySafely(Context context, Intent intent) {
         try {
@@ -988,5 +991,15 @@ public final class Utils {
 
     public static boolean installVersionAfter(int versionCode) {
         return HSApplication.getFirstLaunchInfo().appVersionCode >= versionCode;
+    }
+
+    public static int getDefaultThemeId() {
+        String defaultThemeId = HSConfig.optString("DeepLove", "Application", "Theme", "DefaultThemeID");
+        for (Theme theme : Theme.themes()) {
+            if (TextUtils.equals(theme.getIdName(), defaultThemeId)) {
+                return theme.getId();
+            }
+        }
+        return Theme.NEON;
     }
 }

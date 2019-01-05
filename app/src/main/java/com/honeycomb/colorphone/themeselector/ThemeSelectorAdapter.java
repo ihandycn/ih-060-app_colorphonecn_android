@@ -322,9 +322,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                     int pos = holder.getPositionTag();
                     final Theme theme = data.get(pos);
-                    if (Ap.ScreenFlash.getDefaultThemeId().equalsIgnoreCase(theme.getIdName())) {
-                        Ap.ScreenFlash.themeDownloaded = true;
-                    }
 
                     if (theme.isPendingSelected()) {
                         if (selectTheme(pos, holder, false)) {
