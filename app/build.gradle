@@ -151,7 +151,7 @@ dependencies {
 
 //            USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.5.0.+"
 //                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.0.gm",
-            "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.0.gm",
+            "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.1.gm",
 
     ]
 
