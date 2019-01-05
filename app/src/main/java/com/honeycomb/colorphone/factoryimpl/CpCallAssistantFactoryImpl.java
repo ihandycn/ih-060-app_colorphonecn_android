@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.factoryimpl;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +17,6 @@ import com.call.assistant.ui.CallIdleAlert;
 import com.call.assistant.ui.CallIdleAlertActivity;
 import com.call.assistant.ui.CallIdleAlertView;
 import com.honeycomb.colorphone.AdPlacements;
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
@@ -45,6 +45,7 @@ import com.ihs.libcharging.ScreenStateMgr;
 import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
+import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 
 import static com.acb.call.activity.AcceptCallActivity.PREFS_ACCEPT_FAIL;
@@ -114,6 +115,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
     public CallIdleAlert.Event getCallIdleEvent() {
         return new CallIdleAlert.FlurryEvent() {
 
+            private long mTimeReadyToShow;
             final Runnable mDisplayTimeoutRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -121,14 +123,27 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 }
             };
 
+            final Runnable mDisplayTimeoutRunnable2 = new Runnable() {
+                @Override
+                public void run() {
+                    ColorPhoneCrashlytics.getInstance().logException(new IllegalStateException("TimeOutNotShowCallAssistantTarget, contact : " +
+                            RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_CONTACTS)));
+                }
+            };
+
             @Override
             public void onShouldShow(int callType, boolean isLocked) {
+                mTimeReadyToShow = System.currentTimeMillis();
                 LauncherAnalytics.logEvent("CallFinished_View_Should_Show", "callType", getCallTypeStr(callType));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
                     LauncherAnalytics.logEvent("Test_CallAssistantShouldShow" +  Build.BRAND + getDeviceInfo());
+                    Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
+                    Threads.postOnMainThreadDelayed(mDisplayTimeoutRunnable2, 8000);
                 } else {
+                    Threads.removeOnMainThread(mDisplayTimeoutRunnable);
                     Threads.postOnMainThreadDelayed(mDisplayTimeoutRunnable, 8000);
                 }
+
             }
 
             private boolean isTargetBrand() {
@@ -152,11 +167,27 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onShow(int callType, boolean isLocked) {
                 Threads.removeOnMainThread(mDisplayTimeoutRunnable);
-                LauncherAnalytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType));
+                LauncherAnalytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType),
+                        "Time", formatTime(System.currentTimeMillis() - mTimeReadyToShow));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
                     LauncherAnalytics.logEvent("Test_CallAssistantShow" + Build.BRAND + getDeviceInfo());
                 }
                 HSAnalytics.logEventToAppsFlyer("Call_Assistant_Can_Show");
+            }
+
+            private String formatTime(long l) {
+                if (l > 1000  * 60) {
+                    return "1m+";
+                }
+                if (l > 8000 * 2) {
+                    return "16s+";
+                } else if (l > 8000) {
+                    return "8-16s";
+                } else if (l > 3000) {
+                    return "3-8s";
+                } else {
+                    return "0-3s";
+                }
             }
 
             @Override
