@@ -307,6 +307,7 @@ public class ColorPhoneApplication extends HSApplication {
     private void onMainProcessCreate() {
         CrashFix.fix();
         copyMediaFromAssertToFile();
+        DauChecker.get().start();
 
         for (AppInit appInit : mAppInitList) {
             if (appInit.onlyInMainProcess()) {
