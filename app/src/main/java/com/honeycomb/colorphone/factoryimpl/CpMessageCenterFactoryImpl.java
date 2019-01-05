@@ -72,6 +72,9 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean enable() {
+                if (Utils.installVersionAfter(38)) {
+                    return false;
+                }
                 return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT)
                         && MessageCenterSettings.isSMSAssistantModuleEnabled();
             }
