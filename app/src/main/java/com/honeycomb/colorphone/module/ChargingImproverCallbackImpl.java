@@ -69,7 +69,8 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
     }
 
     @Override public boolean isImproverEnabled() {
-        return HSConfig.optBoolean(false, "Application", "ChargingImprover", "Enabled");
+        return HSConfig.optBoolean(false, "Application", "ChargingImprover", "Enabled")
+                && Ap.Improver.enable();
     }
 
     @Override public void onImproverShow() {
