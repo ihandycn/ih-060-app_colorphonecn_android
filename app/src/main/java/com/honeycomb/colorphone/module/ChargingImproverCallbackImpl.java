@@ -26,6 +26,8 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
     @Override
     public void onClickWhenBatteryScanning() {
         ResultPageManager.getInstance().setInBatteryImprover(true);
+        ResultPageManager.getInstance().setFromImproverOK(false);
+
         Intent intent = new Intent(getApplicationContext(), BatteryCleanActivity.class);
         Navigations.startActivitySafely(getApplicationContext(), intent);
         Ap.Improver.logEvent("batteryboost_alert_improve_btnclicked");
@@ -40,6 +42,7 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
         if (hasAppsToClean && !appList.isEmpty()) {
             Ap.Improver.logEvent("batteryboost_alert_improve_btnclicked");
             ResultPageManager.getInstance().setInBatteryImprover(true);
+            ResultPageManager.getInstance().setFromImproverOK(false);
             Intent intent = new Intent(getApplicationContext(), BatteryCleanActivity.class);
             ArrayList<String> packageList = new ArrayList<>();
             for (HSAppMemory appMemory : appList) {
