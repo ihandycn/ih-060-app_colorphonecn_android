@@ -184,4 +184,5 @@
     <!--Facebook fan page-->
     <string name="follow_facebook">在Facebook上关注我们</string>
     <string name="skip">跳过</string>
+    <string name="battery_optimized">已优化</string>
 </resources>

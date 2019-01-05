@@ -176,4 +176,5 @@
     <!--Facebook fan page-->
     <string name="follow_facebook">在Facebook上關注我們</string>
     <string name="skip">跳過</string>
+    <string name="battery_optimized">已優化</string>
 </resources>

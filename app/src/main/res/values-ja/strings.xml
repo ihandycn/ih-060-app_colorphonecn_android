@@ -1,4 +1,4 @@
-<resources>
+<?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
     <string name="app_slogan">カラフルなタッチで目立とう</string>
 
@@ -177,4 +177,5 @@
   <!--Facebook fan page-->
   <string name="follow_facebook">Facebookでフォローしてください</string>
   <string name="skip">スキップ</string>
+    <string name="battery_optimized">最適化</string>
 </resources>

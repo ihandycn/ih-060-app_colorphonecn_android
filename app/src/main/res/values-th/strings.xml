@@ -1,4 +1,4 @@
-<resources>
+<?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
     <string name="app_slogan">โดดเด่นด้วยสัมผัสแห่งสีสัน</string>
 
@@ -174,4 +174,5 @@
     <!--Facebook fan page-->
     <string name="follow_facebook">ติดตามเราใน Facebook</string>
     <string name="skip">ข้าม</string>
+    <string name="battery_optimized">เพิ่มประสิทธิภาพ</string>
 </resources>

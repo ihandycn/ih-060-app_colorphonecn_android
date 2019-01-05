@@ -1,4 +1,4 @@
-<resources>
+<?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
     <string name="app_slogan">화려한 터치로 표시</string>
 
@@ -174,4 +174,5 @@
     <!--Facebook fan page-->
     <string name="follow_facebook">Facebook에서 팔로우하기</string>
     <string name="skip">건너뛰기</string>
+    <string name="battery_optimized">최적화 된</string>
 </resources>

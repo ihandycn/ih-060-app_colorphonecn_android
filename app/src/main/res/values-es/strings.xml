@@ -1,4 +1,4 @@
-<resources>
+<?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
     <string name="app_slogan">Destaca con un toque colorido</string>
 
@@ -176,4 +176,5 @@
     <!--Facebook fan page-->
     <string name="follow_facebook">Síguenos en Facebook</string>
     <string name="skip">OMITIR</string>
+    <string name="battery_optimized">optimizado</string>
 </resources>

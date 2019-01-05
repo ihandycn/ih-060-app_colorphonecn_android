@@ -1,4 +1,4 @@
-<resources>
+<?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
     <string name="app_slogan">रंगीन टच के साथ अलग दिखें</string>
 
@@ -174,4 +174,5 @@
     <!--Facebook fan page-->
     <string name="follow_facebook">हमें फेसबुक पर फॉलो करें</string>
     <string name="skip">छोड़ें</string>
+    <string name="battery_optimized">अनुकूलित</string>
 </resources>

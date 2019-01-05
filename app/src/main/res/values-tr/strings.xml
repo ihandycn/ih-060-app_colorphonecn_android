@@ -1,4 +1,4 @@
-<resources>
+<?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
     <string name="app_slogan">Renkli bir dokunuş ile göze çarpın</string>
 
@@ -171,4 +171,5 @@
     <!--Facebook fan page-->
     <string name="follow_facebook">Facebook'ta takip edin</string>
     <string name="skip">ATLA</string>
+    <string name="battery_optimized">OPTIMIZED</string>
 </resources>

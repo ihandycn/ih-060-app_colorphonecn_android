@@ -1,4 +1,4 @@
-<resources>
+<?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
     <string name="app_slogan">Démarquez-vous en couleur</string>
 
@@ -174,4 +174,5 @@
     <string name="follow_facebook">Suivez-nous sur Facebook</string>
     <string name="skip">PASSER</string>
 
+<string name="battery_optimized">OPTIMISÉ</string>
 </resources>
