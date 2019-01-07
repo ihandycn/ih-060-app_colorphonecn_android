@@ -79,7 +79,7 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
     @Override public void onImproverShow() {
         Ap.Improver.logEvent("batteryboost_alert_show");
         ResultPageManager.getInstance().setInBatteryImprover(true);
-        ResultPageManager.preloadResultPageAds();
+        ResultPageManager.getInstance().preloadResultPageAds();
     }
 
     @Override public void onImproveButtonClick() {

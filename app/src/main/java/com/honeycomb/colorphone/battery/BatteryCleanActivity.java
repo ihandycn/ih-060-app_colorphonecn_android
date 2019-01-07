@@ -101,7 +101,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         saveTime = getIntent().getIntExtra(EXTRA_KEY_SAVE_TIME, 0);
         isFromBatteryImprover = ResultPageManager.getInstance().isFromBatteryImprover();
 
-        ResultPageManager.preloadResultPageAds();
+        ResultPageManager.getInstance().preloadResultPageAds();
 
         setContentView(R.layout.activity_battery_clean);
         initView();

@@ -529,7 +529,8 @@ abstract class ResultController implements View.OnClickListener {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
                     LauncherAnalytics.logEvent("ColorPhone_CableImproverWire_Show",
-                            "From", ResultPageManager.getInstance().getFromTag());
+                            "From", ResultPageManager.getInstance().getFromTag(),
+                            "Type", ResultPageManager.getInstance().getFromInterstitialAdPlacement());
                     Ap.Improver.logEvent("cableimproverwire_show");
 
                 } else {
@@ -559,7 +560,8 @@ abstract class ResultController implements View.OnClickListener {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
                     LauncherAnalytics.logEvent("ColorPhone_CableImproverDone_Show",
-                            "From", ResultPageManager.getInstance().getFromTag());
+                            "From", ResultPageManager.getInstance().getFromTag(),
+                            "Type", ResultPageManager.getInstance().getFromAdPlacement());
                     Ap.Improver.logEvent("cableimproverdone_show");
                 } else {
                     LauncherAnalytics.logEvent("Colorphone_BatteryDone_Ad_Shown");

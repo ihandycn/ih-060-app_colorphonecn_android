@@ -27,6 +27,8 @@ public class ResultPageManager {
     private boolean mAdDirty;
     private boolean inBatteryImprover;
     private boolean fromOkClick;
+    private String mFromInterstitialAdPlacement;
+    private String mFromAdPlacement;
 
     private ResultPageManager() {
     }
@@ -42,30 +44,51 @@ public class ResultPageManager {
         return sInstance;
     }
 
-    public static void preloadResultPageAds() {
+    public void preloadResultPageAds() {
         HSLog.d(TAG, "preloadResultPageAds");
-        AcbNativeAdManager.getInstance().activePlacementInProcess(ResultPageManager.getInstance().getExpressAdPlacement());
-        AcbNativeAdManager.preload(1, ResultPageManager.getInstance().getExpressAdPlacement());
+        boolean hasNative = false;
+        boolean hasInters = false;
+        if (ResultPageManager.getInstance().isFromBatteryImprover()) {
+            hasNative = getAd(Placements.BOOST_DOWN) != null;
+            hasInters = getInterstitialAd(Placements.BOOST_WIRE) != null;
+        }
 
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(ResultPageManager.getInstance().getInterstitialAdPlacement());
-        AcbInterstitialAdManager.preload(1, ResultPageManager.getInstance().getInterstitialAdPlacement());
+        if (!hasNative) {
+            AcbNativeAdManager.getInstance().activePlacementInProcess(ResultPageManager.getInstance().getExpressAdPlacement());
+            AcbNativeAdManager.preload(1, ResultPageManager.getInstance().getExpressAdPlacement());
+        }
+
+        if (!hasInters) {
+            AcbInterstitialAdManager.getInstance().activePlacementInProcess(ResultPageManager.getInstance().getInterstitialAdPlacement());
+            AcbInterstitialAdManager.preload(1, ResultPageManager.getInstance().getInterstitialAdPlacement());
+        }
     }
 
     public AcbNativeAd getAd() {
+        return getAd(ResultPageManager.getInstance().getExpressAdPlacement());
+    }
+
+    public AcbNativeAd getAd(String placement) {
         if (mAd == null) {
-            List<AcbNativeAd> ads = AcbNativeAdManager.fetch(ResultPageManager.getInstance().getExpressAdPlacement(), 1);
+            List<AcbNativeAd> ads = AcbNativeAdManager.fetch(placement, 1);
             if (ads != null && ads.size() > 0) {
                 mAd = ads.get(0);
+                mFromAdPlacement = placement;
             }
         }
         return mAd;
     }
 
     public AcbInterstitialAd getInterstitialAd() {
+        return getInterstitialAd(ResultPageManager.getInstance().getInterstitialAdPlacement());
+    }
+
+    public AcbInterstitialAd getInterstitialAd(String placement) {
         if (mInterstitialAd == null) {
-            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(ResultPageManager.getInstance().getInterstitialAdPlacement(), 1);
+            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(placement, 1);
             if (ads != null && ads.size() > 0) {
                 mInterstitialAd = ads.get(0);
+                mFromInterstitialAdPlacement = placement;
             }
         }
         return mInterstitialAd;
@@ -111,6 +134,14 @@ public class ResultPageManager {
 
     public String getInterstitialAdPlacement() {
         return  isFromBatteryImprover() ? Placements.CABLE_WIRE : Placements.BOOST_WIRE;
+    }
+
+    public String getFromAdPlacement() {
+        return mFromAdPlacement;
+    }
+
+    public String getFromInterstitialAdPlacement() {
+        return mFromInterstitialAdPlacement;
     }
 
     public boolean isFromBatteryImprover() {
