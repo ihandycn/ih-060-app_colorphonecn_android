@@ -35,6 +35,7 @@ public class Theme extends Type {
     private static final String PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX ="prefs_theme_lock_id_prefix";
 
     private static final int LOCK_THEME_VERSION_CODE = 26;
+    public static int RANDOM_THEME = 10000;
     private static Theme mThemeNone;
 
     private long download;

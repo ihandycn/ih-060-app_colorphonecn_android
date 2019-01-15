@@ -392,6 +392,9 @@
 
         <activity android:name=".toolbar.NotificationActivity"/>
 
+        <service android:name=".theme.ThemeDownloadJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
         <!-- permanent -->
         <service
             android:name=".PermanentService"

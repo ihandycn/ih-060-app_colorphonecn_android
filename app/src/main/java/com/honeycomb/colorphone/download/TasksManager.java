@@ -237,6 +237,11 @@ public class TasksManager {
         return status == FileDownloadStatus.completed;
     }
 
+    public boolean isThemeDownloaded(int id) {
+        TasksManagerModel model = getByThemeId(id);
+        return isDownloaded(model);
+    }
+
     public boolean isDownloading(final int status) {
         return status == FileDownloadStatus.progress || status == FileDownloadStatus.started ||
                 status == FileDownloadStatus.connected || status == FileDownloadStatus.pending;

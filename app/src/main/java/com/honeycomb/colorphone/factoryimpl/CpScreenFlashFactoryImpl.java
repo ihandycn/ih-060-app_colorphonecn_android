@@ -22,12 +22,14 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
@@ -59,10 +61,25 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 if (themeId > 0) {
                     return themeId;
                 } else {
-                    return super.getThemeIdByPhoneNumber(number);
+                    themeId = super.getThemeIdByPhoneNumber(number);
+                    if (themeId == Theme.RANDOM_THEME) {
+                        Theme theme = RandomTheme.getInstance().getRealTheme();
+                        if (theme != null) {
+                            return theme.getId();
+                        }
+                        HSLog.e("RandomTheme no theme ready");
+                        LauncherAnalytics.logEvent("RandomThemeNone");
+                    }
+                    return Theme.NONE;
                 }
             }
         };
+    }
+
+    @Override
+    public void onCallFinish(String number) {
+        super.onCallFinish(number);
+        RandomTheme.getInstance().roll();
     }
 
     @Override
