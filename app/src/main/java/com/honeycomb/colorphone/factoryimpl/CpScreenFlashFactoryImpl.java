@@ -17,6 +17,7 @@ import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
+import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
@@ -217,10 +218,10 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 this.source = source;
                 launchTime = Preferences.get(Constants.DESKTOP_PREFS).getInt(PermissionChecker.CUSTOM_PERMISSION_ALERT, 0);
 
-                logPermissionGuideShowEvent(source);
+                logPermissionGuideShowEvent("ColorPhone_Permission_Guide_Show_From_" + source);
             }
 
-            private void logPermissionGuideShowEvent(String source) {
+            private void logPermissionGuideShowEvent(String eventName) {
                 Context context = HSApplication.getContext();
                 boolean phoneAccessGranted = RuntimePermissions.checkSelfPermission(
                         context, Manifest.permission.READ_PHONE_STATE) >= 0;
@@ -229,7 +230,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
                 boolean notificationAccessGranted = PermissionHelper.isNotificationAccessGranted(context);
 
-                logPermissionStatusEvent("ColorPhone_Permission_Guide_Show_From_" + source,
+                logPermissionStatusEvent(eventName,
                         phoneAccessGranted, contactsAccessGranted,
                         notificationAccessGranted);
             }
@@ -315,7 +316,19 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
             @Override
             public void logScreenFlashAccessAllOpenGuide() {
-
+                if (CommonUtils.ATLEAST_MARSHMALLOW) {
+                    switch (launchTime) {
+                        case 0:
+                            logPermissionGuideShowEvent("ColorPhone_Permission_Check_Above23_FirstAlert");
+                            break;
+                        case 1:
+                            logPermissionGuideShowEvent("ColorPhone_Permission_Check_Above23_SecondAlert");
+                            break;
+                        case 2:
+                            logPermissionGuideShowEvent("ColorPhone_Permission_Check_Above23_ThirdAlert");
+                            break;
+                    }
+                }
             }
 
             @Override
