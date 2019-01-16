@@ -4,7 +4,7 @@ import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
 
 public class PermissionTestUtils {
-    private static final String TEST_TOPIC_ID = "";
+    private static final String TEST_TOPIC_ID = "topic-6z2dn7nbq";
 
     public static boolean getAlertOutSideApp() {
         return AutopilotConfig.getBooleanToTestNow(TEST_TOPIC_ID, "alert_outsideapp", false);
@@ -23,7 +23,7 @@ public class PermissionTestUtils {
     }
 
     public static boolean getAlertStyle() {
-        return AutopilotConfig.getBooleanToTestNow(TEST_TOPIC_ID, "alert_style", false);
+        return AutopilotConfig.getBooleanToTestNow(TEST_TOPIC_ID, "alert_style_new", false);
     }
 
     public static void logPermissionEvent(String event) {

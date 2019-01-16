@@ -109,10 +109,18 @@ public class DailyLogger {
                 phoneAccessGranted, contactsAccessGranted,
                 notificationAccessGranted);
 
-        if (CommonUtils.ATLEAST_MARSHMALLOW && Utils.isNewUser()) {
-            logPermissionStatusEvent("ColorPhone_Permission_Check_Above23",
-                    phoneAccessGranted, contactsAccessGranted,
-                    notificationAccessGranted);
+        if (CommonUtils.ATLEAST_MARSHMALLOW) {
+            if (Utils.isNewUser()) {
+                logPermissionStatusEvent("ColorPhone_Permission_Check_Above23",
+                        phoneAccessGranted, contactsAccessGranted,
+                        notificationAccessGranted);
+            }
+
+            if (HSApplication.getFirstLaunchInfo().appVersionCode >= 39) {
+                logPermissionStatusEvent("ColorPhone_Permission_Check_Above23_39",
+                        phoneAccessGranted, contactsAccessGranted,
+                        notificationAccessGranted);
+            }
         }
 
         LauncherAnalytics.logEvent("ColorPhone_VersionCode_Check", "versioncode", String.valueOf(HSApplication.getFirstLaunchInfo().appVersionCode));
