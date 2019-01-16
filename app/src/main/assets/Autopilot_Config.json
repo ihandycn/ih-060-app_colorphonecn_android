@@ -302,88 +302,6 @@
     }
   ],
   "topics": {
-    "topic-6y9jgfwg2": {
-      "topic_type": "life_time",
-      "topic_name": "CallFinishWire and ThemeWire Limit Test",
-      "variations": {
-        "callfinishwire_show_maxtime": {
-          "type": "double",
-          "value": 100
-        },
-        "themewire_show_maxtime": {
-          "type": "double",
-          "value": 100
-        },
-        "themewire_show_interval_second": {
-          "type": "double",
-          "value": 0
-        },
-        "callfinishwire_time_interval_minute": {
-          "type": "double",
-          "value": 0
-        }
-      },
-      "events": [
-        {
-          "name": "test"
-        },
-        {
-          "name": "colorphone_themewire_show"
-        },
-        {
-          "name": "colorphone_callfinishwire_show"
-        }
-      ],
-      "topic_id": "topic-6y9jgfwg2"
-    },
-    "topic-1536215679114-660": {
-      "topic_type": "life_time",
-      "topic_name": "Dialer Test",
-      "variations": {
-        "set default guide show": {
-          "type": "boolean",
-          "value": false
-        },
-        "call_finish_wire_show": {
-          "type": "boolean",
-          "value": false
-        },
-        "dialer enable": {
-          "type": "boolean",
-          "value": false
-        }
-      },
-      "events": [
-        {
-          "name": "test"
-        },
-        {
-          "name": "set_default_guide_show"
-        },
-        {
-          "name": "set_default_guide_set_clicked"
-        },
-        {
-          "name": "set_default_success"
-        },
-        {
-          "name": "dailer_page_show"
-        },
-        {
-          "name": "colorphone_call_finished"
-        },
-        {
-          "name": "colorphone_call_finished_call_assistant_show"
-        },
-        {
-          "name": "colorphone_call_finished_wire_should_show"
-        },
-        {
-          "name": "colorphone_call_finished_wire_show"
-        }
-      ],
-      "topic_id": "topic-1536215679114-660"
-    },
     "topic-1511875453515": {
       "topic_type": "one_time",
       "topic_name": "Share Test",
@@ -469,6 +387,88 @@
         }
       ],
       "topic_id": "topic-1511875453515"
+    },
+    "topic-1536215679114-660": {
+      "topic_type": "life_time",
+      "topic_name": "Dialer Test",
+      "variations": {
+        "set default guide show": {
+          "type": "boolean",
+          "value": false
+        },
+        "call_finish_wire_show": {
+          "type": "boolean",
+          "value": false
+        },
+        "dialer enable": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "set_default_guide_show"
+        },
+        {
+          "name": "set_default_guide_set_clicked"
+        },
+        {
+          "name": "set_default_success"
+        },
+        {
+          "name": "dailer_page_show"
+        },
+        {
+          "name": "colorphone_call_finished"
+        },
+        {
+          "name": "colorphone_call_finished_call_assistant_show"
+        },
+        {
+          "name": "colorphone_call_finished_wire_should_show"
+        },
+        {
+          "name": "colorphone_call_finished_wire_show"
+        }
+      ],
+      "topic_id": "topic-1536215679114-660"
+    },
+    "topic-6y9jgfwg2": {
+      "topic_type": "life_time",
+      "topic_name": "CallFinishWire and ThemeWire Limit Test",
+      "variations": {
+        "callfinishwire_show_maxtime": {
+          "type": "double",
+          "value": 10
+        },
+        "themewire_show_maxtime": {
+          "type": "double",
+          "value": 2
+        },
+        "themewire_show_interval_second": {
+          "type": "double",
+          "value": 15
+        },
+        "callfinishwire_time_interval_minute": {
+          "type": "double",
+          "value": 60
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "colorphone_themewire_show"
+        },
+        {
+          "name": "colorphone_callfinishwire_show"
+        }
+      ],
+      "topic_id": "topic-6y9jgfwg2"
     },
     "topic-1535427355191-617": {
       "topic_type": "life_time",
@@ -1067,6 +1067,38 @@
       ],
       "topic_id": "topic-1510751463187"
     },
+    "topic-6zi0axif8": {
+      "topic_type": "life_time",
+      "topic_name": "Random Theme Test",
+      "variations": {
+        "themechangeinterval": {
+          "type": "string",
+          "value": "24"
+        },
+        "randomthemeenable": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "random_theme_enabled"
+        },
+        {
+          "name": "random_theme_show"
+        },
+        {
+          "name": "random_theme_download_start"
+        },
+        {
+          "name": "random_theme_download_success"
+        }
+      ],
+      "topic_id": "topic-6zi0axif8"
+    },
     "topic-1512822231846-17": {
       "topic_type": "life_time",
       "topic_name": "Charging Test",
@@ -1101,10 +1133,97 @@
     "topic-6z2dn7nbq": {
       "topic_type": "life_time",
       "topic_name": "Access Alert Test",
-      "variations": {},
+      "variations": {
+        "alert_style_new": {
+          "type": "boolean",
+          "value": false
+        },
+        "button_back": {
+          "type": "boolean",
+          "value": true
+        },
+        "tittle_customizealert": {
+          "type": "string",
+          "value": "Text1"
+        },
+        "alert_show_maxtime": {
+          "type": "double",
+          "value": 2
+        },
+        "alert_outsideapp": {
+          "type": "boolean",
+          "value": false
+        }
+      },
       "events": [
         {
           "name": "test"
+        },
+        {
+          "name": "colorphone_permissionguide_show_firsttime"
+        },
+        {
+          "name": "colorphone_permissionguide_show_secondtime"
+        },
+        {
+          "name": "colorphone_permissionguide_show_thirdtime"
+        },
+        {
+          "name": "colorphone_permissionguide_phone_view_show"
+        },
+        {
+          "name": "colorphone_permissionguide_phone_allow_success"
+        },
+        {
+          "name": "colorphone_permissionguide_contact_view_show"
+        },
+        {
+          "name": "colorphone_permissionguide_contact_allow_success"
+        },
+        {
+          "name": "colorphone_permissionguide_notificationaccess_view_show"
+        },
+        {
+          "name": "colorphone_permissionguide_notificationaccess_allow_success"
+        },
+        {
+          "name": "colorphone_permissionguide_outside_show"
+        },
+        {
+          "name": "colorphone_permissionguide_outside_click"
+        },
+        {
+          "name": "colorphone_permissionguide_contact_view_show_outsideapp"
+        },
+        {
+          "name": "colorphone_permissionguide_contact_allow_success_outsideapp"
+        },
+        {
+          "name": "colorphone_permissionguide_notificationaccess_view_show_outsideapp"
+        },
+        {
+          "name": "colorphone_permissionguide_notificationaccess_allow_success_outsideapp"
+        },
+        {
+          "name": "colorphone_permission_check_above23_phone"
+        },
+        {
+          "name": "colorphone_permission_check_above23_phonecontact"
+        },
+        {
+          "name": "colorphone_permission_check_above23_phonecontactna"
+        },
+        {
+          "name": "colorphone_permission_check_above23_phonena"
+        },
+        {
+          "name": "colorphone_permission_check_above23_firstalert"
+        },
+        {
+          "name": "colorphone_permission_check_above23_secondalert"
+        },
+        {
+          "name": "colorphone_permission_check_above23_thirdalert"
         }
       ],
       "topic_id": "topic-6z2dn7nbq"
@@ -1520,7 +1639,7 @@
   },
   "autopilot_id": 10000,
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "3a68de9b-6b10-46c4-8e85-b8d876452d28",
+  "json_id": "a013673a-9c06-41b1-b3e3-30272a92eac4",
   "autopilot_name": "Color Phone",
   "autopilot_type": "app"
 }
