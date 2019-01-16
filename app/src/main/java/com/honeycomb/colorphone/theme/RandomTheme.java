@@ -34,6 +34,8 @@ public class RandomTheme {
 
     private final List<Theme> mRandomThemePool = new ArrayList<>();
 
+    private boolean rollFlag = true;
+
     public static RandomTheme getInstance() {
         return sRandomTheme;
     }
@@ -49,6 +51,7 @@ public class RandomTheme {
             if (nextTheme != null
                     && isThemeReady(nextTheme)) {
                 HSLog.d(TAG, "Next theme ready , index = " + themeIndex);
+                rollFlag = true;
                 return nextTheme;
             }
             // Next theme not ready
@@ -122,7 +125,6 @@ public class RandomTheme {
             @Override
             public void updateDownloaded(boolean progressFlag) {
                 // In case method call more than once.
-                updateThemeIndex(pendingThemeIndex);
                 FileDownloadMultiListener.getDefault().removeStateListener(taskId);
                 Ap.RandomTheme.logEvent("random_theme_download_success");
                 if (delegateListener != null) {
@@ -182,6 +184,9 @@ public class RandomTheme {
     }
 
     public void roll() {
+        if (rollFlag) {
+            updateThemeIndex(calcNextThemeIndex());
+        }
         prepareNextTheme();
     }
 

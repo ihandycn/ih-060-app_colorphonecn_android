@@ -397,6 +397,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mApplyButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
         mActionLayout = findViewById(R.id.theme_apply_layout);
         mApplyForOne = findViewById(R.id.theme_set_for_one);
+
+        if (mTheme.getId() == Theme.RANDOM_THEME) {
+            mApplyForOne.setVisibility(GONE);
+        }
         mProgressViewHolder = new ProgressViewHolder();
         mRingtoneViewHolder = new RingtoneViewHolder();
         previewImage = (ImageView) findViewById(R.id.preview_bg_img);
@@ -859,7 +863,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         getTransBottomLayout().setTranslationY(0);
         mRingtoneViewHolder.transIn(true, false);
         animationDelay = 0;
-        if (isSelectedPos() && !mTheme.isLocked()) {
+        if (isSelectedPos() && !mTheme.isLocked()
+                && mTheme.getId() != Theme.RANDOM_THEME) {
             checkNewFeatureGuideView();
         } else {
             scheduleNextHide();

@@ -401,23 +401,26 @@ public class ColorPhoneApplication extends HSApplication {
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
-                final File file = new File(FileUtils.getMediaDirectory(), "Mp4_6");
-                try {
-                    if (file.isFile() && file.exists()) {
-                        return;
-                    }
-                    Utils.copyAssetFileTo(getApplicationContext(),
-                            "deeplove.mp4", file);
-                    HSLog.d("CopyFile", "deeplove copy ok");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    if (file.isFile() && file.exists()) {
-                        file.delete();
-                    }
-                }
+                doCopyTheme(10000, "randomtheme.mp4");
+                doCopyTheme(8, "deeplove.mp4");
             }
         });
+    }
+
+    private void doCopyTheme(int id, String fileName) {
+        final File file = new File(FileUtils.getMediaDirectory(), "Mp4_" + (id - 2));
+        try {
+            if (!(file.isFile() && file.exists())) {
+                Utils.copyAssetFileTo(getApplicationContext(),
+                        fileName, file);
+                HSLog.d("CopyFile", fileName + " copy ok");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (file.isFile() && file.exists()) {
+                file.delete();
+            }
+        }
     }
 
     private void lifeCallback() {

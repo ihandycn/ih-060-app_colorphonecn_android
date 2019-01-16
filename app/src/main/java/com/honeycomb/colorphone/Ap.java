@@ -219,7 +219,8 @@ public class Ap {
         public static String TOPIC_ID = "topic-6zi0axif8";
 
         public static boolean enable() {
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "randomthemeenable", false);
+            return true;
+//            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "randomthemeenable", false);
         }
 
         public static int intervalHour() {
