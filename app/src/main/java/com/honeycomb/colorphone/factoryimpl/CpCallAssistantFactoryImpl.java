@@ -10,6 +10,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
 
+import com.acb.call.customize.ScreenFlashManager;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.service.InCallWindow;
 import com.call.assistant.customize.ThemeViewConfig;
 import com.call.assistant.receiver.IncomingCallReceiver;
@@ -26,6 +28,7 @@ import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
+import com.honeycomb.colorphone.permission.OutsidePermissionGuideActivity;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
@@ -194,6 +197,13 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onCallFinished() {
                 CallFinishUtils.logCallFinish();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
+                if (Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
+                        && (ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
+                            && ScreenFlashSettings.isScreenFlashModuleEnabled()
+                            && (!Permissions.hasPermission(Manifest.permission.READ_CONTACTS)
+                                || !Permissions.isNotificationAccessGranted()))) {
+                    OutsidePermissionGuideActivity.start(HSApplication.getContext());
+                }
             }
 
             @Override
