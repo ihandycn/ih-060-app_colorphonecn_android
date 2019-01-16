@@ -226,6 +226,11 @@ public class Ap {
             String value = AutopilotConfig.getStringToTestNow(TOPIC_ID, "themechangeinterval", "24");
             return Integer.valueOf(value);
         }
+
+        public static void logEvent(String name) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
+        }
+
     }
 
 

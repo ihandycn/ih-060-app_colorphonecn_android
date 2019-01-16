@@ -104,30 +104,49 @@ public class RandomTheme {
                 HSLog.d(TAG, "Start theme download job : index " + pendingThemeIndex);
                 startDownloadJob();
             } else if (NetUtils.isWifiConnected(HSApplication.getContext())) {
-                TasksManager.doDownload(model, null);
-                FileDownloadMultiListener.getDefault().addStateListener(model.getId(), new DownloadStateListener() {
-
-                    @Override
-                    public void updateDownloaded(boolean progressFlag) {
-                        // In case method call more than once.
-                        updateThemeIndex(pendingThemeIndex);
-                        HSLog.d(TAG, "prepareTheme next success , file downloaded : " + pendingThemeIndex);
-                    }
-
-                    @Override
-                    public void updateNotDownloaded(int status, long sofar, long total) {
-                        HSLog.d(TAG, "prepareTheme next fail , file not downloaded : " + pendingThemeIndex);
-                    }
-
-                    @Override
-                    public void updateDownloading(int status, long sofar, long total) {
-
-                    }
-                });
+                downloadMediaTheme(pendingThemeIndex, model, null);
             }
         } else {
             HSLog.d(TAG, "prepareTheme next success , native theme : " + pendingThemeIndex);
         }
+    }
+
+    public void downloadMediaTheme(int pendingThemeIndex, TasksManagerModel model, final DownloadStateListener delegateListener) {
+        boolean downloadStart = TasksManager.doDownload(model, null);
+        if (downloadStart) {
+            Ap.RandomTheme.logEvent("random_theme_download_start");
+        }
+        final int taskId = model.getId();
+        FileDownloadMultiListener.getDefault().addStateListener(taskId, new DownloadStateListener() {
+
+            @Override
+            public void updateDownloaded(boolean progressFlag) {
+                // In case method call more than once.
+                updateThemeIndex(pendingThemeIndex);
+                FileDownloadMultiListener.getDefault().removeStateListener(taskId);
+                Ap.RandomTheme.logEvent("random_theme_download_success");
+                if (delegateListener != null) {
+                    delegateListener.updateDownloaded(progressFlag);
+                }
+                HSLog.d(TAG, "prepareTheme next success , file downloaded : " + pendingThemeIndex);
+            }
+
+            @Override
+            public void updateNotDownloaded(int status, long sofar, long total) {
+                FileDownloadMultiListener.getDefault().removeStateListener(taskId);
+                if (delegateListener != null) {
+                    delegateListener.updateNotDownloaded(status, sofar, total);
+                }
+                HSLog.d(TAG, "prepareTheme next fail , file not downloaded : " + pendingThemeIndex);
+            }
+
+            @Override
+            public void updateDownloading(int status, long sofar, long total) {
+                if (delegateListener != null) {
+                    delegateListener.updateDownloading(status, sofar, total);
+                }
+            }
+        });
     }
 
     public Theme getTheme(int themeIndex) {

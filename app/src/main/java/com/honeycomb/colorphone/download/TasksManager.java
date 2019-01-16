@@ -31,14 +31,14 @@ public class TasksManager {
 
     private static final String TOKEN_EXTRA_RINGTONE = "ringtone";
 
-    public static void doDownload(TasksManagerModel model, Object tag) {
+    public static boolean doDownload(TasksManagerModel model, Object tag) {
         if (model != null) {
             BaseDownloadTask oldTask = getImpl().getTask(model.getId());
             if (oldTask != null && oldTask.isRunning()) {
                 if (DEBUG_PROGRESS) {
                     HSLog.d("SUNDXING", "Task Exist, taskId = " + model.getId());
                 }
-                return;
+                return false;
             }
 
             FileDownloadListener listener;
@@ -57,7 +57,7 @@ public class TasksManager {
             }
 
             task.start();
-
+            return true;
         } else {
             throw new IllegalStateException("Has no pending task to download!");
         }
