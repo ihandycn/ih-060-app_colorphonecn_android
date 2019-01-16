@@ -523,9 +523,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initData() {
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
 
-        boolean defaultThemeEnable = true;
-        final boolean applyDefaultTheme = selectedThemeId == -1
-                && defaultThemeEnable;
+        final boolean applyDefaultTheme = selectedThemeId == -1;
 
         if (applyDefaultTheme) {
             selectedThemeId = Utils.getDefaultThemeId();
