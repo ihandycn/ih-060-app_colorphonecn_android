@@ -16,6 +16,8 @@ import com.acb.call.utils.PermissionHelper;
 import com.acb.utils.FontUtils;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -62,6 +64,7 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
         enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff3487ff,
                 Dimensions.pxFromDp(6f), true));
         enableBtn.setOnClickListener(v -> {
+            PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_OutSide_Click");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && requiresPermission()) {
             } else {
                 PermissionHelper.requestNotificationAccessIfNeeded(RequestPermissionsActivity.class);
@@ -70,6 +73,7 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
         });
 
         HSGlobalNotificationCenter.addObserver(EVENT_DISMISS, this);
+        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_OutSide_Show");
     }
 
     /**
@@ -84,17 +88,13 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
             return false;
         }
 
-        boolean phonePerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
-                == RuntimePermissions.PERMISSION_GRANTED;
         boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 == RuntimePermissions.PERMISSION_GRANTED;
-        if (!phonePerm) {
-//            LauncherAnalytics.logEvent("ColorPhone_Permission__Phone_SystemStyle_Show_FirstScreen");
-        }
         if (!contactPerm) {
-//            LauncherAnalytics.logEvent("ColorPhone_Permission__Contact_SystemStyle_Show_FirstScreen");
+            LauncherAnalytics.logEvent("ColorPhone_PermissionGuide_Contact_View_Show_OutSideApp");
+            PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_Contact_View_Show_OutSideApp");
         }
-        if (!phonePerm || !contactPerm){
+        if (!contactPerm){
             // Do not have permissions, request them now
             RuntimePermissions.requestPermissions(this, perms, FIRST_LAUNCH_PERMISSION_REQUEST);
             return true;
@@ -122,8 +122,11 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
         onPermissionsGranted(requestCode, granted);
         onPermissionsDenied(requestCode, denied);
 
-        if (!CommonUtils.ATLEAST_MARSHMALLOW) {
-            PermissionHelper.requestNotificationAccessIfNeeded(RequestPermissionsActivity.class);
+        if (!CommonUtils.ATLEAST_MARSHMALLOW && PermissionHelper.isNotificationAccessGranted(OutsidePermissionGuideActivity.this)) {
+            PermissionHelper.requestNotificationPermission(RequestPermissionsActivity.class, () -> {
+                PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_NotificationAccess_Allow_Success_OutSideApp");
+            });
+            PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_NotificationAccess_View_Show_OutSideApp");
         }
         finish();
 
@@ -131,11 +134,9 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
 
     public void onPermissionsGranted(int requestCode, List<String> list) {
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
-            if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
-//                LauncherAnalytics.logEvent("ColorPhone_Permission_Phone_SystemStyle_Allow_Click_FirstScreen");
-            }
             if (list.contains(Manifest.permission.READ_CONTACTS)) {
-//                LauncherAnalytics.logEvent("ColorPhone_Permission_Contact_SystemStyle_Allow_Click_FirstScreen");
+                LauncherAnalytics.logEvent("ColorPhone_Permission_Contact_SystemStyle_Allow_Click_FirstScreen");
+                PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_Contact_Allow_Success_OutSideApp");
             }
         }
     }

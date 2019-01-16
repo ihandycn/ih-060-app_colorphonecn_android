@@ -7,13 +7,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.utils.PermissionHelper;
 import com.call.assistant.customize.CallAssistantSettings;
 import com.call.assistant.util.CommonUtils;
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -167,6 +165,8 @@ public class DailyLogger {
         LauncherAnalytics.logEvent(eventName,
                 "type", permission.toString()
         );
+
+        PermissionTestUtils.logPermissionEvent(eventName + permission.toString());
     }
     private boolean isTargetingOreo() {
         int targetSdkVersion = 0;
