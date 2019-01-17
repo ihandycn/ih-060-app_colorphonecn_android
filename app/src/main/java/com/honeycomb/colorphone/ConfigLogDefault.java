@@ -1,6 +1,8 @@
 package com.honeycomb.colorphone;
 
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.NetUtils;
+import com.ihs.app.framework.HSApplication;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -38,14 +40,17 @@ public class ConfigLogDefault implements ConfigLog {
 
         @Override
         public void onThemeDownloadStart(String name, String from) {
-            LauncherAnalytics.logEvent("ColorPhone_Theme_Download_Started", "ThemeName", name, "from", from);
+            LauncherAnalytics.logEvent("ColorPhone_Theme_Download_Started", "ThemeName", name, "from", from,
+             "Network", NetUtils.isWifiConnected(HSApplication.getContext()) ? "Wifi" : "Data");
         }
 
         @Override
         public void onThemeDownloadFinish(String name) {
             boolean firstDownload = downloadThemes.add(name);
             if (firstDownload) {
-                LauncherAnalytics.logEvent("ColorPhone_Theme_Download_Finished", "ThemeName", name);
+                LauncherAnalytics.logEvent("ColorPhone_Theme_Download_Finished", "ThemeName", name,
+                        "Network", NetUtils.isWifiConnected(HSApplication.getContext()) ? "Wifi" : "Data");
+
             }
         }
 
