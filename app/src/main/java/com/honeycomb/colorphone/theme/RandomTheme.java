@@ -5,6 +5,7 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.os.Build;
+import android.os.PersistableBundle;
 import android.support.annotation.RequiresApi;
 import android.text.format.DateUtils;
 
@@ -221,10 +222,13 @@ public class RandomTheme {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void startDownloadJob() {
+        PersistableBundle persistableBundle = new PersistableBundle();
+        persistableBundle.putInt(ThemeDownloadJobService.KEY_TYPE, ThemeDownloadJobService.TYPE_RANDOM_THEME);
         JobInfo jobInfo = new JobInfo.Builder(1000,
                 new ComponentName(HSApplication.getContext(), ThemeDownloadJobService.class))
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
                 .setBackoffCriteria(5 * DateUtils.MINUTE_IN_MILLIS, JobInfo.BACKOFF_POLICY_EXPONENTIAL)
+                .setExtras(persistableBundle)
                 .build();
 
         JobScheduler jobScheduler = (JobScheduler) HSApplication.getContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);

@@ -2,20 +2,18 @@ package com.honeycomb.colorphone.download;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.os.Build;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
-import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.theme.ThemeDownloadJobService;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
-import com.liulishuo.filedownloader.model.FileDownloadStatus;
 
 public class DownloadViewHolder implements DownloadHolder {
 
@@ -169,10 +167,10 @@ public class DownloadViewHolder implements DownloadHolder {
             taskProgressBar.setProgress(0f);
         }
         taskProgressBar.setVisibility(View.GONE);
-        if (status == FileDownloadStatus.error && BuildConfig.DEBUG) {
-            Toast.makeText(HSApplication.getContext(), R.string.network_err, Toast.LENGTH_SHORT).show();
-        }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ThemeDownloadJobService.scheduleDownloadJob(id);
+        }
         if (TasksManager.DEBUG_PROGRESS) {
             HSLog.d("sundxing", getId() + " download stopped, status = " + status);
         }
