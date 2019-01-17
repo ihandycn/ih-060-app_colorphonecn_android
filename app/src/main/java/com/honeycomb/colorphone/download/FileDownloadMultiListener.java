@@ -7,6 +7,7 @@ import android.util.SparseBooleanArray;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.NetUtils;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
@@ -108,7 +109,8 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
             @Override
             public void run() {
                 LauncherAnalytics.logEvent("ColorPhone_Download_Error",
-                        "Reason", e != null ? e.getMessage() : "Unknown");
+                        "Reason", e != null ? e.getMessage() : "Unknown",
+                        "Network", NetUtils.getNetWorkStateName());
             }
         }, "event_download_error", 3);
 

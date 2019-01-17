@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
+import com.ihs.app.framework.HSApplication;
+
 public class NetUtils {
     public static final int NETWORK_NONE = 0; // 没有网络连接
     public static final int NETWORK_WIFI = 1; // wifi连接
@@ -104,5 +106,23 @@ public class NetUtils {
             }
         }
         return false;
+    }
+
+    public static String getNetWorkStateName() {
+        int state = getNetworkState(HSApplication.getContext());
+        switch (state) {
+            case NETWORK_WIFI:
+                return "Wifi";
+            case NETWORK_2G:
+                return "2G";
+            case NETWORK_3G:
+                return "3G";
+            case NETWORK_4G:
+                return "4G";
+            case NETWORK_NONE:
+                return "None";
+            default:
+                return "Unknown";
+        }
     }
 }
