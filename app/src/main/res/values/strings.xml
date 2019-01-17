@@ -261,4 +261,5 @@
     <string name="follow_facebook">Follow us on facebook</string>
     <string name="skip">SKIP</string>
     <string name="battery_optimized">OPTIMIZED</string>
+    <string name="guide_theme_random_hint">Apply this theme you’re able to enjoy random themes for incoming calls.</string>
 </resources>

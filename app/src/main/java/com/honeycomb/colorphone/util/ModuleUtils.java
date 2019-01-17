@@ -192,6 +192,14 @@ public class ModuleUtils {
         return needShow;
     }
 
+    public static boolean needShowRandomThemeGuide() {
+        boolean needShow = Preferences.get(PREFS_FILE_NAME).getBoolean("show_random_theme_guide", true);
+        if (needShow) {
+            Preferences.get(PREFS_FILE_NAME).putBoolean("show_random_theme_guide", false);
+        }
+        return needShow;
+    }
+
     public static boolean isShowPromoteLockerAlert(int alertType) {
         if (!PromoteLockerAutoPilotUtils.isPromoteAlertEnable(alertType)) {
             return false;

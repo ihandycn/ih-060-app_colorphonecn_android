@@ -69,6 +69,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
 
@@ -562,7 +563,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        if (!GuideApplyThemeActivity.start(mActivity, true, null)) {
+        if (mTheme.getId() == Theme.RANDOM_THEME ||
+                !GuideApplyThemeActivity.start(mActivity, true, null)) {
             Utils.showToast(mActivity.getString(R.string.apply_success));
         }
 
@@ -616,11 +618,36 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private boolean checkNewFeatureGuideView() {
-        if (ModuleUtils.needShowSetForOneGuide()) {
+        //TODO remove guide if no need to show.
+        if (mTheme.getId() == Theme.RANDOM_THEME) {
+            if (ModuleUtils.needShowRandomThemeGuide()) {
+                ViewStub stub = findViewById(R.id.guide_for_random_theme);
+                final View guideView = stub.inflate();
+                guideView.setAlpha(0);
+                guideView.animate().alpha(1).setDuration(ANIMATION_DURATION).start();
+                View buttonOk = guideView.findViewById(R.id.guide_random_ok);
+                buttonOk.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(
+                        Color.WHITE, (float)Dimensions.pxFromDp(25), false)
+                );
+                buttonOk.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        guideView.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                guideView.setOnClickListener(null);
+                                guideView.setVisibility(GONE);
+                                scheduleNextHide();
+                            }
+                        }).start();
+                    }
+                });
+                return true;
+            }
+        } else if (ModuleUtils.needShowSetForOneGuide()) {
             ViewStub stub = findViewById(R.id.guide_for_set_one);
             final View guideView = stub.inflate();
             guideView.setAlpha(0);
@@ -863,8 +890,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         getTransBottomLayout().setTranslationY(0);
         mRingtoneViewHolder.transIn(true, false);
         animationDelay = 0;
-        if (isSelectedPos() && !mTheme.isLocked()
-                && mTheme.getId() != Theme.RANDOM_THEME) {
+        if (isSelectedPos() && !mTheme.isLocked()) {
             checkNewFeatureGuideView();
         } else {
             scheduleNextHide();
