@@ -30,6 +30,8 @@ public class TasksManager {
     private static final java.lang.String TAG = TasksManager.class.getSimpleName();
 
     private static final String TOKEN_EXTRA_RINGTONE = "ringtone";
+    private volatile boolean isLoading;
+    private Runnable taskReadyCallback = null;
 
     public static boolean doDownload(TasksManagerModel model, Object tag) {
         if (model != null) {
@@ -80,7 +82,9 @@ public class TasksManager {
         loadTasks();
     }
 
+    // TODO modelList may empty
     private void loadTasks() {
+        isLoading = true;
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
@@ -88,8 +92,20 @@ public class TasksManager {
                 synchronized (TasksManager.this) {
                     modelList.addAll(temp);
                 }
+                isLoading = false;
+                if (taskReadyCallback != null) {
+                    taskReadyCallback.run();
+                }
             }
         });
+    }
+
+    public void setTaskReadyCallback(Runnable taskReadyCallback) {
+        this.taskReadyCallback = taskReadyCallback;
+    }
+
+    public boolean isLoading() {
+        return isLoading;
     }
 
     private SparseArray<BaseDownloadTask> taskSparseArray = new SparseArray<>();
@@ -239,6 +255,9 @@ public class TasksManager {
 
     public boolean isThemeDownloaded(int id) {
         TasksManagerModel model = getByThemeId(id);
+        if (model == null) {
+            return false;
+        }
         return isDownloaded(model);
     }
 

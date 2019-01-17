@@ -167,6 +167,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onShow(int callType, boolean isLocked) {
                 Threads.removeOnMainThread(mDisplayTimeoutRunnable);
+                Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
                 LauncherAnalytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType),
                         "Time", formatTime(System.currentTimeMillis() - mTimeReadyToShow));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
