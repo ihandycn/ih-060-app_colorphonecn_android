@@ -97,6 +97,11 @@ public class Theme extends Type {
             if (!(type instanceof Theme)) {
                 continue;
             }
+
+            if (type.getId() == Theme.RANDOM_THEME && !Ap.RandomTheme.enable()) {
+                HSLog.d("RandomTheme", "Unable");
+                continue;
+            }
             if (type.getId() == Type.NONE) {
                 mThemeNone = (Theme) type;
             }

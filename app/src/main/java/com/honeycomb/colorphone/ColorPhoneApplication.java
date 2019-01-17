@@ -385,6 +385,19 @@ public class ColorPhoneApplication extends HSApplication {
 
         checkDailyTask();
 
+        listLifeTimeAutopilot();
+
+    }
+
+    private void listLifeTimeAutopilot() {
+        IntentFilter configFinishedFilter = new IntentFilter();
+        configFinishedFilter.addAction(AutopilotConfig.ACTION_USER_INIT_COMPLETE);
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Theme.updateThemes();
+            }
+        }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
     }
 
 
