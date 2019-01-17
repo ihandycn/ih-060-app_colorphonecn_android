@@ -12,6 +12,7 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Threads;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ThemeDownloadJobService extends JobService {
@@ -19,12 +20,21 @@ public class ThemeDownloadJobService extends JobService {
     boolean isWorking = false;
     boolean jobCancelled = false;
 
+    private JobParameters mjobParameters;
+    final Runnable pendingWorkRunnable = new Runnable() {
+        @Override
+        public void run() {
+            doWork(mjobParameters);
+        }
+    };
+
     // Called by the Android system when it's time to run the job
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
         Log.d(TAG, "Job started!");
         isWorking = true;
-        doWork(jobParameters);
+        mjobParameters = jobParameters;
+        Threads.postOnMainThreadDelayed(pendingWorkRunnable, 3000);
         return isWorking;
     }
 
@@ -45,6 +55,14 @@ public class ThemeDownloadJobService extends JobService {
         }
 
         TasksManagerModel model = TasksManager.getImpl().getByThemeId(theme.getId());
+        if (model == null) {
+            if (TasksManager.getImpl().isLoading()) {
+                TasksManager.getImpl().setTaskReadyCallback(pendingWorkRunnable);
+            } else {
+                onJobFinish(jobParameters, true);
+                return;
+            }
+        }
         if (TasksManager.getImpl().isDownloaded(model)) {
             HSLog.d(TAG, "Roll next success , file already downloaded : " + pendingThemeIndex);
             onJobFinish(jobParameters, false);
@@ -73,6 +91,8 @@ public class ThemeDownloadJobService extends JobService {
         Log.d(TAG, "Job finished!");
         isWorking = false;
         jobFinished(jobParameters, needsReschedule);
+
+        TasksManager.getImpl().setTaskReadyCallback(null);
     }
 
     // Called if the job was cancelled before being finished
@@ -82,6 +102,9 @@ public class ThemeDownloadJobService extends JobService {
         jobCancelled = true;
         boolean needsReschedule = isWorking;
         jobFinished(jobParameters, needsReschedule);
+
+        TasksManager.getImpl().setTaskReadyCallback(null);
+
         return needsReschedule;
     }
 }

@@ -39,6 +39,7 @@ import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
@@ -377,7 +378,8 @@ public class ColorPhoneApplication extends HSApplication {
         initNotificationAlarm();
 
         Theme.updateThemes();
-
+        // Only restore tasks here.
+        TasksManager.getImpl();
 
         SmsFlashListener.getInstance().start();
 
