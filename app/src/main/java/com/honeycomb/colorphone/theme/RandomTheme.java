@@ -78,7 +78,7 @@ public class RandomTheme {
     }
 
     public int calcNextThemeIndex() {
-        int curIndex = getCurThemeIndex(0);
+        int curIndex = getCurThemeIndex(-1);
         return (curIndex + 1) % Math.max(mRandomThemePool.size(), 1);
     }
 
