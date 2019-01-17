@@ -34,6 +34,7 @@ import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
@@ -197,12 +198,16 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onCallFinished() {
                 CallFinishUtils.logCallFinish();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
-                if (Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
+                if (PermissionTestUtils.getAlertOutSideApp()
+                        && Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
                         && (ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
                             && ScreenFlashSettings.isScreenFlashModuleEnabled()
                             && (!Permissions.hasPermission(Manifest.permission.READ_CONTACTS)
                                 || !Permissions.isNotificationAccessGranted()))) {
-                    OutsidePermissionGuideActivity.start(HSApplication.getContext());
+                    Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(() ->
+                        OutsidePermissionGuideActivity.start(HSApplication.getContext()),
+                            "alert_show_maxtime", PermissionTestUtils.getAlertShowMaxTime());
+
                 }
             }
 

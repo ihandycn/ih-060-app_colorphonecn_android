@@ -1,5 +1,9 @@
 package com.honeycomb.colorphone.util;
 
+import android.text.TextUtils;
+
+import com.ihs.commons.utils.HSLog;
+
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
 
@@ -27,10 +31,14 @@ public class PermissionTestUtils {
     }
 
     public static void logPermissionEvent(String event) {
+        if (TextUtils.isEmpty(event)) {
+            HSLog.w("PermissionTestUtils", "event is empty");
+            return;
+        }
         getAlertOutSideApp();
         try {
             LauncherAnalytics.logEvent(event);
-            AutopilotEvent.logTopicEvent(TEST_TOPIC_ID, event);
-        } catch (Exception e) {}
+            AutopilotEvent.logTopicEvent(TEST_TOPIC_ID, event.toLowerCase());
+        } catch (Throwable e) {}
     }
 }
