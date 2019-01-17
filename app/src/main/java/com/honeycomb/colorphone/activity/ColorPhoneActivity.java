@@ -31,6 +31,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
@@ -526,7 +527,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         final boolean applyDefaultTheme = selectedThemeId == -1;
 
         if (applyDefaultTheme) {
-            selectedThemeId = Utils.getDefaultThemeId();
+            selectedThemeId = Ap.RandomTheme.enable() ? Theme.RANDOM_THEME : Utils.getDefaultThemeId();
             HSLog.d("AP-ScreenFlash", "defaultThemeID : " + selectedThemeId);
             ThemePreviewView.saveThemeApplys(selectedThemeId);
             ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, selectedThemeId);
