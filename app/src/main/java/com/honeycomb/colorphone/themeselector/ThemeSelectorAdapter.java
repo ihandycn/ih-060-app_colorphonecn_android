@@ -593,7 +593,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
                 fileExist = updateTaskHolder((ThemeCardViewHolder) holder, model);
 
-                HSLog.d(TAG, "switchToReadyState" + " fileExist : " + fileExist + " " + curTheme.getIdName() + "isSelected" + curTheme.isSelected());
+                HSLog.d(TAG, "switchToReadyState" + " " +
+                        "fileExist : " + fileExist + " " + curTheme.getIdName() + "，isSelected ： " + curTheme.isSelected());
 
             }
 
@@ -603,6 +604,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 curTheme.setSelected(false);
                 curTheme.setPendingSelected(true);
                 cardViewHolder.startDownload();
+            }
+
+            if (fileExist && curTheme.isPendingSelected()) {
+                curTheme.setSelected(true);
+                curTheme.setPendingSelected(false);
             }
 
             cardViewHolder.updateTheme(curTheme, fileExist);
@@ -711,6 +717,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         , TasksManager.getImpl().getTotal(model.getId()));
             }
         } else {
+            HSLog.d(ThemeSelectorAdapter.TAG, "TasksManager not ready");
             holder.setActionEnabled(false);
         }
 

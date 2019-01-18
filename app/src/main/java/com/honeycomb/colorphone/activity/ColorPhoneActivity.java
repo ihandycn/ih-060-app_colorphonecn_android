@@ -116,6 +116,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
 
             if (mRecyclerView != null && mRecyclerView.getAdapter() != null) {
+                HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "TaskManager service bind, notifyDataSetChanged");
                 mRecyclerView.getAdapter().notifyDataSetChanged();
             }
 
@@ -186,8 +187,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
-            // TODO
-            if (!PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+            if (mAdapter.isTipHeaderVisible() &&
+                    !PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "setHeaderTipVisible, " +
+                        "notifyDataSetChanged");
                 mAdapter.setHeaderTipVisible(false);
                 mAdapter.notifyDataSetChanged();
             }
@@ -582,7 +585,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         }
                     });
                 }
-                UpdateRunnable.run();
             }
         });
 
@@ -590,6 +592,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void prepareThemeMediaFile(int idDefault) {
+        HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "prepareThemeMediaFile");
         TasksManagerModel model = TasksManager.getImpl().getByThemeId(idDefault);
         TasksManager.doDownload(model, null);
     }
@@ -725,6 +728,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mSettingsPage.onThemeSelected();
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
+            HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "NOTIFICATION_REFRESH_MAIN_FRAME notifyDataSetChanged");
             initData();
             mAdapter.notifyDataSetChanged();
         } else if (HSNotificationConstant.HS_SESSION_START.equals(s)) {
@@ -739,6 +743,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             boolean visible = mAdapter.isTipHeaderVisible();
             updatePermissionHeader();
             if (visible != mAdapter.isTipHeaderVisible()) {
+                HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
                 mAdapter.notifyDataSetChanged();
             }
         }

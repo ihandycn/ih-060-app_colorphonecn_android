@@ -310,6 +310,9 @@ public class ColorPhoneApplication extends HSApplication {
         copyMediaFromAssertToFile();
         DauChecker.get().start();
 
+        // Only restore tasks here.
+        TasksManager.getImpl().init();
+
         for (AppInit appInit : mAppInitList) {
             if (appInit.onlyInMainProcess()) {
                 appInit.onInit(this);
@@ -378,8 +381,6 @@ public class ColorPhoneApplication extends HSApplication {
         initNotificationAlarm();
 
         Theme.updateThemes();
-        // Only restore tasks here.
-        TasksManager.getImpl();
 
         SmsFlashListener.getInstance().start();
 

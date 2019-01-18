@@ -98,6 +98,7 @@ public class ScreenFlashInit extends AppMainInit {
                 }
 
                 boolean themeNotReady = false;
+                // TODO
                 if (targetTheme != null && targetTheme.isMedia()) {
                     TasksManager.getImpl().addTask(targetTheme);
                     TasksManagerModel model = TasksManager.getImpl().getByThemeId(targetTheme.getId());

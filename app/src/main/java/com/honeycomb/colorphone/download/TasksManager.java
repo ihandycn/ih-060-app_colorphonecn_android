@@ -34,6 +34,7 @@ public class TasksManager {
     private Runnable taskReadyCallback = null;
 
     public static boolean doDownload(TasksManagerModel model, Object tag) {
+        HSLog.d(TAG, "doDownload : " + model.getName());
         if (model != null) {
             BaseDownloadTask oldTask = getImpl().getTask(model.getId());
             if (oldTask != null && oldTask.isRunning()) {
@@ -62,6 +63,12 @@ public class TasksManager {
             return true;
         } else {
             throw new IllegalStateException("Has no pending task to download!");
+        }
+    }
+
+    public void init() {
+        if (!FileDownloader.getImpl().isServiceConnected()) {
+            FileDownloader.getImpl().bindService();
         }
     }
 
@@ -291,7 +298,8 @@ public class TasksManager {
         return modelList.size();
     }
 
-    //FIXME block ui thread.
+    // FIXME block ui thread.
+    // FIXME no need add task if task exits.
     public void addTask(Type type) {
         File ringtoneFile = null;
         if (type instanceof Theme && ((Theme) type).hasRingtone()) {
