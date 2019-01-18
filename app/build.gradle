@@ -177,7 +177,8 @@ dependencies {
     // ==== Third part ====
     compile 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
-    compile 'com.liulishuo.filedownloader:library:1.7.4'
+    // Fix crash on Android O background service
+    compile 'com.liulishuo.filedownloader:library:1.7.6-SNAPSHOT'
     compile ("com.airbnb.android:lottie:2.5.5") {
         transitive = false;
     }
