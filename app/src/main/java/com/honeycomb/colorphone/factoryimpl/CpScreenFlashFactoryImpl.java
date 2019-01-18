@@ -16,6 +16,7 @@ import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
@@ -79,7 +80,9 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     @Override
     public void onCallFinish(String number) {
         super.onCallFinish(number);
-        RandomTheme.getInstance().roll();
+        if (Ap.RandomTheme.enable()) {
+            RandomTheme.getInstance().roll();
+        }
     }
 
     @Override
