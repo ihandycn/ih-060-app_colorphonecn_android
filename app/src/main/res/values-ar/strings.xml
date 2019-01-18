@@ -182,4 +182,6 @@
 
     <string name="skip">تخطي</string>
     <string name="battery_optimized">الأمثل</string>
+
+    <string name="guide_theme_random_hint">يجري تطبيق التصميم، استمتع بتصاميم عشوائية عند استلام مكالمة.</string>
 </resources>

@@ -177,4 +177,6 @@
     <string name="follow_facebook">Síguenos en Facebook</string>
     <string name="skip">OMITIR</string>
     <string name="battery_optimized">optimizado</string>
+
+    <string name="guide_theme_random_hint">Aplicando este tema; puedes disfrutar de temas aleatorios para llamadas entrantes.</string>
 </resources>

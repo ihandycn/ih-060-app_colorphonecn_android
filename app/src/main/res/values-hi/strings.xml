@@ -175,4 +175,6 @@
     <string name="follow_facebook">हमें फेसबुक पर फॉलो करें</string>
     <string name="skip">छोड़ें</string>
     <string name="battery_optimized">अनुकूलित</string>
+
+    <string name="guide_theme_random_hint">यह थीम लागू करते हुए, आप आने वाली कॉल्‍स के लिए क्रमरहित थीम्‍स का आनंद ले सकते हैं।</string>
 </resources>

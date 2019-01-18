@@ -176,4 +176,6 @@
     <string name="skip">ÜBERSPRINGEN</string>
 
 <string name="battery_optimized">OPTIMIERT</string>
+
+    <string name="guide_theme_random_hint">Wenn Sie dieses Motiv übernehmen, können Sie sich bei eingehenden Anrufen an Zufallsmotiven erfreuen.</string>
 </resources>

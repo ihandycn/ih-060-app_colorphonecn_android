@@ -185,4 +185,6 @@
     <string name="follow_facebook">在Facebook上关注我们</string>
     <string name="skip">跳过</string>
     <string name="battery_optimized">已优化</string>
+
+    <string name="guide_theme_random_hint">应用了当前主题后，每次来电会随机展示不同主题视频</string>
 </resources>

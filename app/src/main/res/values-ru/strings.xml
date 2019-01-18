@@ -181,4 +181,6 @@
 
 
 <string name="battery_optimized">аптымізаваны</string>
+
+    <string name="guide_theme_random_hint">Установив эту тему, вы получите случайно выпадающие темы для входящих вызовов.</string>
 </resources>
