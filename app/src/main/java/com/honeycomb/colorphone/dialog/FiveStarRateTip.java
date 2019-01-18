@@ -267,7 +267,7 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
                 HSMarketUtils.browseAPP();
                 LauncherAnalytics.logEvent("RateAlert_Fivestar_Submit", "type", mFrom.toString());
             } else {
-                Utils.sentEmail(getContext(), new String[]{Constants.FEED_BACK_EMAIL}, null, null);
+                Utils.sentEmail(getContext(), new String[]{Constants.getFeedBackAddress()}, null, null);
                 LauncherAnalytics.logEvent("RateAlert_Lessthanfive_Submit", "type", mFrom.toString());
             }
             Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREF_KEY_HAD_FIVE_STAR_RATE, true);

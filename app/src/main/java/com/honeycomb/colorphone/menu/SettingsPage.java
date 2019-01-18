@@ -118,7 +118,7 @@ public class SettingsPage implements View.OnClickListener {
     }
 
     private void feedBack() {
-        Utils.sentEmail(HSApplication.getContext(), new String[]{Constants.FEED_BACK_EMAIL}, null, null);
+        Utils.sentEmail(HSApplication.getContext(), new String[] {Constants.getFeedBackAddress()}, null, null);
     }
 
     public void onSaveToggleState() {

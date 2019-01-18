@@ -212,7 +212,10 @@ public final class Utils {
         return true;
     }
 
-    public static void sentEmail(Context mContext, String[] addresses, String subject, String body) {
+    public static void sentEmail(Context mContext, @NonNull String[] addresses, String subject, String body) {
+        if (addresses.length == 0 || TextUtils.isEmpty(addresses[0])) {
+            return;
+        }
         try {
             Intent sendIntentGmail = new Intent(Intent.ACTION_VIEW);
             sendIntentGmail.setType("plain/text");
