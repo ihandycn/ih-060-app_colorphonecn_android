@@ -39,6 +39,7 @@ import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
@@ -314,6 +315,10 @@ public class ColorPhoneApplication extends HSApplication {
                 appInit.onInit(this);
             }
         }
+        // Only restore tasks here.
+        TasksManager.getImpl().init();
+        Theme.updateThemes();
+
 
         registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
         AcbAds.getInstance().initializeFromGoldenEye(this);
@@ -362,7 +367,6 @@ public class ColorPhoneApplication extends HSApplication {
         String popularThemeBgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
         GlideApp.with(this).downloadOnly().load(popularThemeBgUrl);
 
-
         Threads.postOnMainThreadDelayed(new Runnable() {
             @Override
             public void run() {
@@ -372,12 +376,8 @@ public class ColorPhoneApplication extends HSApplication {
             }
         }, TIME_NEED_LOW);
 
-
         lifeCallback();
         initNotificationAlarm();
-
-        Theme.updateThemes();
-
 
         SmsFlashListener.getInstance().start();
 
@@ -385,6 +385,19 @@ public class ColorPhoneApplication extends HSApplication {
 
         checkDailyTask();
 
+        watchLifeTimeAutopilot();
+
+    }
+
+    private void watchLifeTimeAutopilot() {
+        IntentFilter configFinishedFilter = new IntentFilter();
+        configFinishedFilter.addAction(AutopilotConfig.ACTION_USER_INIT_COMPLETE);
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Theme.updateThemes();
+            }
+        }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
     }
 
 
@@ -401,23 +414,26 @@ public class ColorPhoneApplication extends HSApplication {
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
-                final File file = new File(FileUtils.getMediaDirectory(), "Mp4_6");
-                try {
-                    if (file.isFile() && file.exists()) {
-                        return;
-                    }
-                    Utils.copyAssetFileTo(getApplicationContext(),
-                            "deeplove.mp4", file);
-                    HSLog.d("CopyFile", "deeplove copy ok");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    if (file.isFile() && file.exists()) {
-                        file.delete();
-                    }
-                }
+                doCopyTheme(10000, "randomtheme.mp4");
+                doCopyTheme(8, "deeplove.mp4");
             }
         });
+    }
+
+    private void doCopyTheme(int id, String fileName) {
+        final File file = new File(FileUtils.getMediaDirectory(), "Mp4_" + (id - 2));
+        try {
+            if (!(file.isFile() && file.exists())) {
+                Utils.copyAssetFileTo(getApplicationContext(),
+                        fileName, file);
+                HSLog.d("CopyFile", fileName + " copy ok");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (file.isFile() && file.exists()) {
+                file.delete();
+            }
+        }
     }
 
     private void lifeCallback() {

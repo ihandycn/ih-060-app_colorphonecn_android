@@ -1,14 +1,20 @@
 package com.honeycomb.colorphone.download;
 
-import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
+import android.widget.Toast;
 
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.NetUtils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadSampleListener;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
+import com.superapps.util.Preferences;
 
 public class FileDownloadMultiListener extends FileDownloadSampleListener {
 
@@ -97,10 +103,20 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
     @Override
     protected void error(BaseDownloadTask task, Throwable e) {
         super.error(task, e);
-        Log.e("BaseDownloadTask", "fail to download: " + task.getUrl());
-        if (e != null) {
+        HSLog.e("BaseDownloadTask", "fail to download: " + task.getUrl());
+        if (BuildConfig.DEBUG && e != null) {
             e.printStackTrace();
+            Toast.makeText(HSApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+        Preferences.get(Constants.PREF_FILE_DEFAULT).doLimitedTimes(new Runnable() {
+            @Override
+            public void run() {
+                LauncherAnalytics.logEvent("ColorPhone_Download_Error",
+                        "Reason", e != null ? e.getMessage() : "Unknown",
+                        "Network", NetUtils.getNetWorkStateName());
+            }
+        }, "event_download_error", 3);
+
         DownloadStateListener stateListener = mDownloadStateListeners.get(task.getId());
         if (stateListener != null) {
             stateListener.updateNotDownloaded(FileDownloadStatus.pending, task.getLargeFileSoFarBytes()

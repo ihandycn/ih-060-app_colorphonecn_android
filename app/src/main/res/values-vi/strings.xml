@@ -175,4 +175,6 @@
     <string name="follow_facebook">Theo dõi chúng tôi trên Facebook</string>
     <string name="skip">BỎ QUA</string>
     <string name="battery_optimized">Tối ưu hóa</string>
+
+    <string name="guide_theme_random_hint">Khi áp dụng chủ đề này, bạn có thể trải nghiệm những chủ đề ngẫu nhiên khi có cuộc gọi đến.</string>
 </resources>

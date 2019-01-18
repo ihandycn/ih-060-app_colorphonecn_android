@@ -175,4 +175,6 @@
     <string name="skip">PASSER</string>
 
 <string name="battery_optimized">OPTIMISÉ</string>
+
+    <string name="guide_theme_random_hint">En appliquant ce thème, vous pouvez profiter des thèmes aléatoires pour les appels entrants.</string>
 </resources>

@@ -175,4 +175,6 @@
     <string name="follow_facebook">Ikuti kami di Facebook</string>
     <string name="skip">LEWATI</string>
     <string name="battery_optimized">Dioptimalkan</string>
+
+    <string name="guide_theme_random_hint">Dengan menerapkan tema ini, Anda bisa menikmati tema acak untuk panggilan masuk.</string>
 </resources>

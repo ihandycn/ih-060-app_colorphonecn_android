@@ -100,4 +100,6 @@
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Volg ons op Facebook</string>
+
+    <string name="guide_theme_random_hint">Als je dit thema toepast, zie je willekeurige thema's wanneer je een oproep ontvangt.</string>
 </resources>

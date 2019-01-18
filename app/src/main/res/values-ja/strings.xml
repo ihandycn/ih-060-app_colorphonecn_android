@@ -178,4 +178,6 @@
   <string name="follow_facebook">Facebookでフォローしてください</string>
   <string name="skip">スキップ</string>
     <string name="battery_optimized">最適化</string>
+
+  <string name="guide_theme_random_hint">このテーマを適用すると、着信の際にランダムなテーマをお楽しみいただけます。</string>
 </resources>

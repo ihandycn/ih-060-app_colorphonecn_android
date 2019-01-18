@@ -175,4 +175,6 @@
     <string name="follow_facebook">ติดตามเราใน Facebook</string>
     <string name="skip">ข้าม</string>
     <string name="battery_optimized">เพิ่มประสิทธิภาพ</string>
+
+    <string name="guide_theme_random_hint">คุณสามารถเพลิดเพลินกับธีมสายเรียกเข้าแบบสุ่มจากการใช้ธีมนี้</string>
 </resources>

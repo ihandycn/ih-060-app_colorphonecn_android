@@ -172,4 +172,6 @@
     <string name="follow_facebook">Facebook'ta takip edin</string>
     <string name="skip">ATLA</string>
     <string name="battery_optimized">OPTIMIZED</string>
+
+    <string name="guide_theme_random_hint">Bu temayı uygulayarak gelen arama olduğunda rastgele bir temanın keyfini sürün.</string>
 </resources>

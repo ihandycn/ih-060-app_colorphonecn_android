@@ -30,15 +30,18 @@ public class TasksManager {
     private static final java.lang.String TAG = TasksManager.class.getSimpleName();
 
     private static final String TOKEN_EXTRA_RINGTONE = "ringtone";
+    private volatile boolean isLoading;
+    private Runnable taskReadyCallback = null;
 
-    public static void doDownload(TasksManagerModel model, Object tag) {
+    public static boolean doDownload(TasksManagerModel model, Object tag) {
+        HSLog.d(TAG, "doDownload : " + model.getName());
         if (model != null) {
             BaseDownloadTask oldTask = getImpl().getTask(model.getId());
             if (oldTask != null && oldTask.isRunning()) {
                 if (DEBUG_PROGRESS) {
                     HSLog.d("SUNDXING", "Task Exist, taskId = " + model.getId());
                 }
-                return;
+                return false;
             }
 
             FileDownloadListener listener;
@@ -57,9 +60,15 @@ public class TasksManager {
             }
 
             task.start();
-
+            return true;
         } else {
             throw new IllegalStateException("Has no pending task to download!");
+        }
+    }
+
+    public void init() {
+        if (!FileDownloader.getImpl().isServiceConnected()) {
+            FileDownloader.getImpl().bindService();
         }
     }
 
@@ -80,16 +89,33 @@ public class TasksManager {
         loadTasks();
     }
 
+    // TODO modelList may empty
     private void loadTasks() {
+        isLoading = true;
+        HSLog.d(TAG, "restore tasks from local");
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
-                List<TasksManagerModel> temp = dbController.getAllTasks();
                 synchronized (TasksManager.this) {
+                    List<TasksManagerModel> temp = dbController.getAllTasks();
+                    modelList.clear();
                     modelList.addAll(temp);
+                }
+                isLoading = false;
+                HSLog.d(TAG, "restore tasks from local finished. Total tasks : " + modelList.size());
+                if (taskReadyCallback != null) {
+                    Threads.postOnMainThread(taskReadyCallback);
                 }
             }
         });
+    }
+
+    public void setTaskReadyCallback(Runnable taskReadyCallback) {
+        this.taskReadyCallback = taskReadyCallback;
+    }
+
+    public boolean isLoading() {
+        return isLoading;
     }
 
     private SparseArray<BaseDownloadTask> taskSparseArray = new SparseArray<>();
@@ -237,6 +263,14 @@ public class TasksManager {
         return status == FileDownloadStatus.completed;
     }
 
+    public boolean isThemeDownloaded(int id) {
+        TasksManagerModel model = getByThemeId(id);
+        if (model == null) {
+            return false;
+        }
+        return isDownloaded(model);
+    }
+
     public boolean isDownloading(final int status) {
         return status == FileDownloadStatus.progress || status == FileDownloadStatus.started ||
                 status == FileDownloadStatus.connected || status == FileDownloadStatus.pending;
@@ -267,10 +301,11 @@ public class TasksManager {
         return modelList.size();
     }
 
-    //FIXME block ui thread.
-    public void addTask(Type type) {
+    // FIXME block ui thread.
+    // FIXME no need add task if task exits.
+    public void addTask(Theme type) {
         File ringtoneFile = null;
-        if (type instanceof Theme && ((Theme) type).hasRingtone()) {
+        if (((Theme) type).hasRingtone()) {
             String url = ((Theme) type).getRingtoneUrl();
             if (!TextUtils.isEmpty(url)) {
                 ringtoneFile = Utils.getRingtoneFile();
@@ -290,8 +325,14 @@ public class TasksManager {
         }
     }
 
-    public TasksManagerModel addTask(final String url, String token) {
-        return addTask(url, createPath(url), token);
+    public synchronized boolean checkTaskExist(Theme theme) {
+        for (TasksManagerModel model : modelList) {
+            if (TextUtils.equals(model.getName(), theme.getIdName())) {
+                HSLog.d(TAG, "task already exits");
+                return true;
+            }
+        }
+        return false;
     }
 
     public synchronized TasksManagerModel addTask(final String url, final String path, String token) {
@@ -304,6 +345,7 @@ public class TasksManager {
         final int id = FileDownloadUtils.generateId(url, path);
         TasksManagerModel model = getById(id);
         if (model != null) {
+            HSLog.d(TAG, "## Add new task  ##, exist already");
             return model;
         }
         final TasksManagerModel newModel = dbController.addTask(url, path, token);

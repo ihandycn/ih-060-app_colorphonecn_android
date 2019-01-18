@@ -180,4 +180,6 @@
 
 
 <string name="battery_optimized">OTTIMIZZATO</string>
+
+    <string name="guide_theme_random_hint">Applica il tema per visualizzare temi casuali per le chiamate in arrivo.</string>
 </resources>

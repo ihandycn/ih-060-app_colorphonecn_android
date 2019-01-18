@@ -150,4 +150,11 @@
         android:layout="@layout/stub_theme_set_for_one_guide"
        />
 
+    <ViewStub
+        android:id="@+id/guide_for_random_theme"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout="@layout/stub_theme_set_random"
+        />
+
 </android.support.percent.PercentRelativeLayout>

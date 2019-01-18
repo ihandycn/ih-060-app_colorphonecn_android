@@ -215,4 +215,23 @@ public class Ap {
 
     }
 
+    public static class RandomTheme {
+        public static String TOPIC_ID = "topic-6zi0axif8";
+
+        public static boolean enable() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "randomthemeenable", false);
+        }
+
+        public static int intervalHour() {
+            String value = AutopilotConfig.getStringToTestNow(TOPIC_ID, "themechangeinterval", "24");
+            return Integer.valueOf(value);
+        }
+
+        public static void logEvent(String name) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
+        }
+
+    }
+
+
 }

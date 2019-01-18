@@ -177,4 +177,6 @@
     <string name="follow_facebook">在Facebook上關注我們</string>
     <string name="skip">跳過</string>
     <string name="battery_optimized">已優化</string>
+
+    <string name="guide_theme_random_hint">應用了當前主題後，每次來電會隨機展示不同主題視頻</string>
 </resources>

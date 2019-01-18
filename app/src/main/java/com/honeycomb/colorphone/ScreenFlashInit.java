@@ -5,6 +5,7 @@ import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
+import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -83,6 +84,8 @@ public class ScreenFlashInit extends AppMainInit {
                         }
                     }, "flash_show_log_once");
                 }
+
+                RandomTheme.getInstance().onFlashShow(themeId);
             }
 
             private void logOnceFlashShowNewUser(String themeId) {
@@ -95,6 +98,7 @@ public class ScreenFlashInit extends AppMainInit {
                 }
 
                 boolean themeNotReady = false;
+                // TODO
                 if (targetTheme != null && targetTheme.isMedia()) {
                     TasksManager.getImpl().addTask(targetTheme);
                     TasksManagerModel model = TasksManager.getImpl().getByThemeId(targetTheme.getId());

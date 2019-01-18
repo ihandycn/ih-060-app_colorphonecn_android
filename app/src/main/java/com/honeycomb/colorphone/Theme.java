@@ -35,6 +35,7 @@ public class Theme extends Type {
     private static final String PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX ="prefs_theme_lock_id_prefix";
 
     private static final int LOCK_THEME_VERSION_CODE = 26;
+    public static int RANDOM_THEME = 10000;
     private static Theme mThemeNone;
 
     private long download;
@@ -96,11 +97,18 @@ public class Theme extends Type {
             if (!(type instanceof Theme)) {
                 continue;
             }
+
+            if (type.getId() == Theme.RANDOM_THEME && !Ap.RandomTheme.enable()) {
+                HSLog.d("RandomTheme", "Unable");
+                continue;
+            }
             if (type.getId() == Type.NONE) {
                 mThemeNone = (Theme) type;
             }
             themes.add((Theme) type);
         }
+
+        // TODO only notify when data really changed
         HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
 
         if (DEBUG_THEME_CHANGE) {

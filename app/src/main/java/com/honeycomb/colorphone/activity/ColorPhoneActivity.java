@@ -32,6 +32,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
@@ -49,6 +50,7 @@ import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
+import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -116,6 +118,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
 
             if (mRecyclerView != null && mRecyclerView.getAdapter() != null) {
+                HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "TaskManager service bind, notifyDataSetChanged");
                 mRecyclerView.getAdapter().notifyDataSetChanged();
             }
 
@@ -186,7 +189,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
-            if (!PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+            if (mAdapter.isTipHeaderVisible() &&
+                    !PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "setHeaderTipVisible, " +
+                        "notifyDataSetChanged");
                 mAdapter.setHeaderTipVisible(false);
                 mAdapter.notifyDataSetChanged();
             }
@@ -529,7 +535,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         final boolean applyDefaultTheme = selectedThemeId == -1;
 
         if (applyDefaultTheme) {
-            selectedThemeId = Utils.getDefaultThemeId();
+            selectedThemeId = Ap.RandomTheme.enable() ? Theme.RANDOM_THEME : Utils.getDefaultThemeId();
             HSLog.d("AP-ScreenFlash", "defaultThemeID : " + selectedThemeId);
             ThemePreviewView.saveThemeApplys(selectedThemeId);
             ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, selectedThemeId);
@@ -538,6 +544,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mRecyclerViewData.clear();
         mRecyclerViewData.addAll(Theme.themes());
 
+        // TODO task on application create?
         String[] likeThemes = getThemeLikes();
         final int count = mRecyclerViewData.size();
         for (int i = 0; i < count; i++) {
@@ -568,7 +575,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void run() {
                 boolean needPreload  = false;
                 for (Theme theme : bgThemes) {
-                    if (theme.isMedia()) {
+                    if (theme.isMedia() && !TasksManager.getImpl().checkTaskExist(theme)) {
                         TasksManager.getImpl().addTask(theme);
                         if (applyDefaultTheme && theme.getId() == idDefault) {
                             needPreload = true;
@@ -584,14 +591,23 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         }
                     });
                 }
-                UpdateRunnable.run();
+
+                Threads.postOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (Ap.RandomTheme.enable()
+                                && TasksManager.getImpl().isReady()) {
+                            RandomTheme.getInstance().prepareNextTheme();
+                        }
+                    }
+                });
             }
         });
-
 
     }
 
     private void prepareThemeMediaFile(int idDefault) {
+        HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "prepareThemeMediaFile");
         TasksManagerModel model = TasksManager.getImpl().getByThemeId(idDefault);
         TasksManager.doDownload(model, null);
     }
@@ -727,6 +743,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mSettingsPage.onThemeSelected();
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
+            HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "NOTIFICATION_REFRESH_MAIN_FRAME notifyDataSetChanged");
             initData();
             mAdapter.notifyDataSetChanged();
         } else if (HSNotificationConstant.HS_SESSION_START.equals(s)) {
@@ -741,6 +758,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             boolean visible = mAdapter.isTipHeaderVisible();
             updatePermissionHeader();
             if (visible != mAdapter.isTipHeaderVisible()) {
+                HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
                 mAdapter.notifyDataSetChanged();
             }
         }
