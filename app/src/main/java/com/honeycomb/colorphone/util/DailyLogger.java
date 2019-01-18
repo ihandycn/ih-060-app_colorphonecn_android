@@ -141,14 +141,15 @@ public class DailyLogger {
         boolean notificationAccessGranted = PermissionHelper.isNotificationAccessGranted(context);
 
         if (CommonUtils.ATLEAST_MARSHMALLOW && Utils.isNewUser()) {
-            logPermissionStatusEvent("ColorPhone_Permission_Check_Above23_FirstSessionEnd",
+            String permission = logPermissionStatusEvent("ColorPhone_Permission_Check_Above23_FirstSessionEnd",
                     phoneAccessGranted, contactsAccessGranted,
                     notificationAccessGranted);
-        }
 
+            PermissionTestUtils.logPermissionEvent("colorphone_permission_check_above23_" + permission);
+        }
     }
 
-    private void logPermissionStatusEvent(String eventName,
+    private String logPermissionStatusEvent(String eventName,
                                           boolean phoneAccessGranted,
                                           boolean contactsAccessGranted,
                                           boolean notificationAccessGranted) {
@@ -174,7 +175,7 @@ public class DailyLogger {
                 "type", permission.toString()
         );
 
-        PermissionTestUtils.logPermissionEvent(eventName + permission.toString());
+        return permission.toString();
     }
     private boolean isTargetingOreo() {
         int targetSdkVersion = 0;
