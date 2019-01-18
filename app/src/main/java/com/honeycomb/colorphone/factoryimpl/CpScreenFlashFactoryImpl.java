@@ -9,6 +9,7 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.acb.call.activity.RequestPermissionsActivity;
+import com.acb.call.customize.PermissionConfig;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.themes.Type;
@@ -16,6 +17,7 @@ import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
+import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -27,6 +29,7 @@ import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -208,7 +211,6 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             @Override public void showRequestPermissionSuccessToast() {
 //                PermissionUI.showPermissionRequestToast(true);
             }
-
         };
     }
 
@@ -236,10 +238,10 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 this.source = source;
                 launchTime = Preferences.get(Constants.DESKTOP_PREFS).getInt(PermissionChecker.CUSTOM_PERMISSION_ALERT, 0);
 
-                logPermissionGuideShowEvent(source);
+                logPermissionGuideShowEvent("ColorPhone_Permission_Guide_Show_From_" + source);
             }
 
-            private void logPermissionGuideShowEvent(String source) {
+            private void logPermissionGuideShowEvent(String eventName) {
                 Context context = HSApplication.getContext();
                 boolean phoneAccessGranted = RuntimePermissions.checkSelfPermission(
                         context, Manifest.permission.READ_PHONE_STATE) >= 0;
@@ -248,7 +250,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
                 boolean notificationAccessGranted = PermissionHelper.isNotificationAccessGranted(context);
 
-                logPermissionStatusEvent("ColorPhone_Permission_Guide_Show_From_" + source,
+                logPermissionStatusEvent(eventName,
                         phoneAccessGranted, contactsAccessGranted,
                         notificationAccessGranted);
             }
@@ -284,19 +286,21 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void logScreenFlashPhoneAccessRequested() {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Click",
                         "type", source, "from", String.valueOf(launchTime));
+                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_phone_view_show");
             }
-
 
             @Override
             public void logScreenFlashPhoneAccessSucceed(RequestPermissionsActivity.PermissionSource permissionSource) {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Success",
                         "type", source, "from", String.valueOf(launchTime));
+                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_phone_allow_success");
             }
 
             @Override
             public void logScreenFlashContactsAccessRequested() {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Contact_Allow_Click",
                         "type", source, "from", String.valueOf(launchTime));
+                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_contact_view_show");
             }
 
             @Override
@@ -304,7 +308,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_Contact_Allow_Success",
                         "type", source, "from", String.valueOf(launchTime));
                 PermissionChecker.onContactPermissionGranted();
-
+                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_contact_allow_success");
             }
 
             @Override
@@ -319,17 +323,31 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void logScreenFlashNotificationAccessRequested() {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_NotificationAccess_Allow_Click",
                         "type", source, "from", String.valueOf(launchTime));
+                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_notificationaccess_view_show");
             }
 
             @Override
             public void logScreenFlashNotificationAccessSucceed() {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Guide_NotificationAccess_Allow_Success",
                         "type", source, "from", String.valueOf(launchTime));
+                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_notificationaccess_allow_success");
             }
 
             @Override
             public void logScreenFlashAccessAllOpenGuide() {
-
+                if (CommonUtils.ATLEAST_MARSHMALLOW) {
+                    switch (launchTime) {
+                        case 0:
+                            logPermissionGuideShowEvent("ColorPhone_Permission_Check_Above23_FirstAlert");
+                            break;
+                        case 1:
+                            logPermissionGuideShowEvent("ColorPhone_Permission_Check_Above23_SecondAlert");
+                            break;
+                        case 2:
+                            logPermissionGuideShowEvent("ColorPhone_Permission_Check_Above23_ThirdAlert");
+                            break;
+                    }
+                }
             }
 
             @Override
@@ -357,5 +375,34 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
     private void logExceptionAcceptFailTurn() {
         ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("AcceptFail_Reject"));
+    }
+
+    @Override public PermissionConfig getPermissionConfig() {
+        return new PermissionConfig() {
+            public boolean isShowAlertOutsideApp() {
+                return PermissionTestUtils.getAlertOutSideApp();
+            }
+
+            public int getAlertShowMaxTimes() {
+                return PermissionTestUtils.getAlertShowMaxTime();
+            }
+
+            public boolean backButtonEnable() {
+                return PermissionTestUtils.getButtonBack();
+            }
+
+            public boolean useNewPermissionUI() {
+                return PermissionTestUtils.getAlertStyle();
+            }
+
+            public int getPermissionType() {
+                String type = PermissionTestUtils.getTitleCustomizeAlert();
+                if (TextUtils.equals(type, "text1")) {
+                    return PERMISSION_TYPE_ONE_LINE;
+                } else {
+                    return PERMISSION_TYPE_TWO_LINES;
+                }
+            }
+        };
     }
 }

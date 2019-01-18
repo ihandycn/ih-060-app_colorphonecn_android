@@ -10,6 +10,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
 
+import com.acb.call.customize.ScreenFlashManager;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.service.InCallWindow;
 import com.call.assistant.customize.ThemeViewConfig;
 import com.call.assistant.receiver.IncomingCallReceiver;
@@ -26,11 +28,13 @@ import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
+import com.honeycomb.colorphone.permission.OutsidePermissionGuideActivity;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
@@ -195,6 +199,17 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onCallFinished() {
                 CallFinishUtils.logCallFinish();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
+                if (PermissionTestUtils.getAlertOutSideApp()
+                        && Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
+                        && (ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
+                            && ScreenFlashSettings.isScreenFlashModuleEnabled()
+                            && (!Permissions.hasPermission(Manifest.permission.READ_CONTACTS)
+                                || !Permissions.isNotificationAccessGranted()))) {
+                    Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(() ->
+                        OutsidePermissionGuideActivity.start(HSApplication.getContext()),
+                            "alert_show_maxtime", PermissionTestUtils.getAlertShowMaxTime());
+
+                }
             }
 
             @Override
