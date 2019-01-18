@@ -48,7 +48,7 @@ public class GdprUtils {
                 @Override
                 public void run() {
                     HSGdprConsent.showConsentAlert(context, HSGdprConsent.AlertStyle.AGREE_STYLE,
-                            Constants.URL_PRIVACY, new HSGdprConsent.GDPRAlertListener() {
+                            Constants.getUrlPrivacy(), new HSGdprConsent.GDPRAlertListener() {
                                 @Override
                                 public void onAccept() {
                                     LauncherAnalytics.logEvent("GDPR_Access_Gain");

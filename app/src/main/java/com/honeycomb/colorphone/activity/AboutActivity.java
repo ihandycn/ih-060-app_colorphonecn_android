@@ -37,7 +37,7 @@ public class AboutActivity extends HSAppCompatActivity {
         findViewById(R.id.privacy_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.startActivitySafely(AboutActivity.this, getPrivacyViewIntent(Constants.URL_PRIVACY));
+                Utils.startActivitySafely(AboutActivity.this, getPrivacyViewIntent(Constants.getUrlPrivacy()));
             }
         });
 
