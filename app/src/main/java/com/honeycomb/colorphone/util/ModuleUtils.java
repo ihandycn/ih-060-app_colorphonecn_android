@@ -12,6 +12,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.colorphone.lock.util.ConfigUtils;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
@@ -254,6 +255,7 @@ public class ModuleUtils {
 
     public static boolean isChargingImproverEnabled() {
         return HSConfig.optBoolean(false, "Application", "ChargingImprover", "Enabled")
+                && Ap.Improver.enable()
                 && isChargingImproverNewUser();
     }
 
