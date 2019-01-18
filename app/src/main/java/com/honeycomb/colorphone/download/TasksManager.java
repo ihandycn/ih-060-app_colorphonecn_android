@@ -92,16 +92,19 @@ public class TasksManager {
     // TODO modelList may empty
     private void loadTasks() {
         isLoading = true;
+        HSLog.d(TAG, "restore tasks from local");
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
-                List<TasksManagerModel> temp = dbController.getAllTasks();
                 synchronized (TasksManager.this) {
+                    List<TasksManagerModel> temp = dbController.getAllTasks();
+                    modelList.clear();
                     modelList.addAll(temp);
                 }
                 isLoading = false;
+                HSLog.d(TAG, "restore tasks from local finished. Total tasks : " + modelList.size());
                 if (taskReadyCallback != null) {
-                    taskReadyCallback.run();
+                    Threads.postOnMainThread(taskReadyCallback);
                 }
             }
         });
@@ -300,9 +303,9 @@ public class TasksManager {
 
     // FIXME block ui thread.
     // FIXME no need add task if task exits.
-    public void addTask(Type type) {
+    public void addTask(Theme type) {
         File ringtoneFile = null;
-        if (type instanceof Theme && ((Theme) type).hasRingtone()) {
+        if (((Theme) type).hasRingtone()) {
             String url = ((Theme) type).getRingtoneUrl();
             if (!TextUtils.isEmpty(url)) {
                 ringtoneFile = Utils.getRingtoneFile();
@@ -322,8 +325,14 @@ public class TasksManager {
         }
     }
 
-    public TasksManagerModel addTask(final String url, String token) {
-        return addTask(url, createPath(url), token);
+    public synchronized boolean checkTaskExist(Theme theme) {
+        for (TasksManagerModel model : modelList) {
+            if (TextUtils.equals(model.getName(), theme.getIdName())) {
+                HSLog.d(TAG, "task already exits");
+                return true;
+            }
+        }
+        return false;
     }
 
     public synchronized TasksManagerModel addTask(final String url, final String path, String token) {
@@ -336,6 +345,7 @@ public class TasksManager {
         final int id = FileDownloadUtils.generateId(url, path);
         TasksManagerModel model = getById(id);
         if (model != null) {
+            HSLog.d(TAG, "## Add new task  ##, exist already");
             return model;
         }
         final TasksManagerModel newModel = dbController.addTask(url, path, token);

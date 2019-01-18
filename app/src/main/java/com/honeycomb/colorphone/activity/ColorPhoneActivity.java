@@ -575,7 +575,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void run() {
                 boolean needPreload  = false;
                 for (Theme theme : bgThemes) {
-                    if (theme.isMedia()) {
+                    if (theme.isMedia() && !TasksManager.getImpl().checkTaskExist(theme)) {
                         TasksManager.getImpl().addTask(theme);
                         if (applyDefaultTheme && theme.getId() == idDefault) {
                             needPreload = true;
