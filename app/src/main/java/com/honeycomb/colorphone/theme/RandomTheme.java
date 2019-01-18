@@ -16,6 +16,7 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.NetUtils;
 import com.ihs.app.framework.HSApplication;
@@ -117,7 +118,11 @@ public class RandomTheme {
             // Check wifi state
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 HSLog.d(TAG, "Start theme download job : index " + pendingThemeIndex);
-                startDownloadJob();
+                try {
+                    startDownloadJob();
+                } catch (Exception e) {
+                    ColorPhoneCrashlytics.getInstance().logException(e);
+                }
             } else if (NetUtils.isWifiConnected(HSApplication.getContext())) {
                 downloadMediaTheme(pendingThemeIndex, model, null);
             }

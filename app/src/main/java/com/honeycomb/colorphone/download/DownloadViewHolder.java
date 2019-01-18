@@ -13,6 +13,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.theme.ThemeDownloadJobService;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.ihs.commons.utils.HSLog;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
 
@@ -172,7 +173,11 @@ public class DownloadViewHolder implements DownloadHolder {
         boolean isDownloadFail = (status == FileDownloadStatus.error);
         if (isDownloadFail
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ThemeDownloadJobService.scheduleDownloadJob(id);
+            try {
+                ThemeDownloadJobService.scheduleDownloadJob(id);
+            } catch (Exception e) {
+                ColorPhoneCrashlytics.getInstance().logException(e);
+            }
         }
         if (TasksManager.DEBUG_PROGRESS) {
             HSLog.d("sundxing", getId() + " download stopped, status = " + status);
