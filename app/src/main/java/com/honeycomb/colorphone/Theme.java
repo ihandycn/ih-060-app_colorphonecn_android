@@ -107,6 +107,8 @@ public class Theme extends Type {
             }
             themes.add((Theme) type);
         }
+
+        // TODO only notify when data really changed
         HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
 
         if (DEBUG_THEME_CHANGE) {

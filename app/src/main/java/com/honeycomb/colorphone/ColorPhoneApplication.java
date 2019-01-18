@@ -310,14 +310,15 @@ public class ColorPhoneApplication extends HSApplication {
         copyMediaFromAssertToFile();
         DauChecker.get().start();
 
-        // Only restore tasks here.
-        TasksManager.getImpl().init();
-
         for (AppInit appInit : mAppInitList) {
             if (appInit.onlyInMainProcess()) {
                 appInit.onInit(this);
             }
         }
+        // Only restore tasks here.
+        TasksManager.getImpl().init();
+        Theme.updateThemes();
+
 
         registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
         AcbAds.getInstance().initializeFromGoldenEye(this);
@@ -366,7 +367,6 @@ public class ColorPhoneApplication extends HSApplication {
         String popularThemeBgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
         GlideApp.with(this).downloadOnly().load(popularThemeBgUrl);
 
-
         Threads.postOnMainThreadDelayed(new Runnable() {
             @Override
             public void run() {
@@ -376,11 +376,8 @@ public class ColorPhoneApplication extends HSApplication {
             }
         }, TIME_NEED_LOW);
 
-
         lifeCallback();
         initNotificationAlarm();
-
-        Theme.updateThemes();
 
         SmsFlashListener.getInstance().start();
 
@@ -388,11 +385,11 @@ public class ColorPhoneApplication extends HSApplication {
 
         checkDailyTask();
 
-        listLifeTimeAutopilot();
+        watchLifeTimeAutopilot();
 
     }
 
-    private void listLifeTimeAutopilot() {
+    private void watchLifeTimeAutopilot() {
         IntentFilter configFinishedFilter = new IntentFilter();
         configFinishedFilter.addAction(AutopilotConfig.ACTION_USER_INIT_COMPLETE);
         registerReceiver(new BroadcastReceiver() {

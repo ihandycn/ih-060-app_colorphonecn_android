@@ -90,7 +90,11 @@ public class RandomTheme {
 
     public void prepareNextTheme() {
         int nextIndex = calcNextThemeIndex();
+
         prepareTheme(nextIndex);
+        if (nextIndex == 0) {
+            prepareTheme(1);
+        }
     }
 
     private void prepareTheme(int pendingThemeIndex) {
@@ -101,6 +105,10 @@ public class RandomTheme {
                 && theme.isMedia()) {
             // Need download it first
             TasksManagerModel model = TasksManager.getImpl().getByThemeId(theme.getId());
+            if (model == null) {
+                LauncherAnalytics.logEvent("Test_Theme_Model_NULL", "Index", String.valueOf(pendingThemeIndex));
+                return;
+            }
             if (TasksManager.getImpl().isDownloaded(model)) {
                 HSLog.d(TAG, "prepareTheme next success , file already downloaded : " + pendingThemeIndex);
                 return;

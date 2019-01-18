@@ -49,6 +49,7 @@ import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
+import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -539,6 +540,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mRecyclerViewData.clear();
         mRecyclerViewData.addAll(Theme.themes());
 
+        // TODO task on application create?
         String[] likeThemes = getThemeLikes();
         final int count = mRecyclerViewData.size();
         for (int i = 0; i < count; i++) {
@@ -585,9 +587,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         }
                     });
                 }
+
+                Threads.postOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (Ap.RandomTheme.enable()
+                                && TasksManager.getImpl().isReady()) {
+                            RandomTheme.getInstance().prepareNextTheme();
+                        }
+                    }
+                });
             }
         });
-
 
     }
 
