@@ -14,6 +14,7 @@ import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.theme.ThemeDownloadJobService;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.ihs.commons.utils.HSLog;
+import com.liulishuo.filedownloader.model.FileDownloadStatus;
 
 public class DownloadViewHolder implements DownloadHolder {
 
@@ -168,7 +169,9 @@ public class DownloadViewHolder implements DownloadHolder {
         }
         taskProgressBar.setVisibility(View.GONE);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        boolean isDownloadFail = (status == FileDownloadStatus.error);
+        if (isDownloadFail
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ThemeDownloadJobService.scheduleDownloadJob(id);
         }
         if (TasksManager.DEBUG_PROGRESS) {
