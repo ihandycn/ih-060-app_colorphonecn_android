@@ -338,7 +338,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     }
 
     @Override
-    public void logEvent(String eventID, String... vars) {
+    public void logEvent(boolean onlyFabric, String eventID, String... vars) {
         LauncherAnalytics.logEvent(eventID, vars);
         if ("Acb_Screenflash_Show".equalsIgnoreCase(eventID)) {
 //            Ap.ScreenFlash.onScreenFlashShow();
