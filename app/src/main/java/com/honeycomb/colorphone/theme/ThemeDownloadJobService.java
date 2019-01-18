@@ -18,6 +18,7 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
@@ -42,7 +43,7 @@ public class ThemeDownloadJobService extends JobService {
         PersistableBundle persistableBundle = new PersistableBundle();
         persistableBundle.putInt(KEY_TYPE, TYPE_NORAL_THEME);
         persistableBundle.putInt(KEY_TASK_ID, modelId);
-        JobInfo jobInfo = new JobInfo.Builder(1001,
+        JobInfo jobInfo = new JobInfo.Builder(modelId,
                 new ComponentName(HSApplication.getContext(), ThemeDownloadJobService.class))
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
                 .setBackoffCriteria(5 * DateUtils.MINUTE_IN_MILLIS, JobInfo.BACKOFF_POLICY_EXPONENTIAL)
@@ -91,6 +92,7 @@ public class ThemeDownloadJobService extends JobService {
                 return;
             }
 
+            LauncherAnalytics.logEvent("Test_Job_Download_Start", LauncherAnalytics.FLAG_LOG_FABRIC);
             TasksManager.doDownload(model, null);
 
             FileDownloadMultiListener.getDefault().addStateListener(taskId, new DownloadStateListener() {
@@ -98,6 +100,7 @@ public class ThemeDownloadJobService extends JobService {
                 @Override
                 public void updateDownloaded(boolean progressFlag) {
                     HSLog.d(TAG, "download normal task success: "+ model.getName());
+                    LauncherAnalytics.logEvent("Test_Job_Download_Success", LauncherAnalytics.FLAG_LOG_FABRIC);
                     onJobFinish(jobParameters, false);
                 }
 
