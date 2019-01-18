@@ -44,7 +44,7 @@ public class AboutActivity extends HSAppCompatActivity {
         findViewById(R.id.term_service_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.startActivitySafely(AboutActivity.this, getPrivacyViewIntent(Constants.URL_TERM_SERVICES));
+                Utils.startActivitySafely(AboutActivity.this, getPrivacyViewIntent(Constants.getUrlTermServices()));
             }
         });
 
