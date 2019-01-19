@@ -13,6 +13,7 @@ import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.utils.PermissionHelper;
+import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.utils.FontUtils;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.R;
@@ -28,6 +29,7 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +70,11 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && requiresPermission()) {
             } else {
                 PermissionHelper.requestNotificationAccessIfNeeded(RequestPermissionsActivity.class);
+                Threads.postOnMainThreadDelayed(() -> {
+                    Intent intent = new Intent(OutsidePermissionGuideActivity.this, OverlayGuideActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Navigations.startActivitySafely(OutsidePermissionGuideActivity.this, intent);
+                }, 1000);
                 finish();
             }
         });

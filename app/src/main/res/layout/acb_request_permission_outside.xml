@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B3000000">
+    android:background="#CC000000">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/content_view"
@@ -33,12 +33,14 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.919" />
 
-        <ImageView
+        <com.honeycomb.colorphone.view.RoundCornerImageView
             android:id="@+id/outside_permission_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/outside_permission_image"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            app:round_left_top_corner_radius="6dp"
+            app:round_right_top_corner_radius="6dp" />
 
         <com.superapps.view.TypefacedTextView
             android:id="@+id/outside_permission_title"
@@ -71,6 +73,8 @@
         <com.superapps.view.TypefacedTextView
             android:id="@+id/request_permission_action"
             android:text="@string/acb_request_permission_action"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_marginTop="32dp"
@@ -86,6 +90,8 @@
         <com.superapps.view.TypefacedTextView
             android:id="@+id/request_permission_later"
             android:text="@string/acb_outside_permission_later"
+            android:textColor="#5b5b5b"
+            android:textSize="15sp"
             android:layout_width="match_parent"
             android:layout_height="46dp"
             android:layout_marginLeft="24dp"
