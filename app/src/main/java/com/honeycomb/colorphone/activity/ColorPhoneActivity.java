@@ -16,7 +16,6 @@ import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +23,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.acb.call.activity.RequestPermissionsActivity;
-import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -32,7 +30,6 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
@@ -43,14 +40,12 @@ import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
-import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
-import com.honeycomb.colorphone.preview.ThemePreviewView;
-import com.honeycomb.colorphone.theme.RandomTheme;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -69,14 +64,11 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
-import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import hugo.weaving.DebugLog;
@@ -86,7 +78,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     public static final String NOTIFICATION_ON_REWARDED = "notification_on_rewarded";
 
-    public static final String PREFS_THEME_APPLY = "theme_apply_array";
     private static final String PREFS_THEME_LIKE = "theme_like_array";
     private static final String PREFS_SCROLL_TO_BOTTOM = "prefs_main_scroll_to_bottom";
 
@@ -96,6 +87,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
+    private final ThemeList mThemeList = new ThemeList();
     private RewardVideoView mRewardVideoView;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
@@ -530,98 +522,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void initData() {
-        int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
-
-        final boolean applyDefaultTheme = selectedThemeId == -1;
-
-        if (applyDefaultTheme) {
-            selectedThemeId = Ap.RandomTheme.enable() ? Theme.RANDOM_THEME : Utils.getDefaultThemeId();
-            HSLog.d("AP-ScreenFlash", "defaultThemeID : " + selectedThemeId);
-            ThemePreviewView.saveThemeApplys(selectedThemeId);
-            ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, selectedThemeId);
-        }
-
-        mRecyclerViewData.clear();
-        mRecyclerViewData.addAll(Theme.themes());
-
-        // TODO task on application create?
-        String[] likeThemes = getThemeLikes();
-        final int count = mRecyclerViewData.size();
-        for (int i = 0; i < count; i++) {
-            final Theme theme = mRecyclerViewData.get(i);
-            // Like ?
-            boolean isLike = isLikeTheme(likeThemes, theme.getValue());
-            if (isLike) {
-                theme.setDownload(theme.getDownload() + 1);
-            }
-            theme.setLike(isLike);
-            // Selected ?
-            if (theme.getId() == selectedThemeId) {
-                theme.setSelected(true);
-            }
-        }
-
-        Collections.sort(mRecyclerViewData, new Comparator<Theme>() {
-            @Override
-            public int compare(Theme o1, Theme o2) {
-                return o1.getIndex() - o2.getIndex();
-            }
-        });
-
-        final List<Theme> bgThemes = new ArrayList<>(mRecyclerViewData);
-        final int idDefault = selectedThemeId;
-        Threads.postOnThreadPoolExecutor(new Runnable() {
-            @Override
-            public void run() {
-                boolean needPreload  = false;
-                for (Theme theme : bgThemes) {
-                    if (theme.isMedia() && !TasksManager.getImpl().checkTaskExist(theme)) {
-                        TasksManager.getImpl().addTask(theme);
-                        if (applyDefaultTheme && theme.getId() == idDefault) {
-                            needPreload = true;
-                        }
-                    }
-                }
-                if (needPreload
-                        && idDefault != Utils.localThemeId) {
-                    Threads.postOnMainThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            prepareThemeMediaFile(idDefault);
-                        }
-                    });
-                }
-
-                Threads.postOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (Ap.RandomTheme.enable()
-                                && TasksManager.getImpl().isReady()) {
-                            RandomTheme.getInstance().prepareNextTheme();
-                        }
-                    }
-                });
-            }
-        });
-
-    }
-
-    private void prepareThemeMediaFile(int idDefault) {
-        HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "prepareThemeMediaFile");
-        TasksManagerModel model = TasksManager.getImpl().getByThemeId(idDefault);
-        TasksManager.doDownload(model, null);
-    }
-
-    private boolean isLikeTheme(String[] likeThemes, int themeId) {
-        for (String likeThemeId : likeThemes) {
-            if (TextUtils.isEmpty(likeThemeId)) {
-                continue;
-            }
-            if (themeId == Integer.parseInt(likeThemeId)) {
-                return true;
-            }
-        }
-        return false;
+        mThemeList.fillData(mRecyclerViewData);
     }
 
     private void initRecyclerView() {

@@ -43,7 +43,6 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
@@ -57,6 +56,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -300,13 +300,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             return;
         }
         StringBuilder sb = new StringBuilder(4);
-        String pre = HSPreferenceHelper.getDefault().getString(ColorPhoneActivity.PREFS_THEME_APPLY, "");
+        String pre = HSPreferenceHelper.getDefault().getString(ThemeList.PREFS_THEME_APPLY, "");
         sb.append(pre).append(themeId).append(",");
-        HSPreferenceHelper.getDefault().putString(ColorPhoneActivity.PREFS_THEME_APPLY, sb.toString());
+        HSPreferenceHelper.getDefault().putString(ThemeList.PREFS_THEME_APPLY, sb.toString());
     }
 
     public static boolean isThemeAppliedEver(int themeId) {
-        String[] themes = HSPreferenceHelper.getDefault().getString(ColorPhoneActivity.PREFS_THEME_APPLY, "").split(",");
+        String[] themes = HSPreferenceHelper.getDefault().getString(ThemeList.PREFS_THEME_APPLY, "").split(",");
         for (String theme : themes) {
             if (TextUtils.isEmpty(theme)) {
                 continue;

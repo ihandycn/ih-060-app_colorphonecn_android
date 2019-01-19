@@ -50,6 +50,7 @@ import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
@@ -194,7 +195,6 @@ public class ColorPhoneApplication extends HSApplication {
         public void onReceive(Context context, Intent intent) {
             updateCallFinishFullScreenAdPlacement();
             AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
-            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
@@ -318,7 +318,7 @@ public class ColorPhoneApplication extends HSApplication {
         // Only restore tasks here.
         TasksManager.getImpl().init();
         Theme.updateThemes();
-
+        ThemeList.updateThemes(true);
 
         registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
         AcbAds.getInstance().initializeFromGoldenEye(this);
