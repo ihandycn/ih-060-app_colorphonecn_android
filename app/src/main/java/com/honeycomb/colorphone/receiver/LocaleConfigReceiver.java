@@ -13,6 +13,6 @@ import com.honeycomb.colorphone.Theme;
 public class LocaleConfigReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Theme.updateThemes();
+        Theme.updateThemesTotally();
     }
 }

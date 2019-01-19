@@ -84,8 +84,21 @@ public class Theme extends Type {
         return themes;
     }
 
-    public static void updateThemes() {
+    /**
+     *  Base type of theme info has changed.
+     * (Language change,or Remote config that define themes has changed)
+     *
+     * Reload theme info from config file.
+     */
+    public static void updateThemesTotally() {
         updateTypes();
+
+        themes.clear();
+        updateThemes();
+    }
+
+    public static void updateThemes() {
+        final ArrayList<Theme> oldThemes = new ArrayList<>(themes);
         themes.clear();
 
         ArrayList<Type> types = Type.values();
@@ -108,12 +121,32 @@ public class Theme extends Type {
             themes.add((Theme) type);
         }
 
-        // TODO only notify when data really changed
-        HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+        boolean isThemeChanged = isThemeChanged(themes, oldThemes);
+        if (isThemeChanged) {
+            HSLog.d("Theme list changed");
+            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+        }
 
         if (DEBUG_THEME_CHANGE) {
             mTestHandler.postDelayed(sTestRunnable, 8000);
         }
+    }
+
+    private static boolean isThemeChanged(ArrayList<Theme> themes, ArrayList<Theme> oldThemes) {
+        if (themes.size() != oldThemes.size()) {
+            return true;
+        }
+        final int size = themes.size();
+        for (int i = 0; i < size; i++) {
+            Theme t = themes.get(i);
+            Theme t2 = oldThemes.get(i);
+            if (t.getId() != t2.getId()
+                    || !TextUtils.equals(t.getName(), t2.getName())
+                    || !TextUtils.equals(t.getMp4Url(), t2.getMp4Url())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public long getDownload() {

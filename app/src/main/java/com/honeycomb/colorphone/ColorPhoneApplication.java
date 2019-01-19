@@ -161,7 +161,7 @@ public class ColorPhoneApplication extends HSApplication {
             } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
-                Theme.updateThemes();
+                Theme.updateThemesTotally();
                 initNotificationToolbar();
                 ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
 
