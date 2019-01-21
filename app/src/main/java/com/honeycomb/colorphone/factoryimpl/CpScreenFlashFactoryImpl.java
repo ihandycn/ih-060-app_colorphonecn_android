@@ -392,6 +392,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             }
 
             public boolean useNewPermissionUI() {
+                HSLog.i("PermissionNewUI", "useNewPermissionUI == " + PermissionTestUtils.getAlertStyle());
                 return PermissionTestUtils.getAlertStyle();
             }
 

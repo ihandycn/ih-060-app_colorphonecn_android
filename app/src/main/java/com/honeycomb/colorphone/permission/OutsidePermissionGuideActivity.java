@@ -61,6 +61,13 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
                 finish();
             }
         });
+
+        findViewById(R.id.request_permission_later).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         TextView enableBtn = findViewById(R.id.request_permission_action);
         enableBtn.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
         enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff3487ff,

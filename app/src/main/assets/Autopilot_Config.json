@@ -1203,6 +1203,39 @@
         },
         {
           "name": "colorphone_permissionguide_notificationaccess_allow_success_outsideapp"
+        },
+        {
+          "name": "colorphone_permission_check_above23_phone"
+        },
+        {
+          "name": "colorphone_permission_check_above23_phonecontact"
+        },
+        {
+          "name": "colorphone_permission_check_above23_phonecontactna"
+        },
+        {
+          "name": "colorphone_permission_check_above23_phonena"
+        },
+        {
+          "name": "colorphone_permission_check_above23_firstalert"
+        },
+        {
+          "name": "colorphone_permission_check_above23_secondalert"
+        },
+        {
+          "name": "colorphone_permission_check_above23_thirdalert"
+        },
+        {
+          "name": "colorphone_permission_check_above23_contact"
+        },
+        {
+          "name": "colorphone_permission_check_above23_contactna"
+        },
+        {
+          "name": "colorphone_permission_check_above23_na"
+        },
+        {
+          "name": "colorphone_permission_check_above23_none"
         }
       ],
       "topic_id": "topic-6z2dn7nbq"
@@ -1618,7 +1651,8 @@
   },
   "autopilot_id": 10000,
   "service_url": "https://ap.appcloudbox.net",
-  "json_id": "791302b1-f6a9-4dab-a1e0-b447f7edf301",
+  "other_app_events": [],
+  "json_id": "9d576b8b-d46c-4648-a765-6b53145378e8",
   "autopilot_name": "Color Phone",
   "autopilot_type": "app"
 }

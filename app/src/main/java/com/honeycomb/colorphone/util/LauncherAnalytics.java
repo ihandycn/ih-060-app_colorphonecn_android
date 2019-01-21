@@ -29,7 +29,7 @@ public class LauncherAnalytics {
     public static void logEvent(String eventID, String... vars) {
         logEvent(eventID, FLAG_LOG_FABRIC | FLAG_LOG_FLURRY, vars);
     }
-    
+
     public static void logEvent(boolean onlyFabric, String eventID, String... vars) {
         int flag = FLAG_LOG_FABRIC;
         if (!onlyFabric) {
