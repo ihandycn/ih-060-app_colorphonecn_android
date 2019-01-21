@@ -51,7 +51,7 @@ public class PushManager {
             if (PushMgr.HS_NOTIFICATION_PUSH_MSG_RECEIVED.equals(eventName)) {
                 try {
                     Intent intent = (Intent) hsBundle.getObject(PushMgr.HS_NOTIFICATION_PUSH_MSG_RECEIVED_PARAM_MSG_INTENT);
-                    LauncherAnalytics.logEvent("Flashlight_Push_Receive", LauncherAnalytics.FLAG_LOG_FABRIC);
+                    LauncherAnalytics.logEvent("ColorPhone_Push_Receive", LauncherAnalytics.FLAG_LOG_FABRIC);
                     String msg = intent.getStringExtra("msg");
                     HSLog.d(TAG, "Receive message : " + msg);
                 } catch (Exception e) {
@@ -110,6 +110,7 @@ public class PushManager {
     }
 
     private void request() {
+        LauncherAnalytics.logEvent("ColorPhone_Push_Request", LauncherAnalytics.FLAG_LOG_FABRIC, "Enable", String.valueOf(mKaEnable));
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
