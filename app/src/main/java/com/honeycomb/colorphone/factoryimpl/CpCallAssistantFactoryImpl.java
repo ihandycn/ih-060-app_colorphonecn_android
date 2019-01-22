@@ -120,6 +120,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         return new CallIdleAlert.FlurryEvent() {
 
             private long mTimeReadyToShow;
+            private boolean[] isADShown = {false};
             final Runnable mDisplayTimeoutRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -197,9 +198,11 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinished() {
+                isADShown[0] = false;
+                HSLog.i("PermissionNewUI", "onCallFinished ");
                 CallFinishUtils.logCallFinish();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
-                OutsidePermissionGuideActivity.start(HSApplication.getContext());
+
                 if (PermissionTestUtils.getAlertOutSideApp()
                         && Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
                         && (ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
@@ -207,15 +210,20 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                             && (!Permissions.hasPermission(Manifest.permission.READ_CONTACTS)
                                 || !Permissions.isNotificationAccessGranted()))) {
                     Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(() ->
-                        OutsidePermissionGuideActivity.start(HSApplication.getContext()),
+                            Threads.postOnMainThreadDelayed(() -> {
+                                if (!isADShown[0]) {
+                                    OutsidePermissionGuideActivity.start(HSApplication.getContext());
+                                }
+                            }, 1000),
                             "alert_show_maxtime", PermissionTestUtils.getAlertShowMaxTime());
-
                 }
             }
 
             @Override
             public void onAdShow(int callType) {
                 super.onAdShow(callType);
+                HSLog.i("PermissionNewUI", "onAdShow");
+                isADShown[0] = true;
                 HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
             }
 
@@ -239,6 +247,9 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 if (Utils.isNewUser()) {
                     LauncherAnalytics.logEvent("ColorPhone_CallFinishWire_Show");
                 }
+                HSLog.i("PermissionNewUI", "onFullScreenAdShow");
+                isADShown[0] = true;
+                HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
             }
         };
     }
