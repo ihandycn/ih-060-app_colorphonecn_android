@@ -72,7 +72,7 @@ public class RandomTheme {
         int cuIndex = getCurThemeIndex();
         for (int i = cuIndex; i >= 0; i--) {
             Theme theme = getTheme(i);
-            if (isThemeReady(theme)) {
+            if (theme != null && isThemeReady(theme)) {
                 return theme;
             }
         }
