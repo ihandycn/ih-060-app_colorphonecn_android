@@ -369,10 +369,17 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
     @Override
     public void logEvent(boolean onlyFabric, String eventID, String... vars) {
-        LauncherAnalytics.logEvent(onlyFabric, eventID, vars);
-        if ("Acb_Screenflash_Show".equalsIgnoreCase(eventID)) {
-//            Ap.ScreenFlash.onScreenFlashShow();
-        } else if ("Acb_ScreenFlash_AcceptFail_Reject".equalsIgnoreCase(eventID)) {
+        if ("Acb_ScreenFlash_Accept_Notification".equalsIgnoreCase(eventID)) {
+            String[] expandVars = new String[vars.length + 2];
+            System.arraycopy(vars, 0, expandVars, 0, vars.length);
+            expandVars[vars.length] = "NaService";
+            expandVars[vars.length + 1] = NotificationServiceV18.inServiceRunning + "";
+            LauncherAnalytics.logEvent(onlyFabric, eventID, expandVars);
+        } else {
+            LauncherAnalytics.logEvent(onlyFabric, eventID, vars);
+        }
+
+        if ("Acb_ScreenFlash_AcceptFail_Reject".equalsIgnoreCase(eventID)) {
             logExceptionAcceptFailTurn();
         } else if ("Acb_ScreenFlash_AcceptFail_TimeOut".equalsIgnoreCase(eventID)) {
             logExceptionAcceptFailTimeout();

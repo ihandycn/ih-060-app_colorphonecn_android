@@ -5,11 +5,13 @@ import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
+import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSMapUtils;
+import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
@@ -127,6 +129,9 @@ public class ScreenFlashInit extends AppMainInit {
             }
         });
         ScreenFlashManager.getInstance().logTest = true;
+        if (Permissions.isNotificationAccessGranted()) {
+            NotificationServiceV18.ensureCollectorRunning(application.getApplicationContext());
+        }
 
     }
 }
