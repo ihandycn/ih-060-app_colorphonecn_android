@@ -199,6 +199,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onCallFinished() {
                 CallFinishUtils.logCallFinish();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
+                OutsidePermissionGuideActivity.start(HSApplication.getContext());
                 if (PermissionTestUtils.getAlertOutSideApp()
                         && Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
                         && (ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
@@ -215,6 +216,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onAdShow(int callType) {
                 super.onAdShow(callType);
+                HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
             }
 
             @Override

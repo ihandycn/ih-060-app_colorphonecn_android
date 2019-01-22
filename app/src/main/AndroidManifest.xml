@@ -491,7 +491,8 @@
         </activity>
         <activity android:name=".cashcenter.OuterCashGuideActivity" />
         <activity android:name=".cashcenter.InnerCashGuideActivity" />
-        <activity android:name=".permission.OutsidePermissionGuideActivity"/>
+        <activity android:name=".permission.OutsidePermissionGuideActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"/>
 
         <!--&lt;!&ndash;===== Dialer Module =====&ndash;&gt;-->
 

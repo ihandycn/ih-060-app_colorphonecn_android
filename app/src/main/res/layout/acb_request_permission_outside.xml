@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CC000000">
+    android:background="#B3000000">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/content_view"
@@ -55,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/outside_permission_image"
-            app:typeface="@string/proxima_nova_bold" />
+            app:typefaceFileName="ProximaNova-Bold.otf" />
 
         <com.superapps.view.TypefacedTextView
             android:id="@+id/outside_permission_description"
@@ -68,7 +68,7 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/outside_permission_title"
-            app:typeface="@string/proxima_nova_semibold" />
+            app:typefaceFileName="ProximaNova-Semibold.otf" />
 
         <com.superapps.view.TypefacedTextView
             android:id="@+id/request_permission_action"
@@ -83,7 +83,7 @@
             android:layout_marginRight="24dp"
             android:layout_marginEnd="24dp"
             android:gravity="center"
-            app:typeface="@string/proxima_nova_bold"
+            app:typefaceFileName="ProximaNova-Bold.otf"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/outside_permission_description" />
@@ -100,7 +100,7 @@
             android:layout_marginRight="24dp"
             android:layout_marginEnd="24dp"
             android:gravity="center"
-            app:typeface="@string/proxima_nova_bold"
+            app:typefaceFileName="ProximaNova-Bold.otf"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -125,7 +125,7 @@
             android:textColor="@android:color/white"
             android:textSize="19sp"
             android:alpha="0.6"
-            app:typeface="@string/proxima_nova_semibold"/>
+            app:typefaceFileName="ProximaNova-Semibold.otf" />
 
         <Space
             android:layout_width="0dp"
@@ -136,10 +136,9 @@
             android:id="@+id/close_button"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:padding="5dp"
             android:layout_marginEnd="6dp"
             android:layout_marginRight="6dp"
-            android:src="@drawable/acb_phone_alert_call_close"/>
+            android:src="@drawable/close_button"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

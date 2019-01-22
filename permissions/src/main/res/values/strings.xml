@@ -3,6 +3,7 @@
 
     <!--notification access TODO i18n from Colorphone -->
     <string name="acb_phone_grant_notification_access_title">Enable Notifications Access to Answer Calls</string>
+    <string name="acb_phone_grant_autostart_access_title">Enable AutoStart to Show Call Flash</string>
     <string name="draw_overlay_window_hint">Enable Drawing Over Other Apps to Show Screen Flash</string>
     <!--Permission toast TODO i18n from launcher-->
     <string name="permission_request_failed_message">Failed to grant access</string>

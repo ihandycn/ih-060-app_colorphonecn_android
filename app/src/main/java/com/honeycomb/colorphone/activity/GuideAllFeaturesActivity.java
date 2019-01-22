@@ -185,9 +185,6 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         onPermissionsGranted(requestCode, granted);
         onPermissionsDenied(requestCode, denied);
 
-//        if (PermissionHelper.requestDrawOverlayIfNeeded(EventSource.FirstScreen)) {
-//            PermissionHelper.waitOverlayGranted(EventSource.FirstScreen, true);
-//        } else {
         if (!ingoreNotificationPermission) {
             PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
         }
