@@ -642,40 +642,16 @@ public final class Utils {
         return (type == -1 || networkInfo.getType() == type) && networkInfo.isConnected();
     }
 
-
-    public static void copyAssetFileTo(Context context, String assetFileName, File targetFile) {
+    public static void copyAssetFileTo(Context context, String assetFileName, File targetFile) throws IOException {
         if(context != null) {
-            InputStream myInput = null;
-            FileOutputStream myOutput = null;
-
-            try {
-                myOutput = new FileOutputStream(targetFile);
-                myInput = context.getAssets().open(assetFileName);
+            try (InputStream myInput = context.getAssets().open(assetFileName);
+                 FileOutputStream myOutput = new FileOutputStream(targetFile)) {
                 byte[] ignore = new byte[1024];
 
-                for(int length = myInput.read(ignore); length > 0; length = myInput.read(ignore)) {
+                for (int length = myInput.read(ignore); length > 0; length = myInput.read(ignore)) {
                     myOutput.write(ignore, 0, length);
                 }
-            } catch (Exception var15) {
-                var15.printStackTrace();
-            } finally {
-                try {
-                    if(myOutput != null) {
-                        myOutput.flush();
-                    }
-
-                    if(myInput != null) {
-                        myInput.close();
-                    }
-
-                    if(myOutput != null) {
-                        myOutput.close();
-                    }
-                } catch (IOException ignore) {
-                }
-
             }
-
         }
     }
 

@@ -430,9 +430,8 @@ public class ColorPhoneApplication extends HSApplication {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            if (file.isFile() && file.exists()) {
-                file.delete();
-            }
+            boolean result = file.delete();
+            HSLog.d("CopyFile", fileName + " deleted " + result);
         }
     }
 
