@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone;
 
+import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.NetUtils;
 

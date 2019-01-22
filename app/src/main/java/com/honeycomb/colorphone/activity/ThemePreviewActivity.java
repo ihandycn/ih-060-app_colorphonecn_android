@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
+import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -33,6 +35,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_DOWNLOAD = "notify_theme_download";
     public static final String NOTIFY_THEME_KEY = "notify_theme_select_key";
     public static final String NOTIFY_CONTEXT_KEY = "notify_theme_context_key";
+    public static final String FROM_MAIN = "notify_theme_context_key";
 
     private Theme mTheme;
     private ArrayList<Theme> mThemes = new ArrayList<>();
@@ -45,8 +48,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private int lastPos = -1;
 
     public static void start(Context context, int position) {
+        start(context, position, FROM_MAIN);
+    }
+    public static void start(Context context, int position, String from) {
         Intent starter = new Intent(context, ThemePreviewActivity.class);
         starter.putExtra("position", position);
+        starter.putExtra("from", from);
         if (context instanceof Activity) {
             ((Activity)context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
         }
@@ -69,6 +76,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         super.onCreate(savedInstanceState);
         mThemes.addAll(getThemes());
         int pos = getIntent().getIntExtra("position", 0);
+        String from = getIntent().getStringExtra("from");
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
         setContentView(R.layout.activity_theme_preview);
@@ -112,19 +120,27 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         if (mTheme.isLocked()) {
             LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
-        if (ConfigSettings.showAdOnDetailView()) {
+        if (ConfigSettings.showAdOnDetailView() && TextUtils.equals(from, FROM_MAIN)) {
             AdManager.getInstance().preload();
             Threads.postOnMainThreadDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Ap.DetailAd.logEvent("colorphone_themedetail_ad_should_show");
+                    if (!ThemeGuide.isFromThemeGuide()) {
+                        Ap.DetailAd.logEvent("colorphone_themedetail_ad_should_show");
+                    }
                     boolean show = AdManager.getInstance().showInterstitialAd();
                     if (show) {
-                        Ap.DetailAd.logEvent("colorphone_themedetail_ad_show");
+                        if (!ThemeGuide.isFromThemeGuide()) {
+                            Ap.DetailAd.logEvent("colorphone_themedetail_ad_show");
+                        }
+                        if (ThemeGuide.isFromThemeGuide()) {
+                            LauncherAnalytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
+                        }
                     }
                 }
             }, 200);
         }
+        ThemeGuide.logThemeDetailShow();
     }
 
 

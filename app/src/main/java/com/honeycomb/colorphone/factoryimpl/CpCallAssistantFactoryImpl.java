@@ -9,6 +9,7 @@ import android.database.ContentObserver;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
+import android.view.View;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
@@ -29,6 +30,7 @@ import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.permission.OutsidePermissionGuideActivity;
+import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
@@ -251,6 +253,10 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 isADShown[0] = true;
                 HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
             }
+
+            @Override public void onInsteadViewShown(View view) {
+                ThemeGuide.parser(view);
+            }
         };
     }
 
@@ -418,6 +424,10 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
         @Override public int getAdRefreshInterval() {
             return super.getAdRefreshInterval();
+        }
+
+        @Override public int getInsteadLayoutID() {
+            return ThemeGuide.getInsteadLayoutID();
         }
     }
 

@@ -166,6 +166,7 @@ public class ColorPhoneApplication extends HSApplication {
                 ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
 
                 CrashGuard.updateIgnoredCrashes();
+                PushManager.getInstance().onConfigChanged();
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
@@ -228,6 +229,7 @@ public class ColorPhoneApplication extends HSApplication {
         String processName = getProcessName();
         if (TextUtils.equals(processName, packageName)) {
             onMainProcessCreate();
+
         }
 
         if (processName.endsWith(":work")) {
@@ -315,6 +317,9 @@ public class ColorPhoneApplication extends HSApplication {
                 appInit.onInit(this);
             }
         }
+
+        PushManager.getInstance().init();
+
         // Only restore tasks here.
         TasksManager.getImpl().init();
         Theme.updateThemes();

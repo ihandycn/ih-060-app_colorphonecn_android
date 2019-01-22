@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.ad;
 
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.themeselector.ThemeGuideTest;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -48,6 +49,11 @@ public class AdManager {
         if (!mEnable) {
             return;
         }
+
+        if (!ADAutoPilotUtils.canShowThemeWireADThisTime()) {
+            return;
+        }
+
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(getInterstitialAdPlacementName());
         AcbInterstitialAdManager.preload(1, getInterstitialAdPlacementName());
     }
@@ -107,7 +113,9 @@ public class AdManager {
             if (Utils.isNewUser()) {
                 LauncherAnalytics.logEvent("ColorPhone_ThemeWire_Show");
             }
+            LauncherAnalytics.logEvent("ColorPhone_ThemeWireAd_Show");
             ADAutoPilotUtils.logThemeWireShow();
+            ThemeGuideTest.logThemewireADShow();
             ADAutoPilotUtils.recordShowThemeWireCount();
             return true;
         }

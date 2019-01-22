@@ -49,7 +49,7 @@ android {
         colorflash {
             dimension "mode"
             applicationId "com.app.phone.call.flash.screen"
-            versionCode 39
+            versionCode 40
             versionName "1.1.5"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
                     'src/colorflash/proguard-rules.pro'
@@ -149,6 +149,8 @@ dependencies {
             "com.google.android.gms:play-services-gcm:$GOOGLE_PLAY_SERVICES_VERSION".toString(),
             "com.google.android.gms:play-services-ads:$GOOGLE_PLAY_SERVICES_VERSION".toString(),
 
+            'com.google.firebase:firebase-core:16.0.3',
+            'com.google.firebase:firebase-messaging:17.3.0',
 //            USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.5.0.+"
 //                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.0.gm",
             "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.1.gm",
@@ -163,8 +165,8 @@ dependencies {
 
     final  COMMON_COLORFLASH = [
             USE_BETA_ACB_LIBS ?
-                    'com.ihandy.appframework:libAppframework.beta:4.8.5.+' :
-                    'com.ihandy.appframework:libAppframework.gm:4.8.5.gm',
+                    'com.ihandy.appframework:libAppframework.beta:4.9.0.+' :
+                    'com.ihandy.appframework:libAppframework.gm:4.9.0.gm',
     ]
 
 
@@ -216,3 +218,6 @@ dependencies {
     colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2019.01.15.001'
 
 }
+
+// ADD THIS AT THE BOTTOM
+apply plugin: 'com.google.gms.google-services'
