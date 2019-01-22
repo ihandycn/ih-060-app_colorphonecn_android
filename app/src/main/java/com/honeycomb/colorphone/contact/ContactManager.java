@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.contact;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,7 +14,11 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 
 import java.lang.ref.WeakReference;
@@ -44,14 +49,30 @@ public class ContactManager {
 
     public static void init() {
         INSTANCE = new ContactManager();
-        INSTANCE.update();
+        boolean success = INSTANCE.update();
+        if (!success) {
+            HSGlobalNotificationCenter.addObserver(RuntimePermissions.NOTIFY_PERMISSION_GRANTED, new INotificationObserver() {
+                @Override
+                public void onReceive(String s, HSBundle hsBundle) {
+                    String permName = hsBundle.getString(RuntimePermissions.NOTIFY_EXTRA_PERMISSION_NAME);
+                    if (Manifest.permission.READ_CONTACTS.equals(permName)) {
+                        INSTANCE.update();
+                    }
+                }
+            });
+        }
     }
 
     public static ContactManager getInstance() {
         return INSTANCE;
     }
 
-    public void update() {
+    public boolean update() {
+        boolean hasContactPerm = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_CONTACTS)
+                == RuntimePermissions.PERMISSION_GRANTED;
+        if (!hasContactPerm) {
+            return false;
+        }
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
@@ -64,6 +85,7 @@ public class ContactManager {
                 needFilterTheme = true;
             }
         });
+        return true;
     }
 
     public List<SimpleContact> getThemes(boolean onlyThemeSet) {
