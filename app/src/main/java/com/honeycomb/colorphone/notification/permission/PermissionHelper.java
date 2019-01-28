@@ -11,6 +11,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.acb.colorphone.permissions.AutoStartGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.utils.Utils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
@@ -61,6 +62,13 @@ public class PermissionHelper {
         return false;
     }
 
+    public static boolean requestAutoStartIfNeeded(@Nullable Activity sourceActivity) {
+        Permissions.requestAutoStartPermission(sourceActivity);
+        Threads.postOnMainThreadDelayed(() -> {
+            Navigations.startActivity(HSApplication.getContext(), AutoStartGuideActivity.class);
+        }, 1000);
+        return true;
+    }
 
     private static ContentObserver startObservingNotificationPermission(final Runnable grantPermissionRunnable) {
 
