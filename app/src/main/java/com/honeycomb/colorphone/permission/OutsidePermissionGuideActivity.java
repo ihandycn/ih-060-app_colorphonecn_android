@@ -12,10 +12,10 @@ import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.utils.PermissionHelper;
+import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.utils.FontUtils;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
@@ -81,7 +81,7 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
                 } else {
                     PermissionHelper.requestNotificationAccessIfNeeded(RequestPermissionsActivity.class);
                     Threads.postOnMainThreadDelayed(() -> {
-                        Intent intent = new Intent(OutsidePermissionGuideActivity.this, NotificationAccessGuideAlertActivity.class);
+                        Intent intent = new Intent(OutsidePermissionGuideActivity.this, NotificationGuideActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Navigations.startActivitySafely(OutsidePermissionGuideActivity.this, intent);
                     }, 1000);
