@@ -366,13 +366,13 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 if (CommonUtils.ATLEAST_MARSHMALLOW) {
                     switch (launchTime) {
                         case 0:
-                            logPermissionGuideShowEvent("ColorPhone_Permission_Check_Above23_FirstAlert");
+                            PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_FirstAlert");
                             break;
                         case 1:
-                            logPermissionGuideShowEvent("ColorPhone_Permission_Check_Above23_SecondAlert");
+                            PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_SecondAlert");
                             break;
                         case 2:
-                            logPermissionGuideShowEvent("ColorPhone_Permission_Check_Above23_ThirdAlert");
+                            PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_ThirdAlert");
                             break;
                     }
                 }
