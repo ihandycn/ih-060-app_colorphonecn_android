@@ -9,4 +9,5 @@
   <string name="acb_phone_grant_notification_access_title">通話に応答する通知アクセスを有効にする</string>
   <!-- TODO: string name="draw_overlay_window_hint" -->
   <string name="phone_contact_permission_settings_guide_title">"許可"を選択して"電話"、"連絡先"を有効にします</string>
+  <string name="acb_phone_grant_autostart_access_title">AutoStart を有効にして呼び出しフラッシュを表示する</string>
 </resources>

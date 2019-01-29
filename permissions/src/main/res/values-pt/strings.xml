@@ -9,4 +9,5 @@
   <string name="acb_phone_grant_notification_access_title">Ative o acesso às notificações para atender chamadas</string>
   <!-- TODO: string name="draw_overlay_window_hint" -->
   <string name="phone_contact_permission_settings_guide_title">Selecione “Permissões” e ative “Telefone”, “Contatos”</string>
+  <string name="acb_phone_grant_autostart_access_title">Ative o início automático para mostrar as animações das chamadas</string>
 </resources>
