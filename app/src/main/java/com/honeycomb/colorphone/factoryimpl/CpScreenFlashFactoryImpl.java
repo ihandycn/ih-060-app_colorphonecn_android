@@ -255,14 +255,15 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                     LauncherAnalytics.logEvent("ColorPhone_PermissionGuide_View_show");
                 }
 
-                switch (launchTime) {
-                    case 0:
+                int count = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("PermissionGuideShow");
+                switch (count) {
+                    case 1:
                         PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Firsttime");
                         break;
-                    case 1:
+                    case 2:
                         PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Secondtime");
                         break;
-                    case 2:
+                    case 3:
                         PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Thirdtime");
                         break;
                 }
