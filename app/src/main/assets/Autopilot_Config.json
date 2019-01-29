@@ -1144,7 +1144,7 @@
         },
         "tittle_customizealert": {
           "type": "string",
-          "value": "Text1"
+          "value": "text2"
         },
         "alert_show_maxtime": {
           "type": "double",
@@ -1652,7 +1652,7 @@
   "autopilot_id": 10000,
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "9d576b8b-d46c-4648-a765-6b53145378e8",
+  "json_id": "86ddddd7-fc87-40c6-9fad-e39a11a4f236",
   "autopilot_name": "Color Phone",
   "autopilot_type": "app"
 }
