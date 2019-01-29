@@ -78,10 +78,13 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
                 ModuleUtils.setAllModuleUserEnable();
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
                 } else {
-                    PermissionHelper.requestNotificationAccessIfNeeded(RequestPermissionsActivity.class);
+                    PermissionHelper.requestNotificationPermission(RequestPermissionsActivity.class, () -> {
+                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_NotificationAccess_Allow_Success_OutSideApp");
+                    });
+                    PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_NotificationAccess_View_Show_OutSideApp");
+
                     Threads.postOnMainThreadDelayed(() -> {
                         Intent intent = new Intent(OutsidePermissionGuideActivity.this, NotificationGuideActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Navigations.startActivitySafely(OutsidePermissionGuideActivity.this, intent);
                     }, 1000);
 
@@ -143,6 +146,11 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
                 PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_NotificationAccess_Allow_Success_OutSideApp");
             });
             PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_NotificationAccess_View_Show_OutSideApp");
+
+            Threads.postOnMainThreadDelayed(() -> {
+                Intent intent = new Intent(OutsidePermissionGuideActivity.this, NotificationGuideActivity.class);
+                Navigations.startActivitySafely(OutsidePermissionGuideActivity.this, intent);
+            }, 1000);
         }
         finish();
 
