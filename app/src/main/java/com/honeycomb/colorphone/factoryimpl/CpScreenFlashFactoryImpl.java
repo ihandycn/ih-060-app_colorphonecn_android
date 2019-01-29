@@ -236,6 +236,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 // No use.
                 // See #logScreenFlashPhoneAccessRequested
                 //     #logScreenFlashContactsAccessRequested
+                LauncherAnalytics.logEvent("ColorPhone_PermissionGuide_View_Click");
             }
 
             @Override
@@ -249,6 +250,22 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 launchTime = Preferences.get(Constants.DESKTOP_PREFS).getInt(PermissionChecker.CUSTOM_PERMISSION_ALERT, 0);
 
                 logPermissionGuideShowEvent("ColorPhone_Permission_Guide_Show_From_" + source);
+
+                if (PermissionTestUtils.getAlertStyle()) {
+                    LauncherAnalytics.logEvent("ColorPhone_PermissionGuide_View_show");
+                }
+
+                switch (launchTime) {
+                    case 0:
+                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Firsttime");
+                        break;
+                    case 1:
+                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Secondtime");
+                        break;
+                    case 2:
+                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Thirdtime");
+                        break;
+                }
             }
 
             private void logPermissionGuideShowEvent(String eventName) {
