@@ -211,13 +211,14 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                             && ScreenFlashSettings.isScreenFlashModuleEnabled()
                             && (!Permissions.hasPermission(Manifest.permission.READ_CONTACTS)
                                 || !Permissions.isNotificationAccessGranted()))) {
-                    Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(() ->
-                            Threads.postOnMainThreadDelayed(() -> {
-                                if (!isADShown[0]) {
-                                    OutsidePermissionGuideActivity.start(HSApplication.getContext());
-                                }
-                            }, 1000),
-                            "alert_show_maxtime", PermissionTestUtils.getAlertShowMaxTime());
+
+                    Threads.postOnMainThreadDelayed(() -> {
+                        if (!isADShown[0]) {
+                            Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(() ->
+                                    OutsidePermissionGuideActivity.start(HSApplication.getContext()),
+                                    "alert_show_maxtime", PermissionTestUtils.getAlertShowMaxTime());
+                        }
+                    }, 1000);
                 }
             }
 

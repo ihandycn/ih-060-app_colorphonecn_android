@@ -15,6 +15,7 @@ import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.utils.FontUtils;
 import com.call.assistant.util.CommonUtils;
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
@@ -27,6 +28,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 
@@ -171,6 +173,8 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(s, EVENT_DISMISS)) {
+            int times = Preferences.get(Constants.DESKTOP_PREFS).getInt("alert_show_maxtime", 0);
+            Preferences.get(Constants.DESKTOP_PREFS).putInt("alert_show_maxtime", --times);
             finish();
         }
     }
