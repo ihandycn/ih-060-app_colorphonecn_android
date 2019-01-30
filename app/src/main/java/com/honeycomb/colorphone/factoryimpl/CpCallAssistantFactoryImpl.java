@@ -117,12 +117,12 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         return isAcceptCallFailed && isEnabled && isAtValidTime && !Permissions.isNotificationAccessGranted() && !beyondMaxCount;
     }
 
+    private static volatile boolean isADShown = false;
     @Override
     public CallIdleAlert.Event getCallIdleEvent() {
         return new CallIdleAlert.FlurryEvent() {
 
             private long mTimeReadyToShow;
-            private boolean[] isADShown = {false};
             final Runnable mDisplayTimeoutRunnable = new Runnable() {
                 @Override
                 public void run() {
@@ -140,6 +140,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onShouldShow(int callType, boolean isLocked) {
+                isADShown = false;
                 mTimeReadyToShow = System.currentTimeMillis();
                 LauncherAnalytics.logEvent("CallFinished_View_Should_Show", "callType", getCallTypeStr(callType));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
@@ -200,8 +201,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinished() {
-                isADShown[0] = false;
-                HSLog.i("PermissionNewUI", "onCallFinished ");
                 CallFinishUtils.logCallFinish();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
 
@@ -213,20 +212,26 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                                 || !Permissions.isNotificationAccessGranted()))) {
 
                     Threads.postOnMainThreadDelayed(() -> {
-                        if (!isADShown[0]) {
+                        if (!isADShown) {
                             Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(() ->
                                     OutsidePermissionGuideActivity.start(HSApplication.getContext()),
                                     "alert_show_maxtime", PermissionTestUtils.getAlertShowMaxTime());
                         }
                     }, 1000);
+                } else {
+                    HSLog.i("PermissionNewUI", "outside enable: " + PermissionTestUtils.getAlertOutSideApp()
+                            + "  Phone: " + Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
+                            + "  sf enable: " + ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
+                            + "  setting: " + ScreenFlashSettings.isScreenFlashModuleEnabled()
+                            + "  permission: " + (!Permissions.hasPermission(Manifest.permission.READ_CONTACTS)
+                            || !Permissions.isNotificationAccessGranted()) );
                 }
             }
 
             @Override
             public void onAdShow(int callType) {
                 super.onAdShow(callType);
-                HSLog.i("PermissionNewUI", "onAdShow");
-                isADShown[0] = true;
+                isADShown = true;
                 HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
             }
 
@@ -250,8 +255,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 if (Utils.isNewUser()) {
                     LauncherAnalytics.logEvent("ColorPhone_CallFinishWire_Show");
                 }
-                HSLog.i("PermissionNewUI", "onFullScreenAdShow");
-                isADShown[0] = true;
+                isADShown = true;
                 HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
             }
 
