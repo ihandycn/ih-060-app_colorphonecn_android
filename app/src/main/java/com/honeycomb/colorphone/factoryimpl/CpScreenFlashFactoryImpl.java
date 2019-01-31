@@ -260,13 +260,13 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 int count = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("PermissionGuideShow");
                 switch (count) {
                     case 1:
-                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Firsttime");
+                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Firsttime", true);
                         break;
                     case 2:
-                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Secondtime");
+                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Secondtime", true);
                         break;
                     case 3:
-                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Thirdtime");
+                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Thirdtime", true);
                         break;
                 }
             }
@@ -368,13 +368,13 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 if (CommonUtils.ATLEAST_MARSHMALLOW) {
                     switch (launchTime) {
                         case 0:
-                            PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_FirstAlert");
+                            PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_FirstAlert", true);
                             break;
                         case 1:
-                            PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_SecondAlert");
+                            PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_SecondAlert", true);
                             break;
                         case 2:
-                            PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_ThirdAlert");
+                            PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_ThirdAlert", true);
                             break;
                     }
                 }
