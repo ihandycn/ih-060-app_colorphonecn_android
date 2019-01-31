@@ -237,7 +237,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 // See #logScreenFlashPhoneAccessRequested
                 //     #logScreenFlashContactsAccessRequested
                 if (PermissionTestUtils.getAlertStyle()) {
-                    LauncherAnalytics.logEvent("ColorPhone_PermissionGuide_View_Click");
+                    LauncherAnalytics.logEvent("ColorPhone_PermissionGuide_View_Click_New");
                 }
             }
 
@@ -254,7 +254,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 logPermissionGuideShowEvent("ColorPhone_Permission_Guide_Show_From_" + source);
 
                 if (PermissionTestUtils.getAlertStyle()) {
-                    LauncherAnalytics.logEvent("ColorPhone_PermissionGuide_View_show");
+                    LauncherAnalytics.logEvent("ColorPhone_PermissionGuide_View_show_New");
                 }
 
                 switch (launchTime) {
