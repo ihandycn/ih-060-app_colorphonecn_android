@@ -44,11 +44,11 @@ public class PermissionTestUtils {
         try {
             if (filter) {
                 if (functionVersion()) {
-                    LauncherAnalytics.logEvent(event, "type", getAlertStyle() ? "newUI" : "oldUI");
+                    LauncherAnalytics.logEvent(event + "_new", "type", getAlertStyle() ? "newUI" : "oldUI");
                 }
             } else {
                 if (getAlertStyle()) {
-                    LauncherAnalytics.logEvent(event);
+                    LauncherAnalytics.logEvent(event + "_new");
                 }
             }
 
@@ -56,7 +56,7 @@ public class PermissionTestUtils {
         } catch (Throwable e) {}
     }
 
-    private static boolean functionVersion() {
+    public static boolean functionVersion() {
         return HSApplication.getFirstLaunchInfo().appVersionCode >= 43;
     }
 }
