@@ -35,9 +35,11 @@ public class PermissionTestUtils {
             HSLog.w("PermissionTestUtils", "event is empty");
             return;
         }
-        getAlertOutSideApp();
+
         try {
-            LauncherAnalytics.logEvent(event);
+            if (getAlertStyle()) {
+                LauncherAnalytics.logEvent(event);
+            }
             AutopilotEvent.logTopicEvent(TEST_TOPIC_ID, event.toLowerCase());
         } catch (Throwable e) {}
     }
