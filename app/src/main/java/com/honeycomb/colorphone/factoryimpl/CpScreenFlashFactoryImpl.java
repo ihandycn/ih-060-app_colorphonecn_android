@@ -249,7 +249,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             @Override
             public void logScreenFlashAccessPageShowed(String source, String type) {
                 this.source = source;
-                launchTime = Preferences.get(Constants.DESKTOP_PREFS).getInt(PermissionChecker.CUSTOM_PERMISSION_ALERT, 0);
+                launchTime = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("PermissionGuideShow");
 
                 logPermissionGuideShowEvent("ColorPhone_Permission_Guide_Show_From_" + source);
 
@@ -257,8 +257,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                     LauncherAnalytics.logEvent("ColorPhone_PermissionGuide_View_show");
                 }
 
-                int count = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("PermissionGuideShow");
-                switch (count) {
+                switch (launchTime) {
                     case 1:
                         PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Firsttime", true);
                         break;
@@ -367,13 +366,13 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void logScreenFlashAccessAllOpenGuide() {
                 if (CommonUtils.ATLEAST_MARSHMALLOW) {
                     switch (launchTime) {
-                        case 0:
+                        case 1:
                             PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_FirstAlert", true);
                             break;
-                        case 1:
+                        case 2:
                             PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_SecondAlert", true);
                             break;
-                        case 2:
+                        case 3:
                             PermissionTestUtils.logPermissionEvent("ColorPhone_Permission_Check_Above23_ThirdAlert", true);
                             break;
                     }
