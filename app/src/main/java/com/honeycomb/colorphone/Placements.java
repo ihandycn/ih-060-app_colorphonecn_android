@@ -14,4 +14,6 @@ public class Placements {
 
     public static final String CABLE_DOWN = "CableDone";
     public static final String CABLE_WIRE = "CableWire";
+    public static final String TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME = "TriviaWire";
+    public static final String TRIVIA_TIP_NATIVE_AD_PLACEMENT_NAME = "TriviaDone";
 }

@@ -241,6 +241,30 @@
         {
           "name": "Luxurious",
           "key": "Luxurious"
+        },
+        {
+          "name": "Squares",
+          "key": "Squares"
+        },
+        {
+          "name": "Multicolor",
+          "key": "Multicolor"
+        },
+        {
+          "name": "Dog",
+          "key": "Dog"
+        },
+        {
+          "name": "Venom",
+          "key": "Venom"
+        },
+        {
+          "name": "Discoskull",
+          "key": "Discoskull"
+        },
+        {
+          "name": "Metalskull",
+          "key": "Metalskull"
         }
       ],
       "display_name": "\u7528\u6237\u9009\u62e9\u7684\u4e3b\u9898id",
@@ -302,6 +326,81 @@
     }
   ],
   "topics": {
+    "topic-707tmynvf": {
+      "topic_type": "life_time",
+      "topic_name": "TriviaTest",
+      "variations": {
+        "trivia_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "trivia_show_interval": {
+          "type": "double",
+          "value": 120
+        },
+        "trivia_show_maxtime": {
+          "type": "double",
+          "value": 4
+        },
+        "trivia_show_when_assistant_close": {
+          "type": "boolean",
+          "value": false
+        },
+        "trivia_show_when_unlock": {
+          "type": "boolean",
+          "value": false
+        },
+        "trivia_button_desc": {
+          "type": "string",
+          "value": "OK"
+        },
+        "apply_button_show_on_detail": {
+          "type": "boolean",
+          "value": false
+        },
+        "show_time_after_first_open": {
+          "type": "double",
+          "value": 2
+        },
+        "trivia_show_when_receive_push": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "trivia_show"
+        },
+        {
+          "name": "trivia_button_click"
+        },
+        {
+          "name": "trivia_detail_show"
+        },
+        {
+          "name": "trivia_detail_wire_should_show"
+        },
+        {
+          "name": "trivia_detail_wire_show"
+        },
+        {
+          "name": "trivia_detail_done_should_show"
+        },
+        {
+          "name": "trivia_detail_done_show"
+        },
+        {
+          "name": "trivia_detail_apply_btn_click"
+        },
+        {
+          "name": "trivia_should_show"
+        }
+      ],
+      "topic_id": "topic-707tmynvf"
+    },
     "topic-1511875453515": {
       "topic_type": "one_time",
       "topic_name": "Share Test",
@@ -1144,7 +1243,7 @@
         },
         "tittle_customizealert": {
           "type": "string",
-          "value": "Text1"
+          "value": "text2"
         },
         "alert_show_maxtime": {
           "type": "double",
@@ -1652,7 +1751,7 @@
   "autopilot_id": 10000,
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "9d576b8b-d46c-4648-a765-6b53145378e8",
+  "json_id": "aec86c00-b3ca-43e8-99f8-5110221eede4",
   "autopilot_name": "Color Phone",
   "autopilot_type": "app"
 }
