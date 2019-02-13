@@ -7,11 +7,13 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.colorphone.lock.ScreenStatusReceiver;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.app.push.impl.PushMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -66,17 +68,23 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
 
     private List<OnTipShowListener> mOnTipShowListeners = new ArrayList<>();
 
+    private static TriviaTip sTriviaTip;
 
-    public TriviaTip() {
+    public static TriviaTip getInstance() {
+        if (sTriviaTip == null) {
+            sTriviaTip = new TriviaTip();
+        }
+        return sTriviaTip;
+    }
+
+    private TriviaTip() {
         init();
     }
 
     public static boolean isModuleEnable() {
         boolean notDisableByUser = !Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_TRIVIA_TIP_DISABLE_CLICKED, false);
-//        boolean masterSwitch = HSConfig.optBoolean(false, "Application", "TriviaFact", "MasterSwitch");
-//        boolean defaultSwitch = HSConfig.optBoolean(false, "Application", "TriviaFact", "DefaultSwitch");
         return notDisableByUser
-                && laterThanMinVersionCode();
+                && Ap.TriviaTip.enable();
     }
 
     public static void cacheImagesFirstTime() {
@@ -89,10 +97,6 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         }
     }
 
-    public void updateConfig() {
-        mMaxShowTime = HSConfig.optInteger(3, "Application", "TriviaFact", "MaxShowTime");
-    }
-
     private void init() {
         mDataManager = new TriviaDataManager();
         addOnTipShowListeners(mDataManager);
@@ -103,6 +107,8 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         }
         HSGlobalNotificationCenter.addObserver(OccasionManager.NOTIFICATION_OCCASION_TARGET_SHOW, this);
         HSGlobalNotificationCenter.addObserver(OccasionManager.NOTIFICATION_HANDLE_OCCASION, this);
+        HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_PRESENT,this);
+        HSGlobalNotificationCenter.addObserver(PushMgr.HS_NOTIFICATION_PUSH_MSG_RECEIVED, this);
 
         mHandler = new PendingHandler(this);
         mMaxShowTime = HSConfig.optInteger(3, "Application", "TriviaFact", "MaxShowTime");
@@ -250,6 +256,12 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
             case OccasionManager.NOTIFICATION_HANDLE_OCCASION:
                 setFlag(FLAG_HANDLE_OCCASION, true);
                 break;
+            case ScreenStatusReceiver.NOTIFICATION_PRESENT:
+                onUnlock();
+                break;
+            case PushMgr.HS_NOTIFICATION_PUSH_MSG_RECEIVED:
+                onReceivePush();
+                break;
         }
     }
 
@@ -287,7 +299,7 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
     }
 
     public void onDestroy() {
-        HSLog.d("TriviaTip", "onDestroy");
+        HSLog.d(TAG, "onDestroy");
         HSGlobalNotificationCenter.removeObserver(this);
         mHandler.removeCallbacksAndMessages(null);
         mOnTipShowListeners.clear();
@@ -296,6 +308,38 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
 
     @Override
     public void onDismiss() {
+    }
+
+    public void onCallAlertClose() {
+        boolean enable = Ap.TriviaTip.enableWhenAssistantClose()
+                && isModuleEnable();
+        if (enable) {
+            show();
+        }
+    }
+
+    public void onUnlock() {
+        boolean enable = Ap.TriviaTip.enableWhenAssistantClose()
+                && isModuleEnable();
+        if (enable) {
+            show();
+        }
+    }
+
+    public void onReceivePush() {
+        boolean enable = Ap.TriviaTip.enableWhenAssistantClose()
+                && isModuleEnable()
+                && moreThanOneDay();
+        if (enable) {
+            show();
+        }
+    }
+
+    private boolean moreThanOneDay() {
+        long lastShowTime = Preferences.get(Constants.DESKTOP_PREFS).getLong(PREF_KEY_LAST_SHOW_TIME, -1);
+        boolean oneDayPast = System.currentTimeMillis() - lastShowTime >= DateUtils.DAY_IN_MILLIS;
+        HSLog.d(TAG, "moreThanOneDay ？ " + oneDayPast);
+        return oneDayPast;
     }
 
     private static class PendingHandler extends Handler {
