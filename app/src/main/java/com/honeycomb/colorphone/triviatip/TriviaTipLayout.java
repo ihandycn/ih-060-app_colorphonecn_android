@@ -490,7 +490,9 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
         switch (v.getId()) {
             case R.id.tip_bg:
                 showContent();
+                Ap.TriviaTip.logEvent("trivia_click");
                 LauncherAnalytics.logEvent("trivia_click","ClickRange", "OutBtn");
+
                 LauncherAnalytics.logEvent("Fact_Alert_Click_New", true, "ClickTimes", String.valueOf(mShowTime), "ClickRange", "OutBtn");
                 break;
             case R.id.tip_button:
@@ -498,7 +500,9 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
                 LauncherAnalytics.logEvent("trivia_button_click");
                 Ap.TriviaTip.logEvent("trivia_button_click");
 
+                Ap.TriviaTip.logEvent("trivia_click");
                 LauncherAnalytics.logEvent("trivia_click","ClickRange", "InBtn");
+
                 LauncherAnalytics.logEvent("Fact_Alert_Click_New", true, "ClickTimes", String.valueOf(mShowTime), "ClickRange", "InBtn");
                 break;
             case R.id.tip_disable:
