@@ -355,6 +355,25 @@ public class ContactManager {
         return themeId;
     }
 
+    public void setThemeIdByNumber(String number, int themeId) {
+        if (mThemeFilterContacts.isEmpty()) {
+            mThemeFilterContacts.addAll(fetchThemeContacts());
+            update();
+        } else {
+            updateFilterContactsIfNeeded();
+        }
+
+        for (SimpleContact contact : mThemeFilterContacts) {
+            if (isMatchPhoneNumber(contact, number)) {
+                contact.setThemeId(themeId);
+                List<ThemeEntry> entrys = ThemeEntry.valueOf(contact, ContactDBHelper.Action.INSERT);
+                ContactManager.getInstance().updateDb(entrys, null);
+                break;
+            }
+        }
+        return ;
+    }
+
     public synchronized void clearThemeStatus() {
         for (SimpleContact contact : mAllContacts) {
             contact.setSelected(false);

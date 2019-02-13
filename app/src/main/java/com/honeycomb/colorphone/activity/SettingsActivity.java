@@ -57,8 +57,7 @@ public class SettingsActivity extends HSAppCompatActivity {
             testView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    startActivity(new Intent(SettingsActivity.this, TestActivity.class));
-                    startActivity(new Intent(SettingsActivity.this, ThemeRecommendActivity.class));
+                    startActivity(new Intent(SettingsActivity.this, TestActivity.class));
                 }
             });
         }

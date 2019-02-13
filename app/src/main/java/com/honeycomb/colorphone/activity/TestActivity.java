@@ -15,6 +15,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.recentapp.SmartAssistantActivity;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 
@@ -81,5 +82,11 @@ public class TestActivity extends AppCompatActivity {
 
     public void checkFloatWindow(View view) {
         FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
+    }
+
+    public void themeRecommend(View view) {
+        String number = editText.getText().toString().trim();
+        ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(TextUtils.isEmpty(number) ? "13800138000" : number, "charging", "");
+        ThemeRecommendActivity.start(TestActivity.this, userInfo);
     }
 }
