@@ -11,6 +11,7 @@ import com.colorphone.lock.ScreenStatusReceiver;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.Placements;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.push.impl.PushMgr;
@@ -114,7 +115,7 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         mMaxShowTime = HSConfig.optInteger(3, "Application", "TriviaFact", "MaxShowTime");
     }
 
-    public void show() {
+    public boolean show() {
         boolean hasMessagePendingShow = mHandler.hasMessages(PendingHandler.PENDING_SHOW);
         if (hasFlag(FLAG_HANDLE_OCCASION) || hasMessagePendingShow) {
             HSLog.d(TAG, "Trivia tip can not show because pending occasion");
@@ -122,56 +123,58 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
                 mHandler.sendEmptyMessageDelayed(PendingHandler.PENDING_SHOW, 550);
             }
             setFlag(FLAG_HANDLE_OCCASION, false);
-            return;
+            return false;
         }
 
         if (hasFlag(FLAG_OCCASION_TARGET_SHOW)) {
             HSLog.d(TAG, "Trivia tip can not show because showing occasion target");
-            return;
+            return false;
         }
 
         if (hasFlag(FLAG_BOOST_TIP_SHOW)) {
             HSLog.d(TAG, "Trivia tip can not show because showing boost tip");
-            return;
+            return false;
         }
 
         if (hasFlag(FLAG_PERMISSION_GUIDE_SHOW)) {
             HSLog.d(TAG, "Trivia tip can not show because showing permission guide");
-            return;
+            return false;
         }
 
         if (hasFlag(FLAG_CHARGING_SHOW)) {
             HSLog.d(TAG, "Trivia tip can not show because showing charging function");
             setFlag(FLAG_CHARGING_SHOW, false);
-            return;
+            return false;
         }
 
         refreshFlag();
 
         if (hasFlag(FLAG_NEW_USER)) {
             HSLog.d(TAG, "Trivia tip can not show because the new user doesn't have this tip for an hour");
-            return;
+            return false;
         }
 
         if (hasFlag(FLAG_AD_DISMISS_JUST_NOW)) {
             HSLog.d(TAG, "Trivia tip can not show because interstitial ad dismiss just now");
-            return;
+            return false;
         }
 
         if (hasFlag(FLAG_IN_SHOW_INTERVAL)) {
             HSLog.d(TAG, "Trivia tip can not show because less than an hour since last show");
-            return;
+            return false;
         }
 
         if (hasFlag(FLAG_REACH_MAX_SHOW_TIME)) {
             HSLog.d(TAG, "Trivia tip can not show because reach max show times");
-            return;
+            return false;
         }
 
 
         TriviaItem currentItem = mDataManager.getCurrentItem();
         if (currentItem != null) {
             boolean cachedSuccess = Downloader.isCachedSuccess(DOWNLOAD_DIRECTORY, currentItem.imgUrl);
+            LauncherAnalytics.logEvent("trivia_should_show");
+            Ap.TriviaTip.logEvent("trivia_should_show");
             if (cachedSuccess) {
                 showTip(currentItem);
                 Preferences.get(Constants.DESKTOP_PREFS).putLong(PREF_KEY_LAST_SHOW_TIME, System.currentTimeMillis());
@@ -181,6 +184,7 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
                     onTipShowListener.onShow(currentItem);
                 }
                 downloadTopImage(mDataManager.getCurrentItem());
+                return true;
             } else {
                 downloadTopImage(mDataManager.getCurrentItem());
                 HSLog.d(TAG, "Trivia tip can not show because image not cache success");
@@ -188,6 +192,7 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         } else {
             HSLog.d(TAG, "Config prepare not finish");
         }
+        return false;
     }
 
     private void showTip(TriviaItem triviaItem) {
@@ -195,6 +200,8 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         Intent intent = new Intent(getContext(), TriviaTipActivity.class);
         intent.putExtra(TriviaTipActivity.EXTRA_ITEM, triviaItem);
         Navigations.startActivitySafely(getContext(), intent);
+        LauncherAnalytics.logEvent("trivia_show");
+        Ap.TriviaTip.logEvent("trivia_show");
     }
 
     private void preloadAd() {
@@ -319,7 +326,7 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
     }
 
     public void onUnlock() {
-        boolean enable = Ap.TriviaTip.enableWhenAssistantClose()
+        boolean enable = Ap.TriviaTip.enableWhenUnlock()
                 && isModuleEnable();
         if (enable) {
             show();
@@ -327,11 +334,14 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
     }
 
     public void onReceivePush() {
-        boolean enable = Ap.TriviaTip.enableWhenAssistantClose()
+        boolean enable = Ap.TriviaTip.enableWhenPush()
                 && isModuleEnable()
                 && moreThanOneDay();
         if (enable) {
-            show();
+            boolean success = show();
+            if (success) {
+                LauncherAnalytics.logEvent("trivia_show_when_receive_push");
+            }
         }
     }
 
@@ -340,6 +350,10 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         boolean oneDayPast = System.currentTimeMillis() - lastShowTime >= DateUtils.DAY_IN_MILLIS;
         HSLog.d(TAG, "moreThanOneDay ？ " + oneDayPast);
         return oneDayPast;
+    }
+
+    public void setImproverShow(boolean show) {
+        setFlag(FLAG_CHARGING_SHOW, show);
     }
 
     private static class PendingHandler extends Handler {

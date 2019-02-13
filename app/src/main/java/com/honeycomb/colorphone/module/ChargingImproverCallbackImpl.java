@@ -8,6 +8,7 @@ import com.honeycomb.colorphone.battery.BatteryCleanActivity;
 import com.honeycomb.colorphone.battery.BatteryUtils;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
@@ -80,6 +81,7 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
         Ap.Improver.logEvent("batteryboost_alert_show");
         ResultPageManager.getInstance().setInBatteryImprover(true);
         ResultPageManager.getInstance().preloadResultPageAds();
+        TriviaTip.getInstance().setImproverShow(true);
     }
 
     @Override public void onImproveButtonClick() {
@@ -119,5 +121,6 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
     }
 
     @Override public void onChargingImproverDismiss() {
+        TriviaTip.getInstance().setImproverShow(false);
     }
 }

@@ -266,4 +266,5 @@
     <!-- Trivia Tip -->
     <!--TODO-->
     <string name="trivia_tip_content_truly_fact">Truly Fact</string>
+    <string name="trivia_tip_button_set_as_theme">Apply for ScreenFlash</string>
 </resources>

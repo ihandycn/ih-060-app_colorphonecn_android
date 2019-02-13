@@ -270,6 +270,10 @@ public class Ap {
         public static String buttonDesc() {
             return AutopilotConfig.getStringToTestNow(TOPIC_ID, "trivia_button_desc", "OK");
         }
+
+        public static void logEvent(String name) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
+        }
     }
 
 
