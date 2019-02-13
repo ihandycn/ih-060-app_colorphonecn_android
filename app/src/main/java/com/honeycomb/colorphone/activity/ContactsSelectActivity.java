@@ -15,6 +15,7 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
 import com.honeycomb.colorphone.notification.NotificationUtils;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -70,6 +71,9 @@ public class ContactsSelectActivity extends ContactsActivity {
                 if (c.getThemeId() > 0) {
                     action = ContactDBHelper.Action.UPDATE;
                 }
+
+                recordAppliedTheme(c, mTheme.getIdName());
+
                 c.setThemeId(mTheme.getId());
                 List<ThemeEntry> entries = ThemeEntry.valueOf(c, action);
                 themeEntries.addAll(entries);
@@ -131,6 +135,19 @@ public class ContactsSelectActivity extends ContactsActivity {
             }
         });
 
+    }
+
+    private void recordAppliedTheme(SimpleContact contact, String idName) {
+        if (contact == null) {
+            return;
+        }
+        ThemeRecommendManager.getInstance().putAppliedTheme(contact.getRawNumber(), idName);
+        List<String> otherNumbers = contact.getOtherNumbers();
+        if (otherNumbers != null) {
+            for (String number : otherNumbers) {
+                ThemeRecommendManager.getInstance().putAppliedTheme(number, idName);
+            }
+        }
     }
 
     @Override

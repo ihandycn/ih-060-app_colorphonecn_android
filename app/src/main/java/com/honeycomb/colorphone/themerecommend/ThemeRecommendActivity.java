@@ -85,9 +85,15 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
 
     public void show(String number) {
         final String phoneNumber = number;
-        if (!TextUtils.isEmpty(number)) {
-            int themeID = ScreenFlashManager.getInstance().getAcbCallFactory().getIncomingReceiverConfig().getThemeIdByPhoneNumber(number);
-            mThemeType = Utils.getTypeByThemeId(themeID);
+        if (!TextUtils.isEmpty(number)){
+            String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
+            if (TextUtils.isEmpty(themeIdName)) {
+                return;
+            }
+            mThemeType = Utils.getTypeByThemeIdName(themeIdName);
+            if (mThemeType == null) {
+                return;
+            }
             mPreview.updateThemeLayout(mThemeType);
             mPreview.setPreviewType(ThemePreviewWindow.PreviewType.PREVIEW);
 
