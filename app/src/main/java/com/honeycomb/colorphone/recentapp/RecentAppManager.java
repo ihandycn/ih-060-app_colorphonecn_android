@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
-import com.honeycomb.colorphone.receiver.UserPresentReceiver;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
@@ -89,7 +88,7 @@ public class RecentAppManager {
 
             boolean hasKeyGuard = Utils.isKeyguardLocked(HSApplication.getContext(), false);
             switch (s) {
-                case UserPresentReceiver.USER_PRESENT:
+                case ScreenStatusReceiver.NOTIFICATION_PRESENT:
                     if (!triggered) {
                         SmartAssistantUtils.tryShowSmartAssistant();
                         triggered = true;
@@ -154,7 +153,7 @@ public class RecentAppManager {
         HSUsageAccessMgr.getInstance().checkPermission(this.usageAccessListener);
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, screenOnObserver);
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, screenOnObserver);
-        HSGlobalNotificationCenter.addObserver(UserPresentReceiver.USER_PRESENT, screenOnObserver);
+        HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_PRESENT, screenOnObserver);
 
         AcbExpressAdManager.getInstance().activePlacementInProcess(AdPlacements.SMART_ASSISTANT_PLACEMENT_NAME);
 

@@ -79,7 +79,6 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
     }
 
     private TriviaTip() {
-        init();
     }
 
     public static boolean isModuleEnable() {
@@ -90,15 +89,18 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
 
     public static void cacheImagesFirstTime() {
         // First time
+        HSLog.d(TAG, "cacheImagesFirstTime");
         if (isModuleEnable()) {
             List<TriviaItem> items = TriviaDataManager.getInstance().getItems(3);
             for (TriviaItem item : items) {
-                downloadTopImage(item);
+                if (!Downloader.isCachedSuccess(DOWNLOAD_DIRECTORY, item.imgUrl)) {
+                    downloadTopImage(item);
+                }
             }
         }
     }
 
-    private void init() {
+    public void init() {
         mDataManager = new TriviaDataManager();
         addOnTipShowListeners(mDataManager);
         TriviaItem currentItem = mDataManager.getCurrentItem();

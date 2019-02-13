@@ -271,6 +271,10 @@ public class Ap {
             return AutopilotConfig.getStringToTestNow(TOPIC_ID, "trivia_button_desc", "OK");
         }
 
+        public static boolean buttonApplyShow() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "apply_button_show_on_detail", false);
+        }
+
         public static void logEvent(String name) {
             AutopilotEvent.logTopicEvent(TOPIC_ID, name);
         }

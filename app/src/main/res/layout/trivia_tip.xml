@@ -129,7 +129,9 @@
             android:layout_marginBottom="6dp"
             android:background="@drawable/trivia_shape_set_as_theme"
             android:textColor="#ccffffff"
+            android:visibility="gone"
             android:text="@string/trivia_tip_button_set_as_theme"
+            tools:visibility="visible"
             app:typeface="@string/custom_font_regular"/>
 
         <com.superapps.view.TypefacedTextView
@@ -167,7 +169,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/content_top_set_as_theme"
             android:orientation="vertical">
 
             <ScrollView

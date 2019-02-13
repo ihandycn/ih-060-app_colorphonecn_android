@@ -423,12 +423,6 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".receiver.UserPresentReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-            </intent-filter>
-        </receiver>
-
         <receiver android:name=".receiver.PackageAddReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>

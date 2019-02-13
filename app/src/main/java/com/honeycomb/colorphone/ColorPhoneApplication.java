@@ -323,6 +323,8 @@ public class ColorPhoneApplication extends HSApplication {
 
         PushManager.getInstance().init();
 
+        TriviaTip.getInstance().init();
+
         // Only restore tasks here.
         TasksManager.getImpl().init();
         Theme.updateThemes();

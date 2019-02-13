@@ -159,7 +159,7 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 Ap.TriviaTip.logEvent("trivia_detail_apply_btn_click");
-                LauncherAnalytics.logEvent("",
+                LauncherAnalytics.logEvent("trivia_detail_apply_btn_click",
                         "From" , mNativeAdContainer.getVisibility() == VISIBLE ? "wirepage" : "donepage",
                         "ThemeName", String.valueOf(mItemId)
                 );
@@ -253,9 +253,11 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
             mBottomDesc.setAlpha(0);
             mBottomDesc.setVisibility(VISIBLE);
 
-            mButtonSetTheme.setAlpha(0);
-            mButtonSetTheme.setTranslationY(translationY);
-            mButtonSetTheme.setVisibility(VISIBLE);
+            if (Ap.TriviaTip.buttonApplyShow()) {
+                mButtonSetTheme.setAlpha(0);
+                mButtonSetTheme.setTranslationY(translationY);
+                mButtonSetTheme.setVisibility(VISIBLE);
+            }
 
             ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
             animator.setDuration(360);
@@ -371,6 +373,10 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
             }
         } else {
             mNativeSource = "TriviaDone";
+        }
+
+        if (mNativeAd == null) {
+            return;
         }
         mExecuteBackFromAd = true;
         final int translationY = -Dimensions.pxFromDp(7);
