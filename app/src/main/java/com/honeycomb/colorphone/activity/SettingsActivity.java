@@ -18,6 +18,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -56,7 +57,8 @@ public class SettingsActivity extends HSAppCompatActivity {
             testView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(SettingsActivity.this, TestActivity.class));
+//                    startActivity(new Intent(SettingsActivity.this, TestActivity.class));
+                    startActivity(new Intent(SettingsActivity.this, ThemeRecommendActivity.class));
                 }
             });
         }
