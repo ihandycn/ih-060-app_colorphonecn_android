@@ -373,7 +373,10 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
             mNativeAd.release();
             mNativeAd = null;
         }
+
         LauncherAnalytics.logEvent("Fact_Detail_Page_Shown_New", true);
+        LauncherAnalytics.logEvent("trivia_detail_done_should_show");
+        Ap.TriviaTip.logEvent("trivia_detail_done_should_show");
         mNativeAd = tryGetNativeAd(Placements.TRIVIA_TIP_NATIVE_AD_PLACEMENT_NAME);
         HSLog.d("TriviaTip", "mNativeAd: " + mNativeAd);
         if (mNativeAd == null) {
@@ -443,8 +446,6 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
     }
 
     private void showNativeAd() {
-        LauncherAnalytics.logEvent("trivia_detail_done_should_show");
-        Ap.TriviaTip.logEvent("trivia_detail_done_should_show");
         if (mNativeAd != null) {
             View adView = View.inflate(getContext(), R.layout.trivia_tip_content_native_ad, null);
             AcbNativeAdContainerView adContainer = new AcbNativeAdContainerView(getContext());
