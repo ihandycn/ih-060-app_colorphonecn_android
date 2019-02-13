@@ -30,6 +30,7 @@ import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.permission.OutsidePermissionGuideActivity;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
@@ -237,6 +238,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinishedCallAssistantShow(String number) {
+                ThemeRecommendManager.getInstance().increaseCallTimes(number);
                 CallFinishUtils.logCallFinishCallAssistantShow();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Call_Assistant_Show");
             }

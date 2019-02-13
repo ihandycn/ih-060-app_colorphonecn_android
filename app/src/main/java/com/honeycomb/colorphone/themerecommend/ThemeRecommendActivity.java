@@ -21,6 +21,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.utils.HSLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,5 +151,12 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
 
     protected List<Theme> getThemes() {
         return Theme.themes();
+    }
+
+    @Override
+    public void onBackPressed() {
+        boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(userInfo.getPhoneNumber());
+        HSLog.e("ThemeRecommendManager", "isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
+        super.onBackPressed();
     }
 }
