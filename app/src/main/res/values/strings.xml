@@ -264,4 +264,6 @@
     <string name="guide_theme_random_hint">Applying this theme, you can enjoy random themes for incoming calls.</string>
 
     <string name="theme_recommend_content">Apply this new theme for %1$s</string>
+    <string name="theme_recommend_content_default">your friend</string>
+    <string name="result_page_theme_recommend_title">Theme Recommend</string>
 </resources>

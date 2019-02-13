@@ -84,7 +84,6 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
     }
 
     public void show(String number) {
-        final String phoneNumber = number;
         if (!TextUtils.isEmpty(number)){
             String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
             if (TextUtils.isEmpty(themeIdName)) {
@@ -99,20 +98,12 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
 
             mPreview.playAnimation(mThemeType);
             mCallActionView.setTheme(mThemeType);
-            // onStartCommand may called twice, Odd!
 
-            mContent.setText(String.format(getString(R.string.theme_recommend_content), TextUtils.isEmpty(userInfo.getCallName()) ? userInfo.getPhoneNumber() : userInfo.getCallName()));
+            mContent.setText(String.format(getString(R.string.theme_recommend_content),
+                    TextUtils.isEmpty(userInfo.getCallName())
+                            ? getString(R.string.theme_recommend_content_default)
+                            : userInfo.getCallName()));
             editUserView(mPreview);
-//            final TextView firstLineTextView = mPreview.findViewById(R.id.first_line);
-//            final TextView secondLineTextView = mPreview.findViewById(R.id.second_line);
-//            firstLineTextView.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    firstLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
-//                    secondLineTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
-//
-//                }
-//            });
         }
     }
 

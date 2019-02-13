@@ -133,6 +133,18 @@ public class ResultPageActivity extends BaseAppCompatActivity
         activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
     }
 
+    public static void startForThemeRecommend(Activity activity) {
+        if (activity == null) {
+            return;
+        }
+
+        Intent intent = new Intent(activity, ResultPageActivity.class);
+        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_THEME_RECOMMEND);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
+    }
+
     private void recordIntoBpAndNcCardTimes() {
 
     }
@@ -233,6 +245,10 @@ public class ResultPageActivity extends BaseAppCompatActivity
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 mResultController = new CpuCoolerResultController(this, type, cards);
                 titleText = getString(R.string.promotion_max_card_title_cpu_cooler);
+                break;
+            case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
+                mResultController = new ThemeRecommendResultController(this, type, cards);
+                titleText = getString(R.string.result_page_theme_recommend_title);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported result type.");
