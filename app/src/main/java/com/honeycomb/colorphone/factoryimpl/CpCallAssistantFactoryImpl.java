@@ -236,7 +236,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             }
 
             @Override
-            public void onCallFinishedCallAssistantShow() {
+            public void onCallFinishedCallAssistantShow(String number) {
                 CallFinishUtils.logCallFinishCallAssistantShow();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Call_Assistant_Show");
             }
