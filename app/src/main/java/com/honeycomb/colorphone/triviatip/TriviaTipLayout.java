@@ -18,6 +18,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
+import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.Placements;
@@ -25,6 +28,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.download2.Downloader;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
@@ -89,6 +93,7 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
     private onTipDismissListener mOnDismissListener;
     private String mNativeSource;
     private int mItemId;
+    private String mImageFilePath;
 
     public TriviaTipLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -163,6 +168,10 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
                         "From" , mNativeAdContainer.getVisibility() == VISIBLE ? "wirepage" : "donepage",
                         "ThemeName", String.valueOf(mItemId)
                 );
+
+                Utils.showToast(getResources().getString(R.string.apply_success));
+                ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, Type.STATIC);
+                ScreenFlashSettings.putStaticImagePath(mImageFilePath);
             }
         });
     }
@@ -186,7 +195,8 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
     }
 
     void bind(TriviaItem triviaItem) {
-        mBgBitmapDrawable = new BitmapDrawable(getResources(), Downloader.getDownloadPath(TriviaTip.DOWNLOAD_DIRECTORY, triviaItem.imgUrl));
+        mImageFilePath = Downloader.getDownloadPath(TriviaTip.DOWNLOAD_DIRECTORY, triviaItem.imgUrl);
+        mBgBitmapDrawable = new BitmapDrawable(getResources(), mImageFilePath);
         mTipBg.setImageDrawable(mBgBitmapDrawable);
         mTipTitle.setText(triviaItem.title);
         mBottomDesc.setText(triviaItem.desc);

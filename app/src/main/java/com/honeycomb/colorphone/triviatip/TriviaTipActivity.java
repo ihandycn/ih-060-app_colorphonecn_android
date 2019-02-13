@@ -9,6 +9,8 @@ import android.view.View;
 import com.honeycomb.colorphone.R;
 import com.ihs.commons.utils.HSLog;
 
+import net.appcloudbox.autopilot.AutopilotEvent;
+
 public class TriviaTipActivity extends AppCompatActivity implements TriviaTipLayout.onTipDismissListener {
     private static final String TAG = TriviaTipActivity.class.getSimpleName();
     public static final String EXTRA_ITEM = "extra_item_trivia";
@@ -19,6 +21,7 @@ public class TriviaTipActivity extends AppCompatActivity implements TriviaTipLay
         super.onCreate(savedInstanceState);
         TriviaItem item = (TriviaItem) getIntent().getSerializableExtra(EXTRA_ITEM);
         showTip(item);
+        AutopilotEvent.onExtendedActive();
     }
 
     private void showTip(TriviaItem triviaItem) {
@@ -47,6 +50,7 @@ public class TriviaTipActivity extends AppCompatActivity implements TriviaTipLay
             mTriviaTipLayout.dismiss();
         }
         mTriviaTipLayout = null;
+        AutopilotEvent.onExtendedDeactive();
     }
 
     public void onBackPressed() {
