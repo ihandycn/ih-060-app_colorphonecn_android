@@ -67,20 +67,20 @@ public class ThemeRecommendManager {
         boolean isFirstThemeRecommendShowed = isFirstThemeRecommendShowed(number);
         HSLog.d(TAG, "isFirstThemeRecommendShowed = " + isFirstThemeRecommendShowed);
         int hour = getTimeIntervalHours();
-        boolean timeAble = System.currentTimeMillis() - getThemeRecommendLastShowedTimeForAllUser() > TimeUnit.HOURS.toMillis(hour);
+        boolean timeAble = now() - getThemeRecommendLastShowedTimeForAllUser() > TimeUnit.HOURS.toMillis(hour);
         HSLog.d(TAG, "time > " + hour + "h: " + timeAble);
         int callTimes = getCallTimes(number);
         HSLog.d(TAG, "callTimes = " + callTimes);
         if (!isFirstThemeRecommendShowed) {
-            if (callTimes >= 3 && timeAble) {
+            if (callTimes >= getCallTimesAtFirstThemeRecommendShowed() && timeAble) {
                 recordFirstThemeRecommendShowed(number);
                 resetRecordCallTimes(number);
                 result = true;
             }
         } else {
-            boolean isCouldShowToday = getThemeRecommendShowTimes(number) < 1;
+            boolean isCouldShowToday = getThemeRecommendShowTimes(number) < getMaxShowTimesEveryOne();
             HSLog.d(TAG, "isCouldShowToday = " + isCouldShowToday);
-            boolean isAppliedThemeAndTimesEnable = !isAppliedThemeForUser(number) || callTimes > 5;
+            boolean isAppliedThemeAndTimesEnable = !isAppliedThemeForUser(number) || callTimes > getMaxCallTimesAfterAppliedTheme();
             HSLog.d(TAG, "isAppliedThemeAndTimesEnable = " + isAppliedThemeAndTimesEnable);
             result = isCouldShowToday && timeAble && isAppliedThemeAndTimesEnable;
         }
@@ -171,6 +171,14 @@ public class ThemeRecommendManager {
         return 2;
     }
 
+    private int getCallTimesAtFirstThemeRecommendShowed(){
+        return 3;
+    }
+
+    private int getMaxShowTimesEveryOne(){
+        return 1;
+    }
+
     private long now() {
         return System.currentTimeMillis();
     }
@@ -182,7 +190,6 @@ public class ThemeRecommendManager {
         private static final String APPLIED_THEME_FOR_ALL_USER = "applied_theme_for_all_user";
         private static final String THEME_RECOMMEND_INDEX_USER_PREFIX = "theme_recommend_index_user_";
         private static final String CALL_TIMES_FOR_USER_PREFIX = "call_times_for_user_";
-        private static final String CALL_TIMES_FOR_USER_RECORD_ENABLE_PREFIX = "call_times_for_user_record_enable_";
         private static final String THEME_RECOMMEND_FIRST_SHOWED_PREFIX = "theme_recommend_first_showed_";
         private static final String THEME_RECOMMEND_SHOW_TIMES_PREFIX = "theme_recommend_show_times_";
         private static final String THEME_RECOMMEND_SHOW_TIME_PREFIX = "theme_recommend_show_time_";
@@ -270,16 +277,15 @@ public class ThemeRecommendManager {
         void increaseThemeRecommendShowTimes(String number) {
             SharedPreferences.Editor editor = pref.edit();
             int times = getThemeRecommendShowTimes(number);
-            long now = System.currentTimeMillis();
             long time = getThemeRecommendShowTime(number);
-            if (Calendars.isSameDay(time, now)) {
+            if (Calendars.isSameDay(time, now())) {
                 times++;
             } else {
-                editor.putLong(THEME_RECOMMEND_SHOW_TIME_PREFIX + number, now);
+                editor.putLong(THEME_RECOMMEND_SHOW_TIME_PREFIX + number, now());
                 times = 1;
             }
             editor.putInt(THEME_RECOMMEND_SHOW_TIMES_PREFIX + number, times);
-            editor.putLong(THEME_RECOMMEND_LAST_SHOWED_TIME_FOR_ALL_USER, now);
+            editor.putLong(THEME_RECOMMEND_LAST_SHOWED_TIME_FOR_ALL_USER, now());
             editor.apply();
         }
 
