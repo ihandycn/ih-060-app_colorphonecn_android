@@ -336,9 +336,9 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
     }
 
     public void onReceivePush() {
-        boolean enable = Ap.TriviaTip.enableWhenPush()
-                && isModuleEnable()
-                && moreThanOneDay();
+        boolean enable = isModuleEnable()
+                &&
+                (moreThanOneDay() || Ap.TriviaTip.enableWhenPush());
         if (enable) {
             boolean success = show();
             if (success) {

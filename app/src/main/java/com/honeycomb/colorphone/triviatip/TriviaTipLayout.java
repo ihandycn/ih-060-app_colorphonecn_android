@@ -165,7 +165,7 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
             public void onClick(View v) {
                 Ap.TriviaTip.logEvent("trivia_detail_apply_btn_click");
                 LauncherAnalytics.logEvent("trivia_detail_apply_btn_click",
-                        "From" , mNativeAdContainer.getVisibility() == VISIBLE ? "wirepage" : "donepage",
+                        "From" , mNativeAdContainer.getVisibility() == VISIBLE ? "donepage" : "wirepage",
                         "ThemeName", String.valueOf(mItemId)
                 );
 
