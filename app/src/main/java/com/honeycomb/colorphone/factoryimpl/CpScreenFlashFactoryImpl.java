@@ -417,9 +417,9 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             System.arraycopy(vars, 0, expandVars, 0, vars.length);
             expandVars[vars.length] = "NaService";
             expandVars[vars.length + 1] = NotificationServiceV18.inServiceRunning + "";
-            LauncherAnalytics.logEvent(onlyFabric, eventID, expandVars);
+            LauncherAnalytics.logEvent(eventID, onlyFabric, expandVars);
         } else {
-            LauncherAnalytics.logEvent(onlyFabric, eventID, vars);
+            LauncherAnalytics.logEvent(eventID, onlyFabric, vars);
         }
 
         if ("Acb_ScreenFlash_AcceptFail_Reject".equalsIgnoreCase(eventID)) {

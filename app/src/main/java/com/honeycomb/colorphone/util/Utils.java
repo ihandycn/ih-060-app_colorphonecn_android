@@ -80,12 +80,14 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -708,6 +710,48 @@ public final class Utils {
             }
         }
         return cacheDir;
+    }
+
+
+    public static void copyFile(File src, File dst) throws IOException {
+        if (!src.exists()) {
+            return;
+        }
+        if (dst.exists()) {
+            boolean removed = dst.delete();
+            if (removed) HSLog.d(TAG, "Replacing file " + dst);
+        }
+        FileChannel inChannel = new FileInputStream(src).getChannel();
+        FileChannel outChannel = new FileOutputStream(dst).getChannel();
+        try {
+            inChannel.transferTo(0, inChannel.size(), outChannel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (inChannel != null) {
+                inChannel.close();
+            }
+            outChannel.close();
+        }
+    }
+
+    public static String getRemoteFileExtension(String url) {
+        String extension = "";
+        if (url != null) {
+            int i = url.lastIndexOf('.');
+            int p = Math.max(url.lastIndexOf('/'), url.lastIndexOf('\\'));
+            if (i > p) {
+                extension = url.substring(i + 1);
+            }
+        }
+        return extension;
+    }
+
+    public static boolean checkFileValid(File file) {
+        if (file != null && file.exists()) {
+            return true;
+        }
+        return false;
     }
 
     public static String md5(final String s) {

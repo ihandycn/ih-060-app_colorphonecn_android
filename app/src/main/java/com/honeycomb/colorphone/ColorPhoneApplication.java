@@ -53,6 +53,7 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
+import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
@@ -199,6 +200,8 @@ public class ColorPhoneApplication extends HSApplication {
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
+
+            TriviaTip.cacheImagesFirstTime();
         }
     };
 
@@ -319,6 +322,8 @@ public class ColorPhoneApplication extends HSApplication {
         }
 
         PushManager.getInstance().init();
+
+        TriviaTip.getInstance().init();
 
         // Only restore tasks here.
         TasksManager.getImpl().init();

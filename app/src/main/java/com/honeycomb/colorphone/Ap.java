@@ -233,5 +233,52 @@ public class Ap {
 
     }
 
+    public static class TriviaTip {
+        public static String TOPIC_ID = "topic-707tmynvf";
+
+        public static boolean enable() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "trivia_enable", false);
+        }
+
+        public static boolean enableWhenAssistantClose() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "trivia_show_when_assistant_close", false);
+        }
+
+        public static boolean enableWhenPush() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "trivia_show_when_receive_push", false);
+        }
+
+        public static boolean enableWhenUnlock() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "trivia_show_when_unlock", false);
+        }
+
+        public static int intervalMins() {
+            String value = AutopilotConfig.getStringToTestNow(TOPIC_ID, "trivia_show_interval", "120");
+            return Integer.valueOf(value);
+        }
+
+        public static int installTimeHours() {
+            String value = AutopilotConfig.getStringToTestNow(TOPIC_ID, "show_time_after_first_open", "2");
+            return Integer.valueOf(value);
+        }
+
+        public static int maxCountDaily() {
+            String value = AutopilotConfig.getStringToTestNow(TOPIC_ID, "trivia_show_maxtime", "2");
+            return Integer.valueOf(value);
+        }
+
+        public static String buttonDesc() {
+            return AutopilotConfig.getStringToTestNow(TOPIC_ID, "trivia_button_desc", "OK");
+        }
+
+        public static boolean buttonApplyShow() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "apply_button_show_on_detail", false);
+        }
+
+        public static void logEvent(String name) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
+        }
+    }
+
 
 }

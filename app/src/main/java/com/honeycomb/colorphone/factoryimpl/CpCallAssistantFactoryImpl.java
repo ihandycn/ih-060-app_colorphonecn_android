@@ -31,6 +31,7 @@ import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.permission.OutsidePermissionGuideActivity;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
+import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
@@ -233,6 +234,12 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 super.onAdShow(callType);
                 isADShown = true;
                 HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
+            }
+
+            @Override
+            public void onAlertDismiss(CallIdleAlertView.CallIdleAlertDismissType dismissType) {
+                super.onAlertDismiss(dismissType);
+                TriviaTip.getInstance().onCallAlertClose();
             }
 
             @Override

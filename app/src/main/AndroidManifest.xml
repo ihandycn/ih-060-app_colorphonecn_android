@@ -423,12 +423,6 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".receiver.UserPresentReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-            </intent-filter>
-        </receiver>
-
         <receiver android:name=".receiver.PackageAddReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
@@ -493,7 +487,10 @@
         <activity android:name=".cashcenter.InnerCashGuideActivity" />
         <activity android:name=".permission.OutsidePermissionGuideActivity"
             android:theme="@style/Theme.AppCompat.Translucent"/>
-
+        <activity
+            android:name=".triviatip.TriviaTipActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:excludeFromRecents="true" />
         <!--&lt;!&ndash;===== Dialer Module =====&ndash;&gt;-->
 
         <!--<activity-->

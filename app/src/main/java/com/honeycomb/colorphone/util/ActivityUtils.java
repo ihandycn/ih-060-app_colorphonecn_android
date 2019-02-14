@@ -9,6 +9,7 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -295,6 +296,22 @@ public class ActivityUtils {
         titleTextView.setTextSize(20);
 //        final Typeface typeface = FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD);
 //        titleTextView.setTypeface(typeface);
+    }
+
+    public static Activity contextToActivitySafely(Context context) {
+        if (context == null) {
+            return null;
+        } else if (context instanceof Activity) {
+            return (Activity) context;
+        } else if (context instanceof ContextThemeWrapper) {
+            return (Activity) (((ContextThemeWrapper) context).getBaseContext());
+        } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
+            return (Activity) (((android.support.v7.view.ContextThemeWrapper) context).getBaseContext());
+        } else if (context instanceof android.support.v7.widget.TintContextWrapper) {
+            return (Activity) (((android.support.v7.widget.TintContextWrapper) context).getBaseContext());
+        } else {
+            return null;
+        }
     }
 
     @SuppressWarnings("SimplifiableIfStatement")

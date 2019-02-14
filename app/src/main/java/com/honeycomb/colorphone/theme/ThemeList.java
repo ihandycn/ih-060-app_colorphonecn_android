@@ -64,6 +64,7 @@ public class ThemeList {
         final int count = bgThemes.size();
         for (int i = 0; i < count; i++) {
             final Theme theme = bgThemes.get(i);
+            theme.setSelected(false);
             // Like ?
             boolean isLike = isLikeTheme(likeThemes, theme.getValue());
             if (isLike) {
