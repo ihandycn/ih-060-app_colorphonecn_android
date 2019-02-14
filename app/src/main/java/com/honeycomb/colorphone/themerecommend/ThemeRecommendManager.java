@@ -30,6 +30,7 @@ public class ThemeRecommendManager {
 
     @SuppressWarnings("unchecked")
     public String getRecommendThemeIdAndRecord(String number) {
+        number = deleteWhiteSpace(number);
         String result = "";
         List<String> guideThemeIdNameList = (List<String>) HSConfig.getList("Application", "ThemeGuide");
         if (guideThemeIdNameList.isEmpty()) {
@@ -55,7 +56,7 @@ public class ThemeRecommendManager {
     }
 
     public void putAppliedTheme(String number, String idName) {
-        mPrefHelper.putAppliedTheme(number, idName);
+        mPrefHelper.putAppliedTheme(deleteWhiteSpace(number), idName);
     }
 
     public void putAppliedThemeForAllUser(String idName) {
@@ -63,6 +64,7 @@ public class ThemeRecommendManager {
     }
 
     public boolean isShowRecommendTheme(String number) {
+        number = deleteWhiteSpace(number);
         boolean result = false;
         boolean isFirstThemeRecommendShowed = isFirstThemeRecommendShowed(number);
         HSLog.d(TAG, "isFirstThemeRecommendShowed = " + isFirstThemeRecommendShowed);
@@ -85,7 +87,7 @@ public class ThemeRecommendManager {
             result = isCouldShowToday && timeAble && isAppliedThemeAndTimesEnable;
         }
 
-        if (result){
+        if (result) {
             increaseThemeRecommendShowTimes(number);
         }
 
@@ -93,31 +95,31 @@ public class ThemeRecommendManager {
     }
 
     public void increaseCallTimes(String number) {
-        mPrefHelper.increaseCallTimes(number);
+        mPrefHelper.increaseCallTimes(deleteWhiteSpace(number));
     }
 
     private int getCallTimes(String number) {
-        return mPrefHelper.getCallTimes(number);
+        return mPrefHelper.getCallTimes(deleteWhiteSpace(number));
     }
 
     private void resetRecordCallTimes(String number) {
-        mPrefHelper.resetRecordCallTimes(number);
+        mPrefHelper.resetRecordCallTimes(deleteWhiteSpace(number));
     }
 
     private void recordFirstThemeRecommendShowed(String number) {
-        mPrefHelper.recordFirstThemeRecommendShowed(number);
+        mPrefHelper.recordFirstThemeRecommendShowed(deleteWhiteSpace(number));
     }
 
     private boolean isFirstThemeRecommendShowed(String number) {
-        return mPrefHelper.isFirstThemeRecommendShowed(number);
+        return mPrefHelper.isFirstThemeRecommendShowed(deleteWhiteSpace(number));
     }
 
     private void increaseThemeRecommendShowTimes(String number) {
-        mPrefHelper.increaseThemeRecommendShowTimes(number);
+        mPrefHelper.increaseThemeRecommendShowTimes(deleteWhiteSpace(number));
     }
 
     private long getThemeRecommendShowTimes(String number) {
-        return mPrefHelper.getThemeRecommendShowTimes(number);
+        return mPrefHelper.getThemeRecommendShowTimes(deleteWhiteSpace(number));
     }
 
     private long getThemeRecommendLastShowedTimeForAllUser() {
@@ -125,11 +127,11 @@ public class ThemeRecommendManager {
     }
 
     private void putThemeRecommendIndex(String number, int index) {
-        mPrefHelper.putThemeRecommendIndex(number, index);
+        mPrefHelper.putThemeRecommendIndex(deleteWhiteSpace(number), index);
     }
 
     private int getThemeRecommendIndex(String number) {
-        return mPrefHelper.getThemeRecommendIndex(number);
+        return mPrefHelper.getThemeRecommendIndex(deleteWhiteSpace(number));
     }
 
     private List<String> getAppliedThemeForAllUser() {
@@ -137,20 +139,22 @@ public class ThemeRecommendManager {
     }
 
     private boolean isAppliedThemeForUser(String number) {
-        return !getAppliedThemeForAllUser().isEmpty() || !getAppliedTheme(number).isEmpty();
+        return !getAppliedThemeForAllUser().isEmpty() || !getAppliedTheme(deleteWhiteSpace(number)).isEmpty();
     }
 
     private List<String> getAppliedTheme(String number) {
-        return mPrefHelper.getAppliedTheme(number);
+        return mPrefHelper.getAppliedTheme(deleteWhiteSpace(number));
     }
 
     private boolean isLegal(String number, String idName) {
+        number = deleteWhiteSpace(number);
         int currentThemeId = ScreenFlashManager.getInstance().getAcbCallFactory().getIncomingReceiverConfig().getThemeIdByPhoneNumber(number);
         Type type = Utils.getTypeByThemeId(currentThemeId);
         return (type == null || !idName.equals(type.getIdName())) && !getAppliedThemeForAllUser().contains(idName) && !getAppliedTheme(number).contains(idName);
     }
 
     private String getThemeIdAndRecordIndex(List<String> guideThemeNameList, int startIndex, int endIndex, String number) {
+        number = deleteWhiteSpace(number);
         for (int k = startIndex; k < endIndex; k++) {
             String idName = guideThemeNameList.get(k);
             if (isLegal(number, idName)) {
@@ -163,6 +167,13 @@ public class ThemeRecommendManager {
         return "";
     }
 
+    private String deleteWhiteSpace(String number) {
+        if (TextUtils.isEmpty(number)) {
+            return number;
+        }
+        return number.replaceAll(" ", "");
+    }
+
     private int getMaxCallTimesAfterAppliedTheme() {
         return 5;
     }
@@ -171,11 +182,11 @@ public class ThemeRecommendManager {
         return 2;
     }
 
-    private int getCallTimesAtFirstThemeRecommendShowed(){
+    private int getCallTimesAtFirstThemeRecommendShowed() {
         return 3;
     }
 
-    private int getMaxShowTimesEveryOne(){
+    private int getMaxShowTimesEveryOne() {
         return 1;
     }
 
@@ -242,14 +253,15 @@ public class ThemeRecommendManager {
         }
 
         void increaseCallTimes(String number) {
-            if (isFirstThemeRecommendShowed(number) && getCallTimes(number) > getMaxCallTimesAfterAppliedTheme()) {
+            String lastIncreaseKey = INCREASE_CALL_TIMES_FOR_USER_LAST_TIME_PREFIX + number;
+            long lastIncreaseTime = pref.getLong(lastIncreaseKey, 0);
+            long lastAppliedTime = Math.max(getAppliedThemeForAllUserTime(), getAppliedThemeTime(number));
+            if (isFirstThemeRecommendShowed(number) && getCallTimes(number) > getMaxCallTimesAfterAppliedTheme() && lastIncreaseTime > lastAppliedTime) {
                 return;
             }
             String key = CALL_TIMES_FOR_USER_PREFIX + number;
             int times = pref.getInt(key, 0);
-            String lastIncreaseKey = INCREASE_CALL_TIMES_FOR_USER_LAST_TIME_PREFIX + number;
-            long lastIncreaseTime = pref.getLong(lastIncreaseKey, 0);
-            if (lastIncreaseTime < Math.max(getAppliedThemeForAllUserTime(), getAppliedThemeTime(number))) {
+            if (lastIncreaseTime <= lastAppliedTime) {
                 times = 0;
             }
             SharedPreferences.Editor editor = pref.edit();
@@ -297,19 +309,19 @@ public class ThemeRecommendManager {
             }
         }
 
-        long getThemeRecommendShowTime(String number) {
-            return pref.getLong(THEME_RECOMMEND_SHOW_TIME_PREFIX + number, 0);
-        }
-
         long getThemeRecommendLastShowedTimeForAllUser() {
             return pref.getLong(THEME_RECOMMEND_LAST_SHOWED_TIME_FOR_ALL_USER, 0);
         }
 
-        long getAppliedThemeTime(String number) {
+        private long getThemeRecommendShowTime(String number) {
+            return pref.getLong(THEME_RECOMMEND_SHOW_TIME_PREFIX + number, 0);
+        }
+
+        private long getAppliedThemeTime(String number) {
             return pref.getLong(APPLIED_THEME_USER_TIME_PREFIX + number, 0);
         }
 
-        long getAppliedThemeForAllUserTime() {
+        private long getAppliedThemeForAllUserTime() {
             return pref.getLong(APPLIED_THEME_FOR_ALL_USER_TIME, 0);
         }
     }
