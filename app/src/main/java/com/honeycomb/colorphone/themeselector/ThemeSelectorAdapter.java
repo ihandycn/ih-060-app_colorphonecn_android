@@ -438,8 +438,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else {
             if (selectTheme(pos, holder, true)) {
                 onThemeSelected(pos);
+                PermissionChecker.getInstance().check(activity, "SetForAll");
             }
-            PermissionChecker.getInstance().check(activity, "SetForAll");
         }
 
         // LOG
