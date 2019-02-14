@@ -101,7 +101,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final boolean PLAY_ANIMITION = true;
     private static final boolean NO_ANIMITION = false;
 
-    private static final long AUTO_HIDE_TIME = 4000;
+    private static final long AUTO_HIDE_TIME = 15000; //15s
     private static final long ANIMATION_DURATION = 400;
     private static final long WINDOW_ANIM_DURATION = 400;
     private static final int TRANS_IN_DURATION = 400;
