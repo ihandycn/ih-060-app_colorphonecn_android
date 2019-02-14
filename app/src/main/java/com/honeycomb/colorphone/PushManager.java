@@ -52,15 +52,32 @@ public class PushManager {
                 try {
                     Intent intent = (Intent) hsBundle.getObject(PushMgr.HS_NOTIFICATION_PUSH_MSG_RECEIVED_PARAM_MSG_INTENT);
                     LauncherAnalytics.logEvent("ColorPhone_Push_Receive", LauncherAnalytics.FLAG_LOG_FABRIC);
+                    LauncherAnalytics.logEvent("ColorPhone_Push_Receive_WhenLaunch", true,
+                            "Time", formatTimes());
                     String msg = intent.getStringExtra("msg");
                     HSLog.d(TAG, "Receive message : " + msg);
                 } catch (Exception e) {
                     HSLog.e(TAG, "Receive message error : " + e.getMessage());
                 }
-
             }
         }
     };
+
+    private String formatTimes() {
+        long time = System.currentTimeMillis() - ColorPhoneApplication.launchTime;
+        long second =  time / 1000;
+        if (second <= 3) {
+            return String.valueOf(second);
+        } else if (second <= 10) {
+            return "3-10s";
+        } else if (second <= 60){
+            return "10s-1m";
+        } else if (second <= 60 * 60) {
+            return "1m-1h";
+        } else {
+            return "1h+";
+        }
+    }
 
     private String mCurrentToken;
     private boolean mKaEnable;

@@ -214,6 +214,7 @@ public class ColorPhoneApplication extends HSApplication {
     private boolean isCallAssistantActivated;
 
     private static boolean isFabricInitted;
+    public static long launchTime;
     public static boolean isAppForeground() {
         return !activityStack.isEmpty();
     }
@@ -223,7 +224,7 @@ public class ColorPhoneApplication extends HSApplication {
     public void onCreate() {
         super.onCreate();
         systemFix();
-
+        launchTime = System.currentTimeMillis();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
         onAllProcessCreated();
