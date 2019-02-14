@@ -133,7 +133,6 @@ abstract class ResultController implements View.OnClickListener {
 
         LayoutInflater layoutInflater = LayoutInflater.from(activity);
 
-
         mHeaderTagView = ViewUtils.findViewById(activity, R.id.result_header_tag_view);
 
         mTransitionView = ViewUtils.findViewById(activity, R.id.transition_view_container);

@@ -86,7 +86,6 @@ public class TestActivity extends AppCompatActivity {
 
     public void themeRecommend(View view) {
         String number = editText.getText().toString().trim();
-        ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(TextUtils.isEmpty(number) ? "13800138000" : number, "charging", "");
-        ThemeRecommendActivity.start(TestActivity.this, userInfo);
+        ThemeRecommendActivity.start(TestActivity.this, TextUtils.isEmpty(number) ? "13800138000" : number);
     }
 }

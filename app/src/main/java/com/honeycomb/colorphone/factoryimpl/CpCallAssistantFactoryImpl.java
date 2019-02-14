@@ -30,6 +30,7 @@ import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.permission.OutsidePermissionGuideActivity;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
@@ -274,6 +275,9 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK) {
                     boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
                     HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
+                    if (isCouldShowThemeRecommend) {
+                        ThemeRecommendActivity.start(HSApplication.getContext(), phoneNumber);
+                    }
                 }
             }
         };

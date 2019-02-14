@@ -153,6 +153,16 @@ public class ModuleUtils {
             return false;
         }
 
+        ShareAlertActivity.UserInfo userInfo = createUserInfoByPhoneNumber(context, phoneNumber);
+        if (userInfo != null) {
+            ShareAlertActivity.startOutsideApp(context, userInfo);
+            return true;
+        }
+
+        return false;
+    }
+
+    public static ShareAlertActivity.UserInfo createUserInfoByPhoneNumber(Context context, String phoneNumber) {
         String callName = null;
         String photoUri = null;
         ContentResolver contentResolver = context.getContentResolver();
@@ -178,11 +188,9 @@ public class ModuleUtils {
 
         if (callName != null) {
             ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(phoneNumber, callName, photoUri);
-            ShareAlertActivity.startOutsideApp(context, userInfo);
-            return true;
+            return userInfo;
         }
-
-        return false;
+        return null;
     }
 
     public static boolean needShowSetForOneGuide() {

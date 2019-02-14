@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout android:id="@+id/view_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:ignore="ContentDescription">
+
+    <com.acb.call.views.ThemePreviewWindow
+        android:id="@+id/prev_flash_window"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/transition_toolbar_space_v"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        tools:ignore="PrivateResource" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/result_page_header_height"
+        android:layout_below="@+id/transition_toolbar_space_v"
+        android:layout_marginTop="@dimen/result_page_header_tag_margin"
+        android:clipChildren="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/anchor_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/result_page_theme_recommend_optimal"
+            android:textColor="@android:color/white"
+            android:textSize="21.3sp"
+            android:visibility="invisible"
+            app:typeface="@string/roboto_medium" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/optimal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:clipChildren="false">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/label_animation"
+            android:layout_width="133dp"
+            android:layout_height="133dp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:lottie_fileName="lottie/apply_theme_success.json"
+            app:lottie_loop="false"/>
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/label_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="26dp"
+            android:gravity="center"
+            android:text="@string/result_page_theme_recommend_optimal"
+            android:textColor="@android:color/white"
+            android:textSize="21.3sp"
+            android:visibility="visible"
+            app:typeface="@string/roboto_medium"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/page_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:padding="8dp"
+        android:background="@drawable/white_rounded_corner_bg"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+
+        <com.superappscommon.view.RatioRoundImageView
+            android:id="@+id/page_image"
+            android:layout_width="match_parent"
+            android:layout_height="374dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/theme_recommend_noad"
+            app:radius="6dp" />
+
+        <com.superappscommon.view.TypefacedTextView
+            android:id="@+id/page_button_ok"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="@string/result_page_theme_recommend_more"
+            android:textColor="#cc000000"
+            android:background="#ffe400"
+            style="?android:attr/borderlessButtonStyle"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:typefaceFileName="ProximaNova-Bold.otf"
+            tools:visibility="visible"
+            tools:background="#ffe400"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/label_title_guide_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/optimal_layout"
+        android:alpha="0"
+        android:clipChildren="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/result_page_guide_tip_icon" />
+
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
+            android:gravity="center"
+            android:text="@string/result_page_click_guide_tip"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            app:typeface="@string/roboto_regular" />
+    </LinearLayout>
+
+</android.support.percent.PercentRelativeLayout>
