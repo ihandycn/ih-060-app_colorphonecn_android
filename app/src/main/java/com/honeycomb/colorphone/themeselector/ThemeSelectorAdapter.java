@@ -439,6 +439,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (selectTheme(pos, holder, true)) {
                 onThemeSelected(pos);
             }
+            PermissionChecker.getInstance().check(activity, "SetForAll");
         }
 
         // LOG
@@ -450,7 +451,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void onThemeSelected(int pos) {
-        PermissionChecker.getInstance().check(activity, "SetForAll");
 
         final Theme theme = data.get(pos);
         saveThemeApplys(theme.getId());
