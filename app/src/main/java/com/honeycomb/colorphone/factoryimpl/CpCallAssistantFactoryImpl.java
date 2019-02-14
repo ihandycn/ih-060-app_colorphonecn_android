@@ -106,7 +106,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         };
     }
 
-    private  boolean isShowNotificationAccessOutAppGuide(Context context) {
+    private boolean isShowNotificationAccessOutAppGuide(Context context) {
         boolean isAcceptCallFailed = HSPreferenceHelper.getDefault().getBoolean(PREFS_ACCEPT_FAIL, false);
         boolean isEnabled = NotificationConfig.isOutsideAppAccessAlertOpen();
         boolean isAtValidTime =
@@ -119,6 +119,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
     }
 
     private static volatile boolean isADShown = false;
+
     @Override
     public CallIdleAlert.Event getCallIdleEvent() {
         return new CallIdleAlert.FlurryEvent() {
@@ -145,7 +146,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 mTimeReadyToShow = System.currentTimeMillis();
                 LauncherAnalytics.logEvent("CallFinished_View_Should_Show", "callType", getCallTypeStr(callType));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
-                    LauncherAnalytics.logEvent("Test_CallAssistantShouldShow" +  Build.BRAND + getDeviceInfo());
+                    LauncherAnalytics.logEvent("Test_CallAssistantShouldShow" + Build.BRAND + getDeviceInfo());
                     Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
                     Threads.postOnMainThreadDelayed(mDisplayTimeoutRunnable2, 8000);
                 } else {
@@ -186,7 +187,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             }
 
             private String formatTime(long l) {
-                if (l > 1000  * 60) {
+                if (l > 1000 * 60) {
                     return "1m+";
                 }
                 if (l > 8000 * 2) {
@@ -203,19 +204,19 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onCallFinished() {
                 CallFinishUtils.logCallFinish();
-                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
+                LauncherAnalytics.logEvent("ColorPhone_Call_Finished");
 
                 if (PermissionTestUtils.getAlertOutSideApp()
                         && Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
                         && (ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
-                            && ScreenFlashSettings.isScreenFlashModuleEnabled()
-                            && (!Permissions.hasPermission(Manifest.permission.READ_CONTACTS)
-                                || !Permissions.isNotificationAccessGranted()))) {
+                        && ScreenFlashSettings.isScreenFlashModuleEnabled()
+                        && (!Permissions.hasPermission(Manifest.permission.READ_CONTACTS)
+                        || !Permissions.isNotificationAccessGranted()))) {
 
                     Threads.postOnMainThreadDelayed(() -> {
                         if (!isADShown) {
                             Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(() ->
-                                    OutsidePermissionGuideActivity.start(HSApplication.getContext()),
+                                            OutsidePermissionGuideActivity.start(HSApplication.getContext()),
                                     "alert_show_maxtime", PermissionTestUtils.getAlertShowMaxTime());
                         }
                     }, 1000);
@@ -225,7 +226,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                             + "  sf enable: " + ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
                             + "  setting: " + ScreenFlashSettings.isScreenFlashModuleEnabled()
                             + "  permission: " + (!Permissions.hasPermission(Manifest.permission.READ_CONTACTS)
-                            || !Permissions.isNotificationAccessGranted()) );
+                            || !Permissions.isNotificationAccessGranted()));
                 }
             }
 
@@ -240,19 +241,19 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onCallFinishedCallAssistantShow(String number) {
                 ThemeRecommendManager.getInstance().increaseCallTimes(number);
                 CallFinishUtils.logCallFinishCallAssistantShow();
-                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Call_Assistant_Show");
+                LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Call_Assistant_Show");
             }
 
             @Override
             public void onFullScreenAdShouldShow() {
                 CallFinishUtils.logCallFinishWiredShouldShow();
-                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Should_Show");
+                LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Wire_Should_Show");
             }
 
             @Override
             public void onFullScreenAdShow() {
                 CallFinishUtils.logCallFinishWiredShow();
-                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
+                LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Wire_Show");
                 ADAutoPilotUtils.logCallFinishWireShow();
                 if (Utils.isNewUser()) {
                     LauncherAnalytics.logEvent("ColorPhone_CallFinishWire_Show");
@@ -264,6 +265,12 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override public void onInsteadViewShown(View view) {
                 ThemeGuide.parser(view);
             }
+
+            @Override
+            public void onAlertDismiss(CallIdleAlertView.CallIdleAlertDismissType dismissType, String phoneNumber) {
+                boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
+                HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
+            }
         };
     }
 
@@ -274,7 +281,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public CallIdleAlertView getCallIdleAlertView(CallIdleAlertActivity callIdleAlertActivity, CallIdleAlertActivity.Data data) {
                 if (CashUtils.showEntranceAtCallAlert()) {
                     return new CustomCallIdleAlert(callIdleAlertActivity, data);
-                }  else {
+                } else {
                     return super.getCallIdleAlertView(callIdleAlertActivity, data);
                 }
             }
@@ -393,7 +400,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             updateStuff();
         }
     }
-
 
 
     private static class CPCallIdleConfig extends CallIdleAlert.PlistConfig {
