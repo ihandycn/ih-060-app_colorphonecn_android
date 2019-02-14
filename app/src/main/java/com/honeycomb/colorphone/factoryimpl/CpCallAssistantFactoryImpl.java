@@ -202,7 +202,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinished() {
-                CallFinishUtils.logCallFinish();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
 
                 if (PermissionTestUtils.getAlertOutSideApp()
@@ -244,19 +243,16 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinishedCallAssistantShow() {
-                CallFinishUtils.logCallFinishCallAssistantShow();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Call_Assistant_Show");
             }
 
             @Override
             public void onFullScreenAdShouldShow() {
-                CallFinishUtils.logCallFinishWiredShouldShow();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Should_Show");
             }
 
             @Override
             public void onFullScreenAdShow() {
-                CallFinishUtils.logCallFinishWiredShow();
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
                 ADAutoPilotUtils.logCallFinishWireShow();
                 if (Utils.isNewUser()) {
