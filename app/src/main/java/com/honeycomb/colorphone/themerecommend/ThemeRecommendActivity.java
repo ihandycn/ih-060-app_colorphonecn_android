@@ -136,6 +136,8 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
                 if (ad != null) {
                     ThemeRecommendManager.logThemeRecommendWireShow(true);
                     ad.show();
+                } else {
+                    finish();
                 }
             }
         }
