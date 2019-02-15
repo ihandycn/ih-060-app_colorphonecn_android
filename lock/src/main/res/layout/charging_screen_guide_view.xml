@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="27dp"
             android:contentDescription="@null"
+            android:visibility="gone"
             android:tint="#498ced"/>
 
         <android.support.v7.widget.AppCompatImageView
