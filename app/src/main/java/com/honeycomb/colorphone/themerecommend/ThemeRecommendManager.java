@@ -37,7 +37,7 @@ public class ThemeRecommendManager {
     private static final String MORE_CLICK_SESSION = "more_click_session";
 
     private PrefHelper mPrefHelper;
-    private String perparedThemeIdName;
+    private String preparedThemeIdName;
 
     private ThemeRecommendManager() {
         mPrefHelper = new PrefHelper();
@@ -71,19 +71,19 @@ public class ThemeRecommendManager {
         }
 
         if (!TextUtils.isEmpty(result)) {
-            perparedThemeIdName = result;
+            preparedThemeIdName = result;
         }
 
         HSLog.d(TAG, "recommend theme: " + result);
         return result;
     }
 
-    public String getPerparedThemeIdName() {
-        return perparedThemeIdName;
+    public String getPreparedThemeIdName() {
+        return preparedThemeIdName;
     }
 
-    public void clearPerparedThemeIdName() {
-        perparedThemeIdName = "";
+    public void clearPreparedThemeIdName() {
+        preparedThemeIdName = "";
     }
 
     public void putAppliedTheme(String number, String idName) {
@@ -193,7 +193,7 @@ public class ThemeRecommendManager {
             String idName = guideThemeNameList.get(k);
             if (isLegal(number, idName)) {
                 Type theme = Utils.getTypeByThemeIdName(idName);
-                if (isThemeReady(theme)) {
+                if (theme != null && isThemeReady(theme)) {
                     putThemeRecommendIndex(number, k);
                     return idName;
                 } else {
@@ -237,7 +237,7 @@ public class ThemeRecommendManager {
                     ColorPhoneCrashlytics.getInstance().logException(e);
                 }
             } else if (NetUtils.isWifiConnected(HSApplication.getContext())) {
-                downloadMediaTheme(theme.getIndex(), model, null);
+                downloadMediaTheme(theme.getIndex(), model);
             } else {
                 HSLog.d(TAG, "prepareTheme not download , native theme : " + theme.getIdName());
             }
@@ -246,7 +246,7 @@ public class ThemeRecommendManager {
         }
     }
 
-    private void downloadMediaTheme(int pendingThemeIndex, TasksManagerModel model, final DownloadStateListener delegateListener) {
+    private void downloadMediaTheme(int pendingThemeIndex, TasksManagerModel model) {
         boolean downloadStart = TasksManager.doDownload(model, null);
         if (downloadStart) {
             Ap.RandomTheme.logEvent("random_theme_download_start");
@@ -262,26 +262,17 @@ public class ThemeRecommendManager {
                 Ap.RandomTheme.logEvent("random_theme_download_success");
                 LauncherAnalytics.logEvent("colorphone_random_theme_download_success");
 
-                if (delegateListener != null) {
-                    delegateListener.updateDownloaded(progressFlag);
-                }
                 HSLog.d(TAG, "prepareTheme next success , file downloaded : " + pendingThemeIndex);
             }
 
             @Override
             public void updateNotDownloaded(int status, long sofar, long total) {
                 FileDownloadMultiListener.getDefault().removeStateListener(taskId);
-                if (delegateListener != null) {
-                    delegateListener.updateNotDownloaded(status, sofar, total);
-                }
                 HSLog.d(TAG, "prepareTheme next fail , file not downloaded : " + pendingThemeIndex);
             }
 
             @Override
             public void updateDownloading(int status, long sofar, long total) {
-                if (delegateListener != null) {
-                    delegateListener.updateDownloading(status, sofar, total);
-                }
             }
         });
     }
@@ -443,12 +434,16 @@ public class ThemeRecommendManager {
         }
     }
 
-    private static boolean isThemeRecommendEnable() {
+    public static boolean isThemeRecommendEnable() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "themerecommend_enable", false);
     }
 
     public static boolean isThemeRecommendAdShow() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "themerecommend_ad_show", false);
+    }
+
+    public static boolean isThemeRecommendAdShowBeforeRecommend() {
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "ad_show_before_recommend", false);
     }
 
     private static int getThemeRecommendFirstInterval() {
@@ -467,13 +462,13 @@ public class ThemeRecommendManager {
         return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "timeintervalhour", 2);
     }
 
-    public static void logThemeRecommendShow() {
+    static void logThemeRecommendShow() {
         isThemeRecommendEnable();
         AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommend_show");
         LauncherAnalytics.logEvent("ColorPhone_ThemeRecommend_Show");
     }
 
-    public static void logThemeRecommendClick() {
+    static void logThemeRecommendClick() {
         isThemeRecommendEnable();
         AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommend_click");
         LauncherAnalytics.logEvent("ColorPhone_ThemeRecommend_Click");
@@ -517,7 +512,7 @@ public class ThemeRecommendManager {
         setThemeRecommendMoreClickSession();
     }
 
-    public static boolean isThemeRecommendMoreClickSession() {
+    private static boolean isThemeRecommendMoreClickSession() {
         return Preferences.get(PREF_FILE).getInt(MORE_CLICK_SESSION, -1) == SessionMgr.getInstance().getCurrentSessionId();
     }
 
@@ -533,7 +528,7 @@ public class ThemeRecommendManager {
         }
     }
 
-    public static void logThemeRecommendChooseFromResultPage() {
+    private static void logThemeRecommendChooseFromResultPage() {
         if (isThemeRecommendMoreClickSession()) {
             isThemeRecommendEnable();
             AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_choosetheme_fromresultpage");

@@ -90,7 +90,7 @@ public class TestActivity extends AppCompatActivity {
         String number = editText.getText().toString().trim();
         number = TextUtils.isEmpty(number) ? "13800138000" : number;
 
-        String themeIdName = ThemeRecommendManager.getInstance().getPerparedThemeIdName();
+        String themeIdName = ThemeRecommendManager.getInstance().getPreparedThemeIdName();
         if (TextUtils.isEmpty(themeIdName)) {
             themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
         }
@@ -98,7 +98,7 @@ public class TestActivity extends AppCompatActivity {
 
         if (!TextUtils.isEmpty(themeIdName)) {
             ThemeRecommendActivity.start(TestActivity.this, number, themeIdName);
-            ThemeRecommendManager.getInstance().clearPerparedThemeIdName();
+            ThemeRecommendManager.getInstance().clearPreparedThemeIdName();
         } else {
             HSLog.i("ThemeRecommendManager", "not show themeid == " + themeIdName);
         }

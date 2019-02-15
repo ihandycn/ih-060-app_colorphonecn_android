@@ -31,6 +31,7 @@ import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.permission.OutsidePermissionGuideActivity;
+import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
@@ -275,7 +276,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.MENU_CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.HOME
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK) {
-                    String themeIdName = ThemeRecommendManager.getInstance().getPerparedThemeIdName();
+                    String themeIdName = ThemeRecommendManager.getInstance().getPreparedThemeIdName();
                     if (TextUtils.isEmpty(themeIdName)) {
                         themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber);
                         if (!TextUtils.isEmpty(themeIdName)) {
@@ -286,7 +287,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                             }
                         }
                     }
-                    ThemeRecommendManager.getInstance().clearPerparedThemeIdName();
+                    ThemeRecommendManager.getInstance().clearPreparedThemeIdName();
                 }
             }
         };
@@ -313,6 +314,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onRinging(String s) {
                 startFlashIfProper();
+                ResultPageManager.getInstance().preloadThemeRecommendAds();
             }
 
             @Override
@@ -327,7 +329,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onOutGoing(String s) {
-
+                ResultPageManager.getInstance().preloadThemeRecommendAds();
             }
 
         };

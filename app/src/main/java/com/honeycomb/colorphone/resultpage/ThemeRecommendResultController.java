@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -83,6 +84,15 @@ class ThemeRecommendResultController extends ResultController {
             Navigations.startActivitySafely(getContext(), new Intent(getContext(), ColorPhoneActivity.class));
             ThemeRecommendManager.logThemeRecommendResultPageFindMoreClicked();
         });
+
+        ImageView closeButton = (ImageView) mActivity.findViewById(R.id.close);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.finish();
+            }
+        });
+        closeButton.setVisibility(View.VISIBLE);
     }
 
     @Override
