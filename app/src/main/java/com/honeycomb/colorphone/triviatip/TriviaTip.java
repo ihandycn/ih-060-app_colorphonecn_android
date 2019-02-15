@@ -331,8 +331,8 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
     }
 
     private boolean adReady() {
-        return TriviaTipLayout.tryGetInterstitialAd(Placements.TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME) != null
-                || TriviaTipLayout.tryGetInterstitialAd(Placements.BOOST_WIRE) != null;
+        return AcbInterstitialAdManager.getAdsCountInPlacement(Placements.TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME) > 0
+                || AcbInterstitialAdManager.getAdsCountInPlacement(Placements.BOOST_WIRE) > 0;
 
     }
 
