@@ -243,6 +243,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 ThemeRecommendManager.getInstance().increaseCallTimes(number);
                 CallFinishUtils.logCallFinishCallAssistantShow();
                 LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Call_Assistant_Show");
+                ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
             }
 
             @Override

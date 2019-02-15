@@ -1,15 +1,8 @@
 package com.honeycomb.colorphone.themerecommend;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.PersistableBundle;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
@@ -67,7 +60,7 @@ public class ThemeRecommendManager {
         if (lastIndex < 0 || lastIndex >= size - 1) {
             startIndex = 0;
         } else {
-            startIndex = lastIndex + 1;
+            startIndex = lastIndex;
         }
 
         result = getThemeIdAndRecordIndex(guideThemeIdNameList, startIndex, size, number);
@@ -93,6 +86,11 @@ public class ThemeRecommendManager {
     public boolean isShowRecommendTheme(String number) {
         number = deleteWhiteSpace(number);
         boolean result = false;
+
+        if (TextUtils.isEmpty(getRecommendThemeIdAndRecord(number))) {
+            return false;
+        }
+
         boolean isFirstThemeRecommendShowed = isFirstThemeRecommendShowed(number);
         HSLog.d(TAG, "isFirstThemeRecommendShowed = " + isFirstThemeRecommendShowed);
         int hour = getTimeIntervalHours();
@@ -102,6 +100,8 @@ public class ThemeRecommendManager {
         HSLog.d(TAG, "callTimes = " + callTimes);
         if (!isFirstThemeRecommendShowed) {
             if (callTimes >= getCallTimesAtFirstThemeRecommendShowed() && timeAble) {
+                recordFirstThemeRecommendShowed(number);
+                resetRecordCallTimes(number);
                 result = true;
             }
         } else {
@@ -112,13 +112,16 @@ public class ThemeRecommendManager {
             result = isCouldShowToday && timeAble && isAppliedThemeAndTimesEnable;
         }
 
+        if (result) {
+            increaseThemeRecommendShowTimes(number);
+        }
+
         return result;
     }
 
     public void recordThemeRecommendShow(String number) {
-        recordFirstThemeRecommendShowed(number);
-        resetRecordCallTimes(number);
-        increaseThemeRecommendShowTimes(number);
+        int index = getThemeRecommendIndex(number);
+        putThemeRecommendIndex(number, ++index);
     }
 
     public void increaseCallTimes(String number) {
@@ -191,6 +194,7 @@ public class ThemeRecommendManager {
                     return idName;
                 } else {
                     prepareTheme(theme);
+                    return "";
                 }
             } else {
                 HSLog.d(TAG, "theme: " + idName + "is illegal!!!!");
@@ -205,7 +209,7 @@ public class ThemeRecommendManager {
     }
 
     private void prepareTheme(Type theme) {
-        HSLog.d(TAG, "Prepare next theme start : " + theme);
+        HSLog.d(TAG, "Prepare next theme start : " + (theme != null ? theme.getIdName() : "null"));
 
         if (theme != null
                 && theme.isMedia()) {
@@ -216,45 +220,25 @@ public class ThemeRecommendManager {
                 return;
             }
             if (TasksManager.getImpl().isDownloaded(model)) {
-                HSLog.d(TAG, "prepareTheme next success , file already downloaded : " + theme);
+                HSLog.d(TAG, "prepareTheme next success , file already downloaded : " + theme.getIdName());
                 return;
             }
 
             // Check wifi state
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                HSLog.d(TAG, "Start theme download job : index " + theme);
+                HSLog.d(TAG, "Start theme download job : index " + theme.getIdName());
                 try {
-                    startDownloadJob();
+                    ThemeDownloadJobService.scheduleDownloadJob(model.getId());
                 } catch (Exception e) {
                     ColorPhoneCrashlytics.getInstance().logException(e);
                 }
             } else if (NetUtils.isWifiConnected(HSApplication.getContext())) {
                 downloadMediaTheme(theme.getIndex(), model, null);
+            } else {
+                HSLog.d(TAG, "prepareTheme not download , native theme : " + theme.getIdName());
             }
         } else {
-            HSLog.d(TAG, "prepareTheme next success , native theme : " + theme);
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void startDownloadJob() {
-        PersistableBundle persistableBundle = new PersistableBundle();
-        persistableBundle.putInt(ThemeDownloadJobService.KEY_TYPE, ThemeDownloadJobService.TYPE_RANDOM_THEME);
-        JobInfo jobInfo = new JobInfo.Builder(1000,
-                new ComponentName(HSApplication.getContext(), ThemeDownloadJobService.class))
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-                .setBackoffCriteria(5 * DateUtils.MINUTE_IN_MILLIS, JobInfo.BACKOFF_POLICY_EXPONENTIAL)
-                .setExtras(persistableBundle)
-                .build();
-
-        JobScheduler jobScheduler = (JobScheduler) HSApplication.getContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        if (jobScheduler != null) {
-            int resultCode = jobScheduler.schedule(jobInfo);
-            if (resultCode == JobScheduler.RESULT_SUCCESS) {
-                HSLog.d(TAG, "Job scheduled!");
-            } else {
-                HSLog.d(TAG, "Job not scheduled");
-            }
+            HSLog.d(TAG, "prepareTheme success , native theme : " + (theme != null ? theme.getIdName() : "null"));
         }
     }
 

@@ -16,6 +16,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.recentapp.SmartAssistantActivity;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 
@@ -86,6 +87,9 @@ public class TestActivity extends AppCompatActivity {
 
     public void themeRecommend(View view) {
         String number = editText.getText().toString().trim();
-        ThemeRecommendActivity.start(TestActivity.this, TextUtils.isEmpty(number) ? "13800138000" : number);
+        number = TextUtils.isEmpty(number) ? "13800138000" : number;
+        if (ThemeRecommendManager.getInstance().isShowRecommendTheme(number)) {
+            ThemeRecommendActivity.start(TestActivity.this, number);
+        }
     }
 }
