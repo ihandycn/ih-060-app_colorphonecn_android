@@ -49,6 +49,10 @@ public class ThemeRecommendManager {
 
     @SuppressWarnings("unchecked")
     public String getRecommendThemeIdAndRecord(String number) {
+        if (isThemeRecommendEnable()) {
+            return "";
+        }
+        
         number = deleteWhiteSpace(number);
         String result = "";
         List<String> guideThemeIdNameList = (List<String>) HSConfig.getList("Application", "ThemeGuide");
@@ -97,6 +101,10 @@ public class ThemeRecommendManager {
     }
 
     public boolean isShowRecommendTheme(String number) {
+        if (!isThemeRecommendEnable()) {
+            return false;
+        }
+
         number = deleteWhiteSpace(number);
         boolean result = false;
 
@@ -173,7 +181,7 @@ public class ThemeRecommendManager {
     }
 
     private boolean isAppliedThemeForUser(String number) {
-        return isThemeRecommendEnable() && (!getAppliedThemeForAllUser().isEmpty() || !getAppliedTheme(deleteWhiteSpace(number)).isEmpty());
+        return (!getAppliedThemeForAllUser().isEmpty() || !getAppliedTheme(deleteWhiteSpace(number)).isEmpty());
     }
 
     private List<String> getAppliedTheme(String number) {
