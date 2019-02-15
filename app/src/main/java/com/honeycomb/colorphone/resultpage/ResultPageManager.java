@@ -82,7 +82,7 @@ public class ResultPageManager {
 
     public AcbNativeAd getAd() {
         if (useThemeCommendAd) {
-            return getAd(Placements.THEME_RECOMMEND_WIRE);
+            return getAd(Placements.THEME_RECOMMEND_DONE);
         }
         return getAd(ResultPageManager.getInstance().getExpressAdPlacement());
     }
