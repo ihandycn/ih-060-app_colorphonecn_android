@@ -38,7 +38,7 @@
             android:textColor="@android:color/white"
             android:textSize="21.3sp"
             android:visibility="invisible"
-            app:typeface="@string/roboto_medium" />
+            app:typefaceFileName="ProximaNova-Bold.otf" />
 
     </LinearLayout>
 
@@ -70,7 +70,7 @@
             android:textColor="@android:color/white"
             android:textSize="21.3sp"
             android:visibility="visible"
-            app:typeface="@string/roboto_medium"
+            app:typefaceFileName="ProximaNova-Bold.otf"
             tools:visibility="visible" />
 
     </LinearLayout>

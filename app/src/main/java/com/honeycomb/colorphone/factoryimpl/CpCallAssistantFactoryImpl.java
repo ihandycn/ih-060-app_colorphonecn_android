@@ -279,12 +279,12 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                     String themeIdName = ThemeRecommendManager.getInstance().getPreparedThemeIdName();
                     if (TextUtils.isEmpty(themeIdName)) {
                         themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber);
-                        if (!TextUtils.isEmpty(themeIdName)) {
-                            boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
-                            HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
-                            if (isCouldShowThemeRecommend) {
-                                ThemeRecommendActivity.start(HSApplication.getContext(), phoneNumber, themeIdName);
-                            }
+                    }
+                    if (!TextUtils.isEmpty(themeIdName)) {
+                        boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
+                        HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
+                        if (isCouldShowThemeRecommend) {
+                            ThemeRecommendActivity.start(HSApplication.getContext(), phoneNumber, themeIdName);
                         }
                     }
                     ThemeRecommendManager.getInstance().clearPreparedThemeIdName();
