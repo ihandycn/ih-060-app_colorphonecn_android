@@ -349,6 +349,9 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
 
     private boolean moreThanOneDay() {
         long lastShowTime = Preferences.get(Constants.DESKTOP_PREFS).getLong(PREF_KEY_LAST_SHOW_TIME, -1);
+        if (lastShowTime < 0) {
+            lastShowTime = Utils.getAppInstallTimeMillis();
+        }
         boolean oneDayPast = System.currentTimeMillis() - lastShowTime >= DateUtils.DAY_IN_MILLIS;
         HSLog.d(TAG, "moreThanOneDay ？ " + oneDayPast);
         return oneDayPast;
