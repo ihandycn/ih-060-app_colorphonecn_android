@@ -489,7 +489,7 @@
             android:theme="@style/Theme.AppCompat.Translucent"/>
         <activity
             android:name=".triviatip.TriviaTipActivity"
-            android:theme="@style/AppCompatTranslucent"
+            android:theme="@style/Theme.AppCompat.Translucent"
             android:excludeFromRecents="true" />
         <!--&lt;!&ndash;===== Dialer Module =====&ndash;&gt;-->
 
