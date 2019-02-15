@@ -245,6 +245,9 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 super.onAlertDismiss(dismissType);
                 if (CallIdleAlertView.CallIdleAlertDismissType.ACTIVITY_DESTROY != dismissType) {
                     LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Call_Assistant_Close", "Type", dismissType.name());
+                    if (CallIdleAlertView.CallIdleAlertDismissType.BACK == dismissType
+                            || CallIdleAlertView.CallIdleAlertDismissType.CLOSE == dismissType
+                            || CallIdleAlertView.CallIdleAlertDismissType.MENU_CLOSE == dismissType)
                     TriviaTip.getInstance().onCallAlertClose();
                 }
             }
