@@ -298,6 +298,9 @@ abstract class ResultController implements View.OnClickListener {
     }
 
     private boolean shouldShowInterstitialAd() {
+        if (mResultType == ResultConstants.RESULT_TYPE_THEME_RECOMMEND && ThemeRecommendManager.isThemeRecommendAdShowBeforeRecommend()) {
+            return false;
+        }
         if (ResultPageManager.getInstance().getInterstitialAd() == null) {
             return false;
         }

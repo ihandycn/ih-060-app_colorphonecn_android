@@ -215,12 +215,14 @@ class ThemeRecommendResultController extends ResultController {
 
         float endTranslationY = newOptimalTvCenterY - oldOptimalTvCenterY;
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.setDuration(DURATION_OPTIMAL_TEXT_TRANSLATION)
+        animator.setDuration(DURATION_OPTIMAL_TEXT_TRANSLATION * 2)
                 .setInterpolator(softStopAccDecInterpolator);
         contentLayout.setTranslationY(-endTranslationY);
         animator.addUpdateListener(valueAnimator -> {
             float frame = (float) valueAnimator.getAnimatedValue();
             optimalTv.setTranslationY(endTranslationY * frame);
+            successAnim.setTranslationY(endTranslationY * frame);
+            successAnim.setAlpha(1 - frame);
             contentLayout.setTranslationY(endTranslationY * (frame - 1));
             contentLayout.setAlpha(frame);
         });

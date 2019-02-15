@@ -15,6 +15,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.recentapp.SmartAssistantActivity;
+import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.Utils;
@@ -87,6 +88,8 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void themeRecommend(View view) {
+        ResultPageManager.getInstance().preloadThemeRecommendAds();
+
         String number = editText.getText().toString().trim();
         number = TextUtils.isEmpty(number) ? "13800138000" : number;
 

@@ -91,7 +91,8 @@
         <com.superappscommon.view.RatioRoundImageView
             android:id="@+id/page_image"
             android:layout_width="match_parent"
-            android:layout_height="374dp"
+            android:layout_height="wrap_content"
+            android:minHeight="374dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/theme_recommend_noad"
             app:radius="6dp" />
