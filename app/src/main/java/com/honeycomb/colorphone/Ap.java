@@ -234,7 +234,7 @@ public class Ap {
     }
 
     public static class TriviaTip {
-        public static String TOPIC_ID = "topic-707tmynvf";
+        public static String TOPIC_ID = "topic-70rjkxrrs";
 
         public static boolean enable() {
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "trivia_enable", false);
@@ -250,6 +250,11 @@ public class Ap {
 
         public static boolean enableWhenUnlock() {
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "trivia_show_when_unlock", false);
+        }
+
+
+        public static boolean enableAdShowBeforeTrivia() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "wire_show_on_trivia", false);
         }
 
         public static int intervalMins() {

@@ -490,6 +490,94 @@
       ],
       "topic_id": "topic-1511875453515"
     },
+    "topic-70rjkxrrs": {
+      "topic_type": "life_time",
+      "topic_name": "TriviaTestNew",
+      "variations": {
+        "trivia_enable": {
+          "type": "boolean",
+          "value": false
+        },
+        "trivia_show_interval": {
+          "type": "double",
+          "value": 60
+        },
+        "wire_show_on_trivia": {
+          "type": "boolean",
+          "value": false
+        },
+        "trivia_show_maxtime": {
+          "type": "double",
+          "value": 4
+        },
+        "trivia_show_when_assistant_close": {
+          "type": "boolean",
+          "value": false
+        },
+        "trivia_show_when_unlock": {
+          "type": "boolean",
+          "value": false
+        },
+        "trivia_button_desc": {
+          "type": "string",
+          "value": "OK"
+        },
+        "apply_button_show_on_detail": {
+          "type": "boolean",
+          "value": false
+        },
+        "show_time_after_first_open": {
+          "type": "double",
+          "value": 2
+        },
+        "trivia_show_when_receive_push": {
+          "type": "boolean",
+          "value": false
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "trivia_show"
+        },
+        {
+          "name": "trivia_click"
+        },
+        {
+          "name": "trivia_button_click"
+        },
+        {
+          "name": "trivia_detail_show"
+        },
+        {
+          "name": "trivia_detail_wire_should_show"
+        },
+        {
+          "name": "trivia_detail_wire_show"
+        },
+        {
+          "name": "trivia_detail_done_should_show"
+        },
+        {
+          "name": "trivia_detail_done_show"
+        },
+        {
+          "name": "trivia_detail_apply_btn_click"
+        },
+        {
+          "name": "trivia_should_show"
+        },
+        {
+          "name": "wire_should_show_on_trivia"
+        },
+        {
+          "name": "wire_show_on_trivia"
+        }
+      ],
+      "topic_id": "topic-70rjkxrrs"
+    },
     "topic-1536215679114-660": {
       "topic_type": "life_time",
       "topic_name": "Dialer Test",
@@ -556,7 +644,7 @@
         },
         "callfinishwire_time_interval_minute": {
           "type": "double",
-          "value": 60
+          "value": 0
         }
       },
       "events": [
@@ -970,6 +1058,10 @@
           "value": false
         },
         "themerecommend_ad_show": {
+          "type": "boolean",
+          "value": false
+        },
+        "ad_show_before_recommend": {
           "type": "boolean",
           "value": false
         },
@@ -1823,7 +1915,7 @@
   "autopilot_id": 10000,
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "ffddd49c-9444-4a6e-a6f0-b631fa955b51",
+  "json_id": "af3794fc-30e9-4fee-bd22-57b80dab5edf",
   "autopilot_name": "Color Phone",
   "autopilot_type": "app"
 }

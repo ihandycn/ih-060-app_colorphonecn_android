@@ -206,7 +206,7 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         Ap.TriviaTip.logEvent("trivia_show");
     }
 
-    private void preloadAd() {
+    public void preloadAd() {
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME);
         AcbInterstitialAdManager.preload(1, Placements.TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME);
         AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.TRIVIA_TIP_NATIVE_AD_PLACEMENT_NAME);

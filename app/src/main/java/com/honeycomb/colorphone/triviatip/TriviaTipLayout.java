@@ -94,6 +94,7 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
     private String mNativeSource;
     private int mItemId;
     private String mImageFilePath;
+    private boolean mInterstitialAdBeforeDetail;
 
     public TriviaTipLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -222,7 +223,11 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
 
     void onResume() {
         if (mShowInterstitialAd) {
-            postDelayed(this::backFromAd, 750);
+            if (!mInterstitialAdBeforeDetail) {
+                postDelayed(this::backFromAd, 750);
+            }
+        } else if (Ap.TriviaTip.enableAdShowBeforeTrivia()) {
+            postDelayed(() -> showInterstitialAd(true), 500);
         }
     }
 
@@ -297,7 +302,7 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    showInterstitialAd();
+                    showInterstitialAd(false);
                 }
             });
             animator.start();
@@ -321,22 +326,29 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
         return null;
     }
 
-    private void showInterstitialAd() {
+    private void showInterstitialAd(boolean beforeTriviaAlert) {
+        mInterstitialAdBeforeDetail = beforeTriviaAlert;
         mInterstitialAd = tryGetInterstitialAd(Placements.TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME);
         HSLog.d("TriviaTip", "1 mInterstitialAd = " + mInterstitialAd);
 
-        LauncherAnalytics.logEvent("trivia_detail_wire_should_show");
-        Ap.TriviaTip.logEvent("trivia_detail_wire_should_show");
+        if (beforeTriviaAlert) {
+            LauncherAnalytics.logEvent("wire_should_show_on_trivia");
+            Ap.TriviaTip.logEvent("wire_should_show_on_trivia");
+        } else {
+            LauncherAnalytics.logEvent("trivia_detail_wire_should_show");
+            Ap.TriviaTip.logEvent("trivia_detail_wire_should_show");
+        }
 
         if (mInterstitialAd == null) {
             mInterstitialAd = tryGetInterstitialAd(Placements.BOOST_WIRE);
             if (mInterstitialAd != null) {
-                LauncherAnalytics.logEvent("trivia_detail_wire_show", "From", "BoostWire");
+                LauncherAnalytics.logEvent(beforeTriviaAlert ? "wire_show_on_trivia" : "trivia_detail_wire_show", "From", "BoostWire");
             }
         } else {
-            LauncherAnalytics.logEvent("trivia_detail_wire_show", "From", "TriviaWire");
+            LauncherAnalytics.logEvent(beforeTriviaAlert ? "wire_show_on_trivia" : "trivia_detail_wire_show", "From", "TriviaWire");
         }
-        HSLog.d("TriviaTip", "2 mInterstitialAd = " + mInterstitialAd);
+
+        HSLog.d("TriviaTip", "mInterstitialAd = " + mInterstitialAd);
         if (mInterstitialAd != null) {
             mInterstitialAd.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
 
@@ -346,10 +358,24 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
 
                 @Override
                 public void onAdClicked() {
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.release();
+                        mInterstitialAd.setInterstitialAdListener(null);
+                        mInterstitialAd = null;
+                    }
                 }
 
                 @Override
                 public void onAdClosed() {
+                    if (mInterstitialAd != null) {
+                        mInterstitialAd.release();
+                        mInterstitialAd.setInterstitialAdListener(null);
+                        mInterstitialAd = null;
+                    }
+                    if (beforeTriviaAlert) {
+                        AcbInterstitialAdManager.preload(1, Placements.TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME);
+                        AcbNativeAdManager.preload(1, Placements.TRIVIA_TIP_NATIVE_AD_PLACEMENT_NAME);
+                    }
                 }
 
                 @Override
@@ -359,9 +385,11 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
             });
             mInterstitialAd.show();
             mShowInterstitialAd = true;
-            Ap.TriviaTip.logEvent("trivia_detail_wire_show");
+            Ap.TriviaTip.logEvent(beforeTriviaAlert ? "wire_show_on_trivia" : "trivia_detail_wire_show");
         } else {
-            postDelayed(this::backFromAd, 750);
+            if (!beforeTriviaAlert) {
+                postDelayed(this::backFromAd, 750);
+            }
         }
     }
 

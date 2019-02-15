@@ -20,6 +20,7 @@ import com.call.assistant.ui.CallIdleAlert;
 import com.call.assistant.ui.CallIdleAlertActivity;
 import com.call.assistant.ui.CallIdleAlertView;
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
@@ -203,6 +204,10 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onCallFinished() {
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
+                if (TriviaTip.isModuleEnable()
+                        && Ap.TriviaTip.enableAdShowBeforeTrivia()) {
+                    TriviaTip.getInstance().preloadAd();
+                }
 
                 if (PermissionTestUtils.getAlertOutSideApp()
                         && Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
@@ -238,7 +243,10 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onAlertDismiss(CallIdleAlertView.CallIdleAlertDismissType dismissType) {
                 super.onAlertDismiss(dismissType);
-                TriviaTip.getInstance().onCallAlertClose();
+                if (CallIdleAlertView.CallIdleAlertDismissType.ACTIVITY_DESTROY != dismissType) {
+                    LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Call_Assistant_Close", "Type", dismissType.name());
+                    TriviaTip.getInstance().onCallAlertClose();
+                }
             }
 
             @Override

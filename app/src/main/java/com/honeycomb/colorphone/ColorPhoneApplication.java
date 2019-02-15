@@ -196,6 +196,7 @@ public class ColorPhoneApplication extends HSApplication {
         @Override
         public void onReceive(Context context, Intent intent) {
             updateCallFinishFullScreenAdPlacement();
+            updateTriviaTipAdPlacement();
             AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
@@ -506,6 +507,13 @@ public class ColorPhoneApplication extends HSApplication {
         }
     }
 
+    private void updateTriviaTipAdPlacement() {
+        if (TriviaTip.isModuleEnable()) {
+            AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME);
+            AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.TRIVIA_TIP_NATIVE_AD_PLACEMENT_NAME);
+        }
+    }
+
     private void initChargingReport() {
         long firstInstallTime = HSSessionMgr.getFirstSessionStartTime();
         AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CHARGING_REPORT);
@@ -734,6 +742,7 @@ public class ColorPhoneApplication extends HSApplication {
         ColorPhonePermanentUtils.checkAliveForProcess();
 
         updateCallFinishFullScreenAdPlacement();
+        updateTriviaTipAdPlacement();
         AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
     }
 
