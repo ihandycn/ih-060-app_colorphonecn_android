@@ -323,8 +323,17 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         boolean enable = Ap.TriviaTip.enableWhenAssistantClose()
                 && isModuleEnable();
         if (enable) {
-            show();
+            boolean adNeed = Ap.TriviaTip.enableAdShowBeforeTrivia();
+            if (!adNeed || adReady()) {
+                show();
+            }
         }
+    }
+
+    private boolean adReady() {
+        return TriviaTipLayout.tryGetInterstitialAd(Placements.TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME) != null
+                || TriviaTipLayout.tryGetInterstitialAd(Placements.BOOST_WIRE) != null;
+
     }
 
     public void onUnlock() {
