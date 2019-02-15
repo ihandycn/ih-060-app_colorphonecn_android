@@ -4,9 +4,6 @@ import com.call.assistant.util.CommonUtils;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Compats;
 
-import net.appcloudbox.ads.adadapter.AdmobBannerAdapter.AdmobBannerAdapter;
-import net.appcloudbox.ads.adadapter.DfpBannerAdapter.DfpBannerAdapter;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -42,8 +39,8 @@ public class CrashFix {
     public static void fixHuaWeiAnr() {
         if (Compats.IS_HUAWEI_DEVICE && CommonUtils.ATLEAST_N) {
             boolean showAd = HSConfig.optBoolean(false, "Application", "HuaWeiHighVersionAd");
-            AdmobBannerAdapter.limitHWloadAd(!showAd);
-            DfpBannerAdapter.limitHWloadAd(!showAd);
+//            AdmobBannerAdapter.limitHWloadAd(!showAd);
+//            DfpBannerAdapter.limitHWloadAd(!showAd);
         }
     }
 

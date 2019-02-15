@@ -254,7 +254,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
             adView.prepareAd(new AcbExpressAdView.PrepareAdListener() {
                 @Override
-                public void onAdReady(AcbExpressAdView acbExpressAdView) {
+                public void onAdReady(AcbExpressAdView acbExpressAdView, float v) {
                     if (mAdContainer != null) {
                         mAdContainer.setVisibility(VISIBLE);
                         mAdContainer.addView(adView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

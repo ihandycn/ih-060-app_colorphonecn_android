@@ -332,7 +332,12 @@ public class ColorPhoneApplication extends HSApplication {
         ThemeList.updateThemes(true);
 
         registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
-        AcbAds.getInstance().initializeFromGoldenEye(this);
+        AcbAds.getInstance().initializeFromGoldenEye(this, new AcbAds.GoldenEyeInitListener() {
+            @Override
+            public void onInitialized() {
+
+            }
+        });
         AcbAds.getInstance().setLogEventListener(new AcbAds.logEventListener() {
             @Override
             public void logFirebaseEvent(String s, Bundle bundle) {
