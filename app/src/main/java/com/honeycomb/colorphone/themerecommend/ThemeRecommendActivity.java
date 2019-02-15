@@ -17,7 +17,6 @@ import com.acb.call.views.CircleImageView;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.acb.utils.Utils;
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
@@ -108,13 +107,8 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
             }
             mThemeType = Utils.getTypeByThemeIdName(themeIdName);
             if (mThemeType == null) {
-                if (BuildConfig.DEBUG) {
-                    int themeID = ScreenFlashManager.getInstance().getAcbCallFactory().getIncomingReceiverConfig().getThemeIdByPhoneNumber(number);
-                    mThemeType = Utils.getTypeByThemeId(themeID);
-                } else {
-                    finish();
-                    return;
-                }
+                finish();
+                return;
             }
 
             mPreview.updateThemeLayout(mThemeType);
