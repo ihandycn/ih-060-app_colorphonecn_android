@@ -76,7 +76,7 @@ public class ThemeDownloadJobService extends JobService {
     private void doDownloadTask(JobParameters jobParameters) {
         int taskId = jobParameters.getExtras().getInt(KEY_TASK_ID);
         HSLog.d(TAG, "schedule download task : " + taskId);
-        if (taskId > 0) {
+        if (taskId != 0) {
             TasksManagerModel model = TasksManager.getImpl().getById(taskId);
             if (model == null) {
                 if (TasksManager.getImpl().isLoading()) {
@@ -115,6 +115,8 @@ public class ThemeDownloadJobService extends JobService {
 
                 }
             });
+        } else {
+            HSLog.d(TAG, "schedule NOT download task : " + taskId);
         }
     }
 

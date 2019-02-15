@@ -37,6 +37,7 @@ public class ThemeRecommendManager {
     private static final String MORE_CLICK_SESSION = "more_click_session";
 
     private PrefHelper mPrefHelper;
+    private String perparedThemeIdName;
 
     private ThemeRecommendManager() {
         mPrefHelper = new PrefHelper();
@@ -60,7 +61,7 @@ public class ThemeRecommendManager {
         if (lastIndex < 0 || lastIndex >= size - 1) {
             startIndex = 0;
         } else {
-            startIndex = lastIndex;
+            startIndex = lastIndex + 1;
         }
 
         result = getThemeIdAndRecordIndex(guideThemeIdNameList, startIndex, size, number);
@@ -69,8 +70,20 @@ public class ThemeRecommendManager {
             result = getThemeIdAndRecordIndex(guideThemeIdNameList, 0, startIndex, number);
         }
 
+        if (!TextUtils.isEmpty(result)) {
+            perparedThemeIdName = result;
+        }
+
         HSLog.d(TAG, "recommend theme: " + result);
         return result;
+    }
+
+    public String getPerparedThemeIdName() {
+        return perparedThemeIdName;
+    }
+
+    public void clearPerparedThemeIdName() {
+        perparedThemeIdName = "";
     }
 
     public void putAppliedTheme(String number, String idName) {
@@ -86,10 +99,6 @@ public class ThemeRecommendManager {
     public boolean isShowRecommendTheme(String number) {
         number = deleteWhiteSpace(number);
         boolean result = false;
-
-        if (TextUtils.isEmpty(getRecommendThemeIdAndRecord(number))) {
-            return false;
-        }
 
         boolean isFirstThemeRecommendShowed = isFirstThemeRecommendShowed(number);
         HSLog.d(TAG, "isFirstThemeRecommendShowed = " + isFirstThemeRecommendShowed);
@@ -117,11 +126,6 @@ public class ThemeRecommendManager {
         }
 
         return result;
-    }
-
-    public void recordThemeRecommendShow(String number) {
-        int index = getThemeRecommendIndex(number);
-        putThemeRecommendIndex(number, ++index);
     }
 
     public void increaseCallTimes(String number) {

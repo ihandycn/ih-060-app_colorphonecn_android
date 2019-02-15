@@ -37,6 +37,7 @@ import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 public class ThemeRecommendActivity extends HSAppCompatActivity {
 
     public static final String PHONE_NUMBER = "phone_number";
+    public static final String THEME_ID_NAME = "theme_id_name";
 
     private View mNavBack;
     private Type mThemeType;
@@ -48,10 +49,11 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
     private View mAction;
     private ShareAlertActivity.UserInfo userInfo;
 
-    public static void start(Context context, String phoneNum) {
+    public static void start(Context context, String phoneNumber, String themeIdName) {
         Intent intent = new Intent(context, ThemeRecommendActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(PHONE_NUMBER, phoneNum);
+        intent.putExtra(PHONE_NUMBER, phoneNumber);
+        intent.putExtra(THEME_ID_NAME, themeIdName);
         context.startActivity(intent);
     }
 
@@ -65,7 +67,7 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
 
         setContentView(R.layout.activity_theme_recommend);
 
-        String number = (String) getIntent().getSerializableExtra(PHONE_NUMBER);
+        String number = getIntent().getStringExtra(PHONE_NUMBER);
         if (TextUtils.isEmpty(number)) {
             finish();
             return;
@@ -99,7 +101,7 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
 
     public void show(String number) {
         if (!TextUtils.isEmpty(number)){
-            String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
+            String themeIdName = getIntent().getStringExtra(THEME_ID_NAME);
             if (TextUtils.isEmpty(themeIdName)) {
                 finish();
                 return;
@@ -123,8 +125,7 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
 
             userInfo = ModuleUtils.createUserInfoByPhoneNumber(this, number);
             if (userInfo == null) {
-                finish();
-                return;
+                userInfo = new ShareAlertActivity.UserInfo(number, "", "");
             }
 
             mContent.setText(String.format(getString(R.string.theme_recommend_content),
@@ -133,7 +134,6 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
                             : userInfo.getCallName()));
             editUserView(mPreview);
 
-            ThemeRecommendManager.getInstance().recordThemeRecommendShow(number);
             ThemeRecommendManager.logThemeRecommendShow();
         }
     }

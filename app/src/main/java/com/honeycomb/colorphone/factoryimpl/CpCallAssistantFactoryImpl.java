@@ -9,6 +9,7 @@ import android.database.ContentObserver;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.acb.call.customize.ScreenFlashManager;
@@ -274,11 +275,18 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.MENU_CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.HOME
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK) {
-                    boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
-                    HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
-                    if (isCouldShowThemeRecommend) {
-                        ThemeRecommendActivity.start(HSApplication.getContext(), phoneNumber);
+                    String themeIdName = ThemeRecommendManager.getInstance().getPerparedThemeIdName();
+                    if (TextUtils.isEmpty(themeIdName)) {
+                        themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber);
+                        if (!TextUtils.isEmpty(themeIdName)) {
+                            boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
+                            HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
+                            if (isCouldShowThemeRecommend) {
+                                ThemeRecommendActivity.start(HSApplication.getContext(), phoneNumber, themeIdName);
+                            }
+                        }
                     }
+                    ThemeRecommendManager.getInstance().clearPerparedThemeIdName();
                 }
             }
         };
