@@ -254,7 +254,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
             case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
                 Type themeType = (Type) intent.getSerializableExtra(EXTRA_KEY_RECOMMEND_THEME);
                 mResultController = new ThemeRecommendResultController(this, themeType, type, cards);
-                titleText = getString(R.string.result_page_theme_recommend_title);
+                titleText = getString(R.string.app_name);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported result type.");

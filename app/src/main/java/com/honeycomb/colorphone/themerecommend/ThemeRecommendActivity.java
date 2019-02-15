@@ -82,6 +82,8 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
                 ThemeRecommendManager.getInstance().putAppliedTheme(number, mThemeType.getIdName());
                 ResultPageActivity.startForThemeRecommend(this, mThemeType);
                 mPreview.stopAnimations();
+
+                ThemeRecommendManager.logThemeRecommendClick();
                 finish();
             }
         });
@@ -99,6 +101,7 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
         if (!TextUtils.isEmpty(number)){
             String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
             if (TextUtils.isEmpty(themeIdName)) {
+                finish();
                 return;
             }
             mThemeType = Utils.getTypeByThemeIdName(themeIdName);
@@ -129,6 +132,9 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
                             ? getString(R.string.theme_recommend_content_default)
                             : userInfo.getCallName()));
             editUserView(mPreview);
+
+            ThemeRecommendManager.getInstance().recordThemeRecommendShow(number);
+            ThemeRecommendManager.logThemeRecommendShow();
         }
     }
 

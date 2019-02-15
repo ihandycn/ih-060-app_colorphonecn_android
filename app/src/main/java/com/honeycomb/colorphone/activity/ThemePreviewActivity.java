@@ -20,6 +20,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
@@ -141,6 +142,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }, 200);
         }
         ThemeGuide.logThemeDetailShow();
+
+        ThemeRecommendManager.logThemeRecommendThemeDetailFromResultPage();
     }
 
 

@@ -14,4 +14,6 @@ public class Placements {
 
     public static final String CABLE_DOWN = "CableDone";
     public static final String CABLE_WIRE = "CableWire";
+    public static final String THEME_RECOMMEND_WIRE = "ThemeRecommendWire";
+    public static final String THEME_RECOMMEND_DONE = "ThemeRecommendDone";
 }

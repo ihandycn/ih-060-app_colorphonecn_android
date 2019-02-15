@@ -1,15 +1,37 @@
 package com.honeycomb.colorphone.themerecommend;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.PersistableBundle;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
 import com.acb.utils.Utils;
+import com.honeycomb.colorphone.Ap;
+import com.honeycomb.colorphone.download.DownloadStateListener;
+import com.honeycomb.colorphone.download.FileDownloadMultiListener;
+import com.honeycomb.colorphone.download.TasksManager;
+import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.theme.ThemeDownloadJobService;
+import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.NetUtils;
+import com.ihs.app.framework.HSApplication;
+import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Calendars;
 import com.superapps.util.Preferences;
+
+import net.appcloudbox.autopilot.AutopilotConfig;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +39,9 @@ import java.util.concurrent.TimeUnit;
 public class ThemeRecommendManager {
 
     private static final String TAG = ThemeRecommendManager.class.getSimpleName();
+    private static final String TOPIC_ID = "topic-70osaxxsn";
+    private static final String PREF_FILE = "applied_theme_file";
+    private static final String MORE_CLICK_SESSION = "more_click_session";
 
     private PrefHelper mPrefHelper;
 
@@ -57,10 +82,12 @@ public class ThemeRecommendManager {
 
     public void putAppliedTheme(String number, String idName) {
         mPrefHelper.putAppliedTheme(deleteWhiteSpace(number), idName);
+        logThemeRecommendChooseFromResultPage();
     }
 
     public void putAppliedThemeForAllUser(String idName) {
         mPrefHelper.putAppliedThemeForAllUser(idName);
+        logThemeRecommendChooseFromResultPage();
     }
 
     public boolean isShowRecommendTheme(String number) {
@@ -75,8 +102,6 @@ public class ThemeRecommendManager {
         HSLog.d(TAG, "callTimes = " + callTimes);
         if (!isFirstThemeRecommendShowed) {
             if (callTimes >= getCallTimesAtFirstThemeRecommendShowed() && timeAble) {
-                recordFirstThemeRecommendShowed(number);
-                resetRecordCallTimes(number);
                 result = true;
             }
         } else {
@@ -87,11 +112,13 @@ public class ThemeRecommendManager {
             result = isCouldShowToday && timeAble && isAppliedThemeAndTimesEnable;
         }
 
-        if (result) {
-            increaseThemeRecommendShowTimes(number);
-        }
-
         return result;
+    }
+
+    public void recordThemeRecommendShow(String number) {
+        recordFirstThemeRecommendShowed(number);
+        resetRecordCallTimes(number);
+        increaseThemeRecommendShowTimes(number);
     }
 
     public void increaseCallTimes(String number) {
@@ -139,7 +166,7 @@ public class ThemeRecommendManager {
     }
 
     private boolean isAppliedThemeForUser(String number) {
-        return !getAppliedThemeForAllUser().isEmpty() || !getAppliedTheme(deleteWhiteSpace(number)).isEmpty();
+        return isThemeRecommendEnable() && (!getAppliedThemeForAllUser().isEmpty() || !getAppliedTheme(deleteWhiteSpace(number)).isEmpty());
     }
 
     private List<String> getAppliedTheme(String number) {
@@ -158,13 +185,117 @@ public class ThemeRecommendManager {
         for (int k = startIndex; k < endIndex; k++) {
             String idName = guideThemeNameList.get(k);
             if (isLegal(number, idName)) {
-                putThemeRecommendIndex(number, k);
-                return idName;
+                Type theme = Utils.getTypeByThemeIdName(idName);
+                if (isThemeReady(theme)) {
+                    putThemeRecommendIndex(number, k);
+                    return idName;
+                } else {
+                    prepareTheme(theme);
+                }
             } else {
                 HSLog.d(TAG, "theme: " + idName + "is illegal!!!!");
             }
         }
         return "";
+    }
+
+    private boolean isThemeReady(Type theme) {
+        return !theme.isMedia()
+                || TasksManager.getImpl().isThemeDownloaded(theme.getId());
+    }
+
+    private void prepareTheme(Type theme) {
+        HSLog.d(TAG, "Prepare next theme start : " + theme);
+
+        if (theme != null
+                && theme.isMedia()) {
+            // Need download it first
+            TasksManagerModel model = TasksManager.getImpl().getByThemeId(theme.getId());
+            if (model == null) {
+//                LauncherAnalytics.logEvent("Test_Theme_Model_NULL", "Index", String.valueOf(pendingThemeIndex));
+                return;
+            }
+            if (TasksManager.getImpl().isDownloaded(model)) {
+                HSLog.d(TAG, "prepareTheme next success , file already downloaded : " + theme);
+                return;
+            }
+
+            // Check wifi state
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                HSLog.d(TAG, "Start theme download job : index " + theme);
+                try {
+                    startDownloadJob();
+                } catch (Exception e) {
+                    ColorPhoneCrashlytics.getInstance().logException(e);
+                }
+            } else if (NetUtils.isWifiConnected(HSApplication.getContext())) {
+                downloadMediaTheme(theme.getIndex(), model, null);
+            }
+        } else {
+            HSLog.d(TAG, "prepareTheme next success , native theme : " + theme);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void startDownloadJob() {
+        PersistableBundle persistableBundle = new PersistableBundle();
+        persistableBundle.putInt(ThemeDownloadJobService.KEY_TYPE, ThemeDownloadJobService.TYPE_RANDOM_THEME);
+        JobInfo jobInfo = new JobInfo.Builder(1000,
+                new ComponentName(HSApplication.getContext(), ThemeDownloadJobService.class))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setBackoffCriteria(5 * DateUtils.MINUTE_IN_MILLIS, JobInfo.BACKOFF_POLICY_EXPONENTIAL)
+                .setExtras(persistableBundle)
+                .build();
+
+        JobScheduler jobScheduler = (JobScheduler) HSApplication.getContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        if (jobScheduler != null) {
+            int resultCode = jobScheduler.schedule(jobInfo);
+            if (resultCode == JobScheduler.RESULT_SUCCESS) {
+                HSLog.d(TAG, "Job scheduled!");
+            } else {
+                HSLog.d(TAG, "Job not scheduled");
+            }
+        }
+    }
+
+    private void downloadMediaTheme(int pendingThemeIndex, TasksManagerModel model, final DownloadStateListener delegateListener) {
+        boolean downloadStart = TasksManager.doDownload(model, null);
+        if (downloadStart) {
+            Ap.RandomTheme.logEvent("random_theme_download_start");
+            LauncherAnalytics.logEvent("clorphone_random_theme_download_start");
+        }
+        final int taskId = model.getId();
+        FileDownloadMultiListener.getDefault().addStateListener(taskId, new DownloadStateListener() {
+
+            @Override
+            public void updateDownloaded(boolean progressFlag) {
+                // In case method call more than once.
+                FileDownloadMultiListener.getDefault().removeStateListener(taskId);
+                Ap.RandomTheme.logEvent("random_theme_download_success");
+                LauncherAnalytics.logEvent("colorphone_random_theme_download_success");
+
+                if (delegateListener != null) {
+                    delegateListener.updateDownloaded(progressFlag);
+                }
+                HSLog.d(TAG, "prepareTheme next success , file downloaded : " + pendingThemeIndex);
+            }
+
+            @Override
+            public void updateNotDownloaded(int status, long sofar, long total) {
+                FileDownloadMultiListener.getDefault().removeStateListener(taskId);
+                if (delegateListener != null) {
+                    delegateListener.updateNotDownloaded(status, sofar, total);
+                }
+                HSLog.d(TAG, "prepareTheme next fail , file not downloaded : " + pendingThemeIndex);
+            }
+
+            @Override
+            public void updateDownloading(int status, long sofar, long total) {
+                if (delegateListener != null) {
+                    delegateListener.updateDownloading(status, sofar, total);
+                }
+            }
+        });
     }
 
     private String deleteWhiteSpace(String number) {
@@ -175,28 +306,26 @@ public class ThemeRecommendManager {
     }
 
     private int getMaxCallTimesAfterAppliedTheme() {
-        return 5;
+        return getThemeRecommendApplyInterval();
     }
 
     private int getTimeIntervalHours() {
-        return 2;
+        return getThemeRecommendTimeInterval();
     }
 
     private int getCallTimesAtFirstThemeRecommendShowed() {
-        return 3;
+        return getThemeRecommendFirstInterval();
     }
 
     private int getMaxShowTimesEveryOne() {
-        return 1;
+        return getThemeRecommendMaxTimesForOne();
     }
 
     private long now() {
         return System.currentTimeMillis();
     }
 
-
     private class PrefHelper {
-        private static final String PREF_FILE = "applied_theme_file";
         private static final String APPLIED_THEME_USER_PREFIX = "applied_theme_user_";
         private static final String APPLIED_THEME_FOR_ALL_USER = "applied_theme_for_all_user";
         private static final String THEME_RECOMMEND_INDEX_USER_PREFIX = "theme_recommend_index_user_";
@@ -323,6 +452,112 @@ public class ThemeRecommendManager {
 
         private long getAppliedThemeForAllUserTime() {
             return pref.getLong(APPLIED_THEME_FOR_ALL_USER_TIME, 0);
+        }
+    }
+
+    private static boolean isThemeRecommendEnable() {
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "themerecommend_enable", false);
+    }
+
+    public static boolean isThemeRecommendAdShow() {
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "themerecommend_ad_show", false);
+    }
+
+    private static int getThemeRecommendFirstInterval() {
+        return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "themerecommend_first_show", 3);
+    }
+
+    private static int getThemeRecommendMaxTimesForOne() {
+        return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "maxtime_one_contact", 1);
+    }
+
+    private static int getThemeRecommendApplyInterval() {
+        return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "themerecommend_show_interval_when_applied", 5);
+    }
+
+    private static int getThemeRecommendTimeInterval() {
+        return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "timeintervalhour", 2);
+    }
+
+    public static void logThemeRecommendShow() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommend_show");
+        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommend_Show");
+    }
+
+    public static void logThemeRecommendClick() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommend_click");
+        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommend_Click");
+    }
+
+    public static void logThemeRecommendWireShouldShow(boolean isBefore) {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommendwire_should_show");
+        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendWire_Should_Show", "type", isBefore ? "Before" : "After");
+    }
+
+    public static void logThemeRecommendWireShow(boolean isBefore) {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommendwire_show");
+        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendWire_Show", "type", isBefore ? "Before" : "After");
+    }
+
+    public static void logThemeRecommendDoneShouldShow() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommenddone_should_show");
+        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendDone_Should_Show");
+    }
+
+    public static void logThemeRecommendDoneShow() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommenddone_show");
+        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendDone_Show");
+    }
+
+    public static void logThemeRecommendResultPageShow() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_resultpage_show");
+        LauncherAnalytics.logEvent("ColorPhone_ResultPage_Show");
+    }
+
+    public static void logThemeRecommendResultPageFindMoreClicked() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_resultpage_findmore_click");
+        LauncherAnalytics.logEvent("ColorPhone_ResultPage_FindMore_Click");
+
+        setThemeRecommendMoreClickSession();
+    }
+
+    public static boolean isThemeRecommendMoreClickSession() {
+        return Preferences.get(PREF_FILE).getInt(MORE_CLICK_SESSION, -1) == SessionMgr.getInstance().getCurrentSessionId();
+    }
+
+    private static void setThemeRecommendMoreClickSession() {
+        Preferences.get(PREF_FILE).putInt(MORE_CLICK_SESSION, SessionMgr.getInstance().getCurrentSessionId());
+    }
+
+    public static void logThemeRecommendThemeDetailFromResultPage() {
+        if (isThemeRecommendMoreClickSession()) {
+            isThemeRecommendEnable();
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themedetail_view_fromresultpage");
+            LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_View_FromResultPage");
+        }
+    }
+
+    public static void logThemeRecommendChooseFromResultPage() {
+        if (isThemeRecommendMoreClickSession()) {
+            isThemeRecommendEnable();
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_choosetheme_fromresultpage");
+            LauncherAnalytics.logEvent("ColorPhone_ChooseTheme_FromResultPage");
+        }
+    }
+
+    public static void logThemeRecommendThemeWireShow() {
+        if (isThemeRecommendMoreClickSession()) {
+            isThemeRecommendEnable();
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommend_themewire_show");
+            LauncherAnalytics.logEvent("ColorPhone_ThemeRecommend_ThemeWire_Show");
         }
     }
 

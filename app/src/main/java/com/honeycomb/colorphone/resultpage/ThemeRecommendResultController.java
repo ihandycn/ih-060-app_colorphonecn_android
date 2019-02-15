@@ -17,7 +17,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -81,6 +81,7 @@ class ThemeRecommendResultController extends ResultController {
         okButton.setOnClickListener(v -> {
             dismiss();
             Navigations.startActivitySafely(getContext(), new Intent(getContext(), ColorPhoneActivity.class));
+            ThemeRecommendManager.logThemeRecommendResultPageFindMoreClicked();
         });
     }
 
@@ -183,7 +184,7 @@ class ThemeRecommendResultController extends ResultController {
     private void showContentAnimation() {
 
         AcbNativeAd ad = ResultPageManager.getInstance().getAd();
-        LauncherAnalytics.logEvent("Colorphone_CPUDone_Ad_Should_Shown");
+        ThemeRecommendManager.logThemeRecommendDoneShouldShow();
 
         HSLog.d(TAG, "Back from Ad Screen ad ==  " + ad);
         if (ad == null) {
