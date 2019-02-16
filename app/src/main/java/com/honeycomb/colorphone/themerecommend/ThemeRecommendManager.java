@@ -49,7 +49,7 @@ public class ThemeRecommendManager {
 
     @SuppressWarnings("unchecked")
     public String getRecommendThemeIdAndRecord(String number) {
-        if (isThemeRecommendEnable()) {
+        if (!isThemeRecommendEnable()) {
             return "";
         }
         
