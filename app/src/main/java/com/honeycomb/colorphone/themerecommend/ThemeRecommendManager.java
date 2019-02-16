@@ -491,27 +491,31 @@ public class ThemeRecommendManager {
     }
 
     public static void logThemeRecommendWireShouldShow(boolean isBefore) {
-        isThemeRecommendEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommendwire_should_show");
-        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendWire_Should_Show", "type", isBefore ? "Before" : "After");
+        if (isThemeRecommendAdShow()) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommendwire_should_show");
+            LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendWire_Should_Show", "type", isBefore ? "Before" : "After");
+        }
     }
 
     public static void logThemeRecommendWireShow(boolean isBefore) {
-        isThemeRecommendEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommendwire_show");
-        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendWire_Show", "type", isBefore ? "Before" : "After");
+        if (isThemeRecommendAdShow()) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommendwire_show");
+            LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendWire_Show", "type", isBefore ? "Before" : "After");
+        }
     }
 
     public static void logThemeRecommendDoneShouldShow() {
-        isThemeRecommendEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommenddone_should_show");
-        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendDone_Should_Show");
+        if (isThemeRecommendAdShow()) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommenddone_should_show");
+            LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendDone_Should_Show");
+        }
     }
 
     public static void logThemeRecommendDoneShow() {
-        isThemeRecommendEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommenddone_show");
-        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendDone_Show");
+        if (isThemeRecommendAdShow()) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommenddone_show");
+            LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendDone_Show");
+        }
     }
 
     public static void logThemeRecommendResultPageShow() {
