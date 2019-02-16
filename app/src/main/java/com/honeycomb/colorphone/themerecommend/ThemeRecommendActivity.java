@@ -25,6 +25,7 @@ import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 
@@ -135,8 +136,10 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
                 ThemeRecommendManager.logThemeRecommendWireShouldShow(true);
                 AcbInterstitialAd ad = ResultPageManager.getInstance().getInterstitialAd();
                 if (ad != null) {
-                    ThemeRecommendManager.logThemeRecommendWireShow(true);
-                    ad.show();
+                    Threads.postOnMainThreadDelayed(() -> {
+                        ThemeRecommendManager.logThemeRecommendWireShow(true);
+                        ad.show();
+                    }, 300);
                 } else {
                     ThemeRecommendManager.getInstance().recordThemeRecommendNotShow(number);
                     finish();
