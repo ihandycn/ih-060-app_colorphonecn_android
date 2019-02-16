@@ -64,6 +64,8 @@ import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 
+import net.appcloudbox.AcbAds;
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
@@ -144,10 +146,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ContactManager.getInstance().update();
         // TODO pro show condition ( SESSION_START, or Activity onStart() )
-       if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+
+        AcbAds.getInstance().setActivity(this);
+
+        if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                 && !GuideAllFeaturesActivity.isStarted()
                 && !ModuleUtils.isAllModuleEnabled()) {
             GuideAllFeaturesActivity.start(this);

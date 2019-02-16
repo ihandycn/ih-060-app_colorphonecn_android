@@ -26,6 +26,9 @@ import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.Threads;
 
+import net.appcloudbox.AcbAds;
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,8 +144,10 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }, 200);
         }
         ThemeGuide.logThemeDetailShow();
-    }
 
+        AcbAds.getInstance().setActivity(this);
+        AcbInterstitialAdManager.getInstance().setForegroundActivity(this);
+    }
 
 
     public MediaPlayer getMediaPlayer() {

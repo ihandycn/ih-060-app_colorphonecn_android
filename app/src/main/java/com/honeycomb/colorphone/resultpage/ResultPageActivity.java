@@ -29,6 +29,9 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 
+import net.appcloudbox.AcbAds;
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
+
 import java.util.List;
 
 
@@ -142,6 +145,8 @@ public class ResultPageActivity extends BaseAppCompatActivity
         HSLog.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         Utils.showWhenLocked(this);
+        AcbAds.getInstance().setActivity(this);
+        AcbInterstitialAdManager.getInstance().setForegroundActivity(this);
 
         setContentView(R.layout.result_page_activity);
 
