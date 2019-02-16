@@ -33,9 +33,9 @@ import com.honeycomb.colorphone.permission.OutsidePermissionGuideActivity;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -143,9 +143,9 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onShouldShow(int callType, boolean isLocked) {
                 isADShown = false;
                 mTimeReadyToShow = System.currentTimeMillis();
-                LauncherAnalytics.logEvent("CallFinished_View_Should_Show", "callType", getCallTypeStr(callType));
+                Analytics.logEvent("CallFinished_View_Should_Show", "callType", getCallTypeStr(callType));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
-                    LauncherAnalytics.logEvent("Test_CallAssistantShouldShow" +  Build.BRAND + getDeviceInfo());
+                    Analytics.logEvent("Test_CallAssistantShouldShow" +  Build.BRAND + getDeviceInfo());
                     Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
                     Threads.postOnMainThreadDelayed(mDisplayTimeoutRunnable2, 8000);
                 } else {
@@ -177,10 +177,10 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onShow(int callType, boolean isLocked) {
                 Threads.removeOnMainThread(mDisplayTimeoutRunnable);
                 Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
-                LauncherAnalytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType),
+                Analytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType),
                         "Time", formatTime(System.currentTimeMillis() - mTimeReadyToShow));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
-                    LauncherAnalytics.logEvent("Test_CallAssistantShow" + Build.BRAND + getDeviceInfo());
+                    Analytics.logEvent("Test_CallAssistantShow" + Build.BRAND + getDeviceInfo());
                 }
                 HSAnalytics.logEventToAppsFlyer("Call_Assistant_Can_Show");
             }
@@ -202,7 +202,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinished() {
-                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
+                Analytics.logEvent( "ColorPhone_Call_Finished");
 
                 if (PermissionTestUtils.getAlertOutSideApp()
                         && Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
@@ -243,20 +243,20 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinishedCallAssistantShow() {
-                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Call_Assistant_Show");
+                Analytics.logEvent( "ColorPhone_Call_Finished_Call_Assistant_Show");
             }
 
             @Override
             public void onFullScreenAdShouldShow() {
-                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Should_Show");
+                Analytics.logEvent( "ColorPhone_Call_Finished_Wire_Should_Show");
             }
 
             @Override
             public void onFullScreenAdShow() {
-                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
+                Analytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
                 ADAutoPilotUtils.logCallFinishWireShow();
                 if (Utils.isNewUser()) {
-                    LauncherAnalytics.logEvent("ColorPhone_CallFinishWire_Show");
+                    Analytics.logEvent("ColorPhone_CallFinishWire_Show");
                 }
                 isADShown = true;
                 HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);

@@ -9,7 +9,7 @@ import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.boost.BoostPlusCleanDialog;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
 
 
@@ -50,11 +50,11 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                 context.startActivities(intents);
 
                 if (isNewTheme) {
-                    LauncherAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Clicked",
+                    Analytics.logEvent("Colorphone_LocalPush_NewTheme_Clicked",
                             "ThemeName", themeName, "isDownloaded", String.valueOf(isMp4Downloaded));
                     NotificationAutoPilotUtils.logNewThemeNotificationClicked();
                 } else {
-                    LauncherAnalytics.logEvent("Colorphone_LocalPush_OldTheme_Clicked",
+                    Analytics.logEvent("Colorphone_LocalPush_OldTheme_Clicked",
                             "ThemeName", themeName, "isDownloaded", String.valueOf(isMp4Downloaded));
                     NotificationAutoPilotUtils.logOldThemeNotificationClicked();
                 }
@@ -66,16 +66,16 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                 HSLog.d("NotificationUtils", "receive delete action");
 
                 if (isNewTheme) {
-                    LauncherAnalytics.logEvent("Colorphone_LocalPush_NewTheme_Deleted",
+                    Analytics.logEvent("Colorphone_LocalPush_NewTheme_Deleted",
                             "ThemeName", themeName, "isDownloaded", String.valueOf(isMp4Downloaded));
                 } else {
-                    LauncherAnalytics.logEvent("Colorphone_LocalPush_OldTheme_Deleted",
+                    Analytics.logEvent("Colorphone_LocalPush_OldTheme_Deleted",
                             "ThemeName", themeName, "isDownloaded", String.valueOf(isMp4Downloaded));
                 }
                 break;
             case NotificationConstants.ACTION_BOOST_PLUS:
                 BoostAutoPilotUtils.logBoostPushClicked();
-                LauncherAnalytics.logEvent("Colorphone_Push_Boost_Clicked");
+                Analytics.logEvent("Colorphone_Push_Boost_Clicked");
                 BoostPlusCleanDialog.showBoostPlusCleanDialog(context, BoostPlusCleanDialog.CLEAN_TYPE_CLEAN_CENTER);
 //                BoostActivity.start(context, false);
                 break;

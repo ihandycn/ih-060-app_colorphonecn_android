@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.PromoteLockerAutoPilotUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.superapps.util.Preferences;
@@ -73,7 +73,7 @@ public class PromoteLockerActivity extends AppCompatActivity {
             });
         }
 
-        LauncherAnalytics.logEvent(alertType == WHEN_APP_LAUNCH ? "StartApp_Promote_Alert_Viewed" : "ApplyFinished_Promote_Alert_Viewed");
+        Analytics.logEvent(alertType == WHEN_APP_LAUNCH ? "StartApp_Promote_Alert_Viewed" : "ApplyFinished_Promote_Alert_Viewed");
         PromoteLockerAutoPilotUtils.logPromoteAlertViewed();
     }
 
@@ -100,7 +100,7 @@ public class PromoteLockerActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 finish();
-                LauncherAnalytics.logEvent(alertType == WHEN_APP_LAUNCH ? "StartApp_Promote_Alert_Btn_Clicked" : "ApplyFinished_Promote_Alert_Btn_Clicked");
+                Analytics.logEvent(alertType == WHEN_APP_LAUNCH ? "StartApp_Promote_Alert_Btn_Clicked" : "ApplyFinished_Promote_Alert_Btn_Clicked");
                 PromoteLockerAutoPilotUtils.logPromoteAlertBtnClicked();
             }
         });

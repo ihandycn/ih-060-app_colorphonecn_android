@@ -7,7 +7,7 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.theme.RandomTheme;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSMapUtils;
@@ -120,12 +120,12 @@ public class ScreenFlashInit extends AppMainInit {
                         name += "_NotReady";
                     }
                 }
-                LauncherAnalytics.logEvent("ColorPhone_ScreenFlash_Set_NewUser", "themename", name);
+                Analytics.logEvent("ColorPhone_ScreenFlash_Set_NewUser", "themename", name);
             }
 
             @Override
             public void onScreenFlashSetSucceed(String idName) {
-                LauncherAnalytics.logEvent("ColorPhone_Set_Success", "type", idName);
+                Analytics.logEvent("ColorPhone_Set_Success", "type", idName);
             }
         });
         ScreenFlashManager.getInstance().logTest = true;

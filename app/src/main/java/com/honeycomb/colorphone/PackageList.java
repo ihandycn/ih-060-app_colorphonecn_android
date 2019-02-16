@@ -1,6 +1,6 @@
 package com.honeycomb.colorphone;
 
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class PackageList {
     public static void checkAndLogPackage(String pkgName) {
         String name = mMap.get(pkgName);
         if (name != null) {
-            LauncherAnalytics.logEvent("App_Conflict_Test", "App", name);
+            Analytics.logEvent("App_Conflict_Test", "App", name);
         }
     }
 

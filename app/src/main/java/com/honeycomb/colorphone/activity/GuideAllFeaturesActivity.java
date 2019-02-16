@@ -20,8 +20,8 @@ import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.notification.permission.EventSource;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.FontUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -65,11 +65,11 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         StatusBarUtils.hideStatusBar(this);
 
         setUpPrivacyTextView();
-        LauncherAnalytics.logEvent("ColorPhone_StartGuide_Show");
+        Analytics.logEvent("ColorPhone_StartGuide_Show");
         findViewById(R.id.guide_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LauncherAnalytics.logEvent("ColorPhone_StartGuide_Cancel_Clicked");
+                Analytics.logEvent("ColorPhone_StartGuide_Cancel_Clicked");
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
 
                 } else {
@@ -82,7 +82,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
+                Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
                 } else {
@@ -157,10 +157,10 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 == RuntimePermissions.PERMISSION_GRANTED;
         if (!phonePerm) {
-            LauncherAnalytics.logEvent("ColorPhone_Permission__Phone_SystemStyle_Show_FirstScreen");
+            Analytics.logEvent("ColorPhone_Permission__Phone_SystemStyle_Show_FirstScreen");
         }
         if (!contactPerm) {
-            LauncherAnalytics.logEvent("ColorPhone_Permission__Contact_SystemStyle_Show_FirstScreen");
+            Analytics.logEvent("ColorPhone_Permission__Contact_SystemStyle_Show_FirstScreen");
         }
         if (!phonePerm || !contactPerm){
             // Do not have permissions, request them now
@@ -206,11 +206,11 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
     public void onPermissionsGranted(int requestCode, List<String> list) {
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
             if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
-                LauncherAnalytics.logEvent("ColorPhone_Permission_Phone_SystemStyle_Allow_Click_FirstScreen");
+                Analytics.logEvent("ColorPhone_Permission_Phone_SystemStyle_Allow_Click_FirstScreen");
                 PermissionChecker.onPhonePermissionGranted();
             }
             if (list.contains(Manifest.permission.READ_CONTACTS)) {
-                LauncherAnalytics.logEvent("ColorPhone_Permission_Contact_SystemStyle_Allow_Click_FirstScreen");
+                Analytics.logEvent("ColorPhone_Permission_Contact_SystemStyle_Allow_Click_FirstScreen");
                 PermissionChecker.onContactPermissionGranted();
             }
         }

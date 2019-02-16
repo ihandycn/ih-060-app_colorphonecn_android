@@ -7,8 +7,8 @@ import android.text.TextUtils;
 
 import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.PromoteLockerAutoPilotUtils;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
@@ -41,19 +41,19 @@ public class PackageAddReceiver extends BroadcastReceiver {
             if (TextUtils.equals(pkgName, pkgAdd)) {
                 int promoteLockerAlertType = Preferences.get(PromoteLockerActivity.PREFS_FILE).getInt(PromoteLockerActivity.ALERT_TYPE, INSTALL_NOT_BY_PROMOTE);
                 if (promoteLockerAlertType == PromoteLockerActivity.WHEN_APP_LAUNCH) {
-                    LauncherAnalytics.logEvent("StartApp_Promote_App_Downloaded");
+                    Analytics.logEvent("StartApp_Promote_App_Downloaded");
                 } else if (promoteLockerAlertType == PromoteLockerActivity.AFTER_APPLY_FINISH){
-                    LauncherAnalytics.logEvent("ApplyFinished_Promote_App_Downloaded");
+                    Analytics.logEvent("ApplyFinished_Promote_App_Downloaded");
                 }
                 if (promoteLockerAlertType != INSTALL_NOT_BY_PROMOTE) {
                     PromoteLockerAutoPilotUtils.logPromoteLockerDownloaded();
                 }
             } else if (TextUtils.equals(AvatarAutoPilotUtils.CAMERA_PKG_NAME, pkgAdd)) {
-                LauncherAnalytics.logEvent("Colorphone_AvatarApp_Download", "AvatarType", AvatarAutoPilotUtils.CAMERA_NAME);
+                Analytics.logEvent("Colorphone_AvatarApp_Download", "AvatarType", AvatarAutoPilotUtils.CAMERA_NAME);
             } else if (TextUtils.equals(AvatarAutoPilotUtils.HEAD_PKG_NAME, pkgAdd)) {
-                LauncherAnalytics.logEvent("Colorphone_AvatarApp_Download", "AvatarType", AvatarAutoPilotUtils.HEAD_NAME);
+                Analytics.logEvent("Colorphone_AvatarApp_Download", "AvatarType", AvatarAutoPilotUtils.HEAD_NAME);
             } else if (TextUtils.equals(AvatarAutoPilotUtils.ZMOJI_PKG_NAME, pkgAdd)) {
-                LauncherAnalytics.logEvent("Colorphone_AvatarApp_Download", "AvatarType", AvatarAutoPilotUtils.ZMOJI_NAME);
+                Analytics.logEvent("Colorphone_AvatarApp_Download", "AvatarType", AvatarAutoPilotUtils.ZMOJI_NAME);
             }
         }
     }

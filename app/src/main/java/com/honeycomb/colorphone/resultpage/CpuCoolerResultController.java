@@ -19,7 +19,7 @@ import com.honeycomb.colorphone.cpucooler.util.CpuCoolerUtils;
 import com.honeycomb.colorphone.cpucooler.util.CpuPreferenceHelper;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RevealFlashButton;
 import com.ihs.app.framework.HSApplication;
@@ -311,7 +311,7 @@ class CpuCoolerResultController extends ResultController {
     @Override protected void onInterruptActionClosed() {
 
         AcbNativeAd ad = ResultPageManager.getInstance().getAd();
-        LauncherAnalytics.logEvent("Colorphone_CPUDone_Ad_Should_Shown");
+        Analytics.logEvent("Colorphone_CPUDone_Ad_Should_Shown");
 
         HSLog.d(TAG, "Back from Ad Screen ad ==  " + ad);
         if (ad == null) {

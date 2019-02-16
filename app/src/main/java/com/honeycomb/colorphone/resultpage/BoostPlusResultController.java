@@ -17,7 +17,7 @@ import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
 
 import net.appcloudbox.ads.base.AcbNativeAd;
@@ -150,11 +150,11 @@ class BoostPlusResultController extends ResultController {
 
     public boolean tryShowNativeAd(boolean waitForBoostResult) {
         if (mResultType == ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
-            LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromToolbar");
+            Analytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromToolbar");
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PLUS) {
-            LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromSettings");
+            Analytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromSettings");
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PUSH) {
-            LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromPush");
+            Analytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromPush");
         }
         final AcbNativeAd ad = ResultPageManager.getInstance().getAd();
         isAdReady = ad != null;
@@ -248,7 +248,7 @@ class BoostPlusResultController extends ResultController {
                     }
                 }
             });
-            LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Optimal_Shown");
+            Analytics.logEvent("Colorphone_BoostDone_Page_Optimal_Shown");
             return;
         }
         for (final View v : mFadeOutViews) {

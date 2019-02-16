@@ -7,7 +7,7 @@ import android.widget.Toast;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.NetUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
@@ -111,7 +111,7 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
         Preferences.get(Constants.PREF_FILE_DEFAULT).doLimitedTimes(new Runnable() {
             @Override
             public void run() {
-                LauncherAnalytics.logEvent("ColorPhone_Download_Error",
+                Analytics.logEvent("ColorPhone_Download_Error",
                         "Reason", e != null ? e.getMessage() : "Unknown",
                         "Network", NetUtils.getNetWorkStateName());
             }

@@ -55,10 +55,10 @@ import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
@@ -564,13 +564,13 @@ public class ColorPhoneApplication extends HSApplication {
         ChargingReportManager.getInstance().setChargingReportCallback(new ChargingReportCallback() {
             @Override
             public void logEvent(String s, boolean logToFlurry, String... strings) {
-                LauncherAnalytics.logEvent(s, strings);
+                Analytics.logEvent(s, strings);
 
             }
 
             @Override
             public void logAdEvent(String s, boolean b) {
-                LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App", s, String.valueOf(b));
+                Analytics.logEvent("AcbAdNative_Viewed_In_App", s, String.valueOf(b));
             }
 
             @Override
@@ -608,12 +608,12 @@ public class ColorPhoneApplication extends HSApplication {
         CardCustomConfig.get().setRemoteLogger(new CardCustomConfig.RemoteLogger() {
             @Override
             public void logEvent(String eventID) {
-                LauncherAnalytics.logEvent(eventID);
+                Analytics.logEvent(eventID);
             }
 
             @Override
             public void logEvent(String eventID, String... vars) {
-                LauncherAnalytics.logEvent(eventID, vars);
+                Analytics.logEvent(eventID, vars);
             }
         });
         AcbH5GameManager.initialize(this);
@@ -807,14 +807,14 @@ public class ColorPhoneApplication extends HSApplication {
         String debugInfo = "" + installType + "|" + data.getMediaSource() + "|" + data.getAdset();
         parameters.put("install_type", installType);
         parameters.put("publisher_debug_info", debugInfo);
-        LauncherAnalytics.logEvent("Agency_Info", "install_type", installType, "campaign_id", "" + data.getCampaignID(), "user_level", "" + HSConfig.optString("not_configured", "UserLevel"));
+        Analytics.logEvent("Agency_Info", "install_type", installType, "campaign_id", "" + data.getCampaignID(), "user_level", "" + HSConfig.optString("not_configured", "UserLevel"));
 
         final String PREF_KEY_AGENCY_INFO_LOGGED = "PREF_KEY_AGENCY_INFO_LOGGED";
 
         if (HSApplication.getFirstLaunchInfo().appVersionCode == HSApplication.getCurrentLaunchInfo().appVersionCode) {
             if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_AGENCY_INFO_LOGGED)) {
                 HSPreferenceHelper.getDefault().putBoolean(PREF_KEY_AGENCY_INFO_LOGGED, true);
-                LauncherAnalytics.logEvent("New_User_Agency_Info", "install_type", installType, "user_level", "" + HSConfig.optString("not_configured", "UserLevel"), "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
+                Analytics.logEvent("New_User_Agency_Info", "install_type", installType, "user_level", "" + HSConfig.optString("not_configured", "UserLevel"), "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
             }
         }
     }
@@ -830,7 +830,7 @@ public class ColorPhoneApplication extends HSApplication {
                         @Override
                         public void run() {
                             Log.e("WifiStateChange2", HSConfig.optString("not_configured", "UserLevel"));
-                            LauncherAnalytics.logEvent("New_User_Agency_Info_" + delay, LauncherAnalytics.FLAG_LOG_FABRIC,
+                            Analytics.logEvent("New_User_Agency_Info_" + delay, Analytics.FLAG_LOG_FABRIC,
                                     "user_level", "" + HSConfig.optString("not_configured", "UserLevel"),
                                     "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
                         }
@@ -847,7 +847,7 @@ public class ColorPhoneApplication extends HSApplication {
                     @Override
                     public void run() {
                         Log.e("WifiStateChange2", HSConfig.optString("not_configured", "UserLevel"));
-                        LauncherAnalytics.logEvent("Old_User_Agency_Info", LauncherAnalytics.FLAG_LOG_FABRIC,
+                        Analytics.logEvent("Old_User_Agency_Info", Analytics.FLAG_LOG_FABRIC,
                                 "user_level", "" + HSConfig.optString("not_configured", "UserLevel"),
                                 "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode,
                                 "first_version_code", "" + HSApplication.getFirstLaunchInfo().appVersionCode);

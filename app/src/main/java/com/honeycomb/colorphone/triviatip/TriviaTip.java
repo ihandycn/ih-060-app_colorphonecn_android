@@ -11,7 +11,7 @@ import com.colorphone.lock.ScreenStatusReceiver;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.Placements;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.push.impl.PushMgr;
@@ -175,7 +175,7 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         TriviaItem currentItem = mDataManager.getCurrentItem();
         if (currentItem != null) {
             boolean cachedSuccess = Downloader.isCachedSuccess(DOWNLOAD_DIRECTORY, currentItem.imgUrl);
-            LauncherAnalytics.logEvent("trivia_should_show");
+            Analytics.logEvent("trivia_should_show");
             Ap.TriviaTip.logEvent("trivia_should_show");
             if (cachedSuccess) {
                 showTip(currentItem);
@@ -202,7 +202,7 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         Intent intent = new Intent(getContext(), TriviaTipActivity.class);
         intent.putExtra(TriviaTipActivity.EXTRA_ITEM, triviaItem);
         Navigations.startActivitySafely(getContext(), intent);
-        LauncherAnalytics.logEvent("trivia_show");
+        Analytics.logEvent("trivia_show");
         Ap.TriviaTip.logEvent("trivia_show");
     }
 
@@ -342,7 +342,7 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         if (enable) {
             boolean success = show();
             if (success) {
-                LauncherAnalytics.logEvent("trivia_show_when_receive_push");
+                Analytics.logEvent("trivia_show_when_receive_push");
             }
         }
     }

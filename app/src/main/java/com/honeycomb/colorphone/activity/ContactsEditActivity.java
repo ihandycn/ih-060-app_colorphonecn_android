@@ -11,7 +11,7 @@ import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -82,7 +82,7 @@ public class ContactsEditActivity extends ContactsActivity {
             updateSelectMode(false, true);
             setEmptyPlaceHolder(true);
         }
-        LauncherAnalytics.logEvent("Colorphone_Settings_ContactTheme_DeletedContactSuc");
+        Analytics.logEvent("Colorphone_Settings_ContactTheme_DeletedContactSuc");
 
         ContactManager.getInstance().updateDb(themeEntries, null);
     }

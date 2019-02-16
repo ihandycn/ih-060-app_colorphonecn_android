@@ -21,7 +21,7 @@ import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.Threads;
@@ -118,7 +118,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         });
         mMediaPlayer = new MediaPlayer();
         if (mTheme.isLocked()) {
-            LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
+            Analytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
         if (ConfigSettings.showAdOnDetailView() && TextUtils.equals(from, FROM_MAIN)) {
             AdManager.getInstance().preload();
@@ -134,7 +134,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                             Ap.DetailAd.logEvent("colorphone_themedetail_ad_show");
                         }
                         if (ThemeGuide.isFromThemeGuide()) {
-                            LauncherAnalytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
+                            Analytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
                         }
                     }
                 }

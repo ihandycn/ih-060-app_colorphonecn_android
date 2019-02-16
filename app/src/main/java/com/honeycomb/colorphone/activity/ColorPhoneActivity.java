@@ -46,7 +46,7 @@ import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
@@ -211,8 +211,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Shown");
-                LauncherAnalytics.logEvent("Colorphone_Sidebar_Shown");
+                Analytics.logEvent("Colorphone_Settings_Boost_Icon_Shown");
+                Analytics.logEvent("Colorphone_Sidebar_Shown");
             }
         };
         DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
@@ -272,7 +272,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         boolean isNearSession = Math.abs(sessionPast) < 2000;
         if (isNearSession) {
             if (mAdapter != null && mAdapter.isTipHeaderVisible()) {
-                LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Show");
+                Analytics.logEvent("Colorphone_List_Page_Notification_Alert_Show");
             }
         }
         AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
@@ -403,10 +403,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 == RuntimePermissions.PERMISSION_GRANTED;
         if (!phonePerm) {
-            LauncherAnalytics.logEvent("Flashlight_Permission_Phone_View_Showed");
+            Analytics.logEvent("Flashlight_Permission_Phone_View_Showed");
         }
         if (!contactPerm) {
-            LauncherAnalytics.logEvent("Flashlight_Permission_Contact_View_Showed");
+            Analytics.logEvent("Flashlight_Permission_Contact_View_Showed");
         }
         if (!phonePerm || !contactPerm){
             // Do not have permissions, request them now
@@ -438,10 +438,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onPermissionsGranted(int requestCode, List<String> list) {
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
             if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
-                LauncherAnalytics.logEvent("Flashlight_Permission_Phone_Allow_Success");
+                Analytics.logEvent("Flashlight_Permission_Phone_Allow_Success");
             }
             if (list.contains(Manifest.permission.READ_CONTACTS)) {
-                LauncherAnalytics.logEvent("Flashlight_Permission_Contact_Allow_Success");
+                Analytics.logEvent("Flashlight_Permission_Contact_Allow_Success");
             }
         }
     }
@@ -544,7 +544,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 Preferences prefsFile = Preferences.getDefault();
                 if (pastVisibleItems + visibleItemCount >= totalItemCount && !prefsFile.getBoolean(PREFS_SCROLL_TO_BOTTOM, false)) {
                     //End of list
-                    LauncherAnalytics.logEvent("ColorPhone_List_Bottom_Show");
+                    Analytics.logEvent("ColorPhone_List_Bottom_Show");
                     prefsFile.putBoolean(PREFS_SCROLL_TO_BOTTOM, true);
                 }
 
@@ -605,7 +605,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mAdapter.getUnLockThemeId());
                     }
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
-                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "list", "themeName", themeName);
+                    Analytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "list", "themeName", themeName);
                 }
 
                 @Override
@@ -622,7 +622,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 public void onAdShow() {
 
                     //todo theme name needs to be recorded
-                    LauncherAnalytics.logEvent("Colorphone_Rewardvideo_show", "from", "list", "themeName", themeName);
+                    Analytics.logEvent("Colorphone_Rewardvideo_show", "from", "list", "themeName", themeName);
                 }
 
                 @Override

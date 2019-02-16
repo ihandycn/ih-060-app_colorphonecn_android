@@ -29,7 +29,7 @@ import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.ActivityUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.clean.memory.HSAppMemory;
@@ -309,7 +309,7 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
     }
 
     private void startSnowFallAnimation() {
-        LauncherAnalytics.logEvent("CPUCooler_CoolAnimation_Start");
+        Analytics.logEvent("CPUCooler_CoolAnimation_Start");
         final View[] fallingSnow = {findViewById(R.id.left_falling_snow_view),
                 findViewById(R.id.middle_falling_snow_view),
                 findViewById(R.id.right_falling_snow_view)};

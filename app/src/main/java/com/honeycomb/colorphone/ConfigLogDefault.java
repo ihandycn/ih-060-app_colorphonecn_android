@@ -1,7 +1,6 @@
 package com.honeycomb.colorphone;
 
-import com.honeycomb.colorphone.themeselector.ThemeGuide;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.NetUtils;
 
 import java.util.HashSet;
@@ -25,22 +24,22 @@ public class ConfigLogDefault implements ConfigLog {
         Set<String> downloadThemes = new HashSet<>(3);
         @Override
         public void onMainViewOpen() {
-            LauncherAnalytics.logEvent("ColorPhone_MainView_Opened");
+            Analytics.logEvent("ColorPhone_MainView_Opened");
         }
 
         @Override
         public void onThemePreviewOpen(String name) {
-            LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_View", "ThemeName", name);
+            Analytics.logEvent("ColorPhone_ThemeDetail_View", "ThemeName", name);
         }
 
         @Override
         public void onChooseTheme(String name, String from) {
-            LauncherAnalytics.logEvent("ColorPhone_ChooseTheme", "ThemeName", name, "from", from);
+            Analytics.logEvent("ColorPhone_ChooseTheme", "ThemeName", name, "from", from);
         }
 
         @Override
         public void onThemeDownloadStart(String name, String from) {
-            LauncherAnalytics.logEvent("ColorPhone_Theme_Download_Started", "ThemeName", name, "from", from,
+            Analytics.logEvent("ColorPhone_Theme_Download_Started", "ThemeName", name, "from", from,
              "Network", NetUtils.getNetWorkStateName());
         }
 
@@ -48,7 +47,7 @@ public class ConfigLogDefault implements ConfigLog {
         public void onThemeDownloadFinish(String name) {
             boolean firstDownload = downloadThemes.add(name);
             if (firstDownload) {
-                LauncherAnalytics.logEvent("ColorPhone_Theme_Download_Finished", "ThemeName", name,
+                Analytics.logEvent("ColorPhone_Theme_Download_Finished", "ThemeName", name,
                         "Network",  NetUtils.getNetWorkStateName());
 
             }
@@ -56,17 +55,17 @@ public class ConfigLogDefault implements ConfigLog {
 
         @Override
         public void onFeedBackClick() {
-            LauncherAnalytics.logEvent("ColorPhone_Feedback_Clicked");
+            Analytics.logEvent("ColorPhone_Feedback_Clicked");
         }
 
         @Override
         public void onColorPhoneEnableFromSetting(boolean enabled) {
-            LauncherAnalytics.logEvent(enabled ? "ColorPhone_Enabled_FromSettings" : "ColorPhone_Disabled_FromSettings");
+            Analytics.logEvent(enabled ? "ColorPhone_Enabled_FromSettings" : "ColorPhone_Disabled_FromSettings");
         }
 
         @Override
         public void onCallAssistantEnableFromSetting(boolean enabled) {
-            LauncherAnalytics.logEvent(enabled ? "CallAssistant_Enabled_FromSettings" : "CallAssistant_Disabled_FromSettings");
+            Analytics.logEvent(enabled ? "CallAssistant_Enabled_FromSettings" : "CallAssistant_Disabled_FromSettings");
         }
     }
 

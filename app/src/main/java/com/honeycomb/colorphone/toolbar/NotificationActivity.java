@@ -27,7 +27,7 @@ public class NotificationActivity extends Activity {
         NotificationManager.getInstance().handleEvent(this, getIntent());
 //        switch (getIntent().getAction()) {
 //            case NotificationManager.ACTION_BOOST_TOOLBAR:
-//                LauncherAnalytics.logEvent("Notification_boost_clicked");
+//                Analytics.logEvent("Notification_boost_clicked");
 //                BoostActivity.start(this, true);
 //                break;
 //            case NotificationManager.ACTION_MOBILE_DATA:
@@ -37,8 +37,8 @@ public class NotificationActivity extends Activity {
 //                NavUtils.startActivitySafely(this, new Intent(AlarmClock.ACTION_SET_ALARM));
 //                break;
 //            case NotificationManager.ACTION_CPU_COOLER_TOOLBAR:
-//                LauncherAnalytics.logEvent("Notification_Toolbar_CPU_Clicked", "Type", CpuCoolerUtils.getTemperatureColorText(mCpuTemperature));
-//                LauncherAnalytics.logEvent("CPUCooler_Open", "Type", "Toolbar");
+//                Analytics.logEvent("Notification_Toolbar_CPU_Clicked", "Type", CpuCoolerUtils.getTemperatureColorText(mCpuTemperature));
+//                Analytics.logEvent("CPUCooler_Open", "Type", "Toolbar");
 //                Intent cpuCoolerIntent = new Intent(this, CpuCoolDownActivity.class);
 //                cpuCoolerIntent.putExtra(CpuCoolDownActivity.EXTRA_KEY_NEED_SCAN, true);
 //                cpuCoolerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);

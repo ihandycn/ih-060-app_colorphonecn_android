@@ -57,8 +57,8 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.FontUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
@@ -419,11 +419,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 onThemeApply();
 
                 if (mActivity instanceof PopularThemePreviewActivity) {
-                    LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
-                    LauncherAnalytics.logEvent("ColorPhone_BanboList_Set_Success");
+                    Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
+                    Analytics.logEvent("ColorPhone_BanboList_Set_Success");
                 } else {
-                    LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SetForAll");
-                    LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success");
+                    Analytics.logEvent("Colorphone_MainView_ThemeDetail_SetForAll");
+                    Analytics.logEvent("ColorPhone_MainView_Set_Success");
                 }
             }
         });
@@ -435,12 +435,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
                 }
 
-                LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
+                Analytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
                 if (mActivity instanceof PopularThemePreviewActivity) {
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
-                    LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
+                    Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
                 } else {
-                    LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Started");
+                    Analytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Started");
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
                 }
             }
@@ -487,7 +487,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         if (startDownloadTime != 0) {
-            LauncherAnalytics.logEvent("ColorPhone_Theme_Download_Time", "Time",
+            Analytics.logEvent("ColorPhone_Theme_Download_Time", "Time",
                     String.valueOf((System.currentTimeMillis() - startDownloadTime + 999) / DateUtils.SECOND_IN_MILLIS));
         }
     }
@@ -578,7 +578,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         Ap.Ringtone.onApply(mTheme);
         if (!TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
             String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Apply", mTheme.getIdName());
-            LauncherAnalytics.logEvent(event,
+            Analytics.logEvent(event,
                     "RingtoneState", mRingtoneViewHolder.isSelect() ? "On" : "Off");
         }
         NotificationUtils.logThemeAppliedFlurry(mTheme);
@@ -682,7 +682,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 @Override
                 public void onClick(View v) {
                     showRewardVideoToUnlockTheme();
-                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Clicked", "from", "detail_page", "themeName", mTheme.getName());
+                    Analytics.logEvent("Colorphone_Theme_Unlock_Clicked", "from", "detail_page", "themeName", mTheme.getName());
                 }
             });
         }
@@ -1026,7 +1026,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (mTheme != null && !TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
             String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Show", mTheme.getIdName());
-            LauncherAnalytics.logEvent(event);
+            Analytics.logEvent(event);
         }
         Ap.Ringtone.onShow(mTheme);
     }
@@ -1173,7 +1173,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         triggerPageChangeWhenIdle = true;
 
         if (isSelectedPos() && mTheme.isLocked()) {
-            LauncherAnalytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
+            Analytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
     }
 
@@ -1194,7 +1194,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
                     mTheme.setLocked(false);
                     hideLock();
-                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "detail_page", "themeName", mTheme.getName());
+                    Analytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "detail_page", "themeName", mTheme.getName());
                 }
 
                 @Override
@@ -1209,7 +1209,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 @Override
                 public void onAdShow() {
-                    LauncherAnalytics.logEvent("Colorphone_Rewardvideo_show", "from", "detail_page", "themeName", mTheme.getName());
+                    Analytics.logEvent("Colorphone_Rewardvideo_show", "from", "detail_page", "themeName", mTheme.getName());
                 }
 
                 @Override
@@ -1376,7 +1376,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
             HSLog.d("Ringtone", "Switch to " + (currentSelect ? "Close" : "Open"));
             String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Ringtone_Clicked", mTheme.getIdName());
-            LauncherAnalytics.logEvent(event,
+            Analytics.logEvent(event,
                     "Type", currentSelect ? "TurnOff" : "TurnOn");
 
             if (currentSelect) {

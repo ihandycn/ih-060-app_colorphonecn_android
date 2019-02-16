@@ -86,12 +86,12 @@ public class DailyLogger {
                 && CallAssistantSettings.isCallAssistantModuleEnabled();
 
         if (isCallAssistantEnable) {
-            LauncherAnalytics.logEvent("ColorPhone_Daily_CallAssistant_Open");
+            Analytics.logEvent("ColorPhone_Daily_CallAssistant_Open");
         }
 
         if (ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
                 && ScreenFlashSettings.isScreenFlashModuleEnabled()) {
-            LauncherAnalytics.logEvent("ColorPhone_Daily_ScreenFlash_Open");
+            Analytics.logEvent("ColorPhone_Daily_ScreenFlash_Open");
         }
 
         Context context = HSApplication.getContext();
@@ -123,9 +123,9 @@ public class DailyLogger {
             }
         }
 
-        LauncherAnalytics.logEvent("ColorPhone_VersionCode_Check", "versioncode", String.valueOf(HSApplication.getFirstLaunchInfo().appVersionCode));
-        LauncherAnalytics.logEvent("Agency_Info_Dau", "userlevel", HSConfig.optString("not_configured", "UserLevel"));
-        LauncherAnalytics.logEvent("ColorPhone_ScreenFlash_Enabled", "type", String.valueOf(ScreenFlashSettings.isScreenFlashModuleEnabled()));
+        Analytics.logEvent("ColorPhone_VersionCode_Check", "versioncode", String.valueOf(HSApplication.getFirstLaunchInfo().appVersionCode));
+        Analytics.logEvent("Agency_Info_Dau", "userlevel", HSConfig.optString("not_configured", "UserLevel"));
+        Analytics.logEvent("ColorPhone_ScreenFlash_Enabled", "type", String.valueOf(ScreenFlashSettings.isScreenFlashModuleEnabled()));
 
     }
 
@@ -171,7 +171,7 @@ public class DailyLogger {
             permission.append("None");
         }
 
-        LauncherAnalytics.logEvent(eventName,
+        Analytics.logEvent(eventName,
                 "type", permission.toString()
         );
 

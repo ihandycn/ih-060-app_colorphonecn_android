@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by songliu on 30/06/2017.
  */
 
-public class LauncherAnalytics {
+public class Analytics {
 
     public static int FLAG_LOG_FLURRY = 0x1;
     public static int FLAG_LOG_FABRIC = 0x2;

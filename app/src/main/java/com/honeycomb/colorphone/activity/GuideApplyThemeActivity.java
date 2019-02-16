@@ -14,8 +14,8 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationUtils;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.FontUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -74,11 +74,11 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
         final CheckBox cb = (CheckBox) findViewById(R.id.welcome_guide_enable_checkbox);
         cb.setButtonDrawable(AppCompatResources.getDrawable(this, R.drawable.welcome_guide_check_box_selector));
         setUpPrivacyTextView();
-        LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_Show");
+        Analytics.logEvent("ColorPhone_ApplyFinishGuide_Show");
         findViewById(R.id.guide_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_Cancel_Clicked");
+                Analytics.logEvent("ColorPhone_ApplyFinishGuide_Cancel_Clicked");
                 finish();
             }
         });
@@ -88,10 +88,10 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (cb.isChecked()) {
-                    LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked");
+                    Analytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked");
                     ModuleUtils.setAllModuleUserEnable();
                 } else {
-                    LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked_WithUnselectFeature");
+                    Analytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked_WithUnselectFeature");
                 }
                 finish();
             }

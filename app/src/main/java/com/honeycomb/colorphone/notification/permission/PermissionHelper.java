@@ -15,7 +15,7 @@ import com.acb.colorphone.permissions.AutoStartGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.utils.Utils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -53,7 +53,7 @@ public class PermissionHelper {
         if (needGuideNotificationPermisson && !Permissions.isNotificationAccessGranted()) {
             PermissionUtils.requestNotificationPermission(sourceActivity, true, new Handler(), "FirstScreen");
             PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class, eventSource.getName());
-            LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", eventSource.getName());
+            Analytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", eventSource.getName());
             Threads.postOnMainThreadDelayed(() -> {
                 Navigations.startActivity(HSApplication.getContext(), NotificationGuideActivity.class);
             }, 1000);

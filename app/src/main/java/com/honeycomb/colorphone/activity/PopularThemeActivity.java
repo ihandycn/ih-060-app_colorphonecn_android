@@ -4,11 +4,10 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.acb.call.customize.ScreenFlashManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class PopularThemeActivity extends HSAppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
                 if (mIsFirstScrollThisTimeHandsDown && mIsHandsDown && dy > 0) {
                     mIsFirstScrollThisTimeHandsDown = false;
-                    LauncherAnalytics.logEvent("ColorPhone_BanboList_Slide");
+                    Analytics.logEvent("ColorPhone_BanboList_Slide");
                 }
             }
 

@@ -18,7 +18,7 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
@@ -92,7 +92,7 @@ public class ThemeDownloadJobService extends JobService {
                 return;
             }
 
-            LauncherAnalytics.logEvent("Test_Job_Download_Start", LauncherAnalytics.FLAG_LOG_FABRIC);
+            Analytics.logEvent("Test_Job_Download_Start", Analytics.FLAG_LOG_FABRIC);
             TasksManager.doDownload(model, null);
 
             FileDownloadMultiListener.getDefault().addStateListener(taskId, new DownloadStateListener() {
@@ -100,7 +100,7 @@ public class ThemeDownloadJobService extends JobService {
                 @Override
                 public void updateDownloaded(boolean progressFlag) {
                     HSLog.d(TAG, "download normal task success: "+ model.getName());
-                    LauncherAnalytics.logEvent("Test_Job_Download_Success", LauncherAnalytics.FLAG_LOG_FABRIC);
+                    Analytics.logEvent("Test_Job_Download_Success", Analytics.FLAG_LOG_FABRIC);
                     onJobFinish(jobParameters, false);
                 }
 

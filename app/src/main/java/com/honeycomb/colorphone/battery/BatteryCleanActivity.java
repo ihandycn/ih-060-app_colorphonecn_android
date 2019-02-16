@@ -24,7 +24,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -109,14 +109,14 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         mHomeKeyWatcher = new HomeKeyWatcher(this);
 
         if (isFromBatteryImprover) {
-            LauncherAnalytics.logEvent("ColorPhone_CableImprover_CleanPage_Show");
+            Analytics.logEvent("ColorPhone_CableImprover_CleanPage_Show");
             Ap.Improver.logEvent("cleanpage_show");
             mHomeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
                 @Override
                 public void onHomePressed() {
                     long runningTime = System.currentTimeMillis() - startTimeMills;
                     Ap.Improver.logEvent("cleanpage_home_click");
-                    LauncherAnalytics.logEvent("ColorPhone_CableImprover_CleanPage_Home_Click", "Time", formatTime(runningTime));
+                    Analytics.logEvent("ColorPhone_CableImprover_CleanPage_Home_Click", "Time", formatTime(runningTime));
                 }
 
                 @Override
@@ -389,7 +389,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         HSAppMemoryManager.getInstance().startClean(hsAppMemoryList, new HSAppMemoryManager.MemoryTaskListener() {
             @Override
             public void onStarted() {
-                LauncherAnalytics.logEvent("Battery_CleanAnimation_Show");
+                Analytics.logEvent("Battery_CleanAnimation_Show");
                 startCleanAnimator();
             }
 
@@ -576,7 +576,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
 
     private void logTimeConsumes(long showTime) {
         Ap.Improver.logEvent("cleanpage_back_click");
-        LauncherAnalytics.logEvent("ColorPhone_CableImprover_CleanPage_Back_Click", "Time", formatTime(showTime));
+        Analytics.logEvent("ColorPhone_CableImprover_CleanPage_Back_Click", "Time", formatTime(showTime));
     }
 
     @Override

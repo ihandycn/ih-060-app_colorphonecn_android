@@ -26,8 +26,8 @@ import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.AutoPilotUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
@@ -463,24 +463,24 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-                    LauncherAnalytics.logEvent("ColorPhone_CableImprover_Clean_ResultPage_Show",
+                    Analytics.logEvent("ColorPhone_CableImprover_Clean_ResultPage_Show",
                             "From", ResultPageManager.getInstance().getFromTag());
                     Ap.Improver.logEvent("cleanpage_resultpage_show");
                 } else {
-                    LauncherAnalytics.logEvent("Colorphone_BatteryDone_Page_Shown");
+                    Analytics.logEvent("Colorphone_BatteryDone_Page_Shown");
                 }
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromSettings");
+                Analytics.logEvent("Colorphone_BoostDone_Page_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromPush");
+                Analytics.logEvent("Colorphone_BoostDone_Page_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Page_Shown_FromToolbar");
+                Analytics.logEvent("Colorphone_BoostDone_Page_Shown_FromToolbar");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                LauncherAnalytics.logEvent("Colorphone_CPUDone_Page_Shown");
+                Analytics.logEvent("Colorphone_CPUDone_Page_Shown");
                 break;
         }
     }
@@ -489,11 +489,11 @@ abstract class ResultController implements View.OnClickListener {
 //        if (type == Type.AD) {
 //            // No log here, logged in onAdClick()
 //        } else if (type == Type.CHARGE_SCREEN) {
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Click", "Type", ResultConstants.CHARGING_SCREEN_FULL);
+//            Analytics.logEvent("ResultPage_Cards_Click", "Type", ResultConstants.CHARGING_SCREEN_FULL);
 //        } else if (type == Type.NOTIFICATION_CLEANER) {
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Click", "Type", ResultConstants.NOTIFICATION_CLEANER_FULL);
+//            Analytics.logEvent("ResultPage_Cards_Click", "Type", ResultConstants.NOTIFICATION_CLEANER_FULL);
 //        } else if (type == Type.APP_LOCK) {
-//            LauncherAnalytics.logEvent("ResultPage_Cards_Click", "Type", ResultConstants.APPLOCK);
+//            Analytics.logEvent("ResultPage_Cards_Click", "Type", ResultConstants.APPLOCK);
 //        }
     }
 
@@ -502,24 +502,24 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-                    LauncherAnalytics.logEvent("ColorPhone_CableImproverWire_Should_Show",
+                    Analytics.logEvent("ColorPhone_CableImproverWire_Should_Show",
                             "From", ResultPageManager.getInstance().getFromTag());
                     Ap.Improver.logEvent("cableimproverwire_should_show");
                 } else {
-                    LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
+                    Analytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
                 }
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromSettings");
+                Analytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromPush");
+                Analytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromToolbar");
+                Analytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromToolbar");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                LauncherAnalytics.logEvent("Colorphone_CPUWire_Ad_Should_Shown");
+                Analytics.logEvent("Colorphone_CPUWire_Ad_Should_Shown");
                 break;
         }
     }
@@ -528,28 +528,28 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-                    LauncherAnalytics.logEvent("ColorPhone_CableImproverWire_Show",
+                    Analytics.logEvent("ColorPhone_CableImproverWire_Show",
                             "From", ResultPageManager.getInstance().getFromTag(),
                             "Type", ResultPageManager.getInstance().getFromInterstitialAdPlacement());
                     Ap.Improver.logEvent("cableimproverwire_show");
 
                 } else {
-                    LauncherAnalytics.logEvent("Colorphone_BatteryWire_Ad_Shown");
+                    Analytics.logEvent("Colorphone_BatteryWire_Ad_Shown");
                 }
                 AutoPilotUtils.logBatterywireAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromSettings");
+                Analytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromPush");
+                Analytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                LauncherAnalytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromToolbar");
+                Analytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromToolbar");
                 AutoPilotUtils.logBoostwireAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                LauncherAnalytics.logEvent("Colorphone_CPUWire_Ad_Shown");
+                Analytics.logEvent("Colorphone_CPUWire_Ad_Shown");
                 AutoPilotUtils.logCpuwireAdShow();
                 break;
         }
@@ -559,27 +559,27 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-                    LauncherAnalytics.logEvent("ColorPhone_CableImproverDone_Show",
+                    Analytics.logEvent("ColorPhone_CableImproverDone_Show",
                             "From", ResultPageManager.getInstance().getFromTag(),
                             "Type", ResultPageManager.getInstance().getFromAdPlacement());
                     Ap.Improver.logEvent("cableimproverdone_show");
                 } else {
-                    LauncherAnalytics.logEvent("Colorphone_BatteryDone_Ad_Shown");
+                    Analytics.logEvent("Colorphone_BatteryDone_Ad_Shown");
                 }
                 AutoPilotUtils.logBatterydoneAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromSettings");
+                Analytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromPush");
+                Analytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromToolbar");
+                Analytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromToolbar");
                 AutoPilotUtils.logBoostdoneAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                LauncherAnalytics.logEvent("Colorphone_CPUDone_Ad_Shown");
+                Analytics.logEvent("Colorphone_CPUDone_Ad_Shown");
                 AutoPilotUtils.logCpudoneAdShow();
                 break;
         }
@@ -588,19 +588,19 @@ abstract class ResultController implements View.OnClickListener {
     private void logBoostDoneAdClicked() {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
-                LauncherAnalytics.logEvent("Colorphone_BatteryDone_Ad_Clicked");
+                Analytics.logEvent("Colorphone_BatteryDone_Ad_Clicked");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromSettings");
+                Analytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromToolbar");
+                Analytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromToolbar");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-                LauncherAnalytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromPush");
+                Analytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                LauncherAnalytics.logEvent("Colorphone_CPUDone_Ad_Clicked");
+                Analytics.logEvent("Colorphone_CPUDone_Ad_Clicked");
                 break;
         }
     }

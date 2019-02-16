@@ -1,7 +1,7 @@
 package com.honeycomb.colorphone.module;
 
 import com.colorphone.lock.LockerCustomConfig;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 
 /**
  * Created by sundxing on 2018/1/5.
@@ -10,11 +10,11 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 public class LockerLogger implements LockerCustomConfig.RemoteLogger{
     @Override
     public void logEvent(String eventID) {
-        LauncherAnalytics.logEvent(eventID);
+        Analytics.logEvent(eventID);
     }
 
     @Override
     public void logEvent(String eventID, String... vars) {
-        LauncherAnalytics.logEvent(eventID, vars);
+        Analytics.logEvent(eventID, vars);
     }
 }

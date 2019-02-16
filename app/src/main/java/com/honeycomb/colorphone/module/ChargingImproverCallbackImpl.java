@@ -9,7 +9,7 @@ import com.honeycomb.colorphone.battery.BatteryUtils;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.triviatip.TriviaTip;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.chargingimprover.ChargingImproverCallBack;
@@ -117,7 +117,7 @@ public class ChargingImproverCallbackImpl implements ChargingImproverCallBack {
     }
 
     @Override public void logEvent(String eventID, String... vars) {
-        LauncherAnalytics.logEvent(eventID, vars);
+        Analytics.logEvent(eventID, vars);
     }
 
     @Override public void onChargingImproverDismiss() {

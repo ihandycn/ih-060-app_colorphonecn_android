@@ -46,8 +46,8 @@ import com.honeycomb.colorphone.cpucooler.CpuCoolerManager;
 import com.honeycomb.colorphone.cpucooler.util.CpuCoolerConstant;
 import com.honeycomb.colorphone.cpucooler.util.CpuCoolerUtils;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.AutoPilotUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
@@ -457,20 +457,20 @@ public class NotificationManager implements FlashlightStatusListener {
                 int status = FlashlightUtils.toggleFlashlight(mTurnOnRunnable, mTurnOffRunnable);
                 switch (status) {
                     case FlashlightUtils.FLASHLIGHT_STATUS_ON:
-                        LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_Flashlight_Clicked", "action", "open");
+                        Analytics.logEvent("Colorphone_Notification_Toolbar_Flashlight_Clicked", "action", "open");
                         break;
                     case FlashlightUtils.FLASHLIGHT_STATUS_OFF:
-                        LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_Flashlight_Clicked", "action", "close");
+                        Analytics.logEvent("Colorphone_Notification_Toolbar_Flashlight_Clicked", "action", "close");
                         break;
                     case FlashlightUtils.FLASHLIGHT_STATUS_FAIL:
-                        LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_Flashlight_Clicked", "action", "fail");
+                        Analytics.logEvent("Colorphone_Notification_Toolbar_Flashlight_Clicked", "action", "fail");
                         break;
                 }
                 AutoPilotUtils.logNotificationToolbarFlashlightClick();
                 break;
             case NotificationManager.ACTION_BOOST_TOOLBAR:
-                LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_Boost_Clicked");
-                LauncherAnalytics.logEvent("ColorPhone_Notification_Toolbar_Clicked");
+                Analytics.logEvent("Colorphone_Notification_Toolbar_Boost_Clicked");
+                Analytics.logEvent("ColorPhone_Notification_Toolbar_Clicked");
                 BoostActivity.start(context, true);
                 AutoPilotUtils.logNotificationToolbarBoostClick();
                 break;
@@ -484,14 +484,14 @@ public class NotificationManager implements FlashlightStatusListener {
                     CashUtils.Event.logEvent("colorphone_earncash_icon_click_on_toolbar");
                 } else {
                     Navigations.startActivitySafely(context, new Intent(Settings.ACTION_SETTINGS));
-                    LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_Settings_Clicked");
+                    Analytics.logEvent("Colorphone_Notification_Toolbar_Settings_Clicked");
                     AutoPilotUtils.logNotificationToolbarSettingClick();
                 }
 
                 break;
             case NotificationManager.ACTION_CPU_COOLER_TOOLBAR:
-                LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_CPU_Clicked");
-                LauncherAnalytics.logEvent("ColorPhone_Notification_Toolbar_Clicked");
+                Analytics.logEvent("Colorphone_Notification_Toolbar_CPU_Clicked");
+                Analytics.logEvent("ColorPhone_Notification_Toolbar_Clicked");
                 Intent cpuCoolerIntent = new Intent(context, CpuCoolDownActivity.class);
                 cpuCoolerIntent.putExtra(CpuCoolDownActivity.EXTRA_KEY_NEED_SCAN, true);
                 cpuCoolerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -500,8 +500,8 @@ public class NotificationManager implements FlashlightStatusListener {
                 break;
 
             case NotificationManager.ACTION_BATTERY_TOOLBAR:
-                LauncherAnalytics.logEvent("Colorphone_Notification_Toolbar_Battery_Clicked");
-                LauncherAnalytics.logEvent("ColorPhone_Notification_Toolbar_Clicked");
+                Analytics.logEvent("Colorphone_Notification_Toolbar_Battery_Clicked");
+                Analytics.logEvent("ColorPhone_Notification_Toolbar_Clicked");
                 Intent batteryIntent = new Intent(context, BatteryCleanActivity.class);
                 ResultPageManager.getInstance().setInBatteryImprover(false);
                 batteryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);

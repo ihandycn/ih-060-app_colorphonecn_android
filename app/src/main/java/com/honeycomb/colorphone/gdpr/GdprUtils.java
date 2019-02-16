@@ -3,7 +3,7 @@ package com.honeycomb.colorphone.gdpr;
 import android.app.Activity;
 
 import com.honeycomb.colorphone.Constants;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
@@ -51,18 +51,18 @@ public class GdprUtils {
                             Constants.getUrlPrivacy(), new HSGdprConsent.GDPRAlertListener() {
                                 @Override
                                 public void onAccept() {
-                                    LauncherAnalytics.logEvent("GDPR_Access_Gain");
+                                    Analytics.logEvent("GDPR_Access_Gain");
                                     GdprUtils.setDataUsageUserEnabled(true);
                                 }
 
                                 @Override
                                 public void onDecline() {
-                                    LauncherAnalytics.logEvent("GDPR_Access_Decline");
+                                    Analytics.logEvent("GDPR_Access_Decline");
 
                                 }
                             });
 
-                    LauncherAnalytics.logEvent("GDPR_Access_Alert_Shown");
+                    Analytics.logEvent("GDPR_Access_Alert_Shown");
 
                 }
             }, GdprConsts.PREFS_KEY_CONSTENT_ALERT_SHOW_TIMES, 1);

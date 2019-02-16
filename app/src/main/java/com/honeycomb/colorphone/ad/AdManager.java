@@ -4,7 +4,7 @@ import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuideTest;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
 
@@ -111,9 +111,9 @@ public class AdManager {
             });
             ad.show();
             if (Utils.isNewUser()) {
-                LauncherAnalytics.logEvent("ColorPhone_ThemeWire_Show");
+                Analytics.logEvent("ColorPhone_ThemeWire_Show");
             }
-            LauncherAnalytics.logEvent("ColorPhone_ThemeWireAd_Show");
+            Analytics.logEvent("ColorPhone_ThemeWireAd_Show");
             ADAutoPilotUtils.logThemeWireShow();
             ThemeGuideTest.logThemewireADShow();
             ADAutoPilotUtils.recordShowThemeWireCount();

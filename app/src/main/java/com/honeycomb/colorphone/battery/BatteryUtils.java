@@ -4,7 +4,7 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.common.HSAppUsageInfo;
 import com.superapps.util.Preferences;
@@ -204,13 +204,13 @@ public class BatteryUtils {
             batteryLevel = DeviceManager.getInstance().getBatteryLevel();
         }
         if (batteryLevel <= BATTERY_STATUS_A_LEVEL) {
-            LauncherAnalytics.logEvent("Battery_IconClicked", "type", isCharging ? "Charging-a" : "Not Charging-a");
+            Analytics.logEvent("Battery_IconClicked", "type", isCharging ? "Charging-a" : "Not Charging-a");
         } else if (batteryLevel <= BATTERY_STATUS_B_LEVEL) {
-            LauncherAnalytics.logEvent("Battery_IconClicked", "type", isCharging ? "Charging-b" : "Not Charging-b");
+            Analytics.logEvent("Battery_IconClicked", "type", isCharging ? "Charging-b" : "Not Charging-b");
         } else if (batteryLevel <= BATTERY_STATUS_C_LEVEL) {
-            LauncherAnalytics.logEvent("Battery_IconClicked", "type", isCharging ? "Charging-c" : "Not Charging-c");
+            Analytics.logEvent("Battery_IconClicked", "type", isCharging ? "Charging-c" : "Not Charging-c");
         } else {
-            LauncherAnalytics.logEvent("Battery_IconClicked", "type", isCharging ? "Charging-d" : "Not Charging-d");
+            Analytics.logEvent("Battery_IconClicked", "type", isCharging ? "Charging-d" : "Not Charging-d");
         }
         Preferences.get(ResultConstants.BATTERY_PREFS).putLong(PREF_KEY_BATTERY_USER_VISIT_TIME, System.currentTimeMillis());
     }
@@ -319,15 +319,15 @@ public class BatteryUtils {
 //            public void run() {
 //                // Confirm
 //                Navigations.startActivity(launcher, BatteryActivity.class);
-//                LauncherAnalytics.logEvent("Battery_OpenFrom", true, "type", "From Dialog");
-//                LauncherAnalytics.logEvent("Battery_Dialog_LowPower_Show", "type", "Try");
+//                Analytics.logEvent("Battery_OpenFrom", true, "type", "From Dialog");
+//                Analytics.logEvent("Battery_Dialog_LowPower_Show", "type", "Try");
 //            }
 //        }, new Runnable() {
 //            @Override
 //            public void run() {
 //                // Cancel
 //                Preferences.get(ResultConstants.BATTERY_PREFS).incrementAndGetInt(PREF_KEY_BATTERY_TIP_CANCEL_COUNT);
-//                LauncherAnalytics.logEvent("Battery_Dialog_LowPower_Show", "type", "Cancel");
+//                Analytics.logEvent("Battery_Dialog_LowPower_Show", "type", "Cancel");
 //            }
 //        });
 //    }

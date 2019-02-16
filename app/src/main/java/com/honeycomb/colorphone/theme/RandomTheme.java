@@ -16,8 +16,8 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.NetUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -107,7 +107,7 @@ public class RandomTheme {
             // Need download it first
             TasksManagerModel model = TasksManager.getImpl().getByThemeId(theme.getId());
             if (model == null) {
-                LauncherAnalytics.logEvent("Test_Theme_Model_NULL", "Index", String.valueOf(pendingThemeIndex));
+                Analytics.logEvent("Test_Theme_Model_NULL", "Index", String.valueOf(pendingThemeIndex));
                 return;
             }
             if (TasksManager.getImpl().isDownloaded(model)) {
@@ -135,7 +135,7 @@ public class RandomTheme {
         boolean downloadStart = TasksManager.doDownload(model, null);
         if (downloadStart) {
             Ap.RandomTheme.logEvent("random_theme_download_start");
-            LauncherAnalytics.logEvent("clorphone_random_theme_download_start");
+            Analytics.logEvent("clorphone_random_theme_download_start");
         }
         final int taskId = model.getId();
         FileDownloadMultiListener.getDefault().addStateListener(taskId, new DownloadStateListener() {
@@ -145,7 +145,7 @@ public class RandomTheme {
                 // In case method call more than once.
                 FileDownloadMultiListener.getDefault().removeStateListener(taskId);
                 Ap.RandomTheme.logEvent("random_theme_download_success");
-                LauncherAnalytics.logEvent("colorphone_random_theme_download_success");
+                Analytics.logEvent("colorphone_random_theme_download_success");
 
                 if (delegateListener != null) {
                     delegateListener.updateDownloaded(progressFlag);
@@ -271,11 +271,11 @@ public class RandomTheme {
                 @Override
                 public void run() {
                     Ap.RandomTheme.logEvent("random_theme_enabled");
-                    LauncherAnalytics.logEvent("colorphone_random_theme_enabled");
+                    Analytics.logEvent("colorphone_random_theme_enabled");
                 }
             }, "colorphone_random_theme_enabled");
             Ap.RandomTheme.logEvent("random_theme_show");
-            LauncherAnalytics.logEvent("colorphone_random_theme_show",
+            Analytics.logEvent("colorphone_random_theme_show",
                     "IdName", targetTheme == null ? "NULL" : targetTheme.getIdName(),
                     "Network", NetUtils.isWifiConnected(HSApplication.getContext()) ? "Wifi" : "Data");
         }

@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.push.HSPushMgr;
 import com.ihs.app.push.impl.PushMgr;
@@ -51,8 +51,8 @@ public class PushManager {
             if (PushMgr.HS_NOTIFICATION_PUSH_MSG_RECEIVED.equals(eventName)) {
                 try {
                     Intent intent = (Intent) hsBundle.getObject(PushMgr.HS_NOTIFICATION_PUSH_MSG_RECEIVED_PARAM_MSG_INTENT);
-                    LauncherAnalytics.logEvent("ColorPhone_Push_Receive", LauncherAnalytics.FLAG_LOG_FABRIC);
-                    LauncherAnalytics.logEvent("ColorPhone_Push_Receive_WhenLaunch", true,
+                    Analytics.logEvent("ColorPhone_Push_Receive", Analytics.FLAG_LOG_FABRIC);
+                    Analytics.logEvent("ColorPhone_Push_Receive_WhenLaunch", true,
                             "Time", formatTimes());
                     String msg = intent.getStringExtra("msg");
                     HSLog.d(TAG, "Receive message : " + msg);
@@ -127,7 +127,7 @@ public class PushManager {
     }
 
     private void request() {
-        LauncherAnalytics.logEvent("ColorPhone_Push_Request", LauncherAnalytics.FLAG_LOG_FABRIC, "Enable", String.valueOf(mKaEnable));
+        Analytics.logEvent("ColorPhone_Push_Request", Analytics.FLAG_LOG_FABRIC, "Enable", String.valueOf(mKaEnable));
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {

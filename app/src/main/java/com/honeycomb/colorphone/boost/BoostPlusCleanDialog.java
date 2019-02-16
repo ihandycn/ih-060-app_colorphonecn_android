@@ -40,7 +40,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.util.FontUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -586,7 +586,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
         HSLog.d(TAG, "onDialogDismiss mCleanResult = " + mCleanResult + " mIsStartGetPermission = " + mIsStartGetPermission);
 
         // Notify underlying result page to start its animations
-        LauncherAnalytics.logEvent("Colorphone_Boost_Finished");
+        Analytics.logEvent("Colorphone_Boost_Finished");
 
         if (null != mHandler) {
             mHandler.removeCallbacksAndMessages(null);

@@ -7,7 +7,7 @@ import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.analytics.HSAnalytics;
@@ -170,7 +170,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             @Override
             public void onAdShow() {
                 NotificationAutoPilotUtils.logMessageAssistantAdShow();
-                LauncherAnalytics.logEvent("Message_View_AD_Shown");
+                Analytics.logEvent("Message_View_AD_Shown");
                 if (getNotificationMessageConfig().isShowFloatingBall()) {
                     Ap.MsgBall.onAdShow();
                 }
@@ -178,7 +178,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public void onAdClick() {
-                LauncherAnalytics.logEvent("Message_View_AD_Clicked");
+                Analytics.logEvent("Message_View_AD_Clicked");
             }
 
             @Override
@@ -189,7 +189,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             @Override
             public void messageViewShowed(int msgSrcCount, String flurryMessageType, String flurryAlertShowWhere) {
                 NotificationAutoPilotUtils.logMessageAssistantShow();
-                LauncherAnalytics.logEvent("Message_View_Shown", "msgSrcCount", String.valueOf(msgSrcCount),
+                Analytics.logEvent("Message_View_Shown", "msgSrcCount", String.valueOf(msgSrcCount),
                         "messageType", flurryMessageType, "AlertShowWhere", flurryAlertShowWhere);
 
                 if (flurryAlertShowWhere.equals("OnLockScreen")) {
@@ -200,20 +200,20 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public void floatingBallShow(int count, String from) {
-                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_View_Show", "MsgCount", String.valueOf(count));
+                Analytics.logEvent("ColorPhone_Message_FloatingBall_View_Show", "MsgCount", String.valueOf(count));
                 Ap.MsgBall.onShow();
 
             }
 
             @Override
             public void floatingBallClicked(int count) {
-                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_View_Click", "MsgCount", String.valueOf(count));
+                Analytics.logEvent("ColorPhone_Message_FloatingBall_View_Click", "MsgCount", String.valueOf(count));
                 Ap.MsgBall.onClick();
             }
 
             @Override
             public void floatingBallCanceled(int count) {
-                LauncherAnalytics.logEvent("ColorPhone_Message_FloatingBall_Cancel", "MsgCount", String.valueOf(count));
+                Analytics.logEvent("ColorPhone_Message_FloatingBall_Cancel", "MsgCount", String.valueOf(count));
                 Ap.MsgBall.onCancel();
             }
         };

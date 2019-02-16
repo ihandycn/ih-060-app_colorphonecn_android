@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 
@@ -28,7 +28,7 @@ public class OurAppInstalledReceiver extends BroadcastReceiver {
             HSPreferenceHelper.getDefault().putBoolean(REFERRER_LOGGED, true);
             String referrerString = intent.getStringExtra("referrer");
 
-            LauncherAnalytics.logEvent("utm_source", "source", referrerString);
+            Analytics.logEvent("utm_source", "source", referrerString);
             HSPreferenceHelper.create(context, PREF_FILE_OUR_APP_INSTALLED_RECEIVER).putStringInterProcess(REFERRER, referrerString);
             if (referrerString != null && referrerString.contains("internal")) {
                 try {
@@ -52,7 +52,7 @@ public class OurAppInstalledReceiver extends BroadcastReceiver {
                         referrer.put(string.substring(0, index), string.substring(index + 1, string.length()));
                     }
 
-                    LauncherAnalytics.logEvent("Source_Channel_Internal", referrer);
+                    Analytics.logEvent("Source_Channel_Internal", referrer);
                 } catch (Exception e) {
                     HSLog.e("referrer error");
                 }

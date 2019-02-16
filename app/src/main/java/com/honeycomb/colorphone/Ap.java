@@ -3,7 +3,7 @@ package com.honeycomb.colorphone;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -182,11 +182,11 @@ public class Ap {
 
         public static void logEvent(String event) {
             AutopilotEvent.logTopicEvent(TOPIC_ID, event);
-            LauncherAnalytics.logEvent(LauncherAnalytics.upperFirstCh(event));
+            Analytics.logEvent(Analytics.upperFirstCh(event));
         }
 
         public static void onPageScroll(int scrollCount) {
-            LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_Slide", "Count", String.valueOf(scrollCount));
+            Analytics.logEvent("ColorPhone_ThemeDetail_Slide", "Count", String.valueOf(scrollCount));
         }
 
         public static void onPageScrollOnce() {
@@ -199,7 +199,7 @@ public class Ap {
 
     public static void logEvent(String topicId, String eventName) {
         AutopilotEvent.logTopicEvent(topicId, eventName);
-        LauncherAnalytics.logEvent(eventName);
+        Analytics.logEvent(eventName);
     }
 
     public static class Improver {

@@ -39,8 +39,8 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.receiver.ShareReceiver;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ShareAlertAutoPilotUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.FixRatioPreviewWindow;
@@ -165,11 +165,11 @@ public class ShareAlertActivity extends Activity {
 
         if (isInsideApp) {
             ShareAlertAutoPilotUtils.logInsideAppShareAlertShow();
-            LauncherAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName",
+            Analytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName",
                     themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
         } else {
             ShareAlertAutoPilotUtils.logOutsideAppShareAlertShow();
-            LauncherAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName",
+            Analytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName",
                     themeType.getName(), "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
         }
     }
@@ -302,11 +302,11 @@ public class ShareAlertActivity extends Activity {
 
                 if (isInsideApp) {
                     ShareAlertAutoPilotUtils.logInsideAppShareAlertClicked();
-                    LauncherAnalytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName",
+                    Analytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName",
                             themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
                 } else {
                     ShareAlertAutoPilotUtils.logOutsideAppShareAlertClicked();
-                    LauncherAnalytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(),
+                    Analytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(),
                             "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
                 }
             }

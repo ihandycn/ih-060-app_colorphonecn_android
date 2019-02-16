@@ -13,7 +13,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
@@ -54,9 +54,9 @@ public class LedFlashSettingsActivity extends HSAppCompatActivity {
                 Preferences.get(Constants.DESKTOP_PREFS).putBoolean(Constants.PREFS_LED_FLASH_ENABLE, isChecked);
                 if (isChecked) {
                     FlashManager.getInstance().startFlash(3);
-                    LauncherAnalytics.logEvent("LEDReminder_Enabled_FromSettings");
+                    Analytics.logEvent("LEDReminder_Enabled_FromSettings");
                 } else {
-                    LauncherAnalytics.logEvent("LEDReminder_Disabled_FromSettings");
+                    Analytics.logEvent("LEDReminder_Disabled_FromSettings");
                 }
             }
         });

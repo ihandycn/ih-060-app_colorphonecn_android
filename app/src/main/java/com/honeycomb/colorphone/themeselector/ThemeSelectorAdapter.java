@@ -48,7 +48,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -302,10 +302,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                     Theme theme = data.get(pos);
                     if (activity instanceof PopularThemeActivity) {
-                        LauncherAnalytics.logEvent("ColorPhone_BanboList_ThemeDetail_View", "type", theme.getIdName());
+                        Analytics.logEvent("ColorPhone_BanboList_ThemeDetail_View", "type", theme.getIdName());
                         PopularThemePreviewActivity.start(activity, pos);
                     } else {
-                        LauncherAnalytics.logEvent("ColorPhone_MainView_ThemeDetail_View", "type", theme.getIdName());
+                        Analytics.logEvent("ColorPhone_MainView_ThemeDetail_View", "type", theme.getIdName());
                         ThemePreviewActivity.start(activity, pos);
                     }
                 }
@@ -405,7 +405,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, PopularThemeActivity.class);
                     activity.startActivity(intent);
-                    LauncherAnalytics.logEvent("ColorPhone_MainView_BanboEntrance_Clicked");
+                    Analytics.logEvent("ColorPhone_MainView_BanboEntrance_Clicked");
                 }
             });
 
@@ -444,9 +444,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         // LOG
         if (activity instanceof ColorPhoneActivity) {
-            LauncherAnalytics.logEvent("ColorPhone_MainView_Apply_Icon_Clicked", "type", theme.getIdName());
+            Analytics.logEvent("ColorPhone_MainView_Apply_Icon_Clicked", "type", theme.getIdName());
         } else if (activity instanceof PopularThemeActivity) {
-            LauncherAnalytics.logEvent("ColorPhone_BanboList_Apply_icon_Clicked", "type", theme.getIdName());
+            Analytics.logEvent("ColorPhone_BanboList_Apply_icon_Clicked", "type", theme.getIdName());
         }
     }
 
@@ -463,9 +463,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 bundle.putInt(NOTIFY_THEME_KEY, theme.getId());
                 bundle.putObject(NOTIFY_CONTEXT_KEY, activity);
                 HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
-                LauncherAnalytics.logEvent("ColorPhone_BanboList_Set_Success", "type", theme.getIdName());
+                Analytics.logEvent("ColorPhone_BanboList_Set_Success", "type", theme.getIdName());
             } else if (activity instanceof ColorPhoneActivity) {
-                LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success", "type", theme.getIdName());
+                Analytics.logEvent("ColorPhone_MainView_Set_Success", "type", theme.getIdName());
             }
 
 //            GuideApplyThemeActivity.start(activity, false, null);
@@ -565,7 +565,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             int index = themeIndex / 2;
             if (index > mMaxShowThemeIndex) {
                 mMaxShowThemeIndex = index;
-                LauncherAnalytics.logEvent("ColorPhone_Mainview_Slide");
+                Analytics.logEvent("ColorPhone_Mainview_Slide");
             }
 
             if (activity instanceof PopularThemeActivity) {
@@ -623,7 +623,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                             ((ColorPhoneActivity) activity).showRewardVideoView(curTheme.getName());
                         }
                         mUnLockThemeId = curTheme.getId();
-                        LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Clicked", "from", "list", "themeName", curTheme.getName());
+                        Analytics.logEvent("Colorphone_Theme_Unlock_Clicked", "from", "list", "themeName", curTheme.getName());
                     }
                 });
 

@@ -12,7 +12,7 @@ import com.acb.cashcenter.lottery.LotteryWheelActivity;
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.trigger.CashCenterTriggerList;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSSessionMgr;
@@ -229,7 +229,7 @@ public class CashUtils {
         }
         boolean open = masterSwitch();
         int sessionId = HSSessionMgr.getCurrentSessionId();
-        LauncherAnalytics.logEvent("NewUser_Cash_Switch", "Switch", String.valueOf(open),
+        Analytics.logEvent("NewUser_Cash_Switch", "Switch", String.valueOf(open),
                 "Session", String.valueOf(sessionId), "GdprUser", String.valueOf(GdprUtils.isGdprUser()));
     }
 
@@ -241,7 +241,7 @@ public class CashUtils {
             // For start autopilot test
             CashUtils.masterSwitch();
             AutopilotEvent.logTopicEvent(TOPIC_ID, name);
-            LauncherAnalytics.logEvent(name);
+            Analytics.logEvent(name);
         }
 
         public static void onDesktopShortcutClick() {
@@ -267,12 +267,12 @@ public class CashUtils {
 
         public static void onShortcutGuideShow(int triggerCount) {
             AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_shortcut_alert_show");
-            LauncherAnalytics.logEvent("colorphone_earncash_shortcut_alert_show", "ShowTime", String.valueOf(triggerCount));
+            Analytics.logEvent("colorphone_earncash_shortcut_alert_show", "ShowTime", String.valueOf(triggerCount));
         }
 
         public static void onShortcutGuideClick(int triggerCount) {
             AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_shortcut_alert_ok_click");
-            LauncherAnalytics.logEvent("colorphone_earncash_shortcut_alert_ok_click", "ShowTime", String.valueOf(triggerCount));
+            Analytics.logEvent("colorphone_earncash_shortcut_alert_ok_click", "ShowTime", String.valueOf(triggerCount));
         }
 
         public static void onGuideViewShow(Source source) {
@@ -320,7 +320,7 @@ public class CashUtils {
         }
 
         public static void onSpinClick(Source cashWheelSource) {
-            LauncherAnalytics.logEvent("colorphone_earncash_spin",
+            Analytics.logEvent("colorphone_earncash_spin",
                     "From", cashWheelSource == null ? "NULL" : cashWheelSource.getDisplayName());
             AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_spin");
         }

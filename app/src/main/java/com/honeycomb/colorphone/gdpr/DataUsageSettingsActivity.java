@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -105,7 +105,7 @@ public class DataUsageSettingsActivity extends HSAppCompatActivity
                     }
                     mCloseDialog.dismiss();
                     mCloseDialog = null;
-                    LauncherAnalytics.logEvent("GDPR_Access_Closed_Settings");
+                    Analytics.logEvent("GDPR_Access_Closed_Settings");
                     GdprUtils.setDataUsageUserEnabled(false);
                     mDataUsageSwitchButton.setChecked(false);
                     showProgressDialog();

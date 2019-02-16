@@ -27,7 +27,7 @@ import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.download2.Downloader;
 import com.honeycomb.colorphone.util.ActivityUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -153,10 +153,10 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
                 dismiss();
                 Preferences.get(Constants.DESKTOP_PREFS).putBoolean(TriviaTip.PREF_KEY_TRIVIA_TIP_DISABLE_CLICKED, true);
                 HSGlobalNotificationCenter.sendNotification(NOTIFICATION_TRIVIA_TIP_DISABLE_CLICKED);
-                LauncherAnalytics.logEvent("Fact_Alert_Disable_Click_New", true, "ClickTimes", String.valueOf(mShowTime));
-                LauncherAnalytics.logEvent("Fact_Alert_Dismiss_New", true, "CloseMethod", "AlertDisableBtn");
+                Analytics.logEvent("Fact_Alert_Disable_Click_New", true, "ClickTimes", String.valueOf(mShowTime));
+                Analytics.logEvent("Fact_Alert_Dismiss_New", true, "CloseMethod", "AlertDisableBtn");
 
-                LauncherAnalytics.logEvent("trivia_settings_close_click");
+                Analytics.logEvent("trivia_settings_close_click");
             }
         });
 
@@ -164,7 +164,7 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
             @Override
             public void onClick(View v) {
                 Ap.TriviaTip.logEvent("trivia_detail_apply_btn_click");
-                LauncherAnalytics.logEvent("trivia_detail_apply_btn_click",
+                Analytics.logEvent("trivia_detail_apply_btn_click",
                         "From" , mNativeAdContainer.getVisibility() == VISIBLE ? "donepage" : "wirepage",
                         "ThemeName", String.valueOf(mItemId)
                 );
@@ -217,7 +217,7 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
 
 //        ActivityUtils.setNavigationBarColor(mLauncher, Color.BLACK);
         mHomeKeyWatcher.startWatch();
-        LauncherAnalytics.logEvent("Fact_Alert_Shown_New", true, "ShowTimes", String.valueOf(mShowTime));
+        Analytics.logEvent("Fact_Alert_Shown_New", true, "ShowTimes", String.valueOf(mShowTime));
     }
 
     void onResume() {
@@ -229,17 +229,17 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
     void onBackPressed() {
         boolean allowBack = HSConfig.optBoolean(false, "Application", "TriviaFact", "AllowBack");
         HSLog.d("TriviaTip", "allowBack: " + allowBack);
-        LauncherAnalytics.logEvent("trivia_close", "type", "back");
+        Analytics.logEvent("trivia_close", "type", "back");
         if (!mShowingTip || allowBack) {
             dismiss();
         }
         if (mShowingTip && allowBack) {
-            LauncherAnalytics.logEvent("Fact_Alert_Dismiss_New", true, "CloseMethod", "SystemBackBtn");
+            Analytics.logEvent("Fact_Alert_Dismiss_New", true, "CloseMethod", "SystemBackBtn");
         }
     }
 
     private void showContent() {
-        LauncherAnalytics.logEvent("trivia_detail_show");
+        Analytics.logEvent("trivia_detail_show");
         Ap.TriviaTip.logEvent("trivia_detail_show");
 
         final int translationY = Dimensions.pxFromDp(7);
@@ -325,16 +325,16 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
         mInterstitialAd = tryGetInterstitialAd(Placements.TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME);
         HSLog.d("TriviaTip", "1 mInterstitialAd = " + mInterstitialAd);
 
-        LauncherAnalytics.logEvent("trivia_detail_wire_should_show");
+        Analytics.logEvent("trivia_detail_wire_should_show");
         Ap.TriviaTip.logEvent("trivia_detail_wire_should_show");
 
         if (mInterstitialAd == null) {
             mInterstitialAd = tryGetInterstitialAd(Placements.BOOST_WIRE);
             if (mInterstitialAd != null) {
-                LauncherAnalytics.logEvent("trivia_detail_wire_show", "From", "BoostWire");
+                Analytics.logEvent("trivia_detail_wire_show", "From", "BoostWire");
             }
         } else {
-            LauncherAnalytics.logEvent("trivia_detail_wire_show", "From", "TriviaWire");
+            Analytics.logEvent("trivia_detail_wire_show", "From", "TriviaWire");
         }
         HSLog.d("TriviaTip", "2 mInterstitialAd = " + mInterstitialAd);
         if (mInterstitialAd != null) {
@@ -374,8 +374,8 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
             mNativeAd = null;
         }
 
-        LauncherAnalytics.logEvent("Fact_Detail_Page_Shown_New", true);
-        LauncherAnalytics.logEvent("trivia_detail_done_should_show");
+        Analytics.logEvent("Fact_Detail_Page_Shown_New", true);
+        Analytics.logEvent("trivia_detail_done_should_show");
         Ap.TriviaTip.logEvent("trivia_detail_done_should_show");
         mNativeAd = tryGetNativeAd(Placements.TRIVIA_TIP_NATIVE_AD_PLACEMENT_NAME);
         HSLog.d("TriviaTip", "mNativeAd: " + mNativeAd);
@@ -470,7 +470,7 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
             mNativeAdContainer.setVisibility(VISIBLE);
             Interpolator interpolator = PathInterpolatorCompat.create(0.33f, 0f, 0.83f, 0.83f);
             mNativeAdContainer.animate().alpha(1).setInterpolator(interpolator).setDuration(480).start();
-            LauncherAnalytics.logEvent("trivia_detail_done_show", "From", mNativeSource);
+            Analytics.logEvent("trivia_detail_done_show", "From", mNativeSource);
             Ap.TriviaTip.logEvent("trivia_detail_done_show");
         }
     }
@@ -491,37 +491,37 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
             case R.id.tip_bg:
                 showContent();
                 Ap.TriviaTip.logEvent("trivia_click");
-                LauncherAnalytics.logEvent("trivia_click","ClickRange", "OutBtn");
+                Analytics.logEvent("trivia_click","ClickRange", "OutBtn");
 
-                LauncherAnalytics.logEvent("Fact_Alert_Click_New", true, "ClickTimes", String.valueOf(mShowTime), "ClickRange", "OutBtn");
+                Analytics.logEvent("Fact_Alert_Click_New", true, "ClickTimes", String.valueOf(mShowTime), "ClickRange", "OutBtn");
                 break;
             case R.id.tip_button:
                 showContent();
-                LauncherAnalytics.logEvent("trivia_button_click");
+                Analytics.logEvent("trivia_button_click");
                 Ap.TriviaTip.logEvent("trivia_button_click");
 
                 Ap.TriviaTip.logEvent("trivia_click");
-                LauncherAnalytics.logEvent("trivia_click","ClickRange", "InBtn");
+                Analytics.logEvent("trivia_click","ClickRange", "InBtn");
 
-                LauncherAnalytics.logEvent("Fact_Alert_Click_New", true, "ClickTimes", String.valueOf(mShowTime), "ClickRange", "InBtn");
+                Analytics.logEvent("Fact_Alert_Click_New", true, "ClickTimes", String.valueOf(mShowTime), "ClickRange", "InBtn");
                 break;
             case R.id.tip_disable:
                 int offsetX = -(mTurnOff.getMeasuredWidth() - v.getWidth() / 2);
                 int offsetY = -(v.getHeight() + (Dimensions.pxFromDp(22) - v.getHeight()) / 2);
                 mDisablePopup.showAsDropDown(v, offsetX, offsetY);
-                LauncherAnalytics.logEvent("trivia_settings_click");
+                Analytics.logEvent("trivia_settings_click");
                 break;
             case R.id.tip_close_btn:
                 dismiss();
-                LauncherAnalytics.logEvent("trivia_close", "type", "closebtn");
-                LauncherAnalytics.logEvent("Fact_Alert_Dismiss_New", true, "CloseMethod", "AlertCloseIcon");
+                Analytics.logEvent("trivia_close", "type", "closebtn");
+                Analytics.logEvent("Fact_Alert_Dismiss_New", true, "CloseMethod", "AlertCloseIcon");
                 break;
             case R.id.close_ad_iv:
                 mNativeAdContainer.setVisibility(GONE);
                 break;
             case R.id.tip_container:
                 dismiss();
-                LauncherAnalytics.logEvent("Fact_Alert_Dismiss_New", true, "CloseMethod", "BlackArea");
+                Analytics.logEvent("Fact_Alert_Dismiss_New", true, "CloseMethod", "BlackArea");
                 break;
         }
     }
@@ -536,9 +536,9 @@ public class TriviaTipLayout extends FrameLayout implements View.OnClickListener
     @Override
     public void onHomePressed() {
         dismiss();
-        LauncherAnalytics.logEvent("trivia_close", "home", "back");
+        Analytics.logEvent("trivia_close", "home", "back");
         if (mShowingTip) {
-            LauncherAnalytics.logEvent("Fact_Alert_Dismiss_New", true, "CloseMethod", "SystemHomeBtn");
+            Analytics.logEvent("Fact_Alert_Dismiss_New", true, "CloseMethod", "SystemHomeBtn");
         }
     }
 

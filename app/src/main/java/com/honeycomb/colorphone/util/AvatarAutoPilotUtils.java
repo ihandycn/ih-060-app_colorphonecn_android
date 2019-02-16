@@ -41,28 +41,28 @@ public class AvatarAutoPilotUtils {
         HSLog.i(AvatarVideoActivity.TAG, "avatar_button_shown");
         AutopilotEvent.logTopicEvent(AVATAR_TEST_TOPIC_ID, "avatar_button_shown");
 
-        LauncherAnalytics.logEvent("Colorphone_AvatarButton_Shown", "AvatarType", AvatarAutoPilotUtils.getAvatarType());
+        Analytics.logEvent("Colorphone_AvatarButton_Shown", "AvatarType", AvatarAutoPilotUtils.getAvatarType());
     }
 
     public static void logAvatarViewShown() {
         HSLog.i(AvatarVideoActivity.TAG, "avatar_view_shown");
         AutopilotEvent.logTopicEvent(AVATAR_TEST_TOPIC_ID, "avatar_view_shown");
 
-        LauncherAnalytics.logEvent("Colorphone_AvatarView_Shown", "AvatarType", AvatarAutoPilotUtils.getAvatarType());
+        Analytics.logEvent("Colorphone_AvatarView_Shown", "AvatarType", AvatarAutoPilotUtils.getAvatarType());
     }
 
     public static void logAvatarViewBackButtonClicked() {
         HSLog.i(AvatarVideoActivity.TAG, "avatar_view_back_button_clicked");
         AutopilotEvent.logTopicEvent(AVATAR_TEST_TOPIC_ID, "avatar_view_back_button_clicked");
 
-        LauncherAnalytics.logEvent("Colorphone_AvatarView_Back_Clicked", "AvatarType", AvatarAutoPilotUtils.getAvatarType());
+        Analytics.logEvent("Colorphone_AvatarView_Back_Clicked", "AvatarType", AvatarAutoPilotUtils.getAvatarType());
     }
 
     public static void logAvatarViewInstallButtonClicked() {
         HSLog.i(AvatarVideoActivity.TAG, "avatar_view_install_button_clicked");
         AutopilotEvent.logTopicEvent(AVATAR_TEST_TOPIC_ID, "avatar_view_install_button_clicked");
 
-        LauncherAnalytics.logEvent("Colorphone_AvatarView_Install_Clicked", "AvatarType", AvatarAutoPilotUtils.getAvatarType());
+        Analytics.logEvent("Colorphone_AvatarView_Install_Clicked", "AvatarType", AvatarAutoPilotUtils.getAvatarType());
     }
 
     public static void dump() {

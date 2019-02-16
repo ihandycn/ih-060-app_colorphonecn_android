@@ -31,9 +31,9 @@ import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.boost.BoostAnimationManager;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.boost.DeviceManager;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.DeviceUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Thunk;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -490,7 +490,7 @@ public class NotificationCondition implements INotificationObserver {
                 });
         showNotification(localNotification);
         BoostAutoPilotUtils.logBoostPushShow();
-        LauncherAnalytics.logEvent("Colorphone_Push_Boost_Show");
+        Analytics.logEvent("Colorphone_Push_Boost_Show");
 //        logNotificationPushed(type);
     }
 

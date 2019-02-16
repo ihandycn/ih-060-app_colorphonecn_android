@@ -11,7 +11,7 @@ import android.os.SystemClock;
 import android.text.format.DateUtils;
 
 import com.honeycomb.colorphone.trigger.DailyTrigger;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -82,8 +82,8 @@ public class DauChecker {
                 .get(Constants.PREF_FILE_DEFAULT)
                 .getLong(KEY_TIME_LIVE, 0);
         if (liveDuration != 0) {
-            LauncherAnalytics.logEvent("DAU_Application_Live",
-                    LauncherAnalytics.FLAG_LOG_FABRIC, "Time", formatHourTime(liveDuration / DateUtils.MINUTE_IN_MILLIS));
+            Analytics.logEvent("DAU_Application_Live",
+                    Analytics.FLAG_LOG_FABRIC, "Time", formatHourTime(liveDuration / DateUtils.MINUTE_IN_MILLIS));
 
             Preferences.get(Constants.PREF_FILE_DEFAULT).putLong(KEY_TIME_LIVE, 0);
         }
@@ -103,7 +103,7 @@ public class DauChecker {
                 return;
             }
             // Log
-            LauncherAnalytics.logEvent("DAU_Application_Check_" + getDeviceInfo(),
+            Analytics.logEvent("DAU_Application_Check_" + getDeviceInfo(),
                     "Time", formatTotalTime(totalTime / DateUtils.MINUTE_IN_MILLIS),
                     "Count", String.valueOf(count));
             // Reset

@@ -16,7 +16,7 @@ import com.honeycomb.colorphone.activity.AboutActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.LedFlashSettingsActivity;
 import com.honeycomb.colorphone.activity.SettingsActivity;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Navigations;
@@ -45,7 +45,7 @@ public class SettingsPage implements View.OnClickListener {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
                 ScreenFlashSettings.setScreenFlashModuleEnabled(isChecked);
-                LauncherAnalytics.logEvent("ColorPhone_Settings_Enable_Icon_Clicked", "type", isChecked ? "on" : "off");
+                Analytics.logEvent("ColorPhone_Settings_Enable_Icon_Clicked", "type", isChecked ? "on" : "off");
             }
         });
 
@@ -94,15 +94,15 @@ public class SettingsPage implements View.OnClickListener {
                 break;
 //            case R.id.settings_boost:
 //                BoostActivity.start(ColorPhoneActivity.context, false);
-//                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
+//                Analytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
 //                break;
             case R.id.settings_setting:
-                LauncherAnalytics.logEvent("Colorphone_Settings_Clicked");
+                Analytics.logEvent("Colorphone_Settings_Clicked");
                 SettingsActivity.start(context);
                 break;
             case R.id.settings_contacts:
                 ContactsActivity.startEdit(context);
-                LauncherAnalytics.logEvent("Colorphone_Settings_ContactTheme_Clicked");
+                Analytics.logEvent("Colorphone_Settings_ContactTheme_Clicked");
                 break;
             case R.id.settings_about:
                 AboutActivity.start(context);

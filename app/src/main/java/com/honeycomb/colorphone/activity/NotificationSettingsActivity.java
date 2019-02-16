@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.Preferences;
@@ -80,7 +80,7 @@ public class NotificationSettingsActivity extends HSAppCompatActivity implements
                 setNotificationBoostOn(status);
                 boostSwitch.setChecked(status);
                 if (!status) {
-                    LauncherAnalytics.logEvent("Settings_NotificationSettings_Closed", "Type", "Boost");
+                    Analytics.logEvent("Settings_NotificationSettings_Closed", "Type", "Boost");
                 }
                 break;
 //            case R.id.clean_switch:

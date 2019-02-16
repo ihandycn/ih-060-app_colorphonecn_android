@@ -16,7 +16,7 @@ import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 
 import java.util.ArrayList;
@@ -80,15 +80,15 @@ public class ContactsSelectActivity extends ContactsActivity {
         }
 
         if (!ThemeGuide.isFromThemeGuide()) {
-            LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Success",
+            Analytics.logEvent("Colorphone_SeletContactForTheme_Success",
                     "ThemeName", mTheme.getIdName(),
                     "SelectedContactsNumber", themeEntries.size() + "");
         }
         int fromType = getIntent().getIntExtra(INTENT_KEY_FROM_TYPE, FROM_TYPE_MAIN);
         if (fromType == FROM_TYPE_POPULAR_THEME) {
-            LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Success");
+            Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Success");
         } else {
-            LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Success");
+            Analytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Success");
         }
         ThemeGuide.logThemeApplied();
         Ap.DetailAd.onThemeChooseForOne();
@@ -124,7 +124,7 @@ public class ContactsSelectActivity extends ContactsActivity {
                             Ap.DetailAd.logEvent("colorphone_seletcontactfortheme_ad_show");
                         }
                         if (ThemeGuide.isFromThemeGuide()) {
-                            LauncherAnalytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
+                            Analytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
                         }
                     }
                 }

@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.cpucooler.CpuCoolDownActivity;
 import com.honeycomb.colorphone.cpucooler.CpuCoolerManager;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -112,23 +112,23 @@ public class CpuCoolerUtils {
     public static class FlurryLogger {
 
         public static void logScanAnimationStart() {
-            LauncherAnalytics.logEvent("CPU_ScanAnimation_Start");
+            Analytics.logEvent("CPU_ScanAnimation_Start");
         }
 
         public static void logScanAnimationEnd() {
-            LauncherAnalytics.logEvent("CPU_ScanAnimation_End");
+            Analytics.logEvent("CPU_ScanAnimation_End");
         }
 
         public static void logHomePageShow() {
-            LauncherAnalytics.logEvent("CPU_Homepage_Show");
+            Analytics.logEvent("CPU_Homepage_Show");
         }
 
         public static void logHomePageButtonClicked() {
-            LauncherAnalytics.logEvent("CPU_Homepage_BtnClicked");
+            Analytics.logEvent("CPU_Homepage_BtnClicked");
         }
 
         public static void logOptimalShow() {
-            LauncherAnalytics.logEvent("CPU_Optimal_Show");
+            Analytics.logEvent("CPU_Optimal_Show");
         }
 
     }

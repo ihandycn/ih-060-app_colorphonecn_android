@@ -26,8 +26,8 @@ import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.AppInfo;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.FontUtils;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.TypefacedTextView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -87,7 +87,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         bindRecentApps();
         SmartAssistantUtils.recordSmartAssistantShowTime();
 
-        LauncherAnalytics.logEvent("Recent_Apps_Show");
+        Analytics.logEvent("Recent_Apps_Show");
 
         HSLog.d("RecentApps", "show recent apps");
     }
@@ -162,7 +162,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         itemView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                LauncherAnalytics.logEvent("Recent_Apps_AppIcon_Clicked", "Type", getAppIconClickEventType(appInfo));
+                Analytics.logEvent("Recent_Apps_AppIcon_Clicked", "Type", getAppIconClickEventType(appInfo));
                 Utils.startActivitySafely(v.getContext(), appInfo.getIntent());
                 HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
             }
@@ -240,7 +240,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
             adView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
                 @Override
                 public void onAdClicked(AcbExpressAdView acbExpressAdView) {
-                    LauncherAnalytics.logEvent("Recent_Apps_Ad_Clicked");
+                    Analytics.logEvent("Recent_Apps_Ad_Clicked");
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
                 }
 
@@ -248,7 +248,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                 public void onAdShown(AcbExpressAdView acbExpressAdView) {
                     mAdLogger.adShow();
 
-                    LauncherAnalytics.logEvent("Recent_Apps_Ad_Show");
+                    Analytics.logEvent("Recent_Apps_Ad_Show");
                 }
             });
 
@@ -279,7 +279,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
                 break;
             case R.id.recent_app_menu:
-                LauncherAnalytics.logEvent("RecentApps_Disable_Clicked");
+                Analytics.logEvent("RecentApps_Disable_Clicked");
                 showMenuPopupWindow(getContext(), v);
                 return;
         }
@@ -328,7 +328,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
                     if (ChargingScreenUtils.isFastDoubleClick()) {
                         return;
                     }
-                    LauncherAnalytics.logEvent("RecentApps_Disable_Success");
+                    Analytics.logEvent("RecentApps_Disable_Success");
                     mMenuPopupView.dismiss();
                     SmartAssistantUtils.setUserEnable(false);
                     HSGlobalNotificationCenter.sendNotification(NOTIFICATION_FINISH);
