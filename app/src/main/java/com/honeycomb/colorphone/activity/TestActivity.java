@@ -93,15 +93,11 @@ public class TestActivity extends AppCompatActivity {
         String number = editText.getText().toString().trim();
         number = TextUtils.isEmpty(number) ? "13800138000" : number;
 
-        String themeIdName = ThemeRecommendManager.getInstance().getPreparedThemeIdName();
-        if (TextUtils.isEmpty(themeIdName)) {
-            themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
-        }
+        String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number, true);
         ThemeRecommendManager.getInstance().isShowRecommendTheme(number);
 
         if (!TextUtils.isEmpty(themeIdName)) {
             ThemeRecommendActivity.start(TestActivity.this, number, themeIdName);
-            ThemeRecommendManager.getInstance().clearPreparedThemeIdName();
         } else {
             HSLog.i("ThemeRecommendManager", "not show themeid == " + themeIdName);
         }

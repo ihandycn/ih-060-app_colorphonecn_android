@@ -38,7 +38,6 @@ public class ThemeRecommendManager {
     private static final String PREPARE_THENE = "prepare_thene";
 
     private PrefHelper mPrefHelper;
-    private String preparedThemeIdName;
 
     private ThemeRecommendManager() {
         mPrefHelper = new PrefHelper();
@@ -48,8 +47,12 @@ public class ThemeRecommendManager {
         return ClassHolder.INSTANCE;
     }
 
-    @SuppressWarnings("unchecked")
     public String getRecommendThemeIdAndRecord(String number) {
+        return getRecommendThemeIdAndRecord(number, false);
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getRecommendThemeIdAndRecord(String number, boolean isRecord) {
         if (!isThemeRecommendEnable()) {
             HSLog.d(TAG, "getRecommendThemeIdAndRecord, not enable");
             return "";
@@ -71,28 +74,16 @@ public class ThemeRecommendManager {
             startIndex = lastIndex + 1;
         }
 
-        result = getThemeIdAndRecordIndex(guideThemeIdNameList, startIndex, size, number);
+        result = getThemeIdAndRecordIndex(guideThemeIdNameList, startIndex, size, number, isRecord);
 
         if (TextUtils.isEmpty(result)) {
-            result = getThemeIdAndRecordIndex(guideThemeIdNameList, 0, startIndex, number);
+            result = getThemeIdAndRecordIndex(guideThemeIdNameList, 0, startIndex, number, isRecord);
         } else if (TextUtils.equals(PREPARE_THENE, result)) {
             result = "";
         }
 
-        if (!TextUtils.isEmpty(result)) {
-            preparedThemeIdName = result;
-        }
-
         HSLog.d(TAG, "recommend theme: " + result);
         return result;
-    }
-
-    public String getPreparedThemeIdName() {
-        return preparedThemeIdName;
-    }
-
-    public void clearPreparedThemeIdName() {
-        preparedThemeIdName = "";
     }
 
     public void putAppliedTheme(String number, String idName) {
@@ -200,14 +191,16 @@ public class ThemeRecommendManager {
         return (type == null || !idName.equals(type.getIdName())) && !getAppliedThemeForAllUser().contains(idName) && !getAppliedTheme(number).contains(idName);
     }
 
-    private String getThemeIdAndRecordIndex(List<String> guideThemeNameList, int startIndex, int endIndex, String number) {
+    private String getThemeIdAndRecordIndex(List<String> guideThemeNameList, int startIndex, int endIndex, String number, boolean isRecord) {
         number = deleteWhiteSpace(number);
         for (int k = startIndex; k < endIndex; k++) {
             String idName = guideThemeNameList.get(k);
             if (isLegal(number, idName)) {
                 Type theme = Utils.getTypeByThemeIdName(idName);
                 if (theme != null && isThemeReady(theme)) {
-                    putThemeRecommendIndex(number, k);
+                    if (isRecord) {
+                        putThemeRecommendIndex(number, k);
+                    }
                     return idName;
                 } else {
                     prepareTheme(theme);
@@ -485,10 +478,10 @@ public class ThemeRecommendManager {
         LauncherAnalytics.logEvent("ColorPhone_ThemeRecommend_Show");
 
         String themeId = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
-        if (!TextUtils.isEmpty(themeId)) {
-            ThemeRecommendManager.getInstance().clearPreparedThemeIdName();
-            ThemeRecommendManager.getInstance().recordThemeRecommendNotShow(number);
-        }
+//        if (!TextUtils.isEmpty(themeId)) {
+//            ThemeRecommendManager.getInstance().clearPreparedThemeIdName();
+//            ThemeRecommendManager.getInstance().recordThemeRecommendNotShow(number);
+//        }
     }
 
     static void logThemeRecommendClick() {

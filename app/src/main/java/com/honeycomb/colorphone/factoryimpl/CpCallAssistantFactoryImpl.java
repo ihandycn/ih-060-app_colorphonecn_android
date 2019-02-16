@@ -276,10 +276,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 if (dismissType == CallIdleAlertView.CallIdleAlertDismissType.CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.MENU_CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK) {
-                    String themeIdName = ThemeRecommendManager.getInstance().getPreparedThemeIdName();
-                    if (TextUtils.isEmpty(themeIdName)) {
-                        themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber);
-                    }
+                    String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, true);
                     if (!TextUtils.isEmpty(themeIdName)) {
                         boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
                         HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
@@ -287,7 +284,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                             ThemeRecommendActivity.start(HSApplication.getContext(), phoneNumber, themeIdName);
                         }
                     }
-                    ThemeRecommendManager.getInstance().clearPreparedThemeIdName();
                 }
             }
         };

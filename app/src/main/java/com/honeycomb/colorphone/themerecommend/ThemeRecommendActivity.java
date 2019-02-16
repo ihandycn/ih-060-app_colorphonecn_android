@@ -196,4 +196,12 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
     protected List<Theme> getThemes() {
         return Theme.themes();
     }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+
+        if (ThemeRecommendManager.isThemeRecommendAdShow() && ThemeRecommendManager.isThemeRecommendAdShowBeforeRecommend()) {
+            ResultPageManager.getInstance().releaseInterstitialAd();
+        }
+    }
 }
