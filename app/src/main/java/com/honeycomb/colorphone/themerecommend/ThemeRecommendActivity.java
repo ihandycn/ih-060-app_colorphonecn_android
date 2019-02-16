@@ -68,6 +68,7 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
 
         String number = getIntent().getStringExtra(PHONE_NUMBER);
         if (TextUtils.isEmpty(number)) {
+            ThemeRecommendManager.getInstance().recordThemeRecommendNotShow(number);
             finish();
             return;
         }
@@ -102,11 +103,13 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
         if (!TextUtils.isEmpty(number)){
             String themeIdName = getIntent().getStringExtra(THEME_ID_NAME);
             if (TextUtils.isEmpty(themeIdName)) {
+                ThemeRecommendManager.getInstance().recordThemeRecommendNotShow(number);
                 finish();
                 return;
             }
             mThemeType = Utils.getTypeByThemeIdName(themeIdName);
             if (mThemeType == null) {
+                ThemeRecommendManager.getInstance().recordThemeRecommendNotShow(number);
                 finish();
                 return;
             }
@@ -128,8 +131,6 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
                             : userInfo.getCallName()));
             editUserView(mPreview);
 
-            ThemeRecommendManager.logThemeRecommendShow();
-
             if (ThemeRecommendManager.isThemeRecommendAdShow() && ThemeRecommendManager.isThemeRecommendAdShowBeforeRecommend()) {
                 ThemeRecommendManager.logThemeRecommendWireShouldShow(true);
                 AcbInterstitialAd ad = ResultPageManager.getInstance().getInterstitialAd();
@@ -137,9 +138,13 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
                     ThemeRecommendManager.logThemeRecommendWireShow(true);
                     ad.show();
                 } else {
+                    ThemeRecommendManager.getInstance().recordThemeRecommendNotShow(number);
                     finish();
+                    return;
                 }
             }
+
+            ThemeRecommendManager.logThemeRecommendShow(number);
         }
     }
 

@@ -35,6 +35,7 @@ public class ThemeRecommendManager {
     private static final String TOPIC_ID = "topic-70osaxxsn";
     private static final String PREF_FILE = "applied_theme_file";
     private static final String MORE_CLICK_SESSION = "more_click_session";
+    private static final String PREPARE_THENE = "prepare_thene";
 
     private PrefHelper mPrefHelper;
     private String preparedThemeIdName;
@@ -74,6 +75,8 @@ public class ThemeRecommendManager {
 
         if (TextUtils.isEmpty(result)) {
             result = getThemeIdAndRecordIndex(guideThemeIdNameList, 0, startIndex, number);
+        } else if (TextUtils.equals(PREPARE_THENE, result)) {
+            result = "";
         }
 
         if (!TextUtils.isEmpty(result)) {
@@ -208,7 +211,7 @@ public class ThemeRecommendManager {
                     return idName;
                 } else {
                     prepareTheme(theme);
-                    return "";
+                    return PREPARE_THENE;
                 }
             } else {
                 HSLog.d(TAG, "theme: " + idName + "is illegal!!!!");
@@ -217,13 +220,18 @@ public class ThemeRecommendManager {
         return "";
     }
 
+    public void recordThemeRecommendNotShow(String number) {
+        int k = getThemeRecommendIndex(number);
+        putThemeRecommendIndex(number, --k);
+    }
+
     private boolean isThemeReady(Type theme) {
         return !theme.isMedia()
                 || TasksManager.getImpl().isThemeDownloaded(theme.getId());
     }
 
     private void prepareTheme(Type theme) {
-        HSLog.d(TAG, "Prepare next theme start : " + (theme != null ? theme.getIdName() : "null"));
+        HSLog.d(TAG, "Prepare theme start : " + (theme != null ? theme.getIdName() : "null"));
 
         if (theme != null
                 && theme.isMedia()) {
@@ -234,7 +242,7 @@ public class ThemeRecommendManager {
                 return;
             }
             if (TasksManager.getImpl().isDownloaded(model)) {
-                HSLog.d(TAG, "prepareTheme next success , file already downloaded : " + theme.getIdName());
+                HSLog.d(TAG, "prepareTheme success , file already downloaded : " + theme.getIdName());
                 return;
             }
 
@@ -453,7 +461,8 @@ public class ThemeRecommendManager {
     }
 
     public static boolean isThemeRecommendAdShowBeforeRecommend() {
-        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "ad_show_before_recommend", false);
+        return false;
+//        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "ad_show_before_recommend", false);
     }
 
     private static int getThemeRecommendFirstInterval() {
@@ -472,10 +481,16 @@ public class ThemeRecommendManager {
         return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "timeintervalhour", 2);
     }
 
-    static void logThemeRecommendShow() {
+    static void logThemeRecommendShow(String number) {
         isThemeRecommendEnable();
         AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommend_show");
         LauncherAnalytics.logEvent("ColorPhone_ThemeRecommend_Show");
+
+        String themeId = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
+        if (!TextUtils.isEmpty(themeId)) {
+            ThemeRecommendManager.getInstance().clearPreparedThemeIdName();
+            ThemeRecommendManager.getInstance().recordThemeRecommendNotShow(number);
+        }
     }
 
     static void logThemeRecommendClick() {

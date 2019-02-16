@@ -20,6 +20,7 @@
         tools:ignore="PrivateResource" />
 
     <LinearLayout
+        android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/result_page_header_height"
         android:layout_below="@+id/transition_toolbar_space_v"
@@ -56,6 +57,7 @@
             android:layout_height="133dp"
             android:layout_gravity="center"
             android:visibility="visible"
+            android:layout_marginBottom="26dp"
             app:lottie_fileName="lottie/apply_theme_success.json"
             app:lottie_loop="false"/>
 
@@ -64,7 +66,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="26dp"
             android:gravity="center"
             android:text="@string/result_page_theme_recommend_optimal"
             android:textColor="@android:color/white"
@@ -75,33 +76,26 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/page_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
+        android:layout_below="@id/title_layout"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:padding="8dp"
         android:background="@drawable/white_rounded_corner_bg"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="invisible"
         >
-
-        <com.superappscommon.view.RatioRoundImageView
-            android:id="@+id/page_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="374dp"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/theme_recommend_noad"
-            app:radius="6dp" />
 
         <com.superappscommon.view.TypefacedTextView
             android:id="@+id/page_button_ok"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
             android:gravity="center"
             android:text="@string/result_page_theme_recommend_more"
@@ -113,7 +107,19 @@
             app:typefaceFileName="ProximaNova-Bold.otf"
             tools:visibility="visible"
             tools:background="#ffe400"/>
-    </LinearLayout>
+
+        <com.superappscommon.view.RoundImageView
+            android:id="@+id/page_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/page_button_ok"
+            android:layout_marginBottom="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/theme_recommend_noad"
+            app:radius="6dp" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/label_title_guide_info"

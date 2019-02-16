@@ -275,7 +275,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onAlertDismiss(CallIdleAlertView.CallIdleAlertDismissType dismissType, String phoneNumber) {
                 if (dismissType == CallIdleAlertView.CallIdleAlertDismissType.CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.MENU_CLOSE
-                        || dismissType == CallIdleAlertView.CallIdleAlertDismissType.HOME
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK) {
                     String themeIdName = ThemeRecommendManager.getInstance().getPreparedThemeIdName();
                     if (TextUtils.isEmpty(themeIdName)) {
