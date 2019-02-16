@@ -28,6 +28,8 @@ import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
+import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
 import com.honeycomb.colorphone.permission.OutsidePermissionGuideActivity;
@@ -276,6 +278,14 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 if (dismissType == CallIdleAlertView.CallIdleAlertDismissType.CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.MENU_CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK) {
+                    SimpleContact sc = ContactManager.getInstance().getContact(phoneNumber);
+                    if (sc == null) {
+                        LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close", "type", "Stranger");
+                        return;
+                    } else {
+                        LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close", "type", "Contact");
+                    }
+
                     String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, true);
                     if (!TextUtils.isEmpty(themeIdName)) {
                         boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);

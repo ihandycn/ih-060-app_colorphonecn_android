@@ -21,6 +21,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -48,7 +49,7 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
     private ThemePreviewWindow mPreview;
     private InCallActionView mCallActionView;
     private TextView mContent;
-    private View mAction;
+    private TextView mAction;
     private ShareAlertActivity.UserInfo userInfo;
 
     public static void start(Context context, String phoneNumber, String themeIdName) {
@@ -77,6 +78,8 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
         mNavBack = findViewById(R.id.close_button);
         mNavBack.setOnClickListener(v -> finish());
 
+        SimpleContact sc = ContactManager.getInstance().getContact(number);
+
         mContent = findViewById(R.id.recommend_view_content);
         mAction = findViewById(R.id.recommend_view_action);
         mAction.setOnClickListener(v -> {
@@ -90,6 +93,10 @@ public class ThemeRecommendActivity extends HSAppCompatActivity {
                 finish();
             }
         });
+
+        if (sc == null) {
+            mAction.setText(R.string.theme_set_for_all);
+        }
 
         mPreview = findViewById(R.id.prev_flash_window);
         mPreview.setPhoneNumber(number);
