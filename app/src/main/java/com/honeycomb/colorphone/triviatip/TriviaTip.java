@@ -70,6 +70,11 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
     private List<OnTipShowListener> mOnTipShowListeners = new ArrayList<>();
 
     private static TriviaTip sTriviaTip;
+    private boolean isFromPush;
+
+    public boolean isFromPush() {
+        return isFromPush;
+    }
 
     public static TriviaTip getInstance() {
         if (sTriviaTip == null) {
@@ -175,9 +180,17 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         TriviaItem currentItem = mDataManager.getCurrentItem();
         if (currentItem != null) {
             boolean cachedSuccess = Downloader.isCachedSuccess(DOWNLOAD_DIRECTORY, currentItem.imgUrl);
-            LauncherAnalytics.logEvent("trivia_should_show");
+            LauncherAnalytics.logEvent("new_trivia_should_show" + (isFromPush ? "_push" : ""));
             Ap.TriviaTip.logEvent("trivia_should_show");
             if (cachedSuccess) {
+                boolean adNeed = Ap.TriviaTip.enableAdShowBeforeTrivia() && !isFromPush;
+                if (adNeed) {
+                    LauncherAnalytics.logEvent("new_wire_should_show_on_trivia" + (isFromPush ? "_push" : ""));
+                    Ap.TriviaTip.logEvent("wire_should_show_on_trivia");
+                    if (!adReady()) {
+                        return false;
+                    }
+                }
                 showTip(currentItem);
                 Preferences.get(Constants.DESKTOP_PREFS).putLong(PREF_KEY_LAST_SHOW_TIME, System.currentTimeMillis());
                 int showTime = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(PREF_KEY_ALREADY_SHOW_TIME);
@@ -202,7 +215,7 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         Intent intent = new Intent(getContext(), TriviaTipActivity.class);
         intent.putExtra(TriviaTipActivity.EXTRA_ITEM, triviaItem);
         Navigations.startActivitySafely(getContext(), intent);
-        LauncherAnalytics.logEvent("trivia_show");
+        LauncherAnalytics.logEvent(isFromPush ? "new_trivia_show_push" : "new_trivia_show");
         Ap.TriviaTip.logEvent("trivia_show");
     }
 
@@ -323,10 +336,9 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         boolean enable = Ap.TriviaTip.enableWhenAssistantClose()
                 && isModuleEnable();
         if (enable) {
-            boolean adNeed = Ap.TriviaTip.enableAdShowBeforeTrivia();
-            if (!adNeed || adReady()) {
-                show();
-            }
+            LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Call_Assistant_Close_TriviaOn");
+            isFromPush = false;
+            show();
         }
     }
 
@@ -349,9 +361,10 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
                 &&
                 (moreThanOneDay() || Ap.TriviaTip.enableWhenPush());
         if (enable) {
+            isFromPush = true;
             boolean success = show();
             if (success) {
-                LauncherAnalytics.logEvent("trivia_show_when_receive_push");
+                LauncherAnalytics.logEvent("new_trivia_show_when_receive_push");
             }
         }
     }
