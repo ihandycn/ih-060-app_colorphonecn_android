@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -58,7 +59,9 @@ public class Locker extends LockScreen implements INotificationObserver {
     @Override
     public void setup(ViewGroup root, Bundle extra) {
         super.setup(root, extra);
-        LockerCustomConfig.getLogger().logEvent("Locker_Shown");
+        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Show",
+                "Brand", Build.BRAND.toLowerCase(),
+                "DeviceVersion", getDeviceInfo());
 
         mIsSetup = true;
         // ======== onCreate ========
@@ -107,6 +110,20 @@ public class Locker extends LockScreen implements INotificationObserver {
         // Life cycle
         LockScreensLifeCycleRegistry.setLockerActive(true);
 //        HSGlobalNotificationCenter.sendNotification(NotificationCondition.EVENT_LOCK);
+    }
+
+    private String getDeviceInfo() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            return "8";
+        } else if (Build.VERSION.SDK_INT >= 24) {
+            return "7";
+        } else if (Build.VERSION.SDK_INT >= 23) {
+            return "6";
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            return "5";
+        } else {
+            return "4";
+        }
     }
 
     public void onStart() {

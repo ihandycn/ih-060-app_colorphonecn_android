@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.module;
 
 import com.colorphone.lock.LockerCustomConfig;
+import com.honeycomb.colorphone.util.Analytics;
 
 import net.appcloudbox.autopilot.AutopilotEvent;
 
@@ -12,6 +13,7 @@ public class LockerEvent extends LockerCustomConfig.Event {
     public void onEventLockerAdShow() {
         super.onEventChargingAdClick();
         AutopilotEvent.onAdShow();
+        Analytics.logEvent("ColorPhone_LockScreenAd_Show");
     }
 
     @Override
@@ -28,6 +30,7 @@ public class LockerEvent extends LockerCustomConfig.Event {
     public void onEventChargingAdShow() {
         super.onEventChargingAdClick();
         AutopilotEvent.onAdShow();
+        Analytics.logEvent("AcbChargingAd_AdShow");
     }
 
     @Override
