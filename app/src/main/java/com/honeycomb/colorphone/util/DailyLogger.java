@@ -109,20 +109,6 @@ public class DailyLogger {
                 phoneAccessGranted, contactsAccessGranted,
                 notificationAccessGranted);
 
-        if (CommonUtils.ATLEAST_MARSHMALLOW) {
-            if (Utils.isNewUser()) {
-                logPermissionStatusEvent("ColorPhone_Permission_Check_Above23",
-                        phoneAccessGranted, contactsAccessGranted,
-                        notificationAccessGranted);
-            }
-
-            if (HSApplication.getFirstLaunchInfo().appVersionCode >= 41) {
-                logPermissionStatusEvent("ColorPhone_Permission_Check_Above23_41",
-                        phoneAccessGranted, contactsAccessGranted,
-                        notificationAccessGranted);
-            }
-        }
-
         Analytics.logEvent("ColorPhone_VersionCode_Check", "versioncode", String.valueOf(HSApplication.getFirstLaunchInfo().appVersionCode));
         Analytics.logEvent("Agency_Info_Dau", "userlevel", HSConfig.optString("not_configured", "UserLevel"));
         Analytics.logEvent("ColorPhone_ScreenFlash_Enabled", "type", String.valueOf(ScreenFlashSettings.isScreenFlashModuleEnabled()));

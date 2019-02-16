@@ -293,8 +293,8 @@ class BatteryResultController extends ResultController {
     @Override protected void onInterruptActionClosed() {
         AcbNativeAd ad = ResultPageManager.getInstance().getAd();
         if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-            Analytics.logEvent("ColorPhone_CableImproverDone_Should_Show",
-                    "From", ResultPageManager.getInstance().getFromTag());
+//            Analytics.logEvent("ColorPhone_CableImproverDone_Should_Show",
+//                    "From", ResultPageManager.getInstance().getFromTag());
             Ap.Improver.logEvent("cableimproverdone_should_show");
         } else {
             Analytics.logEvent("Colorphone_BatteryDone_Ad_Should_Shown");

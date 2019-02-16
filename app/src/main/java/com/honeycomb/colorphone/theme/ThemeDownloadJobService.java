@@ -92,7 +92,6 @@ public class ThemeDownloadJobService extends JobService {
                 return;
             }
 
-            Analytics.logEvent("Test_Job_Download_Start", Analytics.FLAG_LOG_FABRIC);
             TasksManager.doDownload(model, null);
 
             FileDownloadMultiListener.getDefault().addStateListener(taskId, new DownloadStateListener() {
@@ -100,7 +99,6 @@ public class ThemeDownloadJobService extends JobService {
                 @Override
                 public void updateDownloaded(boolean progressFlag) {
                     HSLog.d(TAG, "download normal task success: "+ model.getName());
-                    Analytics.logEvent("Test_Job_Download_Success", Analytics.FLAG_LOG_FABRIC);
                     onJobFinish(jobParameters, false);
                 }
 

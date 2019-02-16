@@ -55,12 +55,10 @@ public class ThemeGuideTest {
     public static void logThemeGuideThemeClicked() {
         isThemeGuideShow();
         AutopilotEvent.logTopicEvent(THEME_TEST_TOPICID, "colorphone_callassistant_themeguide_theme_click");
-        Analytics.logEvent("colorphone_callassistant_themeguide_theme_click");
     }
 
     public static void logThemeGuideMoreClicked() {
         isThemeGuideShow();
         AutopilotEvent.logTopicEvent(THEME_TEST_TOPICID, "colorphone_callassistant_themeguide_button_click");
-        Analytics.logEvent("colorphone_callassistant_themeguide_button_click");
     }
 }

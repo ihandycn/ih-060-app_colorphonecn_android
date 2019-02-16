@@ -2,7 +2,6 @@ package com.honeycomb.colorphone;
 
 import android.text.TextUtils;
 
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Compats;
 import com.superapps.util.Threads;
@@ -13,12 +12,12 @@ public class AppflyerLogger {
             @Override
             public void run() {
                 if (isTargetRom()) {
-                    HSAnalytics.logEventToAppsFlyer("App_Open_New");
+//                    HSAnalytics.logEventToAppsFlyer("App_Open_New");
                     String level = HSConfig.optString("not_configured", "UserLevel");
                     if (TextUtils.isDigitsOnly(level)) {
                         boolean non = level.equals("5") || level.equals("8");
                         if (non) {
-                            HSAnalytics.logEventToAppsFlyer("App_Open_New_NonOrganic");
+//                            HSAnalytics.logEventToAppsFlyer("App_Open_New_NonOrganic");
                         }
                     }
                 }

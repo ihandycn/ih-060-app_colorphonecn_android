@@ -165,12 +165,12 @@ public class ShareAlertActivity extends Activity {
 
         if (isInsideApp) {
             ShareAlertAutoPilotUtils.logInsideAppShareAlertShow();
-            Analytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName",
-                    themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
+//            Analytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName",
+//                    themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
         } else {
             ShareAlertAutoPilotUtils.logOutsideAppShareAlertShow();
-            Analytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName",
-                    themeType.getName(), "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
+//            Analytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName",
+//                    themeType.getName(), "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
         }
     }
 
@@ -302,12 +302,12 @@ public class ShareAlertActivity extends Activity {
 
                 if (isInsideApp) {
                     ShareAlertAutoPilotUtils.logInsideAppShareAlertClicked();
-                    Analytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName",
-                            themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
+//                    Analytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName",
+//                            themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
                 } else {
                     ShareAlertAutoPilotUtils.logOutsideAppShareAlertClicked();
-                    Analytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(),
-                            "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
+//                    Analytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(),
+//                            "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
                 }
             }
         });

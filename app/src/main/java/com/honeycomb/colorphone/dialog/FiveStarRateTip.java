@@ -27,7 +27,6 @@ import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
@@ -183,7 +182,7 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(PREF_KEY_FIVE_STAR_SHOWED_COUNT);
         sCurrentSessionId = SessionMgr.getInstance().getCurrentSessionId();
 
-        Analytics.logEvent("RateAlert_Showed", "type", mFrom.toString());
+//        Analytics.logEvent("RateAlert_Showed", "type", mFrom.toString());
 
     }
 
@@ -265,10 +264,10 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
         if (mCurrentPosition >= 0) {
             if (mCurrentPosition == MAX_POSITION) {
                 HSMarketUtils.browseAPP();
-                Analytics.logEvent("RateAlert_Fivestar_Submit", "type", mFrom.toString());
+//                Analytics.logEvent("RateAlert_Fivestar_Submit", "type", mFrom.toString());
             } else {
                 Utils.sentEmail(getContext(), new String[]{Constants.getFeedBackAddress()}, null, null);
-                Analytics.logEvent("RateAlert_Lessthanfive_Submit", "type", mFrom.toString());
+//                Analytics.logEvent("RateAlert_Lessthanfive_Submit", "type", mFrom.toString());
             }
             Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREF_KEY_HAD_FIVE_STAR_RATE, true);
             markAlertLifeOver();

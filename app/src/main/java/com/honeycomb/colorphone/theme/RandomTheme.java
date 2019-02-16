@@ -107,7 +107,6 @@ public class RandomTheme {
             // Need download it first
             TasksManagerModel model = TasksManager.getImpl().getByThemeId(theme.getId());
             if (model == null) {
-                Analytics.logEvent("Test_Theme_Model_NULL", "Index", String.valueOf(pendingThemeIndex));
                 return;
             }
             if (TasksManager.getImpl().isDownloaded(model)) {

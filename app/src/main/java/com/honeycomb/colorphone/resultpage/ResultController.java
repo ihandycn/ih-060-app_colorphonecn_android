@@ -463,8 +463,8 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-                    Analytics.logEvent("ColorPhone_CableImprover_Clean_ResultPage_Show",
-                            "From", ResultPageManager.getInstance().getFromTag());
+//                    Analytics.logEvent("ColorPhone_CableImprover_Clean_ResultPage_Show",
+//                            "From", ResultPageManager.getInstance().getFromTag());
                     Ap.Improver.logEvent("cleanpage_resultpage_show");
                 } else {
                     Analytics.logEvent("Colorphone_BatteryDone_Page_Shown");
@@ -502,8 +502,8 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-                    Analytics.logEvent("ColorPhone_CableImproverWire_Should_Show",
-                            "From", ResultPageManager.getInstance().getFromTag());
+//                    Analytics.logEvent("ColorPhone_CableImproverWire_Should_Show",
+//                            "From", ResultPageManager.getInstance().getFromTag());
                     Ap.Improver.logEvent("cableimproverwire_should_show");
                 } else {
                     Analytics.logEvent("Colorphone_BatteryWire_Ad_Should_Shown");
@@ -528,9 +528,9 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-                    Analytics.logEvent("ColorPhone_CableImproverWire_Show",
-                            "From", ResultPageManager.getInstance().getFromTag(),
-                            "Type", ResultPageManager.getInstance().getFromInterstitialAdPlacement());
+//                    Analytics.logEvent("ColorPhone_CableImproverWire_Show",
+//                            "From", ResultPageManager.getInstance().getFromTag(),
+//                            "Type", ResultPageManager.getInstance().getFromInterstitialAdPlacement());
                     Ap.Improver.logEvent("cableimproverwire_show");
 
                 } else {
@@ -559,9 +559,9 @@ abstract class ResultController implements View.OnClickListener {
         switch (mResultType) {
             case ResultConstants.RESULT_TYPE_BATTERY:
                 if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-                    Analytics.logEvent("ColorPhone_CableImproverDone_Show",
-                            "From", ResultPageManager.getInstance().getFromTag(),
-                            "Type", ResultPageManager.getInstance().getFromAdPlacement());
+//                    Analytics.logEvent("ColorPhone_CableImproverDone_Show",
+//                            "From", ResultPageManager.getInstance().getFromTag(),
+//                            "Type", ResultPageManager.getInstance().getFromAdPlacement());
                     Ap.Improver.logEvent("cableimproverdone_show");
                 } else {
                     Analytics.logEvent("Colorphone_BatteryDone_Ad_Shown");

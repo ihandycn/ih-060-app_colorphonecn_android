@@ -73,7 +73,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                             return theme.getId();
                         }
                         HSLog.e("RandomTheme no theme ready");
-                        Analytics.logEvent("RandomThemeNone");
+//                        Analytics.logEvent("RandomThemeNone");
                     }
                     return themeId;
                 }
@@ -236,9 +236,9 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 // No use.
                 // See #logScreenFlashPhoneAccessRequested
                 //     #logScreenFlashContactsAccessRequested
-                if (PermissionTestUtils.getAlertStyle()) {
-                    Analytics.logEvent("ColorPhone_PermissionGuide_View_Click_New");
-                }
+//                if (PermissionTestUtils.getAlertStyle()) {
+//                    Analytics.logEvent("ColorPhone_PermissionGuide_View_Click_New");
+//                }
             }
 
             @Override
@@ -253,21 +253,21 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
                 logPermissionGuideShowEvent("ColorPhone_Permission_Guide_Show_From_" + source);
 
-                if (PermissionTestUtils.getAlertStyle()) {
-                    Analytics.logEvent("ColorPhone_PermissionGuide_View_show_New");
-                }
+//                if (PermissionTestUtils.getAlertStyle()) {
+//                    Analytics.logEvent("ColorPhone_PermissionGuide_View_show_New");
+//                }
 
-                switch (launchTime) {
-                    case 1:
-                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Firsttime", true);
-                        break;
-                    case 2:
-                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Secondtime", true);
-                        break;
-                    case 3:
-                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Thirdtime", true);
-                        break;
-                }
+//                switch (launchTime) {
+//                    case 1:
+//                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Firsttime", true);
+//                        break;
+//                    case 2:
+//                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Secondtime", true);
+//                        break;
+//                    case 3:
+//                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_show_Thirdtime", true);
+//                        break;
+//                }
             }
 
             private void logPermissionGuideShowEvent(String eventName) {
@@ -319,7 +319,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                     Analytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Click_new",
                             "type", source, "from", String.valueOf(launchTime));
                 }
-                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_phone_view_show");
+//                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_phone_view_show");
             }
 
             @Override
@@ -330,7 +330,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                     Analytics.logEvent("ColorPhone_Permission_Guide_Phone_Allow_Success_new",
                             "type", source, "from", String.valueOf(launchTime));
                 }
-                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_phone_allow_success");
+//                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_phone_allow_success");
             }
 
             @Override
@@ -341,7 +341,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                     Analytics.logEvent("ColorPhone_Permission_Guide_Contact_Allow_Click_new",
                             "type", source, "from", String.valueOf(launchTime));
                 }
-                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_contact_view_show");
+//                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_contact_view_show");
             }
 
             @Override
@@ -353,7 +353,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                             "type", source, "from", String.valueOf(launchTime));
                 }
                 PermissionChecker.onContactPermissionGranted();
-                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_contact_allow_success");
+//                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_contact_allow_success");
             }
 
             @Override
@@ -372,7 +372,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                     Analytics.logEvent("ColorPhone_Permission_Guide_NotificationAccess_Allow_Click_new",
                             "type", source, "from", String.valueOf(launchTime));
                 }
-                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_notificationaccess_view_show");
+//                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_notificationaccess_view_show");
             }
 
             @Override
@@ -383,7 +383,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                     Analytics.logEvent("ColorPhone_Permission_Guide_NotificationAccess_Allow_Success_new",
                             "type", source, "from", String.valueOf(launchTime));
                 }
-                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_notificationaccess_allow_success");
+//                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_notificationaccess_allow_success");
             }
 
             @Override

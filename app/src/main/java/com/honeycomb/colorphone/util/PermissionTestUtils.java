@@ -42,15 +42,15 @@ public class PermissionTestUtils {
         }
 
         try {
-            if (filter) {
-                if (functionVersion()) {
-                    Analytics.logEvent(event + "_new", "type", getAlertStyle() ? "newUI" : "oldUI");
-                }
-            } else {
-                if (getAlertStyle()) {
-                    Analytics.logEvent(event + "_new");
-                }
-            }
+//            if (filter) {
+//                if (functionVersion()) {
+//                    Analytics.logEvent(event + "_new", "type", getAlertStyle() ? "newUI" : "oldUI");
+//                }
+//            } else {
+//                if (getAlertStyle()) {
+//                    Analytics.logEvent(event + "_new");
+//                }
+//            }
 
             AutopilotEvent.logTopicEvent(TEST_TOPIC_ID, event.toLowerCase());
         } catch (Throwable e) {}

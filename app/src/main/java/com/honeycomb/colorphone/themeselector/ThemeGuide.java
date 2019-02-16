@@ -12,7 +12,6 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
-import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
@@ -79,7 +78,7 @@ public class ThemeGuide {
                 Preferences.getDefault().putLong(LAST_GUIDE_THEME_TIME, now);
                 Preferences.getDefault().incrementAndGetInt(LAST_GUIDE_THEME_COUNT);
 
-                Analytics.logEvent("ColorPhone_CallAssistant_ThemeGuide_Show");
+//                Analytics.logEvent("ColorPhone_CallAssistant_ThemeGuide_Show");
                 return R.layout.themes_instead_layout;
             }
         }

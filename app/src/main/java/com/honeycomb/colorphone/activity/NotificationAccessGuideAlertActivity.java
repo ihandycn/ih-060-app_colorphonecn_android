@@ -13,9 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
-import com.ihs.app.analytics.HSAnalytics;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Navigations;
@@ -110,47 +109,46 @@ public class NotificationAccessGuideAlertActivity extends Activity {
 
     private void onShow(boolean insideApp, boolean isFirstSession) {
         if (isFirstSession) {
-            HSAnalytics.logEvent("Colorphone_Notification_Alert_Show_First_Launch");
+            Analytics.logEvent("Colorphone_Notification_Alert_Show_First_Launch");
             return;
         }
         int order;
         if (insideApp) {
             order = prefs.getInt(ACB_PHONE_NOTIFICATION_INSIDE_GUIDE_SHOW_COUNT, 0);
-            HSAnalytics.logEvent("Colorphone_Notification_Alert_Show_Inside_App", "time", "" + order);
+            Analytics.logEvent("Colorphone_Notification_Alert_Show_Inside_App", "time", "" + order);
         } else {
             order = prefs.getInt(ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_SHOW_COUNT, 0);
-            HSAnalytics.logEvent("Colorphone_Notification_Alert_Show_Outside_App", "time", "" + order);
+            Analytics.logEvent("Colorphone_Notification_Alert_Show_Outside_App", "time", "" + order);
         }
     }
 
 
     private void onEnableClick(boolean insideApp, boolean isFirstSession) {
         if (isFirstSession) {
-            HSAnalytics.logEvent("Colorphone_Notification_Alert_Ok_Clicked_First_Launch");
+            Analytics.logEvent("Colorphone_Notification_Alert_Ok_Clicked_First_Launch");
             return;
         }
         int order;
         if (insideApp) {
             order = prefs.getInt(ACB_PHONE_NOTIFICATION_INSIDE_GUIDE_SHOW_COUNT, 0);
-            HSAnalytics.logEvent("Colorphone_Notification_Alert_Ok_Clicked_Inside_App", "time", "" + order);
+            Analytics.logEvent("Colorphone_Notification_Alert_Ok_Clicked_Inside_App", "time", "" + order);
         } else {
             order = prefs.getInt(ACB_PHONE_NOTIFICATION_ACCESS_GUIDE_OUT_APP_SHOW_COUNT, 0);
-            HSAnalytics.logEvent("Colorphone_Notification_Alert_Ok_Clicked_Outside_App", "time", "" + order);
+            Analytics.logEvent("Colorphone_Notification_Alert_Ok_Clicked_Outside_App", "time", "" + order);
         }
     }
 
     private void onOpenPermissionSettings(boolean insideApp, boolean isFirstSession) {
         if (isFirstSession) {
-            HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "firstLaunch");
+            Analytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", "firstLaunch");
             return;
         }
 
-        HSAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", insideApp ? "insideApp" : "outsideApp");
+        Analytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", insideApp ? "insideApp" : "outsideApp");
     }
 
     private void onNotificationAccessGranted(String fromType) {
-        HSAnalytics.logEvent("Colorphone_Notification_Access_Enabled", "from", fromType);
-
+        Analytics.logEvent("Colorphone_Notification_Access_Enabled", "from", fromType);
 
     }
 }
