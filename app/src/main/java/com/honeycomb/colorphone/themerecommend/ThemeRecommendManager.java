@@ -238,7 +238,6 @@ public class ThemeRecommendManager {
             // Need download it first
             TasksManagerModel model = TasksManager.getImpl().getByThemeId(theme.getId());
             if (model == null) {
-//                LauncherAnalytics.logEvent("Test_Theme_Model_NULL", "Index", String.valueOf(pendingThemeIndex));
                 return;
             }
             if (TasksManager.getImpl().isDownloaded(model)) {
@@ -461,8 +460,7 @@ public class ThemeRecommendManager {
     }
 
     public static boolean isThemeRecommendAdShowBeforeRecommend() {
-        return false;
-//        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "ad_show_before_recommend", false);
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "ad_show_before_recommend", false);
     }
 
     private static int getThemeRecommendFirstInterval() {
