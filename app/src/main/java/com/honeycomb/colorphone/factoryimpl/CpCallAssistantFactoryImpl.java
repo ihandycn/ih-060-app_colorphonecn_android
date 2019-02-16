@@ -187,6 +187,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                     LauncherAnalytics.logEvent("Test_CallAssistantShow" + Build.BRAND + getDeviceInfo());
                 }
                 HSAnalytics.logEventToAppsFlyer("Call_Assistant_Can_Show");
+                ResultPageManager.getInstance().preloadThemeRecommendAds();
             }
 
             private String formatTime(long l) {

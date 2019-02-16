@@ -50,6 +50,7 @@ public class ThemeRecommendManager {
     @SuppressWarnings("unchecked")
     public String getRecommendThemeIdAndRecord(String number) {
         if (!isThemeRecommendEnable()) {
+            HSLog.d(TAG, "getRecommendThemeIdAndRecord, not enable");
             return "";
         }
         
@@ -57,6 +58,7 @@ public class ThemeRecommendManager {
         String result = "";
         List<String> guideThemeIdNameList = (List<String>) HSConfig.getList("Application", "ThemeGuide");
         if (guideThemeIdNameList.isEmpty()) {
+            HSLog.d(TAG, "getRecommendThemeIdAndRecord, guide is null");
             return result;
         }
         int size = guideThemeIdNameList.size();
