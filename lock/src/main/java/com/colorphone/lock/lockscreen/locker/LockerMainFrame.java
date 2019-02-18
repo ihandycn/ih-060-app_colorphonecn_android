@@ -24,8 +24,6 @@ import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
-import com.colorphone.lock.boost.BlackHoleLayout;
-import com.colorphone.lock.boost.BoostSource;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
@@ -78,8 +76,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private View mCameraContainer;
     private View mWallpaperContainer;
     private RelativeLayout mAdContainer;
-
-    private BlackHoleLayout mBlackHole;
 
     private View mMenuMore;
     private RipplePopupView menuPopupView;
@@ -280,33 +276,19 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     public void onReceive(String s, HSBundle hsBundle) {
         switch (s) {
             case SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE:
-                if (mIsBlackHoleShowing) {
-                    break;
-                }
-                mBlackHole = new BlackHoleLayout(getContext());
-                mBlackHole.setBoostSource(BoostSource.LOCKER_TOGGLE);
-                mBlackHole.setBlackHoleAnimationListener(new BlackHoleLayout.BlackHoleAnimationListener() {
-                    @Override
-                    public void onEnd() {
-                        if (mBlackHole != null) {
-                            LockerMainFrame.this.removeView(mBlackHole);
-                            mBlackHole = null;
-                            HSGlobalNotificationCenter.sendNotification(SlidingDrawerContent.EVENT_BLACK_HOLE_ANIMATION_END);
-                        }
-                        mIsBlackHoleShowing = false;
-                    }
-                });
-                LayoutParams params = new LayoutParams(MATCH_PARENT, MATCH_PARENT);
-                addView(mBlackHole, params);
-                mIsBlackHoleShowing = true;
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mBlackHole != null) {
-                            mBlackHole.startAnimation();
-                        }
-                    }
-                }, SlidingDrawerContent.DURATION_BALL_DISAPPEAR);
+//                if (mIsBlackHoleShowing) {
+//                    break;
+//                }
+//
+//                mIsBlackHoleShowing = true;
+//                postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (mBlackHole != null) {
+//                            mBlackHole.startAnimation();
+//                        }
+//                    }
+//                }, SlidingDrawerContent.DURATION_BALL_DISAPPEAR);
                 break;
 
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
