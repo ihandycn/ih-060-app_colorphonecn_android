@@ -93,8 +93,6 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                     }
                     finish();
                 }
-
-//                finish();
             }
         });
 
