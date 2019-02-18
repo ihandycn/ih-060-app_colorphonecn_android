@@ -1,10 +1,13 @@
 package com.honeycomb.colorphone.resultpage;
 
+import android.app.Activity;
+
 import com.honeycomb.colorphone.Placements;
 import com.ihs.commons.utils.HSLog;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
+import net.appcloudbox.ads.common.utils.AcbError;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 
@@ -29,6 +32,8 @@ public class ResultPageManager {
     private boolean fromOkClick;
     private String mFromInterstitialAdPlacement;
     private String mFromAdPlacement;
+    private boolean adJustShown;
+
 
     private ResultPageManager() {
     }
@@ -162,5 +167,67 @@ public class ResultPageManager {
 
     public String getFromTag() {
         return isFromOkClick() ? "OK" : "CleanPage";
+    }
+
+    private Activity mActivity;
+
+    public void addAdWaitFinishActivity(Activity activity) {
+        mActivity = activity;
+    }
+
+    public Activity getAdWaitFinishActivity() {
+        return mActivity;
+    }
+
+    public void removeAdWaitFinishActivity(Activity target) {
+        if (target == mActivity) {
+            mActivity = null;
+        }
+    }
+
+    public void finishAdWaitFinishActivity() {
+        if (mActivity != null && !mActivity.isFinishing()) {
+            mActivity.finish();
+            mActivity = null;
+        }
+    }
+
+    public void setAdJustShown(boolean adJustShown) {
+        this.adJustShown = adJustShown;
+    }
+
+    public boolean showInterstitialAd() {
+        if (adJustShown) {
+            adJustShown = false;
+            return true;
+        }
+        if (getInterstitialAd() == null) {
+            finishAdWaitFinishActivity();
+            return false;
+        }
+
+        mInterstitialAd.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
+            @Override
+            public void onAdDisplayed() {
+                finishAdWaitFinishActivity();
+            }
+
+            @Override
+            public void onAdClicked() {
+
+            }
+
+            @Override
+            public void onAdClosed() {
+                ResultPageManager.getInstance().releaseInterstitialAd();
+            }
+
+            public void onAdDisplayFailed(AcbError acbError) {
+                finishAdWaitFinishActivity();
+                HSLog.d(TAG, "onAdDisplayFailed");
+            }
+        });
+        mInterstitialAd.show();
+        return true;
     }
 }

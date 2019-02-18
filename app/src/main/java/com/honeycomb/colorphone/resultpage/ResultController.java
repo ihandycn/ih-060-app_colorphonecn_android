@@ -34,12 +34,10 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
 import net.appcloudbox.ads.base.AcbAd;
-import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
-import net.appcloudbox.ads.common.utils.AcbError;
 
 import java.util.List;
 
@@ -288,46 +286,15 @@ abstract class ResultController implements View.OnClickListener {
 
     protected boolean popupInterstitialAdIfNeeded() {
         logInterstitialAdNeedShow();
-        if (shouldShowInterstitialAd()) {
+        if (ResultPageManager.getInstance().showInterstitialAd()) {
             HSLog.d(TAG, "popupInterstitialAdIfNeeded true ");
-            popupInterstitialAd(ResultPageManager.getInstance().getInterstitialAd());
+            mInterstitialAdDisplaying = true;
+            mActivity.getIntent().putExtra("extra_ad_display", true);
+            logInterstitialAdShow();
             return true;
         }
         HSLog.d(TAG, "popupInterstitialAdIfNeeded false ");
         return false;
-    }
-
-    private boolean shouldShowInterstitialAd() {
-        if (ResultPageManager.getInstance().getInterstitialAd() == null) {
-            return false;
-        }
-        return true;
-    }
-
-    private void popupInterstitialAd(AcbInterstitialAd ad) {
-        mInterstitialAdDisplaying = true;
-        mActivity.getIntent().putExtra("extra_ad_display", true);
-            ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
-                @Override
-                public void onAdDisplayed() {
-                    logInterstitialAdShow();
-                }
-
-                @Override
-                public void onAdClicked() {
-
-                }
-
-                @Override
-                public void onAdClosed() {
-                    ResultPageManager.getInstance().releaseInterstitialAd();
-                }
-
-                public void onAdDisplayFailed(AcbError acbError) {
-                HSLog.d(TAG, "onAdDisplayFailed");
-                }
-            });
-            ad.show();
     }
 
     public void notifyInterstitialAdClosedByCustomer() {
