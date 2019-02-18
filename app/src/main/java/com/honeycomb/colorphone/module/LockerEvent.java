@@ -30,7 +30,7 @@ public class LockerEvent extends LockerCustomConfig.Event {
     public void onEventChargingAdShow() {
         super.onEventChargingAdClick();
         AutopilotEvent.onAdShow();
-        Analytics.logEvent("AcbChargingAd_AdShow");
+        Analytics.logEvent("ChargingScreen_AdShow");
     }
 
     @Override

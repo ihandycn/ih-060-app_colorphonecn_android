@@ -32,6 +32,8 @@ public class PushManager {
     private static final String PROPERTY_KA_ENABLE = "prefs_ka_enable";
     private static PushManager INSTANCE = new PushManager();
 
+    private boolean pushModuleEnable = false;
+
     private INotificationObserver deviceTokenObserver = new INotificationObserver() {
         @Override
         public void onReceive(String eventName, HSBundle hsBundle) {
@@ -127,6 +129,9 @@ public class PushManager {
     }
 
     private void request() {
+        if (!pushModuleEnable) {
+            return;
+        }
         Analytics.logEvent("ColorPhone_Push_Request", Analytics.FLAG_LOG_FABRIC, "Enable", String.valueOf(mKaEnable));
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override

@@ -69,7 +69,6 @@ import java.util.Random;
 
 import colorphone.acb.com.libscreencard.CardCustomConfig;
 import colorphone.acb.com.libscreencard.CustomizeContentContainer;
-import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -325,7 +324,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         LockScreensLifeCycleRegistry.setChargingScreenActive(true);
         LockerCustomConfig.get().onEventChargingViewShow();
 
-        LockerCustomConfig.getLogger().logEvent("Charging_Screen__Shown_Init");
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown_Init");
         onStart();
     }
 
