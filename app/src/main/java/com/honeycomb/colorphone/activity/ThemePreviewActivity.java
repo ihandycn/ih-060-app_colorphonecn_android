@@ -124,7 +124,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             Analytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
         if (ConfigSettings.showAdOnDetailView() && TextUtils.equals(from, FROM_MAIN)) {
-            AdManager.getInstance().preload();
+            AdManager.getInstance().preload(this);
             Threads.postOnMainThreadDelayed(new Runnable() {
                 @Override
                 public void run() {

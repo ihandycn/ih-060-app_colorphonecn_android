@@ -19,6 +19,9 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 
+import net.appcloudbox.AcbAds;
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
+
 public class BoostActivity extends HSActivity implements INotificationObserver {
 
     private static final String EXTRA_KEY_RESULT_TYPE = "EXTRA_KEY_RESULT_TYPE";
@@ -52,6 +55,11 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
         HSAlertMgr.delayRateAlert();
 
         Utils.showWhenLocked(this);
+
+        AcbAds.getInstance().setActivity(this);
+        AcbInterstitialAdManager.getInstance().setForegroundActivity(this);
+        ResultPageManager.getInstance().preloadResultPageAds();
+
 
 //        View decorView = getWindow().getDecorView();
 //        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -116,7 +124,6 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
                 mBlackHole.startAnimation();
             }
         }, 300);
-        ResultPageManager.getInstance().preloadResultPageAds();
     }
 
     private void finishWithoutAnimation() {

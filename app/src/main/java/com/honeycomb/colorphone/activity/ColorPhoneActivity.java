@@ -174,7 +174,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         setContentView(R.layout.activity_main);
         initMainFrame();
-        AdManager.getInstance().preload();
+        AdManager.getInstance().preload(this);
         AppflyerLogger.logAppOpen();
         isCreate = true;
     }

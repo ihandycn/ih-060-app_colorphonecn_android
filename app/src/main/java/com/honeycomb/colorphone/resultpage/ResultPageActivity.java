@@ -145,7 +145,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
         HSLog.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         Utils.showWhenLocked(this);
-        AcbAds.getInstance().setActivity(this);
+
         AcbInterstitialAdManager.getInstance().setForegroundActivity(this);
 
         setContentView(R.layout.result_page_activity);

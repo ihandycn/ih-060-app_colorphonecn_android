@@ -37,6 +37,8 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
 
+import net.appcloudbox.AcbAds;
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 
 import java.util.ArrayList;
@@ -96,11 +98,14 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityUtils.configStatusBarColor(this);
 
+
         mFromMainPage = getIntent().getBooleanExtra(EXTRA_KEY_COME_FROM_MAIN_PAGE, false);
         cleanAppList = getIntent().getStringArrayListExtra(EXTRA_KEY_SCANNED_LIST);
         saveTime = getIntent().getIntExtra(EXTRA_KEY_SAVE_TIME, 0);
         isFromBatteryImprover = ResultPageManager.getInstance().isFromBatteryImprover();
 
+        AcbAds.getInstance().setActivity(this);
+        AcbInterstitialAdManager.getInstance().setForegroundActivity(this);
         ResultPageManager.getInstance().preloadResultPageAds();
 
         setContentView(R.layout.activity_battery_clean);

@@ -37,6 +37,9 @@ import com.ihs.device.clean.memory.HSAppMemoryManager;
 import com.ihs.device.common.HSAppFilter;
 import com.superapps.util.Dimensions;
 
+import net.appcloudbox.AcbAds;
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,12 +106,15 @@ public class CpuCoolDownActivity extends BaseCenterActivity {
             startDoneActivity();
             return;
         }
-
         CpuPreferenceHelper.setShouldResultDisplayTemperature(true);
         initData();
         setContentView(R.layout.activity_cpu_cooldown);
         initView();
+
+        AcbAds.getInstance().setActivity(this);
+        AcbInterstitialAdManager.getInstance().setForegroundActivity(this);
         ResultPageManager.getInstance().preloadResultPageAds();
+
         startElementsFadeInAnimation();
         CpuPreferenceHelper.setLastCpuCoolerCleanStartTime();
     }

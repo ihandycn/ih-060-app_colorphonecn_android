@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.ad;
 
+import android.app.Activity;
+
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuideTest;
@@ -8,6 +10,7 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
 
+import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.common.utils.AcbError;
@@ -44,7 +47,7 @@ public class AdManager {
         mEnable = enable;
     }
 
-    public void preload() {
+    public void preload(Activity activity) {
         HSLog.d(TAG, "preload");
         if (!mEnable) {
             return;
@@ -54,6 +57,10 @@ public class AdManager {
             return;
         }
 
+        if (activity != null) {
+            AcbAds.getInstance().setActivity(activity);
+            AcbInterstitialAdManager.getInstance().setForegroundActivity(activity);
+        }
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(getInterstitialAdPlacementName());
         AcbInterstitialAdManager.preload(1, getInterstitialAdPlacementName());
     }
@@ -100,7 +107,7 @@ public class AdManager {
                 @Override
                 public void onAdClosed() {
                     AdManager.getInstance().releaseInterstitialAd();
-                    AdManager.getInstance().preload();
+                    AdManager.getInstance().preload(null);
                     ADAutoPilotUtils.recordShowThemeWireTime();
                 }
 
