@@ -16,7 +16,6 @@ import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.utils.Utils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.util.Analytics;
-import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -111,7 +110,7 @@ public class PermissionHelper {
     }
 
     private static void onNotificationAccessGranted(String fromType) {
-        HSAnalytics.logEvent("Colorphone_Notification_Access_Enabled", "from", fromType);
+        Analytics.logEvent("Colorphone_Notification_Access_Enabled", "from", fromType);
     }
 
     public static void bringActivityToFront(Class activity, int launchParam) {

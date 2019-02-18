@@ -83,8 +83,15 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
 
     public static boolean isModuleEnable() {
         boolean notDisableByUser = !Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PREF_KEY_TRIVIA_TIP_DISABLE_CLICKED, false);
+        boolean configEnable = configEnable();
         return notDisableByUser
-                && Ap.TriviaTip.enable();
+                && Ap.TriviaTip.enable()
+                && configEnable;
+    }
+
+    private static boolean configEnable() {
+        // TODO
+        return false;
     }
 
     public static void cacheImagesFirstTime() {

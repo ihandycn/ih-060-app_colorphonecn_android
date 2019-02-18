@@ -141,7 +141,8 @@ public class NotificationUtils {
     }
 
     private static void showNewThemeNotificationIfProper(ThemeNotificationListener listener) {
-        if (!NotificationAutoPilotUtils.isNewThemeNotificationEnabled()) {
+        if (!NotificationAutoPilotUtils.isNewThemeNotificationEnabled()
+                || !localConfigEnabled()) {
             listener.onFailed();
             return;
         }
@@ -155,6 +156,10 @@ public class NotificationUtils {
         }
         HSLog.d(TAG, "startLoad new type Notification" + " id = " + notificationType.getId() + "name = " + notificationType.getName());
         downLoadPreviewImage(notificationType, listener);
+    }
+
+    private static boolean localConfigEnabled() {
+        return false;
     }
 
     private static Theme getNewestType() {
