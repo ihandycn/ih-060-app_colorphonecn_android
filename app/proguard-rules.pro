@@ -144,3 +144,9 @@
 -keep class **.R$*
 
 -dontwarn com.ihs.affiliateads.**
+
+# ========== Umeng ===============
+-keep class com.umeng.** {*;}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}

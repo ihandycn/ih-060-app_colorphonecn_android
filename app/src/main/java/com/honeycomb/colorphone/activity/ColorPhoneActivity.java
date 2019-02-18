@@ -63,6 +63,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
+import com.umeng.analytics.MobclickAgent;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
@@ -128,7 +129,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     };
 
-    private ConfigChangeManager.Callback configChangeCallback =  new ConfigChangeManager.Callback() {
+    private ConfigChangeManager.Callback configChangeCallback = new ConfigChangeManager.Callback() {
         @Override
         public void onChange(int type) {
             refreshCashButton();
@@ -148,9 +149,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
         ContactManager.getInstance().update();
         // TODO pro show condition ( SESSION_START, or Activity onStart() )
-
         AcbAds.getInstance().setActivity(this);
-
         if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                 && !GuideAllFeaturesActivity.isStarted()
                 && !ModuleUtils.isAllModuleEnabled()) {
@@ -307,6 +306,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         isPaused = false;
         mAdapter.markForeground(true);
         refreshCashButton();
+
+        String[] testDeviceInfo = Utils.getTestDeviceInfo(this);
+        for (String s : testDeviceInfo) {
+            HSLog.d("Umeng.test", s);
+        }
     }
 
     private void refreshCashButton() {
@@ -380,14 +384,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                 && RuntimePermissions.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS)
-                        == RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
+                == RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
             RuntimePermissions.requestPermissions(this,
                     new String[]{Manifest.permission.ANSWER_PHONE_CALLS}, FIRST_LAUNCH_PERMISSION_REQUEST);
         }
 
         Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(
                 runnable,
-                "permission_launch", HSConfig.optInteger(2,"GrantAccess", "MaxCount"));
+                "permission_launch", HSConfig.optInteger(2, "GrantAccess", "MaxCount"));
     }
 
     /**
@@ -412,7 +416,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (!contactPerm) {
             Analytics.logEvent("Flashlight_Permission_Contact_View_Showed");
         }
-        if (!phonePerm || !contactPerm){
+        if (!phonePerm || !contactPerm) {
             // Do not have permissions, request them now
             RuntimePermissions.requestPermissions(this, perms, FIRST_LAUNCH_PERMISSION_REQUEST);
         }
@@ -426,7 +430,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         List<String> granted = new ArrayList();
         List<String> denied = new ArrayList();
 
-        for(int i = 0; i < permissions.length; ++i) {
+        for (int i = 0; i < permissions.length; ++i) {
             String perm = permissions[i];
             if (grantResults[i] == 0) {
                 granted.add(perm);

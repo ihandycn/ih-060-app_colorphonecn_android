@@ -2,6 +2,7 @@ package com.honeycomb.colorphone;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -91,6 +92,12 @@ import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.entity.UMessage;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
@@ -215,6 +222,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     private static boolean isFabricInitted;
     public static long launchTime;
+
     public static boolean isAppForeground() {
         return !activityStack.isEmpty();
     }
@@ -266,6 +274,32 @@ public class ColorPhoneApplication extends HSApplication {
         if (GdprUtils.isNeedToAccessDataUsage()) {
             initFabric();
         }
+
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "b93a2a1069e4044452cf3b72c7ad15eb");
+        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+        UMConfigure.setProcessEvent(true);
+        PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String deviceToken) {
+                HSLog.d("Umeng.test", "注册成功：deviceToken：-------->  " + deviceToken);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                HSLog.d("Umeng.test", "注册失败：-------->  " + "s:" + s + ",s1:" + s1);
+            }
+        });
+        UmengMessageHandler messageHandler = new UmengMessageHandler() {
+            @Override
+            public Notification getNotification(Context context, UMessage uMessage) {
+                HSLog.d("Umeng.test", "Receive umeng push");
+                return super.getNotification(context, uMessage);
+            }
+        };
+        pushAgent.setMessageHandler(messageHandler);
+
         AcbService.initialize(this);
         // Init Crash optimizer
         CrashGuard.install();
@@ -402,7 +436,6 @@ public class ColorPhoneApplication extends HSApplication {
         checkDailyTask();
 
         watchLifeTimeAutopilot();
-
     }
 
     private void watchLifeTimeAutopilot() {
@@ -683,8 +716,7 @@ public class ColorPhoneApplication extends HSApplication {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             try {
                 Class.forName("android.os.AsyncTask");
-            }
-            catch(Throwable ignore) {
+            } catch (Throwable ignore) {
                 // ignored
             }
         }
@@ -743,7 +775,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private static void checkExpressAd(String adName, boolean enable) {
-        HSLog.d("AD_CHECK_express", "Name = " + adName + ", enable = " + enable );
+        HSLog.d("AD_CHECK_express", "Name = " + adName + ", enable = " + enable);
         if (enable) {
             AcbExpressAdManager.getInstance().activePlacementInProcess(adName);
         } else {
@@ -752,7 +784,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private static void checkNativeAd(String adName, boolean enable) {
-        HSLog.d("AD_CHECK_native", "Name = " + adName + ", enable = " + enable );
+        HSLog.d("AD_CHECK_native", "Name = " + adName + ", enable = " + enable);
         if (enable) {
             AcbNativeAdManager.getInstance().activePlacementInProcess(adName);
         } else {
@@ -780,7 +812,8 @@ public class ColorPhoneApplication extends HSApplication {
         if (alarmMgr != null) {
             try {
                 alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, DateUtils.DAY_IN_MILLIS, pendingIntent);
-            } catch (NullPointerException ingore) {}
+            } catch (NullPointerException ingore) {
+            }
         }
     }
 
@@ -824,7 +857,7 @@ public class ColorPhoneApplication extends HSApplication {
         HSConfig.fetchRemote();
         if (Utils.isNewUser()) {
             if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_New_User_User_Level_LOGGED)) {
-                int delayTimes [] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
+                int delayTimes[] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
                 for (int delay : delayTimes) {
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
