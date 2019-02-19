@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.graphics.drawable.ClipDrawable;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.view.View;
 import android.view.animation.Animation;
@@ -142,6 +143,11 @@ class BoostPlusResultController extends ResultController {
         if (!tryShowNativeAd()) {
             startTickAnimation();
         }
+    }
+
+    @Override
+    protected int getButtonBgColor() {
+        return ContextCompat.getColor(getContext(), R.color.boost_plus_clean_bg);
     }
 
     public boolean tryShowNativeAd() {
