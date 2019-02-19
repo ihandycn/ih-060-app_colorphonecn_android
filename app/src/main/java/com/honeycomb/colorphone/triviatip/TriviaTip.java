@@ -359,7 +359,7 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
     public void onReceivePush() {
         boolean enable = isModuleEnable()
                 &&
-                (moreThanOneDay() || Ap.TriviaTip.enableWhenPush());
+                (forceToShow() || Ap.TriviaTip.enableWhenPush());
         if (enable) {
             isFromPush = true;
             boolean success = show();
@@ -369,14 +369,22 @@ public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDi
         }
     }
 
-    private boolean moreThanOneDay() {
+    private boolean forceToShow() {
+        boolean configEnable = HSConfig.optBoolean( false,
+                "Application", "TriviaFact", "ShowTriviaWhenReceivePush", "Enable");
+        if (!configEnable) {
+            return false;
+        }
         long lastShowTime = Preferences.get(Constants.DESKTOP_PREFS).getLong(PREF_KEY_LAST_SHOW_TIME, -1);
         if (lastShowTime < 0) {
             lastShowTime = Utils.getAppInstallTimeMillis();
         }
-        boolean oneDayPast = System.currentTimeMillis() - lastShowTime >= DateUtils.DAY_IN_MILLIS;
-        HSLog.d(TAG, "moreThanOneDay ？ " + oneDayPast);
-        return oneDayPast;
+
+        int hours = HSConfig.optInteger( 24,
+                "Application", "TriviaFact", "ShowTriviaWhenReceivePush", "CheckTime");
+        boolean longTimeNoShow = System.currentTimeMillis() - lastShowTime >= hours * DateUtils.HOUR_IN_MILLIS;
+        HSLog.d(TAG, "interval to force ？ " + longTimeNoShow);
+        return longTimeNoShow;
     }
 
     public void setImproverShow(boolean show) {
