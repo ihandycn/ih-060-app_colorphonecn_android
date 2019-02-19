@@ -46,6 +46,7 @@ public class PushManager {
     private static PushManager INSTANCE = new PushManager();
 
     private boolean pushModuleEnable = false;
+    private long mInitTime;
 
     private DailyTrigger mDailyTrigger = new DailyTrigger("FcmPush");
 
@@ -76,7 +77,7 @@ public class PushManager {
                     String msg = intent.getStringExtra("msg");
                     HSLog.d(TAG, "Receive message : " + msg);
 
-//                    logOtherEvents();
+                    logOtherEvents();
                 } catch (Exception e) {
                     HSLog.e(TAG, "Receive message error : " + e.getMessage());
                 }
@@ -163,6 +164,7 @@ public class PushManager {
 
     public void init() {
         mKaEnable = Preferences.get(Constants.DESKTOP_PREFS).getBoolean(PROPERTY_KA_ENABLE, false);
+        mInitTime = System.currentTimeMillis();
         String token = HSPushMgr.getDeviceToken();
         if (!TextUtils.isEmpty(token)) {
             onTokenFetch(token);
@@ -170,13 +172,18 @@ public class PushManager {
         HSPushMgr.addObserver(HSPushMgr.HS_NOTIFICATION_DEVICETOKEN_RECEIVED, deviceTokenObserver);
         HSGlobalNotificationCenter.addObserver(PushMgr.HS_NOTIFICATION_PUSH_MSG_RECEIVED, pushDataObserver);
         HSGlobalNotificationCenter.addObserver(LifetimePhoneStateListener.EVENT_CALL_STATE_CHANGED, new INotificationObserver() {
+            boolean lastCallStateValid = false;
             @Override
             public void onReceive(String s, HSBundle hsBundle) {
+                if (hsBundle != null
+                        && hsBundle.getInt(EXTRA_CALL_STATE, -1) != TelephonyManager.CALL_STATE_IDLE) {
+                    lastCallStateValid = true;
+                }
                 if (hsBundle != null
                         && hsBundle.getInt(EXTRA_CALL_STATE, -1) == TelephonyManager.CALL_STATE_IDLE) {
                     long lastIdleTime = Preferences.get(Constants.DESKTOP_PREFS).getLong(Constants.PREFS_LAST_CALLSTATE_CHANGE, 0);
                     long interval = System.currentTimeMillis() - lastIdleTime;
-                    if (interval > 10 * 1000) {
+                    if (interval > 30 * 1000 && lastCallStateValid) {
                         Logger.logCallStateInterval(interval);
                     }
                     Preferences.get(Constants.DESKTOP_PREFS).putLong(Constants.PREFS_LAST_CALLSTATE_CHANGE, System.currentTimeMillis());
