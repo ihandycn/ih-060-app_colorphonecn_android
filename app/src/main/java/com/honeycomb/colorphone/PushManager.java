@@ -230,6 +230,14 @@ public class PushManager {
         } catch (Exception e) {
         }
 
+
+        if (!Preferences.get(Constants.DESKTOP_PREFS).contains(Constants.PREFS_LAST_CALLSTATE_CHANGE)) {
+            Preferences.get(Constants.DESKTOP_PREFS).putLong(Constants.PREFS_LAST_CALLSTATE_CHANGE, System.currentTimeMillis());
+        }
+
+        if (!Preferences.get(Constants.DESKTOP_PREFS).contains(Constants.PREFS_LAST_CHARGING_CHANGE)) {
+            Preferences.get(Constants.DESKTOP_PREFS).putLong(Constants.PREFS_LAST_CHARGING_CHANGE, System.currentTimeMillis());
+        }
     }
 
     private void onTokenFetch(String token) {
