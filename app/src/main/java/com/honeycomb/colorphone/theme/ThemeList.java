@@ -54,7 +54,19 @@ public class ThemeList {
 
         boolean isSpacialUser = RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom();
         boolean defaultTheme = HSConfig.optBoolean(false, "Application", "Theme", "DefaultTheme");
-        boolean applyDefaultTheme = (selectedThemeId == -1) && (!isSpacialUser || defaultTheme);
+        boolean ddd = (selectedThemeId == -1) && (isSpacialUser ? defaultTheme : selectedThemeId == -1);
+//        boolean applyDefaultTheme = (selectedThemeId == -1);
+
+        boolean applyDefaultTheme;
+        if (selectedThemeId == -1) {
+            if (isSpacialUser) {
+                applyDefaultTheme = defaultTheme;
+            } else {
+                applyDefaultTheme = true;
+            }
+        } else {
+            applyDefaultTheme = false;
+        }
 
         boolean autopilotRandomEnable = Ap.RandomTheme.enable();
         if (applyDefaultTheme) {
