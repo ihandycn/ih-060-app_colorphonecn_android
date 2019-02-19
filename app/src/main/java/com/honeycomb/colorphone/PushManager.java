@@ -1,12 +1,21 @@
 package com.honeycomb.colorphone;
 
+import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
+import com.colorphone.lock.boost.DeviceManager;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
+import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.push.HSPushMgr;
 import com.ihs.app.push.impl.PushMgr;
@@ -17,12 +26,16 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.LifetimePhoneStateListener;
+import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import static com.superapps.util.LifetimePhoneStateListener.EXTRA_CALL_STATE;
 
 public class PushManager {
 
@@ -31,6 +44,10 @@ public class PushManager {
     private static final String PROPERTY_TOKEN_SERVER_ID = "prefs_ka_token";
     private static final String PROPERTY_KA_ENABLE = "prefs_ka_enable";
     private static PushManager INSTANCE = new PushManager();
+
+    private boolean pushModuleEnable = false;
+
+    private DailyTrigger mDailyTrigger = new DailyTrigger("FcmPush");
 
     private INotificationObserver deviceTokenObserver = new INotificationObserver() {
         @Override
@@ -54,14 +71,71 @@ public class PushManager {
                     LauncherAnalytics.logEvent("ColorPhone_Push_Receive", LauncherAnalytics.FLAG_LOG_FABRIC);
                     LauncherAnalytics.logEvent("ColorPhone_Push_Receive_WhenLaunch", true,
                             "Time", formatTimes());
+
+                    LauncherAnalytics.logEvent("ColorPhone_Push_Receive2", LauncherAnalytics.FLAG_LOG_FABRIC);
                     String msg = intent.getStringExtra("msg");
                     HSLog.d(TAG, "Receive message : " + msg);
+
+//                    logOtherEvents();
                 } catch (Exception e) {
                     HSLog.e(TAG, "Receive message error : " + e.getMessage());
                 }
             }
         }
     };
+
+    public void logOtherEvents() {
+        boolean hasChance = mDailyTrigger.onChance();
+        if (hasChance) {
+            long curTime = System.currentTimeMillis();
+            long lastIdleTime = Preferences.get(Constants.DESKTOP_PREFS).getLong(Constants.PREFS_LAST_CALLSTATE_CHANGE, 0);
+            if (lastIdleTime == 0) {
+                lastIdleTime = Utils.getAppInstallTimeMillis();
+            }
+
+            long lastChargingTime = Preferences.get(Constants.DESKTOP_PREFS).getLong(Constants.PREFS_LAST_CHARGING_CHANGE, 0);
+            if (lastChargingTime == 0) {
+                lastChargingTime = Utils.getAppInstallTimeMillis();
+            }
+
+            long callIdleInterval = (curTime - lastIdleTime) / DateUtils.DAY_IN_MILLIS;
+            long chargingInterval = (curTime - lastChargingTime) / DateUtils.DAY_IN_MILLIS;
+
+            if (callIdleInterval >= 1 || chargingInterval >= 1) {
+                String r = Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE) ? "Phone" : "NoPhone";
+                String lockOn = com.call.assistant.util.Utils.isScreenOn(HSApplication.getContext()) ? "No" : "Yes";
+                LauncherAnalytics.logEvent("Inactive_1d+",
+                        "CallDay", String.valueOf(callIdleInterval),
+                        "ChargingDay", String.valueOf(chargingInterval),
+                        "Reason", r, "LockScreen", lockOn);
+                if (callIdleInterval >= 1 ) {
+                    logInactiveEventInterval(callIdleInterval, "Call");
+                }
+
+                if (chargingInterval >= 1) {
+                    logInactiveEventInterval(chargingInterval, "Charging");
+                }
+            }
+
+            mDailyTrigger.onConsumeChance();
+        }
+    }
+
+    private void logInactiveEventInterval(long interval, String type) {
+        if (interval == 1) {
+            logInactiveEvent("Inactive_1d" + "_" + type);
+        } else if (interval == 3) {
+            logInactiveEvent("Inactive_3d"+ "_" + type);
+        } else if (interval == 7) {
+            logInactiveEvent("Inactive_7d"+ "_" + type);
+        }
+    }
+
+    private void logInactiveEvent(String name) {
+        String r = Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE) ? "Phone" : "NoPhone";
+        String lockOn = com.call.assistant.util.Utils.isScreenOn(HSApplication.getContext()) ? "Yes" : "No";
+        LauncherAnalytics.logEvent(name, "Reason", r, "LockScreen", lockOn);
+    }
 
     private String formatTimes() {
         long time = System.currentTimeMillis() - ColorPhoneApplication.launchTime;
@@ -95,6 +169,38 @@ public class PushManager {
         }
         HSPushMgr.addObserver(HSPushMgr.HS_NOTIFICATION_DEVICETOKEN_RECEIVED, deviceTokenObserver);
         HSGlobalNotificationCenter.addObserver(PushMgr.HS_NOTIFICATION_PUSH_MSG_RECEIVED, pushDataObserver);
+        HSGlobalNotificationCenter.addObserver(LifetimePhoneStateListener.EVENT_CALL_STATE_CHANGED, new INotificationObserver() {
+            @Override
+            public void onReceive(String s, HSBundle hsBundle) {
+                if (hsBundle != null
+                        && hsBundle.getInt(EXTRA_CALL_STATE, -1) == TelephonyManager.CALL_STATE_IDLE) {
+                    long lastIdleTime = Preferences.get(Constants.DESKTOP_PREFS).getLong(Constants.PREFS_LAST_CALLSTATE_CHANGE, 0);
+                    long interval = System.currentTimeMillis() - lastIdleTime;
+                    if (interval > 10 * 1000) {
+                        Logger.logCallStateInterval(interval);
+                    }
+                    Preferences.get(Constants.DESKTOP_PREFS).putLong(Constants.PREFS_LAST_CALLSTATE_CHANGE, System.currentTimeMillis());
+                }
+            }
+        });
+
+        boolean isCharging = DeviceManager.getInstance().isCharging();
+        if (isCharging) {
+            Preferences.get(Constants.DESKTOP_PREFS).putLong(Constants.PREFS_LAST_CHARGING_CHANGE, System.currentTimeMillis());
+        }
+        IntentFilter powerFilter = new IntentFilter();
+        powerFilter.addAction(Intent.ACTION_POWER_CONNECTED);
+        powerFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        try {
+            HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    Preferences.get(Constants.DESKTOP_PREFS).putLong(Constants.PREFS_LAST_CHARGING_CHANGE, System.currentTimeMillis());
+                }
+            }, powerFilter);
+        } catch (Exception e) {
+        }
+
     }
 
     private void onTokenFetch(String token) {
@@ -200,6 +306,30 @@ public class PushManager {
         if (waitGdprFlag) {
             waitGdprFlag = false;
             request();
+        }
+    }
+
+
+    private static class Logger {
+
+        public static void logCallStateInterval(long intervalMills) {
+            long days = intervalMills / DateUtils.DAY_IN_MILLIS;
+            long hours = intervalMills / DateUtils.HOUR_IN_MILLIS;
+            long mins = intervalMills / DateUtils.MINUTE_IN_MILLIS;
+
+            if (days > 0) {
+                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "1d+");
+            } else if (hours > 12) {
+                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "12-24h");
+            } else if (hours > 4) {
+                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "4-12h");
+            } else if (hours >=1) {
+                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "1-4h");
+            } else if (mins >= 20) {
+                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "20min+");
+            } else {
+                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "0-20min");
+            }
         }
     }
 }

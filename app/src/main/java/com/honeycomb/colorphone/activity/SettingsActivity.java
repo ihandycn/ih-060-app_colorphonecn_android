@@ -15,6 +15,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.PushManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
@@ -178,6 +179,8 @@ public class SettingsActivity extends HSAppCompatActivity {
         } else {
             findViewById(R.id.setting_item_notification).setVisibility(View.GONE);
         }
+
+        PushManager.getInstance().logOtherEvents();
     }
 
     @Override
