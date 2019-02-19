@@ -422,9 +422,35 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
             @Override public void logAutoStartDialogButtonClicked(boolean isOK) {
                 if (isOK) {
-                    Analytics.logEvent("ColorPhone_AutoStartAlert_Yes_Click");
+                    switch (launchTime) {
+                        case 1:
+                            Analytics.logEvent("ColorPhone_AutoStartAlert_Yes_Click",
+                                    "from", "FirstTime");
+                            break;
+                        case 2:
+                            Analytics.logEvent("ColorPhone_AutoStartAlert_Yes_Click",
+                                    "from", "SecondTime");
+                            break;
+                        case 3:
+                            Analytics.logEvent("ColorPhone_AutoStartAlert_Yes_Click",
+                                    "from", "ThirdTime");
+                            break;
+                    }
                 } else {
-                    Analytics.logEvent("ColorPhone_AutoStartAlert_No_Click");
+                    switch (launchTime) {
+                        case 1:
+                            Analytics.logEvent("ColorPhone_AutoStartAlert_No_Click",
+                                    "from", "FirstTime");
+                            break;
+                        case 2:
+                            Analytics.logEvent("ColorPhone_AutoStartAlert_No_Click",
+                                    "from", "SecondTime");
+                            break;
+                        case 3:
+                            Analytics.logEvent("ColorPhone_AutoStartAlert_No_Click",
+                                    "from", "ThirdTime");
+                            break;
+                    }
                 }
             }
 
