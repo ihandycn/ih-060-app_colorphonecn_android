@@ -36,6 +36,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -66,7 +67,6 @@ import com.superapps.util.RuntimePermissions;
 import com.umeng.analytics.MobclickAgent;
 
 import net.appcloudbox.AcbAds;
-import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
@@ -125,6 +125,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (logOpenEvent) {
                 logOpenEvent = false;
                 ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
+                BoostStarterActivity.createShortCut(ColorPhoneActivity.this);
             }
         }
     };
