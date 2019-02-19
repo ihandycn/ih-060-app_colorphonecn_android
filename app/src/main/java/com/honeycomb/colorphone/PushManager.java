@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -48,7 +49,9 @@ public class PushManager {
     private boolean pushModuleEnable = false;
     private long mInitTime;
 
-    private DailyTrigger mDailyTrigger = new DailyTrigger("FcmPush");
+    private DailyTrigger mDailyTrigger = new DailyTrigger("FcmPush1");
+    private DailyTrigger mDailyTrigger2 = new DailyTrigger("FcmPush2");
+    private DailyTrigger mDailyTrigger3 = new DailyTrigger("FcmPush3");
 
     private INotificationObserver deviceTokenObserver = new INotificationObserver() {
         @Override
@@ -86,39 +89,58 @@ public class PushManager {
     };
 
     public void logOtherEvents() {
-        boolean hasChance = mDailyTrigger.onChance();
-        if (hasChance) {
-            long curTime = System.currentTimeMillis();
-            long lastIdleTime = Preferences.get(Constants.DESKTOP_PREFS).getLong(Constants.PREFS_LAST_CALLSTATE_CHANGE, 0);
-            if (lastIdleTime == 0) {
-                lastIdleTime = Utils.getAppInstallTimeMillis();
-            }
+        long curTime = System.currentTimeMillis();
+        long lastIdleTime = Preferences.get(Constants.DESKTOP_PREFS).getLong(Constants.PREFS_LAST_CALLSTATE_CHANGE, 0);
+        if (lastIdleTime == 0) {
+            lastIdleTime = Utils.getAppInstallTimeMillis();
+        }
 
-            long lastChargingTime = Preferences.get(Constants.DESKTOP_PREFS).getLong(Constants.PREFS_LAST_CHARGING_CHANGE, 0);
-            if (lastChargingTime == 0) {
-                lastChargingTime = Utils.getAppInstallTimeMillis();
-            }
+        long lastChargingTime = Preferences.get(Constants.DESKTOP_PREFS).getLong(Constants.PREFS_LAST_CHARGING_CHANGE, 0);
+        if (lastChargingTime == 0) {
+            lastChargingTime = Utils.getAppInstallTimeMillis();
+        }
 
-            long callIdleInterval = (curTime - lastIdleTime) / DateUtils.DAY_IN_MILLIS;
-            long chargingInterval = (curTime - lastChargingTime) / DateUtils.DAY_IN_MILLIS;
+        long callIdleInterval = (curTime - lastIdleTime) / DateUtils.DAY_IN_MILLIS;
+        long chargingInterval = (curTime - lastChargingTime) / DateUtils.DAY_IN_MILLIS;
 
-            if (callIdleInterval >= 1 || chargingInterval >= 1) {
-                String r = Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE) ? "Phone" : "NoPhone";
-                String lockOn = com.call.assistant.util.Utils.isScreenOn(HSApplication.getContext()) ? "No" : "Yes";
-                LauncherAnalytics.logEvent("Inactive_1d+",
-                        "CallDay", String.valueOf(callIdleInterval),
-                        "ChargingDay", String.valueOf(chargingInterval),
-                        "Reason", r, "LockScreen", lockOn);
-                if (callIdleInterval >= 1 ) {
-                    logInactiveEventInterval(callIdleInterval, "Call");
+        if (callIdleInterval >= 1 || chargingInterval >= 1) {
+            doDailyOnce(mDailyTrigger, new Runnable() {
+                @Override
+                public void run() {
+                    String r = Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE) ? "Phone" : "NoPhone";
+                    String lockOn = com.call.assistant.util.Utils.isScreenOn(HSApplication.getContext()) ? "No" : "Yes";
+                    LauncherAnalytics.logEvent("Inactive_1d+",
+                            "CallDay", String.valueOf(callIdleInterval),
+                            "ChargingDay", String.valueOf(chargingInterval),
+                            "Reason", r, "LockScreen", lockOn);
                 }
+            });
 
-                if (chargingInterval >= 1) {
-                    logInactiveEventInterval(chargingInterval, "Charging");
-                }
+            if (callIdleInterval >= 1) {
+                doDailyOnce(mDailyTrigger2, new Runnable() {
+                    @Override
+                    public void run() {
+                        logInactiveEventInterval(callIdleInterval, "Call");
+                    }
+                });
             }
 
-            mDailyTrigger.onConsumeChance();
+            if (chargingInterval >= 1) {
+                doDailyOnce(mDailyTrigger3, new Runnable() {
+                    @Override
+                    public void run() {
+                        logInactiveEventInterval(chargingInterval, "Charging");
+                    }
+                });
+            }
+        }
+    }
+
+    private void doDailyOnce(@NonNull DailyTrigger trigger, @NonNull Runnable runnable) {
+        boolean hasChange = trigger.onChance();
+        if (hasChange) {
+            runnable.run();
+            trigger.onConsumeChance();
         }
     }
 
