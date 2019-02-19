@@ -22,7 +22,7 @@ import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettin
 public class ChargingScreenUtils {
 
     private static final long MIN_INTERVAL_VALID_CLICK = 500;
-    private static final boolean MODE_ACTIVITY = false;
+    private static final boolean MODE_ACTIVITY = true;
 
     private static volatile long lastClickTime;
     /**
