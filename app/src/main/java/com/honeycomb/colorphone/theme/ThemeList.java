@@ -52,12 +52,9 @@ public class ThemeList {
     public static List<Theme> updateThemes(boolean onApplicationInit) {
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
 
-        boolean defaultTheme = HSConfig.optBoolean(false, "Application", "Theme", "DefaultTheme");
         boolean isSpacialUser = RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom();
-        boolean applyDefaultTheme = selectedThemeId == -1;
-        if (isSpacialUser) {
-            applyDefaultTheme = defaultTheme;
-        }
+        boolean defaultTheme = HSConfig.optBoolean(false, "Application", "Theme", "DefaultTheme");
+        boolean applyDefaultTheme = (selectedThemeId == -1) && (!isSpacialUser || defaultTheme);
 
         boolean autopilotRandomEnable = Ap.RandomTheme.enable();
         if (applyDefaultTheme) {
