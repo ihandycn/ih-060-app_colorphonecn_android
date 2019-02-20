@@ -492,7 +492,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                     LockerSettings.setLockerEnabled(false);
                     mLockScreen.dismiss(getContext(), false);
                     Toast.makeText(getContext(), R.string.locker_diabled_success, Toast.LENGTH_SHORT).show();
-                    LockerCustomConfig.getLogger().logEvent("Locker_DisableLocker_Alert_TurnOff_Clicked");
+                    LockerCustomConfig.getLogger().logEvent("Locker_DisableLocker_Alert_TurnOff");
                     mCloseLockerPopupView.dismiss();
                 }
             });

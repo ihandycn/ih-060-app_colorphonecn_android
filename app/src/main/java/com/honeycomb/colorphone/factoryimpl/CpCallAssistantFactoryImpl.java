@@ -144,7 +144,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 mTimeReadyToShow = System.currentTimeMillis();
                 Analytics.logEvent("CallFinished_View_Should_Show", "callType", getCallTypeStr(callType));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
-                    Analytics.logEvent("Test_CallAssistantShouldShow" +  Build.BRAND + getDeviceInfo());
+                    Analytics.logEvent("Test_CallAssistantShouldShow" +  Build.BRAND.toUpperCase() + getDeviceInfo());
                     Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
                     Threads.postOnMainThreadDelayed(mDisplayTimeoutRunnable2, 8000);
                 } else {
@@ -179,7 +179,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 Analytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType),
                         "Time", formatTime(System.currentTimeMillis() - mTimeReadyToShow));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
-                    Analytics.logEvent("Test_CallAssistantShow" + Build.BRAND + getDeviceInfo());
+                    Analytics.logEvent("Test_CallAssistantShow" + Build.BRAND.toUpperCase() + getDeviceInfo());
                 }
 //                HSAnalytics.logEventToAppsFlyer("Call_Assistant_Can_Show");
             }
@@ -242,7 +242,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinishedCallAssistantShow() {
-                Analytics.logEvent( "ColorPhone_Call_Finished_Call_Assistant_Show");
+                Analytics.logEvent( "Call_Finished_Call_Assistant_Show");
             }
 
             @Override

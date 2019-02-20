@@ -156,11 +156,11 @@ class BoostPlusResultController extends ResultController {
 
     public boolean tryShowNativeAd(boolean waitForBoostResult) {
         if (mResultType == ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
-            Analytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromToolbar");
+            Analytics.logEvent("BoostDone_Ad_Should_Shown_FromToolbar");
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PLUS) {
-            Analytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromSettings");
+            Analytics.logEvent("BoostDone_Ad_Should_Shown_FromSettings");
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PUSH) {
-            Analytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromPush");
+            Analytics.logEvent("BoostDone_Ad_Should_Shown_FromPush");
         }
         final AcbNativeAd ad = ResultPageManager.getInstance().getAd();
         isAdReady = ad != null;

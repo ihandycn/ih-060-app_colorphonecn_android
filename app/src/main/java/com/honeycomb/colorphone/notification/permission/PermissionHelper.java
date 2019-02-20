@@ -52,7 +52,7 @@ public class PermissionHelper {
         if (needGuideNotificationPermisson && !Permissions.isNotificationAccessGranted()) {
             PermissionUtils.requestNotificationPermission(sourceActivity, true, new Handler(), "FirstScreen");
             PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class, eventSource.getName());
-            Analytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", eventSource.getName());
+            Analytics.logEvent("SystemNotificationAccessView_Show", "from", eventSource.getName());
             Threads.postOnMainThreadDelayed(() -> {
                 Navigations.startActivity(HSApplication.getContext(), NotificationGuideActivity.class);
             }, 1000);

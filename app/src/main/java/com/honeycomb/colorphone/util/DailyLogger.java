@@ -127,11 +127,10 @@ public class DailyLogger {
         boolean notificationAccessGranted = PermissionHelper.isNotificationAccessGranted(context);
 
         if (CommonUtils.ATLEAST_MARSHMALLOW && Utils.isNewUser()) {
-            String permission = logPermissionStatusEvent("ColorPhone_Permission_Check_Above23_FirstSessionEnd",
+            String permission = logPermissionStatusEvent("Permission_Check_Above23_FirstSessionEnd",
                     phoneAccessGranted, contactsAccessGranted,
                     notificationAccessGranted);
-
-            PermissionTestUtils.logPermissionEvent("colorphone_permission_check_above23_" + permission);
+            Analytics.logEvent("Permission_Check_above23_" + permission);
         }
     }
 

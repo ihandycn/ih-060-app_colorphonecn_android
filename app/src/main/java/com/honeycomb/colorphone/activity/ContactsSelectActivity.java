@@ -88,7 +88,7 @@ public class ContactsSelectActivity extends ContactsActivity {
         if (fromType == FROM_TYPE_POPULAR_THEME) {
             Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Success");
         } else {
-            Analytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Success");
+            Analytics.logEvent("ThemeDetail_SetForContact_Success");
         }
         ThemeGuide.logThemeApplied();
         Ap.DetailAd.onThemeChooseForOne();
@@ -124,7 +124,7 @@ public class ContactsSelectActivity extends ContactsActivity {
                             Ap.DetailAd.logEvent("colorphone_seletcontactfortheme_ad_show");
                         }
                         if (ThemeGuide.isFromThemeGuide()) {
-                            Analytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
+                            Analytics.logEvent("ThemeWireAd_Show_FromThemeGuide");
                         }
                     }
                 }

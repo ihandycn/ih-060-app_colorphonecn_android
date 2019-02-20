@@ -477,13 +477,13 @@ abstract class ResultController implements View.OnClickListener {
                 }
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                Analytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromSettings");
+                Analytics.logEvent("BoostWire_Ad_Should_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-                Analytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromPush");
+                Analytics.logEvent("BoostWire_Ad_Should_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                Analytics.logEvent("Colorphone_BoostWire_Ad_Should_Shown_FromToolbar");
+                Analytics.logEvent("BoostWire_Ad_Should_Shown_FromToolbar");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 Analytics.logEvent("Colorphone_CPUWire_Ad_Should_Shown");
@@ -506,13 +506,13 @@ abstract class ResultController implements View.OnClickListener {
                 AutoPilotUtils.logBatterywireAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                Analytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromSettings");
+                Analytics.logEvent("BoostWire_Ad_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-                Analytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromPush");
+                Analytics.logEvent("BoostWire_Ad_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                Analytics.logEvent("Colorphone_BoostWire_Ad_Shown_FromToolbar");
+                Analytics.logEvent("BoostWire_Ad_Shown_FromToolbar");
                 AutoPilotUtils.logBoostwireAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
@@ -536,13 +536,13 @@ abstract class ResultController implements View.OnClickListener {
                 AutoPilotUtils.logBatterydoneAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                Analytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromSettings");
+                Analytics.logEvent("BoostDone_Ad_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-                Analytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromPush");
+                Analytics.logEvent("BoostDone_Ad_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                Analytics.logEvent("Colorphone_BoostDone_Ad_Shown_FromToolbar");
+                Analytics.logEvent("BoostDone_Ad_Shown_FromToolbar");
                 AutoPilotUtils.logBoostdoneAdShowFromToolbar();
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
@@ -558,13 +558,13 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("Colorphone_BatteryDone_Ad_Clicked");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                Analytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromSettings");
+                Analytics.logEvent("BoostDone_Ad_Clicked_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                Analytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromToolbar");
+                Analytics.logEvent("BoostDone_Ad_Clicked_FromToolbar");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-                Analytics.logEvent("Colorphone_BoostDone_Ad_Clicked_FromPush");
+                Analytics.logEvent("BoostDone_Ad_Clicked_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 Analytics.logEvent("Colorphone_CPUDone_Ad_Clicked");

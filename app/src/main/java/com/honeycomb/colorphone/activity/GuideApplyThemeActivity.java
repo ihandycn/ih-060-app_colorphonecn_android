@@ -78,7 +78,7 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
         findViewById(R.id.guide_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Analytics.logEvent("ColorPhone_ApplyFinishGuide_Cancel_Clicked");
+                Analytics.logEvent("ApplyFinishGuide_Cancel_Clicked");
                 finish();
             }
         });
@@ -91,7 +91,7 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
                     Analytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked");
                     ModuleUtils.setAllModuleUserEnable();
                 } else {
-                    Analytics.logEvent("ColorPhone_ApplyFinishGuide_OK_Clicked_WithUnselectFeature");
+                    Analytics.logEvent("ApplyFinishGuide_OK_Clicked_Unselect");
                 }
                 finish();
             }

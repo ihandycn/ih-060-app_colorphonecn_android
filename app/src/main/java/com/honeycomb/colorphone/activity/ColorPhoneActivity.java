@@ -215,7 +215,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                Analytics.logEvent("Colorphone_Settings_Boost_Icon_Shown");
+                Analytics.logEvent("Settings_Boost_Icon_Shown");
                 Analytics.logEvent("Colorphone_Sidebar_Shown");
             }
         };
@@ -276,7 +276,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         boolean isNearSession = Math.abs(sessionPast) < 2000;
         if (isNearSession) {
             if (mAdapter != null && mAdapter.isTipHeaderVisible()) {
-                Analytics.logEvent("Colorphone_List_Page_Notification_Alert_Show");
+                Analytics.logEvent("List_Page_Notification_Alert_Show");
             }
         }
         AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
@@ -412,10 +412,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 == RuntimePermissions.PERMISSION_GRANTED;
         if (!phonePerm) {
-            Analytics.logEvent("Flashlight_Permission_Phone_View_Showed");
+            Analytics.logEvent("Permission_Phone_View_Showed");
         }
         if (!contactPerm) {
-            Analytics.logEvent("Flashlight_Permission_Contact_View_Showed");
+            Analytics.logEvent("Permission_Contact_View_Showed");
         }
         if (!phonePerm || !contactPerm) {
             // Do not have permissions, request them now
@@ -447,10 +447,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onPermissionsGranted(int requestCode, List<String> list) {
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
             if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
-                Analytics.logEvent("Flashlight_Permission_Phone_Allow_Success");
+                Analytics.logEvent("Permission_Phone_Allow_Success");
             }
             if (list.contains(Manifest.permission.READ_CONTACTS)) {
-                Analytics.logEvent("Flashlight_Permission_Contact_Allow_Success");
+                Analytics.logEvent("Permission_Contact_Allow_Success");
             }
         }
     }

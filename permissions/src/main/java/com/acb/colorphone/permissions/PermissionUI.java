@@ -34,7 +34,7 @@ public class PermissionUI {
 
                     }
                 }, 200);
-//                LauncherAnalytics.logEvent("Flashlight_Permission_Alert_FloatWindow_View_Showed");
+//                LauncherAnalytics.logEvent("Permission_Alert_FloatWindow_View_Showed");
             }
             FloatWindowManager.getInstance().applyPermission(context);
         }

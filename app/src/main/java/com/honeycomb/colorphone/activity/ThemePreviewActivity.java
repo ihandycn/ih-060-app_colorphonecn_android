@@ -137,7 +137,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                             Ap.DetailAd.logEvent("colorphone_themedetail_ad_show");
                         }
                         if (ThemeGuide.isFromThemeGuide()) {
-                            Analytics.logEvent("ColorPhone_ThemeWireAd_Show_FromThemeGuide");
+                            Analytics.logEvent("ThemeWireAd_Show_FromThemeGuide");
                         }
                     }
                 }
