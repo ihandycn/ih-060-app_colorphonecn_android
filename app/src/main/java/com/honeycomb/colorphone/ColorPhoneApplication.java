@@ -271,9 +271,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void onAllProcessCreated() {
-        if (GdprUtils.isNeedToAccessDataUsage()) {
-            initFabric();
-        }
+        initFabric();
 
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "b93a2a1069e4044452cf3b72c7ad15eb");
         UMConfigure.setLogEnabled(BuildConfig.DEBUG);
