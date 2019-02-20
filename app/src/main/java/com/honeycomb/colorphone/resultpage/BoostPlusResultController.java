@@ -254,7 +254,7 @@ class BoostPlusResultController extends ResultController {
                     }
                 }
             });
-            Analytics.logEvent("Colorphone_BoostDone_Page_Optimal_Shown");
+            Analytics.logEvent("BoostDone_Page_Optimal_Shown");
             return;
         }
         for (final View v : mFadeOutViews) {

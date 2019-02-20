@@ -438,13 +438,13 @@ abstract class ResultController implements View.OnClickListener {
                 }
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-                Analytics.logEvent("Colorphone_BoostDone_Page_Shown_FromSettings");
+                Analytics.logEvent("BoostDone_Page_Shown_FromSettings");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-                Analytics.logEvent("Colorphone_BoostDone_Page_Shown_FromPush");
+                Analytics.logEvent("BoostDone_Page_Shown_FromPush");
                 break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                Analytics.logEvent("Colorphone_BoostDone_Page_Shown_FromToolbar");
+                Analytics.logEvent("BoostDone_Page_Shown_FromToolbar");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 Analytics.logEvent("Colorphone_CPUDone_Page_Shown");

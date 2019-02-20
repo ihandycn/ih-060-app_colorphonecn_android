@@ -412,7 +412,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     @Override
     public void logEvent(boolean onlyFabric, String eventID, String... vars) {
         // Umeng-event format.
-        eventID = eventID.replace("Acb_ScreenFlash_AcceptFail_TimeOut_2s_", "SF_AcceptFail_TimeOut_2s");
+        eventID = eventID.replace("Acb_ScreenFlash_AcceptFail_TimeOut_2s", "SF_AcceptFail_TimeOut_2s");
         eventID = eventID.replace("Acb_ScreenFlash_RejectCallTimeout_2s", "SF_RejectCallTimeout_2s");
         if ("Acb_ScreenFlash_Accept_Notification".equalsIgnoreCase(eventID)) {
             String[] expandVars = new String[vars.length + 2];
