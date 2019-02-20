@@ -169,7 +169,7 @@
     <string name="led_flash_for_messages">Led Flash for Messages</string>
     <string name="led_flash_for_calls">Led Flash for Calls</string>
 
-    <string name="notification_toolbar_settings">Settings</string>
+    <string name="notification_toolbar_settings">@string/settings</string>
     <string name="settings_activity_notification_reminder">Notification Toolbar Toggle</string>
 
     <string name="ok_btn_text" translatable="false">OK</string>
