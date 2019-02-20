@@ -18,7 +18,6 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
 
 
-
 public class DauChecker {
     private static final String KEY_TIME_LIVE = "time_has_live";
     private static final String KEY_TIME_DIE = "time_may_die";
@@ -78,6 +77,7 @@ public class DauChecker {
     }
 
     private void logApplicationCreate() {
+        Analytics.logEvent("Main_Process_Create");
         long liveDuration = Preferences
                 .get(Constants.PREF_FILE_DEFAULT)
                 .getLong(KEY_TIME_LIVE, 0);
@@ -93,13 +93,13 @@ public class DauChecker {
         boolean hasDailyChance = mDailyTrigger.onChance();
         if (hasDailyChance) {
             long totalTime = Preferences.get(Constants.PREF_FILE_DEFAULT)
-                    .getLong(KEY_TIME_LIVE_TOTAL,0);
+                    .getLong(KEY_TIME_LIVE_TOTAL, 0);
 
             int count = Preferences.get(Constants.PREF_FILE_DEFAULT)
                     .getInt(KEY_COUNT_LIVE_TOTAL, 0);
 
             // No record
-            if (totalTime == 0 && count == 0 ) {
+            if (totalTime == 0 && count == 0) {
                 return;
             }
             // Log

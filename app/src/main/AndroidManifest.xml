@@ -515,6 +515,18 @@
             android:name=".triviatip.TriviaTipActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Translucent" />
+
+        <!-- JPush Daemon-->
+        <service
+            android:name="cn.jpush.android.service.DaemonService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter >
+                <action android:name="cn.jpush.android.intent.DaemonService" />
+                <category android:name="com.colorphone.smooth.dialer.cn"/>
+            </intent-filter>
+        </service>
+
         <!--&lt;!&ndash;===== Dialer Module =====&ndash;&gt;-->
 
         <!--<activity-->

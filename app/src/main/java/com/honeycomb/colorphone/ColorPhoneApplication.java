@@ -232,7 +232,6 @@ public class ColorPhoneApplication extends HSApplication {
     public void onCreate() {
         super.onCreate();
         systemFix();
-        launchTime = System.currentTimeMillis();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
         onAllProcessCreated();
@@ -247,6 +246,7 @@ public class ColorPhoneApplication extends HSApplication {
         if (processName.endsWith(":work")) {
             onWorkProcessCreate();
         }
+        launchTime = System.currentTimeMillis();
     }
 
     private void onWorkProcessCreate() {
@@ -293,6 +293,11 @@ public class ColorPhoneApplication extends HSApplication {
             @Override
             public Notification getNotification(Context context, UMessage uMessage) {
                 HSLog.d("Umeng.test", "Receive umeng push");
+                Analytics.logEvent("ColorPhone_Push_Receive");
+                long receivePush = System.currentTimeMillis() - launchTime;
+                if (receivePush <= 3 * 1000) {
+                    Analytics.logEvent("Wake_Up_By_Umeng_Push");
+                }
                 return super.getNotification(context, uMessage);
             }
         };
