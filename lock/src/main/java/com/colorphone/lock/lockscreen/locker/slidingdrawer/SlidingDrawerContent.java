@@ -35,6 +35,7 @@ import android.widget.TextView;
 
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
+import com.colorphone.lock.boost.RamUsageDisplayUpdater;
 import com.colorphone.lock.lockscreen.SystemSettingsManager;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.slidingdrawer.wallpaper.WallpaperContainer;
@@ -65,7 +66,7 @@ import static com.colorphone.lock.lockscreen.SystemSettingsManager.SettingsItem.
 public class SlidingDrawerContent extends FrameLayout
         implements View.OnClickListener,
         SystemSettingsManager.ISystemSettingsListener, SeekBar.OnSeekBarChangeListener,
-        INotificationObserver {
+        INotificationObserver, RamUsageDisplayUpdater.RamUsageChangeListener {
 
     public final static String EVENT_SHOW_BLACK_HOLE = "EVENT_SHOW_BLACK_HOLE";
     public static final String EVENT_BLACK_HOLE_ANIMATION_END = "EVENT_BLACK_HOLE_ANIMATION_END";
@@ -317,13 +318,13 @@ public class SlidingDrawerContent extends FrameLayout
         brightnessBar.setProgress(mSystemSettingsManager.getSystemSettingsItemState(BRIGHTNESS));
         brightnessBar.setOnSeekBarChangeListener(this);
 
-//        tvMemory = (TextView) findViewById(R.id.txt_ball_memory);
-//        ballAnimationView = (BallAnimationView) findViewById(R.id.ball_animation);
-//        mCurrentRamUsage = mBeforeBoostRamUsage = RamUsageDisplayUpdater.getInstance().getDisplayedRamUsage();
-//        tvMemory.setText(String.format("%d", mCurrentRamUsage));
-//        ballAnimationView.setProgress(mCurrentRamUsage);
-//        RamUsageDisplayUpdater.getInstance().startUpdatingRamUsage();
-//        RamUsageDisplayUpdater.getInstance().addRamUsageChangeListener(this);
+        tvMemory = (TextView) findViewById(R.id.txt_ball_memory);
+        ballAnimationView = (BallAnimationView) findViewById(R.id.ball_animation);
+        mCurrentRamUsage = mBeforeBoostRamUsage = RamUsageDisplayUpdater.getInstance().getDisplayedRamUsage();
+        tvMemory.setText(String.format("%d", mCurrentRamUsage));
+        ballAnimationView.setProgress(mCurrentRamUsage);
+        RamUsageDisplayUpdater.getInstance().startUpdatingRamUsage();
+        RamUsageDisplayUpdater.getInstance().addRamUsageChangeListener(this);
 
         ballAnimationContainer = findViewById(R.id.ball_animation_container);
         ballAnimationContainer.setOnClickListener(new OnClickListener() {
@@ -337,6 +338,8 @@ public class SlidingDrawerContent extends FrameLayout
                 ballScale.start();
 
 //                mBeforeBoostRamUsage = RamUsageDisplayUpdater.getInstance().getDisplayedRamUsage();
+
+
                 HSGlobalNotificationCenter.sendNotification(EVENT_SHOW_BLACK_HOLE);
                 LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Boost");
             }
@@ -394,17 +397,17 @@ public class SlidingDrawerContent extends FrameLayout
                 ballScale.setDuration(DURATION_BALL_APPEAR);
                 ballScale.start();
 
-//                mAfterBoostRamUsage = RamUsageDisplayUpdater.getInstance().getDisplayedRamUsage();
-//                for (int i = mBeforeBoostRamUsage; i >= mAfterBoostRamUsage; i--) {
-//                    final int k = i;
-//                    postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            tvMemory.setText(String.format("%d", k));
-//                            ballAnimationView.setProgress(k, mBeforeBoostRamUsage, mAfterBoostRamUsage);
-//                        }
-//                    }, (mBeforeBoostRamUsage - i) * 30 + DURATION_BALL_APPEAR);
-//                }
+                mAfterBoostRamUsage = RamUsageDisplayUpdater.getInstance().getDisplayedRamUsage();
+                for (int i = mBeforeBoostRamUsage; i >= mAfterBoostRamUsage; i--) {
+                    final int k = i;
+                    postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            tvMemory.setText(String.format("%d", k));
+                            ballAnimationView.setProgress(k, mBeforeBoostRamUsage, mAfterBoostRamUsage);
+                        }
+                    }, (mBeforeBoostRamUsage - i) * 30 + DURATION_BALL_APPEAR);
+                }
                 HSLog.d("MemoryBoost", "boost before ram is " + mBeforeBoostRamUsage + " and after ram is " + mAfterBoostRamUsage);
                 break;
             case EVENT_REFRESH_BLUR_WALLPAPER:
@@ -700,5 +703,17 @@ public class SlidingDrawerContent extends FrameLayout
         if (foundImpl && openIntent != null) {
             Navigations.startActivitySafely(getContext(), openIntent);
         }
+    }
+
+    @Override
+    public void onDisplayedRamUsageChange(int displayedRamUsage) {
+        mCurrentRamUsage = displayedRamUsage;
+        tvMemory.setText(String.format("%d", mCurrentRamUsage));
+        ballAnimationView.setProgress(mCurrentRamUsage);
+    }
+
+    @Override
+    public void onBoostComplete(int afterBoostRamUsage) {
+
     }
 }

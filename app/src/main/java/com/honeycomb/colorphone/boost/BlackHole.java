@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.colorphone.lock.boost.RamUsageDisplayUpdater;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;

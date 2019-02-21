@@ -39,7 +39,7 @@ import com.honeycomb.colorphone.battery.BatteryUtils;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.BoostIcon;
 import com.honeycomb.colorphone.boost.DeviceManager;
-import com.honeycomb.colorphone.boost.RamUsageDisplayUpdater;
+import com.colorphone.lock.boost.RamUsageDisplayUpdater;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cpucooler.CpuCoolDownActivity;
 import com.honeycomb.colorphone.cpucooler.CpuCoolerManager;

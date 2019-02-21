@@ -33,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.colorphone.lock.boost.RamUsageDisplayUpdater;
 import com.colorphone.lock.util.ViewStyleUtils;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;

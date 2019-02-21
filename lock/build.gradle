@@ -23,6 +23,8 @@ android {
     }
 }
 
+final LIB_DEVICE_VERSION = '.gm:4.5.3.gm'
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -41,7 +43,8 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.0.0'
 
     provided ("net.appcloudbox.autopilot:libAutoPilot.gm:5.3.2.gm")
-    provided 'com.ihandy.appframework:libAppframework.gm:4.7.1.gm'
-    provided 'net.appcloudbox.ads:libAcbAds.gm:1.8.2.gm'
+    provided 'com.ihandy.appframework:libAppframework.gm:4.9.0.gm'
+    provided 'net.appcloudbox.ads:libAcbAds.gm:5.11.2.gm'
+    provided "com.ihandy.device:device-clean-memory$LIB_DEVICE_VERSION".toString()
 
 }
