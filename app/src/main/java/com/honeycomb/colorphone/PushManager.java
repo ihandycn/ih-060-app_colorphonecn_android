@@ -207,8 +207,8 @@ public class PushManager {
                     long interval = System.currentTimeMillis() - lastIdleTime;
                     if (interval > 30 * 1000 && lastCallStateValid) {
                         Logger.logCallStateInterval(interval);
+                        Preferences.get(Constants.DESKTOP_PREFS).putLong(Constants.PREFS_LAST_CALLSTATE_CHANGE, System.currentTimeMillis());
                     }
-                    Preferences.get(Constants.DESKTOP_PREFS).putLong(Constants.PREFS_LAST_CALLSTATE_CHANGE, System.currentTimeMillis());
                 }
             }
         });
