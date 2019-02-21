@@ -245,6 +245,7 @@
                 android:id="@+id/settings_facebook"
                 style="@style/LayoutSettings"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <ImageView
