@@ -136,7 +136,7 @@ class BatteryResultController extends ResultController {
 
     @Override
     protected int getButtonBgColor() {
-        return Color.parseColor("#2573e2");
+        return Color.parseColor("#62d337");
     }
 
     private void dismiss() {

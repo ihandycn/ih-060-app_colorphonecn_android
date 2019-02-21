@@ -121,7 +121,7 @@ class CpuCoolerResultController extends ResultController {
 
     @Override
     protected int getButtonBgColor() {
-        return Color.parseColor("#1fb70b");
+        return Color.parseColor("#2e8cf7");
     }
 
     private void dismiss() {
