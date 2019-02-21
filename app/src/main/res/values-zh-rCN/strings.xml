@@ -17,19 +17,19 @@
 
     <string name="guide_enable_all_module">开启手机助手</string>
 
-    <string name="acb_outapp_guide_screen_flash_content">快试试独特的个性来电，让您的手机更时尚。可能包含广告。</string>
+    <string name="acb_outapp_guide_screen_flash_content">快试试独特的个性来电，让您的手机更时尚。</string>
     <string name="about">关于</string>
 
     <string name="guide_apply_theme_hint">来电主题应用成功！尽情享受吧！</string>
 
-    <string name="smart_charging">充电监视器</string>
+    <string name="smart_charging">充电锁屏</string>
     <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。</string>
 
     <string name="color_lockscreen">多彩屏保</string>
-    <string name="color_lockscreen_hint">用多彩的主题装饰你的屏保（可能包含广告）</string>
+    <string name="color_lockscreen_hint">用多彩的主题装饰你的屏保</string>
     <string name="sms_assistant">短信助手</string>
     <string name="sms_assistant_hint">短信助手让你不再错过任何信息</string>
-    <string name="call_assistant_hint">来电助手让你不再错过未接来电（可能包含广告）</string>
+    <string name="call_assistant_hint">来电助手让你不再错过未接来电</string>
 
     <string name="contact_theme">联系人主题</string>
     <string name="contact_select_hint">为联系人设置"%1$s"主题</string>
