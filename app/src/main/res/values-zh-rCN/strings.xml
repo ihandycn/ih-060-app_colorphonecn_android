@@ -38,6 +38,8 @@
     <string name="edit">编辑</string>
     <string name="theme_set_for_all">设定为默认</string>
     <string name="theme_set_for_one">设定给某人</string>
+    <string name="set">设定</string>
+    <string name="empty_contact_hint">你还没有为你的联系人\n设置主题。</string>
     <string name="select_contacts">选择联系人</string>
     <string name="boost_plus_free_up">内存释放</string>
     <string name="boost_plus_exiting">结束中…</string>
@@ -62,7 +64,7 @@
     <string name="ringtone_hint_after_apply">主题和铃声都已设置成功</string>
     <string name="ringtone_hint_before_apply">设置主题去享受铃声</string>
 
-    <string name="five_star_hint_text">觉得多彩电话如何？</string>
+    <string name="five_star_hint_text">觉得焕彩来电秀如何？</string>
     <string name="five_star_positive_text">提交</string>
     <string name="five_star_one_text">讨厌</string>
     <string name="five_star_two_text">不喜欢</string>
@@ -75,7 +77,7 @@
 
     <!--notification access -->
     <string name="acb_phone_grant_notification_access_title">为了轻松接听来电请开启通知访问权限</string>
-    <string name="acb_phone_enable_notification_access_description">请手动为多彩电话开启通知访问权限，轻松接听来电。</string>
+    <string name="acb_phone_enable_notification_access_description">请手动为焕彩来电秀开启通知访问权限，轻松接听来电。</string>
     <string name="acb_phone_enable_notification">立即开启</string>
 
     <!--Reward_video -->
@@ -158,6 +160,13 @@
     <string name="cpu_cooler_cleaning_hint">正在关闭后台应用</string>
     <string name="cool_capital">一键降温</string>
     <string name="notification_toolbar_clock">时钟</string>
+
+    <string name="ok_btn_text">好</string>
+    <string name="result_page_boost_plus_optimal">已优化</string>
+    <string name="result_page_boost_plus_free_up">内存释放</string>
+
+    <string name="led_flash_switch_text">LED提醒</string>
+    <string name="led_flash_for_calls">LED来电提醒</string>
 
     <string name="desktop_tips_content_would_you_rather_title">你更愿意</string>
     <string name="desktop_tips_content_would_you_rather_description">点击来看看有多少人做了和你相同的选择！</string>
