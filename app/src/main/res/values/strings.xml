@@ -45,12 +45,11 @@
     <string name="call_assistant_hint">Call Assistant will remind you of missed calls (May contain ads)</string>
 
 
-    <string name="surprise" translatable="false">Surprise!</string>
-    <string name="share_alert_content" translatable="false">Give a friend a surprise! Show your friend the exclusive theme you set for him!</string>
-    <string name="share" translatable="false">SHARE</string>
-
-    <string name="share_default_name" translatable="false">Ava</string>
-    <string name="share_default_number" translatable="false">(616) *** 6789</string>
+    <string name="surprise">Surprise!</string>
+    <string name="share_alert_content">Give a friend a surprise! Show your friend the exclusive theme you set for him!</string>
+    <string name="share">SHARE</string>
+    <string name="share_default_name">Ava</string>
+    <string name="share_default_number">(616) *** 6789</string>
 
 
     <string name="select_contacts">Select Contacts</string>

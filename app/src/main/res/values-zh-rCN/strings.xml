@@ -80,6 +80,13 @@
     <string name="acb_phone_enable_notification_access_description">请手动为焕彩来电秀开启通知访问权限，轻松接听来电。</string>
     <string name="acb_phone_enable_notification">立即开启</string>
 
+
+    <string name="surprise">惊喜！</string>
+    <string name="share_alert_content">给朋友一个惊喜！向你的朋友展示你为他设定的专属主题！</string>
+    <string name="share">分享</string>
+
+    <string name="share_default_name">Ava</string>
+    <string name="share_default_number">(616) *** 6789</string>
     <!--Reward_video -->
     <string name="watch_video_to_unlock">观看广告即可解锁</string>
     <string name="load_reward_ad_error">糟糕，稍后再试</string>
