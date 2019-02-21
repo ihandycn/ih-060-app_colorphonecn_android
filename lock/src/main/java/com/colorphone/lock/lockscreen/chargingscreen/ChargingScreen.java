@@ -697,13 +697,14 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     }
 
     private String getChargingLeftTimeString(int chargingLeftMinutes) {
+        boolean isChina = Locale.getDefault().getCountry().equals(Locale.CHINA.getCountry());
 
         String leftTime = "";
         if (chargingLeftMinutes / 60 > 0) {
-            leftTime += String.valueOf(chargingLeftMinutes / 60) + "h ";
+            leftTime += String.valueOf(chargingLeftMinutes / 60) + (isChina ? "小时 " : "h ");
         }
         if (chargingLeftMinutes % 60 > 0) {
-            leftTime += String.valueOf(chargingLeftMinutes % 60) + "m";
+            leftTime += String.valueOf(chargingLeftMinutes % 60) + (isChina ? "分钟" : "m");
         }
 
         return leftTime;
@@ -727,8 +728,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         String txtMinute = simpleDateFormat.format(new Date());
 
         String txtDay = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        String txtWeek = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH);
-        String txtMonth = Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH);
+        String txtWeek = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault());
+        String txtMonth = Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
 
         timeTextView.setText(getContext().getString(R.string.charging_screen_time, txtHour, txtMinute));
         dateTextView.setText(getContext().getString(R.string.charging_screen_date, txtWeek, txtMonth, txtDay));
