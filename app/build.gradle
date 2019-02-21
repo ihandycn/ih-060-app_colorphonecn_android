@@ -214,7 +214,7 @@ dependencies {
     compile project(':permissions')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.02.16.001'
+    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.02.21.001'
 
     // Umeng
     colorphoneCompile 'com.umeng.umsdk:analytics:8.0.0'
