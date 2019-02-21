@@ -1038,4 +1038,18 @@ public final class Utils {
         }
         return deviceInfo;
     }
+
+    public static String getDeviceInfo() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            return "8";
+        } else if (Build.VERSION.SDK_INT >= 24) {
+            return "7";
+        } else if (Build.VERSION.SDK_INT >= 23) {
+            return "6";
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            return "5";
+        } else {
+            return "4";
+        }
+    }
 }

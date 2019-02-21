@@ -59,7 +59,8 @@ public class Locker extends LockScreen implements INotificationObserver {
     @Override
     public void setup(ViewGroup root, Bundle extra) {
         super.setup(root, extra);
-        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Show",
+        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Show" + suffix,
                 "Brand", Build.BRAND.toLowerCase(),
                 "DeviceVersion", getDeviceInfo());
 

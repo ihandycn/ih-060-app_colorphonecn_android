@@ -29,14 +29,18 @@ import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
+import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
+import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -75,6 +79,7 @@ import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
 import com.ihs.chargingreport.ChargingReportManager;
 import com.ihs.chargingreport.DismissType;
+import com.ihs.chargingreport.utils.ChargingReportUtils;
 import com.ihs.commons.analytics.publisher.HSPublisherMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -293,11 +298,14 @@ public class ColorPhoneApplication extends HSApplication {
             @Override
             public Notification getNotification(Context context, UMessage uMessage) {
                 HSLog.d("Umeng.test", "Receive umeng push");
-                Analytics.logEvent("ColorPhone_Push_Receive");
+                Analytics.logEvent("ColorPhone_Push_Receive",
+                        "Brand", Build.BRAND.toLowerCase(),
+                        "DeviceVersion", Utils.getDeviceInfo());
                 long receivePush = System.currentTimeMillis() - launchTime;
                 if (receivePush <= 3 * 1000) {
                     Analytics.logEvent("Wake_Up_By_Umeng_Push");
                 }
+                checkChargingOrLocker();
                 return super.getNotification(context, uMessage);
             }
         };
@@ -336,6 +344,22 @@ public class ColorPhoneApplication extends HSApplication {
                 HSPermanentUtils.startKeepAlive();
             }
         }, TIME_NEED_LOW);
+    }
+
+    private void checkChargingOrLocker() {
+        if (ChargingReportUtils.isScreenOn()) {
+            return;
+        }
+        if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
+            //
+            if (!LockerActivity.exit) {
+                ChargingScreenUtils.startChargingScreenActivity(false, true);
+            }
+        } else if (LockerSettings.isLockerEnabled()) {
+            if (!ChargingScreenActivity.exist) {
+                ChargingScreenUtils.startLockerActivity(true);
+            }
+        }
     }
 
     private void initAutopilot() {

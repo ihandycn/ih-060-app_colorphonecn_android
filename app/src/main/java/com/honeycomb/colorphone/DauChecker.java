@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -12,6 +11,7 @@ import android.text.format.DateUtils;
 
 import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -103,7 +103,7 @@ public class DauChecker {
                 return;
             }
             // Log
-            Analytics.logEvent("DAU_Application_Check_" + getDeviceInfo(),
+            Analytics.logEvent("DAU_Application_Check_" + Utils.getDeviceInfo(),
                     "Time", formatTotalTime(totalTime / DateUtils.MINUTE_IN_MILLIS),
                     "Count", String.valueOf(count));
             // Reset
@@ -148,20 +148,6 @@ public class DauChecker {
             return "10-24";
         }
         return String.valueOf(hour);
-    }
-
-    private String getDeviceInfo() {
-        if (Build.VERSION.SDK_INT >= 26) {
-            return "8";
-        } else if (Build.VERSION.SDK_INT >= 24) {
-            return "7";
-        } else if (Build.VERSION.SDK_INT >= 23) {
-            return "6";
-        } else if (Build.VERSION.SDK_INT >= 21) {
-            return "5";
-        } else {
-            return "4";
-        }
     }
 
     BroadcastReceiver screenOnAndOffReceiver = new BroadcastReceiver() {

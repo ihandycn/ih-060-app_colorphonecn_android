@@ -25,6 +25,8 @@ public class ChargingScreenUtils {
     private static final boolean MODE_ACTIVITY = true;
 
     private static volatile long lastClickTime;
+    public static boolean isFromPush;
+
     /**
      * 原生5.0.x系统上，系统锁屏和同时设置了FLAG_FULLSCREEN、FLAG_SHOW_WHEN_LOCKED的Activity闪烁冲突,
      * 初步判断是5.0.x上WMS在处理Window优先级上存在bug。为避免冲突，取消冲突Activity的FLAG_FULLSCREEN。
@@ -89,11 +91,11 @@ public class ChargingScreenUtils {
         return false;
     }
 
-    public static void startChargingScreenActivity(boolean chargingStateChanged) {
+    public static void startChargingScreenActivity(boolean chargingStateChanged, boolean fromPush) {
         if (isCalling()) {
             return;
         }
-
+        isFromPush = fromPush;
         Bundle bundle = new Bundle();
         bundle.putBoolean(ChargingScreen.EXTRA_BOOLEAN_IS_CHARGING, HSChargingManager.getInstance().isCharging());
         bundle.putInt(ChargingScreen.EXTRA_INT_BATTERY_LEVEL_PERCENT,
@@ -115,10 +117,11 @@ public class ChargingScreenUtils {
         }
     }
 
-    public static void startLockerActivity() {
+    public static void startLockerActivity(boolean fromPush) {
         if (isCalling()) {
             return;
         }
+        isFromPush = fromPush;
         if (MODE_ACTIVITY) {
             try {
                 Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
