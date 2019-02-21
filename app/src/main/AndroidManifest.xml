@@ -142,14 +142,6 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <!-- Required by umeng -->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5c651326f1f5562281001958" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="${UMENG_CHANNEL_VALUE}" />
-
         <activity
             android:name=".activity.ColorPhoneActivity"
             android:label="@string/app_name"
