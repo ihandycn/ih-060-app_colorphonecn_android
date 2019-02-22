@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
-import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -51,9 +50,9 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
         } else if(ModuleUtils.isShareAlertInsideAppShow()) {
             ShareAlertActivity.starInsideApp(activity, userInfo, setForMulti);
             return true;
-        } else if (NotificationUtils.isShowNotificationGuideAlertWhenApplyTheme(activity)) {
-            NotificationAccessGuideAlertActivity.startInAppGuide(activity);
-            return true;
+//        } else if (NotificationUtils.isShowNotificationGuideAlertWhenApplyTheme(activity)) {
+//            NotificationAccessGuideAlertActivity.startInAppGuide(activity);
+//            return true;
         } else if (FiveStarRateTip.canShowWhenApplyTheme()) {
             RateAlertActivity.showRateFrom(activity, FiveStarRateTip.From.SET_THEME);
             return true;
