@@ -237,7 +237,7 @@ public class Theme extends Type {
     }
 
     public void configAvatar() {
-        boolean isChinese = Locale.getDefault().getLanguage().equals(Locale.CHINESE.getLanguage())
+        boolean isChinese = Locale.getDefault().getLanguage().equals(Locale.CHINESE.getLanguage());
         if (getValue() == Type.NONE) {
             setAvatarName(isChinese ? "系统来电" : "System");
             setAvatar(R.drawable.acb_phone_theme_none_default);
