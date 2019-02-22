@@ -5,6 +5,8 @@
     <string name="settings">设置</string>
     <string name="feedback">反馈</string>
 
+    <string name="acb_phone_caller_default_number">123-457-8901</string>
+
     <string name="theme_apply">应用</string>
     <string name="apply_success">应用成功</string>
     <string name="theme_current">当前主题</string>
