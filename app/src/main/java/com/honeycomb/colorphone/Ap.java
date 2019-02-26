@@ -7,6 +7,7 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Preferences;
 import com.superapps.util.Toasts;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
@@ -216,21 +217,59 @@ public class Ap {
     }
 
     public static class RandomTheme {
-        public static String TOPIC_ID = "topic-6zi0axif8";
+        public static String TOPIC_ID = "topic-716427qov";
 
         public static boolean enable() {
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "randomthemeenable", false);
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_enable", false);
+        }
+
+        public static boolean setForAllEnable() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "normal_theme_can_set_for_all", false);
+        }
+
+        public static boolean showFeatureGuide() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_guide_show", false);
+        }
+
+        public static boolean showRandomLoseAlert() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "normal_theme_show_retain_alert_after_setforall", false);
+        }
+
+        public static boolean defaultSwitchOn() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_default_switch_on", false);
+        }
+
+        public static boolean modeOfSettingsConfig() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_display_in_settings", false);
+        }
+
+        public static boolean modeOfFirstCard() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_show_on_first_place", false);
+        }
+
+        public static String randomThemeGuideDesc() {
+            return AutopilotConfig.getStringToTestNow(TOPIC_ID, "random_theme_guide_desc", "Enjoy different flash everyday by applying random style");
         }
 
         public static int intervalHour() {
-            String value = AutopilotConfig.getStringToTestNow(TOPIC_ID, "themechangeinterval", "24");
+            String value = AutopilotConfig.getStringToTestNow(TOPIC_ID, "random_theme_change_interval", "24");
             return Integer.valueOf(value);
         }
 
         public static void logEvent(String name) {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
+//            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
         }
 
+        public static boolean checkIfShowRandomLoseAlert() {
+            if (showRandomLoseAlert()) {
+                int alertShowTime = Preferences.get(Constants.DESKTOP_PREFS).getInt("token_random_loss_alert_show", 0);
+                if (alertShowTime  < 1) {
+                    Preferences.get(Constants.DESKTOP_PREFS).putInt("token_random_loss_alert_show", ++alertShowTime);
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     public static class TriviaTip {

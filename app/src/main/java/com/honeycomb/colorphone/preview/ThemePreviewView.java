@@ -45,6 +45,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
+import com.honeycomb.colorphone.activity.GuideRandomCloseActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -66,6 +67,7 @@ import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -294,6 +296,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         }
     };
+    private INotificationObserver turnOffRandomObserver = new INotificationObserver() {
+        @Override
+        public void onReceive(String s, HSBundle hsBundle) {
+            performApplyClickResult();
+        }
+    };
 
     public static void saveThemeApplys(int themeId) {
         if (isThemeAppliedEver(themeId)) {
@@ -396,6 +404,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView.setAutoRun(false);
         mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
         mApplyButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+        if (Ap.RandomTheme.setForAllEnable()) {
+            mApplyButton.setVisibility(VISIBLE);
+        } else {
+            mApplyButton.setVisibility(GONE);
+        }
         mActionLayout = findViewById(R.id.theme_apply_layout);
         mApplyForOne = findViewById(R.id.theme_set_for_one);
 
@@ -413,17 +426,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (inTransition) {
                     return;
                 }
-                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
-                }
-                onThemeApply();
-
-                if (mActivity instanceof PopularThemePreviewActivity) {
-                    LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
-                    LauncherAnalytics.logEvent("ColorPhone_BanboList_Set_Success");
+                if (Ap.RandomTheme.checkIfShowRandomLoseAlert()) {
+                    GuideRandomCloseActivity.start(mActivity, true);
+                    HSGlobalNotificationCenter.addObserver(GuideRandomCloseActivity.EVENT_TURNOFF, turnOffRandomObserver);
                 } else {
-                    LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SetForAll");
-                    LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success");
+                    performApplyClickResult();
                 }
             }
         });
@@ -449,6 +456,21 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         mInter = new OvershootInterpolator(1.5f);
 
+    }
+
+    private void performApplyClickResult() {
+        if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+            PermissionChecker.getInstance().check(mActivity, "SetForAll");
+        }
+        onThemeApply();
+
+        if (mActivity instanceof PopularThemePreviewActivity) {
+            LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
+            LauncherAnalytics.logEvent("ColorPhone_BanboList_Set_Success");
+        } else {
+            LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SetForAll");
+            LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success");
+        }
     }
 
     private View getTransBottomLayout() {

@@ -126,6 +126,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     };
 
+    private Runnable randomFeatureTipRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!isPaused) {
+                GuideRandomThemeActivity.start(ColorPhoneActivity.this, false);
+            }
+        }
+    };
+
     private ConfigChangeManager.Callback configChangeCallback =  new ConfigChangeManager.Callback() {
         @Override
         public void onChange(int type) {
@@ -139,6 +148,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean isCreate = false;
     private View cashFloatButton;
     private SettingsPage mSettingsPage = new SettingsPage();
+    private boolean waitPermissionResult;
 
     @DebugLog
     @Override
@@ -278,6 +288,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
         if (!showAllFeatureGuide && isCreate) {
             dispatchPermissionRequest();
+
+            waitPermissionResult = true;
+            mHandler.postDelayed(randomFeatureTipRunnable, 1000);
         }
         if (!showAllFeatureGuide) {
             isCreate = false;
@@ -291,6 +304,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onResume();
         // clear previous observers.
         PermissionHelper.stopObservingPermission();
+        if (waitPermissionResult) {
+            mHandler.removeCallbacks(randomFeatureTipRunnable);
+            randomFeatureTipRunnable.run();
+        }
 
         HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());

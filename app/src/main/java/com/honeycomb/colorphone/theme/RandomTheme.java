@@ -280,4 +280,13 @@ public class RandomTheme {
                     "Network", NetUtils.isWifiConnected(HSApplication.getContext()) ? "Wifi" : "Data");
         }
     }
+
+    public boolean userSettingsEnable() {
+        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("random_setting_switch", Ap.RandomTheme.defaultSwitchOn());
+    }
+
+    public void setUserSettingsEnable(boolean enable) {
+        Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("random_setting_switch", enable);
+    }
+
 }

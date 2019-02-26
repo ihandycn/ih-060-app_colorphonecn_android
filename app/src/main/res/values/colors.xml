@@ -71,6 +71,7 @@
     <color name="activate_charging_fullscreen_bgn">#2d3135</color>
     <color name="button_pressed_bg">#0d000000</color>
     <color name="dialog_button_blue">#2b84ff</color>
+    <color name="dialog_button_gray">#E7E9EC</color>
 
     <color name="result_page_color">#2572E3</color>
     <color name="boost_plus_clean_bg">#2572E3</color>
