@@ -2,6 +2,7 @@ package com.honeycomb.colorphone;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -31,14 +32,20 @@ import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
+import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
+import com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawerContent;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
+import com.honeycomb.colorphone.boost.BoostActivity;
+import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -78,6 +85,7 @@ import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
 import com.ihs.chargingreport.ChargingReportManager;
 import com.ihs.chargingreport.DismissType;
+import com.ihs.chargingreport.utils.ChargingReportUtils;
 import com.ihs.commons.analytics.publisher.HSPublisherMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -95,6 +103,12 @@ import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.entity.UMessage;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.expressad.AcbExpressAdManager;
@@ -176,6 +190,8 @@ public class ColorPhoneApplication extends HSApplication {
 //                downloadNewType();
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
                 ColorPhonePermanentUtils.checkAliveForProcess();
+            } else if (SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE.equals(notificationName)) {
+                BoostActivity.start(HSApplication.getContext(), false);
             } else {
                 checkModuleAdPlacement();
             }
@@ -219,6 +235,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     private static boolean isFabricInitted;
     public static long launchTime;
+
     public static boolean isAppForeground() {
         return !activityStack.isEmpty();
     }
@@ -228,7 +245,6 @@ public class ColorPhoneApplication extends HSApplication {
     public void onCreate() {
         super.onCreate();
         systemFix();
-        launchTime = System.currentTimeMillis();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
         onAllProcessCreated();
@@ -243,6 +259,7 @@ public class ColorPhoneApplication extends HSApplication {
         if (processName.endsWith(":work")) {
             onWorkProcessCreate();
         }
+        launchTime = System.currentTimeMillis();
     }
 
     private void onWorkProcessCreate() {
@@ -267,9 +284,44 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void onAllProcessCreated() {
-        if (GdprUtils.isNeedToAccessDataUsage()) {
-            initFabric();
-        }
+        initFabric();
+
+        String appKey = HSConfig.getString("libCommons", "Umeng", "AppKey");
+        String channel = HSConfig.getString("libCommons", "Umeng", "Channel");
+        String pushKey = HSConfig.getString("libCommons", "Umeng", "PushKey");
+        UMConfigure.init(this, appKey, channel, UMConfigure.DEVICE_TYPE_PHONE, pushKey);
+        UMConfigure.setLogEnabled(BuildConfig.DEBUG);
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+        UMConfigure.setProcessEvent(true);
+        PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String deviceToken) {
+                HSLog.d("Umeng.test", "注册成功：deviceToken：-------->  " + deviceToken);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                HSLog.d("Umeng.test", "注册失败：-------->  " + "s:" + s + ",s1:" + s1);
+            }
+        });
+        UmengMessageHandler messageHandler = new UmengMessageHandler() {
+            @Override
+            public Notification getNotification(Context context, UMessage uMessage) {
+                HSLog.d("Umeng.test", "Receive umeng push");
+                Analytics.logEvent("ColorPhone_Push_Receive",
+                        "Brand", Build.BRAND.toLowerCase(),
+                        "DeviceVersion", Utils.getDeviceInfo());
+                long receivePush = System.currentTimeMillis() - launchTime;
+                if (receivePush <= 3 * 1000) {
+                    Analytics.logEvent("Wake_Up_By_Umeng_Push");
+                }
+                checkChargingOrLocker();
+                return super.getNotification(context, uMessage);
+            }
+        };
+        pushAgent.setMessageHandler(messageHandler);
+
         AcbService.initialize(this);
         // Init Crash optimizer
         CrashGuard.install();
@@ -303,6 +355,22 @@ public class ColorPhoneApplication extends HSApplication {
                 HSPermanentUtils.startKeepAlive();
             }
         }, TIME_NEED_LOW);
+    }
+
+    private void checkChargingOrLocker() {
+        if (ChargingReportUtils.isScreenOn()) {
+            return;
+        }
+        if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
+            //
+            if (!LockerActivity.exit) {
+                ChargingScreenUtils.startChargingScreenActivity(false, true);
+            }
+        } else if (LockerSettings.isLockerEnabled()) {
+            if (!ChargingScreenActivity.exist) {
+                ChargingScreenUtils.startLockerActivity(true);
+            }
+        }
     }
 
     private void initAutopilot() {
@@ -406,7 +474,6 @@ public class ColorPhoneApplication extends HSApplication {
         checkDailyTask();
 
         watchLifeTimeAutopilot();
-
     }
 
     private void watchLifeTimeAutopilot() {
@@ -634,6 +701,7 @@ public class ColorPhoneApplication extends HSApplication {
         HSGlobalNotificationCenter.addObserver(ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH, mObserver);
         HSGlobalNotificationCenter.addObserver(LockerSettings.NOTIFY_LOCKER_STATE, mObserver);
         HSGlobalNotificationCenter.addObserver(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE, mObserver);
+        HSGlobalNotificationCenter.addObserver(SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE, mObserver);
 
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -698,8 +766,7 @@ public class ColorPhoneApplication extends HSApplication {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             try {
                 Class.forName("android.os.AsyncTask");
-            }
-            catch(Throwable ignore) {
+            } catch (Throwable ignore) {
                 // ignored
             }
         }
@@ -758,7 +825,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private static void checkExpressAd(String adName, boolean enable) {
-        HSLog.d("AD_CHECK_express", "Name = " + adName + ", enable = " + enable );
+        HSLog.d("AD_CHECK_express", "Name = " + adName + ", enable = " + enable);
         if (enable) {
             AcbExpressAdManager.getInstance().activePlacementInProcess(adName);
         } else {
@@ -767,7 +834,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private static void checkNativeAd(String adName, boolean enable) {
-        HSLog.d("AD_CHECK_native", "Name = " + adName + ", enable = " + enable );
+        HSLog.d("AD_CHECK_native", "Name = " + adName + ", enable = " + enable);
         if (enable) {
             AcbNativeAdManager.getInstance().activePlacementInProcess(adName);
         } else {
@@ -795,7 +862,8 @@ public class ColorPhoneApplication extends HSApplication {
         if (alarmMgr != null) {
             try {
                 alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, DateUtils.DAY_IN_MILLIS, pendingIntent);
-            } catch (NullPointerException ingore) {}
+            } catch (NullPointerException ingore) {
+            }
         }
     }
 
@@ -839,7 +907,7 @@ public class ColorPhoneApplication extends HSApplication {
         HSConfig.fetchRemote();
         if (Utils.isNewUser()) {
             if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_New_User_User_Level_LOGGED)) {
-                int delayTimes [] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
+                int delayTimes[] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
                 for (int delay : delayTimes) {
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override

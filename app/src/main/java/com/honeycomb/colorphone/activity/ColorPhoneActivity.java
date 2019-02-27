@@ -36,6 +36,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -63,9 +64,9 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
+import com.umeng.analytics.MobclickAgent;
 
 import net.appcloudbox.AcbAds;
-import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
@@ -124,11 +125,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (logOpenEvent) {
                 logOpenEvent = false;
                 ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
+                BoostStarterActivity.createShortCut(ColorPhoneActivity.this);
             }
         }
     };
 
-    private ConfigChangeManager.Callback configChangeCallback =  new ConfigChangeManager.Callback() {
+    private ConfigChangeManager.Callback configChangeCallback = new ConfigChangeManager.Callback() {
         @Override
         public void onChange(int type) {
             refreshCashButton();
@@ -148,9 +150,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
         ContactManager.getInstance().update();
         // TODO pro show condition ( SESSION_START, or Activity onStart() )
-
         AcbAds.getInstance().setActivity(this);
-
         if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                 && !GuideAllFeaturesActivity.isStarted()
                 && !ModuleUtils.isAllModuleEnabled()) {
@@ -215,7 +215,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                Analytics.logEvent("Colorphone_Settings_Boost_Icon_Shown");
+                Analytics.logEvent("Settings_Boost_Icon_Shown");
                 Analytics.logEvent("Colorphone_Sidebar_Shown");
             }
         };
@@ -276,7 +276,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         boolean isNearSession = Math.abs(sessionPast) < 2000;
         if (isNearSession) {
             if (mAdapter != null && mAdapter.isTipHeaderVisible()) {
-                Analytics.logEvent("Colorphone_List_Page_Notification_Alert_Show");
+                Analytics.logEvent("List_Page_Notification_Alert_Show");
             }
         }
         AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
@@ -307,6 +307,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         isPaused = false;
         mAdapter.markForeground(true);
         refreshCashButton();
+
+        String[] testDeviceInfo = Utils.getTestDeviceInfo(this);
+        for (String s : testDeviceInfo) {
+            HSLog.d("Umeng.test", s);
+        }
     }
 
     private void refreshCashButton() {
@@ -380,14 +385,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                 && RuntimePermissions.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS)
-                        == RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
+                == RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
             RuntimePermissions.requestPermissions(this,
                     new String[]{Manifest.permission.ANSWER_PHONE_CALLS}, FIRST_LAUNCH_PERMISSION_REQUEST);
         }
 
         Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(
                 runnable,
-                "permission_launch", HSConfig.optInteger(2,"GrantAccess", "MaxCount"));
+                "permission_launch", HSConfig.optInteger(2, "GrantAccess", "MaxCount"));
     }
 
     /**
@@ -407,12 +412,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 == RuntimePermissions.PERMISSION_GRANTED;
         if (!phonePerm) {
-            Analytics.logEvent("Flashlight_Permission_Phone_View_Showed");
+            Analytics.logEvent("Permission_Phone_View_Showed");
         }
         if (!contactPerm) {
-            Analytics.logEvent("Flashlight_Permission_Contact_View_Showed");
+            Analytics.logEvent("Permission_Contact_View_Showed");
         }
-        if (!phonePerm || !contactPerm){
+        if (!phonePerm || !contactPerm) {
             // Do not have permissions, request them now
             RuntimePermissions.requestPermissions(this, perms, FIRST_LAUNCH_PERMISSION_REQUEST);
         }
@@ -426,7 +431,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         List<String> granted = new ArrayList();
         List<String> denied = new ArrayList();
 
-        for(int i = 0; i < permissions.length; ++i) {
+        for (int i = 0; i < permissions.length; ++i) {
             String perm = permissions[i];
             if (grantResults[i] == 0) {
                 granted.add(perm);
@@ -442,10 +447,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onPermissionsGranted(int requestCode, List<String> list) {
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
             if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
-                Analytics.logEvent("Flashlight_Permission_Phone_Allow_Success");
+                Analytics.logEvent("Permission_Phone_Allow_Success");
             }
             if (list.contains(Manifest.permission.READ_CONTACTS)) {
-                Analytics.logEvent("Flashlight_Permission_Contact_Allow_Success");
+                Analytics.logEvent("Permission_Contact_Allow_Success");
             }
         }
     }

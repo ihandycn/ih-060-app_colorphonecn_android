@@ -19,6 +19,7 @@ import com.superapps.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * Color phone theme.
@@ -236,8 +237,9 @@ public class Theme extends Type {
     }
 
     public void configAvatar() {
+        boolean isChinese = Locale.getDefault().getLanguage().equals(Locale.CHINESE.getLanguage());
         if (getValue() == Type.NONE) {
-            setAvatarName("Jack");
+            setAvatarName(isChinese ? "系统来电" : "System");
             setAvatar(R.drawable.acb_phone_theme_none_default);
         } else if (getValue() == Type.TECH) {
             setAvatarName("Alexis");
@@ -249,25 +251,11 @@ public class Theme extends Type {
     }
 
     private static int[] avatars = new int[]{
-            R.drawable.female_3,
-            R.drawable.female_5,
-            R.drawable.male_1,
-            R.drawable.female_2,
-            R.drawable.female_4,
-            R.drawable.male_2,
-            R.drawable.female_1,
-            R.drawable.male_3,
+            R.drawable.theme_preview_avatar_default,
     };
 
     private static String[] avatarNames = new String[]{
-            "Grace",
-            "Ava",
-            "Jackson",
-            "Isabella",
-            "Harper",
-            "Noah",
-            "Emma",
-            "Oliver",
+            HSApplication.getContext().getString(R.string.app_name),
     };
 
     private static String[] COLORS = new String[]{

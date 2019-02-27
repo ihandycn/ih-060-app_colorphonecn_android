@@ -1,7 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppLightStatusBarTheme.Welcome" parent="AppLightStatusBarTheme">
-        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowBackground">@drawable/page_start_bg</item>
+
         <item name="android:windowNoTitle">true</item>
     </style>
 

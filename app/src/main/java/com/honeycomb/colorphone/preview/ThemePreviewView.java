@@ -422,8 +422,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
                     Analytics.logEvent("ColorPhone_BanboList_Set_Success");
                 } else {
-                    Analytics.logEvent("Colorphone_MainView_ThemeDetail_SetForAll");
-                    Analytics.logEvent("ColorPhone_MainView_Set_Success");
+                    Analytics.logEvent("ThemeDetail_SetForAll");
+                    Analytics.logEvent("ThemeDetail_SetForAll_Success");
                 }
             }
         });
@@ -440,7 +440,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
                     Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
                 } else {
-                    Analytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Started");
+                    Analytics.logEvent("ThemeDetail_SetForContact_Started");
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
                 }
             }

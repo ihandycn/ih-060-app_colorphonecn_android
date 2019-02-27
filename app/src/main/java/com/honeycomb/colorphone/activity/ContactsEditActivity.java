@@ -82,7 +82,7 @@ public class ContactsEditActivity extends ContactsActivity {
             updateSelectMode(false, true);
             setEmptyPlaceHolder(true);
         }
-        Analytics.logEvent("Colorphone_Settings_ContactTheme_DeletedContactSuc");
+        Analytics.logEvent("Settings_ContactTheme_DeletedContactSuc");
 
         ContactManager.getInstance().updateDb(themeEntries, null);
     }

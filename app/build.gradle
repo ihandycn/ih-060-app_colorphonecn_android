@@ -13,7 +13,6 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
@@ -34,26 +33,27 @@ android {
         }
     }
 
-    flavorDimensions "mode"
+    flavorDimensions("mode", "channel")
 
     productFlavors {
         colorphone {
             dimension "mode"
             applicationId "com.colorphone.smooth.dialer.cn"
-            versionCode 100
-            versionName "1.0.0"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
                     'src/colorphone/proguard-rules.pro'
 
         }
-        colorflash {
-            dimension "mode"
-            applicationId "com.app.phone.call.flash.screen"
-            versionCode 44
-            versionName "1.1.7"
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
-                    'src/colorflash/proguard-rules.pro'
 
+        yingyongbao {
+            dimension "channel"
+            versionCode 1
+            versionName "1.0.0"
+        }
+
+        jinritoutiao {
+            dimension "channel"
+            versionCode 100
+            versionName "1.0.0"
         }
     }
 
@@ -64,17 +64,26 @@ android {
             assets.srcDirs = ['src/main/assets']
             java.srcDirs = ['src/main/java']
         }
+
         colorphone {
             manifest.srcFile 'src/main/AndroidManifest.xml'
-            res.srcDirs = ['src/colorphone/res', 'src/main/res']
-            assets.srcDirs = ['src/colorphone/assets', 'src/main/assets']
-            java.srcDirs = ['src/colorphone/java', 'src/main/java']
+            res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res']
+            assets.srcDirs = ['src/colorphoneYingyongbao/assets','src/colorphoneCommon/assets', 'src/main/assets']
+            java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java']
         }
-        colorflash {
-            manifest.srcFile 'src/colorflash/AndroidManifest.xml'
-            res.srcDirs = ['src/colorflash/res', 'src/main/res']
-            assets.srcDirs = ['src/colorflash/assets', 'src/main/assets']
-            java.srcDirs = ['src/colorflash/java', 'src/main/java']
+
+        colorphoneYingyongbao {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res']
+            assets.srcDirs = ['src/colorphoneYingyongbao/assets','src/colorphoneCommon/assets', 'src/main/assets']
+            java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java']
+        }
+
+        colorphoneJinritoutiao {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            res.srcDirs = ['src/colorphoneCommon/res', 'src/main/res']
+            assets.srcDirs = ['src/colorphoneJinritoutiao/assets','src/colorphoneCommon/assets', 'src/main/assets']
+            java.srcDirs = ['src/colorphoneCommon/java', 'src/main/java']
         }
     }
 
@@ -100,12 +109,12 @@ android {
                         'com.superapps',
                         'colorphone.acb.com']
         packageNameMap = [
-                "colorflash":['cfl'],
-                "colorphone":['cph']
+                "colorflash": ['cfl'],
+                "colorphone": ['cph']
         ]
     }
 
-    stableXmlConfig{
+    stableXmlConfig {
         inXmlPath file("public.xml").absolutePath
     }
 
@@ -157,13 +166,13 @@ dependencies {
 
     ]
 
-    final  COMMON_COLORPHONE = [
+    final COMMON_COLORPHONE = [
             USE_BETA_ACB_LIBS ?
                     'com.ihandy.appframework:libAppframework.beta:4.9.0.+' :
                     'com.ihandy.appframework:libAppframework.gm:4.9.0.gm',
     ]
 
-    final  COMMON_COLORFLASH = [
+    final COMMON_COLORFLASH = [
             USE_BETA_ACB_LIBS ?
                     'com.ihandy.appframework:libAppframework.beta:4.9.0.+' :
                     'com.ihandy.appframework:libAppframework.gm:4.9.0.gm',
@@ -173,7 +182,6 @@ dependencies {
     for (dependency in COMMON_DEPENDENCIES) compile dependency
 
     for (dependency in COMMON_COLORPHONE) colorphoneCompile dependency
-    for (dependency in COMMON_COLORFLASH) colorflashCompile dependency
 
 
     // ==== Third part ====
@@ -181,7 +189,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
     // Fix crash on Android O background service
     compile 'com.liulishuo.filedownloader:library:1.7.6-SNAPSHOT'
-    compile ("com.airbnb.android:lottie:2.5.5") {
+    compile("com.airbnb.android:lottie:2.5.5") {
         transitive = false;
     }
 
@@ -214,9 +222,13 @@ dependencies {
     compile project(':permissions')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.02.16.001'
-    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2019.02.13.001'
+    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.02.21.001'
 
+    // Umeng
+    colorphoneCompile 'com.umeng.umsdk:analytics:8.0.0'
+    colorphoneCompile 'com.umeng.umsdk:common:2.0.0'
+    colorphoneCompile 'com.umeng.umsdk:utdid:1.1.5.3'
+    colorphoneCompile 'com.umeng.umsdk:push:5.0.2'
 }
 
 // ADD THIS AT THE BOTTOM

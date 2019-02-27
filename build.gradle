@@ -16,6 +16,8 @@ buildscript {
         google() // Google's Maven repository
 
         jcenter()
+
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -57,8 +59,10 @@ allprojects {
         flatDir {
             dirs '../libs'
         }
+
         jcenter()
 
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 
     gradle.projectsEvaluated {

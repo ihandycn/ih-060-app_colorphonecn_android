@@ -29,6 +29,7 @@ import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.LEDAnimationView;
 import com.acb.call.themes.Type;
+import com.acb.call.utils.FileUtils;
 import com.acb.call.views.CircleImageView;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
@@ -39,7 +40,6 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.receiver.ShareReceiver;
-import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.ShareAlertAutoPilotUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -47,6 +47,7 @@ import com.honeycomb.colorphone.view.FixRatioPreviewWindow;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
+import com.superapps.util.Threads;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,6 +55,8 @@ import java.io.IOException;
 import java.io.Serializable;
 
 public class ShareAlertActivity extends Activity {
+
+    private static final String TAG = ShareAlertActivity.class.getSimpleName();
 
     public static class UserInfo implements Serializable {
         private String phoneNumber;
@@ -163,15 +166,6 @@ public class ShareAlertActivity extends Activity {
             }
         });
 
-        if (isInsideApp) {
-            ShareAlertAutoPilotUtils.logInsideAppShareAlertShow();
-//            Analytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName",
-//                    themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
-        } else {
-            ShareAlertAutoPilotUtils.logOutsideAppShareAlertShow();
-//            Analytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName",
-//                    themeType.getName(), "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
-        }
     }
 
     @Override
@@ -194,9 +188,16 @@ public class ShareAlertActivity extends Activity {
 
         switch (requestCode) {
             case REQUEST_SHARE:
+                HSLog.d(TAG, "Request share over");
                 Utils.deleteRecursive(getTempShareDirectory(this));
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        Utils.deleteRecursive(getTempShareDirectory(this));
+        super.onDestroy();
     }
 
     private void initThemePreviewWindow() {
@@ -274,20 +275,19 @@ public class ShareAlertActivity extends Activity {
     }
 
     private void initShareAlertText() {
-        TextView title = findViewById(R.id.title);
-        TextView content = findViewById(R.id.content);
-        if (isInsideApp) {
-            title.setText(ShareAlertAutoPilotUtils.getInsideAppShareAlertTitle());
-            content.setText(ShareAlertAutoPilotUtils.getInsideAppShareDetail());
-        } else {
-            title.setText(ShareAlertAutoPilotUtils.getOutsideAppShareAlertTitle());
-            content.setText(ShareAlertAutoPilotUtils.getOutsideAppShareDetail());
-        }
+//        TextView title = findViewById(R.id.title);
+//        TextView content = findViewById(R.id.content);
+//        if (isInsideApp) {
+//            title.setText(ShareAlertAutoPilotUtils.getInsideAppShareAlertTitle());
+//            content.setText(ShareAlertAutoPilotUtils.getInsideAppShareDetail());
+//        } else {
+//            title.setText(ShareAlertAutoPilotUtils.getOutsideAppShareAlertTitle());
+//            content.setText(ShareAlertAutoPilotUtils.getOutsideAppShareDetail());
+//        }
     }
 
     private void initShareButton() {
         TextView shareButton = findViewById(R.id.share_button);
-        shareButton.setText(isInsideApp ? ShareAlertAutoPilotUtils.getInsideAppShareBtnText() : ShareAlertAutoPilotUtils.getOutsideAppShareBtnText());
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,18 +299,36 @@ public class ShareAlertActivity extends Activity {
                     ledAnimationView.getLayoutParams().height = Utils.getPhoneHeight(ShareAlertActivity.this);
                 }
                 setImageCoverAndShare(cardView);
-
-                if (isInsideApp) {
-                    ShareAlertAutoPilotUtils.logInsideAppShareAlertClicked();
-//                    Analytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName",
-//                            themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
-                } else {
-                    ShareAlertAutoPilotUtils.logOutsideAppShareAlertClicked();
-//                    Analytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(),
-//                            "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
-                }
             }
         });
+    }
+
+    private boolean shareVideo(Type themeType) {
+        File videoFile = new File(FileUtils.getMediaDirectory(), themeType.getFileName());
+
+        File shareFile = null;
+        if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+            File shareDir = getTempShareDirectory(this);
+            shareFile = new File(shareDir.getAbsolutePath(),  themeType.getName() + ".mp4");
+        }
+        if (videoFile.exists() && shareFile != null) {
+            File finalShareFile = shareFile;
+            Threads.postOnThreadPoolExecutor(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Utils.copyFile(videoFile, finalShareFile);
+                        doShareFile(finalShareFile, "video/mp4");
+                        HSLog.d(TAG, "Share video success");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        HSLog.e(TAG, "Share video fail!");
+                    }
+                }
+            });
+            return true;
+        }
+        return false;
     }
 
     private void share(View cardView) {
@@ -325,10 +343,6 @@ public class ShareAlertActivity extends Activity {
         try {
             if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
                 File shareDir = getTempShareDirectory(this);
-                if (!shareDir.exists()) {
-                    shareDir.mkdirs();
-                }
-
                 String filepath = shareDir.getAbsolutePath() + "/" + themeType.getName() + ".jpg";
                 File tempFile = new File(filepath);
                 FileOutputStream ostream = new FileOutputStream(tempFile);
@@ -338,26 +352,7 @@ public class ShareAlertActivity extends Activity {
                 ostream.close();
 
                 File shareFile = new File(filepath);
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("image/*");
-                share.putExtra(Intent.EXTRA_TEXT,
-                        isInsideApp ? ShareAlertAutoPilotUtils.getInsideAppShareText()
-                                : ShareAlertAutoPilotUtils.getOutsideAppShareText());
-                share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(shareFile));
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    Intent receiver = new Intent(this, ShareReceiver.class);
-                    receiver.putExtra(IS_INSIDE_APP, isInsideApp);
-                    receiver.putExtra(ShareReceiver.THEME_NAME, themeType.getName());
-                    receiver.putExtra(ShareReceiver.IS_SET_FOR_SOMEONE, isSetForSomeone);
-                    receiver.putExtra(ShareReceiver.IS_CONTACT, isContactInApp);
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, REQUEST_SHARE, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
-                    Intent chooser = Intent.createChooser(share, getResources().getString(R.string.app_name), pendingIntent.getIntentSender());
-                    startActivityForResult(chooser, REQUEST_SHARE);
-                } else {
-                    Intent chooser = Intent.createChooser(share, getResources().getString(R.string.app_name));
-                    startActivityForResult(chooser, REQUEST_SHARE);
-                }
+                doShareFile(shareFile, "image/*");
             }
         } catch (IOException | ActivityNotFoundException e) {
             e.printStackTrace();
@@ -365,11 +360,39 @@ public class ShareAlertActivity extends Activity {
         finish();
     }
 
+    private void doShareFile(File shareFile, String intentFormatType) {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType(intentFormatType);
+        share.putExtra(Intent.EXTRA_TEXT,
+                isInsideApp ? ShareAlertAutoPilotUtils.getInsideAppShareText()
+                        : ShareAlertAutoPilotUtils.getOutsideAppShareText());
+        share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(shareFile));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            Intent receiver = new Intent(this, ShareReceiver.class);
+            receiver.putExtra(IS_INSIDE_APP, isInsideApp);
+            receiver.putExtra(ShareReceiver.THEME_NAME, themeType.getName());
+            receiver.putExtra(ShareReceiver.IS_SET_FOR_SOMEONE, isSetForSomeone);
+            receiver.putExtra(ShareReceiver.IS_CONTACT, isContactInApp);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, REQUEST_SHARE, receiver, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent chooser = Intent.createChooser(share, getResources().getString(R.string.app_name), pendingIntent.getIntentSender());
+            startActivityForResult(chooser, REQUEST_SHARE);
+        } else {
+            Intent chooser = Intent.createChooser(share, getResources().getString(R.string.app_name));
+            startActivityForResult(chooser, REQUEST_SHARE);
+        }
+    }
+
     private void setImageCoverAndShare(final View root) {
         if (themeType.getValue() == Type.TECH || themeType.getValue() == Type.LED) {
             share(root);
             return;
         }
+
+        if (themeType.isVideo() && shareVideo(themeType)) {
+            return;
+        }
+
         final ImageView previewImage = root.findViewById(R.id.preview_image);
         getBitmap(themeType.getPreviewImage(), Utils.getPhoneWidth(this), Utils.getPhoneHeight(this), new BitmapFetcher() {
             @Override
@@ -464,7 +487,10 @@ public class ShareAlertActivity extends Activity {
     }
 
     private File getTempShareDirectory(Context context) {
-        return new File(context.getExternalFilesDir(null), "ColorPhone");
+        File file = new File(context.getExternalFilesDir(null), "Share");
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        return file;
     }
-
 }

@@ -45,7 +45,7 @@ public class SettingsPage implements View.OnClickListener {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
                 ScreenFlashSettings.setScreenFlashModuleEnabled(isChecked);
-                Analytics.logEvent("ColorPhone_Settings_Enable_Icon_Clicked", "type", isChecked ? "on" : "off");
+                Analytics.logEvent("Settings_Enable_Icon_Clicked", "type", isChecked ? "on" : "off");
             }
         });
 
@@ -94,15 +94,15 @@ public class SettingsPage implements View.OnClickListener {
                 break;
 //            case R.id.settings_boost:
 //                BoostActivity.start(ColorPhoneActivity.context, false);
-//                Analytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
+//                Analytics.logEvent("Settings_Boost_Icon_Clicked");
 //                break;
             case R.id.settings_setting:
-                Analytics.logEvent("Colorphone_Settings_Clicked");
+                Analytics.logEvent("Settings_Clicked");
                 SettingsActivity.start(context);
                 break;
             case R.id.settings_contacts:
                 ContactsActivity.startEdit(context);
-                Analytics.logEvent("Colorphone_Settings_ContactTheme_Clicked");
+                Analytics.logEvent("Settings_ContactTheme_Clicked");
                 break;
             case R.id.settings_about:
                 AboutActivity.start(context);

@@ -12,11 +12,11 @@ import android.text.format.DateUtils;
 
 import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
-
 
 
 public class DauChecker {
@@ -78,6 +78,7 @@ public class DauChecker {
     }
 
     private void logApplicationCreate() {
+        Analytics.logEvent("Main_Process_Create");
         long liveDuration = Preferences
                 .get(Constants.PREF_FILE_DEFAULT)
                 .getLong(KEY_TIME_LIVE, 0);
@@ -93,17 +94,20 @@ public class DauChecker {
         boolean hasDailyChance = mDailyTrigger.onChance();
         if (hasDailyChance) {
             long totalTime = Preferences.get(Constants.PREF_FILE_DEFAULT)
-                    .getLong(KEY_TIME_LIVE_TOTAL,0);
+                    .getLong(KEY_TIME_LIVE_TOTAL, 0);
 
             int count = Preferences.get(Constants.PREF_FILE_DEFAULT)
                     .getInt(KEY_COUNT_LIVE_TOTAL, 0);
 
             // No record
-            if (totalTime == 0 && count == 0 ) {
+            if (totalTime == 0 && count == 0) {
                 return;
             }
             // Log
-            Analytics.logEvent("DAU_Application_Check_" + getDeviceInfo(),
+            Analytics.logEvent("DAU_Application_Check_" + Utils.getDeviceInfo(),
+                    "Time", formatTotalTime(totalTime / DateUtils.MINUTE_IN_MILLIS),
+                    "Count", String.valueOf(count));
+            Analytics.logEvent("DAU_Application_Check_" + Build.BRAND.toUpperCase(),
                     "Time", formatTotalTime(totalTime / DateUtils.MINUTE_IN_MILLIS),
                     "Count", String.valueOf(count));
             // Reset
@@ -148,20 +152,6 @@ public class DauChecker {
             return "10-24";
         }
         return String.valueOf(hour);
-    }
-
-    private String getDeviceInfo() {
-        if (Build.VERSION.SDK_INT >= 26) {
-            return "8";
-        } else if (Build.VERSION.SDK_INT >= 24) {
-            return "7";
-        } else if (Build.VERSION.SDK_INT >= 23) {
-            return "6";
-        } else if (Build.VERSION.SDK_INT >= 21) {
-            return "5";
-        } else {
-            return "4";
-        }
     }
 
     BroadcastReceiver screenOnAndOffReceiver = new BroadcastReceiver() {

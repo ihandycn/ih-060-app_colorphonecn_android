@@ -78,6 +78,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.umeng.commonsdk.statistics.common.DeviceConfig;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -1024,5 +1025,31 @@ public final class Utils {
             }
         }
         return Theme.NEON;
+    }
+
+    public static String[] getTestDeviceInfo(Context context){
+        String[] deviceInfo = new String[2];
+        try {
+            if(context != null){
+                deviceInfo[0] = DeviceConfig.getDeviceIdForGeneral(context);
+                deviceInfo[1] = DeviceConfig.getMac(context);
+            }
+        } catch (Exception e){
+        }
+        return deviceInfo;
+    }
+
+    public static String getDeviceInfo() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            return "8";
+        } else if (Build.VERSION.SDK_INT >= 24) {
+            return "7";
+        } else if (Build.VERSION.SDK_INT >= 23) {
+            return "6";
+        } else if (Build.VERSION.SDK_INT >= 21) {
+            return "5";
+        } else {
+            return "4";
+        }
     }
 }

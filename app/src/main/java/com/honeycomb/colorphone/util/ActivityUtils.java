@@ -215,7 +215,11 @@ public class ActivityUtils {
         toolbar.setTitle("");
         TextView titleTextView = new TextView(activity);
         titleTextView.setId(R.id.title_text);
-        setToolBarTitle(titleTextView, !containsBackButton);
+        if (containsBackButton) {
+            setToolBarTitle(titleTextView, false);
+        } else {
+            setToolbarTitleWithoutLayoutParams(titleTextView);
+        }
         titleTextView.setTextColor(titleColor);
         titleTextView.setText(title);
         if (tf != null) {
@@ -234,7 +238,8 @@ public class ActivityUtils {
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         } else {
-            activity.getSupportActionBar().setLogo(R.drawable.app_icon);
+            // Disable app logo
+//            activity.getSupportActionBar().setLogo(R.drawable.app_icon);
         }
     }
 

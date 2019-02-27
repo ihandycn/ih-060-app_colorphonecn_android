@@ -29,6 +29,8 @@ public class LockerActivity extends HSAppCompatActivity {
 
     private boolean noNavigationPadding = false;
 
+    public static boolean exit = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,7 @@ public class LockerActivity extends HSAppCompatActivity {
 
         // set translucent status bar & navigation bar
         Window window = getWindow();
+        exit = true;
 
         if (!ChargingScreenUtils.isNativeLollipop()) {
             window.addFlags(FLAG_FULLSCREEN);
@@ -101,9 +104,8 @@ public class LockerActivity extends HSAppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mLocker.onDestroy();
+        exit = false;
     }
-
-
 
     @Override
     public void onBackPressed() {

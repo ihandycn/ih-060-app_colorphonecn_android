@@ -241,7 +241,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         } else {
             chargingBubbleView.setPopupBubbleFlag(false);
 
-            final int chargeRemainPercent = HSChargingManager.getInstance().getBatteryRemainingPercent();
+            final int chargeRemainPercent = ChargingScreenUtils.getBatteryPercentage(HSApplication.getContext());
             speedChargeStateImageView.setAlpha(1.0f);
             if (chargeRemainPercent > 80) {
                 continuousChargeStateImageView.setAlpha(1.0f);
@@ -323,8 +323,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         // Life cycle
         LockScreensLifeCycleRegistry.setChargingScreenActive(true);
         LockerCustomConfig.get().onEventChargingViewShow();
-
-        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown_Init");
+        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown_Init" + suffix);
         onStart();
     }
 
@@ -363,8 +363,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             isChargingOnInit = false;
             updateChargingStateTipIconAnimator();
         }
-
-        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown");
+        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix);
 
 
         // ======== onResume ========
@@ -697,13 +697,14 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     }
 
     private String getChargingLeftTimeString(int chargingLeftMinutes) {
+        boolean isChina = Locale.getDefault().getCountry().equals(Locale.CHINA.getCountry());
 
         String leftTime = "";
         if (chargingLeftMinutes / 60 > 0) {
-            leftTime += String.valueOf(chargingLeftMinutes / 60) + "h ";
+            leftTime += String.valueOf(chargingLeftMinutes / 60) + (isChina ? "小时 " : "h ");
         }
         if (chargingLeftMinutes % 60 > 0) {
-            leftTime += String.valueOf(chargingLeftMinutes % 60) + "m";
+            leftTime += String.valueOf(chargingLeftMinutes % 60) + (isChina ? "分钟" : "m");
         }
 
         return leftTime;
@@ -727,15 +728,15 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         String txtMinute = simpleDateFormat.format(new Date());
 
         String txtDay = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-        String txtWeek = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.ENGLISH);
-        String txtMonth = Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.ENGLISH);
+        String txtWeek = Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault());
+        String txtMonth = Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
 
         timeTextView.setText(getContext().getString(R.string.charging_screen_time, txtHour, txtMinute));
         dateTextView.setText(getContext().getString(R.string.charging_screen_date, txtWeek, txtMonth, txtDay));
     }
 
     private void updateChargingStateTipIconAnimator() {
-        final int chargingRemainingPercent = HSChargingManager.getInstance().getBatteryRemainingPercent();
+        final int chargingRemainingPercent = ChargingScreenUtils.getBatteryPercentage(HSApplication.getContext());
 
         if (chargingRemainingPercent < 80) {
             speedChargeStateImageView.setAlpha(CHARGING_STATE_TIP_ICON_POSITIVE_ALPHA);

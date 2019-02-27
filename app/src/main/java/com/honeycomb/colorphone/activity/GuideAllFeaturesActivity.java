@@ -182,10 +182,10 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 == RuntimePermissions.PERMISSION_GRANTED;
         if (!phonePerm) {
-            Analytics.logEvent("ColorPhone_Permission__Phone_SystemStyle_Show_FirstScreen");
+            Analytics.logEvent("Permission_Phone_SystemStyle_Show_1st");
         }
         if (!contactPerm) {
-            Analytics.logEvent("ColorPhone_Permission__Contact_SystemStyle_Show_FirstScreen");
+            Analytics.logEvent("Permission_Contact_SystemStyle_Show_1st");
         }
         if (!phonePerm || !contactPerm){
             // Do not have permissions, request them now
@@ -231,11 +231,11 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
     public void onPermissionsGranted(int requestCode, List<String> list) {
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
             if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
-                Analytics.logEvent("ColorPhone_Permission_Phone_SystemStyle_Allow_Click_FirstScreen");
+                Analytics.logEvent("Permission_Phone_SystemStyle_Allow_1st");
                 PermissionChecker.onPhonePermissionGranted();
             }
             if (list.contains(Manifest.permission.READ_CONTACTS)) {
-                Analytics.logEvent("ColorPhone_Permission_Contact_SystemStyle_Allow_Click_FirstScreen");
+                Analytics.logEvent("Permission_Contact_SystemStyle_Allow_1st");
                 PermissionChecker.onContactPermissionGranted();
             }
         }

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.graphics.drawable.ClipDrawable;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.view.View;
 import android.view.animation.Animation;
@@ -144,17 +145,22 @@ class BoostPlusResultController extends ResultController {
         }
     }
 
+    @Override
+    protected int getButtonBgColor() {
+        return ContextCompat.getColor(getContext(), R.color.boost_plus_clean_bg);
+    }
+
     public boolean tryShowNativeAd() {
         return tryShowNativeAd(false);
     }
 
     public boolean tryShowNativeAd(boolean waitForBoostResult) {
         if (mResultType == ResultConstants.RESULT_TYPE_BOOST_TOOLBAR) {
-            Analytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromToolbar");
+            Analytics.logEvent("BoostDone_Ad_Should_Shown_FromToolbar");
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PLUS) {
-            Analytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromSettings");
+            Analytics.logEvent("BoostDone_Ad_Should_Shown_FromSettings");
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PUSH) {
-            Analytics.logEvent("Colorphone_BoostDone_Ad_Should_Shown_FromPush");
+            Analytics.logEvent("BoostDone_Ad_Should_Shown_FromPush");
         }
         final AcbNativeAd ad = ResultPageManager.getInstance().getAd();
         isAdReady = ad != null;
@@ -248,7 +254,7 @@ class BoostPlusResultController extends ResultController {
                     }
                 }
             });
-            Analytics.logEvent("Colorphone_BoostDone_Page_Optimal_Shown");
+            Analytics.logEvent("BoostDone_Page_Optimal_Shown");
             return;
         }
         for (final View v : mFadeOutViews) {

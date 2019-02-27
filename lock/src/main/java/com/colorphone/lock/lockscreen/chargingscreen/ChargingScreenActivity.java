@@ -20,12 +20,14 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
 
     private static final String TAG = "CHARGING_SCREEN_ACTIVITY";
     private ChargingScreen mScreen;
+    public static boolean exist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         HSLog.d(TAG, "onCreate()");
+        exist = true;
 
         HSAlertMgr.delayRateAlert();
 
@@ -76,15 +78,13 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
     @Override
     protected void onDestroy() {
         mScreen.onDestroy();
+        exist = false;
         super.onDestroy();
     }
 
     @Override
     public void onBackPressed() {
-
-
         mScreen.onBackPressed();
-
         DismissKeyguradActivity.startSelfIfKeyguardSecure(ChargingScreenActivity.this);
     }
 

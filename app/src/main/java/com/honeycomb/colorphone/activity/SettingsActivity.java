@@ -69,7 +69,7 @@ public class SettingsActivity extends HSAppCompatActivity {
                 R.id.setting_item_call_assistant) {
             @Override
             public void onCheckChanged(boolean isChecked) {
-                Analytics.logEvent("ColorPhone_Settings_ChargingReport_Clicked_" +
+                Analytics.logEvent("Settings_CallAssistant_Clicked_" +
                         (isChecked ? "Enabled" : "Disabled"));
                 CallAssistantSettings.setCallAssistantModuleEnabled(isChecked);
             }
@@ -81,7 +81,7 @@ public class SettingsActivity extends HSAppCompatActivity {
                 R.id.setting_item_sms_assistant) {
             @Override
             public void onCheckChanged(boolean isChecked) {
-                Analytics.logEvent("ColorPhone_Settings_SMSAssistant_Clicked_" +
+                Analytics.logEvent("Settings_SMSAssistant_Clicked_" +
                         (isChecked ? "Enabled" : "Disabled"));
                 MessageCenterSettings.setSMSAssistantModuleEnabled(isChecked);
             }
@@ -102,7 +102,7 @@ public class SettingsActivity extends HSAppCompatActivity {
                 R.id.setting_item_charging) {
             @Override
             public void onCheckChanged(boolean isChecked) {
-                Analytics.logEvent("ColorPhone_Settings_ChargingReport_Clicked_" +
+                Analytics.logEvent("Settings_ChargingReport_Clicked_" +
                         (isChecked ? "Enabled" : "Disabled"));
                 GifCacheUtils.cacheGif();
                 SmartChargingSettings.setModuleEnabled(isChecked);
@@ -117,7 +117,7 @@ public class SettingsActivity extends HSAppCompatActivity {
                 R.id.settings_notification_toolbar) {
             @Override
             public void onCheckChanged(boolean isChecked) {
-                Analytics.logEvent("ColorPhone_Settings_Toolbar_Clicked_" +
+                Analytics.logEvent("Settings_Toolbar_Clicked_" +
                         (isChecked ? "Enabled" : "Disabled"));
                 UserSettings.setNotificationToolbarEnabled(isChecked);
                 NotificationManager.getInstance().showNotificationToolbarIfEnabled();

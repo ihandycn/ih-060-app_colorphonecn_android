@@ -6,7 +6,6 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
-import net.appcloudbox.autopilot.AutopilotEvent;
 
 public class PermissionTestUtils {
     private static final String TEST_TOPIC_ID = "topic-6z2dn7nbq";
@@ -51,8 +50,8 @@ public class PermissionTestUtils {
 //                    Analytics.logEvent(event + "_new");
 //                }
 //            }
-
-            AutopilotEvent.logTopicEvent(TEST_TOPIC_ID, event.toLowerCase());
+//
+//            AutopilotEvent.logTopicEvent(TEST_TOPIC_ID, event.toLowerCase());
         } catch (Throwable e) {}
     }
 

@@ -30,6 +30,7 @@ import com.superapps.util.Dimensions;
 import net.appcloudbox.ads.base.AcbNativeAd;
 
 import java.util.List;
+import java.util.Locale;
 
 class BatteryResultController extends ResultController {
 
@@ -103,6 +104,11 @@ class BatteryResultController extends ResultController {
         saveTimeMinuteTextView.setVisibility(View.GONE);
         saveTimeMinuteUnitTextView.setVisibility(View.GONE);
 
+        if (Locale.CHINA.getCountry().equals(Locale.getDefault().getCountry())) {
+            saveTimeHourUnitTextView.setText("小时");
+            saveTimeMinuteUnitTextView.setText("分钟");
+        }
+
         titleAnchor = ViewUtils.findViewById(transitionView, R.id.anchor_title_tv);
         optimalTextView = ViewUtils.findViewById(transitionView, R.id.optimal);
         optimalLayout = ViewUtils.findViewById(transitionView, R.id.optimal_layout);
@@ -136,7 +142,7 @@ class BatteryResultController extends ResultController {
 
     @Override
     protected int getButtonBgColor() {
-        return Color.parseColor("#2573e2");
+        return Color.parseColor("#62d337");
     }
 
     private void dismiss() {

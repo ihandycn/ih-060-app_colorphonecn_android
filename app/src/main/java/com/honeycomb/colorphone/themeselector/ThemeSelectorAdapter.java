@@ -305,7 +305,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         Analytics.logEvent("ColorPhone_BanboList_ThemeDetail_View", "type", theme.getIdName());
                         PopularThemePreviewActivity.start(activity, pos);
                     } else {
-                        Analytics.logEvent("ColorPhone_MainView_ThemeDetail_View", "type", theme.getIdName());
+                        Analytics.logEvent("MainView_ThemeDetail_View", "type", theme.getIdName());
                         ThemePreviewActivity.start(activity, pos);
                     }
                 }
@@ -465,7 +465,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
                 Analytics.logEvent("ColorPhone_BanboList_Set_Success", "type", theme.getIdName());
             } else if (activity instanceof ColorPhoneActivity) {
-                Analytics.logEvent("ColorPhone_MainView_Set_Success", "type", theme.getIdName());
+                Analytics.logEvent("ThemeDetail_SetForAll_Success", "type", theme.getIdName());
             }
 
 //            GuideApplyThemeActivity.start(activity, false, null);
@@ -755,6 +755,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
 
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG;
+        private static final boolean AVATAR_ENABLE = false;
         private static int[] sThumbnailSize = Utils.getThumbnailImageSize();
 
 

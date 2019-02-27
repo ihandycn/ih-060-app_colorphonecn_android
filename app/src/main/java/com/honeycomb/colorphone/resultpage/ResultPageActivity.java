@@ -247,11 +247,8 @@ public class ResultPageActivity extends BaseAppCompatActivity
                 FontUtils.getTypeface(FontUtils.Font.ROBOTO_MEDIUM), titleColor, Color.TRANSPARENT, false);
 
         TextView textView = (TextView) findViewById(R.id.title_text);
-        textView.setTextSize(17);
-        int padding = Dimensions.pxFromDp(12);
-        textView.setPadding(padding, 0, padding, 0);
+        textView.setPadding(0, 0, 0, 0);
         startTransitionAnimation();
-
     }
 
     private void startTransitionAnimation() {

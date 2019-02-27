@@ -40,7 +40,7 @@ public class LockScreenStarter {
                     && preChargingState == HSChargingManager.HSChargingState.STATE_DISCHARGING) {
                 ChargingScreenSettings.increaseChargingCount();
 //                boolean chargeDoNotDisturb = HSConfig.optBoolean(false, "Application", "Locker", "ChargeDoNotDisturb");
-                ChargingScreenUtils.startChargingScreenActivity(true);
+                ChargingScreenUtils.startChargingScreenActivity(true, false);
             }
         }
 
@@ -82,6 +82,11 @@ public class LockScreenStarter {
     }
 
     private void onScreenOff() {
+        launchScreenOnLockers();
+    }
+
+
+    private void launchScreenOnLockers() {
         if (isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
             notifyToStart(EXTRA_VALUE_CHARGING);
         } else if (LockerSettings.isLockerEnabled()) {
@@ -106,9 +111,9 @@ public class LockScreenStarter {
         String extraValue = intent.getStringExtra(EXTRA_LAUNCHER_ACTIVITY);
 
         if (EXTRA_VALUE_CHARGING.equals(extraValue)) {
-            ChargingScreenUtils.startChargingScreenActivity(false);
+            ChargingScreenUtils.startChargingScreenActivity(false, false);
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
-            ChargingScreenUtils.startLockerActivity();
+            ChargingScreenUtils.startLockerActivity(false);
         }
     }
 
