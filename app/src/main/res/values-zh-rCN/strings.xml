@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><resources>
     <!--Need Translate-->
-    <string name="app_slogan">多彩一触，脱颖而出</string>
+    <string name="app_slogan">焕彩一触，脱颖而出</string>
 
     <string name="settings">设置</string>
     <string name="feedback">反馈</string>
@@ -87,8 +87,8 @@
     <string name="share_alert_content">给朋友一个惊喜！向你的朋友展示你为他设定的专属主题！</string>
     <string name="share">分享</string>
 
-    <string name="share_default_name">Ava</string>
-    <string name="share_default_number">(616) *** 6789</string>
+    <string name="share_default_name">焕彩来电秀</string>
+    <string name="share_default_number">12345678901</string>
     <!--Reward_video -->
     <string name="watch_video_to_unlock">观看广告即可解锁</string>
     <string name="load_reward_ad_error">糟糕，稍后再试</string>
