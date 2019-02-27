@@ -158,3 +158,5 @@
 
 -keep class com.alibaba.** {*;}
 -dontwarn com.alibaba.**
+
+-keep class org.android.spdy.** {*;}
