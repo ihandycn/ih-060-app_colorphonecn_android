@@ -283,9 +283,9 @@ public class ColorPhoneApplication extends HSApplication {
         initFabric();
 
         String appKey = HSConfig.getString("libCommons", "Umeng", "AppKey");
-        String chanel = HSConfig.getString("libCommons", "Umeng", "Chanel");
+        String channel = HSConfig.getString("libCommons", "Umeng", "Channel");
         String pushKey = HSConfig.getString("libCommons", "Umeng", "PushKey");
-        UMConfigure.init(this, appKey, chanel, UMConfigure.DEVICE_TYPE_PHONE, pushKey);
+        UMConfigure.init(this, appKey, channel, UMConfigure.DEVICE_TYPE_PHONE, pushKey);
         UMConfigure.setLogEnabled(BuildConfig.DEBUG);
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
         UMConfigure.setProcessEvent(true);

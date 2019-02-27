@@ -40,8 +40,6 @@ android {
         colorphone {
             dimension "mode"
             applicationId "com.colorphone.smooth.dialer.cn"
-            versionCode 100
-            versionName "1.0.0"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
                     'src/colorphone/proguard-rules.pro'
 
@@ -49,10 +47,14 @@ android {
 
         yingyongbao {
             dimension "channel"
+            versionCode 1
+            versionName "1.0.0"
         }
 
         jinritoutiao {
             dimension "channel"
+            versionCode 100
+            versionName "1.0.0"
         }
     }
 
