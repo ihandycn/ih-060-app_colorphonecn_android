@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.PhoneStateListener;
@@ -32,7 +33,6 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
 
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -149,11 +149,9 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
         }
     };
 
-    private static class StatusBarPhoneStateListener extends PhoneStateListener {
-        private WeakReference<StatusBar> mStatusBarRef;
+    private class StatusBarPhoneStateListener extends PhoneStateListener {
 
         StatusBarPhoneStateListener(StatusBar statusBar) {
-            mStatusBarRef = new WeakReference<>(statusBar);
         }
 
         @Override
@@ -167,8 +165,8 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
 
         @Override
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
-            StatusBar statusBar = mStatusBarRef.get();
-            if (statusBar != null) {
+            StatusBar statusBar = StatusBar.this;
+            if (statusBar.isValid()) {
                 ImageView mobileStrengthView = statusBar.ivMobileStrength;
                 int asu = signalStrength.getGsmSignalStrength();
                 if (asu <= 2 || asu == 99)
@@ -182,8 +180,8 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
 
         @Override
         public void onDataConnectionStateChanged(int state, int networkType) {
-            StatusBar statusBar = mStatusBarRef.get();
-            if (statusBar != null) {
+            StatusBar statusBar = StatusBar.this;;
+            if (statusBar.isValid()) {
                 TextView mobileDataView = statusBar.tvMobileData;
                 switch (networkType) {
                     case TelephonyManager.NETWORK_TYPE_GPRS:
@@ -213,7 +211,12 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
                 }
             }
         }
-    };
+    }
+
+    private boolean isValid() {
+        return false;
+    }
+
 
     private StatusBarPhoneStateListener phoneStateListener = new StatusBarPhoneStateListener(this);
 
@@ -240,7 +243,6 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
-//        registerDatetimeReceiver();
         startListenPhoneState();
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
@@ -260,7 +262,6 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-//        unregisterDatetimeReceiver();
         stopListenPhoneState();
         HSGlobalNotificationCenter.removeObserver(this);
         if (mSystemSettingsManager != null) {
@@ -335,7 +336,7 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
     }
 
     private void updateBattery() {
-        int batteryPercentage = HSChargingManager.getInstance().getBatteryRemainingPercent();
+        int batteryPercentage = getBatteryPercentage();
         batteryIndicator.setPercentage(batteryPercentage);
         String batteryText;
         if (batteryPercentage == 100) {
@@ -351,6 +352,19 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
         } else {
             ivBatteryCharging.setVisibility(View.GONE);
         }
+    }
+
+    private int getBatteryPercentage() {
+        int batteryPercentage = HSChargingManager.getInstance().getBatteryRemainingPercent();
+        if (batteryPercentage <= 0) {
+            Intent intent = getContext().registerReceiver(null, new IntentFilter("android.intent.action.BATTERY_CHANGED"));
+            if (intent != null) {
+                int currentBatteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+                int batteryScale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                batteryPercentage = currentBatteryLevel * 100 / batteryScale;
+            }
+        }
+        return batteryPercentage;
     }
 
     private void updateMobileData() {

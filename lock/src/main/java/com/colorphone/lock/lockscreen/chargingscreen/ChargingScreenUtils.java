@@ -3,6 +3,8 @@ package com.colorphone.lock.lockscreen.chargingscreen;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -99,7 +101,7 @@ public class ChargingScreenUtils {
         Bundle bundle = new Bundle();
         bundle.putBoolean(ChargingScreen.EXTRA_BOOLEAN_IS_CHARGING, HSChargingManager.getInstance().isCharging());
         bundle.putInt(ChargingScreen.EXTRA_INT_BATTERY_LEVEL_PERCENT,
-                HSChargingManager.getInstance().getBatteryRemainingPercent());
+                getBatteryPercentage(HSApplication.getContext()));
         bundle.putBoolean(ChargingScreen.EXTRA_BOOLEAN_IS_CHARGING_FULL,
                 HSChargingManager.getInstance().getChargingState() == HSChargingManager.HSChargingState.STATE_CHARGING_FULL);
         bundle.putInt(ChargingScreen.EXTRA_INT_CHARGING_LEFT_MINUTES,
@@ -115,6 +117,20 @@ public class ChargingScreenUtils {
         } else {
             FloatWindowController.getInstance().showChargingScreen(bundle);
         }
+    }
+
+
+    public static int getBatteryPercentage(Context context) {
+        int batteryPercentage = HSChargingManager.getInstance().getBatteryRemainingPercent();
+        if (batteryPercentage <= 0) {
+            Intent intent = context.registerReceiver(null, new IntentFilter("android.intent.action.BATTERY_CHANGED"));
+            if (intent != null) {
+                int currentBatteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+                int batteryScale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                batteryPercentage = currentBatteryLevel * 100 / batteryScale;
+            }
+        }
+        return batteryPercentage;
     }
 
     public static void startLockerActivity(boolean fromPush) {

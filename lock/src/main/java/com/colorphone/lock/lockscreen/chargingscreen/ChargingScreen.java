@@ -241,7 +241,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         } else {
             chargingBubbleView.setPopupBubbleFlag(false);
 
-            final int chargeRemainPercent = HSChargingManager.getInstance().getBatteryRemainingPercent();
+            final int chargeRemainPercent = ChargingScreenUtils.getBatteryPercentage(HSApplication.getContext());
             speedChargeStateImageView.setAlpha(1.0f);
             if (chargeRemainPercent > 80) {
                 continuousChargeStateImageView.setAlpha(1.0f);
@@ -736,7 +736,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     }
 
     private void updateChargingStateTipIconAnimator() {
-        final int chargingRemainingPercent = HSChargingManager.getInstance().getBatteryRemainingPercent();
+        final int chargingRemainingPercent = ChargingScreenUtils.getBatteryPercentage(HSApplication.getContext());
 
         if (chargingRemainingPercent < 80) {
             speedChargeStateImageView.setAlpha(CHARGING_STATE_TIP_ICON_POSITIVE_ALPHA);
