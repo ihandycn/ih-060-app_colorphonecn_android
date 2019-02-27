@@ -150,3 +150,11 @@
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
 }
+-keep class com.taobao.** {*;}
+-dontwarn com.taobao.**
+
+-keep class anet.channel.** {*;}
+-dontwarn anet.channel.**
+
+-keep class com.alibaba.** {*;}
+-dontwarn com.alibaba.**
