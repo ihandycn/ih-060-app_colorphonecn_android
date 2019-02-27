@@ -7,9 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.Transition;
-import android.view.View;
 
-import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
 
 import java.io.IOException;
@@ -31,35 +29,18 @@ public class WelcomeActivity extends Activity {
             getWindow().setEnterTransition(fade);
         }
 
-        setContentView(R.layout.activity_welcome);
-        mVidView = (WelcomeVideoView) findViewById(R.id.welcome_video);
-        View cover = findViewById(R.id.welcome_cover);
-
-        if (coldLaunch) {
-            mVidView.setCover(cover);
-            mVidView.setPlayEndListener(new WelcomeVideoView.PlayEndListener() {
-                @Override
-                public void onEnd() {
-                    toMainView();
-                }
-            });
-            showVideo(mVidView);
-            coldLaunch = false;
-        } else {
-            cover.setBackgroundResource(R.drawable.page_start_bg);
-            toMainView();
-        }
+        toMainView();
     }
 
     private void toMainView() {
-        mVidView.destroy();
+//        mVidView.destroy();
         finish();
         startActivity(new Intent(WelcomeActivity.this, ColorPhoneActivity.class));
     }
 
     @Override
     protected void onDestroy() {
-        mVidView.destroy();
+//        mVidView.destroy();
         super.onDestroy();
     }
 
@@ -69,7 +50,7 @@ public class WelcomeActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        mVidView.stop();
+//        mVidView.stop();
     }
 
     private void showVideo(WelcomeVideoView playerViewTest) {
