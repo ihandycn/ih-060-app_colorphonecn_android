@@ -5,14 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.TextView;
 
+import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
+import com.acb.colorphone.permissions.NotificationOnLockScreenGuideActivity;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -25,11 +28,15 @@ import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Navigations;
+import com.superapps.util.Permissions;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.Threads;
 import com.superapps.util.rom.RomUtils;
 
 import java.util.ArrayList;
@@ -47,6 +54,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
 
     Handler mHandler = new Handler(Looper.getMainLooper());
     private boolean ingoreNotificationPermission;
+    private boolean requstAutoStart = false;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, GuideAllFeaturesActivity.class);
@@ -89,10 +97,15 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                     if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()
                             || RomUtils.checkIsHuaweiRom() || RomUtils.checkIsOppoRom()) {
                         PermissionHelper.requestAutoStartIfNeeded(GuideAllFeaturesActivity.this);
+                        if (RequestPermissionsActivity.isNotificationDialogEnable()) {
+                            requstAutoStart = true;
+                        } else {
+                            finish();
+                        }
                     } else {
                         PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+                        finish();
                     }
-                    finish();
                 }
             }
         });
@@ -116,6 +129,19 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
     public void onBackPressed() {
 
         //Ignore back press.
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        if (requstAutoStart) {
+            Permissions.requestShowOnLockScreenPermission(this);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                Threads.postOnMainThreadDelayed(() -> {
+                    Navigations.startActivity(HSApplication.getContext(), NotificationOnLockScreenGuideActivity.class);
+                    finish();
+                }, 1000);
+            }
+        }
     }
 
     private void setUpPrivacyTextView() {
