@@ -86,7 +86,8 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                 ModuleUtils.setAllModuleUserEnable();
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
                 } else {
-                    if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()) {
+                    if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()
+                            || RomUtils.checkIsHuaweiRom() || RomUtils.checkIsOppoRom()) {
                         PermissionHelper.requestAutoStartIfNeeded(GuideAllFeaturesActivity.this);
                     } else {
                         PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);

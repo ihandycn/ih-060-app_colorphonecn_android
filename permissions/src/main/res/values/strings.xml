@@ -20,4 +20,6 @@
     <!--UnUsed-->
     <string name="permission_request_succeed_message">You can enjoy all functions now</string>
 
+    <string name="acb_phone_grant_notification_onlockscreen_access_title">Enable Notification On Lock Screen to Show Call Flash</string>
+
 </resources>

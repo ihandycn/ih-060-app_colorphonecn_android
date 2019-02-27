@@ -16,6 +16,7 @@ import com.acb.call.themes.Type;
 import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.AutoStartGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
+import com.acb.colorphone.permissions.NotificationOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
 import com.call.assistant.util.CommonUtils;
@@ -210,6 +211,15 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
                     Threads.postOnMainThreadDelayed(() -> {
                         Navigations.startActivity(HSApplication.getContext(), AutoStartGuideActivity.class);
+                    }, 1000);
+                }
+            }
+
+            @Override
+            public void showRequestNotificationOnLockScreenGuideDialog(boolean isOpenSettingsSuccess) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
+                    Threads.postOnMainThreadDelayed(() -> {
+                        Navigations.startActivity(HSApplication.getContext(), NotificationOnLockScreenGuideActivity.class);
                     }, 1000);
                 }
             }
