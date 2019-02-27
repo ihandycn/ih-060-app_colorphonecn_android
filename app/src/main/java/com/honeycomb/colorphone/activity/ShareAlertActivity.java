@@ -166,15 +166,6 @@ public class ShareAlertActivity extends Activity {
             }
         });
 
-        if (isInsideApp) {
-            ShareAlertAutoPilotUtils.logInsideAppShareAlertShow();
-//            Analytics.logEvent("Colorphone_Inapp_ShareAlert_Show", "themeName",
-//                    themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
-        } else {
-            ShareAlertAutoPilotUtils.logOutsideAppShareAlertShow();
-//            Analytics.logEvent("Colorphone_Outapp_ShareAlert_Show", "themeName",
-//                    themeType.getName(), "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
-        }
     }
 
     @Override
@@ -284,20 +275,19 @@ public class ShareAlertActivity extends Activity {
     }
 
     private void initShareAlertText() {
-        TextView title = findViewById(R.id.title);
-        TextView content = findViewById(R.id.content);
-        if (isInsideApp) {
-            title.setText(ShareAlertAutoPilotUtils.getInsideAppShareAlertTitle());
-            content.setText(ShareAlertAutoPilotUtils.getInsideAppShareDetail());
-        } else {
-            title.setText(ShareAlertAutoPilotUtils.getOutsideAppShareAlertTitle());
-            content.setText(ShareAlertAutoPilotUtils.getOutsideAppShareDetail());
-        }
+//        TextView title = findViewById(R.id.title);
+//        TextView content = findViewById(R.id.content);
+//        if (isInsideApp) {
+//            title.setText(ShareAlertAutoPilotUtils.getInsideAppShareAlertTitle());
+//            content.setText(ShareAlertAutoPilotUtils.getInsideAppShareDetail());
+//        } else {
+//            title.setText(ShareAlertAutoPilotUtils.getOutsideAppShareAlertTitle());
+//            content.setText(ShareAlertAutoPilotUtils.getOutsideAppShareDetail());
+//        }
     }
 
     private void initShareButton() {
         TextView shareButton = findViewById(R.id.share_button);
-        shareButton.setText(isInsideApp ? ShareAlertAutoPilotUtils.getInsideAppShareBtnText() : ShareAlertAutoPilotUtils.getOutsideAppShareBtnText());
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -309,16 +299,6 @@ public class ShareAlertActivity extends Activity {
                     ledAnimationView.getLayoutParams().height = Utils.getPhoneHeight(ShareAlertActivity.this);
                 }
                 setImageCoverAndShare(cardView);
-
-                if (isInsideApp) {
-                    ShareAlertAutoPilotUtils.logInsideAppShareAlertClicked();
-//                    Analytics.logEvent("Colorphone_Inapp_ShareAlert_Clicked", "themeName",
-//                            themeType.getName(), "v22", String.valueOf(v22), "isContact", String.valueOf(isContactInApp), "isSetForSomeone", String.valueOf(isSetForSomeone));
-                } else {
-                    ShareAlertAutoPilotUtils.logOutsideAppShareAlertClicked();
-//                    Analytics.logEvent("Colorphone_Outapp_ShareAlert_Clicked", "themeName", themeType.getName(),
-//                            "v22", String.valueOf(v22), "isSetForSomeone", String.valueOf(isSetForSomeone));
-                }
             }
         });
     }
