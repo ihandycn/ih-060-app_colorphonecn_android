@@ -52,6 +52,7 @@ import java.util.Random;
 
 public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlashFactoryImpl {
 
+    private boolean isScreenFlashShow = true;
 
     @Override
     public boolean isScreenFlashModuleOpenedDefault() {
@@ -413,55 +414,27 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 }
             }
 
-            @Override public void logAutoStartDialogShow() {
-                switch (launchTime) {
-                    case 1:
-                        Analytics.logEvent("ColorPhone_AutoStartAlert_Show",
-                                "from", "FirstTime");
-                        break;
-                    case 2:
-                        Analytics.logEvent("ColorPhone_AutoStartAlert_Show",
-                                "from", "SecondTime");
-                        break;
-                    case 3:
-                        Analytics.logEvent("ColorPhone_AutoStartAlert_Show",
-                                "from", "ThirdTime");
-                        break;
-                }
+            @Override public void logConfirmAlertEvent(String eventID) {
+                logAlertShow(eventID);
             }
 
-            @Override public void logAutoStartDialogButtonClicked(boolean isOK) {
-                if (isOK) {
-                    switch (launchTime) {
-                        case 1:
-                            Analytics.logEvent("ColorPhone_AutoStartAlert_Yes_Click",
-                                    "from", "FirstTime");
-                            break;
-                        case 2:
-                            Analytics.logEvent("ColorPhone_AutoStartAlert_Yes_Click",
-                                    "from", "SecondTime");
-                            break;
-                        case 3:
-                            Analytics.logEvent("ColorPhone_AutoStartAlert_Yes_Click",
-                                    "from", "ThirdTime");
-                            break;
-                    }
-                } else {
-                    switch (launchTime) {
-                        case 1:
-                            Analytics.logEvent("ColorPhone_AutoStartAlert_No_Click",
-                                    "from", "FirstTime");
-                            break;
-                        case 2:
-                            Analytics.logEvent("ColorPhone_AutoStartAlert_No_Click",
-                                    "from", "SecondTime");
-                            break;
-                        case 3:
-                            Analytics.logEvent("ColorPhone_AutoStartAlert_No_Click",
-                                    "from", "ThirdTime");
-                            break;
-                    }
+            private void logAlertShow(String eventID) {
+                String param;
+                switch (launchTime) {
+                    case 1:
+                        param = "FirstTime";
+                        break;
+                    case 2:
+                        param = "SecondTime";
+                        break;
+                    case 3:
+                        param = "ThirdTime";
+                        break;
+                    default:
+                        return;
                 }
+
+                Analytics.logEvent(eventID, "from", param);
             }
 
             @Override
@@ -488,6 +461,18 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
         } else if ("Acb_ScreenFlash_AcceptFail_TimeOut".equalsIgnoreCase(eventID)) {
             logExceptionAcceptFailTimeout();
         }
+
+        if ("Acb_Screenflash_Shouldshow".equalsIgnoreCase(eventID)) {
+            isScreenFlashShow = false;
+        } else if ("Acb_Screenflash_Show".equalsIgnoreCase(eventID)) {
+            isScreenFlashShow = true;
+        }
+    }
+
+    public boolean isScreenFlashNotShown() {
+        boolean ret = !isScreenFlashShow;
+        isScreenFlashShow = true;
+        return ret;
     }
 
     private void logExceptionAcceptFailTimeout() {

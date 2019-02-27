@@ -9,14 +9,16 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.service.InCallWindow;
-import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.recentapp.SmartAssistantActivity;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
+
+import java.util.ArrayList;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -80,6 +82,9 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void checkFloatWindow(View view) {
-        FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
+//        FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
+        ArrayList<String> perms = new ArrayList<>(1);
+        perms.add(RequestPermissionsActivity.PERMISSION_SHOW_ON_LOCK_SCREEN_OUTSIDE);
+        RequestPermissionsActivity.start(this, "", perms);
     }
 }
