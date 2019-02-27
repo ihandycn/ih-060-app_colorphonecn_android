@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -104,6 +105,9 @@ public class DauChecker {
             }
             // Log
             Analytics.logEvent("DAU_Application_Check_" + Utils.getDeviceInfo(),
+                    "Time", formatTotalTime(totalTime / DateUtils.MINUTE_IN_MILLIS),
+                    "Count", String.valueOf(count));
+            Analytics.logEvent("DAU_Application_Check_" + Build.BRAND.toUpperCase(),
                     "Time", formatTotalTime(totalTime / DateUtils.MINUTE_IN_MILLIS),
                     "Count", String.valueOf(count));
             // Reset
