@@ -36,6 +36,9 @@
 -keep class com.honeycomb.colorphone.activity.WelcomeActivity {
   *;
 }
+-keep class com.honeycomb.colorphone.activity.ColorPhoneActivity {
+  *;
+}
 
 -keepnames class com.honeycomb.colorphone.PermanentService$* {
     public <fields>;

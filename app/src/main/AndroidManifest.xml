@@ -148,12 +148,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
-            android:theme="@style/AppLightStatusBarTheme">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+            android:theme="@style/AppLightStatusBarTheme.Welcome">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -163,11 +163,11 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme.Welcome">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
 
 
