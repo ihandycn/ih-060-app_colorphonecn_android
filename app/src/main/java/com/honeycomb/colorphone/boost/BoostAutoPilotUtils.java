@@ -3,7 +3,6 @@ package com.honeycomb.colorphone.boost;
 import android.text.format.DateUtils;
 
 import com.honeycomb.colorphone.notification.NotificationCondition;
-import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 
@@ -18,7 +17,7 @@ public class BoostAutoPilotUtils {
     private static final String BOOST_TEST_TOPIC_ID = "topic-1514209960668-50";
 
     public static boolean isBoostPushEnable() {
-        return ModuleUtils.isShowModulesDueToConfig() || HSConfig.optBoolean(false, "Application", "Boost", "Enable");
+        return HSConfig.optBoolean(false, "Application", "Boost", "Enable");
     }
 
     public static double getBoostPushInterval() {

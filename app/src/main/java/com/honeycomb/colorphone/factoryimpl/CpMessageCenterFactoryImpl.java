@@ -80,7 +80,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean isShowFloatingBall() {
-                return HSApplication.getFirstLaunchInfo().appVersionCode > 5 && Ap.MsgBall.enable();
+                return Ap.MsgBall.enable();
             }
 
             @Override

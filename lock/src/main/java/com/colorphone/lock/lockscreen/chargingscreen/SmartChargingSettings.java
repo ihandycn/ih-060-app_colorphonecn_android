@@ -44,9 +44,6 @@ public class SmartChargingSettings {
                 && ConfigUtils.isScreenAdEnabledThisVersion();
     }
 
-    public static boolean isNewUser() {
-        return HSApplication.getFirstLaunchInfo().appVersionCode == HSApplication.getCurrentLaunchInfo().appVersionCode;
-    }
     public static boolean installVersionAfter(int versionCode) {
         return HSApplication.getFirstLaunchInfo().appVersionCode >= versionCode;
     }
@@ -69,11 +66,7 @@ public class SmartChargingSettings {
     }
 
     private static boolean isChargingReportConfigEnabled() {
-        if (installVersionAfter(38)) {
-            return false;
-        }
-        return ConfigUtils.isShowModulesDueToConfig()
-                || isChargingReportEnabledWithGooglePolicy();
+       return isChargingReportEnabledWithGooglePolicy();
     }
 
     public static boolean isChargingReportEnabledWithGooglePolicy() {

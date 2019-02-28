@@ -888,41 +888,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void logUserLevelDistribution() {
-        String PREF_KEY_New_User_User_Level_LOGGED = "lv_logged";
-        HSConfig.fetchRemote();
-        if (Utils.isNewUser()) {
-            if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_New_User_User_Level_LOGGED)) {
-                int delayTimes[] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
-                for (int delay : delayTimes) {
-                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.e("WifiStateChange2", HSConfig.optString("not_configured", "UserLevel"));
-                            Analytics.logEvent("New_User_Agency_Info_" + delay, Analytics.FLAG_LOG_FABRIC,
-                                    "user_level", "" + HSConfig.optString("not_configured", "UserLevel"),
-                                    "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
-                        }
-                    }, delay * 1000);
-                }
-                HSPreferenceHelper.getDefault().putBoolean(PREF_KEY_New_User_User_Level_LOGGED, true);
-            }
-        } else {
-            final String PREF_KEY_ATTRIBUTION_OLD_USER_TEST = "old_user_attribution";
-            if (HSApplication.getFirstLaunchInfo().appVersionCode <= 64
-                    && !HSPreferenceHelper.getDefault().contains(PREF_KEY_ATTRIBUTION_OLD_USER_TEST)) {
-                HSPreferenceHelper.getDefault().putBoolean(PREF_KEY_ATTRIBUTION_OLD_USER_TEST, true);
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e("WifiStateChange2", HSConfig.optString("not_configured", "UserLevel"));
-                        Analytics.logEvent("Old_User_Agency_Info", Analytics.FLAG_LOG_FABRIC,
-                                "user_level", "" + HSConfig.optString("not_configured", "UserLevel"),
-                                "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode,
-                                "first_version_code", "" + HSApplication.getFirstLaunchInfo().appVersionCode);
-                    }
-                }, 20 * 1000);
-            }
-        }
+
     }
 
 }

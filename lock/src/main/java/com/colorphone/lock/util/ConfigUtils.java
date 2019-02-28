@@ -76,11 +76,4 @@ public class ConfigUtils {
         return true;
     }
 
-    public static boolean isShowModulesDueToConfig() {
-        if (HSApplication.getContext().getPackageName().equals("com.colorphone.smooth.dialer")) {
-            return HSApplication.getFirstLaunchInfo().appVersionCode < SHOW_AD_VERSION_CODE;
-        }
-        return false;
-    }
-
 }

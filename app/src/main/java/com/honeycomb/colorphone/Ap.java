@@ -139,10 +139,6 @@ public class Ap {
             return false;
         }
 
-        private static boolean isUserOlder() {
-            return HSApplication.getFirstLaunchInfo().appVersionCode < (BuildConfig.FLAVOR.equals("colorphone") ? 37 : 35);
-        }
-
         public static boolean enableThemeSlide() {
                 return false;
         }
