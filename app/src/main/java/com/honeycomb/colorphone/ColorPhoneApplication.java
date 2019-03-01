@@ -720,7 +720,7 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onUserPresent(context);
                     CashUtils.showGuideIfNeeded(null, CashUtils.Source.UnlockScreen);
 
-                    if (RequestPermissionsActivity.isNotificationDialogEnable()) {
+                    if (RequestPermissionsActivity.isShowOnLockScreenDialogEnable()) {
                         ScreenFlashFactory factory = ScreenFlashManager.getInstance().getAcbCallFactory();
                         if (factory instanceof CpScreenFlashFactoryImpl) {
                             if (((CpScreenFlashFactoryImpl) factory).isScreenFlashNotShown()) {

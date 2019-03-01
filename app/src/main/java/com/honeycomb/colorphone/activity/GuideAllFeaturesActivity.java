@@ -97,7 +97,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                     if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()
                             || RomUtils.checkIsHuaweiRom() || RomUtils.checkIsOppoRom()) {
                         PermissionHelper.requestAutoStartIfNeeded(GuideAllFeaturesActivity.this);
-                        if (RequestPermissionsActivity.isNotificationDialogEnable()) {
+                        if (RequestPermissionsActivity.isShowOnLockScreenDialogEnable()) {
                             requstAutoStart = true;
                         } else {
                             finish();
