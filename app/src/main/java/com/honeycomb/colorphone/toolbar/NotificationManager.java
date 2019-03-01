@@ -32,6 +32,7 @@ import android.util.ArraySet;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 
+import com.colorphone.lock.boost.RamUsageDisplayUpdater;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.battery.BatteryCleanActivity;
@@ -39,13 +40,13 @@ import com.honeycomb.colorphone.battery.BatteryUtils;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.BoostIcon;
 import com.honeycomb.colorphone.boost.DeviceManager;
-import com.colorphone.lock.boost.RamUsageDisplayUpdater;
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cpucooler.CpuCoolDownActivity;
 import com.honeycomb.colorphone.cpucooler.CpuCoolerManager;
 import com.honeycomb.colorphone.cpucooler.util.CpuCoolerConstant;
 import com.honeycomb.colorphone.cpucooler.util.CpuCoolerUtils;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.AutoPilotUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -471,7 +472,7 @@ public class NotificationManager implements FlashlightStatusListener {
             case NotificationManager.ACTION_BOOST_TOOLBAR:
                 Analytics.logEvent("Notification_Toolbar_Boost_Clicked");
                 Analytics.logEvent("Notification_Toolbar_Clicked");
-                BoostActivity.start(context, true);
+                BoostActivity.start(context,  ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
                 AutoPilotUtils.logNotificationToolbarBoostClick();
                 break;
             case NotificationManager.ACTION_MOBILE_DATA:

@@ -16,7 +16,6 @@ import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.util.Log;
 
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.utils.FileUtils;
@@ -57,6 +56,7 @@ import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
+import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
@@ -187,7 +187,7 @@ public class ColorPhoneApplication extends HSApplication {
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
                 ColorPhonePermanentUtils.checkAliveForProcess();
             } else if (SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE.equals(notificationName)) {
-                BoostActivity.start(HSApplication.getContext(), false);
+                BoostActivity.start(HSApplication.getContext(),  ResultConstants.RESULT_TYPE_BOOST_LOCKER);
             } else {
                 checkModuleAdPlacement();
             }

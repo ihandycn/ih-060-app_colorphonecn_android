@@ -35,17 +35,14 @@ public class BoostActivity extends HSActivity implements INotificationObserver {
     private boolean isResumed;
     private Runnable mResumePendingRunnable;
 
-    public static void start(Context context, boolean toolbar) {
+    public static void start(Context context, int from) {
         Intent intent = new Intent(context, BoostActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NO_ANIMATION
                 | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-        if (toolbar) {
-            intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_TOOLBAR);
-        } else {
-            intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PLUS);
-        }
+        intent.putExtra(EXTRA_KEY_RESULT_TYPE, from);
+
         context.startActivity(intent);
     }
     @Override

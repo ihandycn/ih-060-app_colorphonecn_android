@@ -26,10 +26,8 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
-import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 
-import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 
 import java.util.List;
@@ -201,47 +199,44 @@ public class ResultPageActivity extends BaseAppCompatActivity
     }
 
     public @ColorInt int getBackgroundColor() {
+        if (ResultConstants.isResultBoost(mResultType)) {
+            return ContextCompat.getColor(this, R.color.boost_plus_clean_bg);
+        }
         switch (mResultType) {
-            case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-            case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-            case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                return ContextCompat.getColor(this, R.color.boost_plus_clean_bg);
             case ResultConstants.CARD_VIEW_TYPE_BATTERY:
                 return ContextCompat.getColor(this, R.color.battery_green);
             case ResultConstants.RESULT_TYPE_JUNK_CLEAN:
                 return ContextCompat.getColor(this, R.color.clean_primary_blue);
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 return ContextCompat.getColor(this, R.color.cpu_cooler_primary_blue);
+            default:
+                return ContextCompat.getColor(this, R.color.boost_plus_clean_bg);
         }
-        return ContextCompat.getColor(this, R.color.boost_plus_clean_bg);
     }
 
     public void show(ResultController.Type type, @Nullable List<CardData> cards) {
         String titleText;
         int titleColor = Color.WHITE;
         Intent intent = getIntent();
-        switch (mResultType) {
-            case ResultConstants.RESULT_TYPE_BOOST_PLUS:
-            case ResultConstants.RESULT_TYPE_BOOST_PUSH:
-            case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
-                int cleanedSizeMbs = intent.getIntExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, 0);
-                mResultController = new BoostPlusResultController(this, mResultType, cleanedSizeMbs, type,  cards);
-                titleText = getString(R.string.boost_title);
-                break;
-            case ResultConstants.RESULT_TYPE_BATTERY:
-                boolean isBatteryOptimal = intent.getBooleanExtra(EXTRA_KEY_BATTERY_OPTIMAL, false);
-                int extendHour = intent.getIntExtra(EXTRA_KEY_BATTERY_EXTEND_HOUR, 0);
-                int extendMinute = intent.getIntExtra(EXTRA_KEY_BATTERY_EXTEND_MINUTE, 0);
-                mResultController = new BatteryResultController(this, isBatteryOptimal, extendHour, extendMinute, type, cards);
-                titleText = getString(R.string.battery_title);
-                break;
-            case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                mResultController = new CpuCoolerResultController(this, type, cards);
-                titleText = getString(R.string.promotion_max_card_title_cpu_cooler);
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported result type.");
+        if (ResultConstants.isResultBoost(mResultType)) {
+            int cleanedSizeMbs = intent.getIntExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, 0);
+            mResultController = new BoostPlusResultController(this, mResultType, cleanedSizeMbs, type, cards);
+            titleText = getString(R.string.boost_title);
+        } else if (mResultType == ResultConstants.RESULT_TYPE_BATTERY) {
+            boolean isBatteryOptimal = intent.getBooleanExtra(EXTRA_KEY_BATTERY_OPTIMAL, false);
+            int extendHour = intent.getIntExtra(EXTRA_KEY_BATTERY_EXTEND_HOUR, 0);
+            int extendMinute = intent.getIntExtra(EXTRA_KEY_BATTERY_EXTEND_MINUTE, 0);
+            mResultController = new BatteryResultController(this, isBatteryOptimal, extendHour, extendMinute, type, cards);
+            titleText = getString(R.string.battery_title);
+
+        } else if (mResultType == ResultConstants.RESULT_TYPE_CPU_COOLER) {
+            mResultController = new CpuCoolerResultController(this, type, cards);
+            titleText = getString(R.string.promotion_max_card_title_cpu_cooler);
+
+        } else {
+            throw new IllegalArgumentException("Unsupported result type.");
         }
+
 
         ActivityUtils.configSimpleAppBar(this, titleText,
                 FontUtils.getTypeface(FontUtils.Font.ROBOTO_MEDIUM), titleColor, Color.TRANSPARENT, false);

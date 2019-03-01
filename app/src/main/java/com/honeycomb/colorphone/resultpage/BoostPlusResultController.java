@@ -161,7 +161,12 @@ class BoostPlusResultController extends ResultController {
             Analytics.logEvent("BoostDone_Ad_Should_Shown_FromSettings");
         } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_PUSH) {
             Analytics.logEvent("BoostDone_Ad_Should_Shown_FromPush");
+        } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_SHORTCUT) {
+            Analytics.logEvent("BoostDone_Ad_Should_Shown_FromShortcut");
+        } else if (mResultType == ResultConstants.RESULT_TYPE_BOOST_LOCKER) {
+            Analytics.logEvent("BoostDone_Ad_Should_Shown_FromLocker");
         }
+
         final AcbNativeAd ad = ResultPageManager.getInstance().getAd();
         isAdReady = ad != null;
 

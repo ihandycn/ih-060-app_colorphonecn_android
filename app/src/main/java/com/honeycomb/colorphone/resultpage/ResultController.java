@@ -443,11 +443,19 @@ abstract class ResultController implements View.OnClickListener {
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
                 Analytics.logEvent("BoostDone_Page_Shown_FromPush");
                 break;
+            case ResultConstants.RESULT_TYPE_BOOST_SHORTCUT:
+                Analytics.logEvent("BoostDone_Page_Shown_FromShortcut");
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_LOCKER:
+                Analytics.logEvent("BoostDone_Page_Shown_FromLocker");
+                break;
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 Analytics.logEvent("BoostDone_Page_Shown_FromToolbar");
                 break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 Analytics.logEvent("Colorphone_CPUDone_Page_Shown");
+                break;
+            default:
                 break;
         }
     }
@@ -485,8 +493,16 @@ abstract class ResultController implements View.OnClickListener {
             case ResultConstants.RESULT_TYPE_BOOST_TOOLBAR:
                 Analytics.logEvent("BoostWire_Ad_Should_Shown_FromToolbar");
                 break;
+            case ResultConstants.RESULT_TYPE_BOOST_SHORTCUT:
+                Analytics.logEvent("BoostWire_Ad_Should_Shown_FromShortcut");
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_LOCKER:
+                Analytics.logEvent("BoostWire_Ad_Should_Shown_FromLocker");
+                break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 Analytics.logEvent("Colorphone_CPUWire_Ad_Should_Shown");
+                break;
+            default:
                 break;
         }
     }
@@ -515,9 +531,17 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("BoostWire_Ad_Shown_FromToolbar");
                 AutoPilotUtils.logBoostwireAdShowFromToolbar();
                 break;
+            case ResultConstants.RESULT_TYPE_BOOST_SHORTCUT:
+                Analytics.logEvent("BoostWire_Ad_Shown_FromShortcut");
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_LOCKER:
+                Analytics.logEvent("BoostWire_Ad_Shown_FromLocker");
+                break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 Analytics.logEvent("Colorphone_CPUWire_Ad_Shown");
                 AutoPilotUtils.logCpuwireAdShow();
+                break;
+            default:
                 break;
         }
     }
@@ -545,9 +569,17 @@ abstract class ResultController implements View.OnClickListener {
                 Analytics.logEvent("BoostDone_Ad_Shown_FromToolbar");
                 AutoPilotUtils.logBoostdoneAdShowFromToolbar();
                 break;
+            case ResultConstants.RESULT_TYPE_BOOST_SHORTCUT:
+                Analytics.logEvent("BoostDone_Ad_Shown_FromShortcut");
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_LOCKER:
+                Analytics.logEvent("BoostDone_Ad_Shown_FromLocker");
+                break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 Analytics.logEvent("Colorphone_CPUDone_Ad_Shown");
                 AutoPilotUtils.logCpudoneAdShow();
+                break;
+            default:
                 break;
         }
     }
@@ -566,8 +598,16 @@ abstract class ResultController implements View.OnClickListener {
             case ResultConstants.RESULT_TYPE_BOOST_PUSH:
                 Analytics.logEvent("BoostDone_Ad_Clicked_FromPush");
                 break;
+            case ResultConstants.RESULT_TYPE_BOOST_SHORTCUT:
+                Analytics.logEvent("BoostDone_Ad_Clicked_FromShortcut");
+                break;
+            case ResultConstants.RESULT_TYPE_BOOST_LOCKER:
+                Analytics.logEvent("BoostDone_Ad_Clicked_FromLocker");
+                break;
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 Analytics.logEvent("Colorphone_CPUDone_Ad_Clicked");
+                break;
+            default:
                 break;
         }
     }

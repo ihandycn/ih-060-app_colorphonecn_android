@@ -2,13 +2,18 @@ package com.honeycomb.colorphone.resultpage.data;
 
 public class ResultConstants {
 
-    public static final int RESULT_TYPE_BOOST_PLUS = 0;
     public static final int RESULT_TYPE_BATTERY = 1;
     public static final int RESULT_TYPE_JUNK_CLEAN = 2;
     public static final int RESULT_TYPE_CPU_COOLER = 3;
     public static final int RESULT_TYPE_NOTIFICATION_CLEANER = 4;
-    public static final int RESULT_TYPE_BOOST_TOOLBAR = 5;
-    public static final int RESULT_TYPE_BOOST_PUSH = 6;
+
+    public static final int RESULT_TYPE_BOOST_TOOLBAR = 0x5501;
+    public static final int RESULT_TYPE_BOOST_PUSH = 0x5502;
+    public static final int RESULT_TYPE_BOOST_PLUS = 0x5503;
+    public static final int RESULT_TYPE_BOOST_LOCKER = 0x5504;
+    public static final int RESULT_TYPE_BOOST_SHORTCUT = 0x5505;
+
+    public static final int RESULT_TYPE_BOOST_FLAG = 0x5500;
 
     public static final int CARD_VIEW_TYPE_INVALID = 0;
 
@@ -74,4 +79,8 @@ public class ResultConstants {
     public static final String BATTERY_PREFS = "CLEAN_PREFS";
     public static final String CPU_COOLER_PREFS = "CLEAN_PREFS";
     public static final String RECORD_USE_TIME_PREFS = "CLEAN_PREFS";
+
+    public static boolean isResultBoost(int resultType) {
+        return (resultType & RESULT_TYPE_BOOST_FLAG) == RESULT_TYPE_BOOST_FLAG;
+    }
 }

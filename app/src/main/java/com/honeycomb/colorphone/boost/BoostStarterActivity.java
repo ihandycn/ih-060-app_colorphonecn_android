@@ -12,6 +12,8 @@ import android.support.v4.graphics.drawable.IconCompat;
 
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.resultpage.data.ResultConstants;
+import com.honeycomb.colorphone.util.Analytics;
 import com.superapps.util.Preferences;
 
 public class BoostStarterActivity extends Activity {
@@ -21,7 +23,8 @@ public class BoostStarterActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BoostActivity.start(this, false);
+        BoostActivity.start(this, ResultConstants.RESULT_TYPE_BOOST_SHORTCUT);
+        Analytics.logEvent("Shortcut_Boost_Clicked");
     }
 
     @Override
@@ -58,6 +61,7 @@ public class BoostStarterActivity extends Activity {
         ShortcutManagerCompat.requestPinShortcut(context.getApplicationContext(),shortcutInfoCompat, null);
 
         Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("shortcut_boost_exist", true);
+        Analytics.logEvent("Shortcut_Boost_Created");
     }
 
 }
