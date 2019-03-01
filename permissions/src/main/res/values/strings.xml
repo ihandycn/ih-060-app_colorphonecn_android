@@ -20,6 +20,15 @@
     <!--UnUsed-->
     <string name="permission_request_succeed_message">You can enjoy all functions now</string>
 
-    <string name="acb_phone_grant_notification_onlockscreen_access_title">Enable Notification On Lock Screen to Show Call Flash</string>
+    <string name="acb_phone_grant_show_onlockscreen_access_title">Enable Notification On Lock Screen to Show Call Flash</string>
 
+    <string name="acb_phone_grant_autostart_access_title_vivo">Enable AutoStart to Show Call Flash</string>
+    <string name="acb_phone_grant_autostart_access_title_oppo">Enable AutoStart to Show Call Flash</string>
+    <string name="acb_phone_grant_autostart_access_title_huawei">Enable AutoStart to Show Call Flash</string>
+    <string name="acb_phone_grant_autostart_access_title_miui">Enable AutoStart to Show Call Flash</string>
+
+    <string name="acb_phone_grant_show_onlockscreen_access_title_vivo">Enable Notification On Lock Screen to Show Call Flash</string>
+    <string name="acb_phone_grant_show_onlockscreen_access_title_oppo">Enable Notification On Lock Screen to Show Call Flash</string>
+    <string name="acb_phone_grant_show_onlockscreen_access_title_huawei">Enable Notification On Lock Screen to Show Call Flash</string>
+    <string name="acb_phone_grant_show_onlockscreen_access_title_miui">Enable Notification On Lock Screen to Show Call Flash</string>
 </resources>
