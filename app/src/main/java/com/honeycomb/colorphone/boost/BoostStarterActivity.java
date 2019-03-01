@@ -40,6 +40,9 @@ public class BoostStarterActivity extends Activity {
 
 
     public static void createShortCut(Context context) {
+        if (!HSconfig.optBoolean(false, "Application", "Boost", "ShortcutEnable")) {
+            return;
+        }
         boolean hasCreated = Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("shortcut_boost_exist", false);
         if (hasCreated) {
             return;
