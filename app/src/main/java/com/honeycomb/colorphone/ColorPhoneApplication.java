@@ -97,6 +97,7 @@ import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
+import com.superapps.push.PushMgr;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.umeng.analytics.MobclickAgent;
@@ -293,6 +294,7 @@ public class ColorPhoneApplication extends HSApplication {
         pushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String deviceToken) {
+                PushMgr.sendTokenToServer(deviceToken);
                 HSLog.d("Umeng.test", "注册成功：deviceToken：-------->  " + deviceToken);
             }
 
