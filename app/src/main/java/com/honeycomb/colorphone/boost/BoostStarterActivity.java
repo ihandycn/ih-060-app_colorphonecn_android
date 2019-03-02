@@ -14,6 +14,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.Analytics;
+import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Preferences;
 
 public class BoostStarterActivity extends Activity {
@@ -40,7 +41,7 @@ public class BoostStarterActivity extends Activity {
 
 
     public static void createShortCut(Context context) {
-        if (!HSconfig.optBoolean(false, "Application", "Boost", "ShortcutEnable")) {
+        if (!HSConfig.optBoolean(false, "Application", "Boost", "ShortcutEnable")) {
             return;
         }
         boolean hasCreated = Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("shortcut_boost_exist", false);
