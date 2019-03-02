@@ -469,6 +469,8 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             isScreenFlashShow = false;
         } else if ("Acb_Screenflash_Show".equalsIgnoreCase(eventID)) {
             isScreenFlashShow = true;
+        } else if ("Acb_Screenflash_DisplayFail".equalsIgnoreCase(eventID)) {
+            isScreenFlashShow = false;
         }
     }
 
