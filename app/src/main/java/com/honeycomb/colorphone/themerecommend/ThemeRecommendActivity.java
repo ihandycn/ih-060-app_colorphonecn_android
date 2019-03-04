@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,7 +26,6 @@ import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.util.ModuleUtils;
-import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
@@ -37,7 +37,7 @@ import static android.view.Window.FEATURE_NO_TITLE;
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 
-public class ThemeRecommendActivity extends HSAppCompatActivity {
+public class ThemeRecommendActivity extends AppCompatActivity {
 
     public static final String PHONE_NUMBER = "phone_number";
     public static final String THEME_ID_NAME = "theme_id_name";

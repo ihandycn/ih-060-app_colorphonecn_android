@@ -275,23 +275,24 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onAlertDismiss(CallIdleAlertView.CallIdleAlertDismissType dismissType, String phoneNumber) {
+                HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", dismissType = " + dismissType);
                 if (dismissType == CallIdleAlertView.CallIdleAlertDismissType.CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.MENU_CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK) {
                     SimpleContact sc = ContactManager.getInstance().getContact(phoneNumber);
                     if (sc == null) {
                         LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close", "type", "Stranger");
-                        return;
                     } else {
                         LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close", "type", "Contact");
                     }
 
-                    String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, true);
+                    String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, false);
                     if (!TextUtils.isEmpty(themeIdName)) {
                         boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
                         HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
                         if (isCouldShowThemeRecommend) {
                             ThemeRecommendActivity.start(HSApplication.getContext(), phoneNumber, themeIdName);
+                            ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, true);
                         }
                     }
                 }

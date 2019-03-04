@@ -76,9 +76,7 @@ public class ThemeRecommendManager {
 
         result = getThemeIdAndRecordIndex(guideThemeIdNameList, startIndex, size, number, isRecord);
 
-        if (TextUtils.isEmpty(result)) {
-            result = getThemeIdAndRecordIndex(guideThemeIdNameList, 0, startIndex, number, isRecord);
-        } else if (TextUtils.equals(PREPARE_THENE, result)) {
+        if (TextUtils.equals(PREPARE_THENE, result)) {
             result = "";
         }
 
@@ -104,29 +102,33 @@ public class ThemeRecommendManager {
         number = deleteWhiteSpace(number);
         boolean result = false;
 
-        boolean isFirstThemeRecommendShowed = isFirstThemeRecommendShowed(number);
-        HSLog.d(TAG, "isFirstThemeRecommendShowed = " + isFirstThemeRecommendShowed);
-        int hour = getTimeIntervalHours();
-        boolean timeAble = now() - getThemeRecommendLastShowedTimeForAllUser() > TimeUnit.HOURS.toMillis(hour);
-        HSLog.d(TAG, "time > " + hour + "h: " + timeAble);
+//        boolean isFirstThemeRecommendShowed = isFirstThemeRecommendShowed(number);
+//        HSLog.d(TAG, "isFirstThemeRecommendShowed = " + isFirstThemeRecommendShowed);
+        int minutes = getTimeIntervalMinutes();
+        boolean timeAble = now() - getThemeRecommendLastShowedTimeForAllUser() > TimeUnit.MINUTES.toMillis(minutes);
+        HSLog.d(TAG, "time > " + minutes + "h: " + timeAble);
         int callTimes = getCallTimes(number);
         HSLog.d(TAG, "callTimes = " + callTimes);
-        if (!isFirstThemeRecommendShowed) {
+//        if (!isFirstThemeRecommendShowed) {
             if (callTimes >= getCallTimesAtFirstThemeRecommendShowed() && timeAble) {
-                recordFirstThemeRecommendShowed(number);
-                resetRecordCallTimes(number);
-                result = true;
-            }
-        } else {
-            boolean isCouldShowToday = getThemeRecommendShowTimes(number) < getMaxShowTimesEveryOne();
-            HSLog.d(TAG, "isCouldShowToday = " + isCouldShowToday);
-            boolean isAppliedThemeAndTimesEnable = !isAppliedThemeForUser(number) || callTimes > getMaxCallTimesAfterAppliedTheme();
-            HSLog.d(TAG, "isAppliedThemeAndTimesEnable = " + isAppliedThemeAndTimesEnable);
-            result = isCouldShowToday && timeAble && isAppliedThemeAndTimesEnable;
+//                recordFirstThemeRecommendShowed(number);
+//                resetRecordCallTimes(number);
+//                result = true;
+//            }
+//        } else {
+                boolean isCouldShowToday = getThemeRecommendShowTimes(number) < getMaxShowTimesEveryOne();
+                HSLog.d(TAG, "isCouldShowToday = " + isCouldShowToday);
+//                boolean isAppliedThemeAndTimesEnable = !isAppliedThemeForUser(number) || callTimes > getMaxCallTimesAfterAppliedTheme();
+//                boolean isAppliedThemeAndTimesEnable = !isAppliedThemeForUser(number);
+//                HSLog.d(TAG, "isAppliedThemeAndTimesEnable = " + isAppliedThemeAndTimesEnable);
+//                result = isCouldShowToday && isAppliedThemeAndTimesEnable;
+                result = isCouldShowToday;
         }
 
         if (result) {
             increaseThemeRecommendShowTimes(number);
+//            recordFirstThemeRecommendShowed(number);
+            resetRecordCallTimes(number);
         }
 
         return result;
@@ -242,7 +244,7 @@ public class ThemeRecommendManager {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 HSLog.d(TAG, "Start theme download job : index " + theme.getIdName());
                 try {
-                    ThemeDownloadJobService.scheduleDownloadJob(model.getId());
+                    ThemeDownloadJobService.scheduleDownloadJobAnyNet(model.getId());
                 } catch (Exception e) {
                     ColorPhoneCrashlytics.getInstance().logException(e);
                 }
@@ -298,7 +300,7 @@ public class ThemeRecommendManager {
         return getThemeRecommendApplyInterval();
     }
 
-    private int getTimeIntervalHours() {
+    private int getTimeIntervalMinutes() {
         return getThemeRecommendTimeInterval();
     }
 
@@ -317,13 +319,13 @@ public class ThemeRecommendManager {
     private class PrefHelper {
         private static final String APPLIED_THEME_USER_PREFIX = "applied_theme_user_";
         private static final String APPLIED_THEME_FOR_ALL_USER = "applied_theme_for_all_user";
-        private static final String THEME_RECOMMEND_INDEX_USER_PREFIX = "theme_recommend_index_user_";
-        private static final String CALL_TIMES_FOR_USER_PREFIX = "call_times_for_user_";
+        private static final String THEME_RECOMMEND_INDEX_USER = "theme_recommend_index_user";
+        private static final String CALL_TIMES_FOR_USER = "call_times_for_user";
         private static final String THEME_RECOMMEND_FIRST_SHOWED_PREFIX = "theme_recommend_first_showed_";
         private static final String THEME_RECOMMEND_SHOW_TIMES_PREFIX = "theme_recommend_show_times_";
         private static final String THEME_RECOMMEND_SHOW_TIME_PREFIX = "theme_recommend_show_time_";
         private static final String THEME_RECOMMEND_LAST_SHOWED_TIME_FOR_ALL_USER = "theme_recommend_last_showed_time_for_all_user";
-        private static final String INCREASE_CALL_TIMES_FOR_USER_LAST_TIME_PREFIX = "increase_call_times_for_user_last_time_";
+        private static final String INCREASE_CALL_TIMES_FOR_USER_LAST_TIME = "increase_call_times_for_user_last_time";
         private static final String APPLIED_THEME_FOR_ALL_USER_TIME = "applied_theme_for_all_user_time";
         private static final String APPLIED_THEME_USER_TIME_PREFIX = "applied_theme_user_time_";
 
@@ -363,21 +365,22 @@ public class ThemeRecommendManager {
         }
 
         void putThemeRecommendIndex(String number, int index) {
-            pref.putInt(THEME_RECOMMEND_INDEX_USER_PREFIX + number, index);
+            pref.putInt(THEME_RECOMMEND_INDEX_USER, index);
         }
 
         int getThemeRecommendIndex(String number) {
-            return pref.getInt(THEME_RECOMMEND_INDEX_USER_PREFIX + number, -1);
+            return pref.getInt(THEME_RECOMMEND_INDEX_USER, -1);
         }
 
         void increaseCallTimes(String number) {
-            String lastIncreaseKey = INCREASE_CALL_TIMES_FOR_USER_LAST_TIME_PREFIX + number;
+            String lastIncreaseKey = INCREASE_CALL_TIMES_FOR_USER_LAST_TIME;
             long lastIncreaseTime = pref.getLong(lastIncreaseKey, 0);
             long lastAppliedTime = Math.max(getAppliedThemeForAllUserTime(), getAppliedThemeTime(number));
-            if (isFirstThemeRecommendShowed(number) && getCallTimes(number) > getMaxCallTimesAfterAppliedTheme() && lastIncreaseTime > lastAppliedTime) {
-                return;
-            }
-            String key = CALL_TIMES_FOR_USER_PREFIX + number;
+//            if (isFirstThemeRecommendShowed(number) && lastIncreaseTime > lastAppliedTime) {
+//            if (lastIncreaseTime > lastAppliedTime) {
+//                return;
+//            }
+            String key = CALL_TIMES_FOR_USER;
             int times = pref.getInt(key, 0);
             if (lastIncreaseTime <= lastAppliedTime) {
                 times = 0;
@@ -389,11 +392,11 @@ public class ThemeRecommendManager {
         }
 
         void resetRecordCallTimes(String number) {
-            pref.remove(CALL_TIMES_FOR_USER_PREFIX + number);
+            pref.remove(CALL_TIMES_FOR_USER);
         }
 
         int getCallTimes(String number) {
-            return pref.getInt(CALL_TIMES_FOR_USER_PREFIX + number, 0);
+            return pref.getInt(CALL_TIMES_FOR_USER, 0);
         }
 
         void recordFirstThemeRecommendShowed(String number) {

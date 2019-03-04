@@ -61,6 +61,28 @@ public class ThemeDownloadJobService extends JobService {
         }
     }
 
+    public static void scheduleDownloadJobAnyNet(int modelId) {
+        PersistableBundle persistableBundle = new PersistableBundle();
+        persistableBundle.putInt(KEY_TYPE, TYPE_NORAL_THEME);
+        persistableBundle.putInt(KEY_TASK_ID, modelId);
+        JobInfo jobInfo = new JobInfo.Builder(modelId,
+                new ComponentName(HSApplication.getContext(), ThemeDownloadJobService.class))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setBackoffCriteria(5 * DateUtils.MINUTE_IN_MILLIS, JobInfo.BACKOFF_POLICY_EXPONENTIAL)
+                .setExtras(persistableBundle)
+                .build();
+
+        JobScheduler jobScheduler = (JobScheduler) HSApplication.getContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        if (jobScheduler != null) {
+            int resultCode = jobScheduler.schedule(jobInfo);
+            if (resultCode == JobScheduler.RESULT_SUCCESS) {
+                HSLog.d(TAG, "Job scheduled!");
+            } else {
+                HSLog.d(TAG, "Job not scheduled");
+            }
+        }
+    }
+
     private JobParameters mjobParameters;
     final Runnable pendingWorkRunnable = new Runnable() {
         @Override
