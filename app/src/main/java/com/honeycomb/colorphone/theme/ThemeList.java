@@ -13,9 +13,11 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.Utils;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Threads;
+import com.superapps.util.rom.RomUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +51,23 @@ public class ThemeList {
     @NonNull
     public static List<Theme> updateThemes(boolean onApplicationInit) {
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
-        boolean applyDefaultTheme = selectedThemeId == -1;
+
+        boolean isSpacialUser = RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom();
+        boolean defaultTheme = HSConfig.optBoolean(false, "Application", "Theme", "DefaultTheme");
+        boolean ddd = (selectedThemeId == -1) && (isSpacialUser ? defaultTheme : selectedThemeId == -1);
+//        boolean applyDefaultTheme = (selectedThemeId == -1);
+
+        boolean applyDefaultTheme;
+        if (selectedThemeId == -1) {
+            if (isSpacialUser) {
+                applyDefaultTheme = defaultTheme;
+            } else {
+                applyDefaultTheme = true;
+            }
+        } else {
+            applyDefaultTheme = false;
+        }
+
         boolean autopilotRandomEnable = Ap.RandomTheme.enable();
         if (applyDefaultTheme) {
             selectedThemeId = autopilotRandomEnable ? Theme.RANDOM_THEME : Utils.getDefaultThemeId();

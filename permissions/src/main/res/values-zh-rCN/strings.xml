@@ -9,5 +9,16 @@
   <string name="permission_request_contacts">通讯录</string>
   <!-- TODO: string name="draw_overlay_window_hint" -->
   <string name="phone_contact_permission_settings_guide_title">选择"权限"，然后开启"电话"、"通讯录"权限</string>
-  <string name="acb_phone_grant_autostart_access_title">启用自启动权限以显示来电闪屏</string>
+  <string name="acb_phone_grant_autostart_access_title">开启自启动权限以显示来电秀</string>
+  <string name="acb_phone_grant_notification_onlockscreen_access_title">开启锁屏显示权限以在锁屏时展示来电秀</string>
+
+  <string name="acb_phone_grant_autostart_access_title_vivo">开启白名单权限以显示来电秀</string>
+  <string name="acb_phone_grant_autostart_access_title_oppo">开启自启动权限以显示来电秀</string>
+  <string name="acb_phone_grant_autostart_access_title_huawei">请关闭自动管理并在手动管理中允许自启动、关联启动、后台活动已显示来电秀</string>
+  <string name="acb_phone_grant_autostart_access_title_miui">开启自启动权限以显示来电秀</string>
+
+  <string name="acb_phone_grant_show_onlockscreen_access_title_vivo">开启锁屏显示权限以在锁屏时展示来电秀</string>
+  <string name="acb_phone_grant_show_onlockscreen_access_title_oppo">Enable Notification On Lock Screen to Show Call Flash</string>
+  <string name="acb_phone_grant_show_onlockscreen_access_title_huawei">Enable Notification On Lock Screen to Show Call Flash</string>
+  <string name="acb_phone_grant_show_onlockscreen_access_title_miui">开启锁屏显示权限以在锁屏时展示来电秀</string>
 </resources>

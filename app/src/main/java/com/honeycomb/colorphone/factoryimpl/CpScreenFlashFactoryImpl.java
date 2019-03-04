@@ -16,6 +16,7 @@ import com.acb.call.themes.Type;
 import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.AutoStartGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
+import com.acb.colorphone.permissions.NotificationOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
 import com.call.assistant.util.CommonUtils;
@@ -28,6 +29,7 @@ import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -50,6 +52,7 @@ import java.util.Random;
 
 public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlashFactoryImpl {
 
+    private boolean isScreenFlashShow = true;
 
     @Override
     public boolean isScreenFlashModuleOpenedDefault() {
@@ -213,6 +216,15 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 }
             }
 
+            @Override
+            public void showRequestNotificationOnLockScreenGuideDialog(boolean isOpenSettingsSuccess) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
+                    Threads.postOnMainThreadDelayed(() -> {
+                        Navigations.startActivity(HSApplication.getContext(), NotificationOnLockScreenGuideActivity.class);
+                    }, 1000);
+                }
+            }
+
             @Override public void showRequestPermissionFailedToast() {
                 PermissionUI.showPermissionRequestToast(false);
             }
@@ -227,6 +239,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     @Override public RequestPermissionsActivity.Event requestPermissionsEvents() {
         return new RequestPermissionsActivity.Event() {
             private int launchTime;
+            private int confirmShowTime;
             private String source;
             WeakReference<Activity> mActivityWeakReference;
 
@@ -402,6 +415,37 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 }
             }
 
+            @Override public void logConfirmAlertEvent(String eventID) {
+                if ("AutoStartAlert_Show".equalsIgnoreCase(eventID)) {
+                    confirmShowTime = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("PermissionConfirmAutoStartShow");
+                } else if ("LockScreenAlert_Show".equalsIgnoreCase(eventID)) {
+                    confirmShowTime = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("PermissionConfirmShowOnLockScreenShow");
+                } else if ("LockScreenAlert_Show_Outside_App".equalsIgnoreCase(eventID)) {
+                    confirmShowTime = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("PermissionConfirmShowOnLockScreenOutSideShow");
+                }
+
+                logAlertShow(eventID);
+            }
+
+            private void logAlertShow(String eventID) {
+                String param;
+                switch (confirmShowTime) {
+                    case 1:
+                        param = "FirstTime";
+                        break;
+                    case 2:
+                        param = "SecondTime";
+                        break;
+                    case 3:
+                        param = "ThirdTime";
+                        break;
+                    default:
+                        return;
+                }
+
+                Analytics.logEvent(eventID, "from", param);
+            }
+
             @Override
             public void onClose() {
 
@@ -423,6 +467,34 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
         } else {
             Analytics.logEvent(eventID, onlyFabric, vars);
         }
+
+        if ("Acb_ScreenFlash_AcceptFail_Reject".equalsIgnoreCase(eventID)) {
+            logExceptionAcceptFailTurn();
+        } else if ("Acb_ScreenFlash_AcceptFail_TimeOut".equalsIgnoreCase(eventID)) {
+            logExceptionAcceptFailTimeout();
+        }
+
+        if ("Acb_Screenflash_Shouldshow".equalsIgnoreCase(eventID)) {
+            isScreenFlashShow = false;
+        } else if ("Acb_Screenflash_Show".equalsIgnoreCase(eventID)) {
+            isScreenFlashShow = true;
+        } else if ("Acb_Screenflash_DisplayFail".equalsIgnoreCase(eventID)) {
+            isScreenFlashShow = false;
+        }
+    }
+
+    public boolean isScreenFlashNotShown() {
+        boolean ret = !isScreenFlashShow;
+        isScreenFlashShow = true;
+        return ret;
+    }
+
+    private void logExceptionAcceptFailTimeout() {
+        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("AcceptFail_TimeOut"));
+    }
+
+    private void logExceptionAcceptFailTurn() {
+        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("AcceptFail_Reject"));
     }
 
     @Override public PermissionConfig getPermissionConfig() {

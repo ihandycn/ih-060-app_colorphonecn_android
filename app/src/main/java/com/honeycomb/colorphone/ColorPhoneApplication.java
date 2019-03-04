@@ -17,7 +17,10 @@ import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashFactory;
+import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
@@ -48,6 +51,7 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
+import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
@@ -717,6 +721,17 @@ public class ColorPhoneApplication extends HSApplication {
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
                     ScreenStatusReceiver.onUserPresent(context);
                     CashUtils.showGuideIfNeeded(null, CashUtils.Source.UnlockScreen);
+
+                    if (RequestPermissionsActivity.isShowOnLockScreenDialogEnable()) {
+                        ScreenFlashFactory factory = ScreenFlashManager.getInstance().getAcbCallFactory();
+                        if (factory instanceof CpScreenFlashFactoryImpl) {
+                            if (((CpScreenFlashFactoryImpl) factory).isScreenFlashNotShown()) {
+                                ArrayList<String> perms = new ArrayList<>(1);
+                                perms.add(RequestPermissionsActivity.PERMISSION_SHOW_ON_LOCK_SCREEN_OUTSIDE);
+                                RequestPermissionsActivity.start(context, "", perms);
+                            }
+                        }
+                    }
                 }
             }
         }, screenFilter);

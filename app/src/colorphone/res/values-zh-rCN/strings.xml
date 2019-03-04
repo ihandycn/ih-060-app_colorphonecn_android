@@ -1,0 +1,11 @@
+<resources>
+  <!--Need Translate-->
+  <string name="app_name">多彩电话</string>
+  <string name="color_phone_disable">关闭多彩电话</string>
+  <string name="color_phone_enabled">开启多彩电话</string>
+
+
+  <string name="acb_request_permission_auto_start_title">自启动是否已开启？</string>
+  <string name="acb_request_permission_auto_start_content">自启动权限可以使来电秀正常使用</string>
+
+</resources>

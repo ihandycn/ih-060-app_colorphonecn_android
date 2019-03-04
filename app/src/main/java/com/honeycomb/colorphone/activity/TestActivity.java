@@ -69,7 +69,6 @@ public class TestActivity extends AppCompatActivity {
         super.onStop();
     }
 
-
     public void startRate(View view) {
         RateAlertActivity.showRateFrom(this, FiveStarRateTip.From.END_CALL);
     }
@@ -81,5 +80,10 @@ public class TestActivity extends AppCompatActivity {
 
     public void checkFloatWindow(View view) {
         FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
+//        ArrayList<String> perms = new ArrayList<>(1);
+//        perms.add(RequestPermissionsActivity.PERMISSION_SHOW_ON_LOCK_SCREEN_OUTSIDE);
+//        RequestPermissionsActivity.start(this, "", perms);
+//
+//        RequestPermissionsActivity.start(this, "forAll");
     }
 }

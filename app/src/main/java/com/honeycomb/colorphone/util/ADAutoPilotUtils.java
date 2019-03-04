@@ -21,39 +21,26 @@ public class ADAutoPilotUtils {
     private static final int DAY_DIV = 10000;
     private static final int MONTH_DAY_VALUE = 100;
 
-    private static int sMaxCallFinishShow = -1;
-    private static int sIntervalCallFinishShow = -1;
-    private static int sMaxThemeShow = -1;
-    private static int sIntervalThemeShow = -1;
-
     public static int getCallFinishWireShowMaxTime() {
-        if (sMaxCallFinishShow == -1) {
-            sMaxCallFinishShow = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "callfinishwire_show_maxtime", 100);
-        }
+        int sMaxCallFinishShow = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "callfinishwire_show_maxtime", 100);
         HSLog.d("ADAutoPilotUtils", "getCallFinishWireShowMaxTime == " + sMaxCallFinishShow);
         return Math.min(sMaxCallFinishShow, HSConfig.optInteger(1000, "Application", "CallFinishWire", "Maxtime"));
     }
 
     public static int getCallFinishWireTimeInterval() {
-        if (sIntervalCallFinishShow == -1) {
-            sIntervalCallFinishShow = (int) (AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "callfinishwire_time_interval_minute", 0) * DateUtils.MINUTE_IN_MILLIS);
-        }
+        int sIntervalCallFinishShow = (int) (AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "callfinishwire_time_interval_minute", 0) * DateUtils.MINUTE_IN_MILLIS);
         HSLog.d("ADAutoPilotUtils", "getCallFinishWireTimeInterval == " + sIntervalCallFinishShow);
         return sIntervalCallFinishShow;
     }
 
     public static int getThemeWireShowMaxTime() {
-        if (sMaxThemeShow == -1) {
-            sMaxThemeShow = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "themewire_show_maxtime", 100);
-        }
+        int sMaxThemeShow = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "themewire_show_maxtime", 100);
         HSLog.d("ADAutoPilotUtils", "getThemeWireShowMaxTime == " + sMaxThemeShow);
         return Math.min(sMaxThemeShow, HSConfig.optInteger(1000, "Application", "FullScreen", "Maxtime"));
     }
 
     public static int getThemeWireShowInterval() {
-        if (sIntervalThemeShow == -1) {
-            sIntervalThemeShow = (int) (AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "themewire_show_interval_second", 0) * DateUtils.SECOND_IN_MILLIS);
-        }
+        int sIntervalThemeShow = (int) (AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "themewire_show_interval_second", 0) * DateUtils.SECOND_IN_MILLIS);
         HSLog.d("ADAutoPilotUtils", "getThemeWireShowInterval == " + sIntervalThemeShow);
         return sIntervalThemeShow;
     }
@@ -113,15 +100,6 @@ public class ADAutoPilotUtils {
     }
 
     public static void update() {
-        sMaxCallFinishShow = -1;
-        sIntervalCallFinishShow = -1;
-        sMaxThemeShow = -1;
-        sIntervalThemeShow = -1;
-
-        getCallFinishWireShowMaxTime();
-        getCallFinishWireTimeInterval();
-        getThemeWireShowInterval();
-        getThemeWireLastShowTime();
     }
 
     public static void logAutopilotEventToFaric() {
