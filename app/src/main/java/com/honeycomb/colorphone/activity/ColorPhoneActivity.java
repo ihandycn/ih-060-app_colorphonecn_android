@@ -82,6 +82,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
+    private static final String TAG = ColorPhoneActivity.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
@@ -126,15 +127,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     };
 
-    private Runnable randomFeatureTipRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (!isPaused) {
-                GuideRandomThemeActivity.start(ColorPhoneActivity.this, false);
-            }
-        }
-    };
-
     private ConfigChangeManager.Callback configChangeCallback =  new ConfigChangeManager.Callback() {
         @Override
         public void onChange(int type) {
@@ -148,7 +140,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean isCreate = false;
     private View cashFloatButton;
     private SettingsPage mSettingsPage = new SettingsPage();
-    private boolean waitPermissionResult;
 
     @DebugLog
     @Override
@@ -186,6 +177,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     @Override
+    @DebugLog
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
@@ -197,6 +189,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mAdapter.setHeaderTipVisible(false);
                 mAdapter.notifyDataSetChanged();
             }
+            Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
+                @Override
+                public void run() {
+                    GuideRandomThemeActivity.start(ColorPhoneActivity.this, false);
+
+                }
+            }, "theme_random_guide_count_limit");
         }
     }
 
@@ -267,6 +266,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     @Override
+    @DebugLog
     protected void onStart() {
         super.onStart();
         int maxId = -1;
@@ -288,9 +288,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
         if (!showAllFeatureGuide && isCreate) {
             dispatchPermissionRequest();
-
-            waitPermissionResult = true;
-            mHandler.postDelayed(randomFeatureTipRunnable, 1000);
         }
         if (!showAllFeatureGuide) {
             isCreate = false;
@@ -300,16 +297,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     @Override
+    @DebugLog
     protected void onResume() {
         super.onResume();
         // clear previous observers.
         PermissionHelper.stopObservingPermission();
-        if (waitPermissionResult) {
-            mHandler.removeCallbacks(randomFeatureTipRunnable);
-            randomFeatureTipRunnable.run();
-        }
 
-        HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
+        HSLog.d(TAG, "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
@@ -350,7 +344,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onPause();
 
         isPaused = true;
-        HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedLayoutPos() + "");
+        HSLog.d(TAG, "onPause " + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
@@ -365,6 +359,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     @Override
+    @DebugLog
     protected void onStop() {
         super.onStop();
         if (mSettingsPage != null) {
@@ -375,6 +370,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         Glide.get(this).clearMemory();
     }
 
+    @DebugLog
     private void dispatchPermissionRequest() {
         boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
                 && ScreenFlashSettings.isScreenFlashModuleEnabled();
@@ -406,6 +402,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     /**
      * Only request first launch. (if Enabled and not has permission)
      */
+    @DebugLog
     private void requiresPermission() {
         boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
                 && ScreenFlashSettings.isScreenFlashModuleEnabled();
