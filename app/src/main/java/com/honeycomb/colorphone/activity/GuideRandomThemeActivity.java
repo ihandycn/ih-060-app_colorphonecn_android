@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -43,6 +44,7 @@ public class GuideRandomThemeActivity extends HSAppCompatActivity {
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RandomTheme.getInstance().setUserSettingsEnable(true);
                 Ap.RandomTheme.logEvent("random_theme_guide_ok_click");
                 LauncherAnalytics.logEvent("random_theme_guide_ok_click_round2");
                 finish();

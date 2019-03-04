@@ -261,7 +261,8 @@ public class Ap {
         }
 
         public static boolean checkIfShowRandomLoseAlert() {
-            if (showRandomLoseAlert()) {
+            if (showRandomLoseAlert()
+                    && com.honeycomb.colorphone.theme.RandomTheme.getInstance().userSettingsEnable()) {
                 int alertShowTime = Preferences.get(Constants.DESKTOP_PREFS).getInt("token_random_loss_alert_show", 0);
                 if (alertShowTime  < 1) {
                     Preferences.get(Constants.DESKTOP_PREFS).putInt("token_random_loss_alert_show", ++alertShowTime);

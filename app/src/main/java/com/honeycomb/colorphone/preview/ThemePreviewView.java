@@ -57,6 +57,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -408,28 +409,36 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mActionLayout = findViewById(R.id.theme_apply_layout);
         mApplyForOne = findViewById(R.id.theme_set_for_one);
 
+
+        boolean showForAllButton = true;
         if (mTheme.getId() == Theme.RANDOM_THEME) {
             mApplyForOne.setVisibility(GONE);
         } else {
-            if (Ap.RandomTheme.setForAllEnable()) {
+            if (Ap.RandomTheme.setForAllEnable()
+             || !RandomTheme.getInstance().userSettingsEnable()) {
                 mApplyButton.setVisibility(VISIBLE);
-                mApplyButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (inTransition) {
-                            return;
-                        }
-                        if (Ap.RandomTheme.checkIfShowRandomLoseAlert()) {
-                            GuideRandomCloseActivity.start(mActivity, GuideRandomCloseActivity.DETAIL, true);
-                            HSGlobalNotificationCenter.addObserver(GuideRandomCloseActivity.EVENT_TURNOFF, turnOffRandomObserver);
-                        } else {
-                            performApplyClickResult();
-                        }
-                    }
-                });
             } else {
                 mApplyButton.setVisibility(INVISIBLE);
+                showForAllButton = false;
             }
+        }
+
+        if (showForAllButton) {
+            mApplyButton.setVisibility(VISIBLE);
+            mApplyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (inTransition) {
+                        return;
+                    }
+                    if (Ap.RandomTheme.checkIfShowRandomLoseAlert()) {
+                        GuideRandomCloseActivity.start(mActivity, GuideRandomCloseActivity.DETAIL, true);
+                        HSGlobalNotificationCenter.addObserver(GuideRandomCloseActivity.EVENT_TURNOFF, turnOffRandomObserver);
+                    } else {
+                        performApplyClickResult();
+                    }
+                }
+            });
         }
         mProgressViewHolder = new ProgressViewHolder();
         mRingtoneViewHolder = new RingtoneViewHolder();
