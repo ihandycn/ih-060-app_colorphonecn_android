@@ -239,6 +239,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
     @Override public RequestPermissionsActivity.Event requestPermissionsEvents() {
         return new RequestPermissionsActivity.Event() {
             private int launchTime;
+            private int confirmShowTime;
             private String source;
             WeakReference<Activity> mActivityWeakReference;
 
@@ -415,12 +416,20 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             }
 
             @Override public void logConfirmAlertEvent(String eventID) {
+                if ("AutoStartAlert_Show".equalsIgnoreCase(eventID)) {
+                    confirmShowTime = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("PermissionConfirmAutoStartShow");
+                } else if ("LockScreenAlert_Show".equalsIgnoreCase(eventID)) {
+                    confirmShowTime = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("PermissionConfirmShowOnLockScreenShow");
+                } else if ("LockScreenAlert_Show_Outside_App".equalsIgnoreCase(eventID)) {
+                    confirmShowTime = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("PermissionConfirmShowOnLockScreenOutSideShow");
+                }
+
                 logAlertShow(eventID);
             }
 
             private void logAlertShow(String eventID) {
                 String param;
-                switch (launchTime) {
+                switch (confirmShowTime) {
                     case 1:
                         param = "FirstTime";
                         break;
