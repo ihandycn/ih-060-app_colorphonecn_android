@@ -404,36 +404,38 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView.setAutoRun(false);
         mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
         mApplyButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
-        if (Ap.RandomTheme.setForAllEnable()) {
-            mApplyButton.setVisibility(VISIBLE);
-        } else {
-            mApplyButton.setVisibility(GONE);
-        }
+
         mActionLayout = findViewById(R.id.theme_apply_layout);
         mApplyForOne = findViewById(R.id.theme_set_for_one);
 
         if (mTheme.getId() == Theme.RANDOM_THEME) {
             mApplyForOne.setVisibility(GONE);
+        } else {
+            if (Ap.RandomTheme.setForAllEnable()) {
+                mApplyButton.setVisibility(VISIBLE);
+                mApplyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (inTransition) {
+                            return;
+                        }
+                        if (Ap.RandomTheme.checkIfShowRandomLoseAlert()) {
+                            GuideRandomCloseActivity.start(mActivity, GuideRandomCloseActivity.DETAIL, true);
+                            HSGlobalNotificationCenter.addObserver(GuideRandomCloseActivity.EVENT_TURNOFF, turnOffRandomObserver);
+                        } else {
+                            performApplyClickResult();
+                        }
+                    }
+                });
+            } else {
+                mApplyButton.setVisibility(INVISIBLE);
+            }
         }
         mProgressViewHolder = new ProgressViewHolder();
         mRingtoneViewHolder = new RingtoneViewHolder();
         previewImage = (ImageView) findViewById(R.id.preview_bg_img);
         dimCover = findViewById(R.id.dim_cover);
 
-        mApplyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (inTransition) {
-                    return;
-                }
-                if (Ap.RandomTheme.checkIfShowRandomLoseAlert()) {
-                    GuideRandomCloseActivity.start(mActivity, GuideRandomCloseActivity.DETAIL, true);
-                    HSGlobalNotificationCenter.addObserver(GuideRandomCloseActivity.EVENT_TURNOFF, turnOffRandomObserver);
-                } else {
-                    performApplyClickResult();
-                }
-            }
-        });
 
         mApplyForOne.setOnClickListener(new OnClickListener() {
             @Override
