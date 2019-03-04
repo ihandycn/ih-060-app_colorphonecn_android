@@ -427,7 +427,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     return;
                 }
                 if (Ap.RandomTheme.checkIfShowRandomLoseAlert()) {
-                    GuideRandomCloseActivity.start(mActivity, true);
+                    GuideRandomCloseActivity.start(mActivity, GuideRandomCloseActivity.DETAIL, true);
                     HSGlobalNotificationCenter.addObserver(GuideRandomCloseActivity.EVENT_TURNOFF, turnOffRandomObserver);
                 } else {
                     performApplyClickResult();

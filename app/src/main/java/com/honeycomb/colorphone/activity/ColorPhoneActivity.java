@@ -29,6 +29,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
@@ -189,13 +190,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mAdapter.setHeaderTipVisible(false);
                 mAdapter.notifyDataSetChanged();
             }
-            Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
-                @Override
-                public void run() {
-                    GuideRandomThemeActivity.start(ColorPhoneActivity.this, false);
+            if (Ap.RandomTheme.showFeatureGuide()) {
+                Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
+                    @Override
+                    public void run() {
+                        GuideRandomThemeActivity.start(ColorPhoneActivity.this, false);
 
-                }
-            }, "theme_random_guide_count_limit");
+                    }
+                }, "theme_random_guide_count_limit");
+            }
         }
     }
 

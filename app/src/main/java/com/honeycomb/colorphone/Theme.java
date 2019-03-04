@@ -111,7 +111,9 @@ public class Theme extends Type {
                 continue;
             }
 
-            if (type.getId() == Theme.RANDOM_THEME && !Ap.RandomTheme.enable()) {
+            if (type.getId() == Theme.RANDOM_THEME
+                    && !Ap.RandomTheme.enable()
+                    && Ap.RandomTheme.modeOfFirstCard()) {
                 HSLog.d("RandomTheme", "Unable");
                 continue;
             }

@@ -73,7 +73,7 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
                         Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
                             @Override
                             public void run() {
-                                GuideRandomCloseActivity.start(mainSwitch.getContext(), false);
+                                GuideRandomCloseActivity.start(mainSwitch.getContext(), GuideRandomCloseActivity.SETTINGS, false);
                                 HSGlobalNotificationCenter.addObserver(GuideRandomCloseActivity.EVENT_KEEP, SettingsPage.this);
                             }
                         }, "token_random_close_alert");

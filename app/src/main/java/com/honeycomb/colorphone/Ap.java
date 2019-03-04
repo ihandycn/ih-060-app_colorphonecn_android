@@ -257,7 +257,7 @@ public class Ap {
         }
 
         public static void logEvent(String name) {
-//            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
+            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
         }
 
         public static boolean checkIfShowRandomLoseAlert() {
