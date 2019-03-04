@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -59,11 +60,6 @@ public class Locker extends LockScreen implements INotificationObserver {
     @Override
     public void setup(ViewGroup root, Bundle extra) {
         super.setup(root, extra);
-        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Show" + suffix,
-                "Brand", Build.BRAND.toLowerCase(),
-                "DeviceVersion", getDeviceInfo());
-
         mIsSetup = true;
         // ======== onCreate ========
         mHomeKeyWatcher = new HomeKeyWatcher(root.getContext());
@@ -113,7 +109,7 @@ public class Locker extends LockScreen implements INotificationObserver {
 //        HSGlobalNotificationCenter.sendNotification(NotificationCondition.EVENT_LOCK);
     }
 
-    private String getDeviceInfo() {
+    public static String getDeviceInfo() {
         if (Build.VERSION.SDK_INT >= 26) {
             return "8";
         } else if (Build.VERSION.SDK_INT >= 24) {
@@ -134,12 +130,30 @@ public class Locker extends LockScreen implements INotificationObserver {
         }
     }
 
+    private Handler mHandler = new Handler();
+
+    private Runnable foregroundEventLogger = new Runnable() {
+        private boolean logOnceFlag = false;
+        @Override
+        public void run() {
+            if (!logOnceFlag) {
+                String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+                LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Show" + suffix,
+                        "Brand", Build.BRAND.toLowerCase(),
+                        "DeviceVersion", getDeviceInfo());
+                logOnceFlag = true;
+            }
+        }
+    };
+
     public void onResume() {
         // ======== onResume ========
         if (mHomeKeyClicked && mLockerAdapter != null && mLockerAdapter.lockerMainFrame != null) {
             mHomeKeyClicked = false;
             mLockerAdapter.lockerMainFrame.closeDrawer();
         }
+
+        mHandler.postDelayed(foregroundEventLogger, 1000);
     }
 
     private void initLockerWallpaper() {

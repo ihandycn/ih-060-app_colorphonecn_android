@@ -12,6 +12,7 @@ import android.telephony.TelephonyManager;
 
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.FloatWindowController;
+import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -140,6 +141,11 @@ public class ChargingScreenUtils {
         isFromPush = fromPush;
         if (MODE_ACTIVITY) {
             try {
+                String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+                LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Should_Show" + suffix,
+                        "Brand", Build.BRAND.toLowerCase(),
+                        "DeviceVersion", Locker.getDeviceInfo());
+
                 Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                         | Intent.FLAG_ACTIVITY_NO_ANIMATION);
