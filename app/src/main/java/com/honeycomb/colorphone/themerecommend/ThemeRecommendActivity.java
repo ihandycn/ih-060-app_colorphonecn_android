@@ -140,11 +140,11 @@ public class ThemeRecommendActivity extends AppCompatActivity {
             editUserView(mPreview);
 
             if (ThemeRecommendManager.isThemeRecommendAdShow() && ThemeRecommendManager.isThemeRecommendAdShowBeforeRecommend()) {
-                ThemeRecommendManager.logThemeRecommendWireShouldShow(true);
+                ThemeRecommendManager.logThemeRecommendWireOnRecommendShouldShow();
                 AcbInterstitialAd ad = ResultPageManager.getInstance().getInterstitialAd();
                 if (ad != null) {
                     Threads.postOnMainThreadDelayed(() -> {
-                        ThemeRecommendManager.logThemeRecommendWireShow(true);
+                        ThemeRecommendManager.logThemeRecommendWireOnRecommendShow();
                         ad.show();
                     }, 300);
                 } else {

@@ -279,6 +279,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 if (dismissType == CallIdleAlertView.CallIdleAlertDismissType.CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.MENU_CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK) {
+                    ThemeRecommendManager.logThemeRecommendCallAssistantClose();
                     SimpleContact sc = ContactManager.getInstance().getContact(phoneNumber);
                     if (sc == null) {
                         LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close", "type", "Stranger");
@@ -286,11 +287,16 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                         LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close", "type", "Contact");
                     }
 
+                    boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
+                    if (isCouldShowThemeRecommend) {
+                        ThemeRecommendManager.logThemeRecommendShouldShow();
+                    }
+
                     String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, false);
                     if (!TextUtils.isEmpty(themeIdName)) {
-                        boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
                         HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
                         if (isCouldShowThemeRecommend) {
+                            ThemeRecommendManager.getInstance().recordThemeRecommendShow(phoneNumber);
                             ThemeRecommendActivity.start(HSApplication.getContext(), phoneNumber, themeIdName);
                             ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, true);
                         }

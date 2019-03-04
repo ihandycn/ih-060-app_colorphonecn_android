@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class ThemeRecommendManager {
 
     private static final String TAG = ThemeRecommendManager.class.getSimpleName();
-    private static final String TOPIC_ID = "topic-70osaxxsn";
+    private static final String TOPIC_ID = "topic-71fwky10t";
     private static final String PREF_FILE = "applied_theme_file";
     private static final String MORE_CLICK_SESSION = "more_click_session";
     private static final String PREPARE_THENE = "prepare_thene";
@@ -102,36 +102,23 @@ public class ThemeRecommendManager {
         number = deleteWhiteSpace(number);
         boolean result = false;
 
-//        boolean isFirstThemeRecommendShowed = isFirstThemeRecommendShowed(number);
-//        HSLog.d(TAG, "isFirstThemeRecommendShowed = " + isFirstThemeRecommendShowed);
         int minutes = getTimeIntervalMinutes();
         boolean timeAble = now() - getThemeRecommendLastShowedTimeForAllUser() > TimeUnit.MINUTES.toMillis(minutes);
         HSLog.d(TAG, "time > " + minutes + "h: " + timeAble);
         int callTimes = getCallTimes(number);
         HSLog.d(TAG, "callTimes = " + callTimes);
-//        if (!isFirstThemeRecommendShowed) {
-            if (callTimes >= getCallTimesAtFirstThemeRecommendShowed() && timeAble) {
-//                recordFirstThemeRecommendShowed(number);
-//                resetRecordCallTimes(number);
-//                result = true;
-//            }
-//        } else {
-                boolean isCouldShowToday = getThemeRecommendShowTimes(number) < getMaxShowTimesEveryOne();
-                HSLog.d(TAG, "isCouldShowToday = " + isCouldShowToday);
-//                boolean isAppliedThemeAndTimesEnable = !isAppliedThemeForUser(number) || callTimes > getMaxCallTimesAfterAppliedTheme();
-//                boolean isAppliedThemeAndTimesEnable = !isAppliedThemeForUser(number);
-//                HSLog.d(TAG, "isAppliedThemeAndTimesEnable = " + isAppliedThemeAndTimesEnable);
-//                result = isCouldShowToday && isAppliedThemeAndTimesEnable;
-                result = isCouldShowToday;
-        }
-
-        if (result) {
-            increaseThemeRecommendShowTimes(number);
-//            recordFirstThemeRecommendShowed(number);
-            resetRecordCallTimes(number);
+        if (callTimes >= getCallTimesAtFirstThemeRecommendShowed() && timeAble) {
+            boolean isCouldShowToday = getThemeRecommendShowTimes(number) < getMaxShowTimesEveryOne();
+            HSLog.d(TAG, "isCouldShowToday = " + isCouldShowToday);
+            result = isCouldShowToday;
         }
 
         return result;
+    }
+
+    public void recordThemeRecommendShow (String number) {
+        increaseThemeRecommendShowTimes(number);
+        resetRecordCallTimes(number);
     }
 
     public void increaseCallTimes(String number) {
@@ -296,16 +283,12 @@ public class ThemeRecommendManager {
         return number.replaceAll(" ", "");
     }
 
-    private int getMaxCallTimesAfterAppliedTheme() {
-        return getThemeRecommendApplyInterval();
-    }
-
     private int getTimeIntervalMinutes() {
         return getThemeRecommendTimeInterval();
     }
 
     private int getCallTimesAtFirstThemeRecommendShowed() {
-        return getThemeRecommendFirstInterval();
+        return getThemeRecommendCallInterval();
     }
 
     private int getMaxShowTimesEveryOne() {
@@ -459,26 +442,22 @@ public class ThemeRecommendManager {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "ad_show_before_recommend", false);
     }
 
-    private static int getThemeRecommendFirstInterval() {
-        return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "themerecommend_first_show", 3);
+    private static int getThemeRecommendCallInterval() {
+        return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "show_interval_calls", 3);
     }
 
     private static int getThemeRecommendMaxTimesForOne() {
         return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "maxtime_one_contact", 1);
     }
 
-    private static int getThemeRecommendApplyInterval() {
-        return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "themerecommend_show_interval_when_applied", 5);
-    }
-
     private static int getThemeRecommendTimeInterval() {
-        return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "timeintervalhour", 2);
+        return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "show_interval_minutes", 2);
     }
 
     static void logThemeRecommendShow(String number) {
         isThemeRecommendEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommend_show");
-        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommend_Show");
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_show");
+        LauncherAnalytics.logEvent("recommend_show");
 
         String themeId = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
 //        if (!TextUtils.isEmpty(themeId)) {
@@ -489,50 +468,92 @@ public class ThemeRecommendManager {
 
     static void logThemeRecommendClick() {
         isThemeRecommendEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommend_click");
-        LauncherAnalytics.logEvent("ColorPhone_ThemeRecommend_Click");
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_btn_click");
+        LauncherAnalytics.logEvent("recommend_btn_click");
     }
 
-    public static void logThemeRecommendWireShouldShow(boolean isBefore) {
+    public static void logThemeRecommendWireShouldShow() {
         if (isThemeRecommendAdShow()) {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommendwire_should_show");
-            LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendWire_Should_Show", "type", isBefore ? "Before" : "After");
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_detail_wiread_should_show");
+            LauncherAnalytics.logEvent("recommend_detail_wiread_should_show");
         }
     }
 
-    public static void logThemeRecommendWireShow(boolean isBefore) {
+    public static void logThemeRecommendWireShow() {
         if (isThemeRecommendAdShow()) {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommendwire_show");
-            LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendWire_Show", "type", isBefore ? "Before" : "After");
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_detail_wiread_show");
+            LauncherAnalytics.logEvent("recommend_detail_wiread_show");
         }
     }
 
     public static void logThemeRecommendDoneShouldShow() {
         if (isThemeRecommendAdShow()) {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommenddone_should_show");
-            LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendDone_Should_Show");
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_detail_donead_should_show");
+            LauncherAnalytics.logEvent("recommend_detail_donead_should_show");
         }
     }
 
     public static void logThemeRecommendDoneShow() {
         if (isThemeRecommendAdShow()) {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommenddone_show");
-            LauncherAnalytics.logEvent("ColorPhone_ThemeRecommendDone_Show");
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_detail_donead_show");
+            LauncherAnalytics.logEvent("recommend_detail_donead_show");
         }
     }
 
     public static void logThemeRecommendResultPageShow() {
         isThemeRecommendEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_resultpage_show");
-        LauncherAnalytics.logEvent("ColorPhone_ResultPage_Show");
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_detail_morethemes_show");
+        LauncherAnalytics.logEvent("recommend_detail_morethemes_show");
     }
 
     public static void logThemeRecommendResultPageFindMoreClicked() {
         isThemeRecommendEnable();
-        AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_resultpage_findmore_click");
-        LauncherAnalytics.logEvent("ColorPhone_ResultPage_FindMore_Click");
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_detail_morethemes_findmore_click");
+        LauncherAnalytics.logEvent("recommend_detail_morethemes_findmore_click");
 
         setThemeRecommendMoreClickSession();
+    }
+
+    public static void logThemeRecommendCallAssistantClose() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "call_assistant_close");
+        LauncherAnalytics.logEvent("call_assistant_close");
+    }
+
+    public static void logThemeRecommendShouldShow() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_should_show");
+        LauncherAnalytics.logEvent("recommend_should_show");
+    }
+
+    public static void logThemeRecommendWireOnRecommendShouldShow() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "wire_on_recommend_should_show");
+        LauncherAnalytics.logEvent("wire_on_recommend_should_show");
+    }
+
+    public static void logThemeRecommendWireOnRecommendShow() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "wire_on_recommend_show");
+        LauncherAnalytics.logEvent("wire_on_recommend_show");
+    }
+
+    public static void logThemeRecommendThemeDownloadStart() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_theme_download_start");
+        LauncherAnalytics.logEvent("recommend_theme_download_start");
+    }
+
+    public static void logThemeRecommendThemeDownloadSuccess() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_theme_download_success");
+        LauncherAnalytics.logEvent("recommend_theme_download_success");
+    }
+
+    public static void logThemeRecommendThemeDownloadFail() {
+        isThemeRecommendEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_theme_download_fail");
+        LauncherAnalytics.logEvent("recommend_theme_download_fail");
     }
 
     private static boolean isThemeRecommendMoreClickSession() {
@@ -546,24 +567,24 @@ public class ThemeRecommendManager {
     public static void logThemeRecommendThemeDetailFromResultPage() {
         if (isThemeRecommendMoreClickSession()) {
             isThemeRecommendEnable();
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themedetail_view_fromresultpage");
-            LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_View_FromResultPage");
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "themedetail_show_from_recommend");
+            LauncherAnalytics.logEvent("themedetail_show_from_recommend");
         }
     }
 
     private static void logThemeRecommendChooseFromResultPage() {
         if (isThemeRecommendMoreClickSession()) {
             isThemeRecommendEnable();
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_choosetheme_fromresultpage");
-            LauncherAnalytics.logEvent("ColorPhone_ChooseTheme_FromResultPage");
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "choose_theme_from_recommend");
+            LauncherAnalytics.logEvent("choose_theme_from_recommend");
         }
     }
 
     public static void logThemeRecommendThemeWireShow() {
         if (isThemeRecommendMoreClickSession()) {
             isThemeRecommendEnable();
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_themerecommend_themewire_show");
-            LauncherAnalytics.logEvent("ColorPhone_ThemeRecommend_ThemeWire_Show");
+            AutopilotEvent.logTopicEvent(TOPIC_ID, "themewire_show_from_recommend");
+            LauncherAnalytics.logEvent("themewire_show_from_recommend");
         }
     }
 

@@ -529,7 +529,7 @@ abstract class ResultController implements View.OnClickListener {
                 break;
             case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
                 if (!ThemeRecommendManager.isThemeRecommendAdShowBeforeRecommend()) {
-                    ThemeRecommendManager.logThemeRecommendWireShouldShow(false);
+                    ThemeRecommendManager.logThemeRecommendWireShouldShow();
                 }
                 break;
         }
@@ -564,7 +564,7 @@ abstract class ResultController implements View.OnClickListener {
                 AutoPilotUtils.logCpuwireAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
-                ThemeRecommendManager.logThemeRecommendWireShow(false);
+                ThemeRecommendManager.logThemeRecommendWireShow();
                 break;
         }
     }

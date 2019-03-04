@@ -18,6 +18,7 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
@@ -77,6 +78,7 @@ public class ThemeDownloadJobService extends JobService {
             int resultCode = jobScheduler.schedule(jobInfo);
             if (resultCode == JobScheduler.RESULT_SUCCESS) {
                 HSLog.d(TAG, "Job scheduled!");
+                ThemeRecommendManager.logThemeRecommendThemeDownloadStart();
             } else {
                 HSLog.d(TAG, "Job not scheduled");
             }
@@ -124,12 +126,14 @@ public class ThemeDownloadJobService extends JobService {
                     HSLog.d(TAG, "download normal task success: "+ model.getName());
                     LauncherAnalytics.logEvent("Test_Job_Download_Success", LauncherAnalytics.FLAG_LOG_FABRIC);
                     onJobFinish(jobParameters, false);
+                    ThemeRecommendManager.logThemeRecommendThemeDownloadSuccess();
                 }
 
                 @Override
                 public void updateNotDownloaded(int status, long sofar, long total) {
                     HSLog.d(TAG, "download normal task fail: "+ model.getName());
                     onJobFinish(jobParameters, true);
+                    ThemeRecommendManager.logThemeRecommendThemeDownloadFail();
                 }
 
                 @Override
