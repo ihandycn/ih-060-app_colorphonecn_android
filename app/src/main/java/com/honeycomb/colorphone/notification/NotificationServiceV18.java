@@ -35,12 +35,14 @@ public class NotificationServiceV18 extends NotificationListenerService {
 
     @Override
     public void onListenerConnected() {
+        inServiceRunning = true;
         HSLog.i(TAG, "NotificationListenerService onListenerConnected");
     }
 
     @SuppressLint("NewApi")
     @Override
     public void onNotificationPosted(StatusBarNotification statusBarNotification) {
+        inServiceRunning = true;
         CallIntentManager.getInstance().recordAnswerCallIntent(statusBarNotification);
         MessageCenterManager.getInstance().showMessageAssistantIfProper(statusBarNotification);
         HSLog.e(TAG, "New notification: " + statusBarNotification);
@@ -54,6 +56,7 @@ public class NotificationServiceV18 extends NotificationListenerService {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        inServiceRunning = false;
         HSLog.i(TAG, "NotificationListenerService destroyed");
     }
 
@@ -99,7 +102,9 @@ public class NotificationServiceV18 extends NotificationListenerService {
                 }
             }
         }
-        inServiceRunning = collectorRunning;
+        if (!inServiceRunning) {
+            inServiceRunning = collectorRunning;
+        }
         if (collectorRunning) {
             HSLog.d(TAG, "ensureCollectorRunning: collector is running");
             return;

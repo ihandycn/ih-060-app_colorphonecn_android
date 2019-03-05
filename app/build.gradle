@@ -49,8 +49,8 @@ android {
         colorflash {
             dimension "mode"
             applicationId "com.app.phone.call.flash.screen"
-            versionCode 43
-            versionName "1.1.6"
+            versionCode 47
+            versionName "1.1.9"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
                     'src/colorflash/proguard-rules.pro'
 
@@ -153,7 +153,7 @@ dependencies {
             'com.google.firebase:firebase-messaging:17.3.0',
 //            USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.5.0.+"
 //                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.0.gm",
-            "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.1.gm",
+            "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.2.gm",
 
     ]
 
@@ -215,8 +215,7 @@ dependencies {
 
     //  -------- GoldEye ------
     colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2019.02.12.001'
-    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2019.01.15.001'
-
+    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2019.02.13.001'
 }
 
 // ADD THIS AT THE BOTTOM

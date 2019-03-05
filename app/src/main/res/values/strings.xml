@@ -267,4 +267,17 @@
     <string name="theme_recommend_content_default">your friend</string>
     <string name="result_page_theme_recommend_optimal">Applied successfully</string>
     <string name="result_page_theme_recommend_more">FIND MORE THEMES</string>
+
+    <!-- Trivia Tip -->
+    <!--TODO-->
+    <string name="trivia_tip_content_truly_fact">Truly Fact</string>
+    <string name="trivia_tip_button_set_as_theme">Apply for ScreenFlash</string>
+
+    <!--TODO remove this. Use libSuperApps-->
+    <string name="custom_font_regular" translatable="false">ProximaNova-Regular</string>
+    <string name="custom_font_light" translatable="false">ProximaNova-Light</string>
+    <string name="custom_font_thin" translatable="false">ProximaNova-Thin</string>
+    <string name="custom_font_semibold" translatable="false">ProximaNova-Semibold</string>
+    <string name="custom_font_bold" translatable="false">ProximaNova-Bold</string>
+    <string name="custom_font_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
 </resources>

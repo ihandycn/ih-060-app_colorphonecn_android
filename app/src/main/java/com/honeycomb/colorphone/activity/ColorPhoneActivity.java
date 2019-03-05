@@ -301,7 +301,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mAdapter.updateApplyInformationAutoPilotValue();
         mHandler.postDelayed(mainViewRunnable, 1000);
         isPaused = false;
-
+        mAdapter.markForeground(true);
         refreshCashButton();
     }
 
@@ -338,6 +338,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
         }
+        mAdapter.markForeground(false);
         mRecyclerView.getRecycledViewPool().clear();
         mHandler.removeCallbacks(mainViewRunnable);
 

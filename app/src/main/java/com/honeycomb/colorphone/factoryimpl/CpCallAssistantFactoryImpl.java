@@ -21,6 +21,7 @@ import com.call.assistant.ui.CallIdleAlert;
 import com.call.assistant.ui.CallIdleAlertActivity;
 import com.call.assistant.ui.CallIdleAlertView;
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
@@ -37,6 +38,7 @@ import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
+import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
@@ -209,8 +211,11 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinished() {
-                CallFinishUtils.logCallFinish();
-                LauncherAnalytics.logEvent("ColorPhone_Call_Finished");
+                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
+                if (TriviaTip.isModuleEnable()
+                        && Ap.TriviaTip.enableAdShowBeforeTrivia()) {
+                    TriviaTip.getInstance().preloadAd();
+                }
 
                 if (PermissionTestUtils.getAlertOutSideApp()
                         && Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
@@ -246,21 +251,18 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onCallFinishedCallAssistantShow(String number) {
                 ThemeRecommendManager.getInstance().increaseCallTimes(number);
-                CallFinishUtils.logCallFinishCallAssistantShow();
                 LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Call_Assistant_Show");
                 ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
             }
 
             @Override
             public void onFullScreenAdShouldShow() {
-                CallFinishUtils.logCallFinishWiredShouldShow();
-                LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Wire_Should_Show");
+                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Should_Show");
             }
 
             @Override
             public void onFullScreenAdShow() {
-                CallFinishUtils.logCallFinishWiredShow();
-                LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Wire_Show");
+                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
                 ADAutoPilotUtils.logCallFinishWireShow();
                 if (Utils.isNewUser()) {
                     LauncherAnalytics.logEvent("ColorPhone_CallFinishWire_Show");
