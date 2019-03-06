@@ -14,7 +14,6 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.AboutActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideRandomCloseActivity;
@@ -77,15 +76,12 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
                                 HSGlobalNotificationCenter.addObserver(GuideRandomCloseActivity.EVENT_KEEP, SettingsPage.this);
                             }
                         }, "token_random_close_alert");
-
-                    }
-                    if (isChecked) {
-                        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, Theme.RANDOM_THEME);
-                    } else {
                         ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, Utils.getDefaultThemeId());
-                        HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
                     }
+
                     RandomTheme.getInstance().setUserSettingsEnable(isChecked);
+
+                    HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
                 }
             });
         }

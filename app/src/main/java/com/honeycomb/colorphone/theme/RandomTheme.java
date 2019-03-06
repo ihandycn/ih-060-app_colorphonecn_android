@@ -9,6 +9,8 @@ import android.os.PersistableBundle;
 import android.support.annotation.RequiresApi;
 import android.text.format.DateUtils;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.Theme;
@@ -126,8 +128,10 @@ public class RandomTheme {
             } else if (NetUtils.isWifiConnected(HSApplication.getContext())) {
                 downloadMediaTheme(pendingThemeIndex, model, null);
             }
-        } else {
+        } else if (theme != null){
             HSLog.d(TAG, "prepareTheme next success , native theme : " + pendingThemeIndex);
+        } else {
+            HSLog.e(TAG, "prepareTheme next fail , not config theme : " + pendingThemeIndex);
         }
     }
 
@@ -286,10 +290,19 @@ public class RandomTheme {
     }
 
     public boolean userSettingsEnable() {
-        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("random_setting_switch", Ap.RandomTheme.defaultSwitchOn());
+        boolean defaultSwitch = Ap.RandomTheme.defaultSwitchOn();
+        if (defaultSwitch && !Preferences.get(Constants.PREF_FILE_DEFAULT).contains("random_setting_switch")) {
+            setUserSettingsEnable(true);
+        }
+
+        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("random_setting_switch", false);
     }
 
     public void setUserSettingsEnable(boolean enable) {
+        if (enable) {
+            ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, Theme.RANDOM_THEME);
+        }
+
         Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("random_setting_switch", enable);
     }
 

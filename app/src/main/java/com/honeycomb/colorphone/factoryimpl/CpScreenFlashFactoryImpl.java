@@ -74,6 +74,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                         }
                         HSLog.e("RandomTheme no theme ready");
                         LauncherAnalytics.logEvent("RandomThemeNone");
+                        return Theme.NONE;
                     }
                     return themeId;
                 }
