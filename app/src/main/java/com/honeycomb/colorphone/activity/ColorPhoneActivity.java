@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -302,7 +301,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mAdapter.updateApplyInformationAutoPilotValue();
         mHandler.postDelayed(mainViewRunnable, 1000);
         isPaused = false;
-
+        mAdapter.markForeground(true);
         refreshCashButton();
     }
 
@@ -339,6 +338,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
         }
+        mAdapter.markForeground(false);
         mRecyclerView.getRecycledViewPool().clear();
         mHandler.removeCallbacks(mainViewRunnable);
 
@@ -371,11 +371,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             // Not support lottie.
             runnable = () -> requiresPermission();
         } else {
-            if (Preferences.get(Constants.DESKTOP_PREFS).contains("permission_launch")) {
-                runnable = () -> PermissionChecker.getInstance().check(this, "AppOpen");
-            } else {
-                runnable = () -> PermissionChecker.getInstance().check(this, RequestPermissionsActivity.EventSource.Launch.getName());
-            }
+            runnable = () -> PermissionChecker.getInstance().check(this, "AppOpen");
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O

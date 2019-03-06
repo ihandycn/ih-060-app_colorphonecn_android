@@ -10,5 +10,6 @@
     <string name="permission_request_sms">SMS</string>
     <string name="permission_request_contacts">جهات الاتصال</string>
     <string name="phone_contact_permission_settings_guide_title">حدد الأذونات واسمح بـ "Phone"و "Contacts"</string>
+    <string name="acb_phone_grant_autostart_access_title">مكّن البدء التلقائي لتمكين فلاش المكالمات</string>
 
 </resources>

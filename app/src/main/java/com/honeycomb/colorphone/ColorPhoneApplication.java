@@ -53,6 +53,7 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
+import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
@@ -195,10 +196,13 @@ public class ColorPhoneApplication extends HSApplication {
         @Override
         public void onReceive(Context context, Intent intent) {
             updateCallFinishFullScreenAdPlacement();
+            updateTriviaTipAdPlacement();
             AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
+
+            TriviaTip.cacheImagesFirstTime();
         }
     };
 
@@ -211,6 +215,7 @@ public class ColorPhoneApplication extends HSApplication {
     private boolean isCallAssistantActivated;
 
     private static boolean isFabricInitted;
+    public static long launchTime;
     public static boolean isAppForeground() {
         return !activityStack.isEmpty();
     }
@@ -220,7 +225,7 @@ public class ColorPhoneApplication extends HSApplication {
     public void onCreate() {
         super.onCreate();
         systemFix();
-
+        launchTime = System.currentTimeMillis();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
         onAllProcessCreated();
@@ -319,6 +324,8 @@ public class ColorPhoneApplication extends HSApplication {
         }
 
         PushManager.getInstance().init();
+
+        TriviaTip.getInstance().init();
 
         // Only restore tasks here.
         TasksManager.getImpl().init();
@@ -497,6 +504,13 @@ public class ColorPhoneApplication extends HSApplication {
             HSLog.d("Ad Active ： " + AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
             AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
             isCallAssistantActivated = true;
+        }
+    }
+
+    private void updateTriviaTipAdPlacement() {
+        if (TriviaTip.isModuleEnable()) {
+            AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME);
+            AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.TRIVIA_TIP_NATIVE_AD_PLACEMENT_NAME);
         }
     }
 
@@ -728,6 +742,7 @@ public class ColorPhoneApplication extends HSApplication {
         ColorPhonePermanentUtils.checkAliveForProcess();
 
         updateCallFinishFullScreenAdPlacement();
+        updateTriviaTipAdPlacement();
         AdManager.getInstance().setEnable(ConfigSettings.showAdOnDetailView() || ConfigSettings.showAdOnApplyTheme());
     }
 

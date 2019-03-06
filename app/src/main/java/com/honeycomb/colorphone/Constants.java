@@ -10,6 +10,8 @@ public class Constants {
     public static final String PREFS_LED_SMS_ENABLE = "led_flash_sms_enable";
     public static final String PREFS_CHECK_DEFAULT_PHONE = "PREFS_CHECK_DEFAULT_PHONE";
     public static final String PREF_FILE_DEFAULT = "default_main";
+    public static final String PREFS_LAST_CALLSTATE_CHANGE = "call_changed_time_mills";
+    public static final String PREFS_LAST_CHARGING_CHANGE = "charge_changed_time_mills";
 
     public static String getFeedBackAddress() {
         return HSConfig.optString("", "Application", "FeedbackEmailAddress");

@@ -8,4 +8,5 @@
   <string name="permission_request_contacts">Kontakte</string>
   <string name="acb_phone_grant_notification_access_title">Benachrichtigungsberechtigung zum Annehmen von Anrufen aktivieren</string>
   <string name="phone_contact_permission_settings_guide_title">„Berechtigungen“ wählen und „Phone“, „Contacts“ aktivieren</string>
+  <string name="acb_phone_grant_autostart_access_title">Aktivieren Sie AutoStart, um Call Flash anzuzeigen</string>
 </resources>

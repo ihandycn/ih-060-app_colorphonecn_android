@@ -9,4 +9,5 @@
   <string name="acb_phone_grant_notification_access_title">Чтобы отвечать на звонки, предоставьте доступ к уведомлениям</string>
   <!-- TODO: string name="draw_overlay_window_hint" -->
   <string name="phone_contact_permission_settings_guide_title">Выберите «Разрешения» и включите «Телефон», «Контакты»</string>
+  <string name="acb_phone_grant_autostart_access_title">Включите автозапуск для активации мигающих эффектов при вызове</string>
 </resources>

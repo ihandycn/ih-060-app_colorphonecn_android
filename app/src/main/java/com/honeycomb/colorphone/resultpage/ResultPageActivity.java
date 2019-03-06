@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.acb.call.themes.Type;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
@@ -52,6 +53,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
     public static final String EXTRA_KEY_BATTERY_EXTEND_MINUTE = "EXTRA_KEY_BATTERY_EXTEND_MINUTE";
     public static final String EXTRA_KEY_CLEAR_NOTIFICATONS_COUNT = "EXTRA_KEY_CLEAR_NOTIFICATONS_COUNT";
     public static final String EXTRA_KEY_SHOULD_START_TO_LAUNCHER = "EXTRA_KEY_SHOULD_START_TO_LAUNCHER";
+    public static final String EXTRA_KEY_RECOMMEND_THEME = "EXTRA_KEY_RECOMMEND_THEME";
 
     public static final String PREF_KEY_INTO_BATTERY_PROTECTION_COUNT = "into_battery_protection_count";
     public static final String PREF_KEY_INTO_NOTIFICATION_CLEANER_COUNT = "into_notification_cleaner_count";
@@ -133,6 +135,19 @@ public class ResultPageActivity extends BaseAppCompatActivity
         activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
     }
 
+    public static void startForThemeRecommend(Activity activity, Type mThemeType) {
+        if (activity == null) {
+            return;
+        }
+
+        Intent intent = new Intent(activity, ResultPageActivity.class);
+        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_THEME_RECOMMEND);
+        intent.putExtra(EXTRA_KEY_RECOMMEND_THEME, mThemeType);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
+    }
+
     private void recordIntoBpAndNcCardTimes() {
 
     }
@@ -207,6 +222,8 @@ public class ResultPageActivity extends BaseAppCompatActivity
                 return ContextCompat.getColor(this, R.color.clean_primary_blue);
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 return ContextCompat.getColor(this, R.color.cpu_cooler_primary_blue);
+            case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
+                return ContextCompat.getColor(this, R.color.black_80_transparent);
         }
         return ContextCompat.getColor(this, R.color.boost_plus_clean_bg);
     }
@@ -233,6 +250,11 @@ public class ResultPageActivity extends BaseAppCompatActivity
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 mResultController = new CpuCoolerResultController(this, type, cards);
                 titleText = getString(R.string.promotion_max_card_title_cpu_cooler);
+                break;
+            case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
+                Type themeType = (Type) intent.getSerializableExtra(EXTRA_KEY_RECOMMEND_THEME);
+                mResultController = new ThemeRecommendResultController(this, themeType, type, cards);
+                titleText = getString(R.string.app_name);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported result type.");

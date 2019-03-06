@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><resources>
   <string name="acb_phone_grant_notification_access_title">Toegang tot meldingen inschakelen om oproepen te beantwoorden</string>
+  <string name="acb_phone_grant_autostart_access_title">AutoStart inschakelen om Oproepflitser te tonen</string>
   <!-- TODO: string name="draw_overlay_window_hint" -->
 <!-- TODO: string name="phone_contact_permission_settings_guide_title" --></resources>

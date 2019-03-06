@@ -177,4 +177,10 @@
 <string name="battery_optimized">OPTIMISÉ</string>
 
     <string name="guide_theme_random_hint">En appliquant ce thème, vous pouvez profiter des thèmes aléatoires pour les appels entrants.</string>
+
+    <string name="theme_recommend_content">Appliquer ce nouveau thème pour %1$s</string>
+    <string name="theme_recommend_content_default">your friend</string>
+    <string name="result_page_theme_recommend_optimal">Appliqué avec succès</string>
+    <string name="result_page_theme_recommend_more">Trouver plus de thèmes</string>
+
 </resources>

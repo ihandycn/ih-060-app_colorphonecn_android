@@ -30,6 +30,7 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.rom.RomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +86,11 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                 ModuleUtils.setAllModuleUserEnable();
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
                 } else {
-                    PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+                    if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()) {
+                        PermissionHelper.requestAutoStartIfNeeded(GuideAllFeaturesActivity.this);
+                    } else {
+                        PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+                    }
                     finish();
                 }
 
@@ -186,7 +191,12 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         onPermissionsDenied(requestCode, denied);
 
         if (!ingoreNotificationPermission) {
-            PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+            if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()) {
+                PermissionHelper.requestAutoStartIfNeeded(GuideAllFeaturesActivity.this);
+            } else {
+                PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+            }
+//            PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
         }
 //        }
         finish();

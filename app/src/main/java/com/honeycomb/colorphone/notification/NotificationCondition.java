@@ -31,7 +31,6 @@ import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.boost.BoostAnimationManager;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.boost.DeviceManager;
-import com.honeycomb.colorphone.receiver.UserPresentReceiver;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.DeviceUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -170,7 +169,7 @@ public class NotificationCondition implements INotificationObserver {
         notificationHolderList = new ArrayList<>(BoostAutoPilotUtils.getBoostPushMaxCount());
         readFromPref();
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_CHECK_DONE, this);
-        HSGlobalNotificationCenter.addObserver(UserPresentReceiver.USER_PRESENT, this);
+        HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_PRESENT, this);
         HSGlobalNotificationCenter.addObserver(ScreenStateMgr.ACTION_SCREEN_ON, this);
     }
 
@@ -189,7 +188,7 @@ public class NotificationCondition implements INotificationObserver {
                 }
                 break;
             case ScreenStateMgr.ACTION_SCREEN_ON:
-            case UserPresentReceiver.USER_PRESENT:
+            case ScreenStatusReceiver.NOTIFICATION_PRESENT:
                 mHandler.postDelayed(new Runnable() {
                     @Override public void run() {
                         NotificationCondition.this.sendNotificationIfNeeded();

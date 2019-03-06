@@ -57,6 +57,7 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -101,7 +102,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final boolean PLAY_ANIMITION = true;
     private static final boolean NO_ANIMITION = false;
 
-    private static final long AUTO_HIDE_TIME = 4000;
+    private static final long AUTO_HIDE_TIME = 15000; //15s
     private static final long ANIMATION_DURATION = 400;
     private static final long WINDOW_ANIM_DURATION = 400;
     private static final int TRANS_IN_DURATION = 400;
@@ -548,6 +549,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     @DebugLog
     private void onThemeApply() {
+        ThemeRecommendManager.getInstance().putAppliedThemeForAllUser(mTheme.getIdName());
         saveThemeApplys(mTheme.getId());
         ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, mTheme.getId());
         // notify

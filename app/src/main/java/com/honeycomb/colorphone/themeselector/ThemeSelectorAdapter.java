@@ -90,6 +90,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private boolean mHotThemeHolderVisible;
     private int mUnLockThemeId = -1;
     private int mMaxShowThemeIndex = 2;
+    private boolean isForeground;
 
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_GIF = 0x1;
     public static final int THEME_SELECTOR_ITEM_TYPE_THEME_VIDEO = 0x8;
@@ -382,9 +383,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             tipView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                        PermissionChecker.getInstance().checkForcely(activity, "Banner");
-                    }
+                    PermissionChecker.getInstance().checkForcely(activity, "Banner");
                 }
             });
             return new TopTipViewHolder(tipView);
@@ -435,9 +434,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         boolean startDownload = holder.startDownload();
         if (startDownload) {
             theme.setPendingSelected(true);
+            PermissionChecker.getInstance().check((Activity) activity, "List");
         } else {
             if (selectTheme(pos, holder, true)) {
                 onThemeSelected(pos);
+                PermissionChecker.getInstance().check(activity, "SetForAll");
             }
         }
 
@@ -450,7 +451,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private void onThemeSelected(int pos) {
-        PermissionChecker.getInstance().check(activity, "SetForAll");
 
         final Theme theme = data.get(pos);
         saveThemeApplys(theme.getId());
@@ -748,6 +748,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         return count;
     }
 
+    public void markForeground(boolean foreground) {
+        isForeground = foreground;
+    }
+
     public static class ThemeCardViewHolder extends RecyclerView.ViewHolder implements DownloadHolder {
 
         private static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG;
@@ -848,11 +852,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public boolean startDownload() {
             if (getDownloadHolder().canStartDownload()) {
-                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    if (itemView.getContext() instanceof Activity) {
-                        PermissionChecker.getInstance().check((Activity) itemView.getContext(), "List");
-                    }
-                }
                 getDownloadHolder().startDownload(true);
                 return true;
             }

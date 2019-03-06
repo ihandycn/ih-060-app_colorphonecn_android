@@ -116,8 +116,8 @@ public class DailyLogger {
                         notificationAccessGranted);
             }
 
-            if (HSApplication.getFirstLaunchInfo().appVersionCode >= 39) {
-                logPermissionStatusEvent("ColorPhone_Permission_Check_Above23_39",
+            if (HSApplication.getFirstLaunchInfo().appVersionCode >= 41) {
+                logPermissionStatusEvent("ColorPhone_Permission_Check_Above23_41",
                         phoneAccessGranted, contactsAccessGranted,
                         notificationAccessGranted);
             }

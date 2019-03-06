@@ -1,6 +1,12 @@
 package com.honeycomb.colorphone.trigger;
 
 public class DailyTrigger extends NormalTrigger {
+    private String mExtraName = "";
+    public DailyTrigger() {}
+    public DailyTrigger(String name) {
+        mExtraName = name;
+    }
+
     @Override
     public boolean enabled() {
         return true;
@@ -13,7 +19,7 @@ public class DailyTrigger extends NormalTrigger {
 
     @Override
     String getName() {
-        return "DailyTrigger";
+        return "DailyTrigger" + mExtraName;
     }
 
     @Override

@@ -7,5 +7,6 @@
   <string name="permission_request_sms">SMS</string>
   <string name="permission_request_contacts">Contactos</string>
   <string name="phone_contact_permission_settings_guide_title">Selecciona "Permisos" y activa "Teléfono", "Contactos"</string>
+  <string name="acb_phone_grant_autostart_access_title">Habilita el inicio automático para mostrar el parpadeo de llamada</string>
 
 </resources>

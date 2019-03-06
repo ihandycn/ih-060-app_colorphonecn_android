@@ -182,4 +182,10 @@
 <string name="battery_optimized">OTTIMIZZATO</string>
 
     <string name="guide_theme_random_hint">Applica il tema per visualizzare temi casuali per le chiamate in arrivo.</string>
+
+    <string name="theme_recommend_content">Applica il nuovo tema per %1$s</string>
+    <string name="theme_recommend_content_default">your friend</string>
+    <string name="result_page_theme_recommend_optimal">Applicato</string>
+    <string name="result_page_theme_recommend_more">Trova altri temi</string>
+
 </resources>

@@ -9,4 +9,5 @@
   <string name="acb_phone_grant_notification_access_title">Aktifkan Akses Pemberitahuan untuk Menjawab Panggilan</string>
   <!-- TODO: string name="draw_overlay_window_hint" -->
   <string name="phone_contact_permission_settings_guide_title">Pilih "Izin" dan aktifkan "Telepon", "Kontak"</string>
+  <string name="acb_phone_grant_autostart_access_title">Aktifkan AutoStart untuk Menampilkan Flash Panggilan</string>
 </resources>

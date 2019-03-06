@@ -12,11 +12,11 @@ import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.utils.PermissionHelper;
+import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.utils.FontUtils;
 import com.call.assistant.util.CommonUtils;
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -28,6 +28,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 
@@ -75,14 +76,17 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
+                PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_OutSide_Click");
                 ModuleUtils.setAllModuleUserEnable();
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
                 } else {
-                    PermissionHelper.requestNotificationAccessIfNeeded(RequestPermissionsActivity.class);
+                    PermissionHelper.requestNotificationPermission(RequestPermissionsActivity.class, () -> {
+                        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_NotificationAccess_Allow_Success_OutSideApp");
+                    });
+                    PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_NotificationAccess_View_Show_OutSideApp");
+
                     Threads.postOnMainThreadDelayed(() -> {
-                        Intent intent = new Intent(OutsidePermissionGuideActivity.this, NotificationAccessGuideAlertActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = new Intent(OutsidePermissionGuideActivity.this, NotificationGuideActivity.class);
                         Navigations.startActivitySafely(OutsidePermissionGuideActivity.this, intent);
                     }, 1000);
 
@@ -92,7 +96,7 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
         });
 
         HSGlobalNotificationCenter.addObserver(EVENT_DISMISS, this);
-        PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_outside_show");
+        PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_OutSide_Show");
     }
 
     /**
@@ -109,7 +113,7 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
         boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 == RuntimePermissions.PERMISSION_GRANTED;
         if (!contactPerm) {
-            LauncherAnalytics.logEvent("ColorPhone_PermissionGuide_Contact_View_Show_OutSideApp");
+            PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_Contact_View_Show_OutSideApp");
         }
         if (!contactPerm){
             // Do not have permissions, request them now
@@ -141,9 +145,14 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
 
         if (!PermissionHelper.isNotificationAccessGranted(OutsidePermissionGuideActivity.this)) {
             PermissionHelper.requestNotificationPermission(RequestPermissionsActivity.class, () -> {
-                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_notificationaccess_allow_success_outsideapp");
+                PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_NotificationAccess_Allow_Success_OutSideApp");
             });
-            PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_notificationaccess_view_show_outsideapp");
+            PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_NotificationAccess_View_Show_OutSideApp");
+
+            Threads.postOnMainThreadDelayed(() -> {
+                Intent intent = new Intent(OutsidePermissionGuideActivity.this, NotificationGuideActivity.class);
+                Navigations.startActivitySafely(OutsidePermissionGuideActivity.this, intent);
+            }, 1000);
         }
         finish();
 
@@ -152,8 +161,7 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
     public void onPermissionsGranted(int requestCode, List<String> list) {
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
             if (list.contains(Manifest.permission.READ_CONTACTS)) {
-                LauncherAnalytics.logEvent("ColorPhone_PermissionGuide_Contact_Allow_Success_OutSideApp");
-                PermissionTestUtils.logPermissionEvent("colorphone_permissionguide_contact_allow_success_outsideapp");
+                PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_Contact_Allow_Success_OutSideApp");
             }
         }
     }
@@ -165,6 +173,8 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(s, EVENT_DISMISS)) {
+            int times = Preferences.get(Constants.DESKTOP_PREFS).getInt("alert_show_maxtime", 0);
+            Preferences.get(Constants.DESKTOP_PREFS).putInt("alert_show_maxtime", --times);
             finish();
         }
     }

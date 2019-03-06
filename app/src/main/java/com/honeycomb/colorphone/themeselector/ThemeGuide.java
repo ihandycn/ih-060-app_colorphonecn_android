@@ -97,7 +97,6 @@ public class ThemeGuide {
         if (isFromThemeGuide()) {
             ThemeGuideTest.logThemeGuideApply();
         }
-//        ColorPhone_ThemeWireAd_Show_FromThemeGuide
     }
 
     public static boolean isFromThemeGuide() {

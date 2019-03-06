@@ -180,4 +180,10 @@
     <string name="battery_optimized">最適化</string>
 
   <string name="guide_theme_random_hint">このテーマを適用すると、着信の際にランダムなテーマをお楽しみいただけます。</string>
+
+  <string name="theme_recommend_content">この新しいテーマを%1$sに適用する</string>
+  <string name="theme_recommend_content_default">your friend</string>
+  <string name="result_page_theme_recommend_optimal">適用に成功しました</string>
+  <string name="result_page_theme_recommend_more">テーマをもっと見つける</string>
+
 </resources>

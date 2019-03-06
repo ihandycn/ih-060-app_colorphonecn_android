@@ -26,6 +26,7 @@ import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.AutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -132,7 +133,6 @@ abstract class ResultController implements View.OnClickListener {
         logViewEvent();
 
         LayoutInflater layoutInflater = LayoutInflater.from(activity);
-
 
         mHeaderTagView = ViewUtils.findViewById(activity, R.id.result_header_tag_view);
 
@@ -298,6 +298,9 @@ abstract class ResultController implements View.OnClickListener {
     }
 
     private boolean shouldShowInterstitialAd() {
+        if (mResultType == ResultConstants.RESULT_TYPE_THEME_RECOMMEND && ThemeRecommendManager.isThemeRecommendAdShowBeforeRecommend()) {
+            return false;
+        }
         if (ResultPageManager.getInstance().getInterstitialAd() == null) {
             return false;
         }
@@ -482,6 +485,9 @@ abstract class ResultController implements View.OnClickListener {
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 LauncherAnalytics.logEvent("Colorphone_CPUDone_Page_Shown");
                 break;
+            case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
+                ThemeRecommendManager.logThemeRecommendResultPageShow();
+                break;
         }
     }
 
@@ -521,6 +527,11 @@ abstract class ResultController implements View.OnClickListener {
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 LauncherAnalytics.logEvent("Colorphone_CPUWire_Ad_Should_Shown");
                 break;
+            case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
+                if (!ThemeRecommendManager.isThemeRecommendAdShowBeforeRecommend()) {
+                    ThemeRecommendManager.logThemeRecommendWireShouldShow();
+                }
+                break;
         }
     }
 
@@ -552,6 +563,9 @@ abstract class ResultController implements View.OnClickListener {
                 LauncherAnalytics.logEvent("Colorphone_CPUWire_Ad_Shown");
                 AutoPilotUtils.logCpuwireAdShow();
                 break;
+            case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
+                ThemeRecommendManager.logThemeRecommendWireShow();
+                break;
         }
     }
 
@@ -581,6 +595,9 @@ abstract class ResultController implements View.OnClickListener {
             case ResultConstants.RESULT_TYPE_CPU_COOLER:
                 LauncherAnalytics.logEvent("Colorphone_CPUDone_Ad_Shown");
                 AutoPilotUtils.logCpudoneAdShow();
+                break;
+            case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
+                ThemeRecommendManager.logThemeRecommendDoneShow();
                 break;
         }
     }

@@ -9,4 +9,5 @@
   <string name="acb_phone_grant_notification_access_title">응답 통화에 알림 액세스 활성화</string>
   <!-- TODO: string name="draw_overlay_window_hint" -->
   <string name="phone_contact_permission_settings_guide_title">"권한"을 선택하고 "Phone", "Contacts"를 활성화</string>
+  <string name="acb_phone_grant_autostart_access_title">자동 시작을 활성화하여 통화 플래시를 표시하세요</string>
 </resources>
