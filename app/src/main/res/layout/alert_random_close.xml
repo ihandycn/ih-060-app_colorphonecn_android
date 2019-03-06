@@ -41,6 +41,7 @@
             app:typeface="@string/proxima_nova_bold" />
 
         <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/alert_random_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -61,7 +62,7 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/material_compat_button_bg_blue"
             android:gravity="center"
-            android:text="Keep random mode"
+            android:text="@string/alert_button_keep_random_mode"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="15sp"
@@ -77,7 +78,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/dialog_gray_btn_bg"
             android:gravity="center"
-            android:text="Turn Off"
+            android:text="@string/alert_button_turn_off"
             android:textAllCaps="true"
             android:textColor="#FF5B5B5B"
             android:textSize="15sp"

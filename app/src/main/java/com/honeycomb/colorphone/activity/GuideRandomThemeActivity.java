@@ -37,9 +37,6 @@ public class GuideRandomThemeActivity extends HSAppCompatActivity {
         Ap.RandomTheme.logEvent("random_theme_guide_show");
         LauncherAnalytics.logEvent("random_theme_guide_show_round2");
 
-        TextView textView = findViewById(R.id.theme_guide_desc);
-        textView.setText(Ap.RandomTheme.randomThemeGuideDesc());
-
         TextView enableBtn = (TextView) findViewById(R.id.guide_random_ok);
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override

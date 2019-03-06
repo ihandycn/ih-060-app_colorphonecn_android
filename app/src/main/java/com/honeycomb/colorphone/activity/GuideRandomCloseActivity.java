@@ -59,6 +59,9 @@ public class GuideRandomCloseActivity extends HSAppCompatActivity {
         Ap.RandomTheme.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_show" : "settings_retain_alert_show");
         LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_show_round2" : "settings_retain_alert_show_round2");
 
+        TextView textViewDesc = findViewById(R.id.alert_random_desc);
+        textViewDesc.setText(mFrom == DETAIL ? R.string.alert_turn_off_random_desc_beset : R.string.alert_turn_off_random_desc);
+
         TextView enableBtn = (TextView) findViewById(R.id.button_keep);
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +74,7 @@ public class GuideRandomCloseActivity extends HSAppCompatActivity {
         });
 
         TextView disableBtn = (TextView) findViewById(R.id.button_turn_off);
+        disableBtn.setText(mFrom == DETAIL ? R.string.alert_button_continue : R.string.alert_button_turn_off);
         disableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
