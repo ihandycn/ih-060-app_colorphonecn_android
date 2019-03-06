@@ -301,6 +301,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private INotificationObserver turnOffRandomObserver = new INotificationObserver() {
         @Override
         public void onReceive(String s, HSBundle hsBundle) {
+            RandomTheme.getInstance().setUserSettingsEnable(false);
             performApplyClickResult();
         }
     };
@@ -419,7 +420,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
              || !RandomTheme.getInstance().userSettingsEnable()) {
                 mApplyButton.setVisibility(VISIBLE);
             } else {
-                mApplyButton.setVisibility(INVISIBLE);
+                mApplyButton.setVisibility(GONE);
+
+                mApplyForOne.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                mApplyForOne.requestLayout();
                 showForAllButton = false;
             }
         }
@@ -682,7 +686,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 });
                 return true;
             }
-        } else if (ModuleUtils.needShowSetForOneGuide()) {
+        } else if (mApplyButton.getVisibility() == VISIBLE
+                && ModuleUtils.needShowSetForOneGuide()) {
             ViewStub stub = findViewById(R.id.guide_for_set_one);
             final View guideView = stub.inflate();
             guideView.setAlpha(0);

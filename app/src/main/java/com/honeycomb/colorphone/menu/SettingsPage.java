@@ -112,6 +112,12 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
         return HSApplication.getContext().getString(id);
     }
 
+    public void refreshRandomTheme() {
+        if (randomSwitch != null) {
+            randomSwitch.setChecked(RandomTheme.getInstance().userSettingsEnable());
+        }
+    }
+
     @Override
     public void onClick(View v) {
         Context context = v.getContext();

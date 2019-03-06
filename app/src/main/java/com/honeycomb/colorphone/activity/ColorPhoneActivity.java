@@ -223,6 +223,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onDrawerOpened(View drawerView) {
+                mSettingsPage.refreshRandomTheme();
                 LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Shown");
                 LauncherAnalytics.logEvent("Colorphone_Sidebar_Shown");
             }
