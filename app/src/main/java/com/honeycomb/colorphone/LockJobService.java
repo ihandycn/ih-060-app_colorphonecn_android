@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Build;
 import android.text.format.DateUtils;
 
+import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.ihs.app.framework.HSApplication;
 
@@ -23,7 +24,7 @@ public class LockJobService extends JobService {
     public static void startJobScheduler() {
         try {
             JobInfo.Builder builder = new JobInfo.Builder(1, new ComponentName(HSApplication.getContext().getPackageName(), LockJobService.class.getName()));
-            builder.setPeriodic(10 * DateUtils.MINUTE_IN_MILLIS);
+            builder.setPeriodic((CommonUtils.ATLEAST_MARSHMALLOW ? 1 : 8) * DateUtils.HOUR_IN_MILLIS);
             JobScheduler jobScheduler = (JobScheduler) HSApplication.getContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
             jobScheduler.schedule(builder.build());
         } catch (Exception ex) {
@@ -33,6 +34,7 @@ public class LockJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
+        HSApplication.setContext(this);
         ColorPhonePermanentUtils.checkAliveForProcess();
         return false;
     }
