@@ -15,8 +15,12 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.recentapp.SmartAssistantActivity;
+import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.utils.HSLog;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -81,5 +85,21 @@ public class TestActivity extends AppCompatActivity {
 
     public void checkFloatWindow(View view) {
         FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
+    }
+
+    public void themeRecommend(View view) {
+        ResultPageManager.getInstance().preloadThemeRecommendAds();
+
+        String number = editText.getText().toString().trim();
+        number = TextUtils.isEmpty(number) ? "13800138000" : number;
+
+        String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number, true);
+        ThemeRecommendManager.getInstance().isShowRecommendTheme(number);
+
+        if (!TextUtils.isEmpty(themeIdName)) {
+            ThemeRecommendActivity.start(TestActivity.this, number, themeIdName);
+        } else {
+            HSLog.i("ThemeRecommendManager", "not show themeid == " + themeIdName);
+        }
     }
 }

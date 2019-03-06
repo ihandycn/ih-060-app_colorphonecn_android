@@ -18,6 +18,7 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
@@ -61,6 +62,29 @@ public class ThemeDownloadJobService extends JobService {
         }
     }
 
+    public static void scheduleDownloadJobAnyNet(int modelId) {
+        PersistableBundle persistableBundle = new PersistableBundle();
+        persistableBundle.putInt(KEY_TYPE, TYPE_NORAL_THEME);
+        persistableBundle.putInt(KEY_TASK_ID, modelId);
+        JobInfo jobInfo = new JobInfo.Builder(modelId,
+                new ComponentName(HSApplication.getContext(), ThemeDownloadJobService.class))
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setBackoffCriteria(5 * DateUtils.MINUTE_IN_MILLIS, JobInfo.BACKOFF_POLICY_EXPONENTIAL)
+                .setExtras(persistableBundle)
+                .build();
+
+        JobScheduler jobScheduler = (JobScheduler) HSApplication.getContext().getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        if (jobScheduler != null) {
+            int resultCode = jobScheduler.schedule(jobInfo);
+            if (resultCode == JobScheduler.RESULT_SUCCESS) {
+                HSLog.d(TAG, "Job scheduled!");
+                ThemeRecommendManager.logThemeRecommendThemeDownloadStart();
+            } else {
+                HSLog.d(TAG, "Job not scheduled");
+            }
+        }
+    }
+
     private JobParameters mjobParameters;
     final Runnable pendingWorkRunnable = new Runnable() {
         @Override
@@ -76,7 +100,7 @@ public class ThemeDownloadJobService extends JobService {
     private void doDownloadTask(JobParameters jobParameters) {
         int taskId = jobParameters.getExtras().getInt(KEY_TASK_ID);
         HSLog.d(TAG, "schedule download task : " + taskId);
-        if (taskId > 0) {
+        if (taskId != 0) {
             TasksManagerModel model = TasksManager.getImpl().getById(taskId);
             if (model == null) {
                 if (TasksManager.getImpl().isLoading()) {
@@ -102,12 +126,14 @@ public class ThemeDownloadJobService extends JobService {
                     HSLog.d(TAG, "download normal task success: "+ model.getName());
                     LauncherAnalytics.logEvent("Test_Job_Download_Success", LauncherAnalytics.FLAG_LOG_FABRIC);
                     onJobFinish(jobParameters, false);
+                    ThemeRecommendManager.logThemeRecommendThemeDownloadSuccess();
                 }
 
                 @Override
                 public void updateNotDownloaded(int status, long sofar, long total) {
                     HSLog.d(TAG, "download normal task fail: "+ model.getName());
                     onJobFinish(jobParameters, true);
+                    ThemeRecommendManager.logThemeRecommendThemeDownloadFail();
                 }
 
                 @Override
@@ -115,6 +141,8 @@ public class ThemeDownloadJobService extends JobService {
 
                 }
             });
+        } else {
+            HSLog.d(TAG, "schedule NOT download task : " + taskId);
         }
     }
 

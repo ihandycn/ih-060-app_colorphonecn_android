@@ -501,6 +501,10 @@
         <activity android:name=".cashcenter.InnerCashGuideActivity" />
         <activity android:name=".permission.OutsidePermissionGuideActivity"
             android:theme="@style/Theme.AppCompat.Translucent"/>
+
+        <activity android:name=".themerecommend.ThemeRecommendActivity"
+                  android:theme="@style/Theme.AppCompat.Translucent" />
+
         <activity
             android:name=".triviatip.TriviaTipActivity"
             android:theme="@style/Theme.AppCompat.Translucent"

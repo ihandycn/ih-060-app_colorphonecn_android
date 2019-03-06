@@ -179,4 +179,9 @@
     <string name="battery_optimized">已優化</string>
 
     <string name="guide_theme_random_hint">應用了當前主題後，每次來電會隨機展示不同主題視頻</string>
+    <string name="theme_recommend_content">將這個新主題應用給%1$s</string>
+    <string name="theme_recommend_content_default">your friend</string>
+    <string name="result_page_theme_recommend_optimal">應用成功</string>
+    <string name="result_page_theme_recommend_more">發現更多的主題</string>
+
 </resources>

@@ -9,8 +9,12 @@ import android.os.Looper;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.activity.ThemePreviewActivity;
+import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.ihs.app.framework.HSApplication;
@@ -353,6 +357,53 @@ public class ContactManager {
             }
         }
         return themeId;
+    }
+
+    public SimpleContact getContact(String number) {
+        for (SimpleContact contact : mAllContacts) {
+            if (isMatchPhoneNumber(contact, number)) {
+                return contact;
+            }
+        }
+        return null;
+    }
+
+    public void setThemeIdByNumber(String number, int themeId) {
+        boolean isContact = getContact(number) != null;
+
+        if (isContact) {
+            if (mThemeFilterContacts.isEmpty()) {
+                mThemeFilterContacts.addAll(fetchThemeContacts());
+                update();
+            } else {
+                updateFilterContactsIfNeeded();
+            }
+
+            List<ThemeEntry> themeEntries = new ArrayList<>();
+            for (SimpleContact contact : mThemeFilterContacts) {
+                if (isMatchPhoneNumber(contact, number)) {
+                    contact.setThemeId(themeId);
+                    List<ThemeEntry> entrys = ThemeEntry.valueOf(contact, ContactDBHelper.Action.UPDATE);
+                    themeEntries.addAll(entrys);
+                    break;
+                }
+            }
+
+            for (SimpleContact contact : mAllContacts) {
+                if (isMatchPhoneNumber(contact, number)) {
+                    contact.setThemeId(themeId);
+                    List<ThemeEntry> entrys = ThemeEntry.valueOf(contact, ContactDBHelper.Action.INSERT);
+                    themeEntries.addAll(entrys);
+                    break;
+                }
+            }
+            ContactManager.getInstance().updateDb(themeEntries, null);
+            ContactManager.getInstance().markDataChanged();
+        } else {
+            ThemePreviewView.saveThemeApplys(themeId);
+            ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, themeId);
+            HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_THEME_SELECT);
+        }
     }
 
     public synchronized void clearThemeStatus() {

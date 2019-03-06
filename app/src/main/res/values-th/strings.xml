@@ -177,4 +177,9 @@
     <string name="battery_optimized">เพิ่มประสิทธิภาพ</string>
 
     <string name="guide_theme_random_hint">คุณสามารถเพลิดเพลินกับธีมสายเรียกเข้าแบบสุ่มจากการใช้ธีมนี้</string>
+
+    <string name="theme_recommend_content">ใช้ธีมใหม่นี้กับ %1$s</string>
+    <string name="theme_recommend_content_default">your friend</string>
+    <string name="result_page_theme_recommend_optimal">นำไปใช้สำเร็จแล้ว</string>
+    <string name="result_page_theme_recommend_more">ค้นหาธีมเพิ่มเติม</string>
 </resources>

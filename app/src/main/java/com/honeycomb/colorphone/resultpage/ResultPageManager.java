@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.resultpage;
 
 import com.honeycomb.colorphone.Placements;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.ihs.commons.utils.HSLog;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
@@ -30,6 +31,8 @@ public class ResultPageManager {
     private String mFromInterstitialAdPlacement;
     private String mFromAdPlacement;
 
+    private boolean useThemeCommendAd = false;
+
     private ResultPageManager() {
     }
 
@@ -44,10 +47,23 @@ public class ResultPageManager {
         return sInstance;
     }
 
+    public void preloadThemeRecommendAds() {
+        if (ThemeRecommendManager.isThemeRecommendEnable() && ThemeRecommendManager.isThemeRecommendAdShow()) {
+            AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.THEME_RECOMMEND_DONE);
+            AcbNativeAdManager.preload(1, Placements.THEME_RECOMMEND_DONE);
+
+            AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.THEME_RECOMMEND_WIRE);
+            AcbInterstitialAdManager.preload(1, Placements.THEME_RECOMMEND_WIRE);
+            useThemeCommendAd = true;
+        }
+    }
+
     public void preloadResultPageAds() {
         HSLog.d(TAG, "preloadResultPageAds");
+        useThemeCommendAd = false;
         boolean hasNative = false;
         boolean hasInters = false;
+
         if (ResultPageManager.getInstance().isFromBatteryImprover()) {
             hasNative = getAd(Placements.BOOST_DOWN) != null;
             hasInters = getInterstitialAd(Placements.BOOST_WIRE) != null;
@@ -65,6 +81,9 @@ public class ResultPageManager {
     }
 
     public AcbNativeAd getAd() {
+        if (useThemeCommendAd) {
+            return getAd(Placements.THEME_RECOMMEND_DONE);
+        }
         return getAd(ResultPageManager.getInstance().getExpressAdPlacement());
     }
 
@@ -80,6 +99,9 @@ public class ResultPageManager {
     }
 
     public AcbInterstitialAd getInterstitialAd() {
+        if (useThemeCommendAd) {
+            return getInterstitialAd(Placements.THEME_RECOMMEND_WIRE);
+        }
         return getInterstitialAd(ResultPageManager.getInstance().getInterstitialAdPlacement());
     }
 

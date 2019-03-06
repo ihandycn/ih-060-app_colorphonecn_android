@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_80_transparent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="#7f7f7f7f">
+
+    <com.superappscommon.view.TypefacedTextView
+        android:id="@+id/recommend_view_action"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="#1d1d1d"
+        android:textAllCaps="true"
+        android:text="@string/apply_btn"
+        android:background="@drawable/btn_bg_yellow"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:typefaceFileName="ProximaNova-Bold.otf"
+        tools:text="APPLY"/>
+
+    <com.superappscommon.view.TypefacedTextView
+        android:id="@+id/recommend_view_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:lineSpacingExtra="4sp"
+        android:text="@string/theme_recommend_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recommend_view_action"
+        app:typefaceFileName="ProximaNova-Semibold.otf"
+        tools:text="Apply this new theme for Jackson"/>
+
+    <FrameLayout
+        android:id="@+id/recommend_view_preview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="56dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recommend_view_content"
+        app:layout_constraintDimensionRatio="w,9:16">
+
+        <com.acb.call.views.ThemePreviewWindow
+            android:id="@+id/prev_flash_window"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <com.acb.call.views.InCallActionView
+            android:id="@+id/in_call_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/theme_recommend_phone"
+        android:layout_marginBottom="36dp"
+        android:scaleType="fitXY"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recommend_view_content"
+        app:layout_constraintDimensionRatio="w,9:16" />
+
+    <ImageView
+        android:id="@+id/close_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="48dp"
+        android:src="@drawable/close_button"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

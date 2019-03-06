@@ -2184,6 +2184,152 @@
       ],
       "topic_id": "topic-71fwky10t"
     },
+    "topic-71fwky10t": {
+      "topic_type": "life_time",
+      "topic_name": "ThemeRecommend Test New",
+      "variations": {
+        "ad_show_before_recommend": {
+          "value_list": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "maxtime_one_contact": {
+          "value_list": [
+            {
+              "value": 1
+            }
+          ],
+          "type": "double",
+          "value": 1,
+          "strategy": "sole"
+        },
+        "show_interval_calls": {
+          "value_list": [
+            {
+              "value": 2
+            }
+          ],
+          "type": "double",
+          "value": 2,
+          "strategy": "sole"
+        },
+        "themerecommend_first_show": {
+          "value_list": [
+            {
+              "value": 1
+            }
+          ],
+          "type": "double",
+          "value": 1,
+          "strategy": "sole"
+        },
+        "themerecommend_enable": {
+          "value_list": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "themerecommend_ad_show": {
+          "value_list": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "show_interval_minutes": {
+          "value_list": [
+            {
+              "value": 0
+            }
+          ],
+          "type": "double",
+          "value": 0,
+          "strategy": "sole"
+        },
+        "themerecommend_show_interval_when_applied": {
+          "value_list": [
+            {
+              "value": 1
+            }
+          ],
+          "type": "double",
+          "value": 1,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "recommend_show"
+        },
+        {
+          "name": "recommend_btn_click"
+        },
+        {
+          "name": "recommend_detail_wiread_should_show"
+        },
+        {
+          "name": "recommend_detail_wiread_show"
+        },
+        {
+          "name": "recommend_detail_donead_should_show"
+        },
+        {
+          "name": "recommend_detail_donead_show"
+        },
+        {
+          "name": "recommend_detail_morethemes_show"
+        },
+        {
+          "name": "recommend_detail_morethemes_findmore_click"
+        },
+        {
+          "name": "themedetail_show_from_recommend"
+        },
+        {
+          "name": "choose_theme_from_recommend"
+        },
+        {
+          "name": "themewire_show_from_recommend"
+        },
+        {
+          "name": "call_assistant_close"
+        },
+        {
+          "name": "recommend_should_show"
+        },
+        {
+          "name": "wire_on_recommend_should_show"
+        },
+        {
+          "name": "wire_on_recommend_show"
+        },
+        {
+          "name": "recommend_theme_download_start"
+        },
+        {
+          "name": "recommend_theme_download_success"
+        },
+        {
+          "name": "recommend_theme_download_fail"
+        }
+      ],
+      "topic_id": "topic-71fwky10t"
+    },
     "topic-6z2dn7nbq": {
       "topic_type": "life_time",
       "topic_name": "Access Alert Test",
@@ -3129,7 +3275,7 @@
   "autopilot_id": 10000,
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "76701b5f-c9b6-4973-ad95-bfa11dd509c3",
+  "json_id": "c30dbf33-230e-44d4-b6b8-75743203a3a1",
   "autopilot_name": "Color Phone",
   "autopilot_type": "app"
 }

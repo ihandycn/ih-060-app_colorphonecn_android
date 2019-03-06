@@ -40,8 +40,8 @@ android {
         colorphone {
             dimension "mode"
             applicationId "com.colorphone.smooth.dialer"
-            versionCode 42
-            versionName "1.3.0"
+            versionCode 44
+            versionName "1.3.2"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
                     'src/colorphone/proguard-rules.pro'
 
@@ -214,9 +214,8 @@ dependencies {
     compile project(':permissions')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2019.02.02.001'
+    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2019.02.12.001'
     colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2019.02.13.001'
-
 }
 
 // ADD THIS AT THE BOTTOM

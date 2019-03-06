@@ -224,7 +224,7 @@ public class Theme extends Type {
     }
 
     public Drawable getThemePreviewDrawable() {
-        if (getValue() != LED && getValue() != TECH) {
+        if (getValue() != LED && getValue() != TECH && getValue() != STATIC) {
             int colorIndex = getIndex() % COLORS.length;
             return new ColorDrawable(Color.parseColor(COLORS[colorIndex]));
         }

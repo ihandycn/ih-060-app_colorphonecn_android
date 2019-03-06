@@ -184,4 +184,10 @@
     <string name="battery_optimized">الأمثل</string>
 
     <string name="guide_theme_random_hint">يجري تطبيق التصميم، استمتع بتصاميم عشوائية عند استلام مكالمة.</string>
+
+    <string name="theme_recommend_content">يجري تطبيق هذا التصميم الجديد من %1$s</string>
+    <string name="theme_recommend_content_default">your friend</string>
+    <string name="result_page_theme_recommend_optimal">تم التطبيق بنجاح</string>
+    <string name="result_page_theme_recommend_more">اعثر على المزيد من التصاميم</string>
+
 </resources>
