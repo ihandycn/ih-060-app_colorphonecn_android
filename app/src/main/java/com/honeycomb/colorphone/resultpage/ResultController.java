@@ -486,7 +486,7 @@ abstract class ResultController implements View.OnClickListener {
                 LauncherAnalytics.logEvent("Colorphone_CPUDone_Page_Shown");
                 break;
             case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
-                ThemeRecommendManager.logThemeRecommendResultPageShow();
+                ThemeRecommendManager.logThemeRecommendDoneShow();
                 break;
         }
     }
