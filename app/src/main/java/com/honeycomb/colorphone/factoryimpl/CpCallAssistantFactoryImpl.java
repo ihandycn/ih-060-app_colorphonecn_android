@@ -126,6 +126,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
     }
 
     private static volatile boolean isADShown = false;
+    private static volatile int sCallType;
 
     @Override
     public CallIdleAlert.Event getCallIdleEvent() {
@@ -183,6 +184,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onShow(int callType, boolean isLocked) {
+                sCallType = callType;
                 Threads.removeOnMainThread(mDisplayTimeoutRunnable);
                 Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
                 LauncherAnalytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType),
@@ -283,10 +285,31 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK) {
                     ThemeRecommendManager.logThemeRecommendCallAssistantClose();
                     SimpleContact sc = ContactManager.getInstance().getContact(phoneNumber);
-                    if (sc == null) {
-                        LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close", "type", "Stranger");
+                    String callType;
+                    if (sCallType == CallIdleAlert.OUTGOING) {
+                        callType = "Outgoingcall";
                     } else {
-                        LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close", "type", "Contact");
+                        callType = "Incomingcall";
+                    }
+
+                    if (sc == null) {
+                        LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close",
+                                "type", "Stranger",
+                                "callType", callType);
+                    } else {
+                        LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close",
+                                "type", "Contact",
+                                "callType", callType);
+                    }
+
+                    if (ThemeRecommendManager.isThemeRecommendEnable()) {
+                        if (ThemeRecommendManager.isThemeRecommendAdShowBeforeRecommend()) {
+                            LauncherAnalytics.logEvent("call_assistant_close_recommendwireon",
+                                    "callType", callType);
+                        } else {
+                            LauncherAnalytics.logEvent("call_assistant_close_recommendwireoff",
+                                    "callType", callType);
+                        }
                     }
 
                     boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
@@ -301,6 +324,22 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                             ThemeRecommendManager.getInstance().recordThemeRecommendShow(phoneNumber);
                             ThemeRecommendActivity.start(HSApplication.getContext(), phoneNumber, themeIdName);
                             ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, true);
+                        } else {
+                            boolean isCallValid = ThemeRecommendManager.getInstance().isCallValid(phoneNumber);
+                            boolean isTimeValid = ThemeRecommendManager.getInstance().isTimeValid(phoneNumber);
+
+                            if (!isCallValid && !isTimeValid) {
+                                LauncherAnalytics.logEvent("recommend_should_not_show",
+                                        "Reason", "Both");
+                            } else if (!isCallValid) {
+                                LauncherAnalytics.logEvent("recommend_should_not_show",
+                                        "Reason", "Call");
+                            } else if (!isTimeValid) {
+                                LauncherAnalytics.logEvent("recommend_should_not_show",
+                                        "Reason", "Time");
+                            }
+
+
                         }
                     }
                 }

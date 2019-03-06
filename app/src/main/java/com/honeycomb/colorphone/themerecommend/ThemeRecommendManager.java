@@ -12,6 +12,7 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.theme.ThemeDownloadJobService;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -114,6 +115,15 @@ public class ThemeRecommendManager {
         }
 
         return result;
+    }
+
+    public boolean isCallValid(String number) {
+        return getCallTimes(number) >= getCallTimesAtFirstThemeRecommendShowed();
+    }
+
+    public boolean isTimeValid(String number) {
+        int minutes = getTimeIntervalMinutes();
+        return now() - getThemeRecommendLastShowedTimeForAllUser() > TimeUnit.MINUTES.toMillis(minutes);
     }
 
     public void recordThemeRecommendShow (String number) {
@@ -482,7 +492,7 @@ public class ThemeRecommendManager {
     public static void logThemeRecommendWireShow() {
         if (isThemeRecommendAdShow()) {
             AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_detail_wiread_show");
-            LauncherAnalytics.logEvent("recommend_detail_wiread_show");
+            LauncherAnalytics.logEvent("recommend_detail_wiread_show", "From", ResultPageManager.getInstance().getInterstitialAdPlacement());
         }
     }
 
@@ -496,7 +506,7 @@ public class ThemeRecommendManager {
     public static void logThemeRecommendDoneShow() {
         if (isThemeRecommendAdShow()) {
             AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_detail_donead_show");
-            LauncherAnalytics.logEvent("recommend_detail_donead_show");
+            LauncherAnalytics.logEvent("recommend_detail_donead_show", "From", ResultPageManager.getInstance().getExpressAdPlacement());
         }
     }
 
@@ -563,7 +573,7 @@ public class ThemeRecommendManager {
     }
 
     private static void setThemeRecommendMoreClickSession() {
-        Preferences.get(PREF_FILE).putInt(MORE_CLICK_SESSION, SessionMgr.getInstance().getCurrentSessionId());
+        Preferences.get(PREF_FILE).putInt(MORE_CLICK_SESSION, SessionMgr.getInstance().getCurrentSessionId() + 1);
     }
 
     public static void logThemeRecommendThemeDetailFromResultPage() {

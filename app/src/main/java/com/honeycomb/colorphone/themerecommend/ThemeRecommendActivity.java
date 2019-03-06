@@ -29,6 +29,7 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
+import net.appcloudbox.autopilot.AutopilotEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -210,5 +211,15 @@ public class ThemeRecommendActivity extends AppCompatActivity {
         if (ThemeRecommendManager.isThemeRecommendAdShow() && ThemeRecommendManager.isThemeRecommendAdShowBeforeRecommend()) {
             ResultPageManager.getInstance().releaseInterstitialAd();
         }
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        AutopilotEvent.onExtendedActive();
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        AutopilotEvent.onExtendedDeactive();
     }
 }

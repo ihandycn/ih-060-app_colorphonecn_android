@@ -49,12 +49,19 @@ public class ResultPageManager {
 
     public void preloadThemeRecommendAds() {
         if (ThemeRecommendManager.isThemeRecommendEnable() && ThemeRecommendManager.isThemeRecommendAdShow()) {
-            AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.THEME_RECOMMEND_DONE);
-            AcbNativeAdManager.preload(1, Placements.THEME_RECOMMEND_DONE);
+            AcbNativeAd ad = getAd();
+            if (ad == null) {
+                AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.THEME_RECOMMEND_DONE);
+                AcbNativeAdManager.preload(1, Placements.THEME_RECOMMEND_DONE);
+                useThemeCommendAd = true;
+            }
 
-            AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.THEME_RECOMMEND_WIRE);
-            AcbInterstitialAdManager.preload(1, Placements.THEME_RECOMMEND_WIRE);
-            useThemeCommendAd = true;
+            AcbInterstitialAd interstitialAd = getInterstitialAd();
+            if (interstitialAd == null) {
+                AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.THEME_RECOMMEND_WIRE);
+                AcbInterstitialAdManager.preload(1, Placements.THEME_RECOMMEND_WIRE);
+                useThemeCommendAd = true;
+            }
         }
     }
 
