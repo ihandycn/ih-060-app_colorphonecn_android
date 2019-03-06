@@ -115,9 +115,11 @@ public class ThemeDownloadJobService extends JobService {
                 return;
             }
 
-            LauncherAnalytics.logEvent("Test_Job_Download_Start", LauncherAnalytics.FLAG_LOG_FABRIC);
-            ThemeRecommendManager.logThemeRecommendThemeDownloadStart();
-            TasksManager.doDownload(model, null);
+            boolean isStart = TasksManager.doDownload(model, null);
+            if (isStart) {
+                LauncherAnalytics.logEvent("Test_Job_Download_Start", LauncherAnalytics.FLAG_LOG_FABRIC);
+                ThemeRecommendManager.logThemeRecommendThemeDownloadStart();
+            }
 
             FileDownloadMultiListener.getDefault().addStateListener(taskId, new DownloadStateListener() {
 
