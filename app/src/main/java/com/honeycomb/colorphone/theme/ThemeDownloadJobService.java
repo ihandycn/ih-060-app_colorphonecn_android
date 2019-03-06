@@ -117,6 +117,7 @@ public class ThemeDownloadJobService extends JobService {
 
             boolean isStart = TasksManager.doDownload(model, null);
             if (isStart) {
+                HSLog.d(TAG, "schedule download task name : " + model.getName());
                 LauncherAnalytics.logEvent("Test_Job_Download_Start", LauncherAnalytics.FLAG_LOG_FABRIC);
                 ThemeRecommendManager.logThemeRecommendThemeDownloadStart();
             }
