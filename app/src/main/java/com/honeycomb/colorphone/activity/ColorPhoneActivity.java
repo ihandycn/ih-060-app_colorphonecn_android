@@ -177,6 +177,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         isCreate = true;
     }
 
+    private Runnable randomThemeGuideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
+                @Override
+                public void run() {
+                    GuideRandomThemeActivity.start(ColorPhoneActivity.this, false);
+
+                }
+            }, "theme_random_guide_count_limit");
+        }
+    };
     @Override
     @DebugLog
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -191,14 +203,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mAdapter.notifyDataSetChanged();
             }
             if (Ap.RandomTheme.showFeatureGuide()) {
-                Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
-                    @Override
-                    public void run() {
-                        GuideRandomThemeActivity.start(ColorPhoneActivity.this, false);
-
-                    }
-                }, "theme_random_guide_count_limit");
+                mHandler.postDelayed(randomThemeGuideRunnable, 500);
             }
+        } else {
+            mHandler.removeCallbacks(randomThemeGuideRunnable);
         }
     }
 
