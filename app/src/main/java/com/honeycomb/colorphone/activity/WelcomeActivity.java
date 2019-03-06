@@ -3,10 +3,7 @@ package com.honeycomb.colorphone.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.transition.Fade;
-import android.transition.Transition;
 import android.view.View;
 
 import com.honeycomb.colorphone.R;
@@ -23,13 +20,13 @@ public class WelcomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Transition fade = new Fade();
-            fade.excludeTarget(android.R.id.statusBarBackground, true);
-            fade.excludeTarget(android.R.id.navigationBarBackground, true);
-            getWindow().setExitTransition(fade);
-            getWindow().setEnterTransition(fade);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            Transition fade = new Fade();
+//            fade.excludeTarget(android.R.id.statusBarBackground, true);
+//            fade.excludeTarget(android.R.id.navigationBarBackground, true);
+//            getWindow().setExitTransition(fade);
+//            getWindow().setEnterTransition(fade);
+//        }
 
         setContentView(R.layout.activity_welcome);
         mVidView = (WelcomeVideoView) findViewById(R.id.welcome_video);
