@@ -2051,14 +2051,14 @@
       "topic_type": "life_time",
       "topic_name": "ThemeRecommend Test New",
       "variations": {
-        "ad_show_before_recommend": {
+        "show_interval_minutes": {
           "value_list": [
             {
-              "value": false
+              "value": 0
             }
           ],
-          "type": "boolean",
-          "value": false,
+          "type": "double",
+          "value": 0,
           "strategy": "sole"
         },
         "maxtime_one_contact": {
@@ -2081,16 +2081,6 @@
           "value": 2,
           "strategy": "sole"
         },
-        "themerecommend_first_show": {
-          "value_list": [
-            {
-              "value": 1
-            }
-          ],
-          "type": "double",
-          "value": 1,
-          "strategy": "sole"
-        },
         "themerecommend_enable": {
           "value_list": [
             {
@@ -2111,24 +2101,14 @@
           "value": false,
           "strategy": "sole"
         },
-        "show_interval_minutes": {
+        "ad_show_before_recommend": {
           "value_list": [
             {
-              "value": 0
+              "value": false
             }
           ],
-          "type": "double",
-          "value": 0,
-          "strategy": "sole"
-        },
-        "themerecommend_show_interval_when_applied": {
-          "value_list": [
-            {
-              "value": 1
-            }
-          ],
-          "type": "double",
-          "value": 1,
+          "type": "boolean",
+          "value": false,
           "strategy": "sole"
         }
       },
@@ -3138,7 +3118,7 @@
   "autopilot_id": 10000,
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "c30dbf33-230e-44d4-b6b8-75743203a3a1",
+  "json_id": "34f088e0-1a31-48e1-91af-8089f0385261",
   "autopilot_name": "Color Phone",
   "autopilot_type": "app"
 }
