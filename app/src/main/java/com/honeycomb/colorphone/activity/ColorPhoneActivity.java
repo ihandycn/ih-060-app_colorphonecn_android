@@ -45,6 +45,7 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -189,6 +190,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }, "theme_random_guide_count_limit");
         }
     };
+
     @Override
     @DebugLog
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -665,6 +667,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onReceive(String s, HSBundle hsBundle) {
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mSettingsPage.onThemeSelected();
+            RandomTheme.getInstance().setUserSettingsEnable(false);
+
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
             HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "NOTIFICATION_REFRESH_MAIN_FRAME notifyDataSetChanged");
             initData();

@@ -301,7 +301,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private INotificationObserver turnOffRandomObserver = new INotificationObserver() {
         @Override
         public void onReceive(String s, HSBundle hsBundle) {
-            RandomTheme.getInstance().setUserSettingsEnable(false);
             performApplyClickResult();
         }
     };
@@ -475,6 +474,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void performApplyClickResult() {
+        RandomTheme.getInstance().setUserSettingsEnable(false);
+
         if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
             PermissionChecker.getInstance().check(mActivity, "SetForAll");
         }
