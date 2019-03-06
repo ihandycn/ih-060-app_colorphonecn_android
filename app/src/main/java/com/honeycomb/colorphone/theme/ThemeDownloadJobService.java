@@ -78,7 +78,6 @@ public class ThemeDownloadJobService extends JobService {
             int resultCode = jobScheduler.schedule(jobInfo);
             if (resultCode == JobScheduler.RESULT_SUCCESS) {
                 HSLog.d(TAG, "Job scheduled!");
-                ThemeRecommendManager.logThemeRecommendThemeDownloadStart();
             } else {
                 HSLog.d(TAG, "Job not scheduled");
             }
@@ -117,6 +116,7 @@ public class ThemeDownloadJobService extends JobService {
             }
 
             LauncherAnalytics.logEvent("Test_Job_Download_Start", LauncherAnalytics.FLAG_LOG_FABRIC);
+            ThemeRecommendManager.logThemeRecommendThemeDownloadStart();
             TasksManager.doDownload(model, null);
 
             FileDownloadMultiListener.getDefault().addStateListener(taskId, new DownloadStateListener() {
