@@ -200,6 +200,7 @@ class ThemeRecommendResultController extends ResultController {
         if (ad == null) {
             contentLayout.setVisibility(View.VISIBLE);
             contentLayout.setAlpha(0);
+            ThemeRecommendManager.logThemeRecommendDoneShow();
         } else {
             contentLayout.setVisibility(View.GONE);
             super.showAd(ad);

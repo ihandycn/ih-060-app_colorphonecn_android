@@ -553,7 +553,9 @@ public class ThemeRecommendManager {
     public static void logThemeRecommendThemeDownloadFail() {
         isThemeRecommendEnable();
         AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_theme_download_fail");
-        LauncherAnalytics.logEvent("recommend_theme_download_fail");
+        LauncherAnalytics.logEvent("recommend_theme_download_fail",
+                "Reason" , NetUtils.getNetworkState(HSApplication.getContext()) == NetUtils.NETWORK_NONE
+                        ? "NoNetWork" : "TimeOut");
     }
 
     private static boolean isThemeRecommendMoreClickSession() {

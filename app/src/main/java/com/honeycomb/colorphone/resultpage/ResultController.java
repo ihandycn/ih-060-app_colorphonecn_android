@@ -597,7 +597,6 @@ abstract class ResultController implements View.OnClickListener {
                 AutoPilotUtils.logCpudoneAdShow();
                 break;
             case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
-                ThemeRecommendManager.logThemeRecommendDoneShow();
                 break;
         }
     }
