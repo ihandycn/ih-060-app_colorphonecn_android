@@ -310,36 +310,34 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                             LauncherAnalytics.logEvent("call_assistant_close_recommendwireoff",
                                     "callType", callType);
                         }
-                    }
 
-                    boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
-                    if (isCouldShowThemeRecommend) {
-                        ThemeRecommendManager.logThemeRecommendShouldShow();
-                    }
-
-                    String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, false);
-                    if (!TextUtils.isEmpty(themeIdName)) {
-                        HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
+                        boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
                         if (isCouldShowThemeRecommend) {
-                            ThemeRecommendManager.getInstance().recordThemeRecommendShow(phoneNumber);
-                            ThemeRecommendActivity.start(HSApplication.getContext(), phoneNumber, themeIdName);
-                            ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, true);
-                        } else {
-                            boolean isCallValid = ThemeRecommendManager.getInstance().isCallValid(phoneNumber);
-                            boolean isTimeValid = ThemeRecommendManager.getInstance().isTimeValid(phoneNumber);
+                            ThemeRecommendManager.logThemeRecommendShouldShow();
+                        }
 
-                            if (!isCallValid && !isTimeValid) {
-                                LauncherAnalytics.logEvent("recommend_should_not_show",
-                                        "Reason", "Both");
-                            } else if (!isCallValid) {
-                                LauncherAnalytics.logEvent("recommend_should_not_show",
-                                        "Reason", "Call");
-                            } else if (!isTimeValid) {
-                                LauncherAnalytics.logEvent("recommend_should_not_show",
-                                        "Reason", "Time");
+                        String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, false);
+                        if (!TextUtils.isEmpty(themeIdName)) {
+                            HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", isCouldShowThemeRecommend = " + isCouldShowThemeRecommend);
+                            if (isCouldShowThemeRecommend) {
+                                ThemeRecommendManager.getInstance().recordThemeRecommendShow(phoneNumber);
+                                ThemeRecommendActivity.start(HSApplication.getContext(), phoneNumber, themeIdName);
+                                ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(phoneNumber, true);
+                            } else {
+                                boolean isCallValid = ThemeRecommendManager.getInstance().isCallValid(phoneNumber);
+                                boolean isTimeValid = ThemeRecommendManager.getInstance().isTimeValid(phoneNumber);
+
+                                if (!isCallValid && !isTimeValid) {
+                                    LauncherAnalytics.logEvent("recommend_should_not_show",
+                                            "Reason", "Both");
+                                } else if (!isCallValid) {
+                                    LauncherAnalytics.logEvent("recommend_should_not_show",
+                                            "Reason", "Call");
+                                } else if (!isTimeValid) {
+                                    LauncherAnalytics.logEvent("recommend_should_not_show",
+                                            "Reason", "Time");
+                                }
                             }
-
-
                         }
                     }
                 }
