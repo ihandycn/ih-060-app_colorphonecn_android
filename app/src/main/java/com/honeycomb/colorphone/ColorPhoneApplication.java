@@ -315,7 +315,7 @@ public class ColorPhoneApplication extends HSApplication {
                         "Brand", Build.BRAND.toLowerCase(),
                         "DeviceVersion", Utils.getDeviceInfo());
                 long receivePush = System.currentTimeMillis() - launchTime;
-                if (receivePush <= 3 * 1000) {
+                if (receivePush <= 25 * 1000) {
                     Analytics.logEvent("Wake_Up_By_Umeng_Push");
                 }
                 checkChargingOrLocker();
