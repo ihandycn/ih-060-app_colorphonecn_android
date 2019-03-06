@@ -99,6 +99,7 @@ import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
+import net.appcloudbox.common.utils.AcbApplicationHelper;
 import net.appcloudbox.h5game.AcbH5GameManager;
 import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
@@ -203,6 +204,7 @@ public class ColorPhoneApplication extends HSApplication {
             ADAutoPilotUtils.logAutopilotEventToFaric();
 
             TriviaTip.cacheImagesFirstTime();
+
         }
     };
 
@@ -225,6 +227,9 @@ public class ColorPhoneApplication extends HSApplication {
     public void onCreate() {
         super.onCreate();
         systemFix();
+
+        AcbApplicationHelper.init(this);
+
         launchTime = System.currentTimeMillis();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
