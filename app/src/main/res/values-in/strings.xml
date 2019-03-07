@@ -179,7 +179,7 @@
     <string name="guide_theme_random_hint">Dengan menerapkan tema ini, Anda bisa menikmati tema acak untuk panggilan masuk.</string>
 
     <string name="theme_recommend_content">Terapkan tema baru ini untuk %1$s</string>
-    <string name="theme_recommend_content_default">your friend</string>
+    <string name="theme_recommend_content_default">temanmu</string>
     <string name="result_page_theme_recommend_optimal">Berhasil diterapkan</string>
     <string name="result_page_theme_recommend_more">Temukan Lebih Banyak Tema</string>
 
