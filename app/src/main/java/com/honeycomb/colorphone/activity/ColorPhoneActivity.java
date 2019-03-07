@@ -667,6 +667,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onReceive(String s, HSBundle hsBundle) {
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mSettingsPage.onThemeSelected();
+            mSettingsPage.refreshRandomTheme();
             RandomTheme.getInstance().setUserSettingsEnable(false);
 
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {

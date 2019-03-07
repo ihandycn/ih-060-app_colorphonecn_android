@@ -18,11 +18,13 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.NetUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
 
@@ -293,6 +295,7 @@ public class RandomTheme {
         boolean defaultSwitch = Ap.RandomTheme.defaultSwitchOn();
         if (defaultSwitch && !Preferences.get(Constants.PREF_FILE_DEFAULT).contains("random_setting_switch")) {
             setUserSettingsEnable(true);
+            return true;
         }
 
         return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("random_setting_switch", false);
@@ -302,8 +305,11 @@ public class RandomTheme {
         if (enable) {
             ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, Theme.RANDOM_THEME);
         }
-
-        Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("random_setting_switch", enable);
+        boolean oldState = Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("random_setting_switch", false);
+        if (enable != oldState) {
+            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+            Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("random_setting_switch", enable);
+        }
     }
 
 }

@@ -19,7 +19,6 @@ import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideRandomCloseActivity;
 import com.honeycomb.colorphone.activity.LedFlashSettingsActivity;
 import com.honeycomb.colorphone.activity.SettingsActivity;
-import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -35,6 +34,11 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
     private SwitchCompat randomSwitch;
     private TextView mainSwitchTxt;
     private boolean initCheckState;
+
+    /**
+     * Mark for random toggle click
+     */
+    private boolean userTriggerRandom = true;
 
 
     public void initPage(View rootView) {
@@ -67,6 +71,10 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
             randomSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (!userTriggerRandom) {
+                        userTriggerRandom = true;
+                        return;
+                    }
                     if (!isChecked) {
                         // Show alert if enable.
                         Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
@@ -81,7 +89,6 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
 
                     RandomTheme.getInstance().setUserSettingsEnable(isChecked);
 
-                    HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
                 }
             });
         }
@@ -110,6 +117,7 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
 
     public void refreshRandomTheme() {
         if (randomSwitch != null) {
+            userTriggerRandom = false;
             randomSwitch.setChecked(RandomTheme.getInstance().userSettingsEnable());
         }
     }
