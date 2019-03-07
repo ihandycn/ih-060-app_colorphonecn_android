@@ -184,4 +184,13 @@
     <string name="result_page_theme_recommend_optimal">應用成功</string>
     <string name="result_page_theme_recommend_more">發現更多的主題</string>
 
+
+    <string name="random_theme_guide_title">每天享受不同的來電主題</string>
+    <string name="random_theme_guide_desc">您可以在設置中關閉隨機模式</string>
+    <string name="alert_turn_off_random_title">您確定要關閉隨機模式嗎？</string>
+    <string name="alert_turn_off_random_desc">關閉了隨機模式，您就無法享受每天不同的來電主題。</string>
+    <string name="alert_turn_off_random_desc_beset">如果您將當期主題設置給所有聯繫人，隨機主題將會失效。您也可以將當期主題設置給特定的聯繫人。</string>
+    <string name="alert_button_keep_random_mode">保留隨機模式</string>
+    <string name="random_mode">隨機模式</string>
+
 </resources>

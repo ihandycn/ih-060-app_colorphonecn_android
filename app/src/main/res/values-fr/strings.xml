@@ -183,4 +183,13 @@
     <string name="result_page_theme_recommend_optimal">Appliqué avec succès</string>
     <string name="result_page_theme_recommend_more">Trouver plus de thèmes</string>
 
+
+    <string name="random_theme_guide_title">Profitez d'un flash d'écran différent chaque jour. </string>
+    <string name="random_theme_guide_desc">Vous pouvez désactiver le mode aléatoire dans les paramètres.</string>
+    <string name="alert_turn_off_random_title">Voulez-vous vraiment désactiver le mode aléatoire ? </string>
+    <string name="alert_turn_off_random_desc">En le désactivant, vous ne pouvez pas profiter d'un flash d'écran différent chaque jour.</string>
+    <string name="alert_turn_off_random_desc_beset">Le mode aléatoire ne fonctionnera pas si vous définissez ce thème pour tous vos amis. Vous pouvez essayez de définir ce thème pour un ami spécifique.</string>
+    <string name="alert_button_keep_random_mode">Garder le mode aléatoire</string>
+    <string name="random_mode">Mode aléatoire</string>
+
 </resources>

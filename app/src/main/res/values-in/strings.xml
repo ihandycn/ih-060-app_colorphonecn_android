@@ -183,4 +183,13 @@
     <string name="result_page_theme_recommend_optimal">Berhasil diterapkan</string>
     <string name="result_page_theme_recommend_more">Temukan Lebih Banyak Tema</string>
 
+
+    <string name="random_theme_guide_title">Nikmati animasi layar yang berbeda setiap hari. </string>
+    <string name="random_theme_guide_desc">Anda dapat menonaktifkan mode acak di pengaturan.</string>
+    <string name="alert_turn_off_random_title">Ingin menonaktifkan mode acak？ </string>
+    <string name="alert_turn_off_random_desc">Dengan menonaktifkannya, Anda tidak dapat menikmati animasi layar yang berbeda setiap hari.</string>
+    <string name="alert_turn_off_random_desc_beset">Mode acak tidak akan berfungsi kalau Anda mengatur tema ini untuk semua teman Anda. Anda dapat mencoba menetapkan tema ini untuk teman-teman tertentu saja.</string>
+    <string name="alert_button_keep_random_mode">Pertahankan mode acak</string>
+    <string name="random_mode">Mode acak</string>
+
 </resources>

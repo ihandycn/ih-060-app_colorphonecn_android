@@ -177,4 +177,13 @@
     <string name="battery_optimized">Tối ưu hóa</string>
 
     <string name="guide_theme_random_hint">Khi áp dụng chủ đề này, bạn có thể trải nghiệm những chủ đề ngẫu nhiên khi có cuộc gọi đến.</string>
+
+
+    <string name="random_theme_guide_title">Tận hưởng đèn nháy màn hình khác biệt hàng ngày. </string>
+    <string name="random_theme_guide_desc">Bạn có thể tắt chế độ ngẫu nhiên trong phần cài đặt.</string>
+    <string name="alert_turn_off_random_title">Bạn có chắc chắn muốn tắt chế độ ngẫu nhiên？</string>
+    <string name="alert_turn_off_random_desc"> Khi tắt, bạn không thể sử dụng đèn nháy màn hình khác nhau hàng ngày.</string>
+    <string name="alert_turn_off_random_desc_beset">Chế độ ngẫu nhiên sẽ không hoạt động nếu bạn đặt chủ đề này cho tất cả bạn bè của mình. Bạn có thể thử đặt chủ đề này cho một người bạn cụ thể.</string>
+    <string name="alert_button_keep_random_mode">Giữ chế độ ngẫu nhiên</string>
+    <string name="random_mode">Chế độ ngẫu nhiên</string>
 </resources>

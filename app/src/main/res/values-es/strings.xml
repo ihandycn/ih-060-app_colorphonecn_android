@@ -185,4 +185,13 @@
     <string name="result_page_theme_recommend_optimal">Aplicado correctamente</string>
     <string name="result_page_theme_recommend_more">Descubre más temas</string>
 
+
+    <string name="random_theme_guide_title">Disfruta de distintas pantallas parpadeantes todos los días. </string>
+    <string name="random_theme_guide_desc">Puedes desactivar el modo aleatorio en los ajustes.</string>
+    <string name="alert_turn_off_random_title">¿Seguro que quieres desactivar el modo aleatorio? </string>
+    <string name="alert_turn_off_random_desc">Si lo desactivas, no podrás disfrutar de distintas pantallas parpadeantes todos los días.</string>
+    <string name="alert_turn_off_random_desc_beset">El modo aleatorio no funciona si estableces este tema para todos tus amigos. Puedes probar a establecer este tema para un amigo en concreto.</string>
+    <string name="alert_button_keep_random_mode">Mantener el modo aleatorio</string>
+    <string name="random_mode">Modo aleatorio</string>
+
 </resources>

@@ -191,4 +191,13 @@
     <string name="theme_recommend_content_default">your friend</string>
     <string name="result_page_theme_recommend_optimal">应用成功</string>
     <string name="result_page_theme_recommend_more">发现更多的主题</string>
+
+
+    <string name="random_theme_guide_title">每天享受不同的来电主题</string>
+    <string name="random_theme_guide_desc">您可以在设置中关闭随机模式</string>
+    <string name="alert_turn_off_random_title">您确定要关闭随机模式吗？</string>
+    <string name="alert_turn_off_random_desc">关闭了随机模式，您就无法享受每天不同的来电主题。</string>
+    <string name="alert_turn_off_random_desc_beset">如果您将当期主题设置给所有联系人，随机主题将会失效。您也可以将当期主题设置给特定的联系人。</string>
+    <string name="alert_button_keep_random_mode">保留随机模式</string>
+    <string name="random_mode">随机模式</string>
 </resources>

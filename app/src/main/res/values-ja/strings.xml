@@ -186,4 +186,13 @@
   <string name="result_page_theme_recommend_optimal">適用に成功しました</string>
   <string name="result_page_theme_recommend_more">テーマをもっと見つける</string>
 
+
+  <string name="random_theme_guide_title">毎日色々なスクリーンフラッシュをお楽しみください。</string>
+  <string name="random_theme_guide_desc">設定でランダムモードをオフにすることができます。</string>
+  <string name="alert_turn_off_random_title">ランダムモードをオフにしてよろしいですか？</string>
+  <string name="alert_turn_off_random_desc">オフにすると、色々なスクリーンフラッシュを毎日楽しむことができません。</string>
+  <string name="alert_turn_off_random_desc_beset">このテーマをすべての友達に設定した場合、ランダムモードは機能しません。特定の友人にのみこのテーマを設定するようにしてください。</string>
+  <string name="alert_button_keep_random_mode">ランダムモードをキープ</string>
+  <string name="random_mode">ランダムモード</string>
+
 </resources>

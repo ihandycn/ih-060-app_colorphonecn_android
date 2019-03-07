@@ -188,4 +188,13 @@
     <string name="result_page_theme_recommend_optimal">Applicato</string>
     <string name="result_page_theme_recommend_more">Trova altri temi</string>
 
+
+    <string name="random_theme_guide_title">Utilizza una schermata diversa ogni giorno.</string>
+    <string name="random_theme_guide_desc">Puoi disattivare la modalità casuale dalle impostazioni.</string>
+    <string name="alert_turn_off_random_title">Vuoi disattivare la modalità casuale? </string>
+    <string name="alert_turn_off_random_desc">Se la disattivi non potrai utilizzare una schermata diversa ogni giorno.</string>
+    <string name="alert_turn_off_random_desc_beset">Se imposti il tema per tutti i tuoi amici, la modalità casuale non potrà funzionare. Prova a impostare il tema per un amico in particolare.</string>
+    <string name="alert_button_keep_random_mode">Mantieni la modalità casuale</string>
+    <string name="random_mode">Modalità casuale</string>
+
 </resources>

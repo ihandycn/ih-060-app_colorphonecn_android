@@ -183,4 +183,13 @@
     <string name="theme_recommend_content_default">your friend</string>
     <string name="result_page_theme_recommend_optimal">Erfolgreich übernommen</string>
     <string name="result_page_theme_recommend_more">Mehr Designs finden</string>
+
+
+    <string name="random_theme_guide_title">Freuen Sie sich jeden Tag über unterschiedliche Bildschirm-Flashs. </string>
+    <string name="random_theme_guide_desc">Sie können den Zufallsmodus in den Einstellungen abstellen.</string>
+    <string name="alert_turn_off_random_title">Sind Sie sicher, dass Sie den Zufallsmodus abstellen möchten. </string>
+    <string name="alert_turn_off_random_desc">Dadurch können Sie sich nicht jeden Tag über andere Bildschirm-Flashs freuen.</string>
+    <string name="alert_turn_off_random_desc_beset">Der Zufallsmodus funktioniert nicht, wenn Sie dieses Motiv für alle Ihre Freunde einstellen. Sie können dieses Motiv für Ihren speziellen Freund festlegen.</string>
+    <string name="alert_button_keep_random_mode">Zufallsmodus behalten</string>
+    <string name="random_mode">Zufallsmodus</string>
 </resources>

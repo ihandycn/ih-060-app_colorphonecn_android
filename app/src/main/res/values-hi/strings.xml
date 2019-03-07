@@ -183,4 +183,13 @@
     <string name="result_page_theme_recommend_optimal">सफलतापूर्वक लागू हो गया</string>
     <string name="result_page_theme_recommend_more">अधिक थीम्‍स पाएं</string>
 
+
+    <string name="random_theme_guide_title">प्रतिदिन अलग-अलग स्क्रीनफ्लैश का आनंद लें। </string>
+    <string name="random_theme_guide_desc">आप सेटिंग्स में क्रम रहित मोड को बंद कर सकते हैं।</string>
+    <string name="alert_turn_off_random_title">क्या आप वाकई में क्रम रहित मोड बंद करना चाहते </string>
+    <string name="alert_turn_off_random_desc">हैं बंद करते हुए, आप प्रतिदिन विभिन्न स्क्रीनफ्लैश का आनंद नहीं ले सकते।</string>
+    <string name="alert_turn_off_random_desc_beset">यदि आप अपने सभी दोस्तों के लिए यह थीम सेट करते हैं तो क्रम रहित मोड काम नहीं करेगा। आप अपने विशिष्ट दोस्‍त के लिए इस थीम को सेट करने का प्रयास कर सकते हैं।</string>
+    <string name="alert_button_keep_random_mode">क्रम रहित मोड रखें</string>
+    <string name="random_mode">क्रम रहित मोड</string>
+
 </resources>

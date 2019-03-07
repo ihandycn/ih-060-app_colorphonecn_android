@@ -182,4 +182,13 @@
     <string name="theme_recommend_content_default">your friend</string>
     <string name="result_page_theme_recommend_optimal">นำไปใช้สำเร็จแล้ว</string>
     <string name="result_page_theme_recommend_more">ค้นหาธีมเพิ่มเติม</string>
+
+
+    <string name="random_theme_guide_title">เพลิดเพลินกับแฟลชหน้าจอต่าง ๆ ทุกวัน </string>
+    <string name="random_theme_guide_desc">คุณสามารถปิดโหมดสุ่มได้ในการตั้งค่า</string>
+    <string name="alert_turn_off_random_title">คุณแน่ใจหรือว่าต้องการปิดโหมดสุ่ม </string>
+    <string name="alert_turn_off_random_desc">เมื่อปิด คุณจะไม่สามารถเพลิดเพลินกับแฟลชหน้าจอต่าง ๆ ทุกวันได้</string>
+    <string name="alert_turn_off_random_desc_beset">โหมดสุ่มจะไม่ทำงานหากคุณตั้งค่าธีมนี้ให้เพื่อนทุกคน คุณอาจลองตั้งธีมนี้ให้เพื่อนคนใดคนหนึ่ง</string>
+    <string name="alert_button_keep_random_mode">ใช้โหมดสุ่ม</string>
+    <string name="random_mode">โหมดสุ่ม</string>
 </resources>

@@ -190,4 +190,12 @@
     <string name="result_page_theme_recommend_optimal">تم التطبيق بنجاح</string>
     <string name="result_page_theme_recommend_more">اعثر على المزيد من التصاميم</string>
 
+
+    <string name="random_theme_guide_title"></string>
+    <string name="random_theme_guide_desc"></string>
+    <string name="alert_turn_off_random_title"></string>
+    <string name="alert_turn_off_random_desc"></string>
+    <string name="alert_turn_off_random_desc_beset"></string>
+    <string name="alert_button_keep_random_mode"></string>
+    <string name="random_mode"></string>
 </resources>
