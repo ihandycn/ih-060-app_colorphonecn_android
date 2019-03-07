@@ -48,14 +48,14 @@ public class ThemeRecommendManager {
         return ClassHolder.INSTANCE;
     }
 
-    public String getRecommendThemeIdAndRecord(String number) {
+    public String getRecommendThemeIdAndPrepare(String number) {
         return getRecommendThemeIdAndRecord(number, false);
     }
 
     @SuppressWarnings("unchecked")
     public String getRecommendThemeIdAndRecord(String number, boolean isRecord) {
         if (!isThemeRecommendEnable()) {
-            HSLog.d(TAG, "getRecommendThemeIdAndRecord, not enable");
+            HSLog.d(TAG, "getRecommendThemeIdAndPrepare, not enable");
             return "";
         }
         
@@ -63,7 +63,7 @@ public class ThemeRecommendManager {
         String result = "";
         List<String> guideThemeIdNameList = (List<String>) HSConfig.getList("Application", "ThemeGuide");
         if (guideThemeIdNameList.isEmpty()) {
-            HSLog.d(TAG, "getRecommendThemeIdAndRecord, guide is null");
+            HSLog.d(TAG, "getRecommendThemeIdAndPrepare, guide is null");
             return result;
         }
         int size = guideThemeIdNameList.size();
@@ -469,7 +469,7 @@ public class ThemeRecommendManager {
         AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_show");
         LauncherAnalytics.logEvent("recommend_show");
 
-        String themeId = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
+        ThemeRecommendManager.getInstance().getRecommendThemeIdAndPrepare(number);
 //        if (!TextUtils.isEmpty(themeId)) {
 //            ThemeRecommendManager.getInstance().clearPreparedThemeIdName();
 //            ThemeRecommendManager.getInstance().recordThemeRecommendNotShow(number);

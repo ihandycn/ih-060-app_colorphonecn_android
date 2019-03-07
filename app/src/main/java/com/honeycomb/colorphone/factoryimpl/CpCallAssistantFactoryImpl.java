@@ -126,7 +126,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
     }
 
     private static volatile boolean isADShown = false;
-    private static volatile int sCallType;
 
     @Override
     public CallIdleAlert.Event getCallIdleEvent() {
@@ -184,7 +183,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onShow(int callType, boolean isLocked) {
-                sCallType = callType;
                 Threads.removeOnMainThread(mDisplayTimeoutRunnable);
                 Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
                 LauncherAnalytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType),
@@ -254,7 +252,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onCallFinishedCallAssistantShow(String number) {
                 ThemeRecommendManager.getInstance().increaseCallTimes(number);
                 LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Call_Assistant_Show");
-                ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
+                ThemeRecommendManager.getInstance().getRecommendThemeIdAndPrepare(number);
             }
 
             @Override
@@ -278,37 +276,37 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             }
 
             @Override
-            public void onAlertDismiss(CallIdleAlertView.CallIdleAlertDismissType dismissType, String phoneNumber) {
-                HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", dismissType = " + dismissType);
+            public void onAlertDismiss(CallIdleAlertView.CallIdleAlertDismissType dismissType, String phoneNumber, int callType) {
+                HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", dismissType = " + dismissType + "  callType = " + callType);
                 if (dismissType == CallIdleAlertView.CallIdleAlertDismissType.CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.MENU_CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK) {
                     ThemeRecommendManager.logThemeRecommendCallAssistantClose();
                     SimpleContact sc = ContactManager.getInstance().getContact(phoneNumber);
-                    String callType;
-                    if (sCallType == CallIdleAlert.OUTGOING) {
-                        callType = "Outgoingcall";
+                    String callTypeStr;
+                    if (callType == CallIdleAlert.OUTGOING) {
+                        callTypeStr = "Outgoingcall";
                     } else {
-                        callType = "Incomingcall";
+                        callTypeStr = "Incomingcall";
                     }
 
                     if (sc == null) {
                         LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close",
                                 "type", "Stranger",
-                                "callType", callType);
+                                "callType", callTypeStr);
                     } else {
                         LauncherAnalytics.logEvent("ColorPhone_CallAssistant_Close",
                                 "type", "Contact",
-                                "callType", callType);
+                                "callType", callTypeStr);
                     }
 
                     if (ThemeRecommendManager.isThemeRecommendEnable()) {
                         if (ThemeRecommendManager.isThemeRecommendAdShowBeforeRecommend()) {
                             LauncherAnalytics.logEvent("call_assistant_close_recommendwireon",
-                                    "callType", callType);
+                                    "callType", callTypeStr);
                         } else {
                             LauncherAnalytics.logEvent("call_assistant_close_recommendwireoff",
-                                    "callType", callType);
+                                    "callType", callTypeStr);
                         }
 
                         boolean isCouldShowThemeRecommend = ThemeRecommendManager.getInstance().isShowRecommendTheme(phoneNumber);
