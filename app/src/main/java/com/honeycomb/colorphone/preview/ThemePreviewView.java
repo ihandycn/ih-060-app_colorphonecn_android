@@ -421,6 +421,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             } else {
                 mApplyButton.setVisibility(GONE);
 
+                View targetView = findViewById(R.id.theme_set_for_one_textview);
+                viewSwitch(mApplyForOne, targetView);
+                mApplyForOne = targetView;
+
                 mApplyForOne.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                 mApplyForOne.requestLayout();
                 showForAllButton = false;
@@ -471,6 +475,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         mInter = new OvershootInterpolator(1.5f);
 
+    }
+
+    private void viewSwitch(View orig, View target) {
+        orig.setVisibility(GONE);
+        target.setVisibility(VISIBLE);
     }
 
     private void performApplyClickResult() {

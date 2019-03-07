@@ -135,6 +135,16 @@
             android:layout_marginStart="10dp"
             android:background="@drawable/btn_bg_yellow"
             android:src="@drawable/icon_contact" />
+        <Button
+            android:id="@+id/theme_set_for_one_textview"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:visibility="gone"
+            android:text="@string/theme_set_for_one"
+            android:background="@drawable/btn_bg_yellow"
+            />
     </LinearLayout>
 
     <ViewStub
