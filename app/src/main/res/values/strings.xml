@@ -289,4 +289,5 @@
     <string name="alert_button_keep_random_mode">Keep random mode</string>
     <string name="alert_button_turn_off">@string/gdpr_dialog_turn_off</string>
     <string name="alert_button_continue">@string/acb_request_permission_action_continue</string>
+    <string name="random_mode">Random mode</string>
 </resources>
