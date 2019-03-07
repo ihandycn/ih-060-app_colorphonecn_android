@@ -89,6 +89,7 @@ import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
+import com.superapps.phonestate.PhoneStateManager;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -187,6 +188,9 @@ public class ColorPhoneApplication extends HSApplication {
                 }
             }
         }, "Permission_Check_Above23_FirstSessionEnd");
+
+        // Just ensure phone state not listen.
+        PhoneStateManager.getInstance().listenPhoneState();
 
         if (mDailyLogger != null) {
             mDailyLogger.checkAndLog();
