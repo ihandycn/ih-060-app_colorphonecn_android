@@ -191,11 +191,11 @@
     <string name="result_page_theme_recommend_more">اعثر على المزيد من التصاميم</string>
 
 
-    <string name="random_theme_guide_title"></string>
-    <string name="random_theme_guide_desc"></string>
-    <string name="alert_turn_off_random_title"></string>
-    <string name="alert_turn_off_random_desc"></string>
-    <string name="alert_turn_off_random_desc_beset"></string>
-    <string name="alert_button_keep_random_mode"></string>
-    <string name="random_mode"></string>
+    <string name="random_theme_guide_title">استمتع بشاشات مختلفة كل يوم.</string>
+    <string name="random_theme_guide_desc">يمكنك إيقاف تشغيل الوضع العشوائي في الإعدادات.</string>
+    <string name="alert_turn_off_random_title">هل أنت متأكد من إيقاف تشغيل الوضع العشوائي？</string>
+    <string name="alert_turn_off_random_desc">من خلال إيقاف التشغيل ، لا يمكنك الاستمتاع بشاشات مختلفة كل يوم.</string>
+    <string name="alert_turn_off_random_desc_beset">لن يعمل وضع عشوائي إذا قمت بتعيين هذا الموضوع لجميع أصدقائك. يمكنك تجربة هذا الموضوع لصديقك المحدد.</string>
+    <string name="alert_button_keep_random_mode">حافظ على الوضع العشوائي</string>
+    <string name="random_mode">وضع عشوائي</string>
 </resources>
