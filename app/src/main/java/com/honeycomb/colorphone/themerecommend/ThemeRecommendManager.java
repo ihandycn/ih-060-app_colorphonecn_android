@@ -545,7 +545,7 @@ public class ThemeRecommendManager {
     public static void logThemeRecommendWireOnRecommendShow() {
         isThemeRecommendEnable();
         AutopilotEvent.logTopicEvent(TOPIC_ID, "wire_on_recommend_show");
-        LauncherAnalytics.logEvent("wire_on_recommend_show", "From", ResultPageManager.getInstance().getExpressAdPlacement());
+        LauncherAnalytics.logEvent("wire_on_recommend_show", "From", ResultPageManager.getInstance().getInterstitialAdPlacement());
     }
 
     public static void logThemeRecommendThemeDownloadStart() {
