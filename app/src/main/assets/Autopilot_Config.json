@@ -2147,9 +2147,6 @@
           "name": "choose_theme_from_recommend"
         },
         {
-          "name": "themewire_show_from_recommend"
-        },
-        {
           "name": "call_assistant_close"
         },
         {
@@ -2828,11 +2825,11 @@
         "normal_theme_can_set_for_all": {
           "value_list": [
             {
-              "value": false
+              "value": true
             }
           ],
           "type": "boolean",
-          "value": false,
+          "value": true,
           "strategy": "sole"
         },
         "normal_theme_show_retain_alert_after_setforall": {
@@ -2848,11 +2845,11 @@
         "random_theme_default_switch_on": {
           "value_list": [
             {
-              "value": true
+              "value": false
             }
           ],
           "type": "boolean",
-          "value": true,
+          "value": false,
           "strategy": "sole"
         },
         "random_theme_enable": {
@@ -3118,7 +3115,7 @@
   "autopilot_id": 10000,
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "34f088e0-1a31-48e1-91af-8089f0385261",
+  "json_id": "1112a87b-c7e2-4eec-9951-1b44d41d231d",
   "autopilot_name": "Color Phone",
   "autopilot_type": "app"
 }
