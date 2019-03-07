@@ -594,8 +594,6 @@ public class ThemeRecommendManager {
 
     public static void logThemeRecommendThemeWireShow() {
         if (isThemeRecommendMoreClickSession()) {
-            isThemeRecommendEnable();
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "themewire_show_from_recommend");
             LauncherAnalytics.logEvent("themewire_show_from_recommend");
         }
     }
