@@ -492,7 +492,7 @@ public class ThemeRecommendManager {
     public static void logThemeRecommendWireShow() {
         if (isThemeRecommendAdShow()) {
             AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_detail_wiread_show");
-            LauncherAnalytics.logEvent("recommend_detail_wiread_show", "From", ResultPageManager.getInstance().getInterstitialAdPlacement());
+            LauncherAnalytics.logEvent("recommend_detail_wiread_show", "From", ResultPageManager.getInstance().getFromInterstitialAdPlacement());
         }
     }
 
@@ -506,7 +506,7 @@ public class ThemeRecommendManager {
     public static void logThemeRecommendDoneShow() {
         if (isThemeRecommendAdShow()) {
             AutopilotEvent.logTopicEvent(TOPIC_ID, "recommend_detail_donead_show");
-            LauncherAnalytics.logEvent("recommend_detail_donead_show", "From", ResultPageManager.getInstance().getExpressAdPlacement());
+            LauncherAnalytics.logEvent("recommend_detail_donead_show", "From", ResultPageManager.getInstance().getFromAdPlacement());
         }
     }
 
@@ -545,7 +545,7 @@ public class ThemeRecommendManager {
     public static void logThemeRecommendWireOnRecommendShow() {
         isThemeRecommendEnable();
         AutopilotEvent.logTopicEvent(TOPIC_ID, "wire_on_recommend_show");
-        LauncherAnalytics.logEvent("wire_on_recommend_show", "From", ResultPageManager.getInstance().getInterstitialAdPlacement());
+        LauncherAnalytics.logEvent("wire_on_recommend_show", "From", ResultPageManager.getInstance().getFromInterstitialAdPlacement());
     }
 
     public static void logThemeRecommendThemeDownloadStart() {
