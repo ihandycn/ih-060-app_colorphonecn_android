@@ -392,7 +392,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(
                 runnable,
-                "permission_launch", HSConfig.optInteger(2, "GrantAccess", "MaxCount"));
+                "permission_launch", HSConfig.optInteger(2, "Application", "GrantAccess", "MaxCount"));
     }
 
     /**
