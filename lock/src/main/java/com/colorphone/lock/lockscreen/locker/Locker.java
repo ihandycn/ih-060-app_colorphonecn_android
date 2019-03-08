@@ -69,6 +69,8 @@ public class Locker extends LockScreen implements INotificationObserver {
             @Override
             public void onHomePressed() {
                 mHomeKeyClicked = true;
+                mDismissReason = "Home";
+                dismiss(getContext(), false);
             }
 
             @Override
@@ -139,13 +141,16 @@ public class Locker extends LockScreen implements INotificationObserver {
         private boolean logOnceFlag = false;
         @Override
         public void run() {
+            String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
             if (!logOnceFlag) {
-                String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
                 LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Show" + suffix,
                         "Brand", Build.BRAND.toLowerCase(),
                         "DeviceVersion", getDeviceInfo());
                 logOnceFlag = true;
             }
+            LockerCustomConfig.getLogger().logEvent("LockScreen_Show_Foreground" + suffix,
+                    "Brand", Build.BRAND.toLowerCase(),
+                    "DeviceVersion", getDeviceInfo());
         }
     };
 

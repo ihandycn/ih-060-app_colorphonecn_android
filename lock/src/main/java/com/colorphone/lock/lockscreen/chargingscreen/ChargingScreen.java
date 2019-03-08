@@ -57,6 +57,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.Bitmaps;
 import com.superapps.util.Dimensions;
+import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.expressad.AcbExpressAdView;
@@ -230,6 +231,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         public void onBatteryTemperatureChanged(float v, float v1) {
         }
     };
+    private HomeKeyWatcher mHomeKeyWatcher;
 
     private void processPowerStateChanged(boolean isPowerConnected) {
         if (this.isPowerConnected == isPowerConnected) {
@@ -274,6 +276,20 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         HSLog.d(TAG, "onCreate()");
 
         final Context context = root.getContext();
+
+        mHomeKeyWatcher = new HomeKeyWatcher(root.getContext());
+        mHomeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                mDismissReason = "Home";
+                dismiss(getContext(), false);
+            }
+
+            @Override
+            public void onRecentsPressed() {
+            }
+        });
+        mHomeKeyWatcher.startWatch();
 
         initView(extra);
 
@@ -921,6 +937,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     public void onDestroy() {
         // ======== onDestroy ========
         HSLog.d(TAG, "onDestroy()");
+        if (mHomeKeyWatcher != null) {
+            mHomeKeyWatcher.stopWatch();
+        }
 
         advertisementContainer.removeAllViews();
         if (expressAdView != null) {
