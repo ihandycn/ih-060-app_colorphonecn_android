@@ -159,6 +159,7 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
             if (state == TelephonyManager.CALL_STATE_RINGING) {
                 HSBundle bundle = new HSBundle();
                 bundle.putBoolean(Locker.EXTRA_SHOULD_DISMISS_KEYGUARD, false);
+                bundle.putString(Locker.EXTRA_DISMISS_REASON, "Ringing");
                 HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
             }
         }

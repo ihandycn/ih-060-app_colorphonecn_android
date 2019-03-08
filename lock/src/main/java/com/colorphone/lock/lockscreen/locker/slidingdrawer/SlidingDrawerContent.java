@@ -476,7 +476,9 @@ public class SlidingDrawerContent extends FrameLayout
             if (!SystemSettingsManager.setMobileDataStatus(getContext(),
                     mSystemSettingsManager.getSystemSettingsItemState(SystemSettingsManager.SettingsItem.MOBILE_DATA) == 1 ? false : true)) {
                 SystemSettingsManager.startSystemDataUsageSetting(getContext());
-                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
+                HSBundle bundle = new HSBundle();
+                bundle.putString(Locker.EXTRA_DISMISS_REASON, "DataClick");
+                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
             } else {
                 startMobileDataChecker();
             }
@@ -499,7 +501,9 @@ public class SlidingDrawerContent extends FrameLayout
 
         } else if (i == R.id.calculator) {
             if (startCalculator()) {
-                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
+                HSBundle bundle = new HSBundle();
+                bundle.putString(Locker.EXTRA_DISMISS_REASON, "CalcClick");
+                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
                 LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Calculator");
             }
         } else {

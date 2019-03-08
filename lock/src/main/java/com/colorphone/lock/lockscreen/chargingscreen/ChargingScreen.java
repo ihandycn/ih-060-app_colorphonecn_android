@@ -72,6 +72,7 @@ import colorphone.acb.com.libscreencard.CustomizeContentContainer;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.colorphone.lock.lockscreen.locker.Locker.getDeviceInfo;
 import static com.ihs.libcharging.HSChargingManager.HSChargingState.STATE_DISCHARGING;
 
 
@@ -143,6 +144,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     private boolean isStart;
 
     private boolean mIsSetup = false;
+
+    private String mDismissReason = "Unkown";
 
     private Runnable tipRemoveRunnable = new Runnable() {
         @Override
@@ -287,6 +290,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                 new SlidingFinishRelativeLayout.OnSlidingFinishListener() {
                     @Override
                     public void onSlidingFinish(@SlidingFinishRelativeLayout.SlidingState int slidingState) {
+                        mDismissReason = "Slide";
                         dismiss(getContext(), true);
                     }
                 });
@@ -402,6 +406,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
             @Override
             public void onAdClicked(AcbExpressAdView acbExpressAdView) {
+                mDismissReason = "AdClick";
                 dismiss(getContext(), true);
                 LockerCustomConfig.get().onEventChargingAdClick();
             }
@@ -422,6 +427,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
      * TODO: handle back key
      */
     public void onBackPressed() {
+        mDismissReason = "Back";
         dismiss(getContext(), true);
     }
 
@@ -821,6 +827,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                 public void onClick(View v) {
                     ChargingScreenSettings.setChargingScreenEnabled(false);
                     mCloseLockerPopupView.dismiss();
+                    mDismissReason = "TurnOff";
                     dismiss(getContext(), false);
                 }
             });
@@ -874,6 +881,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                 onStop();
                 break;
             case LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING:
+                mDismissReason = "Ringing";
                 dismiss(getContext(), false);
                 break;
         }
@@ -927,6 +935,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     @Override
     public void dismiss(Context context, boolean dismissKeyguard) {
         mDismissed = true;
+
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Close",
+                "Reason", mDismissReason,
+                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
 
         if (!mIsSetup) {
             return;

@@ -45,6 +45,7 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     public static final String EVENT_FINISH_SELF = "locker_event_finish_self";
     public static final String EXTRA_SHOULD_DISMISS_KEYGUARD = "extra_should_dismiss_keyguard";
+    public static final String EXTRA_DISMISS_REASON = "dismiss_reason";
     public static final String PREF_KEY_CURRENT_WALLPAPER_HD_URL = "current_hd_wallpaper_url";
 
     ViewPager mViewPager;
@@ -56,6 +57,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     private HomeKeyWatcher mHomeKeyWatcher;
     private boolean mHomeKeyClicked;
     private boolean mIsSetup;
+    private String mDismissReason = "Unkown";
 
     @Override
     public void setup(ViewGroup root, Bundle extra) {
@@ -85,6 +87,7 @@ public class Locker extends LockScreen implements INotificationObserver {
             if (BuildConfig.DEBUG) {
                 throw e;
             }
+            mDismissReason = "WallpaperFail";
             dismiss(root.getContext(), false);
         }
         configLockViewPager();
@@ -196,6 +199,7 @@ public class Locker extends LockScreen implements INotificationObserver {
             @Override
             public void onPageSelected(int position) {
                 if (LockerAdapter.PAGE_INDEX_UNLOCK == position) {
+                    mDismissReason = "Slide";
                     dismiss(getContext(), true);
                 }
             }
@@ -213,6 +217,10 @@ public class Locker extends LockScreen implements INotificationObserver {
             return;
         }
         mIsSetup = false;
+
+        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
+                "Reason", mDismissReason,
+                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
 
         mRootView.findViewById(R.id.bottom_layer).setVisibility(View.GONE);
         ObjectAnimator fadeOutAnim = ObjectAnimator.ofFloat(mLockerWallpaper, View.ALPHA, 0f);
@@ -283,8 +291,13 @@ public class Locker extends LockScreen implements INotificationObserver {
         switch (s) {
             case EVENT_FINISH_SELF:
                 boolean shouldDismissKeyguard = true;
+
                 if (hsBundle != null) {
                     shouldDismissKeyguard = hsBundle.getBoolean(EXTRA_SHOULD_DISMISS_KEYGUARD, true);
+                    String reason = hsBundle.getString(Locker.EXTRA_DISMISS_REASON, "");
+                    if (!TextUtils.isEmpty(reason)) {
+                        mDismissReason = reason;
+                    }
                 }
                 dismiss(getContext(), shouldDismissKeyguard);
                 break;

@@ -224,7 +224,9 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             @Override
             public void onAdClicked(AcbExpressAdView acbExpressAdView) {
                 LockerCustomConfig.get().onEventLockerAdClick();
-                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
+                HSBundle bundle = new HSBundle();
+                bundle.putString(Locker.EXTRA_DISMISS_REASON, "AdClick");
+                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
             }
         });
         expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_None);

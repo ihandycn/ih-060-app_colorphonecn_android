@@ -17,6 +17,7 @@ import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSBundle;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 
@@ -141,11 +142,15 @@ public class LockerSlidingUpCallback implements SlidingUpCallback {
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (type == SlidingUpTouchListener.TYPE_LEFT) {
-                    HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
+                    HSBundle bundle = new HSBundle();
+                    bundle.putString(Locker.EXTRA_DISMISS_REASON, "Slide");
+                    HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
                 } else {
                     if (Navigations.startCamera(HSApplication.getContext())) {
                         LockerCustomConfig.getLogger().logEvent("Locker_Camera_Opened");
-                        HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
+                        HSBundle bundle = new HSBundle();
+                        bundle.putString(Locker.EXTRA_DISMISS_REASON, "CameraClick");
+                        HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
                     }
                 }
             }
