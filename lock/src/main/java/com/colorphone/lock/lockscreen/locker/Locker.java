@@ -58,6 +58,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     private boolean mHomeKeyClicked;
     private boolean mIsSetup;
     private String mDismissReason = "Unkown";
+    private boolean mActivityMode;
 
     @Override
     public void setup(ViewGroup root, Bundle extra) {
@@ -260,6 +261,11 @@ public class Locker extends LockScreen implements INotificationObserver {
         fadeOutAnim.start();
     }
 
+    @Override
+    public boolean isActivityHost() {
+        return mActivityMode;
+    }
+
     private void doDismiss() {
         onStop();
         onDestroy();
@@ -317,5 +323,9 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     public boolean isDestroyed() {
         return mIsDestroyed;
+    }
+
+    public void setActivityMode(boolean activityMode) {
+        mActivityMode = activityMode;
     }
 }

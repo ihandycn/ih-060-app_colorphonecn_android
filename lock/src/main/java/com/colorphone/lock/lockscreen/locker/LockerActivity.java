@@ -64,6 +64,7 @@ public class LockerActivity extends HSAppCompatActivity {
             setContentView(R.layout.activity_locker);
 
             mLocker = new Locker();
+            mLocker.setActivityMode(true);
             mLocker.setup(((ViewGroup)findViewById(R.id.activity_locker)), null);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !noNavigationPadding) {

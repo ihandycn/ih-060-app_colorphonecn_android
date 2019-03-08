@@ -58,6 +58,7 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
         setContentView(R.layout.activity_charging_screen);
 
         mScreen = new ChargingScreen();
+        mScreen.setActivityMode(true);
         mScreen.setup(((ViewGroup)findViewById(R.id.charging_screen_activity)), getIntent().getExtras());
     }
 

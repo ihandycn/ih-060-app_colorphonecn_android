@@ -232,6 +232,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
     };
     private HomeKeyWatcher mHomeKeyWatcher;
+    private boolean mActivityMode;
 
     private void processPowerStateChanged(boolean isPowerConnected) {
         if (this.isPowerConnected == isPowerConnected) {
@@ -428,14 +429,13 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             }
 
         });
-        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_None);
 
     }
 
     private void showExpressAd() {
         if (expressAdView.getParent() == null) {
             advertisementContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
-            expressAdView.switchAd();
+            expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
         }
     }
 
@@ -894,15 +894,18 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
                 onStart();
                 break;
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
-                onStop();
+                if (!isActivityHost()) {
+                    onStop();
+                }
                 break;
             case LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING:
                 mDismissReason = "Ringing";
                 dismiss(getContext(), false);
                 break;
+            default:
+                break;
         }
     }
-
 
     public void onStop() {
         // ======== onPause ========
@@ -952,6 +955,11 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     }
 
     @Override
+    public boolean isActivityHost() {
+        return mActivityMode;
+    }
+
+    @Override
     public void dismiss(Context context, boolean dismissKeyguard) {
         mDismissed = true;
 
@@ -972,5 +980,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             onDestroy();
             super.dismiss(context, dismissKeyguard);
         }
+    }
+
+    public void setActivityMode(boolean activityMode) {
+        mActivityMode = activityMode;
     }
 }

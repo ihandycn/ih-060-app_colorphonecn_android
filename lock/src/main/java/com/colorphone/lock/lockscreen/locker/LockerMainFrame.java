@@ -229,7 +229,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
             }
         });
-        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_None);
+        expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
     }
 
     private void showExpressAd() {
@@ -294,8 +294,10 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 break;
 
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF:
-                onPause();
-                onStop();
+                if (mLockScreen != null && !mLockScreen.isActivityHost()) {
+                    onPause();
+                    onStop();
+                }
 
                 if (mShimmer.isAnimating()) {
                     mShimmer.cancel();

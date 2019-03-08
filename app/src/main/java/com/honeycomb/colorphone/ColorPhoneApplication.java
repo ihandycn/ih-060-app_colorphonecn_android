@@ -365,11 +365,11 @@ public class ColorPhoneApplication extends HSApplication {
         }
         if (DeviceManager.getInstance().isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
             //
-            if (!LockerActivity.exit) {
+            if (!ChargingScreenActivity.exist) {
                 ChargingScreenUtils.startChargingScreenActivity(false, true);
             }
         } else if (LockerSettings.isLockerEnabled()) {
-            if (!ChargingScreenActivity.exist) {
+            if (!LockerActivity.exit) {
                 ChargingScreenUtils.startLockerActivity(true);
             }
         }

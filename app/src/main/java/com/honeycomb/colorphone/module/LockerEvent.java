@@ -1,7 +1,10 @@
 package com.honeycomb.colorphone.module;
 
+import android.os.Build;
+
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
+import com.colorphone.lock.lockscreen.locker.Locker;
 import com.honeycomb.colorphone.util.Analytics;
 
 import net.appcloudbox.autopilot.AutopilotEvent;
@@ -15,7 +18,8 @@ public class LockerEvent extends LockerCustomConfig.Event {
         super.onEventChargingAdClick();
         AutopilotEvent.onAdShow();
         String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-        Analytics.logEvent("ColorPhone_LockScreenAd_Show" + suffix);
+        Analytics.logEvent("ColorPhone_LockScreenAd_Show" + suffix,
+                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", Locker.getDeviceInfo());
     }
 
     @Override

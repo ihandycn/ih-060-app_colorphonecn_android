@@ -39,4 +39,6 @@ public abstract class LockScreen {
         int hideType = (dismissKeyguard ? 0 : FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION);
         FloatWindowController.getInstance().hideLockScreen(hideType);
     }
+
+    abstract public boolean isActivityHost();
 }

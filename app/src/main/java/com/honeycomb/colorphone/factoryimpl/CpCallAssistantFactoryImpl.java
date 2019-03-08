@@ -142,7 +142,9 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             public void onShouldShow(int callType, boolean isLocked) {
                 isADShown = false;
                 mTimeReadyToShow = System.currentTimeMillis();
-                Analytics.logEvent("CallFinished_View_Should_Show", "callType", getCallTypeStr(callType));
+                Analytics.logEvent("CallFinished_View_Should_Show",
+                        "callType", getCallTypeStr(callType),
+                        "Brand", Build.BRAND.toLowerCase());
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
                     Analytics.logEvent("Test_CallAssistantShouldShow" +  Build.BRAND.toUpperCase() + getDeviceInfo());
                     Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
@@ -177,7 +179,8 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 Threads.removeOnMainThread(mDisplayTimeoutRunnable);
                 Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
                 Analytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType),
-                        "Time", formatTime(System.currentTimeMillis() - mTimeReadyToShow));
+                        "Time", formatTime(System.currentTimeMillis() - mTimeReadyToShow),
+                        "Brand", Build.BRAND.toLowerCase());
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
                     Analytics.logEvent("Test_CallAssistantShow" + Build.BRAND.toUpperCase() + getDeviceInfo());
                 }
@@ -229,7 +232,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onAdShow(int callType) {
-                super.onAdShow(callType);
+                Analytics.logEvent("CallFinished_View_AD_Shown", "callType", getCallTypeStr(callType));
                 isADShown = true;
                 HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
             }

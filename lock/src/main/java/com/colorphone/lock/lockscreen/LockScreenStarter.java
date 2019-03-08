@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
+import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
@@ -111,9 +113,13 @@ public class LockScreenStarter {
         String extraValue = intent.getStringExtra(EXTRA_LAUNCHER_ACTIVITY);
 
         if (EXTRA_VALUE_CHARGING.equals(extraValue)) {
-            ChargingScreenUtils.startChargingScreenActivity(false, false);
+            if (ChargingScreenActivity.exist) {
+                ChargingScreenUtils.startChargingScreenActivity(false, false);
+            }
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
-            ChargingScreenUtils.startLockerActivity(false);
+            if (!LockerActivity.exit) {
+                ChargingScreenUtils.startLockerActivity(false);
+            }
         }
     }
 
