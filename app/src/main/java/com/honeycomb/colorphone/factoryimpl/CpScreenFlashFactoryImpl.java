@@ -20,6 +20,7 @@ import com.acb.colorphone.permissions.NotificationOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
 import com.call.assistant.util.CommonUtils;
+import com.colorphone.lock.lockscreen.locker.Locker;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -443,7 +444,10 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                         return;
                 }
 
-                Analytics.logEvent(eventID, "from", param);
+                Analytics.logEvent(eventID,
+                        "from", param,
+                        "Brand", Build.BRAND.toLowerCase(),
+                        "DeviceVersion", Locker.getDeviceInfo());
             }
 
             @Override
