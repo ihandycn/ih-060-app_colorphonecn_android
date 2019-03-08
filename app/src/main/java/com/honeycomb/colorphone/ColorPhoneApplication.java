@@ -254,8 +254,7 @@ public class ColorPhoneApplication extends HSApplication {
         String processName = getProcessName();
         if (TextUtils.equals(processName, packageName)) {
             onMainProcessCreate();
-        } else {
-            initGoldenEye();
+
         }
 
         if (processName.endsWith(":work")) {
@@ -407,8 +406,22 @@ public class ColorPhoneApplication extends HSApplication {
         ThemeList.updateThemes(true);
 
         registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
+        AcbAds.getInstance().initializeFromGoldenEye(this, new AcbAds.GoldenEyeInitListener() {
+            @Override
+            public void onInitialized() {
 
-        initGoldenEye();
+            }
+        });
+        AcbAds.getInstance().setLogEventListener(new AcbAds.logEventListener() {
+            @Override
+            public void logFirebaseEvent(String s, Bundle bundle) {
+
+                if (GdprUtils.isNeedToAccessDataUsage()) {
+                    // TODO Firebase event.
+                }
+
+            }
+        });
         if (HSGdprConsent.isGdprUser()) {
             if (HSGdprConsent.getConsentState() != HSGdprConsent.ConsentState.ACCEPTED) {
                 AcbAds.getInstance().setGdprInfo(GDPR_USER, GDPR_NOT_GRANTED);
@@ -463,25 +476,6 @@ public class ColorPhoneApplication extends HSApplication {
         checkDailyTask();
 
         watchLifeTimeAutopilot();
-    }
-
-    private void initGoldenEye() {
-        AcbAds.getInstance().initializeFromGoldenEye(this, new AcbAds.GoldenEyeInitListener() {
-            @Override
-            public void onInitialized() {
-
-            }
-        });
-        AcbAds.getInstance().setLogEventListener(new AcbAds.logEventListener() {
-            @Override
-            public void logFirebaseEvent(String s, Bundle bundle) {
-
-                if (GdprUtils.isNeedToAccessDataUsage()) {
-                    // TODO Firebase event.
-                }
-
-            }
-        });
     }
 
     private void watchLifeTimeAutopilot() {
