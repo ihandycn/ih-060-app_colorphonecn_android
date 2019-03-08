@@ -533,6 +533,12 @@
             </intent-filter>
         </service>
 
+        <!-- Move this service to main process for download ad -->
+        <service
+            android:name="com.ss.android.socialbase.downloader.downloader.IndependentProcessDownloadService"
+            tools:remove="android:process">
+        </service>
+
         <!--&lt;!&ndash;===== Dialer Module =====&ndash;&gt;-->
 
         <!--<activity-->
