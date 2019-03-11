@@ -192,7 +192,7 @@ public class ColorPhoneApplication extends HSApplication {
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
                 ColorPhonePermanentUtils.checkAliveForProcess();
             } else if (SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE.equals(notificationName)) {
-                BoostActivity.start(HSApplication.getContext(),  ResultConstants.RESULT_TYPE_BOOST_LOCKER);
+                BoostActivity.start(HSApplication.getContext(), ResultConstants.RESULT_TYPE_BOOST_LOCKER);
             } else {
                 checkModuleAdPlacement();
             }
@@ -309,7 +309,7 @@ public class ColorPhoneApplication extends HSApplication {
         });
         UmengMessageHandler messageHandler = new UmengMessageHandler() {
             @Override
-            public Notification getNotification(Context context, UMessage uMessage) {
+            public void dealWithCustomMessage(Context context, UMessage uMessage) {
                 HSLog.d("Umeng.test", "Receive umeng push");
                 Analytics.logEvent("ColorPhone_Push_Receive",
                         "Brand", Build.BRAND.toLowerCase(),
@@ -319,7 +319,6 @@ public class ColorPhoneApplication extends HSApplication {
                     Analytics.logEvent("Wake_Up_By_Umeng_Push");
                 }
                 checkChargingOrLocker();
-                return super.getNotification(context, uMessage);
             }
         };
         pushAgent.setMessageHandler(messageHandler);
