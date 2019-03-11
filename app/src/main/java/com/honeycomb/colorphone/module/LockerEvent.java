@@ -38,7 +38,9 @@ public class LockerEvent extends LockerCustomConfig.Event {
         AutopilotEvent.onAdShow();
         String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
 
-        Analytics.logEvent("ChargingScreen_AdShow" + suffix);
+        Analytics.logEvent("ChargingScreen_AdShow" + suffix,
+                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", Locker.getDeviceInfo());
+
     }
 
     @Override

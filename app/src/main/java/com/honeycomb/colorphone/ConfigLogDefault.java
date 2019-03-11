@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone;
 
+import android.os.Build;
+
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.NetUtils;
 
@@ -24,7 +26,8 @@ public class ConfigLogDefault implements ConfigLog {
         Set<String> downloadThemes = new HashSet<>(3);
         @Override
         public void onMainViewOpen() {
-            Analytics.logEvent("ColorPhone_MainView_Opened");
+            Analytics.logEvent("ColorPhone_MainView_Opened",
+                    "Brand", Build.BRAND.toLowerCase());
         }
 
         @Override

@@ -345,7 +345,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         LockScreensLifeCycleRegistry.setChargingScreenActive(true);
         LockerCustomConfig.get().onEventChargingViewShow();
         String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown_Init" + suffix);
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown_Init" + suffix,
+                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
         onStart();
     }
 
@@ -385,8 +386,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             updateChargingStateTipIconAnimator();
         }
         String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix);
-
+        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix,
+                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
 
         // ======== onResume ========
 
