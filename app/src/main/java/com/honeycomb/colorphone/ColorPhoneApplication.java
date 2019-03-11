@@ -2,7 +2,6 @@ package com.honeycomb.colorphone;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -341,12 +340,12 @@ public class ColorPhoneApplication extends HSApplication {
         HSPermanentUtils.initKeepAlive(
                 true,
                 false,
-                false,
                 true,
                 true,
-                false,
-                false,
-                false,
+                true,
+                true,
+                true,
+                true,
                 null, null);
 
         Threads.postOnMainThreadDelayed(new Runnable() {

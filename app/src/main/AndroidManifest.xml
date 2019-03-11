@@ -100,19 +100,6 @@
         android:name="android.permission.CLEAR_APP_CACHE"
         tools:node="remove" />
 
-    <uses-permission
-        android:name="android.permission.MANAGE_ACCOUNTS"
-        tools:node="remove" />
-    <uses-permission
-        android:name="android.permission.GET_ACCOUNTS"
-        tools:node="remove" />
-    <uses-permission
-        android:name="android.permission.READ_SYNC_SETTINGS"
-        tools:node="remove" />
-    <uses-permission
-        android:name="android.permission.WRITE_SYNC_SETTINGS"
-        tools:node="remove" />
-
     <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
