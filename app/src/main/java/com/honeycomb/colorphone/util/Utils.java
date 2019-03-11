@@ -118,6 +118,7 @@ public final class Utils {
     private static int THUMBNAIL_WIDTH = 0;
 
     public static int localThemeId = 8;
+    private static int sPhoneWidth;
 
     public static void startActivitySafely(Context context, Intent intent) {
         try {
@@ -286,10 +287,14 @@ public final class Utils {
         if (null == context) {
             return DEFAULT_DEVICE_SCREEN_WIDTH;
         }
-        DisplayMetrics dm = new DisplayMetrics();
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        wm.getDefaultDisplay().getMetrics(dm);
-        return Math.min(dm.widthPixels, dm.heightPixels);
+
+        if (sPhoneWidth <= 0) {
+            DisplayMetrics dm = new DisplayMetrics();
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            wm.getDefaultDisplay().getMetrics(dm);
+            sPhoneWidth = Math.min(dm.widthPixels, dm.heightPixels);
+        }
+        return sPhoneWidth;
     }
 
     public static int getNavigationBarHeight(Context context) {

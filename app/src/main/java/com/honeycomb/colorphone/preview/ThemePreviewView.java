@@ -56,7 +56,6 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
-import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -69,7 +68,6 @@ import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
-import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
@@ -297,26 +295,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     };
 
     public static void saveThemeApplys(int themeId) {
-        if (isThemeAppliedEver(themeId)) {
-            return;
-        }
-        StringBuilder sb = new StringBuilder(4);
-        String pre = HSPreferenceHelper.getDefault().getString(ThemeList.PREFS_THEME_APPLY, "");
-        sb.append(pre).append(themeId).append(",");
-        HSPreferenceHelper.getDefault().putString(ThemeList.PREFS_THEME_APPLY, sb.toString());
-    }
-
-    public static boolean isThemeAppliedEver(int themeId) {
-        String[] themes = HSPreferenceHelper.getDefault().getString(ThemeList.PREFS_THEME_APPLY, "").split(",");
-        for (String theme : themes) {
-            if (TextUtils.isEmpty(theme)) {
-                continue;
-            }
-            if (themeId == Integer.parseInt(theme)) {
-                return true;
-            }
-        }
-        return false;
+        // TODO MMKV
     }
 
     public ThemePreviewView(@NonNull Context context) {

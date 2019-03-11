@@ -120,7 +120,10 @@ import static net.appcloudbox.AcbAds.GDPR_NOT_GRANTED;
 import static net.appcloudbox.AcbAds.GDPR_USER;
 
 public class ColorPhoneApplication extends HSApplication {
-    private static final long TIME_NEED_LOW = 10 * 1000; // 10s
+    private static final long TIME_NEED_LOW = 12 * 1000; // 10s
+
+    private static final long TIME_NEED_FIRSTINIT_LOW = 10 * 1000;
+
     private static ConfigLog mConfigLog;
 
     private List<Module> mModules = new ArrayList<>();
@@ -224,6 +227,7 @@ public class ColorPhoneApplication extends HSApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
         systemFix();
         launchTime = System.currentTimeMillis();
         mAppInitList.add(new GdprInit());
@@ -333,22 +337,6 @@ public class ColorPhoneApplication extends HSApplication {
         ThemeList.updateThemes(true);
 
         registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
-        AcbAds.getInstance().initializeFromGoldenEye(this);
-        AcbAds.getInstance().setLogEventListener(new AcbAds.logEventListener() {
-            @Override
-            public void logFirebaseEvent(String s, Bundle bundle) {
-
-                if (GdprUtils.isNeedToAccessDataUsage()) {
-                    // TODO Firebase event.
-                }
-
-            }
-        });
-        if (HSGdprConsent.isGdprUser()) {
-            if (HSGdprConsent.getConsentState() != HSGdprConsent.ConsentState.ACCEPTED) {
-                AcbAds.getInstance().setGdprInfo(GDPR_USER, GDPR_NOT_GRANTED);
-            }
-        }
 
         CashUtils.initCashCenter();
 
@@ -357,27 +345,27 @@ public class ColorPhoneApplication extends HSApplication {
 
         ContactManager.init();
 
-        AcbRewardAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_REWARD_VIDEO);
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
-
-        AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.CASHCENTER);
-        ColorPhonePermanentUtils.keepAlive();
 
         Upgrader.upgrade();
         addGlobalObservers();
         initModules();
-        checkModuleAdPlacement();
-
-        initChargingReport();
-        initLockerCharging();
-        initNotificationToolbar();
 
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
         String popularThemeBgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
         GlideApp.with(this).downloadOnly().load(popularThemeBgUrl);
+
+        if (getCurrentLaunchInfo() != null && getCurrentLaunchInfo().launchId > 1) {
+            delayInitOnFirstLaunch();
+        } else {
+            Threads.postOnMainThreadDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    delayInitOnFirstLaunch();
+                }
+            }, TIME_NEED_FIRSTINIT_LOW);
+        }
 
         Threads.postOnMainThreadDelayed(new Runnable() {
             @Override
@@ -399,6 +387,36 @@ public class ColorPhoneApplication extends HSApplication {
 
         watchLifeTimeAutopilot();
 
+    }
+
+    private void delayInitOnFirstLaunch() {
+        ColorPhonePermanentUtils.keepAlive();
+        initGoldenEye();
+        checkModuleAdPlacement();
+
+        AcbRewardAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_REWARD_VIDEO);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.CASHCENTER);
+
+        initChargingReport();
+        initLockerCharging();
+        initNotificationToolbar();
+    }
+
+    private void initGoldenEye() {
+        AcbAds.getInstance().initializeFromGoldenEye(this);
+        AcbAds.getInstance().setLogEventListener(new AcbAds.logEventListener() {
+            @Override
+            public void logFirebaseEvent(String s, Bundle bundle) {
+
+            }
+        });
+        if (HSGdprConsent.isGdprUser()) {
+            if (HSGdprConsent.getConsentState() != HSGdprConsent.ConsentState.ACCEPTED) {
+                AcbAds.getInstance().setGdprInfo(GDPR_USER, GDPR_NOT_GRANTED);
+            }
+        }
     }
 
     private void watchLifeTimeAutopilot() {
@@ -738,8 +756,6 @@ public class ColorPhoneApplication extends HSApplication {
                 checkNativeAd(module.getAdName(), module.getChecker().isEnable());
             }
         }
-
-        ColorPhonePermanentUtils.checkAliveForProcess();
 
         updateCallFinishFullScreenAdPlacement();
         updateTriviaTipAdPlacement();

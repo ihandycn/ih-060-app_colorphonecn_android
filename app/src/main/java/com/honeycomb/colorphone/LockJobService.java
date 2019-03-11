@@ -35,7 +35,7 @@ public class LockJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         HSApplication.setContext(this);
-        ColorPhonePermanentUtils.checkAliveForProcess();
+
         return false;
     }
 

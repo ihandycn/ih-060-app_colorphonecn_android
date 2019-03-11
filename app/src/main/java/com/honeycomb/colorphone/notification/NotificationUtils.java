@@ -27,7 +27,6 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
-import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -482,8 +481,7 @@ public class NotificationUtils {
                     && theme.isMedia()
                     && theme.isNotificationEnabled()
                     && tempIndex > theme.getIndex()
-                    && !isThemeNotificationSentEver(theme)
-                    && !ThemePreviewView.isThemeAppliedEver(theme.getId())) {
+                    && !isThemeNotificationSentEver(theme)) {
                 tempIndex = theme.getIndex();
                 notificationType = theme;
             }
