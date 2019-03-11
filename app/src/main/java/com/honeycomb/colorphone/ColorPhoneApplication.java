@@ -63,7 +63,6 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
-import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.Analytics;
@@ -472,8 +471,6 @@ public class ColorPhoneApplication extends HSApplication {
 
         logUserLevelDistribution();
 
-        checkDailyTask();
-
         watchLifeTimeAutopilot();
     }
 
@@ -486,16 +483,6 @@ public class ColorPhoneApplication extends HSApplication {
                 Theme.updateThemes();
             }
         }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
-    }
-
-
-    private void checkDailyTask() {
-        DailyTrigger dailyTrigger = new DailyTrigger();
-        boolean active = dailyTrigger.onChance();
-        if (active) {
-            // Do something once a day.
-            dailyTrigger.onConsumeChance();
-        }
     }
 
     private void copyMediaFromAssertToFile() {
