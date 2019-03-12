@@ -10,6 +10,7 @@ import android.transition.Transition;
 import android.view.View;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
 
 import java.io.IOException;
@@ -53,8 +54,17 @@ public class WelcomeActivity extends Activity {
 
     private void toMainView() {
         mVidView.destroy();
+        if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+                && !GuideAllFeaturesActivity.isStarted()
+                && !ModuleUtils.isAllModuleEnabled()) {
+
+            startActivities(new Intent[] {
+                    new Intent(WelcomeActivity.this, ColorPhoneActivity.class),
+                    new Intent(this, GuideAllFeaturesActivity.class)});
+        } else {
+            startActivity(new Intent(WelcomeActivity.this, ColorPhoneActivity.class));
+        }
         finish();
-        startActivity(new Intent(WelcomeActivity.this, ColorPhoneActivity.class));
     }
 
     @Override

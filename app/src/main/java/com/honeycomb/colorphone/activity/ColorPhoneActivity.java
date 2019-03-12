@@ -149,15 +149,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
 
         ContactManager.getInstance().update();
-        // TODO pro show condition ( SESSION_START, or Activity onStart() )
-       if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
-                && !GuideAllFeaturesActivity.isStarted()
-                && !ModuleUtils.isAllModuleEnabled()) {
-            GuideAllFeaturesActivity.start(this);
-            HSAlertMgr.delayRateAlert();
-            pendingShowRateAlert = true;
-            showAllFeatureGuide = true;
-        } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
+        if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
             Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
