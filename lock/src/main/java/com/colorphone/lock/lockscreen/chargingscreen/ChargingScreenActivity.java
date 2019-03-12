@@ -10,9 +10,11 @@ import android.view.WindowManager.LayoutParams;
 
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
+import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Threads;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
@@ -21,6 +23,13 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
     private static final String TAG = "CHARGING_SCREEN_ACTIVITY";
     private ChargingScreen mScreen;
     public static boolean exist;
+
+    private Runnable displaySuccessChecker = new Runnable() {
+        @Override
+        public void run() {
+            LockScreenStarter.getInstance().onScreenDisplayed();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +76,18 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
         super.onStart();
         HSLog.d(TAG, "onStart()");
         mScreen.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Threads.postOnMainThreadDelayed(displaySuccessChecker, 1000);
+    }
+
+    @Override
+    protected void onPause() {
+        Threads.removeOnMainThread(displaySuccessChecker);
+        super.onPause();
     }
 
     @Override

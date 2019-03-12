@@ -28,6 +28,7 @@ public class LockScreenStarter {
     private static final String EXTRA_VALUE_CHARGING = "charging";
     private static final String EXTRA_VALUE_LOCKER = "locker";
     private static final String TAG = "LockManager";
+    private static LockScreenStarter instance;
 
     private BatteryChangeReceiver mBatteryChangeReceiver = new BatteryChangeReceiver();
     private HSChargingManager.IChargingListener mChargingListener = new HSChargingManager.IChargingListener() {
@@ -55,10 +56,19 @@ public class LockScreenStarter {
         }
     };
 
+    private boolean blockWhenHasKeyGuard = true;
+
     public static void init() {
-        LockScreenStarter m = new LockScreenStarter();
-        m.registerScreenOnOff();
-        m.registerChargingListener();
+        if (instance == null) {
+            instance = new LockScreenStarter();
+            instance.registerScreenOnOff();
+            instance.registerChargingListener();
+        }
+    }
+
+    public static LockScreenStarter getInstance() {
+        init();
+        return instance;
     }
 
     private void registerChargingListener() {
@@ -69,24 +79,36 @@ public class LockScreenStarter {
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
         screenFilter.addAction(Intent.ACTION_SCREEN_ON);
+        screenFilter.addAction(Intent.ACTION_USER_PRESENT);
         HSLog.d(TAG, "init register Screen Off");
         HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+
                 if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                     HSLog.d(TAG, "Screen Off");
                     onScreenOff();
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                     HSLog.d(TAG, "Screen ON");
+
+                } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+                    tryShowChargingScreen();
                 }
             }
         }, screenFilter);
     }
 
+    private void tryShowChargingScreen() {
+        if (!ChargingScreenActivity.exist
+                && blockWhenHasKeyGuard
+                && isCharging()) {
+            ChargingScreenUtils.startChargingScreenActivity(false, false);
+        }
+    }
+
     private void onScreenOff() {
         launchScreenOnLockers();
     }
-
 
     private void launchScreenOnLockers() {
         if (isCharging() && SmartChargingSettings.isChargingScreenEnabled()) {
@@ -96,24 +118,24 @@ public class LockScreenStarter {
         }
     }
 
-
     private void notifyToStart(String target) {
         HSLog.d(TAG, "notify : " + target);
         Context context = HSApplication.getContext();
         Intent intent = new Intent();
         intent.setPackage(context.getPackageName());
         intent.putExtra(EXTRA_LAUNCHER_ACTIVITY, target);
-        LockScreenStarter.handleStart(intent);
+        handleStart(intent);
     }
 
     /**
      * Called in main process.
      */
-    static void handleStart(Intent intent) {
+    private void handleStart(Intent intent) {
         String extraValue = intent.getStringExtra(EXTRA_LAUNCHER_ACTIVITY);
 
         if (EXTRA_VALUE_CHARGING.equals(extraValue)) {
             if (!ChargingScreenActivity.exist) {
+                blockWhenHasKeyGuard = true;
                 ChargingScreenUtils.startChargingScreenActivity(false, false);
             }
         } else if (EXTRA_VALUE_LOCKER.equals(extraValue)) {
@@ -142,6 +164,10 @@ public class LockScreenStarter {
         int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         return status == BatteryManager.BATTERY_STATUS_CHARGING ||
                 status == BatteryManager.BATTERY_STATUS_FULL;
+    }
+
+    public void onScreenDisplayed() {
+        blockWhenHasKeyGuard = false;
     }
 
     private class BatteryChangeReceiver extends BroadcastReceiver {
