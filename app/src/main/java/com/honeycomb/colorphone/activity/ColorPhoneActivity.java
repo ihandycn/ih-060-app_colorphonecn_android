@@ -64,7 +64,6 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
-import com.umeng.analytics.MobclickAgent;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
@@ -280,7 +279,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
         AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
-        if (!showAllFeatureGuide && isCreate) {
+        if (!showAllFeatureGuide) {
             dispatchPermissionRequest();
         }
         if (!showAllFeatureGuide) {
