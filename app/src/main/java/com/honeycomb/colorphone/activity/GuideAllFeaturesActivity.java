@@ -78,10 +78,26 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             @Override
             public void onClick(View v) {
                 Analytics.logEvent("ColorPhone_StartGuide_Cancel_Clicked");
+//                if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
+//
+//                } else {
+//                    finish();
+//                }
+                ModuleUtils.setAllModuleUserEnable();
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
-
                 } else {
-                    finish();
+                    if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()
+                            || RomUtils.checkIsHuaweiRom() || RomUtils.checkIsOppoRom()) {
+                        PermissionHelper.requestAutoStartIfNeeded(GuideAllFeaturesActivity.this);
+                        if (RequestPermissionsActivity.isShowOnLockScreenDialogEnable()) {
+                            requstAutoStart = true;
+                        } else {
+                            finish();
+                        }
+                    } else {
+                        PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
+                        finish();
+                    }
                 }
             }
         });
