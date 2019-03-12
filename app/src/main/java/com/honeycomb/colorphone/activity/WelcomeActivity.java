@@ -3,13 +3,11 @@ package com.honeycomb.colorphone.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.transition.Fade;
-import android.transition.Transition;
 import android.view.View;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
 
 import java.io.IOException;
@@ -23,13 +21,13 @@ public class WelcomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Transition fade = new Fade();
-            fade.excludeTarget(android.R.id.statusBarBackground, true);
-            fade.excludeTarget(android.R.id.navigationBarBackground, true);
-            getWindow().setExitTransition(fade);
-            getWindow().setEnterTransition(fade);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            Transition fade = new Fade();
+//            fade.excludeTarget(android.R.id.statusBarBackground, true);
+//            fade.excludeTarget(android.R.id.navigationBarBackground, true);
+//            getWindow().setExitTransition(fade);
+//            getWindow().setEnterTransition(fade);
+//        }
 
         setContentView(R.layout.activity_welcome);
         mVidView = (WelcomeVideoView) findViewById(R.id.welcome_video);
@@ -53,8 +51,17 @@ public class WelcomeActivity extends Activity {
 
     private void toMainView() {
         mVidView.destroy();
+        if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+                && !GuideAllFeaturesActivity.isStarted()
+                && !ModuleUtils.isAllModuleEnabled()) {
+
+            startActivities(new Intent[] {
+                    new Intent(WelcomeActivity.this, ColorPhoneActivity.class),
+                    new Intent(this, GuideAllFeaturesActivity.class)});
+        } else {
+            startActivity(new Intent(WelcomeActivity.this, ColorPhoneActivity.class));
+        }
         finish();
-        startActivity(new Intent(WelcomeActivity.this, ColorPhoneActivity.class));
     }
 
     @Override

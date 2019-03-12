@@ -42,8 +42,7 @@ public class PermanentService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             L.line("onReceive:" + action + " keepAlive!");
-
-            ColorPhonePermanentUtils.keepAlive();
+            HSApplication.setContext(context);
         }
     }
 

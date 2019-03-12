@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.ihs.commons.utils.HSLog;
 
@@ -72,7 +71,7 @@ public class ContactUtils {
                 String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 int contactId = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
 
-                Log.d("Read Contact", "photo uri = " + thumbnailUri + ", name = " + name + ", number = " + number + ", contactId =" + contactId);
+                HSLog.d("Read Contact", "photo uri = " + thumbnailUri + ", name = " + name + ", number = " + number + ", contactId =" + contactId);
                 if (!TextUtils.isEmpty(number)) {
                     if (TextUtils.isEmpty(name)) {
                         // If Name is empty we use Number as User Name.

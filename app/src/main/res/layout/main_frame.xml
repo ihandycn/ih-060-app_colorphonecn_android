@@ -20,29 +20,13 @@
             android:gravity="center_vertical"
            />
 
-        <include
-            android:id="@+id/recycler_view_content"
-            layout="@layout/main_frame_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:padding="4dp" >
-
-        <Button
-            android:id="@+id/avatar_btn"
-            android:layout_width="66dp"
-            android:layout_height="66dp"
-            android:elevation="@dimen/dialog_elevation"
-            android:background="@drawable/avatar_selector"
-            android:visibility="gone"/>
-
-    </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
