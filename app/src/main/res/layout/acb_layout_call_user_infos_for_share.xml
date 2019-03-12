@@ -24,7 +24,6 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@drawable/acb_phone_default_caller_avatar"
             app:layout_aspectRatio="100%"
             app:layout_widthPercent="25%" />
     </android.support.percent.PercentFrameLayout>

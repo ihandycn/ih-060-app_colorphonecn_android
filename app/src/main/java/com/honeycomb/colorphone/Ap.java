@@ -1,13 +1,11 @@
 package com.honeycomb.colorphone;
 
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
-import com.superapps.util.Toasts;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
@@ -33,7 +31,7 @@ public class Ap {
         public static boolean isEnable() {
             boolean ringtoneBtnShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1516083421924-90", "ringtone_btn_show", false);
             if (BuildConfig.DEBUG) {
-                Toasts.showToast("【Autopilot】铃声功能：" + ringtoneBtnShowBoolean, Toast.LENGTH_SHORT);
+                HSLog.d("【Autopilot】铃声功能：" + ringtoneBtnShowBoolean);
             }
             return ringtoneBtnShowBoolean;
         }
@@ -49,7 +47,7 @@ public class Ap {
         public static boolean isAutoPlay() {
             boolean ringtoneAutoPlayBoolean = AutopilotConfig.getBooleanToTestNow("topic-1516083421924-90", "ringtone_auto_play", false);
             if (BuildConfig.DEBUG) {
-                Toasts.showToast("【Autopilot】铃声自动播放：" + ringtoneAutoPlayBoolean, Toast.LENGTH_SHORT);
+                HSLog.d("【Autopilot】铃声自动播放：" + ringtoneAutoPlayBoolean);
             }
             return ringtoneAutoPlayBoolean;
         }
@@ -97,7 +95,7 @@ public class Ap {
         /**
          * 使用 topic-1516620266175-105 - avatar_button_text 远程配置
          * ---------------------------------------------
-         * Topic 名称:           Avatar Test
+         * Topic 名称:           Avatar Testww
          * Topic 描述:           Avatar Test
          * Topic.x 可能值:       ["Start Now"]
          * Topic.x 描述:         avatar按钮上的文案
@@ -111,9 +109,7 @@ public class Ap {
     public static class MsgBall {
         public static boolean enable() {
             boolean ringtoneBtnShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1531210959452-409", "message_floatingball_enable", false);
-            if (BuildConfig.DEBUG) {
-                Toasts.showToast("【Autopilot】MsgBall：" + ringtoneBtnShowBoolean, Toast.LENGTH_SHORT);
-            }
+
             return ringtoneBtnShowBoolean;
         }
 
