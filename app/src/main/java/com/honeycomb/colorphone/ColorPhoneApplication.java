@@ -37,7 +37,6 @@ import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
-import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
@@ -337,8 +336,6 @@ public class ColorPhoneApplication extends HSApplication {
         ThemeList.updateThemes(true);
 
         registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
-
-        CashUtils.initCashCenter();
 
         CallAssistantManager.init(new CpCallAssistantFactoryImpl());
         MessageCenterManager.init(new CpMessageCenterFactoryImpl());
@@ -667,7 +664,6 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onScreenOn(context);
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
                     ScreenStatusReceiver.onUserPresent(context);
-                    CashUtils.showGuideIfNeeded(null, CashUtils.Source.UnlockScreen);
                 }
             }
         }, screenFilter);
