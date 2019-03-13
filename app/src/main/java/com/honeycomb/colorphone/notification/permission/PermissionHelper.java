@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.acb.colorphone.permissions.AutoStartGuideActivity;
+import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.utils.Utils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
@@ -22,6 +23,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.superapps.util.Navigations;
 import com.superapps.util.Permissions;
 import com.superapps.util.Threads;
+import com.superapps.util.rom.RomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +66,11 @@ public class PermissionHelper {
     public static boolean requestAutoStartIfNeeded(@Nullable Activity sourceActivity) {
         Permissions.requestAutoStartPermission(sourceActivity);
         Threads.postOnMainThreadDelayed(() -> {
-            Navigations.startActivity(HSApplication.getContext(), AutoStartGuideActivity.class);
+            if (RomUtils.checkIsMiuiRom()) {
+                Navigations.startActivity(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
+            } else {
+                Navigations.startActivity(HSApplication.getContext(), AutoStartGuideActivity.class);
+            }
         }, 1000);
         return true;
     }

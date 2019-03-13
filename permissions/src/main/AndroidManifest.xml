@@ -30,7 +30,21 @@
             android:taskAffinity=":guide"
             android:theme="@style/TransparentCompatDialog"/>
         <activity
-            android:name=".NotificationOnLockScreenGuideActivity"
+            android:name=".ShowOnLockScreenGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name=".ShowOnLockScreenMIUIGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name=".AutoStartMIUIGuideActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"

@@ -21,4 +21,6 @@
   <string name="acb_phone_grant_show_onlockscreen_access_title_oppo">Enable Notification On Lock Screen to Show Call Flash</string>
   <string name="acb_phone_grant_show_onlockscreen_access_title_huawei">Enable Notification On Lock Screen to Show Call Flash</string>
   <string name="acb_phone_grant_show_onlockscreen_access_title_miui">开启锁屏显示权限以在锁屏时展示来电秀</string>
+
+  <string name="acb_phone_permission_haode">好的</string>
 </resources>

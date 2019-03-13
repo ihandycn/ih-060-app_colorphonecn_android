@@ -2,7 +2,7 @@ package com.acb.colorphone.permissions;
 
 import com.superapps.util.rom.RomUtils;
 
-public class NotificationOnLockScreenGuideActivity extends SimplePermissionGuideActivity {
+public class ShowOnLockScreenGuideActivity extends SimplePermissionGuideActivity {
 
     @Override
     protected int getTitleStringResId() {

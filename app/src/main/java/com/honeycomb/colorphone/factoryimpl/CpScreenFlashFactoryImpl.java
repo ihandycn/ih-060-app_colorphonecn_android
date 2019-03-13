@@ -15,10 +15,12 @@ import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.themes.Type;
 import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.AutoStartGuideActivity;
+import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
-import com.acb.colorphone.permissions.NotificationOnLockScreenGuideActivity;
+import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
+import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.call.assistant.util.CommonUtils;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.honeycomb.colorphone.Ap;
@@ -41,6 +43,7 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
+import com.superapps.util.rom.RomUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Iterator;
@@ -212,7 +215,11 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void showRequestAutoStartAccessGuideDialog(boolean isOpenSettingsSuccess) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
                     Threads.postOnMainThreadDelayed(() -> {
-                        Navigations.startActivity(HSApplication.getContext(), AutoStartGuideActivity.class);
+                        if (RomUtils.checkIsMiuiRom()) {
+                            Navigations.startActivity(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
+                        } else {
+                            Navigations.startActivity(HSApplication.getContext(), AutoStartGuideActivity.class);
+                        }
                     }, 1000);
                 }
             }
@@ -221,7 +228,11 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void showRequestNotificationOnLockScreenGuideDialog(boolean isOpenSettingsSuccess) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
                     Threads.postOnMainThreadDelayed(() -> {
-                        Navigations.startActivity(HSApplication.getContext(), NotificationOnLockScreenGuideActivity.class);
+                        if (RomUtils.checkIsMiuiRom()) {
+                            Navigations.startActivity(HSApplication.getContext(), ShowOnLockScreenMIUIGuideActivity.class);
+                        } else {
+                            Navigations.startActivity(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
+                        }
                     }, 1000);
                 }
             }

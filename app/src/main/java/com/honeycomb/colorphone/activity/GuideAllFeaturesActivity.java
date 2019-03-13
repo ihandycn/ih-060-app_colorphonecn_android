@@ -12,10 +12,9 @@ import android.os.Looper;
 import android.view.View;
 import android.widget.TextView;
 
-import com.acb.call.activity.RequestPermissionsActivity;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
-import com.acb.colorphone.permissions.NotificationOnLockScreenGuideActivity;
+import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -89,11 +88,12 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                     if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()
                             || RomUtils.checkIsHuaweiRom() || RomUtils.checkIsOppoRom()) {
                         PermissionHelper.requestAutoStartIfNeeded(GuideAllFeaturesActivity.this);
-                        if (RequestPermissionsActivity.isShowOnLockScreenDialogEnable()) {
-                            requstAutoStart = true;
-                        } else {
-                            finish();
-                        }
+//                        if (RequestPermissionsActivity.isShowOnLockScreenDialogEnable()) {
+//                            requstAutoStart = true;
+//                        } else {
+//                            finish();
+//                        }
+                        finish();
                     } else {
                         PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
                         finish();
@@ -113,11 +113,12 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                     if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()
                             || RomUtils.checkIsHuaweiRom() || RomUtils.checkIsOppoRom()) {
                         PermissionHelper.requestAutoStartIfNeeded(GuideAllFeaturesActivity.this);
-                        if (RequestPermissionsActivity.isShowOnLockScreenDialogEnable()) {
-                            requstAutoStart = true;
-                        } else {
-                            finish();
-                        }
+//                        if (RequestPermissionsActivity.isShowOnLockScreenDialogEnable()) {
+//                            requstAutoStart = true;
+//                        } else {
+//                            finish();
+//                        }
+                        finish();
                     } else {
                         PermissionHelper.requestNotificationAccessIfNeeded(EventSource.FirstScreen, GuideAllFeaturesActivity.this);
                         finish();
@@ -153,7 +154,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             Permissions.requestShowOnLockScreenPermission(this);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 Threads.postOnMainThreadDelayed(() -> {
-                    Navigations.startActivity(HSApplication.getContext(), NotificationOnLockScreenGuideActivity.class);
+                    Navigations.startActivity(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
                     finish();
                 }, 1000);
             }
