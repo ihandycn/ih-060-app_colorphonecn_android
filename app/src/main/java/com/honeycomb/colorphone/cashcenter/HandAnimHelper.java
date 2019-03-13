@@ -16,7 +16,7 @@ import android.view.animation.LinearInterpolator;
 import com.honeycomb.colorphone.R;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
-import com.superappscommon.util.Dimensions;
+import com.superapps.util.Dimensions;
 
 public class HandAnimHelper {
 
