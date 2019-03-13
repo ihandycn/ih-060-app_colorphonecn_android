@@ -260,11 +260,6 @@
             android:theme="@style/Theme.AppCompat.Translucent" />
 
         <activity
-            android:name=".activity.PromoteLockerActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/AppTranslucent" />
-
-        <activity
             android:name=".activity.ContactsSelectActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"

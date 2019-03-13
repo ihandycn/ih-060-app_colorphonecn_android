@@ -165,9 +165,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             startActivity(intent);
             HSAlertMgr.delayRateAlert();
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
-        } else if (ModuleUtils.isShowPromoteLockerAlert(PromoteLockerActivity.WHEN_APP_LAUNCH)) {
-            PromoteLockerActivity.startPromoteLockerActivity(this, PromoteLockerActivity.WHEN_APP_LAUNCH);
-            HSAlertMgr.delayRateAlert();
         }
         setTheme(R.style.AppLightStatusBarTheme);
 
