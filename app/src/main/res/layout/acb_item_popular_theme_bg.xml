@@ -9,7 +9,6 @@
         android:id="@+id/image_bg"
         android:layout_width="match_parent"
         android:layout_height="321dp"
-        android:src="@drawable/banbo_kitty_bg"
         android:scaleType="centerCrop" />
 
 </RelativeLayout>
