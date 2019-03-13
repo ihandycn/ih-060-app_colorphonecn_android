@@ -2,7 +2,7 @@ stages:
 - build
 - cleanup_build
 
-build_colorphone:
+build_toutiao:
   stage: build
   script:
   - commit_msg=$(git log --format=%B -n 1)
@@ -10,16 +10,16 @@ build_colorphone:
   - mkdir outputs
   - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
   -   git submodule update --init
-  -   ./gradlew :app:assembleColorphoneDebug
+  -   ./gradlew :app:assembleColorphoneJinritoutiaoDebug
   -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
-  -   cp app/build/outputs/apk/colorphone/debug/*.apk outputs/
+  -   cp app/build/outputs/apk/olorphoneJinritoutiao/debug/*.apk outputs/
   - fi
-  - if [[ $commit_msg == *"[BuildColorPhone]"* ]]; then
+  - if [[ $commit_msg == *"[BuildToutiao]"* ]]; then
   -   git submodule update --init
-  -   ./gradlew :app:assembleColorphoneRelease
+  -   ./gradlew :app:assembleColorphoneJinritoutiaoRelease
   -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
-  -   cp app/build/outputs/apk/colorphone/release/*.apk outputs/
-  -   cp app/build/outputs/mapping/colorphone/release/mapping.txt outputs/
+  -   cp app/build/outputs/apk/colorphoneJinritoutiao/release/*.apk outputs/
+  -   cp app/build/outputs/mapping/colorphoneJinritoutiao/release/mapping.txt outputs/
   - fi
   only:
     variables:
@@ -34,7 +34,7 @@ build_colorphone:
   tags:
   - android
 
-build_colorflash:
+build_yingyongbao:
   stage: build
   script:
   - commit_msg=$(git log --format=%B -n 1)
@@ -42,16 +42,16 @@ build_colorflash:
   - mkdir outputs
   - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
   -   git submodule update --init
-  -   ./gradlew :app:assembleColorflashDebug
+  -   ./gradlew :app:assembleColorphoneYingyongbaoDebug
   -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
-  -   cp app/build/outputs/apk/colorflash/debug/*.apk outputs/
+  -   cp app/build/outputs/apk/colorphoneYingyongbao/debug/*.apk outputs/
   - fi
-  - if [[ $commit_msg == *"[BuildColorFlash]"* ]]; then
+  - if [[ $commit_msg == *"[BuildYingyongbao]"* ]]; then
   -   git submodule update --init
-  -   ./gradlew :app:assembleColorflashRelease
+  -   ./gradlew :app:assembleColorphoneYingyongbaoRelease
   -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
-  -   cp app/build/outputs/apk/colorflash/release/*.apk outputs/
-  -   cp app/build/outputs/mapping/colorflash/release/mapping.txt outputs/
+  -   cp app/build/outputs/apk/colorphoneYingyongbao/release/*.apk outputs/
+  -   cp app/build/outputs/mapping/colorphoneYingyongbao/release/mapping.txt outputs/
   - fi
   only:
     variables:

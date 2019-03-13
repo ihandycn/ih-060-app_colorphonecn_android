@@ -24,9 +24,9 @@ android {
 
     signingConfigs {
         release {
-            keyAlias 'colorphone'
+            keyAlias 'light2019'
             keyPassword 'zdhszyzs'
-            storeFile file('keystore/ColorPhone.jks')
+            storeFile file('keystore/light2019.jks')
             storePassword 'zdhszyzs'
             v1SigningEnabled true
             v2SigningEnabled true
