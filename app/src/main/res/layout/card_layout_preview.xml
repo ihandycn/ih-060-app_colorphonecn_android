@@ -20,7 +20,6 @@
         app:round_right_bottom_corner_radius="@dimen/theme_card_radius"
         app:round_right_top_corner_radius="@dimen/theme_card_radius"
         style="@style/RatioView.Image"
-        tools:src="@drawable/theme_preview_stars"
         />
 
     <com.acb.call.views.ThemePreviewWindow
