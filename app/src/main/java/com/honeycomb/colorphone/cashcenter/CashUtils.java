@@ -5,115 +5,23 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.acb.cashcenter.CashCenterCallback;
-import com.acb.cashcenter.CashCenterConfiguration;
-import com.acb.cashcenter.CashCenterManager;
-import com.acb.cashcenter.lottery.LotteryWheelActivity;
-import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
-import com.honeycomb.colorphone.trigger.CashCenterTriggerList;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.commons.config.HSConfig;
-import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
 
 import java.util.List;
-import java.util.Map;
 
 public class CashUtils {
 
-    private static Source sCashWheelSource;
-
-    public static void initCashCenter() {
-        CashCenterManager.getInstance().init(new CashCenterConfiguration() {
-
-            @Override
-            public String getGameInterstitialAdPlacement() {
-                return "";
-            }
-
-            @Override
-            public String getGameRewardAdPlacement() {
-                return "";
-            }
-
-            @Override
-            public String getWheelAdPlacement() {
-                return Placements.CASHCENTER;
-            }
-        }, new CashCenterCallback() {
-            @Override
-            public void onCashCenterShow() {
-
-            }
-
-            @Override
-            public void onWheelShow() {
-
-            }
-
-            @Override
-            public void onWheelSpinClick() {
-                CashUtils.Event.onSpinClick(sCashWheelSource);
-
-            }
-
-            @Override
-            public void onWheelAdShow() {
-                CashUtils.Event.onAdShow();
-            }
-
-            @Override
-            public void onWheelAdChance(boolean b) {
-                CashUtils.Event.onAdShouldShow();
-            }
-
-            @Override
-            public void onWheelCoinEarn(long l) {
-
-            }
-
-            @Override
-            public void onLogEvent(String s, Map<String, String> map, boolean b) {
-
-            }
-
-            @Override
-            public void logGameClick() {
-
-            }
-
-            @Override
-            public void onExit() {
-
-            }
-        });
-
-    }
-
-    public static void showGuideIfNeeded(Activity activity, Source source) {
-        boolean active = CashCenterTriggerList.getInstance().checkAt(source, true);
-        if (active) {
-            InnerCashGuideActivity.start(activity == null ? HSApplication.getContext() : activity, source);
-        }
-    }
-
-    public static void showShortcutGuide(Activity activity) {
-        if (CashCenterTriggerList.getInstance().checkShortcut()) {
-            ShortcutGuideActivity.start(activity);
-        }
-    }
-
     public static void startWheelActivity(@Nullable Activity activity, Source source) {
-        Navigations.startActivity(activity == null ? HSApplication.getContext() : activity, LotteryWheelActivity.class);
-        sCashWheelSource = source;
-        userEnterCashCenter();
+
     }
 
     public static boolean hasShortcut() {

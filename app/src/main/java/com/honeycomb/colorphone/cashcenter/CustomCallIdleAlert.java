@@ -2,11 +2,8 @@ package com.honeycomb.colorphone.cashcenter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,16 +45,16 @@ public class CustomCallIdleAlert extends CallIdleAlert {
             }
         });
         title = cashTipRoot.findViewById(R.id.call_extra_cash_title);
-        String rawStr= getResources().getString(R.string.cash_center_earn_up_limit, "0.25");
-        int startIndex = rawStr.indexOf("$");
-        int endIndex = startIndex + "$0.25".length();
-        SpannableString spannableString = SpannableString.valueOf(rawStr);
-        if (startIndex >= 0) {
-            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#ffba00")),
-                    startIndex, endIndex, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
-            );
-        }
-        title.setText(spannableString);
+//        String rawStr= getResources().getString(R.string.cash_center_earn_up_limit, "0.25");
+//        int startIndex = rawStr.indexOf("$");
+//        int endIndex = startIndex + "$0.25".length();
+//        SpannableString spannableString = SpannableString.valueOf(rawStr);
+//        if (startIndex >= 0) {
+//            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#ffba00")),
+//                    startIndex, endIndex, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
+//            );
+//        }
+//        title.setText(spannableString);
         title.setVisibility(INVISIBLE);
 
         lottieAnimationView =

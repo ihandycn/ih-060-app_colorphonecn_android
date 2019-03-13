@@ -165,12 +165,6 @@ dependencies {
                     'com.ihandy.appframework:libAppframework.gm:4.9.0.gm',
     ]
 
-    final COMMON_COLORFLASH = [
-            USE_BETA_ACB_LIBS ?
-                    'com.ihandy.appframework:libAppframework.beta:4.9.0.+' :
-                    'com.ihandy.appframework:libAppframework.gm:4.9.0.gm',
-    ]
-
 
     for (dependency in COMMON_DEPENDENCIES) compile dependency
 
@@ -203,7 +197,7 @@ dependencies {
 
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
-    compile(name: 'libCashCenter/cashcenter-release', ext: 'aar')
+//    compile(name: 'libCashCenter/cashcenter-release', ext: 'aar')
 
     compile project(':libChargingCommon')
     compile project(':libChargingReport')

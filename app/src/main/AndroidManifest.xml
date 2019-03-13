@@ -462,25 +462,6 @@
             android:taskAffinity=".h5game"
             tools:node="merge" />
 
-        <activity
-            android:name=".cashcenter.ShortcutGuideActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/ShortcutGuideTheme" />
-
-        <activity
-            android:name=".cashcenter.GameStarterActivity"
-            android:excludeFromRecents="true"
-            android:icon="@drawable/cashcenter_icon"
-            android:label="@string/cash_center_cash_center"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/INVisibleTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
         <activity android:name=".boost.BoostStarterActivity"
             android:screenOrientation="portrait"
             android:noHistory="true"
@@ -494,8 +475,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".cashcenter.OuterCashGuideActivity" />
-        <activity android:name=".cashcenter.InnerCashGuideActivity" />
         <activity
             android:name=".permission.OutsidePermissionGuideActivity"
             android:theme="@style/Theme.AppCompat.Translucent" />

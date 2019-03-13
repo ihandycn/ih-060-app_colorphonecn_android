@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:background="@drawable/cash_tip_bubble"
-        android:text="@string/cash_center_earn_up_limit"
         android:textColor="#000000"
         android:textSize="14sp"
         app:typeface="@string/proxima_nova_semibold" />
