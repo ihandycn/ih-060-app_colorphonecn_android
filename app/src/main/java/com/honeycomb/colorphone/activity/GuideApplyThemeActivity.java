@@ -45,9 +45,6 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
             starter.putExtra("fullscreen", fullScreen);
             activity.startActivity(starter);
             return true;
-        } else if(ModuleUtils.isShowPromoteLockerAlert(PromoteLockerActivity.AFTER_APPLY_FINISH)) {
-            PromoteLockerActivity.startPromoteLockerActivity(activity, PromoteLockerActivity.AFTER_APPLY_FINISH);
-            return true;
         } else if(ModuleUtils.isShareAlertInsideAppShow()) {
             ShareAlertActivity.starInsideApp(activity, userInfo, setForMulti);
             return true;

@@ -11,10 +11,8 @@ import com.call.assistant.customize.CallAssistantSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
-import com.colorphone.lock.util.ConfigUtils;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
-import com.honeycomb.colorphone.activity.PromoteLockerActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
@@ -209,34 +207,6 @@ public class ModuleUtils {
         return needShow;
     }
 
-    public static boolean isShowPromoteLockerAlert(int alertType) {
-        if (!PromoteLockerAutoPilotUtils.isPromoteAlertEnable(alertType)) {
-            return false;
-        }
-
-        if (!ConfigUtils.isEnabled("Application", "Promote", "Enable")) {
-            return false;
-        }
-
-        if (Utils.isAnyLockerAppInstalled()) {
-            return  false;
-        }
-
-        Preferences helper = Preferences.get(PromoteLockerActivity.PREFS_FILE);
-
-        if (helper.getInt(PromoteLockerActivity.PREFS_PROMOTE_LOCKER_ALERT_SHOW_COUNT, 0)
-                >= PromoteLockerAutoPilotUtils.getPromoteAlertMaxShowCount()) {
-            return false;
-        }
-
-        if (helper.getLong(PromoteLockerActivity.PREFS_PROMOTE_LOCKER_ALERT_APP_SHOW_TIME, 0)
-                + PromoteLockerAutoPilotUtils.getPromoteAlertShowInterval() > System.currentTimeMillis()) {
-            return false;
-        }
-
-        return true;
-
-    }
 
     public static boolean isNotificationToolBarEnabled() {
         return (HSConfig.optBoolean(false, "Application", "NotificationToolbar", "Enable")
