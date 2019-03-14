@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import com.acb.colorphone.permissions.AutoStartGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
+import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
 import com.acb.utils.Utils;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.util.Analytics;
@@ -56,7 +57,11 @@ public class PermissionHelper {
             PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class, eventSource.getName());
             Analytics.logEvent("SystemNotificationAccessView_Show", "from", eventSource.getName());
             Threads.postOnMainThreadDelayed(() -> {
-                Navigations.startActivity(HSApplication.getContext(), NotificationGuideActivity.class);
+                if (RomUtils.checkIsMiuiRom()) {
+                    Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);
+                } else {
+                    Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
+                }
             }, 1000);
             return true;
         }
@@ -67,9 +72,9 @@ public class PermissionHelper {
         Permissions.requestAutoStartPermission(sourceActivity);
         Threads.postOnMainThreadDelayed(() -> {
             if (RomUtils.checkIsMiuiRom()) {
-                Navigations.startActivity(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
+                Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
             } else {
-                Navigations.startActivity(HSApplication.getContext(), AutoStartGuideActivity.class);
+                Navigations.startActivitySafely(HSApplication.getContext(), AutoStartGuideActivity.class);
             }
         }, 1000);
         return true;

@@ -51,18 +51,21 @@ public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             lottieAnimationView.enableMergePathsForKitKatAndAbove(true);
         }
+
         String hintTxt = getString(getTitleStringResId());
         setDescText(hintTxt);
 
         View action = findViewById(R.id.action_btn);
-        action.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff448aff, Dimensions.pxFromDp(6), true));
+        action.setBackground(BackgroundDrawables.createBackgroundDrawable(0xFF448AFF, Dimensions.pxFromDp(6), true));
         action.setOnClickListener(v -> finish());
 
         View close = findViewById(R.id.close_btn);
         close.setOnClickListener(v -> finish());
 
         View view = findViewById(R.id.content_view);
-        view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, 0x0, 0, 0, Dimensions.pxFromDp(6), Dimensions.pxFromDp(6), false, false));
+        view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xFFFFFFFF, 0x0, 0, 0, Dimensions.pxFromDp(6), Dimensions.pxFromDp(6), false, false));
+        view = findViewById(R.id.lottie_anim_bg);
+        view.setBackground(BackgroundDrawables.createBackgroundDrawable(0xFF5EB4ED, 0x0, Dimensions.pxFromDp(6), Dimensions.pxFromDp(6), 0, 0, false, false));
 
         if (playAnimatation) {
             lottieAnimationView.playAnimation();

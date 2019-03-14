@@ -13,6 +13,7 @@ import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
+import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
 import com.acb.utils.FontUtils;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
@@ -31,6 +32,7 @@ import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
+import com.superapps.util.rom.RomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +88,12 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
                     PermissionTestUtils.logPermissionEvent("ColorPhone_PermissionGuide_NotificationAccess_View_Show_OutSideApp");
 
                     Threads.postOnMainThreadDelayed(() -> {
-                        Intent intent = new Intent(OutsidePermissionGuideActivity.this, NotificationGuideActivity.class);
+                        Intent intent;
+                        if (RomUtils.checkIsMiuiRom()) {
+                            intent = new Intent(OutsidePermissionGuideActivity.this, NotificationMIUIGuideActivity.class);
+                        } else {
+                            intent = new Intent(OutsidePermissionGuideActivity.this, NotificationGuideActivity.class);
+                        }
                         Navigations.startActivitySafely(OutsidePermissionGuideActivity.this, intent);
                     }, 1000);
 

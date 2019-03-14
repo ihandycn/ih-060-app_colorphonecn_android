@@ -7,9 +7,18 @@
     android:layout_height="match_parent"
     android:background="#B2000000" >
 
+    <View
+        android:id="@+id/lottie_anim_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@+id/lottie_anim"
+        app:layout_constraintLeft_toLeftOf="@+id/content_view"
+        app:layout_constraintRight_toRightOf="@+id/content_view"
+        app:layout_constraintBottom_toBottomOf="@+id/lottie_anim" />
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie_anim"
-        android:layout_width="0dp"
+        android:layout_width="236dp"
         android:layout_height="0dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
@@ -70,6 +79,6 @@
         android:layout_marginTop="4dp"
         android:layout_marginRight="4dp"
         app:layout_constraintTop_toTopOf="@id/lottie_anim"
-        app:layout_constraintRight_toRightOf="@id/lottie_anim"/>
+        app:layout_constraintRight_toRightOf="@id/content_view"/>
 
 </android.support.constraint.ConstraintLayout>

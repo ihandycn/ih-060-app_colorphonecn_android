@@ -17,6 +17,7 @@ import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.AutoStartGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
+import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
@@ -206,7 +207,11 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void showRequestNotificationAccessGuideDialog(boolean isOpenSettingsSuccess) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
                     Threads.postOnMainThreadDelayed(() -> {
-                        Navigations.startActivity(HSApplication.getContext(), NotificationGuideActivity.class);
+                        if (RomUtils.checkIsMiuiRom()) {
+                            Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);
+                        } else {
+                            Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
+                        }
                     }, 1000);
                 }
             }
@@ -216,9 +221,9 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
                     Threads.postOnMainThreadDelayed(() -> {
                         if (RomUtils.checkIsMiuiRom()) {
-                            Navigations.startActivity(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
+                            Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
                         } else {
-                            Navigations.startActivity(HSApplication.getContext(), AutoStartGuideActivity.class);
+                            Navigations.startActivitySafely(HSApplication.getContext(), AutoStartGuideActivity.class);
                         }
                     }, 1000);
                 }
@@ -229,9 +234,9 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
                     Threads.postOnMainThreadDelayed(() -> {
                         if (RomUtils.checkIsMiuiRom()) {
-                            Navigations.startActivity(HSApplication.getContext(), ShowOnLockScreenMIUIGuideActivity.class);
+                            Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenMIUIGuideActivity.class);
                         } else {
-                            Navigations.startActivity(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
+                            Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
                         }
                     }, 1000);
                 }
