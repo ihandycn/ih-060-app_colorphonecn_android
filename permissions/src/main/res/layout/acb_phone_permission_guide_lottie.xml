@@ -65,6 +65,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@string/acb_phone_permission_haode"
+            android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textSize="15sp" />
 
