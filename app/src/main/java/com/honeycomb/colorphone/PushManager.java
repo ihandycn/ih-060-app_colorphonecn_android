@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.util.Analytics;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.app.push.HSPushMgr;
 import com.ihs.app.push.impl.PushMgr;
 import com.ihs.commons.config.HSConfig;
-import com.ihs.commons.connection.HSHttpConnection;
-import com.ihs.commons.connection.httplib.HttpRequest;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -21,8 +17,6 @@ import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 public class PushManager {
 
@@ -142,46 +136,7 @@ public class PushManager {
     }
 
     private void doRequestBackground() {
-        final String token = mCurrentToken;
-        final StringBuffer url = new StringBuffer(HSConfig.optString("",
-                "Application", "PushServiceHost") + URL_PATH);
-        url.append("?Token=").append(token);
-        url.append("&AppName=").append(BuildConfig.APPLICATION_ID);
-        url.append("&Version=").append(BuildConfig.VERSION_NAME);
-        url.append("&TimeZone=").append(String.valueOf(TimeZone.getDefault().getRawOffset() / 1000));
-        url.append("&Locale=").append(Locale.getDefault().getLanguage() + "_" + Locale.getDefault().getCountry());
-        url.append("&Platform=Android");
-        url.append("&OSVersion=").append(Build.VERSION.RELEASE);
 
-        String adID = null;
-        try {
-            AdvertisingIdClient.Info info = AdvertisingIdClient.getAdvertisingIdInfo(HSApplication.getContext());
-            if (info != null) {
-                adID = info.getId();
-                url.append("&ad_id=").append(adID);
-            } else {
-                HSLog.d("AdvertisingIdClient.Info is null");
-            }
-        } catch (Exception | NoSuchMethodError e) {
-            HSLog.d(e.toString());
-        }
-
-        String oldToken = getOldToken();
-        if (!TextUtils.isEmpty(oldToken) && !oldToken.equalsIgnoreCase(token)) {
-            url.append("&Old_Token=").append(oldToken);
-        }
-        url.append("&ka_enable=").append(mKaEnable);
-        HSLog.d(TAG, "send to server end, url is " + url.toString());
-        HSHttpConnection sendTokenConnection = null;
-        sendTokenConnection = new HSHttpConnection(url.toString(), HttpRequest.Method.GET);
-        sendTokenConnection.startSync();
-        if (sendTokenConnection.isSucceeded()) {
-            Preferences.get(Constants.DESKTOP_PREFS).putString(PROPERTY_TOKEN_SERVER_ID, token);
-            Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PROPERTY_KA_ENABLE, mKaEnable);
-            HSLog.d(TAG, "update to server successful");
-        } else {
-            HSLog.d(TAG, "update to server failed, error =" + sendTokenConnection.getError());
-        }
     }
 
     private String getOldToken() {
