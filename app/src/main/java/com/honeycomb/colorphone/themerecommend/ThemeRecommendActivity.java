@@ -189,10 +189,11 @@ public class ThemeRecommendActivity extends AppCompatActivity {
 
             if (!TextUtils.isEmpty(userInfo.getCallName())) {
                 firstLineTextView.setText(userInfo.getCallName());
+                secondLineTextView.setText(PhoneNumberUtils.formatNumber(userInfo.getPhoneNumber()));
             } else {
-                firstLineTextView.setVisibility(View.GONE);
+                secondLineTextView.setVisibility(View.GONE);
+                firstLineTextView.setText(PhoneNumberUtils.formatNumber(userInfo.getPhoneNumber()));
             }
-            secondLineTextView.setText(PhoneNumberUtils.formatNumber(userInfo.getPhoneNumber()));
         } else {
             setPortraitViewGone(portrait, root);
         }
