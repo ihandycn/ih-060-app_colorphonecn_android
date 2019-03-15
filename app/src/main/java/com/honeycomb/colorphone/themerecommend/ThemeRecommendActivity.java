@@ -169,7 +169,9 @@ public class ThemeRecommendActivity extends AppCompatActivity {
         secondLineTextView.setShadowLayer(shadowOffset * 0.5f, 0, shadowOffset * 0.7f, Color.BLACK);
 
         firstLineTextView.setTypeface(ScreenFlashManager.getInstance().getAcbCallFactory().getViewConfig().getBondFont());
-        secondLineTextView.setTypeface(ScreenFlashManager.getInstance().getAcbCallFactory().getViewConfig().getNormalFont());
+        secondLineTextView.setTypeface(ScreenFlashManager.getInstance().getAcbCallFactory().getViewConfig().getBondFont());
+        firstLineTextView.setTextSize(24);
+        secondLineTextView.setTextSize(24);
 
         if (userInfo == null) {
             firstLineTextView.setText(R.string.share_default_name);
@@ -188,7 +190,7 @@ public class ThemeRecommendActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(userInfo.getCallName())) {
                 firstLineTextView.setText(userInfo.getCallName());
             } else {
-                firstLineTextView.setText("");
+                firstLineTextView.setVisibility(View.GONE);
             }
             secondLineTextView.setText(PhoneNumberUtils.formatNumber(userInfo.getPhoneNumber()));
         } else {

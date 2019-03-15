@@ -381,24 +381,25 @@ abstract class ResultController implements View.OnClickListener {
 
     protected void showAdWithAnimation() {
         HSLog.d(TAG, "startAdOrChargingScreenResultAnimation run");
-        View imageContainer = (mType == Type.AD) ? mAdImageContainer : mChargingScreenImageContainer;
-
+        View imageContainer = (mType == Type.AD) ? mAdOrChargingScreenContainerView : mChargingScreenImageContainer;
         int[] location = new int[2];
         imageContainer.getLocationInWindow(location);
         float baseTranslationY = mScreenHeight - location[1];
 
+        HSLog.d(TAG, "startAdOrChargingScreenResultAnimation run " + baseTranslationY);
         imageContainer.setTranslationY(baseTranslationY);
-        mAdIconView.setTranslationY(baseTranslationY);
-//        mImageFrameShadow1.setTranslationY(baseTranslationY * TRANSLATION_MULTIPLIER_SHADOW_1);
-//        mImageFrameShadow2.setTranslationY(baseTranslationY * TRANSLATION_MULTIPLIER_SHADOW_2);
-        mTitleTv.setTranslationY(baseTranslationY);
-        mDescriptionTv.setTranslationY(baseTranslationY * TRANSLATION_MULTIPLIER_DESCRIPTION);
+//        mAdIconView.setTranslationY(baseTranslationY);
+////        mImageFrameShadow1.setTranslationY(baseTranslationY * TRANSLATION_MULTIPLIER_SHADOW_1);
+////        mImageFrameShadow2.setTranslationY(baseTranslationY * TRANSLATION_MULTIPLIER_SHADOW_2);
+//        mTitleTv.setTranslationY(baseTranslationY);
+//        mDescriptionTv.setTranslationY(baseTranslationY * TRANSLATION_MULTIPLIER_DESCRIPTION);
         mAdChoice.setAlpha(0f);
 
         mResultView.setVisibility(View.VISIBLE);
 
         View[] translatedViews = new View[]{
-                imageContainer, mAdIconView,  mTitleTv, mDescriptionTv
+//                imageContainer, mAdIconView,  mTitleTv, mDescriptionTv
+                imageContainer
         };
         for (View v : translatedViews) {
             v.animate()
