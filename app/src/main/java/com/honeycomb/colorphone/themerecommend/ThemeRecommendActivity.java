@@ -187,6 +187,8 @@ public class ThemeRecommendActivity extends AppCompatActivity {
 
             if (!TextUtils.isEmpty(userInfo.getCallName())) {
                 firstLineTextView.setText(userInfo.getCallName());
+            } else {
+                firstLineTextView.setText("");
             }
             secondLineTextView.setText(PhoneNumberUtils.formatNumber(userInfo.getPhoneNumber()));
         } else {

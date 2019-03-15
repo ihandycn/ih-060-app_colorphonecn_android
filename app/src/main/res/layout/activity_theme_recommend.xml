@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black_80_transparent"
+    android:clipChildren="false"
     xmlns:tools="http://schemas.android.com/tools"
     tools:background="#7f7f7f7f">
 
@@ -51,8 +52,6 @@
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="56dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -74,12 +73,13 @@
         android:layout_height="0dp"
         android:src="@drawable/theme_recommend_phone"
         android:layout_marginBottom="36dp"
+        android:padding="-5dp"
         android:scaleType="fitXY"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/recommend_view_content"
-        app:layout_constraintDimensionRatio="w,9:16" />
+        app:layout_constraintDimensionRatio="w,760:1258" />
 
     <ImageView
         android:id="@+id/close_button"
