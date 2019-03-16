@@ -15,6 +15,7 @@ import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.themes.Type;
 import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.AutoStartGuideActivity;
+import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
@@ -222,6 +223,8 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                     Threads.postOnMainThreadDelayed(() -> {
                         if (RomUtils.checkIsMiuiRom()) {
                             Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
+                        } else if (RomUtils.checkIsHuaweiRom()) {
+                            Navigations.startActivitySafely(HSApplication.getContext(), AutoStartHuaweiGuideActivity.class);
                         } else {
                             Navigations.startActivitySafely(HSApplication.getContext(), AutoStartGuideActivity.class);
                         }

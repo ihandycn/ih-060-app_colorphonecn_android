@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.acb.colorphone.permissions.AutoStartGuideActivity;
+import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
@@ -73,6 +74,8 @@ public class PermissionHelper {
         Threads.postOnMainThreadDelayed(() -> {
             if (RomUtils.checkIsMiuiRom()) {
                 Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
+            } else if (RomUtils.checkIsHuaweiRom()) {
+                Navigations.startActivitySafely(HSApplication.getContext(), AutoStartHuaweiGuideActivity.class);
             } else {
                 Navigations.startActivitySafely(HSApplication.getContext(), AutoStartGuideActivity.class);
             }
