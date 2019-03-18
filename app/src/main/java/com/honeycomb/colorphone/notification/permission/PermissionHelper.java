@@ -58,7 +58,7 @@ public class PermissionHelper {
             PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class, eventSource.getName());
             Analytics.logEvent("SystemNotificationAccessView_Show", "from", eventSource.getName());
             Threads.postOnMainThreadDelayed(() -> {
-                if (RomUtils.checkIsMiuiRom()) {
+                if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom()) {
                     Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);
                 } else {
                     Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);

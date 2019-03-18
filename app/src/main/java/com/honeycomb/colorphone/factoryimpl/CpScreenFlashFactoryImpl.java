@@ -208,7 +208,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void showRequestNotificationAccessGuideDialog(boolean isOpenSettingsSuccess) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
                     Threads.postOnMainThreadDelayed(() -> {
-                        if (RomUtils.checkIsMiuiRom()) {
+                        if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom()) {
                             Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);
                         } else {
                             Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);

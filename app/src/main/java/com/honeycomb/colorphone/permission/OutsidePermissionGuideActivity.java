@@ -89,7 +89,7 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
 
                     Threads.postOnMainThreadDelayed(() -> {
                         Intent intent;
-                        if (RomUtils.checkIsMiuiRom()) {
+                        if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom()) {
                             intent = new Intent(OutsidePermissionGuideActivity.this, NotificationMIUIGuideActivity.class);
                         } else {
                             intent = new Intent(OutsidePermissionGuideActivity.this, NotificationGuideActivity.class);
