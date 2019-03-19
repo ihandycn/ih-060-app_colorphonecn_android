@@ -80,8 +80,8 @@ public class GuideRandomCloseActivity extends HSAppCompatActivity {
                 finish();
                 HSGlobalNotificationCenter.sendNotification(EVENT_KEEP);
 
-                Ap.RandomTheme.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_cancel_click" : "settings_retain_alert_cancel_click");
-                LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_cancel_click_round2" : "settings_retain_alert_cancel_click_round2",
+                Ap.RandomTheme.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_keep_click" : "settings_retain_alert_cancel_click");
+                LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_keep_click_round2" : "settings_retain_alert_cancel_click_round2",
                         "Time", String.valueOf(alertShowTime));
                 if (alertShowTime <= 3) {
                     Ap.RandomTheme.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_keep_click" + "_" + getSuffixOfEvent(alertShowTime)

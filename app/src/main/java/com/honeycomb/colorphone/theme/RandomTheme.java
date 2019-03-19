@@ -280,7 +280,7 @@ public class RandomTheme {
             Preferences.get(Constants.PREF_FILE_DEFAULT).doOnce(new Runnable() {
                 @Override
                 public void run() {
-                    Ap.RandomTheme.logEvent("random_theme_enabled");
+//                    Ap.RandomTheme.logEvent("random_theme_enabled");
                     LauncherAnalytics.logEvent("random_theme_enabled_round2");
                 }
             }, "colorphone_random_theme_enabled");
