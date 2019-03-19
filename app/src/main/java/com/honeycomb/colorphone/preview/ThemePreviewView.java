@@ -23,7 +23,6 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -127,7 +126,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private ProgressViewHolder mProgressViewHolder;
     private RingtoneViewHolder mRingtoneViewHolder;
-    private Button mApplyButton;
+    private TextView mApplyButton;
     private View mApplyForOne;
     private View mActionLayout;
 
@@ -404,12 +403,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
         callActionView.setTheme(mThemeType);
         callActionView.setAutoRun(false);
-        mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
+        mApplyButton = findViewById(R.id.theme_apply_btn);
         mApplyButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
 
         mActionLayout = findViewById(R.id.theme_apply_layout);
         mApplyForOne = findViewById(R.id.theme_set_for_one);
 
+
+        View layoutContainer2 = findViewById(R.id.theme_set_vert_layout);
+        TextView setForOneView2 = findViewById(R.id.theme_set_for_one_textview);
+        TextView setForAllView2 = findViewById(R.id.theme_set_for_all_sub);
 
         boolean showForAllButton = true;
         if (mTheme.getId() == Theme.RANDOM_THEME) {
@@ -417,13 +420,21 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         } else {
             if (Ap.RandomTheme.setForAllEnable()
              || !RandomTheme.getInstance().userSettingsEnable()) {
+                // Use vertical layout
+                if (Ap.RandomTheme.setForAllButtonDimmed()) {
+                    mApplyButton.setVisibility(GONE);
+                    mApplyForOne.setVisibility(GONE);
+                    layoutContainer2.setVisibility(VISIBLE);
+                    mApplyForOne = setForOneView2;
+                    mApplyButton = setForAllView2;
+                }
+
                 mApplyButton.setVisibility(VISIBLE);
             } else {
                 mApplyButton.setVisibility(GONE);
-
-                View targetView = findViewById(R.id.theme_set_for_one_textview);
-                viewSwitch(mApplyForOne, targetView);
-                mApplyForOne = targetView;
+                mApplyForOne.setVisibility(GONE);
+                layoutContainer2.setVisibility(VISIBLE);
+                mApplyForOne = setForOneView2;
 
                 mApplyForOne.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
                 mApplyForOne.requestLayout();
@@ -439,6 +450,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     if (inTransition) {
                         return;
                     }
+                    Ap.RandomTheme.logEvent("detail_page_setforall_click");
+                    LauncherAnalytics.logEvent("detail_page_setforall_click_round2");
                     if (Ap.RandomTheme.checkIfShowRandomLoseAlert()) {
                         GuideRandomCloseActivity.start(mActivity, GuideRandomCloseActivity.DETAIL, true);
                         HSGlobalNotificationCenter.addObserver(GuideRandomCloseActivity.EVENT_TURNOFF, turnOffRandomObserver);
@@ -462,6 +475,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
 
                 LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
+                Ap.RandomTheme.logEvent("detail_page_setforcontact_click");
+                LauncherAnalytics.logEvent("detail_page_setforcontact_click_round2");
                 if (mActivity instanceof PopularThemePreviewActivity) {
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
                     LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");

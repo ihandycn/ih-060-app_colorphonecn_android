@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
@@ -61,7 +60,7 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
             }
         });
 
-        boolean randomThemeSwitch = Ap.RandomTheme.modeOfSettingsConfig();
+        boolean randomThemeSwitch = false;
         rootView.findViewById(R.id.settings_random_theme)
                 .setVisibility(randomThemeSwitch ? View.VISIBLE : View.GONE);
 

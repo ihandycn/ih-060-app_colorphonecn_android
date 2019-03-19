@@ -39,6 +39,7 @@ import java.io.File;
 public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
 
     private View mPreview;
+    private long mFocusStartTime;
 
     public static void start(Context context, View contentView, boolean fullScreen) {
         int[] locations = new int[2];
@@ -50,6 +51,15 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
         starter.putExtra("width", contentView.getWidth());
         starter.putExtra("height", contentView.getHeight());
         context.startActivity(starter);
+    }
+
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            mFocusStartTime = System.currentTimeMillis();
+        }
     }
 
     @Override
@@ -76,11 +86,25 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
             public void onClick(View v) {
                 RandomTheme.getInstance().setUserSettingsEnable(true);
                 Ap.RandomTheme.logEvent("random_theme_guide_ok_click");
-                LauncherAnalytics.logEvent("random_theme_guide_ok_click_round2");
+                LauncherAnalytics.logEvent("random_theme_guide_ok_click_round2", "Time", getEventTimeValue());
                 finish();
             }
         });
 
+    }
+
+    private String getEventTimeValue() {
+        long interval = System.currentTimeMillis() - mFocusStartTime;
+        long  second = interval / 1000L;
+        if (second <= 2) {
+            return "0-2s";
+        } else if (second <= 5) {
+            return "2-5s";
+        } else if (second <= 10) {
+            return "5-10s";
+        } else {
+            return "10+";
+        }
     }
 
     private void initThemeCard() {
@@ -160,4 +184,10 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
         return tv1;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        LauncherAnalytics.logEvent("random_theme_guide_back_click_round2","Time", getEventTimeValue());
+
+    }
 }

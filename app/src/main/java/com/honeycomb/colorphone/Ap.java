@@ -217,7 +217,7 @@ public class Ap {
     }
 
     public static class RandomTheme {
-        public static String TOPIC_ID = "topic-716427qov";
+        public static String TOPIC_ID = "topic-71vlbha1x";
 
         public static boolean enable() {
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_enable", false);
@@ -225,6 +225,10 @@ public class Ap {
 
         public static boolean setForAllEnable() {
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "normal_theme_can_set_for_all", false);
+        }
+
+        public static boolean setForAllButtonDimmed() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "move_setforall_btn_to_bottom", false);
         }
 
         public static boolean showFeatureGuide() {
@@ -235,20 +239,12 @@ public class Ap {
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "normal_theme_show_retain_alert_after_setforall", false);
         }
 
+        public static int randomLoseAlertMaxTime() {
+            return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "normal_theme_show_retain_alert_maxtime", 1);
+        }
+
         public static boolean defaultSwitchOn() {
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_default_switch_on", false);
-        }
-
-        public static boolean modeOfSettingsConfig() {
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_display_in_settings", false);
-        }
-
-        public static boolean modeOfFirstCard() {
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_show_on_first_place", false);
-        }
-
-        public static String randomThemeGuideDesc() {
-            return AutopilotConfig.getStringToTestNow(TOPIC_ID, "random_theme_guide_desc", "Enjoy different flash everyday by applying random style");
         }
 
         public static int intervalHour() {
@@ -264,12 +260,17 @@ public class Ap {
             if (showRandomLoseAlert()
                     && com.honeycomb.colorphone.theme.RandomTheme.getInstance().userSettingsEnable()) {
                 int alertShowTime = Preferences.get(Constants.DESKTOP_PREFS).getInt("token_random_loss_alert_show", 0);
-                if (alertShowTime  < 1) {
+                if (alertShowTime  < Ap.RandomTheme.randomLoseAlertMaxTime()) {
                     Preferences.get(Constants.DESKTOP_PREFS).putInt("token_random_loss_alert_show", ++alertShowTime);
                     return true;
                 }
             }
             return false;
+        }
+
+        public static int getRandomAlertShowTime() {
+            int alertShowTime = Preferences.get(Constants.DESKTOP_PREFS).getInt("token_random_loss_alert_show", 0);
+            return alertShowTime;
         }
     }
 

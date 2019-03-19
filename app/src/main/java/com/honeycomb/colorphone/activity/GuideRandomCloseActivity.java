@@ -48,16 +48,27 @@ public class GuideRandomCloseActivity extends HSAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        boolean isFullScreen = getIntent().getBooleanExtra("fullscreen", true);
-        mFrom = getIntent().getIntExtra("from",0);
+        final int alertShowTime = Ap.RandomTheme.getRandomAlertShowTime();
+
+
+        boolean isFullScreen = getIntent().getBooleanExtra("fullscreen" + getSuffixOfEvent(alertShowTime), true);
+        mFrom = DETAIL;
 
         setContentView(R.layout.alert_random_close);
         if (isFullScreen) {
             StatusBarUtils.hideStatusBar(this);
         }
 
+
         Ap.RandomTheme.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_show" : "settings_retain_alert_show");
-        LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_show_round2" : "settings_retain_alert_show_round2");
+        LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_show_round2" : "settings_retain_alert_show_round2"
+        , "Time", String.valueOf(alertShowTime));
+        if (alertShowTime <= 3) {
+            Ap.RandomTheme.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_show" + "_" + getSuffixOfEvent(alertShowTime)
+                    : "settings_retain_alert_show");
+            LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_show" + "_" + getSuffixOfEvent(alertShowTime) +
+                    "_round2" : "settings_retain_alert_show_round2");
+        }
 
         TextView textViewDesc = findViewById(R.id.alert_random_desc);
         textViewDesc.setText(mFrom == DETAIL ? R.string.alert_turn_off_random_desc_beset : R.string.alert_turn_off_random_desc);
@@ -68,8 +79,16 @@ public class GuideRandomCloseActivity extends HSAppCompatActivity {
             public void onClick(View v) {
                 finish();
                 HSGlobalNotificationCenter.sendNotification(EVENT_KEEP);
+
                 Ap.RandomTheme.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_cancel_click" : "settings_retain_alert_cancel_click");
-                LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_cancel_click_round2" : "settings_retain_alert_cancel_click_round2");
+                LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_cancel_click_round2" : "settings_retain_alert_cancel_click_round2",
+                        "Time", String.valueOf(alertShowTime));
+                if (alertShowTime <= 3) {
+                    Ap.RandomTheme.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_keep_click" + "_" + getSuffixOfEvent(alertShowTime)
+                            : "settings_retain_alert_cancel_click");
+                    LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_keep_click" + "_" + getSuffixOfEvent(alertShowTime) +
+                            "_round2" : "settings_retain_alert_cancel_click_round2");
+                }
             }
         });
 
@@ -81,10 +100,34 @@ public class GuideRandomCloseActivity extends HSAppCompatActivity {
                 finish();
                 HSGlobalNotificationCenter.sendNotification(EVENT_TURNOFF);
                 Ap.RandomTheme.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_set_click" : "settings_retain_alert_close_click");
-                LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_set_click_round2" : "settings_retain_alert_close_click_round2");
+                LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_set_click_round2" : "settings_retain_alert_close_click_round2",
+                        "Time", String.valueOf(alertShowTime));
+                if (alertShowTime <= 3) {
+                    Ap.RandomTheme.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_set_click" + "_" + getSuffixOfEvent(alertShowTime)
+                            : "settings_retain_alert_close_click");
+                    LauncherAnalytics.logEvent(mFrom == DETAIL ? "detail_page_retain_alert_set_click" + "_" + getSuffixOfEvent(alertShowTime) +
+                            "_round2" : "settings_retain_alert_close_click_round2");
+                }
             }
         });
 
     }
 
+    private String getSuffixOfEvent(int alertShowTime) {
+        if (alertShowTime == 1) {
+            return "firsttime";
+        } else if (alertShowTime == 2) {
+            return "secondtime";
+        } else if (alertShowTime == 3) {
+            return "thirdtime";
+        }
+        throw new IllegalStateException("Time limit less than 3, current is " + alertShowTime);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Ap.RandomTheme.logEvent("detail_page_retain_alert_close_by_back");
+        LauncherAnalytics.logEvent("detail_page_retain_alert_close_by_back_round2");
+    }
 }
