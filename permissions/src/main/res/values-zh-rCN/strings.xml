@@ -12,12 +12,12 @@
   <string name="acb_phone_grant_autostart_access_title">开启自启动权限以显示来电秀</string>
   <string name="acb_phone_grant_notification_onlockscreen_access_title">开启锁屏显示权限以在锁屏时展示来电秀</string>
 
-  <string name="acb_phone_grant_autostart_access_title_vivo">开启加速白名单权限以显示来电秀</string>
-  <string name="acb_phone_grant_autostart_access_title_oppo">开启自启动权限以显示来电秀</string>
-  <string name="acb_phone_grant_autostart_access_title_huawei">请找到焕彩来电秀，并允许开机自动启动，以显示来电秀</string>
-  <string name="acb_phone_grant_autostart_access_title_huawei_above23">请找到焕彩来电秀，并允许自动启动，以显示来电秀</string>
-  <string name="acb_phone_grant_autostart_access_title_huawei_above26">请关闭自动管理，并在手动管理中打开“允许自启动“、”允许关联启动“和”允许后台活动“，以显示来电秀</string>
-  <string name="acb_phone_grant_autostart_access_title_miui">开启自启动权限以显示来电秀</string>
+  <string name="acb_phone_grant_autostart_access_title_vivo">开启加速白名单权限以保持来电秀正常启动</string>
+  <string name="acb_phone_grant_autostart_access_title_oppo">开启自启动权限以保持来电秀正常启动</string>
+  <string name="acb_phone_grant_autostart_access_title_huawei">请找到焕彩来电秀，并允许开机自动启动，以保持来电秀正常启动</string>
+  <string name="acb_phone_grant_autostart_access_title_huawei_above23">请找到焕彩来电秀，并允许自动启动，以保持来电秀正常启动</string>
+  <string name="acb_phone_grant_autostart_access_title_huawei_above26">请找到焕彩来电秀，关闭自动管理，并手动开启所有启动权限，以保持来电秀正常启动</string>
+  <string name="acb_phone_grant_autostart_access_title_miui">开启自启动权限以保持来电秀正常启动</string>
 
   <string name="acb_phone_grant_show_onlockscreen_access_title_vivo">请进入软件权限管理，开启锁屏显示权限以在锁屏时展示来电秀</string>
   <string name="acb_phone_grant_show_onlockscreen_access_title_oppo">Enable Notification On Lock Screen to Show Call Flash</string>
@@ -25,8 +25,8 @@
   <string name="acb_phone_grant_show_onlockscreen_access_title_miui">开启锁屏显示权限以在锁屏时展示来电秀</string>
 
   <string name="acb_phone_permission_haode">好的</string>
-  <string name="acb_phone_grant_notification_access_title_huawei">为了轻松接听来电请开启通知访问权限</string>
-  <string name="acb_phone_grant_notification_access_title_miui">为了轻松接听来电请开启通知访问权限</string>
-  <string name="acb_phone_grant_notification_access_title_oppo">为了轻松接听来电请开启通知访问权限</string>
-  <string name="acb_phone_grant_notification_access_title_vivo">为了轻松接听来电请开启通知访问权限</string>
+  <string name="acb_phone_grant_notification_access_title_huawei">为了轻松接听来电请开启通知使用权</string>
+  <string name="acb_phone_grant_notification_access_title_miui">为了轻松接听来电请开启通知使用权</string>
+  <string name="acb_phone_grant_notification_access_title_oppo">为了轻松接听来电请开启读取应用通知权限</string>
+  <string name="acb_phone_grant_notification_access_title_vivo">为了轻松接听来电请开启通知使用权</string>
 </resources>
