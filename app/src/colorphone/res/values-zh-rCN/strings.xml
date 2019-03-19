@@ -6,6 +6,6 @@
 
 
   <string name="acb_request_permission_auto_start_title">自启动是否已开启？</string>
-  <string name="acb_request_permission_auto_start_content">自启动权限可以使来电秀正常使用</string>
+  <string name="acb_request_permission_auto_start_content">自启动权限可以使来电秀正常启动</string>
 
 </resources>
