@@ -34,4 +34,9 @@
     <string name="acb_phone_grant_show_onlockscreen_access_title_huawei">Enable Notification On Lock Screen to Show Call Flash</string>
     <string name="acb_phone_grant_show_onlockscreen_access_title_miui">Enable Notification On Lock Screen to Show Call Flash</string>
     <string name="acb_phone_permission_haode">OK</string>
+
+    <string name="acb_phone_grant_notification_access_title_huawei">Enable Notifications Access to Answer Calls</string>
+    <string name="acb_phone_grant_notification_access_title_miui">Enable Notifications Access to Answer Calls</string>
+    <string name="acb_phone_grant_notification_access_title_oppo">Enable Notifications Access to Answer Calls</string>
+    <string name="acb_phone_grant_notification_access_title_vivo">Enable Notifications Access to Answer Calls</string>
 </resources>
