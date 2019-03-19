@@ -184,8 +184,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
                 @Override
                 public void run() {
-                    GuideRandomThemeActivity.start(ColorPhoneActivity.this, false);
-
+                    for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                        if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+                            View contentView = ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).getCardView();
+                            GuideRandomThemeActivity2.start(ColorPhoneActivity.this, contentView, false);
+                            break;
+                        }
+                    }
                 }
             }, "theme_random_guide_count_limit");
         }

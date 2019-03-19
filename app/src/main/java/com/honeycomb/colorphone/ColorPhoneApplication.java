@@ -437,22 +437,27 @@ public class ColorPhoneApplication extends HSApplication {
             public void run() {
                 doCopyTheme(10000, "randomtheme.mp4");
                 doCopyTheme(8, "deeplove.mp4");
+                doCopyTheme(Constants.RANDOM_GUIDE_FILE_NAME, "random_guide.mp4");
             }
         });
     }
 
     private void doCopyTheme(int id, String fileName) {
-        final File file = new File(FileUtils.getMediaDirectory(), "Mp4_" + (id - 2));
+        doCopyTheme("Mp4_" + (id - 2), fileName);
+    }
+
+    private void doCopyTheme(String targetFileName, String srcfileName) {
+        final File file = new File(FileUtils.getMediaDirectory(), targetFileName);
         try {
             if (!(file.isFile() && file.exists())) {
                 Utils.copyAssetFileTo(getApplicationContext(),
-                        fileName, file);
-                HSLog.d("CopyFile", fileName + " copy ok");
+                        srcfileName, file);
+                HSLog.d("CopyFile", srcfileName + " copy ok");
             }
         } catch (Exception e) {
             e.printStackTrace();
             boolean result = file.delete();
-            HSLog.d("CopyFile", fileName + " deleted " + result);
+            HSLog.d("CopyFile", srcfileName + " deleted " + result);
         }
     }
 

@@ -282,6 +282,8 @@
     <string name="custom_font_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
     <string name="random_theme_guide_title">Enjoy different screenflash everyday.</string>
     <string name="random_theme_guide_desc">You can turn off random mode in settings.</string>
+    <string name="random_theme_guide_title2">Daily Themes is your default theme</string>
+    <string name="random_theme_guide_desc2">You can enjoy different callscreens everyday.</string>
     <string name="alert_turn_off_random_title">Are you sure to turn off random mode?</string>
     <string name="alert_turn_off_random_desc">By turning off, you can’t enjoy different screenflash everyday.</string>
     <string name="alert_turn_off_random_desc_beset">Random mode won’t work if you set this theme for all your friends.
