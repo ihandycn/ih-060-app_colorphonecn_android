@@ -282,14 +282,17 @@
     <string name="custom_font_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
     <string name="random_theme_guide_title">Enjoy different screenflash everyday.</string>
     <string name="random_theme_guide_desc">You can turn off random mode in settings.</string>
+    <string name="alert_turn_off_random_desc">By turning off, you can’t enjoy different screenflash everyday.</string>
+    <string name="alert_button_turn_off">Keep Daily Themes</string>
+    <string name="random_mode">Random mode</string>
+
+
     <string name="random_theme_guide_title2">Daily Themes is your default theme</string>
     <string name="random_theme_guide_desc2">You can enjoy different callscreens everyday.</string>
-    <string name="alert_turn_off_random_title">Are you sure to turn off random mode?</string>
-    <string name="alert_turn_off_random_desc">By turning off, you can’t enjoy different screenflash everyday.</string>
-    <string name="alert_turn_off_random_desc_beset">Random mode won’t work if you set this theme for all your friends.
-        You can try set this theme for your specific friend.</string>
-    <string name="alert_button_keep_random_mode">Keep random mode</string>
-    <string name="alert_button_turn_off">@string/gdpr_dialog_turn_off</string>
-    <string name="alert_button_continue">@string/acb_request_permission_action_continue</string>
-    <string name="random_mode">Random mode</string>
+    <string name="random_theme_guide_ok_btn">GOT IT</string>
+
+    <string name="alert_turn_off_random_title">Are you sure to set this theme for all of your contacts?</string>
+    <string name="alert_turn_off_random_desc_beset">Daily Theme is in use. If you set this theme for all of your contacts, you can’t enjoy different callscreens everyday.</string>
+    <string name="alert_button_keep_random_mode">Keep Daily Themes</string>
+    <string name="alert_button_continue">Yes, Set Now</string>
 </resources>
