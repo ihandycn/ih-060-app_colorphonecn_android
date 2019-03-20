@@ -326,6 +326,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSLog.d(TAG, "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+            HSLog.d(TAG, "onResume [holder animation] ");
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
         }
 

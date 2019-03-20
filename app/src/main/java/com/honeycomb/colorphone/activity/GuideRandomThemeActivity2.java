@@ -90,6 +90,7 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
                 RandomTheme.getInstance().setUserSettingsEnable(true);
                 Ap.RandomTheme.logEvent("random_theme_guide_ok_click");
                 LauncherAnalytics.logEvent("random_theme_guide_ok_click_round2", "Time", getEventTimeValue());
+                releaseMedia();
                 finish();
             }
         });
@@ -192,6 +193,10 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         LauncherAnalytics.logEvent("random_theme_guide_back_click_round2","Time", getEventTimeValue());
+        releaseMedia();
+    }
 
+    private void releaseMedia() {
+        videoPlayerView.release();
     }
 }
