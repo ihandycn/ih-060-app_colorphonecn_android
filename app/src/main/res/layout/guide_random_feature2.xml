@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#a2000000"
+    android:id="@+id/guide_random_root_layout"
+    android:background="#e0000000"
     android:orientation="vertical">
 
     <LinearLayout

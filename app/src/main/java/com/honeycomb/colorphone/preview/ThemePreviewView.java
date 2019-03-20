@@ -693,7 +693,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private boolean checkNewFeatureGuideView() {
         //TODO remove guide if no need to show.
         if (mTheme.getId() == Theme.RANDOM_THEME) {
-            if (ModuleUtils.needShowRandomThemeGuide()) {
+            if (!Ap.RandomTheme.showFeatureGuide()
+                    && ModuleUtils.needShowRandomThemeGuide()) {
                 ViewStub stub = findViewById(R.id.guide_for_random_theme);
                 final View guideView = stub.inflate();
                 guideView.setAlpha(0);

@@ -1,6 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -41,8 +41,10 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
 
     private View mPreview;
     private long mFocusStartTime;
+    private View rootLayout;
+    private VideoPlayerView videoPlayerView;
 
-    public static void start(Context context, View contentView, boolean fullScreen) {
+    public static void start(Activity context, View contentView, boolean fullScreen) {
         int[] locations = new int[2];
         contentView.getLocationInWindow(locations);
         Intent starter = new Intent(context, GuideRandomThemeActivity2.class);
@@ -52,8 +54,9 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
         starter.putExtra("width", contentView.getWidth());
         starter.putExtra("height", contentView.getHeight());
         context.startActivity(starter);
-    }
+        context.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
+    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -69,9 +72,8 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
 
         boolean isFullScreen = getIntent().getBooleanExtra("fullscreen", true);
 
-
-
         setContentView(R.layout.guide_random_feature2);
+        rootLayout = findViewById(R.id.guide_random_root_layout);
 
         initThemeCard();
         if (isFullScreen) {
@@ -141,7 +143,7 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
         InCallActionView callActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
         callActionView.setAutoRun(true);
 
-        VideoPlayerView videoPlayerView = findViewById(R.id.animation_view);
+        videoPlayerView = findViewById(R.id.animation_view);
         final File file = new File(FileUtils.getMediaDirectory(), Constants.RANDOM_GUIDE_FILE_NAME);
 
         TextSwitcher switcher = findViewById(R.id.date_switcher);
