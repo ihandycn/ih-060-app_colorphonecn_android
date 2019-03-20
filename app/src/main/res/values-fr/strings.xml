@@ -186,10 +186,17 @@
 
     <string name="random_theme_guide_title">Profitez d\'un flash d\'écran différent chaque jour. </string>
     <string name="random_theme_guide_desc">Vous pouvez désactiver le mode aléatoire dans les paramètres.</string>
-    <string name="alert_turn_off_random_title">Voulez-vous vraiment désactiver le mode aléatoire ? </string>
     <string name="alert_turn_off_random_desc">En le désactivant, vous ne pouvez pas profiter d\'un flash d\'écran différent chaque jour.</string>
-    <string name="alert_turn_off_random_desc_beset">Le mode aléatoire ne fonctionnera pas si vous définissez ce thème pour tous vos amis. Vous pouvez essayez de définir ce thème pour un ami spécifique.</string>
-    <string name="alert_button_keep_random_mode">Garder le mode aléatoire</string>
     <string name="random_mode">Mode aléatoire</string>
 
+
+
+    <string name="random_theme_guide_title2">Thèmes quotidiens est votre thème par défaut.</string>
+    <string name="random_theme_guide_desc2">Vous pouvez profiter d'écrans d'appel différents chaque jour.</string>
+    <string name="random_theme_guide_ok_btn">je le sais</string>
+
+    <string name="alert_turn_off_random_title">Voulez-vous vraiment définir ce thème pour tous vos contacts ?</string>
+    <string name="alert_turn_off_random_desc_beset">Thème quotidien est en cours d'utilisation. Si vous définissez ce thème pour tous vos contacts, vous ne pourrez pas profiter d'écrans d'appel différents chaque jour.</string>
+    <string name="alert_button_keep_random_mode">Gardez les thèmes quotidiens</string>
+    <string name="alert_button_continue">Oui, maintenant</string>
 </resources>

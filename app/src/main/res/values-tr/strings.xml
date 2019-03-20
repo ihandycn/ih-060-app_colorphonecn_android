@@ -183,10 +183,17 @@
 
     <string name="random_theme_guide_title">Hergün farklı bir ekran flaşının keyfini sür. </string>
     <string name="random_theme_guide_desc">Ayarlardan rastgele mosunu kapatabilirsin.</string>
-    <string name="alert_turn_off_random_title">Rastgele modunu kapatmak istediğinden emin misin?</string>
     <string name="alert_turn_off_random_desc"> Kapatırsan her gün farklı bir ekran flaşının keyfini süremezsin.</string>
-    <string name="alert_turn_off_random_desc_beset">Bu temayı tüm arkadaşların için ayarlarsan rastgele modu çalışmayacaktır. Bu temayı belirli bir akradaşın için ayarlamayı deneyebilirsin.</string>
-    <string name="alert_button_keep_random_mode">Rastgele mod kalsın</string>
     <string name="random_mode">Rastgele modu</string>
 
+
+
+    <string name="random_theme_guide_title2">Günlük Temalar varsayılan teman.</string>
+    <string name="random_theme_guide_desc2">Her gün farklı arama ekranlarının keyfini çıkarabilirsin.</string>
+    <string name="random_theme_guide_ok_btn">ANLADIM</string>
+
+    <string name="alert_turn_off_random_title">Bu temayı tüm kişilerin için ayarlamak istediğinden emin misin?</string>
+    <string name="alert_turn_off_random_desc_beset">Günlük Tema kullanılıyor. Bu temayı tüm kişilerin için ayarlarsan, her gün farklı arama ekranının keyfini çıkaramazsın.</string>
+    <string name="alert_button_keep_random_mode">Günlük Temaları Koru</string>
+    <string name="alert_button_continue">Evet, Şimdi Ayarla</string>
 </resources>

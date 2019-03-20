@@ -187,10 +187,17 @@
 
     <string name="random_theme_guide_title">每天享受不同的來電主題</string>
     <string name="random_theme_guide_desc">您可以在設置中關閉隨機模式</string>
-    <string name="alert_turn_off_random_title">您確定要關閉隨機模式嗎？</string>
     <string name="alert_turn_off_random_desc">關閉了隨機模式，您就無法享受每天不同的來電主題。</string>
-    <string name="alert_turn_off_random_desc_beset">如果您將當期主題設置給所有聯繫人，隨機主題將會失效。您也可以將當期主題設置給特定的聯繫人。</string>
-    <string name="alert_button_keep_random_mode">保留隨機模式</string>
     <string name="random_mode">隨機模式</string>
+
+
+    <string name="random_theme_guide_title2">每日主題是您的默認主題</string>
+    <string name="random_theme_guide_desc2">您能每天享受不同的來電界面。</string>
+    <string name="random_theme_guide_ok_btn">知道了</string>
+
+    <string name="alert_turn_off_random_title">您確定要將此主題應用給所有人嗎？</string>
+    <string name="alert_turn_off_random_desc_beset">您正在使用每日主題。如果您將此主題應用給所有聯繫人，您將不能享受到每天不同的來電界面。</string>
+    <string name="alert_button_keep_random_mode">保留每日主題</string>
+    <string name="alert_button_continue">是，繼續應用</string>
 
 </resources>

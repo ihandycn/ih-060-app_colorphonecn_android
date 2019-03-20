@@ -191,10 +191,17 @@
 
     <string name="random_theme_guide_title">Utilizza una schermata diversa ogni giorno.</string>
     <string name="random_theme_guide_desc">Puoi disattivare la modalità casuale dalle impostazioni.</string>
-    <string name="alert_turn_off_random_title">Vuoi disattivare la modalità casuale? </string>
     <string name="alert_turn_off_random_desc">Se la disattivi non potrai utilizzare una schermata diversa ogni giorno.</string>
-    <string name="alert_turn_off_random_desc_beset">Se imposti il tema per tutti i tuoi amici, la modalità casuale non potrà funzionare. Prova a impostare il tema per un amico in particolare.</string>
-    <string name="alert_button_keep_random_mode">Mantieni la modalità casuale</string>
     <string name="random_mode">Modalità casuale</string>
 
+
+
+    <string name="random_theme_guide_title2">Temi quotidiani è il tema predefinito.</string>
+    <string name="random_theme_guide_desc2">Puoi utilizzare diverse schermate di chiamate ogni giorno.</string>
+    <string name="random_theme_guide_ok_btn">lo so</string>
+
+    <string name="alert_turn_off_random_title">Vuoi impostare il tema selezionato per tutti i contatti?</string>
+    <string name="alert_turn_off_random_desc_beset">Tema quotidiano è in uso. Se imposti il tema per tutti i contatti potrai avere schermate di chiamate diverse ogni giorno.</string>
+    <string name="alert_button_keep_random_mode">Mantieni temi quotidiani</string>
+    <string name="alert_button_continue">Sì, Imposta ora</string>
 </resources>

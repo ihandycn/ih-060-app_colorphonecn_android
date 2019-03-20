@@ -280,10 +280,11 @@
     <string name="custom_font_semibold" translatable="false">ProximaNova-Semibold</string>
     <string name="custom_font_bold" translatable="false">ProximaNova-Bold</string>
     <string name="custom_font_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
+
     <string name="random_theme_guide_title">Enjoy different screenflash everyday.</string>
     <string name="random_theme_guide_desc">You can turn off random mode in settings.</string>
     <string name="alert_turn_off_random_desc">By turning off, you can’t enjoy different screenflash everyday.</string>
-    <string name="alert_button_turn_off">Keep Daily Themes</string>
+    <string name="alert_button_turn_off">@string/gdpr_dialog_turn_off</string>
     <string name="random_mode">Random mode</string>
 
 

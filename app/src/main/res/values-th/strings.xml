@@ -186,9 +186,17 @@
 
     <string name="random_theme_guide_title">เพลิดเพลินกับแฟลชหน้าจอต่าง ๆ ทุกวัน </string>
     <string name="random_theme_guide_desc">คุณสามารถปิดโหมดสุ่มได้ในการตั้งค่า</string>
-    <string name="alert_turn_off_random_title">คุณแน่ใจหรือว่าต้องการปิดโหมดสุ่ม </string>
     <string name="alert_turn_off_random_desc">เมื่อปิด คุณจะไม่สามารถเพลิดเพลินกับแฟลชหน้าจอต่าง ๆ ทุกวันได้</string>
-    <string name="alert_turn_off_random_desc_beset">โหมดสุ่มจะไม่ทำงานหากคุณตั้งค่าธีมนี้ให้เพื่อนทุกคน คุณอาจลองตั้งธีมนี้ให้เพื่อนคนใดคนหนึ่ง</string>
-    <string name="alert_button_keep_random_mode">ใช้โหมดสุ่ม</string>
     <string name="random_mode">โหมดสุ่ม</string>
+
+
+
+    <string name="random_theme_guide_title2">ธีมประจำวันเป็นธีมค่าเริ่มต้นของคุณ</string>
+    <string name="random_theme_guide_desc2">คุณสามารถเพลิดเพลินกับหน้าจอโทรทุกวัน</string>
+    <string name="random_theme_guide_ok_btn">ฉันรู้มัน</string>
+
+    <string name="alert_turn_off_random_title">คุณแน่ใจหรือว่าต้องการตั้งค่าธีมนี้ให้รายชื่อติดต่อทั้งหมด</string>
+    <string name="alert_turn_off_random_desc_beset">กำลังใช้ธืมประจำวันอยู่ หากคุณตั้งค่าธืมนี้ให้รายชื่อติดต่อทั้งหมด คุณจะไม่สามารถเพลิดเพลินกับหน้าจอโทรทุกวันได้</string>
+    <string name="alert_button_keep_random_mode">เก็บธีมรายวัน</string>
+    <string name="alert_button_continue">ใช่ตั้งค่าตอนนี้</string>
 </resources>

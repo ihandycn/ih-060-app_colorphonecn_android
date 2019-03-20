@@ -111,10 +111,17 @@
 
     <string name="random_theme_guide_title">Elke dag een andere leuke schermflits.</string>
     <string name="random_theme_guide_desc">Je kunt de willekeurige modus via de instellingen uitschakelen.</string>
-    <string name="alert_turn_off_random_title">Weet je zeker dat je de willekeurige modus wilt uitschakelen? </string>
     <string name="alert_turn_off_random_desc">ALs je dit doet, krijg je niet meer elke dag een andere schermflits.</string>
-    <string name="alert_turn_off_random_desc_beset">Willekeurige modus werkt niet als je dit thema voor al je vrienden instelt. Je kunt dit thema wel instellen voor een specifieke vriend.</string>
-    <string name="alert_button_keep_random_mode">Willekeurige modus behouden</string>
     <string name="random_mode">Willekeurige modus</string>
 
+
+
+    <string name="random_theme_guide_title2">Dagthema's zijn je standaardthema.</string>
+    <string name="random_theme_guide_desc2">Elke dag leuke nieuwe belschermen.</string>
+    <string name="random_theme_guide_ok_btn">BEGREPEN</string>
+
+    <string name="alert_turn_off_random_title">Wil je dit thema instellen voor al je contactpersonen?</string>
+    <string name="alert_turn_off_random_desc_beset">Dagthema wordt gebruikt. Als je dit thema voor al je contactpersonen instelt, krijg je niet langer elke dag nieuwe belschermen te zien.</string>
+    <string name="alert_button_keep_random_mode">Houd dagelijkse thema's</string>
+    <string name="alert_button_continue">Ja, nu instellen</string>
 </resources>

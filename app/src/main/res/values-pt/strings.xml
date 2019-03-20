@@ -187,9 +187,16 @@
 
     <string name="random_theme_guide_title">Aproveite diferentes exibições de tela todos os dias. </string>
     <string name="random_theme_guide_desc"> Você pode desativar o modo aleatório nas configurações.</string>
-    <string name="alert_turn_off_random_title">Tem certeza de que deseja desativar o modo aleatório？ </string>
     <string name="alert_turn_off_random_desc">Ao desativar, você não poderá aproveitar diferentes exibições de tela todos os dias.</string>
-    <string name="alert_turn_off_random_desc_beset">O modo aleatório não funcionará se você definir esse tema para todos os seus amigos. Você pode tentar definir este tema para um amigo específico.</string>
-    <string name="alert_button_keep_random_mode">Manter o modo aleatório</string>
     <string name="random_mode">Modo aleatório</string>
+
+
+    <string name="random_theme_guide_title2">Temas Diários é seu tema padrão.</string>
+    <string name="random_theme_guide_desc2">Você pode curtir telas de chamada diferentes todos os dias.</string>
+    <string name="random_theme_guide_ok_btn">eu sei</string>
+
+    <string name="alert_turn_off_random_title">Tem certeza de que deseja definir este tema para todos os seus contatos?</string>
+    <string name="alert_turn_off_random_desc_beset">Temas Diários está em uso. Se definir este tema para todos os seus contatos, você não poderá aproveitar telas de chamada diferentes todos os dias.</string>
+    <string name="alert_button_keep_random_mode">Mantenha temas diários</string>
+    <string name="alert_button_continue">Sim, definir agora</string>
 </resources>

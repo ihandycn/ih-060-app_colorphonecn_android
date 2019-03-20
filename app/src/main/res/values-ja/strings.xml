@@ -189,10 +189,16 @@
 
   <string name="random_theme_guide_title">毎日色々なスクリーンフラッシュをお楽しみください。</string>
   <string name="random_theme_guide_desc">設定でランダムモードをオフにすることができます。</string>
-  <string name="alert_turn_off_random_title">ランダムモードをオフにしてよろしいですか？</string>
   <string name="alert_turn_off_random_desc">オフにすると、色々なスクリーンフラッシュを毎日楽しむことができません。</string>
-  <string name="alert_turn_off_random_desc_beset">このテーマをすべての友達に設定した場合、ランダムモードは機能しません。特定の友人にのみこのテーマを設定するようにしてください。</string>
-  <string name="alert_button_keep_random_mode">ランダムモードをキープ</string>
   <string name="random_mode">ランダムモード</string>
 
+
+  <string name="random_theme_guide_title2">デイリーテーマがデフォルトテーマです。</string>
+  <string name="random_theme_guide_desc2">毎日異なる通話画面を楽しむことができます。</string>
+  <string name="random_theme_guide_ok_btn">私は知っている</string>
+
+  <string name="alert_turn_off_random_title">すべての連絡先にテーマを設定してもよろしいですか？</string>
+  <string name="alert_turn_off_random_desc_beset">デイリーテーマが使用されています。このテーマをすべての連絡先に設定すると、毎日異なる通話画面を楽しむことができます。</string>
+  <string name="alert_button_keep_random_mode">毎日のテーマを守る</string>
+  <string name="alert_button_continue">はい、今すぐ設定</string>
 </resources>

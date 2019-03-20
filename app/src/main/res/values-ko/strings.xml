@@ -187,9 +187,16 @@
 
     <string name="random_theme_guide_title">매일 다양한 화면을 즐기세요. </string>
     <string name="random_theme_guide_desc">설정에서 무작위 모드를 끌 수 있습니다.</string>
-    <string name="alert_turn_off_random_title">무자위 모드를 끄시겠습니까? </string>
     <string name="alert_turn_off_random_desc">끄게 되면 매일 다양한 화면을 즐길 수 없습니다.</string>
-    <string name="alert_turn_off_random_desc_beset">이 테마를 모든 친구에게 설정하면 무작위 모드가 작동하지 않습니다. 이 테마를 특정 친구에게 설정해보세요.</string>
-    <string name="alert_button_keep_random_mode">무작위 모드 유지</string>
     <string name="random_mode">무작위 모드</string>
+
+
+    <string name="random_theme_guide_title2">오늘의 테마가 기본 테마입니다.</string>
+    <string name="random_theme_guide_desc2">매일 다른 통화 화면을 즐길 수 있습니다.</string>
+    <string name="random_theme_guide_ok_btn">알았다</string>
+
+    <string name="alert_turn_off_random_title">모든 연락처에 이 테마를 설정할까요?</string>
+    <string name="alert_turn_off_random_desc_beset">오늘의 테마를 사용 중입니다. 이 테마를 모든 연락처에 설정하면 매일 다른 통화 화면을 즐길 수 있습니다.</string>
+    <string name="alert_button_keep_random_mode">매일의 테마 유지</string>
+    <string name="alert_button_continue">지금 설정</string>
 </resources>

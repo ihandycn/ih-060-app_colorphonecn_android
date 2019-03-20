@@ -187,9 +187,16 @@
 
     <string name="random_theme_guide_title">Freuen Sie sich jeden Tag über unterschiedliche Bildschirm-Flashs. </string>
     <string name="random_theme_guide_desc">Sie können den Zufallsmodus in den Einstellungen abstellen.</string>
-    <string name="alert_turn_off_random_title">Sind Sie sicher, dass Sie den Zufallsmodus abstellen möchten. </string>
     <string name="alert_turn_off_random_desc">Dadurch können Sie sich nicht jeden Tag über andere Bildschirm-Flashs freuen.</string>
-    <string name="alert_turn_off_random_desc_beset">Der Zufallsmodus funktioniert nicht, wenn Sie dieses Motiv für alle Ihre Freunde einstellen. Sie können dieses Motiv für Ihren speziellen Freund festlegen.</string>
-    <string name="alert_button_keep_random_mode">Zufallsmodus behalten</string>
     <string name="random_mode">Zufallsmodus</string>
+
+
+    <string name="random_theme_guide_title2">Alltagsmotive ist Ihr benutzerdefiniertes Design</string>
+    <string name="random_theme_guide_desc2">Sie können sich jeden Tag über verschiedene Anrufbildschirme freuen.</string>
+    <string name="random_theme_guide_ok_btn">es wissen</string>
+
+    <string name="alert_turn_off_random_title">Sind Sie sicher, dass Sie dieses Motiv für alle Ihre Kontakte festlegen möchten?</string>
+    <string name="alert_turn_off_random_desc_beset">Alltagsmotive wird gerade benutzt. Wenn Sie dieses Motiv für alle Ihre Kontakte festlegen, können Sie sich nicht jeden Tag an unterschiedlichen Motiven erfreuen.</string>
+    <string name="alert_button_keep_random_mode">Tägliche Themen behalten</string>
+    <string name="alert_button_continue">Jetzt einstellen</string>
 </resources>
