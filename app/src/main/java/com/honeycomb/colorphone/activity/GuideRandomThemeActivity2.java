@@ -43,6 +43,7 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
     private long mFocusStartTime;
     private View rootLayout;
     private VideoPlayerView videoPlayerView;
+    private TextSwitcher switcher;
 
     public static void start(Activity context, View contentView, boolean fullScreen) {
         int[] locations = new int[2];
@@ -147,7 +148,7 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
         videoPlayerView = findViewById(R.id.animation_view);
         final File file = new File(FileUtils.getMediaDirectory(), Constants.RANDOM_GUIDE_FILE_NAME);
 
-        TextSwitcher switcher = findViewById(R.id.date_switcher);
+        switcher = findViewById(R.id.date_switcher);
         switcher.getLayoutParams().width = width;
         switcher.requestLayout();
 
@@ -160,24 +161,26 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
 
         videoPlayerView.setFileDirectory(file.getAbsolutePath());
         videoPlayerView.playManually();
-        videoPlayerView.addProgressListener(new VideoPlayerView.ProgressCallback() {
-            int lastPercent = 0;
-            @Override
-            public void onProgress(int percent) {
-                if (lastPercent < 20 && percent >= 20) {
-                    switcher.setText("Tuesday");
-                } else if (lastPercent < 47 && percent >= 47) {
-                    switcher.setText("Wednesday");
-                } else if (lastPercent < 75 && percent >= 75) {
-                    switcher.setText("Thursday");
-                } else if (lastPercent < 99 && percent >= 99) {
-                    switcher.setText("Monday");
-                }
-                lastPercent = percent;
-            }
-        });
+        videoPlayerView.addProgressListener(progressCallback);
 
     }
+
+    VideoPlayerView.ProgressCallback progressCallback = new VideoPlayerView.ProgressCallback() {
+        int lastPercent = 0;
+        @Override
+        public void onProgress(int percent) {
+            if (lastPercent < 20 && percent >= 20) {
+                switcher.setText("Tuesday");
+            } else if (lastPercent < 47 && percent >= 47) {
+                switcher.setText("Wednesday");
+            } else if (lastPercent < 75 && percent >= 75) {
+                switcher.setText("Thursday");
+            } else if (lastPercent < 99 && percent >= 99) {
+                switcher.setText("Monday");
+            }
+            lastPercent = percent;
+        }
+    };
 
     private View createDayView() {
         TextView tv1 = new TextView(this);
@@ -194,6 +197,12 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
         super.onBackPressed();
         LauncherAnalytics.logEvent("random_theme_guide_back_click_round2","Time", getEventTimeValue());
         releaseMedia();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        videoPlayerView.removeProgressListener(progressCallback);
     }
 
     private void releaseMedia() {
