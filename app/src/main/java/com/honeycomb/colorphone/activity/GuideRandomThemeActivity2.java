@@ -22,6 +22,7 @@ import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.theme.RandomTheme;
+import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -181,6 +182,7 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
         tv1.setTextSize(16);
         tv1.setTextColor(Color.WHITE);
         tv1.setGravity(Gravity.CENTER);
+        tv1.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
         return tv1;
     }
 

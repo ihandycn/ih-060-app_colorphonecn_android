@@ -8,81 +8,89 @@
     android:background="#a2000000"
     android:orientation="vertical">
 
-    <com.honeycomb.colorphone.view.FixRatioPreviewWindow android:id="@+id/card_view"
-        style="@style/RatioView.Container"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content">
+        <com.honeycomb.colorphone.view.FixRatioPreviewWindow android:id="@+id/card_view"
+            style="@style/RatioView.Container"
 
-        <com.acb.call.views.VideoPlayerView
-            android:id="@+id/animation_view"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content">
+
+            <com.acb.call.views.VideoPlayerView
+                android:id="@+id/animation_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <include layout="@layout/acb_layout_call_user_infos" />
+
+            <com.acb.call.views.InCallActionView
+                android:id="@+id/card_in_call_action_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="24dp"
+                android:gravity="bottom" />
+
+        </com.honeycomb.colorphone.view.FixRatioPreviewWindow>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
 
-        <include layout="@layout/acb_layout_call_user_infos" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/random_guide_arrow" />
 
-        <com.acb.call.views.InCallActionView
-            android:id="@+id/card_in_call_action_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="24dp"
-            android:gravity="bottom" />
 
-    </com.honeycomb.colorphone.view.FixRatioPreviewWindow>
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/random_theme_guide_title2"
+                android:textColor="@color/textBlack"
+                android:textSize="22sp"
+                app:typeface="@string/proxima_nova_bold" />
 
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/random_theme_guide_desc2"
+                android:textColor="@color/textDark"
+                android:textSize="16sp"
+                app:typeface="@string/proxima_nova_semibold" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <TextSwitcher
         android:id="@+id/date_switcher"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </TextSwitcher>
-
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:src="@drawable/random_guide_arrow" />
-
-
-    <com.honeycomb.colorphone.view.TypefacedTextView
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginEnd="40dp"
-        android:text="@string/random_theme_guide_title2"
-        android:textColor="@color/textBlack"
-        android:textSize="24sp"
-        app:typeface="@string/proxima_nova_bold" />
-
-    <com.honeycomb.colorphone.view.TypefacedTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/random_theme_guide_desc2"
-        android:textColor="@color/textDark"
-        android:textSize="16sp"
-        app:typeface="@string/proxima_nova_semibold" />
+        android:layout_marginTop="8dp"/>
 
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/guide_random_ok"
         android:layout_width="wrap_content"
         android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="24dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:paddingLeft="64dp"
         android:paddingRight="64dp"
