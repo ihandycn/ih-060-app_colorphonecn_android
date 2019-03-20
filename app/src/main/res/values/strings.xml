@@ -17,7 +17,7 @@
 
     <string name="theme_apply">Apply</string>
 
-    <string name="apply_success">Apply Success</string>
+    <string name="apply_success">@string/result_page_theme_recommend_optimal</string>
     <string name="theme_current">Current Theme</string>
     <string name="send_email">Send Email</string>
     <string name="loading">Loading </string>

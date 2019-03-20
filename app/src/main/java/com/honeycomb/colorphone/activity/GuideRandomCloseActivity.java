@@ -50,8 +50,7 @@ public class GuideRandomCloseActivity extends HSAppCompatActivity {
 
         final int alertShowTime = Ap.RandomTheme.getRandomAlertShowTime();
 
-
-        boolean isFullScreen = getIntent().getBooleanExtra("fullscreen" + getSuffixOfEvent(alertShowTime), true);
+        boolean isFullScreen = getIntent().getBooleanExtra("fullscreen", true);
         mFrom = DETAIL;
 
         setContentView(R.layout.alert_random_close);
