@@ -83,7 +83,7 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
         LauncherAnalytics.logEvent("random_theme_guide_show_round2");
 
         TextView enableBtn = (TextView) findViewById(R.id.guide_random_ok);
-        enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(6), true));
+        enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(24), true));
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

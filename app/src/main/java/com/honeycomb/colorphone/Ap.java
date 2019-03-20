@@ -2,6 +2,8 @@ package com.honeycomb.colorphone;
 
 import android.text.TextUtils;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -254,7 +256,8 @@ public class Ap {
 
         public static boolean checkIfShowRandomLoseAlert() {
             if (showRandomLoseAlert()
-                    && com.honeycomb.colorphone.theme.RandomTheme.getInstance().userSettingsEnable()) {
+                    && com.honeycomb.colorphone.theme.RandomTheme.getInstance().userSettingsEnable()
+                    && ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == Theme.RANDOM_THEME) {
                 int alertShowTime = Preferences.get(Constants.DESKTOP_PREFS).getInt("token_random_loss_alert_show", 0);
                 if (alertShowTime  < Ap.RandomTheme.randomLoseAlertMaxTime()) {
                     Preferences.get(Constants.DESKTOP_PREFS).putInt("token_random_loss_alert_show", ++alertShowTime);

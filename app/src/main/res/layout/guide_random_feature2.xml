@@ -83,20 +83,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"/>
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
-        android:id="@+id/guide_random_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="44dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="24dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:paddingLeft="64dp"
-        android:paddingRight="64dp"
-        android:text="@string/acb_guide_ok"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        app:typeface="@string/proxima_nova_bold" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/guide_random_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="54dp"
+            android:paddingRight="54dp"
+            android:text="@string/acb_guide_ok"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:typeface="@string/proxima_nova_bold" />
+    </FrameLayout>
+
 </LinearLayout>
