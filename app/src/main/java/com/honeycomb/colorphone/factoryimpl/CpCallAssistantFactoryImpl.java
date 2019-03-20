@@ -41,7 +41,6 @@ import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.CallFinishUtils;
-import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
@@ -59,7 +58,6 @@ import com.ihs.libcharging.ScreenStateMgr;
 import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
-import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 
 import static com.acb.call.activity.AcceptCallActivity.PREFS_ACCEPT_FAIL;
@@ -132,34 +130,12 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         return new CallIdleAlert.FlurryEvent() {
 
             private long mTimeReadyToShow;
-            final Runnable mDisplayTimeoutRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("TimeOutNotShowCallAssistant"));
-                }
-            };
-
-            final Runnable mDisplayTimeoutRunnable2 = new Runnable() {
-                @Override
-                public void run() {
-                    ColorPhoneCrashlytics.getInstance().logException(new IllegalStateException("TimeOutNotShowCallAssistantTarget, contact : " +
-                            RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_CONTACTS)));
-                }
-            };
 
             @Override
             public void onShouldShow(int callType, boolean isLocked) {
                 isADShown = false;
                 mTimeReadyToShow = System.currentTimeMillis();
                 LauncherAnalytics.logEvent("CallFinished_View_Should_Show", "callType", getCallTypeStr(callType));
-                if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
-                    LauncherAnalytics.logEvent("Test_CallAssistantShouldShow" + Build.BRAND + getDeviceInfo());
-                    Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
-                    Threads.postOnMainThreadDelayed(mDisplayTimeoutRunnable2, 8000);
-                } else {
-                    Threads.removeOnMainThread(mDisplayTimeoutRunnable);
-                    Threads.postOnMainThreadDelayed(mDisplayTimeoutRunnable, 8000);
-                }
 
             }
 
@@ -183,8 +159,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onShow(int callType, boolean isLocked) {
-                Threads.removeOnMainThread(mDisplayTimeoutRunnable);
-                Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
                 LauncherAnalytics.logEvent("CallFinished_View_Shown", "callType", getCallTypeStr(callType),
                         "Time", formatTime(System.currentTimeMillis() - mTimeReadyToShow));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
@@ -276,7 +250,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             }
 
             @Override
-            public void onAlertDismiss(CallIdleAlertView.CallIdleAlertDismissType dismissType, String phoneNumber, int type) {
+            public void onAlertDismiss(CallIdleAlertView.CallIdleAlertDismissType dismissType, String phoneNumber, int callType) {
                 HSLog.d("ThemeRecommendManager", "phoneNumber = " + phoneNumber + ", dismissType = " + dismissType);
                 if (dismissType == CallIdleAlertView.CallIdleAlertDismissType.CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.MENU_CLOSE

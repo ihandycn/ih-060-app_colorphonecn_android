@@ -15,7 +15,6 @@ import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
-import com.superapps.util.Preferences;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -311,16 +310,7 @@ public class Theme extends Type {
     }
 
     public void setLocked(boolean locked) {
-        Preferences file = Preferences.get(PREFS_FILE_THEME_LOCK_STATE);
-        boolean userUnLock = file.getBoolean(PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX + getId(), false);
-        if (userUnLock) {
-            isLocked = false;
-        } else if (!locked){
-            isLocked = false;
-            file.putBoolean(PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX + getId(), true);
-        } else {
-            isLocked = true;
-        }
+        isLocked = false;
     }
 
     public boolean canBeDownloaded() {

@@ -457,6 +457,20 @@
             android:name=".notification.NotificationActionReceiver"
             android:exported="true"></receiver>
 
+        <!--Disable this receivers for unnecessary process-launch-->
+        <receiver
+            android:name="com.ihs.device.monitor.usage.UsageBroadcastReceiver"
+            android:enabled="false"
+            tools:replace="android:enabled" />
+        <receiver
+            android:name="com.ihs.device.clean.memory.MemoryReceiver"
+            android:enabled="false"
+            tools:replace="android:enabled" />
+        <receiver
+            android:name="com.ihs.device.clean.junk.JunkBroadcastReceiver"
+            android:enabled="false"
+            tools:replace="android:enabled" />
+
         <receiver
             android:name=".PermanentService$PermanentReceiver"
             android:enabled="true"

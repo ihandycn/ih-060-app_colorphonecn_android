@@ -20,12 +20,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
-import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
@@ -37,7 +35,6 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
-import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
@@ -268,9 +265,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
-        Button avatar = findViewById(R.id.avatar_btn);
-        avatar.setVisibility(View.GONE);
-
         cashFloatButton = findViewById(R.id.cash_center_entrance_icon);
         ConfigChangeManager.getInstance().registerCallbacks(
                 ConfigChangeManager.AUTOPILOT | ConfigChangeManager.REMOTE_CONFIG, configChangeCallback);
@@ -330,26 +324,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void refreshCashButton() {
-        if (isPaused) {
-            return;
-        }
-        CashUtils.logSwitchStatusToServer();
-        if (CashUtils.needShowMainFloatButton()) {
-            cashFloatButton.setVisibility(View.VISIBLE);
-            if (cashFloatButton instanceof LottieAnimationView) {
-                ((LottieAnimationView) cashFloatButton).playAnimation();
-            }
-            cashFloatButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CashUtils.Event.onMainviewFloatButtonClick();
-                    CashUtils.startWheelActivity(ColorPhoneActivity.this, CashUtils.Source.FloatIcon);
-                }
-            });
-            CashUtils.Event.onMainviewFloatButtonShow();
-        } else {
-            cashFloatButton.setVisibility(View.GONE);
-        }
+      // Unused
     }
 
     @Override
@@ -365,10 +340,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mAdapter.markForeground(false);
         mRecyclerView.getRecycledViewPool().clear();
         mHandler.removeCallbacks(mainViewRunnable);
-
-        if (cashFloatButton instanceof LottieAnimationView) {
-            ((LottieAnimationView) cashFloatButton).cancelAnimation();
-        }
     }
 
     @Override
@@ -549,8 +520,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void initRecyclerView() {
-        View contentView = findViewById(R.id.recycler_view_content);
-        mRecyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
