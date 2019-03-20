@@ -30,6 +30,8 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
 import java.io.File;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  *
@@ -166,17 +168,34 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
     }
 
     VideoPlayerView.ProgressCallback progressCallback = new VideoPlayerView.ProgressCallback() {
+        private final String day4;
+        private final String day3;
+        private final String day2;
+        private final String day1;
         int lastPercent = 0;
+        Calendar c = Calendar.getInstance();
+
+        {
+            c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            day1 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+            c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+            day2 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+            c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+            day3 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+            c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+            day4 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+        }
+
         @Override
         public void onProgress(int percent) {
             if (lastPercent < 20 && percent >= 20) {
-                switcher.setText("Tuesday");
+                switcher.setText(day2);
             } else if (lastPercent < 47 && percent >= 47) {
-                switcher.setText("Wednesday");
+                switcher.setText(day3);
             } else if (lastPercent < 75 && percent >= 75) {
-                switcher.setText("Thursday");
+                switcher.setText(day4);
             } else if (lastPercent < 99 && percent >= 99) {
-                switcher.setText("Monday");
+                switcher.setText(day1);
             }
             lastPercent = percent;
         }

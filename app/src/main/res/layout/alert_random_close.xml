@@ -49,7 +49,7 @@
             android:layout_marginRight="24dp"
             android:layout_marginTop="8dp"
             android:text="@string/alert_turn_off_random_desc"
-            android:textColor="@color/textDark"
+            android:textColor="@color/textLightGray"
             android:textSize="16sp"
             app:typeface="@string/proxima_nova_semibold" />
 
@@ -80,7 +80,7 @@
             android:gravity="center"
             android:text="@string/alert_button_turn_off"
             android:textAllCaps="true"
-            android:textColor="#FF5B5B5B"
+            android:textColor="#5B5B5B"
             android:textSize="15sp"
             app:typeface="@string/proxima_nova_bold" />
     </LinearLayout>
