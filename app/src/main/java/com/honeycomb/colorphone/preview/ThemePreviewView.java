@@ -181,6 +181,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private long startDownloadTime;
 
+    private boolean mIsActionVertical;
+
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -427,6 +429,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     layoutContainer2.setVisibility(VISIBLE);
                     mApplyForOne = setForOneView2;
                     mApplyButton = setForAllView2;
+                    mIsActionVertical = true;
                 }
 
                 mApplyButton.setVisibility(VISIBLE);
@@ -486,6 +489,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
             }
         });
+        if (mIsActionVertical) {
+            getTransBottomLayout().setTranslationY(Dimensions.pxFromDp(110));
+        }
         bottomBtnTransY = getTransBottomLayout().getTranslationY();
 
         mInter = new OvershootInterpolator(1.5f);
@@ -712,6 +718,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 return true;
             }
         } else if (mApplyButton.getVisibility() == VISIBLE
+                && !mIsActionVertical
                 && ModuleUtils.needShowSetForOneGuide()) {
             ViewStub stub = findViewById(R.id.guide_for_set_one);
             final View guideView = stub.inflate();
