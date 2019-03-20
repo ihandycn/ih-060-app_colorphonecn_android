@@ -31,7 +31,7 @@
     <string name="call_assistant_hint">El asistente de llamada te avisará cuando tengas llamadas perdidas (puede contener publicidad).</string>
 
     <string name="theme_set_for_all">ESTABLECER PARA TODOS</string>
-    <string name="theme_set_for_one">Establecer para alguien</string>
+    <string name="theme_set_for_one">Establecer para contacto</string>
     <string name="contact_select_hint">Aplicar el tema "%1$s" a los contactos seleccionados</string>
     <string name="contact_theme">Temas del contacto</string>
 

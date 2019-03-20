@@ -32,7 +32,7 @@
     <string name="call_assistant_hint">L\'Assistente di chiamata ti ricorda le chiamate perse (sono presenti contenuti pubblicitari)</string>
 
     <string name="theme_set_for_all">IMPOSTA PER TUTTI</string>
-    <string name="theme_set_for_one">Imposta per alcuni</string>
+    <string name="theme_set_for_one">Imposta per il contatto</string>
     <string name="contact_select_hint">Applica il tema "%1$s" ai contatti selezionati</string>
     <string name="contact_theme">Tema contatti</string>
 

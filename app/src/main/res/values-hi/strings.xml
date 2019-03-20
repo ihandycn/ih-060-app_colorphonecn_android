@@ -31,7 +31,7 @@
     <string name="call_assistant_hint">कॉल सहायक आपको छुटी कॉल की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
 
     <string name="theme_set_for_all">सभी के लिए सेट</string>
-    <string name="theme_set_for_one">कुछ के लिए सेट</string>
+    <string name="theme_set_for_one">संपर्क के लिए सेट करें</string>
     <string name="contact_select_hint">चयनित संपर्क(कों) पर \'%1$s\' लागू करें</string>
     <string name="contact_theme">संपर्क थीम</string>
 

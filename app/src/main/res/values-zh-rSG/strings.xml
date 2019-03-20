@@ -36,7 +36,7 @@
     <string name="cancel">取消</string>
     <string name="edit">编辑</string>
     <string name="theme_set_for_all">设定为默认</string>
-    <string name="theme_set_for_one">设定给某人</string>
+    <string name="theme_set_for_one">设定给联系人</string>
     <string name="select_contacts">选择联系人</string>
 
     <string name="boost_plus_free_up">内存释放</string>

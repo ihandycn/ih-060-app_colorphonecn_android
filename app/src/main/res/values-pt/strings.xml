@@ -32,7 +32,7 @@
     <string name="call_assistant_hint">O Assistente de Chamadas lembrará você das chamadas perdidas (Pode conter anúncios)</string>
 
     <string name="theme_set_for_all">DEFINIR PARA TODOS</string>
-    <string name="theme_set_for_one">Definir para uma pessoa</string>
+    <string name="theme_set_for_one">Definir para Contato</string>
     <string name="contact_select_hint">Aplicar tema "%1$s" aos contatos selecionados</string>
     <string name="contact_theme">Tema dos contatos</string>
 

@@ -31,7 +31,7 @@
     <string name="call_assistant_hint">ผู้ช่วยโทรศัพท์จะเตือนคุณเมื่อมีสายที่ไม่ได้รับ (อาจมีโฆษณา)</string>
 
     <string name="theme_set_for_all">ตั้งทั้งหมด</string>
-    <string name="theme_set_for_one">ตั้งสำหรับบางคน</string>
+    <string name="theme_set_for_one">ตั้งเป็นรายชื่อติดต่อ</string>
     <string name="contact_select_hint">ใช้ธีม "%1$s" กับรายชื่อติดต่อที่เลือก</string>
     <string name="contact_theme">ธีมรายชื่อติดต่อ</string>
 

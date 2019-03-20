@@ -31,7 +31,7 @@
     <string name="call_assistant_hint">Телефонный помощник будет напоминать вам о пропущенных вызовах (может содержать рекламу)</string>
 
     <string name="theme_set_for_all">УСТАНОВИТЬ ДЛЯ ВСЕХ</string>
-    <string name="theme_set_for_one">Установить для некоторых</string>
+    <string name="theme_set_for_one">Установить для контакта</string>
     <string name="contact_select_hint">Применить тему «%1$s» для выбранных контактов</string>
     <string name="contact_theme">Тема контакта</string>
 
