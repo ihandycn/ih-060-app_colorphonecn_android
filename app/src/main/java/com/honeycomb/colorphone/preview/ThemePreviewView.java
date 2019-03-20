@@ -57,7 +57,6 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.RandomTheme;
-import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -613,9 +612,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
+        boolean adBlockThisTime = true;
+
+        /**
+         * 出现引导界面后，屏蔽此次广告时机
+         */
         if (mTheme.getId() == Theme.RANDOM_THEME ||
                 !GuideApplyThemeActivity.start(mActivity, true, null)) {
             Utils.showToast(mActivity.getString(R.string.apply_success));
+            adBlockThisTime = false;
         }
 
         // Ringtone enabled
@@ -633,7 +638,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         NotificationUtils.logThemeAppliedFlurry(mTheme);
 
-        if (ConfigSettings.showAdOnApplyTheme()) {
+        if (!adBlockThisTime && ConfigSettings.showAdOnApplyTheme()) {
             Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_should_show");
             boolean show = AdManager.getInstance().showInterstitialAd();
             if (show) {
