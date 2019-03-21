@@ -206,7 +206,7 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
     private View createDayView() {
         TextView tv1 = new TextView(this);
         tv1.setAlpha(0.56f);
-        tv1.setTextSize(16);
+        tv1.setTextSize(18);
         tv1.setTextColor(Color.WHITE);
         tv1.setGravity(Gravity.CENTER);
         tv1.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
