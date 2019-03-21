@@ -95,7 +95,7 @@
             android:gravity="center"
             android:paddingLeft="54dp"
             android:paddingRight="54dp"
-            android:text="@string/acb_guide_ok"
+            android:text="@string/random_theme_guide_ok_btn"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:typeface="@string/proxima_nova_bold" />
