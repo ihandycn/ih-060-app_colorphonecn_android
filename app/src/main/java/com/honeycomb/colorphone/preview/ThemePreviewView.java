@@ -385,11 +385,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView.setTheme(mThemeType);
         callActionView.setAutoRun(false);
         mApplyButton = findViewById(R.id.theme_apply_btn);
-        mApplyButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
 
         mActionLayout = findViewById(R.id.theme_apply_layout);
         mApplyForOne = findViewById(R.id.theme_set_for_one);
-
 
         View layoutContainer2 = findViewById(R.id.theme_set_vert_layout);
         TextView setForOneView2 = findViewById(R.id.theme_set_for_one_textview);
@@ -426,6 +424,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (showForAllButton) {
             mApplyButton.setVisibility(VISIBLE);
+            mApplyButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
             mApplyButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -614,12 +613,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         boolean adBlockThisTime = true;
 
+        Utils.showToast(mActivity.getString(R.string.apply_success));
+
         /**
          * 出现引导界面后，屏蔽此次广告时机
          */
         if (mTheme.getId() == Theme.RANDOM_THEME ||
                 !GuideApplyThemeActivity.start(mActivity, true, null)) {
-            Utils.showToast(mActivity.getString(R.string.apply_success));
             adBlockThisTime = false;
         }
 

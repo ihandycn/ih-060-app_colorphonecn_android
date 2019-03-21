@@ -170,6 +170,7 @@
                 android:gravity="center"
                 android:textColor="#ffffff"
                 android:visibility="gone"
+                android:textSize="15sp"
                 tools:visibility="visible"
                 app:typeface="@string/proxima_nova_semibold"
                 tools:text="SET FOR ALL" />
