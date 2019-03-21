@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -391,7 +392,26 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         View layoutContainer2 = findViewById(R.id.theme_set_vert_layout);
         TextView setForOneView2 = findViewById(R.id.theme_set_for_one_textview);
-        TextView setForAllView2 = findViewById(R.id.theme_set_for_all_sub);
+        setForOneView2.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+        final TextView setForAllView2 = findViewById(R.id.theme_set_for_all_sub);
+        setForAllView2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        setForAllView2.setAlpha(0.5f);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        setForAllView2.setAlpha(1f);
+                        break;
+                    default:
+                        break;
+
+                }
+                return false;
+            }
+        });
 
         boolean showForAllButton = true;
         if (mTheme.getId() == Theme.RANDOM_THEME) {
@@ -469,6 +489,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         });
         if (mIsActionVertical) {
             getTransBottomLayout().setTranslationY(Dimensions.pxFromDp(110));
+        } else {
+            findViewById(R.id.vert_dark_bg).setVisibility(GONE);
         }
         bottomBtnTransY = getTransBottomLayout().getTranslationY();
 
@@ -838,10 +860,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     }
 
-//    private View findViewById(int id) {
-//        return mRootView.findViewById(id);
-//    }
-
     private void setButtonState(final boolean curTheme) {
         if (curTheme) {
             mApplyButton.setText(getString(R.string.theme_current));
@@ -849,6 +867,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mApplyButton.setText(getString(R.string.theme_set_for_all));
         }
         mApplyButton.setEnabled(!curTheme);
+        if (mIsActionVertical) {
+            mApplyButton.setAlpha(0.5f);
+        }
     }
 
     private void playButtonAnimation() {

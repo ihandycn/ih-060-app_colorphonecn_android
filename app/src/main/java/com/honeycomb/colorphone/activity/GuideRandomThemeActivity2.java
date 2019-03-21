@@ -138,10 +138,15 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
         int width = getIntent().getIntExtra("width", 0);
 
         mPreview = findViewById(R.id.card_view);
+        View topLayout = findViewById(R.id.guide_random_top_layout);
+
         LinearLayout.LayoutParams marginLayoutParams = new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
-        marginLayoutParams.setMargins(left, top, left, 0);
+        marginLayoutParams.setMargins(left, 0, left, 0);
         mPreview.setLayoutParams(marginLayoutParams);
 
+        ViewGroup.MarginLayoutParams topLayoutLayoutParams = (ViewGroup.MarginLayoutParams) topLayout.getLayoutParams();
+        topLayoutLayoutParams.setMargins(0, top, 0, 0);
+        topLayout.setLayoutParams(topLayoutLayoutParams);
 
         TextView firstLineTextView = (TextView) findViewById(com.acb.call.R.id.first_line);
         TextView secondLineTextView = (TextView) findViewById(com.acb.call.R.id.second_line);
