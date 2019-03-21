@@ -8,6 +8,9 @@
     <color name="primarySubText">#999999</color>
     <color name="drawerText">@android:color/white</color>
     <color name="drawerSubText">#b2ffffff</color>
+    <color name="colorControlNormal">#999999</color>
+
+    <color name="colorDisabled">#2b2436</color>
 
     <color name="textLightGray">#999999</color>
     <color name="textDark">#ccffffff</color>

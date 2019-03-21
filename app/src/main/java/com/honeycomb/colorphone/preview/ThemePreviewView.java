@@ -868,7 +868,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         mApplyButton.setEnabled(!curTheme);
         if (mIsActionVertical) {
-            mApplyButton.setAlpha(0.5f);
+            mApplyButton.setAlpha(curTheme ? 0.5f : 1f);
         }
     }
 

@@ -7,6 +7,7 @@
 
     <style name="ContactTheme" parent="AppLightStatusBarTheme">
         <item name="colorAccent">@color/colorAccentContact</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
     </style>
 
     <style name="AppLightStatusBarTheme.Launcher" parent="AppLightStatusBarTheme">
