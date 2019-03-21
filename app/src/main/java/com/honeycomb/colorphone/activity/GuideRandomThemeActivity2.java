@@ -46,6 +46,23 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
     private View rootLayout;
     private VideoPlayerView videoPlayerView;
     private TextSwitcher switcher;
+    private final String day4;
+    private final String day3;
+    private final String day2;
+    private final String day1;
+    Calendar c = Calendar.getInstance();
+
+    {
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        day1 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+        c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
+        day2 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+        c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+        day3 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+        c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+        day4 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+    }
+
 
     public static void start(Activity context, View contentView, boolean fullScreen) {
         int[] locations = new int[2];
@@ -159,7 +176,7 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
 
         switcher.addView(createDayView());
         switcher.addView(createDayView());
-        switcher.setCurrentText("Monday");
+        switcher.setCurrentText(day1);
 
         videoPlayerView.setFileDirectory(file.getAbsolutePath());
         videoPlayerView.playManually();
@@ -168,33 +185,18 @@ public class GuideRandomThemeActivity2 extends HSAppCompatActivity {
     }
 
     VideoPlayerView.ProgressCallback progressCallback = new VideoPlayerView.ProgressCallback() {
-        private final String day4;
-        private final String day3;
-        private final String day2;
-        private final String day1;
         int lastPercent = 0;
-        Calendar c = Calendar.getInstance();
 
-        {
-            c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-            day1 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
-            c.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
-            day2 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
-            c.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-            day3 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
-            c.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-            day4 = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
-        }
 
         @Override
         public void onProgress(int percent) {
-            if (lastPercent < 20 && percent >= 20) {
+            if (lastPercent < 18 && percent >= 18) {
                 switcher.setText(day2);
-            } else if (lastPercent < 47 && percent >= 47) {
+            } else if (lastPercent < 42 && percent >= 42) {
                 switcher.setText(day3);
-            } else if (lastPercent < 75 && percent >= 75) {
+            } else if (lastPercent < 66 && percent >= 66) {
                 switcher.setText(day4);
-            } else if (lastPercent < 99 && percent >= 99) {
+            } else if (lastPercent < 91 && percent >= 91) {
                 switcher.setText(day1);
             }
             lastPercent = percent;

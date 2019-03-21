@@ -455,13 +455,13 @@ public class ColorPhoneApplication extends HSApplication {
             public void run() {
                 doCopyTheme(10000, "randomtheme.mp4");
                 doCopyTheme(8, "deeplove.mp4");
-                doCopyTheme(Constants.RANDOM_GUIDE_FILE_NAME, "random_guide.mp4");
             }
         });
     }
 
     private void doCopyTheme(int id, String fileName) {
-        doCopyTheme("Mp4_" + (id - 2), fileName);
+        String targetFileName = "Mp4_" + (id - 2);
+        doCopyTheme(targetFileName, fileName);
     }
 
     private void doCopyTheme(String targetFileName, String srcfileName) {
