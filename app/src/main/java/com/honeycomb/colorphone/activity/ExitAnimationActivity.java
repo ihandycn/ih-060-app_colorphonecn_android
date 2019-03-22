@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.Ap;
@@ -52,6 +53,7 @@ public class ExitAnimationActivity extends AppCompatActivity {
                 finish();
             }
         });
+        animationView.setVisibility(View.INVISIBLE);
         AcbInterstitialAd ad = Ap.IdleExitAd.getInterstitialAd();
         if (ad != null) {
             ad.show();
@@ -59,10 +61,6 @@ public class ExitAnimationActivity extends AppCompatActivity {
             Ap.IdleExitAd.logEvent("wire_after_callassistant_show");
             LauncherAnalytics.logEvent("wire_after_callassistant_show");
         }
-
-        Ap.IdleExitAd.logEvent("call_assistant_close_animation_show");
-        LauncherAnalytics.logEvent("call_assistant_close_animation_show");
-
 
         mHomeKeyWatcher = new HomeKeyWatcher(this);
         mHomeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
@@ -96,6 +94,10 @@ public class ExitAnimationActivity extends AppCompatActivity {
             // Back from ad
             // or no need show ad
             animationView.playAnimation();
+            animationView.setVisibility(View.VISIBLE);
+            Ap.IdleExitAd.logEvent("call_assistant_close_animation_show");
+            LauncherAnalytics.logEvent("call_assistant_close_animation_show");
+
         }
     }
 
