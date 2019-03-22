@@ -29,7 +29,7 @@ android {
             storeFile file('keystore/light2019.jks')
             storePassword 'zdhszyzs'
             v1SigningEnabled true
-            v2SigningEnabled true
+            v2SigningEnabled false
         }
     }
 
