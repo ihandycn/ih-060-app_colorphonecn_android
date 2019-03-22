@@ -17,7 +17,7 @@
         android:layout_gravity="center"
         app:layout_constraintWidth_percent="0.47"
         app:layout_constraintDimensionRatio="h,1:1"
-        app:lottie_repeatCount="2"
+        app:lottie_repeatCount="1"
        />
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:layout_marginTop="6dp"
