@@ -18,5 +18,4 @@ public class AdPlacements {
     public static final String AD_REWARD_VIDEO = "Reward";
     public static final String AD_CALL_ASSISTANT_FULL_SCREEN = "CallFinishedWire";
 
-    public static final String AD_EXIT_ANIM = "CableWire";
 }

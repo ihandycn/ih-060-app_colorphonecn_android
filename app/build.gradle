@@ -214,7 +214,7 @@ dependencies {
     compile project(':permissions')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2019.02.12.001'
+    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2019.03.22.001'
     colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2019.02.13.001'
 }
 

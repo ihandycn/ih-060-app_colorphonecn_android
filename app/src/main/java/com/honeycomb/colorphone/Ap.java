@@ -359,13 +359,13 @@ public class Ap {
         }
 
         public static void preloadAd() {
-            AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_EXIT_ANIM);
-            AcbInterstitialAdManager.preload(1, AdPlacements.AD_EXIT_ANIM);
+            AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.AD_EXIT_ANIM);
+            AcbInterstitialAdManager.preload(1, Placements.AD_EXIT_ANIM);
         }
 
         public static AcbInterstitialAd getInterstitialAd() {
             if (mInterstitialAd == null) {
-                List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(AdPlacements.AD_EXIT_ANIM, 1);
+                List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(Placements.AD_EXIT_ANIM, 1);
                 if (ads != null && ads.size() > 0) {
                     mInterstitialAd = ads.get(0);
                 }
