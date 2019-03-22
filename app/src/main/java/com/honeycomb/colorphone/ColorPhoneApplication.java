@@ -66,6 +66,7 @@ import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.CallFinishUtils;
+import com.honeycomb.colorphone.util.ChannelInfoUtil;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -285,8 +286,9 @@ public class ColorPhoneApplication extends HSApplication {
     private void onAllProcessCreated() {
         initFabric();
 
+        String channel = ChannelInfoUtil.getChannelInfo(this);
+
         String appKey = HSConfig.getString("libCommons", "Umeng", "AppKey");
-        String channel = HSConfig.getString("libCommons", "Umeng", "Channel");
         String pushKey = HSConfig.getString("libCommons", "Umeng", "PushKey");
         UMConfigure.init(this, appKey, channel, UMConfigure.DEVICE_TYPE_PHONE, pushKey);
         UMConfigure.setLogEnabled(BuildConfig.DEBUG);
