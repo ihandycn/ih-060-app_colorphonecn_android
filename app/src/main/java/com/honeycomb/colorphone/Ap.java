@@ -11,6 +11,7 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Preferences;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
@@ -291,9 +292,12 @@ public class Ap {
 
 
     public static class IdleExitAd {
+        private static final String KEY_TYPE_RECORD = "key_call_anim_type";
         public static String TOPIC_ID = "topic-723tiyrlr";
         public static String TYPE_MAN = "human";
         public static String TYPE_PHONE = "phone";
+        public static String TYPE_ALL = "all";
+
         private static AcbInterstitialAd mInterstitialAd;
         private static NormalTrigger sNormalTrigger = new NormalTrigger() {
             @Override
@@ -323,7 +327,7 @@ public class Ap {
         }
 
         public static boolean animOnlyHasAd() {
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "wire_after_callassistant_enable", false);
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "show_animation_only_when_ad_show", false);
         }
 
         public static int intervalMins() {
@@ -337,7 +341,17 @@ public class Ap {
         }
 
         public static String animType() {
-            return AutopilotConfig.getStringToTestNow(TOPIC_ID, "animation_type", "all");
+            String type = AutopilotConfig.getStringToTestNow(TOPIC_ID, "animation_type", "all");
+            if (TYPE_ALL.equals(type)) {
+                type = Preferences.get(Constants.DESKTOP_PREFS).getString(KEY_TYPE_RECORD, TYPE_PHONE);
+                if (TYPE_PHONE.equals(type)) {
+                    Preferences.get(Constants.DESKTOP_PREFS).putString(KEY_TYPE_RECORD, TYPE_MAN);
+                } else {
+                    Preferences.get(Constants.DESKTOP_PREFS).putString(KEY_TYPE_RECORD, TYPE_PHONE);
+                }
+            }
+
+            return type;
         }
 
         public static void logEvent(String name) {
@@ -387,7 +401,7 @@ public class Ap {
                         sNormalTrigger.onConsumeChance();
                     }
                 } else {
-                    boolean intervalReach = result[0];
+                    boolean intervalReach = !result[0];
                     if (intervalReach) {
                         Ap.IdleExitAd.logEvent("wire_after_callassistant_interval_reach");
                         LauncherAnalytics.logEvent("wire_after_callassistant_interval_reach");

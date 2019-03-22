@@ -39,6 +39,7 @@ public class ExitAnimationActivity extends AppCompatActivity {
 
 
         String type = Ap.IdleExitAd.animType();
+
         animationView = findViewById(R.id.exit_anim);
 
         animationView.setAnimation(Ap.IdleExitAd.TYPE_MAN.equals(type)
@@ -67,7 +68,7 @@ public class ExitAnimationActivity extends AppCompatActivity {
         mHomeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
             @Override
             public void onHomePressed() {
-                Ap.IdleExitAd.logEvent("call_assistant_close_animation_Interrupt");
+                Ap.IdleExitAd.logEvent("call_assistant_close_animation_interrupt");
                 LauncherAnalytics.logEvent("call_assistant_close_animation_Interrupt", "type", "Home");
             }
 
@@ -110,7 +111,7 @@ public class ExitAnimationActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Ap.IdleExitAd.logEvent("call_assistant_close_animation_Interrupt");
+        Ap.IdleExitAd.logEvent("call_assistant_close_animation_interrupt");
         LauncherAnalytics.logEvent("call_assistant_close_animation_Interrupt", "type", "Back");
     }
 }

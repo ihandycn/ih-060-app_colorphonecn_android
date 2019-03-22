@@ -280,4 +280,5 @@
     <string name="custom_font_semibold" translatable="false">ProximaNova-Semibold</string>
     <string name="custom_font_bold" translatable="false">ProximaNova-Bold</string>
     <string name="custom_font_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
+    <string name="have_a_nice_day">Have a nice day!</string>
 </resources>
