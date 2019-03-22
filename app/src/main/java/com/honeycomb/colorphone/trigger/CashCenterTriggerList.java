@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.trigger;
 
+import android.text.format.DateUtils;
+
 import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.ihs.commons.config.HSConfig;
 
@@ -24,20 +26,20 @@ public class CashCenterTriggerList {
         }
 
         @Override
-        Options getTriggerOptions() {
+        public Options getTriggerOptions() {
             Trigger.Options options = new Trigger.Options();
-            options.intervalHours = 0; // No time limit
+            options.intervalMills = 0; // No time limit
             options.totalLimitCount = HSConfig.optInteger(3,"Application", "EarnCash", "AlertShowMaxTime");
             return options;
         }
 
         @Override
-        String getName() {
+        public String getName() {
             return "OnceEntranceCashCenter";
         }
 
         @Override
-        Trigger getParentTrigger() {
+        public Trigger getParentTrigger() {
             return null;
         }
     };
@@ -51,20 +53,20 @@ public class CashCenterTriggerList {
         }
 
         @Override
-        Options getTriggerOptions() {
+        public Options getTriggerOptions() {
             Trigger.Options options = new Trigger.Options();
-            options.intervalHours = 2;
+            options.intervalMills = 2 * DateUtils.HOUR_IN_MILLIS;
             options.totalLimitCount = CashUtils.maxTimeOnBacktoMain();
             return options;
         }
 
         @Override
-        String getName() {
+        public String getName() {
             return "BackToMain";
         }
 
         @Override
-        Trigger getParentTrigger() {
+        public Trigger getParentTrigger() {
             return onceEntranceTrigger;
         }
     };
@@ -78,20 +80,20 @@ public class CashCenterTriggerList {
         }
 
         @Override
-        Options getTriggerOptions() {
+        public Options getTriggerOptions() {
             Trigger.Options options = new Trigger.Options();
-            options.intervalHours = 2;
+            options.intervalMills = 2 * DateUtils.HOUR_IN_MILLIS;
             options.totalLimitCount = CashUtils.maxTimeOnUnlockScreen();
             return options;
         }
 
         @Override
-        String getName() {
+        public String getName() {
             return "UnlockScreen";
         }
 
         @Override
-        Trigger getParentTrigger() {
+        public Trigger getParentTrigger() {
             return onceEntranceTrigger;
         }
     };
@@ -105,20 +107,20 @@ public class CashCenterTriggerList {
         }
 
         @Override
-        Options getTriggerOptions() {
+        public Options getTriggerOptions() {
             Trigger.Options options = new Trigger.Options();
-            options.intervalHours = 2;
+            options.intervalMills = 2;
             options.totalLimitCount = CashUtils.maxTimeOnCallAlertClose();
             return options;
         }
 
         @Override
-        String getName() {
+        public String getName() {
             return "CallAlertClose";
         }
 
         @Override
-        Trigger getParentTrigger() {
+        public Trigger getParentTrigger() {
             return onceEntranceTrigger;
         }
     };
@@ -132,26 +134,26 @@ public class CashCenterTriggerList {
         }
 
         @Override
-        Options getTriggerOptions() {
+        public Options getTriggerOptions() {
             Trigger.Options options = new Trigger.Options();
-            options.intervalHours = 0;
+            options.intervalMills = 0;
             options.totalLimitCount = 3;
             return options;
         }
 
         @Override
-        String getName() {
+        public String getName() {
             return "ShortcutGuide";
         }
 
         @Override
-        Trigger getParentTrigger() {
+        public Trigger getParentTrigger() {
             return null;
         }
     };
 
     public boolean checkShortcut() {
-        boolean isTrigger = mShortcutTrigger.onChance();
+        boolean isTrigger = mShortcutTrigger.onChance(null);
         if (isTrigger) {
             mShortcutTrigger.onConsumeChance();
         }
@@ -161,7 +163,7 @@ public class CashCenterTriggerList {
     public boolean checkAt(CashUtils.Source source, boolean autoConsume) {
         Trigger trigger = getTriggerBySource(source);
         if (trigger != null) {
-            boolean isTrigger = trigger.onChance();
+            boolean isTrigger = trigger.onChance(null);
             if (isTrigger && autoConsume) {
                 trigger.onConsumeChance();
             }

@@ -137,7 +137,7 @@ public class PushManager {
     }
 
     private void doDailyOnce(@NonNull DailyTrigger trigger, @NonNull Runnable runnable) {
-        boolean hasChange = trigger.onChance();
+        boolean hasChange = trigger.onChance(null);
         if (hasChange) {
             runnable.run();
             trigger.onConsumeChance();

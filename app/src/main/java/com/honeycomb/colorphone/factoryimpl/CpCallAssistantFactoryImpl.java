@@ -227,6 +227,8 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 ThemeRecommendManager.getInstance().increaseCallTimes(number);
                 LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Call_Assistant_Show");
                 ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
+
+                Ap.IdleExitAd.onCallIdleViewShow();
             }
 
             @Override
@@ -255,6 +257,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 if (dismissType == CallIdleAlertView.CallIdleAlertDismissType.CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.MENU_CLOSE
                         || dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK) {
+                    Ap.IdleExitAd.onCallIdleClose(dismissType);
                     ThemeRecommendManager.logThemeRecommendCallAssistantClose();
                     SimpleContact sc = ContactManager.getInstance().getContact(phoneNumber);
                     if (sc == null) {
@@ -309,6 +312,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onIdle(int i, String s) {
                 stopFlashIfProper();
+                Ap.IdleExitAd.preloadAd();
             }
 
             @Override

@@ -13,17 +13,17 @@ public class DailyTrigger extends NormalTrigger {
     }
 
     @Override
-    Options getTriggerOptions() {
+    public Options getTriggerOptions() {
         return new Options(0, 0, 1);
     }
 
     @Override
-    String getName() {
+    public String getName() {
         return "DailyTrigger" + mExtraName;
     }
 
     @Override
-    Trigger getParentTrigger() {
+    public Trigger getParentTrigger() {
         return null;
     }
 }

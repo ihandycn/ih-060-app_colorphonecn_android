@@ -1,7 +1,5 @@
 package com.honeycomb.colorphone.trigger;
 
-import android.text.format.DateUtils;
-
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Calendars;
 import com.superapps.util.Preferences;
@@ -17,13 +15,13 @@ public abstract class NormalTrigger extends Trigger {
     public abstract boolean enabled();
 
     @Override
-    public boolean onChance() {
+    public boolean onChance(boolean[] result) {
         if (!enabled()) {
             return false;
         }
 
         Trigger parentTrigger = getParentTrigger();
-        if (parentTrigger != null && !parentTrigger.onChance()) {
+        if (parentTrigger != null && !parentTrigger.onChance(null)) {
             return false;
         }
 
@@ -31,9 +29,9 @@ public abstract class NormalTrigger extends Trigger {
         int count = mPreferences.getInt(getCountKeyName(), 0);
         long lasTimeTrigger = mPreferences.getLong(getTimeKeyName(), 0);
 
-        boolean timeIntervalValid = options.intervalHours == 0
+        boolean timeIntervalValid = options.intervalMills == 0
                 || System.currentTimeMillis() - lasTimeTrigger >
-                options.intervalHours * DateUtils.HOUR_IN_MILLIS;
+                options.intervalMills;
         boolean countValid = options.totalLimitCount == 0
                 || count < options.totalLimitCount;
 
@@ -52,6 +50,12 @@ public abstract class NormalTrigger extends Trigger {
                 }
                 dailyCountValid = true;
             }
+        }
+
+        if (result != null && result.length >= 3) {
+            result[0] = timeIntervalValid;
+            result[1] = countValid;
+            result[2] = dailyCountValid;
         }
 
         HSLog.d("NormalTrigger-" + getName(), "timeIntervalValid = " + timeIntervalValid
@@ -83,6 +87,7 @@ public abstract class NormalTrigger extends Trigger {
     /**
      * Call when use this chance to do something.
      */
+    @Override
     public void onConsumeChance(){
         HSLog.d("NormalTrigger-" + getName(), "onConsumeChange");
         mPreferences.incrementAndGetInt(getCountKeyName());

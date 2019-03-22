@@ -1,28 +1,32 @@
 package com.honeycomb.colorphone.trigger;
 
 public abstract class Trigger {
-    abstract Options getTriggerOptions();
-    abstract String getName();
+    public abstract Options getTriggerOptions();
+    public abstract String getName();
 
     public void onConsumeChance(){
     }
-    abstract Trigger getParentTrigger();
+    public abstract Trigger getParentTrigger();
     /**
      *
      * @return true if triggered
+     * @param result size 3
+     *               result[0] intervalMills is ok;
+     *               result[1] totalLimitCount is ok;
+     *               result[2] dailyLimitCount is ok;
      */
-    abstract boolean onChance();
+    abstract boolean onChance(boolean[] result);
 
     public static class Options {
-        public int intervalHours;
+        public long intervalMills;
         public int totalLimitCount;
         public int dailyLimitCount;
 
         public Options() {
         }
 
-        public Options(int intervalHours, int totalLimitCount, int dailyLimitCount) {
-            this.intervalHours = intervalHours;
+        public Options(long intervalMills, int totalLimitCount, int dailyLimitCount) {
+            this.intervalMills = intervalMills;
             this.totalLimitCount = totalLimitCount;
             this.dailyLimitCount = dailyLimitCount;
         }

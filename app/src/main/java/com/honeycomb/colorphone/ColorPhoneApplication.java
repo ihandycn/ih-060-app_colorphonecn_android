@@ -433,7 +433,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     private void checkDailyTask() {
         DailyTrigger dailyTrigger = new DailyTrigger();
-        boolean active = dailyTrigger.onChance();
+        boolean active = dailyTrigger.onChance(null);
         if (active) {
             // Do something once a day.
             dailyTrigger.onConsumeChance();

@@ -90,7 +90,7 @@ public class DauChecker {
     }
 
     private void checkDailyRecordAndLog() {
-        boolean hasDailyChance = mDailyTrigger.onChance();
+        boolean hasDailyChance = mDailyTrigger.onChance(null);
         if (hasDailyChance) {
             long totalTime = Preferences.get(Constants.PREF_FILE_DEFAULT)
                     .getLong(KEY_TIME_LIVE_TOTAL,0);

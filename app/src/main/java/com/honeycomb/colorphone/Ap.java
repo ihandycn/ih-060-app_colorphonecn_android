@@ -1,15 +1,23 @@
 package com.honeycomb.colorphone;
 
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 
+import com.call.assistant.ui.CallIdleAlertView;
+import com.honeycomb.colorphone.activity.ExitAnimationActivity;
+import com.honeycomb.colorphone.trigger.NormalTrigger;
+import com.honeycomb.colorphone.trigger.Trigger;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 
+import net.appcloudbox.ads.base.AcbInterstitialAd;
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -281,5 +289,119 @@ public class Ap {
         }
     }
 
+
+    public static class IdleExitAd {
+        public static String TOPIC_ID = "topic-723tiyrlr";
+        public static String TYPE_MAN = "human";
+        public static String TYPE_PHONE = "phone";
+        private static AcbInterstitialAd mInterstitialAd;
+        private static NormalTrigger sNormalTrigger = new NormalTrigger() {
+            @Override
+            public Options getTriggerOptions() {
+                return new Options(intervalMins() * DateUtils.MINUTE_IN_MILLIS, 0, maxCountDaily());
+            }
+
+            @Override
+            public String getName() {
+                return "CallExitAnim";
+            }
+
+            @Override
+            public Trigger getParentTrigger() {
+                return null;
+            }
+
+            @Override
+            public boolean enabled() {
+                return true;
+            }
+
+        };
+
+        public static boolean enable() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "wire_after_callassistant_enable", false);
+        }
+
+        public static boolean animOnlyHasAd() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "wire_after_callassistant_enable", false);
+        }
+
+        public static int intervalMins() {
+            String value = AutopilotConfig.getStringToTestNow(TOPIC_ID, "wire_after_callassistant_show_interval", "15");
+            return Integer.valueOf(value);
+        }
+
+        public static int maxCountDaily() {
+            String value = AutopilotConfig.getStringToTestNow(TOPIC_ID, "wire_after_callassistant_show_maxtime", "10");
+            return Integer.valueOf(value);
+        }
+
+        public static String animType() {
+            return AutopilotConfig.getStringToTestNow(TOPIC_ID, "animation_type", "all");
+        }
+
+        public static void logEvent(String name) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
+        }
+
+        public static void preloadAd() {
+            AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_EXIT_ANIM);
+            AcbInterstitialAdManager.preload(1, AdPlacements.AD_EXIT_ANIM);
+        }
+
+        public static AcbInterstitialAd getInterstitialAd() {
+            if (mInterstitialAd == null) {
+                List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(AdPlacements.AD_EXIT_ANIM, 1);
+                if (ads != null && ads.size() > 0) {
+                    mInterstitialAd = ads.get(0);
+                }
+            }
+            return mInterstitialAd;
+        }
+
+        public static void releaseInterstitialAd() {
+            if (mInterstitialAd != null) {
+                mInterstitialAd.release();
+                mInterstitialAd = null;
+            }
+        }
+
+        public static void onCallIdleClose(CallIdleAlertView.CallIdleAlertDismissType dismissType) {
+            Ap.IdleExitAd.logEvent("call_assistant_close");
+            if (enable()) {
+                boolean isBack = dismissType == CallIdleAlertView.CallIdleAlertDismissType.BACK;
+                LauncherAnalytics.logEvent("call_assistant_close_wire_after_callassistant_test"
+                ,"type", isBack ? "back" : "closeBtn");
+
+                boolean adReady = !animOnlyHasAd() || getInterstitialAd() != null;
+
+                boolean[] result = new boolean[3];
+                boolean hasChance = sNormalTrigger.onChance(result);
+                if (hasChance) {
+                    Ap.IdleExitAd.logEvent("wire_after_callassistant_should_show");
+                    LauncherAnalytics.logEvent("wire_after_callassistant_should_show");
+                }
+                if (hasChance) {
+                    if (adReady) {
+                        ExitAnimationActivity.start(HSApplication.getContext());
+                        sNormalTrigger.onConsumeChance();
+                    }
+                } else {
+                    boolean intervalReach = result[0];
+                    if (intervalReach) {
+                        Ap.IdleExitAd.logEvent("wire_after_callassistant_interval_reach");
+                        LauncherAnalytics.logEvent("wire_after_callassistant_interval_reach");
+                    }
+                }
+            }
+        }
+
+        public static void onCallIdleViewShow() {
+            if (enable()) {
+                LauncherAnalytics.logEvent("call_assistant_show_wire_after_callassistant_test");
+            }
+            Ap.IdleExitAd.logEvent("call_assistant_show");
+        }
+    }
 
 }
