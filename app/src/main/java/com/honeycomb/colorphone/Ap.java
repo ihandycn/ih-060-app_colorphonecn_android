@@ -400,12 +400,12 @@ public class Ap {
                         ExitAnimationActivity.start(HSApplication.getContext());
                         sNormalTrigger.onConsumeChance();
                     }
-                } else {
-                    boolean intervalReach = !result[0];
-                    if (intervalReach) {
-                        Ap.IdleExitAd.logEvent("wire_after_callassistant_interval_reach");
-                        LauncherAnalytics.logEvent("wire_after_callassistant_interval_reach");
-                    }
+                }
+
+                boolean intervalReach = result[0];
+                if (intervalReach) {
+                    Ap.IdleExitAd.logEvent("wire_after_callassistant_interval_reach");
+                    LauncherAnalytics.logEvent("wire_after_callassistant_interval_reach");
                 }
             }
         }
