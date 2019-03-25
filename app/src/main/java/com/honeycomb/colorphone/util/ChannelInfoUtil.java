@@ -150,7 +150,16 @@ public class ChannelInfoUtil {
 
             while ((line = bufferedReader.readLine()) != null) {
                 line = line.trim();
-                String keyAndValue[] = line.split("=");
+
+                if (TextUtils.isEmpty(line)) {
+                    continue;
+                }
+
+                String[] keyAndValue = line.split("=");
+                if (keyAndValue.length < 2) {
+                    continue;
+                }
+
                 channelInfo.put(keyAndValue[0], keyAndValue[1]);
             }
 
