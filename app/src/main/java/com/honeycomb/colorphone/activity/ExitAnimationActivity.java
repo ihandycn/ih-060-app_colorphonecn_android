@@ -62,20 +62,6 @@ public class ExitAnimationActivity extends AppCompatActivity {
             LauncherAnalytics.logEvent("wire_after_callassistant_show");
         }
 
-        mHomeKeyWatcher = new HomeKeyWatcher(this);
-        mHomeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
-            @Override
-            public void onHomePressed() {
-                Ap.IdleExitAd.logEvent("call_assistant_close_animation_interrupt");
-                LauncherAnalytics.logEvent("call_assistant_close_animation_Interrupt", "type", "Home");
-            }
-
-            @Override
-            public void onRecentsPressed() {
-
-            }
-        });
-        mHomeKeyWatcher.startWatch();
     }
 
     @Override
@@ -98,6 +84,27 @@ public class ExitAnimationActivity extends AppCompatActivity {
             Ap.IdleExitAd.logEvent("call_assistant_close_animation_show");
             LauncherAnalytics.logEvent("call_assistant_close_animation_show");
 
+            listenHomeKey();
+
+        }
+    }
+
+    private void listenHomeKey() {
+        if (mHomeKeyWatcher == null) {
+            mHomeKeyWatcher = new HomeKeyWatcher(this);
+            mHomeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+                @Override
+                public void onHomePressed() {
+                    Ap.IdleExitAd.logEvent("call_assistant_close_animation_interrupt");
+                    LauncherAnalytics.logEvent("call_assistant_close_animation_Interrupt", "type", "Home");
+                }
+
+                @Override
+                public void onRecentsPressed() {
+
+                }
+            });
+            mHomeKeyWatcher.startWatch();
         }
     }
 
