@@ -183,4 +183,7 @@
     <string name="theme_recommend_content_default">your friend</string>
     <string name="result_page_theme_recommend_optimal">Aplicado com sucesso</string>
     <string name="result_page_theme_recommend_more">Encontre mais temas</string>
+
+
+    <string name="have_a_nice_day">Tenha um bom dia!</string>
 </resources>
