@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.text.TextUtils;
 
+import com.honeycomb.colorphone.BuildConfig;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -65,6 +67,10 @@ public class ChannelInfoUtil {
 
         if (TextUtils.isEmpty(key)) {
             return null;
+        }
+
+        if (BuildConfig.DEBUG) {
+            return DEFAULT_VALUE;
         }
 
         if (channelMessageCache != null && channelMessageCache.containsKey(key)) {
