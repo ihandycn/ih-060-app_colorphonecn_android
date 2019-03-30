@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.text.TextUtils;
 
-import com.honeycomb.colorphone.BuildConfig;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -69,22 +67,30 @@ public class ChannelInfoUtil {
             return null;
         }
 
-        if (BuildConfig.DEBUG) {
-            return DEFAULT_VALUE;
-        }
-
         if (channelMessageCache != null && channelMessageCache.containsKey(key)) {
             return channelMessageCache.get(key);
         }
 
         channelMessageCache = getChannelMap(context);
 
-        if (!channelMessageCache.containsKey(key)) {
-            if (TextUtils.equals(key, KEY_CUSTOM)) {
-                channelMessageCache.put(key, DEFAULT_CUSTOM_VALUE);
-            } else {
-                channelMessageCache.put(key, DEFAULT_VALUE);
-            }
+        if (!channelMessageCache.containsKey(KEY_STORE)) {
+            channelMessageCache.put(KEY_STORE, DEFAULT_VALUE);
+        }
+
+        if (!channelMessageCache.containsKey(KEY_MEDIA)) {
+            channelMessageCache.put(KEY_MEDIA, DEFAULT_VALUE);
+        }
+
+        if (!channelMessageCache.containsKey(KEY_CHANNEL)) {
+            channelMessageCache.put(KEY_CHANNEL, DEFAULT_VALUE);
+        }
+
+        if (!channelMessageCache.containsKey(KEY_AGENCY)) {
+            channelMessageCache.put(KEY_AGENCY, DEFAULT_VALUE);
+        }
+
+        if (!channelMessageCache.containsKey(KEY_CUSTOM)) {
+            channelMessageCache.put(KEY_CUSTOM, DEFAULT_CUSTOM_VALUE);
         }
 
         return channelMessageCache.get(key);
