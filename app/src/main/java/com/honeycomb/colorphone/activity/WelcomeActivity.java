@@ -7,8 +7,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.Transition;
+import android.view.View;
 
+import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
+import com.superapps.util.rom.RomUtils;
 
 import java.io.IOException;
 
@@ -29,18 +32,40 @@ public class WelcomeActivity extends Activity {
             getWindow().setEnterTransition(fade);
         }
 
-        toMainView();
+        if (RomUtils.checkIsHuaweiRom() || RomUtils.checkIsMiuiRom()) {
+            setContentView(R.layout.activity_welcome);
+            mVidView = findViewById(R.id.welcome_video);
+            View cover = findViewById(R.id.welcome_cover);
+
+            if (coldLaunch) {
+                mVidView.setCover(cover);
+                mVidView.setPlayEndListener(() -> toMainView());
+                showVideo(mVidView);
+                coldLaunch = false;
+            } else {
+                cover.setBackgroundResource(R.drawable.page_start_bg);
+                toMainView();
+            }
+        } else {
+            toMainView();
+        }
+
     }
 
     private void toMainView() {
-//        mVidView.destroy();
+        if (mVidView != null) {
+            mVidView.destroy();
+        }
+
         finish();
         startActivity(new Intent(WelcomeActivity.this, ColorPhoneActivity.class));
     }
 
     @Override
     protected void onDestroy() {
-//        mVidView.destroy();
+        if (mVidView != null) {
+            mVidView.destroy();
+        }
         super.onDestroy();
     }
 
@@ -50,7 +75,9 @@ public class WelcomeActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-//        mVidView.stop();
+        if (mVidView != null) {
+            mVidView.destroy();
+        }
     }
 
     private void showVideo(WelcomeVideoView playerViewTest) {

@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.AppflyerLogger;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
@@ -147,10 +148,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         ContactManager.getInstance().update();
         // TODO pro show condition ( SESSION_START, or Activity onStart() )
         AcbAds.getInstance().setActivity(this);
+
+        if (BuildConfig.DEBUG) {
+            StartGuideActivity.start(this);
+        }
+
         if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
-                && !GuideAllFeaturesActivity.isStarted()
                 && !ModuleUtils.isAllModuleEnabled()) {
-            GuideAllFeaturesActivity.start(this);
+//            if ((RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom())
+//                    && !StartGuideActivity.isStarted()){
+//                StartGuideActivity.start(this);
+//            } else if (!GuideAllFeaturesActivity.isStarted()) {
+//                GuideAllFeaturesActivity.start(this);
+//            }
             HSAlertMgr.delayRateAlert();
             pendingShowRateAlert = true;
             showAllFeatureGuide = true;

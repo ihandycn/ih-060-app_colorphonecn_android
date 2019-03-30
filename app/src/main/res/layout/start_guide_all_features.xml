@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    android:background="@android:color/black"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/start_guide_function_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/start_guide_image" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/start_guide_tv_title"
+            app:layout_widthPercent="60%"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="191.5dp"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="10sp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@string/guide_first_page_title"
+            tools:text="Please enable the features and permissions: Remind your missed calls"/>
+
+        <Button
+            android:id="@+id/start_guide_function_enable_btn"
+            app:layout_widthPercent="48.5%"
+            android:layout_height="48dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="92dp"
+            android:gravity="center"
+            android:text="@string/acb_guide_ok"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/start_guide_permission_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/start_guide_permission_anim"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="153dp"
+            app:lottie_imageAssetsFolder="lottie/start_guide/images"
+            app:lottie_fileName="lottie/start_guide/data.json"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/start_guide_permission_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="56dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginRight="56dp"
+            android:layout_marginEnd="56dp"
+            android:lineSpacingExtra="10sp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@string/start_guide_loading_text"
+            app:layout_constraintTop_toBottomOf="@id/start_guide_permission_anim"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:text="Please enable the features and permissions: Remind your missed calls "/>
+
+        <Button
+            android:id="@+id/start_guide_permission_fetch_btn"
+            android:layout_width="175dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="@string/acb_guide_ok"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/start_guide_permission_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+    
+</android.support.percent.PercentRelativeLayout>
