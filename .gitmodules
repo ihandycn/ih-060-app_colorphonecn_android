@@ -13,3 +13,6 @@
 [submodule "libs/libChargingImprover"]
 	path = libs/libChargingImprover
 	url = https://git.ihandysoft.com/nogroup/Lib_FlashlightCharging_Android.git
+[submodule "libs/libPermissionacquire"]
+	path = libs/libPermissionacquire
+	url = https://git.ihandysoft.com/nogroup/lib_permissionacquire_android.git
