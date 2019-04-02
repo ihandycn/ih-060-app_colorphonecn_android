@@ -135,12 +135,11 @@ public class AutoRequestManager {
                 HSPermissionType type = permission.get(index);
                 switch (type) {
                     case TYPE_AUTO_START:
-                        PermissionChecker.onFloatPermissionChange(isSucceed);
+                        PermissionChecker.onAutoStartChange(isSucceed);
                         break;
                     case TYPE_NOTIFICATION_LISTENING:
 
                         break;
-
                     case TYPE_SHOW_ON_LOCK:
                         PermissionChecker.onShowOnLockScreenChange(isSucceed);
                         break;
