@@ -7,13 +7,13 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Build;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.honeycomb.colorphone.boost.FloatWindowManager;
+import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.accessibility.service.HSAccessibilityManager;
@@ -40,6 +40,7 @@ public class AutoRequestManager {
     private PermissionTester mPermissionTester = new PermissionTester();
 
     private int mRetryCount = 0;
+    private WindowManager windowManager;
 
     private AutoRequestManager() {}
 
@@ -150,54 +151,62 @@ public class AutoRequestManager {
         });
     }
 
-    private void showCoverWindow() {
-        if (windowMgr == null) {
-            windowMgr = (WindowManager) HSApplication.getContext().getSystemService(Context.WINDOW_SERVICE);
-        }
-        // TODO 显示悬浮窗
-        if (coverView == null) {
-            coverView = new TextView(HSApplication.getContext());
-            ((TextView) coverView).setText("正在获取权限。。。");
-            ((TextView) coverView).setTextColor(Color.YELLOW);
-            ((TextView) coverView).setGravity(Gravity.CENTER);
-            coverView.setBackgroundColor(Color.WHITE);
-            coverView.setAlpha(0.5f);
-            windowMgr.addView(coverView, getCoverViewLayoutParams());
-        }
+//    private void showCoverWindow() {
+//        if (windowMgr == null) {
+//            windowMgr = (WindowManager) HSApplication.getContext().getSystemService(Context.WINDOW_SERVICE);
+//        }
+//        // TODO 显示悬浮窗
+//        if (coverView == null) {
+//            coverView = new TextView(HSApplication.getContext());
+//            ((TextView) coverView).setText("正在获取权限。。。");
+//            ((TextView) coverView).setTextColor(Color.YELLOW);
+//            ((TextView) coverView).setGravity(Gravity.CENTER);
+//            coverView.setBackgroundColor(Color.WHITE);
+//            coverView.setAlpha(0.5f);
+//            windowMgr.addView(coverView, getCoverViewLayoutParams());
+//        }
+//    }
+//
+//    private ViewGroup.LayoutParams getCoverViewLayoutParams() {
+//        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+//        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+//        lp.format = PixelFormat.TRANSLUCENT;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            lp.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+//        } else {
+//            lp.type = WindowManager.LayoutParams.TYPE_PHONE;
+//        }
+//
+//        lp.flags |= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+//
+//        // In HuaWei System Settings - Notification Center - Dropzones, Default block app float window but TYPE_TOAST
+//        // TYPE_TOAST float window will dismiss above api 25
+//        lp.flags |=
+//                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_FULLSCREEN
+//                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+//        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//            lp.type = WindowManager.LayoutParams.TYPE_TOAST;
+//        } else if (Compats.IS_HUAWEI_DEVICE) {
+//            lp.type = WindowManager.LayoutParams.TYPE_TOAST;
+//        }
+//        return lp;
+//    }
+//
+//    private void dismissCoverWindow() {
+//        // TODO 关闭悬浮窗
+//        if (coverView != null) {
+//            windowMgr.removeView(coverView);
+//            coverView = null;
+//        }
+//    }
+
+    public void showCoverWindow() {
+        FloatWindowManager.getInstance().showDialog(new RequestPermissionDialog(HSApplication.getContext()));
     }
 
-    private ViewGroup.LayoutParams getCoverViewLayoutParams() {
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.format = PixelFormat.TRANSLUCENT;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            lp.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        } else {
-            lp.type = WindowManager.LayoutParams.TYPE_PHONE;
-        }
-
-        lp.flags |= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-
-        // In HuaWei System Settings - Notification Center - Dropzones, Default block app float window but TYPE_TOAST
-        // TYPE_TOAST float window will dismiss above api 25
-        lp.flags |=
-                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_FULLSCREEN
-                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            lp.type = WindowManager.LayoutParams.TYPE_TOAST;
-        } else if (Compats.IS_HUAWEI_DEVICE) {
-            lp.type = WindowManager.LayoutParams.TYPE_TOAST;
-        }
-        return lp;
-    }
-
-    private void dismissCoverWindow() {
-        // TODO 关闭悬浮窗
-        if (coverView != null) {
-            windowMgr.removeView(coverView);
-            coverView = null;
-        }
+    public void dismissCoverWindow() {
+        FloatWindowManager.getInstance().removeDialog(FloatWindowManager.getInstance().getDialog(RequestPermissionDialog.class));
     }
 
     public void startWindowPermissionTest() {

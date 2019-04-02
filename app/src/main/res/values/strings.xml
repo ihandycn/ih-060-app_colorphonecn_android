@@ -276,5 +276,14 @@
     <string name="custom_font_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
 
     <string name="start_guide_loading_text">Loading……</string>
+    <string name="start_guide_request_accessibility_title">Request Accessibility</string>
+    <string name="start_guide_confirm_fix">Fix</string>
+    <string name="start_guide_confirm_fix_one_key">One Key Fix</string>
+    <string name="start_guide_request_image_title">Auto request</string>
+    <string name="start_guide_request_title">Please wait</string>
+    <string name="start_guide_permission_auto_start">Auto Start</string>
+    <string name="start_guide_permission_onlocker">Show On Locker</string>
+    <string name="start_guide_permission_call">Call</string>
+    <string name="start_guide_permission_title">%1$s项问题待修复</string>
 
 </resources>

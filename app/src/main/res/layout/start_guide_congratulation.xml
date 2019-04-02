@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    android:background="@android:color/black"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_image_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".28"/>
+
+    <ImageView
+        android:id="@+id/start_guide_congratulation_circle_image"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center"
+        android:src="@drawable/start_guide_confirm_image_red"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_image_center" />
+
+    <ImageView
+        android:id="@+id/start_guide_congratulation_center_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/start_guide_confirm_ok_image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/start_guide_congratulation_circle_image"
+        app:layout_constraintBottom_toBottomOf="@id/start_guide_congratulation_circle_image"/>
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/start_guide_congratulation_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:lineSpacingExtra="33sp"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="@string/start_guide_request_title"
+        app:layout_constraintTop_toBottomOf="@id/start_guide_congratulation_circle_image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="恭喜你"/>
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/start_guide_congratulation_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:lineSpacingExtra="33sp"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:text="@string/start_guide_request_title"
+        android:alpha=".5"
+        app:layout_constraintTop_toBottomOf="@id/start_guide_congratulation_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="开始使用炫彩来电秀吧"/>
+
+</android.support.constraint.ConstraintLayout>

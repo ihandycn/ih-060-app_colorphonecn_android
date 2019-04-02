@@ -63,6 +63,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.rom.RomUtils;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
@@ -155,12 +156,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                 && !ModuleUtils.isAllModuleEnabled()) {
-//            if ((RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom())
-//                    && !StartGuideActivity.isStarted()){
-//                StartGuideActivity.start(this);
-//            } else if (!GuideAllFeaturesActivity.isStarted()) {
-//                GuideAllFeaturesActivity.start(this);
-//            }
+            if ((RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom())
+                    && !StartGuideActivity.isStarted()) {
+                if (com.ihs.permission.Utils.isAccessibilityGranted()) {
+
+                } else {
+                    StartGuideActivity.start(this);
+                }
+            } else if (!GuideAllFeaturesActivity.isStarted()) {
+                GuideAllFeaturesActivity.start(this);
+            }
             HSAlertMgr.delayRateAlert();
             pendingShowRateAlert = true;
             showAllFeatureGuide = true;

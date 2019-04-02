@@ -45,7 +45,6 @@ import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
-import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
