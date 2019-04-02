@@ -15,20 +15,22 @@ import com.superapps.util.Compats;
 public class RequestPermissionDialog extends FullScreenDialog {
     private StartGuideViewHolder holder;
     public RequestPermissionDialog(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public RequestPermissionDialog(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public RequestPermissionDialog(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initPage();
     }
 
-    @Override protected void onFinishInflate() {
-        super.onFinishInflate();
-        HSLog.i("AutoPermission", "RequestPermissionDialog onFinishInflate");
+    private void initPage() {
+        HSLog.i("AutoPermission", "RequestPermissionDialog init");
+        holder = new StartGuideViewHolder(this, false);
+        holder.setCircleAnimView(R.id.start_guide_request_ball);
     }
 
     @Override protected int getLayoutResId() {
@@ -67,10 +69,9 @@ public class RequestPermissionDialog extends FullScreenDialog {
 
     @Override public void onAddedToWindow(SafeWindowManager windowManager) {
         HSLog.i("AutoPermission", "RequestPermissionDialog onAddedToWindow" + holder);
-        if (holder == null) {
-            holder = new StartGuideViewHolder(this, false);
-            holder.setCircleAnimView(R.id.start_guide_request_ball);
+        if (holder != null) {
             holder.startCircleAnimation();
+            holder.startAutoRequestAnimation();
         }
     }
 }

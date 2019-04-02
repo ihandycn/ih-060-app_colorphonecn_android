@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
+import com.honeycomb.colorphone.autopermission.PermissionChecker;
 import com.honeycomb.colorphone.startguide.StartGuideViewHolder;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -22,6 +23,8 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
+import com.superapps.util.Threads;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -39,7 +42,8 @@ public class StartGuideActivity extends HSAppCompatActivity {
 
     public static void start(Context context) {
         Intent starter = new Intent(context, StartGuideActivity.class);
-        context.startActivity(starter);
+        starter.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        Navigations.startActivitySafely(context, starter);
     }
 
     public static boolean isStarted() {
@@ -77,15 +81,30 @@ public class StartGuideActivity extends HSAppCompatActivity {
 
     private void onAccessibilityGranted() {
         HSLog.i("AutoPermission", "onAccessibilityGranted ");
-        if (holder == null) {
-            View view = findViewById(R.id.start_guide_function_page);
-            view.setVisibility(View.GONE);
+        if (PermissionChecker.hasAutoStartPermission()
+                && PermissionChecker.hasShowOnLockScreenPermission()
+                && Utils.isNotificationListeningGranted()) {
 
-            view = findViewById(R.id.start_guide_confirm_page);
-            view.setVisibility(View.VISIBLE);
-            holder = new StartGuideViewHolder(view, false);
-            holder.setCircleAnimView(R.id.start_guide_confirm_number);
-            holder.startCircleAnimation();
+            View oldView = findViewById(R.id.start_guide_function_page);
+            oldView.animate().alpha(0).setDuration(200).start();
+
+            View newView = findViewById(R.id.start_guide_congratulation_page);
+            newView.setVisibility(View.VISIBLE);
+            newView.setAlpha(0);
+            newView.animate().alpha(1).setDuration(200).start();
+
+            Threads.postOnMainThreadDelayed(this::finish, 2000);
+        } else {
+            if (holder == null) {
+                View view = findViewById(R.id.start_guide_function_page);
+                view.setVisibility(View.GONE);
+
+                view = findViewById(R.id.start_guide_confirm_page);
+                view.setVisibility(View.VISIBLE);
+                holder = new StartGuideViewHolder(view, true);
+                holder.setCircleAnimView(R.id.start_guide_confirm_number);
+                holder.startCircleAnimation();
+            }
         }
     }
 

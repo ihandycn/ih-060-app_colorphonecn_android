@@ -476,7 +476,10 @@
             android:name=".triviatip.TriviaTipActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Translucent" />
-        <activity android:name=".activity.StartGuideActivity"/>
+
+        <activity android:name=".activity.StartGuideActivity"
+                  android:taskAffinity=".startGuide"
+            android:launchMode="singleTop" />
 
         <!-- JPush Daemon-->
         <service

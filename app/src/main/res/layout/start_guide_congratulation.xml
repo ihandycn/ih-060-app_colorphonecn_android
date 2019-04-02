@@ -51,11 +51,10 @@
         android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:text="@string/start_guide_request_title"
+        android:text="@string/start_guide_congratulation_title"
         app:layout_constraintTop_toBottomOf="@id/start_guide_congratulation_circle_image"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:text="恭喜你"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/start_guide_congratulation_content"
@@ -70,11 +69,10 @@
         android:lineSpacingExtra="33sp"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        android:text="@string/start_guide_request_title"
+        android:text="@string/start_guide_congratulation_text"
         android:alpha=".5"
         app:layout_constraintTop_toBottomOf="@id/start_guide_congratulation_title"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:text="开始使用炫彩来电秀吧"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

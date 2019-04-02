@@ -105,5 +105,10 @@
         android:id="@+id/start_guide_confirm_page"
         layout="@layout/start_guide_confirm"
         android:visibility="gone" />
+
+    <include
+        android:id="@+id/start_guide_congratulation_page"
+        layout="@layout/start_guide_congratulation"
+        android:visibility="gone" />
     
 </android.support.constraint.ConstraintLayout>
