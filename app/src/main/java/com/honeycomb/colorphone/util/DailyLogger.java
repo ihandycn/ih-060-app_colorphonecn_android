@@ -13,9 +13,11 @@ import com.acb.call.utils.PermissionHelper;
 import com.call.assistant.customize.CallAssistantSettings;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.autopermission.RomUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Calendars;
+import com.superapps.util.Compats;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 
@@ -46,40 +48,17 @@ public class DailyLogger {
         }
     }
 
-    private void throwExceptionFirstDay() {
-        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("FirstDay"));
-    }
-
-    private void throwExceptionAfterDay() {
-        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("Day3"));
-    }
-
-    private void throwExceptionDay7() {
-        ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("Day7"));
-    }
-
     private void logDailyStatus(int daysSinceInstall) {
-        if (daysSinceInstall == 0) {
-            Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
-                @Override
-                public void run() {
-                    throwExceptionFirstDay();
-                }
-            }, "ColorPhone_Daily_Exception1");
-        } else if (daysSinceInstall == 3) {
-            Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
-                @Override
-                public void run() {
-                    throwExceptionAfterDay();
-                }
-            }, "ColorPhone_Daily_Exception3");
-        } else if (daysSinceInstall == 7) {
-            Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
-                @Override
-                public void run() {
-                    throwExceptionDay7();
-                }
-            }, "ColorPhone_Daily_Exception7");
+        if (Compats.IS_XIAOMI_DEVICE) {
+            Analytics.logEvent("Rom_Active_Xiaomi",
+                    "Version", RomUtils.getRomVerison(RomUtils.KEY_VERSION_MIUI),
+                    "SDK", String.valueOf(Build.VERSION.SDK_INT),
+                    "InDays", String.valueOf(daysSinceInstall));
+        } else if (Compats.IS_HUAWEI_DEVICE) {
+            Analytics.logEvent("Rom_Active_Huawei",
+                    "Version", RomUtils.getRomVerison(RomUtils.KEY_VERSION_EMUI),
+                    "SDK", String.valueOf(Build.VERSION.SDK_INT),
+                    "InDays", String.valueOf(daysSinceInstall));
         }
 
         boolean isCallAssistantEnable = ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CALL_ASSISTANT)
