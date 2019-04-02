@@ -70,7 +70,7 @@ public class AutoRequestManager {
     }
 
     public void onAccessibilityReady() {
-        if (PermissionChecker.hasFloatWindowPermission()) {
+        if (AutoPermissionChecker.hasFloatWindowPermission()) {
             onFloatWindowPermissionReady();
         } else {
             HSLog.d(TAG, "start request draw overlay!");
@@ -81,7 +81,7 @@ public class AutoRequestManager {
                 public void onFinished(int succeedCount, int totalCount) {
                     if (succeedCount == 1) {
                         onFloatWindowPermissionReady();
-                        PermissionChecker.onFloatPermissionChange(true);
+                        AutoPermissionChecker.onFloatPermissionChange(true);
                     }
                 }
             });
@@ -97,7 +97,7 @@ public class AutoRequestManager {
 
     private void executeAutoTask() {
         ArrayList<HSPermissionType> permission = new ArrayList<HSPermissionType>();
-        if (!PermissionChecker.hasAutoStartPermission()) {
+        if (!AutoPermissionChecker.hasAutoStartPermission()) {
             permission.add(HSPermissionType.TYPE_AUTO_START);
         }
 
@@ -105,7 +105,7 @@ public class AutoRequestManager {
             permission.add(HSPermissionType.TYPE_NOTIFICATION_LISTENING);
         }
 
-        if (Compats.IS_XIAOMI_DEVICE && !PermissionChecker.hasShowOnLockScreenPermission()) {
+        if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
             permission.add(HSPermissionType.TYPE_SHOW_ON_LOCK);
         }
 
@@ -142,13 +142,13 @@ public class AutoRequestManager {
                 HSPermissionType type = permission.get(index);
                 switch (type) {
                     case TYPE_AUTO_START:
-                        PermissionChecker.onAutoStartChange(isSucceed);
+                        AutoPermissionChecker.onAutoStartChange(isSucceed);
                         break;
                     case TYPE_NOTIFICATION_LISTENING:
 
                         break;
                     case TYPE_SHOW_ON_LOCK:
-                        PermissionChecker.onShowOnLockScreenChange(isSucceed);
+                        AutoPermissionChecker.onShowOnLockScreenChange(isSucceed);
                         break;
                     default:
                         break;
@@ -188,11 +188,11 @@ public class AutoRequestManager {
     }
 
     public void openPermission(HSPermissionType type) {
-        if (type == HSPermissionType.TYPE_AUTO_START && PermissionChecker.hasAutoStartPermission()) {
+        if (type == HSPermissionType.TYPE_AUTO_START && AutoPermissionChecker.hasAutoStartPermission()) {
             return;
         } else if (type == HSPermissionType.TYPE_NOTIFICATION_LISTENING && Permissions.isNotificationAccessGranted()) {
             return;
-        } else if (type == HSPermissionType.TYPE_SHOW_ON_LOCK && Compats.IS_XIAOMI_DEVICE && PermissionChecker.hasShowOnLockScreenPermission()) {
+        } else if (type == HSPermissionType.TYPE_SHOW_ON_LOCK && Compats.IS_XIAOMI_DEVICE && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
             return;
         }
 
@@ -249,7 +249,7 @@ public class AutoRequestManager {
                         public void onViewAttachedToWindow(View v) {
                             HSLog.d(TAG, "onViewAttachedToWindow : window show success");
                             hasFloatWindowPermission = true;
-                            PermissionChecker.onFloatPermissionChange(true);
+                            AutoPermissionChecker.onFloatPermissionChange(true);
                             removeTestView();
                         }
 

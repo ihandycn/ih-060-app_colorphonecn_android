@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
-import com.honeycomb.colorphone.autopermission.PermissionChecker;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -33,6 +33,7 @@ import java.lang.annotation.RetentionPolicy;
 
 public class StartGuideViewHolder implements INotificationObserver {
 
+    public static final String ALL_PERMISSION_GRANT = "all_permission_grant";
     public static final int TYPE_PERMISSION_TYPE_SCREEN_FLASH = 1;
     public static final int TYPE_PERMISSION_TYPE_ON_LOCK = 2;
     public static final int TYPE_PERMISSION_TYPE_CALL = 3;
@@ -90,7 +91,7 @@ public class StartGuideViewHolder implements INotificationObserver {
     private TextView progress;
     private int progressNum;
     private int goalNum;
-    private int progressInterval = UPGRADE_MIN_INTERVAL * 4;
+    private int progressInterval = UPGRADE_MIN_INTERVAL * 2;
     private int finalStatus;
 
     private Handler handler = new Handler(Looper.getMainLooper()) {
@@ -168,29 +169,7 @@ public class StartGuideViewHolder implements INotificationObserver {
                 AutoRequestManager.getInstance().startAutoCheck();
             });
 
-            boolean screenFlashGrant = PermissionChecker.hasAutoStartPermission();
-            boolean onLockGrant = PermissionChecker.hasShowOnLockScreenPermission();
-            boolean callGrant = Utils.isNotificationListeningGranted();
-            setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, screenFlashGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
-            setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK, onLockGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
-            setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, callGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
-
-            int notGrant = 0;
-            if (!screenFlashGrant) {
-                notGrant++;
-            }
-            if (!onLockGrant) {
-                notGrant++;
-            }
-            if (!callGrant) {
-                notGrant++;
-            }
-
-            TextView ball = container.findViewById(R.id.start_guide_confirm_number);
-            TextView title = container.findViewById(R.id.start_guide_permission_title);
-            ball.setText(String.valueOf(notGrant));
-            title.setText(String.format(container.getContext().getString(R.string.start_guide_permission_title), String.valueOf(notGrant)));
-
+            refresh();
         } else {
             progress = container.findViewById(R.id.start_guide_request_progress);
 
@@ -198,6 +177,40 @@ public class StartGuideViewHolder implements INotificationObserver {
             setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK, PERMISSION_STATUS_NOT_START);
             setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, PERMISSION_STATUS_NOT_START);
         }
+
+        HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFICATION_PERMISSION_RESULT, this);
+    }
+
+    public void refresh() {
+        if (!isConfirmPage) {
+            return;
+        }
+        boolean screenFlashGrant = AutoPermissionChecker.hasAutoStartPermission();
+        boolean onLockGrant = AutoPermissionChecker.hasShowOnLockScreenPermission();
+        boolean callGrant = Utils.isNotificationListeningGranted();
+        setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, screenFlashGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
+        setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK, onLockGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
+        setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, callGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
+
+        int notGrant = 0;
+        if (!screenFlashGrant) {
+            notGrant++;
+        }
+        if (!onLockGrant) {
+            notGrant++;
+        }
+        if (!callGrant) {
+            notGrant++;
+        }
+
+        if (notGrant == 0) {
+            finish();
+        }
+
+        TextView ball = container.findViewById(R.id.start_guide_confirm_number);
+        TextView title = container.findViewById(R.id.start_guide_permission_title);
+        ball.setText(String.valueOf(notGrant));
+        title.setText(String.format(container.getContext().getString(R.string.start_guide_permission_title), String.valueOf(notGrant)));
     }
 
     public void setCircleAnimView(@IdRes int viewID) {
@@ -259,11 +272,15 @@ public class StartGuideViewHolder implements INotificationObserver {
                 default:
                     break;
             }
+
+            refresh();
         }
     }
 
     private void finish() {
         AutoRequestManager.getInstance().dismissCoverWindow();
+        HSGlobalNotificationCenter.removeObserver(this);
+        HSGlobalNotificationCenter.sendNotification(ALL_PERMISSION_GRANT);
     }
 
     private long startAutoRequestAnimation;
@@ -277,9 +294,6 @@ public class StartGuideViewHolder implements INotificationObserver {
 
         handler.sendEmptyMessage(EVENT_UPGRADE);
         setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, PERMISSION_STATUS_LOADING);
-
-        HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFICATION_PERMISSION_RESULT, this);
-
     }
 
     private long getNextUpgradeDelay() {
@@ -394,7 +408,9 @@ public class StartGuideViewHolder implements INotificationObserver {
                         }
                     });
                 } else {
-                    loading.setVisibility(View.GONE);
+                    if (loading != null) {
+                        loading.setVisibility(View.GONE);
+                    }
                     ok.setVisibility(View.VISIBLE);
                     ok.setImageResource(R.drawable.start_guide_confirm_ok_image);
                 }

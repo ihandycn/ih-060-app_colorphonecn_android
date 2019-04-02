@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.autopermission;
 
 import com.honeycomb.colorphone.Constants;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.permission.Utils;
 import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
@@ -9,7 +10,7 @@ import com.superapps.util.Preferences;
 /**
  * @author sundxing
  */
-public class PermissionChecker {
+public class AutoPermissionChecker {
 
     public static boolean hasFloatWindowPermission() {
         boolean systemResult = Permissions.isFloatWindowAllowed(HSApplication.getContext());
@@ -44,5 +45,13 @@ public class PermissionChecker {
             // TODO
             return true;
         }
+    }
+
+    public static boolean isAccessibilityGranted() {
+        return Utils.isAccessibilityGranted();
+    }
+
+    public static boolean isNotificationListeningGranted() {
+        return Utils.isNotificationListeningGranted();
     }
 }

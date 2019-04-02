@@ -35,6 +35,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -148,17 +149,21 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         ContactManager.getInstance().update();
         // TODO pro show condition ( SESSION_START, or Activity onStart() )
         AcbAds.getInstance().setActivity(this);
-
-//        if (BuildConfig.DEBUG) {
-//            StartGuideActivity.start(this);
-//        }
-
-        if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+        if ((RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom())
+                && !StartGuideActivity.isStarted()
+                && (!AutoPermissionChecker.isAccessibilityGranted()
+                    || !AutoPermissionChecker.hasFloatWindowPermission()
+                    || !AutoPermissionChecker.hasShowOnLockScreenPermission()
+                    || !AutoPermissionChecker.hasAutoStartPermission()
+                    || !AutoPermissionChecker.isNotificationListeningGranted())) {
+            StartGuideActivity.start(this);
+            
+            HSAlertMgr.delayRateAlert();
+            pendingShowRateAlert = true;
+            showAllFeatureGuide = true;
+        } else if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                 && !ModuleUtils.isAllModuleEnabled()) {
-            if ((RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom())
-                    && !StartGuideActivity.isStarted()) {
-                StartGuideActivity.start(this);
-            } else if (!GuideAllFeaturesActivity.isStarted()) {
+            if (!GuideAllFeaturesActivity.isStarted()) {
                 GuideAllFeaturesActivity.start(this);
             }
             HSAlertMgr.delayRateAlert();

@@ -6,20 +6,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
-import com.honeycomb.colorphone.autopermission.PermissionChecker;
 import com.honeycomb.colorphone.startguide.StartGuideViewHolder;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
-import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -30,7 +33,7 @@ import com.superapps.util.Threads;
  * Created by sundxing on 17/9/13.
  */
 
-public class StartGuideActivity extends HSAppCompatActivity {
+public class StartGuideActivity extends HSAppCompatActivity implements INotificationObserver {
     private static final String TAG = "AutoPermission";
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 1000;
 
@@ -47,13 +50,14 @@ public class StartGuideActivity extends HSAppCompatActivity {
     }
 
     public static boolean isStarted() {
-       return HSPreferenceHelper.getDefault().getBoolean("guide_locker_stated", false);
+        return false;
+//       return HSPreferenceHelper.getDefault().getBoolean("guide_locker_stated", false);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        HSPreferenceHelper.getDefault().putBoolean("guide_locker_stated", true);
+//        HSPreferenceHelper.getDefault().putBoolean("guide_locker_stated", true);
         setContentView(R.layout.start_guide_all_features);
         StatusBarUtils.hideStatusBar(this);
 
@@ -61,7 +65,7 @@ public class StartGuideActivity extends HSAppCompatActivity {
 
         TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
         if (Utils.isAccessibilityGranted()) {
-            onAccessibilityGranted();
+            onPermissionGranted();
         } else {
             enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
             enableBtn.setOnClickListener(v -> {
@@ -79,10 +83,10 @@ public class StartGuideActivity extends HSAppCompatActivity {
         }
     }
 
-    private void onAccessibilityGranted() {
-        HSLog.i("AutoPermission", "onAccessibilityGranted ");
-        if (PermissionChecker.hasAutoStartPermission()
-                && PermissionChecker.hasShowOnLockScreenPermission()
+    private void onPermissionGranted() {
+        HSLog.i("AutoPermission", "onPermissionGranted ");
+        if (AutoPermissionChecker.hasAutoStartPermission()
+                && AutoPermissionChecker.hasShowOnLockScreenPermission()
                 && Utils.isNotificationListeningGranted()) {
 
             View oldView = findViewById(R.id.start_guide_function_page);
@@ -104,6 +108,8 @@ public class StartGuideActivity extends HSAppCompatActivity {
                 holder = new StartGuideViewHolder(view, true);
                 holder.setCircleAnimView(R.id.start_guide_confirm_number);
                 holder.startCircleAnimation();
+            } else {
+                holder.refresh();
             }
         }
     }
@@ -117,7 +123,20 @@ public class StartGuideActivity extends HSAppCompatActivity {
     @Override protected void onStart() {
         super.onStart();
         if (Utils.isAccessibilityGranted()) {
-            onAccessibilityGranted();
+            onPermissionGranted();
+        }
+
+        HSGlobalNotificationCenter.addObserver(StartGuideViewHolder.ALL_PERMISSION_GRANT, this);
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        HSGlobalNotificationCenter.removeObserver(this::onReceive);
+    }
+
+    @Override public void onReceive(String s, HSBundle hsBundle) {
+        if (TextUtils.equals(StartGuideViewHolder.ALL_PERMISSION_GRANT, s)) {
+            onPermissionGranted();
         }
     }
 
