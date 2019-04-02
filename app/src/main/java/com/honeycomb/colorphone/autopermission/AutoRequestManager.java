@@ -101,14 +101,14 @@ public class AutoRequestManager {
             permission.add(HSPermissionType.TYPE_AUTO_START);
         }
 
-        if (!Permissions.isNotificationAccessGranted()) {
-            permission.add(HSPermissionType.TYPE_NOTIFICATION_LISTENING);
-        }
-
         if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
             permission.add(HSPermissionType.TYPE_SHOW_ON_LOCK);
         }
 
+        if (!Permissions.isNotificationAccessGranted()) {
+            permission.add(HSPermissionType.TYPE_NOTIFICATION_LISTENING);
+        }
+        
         HSPermissionRequestMgr.getInstance().startRequest(permission, new HSPermissionRequestCallback.Stub() {
             @Override
             public void onFinished(int succeedCount, int totalCount) {
