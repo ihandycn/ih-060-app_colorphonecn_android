@@ -96,12 +96,7 @@ public class StartGuideActivity extends HSAppCompatActivity {
 
     private void gotoAcc() {
         HSLog.i("AutoPermission", "isAccessibilityGranted == " + Utils.isAccessibilityGranted());
-        if (Utils.isAccessibilityGranted()) {
-            AutoRequestManager.getInstance().onAccessiblityReady();
-        } else {
-            Utils.goToAccessibilitySettingsPage();
-            AutoRequestManager.getInstance().listenAccessibility();
-        }
+        AutoRequestManager.getInstance().startAutoCheck();
     }
 
 //    private void setUpPrivacyTextView() {

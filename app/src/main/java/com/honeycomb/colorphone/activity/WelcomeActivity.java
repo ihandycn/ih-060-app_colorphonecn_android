@@ -10,6 +10,7 @@ import android.transition.Transition;
 import android.view.View;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
 import com.superapps.util.rom.RomUtils;
 
@@ -49,6 +50,7 @@ public class WelcomeActivity extends Activity {
         } else {
             toMainView();
         }
+        AutoRequestManager.getInstance().startWindowPermissionTest();
 
     }
 
