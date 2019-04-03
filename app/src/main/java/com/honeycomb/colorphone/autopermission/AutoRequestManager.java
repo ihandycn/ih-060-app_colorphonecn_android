@@ -148,6 +148,8 @@ public class AutoRequestManager {
                     mRetryCount++;
                     executeAutoTask();
                 } else {
+                    boolean allGranted = succeedCount == totalCount;
+                    notifyAutoTaskOver(allGranted);
                     dismissCoverWindow();
                 }
             }
@@ -179,6 +181,10 @@ public class AutoRequestManager {
                 notifyPermissionGranted(type, isSucceed);
             }
         });
+    }
+
+    private void notifyAutoTaskOver(boolean allGranted) {
+
     }
 
     private void notifyPermissionGranted(HSPermissionType type, boolean isSucceed) {
