@@ -172,13 +172,16 @@ public class AutoRequestManager {
                 if (!isSucceed) {
                     AutoLogger.logAutomaticPermissionFailed(type, msg);
                 }
-
-                HSBundle hsBundle = new HSBundle();
-                hsBundle.putObject(BUNDLE_PERMISSION_TYPE, type);
-                hsBundle.putBoolean(BUNDLE_PERMISSION_RESULT, isSucceed);
-                HSGlobalNotificationCenter.sendNotification(NOTIFICATION_PERMISSION_RESULT, hsBundle);
+                notifyPermissionGranted(type, isSucceed);
             }
         });
+    }
+
+    private void notifyPermissionGranted(HSPermissionType type, boolean isSucceed) {
+        HSBundle hsBundle = new HSBundle();
+        hsBundle.putObject(BUNDLE_PERMISSION_TYPE, type);
+        hsBundle.putBoolean(BUNDLE_PERMISSION_RESULT, isSucceed);
+        HSGlobalNotificationCenter.sendNotification(NOTIFICATION_PERMISSION_RESULT, hsBundle);
     }
 
     public void showCoverWindow() {
@@ -244,13 +247,13 @@ public class AutoRequestManager {
         }
     }
 
-    public void openPermission(HSPermissionType type) {
+    public boolean openPermission(HSPermissionType type) {
         if (type == HSPermissionType.TYPE_AUTO_START && AutoPermissionChecker.hasAutoStartPermission()) {
-            return;
+            return true;
         } else if (type == HSPermissionType.TYPE_NOTIFICATION_LISTENING && Permissions.isNotificationAccessGranted()) {
-            return;
+            return true;
         } else if (type == HSPermissionType.TYPE_SHOW_ON_LOCK && Compats.IS_XIAOMI_DEVICE && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
-            return;
+            return true;
         }
 
         HSPermissionRequestMgr.getInstance().switchRequestPage(type, new HSPermissionRequestCallback.Stub() {
@@ -273,6 +276,7 @@ public class AutoRequestManager {
                     } else if (type == HSPermissionType.TYPE_SHOW_ON_LOCK) {
                         AutoPermissionChecker.onShowOnLockScreenChange(true);
                     }
+                    notifyPermissionGranted(type, true);
                 }
                 if (BuildConfig.DEBUG) {
                     String result = isSucceed ?  " success !" : ("  failed reason : " + msg);
@@ -280,6 +284,7 @@ public class AutoRequestManager {
                 }
             }
         });
+        return false;
     }
 
     private class PermissionTester {
