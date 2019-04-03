@@ -35,7 +35,6 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
-import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -47,7 +46,6 @@ import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -63,7 +61,6 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
-import com.superapps.util.rom.RomUtils;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
@@ -147,29 +144,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ContactManager.getInstance().update();
-        // TODO pro show condition ( SESSION_START, or Activity onStart() )
         AcbAds.getInstance().setActivity(this);
-        if ((RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom())
-                && !StartGuideActivity.isStarted()
-                && (!AutoPermissionChecker.isAccessibilityGranted()
-                    || !AutoPermissionChecker.hasFloatWindowPermission()
-                    || !AutoPermissionChecker.hasShowOnLockScreenPermission()
-                    || !AutoPermissionChecker.hasAutoStartPermission()
-                    || !AutoPermissionChecker.isNotificationListeningGranted())) {
-            StartGuideActivity.start(this);
-            
-            HSAlertMgr.delayRateAlert();
-            pendingShowRateAlert = true;
-            showAllFeatureGuide = true;
-        } else if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
-                && !ModuleUtils.isAllModuleEnabled()) {
-            if (!GuideAllFeaturesActivity.isStarted()) {
-                GuideAllFeaturesActivity.start(this);
-            }
-            HSAlertMgr.delayRateAlert();
-            pendingShowRateAlert = true;
-            showAllFeatureGuide = true;
-        } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
+        if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
             Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);

@@ -5,16 +5,23 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.transition.Fade;
-import android.transition.Transition;
 import android.view.View;
+import android.view.Window;
 
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
+import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
+import com.ihs.app.alerts.HSAlertMgr;
 import com.superapps.util.rom.RomUtils;
 
 import java.io.IOException;
+
+import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
+import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 
 public class WelcomeActivity extends Activity {
 
@@ -24,13 +31,13 @@ public class WelcomeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Transition fade = new Fade();
-            fade.excludeTarget(android.R.id.statusBarBackground, true);
-            fade.excludeTarget(android.R.id.navigationBarBackground, true);
-            getWindow().setExitTransition(fade);
-            getWindow().setEnterTransition(fade);
+        Window window = getWindow();
+        if (!ChargingScreenUtils.isNativeLollipop()) {
+            window.addFlags(FLAG_FULLSCREEN);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.addFlags(FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(FLAG_TRANSLUCENT_NAVIGATION);
         }
 
         if (RomUtils.checkIsHuaweiRom() || RomUtils.checkIsMiuiRom()) {
@@ -58,9 +65,30 @@ public class WelcomeActivity extends Activity {
         if (mVidView != null) {
             mVidView.destroy();
         }
+        Intent guideIntent = null;
+        if ((RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom())
+                && !StartGuideActivity.isStarted()
+                && (!AutoPermissionChecker.isAccessibilityGranted()
+                || !AutoPermissionChecker.hasFloatWindowPermission()
+                || !AutoPermissionChecker.hasShowOnLockScreenPermission()
+                || !AutoPermissionChecker.hasAutoStartPermission()
+                || !AutoPermissionChecker.isNotificationListeningGranted())) {
+            guideIntent = new Intent(WelcomeActivity.this, StartGuideActivity.class);
+            HSAlertMgr.delayRateAlert();
+        } else if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
+                && !ModuleUtils.isAllModuleEnabled()) {
+            if (!GuideAllFeaturesActivity.isStarted()) {
+                guideIntent = new Intent(WelcomeActivity.this, GuideAllFeaturesActivity.class);
+            }
+        }
+        Intent mainIntent = new Intent(WelcomeActivity.this, ColorPhoneActivity.class);
+        if (guideIntent != null) {
+            startActivities(new Intent[]{mainIntent, guideIntent});
+        } else {
+            startActivity(mainIntent);
+        }
 
         finish();
-        startActivity(new Intent(WelcomeActivity.this, ColorPhoneActivity.class));
     }
 
     @Override

@@ -45,7 +45,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     public static void start(Context context) {
         Intent starter = new Intent(context, StartGuideActivity.class);
-        starter.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
         Navigations.startActivitySafely(context, starter);
     }
 
