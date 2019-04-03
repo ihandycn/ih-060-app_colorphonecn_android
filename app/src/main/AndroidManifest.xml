@@ -249,6 +249,7 @@
             android:name=".activity.GuideApplyThemeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
             android:noHistory="true"
             android:taskAffinity=".call"
             android:theme="@style/Theme.AppCompat.Translucent" />
@@ -479,6 +480,7 @@
 
         <activity android:name=".activity.StartGuideActivity"
                   android:taskAffinity=".startGuide"
+                  android:screenOrientation="portrait"
             android:launchMode="singleTop" />
 
         <!-- JPush Daemon-->

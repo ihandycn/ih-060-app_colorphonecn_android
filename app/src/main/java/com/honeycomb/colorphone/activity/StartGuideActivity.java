@@ -97,7 +97,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             newView.setAlpha(0);
             newView.animate().alpha(1).setDuration(200).start();
 
-            Threads.postOnMainThreadDelayed(this::finish, 2000);
+            Threads.postOnMainThreadDelayed(this::finish, 3200);
         } else {
             if (holder == null) {
                 View view = findViewById(R.id.start_guide_function_page);

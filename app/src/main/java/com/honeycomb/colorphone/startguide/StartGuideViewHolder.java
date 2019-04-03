@@ -27,6 +27,7 @@ import com.ihs.permission.HSPermissionType;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Threads;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -40,9 +41,9 @@ public class StartGuideViewHolder implements INotificationObserver {
 
     public static final int PERMISSION_STATUS_NOT_START = 0;
     public static final int PERMISSION_STATUS_LOADING = 1;
-    public static final int PERMISSION_STATUS_OK = 2;
-    public static final int PERMISSION_STATUS_FAILED = 3;
-    public static final int PERMISSION_STATUS_FIX = 4;
+    public static final int PERMISSION_STATUS_FAILED = 2;
+    public static final int PERMISSION_STATUS_FIX = 3;
+    public static final int PERMISSION_STATUS_OK = 4;
 
     @IntDef({TYPE_PERMISSION_TYPE_SCREEN_FLASH,
             TYPE_PERMISSION_TYPE_ON_LOCK,
@@ -90,7 +91,7 @@ public class StartGuideViewHolder implements INotificationObserver {
 
     private TextView progress;
     private int progressNum;
-    private int goalNum;
+    private int goalNum = 1;
     private int progressInterval = UPGRADE_MIN_INTERVAL * 2;
     private int finalStatus;
 
@@ -258,17 +259,25 @@ public class StartGuideViewHolder implements INotificationObserver {
         if (TextUtils.equals(s, AutoRequestManager.NOTIFICATION_PERMISSION_RESULT)) {
             HSPermissionType pType = (HSPermissionType) hsBundle.getObject(AutoRequestManager.BUNDLE_PERMISSION_TYPE);
             boolean result = hsBundle.getBoolean(AutoRequestManager.BUNDLE_PERMISSION_RESULT);
-            int status = result ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FAILED;
+            int status = result ? PERMISSION_STATUS_OK : isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_FAILED;
             switch (pType) {
-                case TYPE_NOTIFICATION_LISTENING:
-                    setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, status);
-                    break;
                 case TYPE_AUTO_START:
+                    goalNum += 33;
                     setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, status);
+                    HSLog.w(TAG, "cast time 11 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
                 case TYPE_SHOW_ON_LOCK:
+                    goalNum += 33;
                     setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK, status);
+                    HSLog.w(TAG, "cast time 22 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
+                case TYPE_NOTIFICATION_LISTENING:
+                    goalNum += 33;
+                    finalStatus = status;
+                    setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, status);
+                    HSLog.w(TAG, "cast time 33 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
+                    break;
+
                 default:
                     break;
             }
@@ -278,9 +287,19 @@ public class StartGuideViewHolder implements INotificationObserver {
     }
 
     private void finish() {
-        AutoRequestManager.getInstance().dismissCoverWindow();
+        HSLog.w(TAG, "finish num == " + progressNum);
+        handler.removeMessages(EVENT_UPGRADE);
+        handler = null;
+
+        if (isConfirmPage) {
+            HSGlobalNotificationCenter.sendNotification(ALL_PERMISSION_GRANT);
+        } else {
+            Threads.postOnMainThreadDelayed(() -> {
+                HSLog.w(TAG, "dismiss float window num == " + progressNum);
+                AutoRequestManager.getInstance().dismissCoverWindow();
+            }, 1200);
+        }
         HSGlobalNotificationCenter.removeObserver(this);
-        HSGlobalNotificationCenter.sendNotification(ALL_PERMISSION_GRANT);
     }
 
     private long startAutoRequestAnimation;
@@ -301,13 +320,13 @@ public class StartGuideViewHolder implements INotificationObserver {
             progressInterval = UPGRADE_MIN_INTERVAL;
         } else if (goalNum - progressNum > 15) {
             progressInterval *= 0.8;
-        } else if (progressNum - goalNum > 5) {
+        } else if (progressNum - goalNum > 15) {
             progressInterval *= 1.3;
         }
         return Math.min(Math.max(progressInterval, UPGRADE_MIN_INTERVAL), UPGRADE_MAX_INTERVAL);
     }
 
-    public void setPermissionStatus(@PERMISSION_TYPES int pType, @PERMISSION_STATUS int pStatus) {
+    private void setPermissionStatus(@PERMISSION_TYPES int pType, @PERMISSION_STATUS int pStatus) {
         ImageView ok;
         LottieAnimationView loading;
         View fix;
@@ -336,6 +355,11 @@ public class StartGuideViewHolder implements INotificationObserver {
         }
 
         int lastStatus = Integer.valueOf(ok.getTag().toString());
+        if (pStatus < lastStatus) {
+            HSLog.i(TAG, "setPermissionStatus C == " + isConfirmPage + "  pt == " + pType + "  ps == " + pStatus + "  last == " + lastStatus);
+            return;
+        }
+
         switch (pStatus) {
             case PERMISSION_STATUS_FAILED:
                 if (lastStatus == PERMISSION_STATUS_LOADING) {
@@ -390,6 +414,7 @@ public class StartGuideViewHolder implements INotificationObserver {
                             loading.setAnimation("lottie/start_guide/permission_done.json");
                             loading.setRepeatCount(0);
                             loading.playAnimation();
+                            HSLog.i(TAG, "onAnimationRepeat " + pType);
 
                             loading.removeAllAnimatorListeners();
                             loading.addAnimatorListener(new AnimatorListenerAdapter() {
@@ -400,6 +425,7 @@ public class StartGuideViewHolder implements INotificationObserver {
                                     loading.removeAllAnimatorListeners();
                                     loading.setVisibility(View.GONE);
                                     setPermissionStatus(pType + 1, PERMISSION_STATUS_LOADING);
+                                    HSLog.i(TAG, "onAnimationEnd " + pType);
 
                                     ok.animate().alpha(0.5f).setDuration(100).start();
                                     text.animate().alpha(0.5f).setDuration(100).start();
@@ -413,6 +439,9 @@ public class StartGuideViewHolder implements INotificationObserver {
                     }
                     ok.setVisibility(View.VISIBLE);
                     ok.setImageResource(R.drawable.start_guide_confirm_ok_image);
+                    ok.animate().alpha(0.5f).setDuration(100).start();
+                    text.animate().alpha(0.5f).setDuration(100).start();
+                    setPermissionStatus(pType + 1, PERMISSION_STATUS_LOADING);
                 }
 
                 if (fix != null) {
