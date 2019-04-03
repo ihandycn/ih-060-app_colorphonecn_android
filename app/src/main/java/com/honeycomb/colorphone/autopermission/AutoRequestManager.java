@@ -62,6 +62,7 @@ public class AutoRequestManager {
     private int mRetryCount = 0;
     private String from;
     private WindowManager windowMgr;
+    private boolean isCoverWindow = false;
 
     private AutoRequestManager() {}
 
@@ -188,6 +189,7 @@ public class AutoRequestManager {
     }
 
     public void showCoverWindow() {
+        isCoverWindow = true;
         FloatWindowManager.getInstance().showDialog(new RequestPermissionDialog(HSApplication.getContext()));
 
         if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
@@ -198,6 +200,7 @@ public class AutoRequestManager {
     }
 
     public void dismissCoverWindow() {
+        isCoverWindow = false;
         FloatWindowManager.getInstance().removeDialog(FloatWindowManager.getInstance().getDialog(RequestPermissionDialog.class));
 
         if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
@@ -221,7 +224,10 @@ public class AutoRequestManager {
         } else if (RomUtils.checkIsHuaweiRom()) {
             Analytics.logEvent("Automatic_Permission_Granted_Huawei", "AccessType", AutoLogger.getPermissionString(true));
         }
+    }
 
+    public boolean isCoverWindowShow() {
+        return isCoverWindow;
     }
 
     public boolean isGrantAllPermission() {
@@ -252,7 +258,7 @@ public class AutoRequestManager {
                 } else if (RomUtils.checkIsMiuiRom()) {
                     Navigations.startActivitySafely(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
                 }
-            }, 1500);
+            }, 900);
             AutoRequestManager.getInstance().listenAccessibility();
         }
     }
