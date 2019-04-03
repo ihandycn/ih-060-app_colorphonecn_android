@@ -15,6 +15,9 @@
     </style>
 
     <style name="AppLightStatusBarTheme" parent="AppTheme"/>
+    <style name="AppLightStatusBarThemeDarkTemp" parent="AppLightStatusBarTheme">
+        <item name="android:windowBackground">@color/colorPrimaryTemp</item>
+    </style>
 
     <style name="AppTranslucent" parent="AppLightStatusBarTheme">
         <item name="android:windowNoTitle">true</item>

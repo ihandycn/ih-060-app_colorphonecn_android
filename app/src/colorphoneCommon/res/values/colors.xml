@@ -3,6 +3,9 @@
     <color name="colorWindowBackground">@android:color/white</color>
     <color name="colorPrimary">@android:color/white</color>
     <color name="colorPrimaryDark">#0d0d0d</color>
+    <!--TODO: 等待暗黑新主题颜色-->
+    <color name="colorPrimaryTemp">#0d0d0d</color>
+
     <color name="colorAccent">#ffe400</color>
     <color name="primaryText">#101010</color>
     <color name="primarySubText">#606060</color>
