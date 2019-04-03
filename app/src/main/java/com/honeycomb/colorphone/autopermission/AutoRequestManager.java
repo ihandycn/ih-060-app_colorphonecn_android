@@ -261,24 +261,19 @@ public class AutoRequestManager {
                         Toasts.showToast("Not match andy permissions!", Toast.LENGTH_LONG);
                     }
                 }
-                if (succeedCount == 0) {
-                    HSLog.i(TAG, "No permission granted!");
-                } else if (succeedCount == totalCount) {
-                    HSLog.i(TAG, "All permissions granted!");
-                }
-
-                if (succeedCount < totalCount && mRetryCount < MAX_RETRY_COUNT) {
-                    // Try to get
-                    mRetryCount++;
-                    executeAutoTask();
-                } else {
-                    dismissCoverWindow();
-                }
             }
 
             @Override
             public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
                 HSLog.i(TAG, "permission open index " + index + " finished, result " + isSucceed + "，msg = " + msg);
+                if (isSucceed) {
+                    // already has permission.
+                    if (type == HSPermissionType.TYPE_AUTO_START) {
+                        AutoPermissionChecker.onAutoStartChange(true);
+                    } else if (type == HSPermissionType.TYPE_SHOW_ON_LOCK) {
+                        AutoPermissionChecker.onShowOnLockScreenChange(true);
+                    }
+                }
                 if (BuildConfig.DEBUG) {
                     String result = isSucceed ?  " success !" : ("  failed reason : " + msg);
                     Toasts.showToast(type + result, Toast.LENGTH_LONG);
