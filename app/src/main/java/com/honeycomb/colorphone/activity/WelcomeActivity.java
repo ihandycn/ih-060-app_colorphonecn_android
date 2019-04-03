@@ -40,6 +40,7 @@ public class WelcomeActivity extends Activity {
             window.addFlags(FLAG_TRANSLUCENT_NAVIGATION);
         }
 
+
         if (RomUtils.checkIsHuaweiRom() || RomUtils.checkIsMiuiRom()) {
             setContentView(R.layout.activity_welcome);
             mVidView = findViewById(R.id.welcome_video);
@@ -65,16 +66,28 @@ public class WelcomeActivity extends Activity {
         if (mVidView != null) {
             mVidView.destroy();
         }
+
+        launchMainActivityWithGuide();
+
+        finish();
+    }
+
+    public void launchMainActivityWithGuide() {
         Intent guideIntent = null;
-        if ((RomUtils.checkIsMiuiRom() || RomUtils.checkIsHuaweiRom())
-                && !StartGuideActivity.isStarted()
-                && (!AutoPermissionChecker.isAccessibilityGranted()
-                || !AutoPermissionChecker.hasFloatWindowPermission()
-                || !AutoPermissionChecker.hasShowOnLockScreenPermission()
-                || !AutoPermissionChecker.hasAutoStartPermission()
-                || !AutoPermissionChecker.isNotificationListeningGranted())) {
-            guideIntent = new Intent(WelcomeActivity.this, StartGuideActivity.class);
-            HSAlertMgr.delayRateAlert();
+        if (RomUtils.checkIsMiuiRom()
+                || RomUtils.checkIsHuaweiRom()) {
+            // Huawei & Xiaomi use auto permission guide window.
+            boolean needShowGuidePermissionActivity =
+                    !StartGuideActivity.isStarted()
+                            && (!AutoPermissionChecker.isAccessibilityGranted()
+                            || !AutoPermissionChecker.hasFloatWindowPermission()
+                            || !AutoPermissionChecker.hasShowOnLockScreenPermission()
+                            || !AutoPermissionChecker.hasAutoStartPermission()
+                            || !AutoPermissionChecker.isNotificationListeningGranted());
+            if (needShowGuidePermissionActivity) {
+                guideIntent = new Intent(WelcomeActivity.this, StartGuideActivity.class);
+                HSAlertMgr.delayRateAlert();
+            }
         } else if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
                 && !ModuleUtils.isAllModuleEnabled()) {
             if (!GuideAllFeaturesActivity.isStarted()) {
@@ -88,7 +101,6 @@ public class WelcomeActivity extends Activity {
             startActivity(mainIntent);
         }
 
-        finish();
     }
 
     @Override
