@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -68,34 +69,60 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             HSLog.i("AutoPermission", "onPermissionGranted onCreate");
             onPermissionGranted();
         } else {
-            enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
-            enableBtn.setOnClickListener(v -> {
-                Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
-                ModuleUtils.setAllModuleUserEnable();
-
-                View view = findViewById(R.id.start_guide_function_page);
-                view.setVisibility(View.GONE);
-
-                view = findViewById(R.id.start_guide_permission_page);
-                view.setVisibility(View.VISIBLE);
-
-                loadingForPermission();
-            });
+            if (ModuleUtils.isAllModuleEnabled()) {
+                showAccessibilityPermissionPage();
+            } else {
+                enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
+                enableBtn.setOnClickListener(v -> {
+                    Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
+                    ModuleUtils.setAllModuleUserEnable();
+                    showAccessibilityPermissionPage();
+                });
+            }
         }
+    }
+
+    private void showAccessibilityPermissionPage() {
+        View view = findViewById(R.id.start_guide_function_page);
+        view.setVisibility(View.GONE);
+
+        view = findViewById(R.id.start_guide_permission_page);
+        view.setVisibility(View.VISIBLE);
+
+        loadingForPermission();
     }
 
     private void onPermissionGranted() {
         if (AutoRequestManager.getInstance().isGrantAllPermission()) {
+            HSLog.i("AutoPermission", "onPermissionGranted congratulation_page");
+
             View oldView = findViewById(R.id.start_guide_function_page);
-            oldView.animate().alpha(0).setDuration(200).start();
+            if (oldView.isShown()) {
+                oldView.animate().alpha(0).setDuration(200).start();
+            }
 
             View newView = findViewById(R.id.start_guide_congratulation_page);
             newView.setVisibility(View.VISIBLE);
             newView.setAlpha(0);
             newView.animate().alpha(1).setDuration(200).start();
 
-            Threads.postOnMainThreadDelayed(this::finish, 3200);
+            View view = newView.findViewById(R.id.start_guide_congratulation_circle_image);
+            view.setPivotX(Dimensions.pxFromDp(70));
+            view.setPivotY(Dimensions.pxFromDp(70));
+            view.setScaleX(0);
+            view.setScaleY(0);
+            view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator()).start();
+
+            view = newView.findViewById(R.id.start_guide_congratulation_center_image);
+            view.setPivotX(Dimensions.pxFromDp(19));
+            view.setPivotY(Dimensions.pxFromDp(8));
+            view.setScaleX(0);
+            view.setScaleY(0);
+            view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator()).start();
+
+            Threads.postOnMainThreadDelayed(this::finish, 2500);
         } else {
+            HSLog.i("AutoPermission", "onPermissionGranted holder == " + holder);
             if (holder == null) {
                 View view = findViewById(R.id.start_guide_function_page);
                 view.setVisibility(View.GONE);
@@ -120,7 +147,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     @Override protected void onStart() {
         super.onStart();
-        if (Utils.isAccessibilityGranted()) {
+        if (Utils.isAccessibilityGranted() && !AutoRequestManager.getInstance().isRequestPermission()) {
             HSLog.i("AutoPermission", "onPermissionGranted onStart");
             onPermissionGranted();
         }

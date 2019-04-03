@@ -10,6 +10,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -63,8 +64,8 @@ public class StartGuideViewHolder implements INotificationObserver {
 
     private static final String TAG = "AutoPermission";
     private static final int CIRCLE_SPEED = 360;
-    private static final int UPGRADE_MIN_INTERVAL = 30;
-    private static final int UPGRADE_MAX_INTERVAL = 660;
+    private static final int UPGRADE_MIN_INTERVAL = 25;
+    private static final int UPGRADE_MAX_INTERVAL = UPGRADE_MIN_INTERVAL * 20;
     private static final int PROGRESS_MAX_VALUE = 100;
     private static final int EVENT_UPGRADE = 5000;
 
@@ -95,7 +96,7 @@ public class StartGuideViewHolder implements INotificationObserver {
 
     private TextView progress;
     private int progressNum;
-    private int goalNum = 1;
+    private int goalNum = 0;
     private int progressInterval = UPGRADE_MIN_INTERVAL * 2;
     private int finalStatus;
 
@@ -115,18 +116,22 @@ public class StartGuideViewHolder implements INotificationObserver {
                         if (progressNum >= PROGRESS_MAX_VALUE) {
                             if (goalNum == PROGRESS_MAX_VALUE) {
                                 progressNum = PROGRESS_MAX_VALUE;
-                                setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, finalStatus);
+                                finish(10);
                                 interval = 0;
                             } else {
                                 progressNum = PROGRESS_MAX_VALUE - 1;
                             }
-                            HSLog.i(TAG, "progress Animation end " + (System.currentTimeMillis() - startAutoRequestAnimation));
+                            long cast = (System.currentTimeMillis() - startAutoRequestAnimation);
+                            HSLog.i(TAG, "progress Animation end " + cast);
+
+                            if (cast > DateUtils.MINUTE_IN_MILLIS) {
+                                interval = 0;
+                                finish(10);
+                            }
                         }
 
                         if (interval != 0) {
                             handler.sendEmptyMessageDelayed(EVENT_UPGRADE, interval);
-                        } else {
-                            finish();
                         }
                         progress.setText(String.valueOf(progressNum + "%"));
                     }
@@ -191,9 +196,9 @@ public class StartGuideViewHolder implements INotificationObserver {
         } else {
             progress = container.findViewById(R.id.start_guide_request_progress);
 
-            setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, PERMISSION_STATUS_NOT_START);
-            setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK, PERMISSION_STATUS_NOT_START);
-            setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, PERMISSION_STATUS_NOT_START);
+            setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, PERMISSION_STATUS_LOADING);
+            setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK, PERMISSION_STATUS_LOADING);
+            setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, PERMISSION_STATUS_LOADING);
         }
 
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFICATION_PERMISSION_RESULT, this);
@@ -233,7 +238,7 @@ public class StartGuideViewHolder implements INotificationObserver {
 
         if (notGrant == 0) {
             AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
-            finish();
+            finish(500);
         }
 
         TextView ball = container.findViewById(R.id.start_guide_confirm_number);
@@ -301,7 +306,7 @@ public class StartGuideViewHolder implements INotificationObserver {
                     break;
                 case TYPE_NOTIFICATION_LISTENING:
                     goalNum += 33;
-                    finalStatus = status;
+                    progressInterval = (1500 / (PROGRESS_MAX_VALUE - progressNum));
                     setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, status);
                     HSLog.w(TAG, "cast time 33 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
@@ -314,18 +319,18 @@ public class StartGuideViewHolder implements INotificationObserver {
         }
     }
 
-    private void finish() {
+    private void finish(long delay) {
         HSLog.w(TAG, "finish num == " + progressNum);
+
         handler.removeMessages(EVENT_UPGRADE);
         handler = null;
 
-        if (isConfirmPage) {
-            HSGlobalNotificationCenter.sendNotification(ALL_PERMISSION_GRANT);
-        } else {
+        HSGlobalNotificationCenter.sendNotification(ALL_PERMISSION_GRANT);
+        if (!isConfirmPage) {
             Threads.postOnMainThreadDelayed(() -> {
                 HSLog.w(TAG, "dismiss float window num == " + progressNum);
                 AutoRequestManager.getInstance().dismissCoverWindow();
-            }, 1200);
+            }, delay);
         }
         HSGlobalNotificationCenter.removeObserver(this);
     }
@@ -348,7 +353,7 @@ public class StartGuideViewHolder implements INotificationObserver {
             progressInterval = UPGRADE_MIN_INTERVAL;
         } else if (goalNum - progressNum > 15) {
             progressInterval *= 0.8;
-        } else if (progressNum - goalNum > 15) {
+        } else if (progressNum - goalNum > 20) {
             progressInterval *= 1.3;
         }
         return Math.min(Math.max(progressInterval, UPGRADE_MIN_INTERVAL), UPGRADE_MAX_INTERVAL);
@@ -379,6 +384,7 @@ public class StartGuideViewHolder implements INotificationObserver {
                 text = screenFlashText;
                 break;
             default:
+                goalNum = PROGRESS_MAX_VALUE;
                 return;
         }
 
@@ -416,15 +422,18 @@ public class StartGuideViewHolder implements INotificationObserver {
                 }
                 break;
             case PERMISSION_STATUS_LOADING:
-                if (loading != null) {
-                    ok.setVisibility(View.GONE);
-                    loading.setVisibility(View.VISIBLE);
-                    loading.useHardwareAcceleration();
-                    loading.playAnimation();
+                if (lastStatus != PERMISSION_STATUS_OK) {
+                    if (loading != null) {
+                        ok.setVisibility(View.GONE);
+                        loading.setVisibility(View.VISIBLE);
+                        loading.useHardwareAcceleration();
+                        loading.playAnimation();
+                    }
                 }
                 break;
             case PERMISSION_STATUS_NOT_START:
-                ok.setVisibility(View.GONE);
+                ok.setVisibility(View.VISIBLE);
+                ok.setImageResource(R.drawable.start_guide_confirm_alert_image);
                 if (loading != null) {
                     loading.setVisibility(View.GONE);
                 }
@@ -463,13 +472,28 @@ public class StartGuideViewHolder implements INotificationObserver {
                     });
                 } else {
                     if (loading != null) {
-                        loading.setVisibility(View.GONE);
+                        loading.cancelAnimation();
+                        loading.setAnimation("lottie/start_guide/permission_done.json");
+                        loading.setRepeatCount(0);
+                        loading.playAnimation();
+                        HSLog.i(TAG, "only done animation " + pType);
+
+                        loading.removeAllAnimatorListeners();
+                        loading.addAnimatorListener(new AnimatorListenerAdapter() {
+                            @Override public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                ok.setVisibility(View.VISIBLE);
+                                ok.setImageResource(R.drawable.start_guide_confirm_ok_image);
+                                loading.removeAllAnimatorListeners();
+                                loading.setVisibility(View.GONE);
+                                setPermissionStatus(pType + 1, PERMISSION_STATUS_LOADING);
+                                HSLog.i(TAG, "onAnimationEnd " + pType);
+
+                                ok.animate().alpha(0.3f).setDuration(100).start();
+                                text.animate().alpha(0.3f).setDuration(100).start();
+                            }
+                        });
                     }
-                    ok.setVisibility(View.VISIBLE);
-                    ok.setImageResource(R.drawable.start_guide_confirm_ok_image);
-                    ok.animate().alpha(0.3f).setDuration(100).start();
-                    text.animate().alpha(0.3f).setDuration(100).start();
-                    setPermissionStatus(pType + 1, PERMISSION_STATUS_LOADING);
                 }
 
                 if (fix != null) {

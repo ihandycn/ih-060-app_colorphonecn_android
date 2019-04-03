@@ -62,6 +62,7 @@ public class AutoRequestManager {
     private String from;
     private WindowManager windowMgr;
     private boolean isCoverWindow = false;
+    private boolean isRequestPermission = false;
 
     private AutoRequestManager() {}
 
@@ -147,9 +148,10 @@ public class AutoRequestManager {
                     mRetryCount++;
                     executeAutoTask();
                 } else {
-                    boolean allGranted = succeedCount == totalCount;
-                    notifyAutoTaskOver(allGranted);
-                    dismissCoverWindow();
+//                    boolean allGranted = succeedCount == totalCount;
+//                    notifyAutoTaskOver(allGranted);
+//                    dismissCoverWindow();
+                    isRequestPermission = false;
                 }
             }
 
@@ -235,6 +237,10 @@ public class AutoRequestManager {
         return isCoverWindow;
     }
 
+    public boolean isRequestPermission() {
+        return isRequestPermission;
+    }
+
     public boolean isGrantAllPermission() {
         return AutoPermissionChecker.hasAutoStartPermission()
                 && AutoPermissionChecker.hasShowOnLockScreenPermission()
@@ -252,6 +258,7 @@ public class AutoRequestManager {
     public void startAutoCheck(@AUTO_PERMISSION_FROM String from) {
         this.from = from;
         AutoPermissionChecker.incrementAutoRequestCount();
+        isRequestPermission = true;
 
         if (Utils.isAccessibilityGranted()) {
             AutoRequestManager.getInstance().onAccessibilityReady();
