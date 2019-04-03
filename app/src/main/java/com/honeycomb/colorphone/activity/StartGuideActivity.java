@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
+import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.startguide.StartGuideViewHolder;
 import com.honeycomb.colorphone.util.Analytics;
@@ -28,6 +28,7 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Threads;
+import com.superapps.util.rom.RomUtils;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -64,6 +65,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
         if (Utils.isAccessibilityGranted()) {
+            HSLog.i("AutoPermission", "onPermissionGranted onCreate");
             onPermissionGranted();
         } else {
             enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
@@ -83,11 +85,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     }
 
     private void onPermissionGranted() {
-        HSLog.i("AutoPermission", "onPermissionGranted ");
-        if (AutoPermissionChecker.hasAutoStartPermission()
-                && AutoPermissionChecker.hasShowOnLockScreenPermission()
-                && Utils.isNotificationListeningGranted()) {
-
+        if (AutoRequestManager.getInstance().isGrantAllPermission()) {
             View oldView = findViewById(R.id.start_guide_function_page);
             oldView.animate().alpha(0).setDuration(200).start();
 
@@ -107,6 +105,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 holder = new StartGuideViewHolder(view, true);
                 holder.setCircleAnimView(R.id.start_guide_confirm_number);
                 holder.startCircleAnimation();
+
+                Analytics.logEvent("FixAlert_Show", "AccessType", AutoLogger.getPermissionString(RomUtils.checkIsHuaweiRom()));
             } else {
                 holder.refresh();
             }
@@ -122,6 +122,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     @Override protected void onStart() {
         super.onStart();
         if (Utils.isAccessibilityGranted()) {
+            HSLog.i("AutoPermission", "onPermissionGranted onStart");
             onPermissionGranted();
         }
 
@@ -135,6 +136,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(StartGuideViewHolder.ALL_PERMISSION_GRANT, s)) {
+            HSLog.i("AutoPermission", "onPermissionGranted onReceive");
             onPermissionGranted();
         }
     }
@@ -146,7 +148,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         TextView title = findViewById(R.id.start_guide_permission_title);
         title.setAlpha(0);
-        title.animate().alpha(0.51f).setDuration(33).start();
+        title.animate().alpha(0.5f).setDuration(33).start();
         Handler handler = new Handler();
         handler.postDelayed(() -> title.animate().alpha(0f).setDuration(250).start(), 2150);
 
@@ -155,6 +157,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         button.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
         button.setOnClickListener(v -> {
             gotoAcc();
+            AutoLogger.logEventWithBrandAndOS("Accessbility_Guide_Btn_Click");
         });
 
         handler.postDelayed(() -> {
@@ -162,10 +165,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             title.animate().alpha(0.8f).setDuration(750).start();
             button.animate().alpha(1f).setDuration(750).start();
         }, 2400);
+        Analytics.logEvent("Accessbility_Guide_Show");
     }
 
     private void gotoAcc() {
         HSLog.i("AutoPermission", "isAccessibilityGranted == " + Utils.isAccessibilityGranted());
-        AutoRequestManager.getInstance().startAutoCheck();
+        AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_AUTO);
     }
 }

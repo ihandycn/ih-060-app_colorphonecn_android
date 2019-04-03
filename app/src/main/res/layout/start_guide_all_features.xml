@@ -17,6 +17,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
             android:scaleType="centerCrop"
             android:src="@drawable/start_guide_image" />
 
@@ -32,7 +33,7 @@
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="@string/guide_first_page_title"
+            android:text="@string/guide_first_page_title_new"
             tools:text="Please enable the features and permissions: Remind your missed calls"/>
 
         <Button
@@ -78,9 +79,9 @@
             android:layout_marginEnd="56dp"
             android:lineSpacingExtra="10sp"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:textSize="14sp"
             android:text="@string/start_guide_loading_text"
+            android:alpha="0.5"
             app:layout_constraintTop_toBottomOf="@id/start_guide_permission_anim"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -91,7 +92,7 @@
             android:layout_width="175dp"
             android:layout_height="48dp"
             android:gravity="center"
-            android:text="@string/acb_guide_ok"
+            android:text="@string/start_guide_loading_action"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:textSize="16sp"

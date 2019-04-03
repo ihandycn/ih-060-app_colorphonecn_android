@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.support.annotation.StringDef;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
@@ -28,25 +31,34 @@ import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
+import com.superapps.util.rom.RomUtils;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 public class AutoRequestManager {
     public static final String NOTIFICATION_PERMISSION_RESULT = "notification_permission_result";
     public static final String BUNDLE_PERMISSION_TYPE = "permission_type";
     public static final String BUNDLE_PERMISSION_RESULT = "permission_result";
+    public static final String AUTO_PERMISSION_FROM_AUTO = "auto";
+    public static final String AUTO_PERMISSION_FROM_FIX = "fix";
+
+    @StringDef({ AUTO_PERMISSION_FROM_AUTO,
+            AUTO_PERMISSION_FROM_FIX })
+    @Retention(RetentionPolicy.SOURCE)
+    private @interface AUTO_PERMISSION_FROM {}
 
     private static final String TAG = "AutoRequestManager";
     private static final int MAX_RETRY_COUNT = 2;
     private static AutoRequestManager sManager = new AutoRequestManager();
     private boolean listened = false;
-    private WindowManager windowMgr;
-    private View coverView;
 
     private PermissionTester mPermissionTester = new PermissionTester();
 
     private int mRetryCount = 0;
-    private WindowManager windowManager;
+    private String from;
+    private WindowManager windowMgr;
 
     private AutoRequestManager() {}
 
@@ -61,6 +73,7 @@ public class AutoRequestManager {
             HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
+                    AutoLogger.logEventWithBrandAndOS("Accessbility_Granted");
                     onAccessibilityReady();
 
                 }
@@ -82,6 +95,9 @@ public class AutoRequestManager {
                     if (succeedCount == 1) {
                         onFloatWindowPermissionReady();
                         AutoPermissionChecker.onFloatPermissionChange(true);
+                        AutoLogger.logEventWithBrandAndOS("Accessbility_Float_Grant_Success");
+                    } else {
+                        AutoLogger.logEventWithBrandAndOS("Accessbility_Float_Grant_Failed");
                     }
                 }
             });
@@ -167,10 +183,45 @@ public class AutoRequestManager {
 
     public void showCoverWindow() {
         FloatWindowManager.getInstance().showDialog(new RequestPermissionDialog(HSApplication.getContext()));
+
+        if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
+            AutoLogger.logEventWithBrandAndOS("Automatic_Begin_FromAccessbility");
+        } else {
+            AutoLogger.logEventWithBrandAndOS("Automatic_Begin_From_FixAlert");
+        }
     }
 
     public void dismissCoverWindow() {
         FloatWindowManager.getInstance().removeDialog(FloatWindowManager.getInstance().getDialog(RequestPermissionDialog.class));
+
+        if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
+            AutoLogger.logEventWithBrandAndOS("Automatic_Finished_FromAccessbility");
+        } else {
+            AutoLogger.logEventWithBrandAndOS("Automatic_Finished_From_FixAlert");
+        }
+
+        if (isGrantAllPermission()) {
+            if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
+                AutoLogger.logEventWithBrandAndOS("All_Granted_From_Accessbility");
+            } else {
+                AutoLogger.logEventWithBrandAndOS("All_Granted_From_FixAlert");
+            }
+
+            Analytics.logEvent("All_Granted_From_Automatic", "Time", String.valueOf(AutoPermissionChecker.getAutoRequestCount()));
+        }
+
+        if (RomUtils.checkIsMiuiRom()) {
+            Analytics.logEvent("Automatic_Permission_Granted_Xiaomi", "AccessType", AutoLogger.getPermissionString(false));
+        } else if (RomUtils.checkIsHuaweiRom()) {
+            Analytics.logEvent("Automatic_Permission_Granted_Huawei", "AccessType", AutoLogger.getPermissionString(true));
+        }
+
+    }
+
+    public boolean isGrantAllPermission() {
+        return AutoPermissionChecker.hasAutoStartPermission()
+                && AutoPermissionChecker.hasShowOnLockScreenPermission()
+                && AutoPermissionChecker.isNotificationListeningGranted();
     }
 
     public void startWindowPermissionTest() {
@@ -181,7 +232,10 @@ public class AutoRequestManager {
         mPermissionTester.startTest(HSApplication.getContext());
     }
 
-    public void startAutoCheck() {
+    public void startAutoCheck(@AUTO_PERMISSION_FROM String from) {
+        this.from = from;
+        AutoPermissionChecker.incrementAutoRequestCount();
+
         if (Utils.isAccessibilityGranted()) {
             AutoRequestManager.getInstance().onAccessibilityReady();
         } else {

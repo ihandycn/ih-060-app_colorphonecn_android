@@ -54,4 +54,12 @@ public class AutoPermissionChecker {
     public static boolean isNotificationListeningGranted() {
         return Utils.isNotificationListeningGranted();
     }
+
+    public static int getAutoRequestCount() {
+        return Preferences.get(Constants.PREF_FILE_DEFAULT).getInt("prefs_auto_request_count", 0);
+    }
+
+    public static void incrementAutoRequestCount() {
+        Preferences.get(Constants.PREF_FILE_DEFAULT).incrementAndGetInt("prefs_auto_request_count");
+    }
 }
