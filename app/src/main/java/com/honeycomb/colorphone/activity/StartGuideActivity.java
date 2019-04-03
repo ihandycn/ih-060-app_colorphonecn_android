@@ -116,7 +116,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     @Override
     public void onBackPressed() {
         //Ignore back press.
-        super.onBackPressed();
     }
 
     @Override protected void onStart() {
