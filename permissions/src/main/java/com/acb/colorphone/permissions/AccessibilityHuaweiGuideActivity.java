@@ -12,6 +12,6 @@ public class AccessibilityHuaweiGuideActivity extends LottiePermissionGuideActiv
     }
 
     @Override protected String getAnimationFromJson() {
-        return "lottie/acb_phone_permission_accessibility_huawei";
+        return "lottie/acb_phone_permission_accessibility_huawei.json";
     }
 }
