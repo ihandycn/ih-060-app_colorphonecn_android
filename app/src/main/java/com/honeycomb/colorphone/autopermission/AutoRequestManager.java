@@ -153,6 +153,9 @@ public class AutoRequestManager {
                     default:
                         break;
                 }
+                if (!isSucceed) {
+                    AutoLogger.logAutomaticPermissionFailed(type, msg);
+                }
 
                 HSBundle hsBundle = new HSBundle();
                 hsBundle.putObject(BUNDLE_PERMISSION_TYPE, type);
