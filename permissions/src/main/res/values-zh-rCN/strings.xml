@@ -29,4 +29,7 @@
   <string name="acb_phone_grant_notification_access_title_miui">请开启通知使用权，以正常接听来电</string>
   <string name="acb_phone_grant_notification_access_title_oppo">请开启读取应用通知权限，以正常接听来电</string>
   <string name="acb_phone_grant_notification_access_title_vivo">请开启通知使用权，以正常接听来电</string>
+
+  <string name="acb_phone_grant_accessibility_title_huawei">1：向下滑动，点击【服务】下的【焕彩来电秀】\n2：在下一页打开右上角开关</string>
+  <string name="acb_phone_grant_accessibility_title_miui">请打开开关</string>
 </resources>

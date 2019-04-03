@@ -20,7 +20,7 @@ public abstract class SimplePermissionGuideActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acb_phone_notification_usage_access_center_tip);
+        setContentView(R.layout.acb_phone_permission_guide_text);
         View content = findViewById(R.id.container_view);
         if (content != null) {
             content.setBackgroundDrawable(null);

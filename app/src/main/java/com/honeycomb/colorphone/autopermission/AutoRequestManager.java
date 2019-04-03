@@ -14,6 +14,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
+import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
 import com.honeycomb.colorphone.util.Analytics;
@@ -28,6 +30,7 @@ import com.ihs.permission.HSPermissionType;
 import com.ihs.permission.Utils;
 import com.superapps.BuildConfig;
 import com.superapps.util.Compats;
+import com.superapps.util.Navigations;
 import com.superapps.util.Permissions;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
@@ -243,6 +246,13 @@ public class AutoRequestManager {
             AutoRequestManager.getInstance().onAccessibilityReady();
         } else {
             Utils.goToAccessibilitySettingsPage();
+            Threads.postOnMainThreadDelayed(() -> {
+                if (RomUtils.checkIsHuaweiRom()) {
+                    Navigations.startActivitySafely(HSApplication.getContext(), AccessibilityHuaweiGuideActivity.class);
+                } else if (RomUtils.checkIsMiuiRom()) {
+                    Navigations.startActivitySafely(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
+                }
+            }, 1500);
             AutoRequestManager.getInstance().listenAccessibility();
         }
     }

@@ -39,4 +39,7 @@
     <string name="acb_phone_grant_notification_access_title_miui">Enable Notifications Access to Answer Calls</string>
     <string name="acb_phone_grant_notification_access_title_oppo">Enable Notifications Access to Answer Calls</string>
     <string name="acb_phone_grant_notification_access_title_vivo">Enable Notifications Access to Answer Calls</string>
+
+    <string name="acb_phone_grant_accessibility_title_huawei">1: scroll down \n2: click switch button</string>
+    <string name="acb_phone_grant_accessibility_title_miui">open button</string>
 </resources>
