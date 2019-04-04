@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
+import com.honeycomb.colorphone.activity.WelcomeActivity;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
 import com.honeycomb.colorphone.util.Analytics;
@@ -29,6 +30,7 @@ import com.ihs.permission.HSPermissionType;
 import com.ihs.permission.Utils;
 import com.superapps.BuildConfig;
 import com.superapps.util.Compats;
+import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Navigations;
 import com.superapps.util.Permissions;
 import com.superapps.util.Threads;
@@ -47,6 +49,9 @@ public class AutoRequestManager {
     public static final String BUNDLE_PERMISSION_RESULT = "permission_result";
     public static final String AUTO_PERMISSION_FROM_AUTO = "auto";
     public static final String AUTO_PERMISSION_FROM_FIX = "fix";
+
+    private HomeKeyWatcher homeKeyWatcher;
+    private boolean needRestartApplication;
 
     @StringDef({ AUTO_PERMISSION_FROM_AUTO,
             AUTO_PERMISSION_FROM_FIX })
@@ -130,7 +135,12 @@ public class AutoRequestManager {
         if (!Permissions.isNotificationAccessGranted()) {
             permission.add(HSPermissionType.TYPE_NOTIFICATION_LISTENING);
         }
-        
+
+        if (permission.isEmpty()) {
+            notifyAutoTaskOver(true);
+            return;
+        }
+        startWatchHomeKey();
         HSPermissionRequestMgr.getInstance().startRequest(permission, new HSPermissionRequestCallback.Stub() {
             @Override
             public void onFinished(int succeedCount, int totalCount) {
@@ -151,7 +161,6 @@ public class AutoRequestManager {
                 } else {
                     boolean allGranted = succeedCount == totalCount;
                     notifyAutoTaskOver(allGranted);
-                    isRequestPermission = false;
                 }
             }
 
@@ -185,8 +194,34 @@ public class AutoRequestManager {
         });
     }
 
+    private void startWatchHomeKey() {
+        if (homeKeyWatcher == null) {
+            homeKeyWatcher = new HomeKeyWatcher(HSApplication.getContext());
+            homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+                @Override
+                public void onHomePressed() {
+                    needRestartApplication = true;
+                    Analytics.logEvent("Automatic_Permission_HomePress");
+                }
+
+                @Override
+                public void onRecentsPressed() {
+
+                }
+            });
+        }
+        homeKeyWatcher.startWatch();
+    }
+
     private void notifyAutoTaskOver(boolean allGranted) {
+        isRequestPermission = false;
         HSGlobalNotificationCenter.sendNotification(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH);
+        if (homeKeyWatcher != null) {
+            homeKeyWatcher.stopWatch();
+        }
+        if (needRestartApplication) {
+            Navigations.startActivitySafely(HSApplication.getContext(), WelcomeActivity.class);
+        }
     }
 
     private void notifyPermissionGranted(HSPermissionType type, boolean isSucceed) {
