@@ -292,7 +292,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         String[] testDeviceInfo = Utils.getTestDeviceInfo(this);
         for (String s : testDeviceInfo) {
-            HSLog.d("Umeng.test", s);
+            if (s != null) {
+                HSLog.d("Umeng.test", s);
+            }
         }
     }
 
