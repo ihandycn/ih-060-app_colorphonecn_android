@@ -16,11 +16,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.acb.colorphone.permissions.AutoStartGuideActivity;
+import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
+import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
+import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
+import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -29,7 +35,9 @@ import com.ihs.permission.HSPermissionType;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 import com.superapps.util.Threads;
+import com.superapps.util.rom.RomUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -53,7 +61,7 @@ public class StartGuideViewHolder implements INotificationObserver {
     @Retention(RetentionPolicy.SOURCE)
     private @interface PERMISSION_TYPES {}
 
-    @IntDef({PERMISSION_STATUS_NOT_START, 
+    @IntDef({PERMISSION_STATUS_NOT_START,
             PERMISSION_STATUS_LOADING, 
             PERMISSION_STATUS_OK,
             PERMISSION_STATUS_FAILED,
@@ -166,14 +174,33 @@ public class StartGuideViewHolder implements INotificationObserver {
                 AutoRequestManager.getInstance().openPermission(HSPermissionType.TYPE_AUTO_START);
                 AutoLogger.logEventWithBrandAndOS("FixALert_AutoStart_Click");
                 gotoFetchScreenFlash = true;
+
+                Threads.postOnMainThreadDelayed(() -> {
+                    if (RomUtils.checkIsMiuiRom()) {
+                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
+                    } else if (RomUtils.checkIsHuaweiRom()) {
+                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartHuaweiGuideActivity.class);
+                    } else {
+                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartGuideActivity.class);
+                    }
+                }, 1000);
             });
 
             onLockerFix = container.findViewById(R.id.start_guide_permission_onlocker_fix);
             onLockerFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
             onLockerFix.setOnClickListener(v -> {
+
                 AutoRequestManager.getInstance().openPermission(HSPermissionType.TYPE_SHOW_ON_LOCK);
                 AutoLogger.logEventWithBrandAndOS("FixALert_Lock_Click");
                 gotoFetchOnLock = true;
+
+                Threads.postOnMainThreadDelayed(() -> {
+                    if (RomUtils.checkIsMiuiRom()) {
+                        Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenMIUIGuideActivity.class);
+                    } else {
+                        Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
+                    }
+                }, 1000);
             });
 
             callFix = container.findViewById(R.id.start_guide_permission_call_fix);
@@ -189,7 +216,6 @@ public class StartGuideViewHolder implements INotificationObserver {
 
             oneKeyFix.setOnClickListener(v -> {
                 AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX);
-                AutoLogger.logEventWithBrandAndOS("Automatic_Begin_FromAccessbility");
             });
 
             refresh();
@@ -204,10 +230,12 @@ public class StartGuideViewHolder implements INotificationObserver {
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFICATION_PERMISSION_RESULT, this);
     }
 
-    public void refresh() {
+    public int refresh() {
+        int confirmPermission = 0;
         if (!isConfirmPage) {
-            return;
+            return confirmPermission;
         }
+
         boolean screenFlashGrant = AutoPermissionChecker.hasAutoStartPermission();
         boolean onLockGrant = AutoPermissionChecker.hasShowOnLockScreenPermission();
         boolean callGrant = Utils.isNotificationListeningGranted();
@@ -218,22 +246,26 @@ public class StartGuideViewHolder implements INotificationObserver {
         int notGrant = 0;
         if (!screenFlashGrant) {
             notGrant++;
-        } else if (gotoFetchScreenFlash) {
-            gotoFetchScreenFlash = false;
-            AutoLogger.logEventWithBrandAndOS("FixAlert_AutoStart_Granted");
         }
+
         if (!onLockGrant) {
             notGrant++;
-        } else if (gotoFetchOnLock) {
-            gotoFetchOnLock = false;
-            AutoLogger.logEventWithBrandAndOS("FixALert_Lock_Granted");
         }
+
         if (!callGrant) {
             notGrant++;
         } else if (gotoFetchCall) {
             gotoFetchCall = false;
             AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
+        }
 
+        if (gotoFetchScreenFlash) {
+            gotoFetchScreenFlash = false;
+            confirmPermission = TYPE_PERMISSION_TYPE_SCREEN_FLASH;
+        }
+        if (gotoFetchOnLock) {
+            gotoFetchOnLock = false;
+            confirmPermission = TYPE_PERMISSION_TYPE_ON_LOCK;
         }
 
         if (notGrant == 0) {
@@ -245,6 +277,7 @@ public class StartGuideViewHolder implements INotificationObserver {
         TextView title = container.findViewById(R.id.start_guide_permission_title);
         ball.setText(String.valueOf(notGrant));
         title.setText(String.format(container.getContext().getString(R.string.start_guide_permission_title), String.valueOf(notGrant)));
+        return confirmPermission;
     }
 
     public void setCircleAnimView(@IdRes int viewID) {
@@ -493,6 +526,12 @@ public class StartGuideViewHolder implements INotificationObserver {
                                 text.animate().alpha(0.3f).setDuration(100).start();
                             }
                         });
+                    } else {
+                        ok.setVisibility(View.VISIBLE);
+                        ok.setImageResource(R.drawable.start_guide_confirm_ok_image);
+
+                        ok.animate().alpha(0.3f).setDuration(100).start();
+                        text.animate().alpha(0.3f).setDuration(100).start();
                     }
                 }
 

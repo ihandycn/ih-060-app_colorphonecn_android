@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
+import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.startguide.StartGuideViewHolder;
 import com.honeycomb.colorphone.util.Analytics;
@@ -28,6 +30,7 @@ import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.rom.RomUtils;
 
@@ -44,6 +47,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private StartGuideViewHolder holder;
+    private AlertDialog dialog;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, StartGuideActivity.class);
@@ -135,9 +139,58 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
                 Analytics.logEvent("FixAlert_Show", "AccessType", AutoLogger.getPermissionString(RomUtils.checkIsHuaweiRom()));
             } else {
-                holder.refresh();
+                int confirmPermission = holder.refresh();
+                showConfirmDialog(confirmPermission);
             }
         }
+    }
+
+    private void showConfirmDialog(int confirmPermission) {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, com.acb.call.R.style.Theme_AppCompat_Light_Dialog);
+        builder.setCancelable(false);
+        if (confirmPermission == StartGuideViewHolder.TYPE_PERMISSION_TYPE_SCREEN_FLASH) {
+            if (RomUtils.checkIsVivoRom()) {
+                builder.setTitle(com.acb.call.R.string.acb_request_permission_white_title_vivo);
+                builder.setMessage(com.acb.call.R.string.acb_request_permission_white_content_vivo);
+            } else {
+                builder.setTitle(com.acb.call.R.string.acb_request_permission_auto_start_title);
+                builder.setMessage(com.acb.call.R.string.acb_request_permission_auto_start_content);
+            }
+            builder.setPositiveButton(com.acb.call.R.string.yes, (dialog, which) -> {
+                AutoPermissionChecker.onAutoStartChange(true);
+                Preferences.getDefault().putBoolean("pref_key_permission_auto_start_grant", true);
+                Analytics.logEvent("AutoStartAlert_Yes_Click");
+
+                holder.refresh();
+            });
+
+            builder.setNegativeButton(com.acb.call.R.string.no, (dialog, which) -> Analytics.logEvent("AutoStartAlert_No_Click"));
+            Analytics.logEvent("AutoStartAlert_Show");
+
+        } else if (confirmPermission == StartGuideViewHolder.TYPE_PERMISSION_TYPE_ON_LOCK) {
+            builder.setTitle(com.acb.call.R.string.acb_request_permission_show_on_lockscreen_title);
+            builder.setMessage(com.acb.call.R.string.acb_request_permission_show_on_lockscreen_content);
+            builder.setPositiveButton(com.acb.call.R.string.yes, (dialog, which) -> {
+                AutoPermissionChecker.onShowOnLockScreenChange(true);
+                Preferences.getDefault().putBoolean("pref_key_permission_show_on_lock_screen_grant", true);
+                Analytics.logEvent("LockScreenAlert_Yes_Click");
+
+                holder.refresh();
+            });
+
+            builder.setNegativeButton(com.acb.call.R.string.no, (dialog, which) -> Analytics.logEvent("LockScreenAlert_No_Click"));
+            Analytics.logEvent("LockScreenAlert_Show");
+
+        } else {
+            return;
+        }
+
+        dialog = builder.create();
+        dialog.show();
     }
 
     @Override
