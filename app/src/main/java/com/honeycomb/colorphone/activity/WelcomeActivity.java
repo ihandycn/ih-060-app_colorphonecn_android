@@ -10,7 +10,6 @@ import android.view.Window;
 
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
@@ -79,11 +78,7 @@ public class WelcomeActivity extends Activity {
             // Huawei & Xiaomi use auto permission guide window.
             boolean needShowGuidePermissionActivity =
                     !StartGuideActivity.isStarted()
-                            && (!AutoPermissionChecker.isAccessibilityGranted()
-                            || !AutoPermissionChecker.hasFloatWindowPermission()
-                            || !AutoPermissionChecker.hasShowOnLockScreenPermission()
-                            || !AutoPermissionChecker.hasAutoStartPermission()
-                            || !AutoPermissionChecker.isNotificationListeningGranted());
+                            && (!AutoRequestManager.getInstance().isGrantAllPermission());
             if (needShowGuidePermissionActivity) {
                 guideIntent = new Intent(WelcomeActivity.this, StartGuideActivity.class);
                 HSAlertMgr.delayRateAlert();
