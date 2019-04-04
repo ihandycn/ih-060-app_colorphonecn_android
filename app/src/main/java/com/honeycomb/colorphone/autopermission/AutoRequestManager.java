@@ -137,11 +137,10 @@ public class AutoRequestManager {
                         Toasts.showToast("Not match andy permissions!", Toast.LENGTH_LONG);
                     }
                 }
-                if (succeedCount == 0) {
-                    HSLog.i(TAG, "No permission granted!");
-                } else if (succeedCount == totalCount) {
-                    HSLog.i(TAG, "All permissions granted!");
-                }
+
+                HSLog.d(TAG, "[AutoPermission-Result] : retry = " + mRetryCount
+                        + ", successCount = " + succeedCount
+                        + ", totalCount = " + totalCount);
 
                 if (succeedCount < totalCount && mRetryCount < MAX_RETRY_COUNT) {
                     // Try to get
@@ -157,10 +156,11 @@ public class AutoRequestManager {
 
             @Override
             public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
-                HSLog.i(TAG, "permission request index " + index + " finished, result " + isSucceed + "，msg = " + msg);
                 if (BuildConfig.DEBUG) {
-                    String result = isSucceed ?  " success !" : ("  failed reason : " + msg);
-                    Toasts.showToast(permission.get(index) + result, Toast.LENGTH_LONG);
+                    String result = permission.get(index)
+                            + (isSucceed ? " success !" : ("  failed reason : " + msg));
+                    HSLog.d(TAG, "[AutoPermission-Result] : index " + index + " finished, " + result);
+                    Toasts.showToast(result, Toast.LENGTH_LONG);
                 }
                 HSPermissionType type = permission.get(index);
                 switch (type) {
@@ -297,7 +297,7 @@ public class AutoRequestManager {
 
             @Override
             public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
-                HSLog.i(TAG, "permission open index " + index + " finished, result " + isSucceed + "，msg = " + msg);
+                HSLog.d(TAG, "permission open index " + index + " finished, result " + isSucceed + "，msg = " + msg);
                 if (isSucceed) {
                     // already has permission.
                     if (type == HSPermissionType.TYPE_AUTO_START) {
