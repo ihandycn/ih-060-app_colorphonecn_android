@@ -205,7 +205,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             onPermissionGranted();
         }
 
-        HSGlobalNotificationCenter.addObserver(StartGuideViewHolder.ALL_PERMISSION_GRANT, this);
+        HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH, this);
     }
 
     @Override protected void onStop() {
@@ -214,7 +214,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     }
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
-        if (TextUtils.equals(StartGuideViewHolder.ALL_PERMISSION_GRANT, s)) {
+        if (TextUtils.equals(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH, s)) {
             HSLog.i("AutoPermission", "onPermissionGranted onReceive");
             onPermissionGranted();
         }

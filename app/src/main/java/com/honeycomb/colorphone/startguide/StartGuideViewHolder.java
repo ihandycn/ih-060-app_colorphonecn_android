@@ -10,7 +10,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
+import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,11 +36,11 @@ import java.lang.annotation.RetentionPolicy;
 
 public class StartGuideViewHolder implements INotificationObserver {
 
-    public static final String ALL_PERMISSION_GRANT = "all_permission_grant";
     public static final int TYPE_PERMISSION_TYPE_SCREEN_FLASH = 1;
     public static final int TYPE_PERMISSION_TYPE_ON_LOCK = 2;
     public static final int TYPE_PERMISSION_TYPE_CALL = 3;
 
+    public static final int PERMISSION_STATUS_HIDE = -1;
     public static final int PERMISSION_STATUS_NOT_START = 0;
     public static final int PERMISSION_STATUS_LOADING = 1;
     public static final int PERMISSION_STATUS_FAILED = 2;
@@ -51,16 +51,19 @@ public class StartGuideViewHolder implements INotificationObserver {
             TYPE_PERMISSION_TYPE_ON_LOCK,
             TYPE_PERMISSION_TYPE_CALL})
     @Retention(RetentionPolicy.SOURCE)
-    private @interface PERMISSION_TYPES {}
+    private @interface PERMISSION_TYPES {
+    }
 
-    @IntDef({PERMISSION_STATUS_NOT_START,
-            PERMISSION_STATUS_LOADING, 
+    @IntDef({PERMISSION_STATUS_HIDE,
+            PERMISSION_STATUS_NOT_START,
+            PERMISSION_STATUS_LOADING,
             PERMISSION_STATUS_OK,
             PERMISSION_STATUS_FAILED,
             PERMISSION_STATUS_FIX
-            })
+    })
     @Retention(RetentionPolicy.SOURCE)
-    private @interface PERMISSION_STATUS {}
+    private @interface PERMISSION_STATUS {
+    }
 
     private static final String TAG = "AutoPermission";
     private static final int CIRCLE_SPEED = 360;
@@ -100,6 +103,8 @@ public class StartGuideViewHolder implements INotificationObserver {
     private int progressInterval = UPGRADE_MIN_INTERVAL * 2;
     private int finalStatus;
 
+    private SparseIntArray permissionList = new SparseIntArray();
+
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -116,17 +121,10 @@ public class StartGuideViewHolder implements INotificationObserver {
                         if (progressNum >= PROGRESS_MAX_VALUE) {
                             if (goalNum == PROGRESS_MAX_VALUE) {
                                 progressNum = PROGRESS_MAX_VALUE;
-                                finish(10);
+                                finish(300);
                                 interval = 0;
                             } else {
                                 progressNum = PROGRESS_MAX_VALUE - 1;
-                            }
-                            long cast = (System.currentTimeMillis() - startAutoRequestAnimation);
-                            HSLog.i(TAG, "progress Animation end " + cast);
-
-                            if (cast > DateUtils.MINUTE_IN_MILLIS) {
-                                interval = 0;
-                                finish(10);
                             }
                         }
 
@@ -143,6 +141,11 @@ public class StartGuideViewHolder implements INotificationObserver {
     public StartGuideViewHolder(View root, boolean isConfirmPage) {
         container = root;
         this.isConfirmPage = isConfirmPage;
+
+        // Init status
+        permissionList.append(TYPE_PERMISSION_TYPE_SCREEN_FLASH, isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_LOADING);
+        permissionList.append(TYPE_PERMISSION_TYPE_ON_LOCK, isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_LOADING);
+        permissionList.append(TYPE_PERMISSION_TYPE_CALL, isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_LOADING);
 
         screenFlashText = container.findViewById(R.id.start_guide_permission_auto_start);
         screenFlashOK = container.findViewById(R.id.start_guide_permission_auto_start_ok);
@@ -196,12 +199,17 @@ public class StartGuideViewHolder implements INotificationObserver {
         } else {
             progress = container.findViewById(R.id.start_guide_request_progress);
 
-            setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, PERMISSION_STATUS_LOADING);
-            setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK, PERMISSION_STATUS_LOADING);
-            setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, PERMISSION_STATUS_LOADING);
+            setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH,
+                    AutoPermissionChecker.hasAutoStartPermission() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
+            setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK,
+                    AutoPermissionChecker.hasShowOnLockScreenPermission() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
+            setPermissionStatus(TYPE_PERMISSION_TYPE_CALL,
+                    AutoPermissionChecker.isAccessibilityGranted() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
         }
 
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFICATION_PERMISSION_RESULT, this);
+        HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH, this);
+
     }
 
     public int refresh() {
@@ -302,19 +310,15 @@ public class StartGuideViewHolder implements INotificationObserver {
             int status = result ? PERMISSION_STATUS_OK : isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_FAILED;
             switch (pType) {
                 case TYPE_AUTO_START:
-                    goalNum += 33;
-                    setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, status);
+                    updateProgress(TYPE_PERMISSION_TYPE_SCREEN_FLASH, status);
                     HSLog.w(TAG, "cast time 11 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
                 case TYPE_SHOW_ON_LOCK:
-                    goalNum += 33;
-                    setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK, status);
+                    updateProgress(TYPE_PERMISSION_TYPE_ON_LOCK, status);
                     HSLog.w(TAG, "cast time 22 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
                 case TYPE_NOTIFICATION_LISTENING:
-                    goalNum += 33;
-                    progressInterval = (1500 / (PROGRESS_MAX_VALUE - progressNum));
-                    setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, status);
+                    updateProgress(TYPE_PERMISSION_TYPE_CALL, status);
                     HSLog.w(TAG, "cast time 33 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
 
@@ -323,7 +327,17 @@ public class StartGuideViewHolder implements INotificationObserver {
             }
 
             refresh();
+        } else if (TextUtils.equals(s, AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH)) {
+            if (!isConfirmPage) {
+                goalNum = PROGRESS_MAX_VALUE;
+            }
         }
+    }
+
+    private void updateProgress(int pType, int status) {
+        goalNum += 33;
+        progressInterval = (1500 / (PROGRESS_MAX_VALUE - progressNum));
+        setPermissionStatus(pType, status);
     }
 
     private void finish(long delay) {
@@ -332,7 +346,6 @@ public class StartGuideViewHolder implements INotificationObserver {
         handler.removeMessages(EVENT_UPGRADE);
         handler = null;
 
-        HSGlobalNotificationCenter.sendNotification(ALL_PERMISSION_GRANT);
         if (!isConfirmPage) {
             Threads.postOnMainThreadDelayed(() -> {
                 HSLog.w(TAG, "dismiss float window num == " + progressNum);
@@ -391,16 +404,23 @@ public class StartGuideViewHolder implements INotificationObserver {
                 text = screenFlashText;
                 break;
             default:
-                goalNum = PROGRESS_MAX_VALUE;
+
                 return;
         }
 
-        int lastStatus = Integer.valueOf(ok.getTag().toString());
-        if (pStatus < lastStatus) {
-            HSLog.i(TAG, "setPermissionStatus C == " + isConfirmPage + "  pt == " + pType + "  ps == " + pStatus + "  last == " + lastStatus);
-            return;
+        // Check end status.
+        permissionList.put(pType, pStatus);
+        boolean shouldFinish = true;
+        if (isConfirmPage) {
+            for (int i = 0; i < permissionList.size() ; i++) {
+               int grantedResult = permissionList.valueAt(i);
+               if (grantedResult != PERMISSION_STATUS_OK) {
+                   shouldFinish = false;
+               }
+            }
         }
 
+        int lastStatus = Integer.valueOf(ok.getTag().toString());
         switch (pStatus) {
             case PERMISSION_STATUS_FAILED:
                 if (lastStatus == PERMISSION_STATUS_LOADING) {

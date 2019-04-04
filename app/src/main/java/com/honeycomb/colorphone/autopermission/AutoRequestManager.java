@@ -40,6 +40,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 public class AutoRequestManager {
+    public static final String NOTIFY_PERMISSION_CHECK_FINISH = "notification_permission_all_finish";
+
     public static final String NOTIFICATION_PERMISSION_RESULT = "notification_permission_result";
     public static final String BUNDLE_PERMISSION_TYPE = "permission_type";
     public static final String BUNDLE_PERMISSION_RESULT = "permission_result";
@@ -147,9 +149,8 @@ public class AutoRequestManager {
                     mRetryCount++;
                     executeAutoTask();
                 } else {
-//                    boolean allGranted = succeedCount == totalCount;
-//                    notifyAutoTaskOver(allGranted);
-//                    dismissCoverWindow();
+                    boolean allGranted = succeedCount == totalCount;
+                    notifyAutoTaskOver(allGranted);
                     isRequestPermission = false;
                 }
             }
@@ -185,7 +186,7 @@ public class AutoRequestManager {
     }
 
     private void notifyAutoTaskOver(boolean allGranted) {
-
+        HSGlobalNotificationCenter.sendNotification(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH);
     }
 
     private void notifyPermissionGranted(HSPermissionType type, boolean isSucceed) {
