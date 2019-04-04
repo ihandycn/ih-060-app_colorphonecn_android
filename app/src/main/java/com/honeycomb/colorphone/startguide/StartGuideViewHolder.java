@@ -94,7 +94,7 @@ public class StartGuideViewHolder implements INotificationObserver {
     private LottieAnimationView callLoading;
     private View callFix;
     private View callText;
-    private boolean gotoFetchCall = false;
+    public boolean gotoFetchCall = false;
 
     private View oneKeyFix;
 
@@ -241,15 +241,11 @@ public class StartGuideViewHolder implements INotificationObserver {
 
         if (notGrant == 0) {
             finish(1000);
-
-            if (gotoFetchOnLock || gotoFetchScreenFlash || gotoFetchCall) {
-                AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
-            }
         }
 
         if (gotoFetchCall) {
             gotoFetchCall = false;
-            AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
+            confirmPermission = TYPE_PERMISSION_TYPE_CALL;
         }
 
         if (gotoFetchScreenFlash) {
@@ -262,12 +258,15 @@ public class StartGuideViewHolder implements INotificationObserver {
         }
 
 
-
         TextView ball = container.findViewById(R.id.start_guide_confirm_number);
         TextView title = container.findViewById(R.id.start_guide_permission_title);
         ball.setText(String.valueOf(notGrant));
         title.setText(String.format(container.getContext().getString(R.string.start_guide_permission_title), String.valueOf(notGrant)));
         return confirmPermission;
+    }
+
+    public boolean isManualFix() {
+        return gotoFetchOnLock || gotoFetchScreenFlash || gotoFetchCall;
     }
 
     public void setCircleAnimView(@IdRes int viewID) {
@@ -352,8 +351,10 @@ public class StartGuideViewHolder implements INotificationObserver {
     private void finish(long delay) {
         HSLog.w(TAG, "finish num == " + progressNum);
 
-        handler.removeMessages(EVENT_UPGRADE);
-        handler = null;
+        if (handler != null) {
+            handler.removeMessages(EVENT_UPGRADE);
+            handler = null;
+        }
 
         if (!isConfirmPage) {
             Threads.postOnMainThreadDelayed(() -> {

@@ -109,7 +109,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 oldView.animate().alpha(0).setDuration(200).start();
             }
             if (holder != null) {
-                holder.refresh();
+                if (holder.isManualFix()) {
+                    AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
+                }
             }
 
             View newView = findViewById(R.id.start_guide_congratulation_page);
@@ -173,7 +175,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 Analytics.logEvent("AutoStartAlert_Yes_Click");
 
                 Analytics.logEvent("FixAlert_AutoStart_Granted");
-                holder.refresh();
+                if (AutoRequestManager.getInstance().isGrantAllPermission()) {
+                    AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
+                }
+                onPermissionChanged();
             });
 
             builder.setNegativeButton(com.acb.call.R.string.no, (dialog, which) -> Analytics.logEvent("AutoStartAlert_No_Click"));
@@ -188,13 +193,19 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 Analytics.logEvent("LockScreenAlert_Yes_Click");
 
                 Analytics.logEvent("FixALert_Lock_Granted");
-                holder.refresh();
+                if (AutoRequestManager.getInstance().isGrantAllPermission()) {
+                    AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
+                }
+                onPermissionChanged();
             });
 
             builder.setNegativeButton(com.acb.call.R.string.no, (dialog, which) -> Analytics.logEvent("LockScreenAlert_No_Click"));
             Analytics.logEvent("LockScreenAlert_Show");
 
         } else {
+            if (confirmPermission == StartGuideViewHolder.TYPE_PERMISSION_TYPE_CALL) {
+                AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
+            }
             return;
         }
 
