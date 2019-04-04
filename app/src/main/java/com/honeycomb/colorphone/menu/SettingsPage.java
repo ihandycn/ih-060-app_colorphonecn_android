@@ -21,6 +21,8 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Navigations;
 
+import colorphone.acb.com.libweather.WeatherActivity;
+
 public class SettingsPage implements View.OnClickListener {
     private SwitchCompat mainSwitch;
 
@@ -105,7 +107,9 @@ public class SettingsPage implements View.OnClickListener {
                 LauncherAnalytics.logEvent("Colorphone_Settings_ContactTheme_Clicked");
                 break;
             case R.id.settings_about:
-                AboutActivity.start(context);
+                // TODO: 2019/4/3 天气入口
+//                AboutActivity.start(context);
+                WeatherActivity.start(context);
                 break;
             case R.id.settings_facebook:
                 Navigations.openBrowser(context,

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<colorphone.acb.com.libweather.CityListItem xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="56dp">
+
+    <!-- Back view underneath -->
+    <RelativeLayout
+        android:layout_width="56dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|center_vertical"
+        android:background="#f31620">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerInside"
+            android:padding="9dp"
+            app:srcCompat="@drawable/weather_settings_dustbin" />
+    </RelativeLayout>
+
+    <!-- Front view -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@android:color/white"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/weather_settings_city_start_icon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            tools:src="@drawable/weather_settings_delete" />
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/weather_settings_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_toEndOf="@id/weather_settings_city_start_icon"
+            android:layout_toRightOf="@id/weather_settings_city_start_icon"
+            android:maxLines="1"
+            android:textColor="@color/material_text_black_primary"
+            android:textSize="@dimen/settings_item_text_size"
+            app:typeface="@string/custom_font_regular"
+            tools:ignore="RtlSymmetry"
+            tools:text="New York, America" />
+
+        <ImageView
+            android:id="@+id/weather_settings_city_end_icon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            tools:src="@drawable/weather_settings_delete" />
+
+        <View
+            style="@style/ThinHorizontalDivider"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+</colorphone.acb.com.libweather.CityListItem>

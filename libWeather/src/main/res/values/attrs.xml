@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="InsetAttr">
+        <attr name="layout_insetWay" format="enum">
+            <enum name="none" value="0" />
+            <enum name="padding" value="1" />
+            <enum name="margin" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <!-- Page Indicator specific attributes. -->
+    <declare-styleable name="PageIndicator">
+        <attr name="windowSize" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="DragLinearLayout">
+        <attr name="scrollSensitiveHeight" format="dimension" />
+        <attr name="placeholderView" format="reference" />
+    </declare-styleable>
+</resources>
