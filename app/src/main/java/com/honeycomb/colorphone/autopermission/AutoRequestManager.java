@@ -44,6 +44,8 @@ import java.util.ArrayList;
 public class AutoRequestManager {
     public static final String NOTIFY_PERMISSION_CHECK_FINISH = "notification_permission_all_finish";
 
+    public static final String NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW = "notification_permission_all_finish_window_closed";
+
     public static final String NOTIFICATION_PERMISSION_RESULT = "notification_permission_result";
     public static final String BUNDLE_PERMISSION_TYPE = "permission_type";
     public static final String BUNDLE_PERMISSION_RESULT = "permission_result";

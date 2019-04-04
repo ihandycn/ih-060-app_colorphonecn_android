@@ -115,16 +115,16 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             view.setPivotY(Dimensions.pxFromDp(70));
             view.setScaleX(0);
             view.setScaleY(0);
-            view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator()).start();
+            view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator(3)).start();
 
             view = newView.findViewById(R.id.start_guide_congratulation_center_image);
             view.setPivotX(Dimensions.pxFromDp(19));
             view.setPivotY(Dimensions.pxFromDp(8));
             view.setScaleX(0);
             view.setScaleY(0);
-            view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator()).start();
+            view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator(3)).start();
 
-            Threads.postOnMainThreadDelayed(this::finish, 2500);
+            Threads.postOnMainThreadDelayed(this::finish, 2000);
         } else {
             HSLog.i("AutoPermission", "onPermissionChanged holder == " + holder);
             if (holder == null) {
@@ -205,7 +205,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             onPermissionChanged();
         }
 
-        HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH, this);
+        HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
     }
 
     @Override protected void onStop() {
@@ -214,7 +214,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     }
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
-        if (TextUtils.equals(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH, s)) {
+        if (TextUtils.equals(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, s)) {
             HSLog.i("AutoPermission", "onPermissionChanged onReceive");
             onPermissionChanged();
         }

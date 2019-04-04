@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -121,7 +122,7 @@ public class StartGuideViewHolder implements INotificationObserver {
                         if (progressNum >= PROGRESS_MAX_VALUE) {
                             if (goalNum == PROGRESS_MAX_VALUE) {
                                 progressNum = PROGRESS_MAX_VALUE;
-                                finish(300);
+                                finish(1000);
                                 interval = 0;
                             } else {
                                 progressNum = PROGRESS_MAX_VALUE - 1;
@@ -252,7 +253,7 @@ public class StartGuideViewHolder implements INotificationObserver {
 
         if (notGrant == 0) {
             AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
-            finish(500);
+            finish(1000);
         }
 
         TextView ball = container.findViewById(R.id.start_guide_confirm_number);
@@ -278,6 +279,7 @@ public class StartGuideViewHolder implements INotificationObserver {
                     circleAnimator = ValueAnimator.ofFloat(-0.125f, 0f);
                 } else {
                     circleAnimator = ValueAnimator.ofFloat(0, 1);
+                    circleAnimator.setInterpolator(new LinearInterpolator());
                     circleAnimator.setRepeatCount(ValueAnimator.INFINITE);
                     circleAnimator.setRepeatMode(ValueAnimator.RESTART);
                 }
@@ -349,6 +351,7 @@ public class StartGuideViewHolder implements INotificationObserver {
         if (!isConfirmPage) {
             Threads.postOnMainThreadDelayed(() -> {
                 HSLog.w(TAG, "dismiss float window num == " + progressNum);
+                HSGlobalNotificationCenter.sendNotification(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW);
                 AutoRequestManager.getInstance().dismissCoverWindow();
             }, delay);
         }
