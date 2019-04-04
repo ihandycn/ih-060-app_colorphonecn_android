@@ -70,8 +70,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
         if (Utils.isAccessibilityGranted()) {
-            HSLog.i("AutoPermission", "onPermissionGranted onCreate");
-            onPermissionGranted();
+            HSLog.i("AutoPermission", "onPermissionChanged onCreate");
+            onPermissionChanged();
         } else {
             if (ModuleUtils.isAllModuleEnabled()) {
                 showAccessibilityPermissionPage();
@@ -96,9 +96,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         loadingForPermission();
     }
 
-    private void onPermissionGranted() {
+    private void onPermissionChanged() {
         if (AutoRequestManager.getInstance().isGrantAllPermission()) {
-            HSLog.i("AutoPermission", "onPermissionGranted congratulation_page");
+            HSLog.i("AutoPermission", "onPermissionChanged congratulation_page");
 
             View oldView = findViewById(R.id.start_guide_function_page);
             if (oldView.isShown()) {
@@ -126,7 +126,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
             Threads.postOnMainThreadDelayed(this::finish, 2500);
         } else {
-            HSLog.i("AutoPermission", "onPermissionGranted holder == " + holder);
+            HSLog.i("AutoPermission", "onPermissionChanged holder == " + holder);
             if (holder == null) {
                 View view = findViewById(R.id.start_guide_function_page);
                 view.setVisibility(View.GONE);
@@ -201,8 +201,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     @Override protected void onStart() {
         super.onStart();
         if (Utils.isAccessibilityGranted() && !AutoRequestManager.getInstance().isRequestPermission()) {
-            HSLog.i("AutoPermission", "onPermissionGranted onStart");
-            onPermissionGranted();
+            HSLog.i("AutoPermission", "onPermissionChanged onStart");
+            onPermissionChanged();
         }
 
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH, this);
@@ -215,8 +215,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH, s)) {
-            HSLog.i("AutoPermission", "onPermissionGranted onReceive");
-            onPermissionGranted();
+            HSLog.i("AutoPermission", "onPermissionChanged onReceive");
+            onPermissionChanged();
         }
     }
 

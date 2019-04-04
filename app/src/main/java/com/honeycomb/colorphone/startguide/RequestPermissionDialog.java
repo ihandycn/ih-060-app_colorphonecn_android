@@ -2,7 +2,6 @@ package com.honeycomb.colorphone.startguide;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.WindowManager;
 
@@ -10,7 +9,6 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.FullScreenDialog;
 import com.honeycomb.colorphone.boost.SafeWindowManager;
 import com.ihs.commons.utils.HSLog;
-import com.superapps.util.Compats;
 
 public class RequestPermissionDialog extends FullScreenDialog {
     private StartGuideViewHolder holder;
@@ -42,11 +40,8 @@ public class RequestPermissionDialog extends FullScreenDialog {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         lp.format = PixelFormat.TRANSLUCENT;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            lp.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        } else {
-            lp.type = WindowManager.LayoutParams.TYPE_PHONE;
-        }
+
+        lp.type = getFloatWindowType();
 
         lp.flags |= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
 
@@ -55,11 +50,7 @@ public class RequestPermissionDialog extends FullScreenDialog {
         lp.flags |=
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_FULLSCREEN
                         | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            lp.type = WindowManager.LayoutParams.TYPE_TOAST;
-        } else if (Compats.IS_HUAWEI_DEVICE) {
-            lp.type = WindowManager.LayoutParams.TYPE_TOAST;
-        }
+
         return lp;
     }
 

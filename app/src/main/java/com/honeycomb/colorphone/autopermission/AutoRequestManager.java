@@ -108,6 +108,7 @@ public class AutoRequestManager {
                         AutoPermissionChecker.onFloatPermissionChange(true);
                         AutoLogger.logEventWithBrandAndOS("Accessbility_Float_Grant_Success");
                     } else {
+                        notifyAutoTaskOver(false);
                         AutoLogger.logEventWithBrandAndOS("Accessbility_Float_Grant_Failed");
                     }
                 }

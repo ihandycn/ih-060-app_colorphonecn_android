@@ -3,7 +3,6 @@ package com.honeycomb.colorphone.boost;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,10 +56,7 @@ public abstract class FullScreenDialog extends FloatWindowDialog {
     @Override
     public WindowManager.LayoutParams getLayoutParams() {
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.type = WindowManager.LayoutParams.TYPE_PHONE;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            lp.type = WindowManager.LayoutParams.TYPE_TOAST;
-        }
+        lp.type = getFloatWindowType();
         lp.format = PixelFormat.RGBA_8888;
         lp.flags |= WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
         lp.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_FULLSCREEN |

@@ -40,8 +40,8 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -305,7 +305,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
     @Override
     public WindowManager.LayoutParams getLayoutParams() {
         WindowManager.LayoutParams windowParams = new WindowManager.LayoutParams();
-        windowParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        windowParams.type = getFloatWindowType();
         windowParams.format = PixelFormat.RGBA_8888;
 
         windowParams.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;

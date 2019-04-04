@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Dimensions;
 
 
@@ -69,10 +71,7 @@ public abstract class FloatWindowDialog extends FrameLayout implements FloatWind
             mLayoutParams.format = PixelFormat.TRANSLUCENT;
             mLayoutParams.gravity = Gravity.TOP;
             mLayoutParams.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-            mLayoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                mLayoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
-            }
+            mLayoutParams.type = getFloatWindowType();
             mLayoutParams.height = Dimensions.getPhoneHeight(getContext());
             mLayoutParams.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN
                     | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
@@ -82,5 +81,20 @@ public abstract class FloatWindowDialog extends FrameLayout implements FloatWind
             }
         }
         return mLayoutParams;
+    }
+
+    protected int getFloatWindowType() {
+        int floatWindowType;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            floatWindowType = WindowManager.LayoutParams.TYPE_TOAST;
+        } else {
+            floatWindowType = WindowManager.LayoutParams.TYPE_PHONE;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            floatWindowType = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else if (Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(HSApplication.getContext())) {
+            floatWindowType = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
+        }
+        return floatWindowType;
     }
 }
