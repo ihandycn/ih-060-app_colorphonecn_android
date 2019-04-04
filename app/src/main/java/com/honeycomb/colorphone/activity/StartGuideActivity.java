@@ -104,6 +104,13 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             if (oldView.isShown()) {
                 oldView.animate().alpha(0).setDuration(200).start();
             }
+            oldView = findViewById(R.id.start_guide_confirm_page);
+            if (oldView.isShown()) {
+                oldView.animate().alpha(0).setDuration(200).start();
+            }
+            if (holder != null) {
+                holder.refresh();
+            }
 
             View newView = findViewById(R.id.start_guide_congratulation_page);
             newView.setVisibility(View.VISIBLE);
@@ -165,6 +172,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 Preferences.getDefault().putBoolean("pref_key_permission_auto_start_grant", true);
                 Analytics.logEvent("AutoStartAlert_Yes_Click");
 
+                Analytics.logEvent("FixAlert_AutoStart_Granted");
                 holder.refresh();
             });
 
@@ -179,6 +187,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 Preferences.getDefault().putBoolean("pref_key_permission_show_on_lock_screen_grant", true);
                 Analytics.logEvent("LockScreenAlert_Yes_Click");
 
+                Analytics.logEvent("FixALert_Lock_Granted");
                 holder.refresh();
             });
 

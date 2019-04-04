@@ -73,6 +73,8 @@ public class AutoLogger {
 
         if (stringBuilder.length() > 0) {
             stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
+        } else {
+            stringBuilder.append("null");
         }
 
         return stringBuilder.toString();
