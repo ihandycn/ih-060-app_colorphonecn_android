@@ -98,7 +98,6 @@ public class AutoRequestManager {
     public void onAccessibilityReady() {
         if (AutoPermissionChecker.hasFloatWindowPermission()) {
             onFloatWindowPermissionReady();
-            AutoPermissionChecker.incrementAutoRequestCount();
         } else {
             HSLog.d(TAG, "start request draw overlay!");
             ArrayList<HSPermissionType> permission = new ArrayList<HSPermissionType>();
@@ -121,6 +120,8 @@ public class AutoRequestManager {
 
     private void onFloatWindowPermissionReady() {
         HSLog.d(TAG, "onFloatWindowPermissionReady");
+        AutoPermissionChecker.incrementAutoRequestCount();
+
         Threads.postOnMainThreadDelayed(() -> {
             showCoverWindow();
 
