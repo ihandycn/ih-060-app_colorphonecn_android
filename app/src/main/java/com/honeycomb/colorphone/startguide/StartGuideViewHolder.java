@@ -16,17 +16,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acb.colorphone.permissions.AutoStartGuideActivity;
-import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
-import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
-import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
-import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -35,9 +29,7 @@ import com.ihs.permission.HSPermissionType;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Navigations;
 import com.superapps.util.Threads;
-import com.superapps.util.rom.RomUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -174,16 +166,6 @@ public class StartGuideViewHolder implements INotificationObserver {
                 AutoRequestManager.getInstance().openPermission(HSPermissionType.TYPE_AUTO_START);
                 AutoLogger.logEventWithBrandAndOS("FixALert_AutoStart_Click");
                 gotoFetchScreenFlash = true;
-
-                Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsMiuiRom()) {
-                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
-                    } else if (RomUtils.checkIsHuaweiRom()) {
-                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartHuaweiGuideActivity.class);
-                    } else {
-                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartGuideActivity.class);
-                    }
-                }, 1000);
             });
 
             onLockerFix = container.findViewById(R.id.start_guide_permission_onlocker_fix);
@@ -193,14 +175,6 @@ public class StartGuideViewHolder implements INotificationObserver {
                 AutoRequestManager.getInstance().openPermission(HSPermissionType.TYPE_SHOW_ON_LOCK);
                 AutoLogger.logEventWithBrandAndOS("FixALert_Lock_Click");
                 gotoFetchOnLock = true;
-
-                Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsMiuiRom()) {
-                        Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenMIUIGuideActivity.class);
-                    } else {
-                        Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
-                    }
-                }, 1000);
             });
 
             callFix = container.findViewById(R.id.start_guide_permission_call_fix);
