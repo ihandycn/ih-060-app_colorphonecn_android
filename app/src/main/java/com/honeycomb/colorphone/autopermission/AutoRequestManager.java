@@ -120,9 +120,11 @@ public class AutoRequestManager {
 
     private void onFloatWindowPermissionReady() {
         HSLog.d(TAG, "onFloatWindowPermissionReady");
-        showCoverWindow();
+        Threads.postOnMainThreadDelayed(() -> {
+            showCoverWindow();
 
-        executeAutoTask();
+            executeAutoTask();
+        }, 1000);
     }
 
     private void executeAutoTask() {
@@ -236,6 +238,8 @@ public class AutoRequestManager {
 
     public void showCoverWindow() {
         isCoverWindow = true;
+        HSLog.w("WindowManager", "showCoverWindow: " + AutoPermissionChecker.hasFloatWindowPermission());
+
         FloatWindowManager.getInstance().showDialog(new RequestPermissionDialog(HSApplication.getContext()));
 
         if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
