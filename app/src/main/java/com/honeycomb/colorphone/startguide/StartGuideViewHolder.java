@@ -237,7 +237,17 @@ public class StartGuideViewHolder implements INotificationObserver {
 
         if (!callGrant) {
             notGrant++;
-        } else if (gotoFetchCall) {
+        }
+
+        if (notGrant == 0) {
+            finish(1000);
+
+            if (gotoFetchOnLock || gotoFetchScreenFlash || gotoFetchCall) {
+                AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
+            }
+        }
+
+        if (gotoFetchCall) {
             gotoFetchCall = false;
             AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
         }
@@ -251,10 +261,7 @@ public class StartGuideViewHolder implements INotificationObserver {
             confirmPermission = TYPE_PERMISSION_TYPE_ON_LOCK;
         }
 
-        if (notGrant == 0) {
-            AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
-            finish(1000);
-        }
+
 
         TextView ball = container.findViewById(R.id.start_guide_confirm_number);
         TextView title = container.findViewById(R.id.start_guide_permission_title);
