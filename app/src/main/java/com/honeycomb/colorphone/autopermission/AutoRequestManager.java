@@ -114,6 +114,13 @@ public class AutoRequestManager {
                         AutoLogger.logEventWithBrandAndOS("Accessbility_Float_Grant_Failed");
                     }
                 }
+
+                @Override
+                public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
+                    if (!isSucceed) {
+                        AutoLogger.logAutomaticPermissionFailed(HSPermissionType.TYPE_DRAW_OVERLAY, msg);
+                    }
+                }
             });
         }
     }
