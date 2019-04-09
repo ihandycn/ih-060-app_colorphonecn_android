@@ -221,7 +221,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         } else {
             if (confirmPermission == StartGuideViewHolder.TYPE_PERMISSION_TYPE_CALL) {
-                AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
+                if (AutoPermissionChecker.isNotificationListeningGranted()) {
+                    AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
+                }
             }
             return;
         }

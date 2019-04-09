@@ -16,6 +16,12 @@ import android.widget.Toast;
 
 import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
+import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
+import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
+import com.acb.colorphone.permissions.NotificationGuideActivity;
+import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
+import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
+import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.honeycomb.colorphone.activity.WelcomeActivity;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
@@ -334,12 +340,42 @@ public class AutoRequestManager {
     }
 
     public boolean openPermission(HSPermissionType type) {
-        if (type == HSPermissionType.TYPE_AUTO_START && AutoPermissionChecker.hasAutoStartPermission()) {
-            return true;
-        } else if (type == HSPermissionType.TYPE_NOTIFICATION_LISTENING && Permissions.isNotificationAccessGranted()) {
-            return true;
-        } else if (type == HSPermissionType.TYPE_SHOW_ON_LOCK && Compats.IS_XIAOMI_DEVICE && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
-            return true;
+        if (type == HSPermissionType.TYPE_AUTO_START) {
+            if (AutoPermissionChecker.hasAutoStartPermission()) {
+                return true;
+            } else if (!AutoPermissionChecker.isAccessibilityGranted()) {
+                Threads.postOnMainThreadDelayed(() -> {
+                    if (RomUtils.checkIsHuaweiRom()) {
+                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartHuaweiGuideActivity.class);
+                    } else if (RomUtils.checkIsMiuiRom()){
+                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
+                    }
+                }, 900);
+            }
+        } else if (type == HSPermissionType.TYPE_NOTIFICATION_LISTENING) {
+            if (Permissions.isNotificationAccessGranted()) {
+                return true;
+            } else if (!AutoPermissionChecker.isAccessibilityGranted()) {
+                Threads.postOnMainThreadDelayed(() -> {
+                    if (RomUtils.checkIsMiuiRom()){
+                        Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);
+                    } else {
+                        Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
+                    }
+                }, 900);
+            }
+        } else if (type == HSPermissionType.TYPE_SHOW_ON_LOCK) {
+            if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
+                return true;
+            } else if (!AutoPermissionChecker.hasShowOnLockScreenPermission()) {
+                Threads.postOnMainThreadDelayed(() -> {
+                    if (RomUtils.checkIsMiuiRom()){
+                        Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenMIUIGuideActivity.class);
+                    } else {
+                        Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
+                    }
+                }, 900);
+            }
         }
 
         HSPermissionRequestMgr.getInstance().switchRequestPage(type, new HSPermissionRequestCallback.Stub() {
