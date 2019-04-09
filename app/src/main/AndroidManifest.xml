@@ -129,6 +129,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
+            android:excludeFromRecents="true"
             android:theme="@style/AppLightStatusBarTheme">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
@@ -140,6 +141,7 @@
         <activity
             android:name=".activity.WelcomeActivity"
             android:label="@string/app_name"
+            android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarThemeDarkTemp">
