@@ -331,6 +331,10 @@ public class AutoRequestManager {
             AutoRequestManager.getInstance().onAccessibilityReady();
         } else {
             Utils.goToAccessibilitySettingsPage();
+            Analytics.logEvent("Accessbility_Show",
+                    "Brand", AutoLogger.getBrand(),
+                    "Os", AutoLogger.getOSVersion(),
+                    "Time", String.valueOf(Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("Accessbility_Show")));
             Threads.postOnMainThreadDelayed(() -> {
                 if (RomUtils.checkIsHuaweiRom()) {
                     Navigations.startActivitySafely(HSApplication.getContext(), AccessibilityHuaweiGuideActivity.class);

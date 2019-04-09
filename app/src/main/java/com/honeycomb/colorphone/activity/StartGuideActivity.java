@@ -69,8 +69,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         StatusBarUtils.hideStatusBar(this);
         permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).getInt(ACC_KEY_SHOW_COUNT, 0);
 
-        Analytics.logEvent("ColorPhone_StartGuide_Show");
-
         TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
         if (Utils.isAccessibilityGranted() || isRetryEnd()) {
             HSLog.i("AutoPermission", "onPermissionChanged onCreate");
@@ -85,6 +83,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     ModuleUtils.setAllModuleUserEnable();
                     showAccessibilityPermissionPage();
                 });
+                Analytics.logEvent("ColorPhone_StartGuide_Show");
             }
         }
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);

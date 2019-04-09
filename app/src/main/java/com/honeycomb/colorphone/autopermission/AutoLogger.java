@@ -17,6 +17,10 @@ public class AutoLogger {
                 "Os", getOSVersion());
     }
 
+    public static void logEvent(String EventID, String... values) {
+        Analytics.logEvent(EventID, values);
+    }
+
     public static void logEventWithBrandAndOS(String EventID) {
         Analytics.logEvent(EventID,
                 "Brand", getBrand(), "Os", getOSVersion());
