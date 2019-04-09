@@ -13,6 +13,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
@@ -41,6 +42,7 @@ import com.superapps.util.rom.RomUtils;
 public class StartGuideActivity extends HSAppCompatActivity implements INotificationObserver {
     private static final String TAG = "AutoPermission";
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 1000;
+    private static final String ACC_KEY_SHOW_COUNT = "key_acc_permission_count";
 
     private String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
     private int permsCount = 0;
@@ -48,6 +50,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private StartGuideViewHolder holder;
     private AlertDialog dialog;
+    private int permissionShowCount;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, StartGuideActivity.class);
@@ -62,14 +65,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        HSPreferenceHelper.getDefault().putBoolean("guide_locker_stated", true);
         setContentView(R.layout.start_guide_all_features);
         StatusBarUtils.hideStatusBar(this);
+        permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).getInt(ACC_KEY_SHOW_COUNT, 0);
 
         Analytics.logEvent("ColorPhone_StartGuide_Show");
 
         TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
-        if (Utils.isAccessibilityGranted()) {
+        if (Utils.isAccessibilityGranted() || isRetryEnd()) {
             HSLog.i("AutoPermission", "onPermissionChanged onCreate");
             onPermissionChanged();
         } else {
@@ -84,6 +87,17 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 });
             }
         }
+        HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HSGlobalNotificationCenter.removeObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
+    }
+
+    private boolean isRetryEnd() {
+        return permissionShowCount >= 3;
     }
 
     private void showAccessibilityPermissionPage() {
@@ -220,12 +234,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     @Override protected void onStart() {
         super.onStart();
-        if (Utils.isAccessibilityGranted() && !AutoRequestManager.getInstance().isRequestPermission()) {
+        boolean needRefreshView = (Utils.isAccessibilityGranted() || isRetryEnd())
+                && !AutoRequestManager.getInstance().isRequestPermission();
+        if (needRefreshView) {
             HSLog.i("AutoPermission", "onPermissionChanged onStart");
             onPermissionChanged();
         }
-
-        HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
     }
 
     @Override protected void onStop() {
@@ -256,6 +270,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         button.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
         button.setOnClickListener(v -> {
             gotoAcc();
+            permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(ACC_KEY_SHOW_COUNT);
             AutoLogger.logEventWithBrandAndOS("Accessbility_Guide_Btn_Click");
         });
 
