@@ -87,7 +87,10 @@ public class AutoRequestManager {
             HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    AutoLogger.logEventWithBrandAndOS("Accessbility_Granted");
+                    Analytics.logEvent("Accessbility_Granted",
+                            "Brand", AutoLogger.getBrand(),
+                            "Os", AutoLogger.getOSVersion(),
+                            "Time", String.valueOf(AutoPermissionChecker.getAutoRequestCount()));
                     onAccessibilityReady();
 
                 }
@@ -277,7 +280,10 @@ public class AutoRequestManager {
                 AutoLogger.logEventWithBrandAndOS("All_Granted_From_FixAlert");
             }
 
-            Analytics.logEvent("All_Granted_From_Automatic", "Time", String.valueOf(AutoPermissionChecker.getAutoRequestCount()));
+            Analytics.logEvent("All_Granted_From_Automatic",
+                    "Brand", AutoLogger.getBrand(),
+                    "Os", AutoLogger.getOSVersion(),
+                    "Time", String.valueOf(AutoPermissionChecker.getAutoRequestCount()));
         }
 
         if (RomUtils.checkIsMiuiRom()) {

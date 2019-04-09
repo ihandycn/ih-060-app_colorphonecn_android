@@ -160,7 +160,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 holder.setCircleAnimView(R.id.start_guide_confirm_number);
                 holder.startCircleAnimation();
 
-                Analytics.logEvent("FixAlert_Show", "AccessType", AutoLogger.getPermissionString(RomUtils.checkIsHuaweiRom()));
+                Analytics.logEvent("FixAlert_Show",
+                        "Brand", AutoLogger.getBrand(),
+                        "Os", AutoLogger.getOSVersion(),
+                        "AccessType", AutoLogger.getPermissionString(RomUtils.checkIsHuaweiRom()));
             } else {
                 int confirmPermission = holder.refresh();
                 showConfirmDialog(confirmPermission);
@@ -271,7 +274,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         button.setOnClickListener(v -> {
             gotoAcc();
             permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(ACC_KEY_SHOW_COUNT);
-            AutoLogger.logEventWithBrandAndOS("Accessbility_Guide_Btn_Click");
+            Analytics.logEvent("Accessbility_Guide_Btn_Click",
+                    "Brand", AutoLogger.getBrand(),
+                    "Os", AutoLogger.getOSVersion(),
+                    "Time", String.valueOf(AutoPermissionChecker.getAutoRequestCount()));
         });
 
         handler.postDelayed(() -> {
@@ -279,7 +285,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             title.animate().alpha(0.8f).setDuration(750).start();
             button.animate().alpha(1f).setDuration(750).start();
         }, 2400);
-        Analytics.logEvent("Accessbility_Guide_Show");
+        AutoLogger.logEventWithBrandAndOS("Accessbility_Guide_Show");
     }
 
     private void gotoAcc() {
