@@ -100,6 +100,7 @@ import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.push.PushMgr;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.umeng.analytics.MobclickAgent;
@@ -204,6 +205,9 @@ public class ColorPhoneApplication extends HSApplication {
                     mDailyLogger.logOnceFirstSessionEndStatus();
                 }
             }
+            Analytics.logEvent("Display_Resolution", "Size",
+                    Dimensions.getPhoneWidth(HSApplication.getContext()) + "*"
+                            + Dimensions.getPhoneHeight(HSApplication.getContext()));
         }, "Permission_Check_Above23_FirstSessionEnd");
 
         if (mDailyLogger != null) {
