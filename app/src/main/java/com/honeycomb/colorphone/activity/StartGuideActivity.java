@@ -42,7 +42,7 @@ import com.superapps.util.rom.RomUtils;
 public class StartGuideActivity extends HSAppCompatActivity implements INotificationObserver {
     private static final String TAG = "AutoPermission";
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 1000;
-    private static final String ACC_KEY_SHOW_COUNT = "key_acc_permission_count";
+    public static final String ACC_KEY_SHOW_COUNT = "key_acc_permission_count";
 
     private String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
     private int permsCount = 0;
@@ -279,7 +279,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             Analytics.logEvent("Accessbility_Guide_Btn_Click",
                     "Brand", AutoLogger.getBrand(),
                     "Os", AutoLogger.getOSVersion(),
-                    "Time", String.valueOf(AutoPermissionChecker.getAutoRequestCount()));
+                    "Time", String.valueOf(permissionShowCount));
         });
 
         handler.postDelayed(() -> {

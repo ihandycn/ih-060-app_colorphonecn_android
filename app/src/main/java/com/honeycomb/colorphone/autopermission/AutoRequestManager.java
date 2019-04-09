@@ -22,6 +22,8 @@ import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
+import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.WelcomeActivity;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
@@ -40,6 +42,7 @@ import com.superapps.util.Compats;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Navigations;
 import com.superapps.util.Permissions;
+import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
 import com.superapps.util.rom.RomUtils;
@@ -96,8 +99,8 @@ public class AutoRequestManager {
                     Analytics.logEvent("Accessbility_Granted",
                             "Brand", AutoLogger.getBrand(),
                             "Os", AutoLogger.getOSVersion(),
-                            "Time", String.valueOf(AutoPermissionChecker.getAutoRequestCount()));
-                    onAccessibilityReady();
+                            "Time", String.valueOf(
+                                    Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)));
 
                 }
             }, filter);
