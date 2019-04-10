@@ -102,6 +102,8 @@ public class AutoRequestManager {
                             "Time", String.valueOf(
                                     Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)));
 
+                    onAccessibilityReady();
+
                 }
             }, filter);
             listened = true;
