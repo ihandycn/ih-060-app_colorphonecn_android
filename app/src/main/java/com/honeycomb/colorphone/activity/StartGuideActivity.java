@@ -23,6 +23,7 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -96,7 +97,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     }
 
     private boolean isRetryEnd() {
-        return permissionShowCount >= 3;
+        return permissionShowCount >= HSConfig.optInteger(1, "Application", "AutoPermission", "AccessibilityShowCount");
     }
 
     private void showAccessibilityPermissionPage() {
