@@ -203,7 +203,7 @@ public class WeatherUtils {
         return bitmap;
     }
 
-    static void clearAnimBitmapCache() {
+    public static void clearAnimBitmapCache() {
         sAnimBitmapCache.clear();
     }
 
@@ -212,7 +212,7 @@ public class WeatherUtils {
      * no valid weather data is provided.
      */
     static @NonNull
-    List<BaseWeatherAnimBackground> getWeatherBackgroundAnims(CityData data,
+    public List<BaseWeatherAnimBackground> getWeatherBackgroundAnims(CityData data,
                                                               WeatherAnimView view) {
         HSWeatherQueryResult weatherData = data.getWeatherData();
         if (weatherData == null) {
@@ -302,7 +302,7 @@ public class WeatherUtils {
         return new ArrayList<>();
     }
 
-    static int getWeatherBackgroundResourceId(CityData data) {
+    public static int getWeatherBackgroundResourceId(CityData data) {
         if (data == null) {
             return R.drawable.weather_sunny_day_bg;
         }
@@ -482,7 +482,7 @@ public class WeatherUtils {
         return compare(hour, minute, sunriseHour - 1, sunriseMinute) < 0 || compare(sunsetHour + 1, sunsetMinute, hour, minute) < 0;
     }
 
-    static boolean isToday(long timestamp) {
+    public static boolean isToday(long timestamp) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
         Date queriedTime = calendar.getTime();

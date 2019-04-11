@@ -87,7 +87,7 @@ public class HourlyForecastCurve extends View {
         mCurveAnimator = ObjectAnimator.ofFloat(this, "progress", 0f, MAX_PROGRESS);
         mCurveAnimator.setDuration(350);
         mCurveAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-        mAnimCoordinator = (CurveAnimationCoordinator) context;
+//        mAnimCoordinator = (CurveAnimationCoordinator) context;
 
         mCurvePaint.setStyle(Paint.Style.STROKE);
         mCurvePaint.setStrokeCap(Paint.Cap.ROUND);
@@ -121,9 +121,10 @@ public class HourlyForecastCurve extends View {
         mSplineInterpolator = new SplineInterpolator(mData.size() + 2);
 
         mDataReady = true;
-        if (mAnimCoordinator.shouldStartCurveAnimation()) {
-            mCurveAnimationPending = true;
-        } else if (mCurveAnimationPending) {
+//        if (mAnimCoordinator.shouldStartCurveAnimation()) {
+//            mCurveAnimationPending = true;
+//        } else
+            if (mCurveAnimationPending) {
             // Wait for anim start.
         } else {
             mProgress = MAX_PROGRESS;

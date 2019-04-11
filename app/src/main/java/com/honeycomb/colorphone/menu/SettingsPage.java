@@ -107,9 +107,7 @@ public class SettingsPage implements View.OnClickListener {
                 LauncherAnalytics.logEvent("Colorphone_Settings_ContactTheme_Clicked");
                 break;
             case R.id.settings_about:
-                // TODO: 2019/4/3 天气入口
-//                AboutActivity.start(context);
-                WeatherActivity.start(context);
+                AboutActivity.start(context);
                 break;
             case R.id.settings_facebook:
                 Navigations.openBrowser(context,

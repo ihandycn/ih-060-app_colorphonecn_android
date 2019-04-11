@@ -112,6 +112,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import colorphone.acb.com.libscreencard.CardCustomConfig;
+import colorphone.acb.com.libweather.manager.WeatherPushManager;
 import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 
@@ -665,6 +666,7 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onScreenOff(context);
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                     ScreenStatusReceiver.onScreenOn(context);
+                    WeatherPushManager.getIntance().push(context);
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
                     ScreenStatusReceiver.onUserPresent(context);
                     CashUtils.showGuideIfNeeded(null, CashUtils.Source.UnlockScreen);

@@ -16,10 +16,14 @@ import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
@@ -44,7 +48,6 @@ import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -67,6 +70,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import colorphone.acb.com.libweather.util.DisplayUtil;
+import colorphone.acb.com.libweather.view.WeatherView;
 import hugo.weaving.DebugLog;
 
 public class ColorPhoneActivity extends HSAppCompatActivity
@@ -95,6 +100,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean mIsHandsDown = false;
     private boolean mIsFirstScrollThisTimeHandsDown = true;
     public static final int SCROLL_STATE_DRAGGING = 1;
+
+    private Toolbar toolbar;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -183,7 +190,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @DebugLog
     @NonNull
     private DrawerLayout initDrawer() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar);
@@ -226,6 +233,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         initDrawer();
         initData();
         initRecyclerView();
+        initWeather();
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
@@ -237,6 +245,64 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         ConfigChangeManager.getInstance().registerCallbacks(
                 ConfigChangeManager.AUTOPILOT | ConfigChangeManager.REMOTE_CONFIG, configChangeCallback);
 
+    }
+
+    private LinearLayout ll_main_container;
+    private WeatherView weatherView;
+    private int screenWidth;
+    private int screenHeight;
+    private boolean isFirst = true;
+    private boolean isShow;
+    private int weatherHeight;
+    private void initWeather() {
+        getwidthAndHeight();
+        ll_main_container = findViewById(R.id.ll_main_container);
+
+        findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isFirst) {
+                    isFirst = false;
+                    weatherHeight = screenHeight - getStatusBarHeight() - toolbar.getHeight() - DisplayUtil.getNavigationBarHeight(ColorPhoneActivity.this);
+                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) ll_main_container.getLayoutParams();
+                    params.height = weatherHeight + screenHeight;
+                    ll_main_container.setLayoutParams(params);
+
+                    weatherView = new WeatherView(ColorPhoneActivity.this);
+                    LinearLayout.LayoutParams weaherParams = new LinearLayout.LayoutParams(screenWidth,weatherHeight);
+                    ll_main_container.addView(weatherView, 0, weaherParams);
+                    ll_main_container.setTranslationY(-weatherHeight);
+                }
+
+                if (isShow) {
+                    isShow = false;
+                    ll_main_container.animate().translationY(-weatherHeight).setDuration(1000).start();
+                } else {
+                    isShow = true;
+                    ll_main_container.animate().translationY(0).setDuration(1000).start();
+                }
+
+            }
+        });
+
+    }
+
+
+    private void getwidthAndHeight() {
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(dm);
+        screenWidth = dm.widthPixels;
+        screenHeight = dm.heightPixels;
+        Log.e("ColorPhoneActivity", "screenWidth = " + screenWidth + ", screenHeight = " + screenHeight);
+    }
+
+    public  int getStatusBarHeight(){
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     @Override
