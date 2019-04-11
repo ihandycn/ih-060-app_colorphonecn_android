@@ -149,7 +149,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:excludeFromRecents="true"
-            android:taskAffinity=":main"
+            android:taskAffinity=":welcome"
             android:theme="@style/AppLightStatusBarTheme.Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -261,11 +261,6 @@
             android:theme="@style/Theme.AppCompat.Translucent"/>
 
         <activity
-            android:name=".activity.PromoteLockerActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/AppTranslucent" />
-
-        <activity
             android:name=".activity.ContactsSelectActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
@@ -360,18 +355,10 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme"/>
-        <!-- Facebook全屏 -->
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:noHistory="true"
-            android:taskAffinity=".acb_interstitial_quiet"/>
-        <activity
-            android:name="com.facebook.CustomTabMainActivity"
-            android:noHistory="true"
-            android:taskAffinity=".acb_interstitial_quiet"/>
+
         <activity
             android:name="com.facebook.ads.AudienceNetworkActivity"
-            android:noHistory="true"
+            android:excludeFromRecents="true"
             android:taskAffinity=".acb_interstitial_quiet"/>
 
         <activity
@@ -381,13 +368,10 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <!-- AdMob全屏和Adx全屏 -->
-        <activity
-            android:name="com.google.android.gms.ads.purchase.InAppPurchaseActivity"
-            android:noHistory="true"
-            android:taskAffinity=".acb_interstitial_quiet"/>
+
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
-            android:noHistory="true"
+            android:excludeFromRecents="true"
             android:taskAffinity=".acb_interstitial_quiet"/>
 
         <activity android:name=".toolbar.NotificationActivity"/>
@@ -480,31 +464,11 @@
             tools:node="merge"
             />
 
-        <activity
-            android:name=".cashcenter.ShortcutGuideActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/ShortcutGuideTheme" />
-
-        <activity android:name=".cashcenter.GameStarterActivity"
-            android:screenOrientation="portrait"
-            android:noHistory="true"
-            android:icon="@drawable/cashcenter_icon"
-            android:label="@string/cash_center_cash_center"
-            android:excludeFromRecents="true"
-            android:theme="@style/INVisibleTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".cashcenter.OuterCashGuideActivity" />
-        <activity android:name=".cashcenter.InnerCashGuideActivity" />
         <activity android:name=".permission.OutsidePermissionGuideActivity"
             android:theme="@style/Theme.AppCompat.Translucent"/>
 
         <activity android:name=".themerecommend.ThemeRecommendActivity"
                   android:theme="@style/Theme.AppCompat.Translucent" />
-
         <activity
             android:name=".triviatip.TriviaTipActivity"
             android:theme="@style/Theme.AppCompat.Translucent"

@@ -26,22 +26,6 @@ public class ADAutoPilotUtils {
     private static int sMaxThemeShow = -1;
     private static int sIntervalThemeShow = -1;
 
-    public static int getCallFinishWireShowMaxTime() {
-        if (sMaxCallFinishShow == -1) {
-            sMaxCallFinishShow = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "callfinishwire_show_maxtime", 100);
-        }
-        HSLog.d("ADAutoPilotUtils", "getCallFinishWireShowMaxTime == " + sMaxCallFinishShow);
-        return Math.min(sMaxCallFinishShow, HSConfig.optInteger(1000, "Application", "CallFinishWire", "Maxtime"));
-    }
-
-    public static int getCallFinishWireTimeInterval() {
-        if (sIntervalCallFinishShow == -1) {
-            sIntervalCallFinishShow = (int) (AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "callfinishwire_time_interval_minute", 0) * DateUtils.MINUTE_IN_MILLIS);
-        }
-        HSLog.d("ADAutoPilotUtils", "getCallFinishWireTimeInterval == " + sIntervalCallFinishShow);
-        return sIntervalCallFinishShow;
-    }
-
     public static int getThemeWireShowMaxTime() {
         if (sMaxThemeShow == -1) {
             sMaxThemeShow = (int) AutopilotConfig.getDoubleToTestNow(AD_CALLFINISH_AND_THEME_TOPIC_ID, "themewire_show_maxtime", 100);
@@ -61,11 +45,6 @@ public class ADAutoPilotUtils {
     public static void logThemeWireShow() {
         getThemeWireShowMaxTime();
         AutopilotEvent.logTopicEvent(AD_CALLFINISH_AND_THEME_TOPIC_ID, "colorphone_themewire_show");
-    }
-
-    public static void logCallFinishWireShow() {
-        getCallFinishWireShowMaxTime();
-        AutopilotEvent.logTopicEvent(AD_CALLFINISH_AND_THEME_TOPIC_ID, "colorphone_callfinishwire_show");
     }
 
     private static long getThemeWireLastShowTime() {
@@ -118,8 +97,6 @@ public class ADAutoPilotUtils {
         sMaxThemeShow = -1;
         sIntervalThemeShow = -1;
 
-        getCallFinishWireShowMaxTime();
-        getCallFinishWireTimeInterval();
         getThemeWireShowInterval();
         getThemeWireLastShowTime();
     }

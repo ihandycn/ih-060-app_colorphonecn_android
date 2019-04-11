@@ -48,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@+id/card_title"
             app:layout_constraintVertical_weight="0.5"
             app:radius="8dp"
-            tools:src="@drawable/game_card_bg_basketball" />
+            />
 
         <com.superapps.view.RoundImageView
             android:id="@+id/card_img_top_right"
@@ -66,7 +66,7 @@
             app:layout_constraintTop_toBottomOf="@+id/card_title"
             app:layout_constraintVertical_weight="0.5"
             app:radius="8dp"
-            tools:src="@drawable/game_card_bg_basketball" />
+             />
 
         <com.superapps.view.RoundImageView
             android:id="@+id/card_img_bottom_left"
@@ -83,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@+id/card_img_top_left"
             app:layout_constraintVertical_weight="0.5"
             app:radius="8dp"
-            tools:src="@drawable/game_card_bg_basketball" />
+             />
 
         <com.superapps.view.RoundImageView
             android:id="@+id/card_img_bottom_right"
@@ -101,7 +101,7 @@
             app:layout_constraintTop_toBottomOf="@+id/card_img_top_right"
             app:layout_constraintVertical_weight="0.5"
             app:radius="8dp"
-            tools:src="@drawable/game_card_bg_basketball" />
+             />
 
         <ImageView
             android:layout_width="wrap_content"

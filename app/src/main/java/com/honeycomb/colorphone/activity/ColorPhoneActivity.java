@@ -126,7 +126,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ConfigChangeManager.Callback configChangeCallback =  new ConfigChangeManager.Callback() {
         @Override
         public void onChange(int type) {
-            refreshCashButton();
+
         }
     };
 
@@ -134,7 +134,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean pendingShowRateAlert = false;
     private boolean showAllFeatureGuide = false;
     private boolean isCreate = false;
-    private View cashFloatButton;
     private SettingsPage mSettingsPage = new SettingsPage();
 
     @DebugLog
@@ -151,9 +150,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             startActivity(intent);
             HSAlertMgr.delayRateAlert();
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
-        } else if (ModuleUtils.isShowPromoteLockerAlert(PromoteLockerActivity.WHEN_APP_LAUNCH)) {
-            PromoteLockerActivity.startPromoteLockerActivity(this, PromoteLockerActivity.WHEN_APP_LAUNCH);
-            HSAlertMgr.delayRateAlert();
         }
         setTheme(R.style.AppLightStatusBarTheme);
 
@@ -236,7 +232,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
-        cashFloatButton = findViewById(R.id.cash_center_entrance_icon);
         ConfigChangeManager.getInstance().registerCallbacks(
                 ConfigChangeManager.AUTOPILOT | ConfigChangeManager.REMOTE_CONFIG, configChangeCallback);
 
@@ -288,11 +283,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mHandler.postDelayed(mainViewRunnable, 1000);
         isPaused = false;
         mAdapter.markForeground(true);
-        refreshCashButton();
-    }
-
-    private void refreshCashButton() {
-      // Unused
     }
 
     @Override
@@ -308,6 +298,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mAdapter.markForeground(false);
         mRecyclerView.getRecycledViewPool().clear();
         mHandler.removeCallbacks(mainViewRunnable);
+
     }
 
     @Override

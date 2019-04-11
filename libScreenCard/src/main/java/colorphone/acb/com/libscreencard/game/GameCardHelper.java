@@ -119,7 +119,7 @@ public class GameCardHelper {
                     .load(gameInfo.getLargePictureURL())
                     .into(imageView);
         } else {
-            imageView.setImageResource(R.drawable.game_card_bg_basketball);
+//            imageView.setImageResource(R.drawable.game_card_bg_basketball);
         }
         // Use local for test.
         titleTv.setText(fmGame ? gameInfo.getTitle() : context.getString(R.string.game_card_title));
