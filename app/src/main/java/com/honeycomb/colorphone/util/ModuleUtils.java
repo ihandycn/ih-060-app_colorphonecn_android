@@ -11,7 +11,6 @@ import com.call.assistant.customize.CallAssistantSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
@@ -233,13 +232,11 @@ public class ModuleUtils {
 
     public static boolean isChargingImproverEnabled() {
         return HSConfig.optBoolean(false, "Application", "ChargingImprover", "Enabled")
-                && Ap.Improver.enable()
                 && isChargingImproverNewUser();
     }
 
     public static boolean isChargingImproverNewUser() {
-        return HSApplication.getFirstLaunchInfo().appVersionCode
-                >= HSConfig.optInteger(39, "Application", "ChargingImprover", "FirstVersionCode");
+        return false;
     }
 
 }
