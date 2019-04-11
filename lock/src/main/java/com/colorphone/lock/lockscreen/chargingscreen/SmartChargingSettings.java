@@ -29,9 +29,9 @@ public class SmartChargingSettings {
      * charging screen
      */
     public static boolean isChargingScreenEnabled() {
-        return isSmartChargingConfigEnabled()
-                && isChargingScreenConfigEnabled()
-                && ChargingScreenSettings.isChargingScreenUserEnabled();
+        return  isChargingScreenConfigEnabled()
+                && ChargingScreenSettings.isChargingScreenUserEnabled()
+                && !ConfigUtils.isNewUserInAdBlockStatus();
     }
 
     public static boolean isChargingScreenConfigEnabled() {

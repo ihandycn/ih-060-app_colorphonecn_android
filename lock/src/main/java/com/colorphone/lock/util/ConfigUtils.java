@@ -1,9 +1,11 @@
 package com.colorphone.lock.util;
 
 import android.content.pm.PackageManager;
+import android.text.format.DateUtils;
 
 import com.colorphone.lock.BuildConfig;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -76,4 +78,10 @@ public class ConfigUtils {
         return true;
     }
 
+    public static boolean isNewUserInAdBlockStatus() {
+        long currentTimeMills = System.currentTimeMillis();
+        return currentTimeMills - HSSessionMgr.getFirstSessionStartTime() <
+                HSConfig.optInteger(360, "Application", "AdProtection", "EnableAfterInstallMinutes")
+                        * DateUtils.MINUTE_IN_MILLIS;
+    }
 }
