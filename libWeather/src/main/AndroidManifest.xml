@@ -20,12 +20,6 @@
             android:theme="@style/ThemeAppBarActivity"
             android:windowSoftInputMode="stateHidden"/>
 
-        <activity
-            android:name=".WeatherVideoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/ThemeAppBarActivity"
-            android:windowSoftInputMode="stateHidden"/>
-
         <!-- The weather provider contains weather data -->
         <provider
             android:name=".WeatherDataProvider"

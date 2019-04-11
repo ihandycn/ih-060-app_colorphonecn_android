@@ -1,4 +1,4 @@
-package colorphone.acb.com.libweather;
+package com.honeycomb.colorphone.weather;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,14 +26,14 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weather_video);
+        setContentView(colorphone.acb.com.libweather.R.layout.activity_weather_video);
         initView();
     }
 
     private void initView() {
-        ivSetting = findViewById(R.id.iv_setting);
-        ivClose = findViewById(R.id.iv_close);
-        ivCallCccept = findViewById(R.id.iv_call_accept);
+        ivSetting = findViewById(colorphone.acb.com.libweather.R.id.iv_setting);
+        ivClose = findViewById(colorphone.acb.com.libweather.R.id.iv_close);
+        ivCallCccept = findViewById(colorphone.acb.com.libweather.R.id.iv_call_accept);
         ivSetting.setOnClickListener(onClickListener);
         ivClose.setOnClickListener(onClickListener);
         ivCallCccept.setOnClickListener(onClickListener);

@@ -491,6 +491,12 @@
                   android:theme="@style/Theme.AppCompat.Translucent" />
 
         <activity
+            android:name="com.honeycomb.colorphone.weather.WeatherVideoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeAppBarActivity"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
             android:name=".triviatip.TriviaTipActivity"
             android:theme="@style/Theme.AppCompat.Translucent"
             android:excludeFromRecents="true" />

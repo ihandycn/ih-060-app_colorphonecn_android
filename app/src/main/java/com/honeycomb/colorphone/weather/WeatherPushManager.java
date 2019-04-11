@@ -1,10 +1,8 @@
-package colorphone.acb.com.libweather.manager;
+package com.honeycomb.colorphone.weather;
 
 import android.content.Context;
 
 import java.util.Calendar;
-
-import colorphone.acb.com.libweather.WeatherVideoActivity;
 
 /**
  * Created by zqs on 2019/4/9.
@@ -13,7 +11,7 @@ public class WeatherPushManager {
 
     private void WeatherPushManager(){}
 
-    public static WeatherPushManager getIntance() {
+    public static WeatherPushManager getInstance() {
         return Inner.mInstance;
     }
 
