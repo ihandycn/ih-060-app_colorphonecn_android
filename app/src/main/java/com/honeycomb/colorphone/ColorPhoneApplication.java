@@ -42,7 +42,6 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
-import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
@@ -54,7 +53,6 @@ import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
-import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -68,7 +66,6 @@ import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.app.utils.HSVersionControlUtils;
-import com.ihs.chargingimprover.ChargingImproverManager;
 import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
 import com.ihs.chargingreport.ChargingReportManager;
@@ -213,8 +210,6 @@ public class ColorPhoneApplication extends HSApplication {
      */
     public static int mWidth;
     public static int mHeight;
-
-    private boolean isCallAssistantActivated;
 
     private static boolean isFabricInitted;
     public static long launchTime;
@@ -514,12 +509,9 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
 
+    @Deprecated
     private void updateCallFinishFullScreenAdPlacement() {
-        if (CallFinishUtils.isCallFinishFullScreenAdEnabled() && !isCallAssistantActivated) {
-            HSLog.d("Ad Active ： " + AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
-            AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
-            isCallAssistantActivated = true;
-        }
+
     }
 
     private void updateTriviaTipAdPlacement() {
@@ -602,7 +594,7 @@ public class ColorPhoneApplication extends HSApplication {
             }
         });
 
-        ChargingImproverManager.getInstance().init(new ChargingImproverCallbackImpl());
+//        ChargingImproverManager.getInstance().init(new ChargingImproverCallbackImpl());
     }
 
     private void initLockerCharging() {

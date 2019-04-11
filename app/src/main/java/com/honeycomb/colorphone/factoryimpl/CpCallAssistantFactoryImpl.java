@@ -38,7 +38,6 @@ import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
-import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
@@ -235,7 +234,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onFullScreenAdShow() {
                 LauncherAnalytics.logEvent( "ColorPhone_Call_Finished_Wire_Show");
-                ADAutoPilotUtils.logCallFinishWireShow();
                 if (Utils.isNewUser()) {
                     LauncherAnalytics.logEvent("ColorPhone_CallFinishWire_Show");
                 }
@@ -418,24 +416,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
         public int getAppNameDrawable() {
             return R.drawable.color_phone_logo;
-        }
-
-        @Override
-        public String getFullScreenAdPlacement() {
-            return AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN;
-        }
-
-        @Override
-        public boolean enableFullScreenAd() {
-            return CallFinishUtils.isCallFinishFullScreenAdEnabled();
-        }
-
-        @Override public int getFullScreenAdShowTimesEachDay() {
-            return ADAutoPilotUtils.getCallFinishWireShowMaxTime();
-        }
-
-        @Override public long getFullScreenAdShowIntervalTime() {
-            return ADAutoPilotUtils.getCallFinishWireTimeInterval();
         }
 
         @Override public int getAdRefreshInterval() {
