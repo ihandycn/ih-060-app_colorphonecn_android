@@ -101,6 +101,7 @@ public class LockScreenStarter {
     private void tryShowChargingScreen() {
         if (!ChargingScreenActivity.exist
                 && blockWhenHasKeyGuard
+                && SmartChargingSettings.isChargingScreenEnabled()
                 && isCharging()) {
             ChargingScreenUtils.startChargingScreenActivity(false, false);
         }
