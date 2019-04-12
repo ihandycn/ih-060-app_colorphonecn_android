@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,14 +17,11 @@ import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
@@ -50,6 +48,7 @@ import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
+import com.honeycomb.colorphone.weather.WeatherContentUtils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -63,6 +62,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
@@ -70,7 +70,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import colorphone.acb.com.libweather.util.DisplayUtil;
 import colorphone.acb.com.libweather.view.WeatherView;
 import hugo.weaving.DebugLog;
 
@@ -90,10 +89,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
     private final ThemeList mThemeList = new ThemeList();
     private RewardVideoView mRewardVideoView;
-
-    private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
-    private boolean initCheckState;
-    private boolean isPaused;
 
     private Handler mHandler = new Handler();
 
@@ -133,7 +128,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ConfigChangeManager.Callback configChangeCallback =  new ConfigChangeManager.Callback() {
         @Override
         public void onChange(int type) {
-            refreshCashButton();
         }
     };
 
@@ -141,8 +135,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean pendingShowRateAlert = false;
     private boolean showAllFeatureGuide = false;
     private boolean isCreate = false;
-    private View cashFloatButton;
+    private boolean isPaused = false;
     private SettingsPage mSettingsPage = new SettingsPage();
+    private DrawerLayout mDrawerLayout;
 
     @DebugLog
     @Override
@@ -180,6 +175,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mAdapter.setHeaderTipVisible(false);
                 mAdapter.notifyDataSetChanged();
             }
+
+            Threads.postOnMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    WeatherContentUtils.saveWeatherTransHeight(ColorPhoneActivity.this, toolbar.getHeight());
+                }
+            });
         }
     }
 
@@ -195,9 +197,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View view) {
             }
@@ -214,7 +216,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         arrowDrawable.setBarThickness(arrowDrawable.getBarThickness() * 1.5f);
         arrowDrawable.setBarLength(arrowDrawable.getBarLength() * 0.86f);
 
-        drawer.setDrawerListener(toggle);
+        mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
         View leftDrawer = findViewById(R.id.left_drawer);
         leftDrawer.setOnTouchListener(new View.OnTouchListener() {
@@ -225,7 +227,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         });
         mSettingsPage.initPage(leftDrawer);
 
-        return drawer;
+        return mDrawerLayout;
     }
 
     @DebugLog
@@ -241,45 +243,39 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
-        cashFloatButton = findViewById(R.id.cash_center_entrance_icon);
         ConfigChangeManager.getInstance().registerCallbacks(
                 ConfigChangeManager.AUTOPILOT | ConfigChangeManager.REMOTE_CONFIG, configChangeCallback);
 
     }
 
-    private LinearLayout ll_main_container;
+    private ViewGroup main_container;
     private WeatherView weatherView;
-    private int screenWidth;
-    private int screenHeight;
-    private boolean isFirst = true;
-    private boolean isShow;
+
+    private boolean weatherViewInShow;
     private int weatherHeight;
+
     private void initWeather() {
-        getwidthAndHeight();
-        ll_main_container = findViewById(R.id.ll_main_container);
+        main_container = findViewById(R.id.main_container_framelayout);
 
         findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isFirst) {
-                    isFirst = false;
-                    weatherHeight = screenHeight - getStatusBarHeight() - toolbar.getHeight() - DisplayUtil.getNavigationBarHeight(ColorPhoneActivity.this);
-                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) ll_main_container.getLayoutParams();
-                    params.height = weatherHeight + screenHeight;
-                    ll_main_container.setLayoutParams(params);
-
+                if (weatherView == null) {
+                    weatherHeight = WeatherContentUtils.getWeatherWindowHeight();
+                    HSLog.d("Weather", "content height = " + weatherHeight);
                     weatherView = new WeatherView(ColorPhoneActivity.this);
-                    LinearLayout.LayoutParams weaherParams = new LinearLayout.LayoutParams(screenWidth,weatherHeight);
-                    ll_main_container.addView(weatherView, 0, weaherParams);
-                    ll_main_container.setTranslationY(-weatherHeight);
+                    FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                    main_container.addView(weatherView, 0, weatherParams);
                 }
 
-                if (isShow) {
-                    isShow = false;
-                    ll_main_container.animate().translationY(-weatherHeight).setDuration(1000).start();
+                if (weatherViewInShow) {
+                    weatherViewInShow = false;
+                    mDrawerLayout.animate().translationY(0).setDuration(1000).start();
+                    toolbar.setBackgroundColor(Color.BLACK);
                 } else {
-                    isShow = true;
-                    ll_main_container.animate().translationY(0).setDuration(1000).start();
+                    weatherViewInShow = true;
+                    mDrawerLayout.animate().translationY(weatherHeight).setDuration(1000).start();
+                    toolbar.setBackgroundColor(Color.TRANSPARENT);
                 }
 
             }
@@ -287,14 +283,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
-
-    private void getwidthAndHeight() {
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getRealMetrics(dm);
-        screenWidth = dm.widthPixels;
-        screenHeight = dm.heightPixels;
-        Log.e("ColorPhoneActivity", "screenWidth = " + screenWidth + ", screenHeight = " + screenHeight);
-    }
 
     public  int getStatusBarHeight(){
         int result = 0;
@@ -351,11 +339,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mHandler.postDelayed(mainViewRunnable, 1000);
         isPaused = false;
         mAdapter.markForeground(true);
-        refreshCashButton();
-    }
-
-    private void refreshCashButton() {
-      // Unused
     }
 
     @Override
@@ -521,9 +504,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else if (mRewardVideoView != null && mRewardVideoView.isLoading()) {
             mRewardVideoView.onHideAdLoading();
             mRewardVideoView.onCancel();

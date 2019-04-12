@@ -199,7 +199,7 @@ dependencies {
     compile project(':lock')
     compile project(':libSuperApps')
     compile project(':permissions')
-    implementation project(':libWeather')
+    compile project(':libWeather')
     //  -------- GoldEye ------
     colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2019.02.12.001'
     colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2019.02.13.001'
