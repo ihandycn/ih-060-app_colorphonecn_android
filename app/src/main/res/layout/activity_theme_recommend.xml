@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:background="#7f7f7f7f">
 
-    <com.superappscommon.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/recommend_view_action"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -28,7 +28,7 @@
         app:typefaceFileName="ProximaNova-Bold.otf"
         tools:text="APPLY"/>
 
-    <com.superappscommon.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/recommend_view_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
