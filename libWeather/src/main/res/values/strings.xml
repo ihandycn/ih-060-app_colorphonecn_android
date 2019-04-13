@@ -72,4 +72,9 @@
     <string name="request_na_permission_guide_title">Notification Access</string>
     <string name="request_nc_permission_guide_text">To show unread messages from social apps</string>
     <string name="normal_permission_guide_permission">Permissions</string>
+    <string name="weather_push_disable_title">Disable Weather Forecast？</string>
+    <string name="weather_push_disable_content">You won\'t receive weather forecast once you disable it. Are you sure to disable it?</string>
+    <string name="not_now">NOT NOW</string>
+    <string name="disable">DISABLE</string>
+
 </resources>

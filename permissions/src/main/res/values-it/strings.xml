@@ -9,5 +9,5 @@
   <string name="acb_phone_grant_notification_access_title">Consenti l’accesso alle notifiche per rispondere alle chiamate</string>
   <!-- TODO: string name="draw_overlay_window_hint" -->
   <string name="phone_contact_permission_settings_guide_title">Seleziona "Autorizzazioni" e attiva "Phone", "Contacts"</string>
-  <string name="acb_phone_grant_autostart_access_title">Attiva l'avvio automatico per visualizzare la schermata di chiamata</string>
+  <string name="acb_phone_grant_autostart_access_title">Attiva l\'avvio automatico per visualizzare la schermata di chiamata</string>
 </resources>

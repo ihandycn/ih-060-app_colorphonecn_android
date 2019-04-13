@@ -281,5 +281,39 @@ public class Ap {
         }
     }
 
+    public static class WeatherPush {
+        public static String TOPIC_ID = "topic-72mxyzj8z";
+
+        public static boolean showPush() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "weather_forecast_enable", false);
+        }
+
+        public static boolean showInMor() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "weather_forecast_show_in_morning", false);
+        }
+
+        public static boolean showAtNight() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "weather_forecast_show_at_night", false);
+        }
+
+        public static boolean allowBack() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "weather_forecast_video_allow_back", false);
+        }
+
+        public static double maxShowTime() {
+            return AutopilotConfig.getDoubleToTestNow("Weather Test", "weather_forecast_alert_show_maxtime", 0);
+        }
+
+        public static boolean allowFullScreenClick() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "weather_forecast_video_allow_fullscreen_click", true);
+
+        }
+
+        public static void logEvent(String name) {
+            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
+        }
+
+    }
+
 
 }

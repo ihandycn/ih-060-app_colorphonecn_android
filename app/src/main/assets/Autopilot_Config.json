@@ -347,7 +347,7 @@
       "topic_name": "TriviaTest",
       "variations": {
         "trivia_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -357,7 +357,7 @@
           "strategy": "sole"
         },
         "trivia_show_interval": {
-          "value_list": [
+          "values": [
             {
               "value": 120
             }
@@ -367,7 +367,7 @@
           "strategy": "sole"
         },
         "trivia_show_maxtime": {
-          "value_list": [
+          "values": [
             {
               "value": 4
             }
@@ -377,7 +377,7 @@
           "strategy": "sole"
         },
         "trivia_button_desc": {
-          "value_list": [
+          "values": [
             {
               "value": "OK"
             }
@@ -387,7 +387,7 @@
           "strategy": "sole"
         },
         "trivia_show_when_unlock": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -397,7 +397,7 @@
           "strategy": "sole"
         },
         "trivia_show_when_assistant_close": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -407,7 +407,7 @@
           "strategy": "sole"
         },
         "apply_button_show_on_detail": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -417,7 +417,7 @@
           "strategy": "sole"
         },
         "show_time_after_first_open": {
-          "value_list": [
+          "values": [
             {
               "value": 2
             }
@@ -427,7 +427,7 @@
           "strategy": "sole"
         },
         "trivia_show_when_receive_push": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -479,7 +479,7 @@
       "topic_name": "Share Test",
       "variations": {
         "inapp_share_alert_btn_text": {
-          "value_list": [
+          "values": [
             {
               "value": "Share"
             }
@@ -489,7 +489,7 @@
           "strategy": "sole"
         },
         "outapp_share_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -499,7 +499,7 @@
           "strategy": "sole"
         },
         "inapp_share_alert_detail": {
-          "value_list": [
+          "values": [
             {
               "value": "You have successfully customized your calling screen, show it to others."
             }
@@ -509,7 +509,7 @@
           "strategy": "sole"
         },
         "inapp_share_text": {
-          "value_list": [
+          "values": [
             {
               "value": "My latest call screen theme from Color Phone. \\nhttps://app.appsflyer.com/com.colorphone.smooth.dialer?pid=Userinvite1"
             }
@@ -519,7 +519,7 @@
           "strategy": "sole"
         },
         "inapp_share_alert_title": {
-          "value_list": [
+          "values": [
             {
               "value": "Notify Your Friends"
             }
@@ -529,7 +529,7 @@
           "strategy": "sole"
         },
         "inapp_share_alert_show_max_time": {
-          "value_list": [
+          "values": [
             {
               "value": 2
             }
@@ -539,7 +539,7 @@
           "strategy": "sole"
         },
         "outapp_share_alert_show_interval": {
-          "value_list": [
+          "values": [
             {
               "value": 4
             }
@@ -549,7 +549,7 @@
           "strategy": "sole"
         },
         "outapp_share_alert_detail": {
-          "value_list": [
+          "values": [
             {
               "value": "You have successfully customized your calling screen, show it to others."
             }
@@ -559,7 +559,7 @@
           "strategy": "sole"
         },
         "outapp_share_alert_title": {
-          "value_list": [
+          "values": [
             {
               "value": "Notify Your Friends"
             }
@@ -569,7 +569,7 @@
           "strategy": "sole"
         },
         "inapp_share_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -579,7 +579,7 @@
           "strategy": "sole"
         },
         "outapp_share_text": {
-          "value_list": [
+          "values": [
             {
               "value": "My latest call screen theme from Color Phone. https://app.appsflyer.com/com.colorphone.smooth.dialer?pid=Userinvite2"
             }
@@ -589,7 +589,7 @@
           "strategy": "sole"
         },
         "inapp_share_alert_show_interval": {
-          "value_list": [
+          "values": [
             {
               "value": 4
             }
@@ -599,7 +599,7 @@
           "strategy": "sole"
         },
         "outapp_share_alert_show_max_time": {
-          "value_list": [
+          "values": [
             {
               "value": 2
             }
@@ -609,7 +609,7 @@
           "strategy": "sole"
         },
         "outapp_share_alert_btn_text": {
-          "value_list": [
+          "values": [
             {
               "value": "Share"
             }
@@ -649,7 +649,7 @@
       "topic_name": "TriviaTestNew",
       "variations": {
         "trivia_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -659,7 +659,7 @@
           "strategy": "sole"
         },
         "trivia_show_interval": {
-          "value_list": [
+          "values": [
             {
               "value": 60
             }
@@ -669,7 +669,7 @@
           "strategy": "sole"
         },
         "wire_show_on_trivia": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -679,7 +679,7 @@
           "strategy": "sole"
         },
         "trivia_show_maxtime": {
-          "value_list": [
+          "values": [
             {
               "value": 4
             }
@@ -689,7 +689,7 @@
           "strategy": "sole"
         },
         "trivia_show_when_assistant_close": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -699,7 +699,7 @@
           "strategy": "sole"
         },
         "trivia_show_when_unlock": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -709,7 +709,7 @@
           "strategy": "sole"
         },
         "trivia_button_desc": {
-          "value_list": [
+          "values": [
             {
               "value": "OK"
             }
@@ -719,7 +719,7 @@
           "strategy": "sole"
         },
         "apply_button_show_on_detail": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -729,7 +729,7 @@
           "strategy": "sole"
         },
         "show_time_after_first_open": {
-          "value_list": [
+          "values": [
             {
               "value": 2
             }
@@ -739,7 +739,7 @@
           "strategy": "sole"
         },
         "trivia_show_when_receive_push": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -797,7 +797,7 @@
       "topic_name": "Dialer Test",
       "variations": {
         "set default guide show": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -807,7 +807,7 @@
           "strategy": "sole"
         },
         "call_finish_wire_show": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -817,7 +817,7 @@
           "strategy": "sole"
         },
         "dialer enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -863,17 +863,17 @@
       "topic_name": "CallFinishWire and ThemeWire Limit Test",
       "variations": {
         "callfinishwire_show_maxtime": {
-          "value_list": [
+          "values": [
             {
-              "value": 10
+              "value": 0
             }
           ],
           "type": "double",
-          "value": 10,
+          "value": 0,
           "strategy": "sole"
         },
         "themewire_show_maxtime": {
-          "value_list": [
+          "values": [
             {
               "value": 2
             }
@@ -883,7 +883,7 @@
           "strategy": "sole"
         },
         "themewire_show_interval_second": {
-          "value_list": [
+          "values": [
             {
               "value": 15
             }
@@ -893,7 +893,7 @@
           "strategy": "sole"
         },
         "callfinishwire_time_interval_minute": {
-          "value_list": [
+          "values": [
             {
               "value": 60
             }
@@ -916,12 +916,95 @@
       ],
       "topic_id": "topic-6y9jgfwg2"
     },
+    "topic-723tiyrlr": {
+      "topic_type": "life_time",
+      "topic_name": "Wire After Call Assistant Test Round1",
+      "variations": {
+        "wire_after_callassistant_enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "wire_after_callassistant_show_interval": {
+          "values": [
+            {
+              "value": 15
+            }
+          ],
+          "type": "double",
+          "value": 15,
+          "strategy": "sole"
+        },
+        "show_animation_only_when_ad_show": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "wire_after_callassistant_show_maxtime": {
+          "values": [
+            {
+              "value": 10
+            }
+          ],
+          "type": "double",
+          "value": 10,
+          "strategy": "sole"
+        },
+        "animation_type": {
+          "values": [
+            {
+              "value": "all"
+            }
+          ],
+          "type": "string",
+          "value": "all",
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "call_assistant_show"
+        },
+        {
+          "name": "call_assistant_close"
+        },
+        {
+          "name": "wire_after_callassistant_interval_reach"
+        },
+        {
+          "name": "wire_after_callassistant_should_show"
+        },
+        {
+          "name": "wire_after_callassistant_show"
+        },
+        {
+          "name": "call_assistant_close_animation_show"
+        },
+        {
+          "name": "call_assistant_close_animation_interrupt"
+        }
+      ],
+      "topic_id": "topic-723tiyrlr"
+    },
     "topic-1535427355191-617": {
       "topic_type": "life_time",
       "topic_name": "NotificationToolbar Test",
       "variations": {
         "notificationtoolbar_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -979,7 +1062,7 @@
       "topic_name": "Message Assistant Suspension Ball Test",
       "variations": {
         "message_floatingball_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1013,7 +1096,7 @@
       "topic_name": "ScreenflashTest",
       "variations": {
         "defaultthemeenable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -1023,7 +1106,7 @@
           "strategy": "sole"
         },
         "defaultthemeid": {
-          "value_list": [
+          "values": [
             {
               "value": "Moving"
             }
@@ -1033,7 +1116,7 @@
           "strategy": "sole"
         },
         "callassistantenable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -1073,7 +1156,7 @@
       "topic_name": "DetailView and Apply WIre Test",
       "variations": {
         "applywire": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -1083,7 +1166,7 @@
           "strategy": "sole"
         },
         "detailviewwire": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -1093,7 +1176,7 @@
           "strategy": "sole"
         },
         "mainviewapplyicon": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1103,7 +1186,7 @@
           "strategy": "sole"
         },
         "detailslide": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1155,7 +1238,7 @@
       "topic_name": "Charging Improver Test",
       "variations": {
         "clean_page_show_skip_btn": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1165,7 +1248,7 @@
           "strategy": "sole"
         },
         "show_alert_once_when_one_charging": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -1175,7 +1258,7 @@
           "strategy": "sole"
         },
         "charging_improver_show_interval": {
-          "value_list": [
+          "values": [
             {
               "value": 15
             }
@@ -1185,7 +1268,7 @@
           "strategy": "sole"
         },
         "clean_click_back_to_result_page": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1195,7 +1278,7 @@
           "strategy": "sole"
         },
         "clean_allow_back": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1205,7 +1288,7 @@
           "strategy": "sole"
         },
         "charging_improver_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1263,7 +1346,7 @@
       "topic_name": "ThemeGuide in CallAssistant Test",
       "variations": {
         "apply_button_show": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1273,7 +1356,7 @@
           "strategy": "sole"
         },
         "themeguideshow": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1283,7 +1366,7 @@
           "strategy": "sole"
         },
         "themeguide_maxtime": {
-          "value_list": [
+          "values": [
             {
               "value": 0
             }
@@ -1293,7 +1376,7 @@
           "strategy": "sole"
         },
         "themeguide_interval_hour": {
-          "value_list": [
+          "values": [
             {
               "value": 3
             }
@@ -1303,7 +1386,7 @@
           "strategy": "sole"
         },
         "themeguide_interval_applysuccess": {
-          "value_list": [
+          "values": [
             {
               "value": 0
             }
@@ -1343,7 +1426,7 @@
       "topic_name": "RTOT Popup",
       "variations": {
         "body": {
-          "value_list": [
+          "values": [
             {
               "value": ""
             }
@@ -1353,7 +1436,7 @@
           "strategy": "sole"
         },
         "button1_text": {
-          "value_list": [
+          "values": [
             {
               "value": ""
             }
@@ -1363,7 +1446,7 @@
           "strategy": "sole"
         },
         "title": {
-          "value_list": [
+          "values": [
             {
               "value": ""
             }
@@ -1373,7 +1456,7 @@
           "strategy": "sole"
         },
         "start_time": {
-          "value_list": [
+          "values": [
             ""
           ],
           "type": "string",
@@ -1381,7 +1464,7 @@
           "strategy": "sole"
         },
         "button2_text": {
-          "value_list": [
+          "values": [
             {
               "value": ""
             }
@@ -1391,7 +1474,7 @@
           "strategy": "sole"
         },
         "end_time": {
-          "value_list": [
+          "values": [
             ""
           ],
           "type": "string",
@@ -1399,7 +1482,7 @@
           "strategy": "sole"
         },
         "button1_url": {
-          "value_list": [
+          "values": [
             {
               "value": ""
             }
@@ -1409,7 +1492,7 @@
           "strategy": "sole"
         },
         "button2_url": {
-          "value_list": [
+          "values": [
             {
               "value": ""
             }
@@ -1440,7 +1523,7 @@
       "topic_name": "Notification Access System Page Enable Rate",
       "variations": {
         "guide_type": {
-          "value_list": [
+          "values": [
             {
               "value": "middle"
             }
@@ -1450,7 +1533,7 @@
           "strategy": "sole"
         },
         "show_animation": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1478,7 +1561,7 @@
       "topic_name": "ThemeRecommend Test",
       "variations": {
         "maxtime_one_contact": {
-          "value_list": [
+          "values": [
             {
               "value": 1
             }
@@ -1488,7 +1571,7 @@
           "strategy": "sole"
         },
         "themerecommend_first_show": {
-          "value_list": [
+          "values": [
             {
               "value": 3
             }
@@ -1498,7 +1581,7 @@
           "strategy": "sole"
         },
         "themerecommend_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1508,7 +1591,7 @@
           "strategy": "sole"
         },
         "themerecommend_ad_show": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1518,7 +1601,7 @@
           "strategy": "sole"
         },
         "ad_show_before_recommend": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1528,7 +1611,7 @@
           "strategy": "sole"
         },
         "themerecommend_show_interval_when_applied": {
-          "value_list": [
+          "values": [
             {
               "value": 5
             }
@@ -1538,7 +1621,7 @@
           "strategy": "sole"
         },
         "timeintervalhour": {
-          "value_list": [
+          "values": [
             {
               "value": 2
             }
@@ -1593,7 +1676,7 @@
       "topic_name": "Avatar Test",
       "variations": {
         "avatar_title": {
-          "value_list": [
+          "values": [
             {
               "value": "Display your avatar in your friends\u2019 phone right away"
             }
@@ -1603,7 +1686,7 @@
           "strategy": "sole"
         },
         "avatar_button_text": {
-          "value_list": [
+          "values": [
             {
               "value": "Start Now"
             }
@@ -1613,7 +1696,7 @@
           "strategy": "sole"
         },
         "avatar_button_show": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1623,7 +1706,7 @@
           "strategy": "sole"
         },
         "avatar_type": {
-          "value_list": [
+          "values": [
             {
               "value": "pick02_gif"
             }
@@ -1657,7 +1740,7 @@
       "topic_name": "Earn Cash",
       "variations": {
         "mainview_float_button_show": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -1667,7 +1750,7 @@
           "strategy": "sole"
         },
         "earncash_alert_show_when_back_to_mainview_from_detail": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1677,7 +1760,7 @@
           "strategy": "sole"
         },
         "earncash_alert_show_maxtime_when_unlockscreen": {
-          "value_list": [
+          "values": [
             {
               "value": 1
             }
@@ -1687,7 +1770,7 @@
           "strategy": "sole"
         },
         "earncash_alert_show_when_unlockscreen": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1697,7 +1780,7 @@
           "strategy": "sole"
         },
         "earncash_icon_show_on_toolbar": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1707,7 +1790,7 @@
           "strategy": "sole"
         },
         "earncash_alert_show_on_callassistant": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1717,7 +1800,7 @@
           "strategy": "sole"
         },
         "earncash_alert_show_maxtime_when_back_to_mainview_from_detail": {
-          "value_list": [
+          "values": [
             {
               "value": 1
             }
@@ -1727,7 +1810,7 @@
           "strategy": "sole"
         },
         "earncash_master_switch": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -1737,7 +1820,7 @@
           "strategy": "sole"
         },
         "earncash_alert_show_when_callassistant_close": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1747,7 +1830,7 @@
           "strategy": "sole"
         },
         "earncash_alert_show_maxtime_when_callassistant_close": {
-          "value_list": [
+          "values": [
             {
               "value": 1
             }
@@ -1823,7 +1906,7 @@
       "topic_name": "Local Push Test",
       "variations": {
         "old_theme_push_enabled": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1833,7 +1916,7 @@
           "strategy": "sole"
         },
         "new_theme_push_enabled": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1843,7 +1926,7 @@
           "strategy": "sole"
         },
         "push_icon_type": {
-          "value_list": [
+          "values": [
             {
               "value": "ThemeIcon"
             }
@@ -1853,7 +1936,7 @@
           "strategy": "sole"
         },
         "old_theme_push_min_show_interval_by_open_app": {
-          "value_list": [
+          "values": [
             {
               "value": 7
             }
@@ -1863,7 +1946,7 @@
           "strategy": "sole"
         },
         "old_theme_push_detail": {
-          "value_list": [
+          "values": [
             {
               "value": "'%1$s' theme for Color Phone! Try this most popular feature!"
             }
@@ -1873,7 +1956,7 @@
           "strategy": "sole"
         },
         "old_theme_push_min_show_interval": {
-          "value_list": [
+          "values": [
             {
               "value": 3
             }
@@ -1883,7 +1966,7 @@
           "strategy": "sole"
         },
         "old_theme_push_title": {
-          "value_list": [
+          "values": [
             {
               "value": "Hot theme recommended!"
             }
@@ -1893,7 +1976,7 @@
           "strategy": "sole"
         },
         "new_theme_push_detail": {
-          "value_list": [
+          "values": [
             {
               "value": "Newly launched '%1$s' theme for Color Phone"
             }
@@ -1903,7 +1986,7 @@
           "strategy": "sole"
         },
         "new_theme_push_title": {
-          "value_list": [
+          "values": [
             {
               "value": "Brand new theme!"
             }
@@ -1913,7 +1996,7 @@
           "strategy": "sole"
         },
         "push_open_detail_or_mainview": {
-          "value_list": [
+          "values": [
             {
               "value": "detail"
             }
@@ -1948,12 +2031,114 @@
       ],
       "topic_id": "topic-1510751463187"
     },
+    "topic-72063ki99": {
+      "topic_type": "life_time",
+      "topic_name": "DiyTest",
+      "variations": {
+        "diybutton_enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "diybutton_alert_show": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "diytheme_enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "diytheme_page_show"
+        },
+        {
+          "name": "diytheme_page_show_firsttime"
+        },
+        {
+          "name": "diytheme_page_createbtn_click"
+        },
+        {
+          "name": "diytheme_page_addbtn_click"
+        },
+        {
+          "name": "diytheme_video_select"
+        },
+        {
+          "name": "diytheme_pic_select"
+        },
+        {
+          "name": "diytheme_preview_page_show"
+        },
+        {
+          "name": "diytheme_preview_page_save_click"
+        },
+        {
+          "name": "diytheme_detail_page_show"
+        },
+        {
+          "name": "diytheme_detail_page_setforall_click"
+        },
+        {
+          "name": "diytheme_detail_page_setforsomeone_click"
+        },
+        {
+          "name": "diytheme_detail_page_setforsomeone_success"
+        },
+        {
+          "name": "diybutton_alert_show"
+        },
+        {
+          "name": "diybutton_editbtn_click"
+        },
+        {
+          "name": "diybutton_phonebtn_click"
+        },
+        {
+          "name": "diybutton_other_button_select"
+        },
+        {
+          "name": "diybutton_other_button_applied"
+        },
+        {
+          "name": "diybutton_slide_to_right"
+        },
+        {
+          "name": "diytheme_show"
+        },
+        {
+          "name": "screenflash_show"
+        }
+      ],
+      "topic_id": "topic-72063ki99"
+    },
     "topic-6zi0axif8": {
       "topic_type": "life_time",
       "topic_name": "Random Theme Test",
       "variations": {
         "themechangeinterval": {
-          "value_list": [
+          "values": [
             {
               "value": "24"
             }
@@ -1963,7 +2148,7 @@
           "strategy": "sole"
         },
         "randomthemeenable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -1997,7 +2182,7 @@
       "topic_name": "Charging Test",
       "variations": {
         "charging_lockscreen_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2007,7 +2192,7 @@
           "strategy": "sole"
         },
         "charging_report_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2017,7 +2202,7 @@
           "strategy": "sole"
         },
         "chargingreport_oncharger_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2027,7 +2212,7 @@
           "strategy": "sole"
         },
         "chargingreport_offcharger_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2051,18 +2236,18 @@
       "topic_type": "life_time",
       "topic_name": "ThemeRecommend Test New",
       "variations": {
-        "ad_show_before_recommend": {
-          "value_list": [
+        "show_interval_minutes": {
+          "values": [
             {
-              "value": false
+              "value": 60
             }
           ],
-          "type": "boolean",
-          "value": false,
+          "type": "double",
+          "value": 60,
           "strategy": "sole"
         },
         "maxtime_one_contact": {
-          "value_list": [
+          "values": [
             {
               "value": 1
             }
@@ -2072,7 +2257,7 @@
           "strategy": "sole"
         },
         "show_interval_calls": {
-          "value_list": [
+          "values": [
             {
               "value": 2
             }
@@ -2081,18 +2266,8 @@
           "value": 2,
           "strategy": "sole"
         },
-        "themerecommend_first_show": {
-          "value_list": [
-            {
-              "value": 1
-            }
-          ],
-          "type": "double",
-          "value": 1,
-          "strategy": "sole"
-        },
         "themerecommend_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2102,7 +2277,7 @@
           "strategy": "sole"
         },
         "themerecommend_ad_show": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2111,24 +2286,14 @@
           "value": false,
           "strategy": "sole"
         },
-        "show_interval_minutes": {
-          "value_list": [
+        "ad_show_before_recommend": {
+          "values": [
             {
-              "value": 0
+              "value": false
             }
           ],
-          "type": "double",
-          "value": 0,
-          "strategy": "sole"
-        },
-        "themerecommend_show_interval_when_applied": {
-          "value_list": [
-            {
-              "value": 1
-            }
-          ],
-          "type": "double",
-          "value": 1,
+          "type": "boolean",
+          "value": false,
           "strategy": "sole"
         }
       },
@@ -2167,9 +2332,6 @@
           "name": "choose_theme_from_recommend"
         },
         {
-          "name": "themewire_show_from_recommend"
-        },
-        {
           "name": "call_assistant_close"
         },
         {
@@ -2198,7 +2360,7 @@
       "topic_name": "Access Alert Test",
       "variations": {
         "alert_style_new": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2208,7 +2370,7 @@
           "strategy": "sole"
         },
         "button_back": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2218,7 +2380,7 @@
           "strategy": "sole"
         },
         "tittle_customizealert": {
-          "value_list": [
+          "values": [
             {
               "value": "text2"
             }
@@ -2228,7 +2390,7 @@
           "strategy": "sole"
         },
         "alert_show_maxtime": {
-          "value_list": [
+          "values": [
             {
               "value": 2
             }
@@ -2238,7 +2400,7 @@
           "strategy": "sole"
         },
         "alert_outsideapp": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2338,7 +2500,7 @@
       "topic_name": "Boost Push Test",
       "variations": {
         "boost_push_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2348,7 +2510,7 @@
           "strategy": "sole"
         },
         "boost_push_interval": {
-          "value_list": [
+          "values": [
             {
               "value": 1
             }
@@ -2358,7 +2520,7 @@
           "strategy": "sole"
         },
         "boost_push_maxcount": {
-          "value_list": [
+          "values": [
             {
               "value": 4
             }
@@ -2389,7 +2551,7 @@
       "topic_name": "Ringtone Test",
       "variations": {
         "ringtone_btn_show": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2399,7 +2561,7 @@
           "strategy": "sole"
         },
         "ringtone_auto_play": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2445,7 +2607,7 @@
       "topic_name": "Call Finish Wire Test",
       "variations": {
         "call_finish_wire_show": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2479,7 +2641,7 @@
       "topic_name": "Message Assistant Test",
       "variations": {
         "sms_assistant_show_on_unlock": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2489,7 +2651,7 @@
           "strategy": "sole"
         },
         "whatsapp_assistant_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2499,7 +2661,7 @@
           "strategy": "sole"
         },
         "whatsapp_assistant_show_on_unlock": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2509,7 +2671,7 @@
           "strategy": "sole"
         },
         "gmail_assistant_show_on_unlock": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2519,7 +2681,7 @@
           "strategy": "sole"
         },
         "gmail_assistant_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2529,7 +2691,7 @@
           "strategy": "sole"
         },
         "fbmessenger_assistant_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2539,7 +2701,7 @@
           "strategy": "sole"
         },
         "message_assistant_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2549,7 +2711,7 @@
           "strategy": "sole"
         },
         "fbmessenger_assistant_show_on_unlock": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2559,7 +2721,7 @@
           "strategy": "sole"
         },
         "whatsapp_assistant_show_on_lock": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2569,7 +2731,7 @@
           "strategy": "sole"
         },
         "sms_assistant_show_on_lock": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2579,7 +2741,7 @@
           "strategy": "sole"
         },
         "gmail_assistant_show_on_lock": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2589,7 +2751,7 @@
           "strategy": "sole"
         },
         "fbmessenger_assistant_show_on_lock": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2599,7 +2761,7 @@
           "strategy": "sole"
         },
         "sms_assistant_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2633,7 +2795,7 @@
       "topic_name": "AD Strategy",
       "variations": {
         "colorscreensaver_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2643,7 +2805,7 @@
           "strategy": "sole"
         },
         "apply_finish_guide_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2653,7 +2815,7 @@
           "strategy": "sole"
         },
         "sms_assistant_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2663,7 +2825,7 @@
           "strategy": "sole"
         },
         "smart_charging_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2673,7 +2835,7 @@
           "strategy": "sole"
         },
         "start_guide_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2690,12 +2852,193 @@
       ],
       "topic_id": "topic-1505290483207"
     },
+    "topic-71vlbha1x": {
+      "topic_type": "life_time",
+      "topic_name": "Random Theme Test Round Two",
+      "variations": {
+        "normal_theme_can_set_for_all": {
+          "values": [
+            {
+              "value": true
+            }
+          ],
+          "type": "boolean",
+          "value": true,
+          "strategy": "sole"
+        },
+        "normal_theme_show_retain_alert_after_setforall": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "random_theme_default_switch_on": {
+          "values": [
+            {
+              "value": true
+            }
+          ],
+          "type": "boolean",
+          "value": true,
+          "strategy": "sole"
+        },
+        "random_theme_enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "test_need_number": {
+          "values": [
+            {
+              "value": 0
+            }
+          ],
+          "type": "double",
+          "value": 0,
+          "strategy": "sole"
+        },
+        "random_theme_show_on_first_place": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "move_setforall_btn_to_bottom": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "random_theme_guide_show": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "normal_theme_show_retain_alert_maxtime": {
+          "values": [
+            {
+              "value": 1
+            }
+          ],
+          "type": "double",
+          "value": 1,
+          "strategy": "sole"
+        },
+        "random_theme_change_interval": {
+          "values": [
+            {
+              "value": 24
+            }
+          ],
+          "type": "double",
+          "value": 24,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "random_theme_guide_show"
+        },
+        {
+          "name": "random_theme_guide_ok_click"
+        },
+        {
+          "name": "detail_page_retain_alert_show"
+        },
+        {
+          "name": "detail_page_retain_alert_set_click"
+        },
+        {
+          "name": "screenflash_show"
+        },
+        {
+          "name": "screenflash_random_theme_show"
+        },
+        {
+          "name": "deatil_page_show"
+        },
+        {
+          "name": "detail_page_retain_alert_keep_click"
+        },
+        {
+          "name": "detail_page_setforall_click"
+        },
+        {
+          "name": "detail_page_setforcontact_click"
+        },
+        {
+          "name": "detail_page_setforcontact_success"
+        },
+        {
+          "name": "detail_page_retain_alert_close_by_back"
+        },
+        {
+          "name": "detail_page_retain_alert_show_firsttime"
+        },
+        {
+          "name": "detail_page_retain_alert_keep_click_firsttime"
+        },
+        {
+          "name": "detail_page_retain_alert_set_click_firsttime"
+        },
+        {
+          "name": "detail_page_retain_alert_show_secondtime"
+        },
+        {
+          "name": "detail_page_retain_alert_keep_click_secondtime"
+        },
+        {
+          "name": "detail_page_retain_alert_set_click_secondtime"
+        },
+        {
+          "name": "detail_page_retain_alert_show_thirdtime"
+        },
+        {
+          "name": "detail_page_retain_alert_keep_click_thirdtime"
+        },
+        {
+          "name": "detail_page_retain_alert_set_click_thirdtime"
+        },
+        {
+          "name": "random_theme_download_start"
+        },
+        {
+          "name": "random_theme_download_success"
+        }
+      ],
+      "topic_id": "topic-71vlbha1x"
+    },
     "topic-1528196849816-295": {
       "topic_type": "life_time",
       "topic_name": "Charing Card Test",
       "variations": {
         "gif_card_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2705,7 +3048,7 @@
           "strategy": "sole"
         },
         "charging_enable": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2715,7 +3058,7 @@
           "strategy": "sole"
         },
         "game_card_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2725,7 +3068,7 @@
           "strategy": "sole"
         },
         "fm_game_card_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2783,7 +3126,7 @@
       "topic_name": "Charing Game Card Click Rate",
       "variations": {
         "game_card_type": {
-          "value_list": [
+          "values": [
             {
               "value": "One"
             }
@@ -2811,7 +3154,7 @@
       "topic_name": "Feature Open Rate",
       "variations": {
         "apply_finish_guide_show_interval": {
-          "value_list": [
+          "values": [
             {
               "value": "4"
             }
@@ -2821,7 +3164,7 @@
           "strategy": "sole"
         },
         "apply_finish_guide_max_show_time": {
-          "value_list": [
+          "values": [
             {
               "value": "2"
             }
@@ -2846,17 +3189,17 @@
       "topic_name": "Random Theme Test New",
       "variations": {
         "normal_theme_can_set_for_all": {
-          "value_list": [
+          "values": [
             {
-              "value": false
+              "value": true
             }
           ],
           "type": "boolean",
-          "value": false,
+          "value": true,
           "strategy": "sole"
         },
         "normal_theme_show_retain_alert_after_setforall": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2866,17 +3209,17 @@
           "strategy": "sole"
         },
         "random_theme_default_switch_on": {
-          "value_list": [
+          "values": [
             {
-              "value": true
+              "value": false
             }
           ],
           "type": "boolean",
-          "value": true,
+          "value": false,
           "strategy": "sole"
         },
         "random_theme_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2886,7 +3229,7 @@
           "strategy": "sole"
         },
         "random_theme_display_in_settings": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2896,7 +3239,7 @@
           "strategy": "sole"
         },
         "random_theme_show_on_first_place": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2906,7 +3249,7 @@
           "strategy": "sole"
         },
         "random_theme_guide_show": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -2916,7 +3259,7 @@
           "strategy": "sole"
         },
         "random_theme_guide_desc": {
-          "value_list": [
+          "values": [
             {
               "value": "Enjoy different flash everyday by applying random style"
             }
@@ -2926,7 +3269,7 @@
           "strategy": "sole"
         },
         "random_theme_change_interval": {
-          "value_list": [
+          "values": [
             {
               "value": 24
             }
@@ -2987,7 +3330,7 @@
       "topic_name": "Color Phone About List Style Test",
       "variations": {
         "information_display": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -2997,7 +3340,7 @@
           "strategy": "sole"
         },
         "apply_button": {
-          "value_list": [
+          "values": [
             {
               "value": true
             }
@@ -3007,7 +3350,7 @@
           "strategy": "sole"
         },
         "special_entrance": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -3038,7 +3381,7 @@
       "topic_name": "Promote Locker Test",
       "variations": {
         "promote_app": {
-          "value_list": [
+          "values": [
             {
               "value": "com.wallpaper.theme.privacy.smart.charger.lock.screen"
             }
@@ -3048,7 +3391,7 @@
           "strategy": "sole"
         },
         "promote_alert_title": {
-          "value_list": [
+          "values": [
             {
               "value": "Use Color Locker Pro for Free"
             }
@@ -3058,7 +3401,7 @@
           "strategy": "sole"
         },
         "applyfinish_promote_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -3068,7 +3411,7 @@
           "strategy": "sole"
         },
         "promote_alert_detail_text": {
-          "value_list": [
+          "values": [
             {
               "value": "Choose beautiful wallpapers to make your lock screen stand out!"
             }
@@ -3078,7 +3421,7 @@
           "strategy": "sole"
         },
         "startapp_promote_enable": {
-          "value_list": [
+          "values": [
             {
               "value": false
             }
@@ -3088,7 +3431,7 @@
           "strategy": "sole"
         },
         "promote_alert_show_interval": {
-          "value_list": [
+          "values": [
             {
               "value": 4
             }
@@ -3098,7 +3441,7 @@
           "strategy": "sole"
         },
         "promote_alert_max_showtime": {
-          "value_list": [
+          "values": [
             {
               "value": 3
             }
@@ -3108,7 +3451,7 @@
           "strategy": "sole"
         },
         "promote_alert_btn": {
-          "value_list": [
+          "values": [
             {
               "value": "Add for Free"
             }
@@ -3133,12 +3476,109 @@
         }
       ],
       "topic_id": "topic-1512825907890-18"
+    },
+    "topic-72mxyzj8z": {
+      "topic_type": "life_time",
+      "topic_name": "Weather Test",
+      "variations": {
+        "weather_forecast_alert_show_maxtime": {
+          "values": [
+            {
+              "value": "100"
+            }
+          ],
+          "type": "string",
+          "value": "100",
+          "strategy": "sole"
+        },
+        "weather_forecast_show_at_night": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "weather_forecast_enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "weather_forecast_show_in_morning": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "weather_forecast_video_allow_fullscreen_click": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "weather_forecast_type": {
+          "values": [
+            {
+              "value": "multi"
+            }
+          ],
+          "type": "string",
+          "value": "multi",
+          "strategy": "sole"
+        },
+        "weather_forecast_video_allow_back": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "weather_forecast_should_show"
+        },
+        {
+          "name": "weather_forecast_show"
+        },
+        {
+          "name": "weather_forecast_click"
+        },
+        {
+          "name": "weather_forecast_closebtn_click"
+        },
+        {
+          "name": "weather_forecast_wire_show"
+        }
+      ],
+      "topic_id": "topic-72mxyzj8z"
     }
   },
   "autopilot_id": 10000,
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "c30dbf33-230e-44d4-b6b8-75743203a3a1",
+  "json_id": "52636056-d486-47d4-963e-d1f1bc3b9300",
   "autopilot_name": "Color Phone",
   "autopilot_type": "app"
 }

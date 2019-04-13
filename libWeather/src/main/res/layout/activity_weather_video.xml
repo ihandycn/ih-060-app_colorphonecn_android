@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.acb.call.views.VideoPlayerView
         android:id="@+id/animation_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,50 +17,54 @@
             android:id="@+id/iv_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
-            android:background="@drawable/icon_disable"/>
+            android:layout_marginTop="16dp"
+            android:background="@drawable/icon_disable" />
 
 
         <ImageView
             android:id="@+id/iv_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignTop="@id/iv_setting"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
-            android:background="@drawable/icon_close"/>
+            android:background="@drawable/icon_close" />
 
-        <TextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/iv_setting"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="39dp"
             android:text="Weather Forecast"
             android:textColor="#FFFFFFFF"
             android:textSize="30sp"
-            android:layout_below="@id/iv_setting"
-            android:layout_marginTop="39dp"
-            android:layout_centerHorizontal="true"/>
+            app:typefaceFileName="@string/proxima_nova_bold" />
 
-        <TextView
+        <com.superapps.view.TypefacedTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
             android:text="Pick up to get weather information"
             android:textColor="#FFFFFFFF"
             android:textSize="18sp"
-            android:layout_below="@id/tv_title"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"/>
+            app:typefaceFileName="@string/proxima_nova_regular" />
 
-        <ImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/iv_call_accept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="50dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/acb_phone_call_answer"/>
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="lottie/weather_answer_button.json"
+            app:lottie_loop="true" />
     </RelativeLayout>
 
 </FrameLayout>

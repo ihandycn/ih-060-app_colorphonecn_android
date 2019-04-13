@@ -493,7 +493,7 @@
         <activity
             android:name="com.honeycomb.colorphone.weather.WeatherVideoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ThemeAppBarActivity"
+            android:theme="@style/AppTheme.FullScreen"
             android:windowSoftInputMode="stateHidden"/>
 
         <activity

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="243dp"
+    android:background="@drawable/new_dialog_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:orientation="vertical">
+
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_push_disable_title"
+            android:textColor="#FF454545"
+            android:textSize="22sp"
+            app:typeface="@string/custom_font_bold" />
+
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/weather_push_disable_content"
+            android:textColor="#FF454545"
+            android:textSize="15sp"
+            app:typeface="@string/custom_font_medium" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp">
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/tv_disable"
+                android:layout_width="116dp"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:text="@string/disable"
+                android:textColor="#FF5B5B5B"
+                android:textSize="15sp" />
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/tv_not_now"
+                android:layout_width="116dp"
+                android:layout_height="44dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="@string/not_now"
+                android:textColor="#FFFFFFFF"
+                android:textSize="15sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

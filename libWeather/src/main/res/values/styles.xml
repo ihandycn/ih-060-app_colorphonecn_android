@@ -73,4 +73,12 @@
         <item name="colorAccent">@color/material_color_accent</item>
     </style>
 
+    <style name="BaseDialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowFrame">@null</item>       <!-- Dialog的windowFrame框为无 -->
+        <item name="android:windowBackground">@android:color/transparent</item> <!-- 设置dialog的背景 -->
+        <item name="android:windowNoTitle">true</item>      <!-- 是否显示title -->
+        <item name="android:windowIsFloating">false</item>       <!-- 是否浮现在activity之上 -->
+        <item name="android:backgroundDimEnabled">true</item>  <!-- 背景是否模糊显示 -->
+        <item name="android:backgroundDimAmount">@dimen/dialog_background_dim_amount</item>
+    </style>
 </resources>
