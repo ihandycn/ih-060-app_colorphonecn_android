@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:openDrawer="start">
-
         <include
             layout="@layout/main_frame"
             android:layout_width="match_parent"
@@ -286,5 +285,18 @@
             <!--android:textSize="12sp" />-->
         </ScrollView>
     </android.support.v4.widget.DrawerLayout>
+
+    <ImageButton
+        android:id="@+id/toolbar_weather_icon"
+        android:layout_marginTop="12dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_gravity="end|right"
+        android:scaleType="centerInside"
+        android:background="@drawable/weather_icon_bg"
+        android:src="@drawable/weather_cloudy" />
 </FrameLayout>
 

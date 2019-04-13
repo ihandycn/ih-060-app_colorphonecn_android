@@ -19,22 +19,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
             android:gravity="center_vertical">
 
-            <ImageButton
-                android:id="@+id/toolbar_weather_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:padding="6dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="end|right"
-                android:scaleType="centerInside"
-                android:background="@drawable/material_compat_bg"
-                android:src="@drawable/weather_cloudy" />
         </android.support.v7.widget.Toolbar>
 
 

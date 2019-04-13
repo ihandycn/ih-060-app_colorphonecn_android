@@ -54,7 +54,7 @@ public class WeatherRevealLayout extends FrameLayout {
         mStrikePaint.setColor(0x33ffffff);
         mStrikePaint.setStrokeWidth(Dimensions.pxFromDp(1));
 
-        animator = ValueAnimator.ofFloat(0, 1).setDuration(600);
+        animator = ValueAnimator.ofFloat(0, 1).setDuration(500);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override

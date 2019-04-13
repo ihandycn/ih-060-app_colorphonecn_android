@@ -140,11 +140,16 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
 
     // Animation
     private WeatherRevealLayout mWeatherRevealLayout;
-    private View weatherForegroundView;
+    private View mRevealContentChild;
+    private View mWeatherForegroundView;
+    private View mCloseBtn;
 
     private boolean weatherViewInShow;
-    private int weatherHeight;
+    private int mWeatherHeight;
+
     private DrawerLayout mOuterMainLayout;
+    private View mOuterIconView;
+    private int[] mOuterIconTrans = new int[2];
 
     public WeatherView(Context context) {
         this(context, null);
@@ -206,31 +211,7 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
         //        InterstitialAdsManager.getInstance().onEnterAdFeatures("Weather");
 
 
-        // Init Animation layout
-        mWeatherRevealLayout = findViewById(R.id.weather_reveal_container);
-        weatherForegroundView =  findViewById(R.id.weather_black_cover);
-        mWeatherRevealLayout.setCornerRadius(Dimensions.pxFromDp(20));
-        mWeatherRevealLayout.addAnimatorListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                weatherForegroundView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                weatherForegroundView.setLayerType(View.LAYER_TYPE_NONE, null);
-            }
-        });
-        mWeatherRevealLayout.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float sizeFraction = mWeatherRevealLayout.getSizeFraction();
-                weatherForegroundView.setAlpha(1 - sizeFraction);
-                mOuterMainLayout.setTranslationY(sizeFraction * weatherHeight);
-            }
-        });
+        initRevealLayout();
     }
 
     protected void onStart() {
@@ -289,14 +270,11 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
             }
         });
 
-        // Right close
-        ActionMenuView closeView = (ActionMenuView) toolbar.findViewById(R.id.action_menu_close);
-        ((Activity)mContext).getMenuInflater().inflate(R.menu.weather_menu_close, closeView.getMenu());
-        closeView.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener() {
+        mCloseBtn = findViewById(R.id.toolbar_weather_close);
+        mCloseBtn.setOnClickListener(new OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public void onClick(View v) {
                 toggle();
-                return true;
             }
         });
 
@@ -646,6 +624,46 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
         return true;
     }
 
+
+    private void initRevealLayout() {
+        // Init Animation layout
+        mWeatherRevealLayout = findViewById(R.id.weather_reveal_container);
+        mWeatherForegroundView =  findViewById(R.id.weather_black_cover);
+        mRevealContentChild = mWeatherRevealLayout.getChildAt(0);
+        mWeatherRevealLayout.setCornerRadius(Dimensions.pxFromDp(20));
+        mWeatherRevealLayout.addAnimatorListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                mWeatherForegroundView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mWeatherForegroundView.setLayerType(View.LAYER_TYPE_NONE, null);
+            }
+        });
+        mWeatherRevealLayout.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float sizeFraction = mWeatherRevealLayout.getSizeFraction();
+                mWeatherForegroundView.setAlpha(1 - sizeFraction);
+                mOuterMainLayout.setTranslationY(sizeFraction * mWeatherHeight);
+                mOuterIconView.setAlpha(1 - sizeFraction);
+                mRevealContentChild.setTranslationY((1- sizeFraction) * mWeatherHeight * 0.2f);
+                mCloseBtn.setAlpha(sizeFraction);
+                transViewToCloseBtnPosition(mOuterIconView, sizeFraction);
+            }
+        });
+    }
+
+    private void transViewToCloseBtnPosition(View outerIconView, float sizeFraction) {
+        ensureOuterIconTransData();
+        outerIconView.setTranslationX(mOuterIconTrans[0] * sizeFraction);
+        outerIconView.setTranslationY(mOuterIconTrans[1] * sizeFraction);
+    }
+
     public void setOuterMainLayout(DrawerLayout outerMainLayout) {
         mOuterMainLayout = outerMainLayout;
     }
@@ -654,8 +672,29 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
         return mOuterMainLayout;
     }
 
+    public void ensureOuterIconTransData() {
+        if (mCloseBtn.getWidth() != 0 && mOuterIconTrans[0] == 0) {
+            int[] outerIconLocation = new int[2];
+            mOuterIconView.getLocationInWindow(outerIconLocation);
+
+            int[] btnLocation = new int[2];
+            mCloseBtn.getLocationInWindow(btnLocation);
+            mOuterIconTrans[0] = btnLocation[0] - outerIconLocation[0];
+            mOuterIconTrans[1] = btnLocation[1] - outerIconLocation[1];
+            HSLog.d("WeatherView", "ensureOuterIconTransData : " + outerIconLocation[0] + "," + outerIconLocation[1]);
+        }
+    }
+
+    public void setOuterIconView(View outerIconView) {
+        mOuterIconView = outerIconView;
+    }
+
+    public View getOuterIconView() {
+        return mOuterIconView;
+    }
+
     public void setWeatherHeight(int weatherHeight) {
-        this.weatherHeight = weatherHeight;
+        this.mWeatherHeight = weatherHeight;
     }
 
     public void toggle() {

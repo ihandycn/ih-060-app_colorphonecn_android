@@ -250,9 +250,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private ViewGroup main_container;
     private WeatherView weatherView;
+    private View weatherIcon;
     private void initWeather() {
         main_container = findViewById(R.id.main_container_framelayout);
-        findViewById(R.id.toolbar_weather_icon).setOnClickListener(new View.OnClickListener() {
+        weatherIcon = findViewById(R.id.toolbar_weather_icon);
+        weatherIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (weatherView == null) {
@@ -261,6 +263,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                     weatherView = new WeatherView(ColorPhoneActivity.this);
                     weatherView.setOuterMainLayout(mDrawerLayout);
+                    weatherView.setOuterIconView(weatherIcon);
                     weatherView.setWeatherHeight(weatherHeight);
 
                     FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
