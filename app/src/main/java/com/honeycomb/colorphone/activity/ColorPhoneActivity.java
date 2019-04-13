@@ -1,8 +1,10 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,6 +62,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
@@ -70,6 +73,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import colorphone.acb.com.libweather.view.CircleAnimationLayout;
 import colorphone.acb.com.libweather.view.WeatherView;
 import hugo.weaving.DebugLog;
 
@@ -250,13 +254,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private ViewGroup main_container;
     private WeatherView weatherView;
+    private CircleAnimationLayout mCircleAnimationLayout;
+    private View weatherForegroundView;
 
     private boolean weatherViewInShow;
     private int weatherHeight;
 
     private void initWeather() {
         main_container = findViewById(R.id.main_container_framelayout);
-
         findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -266,16 +271,38 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     weatherView = new WeatherView(ColorPhoneActivity.this);
                     FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                     main_container.addView(weatherView, 0, weatherParams);
+                    mCircleAnimationLayout = weatherView.findViewById(R.id.weather_reveal_container);
+                    weatherForegroundView = weatherView.findViewById(R.id.weather_black_cover);
+                    mCircleAnimationLayout.setCornerRadius(Dimensions.pxFromDp(20));
+                    mCircleAnimationLayout.addAnimatorListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            super.onAnimationStart(animation);
+                            weatherForegroundView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            weatherForegroundView.setLayerType(View.LAYER_TYPE_NONE, null);
+                        }
+                    });
+                    mCircleAnimationLayout.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float sizeFraction = mCircleAnimationLayout.getSizeFraction();
+                            weatherForegroundView.setAlpha(1 - sizeFraction);
+                            mDrawerLayout.setTranslationY(sizeFraction * weatherHeight);
+                        }
+                    });
                 }
 
                 if (weatherViewInShow) {
                     weatherViewInShow = false;
-                    mDrawerLayout.animate().translationY(0).setDuration(1000).start();
-                    toolbar.setBackgroundColor(Color.BLACK);
+                    mCircleAnimationLayout.close();
                 } else {
                     weatherViewInShow = true;
-                    mDrawerLayout.animate().translationY(weatherHeight).setDuration(1000).start();
-                    toolbar.setBackgroundColor(Color.TRANSPARENT);
+                    mCircleAnimationLayout.open();
                 }
 
             }

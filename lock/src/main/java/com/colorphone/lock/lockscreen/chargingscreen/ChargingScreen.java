@@ -69,7 +69,6 @@ import java.util.Random;
 
 import colorphone.acb.com.libscreencard.CardCustomConfig;
 import colorphone.acb.com.libscreencard.CustomizeContentContainer;
-import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;

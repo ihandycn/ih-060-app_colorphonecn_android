@@ -19,10 +19,12 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -41,6 +43,7 @@ import com.ihs.weather.HSWeatherQuery;
 import com.ihs.weather.HSWeatherQueryListener;
 import com.ihs.weather.HSWeatherQueryResult;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
@@ -56,7 +59,6 @@ import colorphone.acb.com.libweather.CitySearchActivity;
 import colorphone.acb.com.libweather.FrequencyCapLocationFetcher;
 import colorphone.acb.com.libweather.HourlyForecastCurve;
 import colorphone.acb.com.libweather.R;
-import colorphone.acb.com.libweather.WeatherActivity;
 import colorphone.acb.com.libweather.WeatherAnimView;
 import colorphone.acb.com.libweather.WeatherDataProvider;
 import colorphone.acb.com.libweather.WeatherDetailPage;
@@ -65,7 +67,6 @@ import colorphone.acb.com.libweather.WeatherUtils;
 import colorphone.acb.com.libweather.background.BaseWeatherAnimBackground;
 import colorphone.acb.com.libweather.model.DeferredHandler;
 import colorphone.acb.com.libweather.model.LauncherFiles;
-import colorphone.acb.com.libweather.util.CommonUtils;
 import colorphone.acb.com.libweather.util.Thunk;
 import colorphone.acb.com.libweather.util.Utils;
 import colorphone.acb.com.libweather.util.ViewUtils;
@@ -235,6 +236,17 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
         Toolbar.LayoutParams toolbarParams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
         toolbarContent.setLayoutParams(toolbarParams);
         toolbar.addView(toolbarContent);
+
+        // Left menu
+        ActionMenuView actionMenuView = (ActionMenuView) toolbar.findViewById(R.id.action_menu_view);
+        ((Activity)mContext).getMenuInflater().inflate(R.menu.weather_activity, actionMenuView.getMenu());
+        actionMenuView.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Navigations.startActivitySafely(mContext, new Intent(mContext, WeatherSettingsActivity.class));
+                return true;
+            }
+        });
 
 //        mContext.setSupportActionBar(toolbar);
         //noinspection ConstantConditions

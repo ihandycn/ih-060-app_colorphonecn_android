@@ -27,69 +27,101 @@
     </RelativeLayout>
 
     <!-- City weather -->
-    <RelativeLayout
+    <colorphone.acb.com.libweather.view.CircleAnimationLayout
+        android:id="@+id/weather_reveal_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
-        <include
-            android:id="@+id/action_bar"
-            layout="@layout/white_toolbar"/>
-
-        <com.superapps.view.ViewPagerFixed
-            android:id="@+id/weather_city_pager"
+        android:fitsSystemWindows="true"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="76dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        >
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/weather_bottom_bar"
-            android:layout_below="@id/action_bar"/>
-
-        <RelativeLayout
-            android:id="@+id/weather_bottom_bar"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_alignParentBottom="true">
-
-            <View
+            >
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/action_bar"
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
-                android:layout_alignParentTop="true"
-                android:background="@color/weather_secondary"/>
+                android:layout_height="@dimen/abc_action_bar_default_height_material"
+                android:layout_gravity="top"
+                android:background="@android:color/transparent"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                tools:ignore="PrivateResource" >
+                <android.support.v7.widget.ActionMenuView
+                    android:id="@+id/action_menu_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
 
-            <!-- Refresh clickable area -->
-            <View
-                android:id="@+id/weather_refresh_clickable"
-                android:layout_width="80dp"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|end"
+                    android:src="@drawable/icon_close" />
+            </android.support.v7.widget.Toolbar>
+            <com.superapps.view.ViewPagerFixed
+                android:id="@+id/weather_city_pager"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_above="@+id/weather_bottom_bar"
+                android:layout_below="@id/action_bar"/>
 
-            <com.superapps.view.TypefacedTextView
-                android:id="@+id/weather_last_update_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toLeftOf="@+id/weather_refresh_indicator"
-                android:layout_toStartOf="@+id/weather_refresh_indicator"
-                android:maxLines="1"
-                android:textColor="@color/weather_secondary"
-                android:textSize="11sp"
-                app:typeface="@string/custom_font_regular"
-                tools:text="08:23"/>
+            <RelativeLayout
+                android:id="@+id/weather_bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_alignParentBottom="true">
 
-            <colorphone.acb.com.libweather.view.StoppableProgressBar
-                android:id="@+id/weather_refresh_indicator"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/small_refresh_icon"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/weather_secondary"/>
+
+                <!-- Refresh clickable area -->
+                <View
+                    android:id="@+id/weather_refresh_clickable"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"/>
+
+                <com.superapps.view.TypefacedTextView
+                    android:id="@+id/weather_last_update_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_toLeftOf="@+id/weather_refresh_indicator"
+                    android:layout_toStartOf="@+id/weather_refresh_indicator"
+                    android:maxLines="1"
+                    android:textColor="@color/weather_secondary"
+                    android:textSize="11sp"
+                    app:typeface="@string/custom_font_regular"
+                    tools:text="08:23"/>
+
+                <colorphone.acb.com.libweather.view.StoppableProgressBar
+                    android:id="@+id/weather_refresh_indicator"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/small_refresh_icon"/>
+            </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
+    </colorphone.acb.com.libweather.view.CircleAnimationLayout>
+
+    <View
+        android:id="@+id/weather_black_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000" />
 </merge>
