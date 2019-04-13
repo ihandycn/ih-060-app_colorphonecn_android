@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
@@ -22,7 +23,6 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.InsettableFrameLayout;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Fonts;
 
 public class ActivityUtils {
     private static final int DEFAULT_NAVIGATION_BAR_COLOR = Color.BLACK;
@@ -209,7 +209,12 @@ public class ActivityUtils {
         assert container != null;
         Toolbar toolbar;
 
-        toolbar = (Toolbar) container;
+        if (container instanceof LinearLayout) {
+            toolbar = container.findViewById(com.colorphone.lock.R.id.inner_tool_bar);
+        } else {
+            toolbar = (Toolbar) container;
+        }
+        assert toolbar != null;
 
         assert toolbar != null;
 

@@ -474,6 +474,13 @@
             android:theme="@style/Theme.AppCompat.Translucent"
             android:excludeFromRecents="true" />
         <activity android:name=".news.NewsTestActivity"/>
+        <activity
+            android:name=".news.WebViewActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+
         <!--&lt;!&ndash;===== Dialer Module =====&ndash;&gt;-->
 
         <!--<activity-->

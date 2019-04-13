@@ -17,6 +17,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Navigations;
 
 public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadListener, SwipeRefreshLayout.OnRefreshListener {
     private NewsResultBean newsResource;
@@ -171,6 +172,11 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
                     .asDrawable()
                     .load(url)
                     .into(beanHolder.image);
+
+            holder.itemView.setOnClickListener(v -> {
+                HSLog.i(NewsManager.TAG, "NP onClicked: " + position);
+                Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(bean.contentURL, false));
+            });
         }
 
         @Override public int getItemCount() {

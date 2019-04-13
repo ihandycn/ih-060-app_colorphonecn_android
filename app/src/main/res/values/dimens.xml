@@ -138,4 +138,5 @@
     <dimen name="result_page_guide_tip_translation_top">10dp</dimen>
 
     <dimen name="popular_theme_thumbnail_height">134dp</dimen>
+    <dimen name="web_view_progress_bar_height">2.3dp</dimen>
 </resources>

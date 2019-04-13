@@ -276,6 +276,9 @@
     <string name="news_network_err">No Connection</string>
     <string name="news_network_err_content">Please check your Internet connection and try again</string>
     <string name="news_network_err_action">RETRY</string>
+    <string name="network_error">Network error.</string>
+    <string name="news_detail_error_reload">Reload</string>
+    <string name="refresh">Refresh</string>
 
     <!--TODO remove this. Use libSuperApps-->
     <string name="custom_font_regular" translatable="false">ProximaNova-Regular</string>
