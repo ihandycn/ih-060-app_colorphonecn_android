@@ -64,6 +64,7 @@ import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
+import com.honeycomb.colorphone.weather.WeatherPushManager;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
@@ -112,7 +113,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import colorphone.acb.com.libscreencard.CardCustomConfig;
-import com.honeycomb.colorphone.weather.WeatherPushManager;
+import colorphone.acb.com.libweather.WeatherClockManager;
 import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 
@@ -387,6 +388,9 @@ public class ColorPhoneApplication extends HSApplication {
         checkDailyTask();
 
         watchLifeTimeAutopilot();
+
+
+        WeatherClockManager.getInstance().updateWeatherIfNeeded();
 
     }
 

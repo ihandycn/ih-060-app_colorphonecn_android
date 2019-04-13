@@ -64,6 +64,7 @@ import colorphone.acb.com.libweather.FrequencyCapLocationFetcher;
 import colorphone.acb.com.libweather.HourlyForecastCurve;
 import colorphone.acb.com.libweather.R;
 import colorphone.acb.com.libweather.WeatherAnimView;
+import colorphone.acb.com.libweather.WeatherClockManager;
 import colorphone.acb.com.libweather.WeatherDataProvider;
 import colorphone.acb.com.libweather.WeatherDetailPage;
 import colorphone.acb.com.libweather.WeatherSettingsActivity;
@@ -408,7 +409,7 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
     private void updateWeather(int position, boolean ipOnly) {
         final CityData cityData = mAdapter.getData(position);
         if (cityData == null) {
-            //            WeatherClockManager.getInstance().updateWeatherIfNeeded();
+            WeatherClockManager.getInstance().updateWeatherIfNeeded();
             return;
         }
         final String queryId = cityData.getQueryId();
@@ -498,8 +499,8 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
         final boolean success = result != null;
         mRefreshIndicator.requestStop();
         if (success) {
-            //            WeatherClockManager.getInstance().setLocalWeather(result);
-            //            HSGlobalNotificationCenter.sendNotification(WeatherClockManager.NOTIFICATION_WEATHER_CONDITION_CHANGED, null);
+            WeatherClockManager.getInstance().setLocalWeather(result);
+            HSGlobalNotificationCenter.sendNotification(WeatherClockManager.NOTIFICATION_WEATHER_CONDITION_CHANGED, null);
         } else {
             mLastUpdateTimeText.setVisibility(View.VISIBLE);
             if (!mSuppressToastOnFailure) {
@@ -771,7 +772,7 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
                     if (shouldShow) {
                         prefs.putBoolean(PREF_KEY_LOCATION_PERMISSION_RATIONALE_SHOWN, true);
                     }
-                    page.setLocationPermissionRationaleVisibility(shouldShow);
+//                    page.setLocationPermissionRationaleVisibility(shouldShow);
 
                     page.setTag(wrappedData.getQueryId());
                     page.setOnScrollChangeListener(new WeatherDetailPage.OnScrollChangeListener() {

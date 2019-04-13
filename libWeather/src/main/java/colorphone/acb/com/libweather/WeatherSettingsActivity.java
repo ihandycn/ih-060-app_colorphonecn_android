@@ -2,7 +2,6 @@ package colorphone.acb.com.libweather;
 
 import android.animation.LayoutTransition;
 import android.app.LoaderManager;
-import android.app.NotificationManager;
 import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.content.CursorLoader;
@@ -388,7 +387,7 @@ public class WeatherSettingsActivity extends BaseSettingsActivity
                 } catch (RemoteException | OperationApplicationException e) {
                     e.printStackTrace();
                 }
-//                WeatherClockManager.getInstance().loadWeather(WeatherSettingsActivity.this, true);
+                WeatherClockManager.getInstance().loadWeather(WeatherSettingsActivity.this, true);
             }
         });
     }

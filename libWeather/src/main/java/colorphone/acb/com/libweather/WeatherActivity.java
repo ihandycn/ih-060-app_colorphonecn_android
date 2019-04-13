@@ -65,7 +65,6 @@ import colorphone.acb.com.libweather.view.PageIndicator;
 import colorphone.acb.com.libweather.view.RecyclerPagerAdapter;
 import colorphone.acb.com.libweather.view.StoppableProgressBar;
 import hugo.weaving.DebugLog;
-import colorphone.acb.com.libweather.R;
 
 /**
  * Weather detail page.
@@ -441,7 +440,7 @@ public class WeatherActivity extends BaseAppCompatActivity
     private void updateWeather(int position, boolean ipOnly) {
         final CityData cityData = mAdapter.getData(position);
         if (cityData == null) {
-//            WeatherClockManager.getInstance().updateWeatherIfNeeded();
+            WeatherClockManager.getInstance().updateWeatherIfNeeded();
             return;
         }
         final String queryId = cityData.getQueryId();
@@ -531,8 +530,8 @@ public class WeatherActivity extends BaseAppCompatActivity
         final boolean success = result != null;
         mRefreshIndicator.requestStop();
         if (success) {
-//            WeatherClockManager.getInstance().setLocalWeather(result);
-//            HSGlobalNotificationCenter.sendNotification(WeatherClockManager.NOTIFICATION_WEATHER_CONDITION_CHANGED, null);
+            WeatherClockManager.getInstance().setLocalWeather(result);
+            HSGlobalNotificationCenter.sendNotification(WeatherClockManager.NOTIFICATION_WEATHER_CONDITION_CHANGED, null);
         } else {
             mLastUpdateTimeText.setVisibility(View.VISIBLE);
             if (!mSuppressToastOnFailure) {

@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
@@ -70,6 +71,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import colorphone.acb.com.libweather.WeatherClockManager;
 import colorphone.acb.com.libweather.view.WeatherView;
 import hugo.weaving.DebugLog;
 
@@ -250,7 +252,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private ViewGroup main_container;
     private WeatherView weatherView;
-    private View weatherIcon;
+    private ImageButton weatherIcon;
     private void initWeather() {
         main_container = findViewById(R.id.main_container_framelayout);
         weatherIcon = findViewById(R.id.toolbar_weather_icon);
@@ -273,6 +275,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 weatherView.toggle();
             }
         });
+        int weatherIconId = WeatherClockManager.getInstance().getWeatherConditionIconResourceID();
+        weatherIcon.setImageResource(weatherIconId);
     }
 
     private void setFullScreen(){

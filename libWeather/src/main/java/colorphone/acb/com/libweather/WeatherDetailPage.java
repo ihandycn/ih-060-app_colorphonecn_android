@@ -171,9 +171,9 @@ public class WeatherDetailPage extends ScrollView implements Comparable {
         if (currentCondition != null) {
             int temperature = fahrenheit ? currentCondition.getFahrenheit() : currentCondition.getCelsius();
             mCurrentTempText.setText(WeatherUtils.filterInt(temperature));
-//            WeatherClockManager manager = WeatherClockManager.getInstance();
-//            String simpleConditionDesc = manager.getSimpleConditionDescription(currentCondition.getCondition());
-//            mCurrentConditionText.setText(simpleConditionDesc);
+            WeatherClockManager manager = WeatherClockManager.getInstance();
+            String simpleConditionDesc = manager.getSimpleConditionDescription(currentCondition.getCondition());
+            mCurrentConditionText.setText(simpleConditionDesc);
         }
         List<DailyForecast> dailyForecasts = mWeather.getDailyForecasts();
         if (dailyForecasts.size() > 0) {
