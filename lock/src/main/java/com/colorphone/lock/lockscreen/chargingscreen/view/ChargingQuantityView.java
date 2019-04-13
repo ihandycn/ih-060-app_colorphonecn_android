@@ -14,7 +14,7 @@ import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.AttributeSet;
 
-import com.colorphone.lock.TypefacedTextView;
+import com.superapps.view.TypefacedTextView;
 
 
 /**

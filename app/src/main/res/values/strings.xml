@@ -273,6 +273,10 @@
     <string name="trivia_tip_content_truly_fact">Truly Fact</string>
     <string name="trivia_tip_button_set_as_theme">Apply for ScreenFlash</string>
 
+    <string name="news_network_err">No Connection</string>
+    <string name="news_network_err_content">Please check your Internet connection and try again</string>
+    <string name="news_network_err_action">RETRY</string>
+
     <!--TODO remove this. Use libSuperApps-->
     <string name="custom_font_regular" translatable="false">ProximaNova-Regular</string>
     <string name="custom_font_light" translatable="false">ProximaNova-Light</string>

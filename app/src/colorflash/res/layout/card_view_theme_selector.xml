@@ -18,7 +18,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/wallpaper_item_bg" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/card_title"
         style="@style/NormalText"
         android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
         android:layout_marginBottom="@dimen/theme_text_margin_top"
         android:textColor="@color/textDark"
         android:textSize="18sp"
-        app:typeface="@string/proxima_nova_semibold"
+        app:typeface="@string/custom_semibold"
         tools:text="Neon" />
 
     <!--<ImageView-->
@@ -56,7 +56,7 @@
         app:lottie_loop="false"
         app:lottie_progress="0" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/card_like_count_txt"
         style="@style/NormalText"
         android:layout_width="wrap_content"

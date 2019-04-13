@@ -28,7 +28,7 @@
         android:src="@drawable/locker_assistant_guide"
         style="@style/guide_all_features_image" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/tv_title"
         app:layout_widthPercent="80%"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
         android:gravity="center"
         android:textColor="@color/textDark"
         android:textSize="18sp"
-        app:typeface="@string/proxima_nova_semibold"
+        app:typeface="@string/custom_semibold"
         tools:text="Please enable the features and permissions: Remind your missed calls"/>
 
     <Button
@@ -65,7 +65,7 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/welcome_guide_privacy_policy"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -75,25 +75,25 @@
             android:text="@string/privacy_policy"
             android:textColor="@drawable/privacy_policy_text_color"
             android:textSize="10sp"
-            app:typeface="@string/proxima_nova_regular"
+            app:typeface="@string/custom_regular"
             />
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:padding="2dp"
             android:text=" &amp; "
             android:textColor="@color/subtitle_color"
-            app:typeface="@string/proxima_nova_regular"
+            app:typeface="@string/custom_regular"
             android:textSize="10sp"
             />
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/welcome_guide_terms_of_service"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:typeface="@string/proxima_nova_regular"
+            app:typeface="@string/custom_regular"
             android:layout_gravity="center"
             android:clickable="true"
             android:gravity="center"

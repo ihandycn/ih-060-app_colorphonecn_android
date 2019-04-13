@@ -57,7 +57,6 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.RingtoneHelper;
@@ -70,6 +69,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 import com.superapps.util.Threads;
 
 import java.io.IOException;
@@ -375,7 +375,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView.setTheme(mThemeType);
         callActionView.setAutoRun(false);
         mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
-        mApplyButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+        mApplyButton.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD));
         mActionLayout = findViewById(R.id.theme_apply_layout);
         mApplyForOne = findViewById(R.id.theme_set_for_one);
 

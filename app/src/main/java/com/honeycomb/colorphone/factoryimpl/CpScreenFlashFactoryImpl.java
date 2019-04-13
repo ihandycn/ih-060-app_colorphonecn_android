@@ -28,13 +28,13 @@ import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Fonts;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
@@ -139,12 +139,12 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
         @Override
         public Typeface getBondFont() {
-            return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD);
+            return Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD);
         }
 
         @Override
         public Typeface getNormalFont() {
-            return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR);
+            return Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_REGULAR);
         }
 
         @Override

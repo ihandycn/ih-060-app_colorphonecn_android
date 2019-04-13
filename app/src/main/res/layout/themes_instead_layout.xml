@@ -10,7 +10,7 @@
     tools:ignore="UnusedAttribute"
     tools:background="#cccccccc">
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/theme_instead_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         tools:ignore="HardcodedText,SpUsage" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/theme_instead_action_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
         style="@style/RatioView.Theme"
         />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/theme_instead_theme_btn1"
         android:layout_width="0dp"
         android:layout_height="30dp"
@@ -113,7 +113,7 @@
         style="@style/RatioView.Theme"
         />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/theme_instead_theme_btn2"
         android:layout_width="0dp"
         android:layout_height="30dp"
@@ -164,7 +164,7 @@
         style="@style/RatioView.Theme"
         />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/theme_instead_theme_btn3"
         android:layout_width="0dp"
         android:layout_height="30dp"

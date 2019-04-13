@@ -473,6 +473,7 @@
             android:name=".triviatip.TriviaTipActivity"
             android:theme="@style/Theme.AppCompat.Translucent"
             android:excludeFromRecents="true" />
+        <activity android:name=".news.NewsTestActivity"/>
         <!--&lt;!&ndash;===== Dialer Module =====&ndash;&gt;-->
 
         <!--<activity-->

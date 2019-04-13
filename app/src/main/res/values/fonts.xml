@@ -7,10 +7,10 @@
     <string name="roboto_thin" translatable="false">sans-serif-thin</string>
     <string name="ds_digib" translatable="false">DS-DIGIB</string>
     <string name="akrobat_light" translatable="false">Akrobat-Light-simple</string>
-    <string name="proxima_nova_regular" translatable="false">ProximaNova-Regular</string>
-    <string name="proxima_nova_light" translatable="false">ProximaNova-Light</string>
-    <string name="proxima_nova_thin" translatable="false">ProximaNova-Thin</string>
-    <string name="proxima_nova_semibold" translatable="false">ProximaNova-Semibold</string>
-    <string name="proxima_nova_bold" translatable="false">ProximaNova-Bold</string>
-    <string name="proxima_nova_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
+    <string name="custom_regular" translatable="false">Montserrat-Regular</string>
+    <string name="custom_light" translatable="false">ProximaNova-Light</string>
+    <string name="custom_thin" translatable="false">ProximaNova-Thin</string>
+    <string name="custom_semibold" translatable="false">Montserrat-Semibold</string>
+    <string name="custom_bold" translatable="false">Montserrat-Bold</string>
+    <string name="custom_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
 </resources>

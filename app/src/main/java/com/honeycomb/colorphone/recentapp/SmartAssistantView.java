@@ -26,13 +26,13 @@ import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.AppInfo;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
-import com.honeycomb.colorphone.view.TypefacedTextView;
+import com.superapps.view.TypefacedTextView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.base.ContainerView.AcbContentLayout;
@@ -151,7 +151,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
         textView.setText(appInfo.getName());
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f);
-        textView.setTypeface(FontUtils.getTypeface(FontUtils.Font.ROBOTO_CONDENSED));
+        textView.setTypeface(Fonts.getTypeface(Fonts.Font.ROBOTO_CONDENSED));
         textView.setSingleLine(true);
         textView.setMaxLines(1);
         textView.setEllipsize(TextUtils.TruncateAt.END);

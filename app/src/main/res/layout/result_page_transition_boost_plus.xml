@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:clipChildren="false">
 
-            <com.honeycomb.colorphone.view.TypefacedTextView
+            <com.superapps.view.TypefacedTextView
                 android:id="@+id/label_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                     android:alpha="0"
                     android:orientation="horizontal">
 
-                    <com.honeycomb.colorphone.view.TypefacedTextView
+                    <com.superapps.view.TypefacedTextView
                         android:id="@+id/label_title_size"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                         android:visibility="visible"
                         app:typeface="@string/roboto_regular" />
 
-                    <com.honeycomb.colorphone.view.TypefacedTextView
+                    <com.superapps.view.TypefacedTextView
                         android:id="@+id/label_title_unit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
                         app:typeface="@string/roboto_regular" />
                 </LinearLayout>
 
-                <com.honeycomb.colorphone.view.TypefacedTextView
+                <com.superapps.view.TypefacedTextView
                     android:id="@+id/label_title_free_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/anchor_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

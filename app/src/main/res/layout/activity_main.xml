@@ -33,7 +33,7 @@
                 android:layout_marginTop="24dp"
                 android:src="@drawable/drawer_icon" />
 
-            <com.honeycomb.colorphone.view.TypefacedTextView
+            <com.superapps.view.TypefacedTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -41,15 +41,15 @@
                 android:textColor="@color/drawerText"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:typeface="@string/proxima_nova_semibold" />
+                app:typeface="@string/custom_semibold" />
 
-            <com.honeycomb.colorphone.view.TypefacedTextView
+            <com.superapps.view.TypefacedTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@string/app_slogan"
                 android:textColor="@color/drawerSubText"
-                app:typeface="@string/proxima_nova_regular" />
+                app:typeface="@string/custom_regular" />
 
             <RelativeLayout
                 android:id="@+id/settings_main_switch"
@@ -63,7 +63,7 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/settings_icon_switch" />
 
-                <com.honeycomb.colorphone.view.TypefacedTextView
+                <com.superapps.view.TypefacedTextView
                     android:id="@+id/settings_main_switch_txt"
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
                     android:layout_centerVertical="true"
                     app:srcCompat="@drawable/ic_default_dialer" />
 
-                <com.honeycomb.colorphone.view.TypefacedTextView
+                <com.superapps.view.TypefacedTextView
                     android:id="@+id/settings_default_dialer_switch_txt"
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/settings_led_flash_switch" />
 
-                <com.honeycomb.colorphone.view.TypefacedTextView
+                <com.superapps.view.TypefacedTextView
                     android:id="@+id/led_flash_switch_txt"
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/settings_icon_contacts" />
 
-                <com.honeycomb.colorphone.view.TypefacedTextView
+                <com.superapps.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/settings_icon_feedback" />
 
-                <com.honeycomb.colorphone.view.TypefacedTextView
+                <com.superapps.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/settings_icon_boost" />
 
-                <com.honeycomb.colorphone.view.TypefacedTextView
+                <com.superapps.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -213,7 +213,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/settings_icon_setting" />
 
-                <com.honeycomb.colorphone.view.TypefacedTextView
+                <com.superapps.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -233,7 +233,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/settings_icon_about" />
 
-                <com.honeycomb.colorphone.view.TypefacedTextView
+                <com.superapps.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -252,7 +252,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/settings_icon_facebook" />
 
-                <com.honeycomb.colorphone.view.TypefacedTextView
+                <com.superapps.view.TypefacedTextView
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -263,18 +263,5 @@
 
         </LinearLayout>
 
-
-        <!--<com.honeycomb.colorphone.view.TypefacedTextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_marginBottom="17dp"-->
-            <!--android:layout_marginLeft="19dp"-->
-            <!--android:layout_marginStart="19dp"-->
-            <!--android:text="@string/card_view_contains_ads_statement"-->
-            <!--android:textColor="#40000000"-->
-            <!--android:textSize="12sp" />-->
     </ScrollView>
 </android.support.v4.widget.DrawerLayout>

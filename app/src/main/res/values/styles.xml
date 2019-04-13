@@ -111,7 +111,7 @@
     </style>
 
     <style name="NormalText">
-        <item name="typeface">@string/proxima_nova_regular</item>
+        <item name="typeface">@string/custom_regular</item>
     </style>
 
     <style name="NormalText.Settings">

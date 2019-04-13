@@ -28,7 +28,7 @@
         android:paddingTop="4dp"
         app:srcCompat="@drawable/ic_more_vert_black_24dp"/>
 
-    <com.colorphone.lock.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         android:textSize="84sp"
         app:typeface="@string/akrobat_light"/>
 
-    <com.colorphone.lock.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

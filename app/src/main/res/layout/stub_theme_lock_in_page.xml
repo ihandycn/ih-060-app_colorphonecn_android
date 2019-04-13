@@ -14,7 +14,7 @@
         android:layout_gravity="center_horizontal"
         />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:layout_width="233dp"
         android:layout_height="wrap_content"
         android:textSize="18sp"
@@ -23,7 +23,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="44dp"
         android:text="@string/watch_video_to_unlock_free_theme"
-        app:typeface="@string/proxima_nova_semibold"
+        app:typeface="@string/custom_semibold"
         />
     
     <LinearLayout
@@ -41,7 +41,7 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/unlock_tiny_icon"/>
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -50,7 +50,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginStart="15dp"
             android:text="@string/unlock"
-            app:typeface="@string/proxima_nova_bold"
+            app:typeface="@string/custom_bold"
             />
     </LinearLayout>
 

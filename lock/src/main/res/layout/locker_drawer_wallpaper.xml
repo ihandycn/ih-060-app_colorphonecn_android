@@ -16,7 +16,7 @@
         android:layout_marginBottom="4dp"
         android:orientation="horizontal">
 
-        <com.colorphone.lock.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:gravity="left|start|center_vertical"
             android:maxLines="1"
             android:text="@string/locker_slide_wallpaper_title"
-            app:typeface="@string/proxima_nova_regular"
+            app:typeface="@string/custom_regular"
             android:textColor="#b2ffffff"
             android:textSize="14sp"/>
 

@@ -13,7 +13,6 @@ import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.utils.PermissionHelper;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
-import com.acb.utils.FontUtils;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -27,6 +26,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
@@ -70,7 +70,7 @@ public class OutsidePermissionGuideActivity extends HSAppCompatActivity implemen
             }
         });
         TextView enableBtn = findViewById(R.id.request_permission_action);
-        enableBtn.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+        enableBtn.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD));
         enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff3487ff,
                 Dimensions.pxFromDp(6f), true));
         enableBtn.setOnClickListener(new View.OnClickListener() {

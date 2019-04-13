@@ -33,14 +33,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="15" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/first_line"
         style="@style/TextInCall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/share_default_name"
         android:textSize="32dp"
-        app:typeface="@string/proxima_nova_semibold"/>
+        app:typeface="@string/custom_semibold"/>
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"

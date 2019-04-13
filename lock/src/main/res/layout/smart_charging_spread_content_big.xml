@@ -101,14 +101,14 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <com.colorphone.lock.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/smart_charging_spread_bottom_content_title"
             android:textColor="@color/material_text_black_primary"
             android:textSize="22sp"
-            app:typeface="@string/proxima_nova_semibold"/>
+            app:typeface="@string/custom_semibold"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

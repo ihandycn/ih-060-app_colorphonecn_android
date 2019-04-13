@@ -22,6 +22,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.InsettableFrameLayout;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 
 public class ActivityUtils {
     private static final int DEFAULT_NAVIGATION_BAR_COLOR = Color.BLACK;
@@ -294,7 +295,7 @@ public class ActivityUtils {
         }
         titleTextView.setTextColor(Color.WHITE);
         titleTextView.setTextSize(20);
-//        final Typeface typeface = FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD);
+//        final Typeface typeface = Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD);
 //        titleTextView.setTypeface(typeface);
     }
 

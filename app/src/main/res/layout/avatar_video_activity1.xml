@@ -20,7 +20,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/avatar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nav_back"
-        app:typeface="@string/proxima_nova_semibold"
+        app:typeface="@string/custom_semibold"
         tools:text="Create funny avatars for your frieddd"
         app:layout_constraintHorizontal_bias="0.0" />
 

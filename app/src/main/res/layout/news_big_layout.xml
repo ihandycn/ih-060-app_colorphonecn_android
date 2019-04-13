@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/material_compat_bg"
+    android:gravity="center_vertical"
+    android:paddingBottom="18dp"
+    android:paddingLeft="18dp"
+    android:paddingRight="18dp"
+    android:paddingTop="18dp"
+    tools:background="#ff000000">
+
+    <com.honeycomb.colorphone.view.RoundImageVIew
+        android:id="@+id/news_icon_iv"
+        android:layout_width="match_parent"
+        android:layout_height="182dp"
+        android:scaleType="centerCrop"
+        app:radius="8dp" />
+
+    <TextView
+        android:id="@+id/news_resource_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textColor="#b3ffffff"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="11dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        app:layout_constraintBottom_toBottomOf="@id/news_icon_iv"
+        app:layout_constraintLeft_toLeftOf="@id/news_icon_iv"
+        tools:text="CNN "/>
+
+    <TextView
+        android:id="@+id/news_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textColor="#b3ffffff"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="@+id/news_resource_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/news_resource_tv"
+        app:layout_constraintLeft_toRightOf="@+id/news_resource_tv"
+        tools:text="· 45min ago" />
+
+    <TextView
+        android:id="@+id/news_title_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:layout_marginBottom="11dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        app:layout_constraintLeft_toLeftOf="@id/news_icon_iv"
+        app:layout_constraintRight_toRightOf="@id/news_icon_iv"
+        app:layout_constraintBottom_toTopOf="@+id/news_resource_tv"
+        tools:text="Jackson Supported by Mom Debbie Rowe and Macaulay Culkin"
+        />
+
+</android.support.constraint.ConstraintLayout>

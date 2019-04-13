@@ -41,7 +41,7 @@
             android:orientation="vertical"
             tools:ignore="RtlHardcoded">
 
-            <com.honeycomb.colorphone.view.TypefacedTextView
+            <com.superapps.view.TypefacedTextView
                 android:id="@+id/recent_app_ad_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                 app:typeface="@string/roboto_condensed"
                 tools:ignore="HardcodedText,SpUsage" />
 
-            <com.honeycomb.colorphone.view.TypefacedTextView
+            <com.superapps.view.TypefacedTextView
                 android:id="@+id/recent_app_ad_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 tools:ignore="HardcodedText,SmallSp,SpUsage" />
         </LinearLayout>
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/recent_app_action_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

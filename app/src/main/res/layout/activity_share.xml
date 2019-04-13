@@ -49,7 +49,7 @@
             android:layout_height="0dp"
             android:layout_weight="2"/>
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             android:textColor="@color/primaryText"
             android:alpha="0.87"
             android:textSize="20sp"
-            app:typeface="@string/proxima_nova_semibold"
+            app:typeface="@string/custom_semibold"
             />
 
         <View
@@ -66,7 +66,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,14 +77,14 @@
             android:textColor="@color/primaryText"
             android:alpha="0.54"
             android:text="@string/share_alert_content"
-            app:typeface="@string/proxima_nova_regular"/>
+            app:typeface="@string/custom_regular"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="4"/>
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/share_button"
             android:layout_width="match_parent"
             android:layout_height="43dp"
@@ -96,7 +96,7 @@
             android:textSize="16sp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/btn_bg_yellow"
-            app:typeface="@string/proxima_nova_semibold"
+            app:typeface="@string/custom_semibold"
             />
 
         <View

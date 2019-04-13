@@ -39,7 +39,6 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -50,6 +49,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.device.clean.memory.HSAppMemory;
 import com.ihs.device.clean.memory.HSAppMemoryManager;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -375,7 +375,7 @@ public class BoostPlusCleanDialog extends FullScreenDialog {
             });
             TextView titleView = mContentView.findViewById(R.id.iv_title_alias);
             ViewStyleUtils.setToolbarTitleWithoutLayoutParams(titleView);
-            titleView.setTypeface(FontUtils.getTypeface(FontUtils.Font.ROBOTO_MEDIUM));
+            titleView.setTypeface(Fonts.getTypeface(Fonts.Font.ROBOTO_MEDIUM));
 //        } else {
 //            toolbar.setTitle(getContext().getString(R.string.boost_title));
 //            toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);

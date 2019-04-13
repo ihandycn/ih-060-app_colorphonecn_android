@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/text_toast"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
@@ -23,6 +23,6 @@
         android:paddingStart="13dp"
         android:textColor="@android:color/white"
         android:textSize="15sp"
-        app:typeface="@string/proxima_nova_regular"
+        app:typeface="@string/custom_regular"
         tools:text="Apply success" />
 </LinearLayout>

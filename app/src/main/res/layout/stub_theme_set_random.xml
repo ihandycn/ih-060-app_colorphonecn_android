@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/textview1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -34,10 +34,10 @@
         app:layout_constraintStart_toStartOf="@+id/imageView1"
         app:layout_constraintTop_toBottomOf="@id/imageView1"
         app:layout_constraintVertical_bias="0"
-        app:typeface="@string/proxima_nova_semibold"
+        app:typeface="@string/custom_semibold"
         android:text="@string/guide_theme_random_hint" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/guide_random_ok"
         android:layout_width="152dp"
         android:layout_height="48dp"
@@ -49,7 +49,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview1"
         app:layout_constraintVertical_bias="0.25"
-        app:typeface="@string/proxima_nova_bold"
+        app:typeface="@string/custom_bold"
         android:text="@android:string/ok"
 
         />

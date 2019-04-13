@@ -12,8 +12,8 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.view.CircleImageView;
+import com.superapps.util.Fonts;
 
 /**
  * From https://github.com/pavlospt/RoundedLetterView
@@ -36,7 +36,7 @@ public class RoundedLetterView extends CircleImageView {
     private RectF mInnerRectF;
     private int mViewSize;
 
-    private Typeface mFont = FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD);
+    private Typeface mFont = Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD);
 
     public RoundedLetterView(Context context) {
         super(context);

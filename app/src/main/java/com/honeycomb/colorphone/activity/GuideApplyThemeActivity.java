@@ -14,7 +14,6 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationUtils;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
@@ -22,6 +21,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Fonts;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -80,7 +80,7 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
             }
         });
         TextView enableBtn = (TextView) findViewById(R.id.welcome_guide_function_enable_btn);
-        enableBtn.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+        enableBtn.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD));
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

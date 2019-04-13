@@ -55,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/outside_permission_image"
-            app:typefaceFileName="ProximaNova-Bold.otf" />
+            app:typefaceFileName="Montserrat-Bold.ttf" />
 
         <com.superapps.view.TypefacedTextView
             android:id="@+id/outside_permission_description"
@@ -68,7 +68,7 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_end"
             app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@+id/outside_permission_title"
-            app:typefaceFileName="ProximaNova-Semibold.otf" />
+            app:typefaceFileName="Montserrat-Semibold.ttf" />
 
         <com.superapps.view.TypefacedTextView
             android:id="@+id/request_permission_action"
@@ -83,7 +83,7 @@
             android:layout_marginRight="24dp"
             android:layout_marginEnd="24dp"
             android:gravity="center"
-            app:typefaceFileName="ProximaNova-Bold.otf"
+            app:typefaceFileName="Montserrat-Bold.ttf"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/outside_permission_description" />
@@ -100,7 +100,7 @@
             android:layout_marginRight="24dp"
             android:layout_marginEnd="24dp"
             android:gravity="center"
-            app:typefaceFileName="ProximaNova-Bold.otf"
+            app:typefaceFileName="Montserrat-Bold.ttf"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -125,7 +125,7 @@
             android:textColor="@android:color/white"
             android:textSize="19sp"
             android:alpha="0.6"
-            app:typefaceFileName="ProximaNova-Semibold.otf" />
+            app:typefaceFileName="Montserrat-Semibold.ttf" />
 
         <Space
             android:layout_width="0dp"

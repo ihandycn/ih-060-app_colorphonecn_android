@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/material_compat_bg"
+    android:gravity="center_vertical"
+    android:paddingBottom="18dp"
+    android:paddingLeft="18dp"
+    android:paddingRight="18dp"
+    android:paddingTop="18dp">
+
+    <com.honeycomb.colorphone.view.RoundImageVIew
+        android:id="@+id/news_icon_iv"
+        android:layout_width="90dp"
+        android:layout_height="63dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintRight_toRightOf="parent"
+        app:radius="8dp" />
+
+    <TextView
+        android:id="@+id/news_title_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textColor="#e60d0d0d"
+        android:textSize="14sp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/news_icon_iv"
+        app:layout_constraintBottom_toTopOf="@+id/news_resource_tv"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Jackson Supported by Mom Debbie Rowe and Macaulay Culkin"
+        />
+
+    <TextView
+        android:id="@+id/news_resource_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textColor="#7f0d0d0d"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="CNN "/>
+
+    <TextView
+        android:id="@+id/news_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:textColor="#7f0d0d0d"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="@+id/news_resource_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/news_resource_tv"
+        app:layout_constraintLeft_toRightOf="@+id/news_resource_tv"
+        tools:text="· 45min ago" />
+
+
+</android.support.constraint.ConstraintLayout>

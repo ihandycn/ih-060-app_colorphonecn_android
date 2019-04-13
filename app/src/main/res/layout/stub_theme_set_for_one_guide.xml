@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
         app:layout_widthPercent="86%">
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bubble_guide_set_for_one"
@@ -24,7 +24,7 @@
             android:text="@string/theme_set_for_one"
             android:textColor="#1d1d1d"
             android:textSize="18sp"
-            app:typeface="@string/proxima_nova_regular"
+            app:typeface="@string/custom_regular"
     />
     </FrameLayout>
 

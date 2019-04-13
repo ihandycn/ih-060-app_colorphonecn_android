@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.colorphone.lock.R;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 
 import static com.ihs.app.framework.HSApplication.getContext;
 
@@ -42,7 +43,7 @@ public class ViewStyleUtils {
         }
         titleTextView.setTextColor(Color.WHITE);
         titleTextView.setTextSize(20);
-        final Typeface typeface = FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD);
+        final Typeface typeface = Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD);
         titleTextView.setTypeface(typeface);
     }
 }

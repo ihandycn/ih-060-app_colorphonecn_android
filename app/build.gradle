@@ -188,6 +188,7 @@ dependencies {
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
     compile 'jp.wasabeef:recyclerview-animators:2.2.7'
     compile "eu.davidea:flexible-adapter:5.0.0-rc1"
+    compile "com.google.code.gson:gson:2.8.5"
 
     // LeakCanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'

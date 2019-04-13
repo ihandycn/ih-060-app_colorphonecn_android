@@ -27,19 +27,6 @@
                 android:background="@drawable/material_compat_bg"
                 android:clickable="true">
 
-                <!--<ImageView-->
-                <!--android:id="@+id/reminder_display_settings_icon"-->
-                <!--android:layout_width="30dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginStart="20dp"-->
-                <!--android:scaleType="center"-->
-                <!--/>-->
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -49,21 +36,13 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
-                    <com.honeycomb.colorphone.view.TypefacedTextView
+                    <com.superapps.view.TypefacedTextView
                         style="@style/NormalText.Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/privacy_policy"
                         />
 
-                    <!--<com.honeycomb.colorphone.view.TypefacedTextView-->
-                        <!--style="@style/NormalText.SettingsHint"-->
-                        <!--android:layout_marginTop="2dp"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/settings_activity_lock_screen_note"-->
-                        <!--android:textSize="12sp"-->
-                        <!--/>-->
                 </LinearLayout>
             </RelativeLayout>
             <RelativeLayout
@@ -73,19 +52,6 @@
                 android:background="@drawable/material_compat_bg"
                 android:clickable="true">
 
-                <!--<ImageView-->
-                <!--android:id="@+id/reminder_display_settings_icon"-->
-                <!--android:layout_width="30dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginStart="20dp"-->
-                <!--android:scaleType="center"-->
-                <!--/>-->
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -95,21 +61,13 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
-                    <com.honeycomb.colorphone.view.TypefacedTextView
+                    <com.superapps.view.TypefacedTextView
                         style="@style/NormalText.Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/terms_of_service"
                         />
 
-                    <!--<com.honeycomb.colorphone.view.TypefacedTextView-->
-                    <!--style="@style/NormalText.SettingsHint"-->
-                    <!--android:layout_marginTop="2dp"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/settings_activity_lock_screen_note"-->
-                    <!--android:textSize="12sp"-->
-                    <!--/>-->
                 </LinearLayout>
             </RelativeLayout>
 
@@ -120,19 +78,6 @@
                 android:background="@drawable/material_compat_bg"
                 android:clickable="true">
 
-                <!--<ImageView-->
-                <!--android:id="@+id/reminder_display_settings_icon"-->
-                <!--android:layout_width="30dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_alignParentStart="true"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:layout_marginStart="20dp"-->
-                <!--android:scaleType="center"-->
-                <!--/>-->
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -142,26 +87,15 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
-                    <com.honeycomb.colorphone.view.TypefacedTextView
+                    <com.superapps.view.TypefacedTextView
                         style="@style/NormalText.Settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/gdpr_settings_cell"
                         />
 
-                    <!--<com.honeycomb.colorphone.view.TypefacedTextView-->
-                    <!--style="@style/NormalText.SettingsHint"-->
-                    <!--android:layout_marginTop="2dp"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/settings_activity_lock_screen_note"-->
-                    <!--android:textSize="12sp"-->
-                    <!--/>-->
                 </LinearLayout>
             </RelativeLayout>
-
-
         </LinearLayout>
-
     </ScrollView>
 </LinearLayout>

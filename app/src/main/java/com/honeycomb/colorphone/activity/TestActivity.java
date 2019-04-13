@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.acb.call.service.InCallWindow;
-import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
+import com.honeycomb.colorphone.news.NewsTestActivity;
 import com.honeycomb.colorphone.recentapp.SmartAssistantActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
@@ -21,6 +21,7 @@ import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Navigations;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -84,7 +85,8 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void checkFloatWindow(View view) {
-        FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
+//        FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
+        Navigations.startActivitySafely(view.getContext(), new Intent(view.getContext(), NewsTestActivity.class));
     }
 
     public void themeRecommend(View view) {

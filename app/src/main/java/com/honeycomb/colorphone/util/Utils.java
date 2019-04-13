@@ -77,6 +77,7 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 import com.superapps.util.Navigations;
 
 import java.io.File;
@@ -822,7 +823,7 @@ public final class Utils {
             View view = toolbar.getChildAt(i);
             if(view instanceof TextView){
                 TextView tv = (TextView) view;
-                Typeface typeface = FontUtils.getTypeface(FontUtils.Font.ofFontResId(R.string.proxima_nova_bold), 0);
+                Typeface typeface = Fonts.getTypeface(Fonts.Font.ofFontResId(R.string.custom_bold), 0);
                 if(tv.getText().equals(toolbar.getTitle())){
                     tv.setTypeface(typeface);
                     break;
@@ -1029,5 +1030,9 @@ public final class Utils {
             }
         }
         return Theme.NEON;
+    }
+
+    public static String getNewDate(long time) {
+        return DateUtils.getRelativeTimeSpanString(time * DateUtils.SECOND_IN_MILLIS).toString();
     }
 }

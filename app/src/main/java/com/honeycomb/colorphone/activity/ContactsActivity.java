@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.colorphone.lock.util.FontUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactAdapter;
@@ -28,6 +27,7 @@ import com.honeycomb.colorphone.contact.RecyclerSectionItemDecoration;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -127,7 +127,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
                 onConfirmed(mContacts);
             }
         });
-        mConfirmButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+        mConfirmButton.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD));
         mTopActionView = (TextView)findViewById(R.id.action_bar_op);
         onConfigConfirmButton(mConfirmButton);
         onConfigActionView(mTopActionView);

@@ -36,7 +36,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true">
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/ringtone_toast"
             style="@style/NormalText"
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
         android:layout_above="@id/theme_progress_bar"
         android:layout_centerHorizontal="true">
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             style="@style/NormalText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:textSize="18sp" />
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/theme_progress_txt"
             style="@style/NormalText"
             android:layout_width="wrap_content"

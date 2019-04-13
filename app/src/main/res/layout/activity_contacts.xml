@@ -20,7 +20,7 @@
             android:background="@drawable/material_compat_bg"
             android:src="@drawable/back_dark"/>
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/nav_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -30,14 +30,14 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:typeface="@string/proxima_nova_semibold"
+            app:typeface="@string/custom_semibold"
             tools:text="@string/about" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.honeycomb.colorphone.view.TypefacedTextView
+            <com.superapps.view.TypefacedTextView
                 android:id="@+id/action_bar_op"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -50,7 +50,7 @@
                 android:textColor="@color/textDark"
                 android:textSize="18sp"
 
-                app:typeface="@string/proxima_nova_regular"
+                app:typeface="@string/custom_regular"
                 tools:text="Cancel" />
         </FrameLayout>
 
@@ -107,7 +107,7 @@
                 app:layout_constraintRight_toLeftOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
-            <com.honeycomb.colorphone.view.TypefacedTextView
+            <com.superapps.view.TypefacedTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
@@ -118,7 +118,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                app:typeface="@string/proxima_nova_regular"
+                app:typeface="@string/custom_regular"
                 android:text="@string/empty_contact_hint" />
 
             <android.support.constraint.Guideline

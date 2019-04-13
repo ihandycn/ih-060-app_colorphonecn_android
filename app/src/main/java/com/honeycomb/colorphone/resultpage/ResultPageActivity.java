@@ -21,13 +21,13 @@ import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.ActivityUtils;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 import com.superapps.util.Navigations;
 
 import java.util.List;
@@ -261,7 +261,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
         }
 
         ActivityUtils.configSimpleAppBar(this, titleText,
-                FontUtils.getTypeface(FontUtils.Font.ROBOTO_MEDIUM), titleColor, Color.TRANSPARENT, false);
+                Fonts.getTypeface(Fonts.Font.ROBOTO_MEDIUM), titleColor, Color.TRANSPARENT, false);
 
         TextView textView = (TextView) findViewById(R.id.title_text);
         textView.setTextSize(17);

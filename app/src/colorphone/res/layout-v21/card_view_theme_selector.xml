@@ -13,7 +13,7 @@
         android:visibility="visible"
         tools:visibility="invisible"/>
     
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/card_title"
         style="@style/NormalText"
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
         android:maxLines="1"
         android:textColor="@color/textDark"
         android:textSize="18sp"
-        app:typeface="@string/proxima_nova_semibold"
+        app:typeface="@string/custom_semibold"
         tools:text="Neon" />
 
     <!--<ImageView-->
@@ -55,7 +55,7 @@
         app:lottie_loop="false"
         app:lottie_progress="0" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/card_like_count_txt"
         style="@style/NormalText"
         android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
         android:paddingRight="2dp"
         android:textColor="@color/textLightGray"
         android:textSize="12sp"
-        app:typeface="@string/proxima_nova_semibold"
+        app:typeface="@string/custom_semibold"
         tools:text="6622335" />
 
     <FrameLayout

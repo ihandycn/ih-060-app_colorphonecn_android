@@ -24,7 +24,7 @@
         app:srcCompat="@drawable/watch_video_to_unlock"
         />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
+    <com.superapps.view.TypefacedTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="12sp"
@@ -36,7 +36,7 @@
         android:textColor="#c1ffffff"
         android:layout_marginTop="25dp"
         android:layout_centerVertical="true"
-        app:typeface="@string/proxima_nova_semibold"
+        app:typeface="@string/custom_semibold"
         android:text="@string/watch_video_to_unlock"
         />
 
