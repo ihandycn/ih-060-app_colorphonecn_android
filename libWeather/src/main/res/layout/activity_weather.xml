@@ -27,7 +27,7 @@
     </RelativeLayout>
 
     <!-- City weather -->
-    <colorphone.acb.com.libweather.view.CircleAnimationLayout
+    <colorphone.acb.com.libweather.view.WeatherRevealLayout
         android:id="@+id/weather_reveal_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,17 +49,20 @@
                 android:background="@android:color/transparent"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp"
                 tools:ignore="PrivateResource" >
                 <android.support.v7.widget.ActionMenuView
-                    android:id="@+id/action_menu_view"
+                    android:id="@+id/action_menu_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
 
-                <ImageView
+                <android.support.v7.widget.ActionMenuView
+                    android:id="@+id/action_menu_close"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
                     android:layout_gravity="right|end"
-                    android:src="@drawable/icon_close" />
+                    android:layout_height="match_parent" />
+
             </android.support.v7.widget.Toolbar>
             <com.superapps.view.ViewPagerFixed
                 android:id="@+id/weather_city_pager"
@@ -117,7 +120,7 @@
                     android:src="@drawable/small_refresh_icon"/>
             </RelativeLayout>
         </RelativeLayout>
-    </colorphone.acb.com.libweather.view.CircleAnimationLayout>
+    </colorphone.acb.com.libweather.view.WeatherRevealLayout>
 
     <View
         android:id="@+id/weather_black_cover"

@@ -15,29 +15,28 @@
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"/>
-
-            <TextView
-                android:id="@+id/tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="天气"
+            <ImageButton
+                android:id="@+id/toolbar_weather_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="6dp"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:textSize="20sp"
-                android:textColor="@android:color/white"
-                android:background="@android:color/holo_green_dark"/>
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="end|right"
+                android:scaleType="centerInside"
+                android:background="@drawable/material_compat_bg"
+                android:src="@drawable/weather_cloudy" />
+        </android.support.v7.widget.Toolbar>
 
-        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"

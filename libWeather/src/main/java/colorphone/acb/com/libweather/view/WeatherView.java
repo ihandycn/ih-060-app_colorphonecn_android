@@ -1,6 +1,9 @@
 package colorphone.acb.com.libweather.view;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -19,6 +22,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -133,22 +137,32 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
     @Thunk
     PageEventLogger mEventLogger;
 
+
+    // Animation
+    private WeatherRevealLayout mWeatherRevealLayout;
+    private View weatherForegroundView;
+
+    private boolean weatherViewInShow;
+    private int weatherHeight;
+    private DrawerLayout mOuterMainLayout;
+
     public WeatherView(Context context) {
         this(context, null);
     }
 
     public WeatherView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        onAttachedToWindow();
         initView(context);
         onStart();
         onResume();
     }
 
-//    public void onAttachedToWindow() {
-//        super.onAttachedToWindow();
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+
 //        CommonUtils.setupTransparentSystemBarsForLmp((Activity) mContext);
-//    }
+    }
 
     private void initView(Context context) {
         mContext = context;
@@ -186,10 +200,37 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
 
         mMaxCityCount = getResources().getInteger(R.integer.config_weatherCityMaxCount);
 
-        //        LauncherAnalytics.logEvent("Weather_Detail_Pageviewed");
+        // LauncherAnalytics.logEvent("Weather_Detail_Pageviewed");
 
         Preferences.get(LauncherFiles.DESKTOP_PREFS).putLong(PREF_KEY_WEATHER_LAST_OPEN_TIME, System.currentTimeMillis());
         //        InterstitialAdsManager.getInstance().onEnterAdFeatures("Weather");
+
+
+        // Init Animation layout
+        mWeatherRevealLayout = findViewById(R.id.weather_reveal_container);
+        weatherForegroundView =  findViewById(R.id.weather_black_cover);
+        mWeatherRevealLayout.setCornerRadius(Dimensions.pxFromDp(20));
+        mWeatherRevealLayout.addAnimatorListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                weatherForegroundView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                weatherForegroundView.setLayerType(View.LAYER_TYPE_NONE, null);
+            }
+        });
+        mWeatherRevealLayout.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float sizeFraction = mWeatherRevealLayout.getSizeFraction();
+                weatherForegroundView.setAlpha(1 - sizeFraction);
+                mOuterMainLayout.setTranslationY(sizeFraction * weatherHeight);
+            }
+        });
     }
 
     protected void onStart() {
@@ -238,7 +279,7 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
         toolbar.addView(toolbarContent);
 
         // Left menu
-        ActionMenuView actionMenuView = (ActionMenuView) toolbar.findViewById(R.id.action_menu_view);
+        ActionMenuView actionMenuView = (ActionMenuView) toolbar.findViewById(R.id.action_menu_settings);
         ((Activity)mContext).getMenuInflater().inflate(R.menu.weather_activity, actionMenuView.getMenu());
         actionMenuView.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener() {
             @Override
@@ -248,12 +289,17 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
             }
         });
 
-//        mContext.setSupportActionBar(toolbar);
-        //noinspection ConstantConditions
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-//        final Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.app_bar_back_white);
-//        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+        // Right close
+        ActionMenuView closeView = (ActionMenuView) toolbar.findViewById(R.id.action_menu_close);
+        ((Activity)mContext).getMenuInflater().inflate(R.menu.weather_menu_close, closeView.getMenu());
+        closeView.setOnMenuItemClickListener(new ActionMenuView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                toggle();
+                return true;
+            }
+        });
+
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -600,6 +646,28 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
         return true;
     }
 
+    public void setOuterMainLayout(DrawerLayout outerMainLayout) {
+        mOuterMainLayout = outerMainLayout;
+    }
+
+    public DrawerLayout getOuterMainLayout() {
+        return mOuterMainLayout;
+    }
+
+    public void setWeatherHeight(int weatherHeight) {
+        this.weatherHeight = weatherHeight;
+    }
+
+    public void toggle() {
+        if (weatherViewInShow) {
+            weatherViewInShow = false;
+            mWeatherRevealLayout.close();
+        } else {
+            weatherViewInShow = true;
+            mWeatherRevealLayout.open();
+        }
+
+    }
 
     private class CityAdapter extends RecyclerPagerAdapter<WeatherDetailPage> {
         private Context mContext;
@@ -693,7 +761,7 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
                 View addNewPage = mInflater.inflate(R.layout.weather_city_add_new, container, false);
                 View addNewBtn = ViewUtils.findViewById(addNewPage, R.id.weather_city_add_new_btn);
                 View addNewBtnCard = ViewUtils.findViewById(addNewPage, R.id.weather_city_add_new_btn_card);
-                View.OnClickListener onClickListener = v -> {
+                OnClickListener onClickListener = v -> {
                     //                    LauncherAnalytics.logEvent("Weather_Detail_AddCity_BtnClicked");
                     if (getCount() - 1 >= mMaxCityCount) {
                         Toasts.showToast(R.string.weather_city_more_than_limit);
@@ -720,7 +788,7 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
                     // "Failed to load" page
                     View failurePage = mInflater.inflate(R.layout.weather_city_load_failure, container, false);
                     View refreshBtn = ViewUtils.findViewById(failurePage, R.id.weather_city_refresh_btn);
-                    refreshBtn.setOnClickListener((View.OnClickListener) mContext);
+                    refreshBtn.setOnClickListener((OnClickListener) mContext);
                     itemView = failurePage;
                 }
             }

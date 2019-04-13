@@ -14,7 +14,10 @@ import android.widget.FrameLayout;
 
 import com.superapps.util.Dimensions;
 
-public class CircleAnimationLayout extends FrameLayout {
+/**
+ * @author sundxing
+ */
+public class WeatherRevealLayout extends FrameLayout {
 
     private RectF mRectF = new RectF();
     private Rect mRectTemp = new Rect();
@@ -30,20 +33,20 @@ public class CircleAnimationLayout extends FrameLayout {
     private boolean isClipView = false;
     private boolean isViewLarger;
 
-    public CircleAnimationLayout(Context context) {
+    public WeatherRevealLayout(Context context) {
         this(context, null);
     }
 
-    public CircleAnimationLayout(Context context, AttributeSet attrs) {
+    public WeatherRevealLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CircleAnimationLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public WeatherRevealLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setWillNotDraw(false);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(0x33000000);//圆心颜色
+        mPaint.setColor(0x4d000000);
         mPath = new Path();
 
         mStrikePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -64,17 +67,17 @@ public class CircleAnimationLayout extends FrameLayout {
     }
 
 
-    public CircleAnimationLayout setRectF(RectF rectF) {
+    public WeatherRevealLayout setRectF(RectF rectF) {
         mRectF = rectF;
         return this;
     }
 
-    public CircleAnimationLayout addAnimatorListener(Animator.AnimatorListener listener) {
+    public WeatherRevealLayout addAnimatorListener(Animator.AnimatorListener listener) {
         animator.addListener(listener);
         return this;
     }
 
-    public CircleAnimationLayout addUpdateListener(ValueAnimator.AnimatorUpdateListener listener) {
+    public WeatherRevealLayout addUpdateListener(ValueAnimator.AnimatorUpdateListener listener) {
         animator.addUpdateListener(listener);
         return this;
     }
