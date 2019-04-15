@@ -17,7 +17,6 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 
-import com.acb.call.MediaDownloadManager;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.utils.FileUtils;
 import com.bumptech.glide.Glide;
@@ -66,7 +65,6 @@ import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.honeycomb.colorphone.weather.WeatherPushManager;
-import com.honeycomb.colorphone.weather.WeatherVideoActivity;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
@@ -115,7 +113,6 @@ import java.util.Map;
 import java.util.Stack;
 
 import colorphone.acb.com.libscreencard.CardCustomConfig;
-import colorphone.acb.com.libweather.WeatherClockManager;
 import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 
@@ -392,25 +389,7 @@ public class ColorPhoneApplication extends HSApplication {
 
         watchLifeTimeAutopilot();
 
-        WeatherClockManager.getInstance().updateWeatherIfNeeded();
-    }
-
-
-    private void downloadWeatherVideoIfNeeded() {
-        MediaDownloadManager mediaDownloadManager = new MediaDownloadManager();
-        if (Ap.WeatherPush.isSinleVideoType()) {
-            if (!mediaDownloadManager.isDownloaded(WeatherVideoActivity.REAL)) {
-                mediaDownloadManager.downloadMedia(HSConfig.optString("http://cdn.appcloudbox.net/colorphoneapps/weathervideo/real.mp4", "Application", "weathervideo",
-                        WeatherVideoActivity.REAL), WeatherVideoActivity.REAL, null);
-            }
-        } else {
-            for (String category : WeatherVideoActivity.allVideoCategory) {
-                if (!mediaDownloadManager.isDownloaded(category)) {
-                    mediaDownloadManager.downloadMedia(HSConfig.optString("", "Application", "weathervideo",
-                            category), category, null);
-                }
-            }
-        }
+        WeatherPushManager.getInstance().updateWeatherIfNeeded();
     }
 
     private void delayInitOnFirstLaunch() {
@@ -450,7 +429,7 @@ public class ColorPhoneApplication extends HSApplication {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Theme.updateThemes();
-                downloadWeatherVideoIfNeeded();
+                WeatherPushManager.getInstance().downloadAllWeatherVideosIfNeeded();
             }
         }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
     }

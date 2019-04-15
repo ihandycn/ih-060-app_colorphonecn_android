@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.os.TraceCompat;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -106,9 +105,9 @@ public class WeatherClockManager {
         return mWeatherQueryResult;
     }
 
-    public boolean hasValidScreenGreetingWeather() {
+    public boolean hasValidWeatherInTime(long expiredTimeMills) {
         return mStatus == UpdateStatus.SUCCEEDED
-                && (System.currentTimeMillis() - mLastUpdateTime) < DateUtils.HOUR_IN_MILLIS;
+                && (System.currentTimeMillis() - mLastUpdateTime) < expiredTimeMills;
     }
 
     public void loadWeather(final Context context, final boolean notifyChange) {

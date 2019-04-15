@@ -4,24 +4,25 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.StringDef;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.acb.call.MediaDownloadManager;
 import com.acb.call.utils.FileUtils;
 import com.acb.call.views.VideoPlayerView;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.ihs.commons.config.HSConfig;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 
 import java.io.File;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import colorphone.acb.com.libweather.base.BaseAppCompatActivity;
 
@@ -43,10 +44,14 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
     private ImageView ivCallCccept;
     private VideoPlayerView videoPlayerView;
 
+    @StringDef({SUNNY, CLOUDY, RAIN, SNOW, REAL})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface VideoType {}
+
     public static String allVideoCategory[] = {SUNNY, CLOUDY, RAIN, SNOW, REAL};
     private String videoType;
 
-    public static void start(Context context, String videoType) {
+    public static void start(Context context, @VideoType String videoType) {
         Intent intent = new Intent(context, WeatherVideoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(VIDEO_TYPE, videoType);
