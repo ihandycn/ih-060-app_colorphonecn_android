@@ -145,12 +145,16 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
     private View mWeatherForegroundView;
     private View mCloseBtn;
 
+    // Weather animation
+
     private boolean weatherViewInShow;
     private int mWeatherHeight;
 
     private DrawerLayout mOuterMainLayout;
     private View mOuterIconView;
     private int[] mOuterIconTrans = new int[2];
+    private OnWeatherVisibleListener mOnWeatherVisibleListener;
+
 
     public WeatherView(Context context) {
         this(context, null);
@@ -643,20 +647,35 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 mWeatherForegroundView.setLayerType(View.LAYER_TYPE_NONE, null);
+                notifyWeatherVisibleChanged();
             }
         });
         mWeatherRevealLayout.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float sizeFraction = mWeatherRevealLayout.getSizeFraction();
-                mWeatherForegroundView.setAlpha(1 - sizeFraction);
-                mOuterMainLayout.setTranslationY(sizeFraction * mWeatherHeight);
-                mOuterIconView.setAlpha(1 - sizeFraction);
-                mRevealContentChild.setTranslationY((1- sizeFraction) * mWeatherHeight * 0.2f);
-                mCloseBtn.setAlpha(sizeFraction);
-                transViewToCloseBtnPosition(mOuterIconView, sizeFraction);
+                updateViewLayoutBySizeFraction(sizeFraction);
             }
         });
+    }
+
+    private void notifyWeatherVisibleChanged() {
+        if (mOnWeatherVisibleListener != null) {
+            mOnWeatherVisibleListener.onVisibleChange(isWeatherDisplayed());
+        }
+    }
+
+    private boolean isWeatherDisplayed() {
+        return mOuterMainLayout.getTranslationY() > 1.0f;
+    }
+
+    private void updateViewLayoutBySizeFraction(float sizeFraction) {
+        mWeatherForegroundView.setAlpha(1 - sizeFraction);
+        mOuterMainLayout.setTranslationY(sizeFraction * mWeatherHeight);
+        mOuterIconView.setAlpha(1 - sizeFraction);
+        mRevealContentChild.setTranslationY((1- sizeFraction) * mWeatherHeight * 0.2f);
+        mCloseBtn.setAlpha(sizeFraction);
+        transViewToCloseBtnPosition(mOuterIconView, sizeFraction);
     }
 
     private void transViewToCloseBtnPosition(View outerIconView, float sizeFraction) {
@@ -706,7 +725,24 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
             weatherViewInShow = true;
             mWeatherRevealLayout.open();
         }
+    }
 
+    public void toggleImmediately() {
+        if (weatherViewInShow) {
+            weatherViewInShow = false;
+            updateViewLayoutBySizeFraction(0f);
+            mWeatherRevealLayout.closeImmediately();
+            notifyWeatherVisibleChanged();
+        } else {
+            weatherViewInShow = true;
+            updateViewLayoutBySizeFraction(1f);
+            mWeatherRevealLayout.openImmediately();
+            notifyWeatherVisibleChanged();
+        }
+    }
+
+    public void setOnWeatherVisibleListener(OnWeatherVisibleListener onWeatherVisibleListener) {
+        mOnWeatherVisibleListener = onWeatherVisibleListener;
     }
 
     private class CityAdapter extends RecyclerPagerAdapter<WeatherDetailPage> {
@@ -928,6 +964,10 @@ public class WeatherView extends RelativeLayout implements  LoaderManager.Loader
 
     interface OnDataBoundListener {
         void onCityDataBound(int localCityIndex);
+    }
+
+    public interface OnWeatherVisibleListener {
+        void onVisibleChange(boolean visible);
     }
 
 

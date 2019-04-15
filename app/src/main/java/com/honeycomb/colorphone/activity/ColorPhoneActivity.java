@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
@@ -140,6 +141,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean isPaused = false;
     private SettingsPage mSettingsPage = new SettingsPage();
     private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @DebugLog
     @Override
@@ -162,6 +164,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         initMainFrame();
         AdManager.getInstance().preload();
         AppflyerLogger.logAppOpen();
+        WeatherClockManager.getInstance().updateWeatherIfNeeded();
         isCreate = true;
     }
 
@@ -195,12 +198,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @NonNull
     private DrawerLayout initDrawer() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        toolbar.setBackgroundColor(Color.TRANSPARENT);
         logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        mDrawerToggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View view) {
@@ -212,14 +215,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 LauncherAnalytics.logEvent("Colorphone_Sidebar_Shown");
             }
         };
-        DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
+        DrawerArrowDrawable arrowDrawable = mDrawerToggle.getDrawerArrowDrawable();
         arrowDrawable.getPaint().setStrokeCap(Paint.Cap.ROUND);
         arrowDrawable.getPaint().setStrokeJoin(Paint.Join.ROUND);
         arrowDrawable.setBarThickness(arrowDrawable.getBarThickness() * 1.5f);
         arrowDrawable.setBarLength(arrowDrawable.getBarLength() * 0.86f);
 
-        mDrawerLayout.setDrawerListener(toggle);
-        toggle.syncState();
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
         View leftDrawer = findViewById(R.id.left_drawer);
         leftDrawer.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -256,22 +259,35 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initWeather() {
         main_container = findViewById(R.id.main_container_framelayout);
         weatherIcon = findViewById(R.id.toolbar_weather_icon);
+        if (weatherView == null) {
+            int weatherHeight = WeatherContentUtils.getWeatherWindowHeight();
+            HSLog.d("Weather", "content height = " + weatherHeight);
+
+            weatherView = new WeatherView(ColorPhoneActivity.this);
+            weatherView.setOuterMainLayout(mDrawerLayout);
+            weatherView.setOuterIconView(weatherIcon);
+            weatherView.setWeatherHeight(weatherHeight);
+
+            FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            main_container.addView(weatherView, 0, weatherParams);
+            View drawerDelegateToggleView = weatherView.findViewById(R.id.toolbar_delegate_toggle_button);
+            weatherView.setOnWeatherVisibleListener(new WeatherView.OnWeatherVisibleListener() {
+                @Override
+                public void onVisibleChange(boolean visible) {
+                    drawerDelegateToggleView.setVisibility(visible ? View.VISIBLE : View.GONE);
+                }
+            });
+            drawerDelegateToggleView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    weatherView.toggle();
+                }
+            });
+
+        }
         weatherIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (weatherView == null) {
-                    int weatherHeight = WeatherContentUtils.getWeatherWindowHeight();
-                    HSLog.d("Weather", "content height = " + weatherHeight);
-
-                    weatherView = new WeatherView(ColorPhoneActivity.this);
-                    weatherView.setOuterMainLayout(mDrawerLayout);
-                    weatherView.setOuterIconView(weatherIcon);
-                    weatherView.setWeatherHeight(weatherHeight);
-
-                    FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                    main_container.addView(weatherView, 0, weatherParams);
-
-                }
                 weatherView.toggle();
             }
         });

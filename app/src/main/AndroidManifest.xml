@@ -136,7 +136,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
-            android:theme="@style/AppLightStatusBarTheme">
+            android:theme="@style/AppLightStatusBarTheme.Main">
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 

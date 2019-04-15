@@ -129,6 +129,11 @@
                 android:background="?attr/actionBarItemBackground"
                 android:src="@drawable/weather_main_close" />
         </FrameLayout>
+        <View
+            android:id="@+id/toolbar_delegate_toggle_button"
+            android:layout_width="@dimen/abc_action_bar_default_height_material"
+            android:layout_height="@dimen/abc_action_bar_default_height_material"
+            />
     </colorphone.acb.com.libweather.view.WeatherRevealLayout>
 
     <View

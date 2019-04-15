@@ -116,6 +116,16 @@ public class WeatherRevealLayout extends FrameLayout {
         startAnimation();
     }
 
+    public void openImmediately() {
+        isViewLarger = true;
+        updateDrawingRect(1f);
+    }
+
+    public void closeImmediately() {
+        isViewLarger = false;
+        updateDrawingRect(1f);
+    }
+
     private void updateDrawingRect(float fraction) {
         float df = isViewLarger ? (1 - fraction) : fraction;
         float dx = df * mRectF.width();
