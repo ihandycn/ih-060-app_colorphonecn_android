@@ -10,8 +10,7 @@
     android:paddingBottom="18dp"
     android:paddingLeft="18dp"
     android:paddingRight="18dp"
-    android:paddingTop="18dp"
-    tools:background="#ff000000">
+    android:paddingTop="18dp">
 
     <com.honeycomb.colorphone.view.RoundImageVIew
         android:id="@+id/news_icon_iv"
@@ -20,13 +19,10 @@
         android:scaleType="centerCrop"
         app:radius="8dp" />
 
-    <com.honeycomb.colorphone.view.RoundImageVIew
-        android:id="@+id/news_icon_mark"
+    <View
         android:layout_width="match_parent"
         android:layout_height="182dp"
-        android:scaleType="centerCrop"
-        android:src="@color/black_30_transparent"
-        app:radius="8dp" />
+        android:background="@drawable/new_big_image_mark"/>
 
     <com.superapps.view.TypefacedTextView
         android:id="@+id/news_resource_tv"
