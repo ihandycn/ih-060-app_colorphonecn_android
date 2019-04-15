@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
@@ -8,260 +9,87 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
     <include
         layout="@layout/main_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/main_tab_themes"/>
 
-    <ScrollView
-        android:layout_width="@dimen/nav_drawer_width"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:layout_gravity="start|left">
+    <include
+        layout="@layout/news_frame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/main_tab_themes"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <LinearLayout
-            android:id="@+id/left_drawer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|left"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+    <include
+        layout="@layout/setting_frame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/main_tab_themes"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:src="@drawable/drawer_icon" />
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/main_tab_themes"
+        style="@style/MainTabItem"
+        android:layout_height="48dp"
+        android:background="#7f7f0000"
+        android:drawableTop="@drawable/main_tab_themes"
+        android:text="@string/menu_item_themes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/main_tab_news"
+        app:typeface="@string/custom_font_medium"
+        tools:ignore="SmallSp"
+        tools:text="@string/menu_item_themes"/>
 
-            <com.superapps.view.TypefacedTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/app_name"
-                android:textColor="@color/drawerText"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:typeface="@string/custom_font_semibold" />
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/main_tab_news"
+        style="@style/MainTabItem"
+        android:layout_height="48dp"
+        android:drawableTop="@drawable/main_tab_news"
+        android:text="@string/menu_item_news"
+        app:layout_constraintLeft_toRightOf="@id/main_tab_themes"
+        app:layout_constraintRight_toLeftOf="@+id/main_tab_setting"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:typeface="@string/custom_font_medium"
+        tools:ignore="SmallSp"
+        tools:text="@string/menu_item_news"
+        android:background="#7f007f00"
+        />
 
-            <com.superapps.view.TypefacedTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/app_slogan"
-                android:textColor="@color/drawerSubText"
-                app:typeface="@string/custom_font_regular" />
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/main_tab_setting"
+        style="@style/MainTabItem"
+        android:layout_height="48dp"
+        android:drawableTop="@drawable/main_tab_settings"
+        android:text="@string/menu_item_settings"
+        app:layout_constraintLeft_toRightOf="@id/main_tab_news"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:typeface="@string/custom_font_medium"
+        tools:ignore="SmallSp"
+        tools:text="@string/menu_item_settings"
+        android:background="#7f00007f"
+        />
 
-            <RelativeLayout
-                android:id="@+id/settings_main_switch"
-                style="@style/LayoutSettings"
-                android:layout_marginTop="40dp">
-
-                <ImageView
-                    android:id="@+id/settings_main_switch_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/settings_icon_switch" />
-
-                <com.superapps.view.TypefacedTextView
-                    android:id="@+id/settings_main_switch_txt"
-                    style="@style/NormalText.Drawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                    android:layout_toEndOf="@id/settings_main_switch_icon"
-                    android:layout_toRightOf="@id/settings_main_switch_icon"
-                    android:text="@string/color_phone_disable" />
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/main_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/settings_default_dialer_switch"
-                style="@style/LayoutSettings"
-                >
-
-                <ImageView
-                    android:id="@+id/settings_default_dialer_switch_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/ic_default_dialer" />
-
-                <com.superapps.view.TypefacedTextView
-                    android:id="@+id/settings_default_dialer_switch_txt"
-                    style="@style/NormalText.Drawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                    android:layout_toEndOf="@id/settings_default_dialer_switch_icon"
-                    android:layout_toRightOf="@id/settings_default_dialer_switch_icon"
-                    android:text="@string/default_dialer" />
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/default_dialer_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/settings_led_flash"
-                style="@style/LayoutSettings" >
-
-                <ImageView
-                    android:id="@+id/led_flash_switch_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/settings_led_flash_switch" />
-
-                <com.superapps.view.TypefacedTextView
-                    android:id="@+id/led_flash_switch_txt"
-                    style="@style/NormalText.Drawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                    android:layout_toEndOf="@id/led_flash_switch_icon"
-                    android:layout_toRightOf="@id/led_flash_switch_icon"
-                    android:text="@string/led_flash_switch_text" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/settings_contacts"
-                style="@style/LayoutSettings"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/settings_icon_contacts" />
-
-                <com.superapps.view.TypefacedTextView
-                    style="@style/NormalText.Drawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                    android:text="@string/contact_theme" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/settings_feedback"
-                style="@style/LayoutSettings"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/settings_icon_feedback" />
-
-                <com.superapps.view.TypefacedTextView
-                    style="@style/NormalText.Drawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                    android:text="@string/feedback" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/settings_boost"
-                style="@style/LayoutSettings"
-                android:gravity="center_vertical"
-                android:visibility="gone"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/settings_icon_boost" />
-
-                <com.superapps.view.TypefacedTextView
-                    style="@style/NormalText.Drawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                    android:text="@string/boost_title" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/settings_setting"
-                style="@style/LayoutSettings"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/settings_icon_setting" />
-
-                <com.superapps.view.TypefacedTextView
-                    style="@style/NormalText.Drawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                    android:text="@string/settings" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/settings_about"
-                style="@style/LayoutSettings"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/settings_icon_about" />
-
-                <com.superapps.view.TypefacedTextView
-                    style="@style/NormalText.Drawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                    android:text="@string/about" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/settings_facebook"
-                style="@style/LayoutSettings"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/settings_icon_facebook" />
-
-                <com.superapps.view.TypefacedTextView
-                    style="@style/NormalText.Drawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                    android:layout_marginStart="@dimen/nav_item_inner_spacing"
-                    android:text="@string/follow_facebook" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
-</android.support.v4.widget.DrawerLayout>
+</android.support.constraint.ConstraintLayout>

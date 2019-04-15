@@ -2,7 +2,7 @@ package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Paint;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,15 +11,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
@@ -37,6 +35,7 @@ import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
+import com.honeycomb.colorphone.news.NewsPage;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
@@ -44,7 +43,6 @@ import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -80,11 +78,22 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
 
+    private static final int MAIN_TAB_THEMES = 0;
+    private static final int MAIN_TAB_NEWS = 1;
+    private static final int MAIN_TAB_SETTINGS = 2;
+
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
     private final ThemeList mThemeList = new ThemeList();
     private RewardVideoView mRewardVideoView;
+    private Toolbar toolbar;
+    private View settingLayout;
+    private NewsPage newsLayout;
+    private TextView themesTab;
+    private TextView newsTab;
+    private TextView settingTab;
+    private int currentIndex = MAIN_TAB_THEMES;
 
     private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
     private boolean initCheckState;
@@ -181,50 +190,120 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @DebugLog
     @NonNull
-    private DrawerLayout initDrawer() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    private void initDrawer() {
+        toolbar = findViewById(R.id.toolbar);
 
         logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-            @Override
-            public void onDrawerClosed(View view) {
-            }
+    }
 
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Shown");
-                LauncherAnalytics.logEvent("Colorphone_Sidebar_Shown");
-            }
-        };
-        DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
-        arrowDrawable.getPaint().setStrokeCap(Paint.Cap.ROUND);
-        arrowDrawable.getPaint().setStrokeJoin(Paint.Join.ROUND);
-        arrowDrawable.setBarThickness(arrowDrawable.getBarThickness() * 1.5f);
-        arrowDrawable.setBarLength(arrowDrawable.getBarLength() * 0.86f);
+    private void initTabs() {
+        themesTab = findViewById(R.id.main_tab_themes);
+        newsTab = findViewById(R.id.main_tab_news);
+        settingTab = findViewById(R.id.main_tab_setting);
 
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        View leftDrawer = findViewById(R.id.left_drawer);
-        leftDrawer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
+        Resources res = getResources();
+//        themesTab.setCompoundDrawablesRelative(null, res.getDrawable(R.drawable.main_tab_themes_light), null, null);
+        themesTab.setOnClickListener(v -> {
+            hideOldTab();
+            mRecyclerView.setVisibility(View.VISIBLE);
+            currentIndex = MAIN_TAB_THEMES;
+            highlightNewTab();
         });
-        mSettingsPage.initPage(leftDrawer);
 
-        return drawer;
+//        newsTab.setCompoundDrawablesRelative(null, res.getDrawable(R.drawable.main_tab_news), null, null);
+        newsTab.setOnClickListener(v -> {
+            hideOldTab();
+            newsLayout.setVisibility(View.VISIBLE);
+            currentIndex = MAIN_TAB_NEWS;
+            highlightNewTab();
+
+            LauncherAnalytics.logEvent("mainview_tab_news_click");
+        });
+
+//        settingTab.setCompoundDrawablesRelative(null, res.getDrawable(R.drawable.main_tab_settings), null, null);
+        settingTab.setOnClickListener(v -> {
+            hideOldTab();
+            settingLayout.setVisibility(View.VISIBLE);
+            currentIndex = MAIN_TAB_SETTINGS;
+            highlightNewTab();
+        });
+    }
+
+    private void hideOldTab() {
+        TextView tv = null;
+        Resources res = getResources();
+        int resId = 0;
+        switch (currentIndex) {
+            case MAIN_TAB_THEMES:
+                resId = R.drawable.main_tab_themes;
+                tv = themesTab;
+                mRecyclerView.setVisibility(View.GONE);
+                break;
+            case MAIN_TAB_NEWS:
+                resId = R.drawable.main_tab_news;
+                tv = newsTab;
+                newsLayout.setVisibility(View.GONE);
+                break;
+            case MAIN_TAB_SETTINGS:
+                resId = R.drawable.main_tab_settings;
+                tv = settingTab;
+                settingLayout.setVisibility(View.GONE);
+                break;
+            default:
+                HSLog.i("hideOldTab no this tab");
+                break;
+        }
+        if (resId != 0 && tv != null) {
+            tv.setCompoundDrawablesWithIntrinsicBounds(null, res.getDrawable(resId), null, null);
+        }
+    }
+
+    private void highlightNewTab() {
+        Resources res = getResources();
+        TextView tv = null;
+        int resId = 0;
+        switch (currentIndex) {
+            case MAIN_TAB_THEMES:
+                resId = R.drawable.main_tab_themes_light;
+                tv = themesTab;
+                break;
+            case MAIN_TAB_NEWS:
+                resId = R.drawable.main_tab_news_light;
+                tv = newsTab;
+                break;
+            case MAIN_TAB_SETTINGS:
+                resId = R.drawable.main_tab_settings_light;
+                tv = settingTab;
+                break;
+            default:
+                HSLog.i("highlightNewTab no this tab");
+                break;
+        }
+        if (resId != 0 && tv != null) {
+            tv.setCompoundDrawablesWithIntrinsicBounds(null, res.getDrawable(resId), null, null);
+        }
+    }
+
+    private void initSettingPage() {
+        settingLayout = findViewById(R.id.setting_layout);
+        settingLayout.setOnTouchListener((v, event) -> true);
+        mSettingsPage.initPage(settingLayout);
+    }
+
+    private void initNewsPage() {
+        newsLayout = findViewById(R.id.news_layout);
     }
 
     @DebugLog
     private void initMainFrame() {
         initDrawer();
+        initTabs();
         initData();
         initRecyclerView();
+        initNewsPage();
+        initSettingPage();
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);

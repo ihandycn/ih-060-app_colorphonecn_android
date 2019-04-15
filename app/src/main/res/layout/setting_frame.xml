@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/setting_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:layout_gravity="start|left">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|left"
+        android:gravity="center_horizontal"
+        android:paddingLeft="9dp"
+        android:paddingStart="9dp"
+        android:paddingRight="4dp"
+        android:paddingEnd="4dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/settings_main_switch"
+            style="@style/LayoutSettings"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/settings_main_switch_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/settings_icon_switch" />
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/settings_main_switch_txt"
+                style="@style/NormalText.Drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:layout_toEndOf="@id/settings_main_switch_icon"
+                android:layout_toRightOf="@id/settings_main_switch_icon"
+                android:text="@string/color_phone_disable" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/main_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/settings_default_dialer_switch"
+            style="@style/LayoutSettings"
+            >
+
+            <ImageView
+                android:id="@+id/settings_default_dialer_switch_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/ic_default_dialer" />
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/settings_default_dialer_switch_txt"
+                style="@style/NormalText.Drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:layout_toEndOf="@id/settings_default_dialer_switch_icon"
+                android:layout_toRightOf="@id/settings_default_dialer_switch_icon"
+                android:text="@string/default_dialer" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/default_dialer_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/settings_led_flash"
+            style="@style/LayoutSettings" >
+
+            <ImageView
+                android:id="@+id/led_flash_switch_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/settings_led_flash_switch" />
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/led_flash_switch_txt"
+                style="@style/NormalText.Drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:layout_toEndOf="@id/led_flash_switch_icon"
+                android:layout_toRightOf="@id/led_flash_switch_icon"
+                android:text="@string/led_flash_switch_text" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_contacts"
+            style="@style/LayoutSettings"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/settings_icon_contacts" />
+
+            <com.superapps.view.TypefacedTextView
+                style="@style/NormalText.Drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:text="@string/contact_theme" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_feedback"
+            style="@style/LayoutSettings"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/settings_icon_feedback" />
+
+            <com.superapps.view.TypefacedTextView
+                style="@style/NormalText.Drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:text="@string/feedback" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_boost"
+            style="@style/LayoutSettings"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/settings_icon_boost" />
+
+            <com.superapps.view.TypefacedTextView
+                style="@style/NormalText.Drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:text="@string/boost_title" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_setting"
+            style="@style/LayoutSettings"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/settings_icon_setting" />
+
+            <com.superapps.view.TypefacedTextView
+                style="@style/NormalText.Drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:text="@string/settings" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/settings_about"
+            style="@style/LayoutSettings"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/settings_icon_about" />
+
+            <com.superapps.view.TypefacedTextView
+                style="@style/NormalText.Drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:text="@string/about" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/settings_facebook"
+            style="@style/LayoutSettings"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/settings_icon_facebook" />
+
+            <com.superapps.view.TypefacedTextView
+                style="@style/NormalText.Drawer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                android:text="@string/follow_facebook" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

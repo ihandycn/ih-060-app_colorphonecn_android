@@ -279,5 +279,7 @@
     <string name="network_error">Network error.</string>
     <string name="news_detail_error_reload">Reload</string>
     <string name="refresh">Refresh</string>
+    <string name="menu_item_news">News</string>
+    <string name="menu_item_themes">Themes</string>
 
 </resources>
