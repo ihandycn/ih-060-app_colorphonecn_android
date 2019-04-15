@@ -29,7 +29,7 @@
             android:layout_marginBottom="-20dp"
             android:textColor="@color/material_text_black_primary"
             android:textSize="20sp"
-            launcher:typeface="@string/custom_semibold"
+            launcher:typeface="@string/custom_font_semibold"
             tools:text="Tips" />
 
         <com.superapps.view.TypefacedTextView
@@ -45,7 +45,7 @@
             android:textAlignment="textStart"
             android:textColor="@color/material_text_black_secondary"
             android:textSize="16sp"
-            launcher:typeface="@string/custom_regular"
+            launcher:typeface="@string/custom_font_regular"
             tools:ignore="UnusedAttribute"
             tools:text="Failed to set Air Launcher as your default. Try again?" />
 

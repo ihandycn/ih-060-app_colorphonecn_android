@@ -20,7 +20,15 @@
         android:scaleType="centerCrop"
         app:radius="8dp" />
 
-    <TextView
+    <com.honeycomb.colorphone.view.RoundImageVIew
+        android:id="@+id/news_icon_mark"
+        android:layout_width="match_parent"
+        android:layout_height="182dp"
+        android:scaleType="centerCrop"
+        android:src="@color/black_30_transparent"
+        app:radius="8dp" />
+
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/news_resource_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,9 +41,10 @@
         android:layout_marginStart="13dp"
         app:layout_constraintBottom_toBottomOf="@id/news_icon_iv"
         app:layout_constraintLeft_toLeftOf="@id/news_icon_iv"
+        app:typeface="@string/custom_font_bold"
         tools:text="CNN "/>
 
-    <TextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/news_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,9 +54,10 @@
         app:layout_constraintTop_toTopOf="@+id/news_resource_tv"
         app:layout_constraintBottom_toBottomOf="@+id/news_resource_tv"
         app:layout_constraintLeft_toRightOf="@+id/news_resource_tv"
+        app:typeface="@string/custom_font_regular"
         tools:text="· 45min ago" />
 
-    <TextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/news_title_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -62,6 +72,7 @@
         app:layout_constraintLeft_toLeftOf="@id/news_icon_iv"
         app:layout_constraintRight_toRightOf="@id/news_icon_iv"
         app:layout_constraintBottom_toTopOf="@+id/news_resource_tv"
+        app:typeface="@string/custom_font_bold"
         tools:text="Jackson Supported by Mom Debbie Rowe and Macaulay Culkin"
         />
 

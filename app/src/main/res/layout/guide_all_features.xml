@@ -38,7 +38,7 @@
         android:gravity="center"
         android:textColor="@color/textDark"
         android:textSize="18sp"
-        app:typeface="@string/custom_semibold"
+        app:typeface="@string/custom_font_semibold"
         tools:text="Please enable the features and permissions: Remind your missed calls"/>
 
     <Button
@@ -75,7 +75,7 @@
             android:text="@string/privacy_policy"
             android:textColor="@drawable/privacy_policy_text_color"
             android:textSize="10sp"
-            app:typeface="@string/custom_regular"
+            app:typeface="@string/custom_font_regular"
             />
 
         <com.superapps.view.TypefacedTextView
@@ -85,7 +85,7 @@
             android:padding="2dp"
             android:text=" &amp; "
             android:textColor="@color/subtitle_color"
-            app:typeface="@string/custom_regular"
+            app:typeface="@string/custom_font_regular"
             android:textSize="10sp"
             />
 
@@ -93,7 +93,7 @@
             android:id="@+id/welcome_guide_terms_of_service"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:typeface="@string/custom_regular"
+            app:typeface="@string/custom_font_regular"
             android:layout_gravity="center"
             android:clickable="true"
             android:gravity="center"

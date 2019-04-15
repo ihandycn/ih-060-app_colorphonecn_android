@@ -33,7 +33,7 @@
             android:text="@string/smart_assistant"
             android:textColor="@android:color/black"
             android:textSize="17sp"
-            app:typeface="@string/custom_semibold" />
+            app:typeface="@string/custom_font_semibold" />
 
         <ImageView
             android:id="@+id/recent_app_close"
@@ -90,7 +90,7 @@
         android:textColor="@android:color/white"
         android:textSize="17sp"
         android:visibility="gone"
-        app:typeface="@string/custom_semibold" />
+        app:typeface="@string/custom_font_semibold" />
 
 
     <ImageView
@@ -113,6 +113,6 @@
         android:textColor="#33ffffff"
         android:textSize="12sp"
         android:visibility="gone"
-        app:typeface="@string/custom_semibold" />
+        app:typeface="@string/custom_font_semibold" />
 
 </RelativeLayout>

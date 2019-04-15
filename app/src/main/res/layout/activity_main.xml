@@ -41,7 +41,7 @@
                 android:textColor="@color/drawerText"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:typeface="@string/custom_semibold" />
+                app:typeface="@string/custom_font_semibold" />
 
             <com.superapps.view.TypefacedTextView
                 android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/app_slogan"
                 android:textColor="@color/drawerSubText"
-                app:typeface="@string/custom_regular" />
+                app:typeface="@string/custom_font_regular" />
 
             <RelativeLayout
                 android:id="@+id/settings_main_switch"

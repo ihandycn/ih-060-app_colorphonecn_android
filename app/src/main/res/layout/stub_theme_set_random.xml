@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="@+id/imageView1"
         app:layout_constraintTop_toBottomOf="@id/imageView1"
         app:layout_constraintVertical_bias="0"
-        app:typeface="@string/custom_semibold"
+        app:typeface="@string/custom_font_semibold"
         android:text="@string/guide_theme_random_hint" />
 
     <com.superapps.view.TypefacedTextView
@@ -49,7 +49,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview1"
         app:layout_constraintVertical_bias="0.25"
-        app:typeface="@string/custom_bold"
+        app:typeface="@string/custom_font_bold"
         android:text="@android:string/ok"
 
         />

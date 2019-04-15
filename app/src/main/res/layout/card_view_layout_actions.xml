@@ -35,7 +35,7 @@
         android:text="@string/apply_btn"
         android:layout_centerInParent="true"
         android:textColor="#00A3FF"
-        app:typeface="@string/custom_semibold"
+        app:typeface="@string/custom_font_semibold"
         app:autoSizeMaxTextSize="12sp"
         app:autoSizeMinTextSize="9sp"
         app:autoSizeTextType="uniform"

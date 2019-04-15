@@ -280,11 +280,4 @@
     <string name="news_detail_error_reload">Reload</string>
     <string name="refresh">Refresh</string>
 
-    <!--TODO remove this. Use libSuperApps-->
-    <string name="custom_font_regular" translatable="false">ProximaNova-Regular</string>
-    <string name="custom_font_light" translatable="false">ProximaNova-Light</string>
-    <string name="custom_font_thin" translatable="false">ProximaNova-Thin</string>
-    <string name="custom_font_semibold" translatable="false">ProximaNova-Semibold</string>
-    <string name="custom_font_bold" translatable="false">ProximaNova-Bold</string>
-    <string name="custom_font_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
 </resources>

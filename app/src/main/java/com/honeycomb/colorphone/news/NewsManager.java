@@ -119,6 +119,16 @@ public class NewsManager {
 
     private static String getURL(String publishID, String key, String userID, String limit, String offset) {
         return String.format(URL, publishID, key, userID, limit, offset);
+
+//        final StringBuffer url = new StringBuffer(HSConfig.optString("",
+//                "Application", "PushServiceHost") + URL_PATH);
+//        url.append("?publisherId=").append(publisherId);
+//        url.append("&key=").append(key);
+//        url.append("&userId=").append(userID);
+//        url.append("&countryCode=").append("US");
+//        url.append("&language=").append("en");
+//        url.append("&limit=").append(limit);
+//        url.append("&offset=").append(offset);
     }
 
 }

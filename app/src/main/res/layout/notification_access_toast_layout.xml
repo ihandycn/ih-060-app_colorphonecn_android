@@ -48,7 +48,7 @@
         android:text="@string/grant_access_to_optimize_experience"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        app:typeface="@string/custom_semibold" />
+        app:typeface="@string/custom_font_semibold" />
 
 
 </RelativeLayout>

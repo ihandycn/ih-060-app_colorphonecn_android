@@ -56,7 +56,7 @@
         android:textColor="@color/textDark"
         android:textSize="18sp"
         android:elevation="@dimen/preview_window_elevation"
-        app:typeface="@string/custom_semibold"
+        app:typeface="@string/custom_font_semibold"
         tools:text="Neon" />
 
     <!--<ImageView-->

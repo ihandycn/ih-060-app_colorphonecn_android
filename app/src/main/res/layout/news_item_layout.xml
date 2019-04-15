@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="123dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/material_compat_bg"
     android:gravity="center_vertical"
@@ -20,24 +20,24 @@
         app:layout_constraintRight_toRightOf="parent"
         app:radius="8dp" />
 
-    <TextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/news_title_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
+        android:maxLines="3"
         android:textColor="#e60d0d0d"
         android:textSize="14sp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/news_icon_iv"
-        app:layout_constraintBottom_toTopOf="@+id/news_resource_tv"
         app:layout_constraintTop_toTopOf="parent"
+        app:typeface="@string/custom_font_bold"
         tools:text="Jackson Supported by Mom Debbie Rowe and Macaulay Culkin"
         />
 
-    <TextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/news_resource_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,9 +46,10 @@
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:typeface="@string/custom_font_regular"
         tools:text="CNN "/>
 
-    <TextView
+    <com.superapps.view.TypefacedTextView
         android:id="@+id/news_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,6 +59,7 @@
         app:layout_constraintTop_toTopOf="@+id/news_resource_tv"
         app:layout_constraintBottom_toBottomOf="@+id/news_resource_tv"
         app:layout_constraintLeft_toRightOf="@+id/news_resource_tv"
+        app:typeface="@string/custom_font_bold"
         tools:text="· 45min ago" />
 
 

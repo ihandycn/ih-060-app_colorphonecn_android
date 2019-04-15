@@ -31,7 +31,7 @@
         android:maxLines="1"
         android:textColor="@color/textDark"
         android:textSize="18sp"
-        app:typeface="@string/custom_semibold"
+        app:typeface="@string/custom_font_semibold"
         tools:text="Neon" />
 
     <!--<ImageView-->
@@ -69,7 +69,7 @@
         android:paddingRight="2dp"
         android:textColor="@color/textLightGray"
         android:textSize="12sp"
-        app:typeface="@string/custom_semibold"
+        app:typeface="@string/custom_font_semibold"
         tools:text="6622335" />
 
     <FrameLayout
