@@ -305,7 +305,7 @@ public class Ap {
         }
 
         public static double maxShowTime() {
-            return AutopilotConfig.getDoubleToTestNow("Weather Test", "weather_forecast_alert_show_maxtime", 0);
+            return AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "weather_forecast_alert_show_maxtime", 0);
         }
 
         public static boolean allowFullScreenClick() {

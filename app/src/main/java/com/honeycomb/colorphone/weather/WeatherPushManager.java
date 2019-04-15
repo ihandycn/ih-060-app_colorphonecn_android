@@ -19,8 +19,9 @@ import colorphone.acb.com.libweather.WeatherClockManager;
  */
 public class WeatherPushManager {
 
-    private static final String SHOW_LEGAL_INTERVAL = "show_legal_interval";
     private final MediaDownloadManager mediaDownloadManager;
+    public static final String SHOW_LEGAL_INTERVAL = "show_legal_interval";
+    public static final String WEATHER_SHOULD_SHOW = "weather_should_show";
 
     private WeatherPushManager() {
         mediaDownloadManager = new MediaDownloadManager();
@@ -204,5 +205,13 @@ public class WeatherPushManager {
         return type;
     }
 
-
+    public static boolean weatherForecastShouldShow() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        boolean isLegalTime = (6 <= hourOfDay && hourOfDay < 9) || (18 <= hourOfDay && hourOfDay < 21);
+        long lastShowTime = Preferences.getDefault().getLong(WEATHER_SHOULD_SHOW, 0);
+        boolean showOncePerTime = System.currentTimeMillis() - lastShowTime > 3 * 60 * 60 * 1000;
+        return isLegalTime && showOncePerTime;
+    }
 }

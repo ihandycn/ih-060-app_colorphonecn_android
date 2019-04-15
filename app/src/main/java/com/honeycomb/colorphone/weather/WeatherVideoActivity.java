@@ -3,13 +3,18 @@ package com.honeycomb.colorphone.weather;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.StringDef;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 
 import com.acb.call.utils.FileUtils;
 import com.acb.call.views.VideoPlayerView;
@@ -18,11 +23,13 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Preferences;
 
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Calendar;
 
 import colorphone.acb.com.libweather.base.BaseAppCompatActivity;
 
@@ -31,7 +38,7 @@ import colorphone.acb.com.libweather.base.BaseAppCompatActivity;
  */
 public class WeatherVideoActivity extends BaseAppCompatActivity {
 
-    private static final String DISABLE_WEATHER_PUSH = "DISABLE_WEATHER_PUSH";
+    public static final String DISABLE_WEATHER_PUSH = "DISABLE_WEATHER_PUSH";
     private static final String WEATHER_TEXT_SHOW_TIME = "weather_text_show_time";
     public static final String SUNNY = "sunny";
     public static final String CLOUDY = "cloudy";
@@ -50,6 +57,8 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
 
     public static String allVideoCategory[] = {SUNNY, CLOUDY, RAIN, SNOW, REAL};
     private String videoType;
+    private boolean inMorning;
+    private HomeKeyWatcher homeKeyWatcher;
 
     public static void start(Context context, @VideoType String videoType) {
         Intent intent = new Intent(context, WeatherVideoActivity.class);
@@ -65,22 +74,54 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
             videoType = getIntent().getStringExtra(VIDEO_TYPE);
         }
         setContentView(colorphone.acb.com.libweather.R.layout.activity_weather_video);
-        LauncherAnalytics.logEvent("weather_forecast_show");
+        Preferences.getDefault().putLong(WeatherPushManager.SHOW_LEGAL_INTERVAL, System.currentTimeMillis());
+        Ap.WeatherPush.logEvent("weather_forecast_show");
         initView();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        inMorning = 6 <= hourOfDay && hourOfDay < 9;
+        LauncherAnalytics.logEvent("weather_forecast_show", "type", inMorning ? "morning" : "night", "videotype", videoType,
+                "time", getShowTimeEventParameter());
+        homeKeyWatcher = new HomeKeyWatcher(this);
+        homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                LauncherAnalytics.logEvent("weather_forecast_close", "type", "home");
+            }
+
+            @Override
+            public void onRecentsPressed() {
+
+            }
+        });
+        homeKeyWatcher.startWatch();
+    }
+
+    private String getShowTimeEventParameter() {
+        int showTime = Preferences.getDefault().getInt(WEATHER_TEXT_SHOW_TIME, 1);
+        if (showTime < 5) {
+            return String.valueOf(showTime);
+        } else {
+            return "other";
+        }
+
     }
 
     private void initView() {
         ivSetting = findViewById(colorphone.acb.com.libweather.R.id.iv_setting);
         ivClose = findViewById(colorphone.acb.com.libweather.R.id.iv_close);
         videoPlayerView = findViewById(R.id.animation_view);
+
         File real = new File(FileUtils.getMediaDirectory(), videoType);
         videoPlayerView.setFileDirectory(real.getAbsolutePath());
         videoPlayerView.play();
         ivCallCccept = findViewById(colorphone.acb.com.libweather.R.id.iv_call_accept);
         ivCallCccept.setOnClickListener(onClickListener);
+        ivSetting.setOnClickListener(onClickListener);
+        ivClose.setOnClickListener(onClickListener);
         if (Ap.WeatherPush.allowFullScreenClick()) {
-            ivSetting.setOnClickListener(onClickListener);
-            ivClose.setOnClickListener(onClickListener);
+            videoPlayerView.setOnClickListener(onClickListener);
         }
         int showTime = Preferences.getDefault().getInt(WEATHER_TEXT_SHOW_TIME, 0);
         if (showTime > Ap.WeatherPush.maxShowTime()) {
@@ -129,8 +170,8 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
             lp.gravity = Gravity.CENTER;
             dialogWindow.setAttributes(lp);
             disable.setOnClickListener(v -> {
+                LauncherAnalytics.logEvent("weather_forecast_settings_disable_success");
                 Preferences.getDefault().putBoolean(DISABLE_WEATHER_PUSH, true);
-                Ap.WeatherPush.logEvent("weather_forecast_settings_disable_click");
                 dismissDialogSafely(dialog);
             });
             notNow.setOnClickListener(v -> {
@@ -157,4 +198,11 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (homeKeyWatcher != null) {
+            homeKeyWatcher.stopWatch();
+        }
+    }
 }

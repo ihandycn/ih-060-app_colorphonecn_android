@@ -669,6 +669,11 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onScreenOff(context);
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                     ScreenStatusReceiver.onScreenOn(context);
+                    if (WeatherPushManager.weatherForecastShouldShow()) {
+                        Ap.WeatherPush.logEvent("weather_forecast_should_show");
+                        LauncherAnalytics.logEvent("weather_forecast_should_show");
+                        Preferences.getDefault().putLong(WeatherPushManager.WEATHER_SHOULD_SHOW, System.currentTimeMillis());
+                    }
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
                     WeatherPushManager.getInstance().push(context);
                     ScreenStatusReceiver.onUserPresent(context);
