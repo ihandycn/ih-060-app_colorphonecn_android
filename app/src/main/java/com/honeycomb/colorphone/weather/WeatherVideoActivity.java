@@ -21,8 +21,6 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 
-import net.appcloudbox.autopilot.AutopilotConfig;
-
 import java.io.File;
 
 import colorphone.acb.com.libweather.base.BaseAppCompatActivity;
@@ -33,80 +31,81 @@ import colorphone.acb.com.libweather.base.BaseAppCompatActivity;
 public class WeatherVideoActivity extends BaseAppCompatActivity {
 
     private static final String DISABLE_WEATHER_PUSH = "DISABLE_WEATHER_PUSH";
+    private static final String WEATHER_TEXT_SHOW_TIME = "weather_text_show_time";
+    public static final String SUNNY = "sunny";
+    public static final String CLOUDY = "cloudy";
+    public static final String RAIN = "rain";
+    public static final String SNOW = "snow";
+    public static final String REAL = "real";
+    private static final String VIDEO_TYPE = "video_type";
     private ImageView ivSetting;
     private ImageView ivClose;
     private ImageView ivCallCccept;
     private VideoPlayerView videoPlayerView;
-    private MediaDownloadManager mediaDownloadManager;
 
-    public static void start(Context context) {
+    public static String allVideoCategory[] = {SUNNY, CLOUDY, RAIN, SNOW, REAL};
+    private String videoType;
+
+    public static void start(Context context, String videoType) {
         Intent intent = new Intent(context, WeatherVideoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(VIDEO_TYPE, videoType);
         context.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getIntent() != null) {
+            videoType = getIntent().getStringExtra(VIDEO_TYPE);
+        }
         setContentView(colorphone.acb.com.libweather.R.layout.activity_weather_video);
         LauncherAnalytics.logEvent("weather_forecast_show");
         initView();
-        download();
-    }
-
-    private void download() {
-        mediaDownloadManager = new MediaDownloadManager();
-        String url = HSConfig.optString("https://superapps-dev.s3.amazonaws.com/test/sunny.mp4", "Application", "WeatherVideo", "Real");
-
-        mediaDownloadManager.downloadMedia(url, "Real", new MediaDownloadManager.DownloadCallback() {
-            @Override
-            public void onUpdate(long progress) {
-
-            }
-
-            @Override
-            public void onFail(MediaDownloadManager.MediaDownLoadTask task, String msg) {
-
-            }
-
-            @Override
-            public void onSuccess(MediaDownloadManager.MediaDownLoadTask task) {
-                File real = new File(FileUtils.getMediaDirectory(), "Real");
-                videoPlayerView.setFileDirectory(real.getAbsolutePath());
-                videoPlayerView.play();
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
     }
 
     private void initView() {
         ivSetting = findViewById(colorphone.acb.com.libweather.R.id.iv_setting);
         ivClose = findViewById(colorphone.acb.com.libweather.R.id.iv_close);
         videoPlayerView = findViewById(R.id.animation_view);
-
+        File real = new File(FileUtils.getMediaDirectory(), videoType);
+        videoPlayerView.setFileDirectory(real.getAbsolutePath());
+        videoPlayerView.play();
         ivCallCccept = findViewById(colorphone.acb.com.libweather.R.id.iv_call_accept);
-        ivSetting.setOnClickListener(onClickListener);
-        ivClose.setOnClickListener(onClickListener);
         ivCallCccept.setOnClickListener(onClickListener);
-
+        if (Ap.WeatherPush.allowFullScreenClick()) {
+            ivSetting.setOnClickListener(onClickListener);
+            ivClose.setOnClickListener(onClickListener);
+        }
+        int showTime = Preferences.getDefault().getInt(WEATHER_TEXT_SHOW_TIME, 0);
+        if (showTime > Ap.WeatherPush.maxShowTime()) {
+            findViewById(R.id.tv_title).setVisibility(View.GONE);
+            findViewById(R.id.tv_weather_content).setVisibility(View.GONE);
+        }
+        Preferences.getDefault().putInt(WEATHER_TEXT_SHOW_TIME, ++showTime);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (v == ivSetting) {
+                Ap.WeatherPush.logEvent("weather_forecast_settings_click");
                 showDisableDialog();
             } else if (v == ivClose) {
+                Ap.WeatherPush.logEvent("weather_forecast_closebtn_click");
                 WeatherVideoActivity.this.finish();
             } else if (v == ivCallCccept) {
                 // TODO: 2019/4/13  pop up weather page
             }
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        if (Ap.WeatherPush.allowBack()) {
+            super.onBackPressed();
+        }
+    }
 
     private void showDisableDialog() {
         Dialog dialog = new Dialog(this, R.style.BaseDialogTheme);
@@ -126,14 +125,12 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
             dialogWindow.setAttributes(lp);
             disable.setOnClickListener(v -> {
                 Preferences.getDefault().putBoolean(DISABLE_WEATHER_PUSH, true);
+                Ap.WeatherPush.logEvent("weather_forecast_settings_disable_click");
+                dismissDialogSafely(dialog);
             });
             notNow.setOnClickListener(v -> {
-                if (dialog.isShowing()) {
-                    try {
-                        dialog.dismiss();
-                    } catch (Exception e) {
-                    }
-                }
+                dismissDialogSafely(dialog);
+
             });
             if (!dialog.isShowing()) {
                 try {
@@ -145,4 +142,14 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
 
 
     }
+
+    private void dismissDialogSafely(Dialog dialog) {
+        if (dialog.isShowing()) {
+            try {
+                dialog.dismiss();
+            } catch (Exception e) {
+            }
+        }
+    }
+
 }

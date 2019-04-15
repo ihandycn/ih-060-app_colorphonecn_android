@@ -91,5 +91,7 @@
     <string name="weather_push_disable_content">You won\'t receive weather forecast once you disable it. Are you sure to disable it?</string>
     <string name="not_now">NOT NOW</string>
     <string name="disable">DISABLE</string>
+    <string name="weather_forecast">Weather Forecast</string>
+    <string name="weather_push_content">Pick up to get weather information</string>
 
 </resources>

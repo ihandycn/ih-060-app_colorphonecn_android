@@ -288,6 +288,10 @@ public class Ap {
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "weather_forecast_enable", false);
         }
 
+        public static boolean isSinleVideoType() {
+            return TextUtils.equals("single", AutopilotConfig.getStringToTestNow(TOPIC_ID, "weather_forecast_type", "multi"));
+        }
+
         public static boolean showInMor() {
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "weather_forecast_show_in_morning", false);
         }

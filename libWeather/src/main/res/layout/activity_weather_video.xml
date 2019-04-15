@@ -38,18 +38,19 @@
             android:layout_below="@id/iv_setting"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="39dp"
-            android:text="Weather Forecast"
+            android:text="@string/weather_forecast"
             android:textColor="#FFFFFFFF"
             android:textSize="30sp"
             app:typefaceFileName="@string/proxima_nova_bold" />
 
         <com.superapps.view.TypefacedTextView
+            android:id="@+id/tv_weather_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_title"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:text="Pick up to get weather information"
+            android:text="@string/weather_push_content"
             android:textColor="#FFFFFFFF"
             android:textSize="18sp"
             app:typefaceFileName="@string/proxima_nova_regular" />

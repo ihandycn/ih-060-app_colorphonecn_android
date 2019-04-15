@@ -2,10 +2,10 @@ package com.honeycomb.colorphone.weather;
 
 import android.content.Context;
 
+import com.acb.call.MediaDownloadManager;
 import com.honeycomb.colorphone.Ap;
+import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Preferences;
-
-import net.appcloudbox.autopilot.AutopilotConfig;
 
 import java.util.Calendar;
 
@@ -29,10 +29,46 @@ public class WeatherPushManager {
     }
 
     public void push(Context context) {
-        WeatherVideoActivity.start(context);
-        if (Ap.WeatherPush.showPush() && inValidTime() && showOncePerValidTime()) {
+        if (Ap.WeatherPush.showPush() && inValidTime() && showOncePerValidTime() && isWeatherInfoAvailable()) {
+            MediaDownloadManager mediaDownloadManager = new MediaDownloadManager();
+            if (Ap.WeatherPush.isSinleVideoType()) {
+                if (mediaDownloadManager.isDownloaded(WeatherVideoActivity.REAL)) {
+                    WeatherVideoActivity.start(context, WeatherVideoActivity.REAL);
+                } else {
+                    mediaDownloadManager.downloadMedia(HSConfig.optString("http://cdn.appcloudbox.net/colorphoneapps/weathervideo/real.mp4","Application", "weathervideo",
+                            WeatherVideoActivity.REAL), WeatherVideoActivity.REAL, new MediaDownloadManager.DownloadCallback() {
+                        @Override
+                        public void onUpdate(long progress) {
 
+                        }
+
+                        @Override
+                        public void onFail(MediaDownloadManager.MediaDownLoadTask task, String msg) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(MediaDownloadManager.MediaDownLoadTask task) {
+                            WeatherVideoActivity.start(context, WeatherVideoActivity.REAL);
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+                }
+            } else {
+                // TODO: 2019/4/15  multi type
+
+
+            }
         }
+    }
+
+    private boolean isWeatherInfoAvailable() {
+        // TODO: 2019/4/15
+        return true;
     }
 
     public boolean inValidTime() {

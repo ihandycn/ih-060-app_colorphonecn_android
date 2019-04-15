@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import com.acb.call.MediaDownloadManager;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.utils.FileUtils;
 import com.bumptech.glide.Glide;
@@ -65,6 +66,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.honeycomb.colorphone.weather.WeatherPushManager;
+import com.honeycomb.colorphone.weather.WeatherVideoActivity;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
@@ -221,6 +223,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     private static boolean isFabricInitted;
     public static long launchTime;
+
     public static boolean isAppForeground() {
         return !activityStack.isEmpty();
     }
@@ -389,9 +392,25 @@ public class ColorPhoneApplication extends HSApplication {
 
         watchLifeTimeAutopilot();
 
-
         WeatherClockManager.getInstance().updateWeatherIfNeeded();
+    }
 
+
+    private void downloadWeatherVideoIfNeeded() {
+        MediaDownloadManager mediaDownloadManager = new MediaDownloadManager();
+        if (Ap.WeatherPush.isSinleVideoType()) {
+            if (!mediaDownloadManager.isDownloaded(WeatherVideoActivity.REAL)) {
+                mediaDownloadManager.downloadMedia(HSConfig.optString("http://cdn.appcloudbox.net/colorphoneapps/weathervideo/real.mp4", "Application", "weathervideo",
+                        WeatherVideoActivity.REAL), WeatherVideoActivity.REAL, null);
+            }
+        } else {
+            for (String category : WeatherVideoActivity.allVideoCategory) {
+                if (!mediaDownloadManager.isDownloaded(category)) {
+                    mediaDownloadManager.downloadMedia(HSConfig.optString("", "Application", "weathervideo",
+                            category), category, null);
+                }
+            }
+        }
     }
 
     private void delayInitOnFirstLaunch() {
@@ -431,6 +450,7 @@ public class ColorPhoneApplication extends HSApplication {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Theme.updateThemes();
+                downloadWeatherVideoIfNeeded();
             }
         }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
     }
@@ -670,8 +690,8 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onScreenOff(context);
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                     ScreenStatusReceiver.onScreenOn(context);
-                    WeatherPushManager.getInstance().push(context);
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+                    WeatherPushManager.getInstance().push(context);
                     ScreenStatusReceiver.onUserPresent(context);
                     CashUtils.showGuideIfNeeded(null, CashUtils.Source.UnlockScreen);
                 }
@@ -710,8 +730,7 @@ public class ColorPhoneApplication extends HSApplication {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             try {
                 Class.forName("android.os.AsyncTask");
-            }
-            catch(Throwable ignore) {
+            } catch (Throwable ignore) {
                 // ignored
             }
         }
@@ -769,7 +788,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private static void checkExpressAd(String adName, boolean enable) {
-        HSLog.d("AD_CHECK_express", "Name = " + adName + ", enable = " + enable );
+        HSLog.d("AD_CHECK_express", "Name = " + adName + ", enable = " + enable);
         if (enable) {
             AcbExpressAdManager.getInstance().activePlacementInProcess(adName);
         } else {
@@ -778,7 +797,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private static void checkNativeAd(String adName, boolean enable) {
-        HSLog.d("AD_CHECK_native", "Name = " + adName + ", enable = " + enable );
+        HSLog.d("AD_CHECK_native", "Name = " + adName + ", enable = " + enable);
         if (enable) {
             AcbNativeAdManager.getInstance().activePlacementInProcess(adName);
         } else {
@@ -806,7 +825,8 @@ public class ColorPhoneApplication extends HSApplication {
         if (alarmMgr != null) {
             try {
                 alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, DateUtils.DAY_IN_MILLIS, pendingIntent);
-            } catch (NullPointerException ingore) {}
+            } catch (NullPointerException ingore) {
+            }
         }
     }
 
@@ -850,7 +870,7 @@ public class ColorPhoneApplication extends HSApplication {
         HSConfig.fetchRemote();
         if (Utils.isNewUser()) {
             if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_New_User_User_Level_LOGGED)) {
-                int delayTimes [] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
+                int delayTimes[] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
                 for (int delay : delayTimes) {
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
