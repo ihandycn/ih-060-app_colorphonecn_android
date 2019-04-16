@@ -147,7 +147,14 @@ public class WeatherPushManager {
     }
 
     public boolean isAdReady() {
-        return getInterstitialAd() != null;
+         getInterstitialAd();
+         if (mInterstitialAd == null) {
+             return false;
+         } else if (mInterstitialAd.isExpired()) {
+             releaseInterstitialAd();
+             return false;
+         }
+         return true;
     }
 
     public boolean updateWeatherIfNeeded() {
@@ -330,6 +337,7 @@ public class WeatherPushManager {
             LauncherAnalytics.logEvent("weather_forecast_wire_show",
                     "type", getEventDayTime(),
                     "videotype", getCurrentVideoType());
+            Ap.WeatherPush.logEvent("weather_forecast_wire_show");
             return true;
         }
         return false;
