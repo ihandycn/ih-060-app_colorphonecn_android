@@ -746,6 +746,10 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
         }
     }
 
+    public boolean isWeatherViewInShow() {
+        return weatherViewInShow;
+    }
+
     public void setOnWeatherVisibleListener(OnWeatherVisibleListener onWeatherVisibleListener) {
         mOnWeatherVisibleListener = onWeatherVisibleListener;
     }

@@ -321,7 +321,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             ViewGroup.MarginLayoutParams drawParams = (ViewGroup.MarginLayoutParams) mDrawerLayout.getLayoutParams();
             drawParams.topMargin += statusBarInset;
             mDrawerLayout.requestLayout();
-
         }
 
         if (mWeatherMode) {
@@ -329,7 +328,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 @Override
                 public void onGlobalLayout() {
                     weatherView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-                    weatherView.toggleImmediately();
+                    if (!weatherView.isWeatherViewInShow()) {
+                        weatherView.toggleImmediately();
+                    }
                     HSLog.d("Weather.Page", "Show");
                 }
             });
@@ -364,6 +365,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             result = getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        // Show weather page if needed.
+        if (mWeatherMode
+                && weatherView != null
+                && !weatherView.isWeatherViewInShow()) {
+            weatherView.toggleImmediately();
+        }
     }
 
     @Override
