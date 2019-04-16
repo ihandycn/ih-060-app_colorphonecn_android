@@ -18,6 +18,7 @@ import android.widget.PopupWindow;
 import com.acb.call.utils.FileUtils;
 import com.acb.call.views.VideoPlayerView;
 import com.honeycomb.colorphone.Ap;
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -37,7 +38,6 @@ import colorphone.acb.com.libweather.base.BaseAppCompatActivity;
  */
 public class WeatherVideoActivity extends BaseAppCompatActivity {
 
-    public static final String DISABLE_WEATHER_PUSH = "DISABLE_WEATHER_PUSH";
     private static final String WEATHER_TEXT_SHOW_TIME = "weather_text_show_time";
     public static final String SUNNY = "sunny";
     public static final String CLOUDY = "cloudy";
@@ -204,7 +204,7 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
             dialogWindow.setAttributes(lp);
             disable.setOnClickListener(v -> {
                 LauncherAnalytics.logEvent("weather_forecast_settings_disable_success");
-                Preferences.getDefault().putBoolean(DISABLE_WEATHER_PUSH, true);
+                WeatherPushManager.getInstance().disableWeather();
                 dismissDialogSafely(dialog);
             });
             notNow.setOnClickListener(v -> {

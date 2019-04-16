@@ -5,6 +5,7 @@ import android.text.format.DateUtils;
 
 import com.acb.call.MediaDownloadManager;
 import com.honeycomb.colorphone.Ap;
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.commons.config.HSConfig;
@@ -26,10 +27,12 @@ import colorphone.acb.com.libweather.WeatherClockManager;
  */
 public class WeatherPushManager {
 
-    private final MediaDownloadManager mediaDownloadManager;
+    public static final String PREF_KEY_DISABLE_WEATHER_PUSH = "DISABLE_WEATHER_PUSH";
     public static final String SHOW_LEGAL_INTERVAL = "show_legal_interval";
     public static final String WEATHER_SHOULD_SHOW = "weather_should_show";
+
     private AcbInterstitialAd mInterstitialAd;
+    private final MediaDownloadManager mediaDownloadManager;
 
     private WeatherPushManager() {
         mediaDownloadManager = new MediaDownloadManager();
@@ -43,13 +46,27 @@ public class WeatherPushManager {
         static WeatherPushManager mInstance = new WeatherPushManager();
     }
 
+
+    void disableWeather() {
+        Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean(WeatherPushManager.PREF_KEY_DISABLE_WEATHER_PUSH, true);
+    }
+
+    public boolean isWeatherDisabledByUser() {
+        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean(WeatherPushManager.PREF_KEY_DISABLE_WEATHER_PUSH, false);
+    }
+
     public void push(Context context) {
         if (Ap.WeatherPush.showPush()
+                && !isWeatherDisabledByUser()
                 && inValidTime()
-                && showOncePerValidTime()
-                && isWeatherInfoAvailable()) {
+                && showOncePerValidTime()) {
             if (!isAdReady()) {
                 preload();
+            }
+
+            if (!isWeatherInfoAvailable()) {
+                updateWeatherIfNeeded();
+                return;
             }
 
             String videoTypeName = getCurrentVideoType();
@@ -106,13 +123,12 @@ public class WeatherPushManager {
         return !WeatherClockManager.getInstance().isWeatherUnknown();
     }
 
-    public boolean inValidTime() {
+    private boolean inValidTime() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         return (6 <= hourOfDay && hourOfDay < 9 && Ap.WeatherPush.showInMor()) || (18 <= hourOfDay && hourOfDay < 21) && Ap.WeatherPush.showAtNight();
     }
-
 
     public boolean showOncePerValidTime() {
         //早上6-9点之间可以弹出，晚上6-9点之间可以弹出，早晚各一次

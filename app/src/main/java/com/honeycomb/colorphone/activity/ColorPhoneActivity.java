@@ -34,6 +34,7 @@ import com.acb.call.themes.Type;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
@@ -348,7 +349,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void updateWeatherIcon() {
-        if (WeatherClockManager.getInstance().isWeatherUnknown()) {
+        if (!Ap.WeatherPush.showPush()
+                || WeatherClockManager.getInstance().isWeatherUnknown()) {
             weatherIcon.setVisibility(View.GONE);
         } else {
             weatherIcon.setVisibility(View.VISIBLE);
