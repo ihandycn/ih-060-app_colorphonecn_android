@@ -14,10 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start|left"
         android:gravity="center_horizontal"
-        android:paddingLeft="9dp"
-        android:paddingStart="9dp"
-        android:paddingRight="4dp"
-        android:paddingEnd="4dp"
         android:orientation="vertical">
 
         <RelativeLayout

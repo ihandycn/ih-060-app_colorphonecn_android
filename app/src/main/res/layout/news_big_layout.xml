@@ -20,7 +20,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="182dp"
-        android:background="@drawable/new_big_image_mark"/>
+        android:background="@drawable/news_big_image_mark"/>
 
     <com.superapps.view.TypefacedTextView
         android:id="@+id/news_resource_tv"
@@ -63,6 +63,8 @@
         android:layout_marginEnd="13dp"
         android:layout_marginLeft="13dp"
         android:layout_marginStart="13dp"
+        android:maxLines="3"
+        android:ellipsize="end"
         app:layout_constraintLeft_toLeftOf="@id/news_icon_iv"
         app:layout_constraintRight_toRightOf="@id/news_icon_iv"
         app:layout_constraintBottom_toTopOf="@+id/news_resource_tv"

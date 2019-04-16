@@ -30,7 +30,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
     private NewsAdapter adapter;
     private View noNetWorkPage;
     private View loading;
-    private boolean isRefeshing = false;
+    private boolean isRefreshing = false;
 
     public NewsPage(Context context) {
         this(context, null);
@@ -79,7 +79,9 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
         adapter = new NewsAdapter();
         newsList.setAdapter(adapter);
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
-        newsList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        DividerItemDecoration divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        divider.setDrawable(getResources().getDrawable(R.drawable.news_divider));
+        newsList.addItemDecoration(divider);
 
         newsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem ;
@@ -90,8 +92,8 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
                 //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
                     HSLog.i(NewsManager.TAG, "NP onScrollStateChanged: " + refreshLayout.isRefreshing());
-                    if (!isRefeshing) {
-                        isRefeshing = true;
+                    if (!isRefreshing) {
+                        isRefreshing = true;
                         NewsManager.getInstance().fetchLaterNews();
                     }
                 }
@@ -119,7 +121,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
     @Override public void onNewsLoaded(NewsResultBean bean) {
         HSLog.i(NewsManager.TAG, "NP onNewsLoaded");
         refreshLayout.setRefreshing(false);
-        isRefeshing = false;
+        isRefreshing = false;
 
         if (bean != null) {
             loading.setVisibility(GONE);
@@ -134,7 +136,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
     @Override public void onRefresh() {
         HSLog.i(NewsManager.TAG, "NP onRefresh: " + refreshLayout.isRefreshing());
-        isRefeshing = true;
+        isRefreshing = true;
         if (refreshLayout.isRefreshing()) {
             NewsManager.getInstance().fetchNews();
         }
