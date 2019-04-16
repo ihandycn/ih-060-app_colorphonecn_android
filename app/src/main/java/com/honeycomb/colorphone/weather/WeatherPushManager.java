@@ -36,6 +36,17 @@ public class WeatherPushManager {
 
     private WeatherPushManager() {
         mediaDownloadManager = new MediaDownloadManager();
+        WeatherClockManager.getInstance().setWeatherRequestListener(new WeatherClockManager.WeatherRequestListener() {
+            @Override
+            public void onWeatherRequestStart() {
+                LauncherAnalytics.logEvent("weather_request");
+            }
+
+            @Override
+            public void onWeatherRequestFinish(boolean success) {
+                LauncherAnalytics.logEvent("weather_request_success");
+            }
+        });
     }
 
     public static WeatherPushManager getInstance() {
@@ -45,7 +56,6 @@ public class WeatherPushManager {
     static class Inner {
         static WeatherPushManager mInstance = new WeatherPushManager();
     }
-
 
     void disableWeather() {
         Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean(WeatherPushManager.PREF_KEY_DISABLE_WEATHER_PUSH, true);
@@ -133,7 +143,7 @@ public class WeatherPushManager {
     public boolean showOncePerValidTime() {
         //早上6-9点之间可以弹出，晚上6-9点之间可以弹出，早晚各一次
         long lastShowTime = Preferences.getDefault().getLong(SHOW_LEGAL_INTERVAL, 0);
-        return System.currentTimeMillis() - lastShowTime > 3 * 60 * 60 * 1000;
+        return System.currentTimeMillis() - lastShowTime > 3 * DateUtils.HOUR_IN_MILLIS;
     }
 
     public boolean isAdReady() {
