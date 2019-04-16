@@ -379,12 +379,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return new StatementViewHolder(stateViewContent);
         } else if (viewType == THEME_SELECTOR_ITEM_TYPE_TIP) {
             View tipView = activity.getLayoutInflater().inflate(R.layout.notification_access_toast_layout, parent, false);
-            tipView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PermissionChecker.getInstance().checkForcely(activity, "Banner");
-                }
-            });
+            tipView.setOnClickListener(v -> PermissionChecker.getInstance().checkForcely(activity, "Banner"));
             return new TopTipViewHolder(tipView);
         } else if (viewType == THEME_SELECTOR_ITEM_TYPE_HOT_THEME_HOLDER) {
             View view = activity.getLayoutInflater().inflate(R.layout.acb_layout_hot_theme_view, parent, false);
@@ -399,13 +394,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .apply(new RequestOptions().transform(new RoundedCorners(Dimensions.pxFromDp(5f))))
                     .override(w, h)
                     .into(target);
-            target.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(activity, PopularThemeActivity.class);
-                    activity.startActivity(intent);
-                    LauncherAnalytics.logEvent("ColorPhone_MainView_BanboEntrance_Clicked");
-                }
+            target.setOnClickListener(v -> {
+                Intent intent = new Intent(activity, PopularThemeActivity.class);
+                activity.startActivity(intent);
+                LauncherAnalytics.logEvent("ColorPhone_MainView_BanboEntrance_Clicked");
             });
 
             return new HotThemeHolder(view);

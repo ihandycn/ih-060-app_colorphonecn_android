@@ -383,6 +383,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
                 mHistory.remove(mHistory.size() - 1);
                 mWebView.loadUrl(mHistory.get(mHistory.size() - 1));
             } else {
+                LauncherAnalytics.logEvent("news_detail_page_back_click");
                 finish();
             }
             return true;

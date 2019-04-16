@@ -20,7 +20,7 @@
             android:layout_below="@id/iv_error"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:text="@string/network_error"
+            android:text="@string/news_network_err"
             android:textColor="#80000000"
             android:textSize="20sp" />
 

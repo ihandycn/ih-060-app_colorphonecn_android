@@ -764,6 +764,7 @@ public final class Utils {
             View view = toolbar.getChildAt(i);
             if(view instanceof TextView){
                 TextView tv = (TextView) view;
+                tv.setTextSize(24);
                 Typeface typeface = Fonts.getTypeface(Fonts.Font.ofFontResId(R.string.custom_font_bold), 0);
                 if(tv.getText().equals(toolbar.getTitle())){
                     tv.setTypeface(typeface);

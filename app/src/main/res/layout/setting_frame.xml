@@ -35,11 +35,7 @@
             <com.superapps.view.TypefacedTextView
                 android:id="@+id/settings_main_switch_txt"
                 style="@style/NormalText.Drawer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
                 android:layout_toEndOf="@id/settings_main_switch_icon"
                 android:layout_toRightOf="@id/settings_main_switch_icon"
                 android:text="@string/color_phone_disable" />
@@ -67,11 +63,7 @@
             <com.superapps.view.TypefacedTextView
                 android:id="@+id/settings_default_dialer_switch_txt"
                 style="@style/NormalText.Drawer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
                 android:layout_toEndOf="@id/settings_default_dialer_switch_icon"
                 android:layout_toRightOf="@id/settings_default_dialer_switch_icon"
                 android:text="@string/default_dialer" />
@@ -99,11 +91,7 @@
             <com.superapps.view.TypefacedTextView
                 android:id="@+id/led_flash_switch_txt"
                 style="@style/NormalText.Drawer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
                 android:layout_toEndOf="@id/led_flash_switch_icon"
                 android:layout_toRightOf="@id/led_flash_switch_icon"
                 android:text="@string/led_flash_switch_text" />
@@ -123,10 +111,6 @@
 
             <com.superapps.view.TypefacedTextView
                 style="@style/NormalText.Drawer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
                 android:text="@string/contact_theme" />
         </LinearLayout>
 
@@ -143,10 +127,6 @@
 
             <com.superapps.view.TypefacedTextView
                 style="@style/NormalText.Drawer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
                 android:text="@string/feedback" />
         </LinearLayout>
 
@@ -164,10 +144,6 @@
 
             <com.superapps.view.TypefacedTextView
                 style="@style/NormalText.Drawer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
                 android:text="@string/boost_title" />
         </LinearLayout>
 
@@ -184,10 +160,6 @@
 
             <com.superapps.view.TypefacedTextView
                 style="@style/NormalText.Drawer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
                 android:text="@string/settings" />
         </LinearLayout>
 
@@ -204,10 +176,6 @@
 
             <com.superapps.view.TypefacedTextView
                 style="@style/NormalText.Drawer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
                 android:text="@string/about" />
         </LinearLayout>
         <LinearLayout
@@ -223,10 +191,6 @@
 
             <com.superapps.view.TypefacedTextView
                 style="@style/NormalText.Drawer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/nav_item_inner_spacing"
-                android:layout_marginStart="@dimen/nav_item_inner_spacing"
                 android:text="@string/follow_facebook" />
         </LinearLayout>
 

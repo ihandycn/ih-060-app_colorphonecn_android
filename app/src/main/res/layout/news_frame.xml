@@ -34,15 +34,16 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
+        <com.superapps.view.TypefacedTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha=".9"
             android:textSize="20sp"
             android:textColor="#e6101010"
-            android:text="@string/news_network_err"/>
+            android:text="@string/news_network_err"
+            app:typeface="@string/custom_font_bold" />
 
-        <TextView
+        <com.superapps.view.TypefacedTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -54,9 +55,10 @@
             android:alpha=".5"
             android:textSize="12sp"
             android:textColor="#80101010"
-            android:text="@string/news_network_err_content"/>
+            android:text="@string/news_network_err_content"
+            app:typeface="@string/custom_font_regular" />
 
-        <TextView
+        <com.superapps.view.TypefacedTextView
             android:id="@+id/news_no_network_action"
             android:layout_width="81dp"
             android:layout_height="38dp"
@@ -66,7 +68,8 @@
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:text="@string/news_network_err_action"
-            android:background="@drawable/material_compat_button_box"/>
+            android:background="@drawable/material_compat_button_box"
+            app:typeface="@string/custom_font_bold" />
     </LinearLayout>
 
     <ProgressBar

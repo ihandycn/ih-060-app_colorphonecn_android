@@ -276,13 +276,11 @@
     <string name="news_network_err">No Connection</string>
     <string name="news_network_err_content">Please check your Internet connection and try again</string>
     <string name="news_network_err_action">RETRY</string>
-    <string name="network_error">Network error.</string>
     <string name="news_detail_error_reload">Reload</string>
-    <string name="refresh">Refresh</string>
     <string name="menu_item_news">News</string>
     <string name="menu_item_themes">Themes</string>
 
-    <string name="toolbar_title_news">News for you</string>
+    <string name="toolbar_title_news">@string/menu_item_news</string>
     <string name="toolbar_title_themes">@string/app_name</string>
     <string name="toolbar_title_settings">@string/menu_item_settings</string>
 

@@ -193,7 +193,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar, 0);
-
     }
 
     private void initTabs() {
@@ -202,26 +201,36 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         settingTab = findViewById(R.id.main_tab_setting);
 
         themesTab.setOnClickListener(v -> {
-            hideOldTab();
-            mRecyclerView.setVisibility(View.VISIBLE);
-            currentIndex = MAIN_TAB_THEMES;
-            highlightNewTab();
+            if (currentIndex != MAIN_TAB_THEMES) {
+                hideOldTab();
+                mRecyclerView.setVisibility(View.VISIBLE);
+                currentIndex = MAIN_TAB_THEMES;
+                highlightNewTab();
+                LauncherAnalytics.logEvent("tab_change");
+            }
         });
 
         newsTab.setOnClickListener(v -> {
-            hideOldTab();
-            newsLayout.setVisibility(View.VISIBLE);
-            currentIndex = MAIN_TAB_NEWS;
-            highlightNewTab();
+            if (currentIndex != MAIN_TAB_NEWS) {
+                hideOldTab();
+                newsLayout.setVisibility(View.VISIBLE);
+                currentIndex = MAIN_TAB_NEWS;
+                highlightNewTab();
 
-            LauncherAnalytics.logEvent("mainview_tab_news_click");
+                LauncherAnalytics.logEvent("mainview_newstab_click");
+                LauncherAnalytics.logEvent("mainview_newstab_show");
+                LauncherAnalytics.logEvent("tab_change");
+            }
         });
 
         settingTab.setOnClickListener(v -> {
-            hideOldTab();
-            settingLayout.setVisibility(View.VISIBLE);
-            currentIndex = MAIN_TAB_SETTINGS;
-            highlightNewTab();
+            if (currentIndex != MAIN_TAB_SETTINGS) {
+                hideOldTab();
+                settingLayout.setVisibility(View.VISIBLE);
+                currentIndex = MAIN_TAB_SETTINGS;
+                highlightNewTab();
+                LauncherAnalytics.logEvent("tab_change");
+            }
         });
 
         highlightNewTab();

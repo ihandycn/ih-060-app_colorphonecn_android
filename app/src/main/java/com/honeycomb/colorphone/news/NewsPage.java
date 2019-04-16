@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.utils.HSLog;
@@ -200,6 +201,8 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
             holder.itemView.setOnClickListener(v -> {
                 HSLog.i(NewsManager.TAG, "NP onClicked: " + position);
                 Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(bean.contentURL, false));
+
+                LauncherAnalytics.logEvent("mainview_newstab_news_click", "type", (type == NEWS_TYPE_BIG ? "image" : "imagepreview"));
             });
         }
 

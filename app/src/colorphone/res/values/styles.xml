@@ -16,7 +16,12 @@
 
     <style name="NormalText.Drawer">
         <item name="android:textColor">@color/primaryText</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/nav_item_inner_spacing</item>
+        <item name="android:layout_marginStart">@dimen/nav_item_inner_spacing</item>
+        <item name="typeface">@string/custom_font_semibold</item>
     </style>
 
     <style name="RatioView.Container">

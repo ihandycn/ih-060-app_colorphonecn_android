@@ -1,8 +1,8 @@
 package com.honeycomb.colorphone;
 
-import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.NetUtils;
+import com.honeycomb.colorphone.util.Utils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +26,9 @@ public class ConfigLogDefault implements ConfigLog {
         @Override
         public void onMainViewOpen() {
             LauncherAnalytics.logEvent("ColorPhone_MainView_Opened");
+            if (Utils.isNewUser()) {
+                LauncherAnalytics.logEvent("mainview_open_news_enable");
+            }
         }
 
         @Override
