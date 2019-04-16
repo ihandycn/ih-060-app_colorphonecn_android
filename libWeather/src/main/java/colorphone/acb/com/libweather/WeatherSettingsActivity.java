@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v4.content.ContextCompat;
@@ -103,15 +105,14 @@ public class WeatherSettingsActivity extends BaseSettingsActivity
 
         configUnitSwitches();
 
-        toolbar.setOnClickListener(this);
-        final GestureDetector gestureDetector = new GestureDetector(this, new ToolbarGestureListener());
-        toolbar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
-                return false;
-            }
-        });
+        setSupportActionBar(toolbar);
+        final Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        upArrow.setColorFilter(ContextCompat.getColor(this, R.color.material_text_black_secondary), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("");
+
         mScrollableContent.setOnClickListener(this);
         mAddCityView.setOnClickListener(this);
         mTemperatureUnitBtn.setOnClickListener(this);
