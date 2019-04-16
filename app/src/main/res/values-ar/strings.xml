@@ -190,4 +190,12 @@
     <string name="result_page_theme_recommend_optimal">تم التطبيق بنجاح</string>
     <string name="result_page_theme_recommend_more">اعثر على المزيد من التصاميم</string>
 
+
+    <!-- News -->
+    <string name="news_network_err">الشبكة غير متاحة</string>
+    <string name="news_network_err_content"></string>
+    <string name="news_network_err_action"></string>
+    <string name="menu_item_news">أخبار</string>
+    <string name="menu_item_themes">القوالب</string>
+
 </resources>

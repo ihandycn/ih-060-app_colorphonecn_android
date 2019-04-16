@@ -186,4 +186,12 @@
   <string name="result_page_theme_recommend_optimal">適用に成功しました</string>
   <string name="result_page_theme_recommend_more">テーマをもっと見つける</string>
 
+
+  <!-- News -->
+  <string name="news_network_err">ネットワークが利用不可</string>
+  <string name="news_network_err_content"></string>
+  <string name="news_network_err_action"></string>
+  <string name="menu_item_news">ニュース</string>
+  <string name="menu_item_themes">テーマ</string>
+
 </resources>

@@ -108,4 +108,12 @@
     <string name="result_page_theme_recommend_optimal">Toepassen is gelukt</string>
     <string name="result_page_theme_recommend_more">Meer thema\'s vinden</string>
 
+
+    <!-- News -->
+    <string name="news_network_err">Netwerk niet beschikbaar</string>
+    <string name="news_network_err_content"></string>
+    <string name="news_network_err_action"></string>
+    <string name="menu_item_news">Nieuws</string>
+    <string name="menu_item_themes"></string>
+
 </resources>

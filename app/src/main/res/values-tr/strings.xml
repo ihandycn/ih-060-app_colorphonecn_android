@@ -180,4 +180,12 @@
     <string name="result_page_theme_recommend_optimal">Başarıyla uygulandı</string>
     <string name="result_page_theme_recommend_more">Daha Fazla Tema Bul</string>
 
+
+    <!-- News -->
+    <string name="news_network_err">Ağ kullanılamıyor</string>
+    <string name="news_network_err_content"></string>
+    <string name="news_network_err_action"></string>
+    <string name="menu_item_news">Haberler</string>
+    <string name="menu_item_themes">Temalar</string>
+
 </resources>

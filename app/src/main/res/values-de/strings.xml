@@ -183,4 +183,13 @@
     <string name="theme_recommend_content_default">your friend</string>
     <string name="result_page_theme_recommend_optimal">Erfolgreich übernommen</string>
     <string name="result_page_theme_recommend_more">Mehr Designs finden</string>
+
+
+    <!-- News -->
+    <string name="news_network_err">Netzwerk nicht verfügbar</string>
+    <string name="news_network_err_content"></string>
+    <string name="news_network_err_action"></string>
+    <string name="menu_item_news">News</string>
+    <string name="menu_item_themes">Designs</string>
+
 </resources>

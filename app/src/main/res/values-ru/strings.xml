@@ -189,4 +189,12 @@
     <string name="result_page_theme_recommend_optimal">Применено</string>
     <string name="result_page_theme_recommend_more">Найти больше тем</string>
 
+
+    <!-- News -->
+    <string name="news_network_err">Нет соединения с сетью</string>
+    <string name="news_network_err_content"></string>
+    <string name="news_network_err_action"></string>
+    <string name="menu_item_news">Новости</string>
+    <string name="menu_item_themes">Темы</string>
+
 </resources>

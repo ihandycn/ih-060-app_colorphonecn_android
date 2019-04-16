@@ -183,4 +183,12 @@
     <string name="result_page_theme_recommend_optimal">Berhasil diterapkan</string>
     <string name="result_page_theme_recommend_more">Temukan Lebih Banyak Tema</string>
 
+
+    <!-- News -->
+    <string name="news_network_err">Jaringan tidak tersedia</string>
+    <string name="news_network_err_content"></string>
+    <string name="news_network_err_action"></string>
+    <string name="menu_item_news">Berita</string>
+    <string name="menu_item_themes">Tema</string>
+
 </resources>

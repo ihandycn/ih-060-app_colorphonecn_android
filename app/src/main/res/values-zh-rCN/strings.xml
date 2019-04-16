@@ -191,4 +191,13 @@
     <string name="theme_recommend_content_default">你的朋友</string>
     <string name="result_page_theme_recommend_optimal">应用成功</string>
     <string name="result_page_theme_recommend_more">发现更多的主题</string>
+
+
+    <!-- News -->
+    <string name="news_network_err">网络连接不可用</string>
+    <string name="news_network_err_content"></string>
+    <string name="news_network_err_action"></string>
+    <string name="menu_item_news">新闻</string>
+    <string name="menu_item_themes">主題</string>
+
 </resources>

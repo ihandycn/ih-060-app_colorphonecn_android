@@ -185,4 +185,12 @@
     <string name="result_page_theme_recommend_optimal">Aplicado correctamente</string>
     <string name="result_page_theme_recommend_more">Descubre más temas</string>
 
+
+    <!-- News -->
+    <string name="news_network_err">Red no disponible</string>
+    <string name="news_network_err_content"></string>
+    <string name="news_network_err_action"></string>
+    <string name="menu_item_news">Noticias</string>
+    <string name="menu_item_themes">Temas</string>
+
 </resources>

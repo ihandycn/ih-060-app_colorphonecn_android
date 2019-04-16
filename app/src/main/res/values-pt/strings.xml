@@ -183,4 +183,13 @@
     <string name="theme_recommend_content_default">seu amigo</string>
     <string name="result_page_theme_recommend_optimal">Aplicado com sucesso</string>
     <string name="result_page_theme_recommend_more">Encontre mais temas</string>
+
+
+    <!-- News -->
+    <string name="news_network_err">Rede indisponível</string>
+    <string name="news_network_err_content"></string>
+    <string name="news_network_err_action"></string>
+    <string name="menu_item_news">Notícias</string>
+    <string name="menu_item_themes">Temas</string>
+
 </resources>

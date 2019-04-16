@@ -183,4 +183,12 @@
     <string name="result_page_theme_recommend_optimal">Appliqué avec succès</string>
     <string name="result_page_theme_recommend_more">Trouver plus de thèmes</string>
 
+
+    <!-- News -->
+    <string name="news_network_err">Réseau non disponible</string>
+    <string name="news_network_err_content"></string>
+    <string name="news_network_err_action"></string>
+    <string name="menu_item_news">Actus</string>
+    <string name="menu_item_themes">Thèmes</string>
+
 </resources>

@@ -177,4 +177,13 @@
     <string name="battery_optimized">Tối ưu hóa</string>
 
     <string name="guide_theme_random_hint">Khi áp dụng chủ đề này, bạn có thể trải nghiệm những chủ đề ngẫu nhiên khi có cuộc gọi đến.</string>
+
+
+    <!-- News -->
+    <string name="news_network_err">Mạng không khả dụng</string>
+    <string name="news_network_err_content"></string>
+    <string name="news_network_err_action"></string>
+    <string name="menu_item_news">Tin tức</string>
+    <string name="menu_item_themes">Chủ đề</string>
+
 </resources>

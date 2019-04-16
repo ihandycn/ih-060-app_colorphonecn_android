@@ -273,12 +273,15 @@
     <string name="trivia_tip_content_truly_fact">Truly Fact</string>
     <string name="trivia_tip_button_set_as_theme">Apply for ScreenFlash</string>
 
-    <string name="news_network_err">No Connection</string>
-    <string name="news_network_err_content">Please check your Internet connection and try again</string>
+
+    <!-- News -->
+    <string name="news_network_err">Network not available</string>
+    <string name="news_network_err_content">Please check your internet connection and try again</string>
     <string name="news_network_err_action">RETRY</string>
-    <string name="news_detail_error_reload">Reload</string>
     <string name="menu_item_news">News</string>
     <string name="menu_item_themes">Themes</string>
+
+    <string name="news_detail_error_reload">Reload</string>
 
     <string name="toolbar_title_news">@string/menu_item_news</string>
     <string name="toolbar_title_themes">@string/app_name</string>
