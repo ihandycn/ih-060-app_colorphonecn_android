@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -64,6 +66,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
@@ -89,6 +92,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
 
+    public static void startWeatherPage(Context context) {
+        Intent intent = new Intent(context, ColorPhoneActivity.class);
+        intent.putExtra("switch_weather", true);
+        Navigations.startActivitySafely(context, intent);
+    }
+    boolean mWeatherMode;
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
@@ -160,6 +169,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             HSAlertMgr.delayRateAlert();
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         }
+        mWeatherMode = getIntent().getBooleanExtra("switch_weather", false);
 
         setContentView(R.layout.activity_main);
         initMainFrame();
@@ -310,6 +320,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             drawParams.topMargin += statusBarInset;
             mDrawerLayout.requestLayout();
 
+        }
+
+        if (mWeatherMode) {
+            weatherView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    weatherView.getViewTreeObserver().addOnGlobalLayoutListener(this);
+                    weatherView.toggleImmediately();
+                    HSLog.d("Weather.Page", "Show");
+                }
+            });
         }
     }
 
