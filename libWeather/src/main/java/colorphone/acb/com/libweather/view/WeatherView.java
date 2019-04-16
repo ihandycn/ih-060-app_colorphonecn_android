@@ -154,6 +154,7 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
     private View mOuterIconView;
     private int[] mOuterIconTrans = new int[2];
     private OnWeatherVisibleListener mOnWeatherVisibleListener;
+    private View mWeatherFooterBgView;
 
 
     public WeatherView(Context context) {
@@ -634,6 +635,7 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
         // Init Animation layout
         mWeatherRevealLayout = findViewById(R.id.weather_reveal_container);
         mWeatherForegroundView =  findViewById(R.id.weather_black_cover);
+        mWeatherFooterBgView = findViewById(R.id.weather_black_bg_footer);
         mRevealContentChild = mWeatherRevealLayout.getChildAt(0);
         mWeatherRevealLayout.setCornerRadius(Dimensions.pxFromDp(20));
         mWeatherRevealLayout.addAnimatorListener(new AnimatorListenerAdapter() {
@@ -641,12 +643,14 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
             public void onAnimationStart(Animator animation) {
                 super.onAnimationStart(animation);
                 mWeatherForegroundView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                mWeatherFooterBgView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 mWeatherForegroundView.setLayerType(View.LAYER_TYPE_NONE, null);
+                mWeatherFooterBgView.setLayerType(View.LAYER_TYPE_NONE, null);
                 notifyWeatherVisibleChanged();
             }
         });
@@ -675,6 +679,7 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
         mOuterIconView.setAlpha(1 - sizeFraction);
         mRevealContentChild.setTranslationY((1- sizeFraction) * mWeatherHeight * 0.2f);
         mCloseBtn.setAlpha(sizeFraction);
+        mWeatherFooterBgView.setAlpha(sizeFraction * sizeFraction);
         transViewToCloseBtnPosition(mOuterIconView, sizeFraction);
     }
 

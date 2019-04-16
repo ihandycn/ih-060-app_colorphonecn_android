@@ -135,4 +135,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#000000" />
+    <View
+        android:id="@+id/weather_black_bg_footer"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/weather_footer_bg" />
 </merge>
