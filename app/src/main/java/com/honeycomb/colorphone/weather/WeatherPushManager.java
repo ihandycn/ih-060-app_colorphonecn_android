@@ -5,12 +5,18 @@ import android.text.format.DateUtils;
 
 import com.acb.call.MediaDownloadManager;
 import com.honeycomb.colorphone.Ap;
+import com.honeycomb.colorphone.Placements;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.weather.HSWeatherQueryResult;
 import com.superapps.util.Preferences;
 
+import net.appcloudbox.ads.base.AcbInterstitialAd;
+import net.appcloudbox.ads.common.utils.AcbError;
+import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
+
 import java.util.Calendar;
+import java.util.List;
 
 import colorphone.acb.com.libweather.WeatherClockManager;
 
@@ -22,6 +28,7 @@ public class WeatherPushManager {
     private final MediaDownloadManager mediaDownloadManager;
     public static final String SHOW_LEGAL_INTERVAL = "show_legal_interval";
     public static final String WEATHER_SHOULD_SHOW = "weather_should_show";
+    private AcbInterstitialAd mInterstitialAd;
 
     private WeatherPushManager() {
         mediaDownloadManager = new MediaDownloadManager();
@@ -98,6 +105,7 @@ public class WeatherPushManager {
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         return (6 <= hourOfDay && hourOfDay < 9 && Ap.WeatherPush.showInMor()) || (18 <= hourOfDay && hourOfDay < 21) && Ap.WeatherPush.showAtNight();
     }
+
 
     public boolean showOncePerValidTime() {
         //早上6-9点之间可以弹出，晚上6-9点之间可以弹出，早晚各一次
@@ -226,4 +234,62 @@ public class WeatherPushManager {
         boolean showOncePerTime = System.currentTimeMillis() - lastShowTime > 3 * 60 * 60 * 1000;
         return isLegalTime && showOncePerTime;
     }
+
+    public void preload() {
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(getInterstitialAdPlacementName());
+        AcbInterstitialAdManager.preload(1, getInterstitialAdPlacementName());
+    }
+
+    private static String getInterstitialAdPlacementName() {
+        return Placements.WEATHER_PUSH_AD_PLACEMENT_NAME;
+    }
+
+    public AcbInterstitialAd getInterstitialAd() {
+        if (mInterstitialAd == null) {
+            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(getInterstitialAdPlacementName(), 1);
+            if (ads != null && ads.size() > 0) {
+                mInterstitialAd = ads.get(0);
+            }
+        }
+        return mInterstitialAd;
+    }
+
+    public void releaseInterstitialAd() {
+        if (mInterstitialAd != null) {
+            mInterstitialAd.release();
+            mInterstitialAd = null;
+        }
+    }
+
+    public boolean showInterstitialAd() {
+
+        AcbInterstitialAd ad = getInterstitialAd();
+        if (ad != null) {
+            ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
+                @Override
+                public void onAdDisplayed() {
+
+                }
+
+                @Override
+                public void onAdClicked() {
+
+                }
+
+                @Override
+                public void onAdClosed() {
+                    releaseInterstitialAd();
+                    preload();
+                }
+
+                @Override
+                public void onAdDisplayFailed(AcbError acbError) {
+
+                }
+            });
+            return true;
+        }
+        return false;
+    }
+
 }

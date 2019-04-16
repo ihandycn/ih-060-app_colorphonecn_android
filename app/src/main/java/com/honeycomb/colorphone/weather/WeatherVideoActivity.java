@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.StringDef;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.acb.call.utils.FileUtils;
 import com.acb.call.views.VideoPlayerView;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -53,7 +53,8 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
 
     @StringDef({SUNNY, CLOUDY, RAIN, SNOW, REAL})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface VideoType {}
+    public @interface VideoType {
+    }
 
     public static String allVideoCategory[] = {SUNNY, CLOUDY, RAIN, SNOW, REAL};
     private String videoType;
@@ -135,20 +136,52 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
         @Override
         public void onClick(View v) {
             if (v == ivSetting) {
-                Ap.WeatherPush.logEvent("weather_forecast_settings_click");
-                showDisableDialog();
+                LauncherAnalytics.logEvent("weather_forecast_settings_click");
+                showPopupView();
             } else if (v == ivClose) {
                 Ap.WeatherPush.logEvent("weather_forecast_closebtn_click");
+                LauncherAnalytics.logEvent("weather_forecast_close", "type", "closebtn");
                 WeatherVideoActivity.this.finish();
-            } else if (v == ivCallCccept) {
+            } else if (v == ivCallCccept || v == videoPlayerView) {
                 // TODO: 2019/4/13  pop up weather page
+                Ap.WeatherPush.logEvent("weather_forecast_click");
+                LauncherAnalytics.logEvent("weather_forecast_click", "from", v == ivCallCccept ? "answerbtn" :
+                        "otherarea", "type", inMorning ? "morning" : "night", videoType, videoType, "time", getShowTimeEventParameter());
+                ColorPhoneActivity.startWeatherPage(WeatherVideoActivity.this);
+
             }
         }
     };
 
+    private void showPopupView() {
+        View disableView = View.inflate(this, R.layout.weather_disable_popup_window, null);
+        PopupWindow popupWindow = new PopupWindow(disableView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.setOutsideTouchable(true);
+        disableView.findViewById(R.id.disable).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    popupWindow.dismiss();
+                } catch (Exception e) {
+                }
+                LauncherAnalytics.logEvent("weather_forecast_settings_disable_click");
+                showDisableDialog();
+            }
+        });
+        try {
+            popupWindow.showAsDropDown(ivSetting, 0, Dimensions.pxFromDp(6));
+        } catch (Exception e) {
+        }
+
+    }
+
     @Override
     public void onBackPressed() {
         if (Ap.WeatherPush.allowBack()) {
+            LauncherAnalytics.logEvent("weather_forecast_close", "type", "back");
             super.onBackPressed();
         }
     }
