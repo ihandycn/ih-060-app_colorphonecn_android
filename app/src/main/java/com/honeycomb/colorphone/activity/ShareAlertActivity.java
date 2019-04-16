@@ -46,6 +46,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.FixRatioPreviewWindow;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 
 import java.io.File;
@@ -236,7 +237,7 @@ public class ShareAlertActivity extends Activity {
         TextView secondLineTextView = root.findViewById(R.id.second_line);
 
 
-        float shadowOffset = com.acb.utils.Utils.pxFromDp(2);
+        float shadowOffset = Dimensions.pxFromDp(2);
         firstLineTextView.setShadowLayer(shadowOffset, 0, shadowOffset, Color.BLACK);
         secondLineTextView.setShadowLayer(shadowOffset * 0.5f, 0, shadowOffset * 0.7f, Color.BLACK);
 
@@ -295,8 +296,8 @@ public class ShareAlertActivity extends Activity {
 
                 if (themeType.getValue() == Type.LED) {
                     LEDAnimationView ledAnimationView = cardView.findViewById(R.id.animation_view);
-                    ledAnimationView.getLayoutParams().width = Utils.getPhoneWidth(ShareAlertActivity.this);
-                    ledAnimationView.getLayoutParams().height = Utils.getPhoneHeight(ShareAlertActivity.this);
+                    ledAnimationView.getLayoutParams().width = Dimensions.getPhoneWidth(ShareAlertActivity.this);
+                    ledAnimationView.getLayoutParams().height = Dimensions.getPhoneHeight(ShareAlertActivity.this);
                 }
                 setImageCoverAndShare(cardView);
 
@@ -371,7 +372,7 @@ public class ShareAlertActivity extends Activity {
             return;
         }
         final ImageView previewImage = root.findViewById(R.id.preview_image);
-        getBitmap(themeType.getPreviewImage(), Utils.getPhoneWidth(this), Utils.getPhoneHeight(this), new BitmapFetcher() {
+        getBitmap(themeType.getPreviewImage(), Dimensions.getPhoneWidth(this), Dimensions.getPhoneHeight(this), new BitmapFetcher() {
             @Override
             public void onResourceReady(Bitmap resource) {
                 previewImage.setImageBitmap(resource);

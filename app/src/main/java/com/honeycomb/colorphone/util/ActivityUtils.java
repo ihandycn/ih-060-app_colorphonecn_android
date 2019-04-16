@@ -285,7 +285,7 @@ public class ActivityUtils {
         Toolbar.LayoutParams toolbarTitleParams = new Toolbar.LayoutParams(
                 Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT, Gravity.START);
         boolean isRtl = Utils.isRtl();
-        int margin = largeMargin ? Utils.pxFromDp(20) : Utils.pxFromDp(16);
+        int margin = largeMargin ? Dimensions.pxFromDp(20) : Dimensions.pxFromDp(16);
         //noinspection ResourceType
 //        toolbarTitleParams.setMargins(isRtl ? 0 : margin, 0, isRtl ? margin : 0, 0);
         titleTextView.setPadding( margin, 0,  margin, 0);

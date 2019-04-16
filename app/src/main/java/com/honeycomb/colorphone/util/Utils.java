@@ -32,7 +32,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -134,24 +133,10 @@ public final class Utils {
 
     public static int[] getThumbnailImageSize() {
         if (THUMBNAIL_HEIGHT == 0) {
-            THUMBNAIL_WIDTH = (int) (getPhoneWidth(HSApplication.getContext()) * THUMBNAIL_RATIO);
+            THUMBNAIL_WIDTH = (int) (Dimensions.getPhoneWidth(HSApplication.getContext()) * THUMBNAIL_RATIO);
             THUMBNAIL_HEIGHT = THUMBNAIL_WIDTH * 1920 / 1080;
         }
         return new int[]{THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT};
-    }
-
-    public static float getDensityRatio() {
-        if (sDensityRatio > 0f) {
-            return sDensityRatio;
-        }
-        Resources resources = HSApplication.getContext().getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        sDensityRatio = (float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT;
-        return sDensityRatio;
-    }
-
-    public static int pxFromDp(float dp) {
-        return Math.round(dp * getDensityRatio());
     }
 
     public static boolean mayDisturbUserAtThisTimeOfDay() {
@@ -250,52 +235,6 @@ public final class Utils {
     public static boolean isHuaweiDevice() {
         return Build.MANUFACTURER.equalsIgnoreCase("Huawei")
                 && !Build.BRAND.equalsIgnoreCase("google"); // Exclude Nexus 6P
-    }
-
-    /**
-     * 返回手机屏幕高度
-     */
-    public static int getPhoneHeight(Context context) {
-        if (null == context) {
-            return DEFAULT_DEVICE_SCREEN_HEIGHT;
-        }
-        int height = context.getResources().getDisplayMetrics().heightPixels;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-
-            Point localPoint = new Point();
-            windowManager.getDefaultDisplay().getRealSize(localPoint);
-            HSLog.v(TAG, "height == " + height + ", w == " + localPoint.x + ", h == " + localPoint.y);
-            if (localPoint.y > height) {
-                height = localPoint.y;
-            }
-        } else {
-            int navigationBarHeight = getNavigationBarHeight(context);
-            HSLog.v(TAG, "Layout h == " + height + ", navigationBarHeight == " + navigationBarHeight);
-            if (navigationBarHeight != 0 && height % 10 != 0) {
-                if ((height + navigationBarHeight) % 10 == 0) {
-                    height = (height + navigationBarHeight);
-                }
-            }
-            HSLog.v(TAG, "height == " + height + ", navigationBarHeight == " + navigationBarHeight);
-        }
-
-        return height;
-    }
-
-    public static int getPhoneWidth(Context context) {
-        if (null == context) {
-            return DEFAULT_DEVICE_SCREEN_WIDTH;
-        }
-
-        if (sPhoneWidth <= 0) {
-            DisplayMetrics dm = new DisplayMetrics();
-            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            wm.getDefaultDisplay().getMetrics(dm);
-            sPhoneWidth = Math.min(dm.widthPixels, dm.heightPixels);
-        }
-        return sPhoneWidth;
     }
 
     public static int getNavigationBarHeight(Context context) {
@@ -830,10 +769,6 @@ public final class Utils {
                 }
             }
         }
-    }
-
-    public static float dpiFromPx(int size) {
-        return (size / getDensityRatio());
     }
 
     public static Bitmap getBitmapFromLocalFile(String path) {

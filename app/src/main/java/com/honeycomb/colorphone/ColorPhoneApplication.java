@@ -85,6 +85,7 @@ import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -277,8 +278,8 @@ public class ColorPhoneApplication extends HSApplication {
         // Init ANR optimizer
         SharedPreferencesOptimizer.install(BuildConfig.DEBUG);
 
-        mHeight = Utils.getPhoneHeight(this);
-        mWidth = Utils.getPhoneWidth(this);
+        mHeight = Dimensions.getPhoneHeight(this);
+        mWidth = Dimensions.getPhoneWidth(this);
         mConfigLog = new ConfigLogDefault();
         mDailyLogger = new DailyLogger();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);

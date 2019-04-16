@@ -55,7 +55,7 @@ public class PermissionHelper {
             PermissionHelper.startObservingNotificationPermissionOneTime(ColorPhoneActivity.class, eventSource.getName());
             LauncherAnalytics.logEvent("Colorphone_SystemNotificationAccessView_Show", "from", eventSource.getName());
             Threads.postOnMainThreadDelayed(() -> {
-                Navigations.startActivity(HSApplication.getContext(), NotificationGuideActivity.class);
+                Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
             }, 1000);
             return true;
         }
@@ -65,7 +65,7 @@ public class PermissionHelper {
     public static boolean requestAutoStartIfNeeded(@Nullable Activity sourceActivity) {
         Permissions.requestAutoStartPermission(sourceActivity);
         Threads.postOnMainThreadDelayed(() -> {
-            Navigations.startActivity(HSApplication.getContext(), AutoStartGuideActivity.class);
+            Navigations.startActivitySafely(HSApplication.getContext(), AutoStartGuideActivity.class);
         }, 1000);
         return true;
     }

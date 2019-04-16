@@ -59,7 +59,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
     private TableLayout mAppsContainerView;
     private int mAppWidth;
-    private int mAppIconSize = Utils.pxFromDp(48);
+    private int mAppIconSize = Dimensions.pxFromDp(48);
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -146,7 +146,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
 
         textView.setOnClickListener(this);
 
-        textView.setCompoundDrawablePadding(Utils.pxFromDp(2));
+        textView.setCompoundDrawablePadding(Dimensions.pxFromDp(2));
         textView.setTextColor(Color.BLACK);
         textView.setText(appInfo.getName());
         textView.setGravity(Gravity.CENTER);

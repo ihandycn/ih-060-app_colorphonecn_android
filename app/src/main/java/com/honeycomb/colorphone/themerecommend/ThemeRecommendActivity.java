@@ -26,6 +26,7 @@ import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.util.ModuleUtils;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.ads.base.AcbInterstitialAd;
@@ -164,7 +165,7 @@ public class ThemeRecommendActivity extends AppCompatActivity {
         TextView firstLineTextView = root.findViewById(R.id.first_line);
         TextView secondLineTextView = root.findViewById(R.id.second_line);
 
-        float shadowOffset = com.acb.utils.Utils.pxFromDp(2);
+        float shadowOffset = Dimensions.pxFromDp(2);
         firstLineTextView.setShadowLayer(shadowOffset, 0, shadowOffset, Color.BLACK);
         secondLineTextView.setShadowLayer(shadowOffset * 0.5f, 0, shadowOffset * 0.7f, Color.BLACK);
 

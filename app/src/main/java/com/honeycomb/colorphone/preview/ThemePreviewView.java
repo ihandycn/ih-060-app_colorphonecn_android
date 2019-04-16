@@ -710,7 +710,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
             return;
         }
-        int pHeight = Utils.getPhoneHeight(mActivity);
+        int pHeight = Dimensions.getPhoneHeight(mActivity);
 
 
 
@@ -1309,7 +1309,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             toastView.post(new Runnable() {
                 @Override
                 public void run() {
-                    toastView.setPivotX(Math.max(toastView.getWidth(), Utils.pxFromDp(64)));
+                    toastView.setPivotX(Math.max(toastView.getWidth(), Dimensions.pxFromDp(64)));
                     toastView.setPivotY(toastView.getHeight() * 0.4f);
                 }
             });

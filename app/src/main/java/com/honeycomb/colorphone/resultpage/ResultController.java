@@ -29,7 +29,6 @@ import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.AutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -213,10 +212,10 @@ abstract class ResultController implements View.OnClickListener {
 //                mImageFrameShadow2.setBackgroundDrawable(imageFrame);
 //            }
             mAdImageContainer.setBitmapConfig(Bitmap.Config.RGB_565);
-            int targetWidth = Utils.getPhoneWidth(context) - 2 * Utils.pxFromDp(27) - 2 * Utils.pxFromDp(20);
+            int targetWidth = Dimensions.getPhoneWidth(context) - 2 * Dimensions.pxFromDp(27) - 2 * Dimensions.pxFromDp(20);
             int targetHeight = (int) (targetWidth / 1.9f);
             mAdImageContainer.setTargetSizePX(targetWidth, targetHeight);
-            mAdIconView.setTargetSizePX(Utils.pxFromDp(60), Utils.pxFromDp(60));
+            mAdIconView.setTargetSizePX(Dimensions.pxFromDp(60), Dimensions.pxFromDp(60));
 
         }
 //        switch (mType) {

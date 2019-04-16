@@ -75,7 +75,6 @@ import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_CONT
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
 import static com.honeycomb.colorphone.preview.ThemePreviewView.saveThemeApplys;
-import static com.honeycomb.colorphone.util.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -192,7 +191,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         layoutManager = new GridLayoutManager(HSApplication.getContext(), 2);
         layoutManager.setSpanSizeLookup(spanSizeLookup);
         if (TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
-            mTransX = -Utils.pxFromDp(1);
+            mTransX = -Dimensions.pxFromDp(1);
         } else {
             mTransX = activity.getResources().getDimensionPixelOffset(R.dimen.theme_card_margin_horizontal) * 0.6f;
         }
@@ -844,7 +843,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mRingtoneMark = itemView.findViewById(R.id.theme_ringtone_mark);
             mThemeHotMark = itemView.findViewById(R.id.theme_hot_mark);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mThemeHotMark.setTranslationX(pxFromDp(-1));
+                mThemeHotMark.setTranslationX(Dimensions.pxFromDp(-1));
             }
 
             mThemeStatusView = new ThemeStatusView(itemView, this);

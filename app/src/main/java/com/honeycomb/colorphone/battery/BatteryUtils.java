@@ -318,7 +318,7 @@ public class BatteryUtils {
 //            @Override
 //            public void run() {
 //                // Confirm
-//                Navigations.startActivity(launcher, BatteryActivity.class);
+//                Navigations.startActivitySafely(launcher, BatteryActivity.class);
 //                LauncherAnalytics.logEvent("Battery_OpenFrom", true, "type", "From Dialog");
 //                LauncherAnalytics.logEvent("Battery_Dialog_LowPower_Show", "type", "Try");
 //            }

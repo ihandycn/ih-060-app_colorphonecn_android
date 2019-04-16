@@ -200,7 +200,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void showRequestNotificationAccessGuideDialog(boolean isOpenSettingsSuccess) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
                     Threads.postOnMainThreadDelayed(() -> {
-                        Navigations.startActivity(HSApplication.getContext(), NotificationGuideActivity.class);
+                        Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
                     }, 1000);
                 }
             }
@@ -209,7 +209,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             public void showRequestAutoStartAccessGuideDialog(boolean isOpenSettingsSuccess) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && isOpenSettingsSuccess) {
                     Threads.postOnMainThreadDelayed(() -> {
-                        Navigations.startActivity(HSApplication.getContext(), AutoStartGuideActivity.class);
+                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartGuideActivity.class);
                     }, 1000);
                 }
             }
