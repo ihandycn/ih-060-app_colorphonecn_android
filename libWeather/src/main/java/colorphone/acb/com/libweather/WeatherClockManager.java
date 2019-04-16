@@ -54,6 +54,21 @@ public class WeatherClockManager {
         void onWeatherUpdateFinished();
     }
 
+    public interface WeatherRequestListener {
+        void onWeatherRequestStart();
+        void onWeatherRequestFinish(boolean success);
+    }
+
+    private WeatherRequestListener mWeatherRequestListener;
+
+    public WeatherRequestListener getWeatherRequestListener() {
+        return mWeatherRequestListener;
+    }
+
+    public void setWeatherRequestListener(WeatherRequestListener weatherRequestListener) {
+        mWeatherRequestListener = weatherRequestListener;
+    }
+
     private static WeatherClockManager sInstance;
 
 
@@ -169,6 +184,8 @@ public class WeatherClockManager {
             return;
         }
         mStatus = UpdateStatus.UPDATING;
+
+        notifyWeatherRequestStart();
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
@@ -187,6 +204,12 @@ public class WeatherClockManager {
                 }
             }
         });
+    }
+
+    private void notifyWeatherRequestStart() {
+        if (mWeatherRequestListener != null) {
+            mWeatherRequestListener.onWeatherRequestStart();
+        }
     }
 
     private @Nullable
@@ -229,6 +252,12 @@ public class WeatherClockManager {
             @Override
             public void onQueryFinished(boolean success, final HSWeatherQueryResult result) {
 //                LauncherAnalytics.logEvent("Weather_Load", "Result", success ? "Succeeded" : "Failed");
+                Threads.postOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyWeatherRequestFinish(success);
+                    }
+                });
                 if (success) {
                     HSLog.i(TAG, "Local weather update succeeded");
                     Threads.postOnMainThread(new Runnable() {
@@ -255,6 +284,12 @@ public class WeatherClockManager {
                 notifyWeatherConditionChanged();
             }
         });
+    }
+
+    private void notifyWeatherRequestFinish(boolean success) {
+        if (mWeatherRequestListener != null) {
+            mWeatherRequestListener.onWeatherRequestFinish(success);
+        }
     }
 
     public void fetchWeather(final HSWeatherQueryListener listener) {

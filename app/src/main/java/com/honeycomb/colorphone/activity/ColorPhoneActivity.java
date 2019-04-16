@@ -69,9 +69,11 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.superapps.util.Networks;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
+import com.superappscommon.util.Toasts;
 
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
@@ -298,6 +300,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onVisibleChange(boolean visible) {
                 drawerDelegateToggleView.setVisibility(visible ? View.VISIBLE : View.GONE);
+                if (visible) {
+                    if (!Networks.isNetworkAvailable(-1)) {
+                        Toasts.showToast(R.string.network_err_msg);
+                    }
+                }
             }
         });
         drawerDelegateToggleView.setOnClickListener(new View.OnClickListener() {
