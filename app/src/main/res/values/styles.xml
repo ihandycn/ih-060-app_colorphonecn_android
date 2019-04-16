@@ -17,6 +17,7 @@
 
     <style name="AppLightStatusBarTheme.Main">
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent</item>
     </style>
 
     <style name="AppTranslucent" parent="AppLightStatusBarTheme">

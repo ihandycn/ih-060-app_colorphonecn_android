@@ -33,8 +33,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ihs.commons.config.HSConfig;
@@ -79,7 +79,7 @@ import colorphone.acb.com.libweather.util.ViewUtils;
 /**
  * Created by zqs on 2019/4/7.
  */
-public class WeatherView extends RelativeLayout implements  LoaderManager.LoaderCallbacks<Cursor>,View.OnClickListener,ViewPager.OnPageChangeListener, INotificationObserver, HourlyForecastCurve.CurveAnimationCoordinator {
+public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCallbacks<Cursor>,View.OnClickListener,ViewPager.OnPageChangeListener, INotificationObserver, HourlyForecastCurve.CurveAnimationCoordinator {
 
     Context mContext;
     static final int REQUEST_PERMISSION_ACCESS_FINE_LOCATION = 0;

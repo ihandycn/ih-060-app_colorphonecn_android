@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -62,6 +63,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
@@ -158,7 +160,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             HSAlertMgr.delayRateAlert();
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         }
-        setTheme(R.style.AppLightStatusBarTheme);
 
         setContentView(R.layout.activity_main);
         initMainFrame();
@@ -184,7 +185,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             Threads.postOnMainThread(new Runnable() {
                 @Override
                 public void run() {
-                    WeatherContentUtils.saveWeatherTransHeight(ColorPhoneActivity.this, toolbar.getHeight());
+                    boolean heightChanged = WeatherContentUtils.saveWeatherTransHeight(ColorPhoneActivity.this, toolbar.getHeight());
+                    if (heightChanged) {
+                        weatherView.setWeatherHeight(WeatherContentUtils.getWeatherWindowHeight());
+                    }
                 }
             });
         }
@@ -200,7 +204,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(Color.TRANSPARENT);
         logOpenEvent = true;
-        Utils.configActivityStatusBar(this, toolbar);
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        Utils.applyFontForToolbarTitle(this, toolbar);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -258,19 +264,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ImageButton weatherIcon;
     private void initWeather() {
         main_container = findViewById(R.id.main_container_framelayout);
-        weatherIcon = findViewById(R.id.toolbar_weather_icon);
-        if (weatherView == null) {
-            int weatherHeight = WeatherContentUtils.getWeatherWindowHeight();
-            HSLog.d("Weather", "content height = " + weatherHeight);
+        int weatherHeight = WeatherContentUtils.getWeatherWindowHeight();
 
+        if (weatherView == null) {
+            HSLog.d("Weather", "content height = " + weatherHeight);
             weatherView = new WeatherView(ColorPhoneActivity.this);
+            FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            main_container.addView(weatherView, 0, weatherParams);
+            weatherIcon = findViewById(R.id.toolbar_weather_icon);
             weatherView.setOuterMainLayout(mDrawerLayout);
             weatherView.setOuterIconView(weatherIcon);
             weatherView.setWeatherHeight(weatherHeight);
-
-            FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            main_container.addView(weatherView, 0, weatherParams);
-            View drawerDelegateToggleView = weatherView.findViewById(R.id.toolbar_delegate_toggle_button);
+            View drawerDelegateToggleView = findViewById(R.id.toolbar_delegate_toggle_button);
+            drawerDelegateToggleView.setVisibility(View.GONE);
             weatherView.setOnWeatherVisibleListener(new WeatherView.OnWeatherVisibleListener() {
                 @Override
                 public void onVisibleChange(boolean visible) {
@@ -293,6 +299,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         });
         int weatherIconId = WeatherClockManager.getInstance().getWeatherConditionIconResourceID();
         weatherIcon.setImageResource(weatherIconId);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            final int statusBarInset = Dimensions.getStatusBarInset(this);
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) weatherIcon.getLayoutParams();
+            params.topMargin += statusBarInset;
+            weatherIcon.requestLayout();
+
+            ViewGroup.MarginLayoutParams drawParams = (ViewGroup.MarginLayoutParams) mDrawerLayout.getLayoutParams();
+            drawParams.topMargin += statusBarInset;
+            mDrawerLayout.requestLayout();
+
+        }
     }
 
     private void setFullScreen(){

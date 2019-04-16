@@ -31,16 +31,9 @@
             android:background="@color/colorWindowBackground"
             android:scrollbars="none" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:padding="4dp" >
-        <include layout="@layout/cash_guide_button"/>
-    </LinearLayout>
-
+    <View
+        android:id="@+id/toolbar_delegate_toggle_button"
+        android:layout_width="@dimen/abc_action_bar_default_height_material"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        />
 </FrameLayout>
