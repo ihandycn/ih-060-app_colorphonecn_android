@@ -282,4 +282,8 @@
     <string name="menu_item_news">News</string>
     <string name="menu_item_themes">Themes</string>
 
+    <string name="toolbar_title_news">News for you</string>
+    <string name="toolbar_title_themes">@string/app_name</string>
+    <string name="toolbar_title_settings">@string/menu_item_settings</string>
+
 </resources>

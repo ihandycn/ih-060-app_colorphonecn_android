@@ -194,7 +194,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         toolbar = findViewById(R.id.toolbar);
 
         logOpenEvent = true;
-        Utils.configActivityStatusBar(this, toolbar);
+        Utils.configActivityStatusBar(this, toolbar, 0);
 
     }
 
@@ -203,8 +203,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         newsTab = findViewById(R.id.main_tab_news);
         settingTab = findViewById(R.id.main_tab_setting);
 
-        Resources res = getResources();
-//        themesTab.setCompoundDrawablesRelative(null, res.getDrawable(R.drawable.main_tab_themes_light), null, null);
         themesTab.setOnClickListener(v -> {
             hideOldTab();
             mRecyclerView.setVisibility(View.VISIBLE);
@@ -212,7 +210,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             highlightNewTab();
         });
 
-//        newsTab.setCompoundDrawablesRelative(null, res.getDrawable(R.drawable.main_tab_news), null, null);
         newsTab.setOnClickListener(v -> {
             hideOldTab();
             newsLayout.setVisibility(View.VISIBLE);
@@ -222,13 +219,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             LauncherAnalytics.logEvent("mainview_tab_news_click");
         });
 
-//        settingTab.setCompoundDrawablesRelative(null, res.getDrawable(R.drawable.main_tab_settings), null, null);
         settingTab.setOnClickListener(v -> {
             hideOldTab();
             settingLayout.setVisibility(View.VISIBLE);
             currentIndex = MAIN_TAB_SETTINGS;
             highlightNewTab();
         });
+
+        highlightNewTab();
     }
 
     private void hideOldTab() {
@@ -264,17 +262,21 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         Resources res = getResources();
         TextView tv = null;
         int resId = 0;
+        int stringResId = 0;
         switch (currentIndex) {
             case MAIN_TAB_THEMES:
                 resId = R.drawable.main_tab_themes_light;
+                stringResId = R.string.toolbar_title_themes;
                 tv = themesTab;
                 break;
             case MAIN_TAB_NEWS:
                 resId = R.drawable.main_tab_news_light;
+                stringResId = R.string.toolbar_title_news;
                 tv = newsTab;
                 break;
             case MAIN_TAB_SETTINGS:
                 resId = R.drawable.main_tab_settings_light;
+                stringResId = R.string.toolbar_title_settings;
                 tv = settingTab;
                 break;
             default:
@@ -283,6 +285,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         if (resId != 0 && tv != null) {
             tv.setCompoundDrawablesWithIntrinsicBounds(null, res.getDrawable(resId), null, null);
+        }
+        if (stringResId != 0) {
+            toolbar.setTitle(stringResId);
         }
     }
 
@@ -452,8 +457,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         RuntimePermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
 
-        List<String> granted = new ArrayList();
-        List<String> denied = new ArrayList();
+        List<String> granted = new ArrayList<>();
+        List<String> denied = new ArrayList<>();
 
         for(int i = 0; i < permissions.length; ++i) {
             String perm = permissions[i];

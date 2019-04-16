@@ -8,8 +8,6 @@
     android:background="@drawable/material_compat_bg"
     android:gravity="center_vertical"
     android:paddingBottom="18dp"
-    android:paddingLeft="18dp"
-    android:paddingRight="18dp"
     android:paddingTop="18dp">
 
     <com.honeycomb.colorphone.view.RoundImageVIew
@@ -50,7 +48,7 @@
         app:layout_constraintTop_toTopOf="@+id/news_resource_tv"
         app:layout_constraintBottom_toBottomOf="@+id/news_resource_tv"
         app:layout_constraintLeft_toRightOf="@+id/news_resource_tv"
-        app:typeface="@string/custom_font_regular"
+        app:typeface="@string/custom_font_medium"
         tools:text="· 45min ago" />
 
     <com.superapps.view.TypefacedTextView

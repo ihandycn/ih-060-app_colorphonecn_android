@@ -748,11 +748,13 @@ public final class Utils {
         toolbar.setTitleTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
 
         activity.setSupportActionBar(toolbar);
-        final Drawable upArrow = ContextCompat.getDrawable(activity, upDrawable);
-        upArrow.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
-        activity.getSupportActionBar().setHomeAsUpIndicator(upArrow);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if (upDrawable != 0) {
+            final Drawable upArrow = ContextCompat.getDrawable(activity, upDrawable);
+            upArrow.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+            activity.getSupportActionBar().setHomeAsUpIndicator(upArrow);
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         applyFontForToolbarTitle(activity, toolbar);
     }

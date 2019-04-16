@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -53,7 +54,8 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
         initRecyclerView();
 
-        showNoNetworkPage();
+//        showNoNetworkPage();
+        loadNews();
     }
 
     public void showNoNetworkPage() {
@@ -70,6 +72,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
         adapter = new NewsAdapter();
         newsList.setAdapter(adapter);
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        newsList.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
 
         newsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem ;
