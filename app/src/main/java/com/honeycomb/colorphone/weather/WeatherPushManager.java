@@ -6,6 +6,7 @@ import android.text.format.DateUtils;
 import com.acb.call.MediaDownloadManager;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Placements;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.weather.HSWeatherQueryResult;
@@ -43,7 +44,13 @@ public class WeatherPushManager {
     }
 
     public void push(Context context) {
-        if (Ap.WeatherPush.showPush() && inValidTime() && showOncePerValidTime() && isWeatherInfoAvailable()) {
+        if (Ap.WeatherPush.showPush()
+                && inValidTime()
+                && showOncePerValidTime()
+                && isWeatherInfoAvailable()) {
+            if (!isAdReady()) {
+                preload();
+            }
 
             String videoTypeName = getCurrentVideoType();
             if (videoTypeName == null) {
@@ -113,9 +120,8 @@ public class WeatherPushManager {
         return System.currentTimeMillis() - lastShowTime > 3 * 60 * 60 * 1000;
     }
 
-    public static boolean isAdReady() {
-        // TODO: 2019/4/13 add  ad ready logic
-        return true;
+    public boolean isAdReady() {
+        return getInterstitialAd() != null;
     }
 
     public boolean updateWeatherIfNeeded() {
@@ -225,6 +231,14 @@ public class WeatherPushManager {
         return type;
     }
 
+    public String getEventDayTime() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        boolean inMorning = 6 <= hourOfDay && hourOfDay < 9;
+        return inMorning ? "morning" : "night";
+    }
+
     public static boolean weatherForecastShouldShow() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -262,7 +276,6 @@ public class WeatherPushManager {
     }
 
     public boolean showInterstitialAd() {
-
         AcbInterstitialAd ad = getInterstitialAd();
         if (ad != null) {
             ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
@@ -287,6 +300,10 @@ public class WeatherPushManager {
 
                 }
             });
+            ad.show();
+            LauncherAnalytics.logEvent("weather_forecast_wire_show",
+                    "type", getEventDayTime(),
+                    "videotype", getCurrentVideoType());
             return true;
         }
         return false;

@@ -29,7 +29,6 @@ import com.superapps.util.Preferences;
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.Calendar;
 
 import colorphone.acb.com.libweather.base.BaseAppCompatActivity;
 
@@ -58,7 +57,6 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
 
     public static String allVideoCategory[] = {SUNNY, CLOUDY, RAIN, SNOW, REAL};
     private String videoType;
-    private boolean inMorning;
     private HomeKeyWatcher homeKeyWatcher;
 
     public static void start(Context context, @VideoType String videoType) {
@@ -78,11 +76,10 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
         Preferences.getDefault().putLong(WeatherPushManager.SHOW_LEGAL_INTERVAL, System.currentTimeMillis());
         Ap.WeatherPush.logEvent("weather_forecast_show");
         initView();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        inMorning = 6 <= hourOfDay && hourOfDay < 9;
-        LauncherAnalytics.logEvent("weather_forecast_show", "type", inMorning ? "morning" : "night", "videotype", videoType,
+
+        LauncherAnalytics.logEvent("weather_forecast_show",
+                "type", WeatherPushManager.getInstance().getEventDayTime(),
+                "videotype", videoType,
                 "time", getShowTimeEventParameter());
         homeKeyWatcher = new HomeKeyWatcher(this);
         homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
@@ -145,8 +142,11 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
             } else if (v == ivCallCccept || v == videoPlayerView) {
                 // TODO: 2019/4/13  pop up weather page
                 Ap.WeatherPush.logEvent("weather_forecast_click");
-                LauncherAnalytics.logEvent("weather_forecast_click", "from", v == ivCallCccept ? "answerbtn" :
-                        "otherarea", "type", inMorning ? "morning" : "night", videoType, videoType, "time", getShowTimeEventParameter());
+                LauncherAnalytics.logEvent("weather_forecast_click",
+                        "from", v == ivCallCccept ? "answerbtn" : "otherarea",
+                        "type", WeatherPushManager.getInstance().getEventDayTime(),
+                        "videotype", videoType,
+                        "time", getShowTimeEventParameter());
                 ColorPhoneActivity.startWeatherPage(WeatherVideoActivity.this);
 
             }

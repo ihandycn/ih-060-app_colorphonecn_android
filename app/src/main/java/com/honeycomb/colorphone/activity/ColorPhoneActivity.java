@@ -98,7 +98,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         intent.putExtra("switch_weather", true);
         Navigations.startActivitySafely(context, intent);
     }
-    boolean mWeatherMode;
+    boolean mWeatherPageNeedShow;
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
@@ -170,7 +170,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             HSAlertMgr.delayRateAlert();
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         }
-        mWeatherMode = getIntent().getBooleanExtra("switch_weather", false);
+        mWeatherPageNeedShow = getIntent().getBooleanExtra("switch_weather", false);
 
         setContentView(R.layout.activity_main);
         initMainFrame();
@@ -276,37 +276,42 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private WeatherView weatherView;
     private ImageButton weatherIcon;
     private void initWeather() {
-        main_container = findViewById(R.id.main_container_framelayout);
-        int weatherHeight = WeatherContentUtils.getWeatherWindowHeight();
-        if (weatherView == null) {
-            HSLog.d("Weather", "content height = " + weatherHeight);
-            weatherView = new WeatherView(ColorPhoneActivity.this);
-            FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            main_container.addView(weatherView, 0, weatherParams);
-            weatherIcon = findViewById(R.id.toolbar_weather_icon);
-            weatherView.setOuterMainLayout(mDrawerLayout);
-            weatherView.setOuterIconView(weatherIcon);
-            weatherView.setWeatherHeight(weatherHeight);
-            View drawerDelegateToggleView = findViewById(R.id.toolbar_delegate_toggle_button);
-            drawerDelegateToggleView.setVisibility(View.GONE);
-            weatherView.setOnWeatherVisibleListener(new WeatherView.OnWeatherVisibleListener() {
-                @Override
-                public void onVisibleChange(boolean visible) {
-                    drawerDelegateToggleView.setVisibility(visible ? View.VISIBLE : View.GONE);
-                }
-            });
-            drawerDelegateToggleView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    weatherView.toggle();
-                }
-            });
-
+        if (weatherView != null) {
+            return;
         }
+        int weatherHeight = WeatherContentUtils.getWeatherWindowHeight();
+        HSLog.d("Weather", "content height = " + weatherHeight);
+
+        main_container = findViewById(R.id.main_container_framelayout);
+
+        weatherView = new WeatherView(ColorPhoneActivity.this);
+        FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        main_container.addView(weatherView, 0, weatherParams);
+        weatherIcon = findViewById(R.id.toolbar_weather_icon);
+        weatherView.setOuterMainLayout(mDrawerLayout);
+        weatherView.setOuterIconView(weatherIcon);
+        weatherView.setWeatherHeight(weatherHeight);
+        View drawerDelegateToggleView = findViewById(R.id.toolbar_delegate_toggle_button);
+        drawerDelegateToggleView.setVisibility(View.GONE);
+        weatherView.setOnWeatherVisibleListener(new WeatherView.OnWeatherVisibleListener() {
+            @Override
+            public void onVisibleChange(boolean visible) {
+                drawerDelegateToggleView.setVisibility(visible ? View.VISIBLE : View.GONE);
+            }
+        });
+        drawerDelegateToggleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                weatherView.toggle();
+            }
+        });
+
+
         weatherIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 weatherView.toggle();
+                LauncherAnalytics.logEvent("mainview_weatherbtn_click");
             }
         });
 
@@ -323,17 +328,22 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mDrawerLayout.requestLayout();
         }
 
-        if (mWeatherMode) {
+        if (mWeatherPageNeedShow) {
             weatherView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
                     weatherView.getViewTreeObserver().addOnGlobalLayoutListener(this);
-                    if (!weatherView.isWeatherViewInShow()) {
-                        weatherView.toggleImmediately();
-                    }
-                    HSLog.d("Weather.Page", "Show");
+                    trySwitchToWeatherPage();
                 }
             });
+        }
+    }
+
+    private void trySwitchToWeatherPage() {
+        if (!weatherView.isWeatherViewInShow()) {
+            weatherView.toggleImmediately();
+            LauncherAnalytics.logEvent("mainview_show_weather_enable");
+            HSLog.d("Weather.Page", "Show");
         }
     }
 
@@ -372,10 +382,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onNewIntent(intent);
 
         // Show weather page if needed.
-        if (mWeatherMode
-                && weatherView != null
-                && !weatherView.isWeatherViewInShow()) {
-            weatherView.toggleImmediately();
+        if (mWeatherPageNeedShow
+                && weatherView != null) {
+            trySwitchToWeatherPage();
         }
     }
 
