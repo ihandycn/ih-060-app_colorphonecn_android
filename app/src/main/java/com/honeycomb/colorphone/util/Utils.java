@@ -765,6 +765,9 @@ public final class Utils {
             if(view instanceof TextView){
                 TextView tv = (TextView) view;
                 tv.setTextSize(24);
+                if (Utils.ATLEAST_LOLLIPOP) {
+                    tv.setLetterSpacing(-0.03f);
+                }
                 Typeface typeface = Fonts.getTypeface(Fonts.Font.ofFontResId(R.string.custom_font_bold), 0);
                 if(tv.getText().equals(toolbar.getTitle())){
                     tv.setTypeface(typeface);
