@@ -429,7 +429,8 @@ public class ColorPhoneApplication extends HSApplication {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Theme.updateThemes();
-                WeatherPushManager.getInstance().downloadAllWeatherVideosIfNeeded();
+                WeatherPushManager.getInstance().onAutoPilotDataInit();
+
             }
         }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
     }

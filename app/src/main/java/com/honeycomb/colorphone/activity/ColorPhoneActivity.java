@@ -54,6 +54,7 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.honeycomb.colorphone.weather.WeatherContentUtils;
+import com.honeycomb.colorphone.weather.WeatherPushManager;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -175,7 +176,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         initMainFrame();
         AdManager.getInstance().preload();
         AppflyerLogger.logAppOpen();
-        WeatherClockManager.getInstance().updateWeatherIfNeeded();
+        WeatherPushManager.getInstance().updateWeatherIfNeeded();
         isCreate = true;
     }
 
@@ -262,6 +263,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
+        HSGlobalNotificationCenter.addObserver(WeatherClockManager.NOTIFICATION_WEATHER_CONDITION_CHANGED, this);
+
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
         ConfigChangeManager.getInstance().registerCallbacks(
@@ -275,7 +278,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initWeather() {
         main_container = findViewById(R.id.main_container_framelayout);
         int weatherHeight = WeatherContentUtils.getWeatherWindowHeight();
-
         if (weatherView == null) {
             HSLog.d("Weather", "content height = " + weatherHeight);
             weatherView = new WeatherView(ColorPhoneActivity.this);
@@ -307,8 +309,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 weatherView.toggle();
             }
         });
-        int weatherIconId = WeatherClockManager.getInstance().getWeatherConditionIconResourceID();
-        weatherIcon.setImageResource(weatherIconId);
+
+        updateWeatherIcon();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             final int statusBarInset = Dimensions.getStatusBarInset(this);
@@ -331,6 +333,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     HSLog.d("Weather.Page", "Show");
                 }
             });
+        }
+    }
+
+    private void updateWeatherIcon() {
+        if (WeatherClockManager.getInstance().isWeatherUnknown()) {
+            weatherIcon.setVisibility(View.GONE);
+        } else {
+            weatherIcon.setVisibility(View.VISIBLE);
+            int weatherIconId = WeatherClockManager.getInstance().getWeatherConditionIconResourceID();
+            weatherIcon.setImageResource(weatherIconId);
         }
     }
 
@@ -726,6 +738,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
                 mAdapter.notifyDataSetChanged();
             }
+        } else if (WeatherClockManager.NOTIFICATION_WEATHER_CONDITION_CHANGED.equals(s)) {
+            updateWeatherIcon();
         }
     }
 

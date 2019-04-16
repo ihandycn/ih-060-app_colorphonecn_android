@@ -54,8 +54,16 @@ public class WeatherPushManager {
         }
     }
 
+    public void onAutoPilotDataInit() {
+        downloadAllWeatherVideosIfNeeded();
+        updateWeatherIfNeeded();
+    }
 
     public void downloadAllWeatherVideosIfNeeded() {
+        if (!Ap.WeatherPush.showPush()) {
+            HSLog.d("Weather.Push", "autopilot disable!");
+        }
+        HSLog.d("Weather.Push", "downloadAllWeatherVideosIfNeeded");
         if (Ap.WeatherPush.isSinleVideoType()) {
             if (!mediaDownloadManager.isDownloaded(WeatherVideoActivity.REAL)) {
                 mediaDownloadManager.downloadMedia(HSConfig.optString("http://cdn.appcloudbox.net/colorphoneapps/weathervideo/real.mp4", "Application", "weathervideo",
@@ -103,6 +111,10 @@ public class WeatherPushManager {
     }
 
     public boolean updateWeatherIfNeeded() {
+        if (!Ap.WeatherPush.showPush()) {
+            HSLog.d("Weather.Update", "autopilot disable!");
+            return false;
+        }
         if (inValidTime()) {
             HSLog.d("Weather.Update", "current time not valid!");
             return false;
