@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
@@ -19,6 +20,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
+import com.superapps.util.Networks;
 
 public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadListener, SwipeRefreshLayout.OnRefreshListener {
     private NewsResultBean newsResource;
@@ -27,6 +29,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
     private NewsAdapter adapter;
     private View noNetWorkPage;
     private View loading;
+    private boolean isRefeshing = false;
 
     public NewsPage(Context context) {
         this(context, null);
@@ -54,8 +57,11 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
         initRecyclerView();
 
-//        showNoNetworkPage();
-        loadNews();
+        if (Networks.isNetworkAvailable(-1)) {
+            loadNews();
+        } else {
+            showNoNetworkPage();
+        }
     }
 
     public void showNoNetworkPage() {
@@ -83,8 +89,8 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
                 //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
                     HSLog.i(NewsManager.TAG, "NP onScrollStateChanged: " + refreshLayout.isRefreshing());
-                    if (!refreshLayout.isRefreshing()) {
-                        refreshLayout.setRefreshing(true);
+                    if (!isRefeshing) {
+                        isRefeshing = true;
                         NewsManager.getInstance().fetchLaterNews();
                     }
                 }
@@ -112,6 +118,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
     @Override public void onNewsLoaded(NewsResultBean bean) {
         HSLog.i(NewsManager.TAG, "NP onNewsLoaded");
         refreshLayout.setRefreshing(false);
+        isRefeshing = false;
 
         if (bean != null) {
             loading.setVisibility(GONE);
@@ -126,6 +133,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
     @Override public void onRefresh() {
         HSLog.i(NewsManager.TAG, "NP onRefresh: " + refreshLayout.isRefreshing());
+        isRefeshing = true;
         if (refreshLayout.isRefreshing()) {
             NewsManager.getInstance().fetchNews();
         }
@@ -135,9 +143,12 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
         private static final int NEWS_TYPE_ITEM = 0;
         private static final int NEWS_TYPE_BIG = 1;
+        private static final int NEWS_TYPE_FOOT = 2;
 
         @Override public int getItemViewType(int position) {
-//            return super.getItemViewType(position);
+            if (position == getItemCount() - 1) {
+                return NEWS_TYPE_FOOT;
+            }
             return (position % 5 == 0) ? NEWS_TYPE_BIG : NEWS_TYPE_ITEM;
         }
 
@@ -151,6 +162,9 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
                 case NEWS_TYPE_BIG:
                     view = LayoutInflater.from(getContext()).inflate(R.layout.news_big_layout, parent, false);
                     break;
+                case NEWS_TYPE_FOOT:
+                    view = LayoutInflater.from(getContext()).inflate(R.layout.news_foot_loading, parent, false);
+                    return new NewsFootLoadingHolder(view);
             }
             NewsBeanItemHolder holder = new NewsBeanItemHolder(view);
             return holder;
@@ -158,6 +172,13 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            if (position == getItemCount() - 1) {
+                NewsFootLoadingHolder loadingHolder = (NewsFootLoadingHolder) holder;
+                loadingHolder.loading.setAlpha(0);
+                loadingHolder.loading.animate().alpha(1).setDuration(200).start();
+                return;
+            }
+
             NewsBean bean = newsResource.content.get(position);
             NewsBeanItemHolder beanHolder = (NewsBeanItemHolder) holder;
             String url = null;
@@ -183,7 +204,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
         }
 
         @Override public int getItemCount() {
-            return newsResource != null ? newsResource.totalItems : 0;
+            return newsResource != null ? newsResource.totalItems + 1 : 0;
         }
     }
 
@@ -199,6 +220,15 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
             resource = itemView.findViewById(R.id.news_resource_tv);
             time = itemView.findViewById(R.id.news_time_tv);
             image = itemView.findViewById(R.id.news_icon_iv);
+        }
+    }
+
+    private class NewsFootLoadingHolder extends RecyclerView.ViewHolder {
+        ProgressBar loading;
+
+        NewsFootLoadingHolder(View itemView) {
+            super(itemView);
+            loading = itemView.findViewById(R.id.news_foot_loading);
         }
     }
 }

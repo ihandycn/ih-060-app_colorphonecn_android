@@ -19,6 +19,12 @@
         app:layout_constraintRight_toRightOf="parent"
         />
 
+    <View
+        android:id="@+id/main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <include
         layout="@layout/main_frame"
         android:layout_width="match_parent"
@@ -26,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintBottom_toTopOf="@+id/main_tab_themes"/>
+        app:layout_constraintBottom_toTopOf="@+id/main_bottom"/>
 
     <include
         layout="@layout/news_frame"
@@ -35,7 +41,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/main_tab_themes"
+        app:layout_constraintBottom_toTopOf="@+id/main_bottom"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <include
@@ -46,16 +52,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintBottom_toTopOf="@+id/main_tab_themes"/>
+        app:layout_constraintBottom_toTopOf="@+id/main_bottom"/>
 
     <com.superapps.view.TypefacedTextView
         android:id="@+id/main_tab_themes"
         style="@style/MainTabItem"
-        android:layout_height="48dp"
-        android:background="#7f7f0000"
         android:drawableTop="@drawable/main_tab_themes"
         android:text="@string/menu_item_themes"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/main_bottom"
+        app:layout_constraintBottom_toBottomOf="@+id/main_bottom"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/main_tab_news"
         app:typeface="@string/custom_font_medium"
@@ -65,31 +70,29 @@
     <com.superapps.view.TypefacedTextView
         android:id="@+id/main_tab_news"
         style="@style/MainTabItem"
-        android:layout_height="48dp"
         android:drawableTop="@drawable/main_tab_news"
         android:text="@string/menu_item_news"
+        app:layout_constraintTop_toTopOf="@+id/main_bottom"
+        app:layout_constraintBottom_toBottomOf="@+id/main_bottom"
         app:layout_constraintLeft_toRightOf="@id/main_tab_themes"
         app:layout_constraintRight_toLeftOf="@+id/main_tab_setting"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:typeface="@string/custom_font_medium"
         tools:ignore="SmallSp"
         tools:text="@string/menu_item_news"
-        android:background="#7f007f00"
         />
 
     <com.superapps.view.TypefacedTextView
         android:id="@+id/main_tab_setting"
         style="@style/MainTabItem"
-        android:layout_height="48dp"
         android:drawableTop="@drawable/main_tab_settings"
         android:text="@string/menu_item_settings"
+        app:layout_constraintTop_toTopOf="@+id/main_bottom"
+        app:layout_constraintBottom_toBottomOf="@+id/main_bottom"
         app:layout_constraintLeft_toRightOf="@id/main_tab_news"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:typeface="@string/custom_font_medium"
         tools:ignore="SmallSp"
         tools:text="@string/menu_item_settings"
-        android:background="#7f00007f"
         />
 
 </android.support.constraint.ConstraintLayout>
