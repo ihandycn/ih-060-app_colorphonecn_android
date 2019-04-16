@@ -1,10 +1,17 @@
 package com.honeycomb.colorphone.news;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.connection.HSHttpConnection;
 import com.ihs.commons.utils.HSError;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.commons.utils.HSMapUtils;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 public class NewsManager {
@@ -19,17 +26,9 @@ public class NewsManager {
         return NewsManager.NewsManagerHolder.instance;
     }
 
-
     static String TAG = NewsManager.class.getSimpleName();
     private static UUID userID = java.util.UUID.randomUUID();
-    private static String URL ="https://contentapi.celltick.com/mediaApi/v1.0/content?publisherId=%1$s&key=%2$s&userId=%3$s&countryCode=US&language=en&limit=%4$s&offset=%5$s";
     private static int LIMIT_SIZE = 10;
-//      iHandy-Web
-//      SHI4TMTLx4z256WRU0Hy3hEByAu3jDS0
-//      iHandy02-Web
-//      1RsC40Mo73o37eEnbIZIUidCjiM8KoPr
-//      iHandy03-Web
-//      tBoejdzeNvnUq5svJUCSFGdE5yhnaAe9
 
     public interface NewsLoadListener {
         void onNewsLoaded(NewsResultBean bean);
@@ -40,7 +39,7 @@ public class NewsManager {
 
     public void fetchNews() {
         HSLog.i(NewsManager.TAG, "fetchNews");
-        HSHttpConnection news = new HSHttpConnection(getURL("iHandy-Web", "SHI4TMTLx4z256WRU0Hy3hEByAu3jDS0", userID.toString(), String.valueOf(LIMIT_SIZE), "0"));
+        HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), "0"));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
             @Override public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
                 if (hsHttpConnection.isSucceeded()) {
@@ -75,7 +74,7 @@ public class NewsManager {
         int offset = resultBean != null ? resultBean.totalItems : 0;
         HSLog.i(NewsManager.TAG, "fetchLaterNews offset == " + offset);
 
-        HSHttpConnection news = new HSHttpConnection(getURL("iHandy-Web", "SHI4TMTLx4z256WRU0Hy3hEByAu3jDS0", userID.toString(), String.valueOf(LIMIT_SIZE), String.valueOf(offset)));
+        HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), String.valueOf(offset)));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
             @Override public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
                 if (hsHttpConnection.isSucceeded()) {
@@ -117,18 +116,31 @@ public class NewsManager {
         loadListener = listener;
     }
 
-    private static String getURL(String publishID, String key, String userID, String limit, String offset) {
-        return String.format(URL, publishID, key, userID, limit, offset);
+    private static String getURL(String limit, String offset) {
+        final StringBuffer url = new StringBuffer(HSConfig.optString("",
+                "Application", "News", "Url"));
+        url.append("?userId=").append(userID.toString());
 
-//        final StringBuffer url = new StringBuffer(HSConfig.optString("",
-//                "Application", "PushServiceHost") + URL_PATH);
-//        url.append("?publisherId=").append(publisherId);
-//        url.append("&key=").append(key);
-//        url.append("&userId=").append(userID);
-//        url.append("&countryCode=").append("US");
-//        url.append("&language=").append("en");
-//        url.append("&limit=").append(limit);
-//        url.append("&offset=").append(offset);
+        List keys = HSConfig.getList("Application", "News", "PublisherKey");
+        Random random = new Random();
+        if (keys != null && keys.size() > 0) {
+            Map map = (Map) keys.get(random.nextInt(keys.size()));
+            String key = HSMapUtils.getString(map, "Key");
+            String id = HSMapUtils.getString(map, "PublisherId");
+
+            if (!TextUtils.isEmpty(key) && !TextUtils.isEmpty(id)) {
+                url.append("&publisherId=").append(id);
+                url.append("&key=").append(key);
+            }
+        }
+
+        url.append("&countryCode=").append("US");
+        url.append("&language=").append("en");
+        url.append("&limit=").append(limit);
+        url.append("&offset=").append(offset);
+
+        HSLog.i(TAG, "getUrl: " + url.toString());
+        return url.toString();
     }
 
 }
