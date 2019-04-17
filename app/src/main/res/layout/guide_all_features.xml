@@ -73,7 +73,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginStart="2dp"
             android:text="@string/guide_enable_all_module"
-            android:textColor="@color/boost_plus_yellow"
+            android:textColor="@color/primaryText"
             android:alpha="0.6"
             android:textSize="10sp"
             app:typeface="@string/proxima_nova_regular" />
