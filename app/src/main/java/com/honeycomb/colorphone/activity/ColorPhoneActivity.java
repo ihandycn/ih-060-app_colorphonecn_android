@@ -340,7 +340,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             weatherView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    weatherView.getViewTreeObserver().addOnGlobalLayoutListener(this);
+                    weatherView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     trySwitchToWeatherPage();
                 }
             });
@@ -353,6 +353,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             LauncherAnalytics.logEvent("mainview_show_weather_enable");
             HSLog.d("Weather.Page", "Show");
         }
+        weatherView.invalidate();
     }
 
     private void updateWeatherIcon() {

@@ -61,7 +61,6 @@ public class WeatherRevealLayout extends FrameLayout {
             public void onAnimationUpdate(ValueAnimator animation) {
                 float fraction = animation.getAnimatedFraction();
                 updateDrawingRect(fraction);
-                invalidate();
             }
         });
     }
@@ -130,21 +129,22 @@ public class WeatherRevealLayout extends FrameLayout {
     }
 
     private void updateDrawingRect(float fraction) {
+        if (mRectF.isEmpty()) {
+            getDrawingRect(mRectTemp);
+            mRectF.set(mRectTemp);
+        }
         float df = isViewLarger ? (1 - fraction) : fraction;
         float dx = df * mRectF.width();
         float dy = df * mRectF.height();
         mDrawingRectF.set(mRectF.left + dx, mRectF.top, mRectF.right, mRectF.bottom - dy);
         mStrikePaint.setAlpha((int) (df * df * 255));
+        invalidate();
 
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (mRectF.isEmpty()) {
-            getDrawingRect(mRectTemp);
-            mRectF.set(mRectTemp);
-        }
         if (isClipView) {
             mPath.reset();
             mPath.addRoundRect(mDrawingRectF, mCornerRadius, mCornerRadius, Path.Direction.CW);
