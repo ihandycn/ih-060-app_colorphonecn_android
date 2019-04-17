@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.format.DateUtils;
 
 import com.acb.call.MediaDownloadManager;
+import com.call.assistant.ui.CallIdleAlertActivity;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.Placements;
@@ -66,6 +67,10 @@ public class WeatherPushManager {
     }
 
     public void push(Context context) {
+        if (CallIdleAlertActivity.exits) {
+            HSLog.d("Weather.Push", "CallIdleAlertActivity exist. Show on next time");
+            return;
+        }
         if (Ap.WeatherPush.showPush()
                 && !isWeatherDisabledByUser()
                 && inValidTime()

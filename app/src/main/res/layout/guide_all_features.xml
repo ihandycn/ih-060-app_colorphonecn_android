@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginStart="2dp"
-            android:text="@string/guide_enable_all_module"
+            android:text="@string/guide_weather_hint"
             android:textColor="@color/primaryText"
             android:alpha="0.6"
             android:textSize="10sp"
