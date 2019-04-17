@@ -7,13 +7,9 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.connection.HSHttpConnection;
 import com.ihs.commons.utils.HSError;
 import com.ihs.commons.utils.HSLog;
-import com.ihs.commons.utils.HSMapUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 public class NewsManager {
@@ -128,25 +124,16 @@ public class NewsManager {
         
         url.append("?userId=").append(userID.toString());
 
-        List keys = HSConfig.getList("Application", "News", "PublisherKey");
-        Random random = new Random();
-        if (keys != null && keys.size() > 0) {
-            Map map = (Map) keys.get(random.nextInt(keys.size()));
-            String key = HSMapUtils.getString(map, "Key");
-            String id = HSMapUtils.getString(map, "PublisherId");
-
-            if (!TextUtils.isEmpty(key) && !TextUtils.isEmpty(id)) {
-                url.append("&publisherId=").append(id);
-                url.append("&key=").append(key);
-            }
-        }
+        url.append("&publisherId=").append(HSConfig.optString("", "Application", "News", "PublisherId"));
+        url.append("&key=").append(HSConfig.optString("", "Application", "News", "Key"));
 
         Locale locale = Locale.getDefault();
-
         url.append("&countryCode=").append(locale.getCountry());
         url.append("&language=").append(locale.getLanguage());
+
         url.append("&limit=").append(limit);
         url.append("&offset=").append(offset);
+
         String category = HSConfig.optString("", "Application", "News", "Category");
         if (!TextUtils.isEmpty(category)) {
             url.append("&category=").append(category);

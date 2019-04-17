@@ -53,6 +53,29 @@
 *;
 }
 
+-keep public class com.google.gson.**
+-keep public class com.google.gson.** {public private protected *;}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.NewsResultBean {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.NewsBean {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.ImagesBean {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.MainImage {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.MainImageThumbnail {
+*;
+}
+
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
 }
