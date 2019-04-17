@@ -281,5 +281,7 @@
     <string name="custom_font_semibold" translatable="false">ProximaNova-Semibold</string>
     <string name="custom_font_bold" translatable="false">ProximaNova-Bold</string>
     <string name="custom_font_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
+
+    <string name="guide_weather_hint">Include weather forecast</string>
     <string name="network_err_msg">Network not available</string>
 </resources>

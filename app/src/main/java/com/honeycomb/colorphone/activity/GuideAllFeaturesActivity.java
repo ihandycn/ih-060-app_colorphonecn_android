@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.acb.call.customize.ScreenFlashManager;
@@ -25,6 +26,7 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.weather.WeatherPushManager;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -65,11 +67,27 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         StatusBarUtils.hideStatusBar(this);
 
         setUpPrivacyTextView();
+
+        // Feature
+        View cbContainer = findViewById(R.id.welcome_guide_enable_checkbox_container);
+        final CheckBox cb = (CheckBox) findViewById(R.id.welcome_guide_enable_checkbox);
+        cbContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cb.performClick();
+                LauncherAnalytics.logEvent("startguide_weather_checkbox_click_weather");
+            }
+        });
+
         LauncherAnalytics.logEvent("ColorPhone_StartGuide_Show");
+        LauncherAnalytics.logEvent("startguide_show_weather");
+
         findViewById(R.id.guide_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_Cancel_Clicked");
+                LauncherAnalytics.logEvent("startguide_ok_click_weather");
+
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
 
                 } else {
@@ -84,6 +102,10 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
+                if (!cb.isChecked()) {
+                    WeatherPushManager.getInstance().disableWeather();
+                }
+
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
                 } else {
                     if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()) {

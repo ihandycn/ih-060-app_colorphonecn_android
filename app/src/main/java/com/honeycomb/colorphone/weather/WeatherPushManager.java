@@ -57,7 +57,7 @@ public class WeatherPushManager {
         static WeatherPushManager mInstance = new WeatherPushManager();
     }
 
-    void disableWeather() {
+    public void disableWeather() {
         Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean(WeatherPushManager.PREF_KEY_DISABLE_WEATHER_PUSH, true);
     }
 
