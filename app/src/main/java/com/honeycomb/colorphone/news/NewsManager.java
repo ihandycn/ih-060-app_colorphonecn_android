@@ -27,6 +27,7 @@ public class NewsManager {
     static String TAG = NewsManager.class.getSimpleName();
     private static UUID userID = java.util.UUID.randomUUID();
     private static int LIMIT_SIZE = 10;
+    private int newOffset = 0;
 
     public interface NewsLoadListener {
         void onNewsLoaded(NewsResultBean bean);
@@ -37,7 +38,9 @@ public class NewsManager {
 
     public void fetchNews() {
         HSLog.i(NewsManager.TAG, "fetchNews");
-        HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), "0"));
+        newOffset += resultBean == null ? 0 : resultBean.totalItems;
+
+        HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), String.valueOf(newOffset)));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
             @Override public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
                 if (hsHttpConnection.isSucceeded()) {
@@ -69,7 +72,7 @@ public class NewsManager {
     }
 
     public void fetchLaterNews() {
-        int offset = resultBean != null ? resultBean.totalItems : 0;
+        int offset = resultBean != null ? newOffset + resultBean.totalItems : 0;
         HSLog.i(NewsManager.TAG, "fetchLaterNews offset == " + offset);
 
         HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), String.valueOf(offset)));

@@ -25,7 +25,7 @@
     </style>
 
     <style name="RatioView.Container">
-        <item name="android:layout_marginTop">@dimen/theme_text_margin_bottom_half</item>
+        <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:layout_marginLeft">@dimen/theme_card_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/theme_card_margin_horizontal</item>

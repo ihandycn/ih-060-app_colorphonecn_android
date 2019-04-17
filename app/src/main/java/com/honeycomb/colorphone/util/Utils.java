@@ -743,7 +743,11 @@ public final class Utils {
         configActivityStatusBar(activity, toolbar, R.drawable.abc_ic_ab_back_mtrl_am_alpha);
     }
 
-    public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar, int upDrawable) {
+    public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar, int back_dark) {
+        configActivityStatusBar(activity, toolbar, back_dark, 24);
+    }
+
+    public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar, int upDrawable, int textSize) {
         toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimary));
         toolbar.setTitleTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
 
@@ -756,15 +760,15 @@ public final class Utils {
             activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        applyFontForToolbarTitle(activity, toolbar);
+        applyFontForToolbarTitle(activity, toolbar, textSize);
     }
 
-    public static void applyFontForToolbarTitle(Activity context, Toolbar toolbar){
+    public static void applyFontForToolbarTitle(Activity context, Toolbar toolbar, int textSize){
         for(int i = 0; i < toolbar.getChildCount(); i++){
             View view = toolbar.getChildAt(i);
             if(view instanceof TextView){
                 TextView tv = (TextView) view;
-                tv.setTextSize(24);
+                tv.setTextSize(textSize);
                 if (Utils.ATLEAST_LOLLIPOP) {
                     tv.setLetterSpacing(-0.03f);
                 }
