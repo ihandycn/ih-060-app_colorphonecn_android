@@ -197,5 +197,6 @@
     <string name="news_network_err_action">إعادة المحاولة</string>
     <string name="menu_item_news">أخبار</string>
     <string name="menu_item_themes">النسق</string>
+    <string name="news_detail_error_reload">إعادة التحميل</string>
 
 </resources>

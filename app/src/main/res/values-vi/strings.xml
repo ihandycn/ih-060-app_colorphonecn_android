@@ -185,5 +185,6 @@
     <string name="news_network_err_action">Thử lại</string>
     <string name="menu_item_news">Tin tức</string>
     <string name="menu_item_themes">Chủ đề</string>
+    <string name="news_detail_error_reload">Tải lại</string>
 
 </resources>

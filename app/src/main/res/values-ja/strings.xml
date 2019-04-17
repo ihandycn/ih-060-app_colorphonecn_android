@@ -193,5 +193,6 @@
   <string name="news_network_err_action">再試行</string>
   <string name="menu_item_news">ニュース</string>
   <string name="menu_item_themes">テーマ</string>
+  <string name="news_detail_error_reload">再度読み込み</string>
 
 </resources>

@@ -79,6 +79,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final int MAIN_TAB_THEMES = 0;
     private static final int MAIN_TAB_NEWS = 1;
     private static final int MAIN_TAB_SETTINGS = 2;
+    private static final int EVENT_CLICK_TOOLBAR = 43020;
 
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
@@ -190,6 +191,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @NonNull
     private void initDrawer() {
         toolbar = findViewById(R.id.toolbar);
+
+        toolbar.setOnClickListener(v -> {
+            if (currentIndex == MAIN_TAB_NEWS) {
+                if (mHandler.hasMessages(EVENT_CLICK_TOOLBAR)) {
+                    newsLayout.onScrollToTop();
+                } else {
+                    mHandler.sendEmptyMessageDelayed(EVENT_CLICK_TOOLBAR, 500);
+                }
+            }
+        });
 
         logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar, 0);

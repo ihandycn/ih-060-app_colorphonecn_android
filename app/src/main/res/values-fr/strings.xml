@@ -190,5 +190,6 @@
     <string name="news_network_err_action">Réessayer</string>
     <string name="menu_item_news">Actus</string>
     <string name="menu_item_themes">Thèmes</string>
+    <string name="news_detail_error_reload">Recharger</string>
 
 </resources>

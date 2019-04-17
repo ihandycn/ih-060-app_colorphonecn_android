@@ -191,5 +191,6 @@
     <string name="news_network_err_action">Wiederholen</string>
     <string name="menu_item_news">News</string>
     <string name="menu_item_themes">Designs</string>
+    <string name="news_detail_error_reload">Erneut laden</string>
 
 </resources>

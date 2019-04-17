@@ -142,6 +142,11 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
         }
     }
 
+    public void onScrollToTop() {
+        HSLog.i(NewsManager.TAG, "onScrollToTop");
+        newsList.scrollToPosition(0);
+    }
+
     private class NewsAdapter extends RecyclerView.Adapter {
 
         private static final int NEWS_TYPE_ITEM = 0;

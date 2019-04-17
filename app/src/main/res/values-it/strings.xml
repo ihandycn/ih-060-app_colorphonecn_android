@@ -195,5 +195,6 @@
     <string name="news_network_err_action">Riprova</string>
     <string name="menu_item_news">Novità</string>
     <string name="menu_item_themes">Temi</string>
+    <string name="news_detail_error_reload">Ricarica</string>
 
 </resources>

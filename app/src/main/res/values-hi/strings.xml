@@ -190,5 +190,7 @@
     <string name="news_network_err_action">दुबारा प्रयास</string>
     <string name="menu_item_news">समाचार</string>
     <string name="menu_item_themes">थीम्‍स</string>
+    <string name="news_detail_error_reload">पुन:लोड करें</string>
+
 
 </resources>

@@ -192,5 +192,6 @@
     <string name="news_network_err_action">Volver a intentar</string>
     <string name="menu_item_news">Noticias</string>
     <string name="menu_item_themes">Temas</string>
+    <string name="news_detail_error_reload">Recargar</string>
 
 </resources>

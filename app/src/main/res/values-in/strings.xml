@@ -190,5 +190,6 @@
     <string name="news_network_err_action">Coba Lagi</string>
     <string name="menu_item_news">Berita</string>
     <string name="menu_item_themes">Tema</string>
+    <string name="news_detail_error_reload">Muat ulang</string>
 
 </resources>

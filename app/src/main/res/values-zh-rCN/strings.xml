@@ -199,5 +199,6 @@
     <string name="news_network_err_action">重试</string>
     <string name="menu_item_news">新闻</string>
     <string name="menu_item_themes">主题</string>
+    <string name="news_detail_error_reload">重新加载</string>
 
 </resources>

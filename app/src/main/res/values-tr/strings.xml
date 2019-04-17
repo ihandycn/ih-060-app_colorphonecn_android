@@ -187,5 +187,6 @@
     <string name="news_network_err_action">Tekrar Dene</string>
     <string name="menu_item_news">Haberler</string>
     <string name="menu_item_themes">Temalar</string>
+    <string name="news_detail_error_reload">Yeniden yükle</string>
 
 </resources>

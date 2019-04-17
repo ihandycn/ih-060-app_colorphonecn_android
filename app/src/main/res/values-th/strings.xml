@@ -190,5 +190,6 @@
     <string name="news_network_err_action">ลองอีกครั้ง</string>
     <string name="menu_item_news">ข่าว</string>
     <string name="menu_item_themes">ธีม</string>
+    <string name="news_detail_error_reload">รีโหลด</string>
 
 </resources>

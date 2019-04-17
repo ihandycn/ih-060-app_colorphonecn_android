@@ -196,5 +196,6 @@
     <string name="news_network_err_action">Повторить попытку</string>
     <string name="menu_item_news">Новости</string>
     <string name="menu_item_themes">Темы</string>
+    <string name="news_detail_error_reload">Перезагрузить</string>
 
 </resources>

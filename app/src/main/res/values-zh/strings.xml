@@ -191,5 +191,6 @@
     <string name="news_network_err_action">重試</string>
     <string name="menu_item_news">新聞</string>
     <string name="menu_item_themes">主題</string>
+    <string name="news_detail_error_reload">重新加載</string>
 
 </resources>
