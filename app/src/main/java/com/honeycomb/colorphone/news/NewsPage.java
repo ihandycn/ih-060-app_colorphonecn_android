@@ -71,7 +71,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
         action.setOnClickListener(v -> {
             loadNews();
         });
-        newsList.setVisibility(GONE);
+        refreshLayout.setVisibility(GONE);
         loading.setVisibility(GONE);
     }
 
@@ -113,7 +113,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
     public void loadNews() {
         HSLog.i(NewsManager.TAG, "NP loadNews");
         NewsManager.getInstance().fetchNews();
-        newsList.setVisibility(GONE);
+        refreshLayout.setVisibility(GONE);
         noNetWorkPage.setVisibility(GONE);
         loading.setVisibility(VISIBLE);
     }
@@ -125,7 +125,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
         if (bean != null) {
             loading.setVisibility(GONE);
-            newsList.setVisibility(VISIBLE);
+            refreshLayout.setVisibility(VISIBLE);
 
             newsResource = bean;
             adapter.notifyDataSetChanged();
@@ -204,7 +204,9 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
                 HSLog.i(NewsManager.TAG, "NP onClicked: " + position);
                 Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(bean.contentURL, false));
 
-                LauncherAnalytics.logEvent("mainview_newstab_news_click", "type", (type == NEWS_TYPE_BIG ? "image" : "imagepreview"));
+                LauncherAnalytics.logEvent("mainview_newstab_news_click",
+                        "type", (type == NEWS_TYPE_BIG ? "image" : "imagepreview"),
+                        "user", Utils.isNewUser() ? "new" : "upgrade");
             });
         }
 

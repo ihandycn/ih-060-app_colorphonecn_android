@@ -138,6 +138,10 @@ public class NewsManager {
         url.append("&language=").append("en");
         url.append("&limit=").append(limit);
         url.append("&offset=").append(offset);
+        String category = HSConfig.optString("", "Application", "News", "Category");
+        if (!TextUtils.isEmpty(category)) {
+            url.append("&category=").append(category);
+        }
 
         HSLog.i(TAG, "getUrl: " + url.toString());
         return url.toString();

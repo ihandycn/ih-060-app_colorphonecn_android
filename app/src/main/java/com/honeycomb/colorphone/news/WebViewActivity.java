@@ -363,6 +363,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                LauncherAnalytics.logEvent("news_detail_page_back_click");
                 finish();
                 return true;
             case R.id.action_bar_refresh:
@@ -383,7 +384,6 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
                 mHistory.remove(mHistory.size() - 1);
                 mWebView.loadUrl(mHistory.get(mHistory.size() - 1));
             } else {
-                LauncherAnalytics.logEvent("news_detail_page_back_click");
                 finish();
             }
             return true;

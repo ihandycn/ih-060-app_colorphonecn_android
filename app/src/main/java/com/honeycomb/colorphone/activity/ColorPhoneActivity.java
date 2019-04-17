@@ -217,8 +217,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 currentIndex = MAIN_TAB_NEWS;
                 highlightNewTab();
 
-                LauncherAnalytics.logEvent("mainview_newstab_click");
-                LauncherAnalytics.logEvent("mainview_newstab_show");
+                LauncherAnalytics.logEvent("mainview_newstab_click", "type", Utils.isNewUser() ? "new" : "upgrade");
+                LauncherAnalytics.logEvent("mainview_newstab_show", "type", Utils.isNewUser() ? "new" : "upgrade");
                 LauncherAnalytics.logEvent("tab_change");
             }
         });
@@ -229,6 +229,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 settingLayout.setVisibility(View.VISIBLE);
                 currentIndex = MAIN_TAB_SETTINGS;
                 highlightNewTab();
+                LauncherAnalytics.logEvent("mainview_settingstab_click", "type", Utils.isNewUser() ? "new" : "upgrade");
                 LauncherAnalytics.logEvent("tab_change");
             }
         });
