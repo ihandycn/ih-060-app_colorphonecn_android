@@ -184,4 +184,12 @@
     <string name="result_page_theme_recommend_optimal">應用成功</string>
     <string name="result_page_theme_recommend_more">發現更多的主題</string>
 
+
+    <!-- News -->
+    <string name="news_network_err">網絡連接不可用</string>
+    <string name="news_network_err_content">請檢查您的網絡情況並重試</string>
+    <string name="news_network_err_action">重試</string>
+    <string name="menu_item_news">新聞</string>
+    <string name="menu_item_themes">主題</string>
+
 </resources>

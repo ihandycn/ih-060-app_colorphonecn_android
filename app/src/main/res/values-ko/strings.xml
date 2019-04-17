@@ -186,8 +186,8 @@
 
     <!-- News -->
     <string name="news_network_err">네트워크 이용 불가</string>
-    <string name="news_network_err_content"></string>
-    <string name="news_network_err_action"></string>
+    <string name="news_network_err_content">인터넷 연결을 확인하고 다시 시도하세요</string>
+    <string name="news_network_err_action">재시도</string>
     <string name="menu_item_news">뉴스</string>
     <string name="menu_item_themes">테마</string>
 

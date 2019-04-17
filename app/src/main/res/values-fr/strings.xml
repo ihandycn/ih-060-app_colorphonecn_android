@@ -186,8 +186,8 @@
 
     <!-- News -->
     <string name="news_network_err">Réseau non disponible</string>
-    <string name="news_network_err_content"></string>
-    <string name="news_network_err_action"></string>
+    <string name="news_network_err_content">Veuillez vérifier votre connexion réseau et réessayer</string>
+    <string name="news_network_err_action">Réessayer</string>
     <string name="menu_item_news">Actus</string>
     <string name="menu_item_themes">Thèmes</string>
 

@@ -181,8 +181,8 @@
 
     <!-- News -->
     <string name="news_network_err">Mạng không khả dụng</string>
-    <string name="news_network_err_content"></string>
-    <string name="news_network_err_action"></string>
+    <string name="news_network_err_content">Vui lòng kiểm tra kết nối internet của bạn và thử lại</string>
+    <string name="news_network_err_action">Thử lại</string>
     <string name="menu_item_news">Tin tức</string>
     <string name="menu_item_themes">Chủ đề</string>
 

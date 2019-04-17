@@ -183,8 +183,8 @@
 
     <!-- News -->
     <string name="news_network_err">Ağ kullanılamıyor</string>
-    <string name="news_network_err_content"></string>
-    <string name="news_network_err_action"></string>
+    <string name="news_network_err_content">Lütfen internet bağlantısını kontrol edip tekrar deneyin.</string>
+    <string name="news_network_err_action">Tekrar Dene</string>
     <string name="menu_item_news">Haberler</string>
     <string name="menu_item_themes">Temalar</string>
 

@@ -186,9 +186,9 @@
 
     <!-- News -->
     <string name="news_network_err">नेटवर्क उपलब्‍ध नहीं है</string>
-    <string name="news_network_err_content"></string>
-    <string name="news_network_err_action"></string>
+    <string name="news_network_err_content">कृपया अपने इंटरनेट कनेक्‍शन की जांच करें और दुबारा प्रयास करें।</string>
+    <string name="news_network_err_action">दुबारा प्रयास</string>
     <string name="menu_item_news">समाचार</string>
-    <string name="menu_item_themes">विषयवस्तुएँ</string>
+    <string name="menu_item_themes">थीम्‍स</string>
 
 </resources>

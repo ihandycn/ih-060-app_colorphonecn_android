@@ -195,9 +195,9 @@
 
     <!-- News -->
     <string name="news_network_err">网络连接不可用</string>
-    <string name="news_network_err_content"></string>
-    <string name="news_network_err_action"></string>
+    <string name="news_network_err_content">请检查您的网络情况并重试</string>
+    <string name="news_network_err_action">重试</string>
     <string name="menu_item_news">新闻</string>
-    <string name="menu_item_themes">主題</string>
+    <string name="menu_item_themes">主题</string>
 
 </resources>

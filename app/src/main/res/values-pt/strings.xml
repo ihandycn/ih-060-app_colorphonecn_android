@@ -187,8 +187,8 @@
 
     <!-- News -->
     <string name="news_network_err">Rede indisponível</string>
-    <string name="news_network_err_content"></string>
-    <string name="news_network_err_action"></string>
+    <string name="news_network_err_content">Verifique sua conexão com a Internet e tente novamente</string>
+    <string name="news_network_err_action">Tentar de novo</string>
     <string name="menu_item_news">Notícias</string>
     <string name="menu_item_themes">Temas</string>
 

@@ -189,8 +189,8 @@
 
   <!-- News -->
   <string name="news_network_err">ネットワークが利用不可</string>
-  <string name="news_network_err_content"></string>
-  <string name="news_network_err_action"></string>
+  <string name="news_network_err_content">インターネット接続を確認して、もう一度お試しください。</string>
+  <string name="news_network_err_action">再試行</string>
   <string name="menu_item_news">ニュース</string>
   <string name="menu_item_themes">テーマ</string>
 

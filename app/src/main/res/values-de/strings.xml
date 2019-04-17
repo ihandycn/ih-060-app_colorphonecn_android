@@ -187,8 +187,8 @@
 
     <!-- News -->
     <string name="news_network_err">Netzwerk nicht verfügbar</string>
-    <string name="news_network_err_content"></string>
-    <string name="news_network_err_action"></string>
+    <string name="news_network_err_content">Bitte Ihre Netzwerkverbindung überprüfen und erneut versuchen.</string>
+    <string name="news_network_err_action">Wiederholen</string>
     <string name="menu_item_news">News</string>
     <string name="menu_item_themes">Designs</string>
 

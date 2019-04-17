@@ -186,8 +186,8 @@
 
     <!-- News -->
     <string name="news_network_err">เครือข่ายไม่พร้อมใช้งาน</string>
-    <string name="news_network_err_content"></string>
-    <string name="news_network_err_action"></string>
+    <string name="news_network_err_content">กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตแล้วลองอีกครั้ง</string>
+    <string name="news_network_err_action">ลองอีกครั้ง</string>
     <string name="menu_item_news">ข่าว</string>
     <string name="menu_item_themes">ธีม</string>
 
