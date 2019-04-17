@@ -93,16 +93,9 @@
     <string name="gdpr_dialog_turn_off">إيقاف</string>
     <string name="gdpr_dialog_not_now">ليس الآن</string>
 
-    <!--Notification Reminder-->
-    <string name="notification_reminder">تذكير الإخطارات</string>
-    <string name="notification_reminder_content">يرجى منحنا حق الدخول لقراءة الإشعارات لتشغيل فلاش LED عند تلقي رسائل التطبيق</string>
-    <string name="notification_reminder_action">منح حق الدخول</string>
-    <string name="notification_common">تطبيق شائع</string>
-    <string name="notification_other">تطبيقات أخرى</string>
     <string name="battery_clean_title">توفير البطارية</string>
     <string name="cpu_positive_feedback_title">انخفضت الحرارة</string>
     <string name="result_page_click_guide_tip">استمر في تحسين الأداء</string>
-    <string name="desktop_tips_content_guide_msg">امرح يومياً</string>
     <string name="apply_btn">تفعيل</string>
     <string name="menu_item_settings">الإعدادات</string>
     <string name="battery_title">البطارية</string>
@@ -165,7 +158,6 @@
     <string name="cpu_cooler_state_extremely_heated">ساخن</string>
     <string name="cpu_cooler_cleaning_hint">جارٍ إغلاق التطبيقات المستهلة لـ CPU…</string>
     <string name="cool_capital">تبريد</string>
-    <string name="notification_toolbar_clock"> الساعة</string>
 
     <string name="settings_activity_notification_reminder"> إظهار شريط أدوات الإخطارات</string>
     <string name="notification_toolbar_flash_light">الكشاف</string>
