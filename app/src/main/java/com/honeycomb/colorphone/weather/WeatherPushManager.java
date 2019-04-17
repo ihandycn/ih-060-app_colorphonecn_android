@@ -68,10 +68,11 @@ public class WeatherPushManager {
     public void push(Context context) {
         if (Ap.WeatherPush.showPush()
                 && !isWeatherDisabledByUser()
-//                && inValidTime()
-//                && showOncePerValidTime()
+                && inValidTime()
+                && showOncePerValidTime()
         ) {
             if (!isAdReady()) {
+                HSLog.d("Weather.Push", "Ad is null");
                 preload();
             }
 

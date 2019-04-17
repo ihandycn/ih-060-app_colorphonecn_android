@@ -173,14 +173,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             HSAlertMgr.delayRateAlert();
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         }
-        mWeatherPageNeedShow = getIntent().getBooleanExtra("switch_weather", false);
-
+        getDataFromIntent(getIntent());
         setContentView(R.layout.activity_main);
         initMainFrame();
         AdManager.getInstance().preload();
         AppflyerLogger.logAppOpen();
         WeatherPushManager.getInstance().updateWeatherIfNeeded();
         isCreate = true;
+    }
+
+    private void getDataFromIntent(Intent intent) {
+        mWeatherPageNeedShow = intent.getBooleanExtra("switch_weather", false);
     }
 
     @Override
@@ -350,6 +353,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void trySwitchToWeatherPage() {
         if (!weatherView.isWeatherViewInShow()) {
             weatherView.toggleImmediately();
+            WeatherPushManager.getInstance().showInterstitialAd();
             LauncherAnalytics.logEvent("mainview_show_weather_enable");
             HSLog.d("Weather.Page", "Show");
         }
@@ -390,7 +394,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
+        getDataFromIntent(intent);
         // Show weather page if needed.
         if (mWeatherPageNeedShow
                 && weatherView != null) {
