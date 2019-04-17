@@ -269,9 +269,12 @@
     <string name="result_page_theme_recommend_more">FIND MORE THEMES</string>
 
     <!-- Trivia Tip -->
-    <!--TODO-->
     <string name="trivia_tip_content_truly_fact">Truly Fact</string>
     <string name="trivia_tip_button_set_as_theme">Apply for ScreenFlash</string>
+
+    <!-- TODO Remove unused-->
+    <string name="desktop_tips_content_guide_msg"> </string>
+    <string name="theme_instead_title">Find More Themes</string>
 
     <!--TODO remove this. Use libSuperApps-->
     <string name="custom_font_regular" translatable="false">ProximaNova-Regular</string>

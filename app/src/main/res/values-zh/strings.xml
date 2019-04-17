@@ -150,17 +150,6 @@
     <string name="cpu_cooler_state_extremely_heated">溫度較熱</string>
     <string name="cpu_cooler_cleaning_hint">正在關閉後台應用</string>
     <string name="cool_capital">一鍵降溫</string>
-    <string name="notification_toolbar_clock">時鐘</string>
-    <string name="desktop_tips_content_would_you_rather_title">你更願意</string>
-    <string name="desktop_tips_content_would_you_rather_description">點擊來看看有多少人做了和你相同的選擇！</string>
-    <string name="desktop_tips_content_would_you_rather_result">d%的人和你做了同樣的選擇</string>
-    <string name="desktop_tips_content_trivia_quiz_title">腦力達人</string>
-    <string name="desktop_tips_content_trivia_quiz_correct">正確</string>
-    <string name="desktop_tips_content_trivia_quiz_wrong">錯誤</string>
-    <string name="desktop_tips_content_trivia_quiz_explanation">讓思維活躍起來！</string>
-    <string name="desktop_tips_content_trivia_quiz_hint">點擊來作出你的選擇。</string>
-    <string name="desktop_tips_content_would_you_rather_explanation">來看看有多少人和你一樣！</string>
-    <string name="or">或者</string>
 
     <string name="settings_activity_notification_reminder">通知欄開關</string>
 
