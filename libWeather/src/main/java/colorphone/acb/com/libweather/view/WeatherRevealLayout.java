@@ -118,11 +118,14 @@ public class WeatherRevealLayout extends FrameLayout {
 
     public void openImmediately() {
         isViewLarger = true;
+        isClipView = true;
         updateDrawingRect(1f);
     }
 
     public void closeImmediately() {
         isViewLarger = false;
+        isClipView = true;
+
         updateDrawingRect(1f);
     }
 
