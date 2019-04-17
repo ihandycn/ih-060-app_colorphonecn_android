@@ -137,11 +137,6 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
             android:theme="@style/AppLightStatusBarTheme.Main">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -151,12 +146,11 @@
             android:excludeFromRecents="true"
             android:taskAffinity=":welcome"
             android:theme="@style/AppLightStatusBarTheme.Welcome">
-            <!--// TODO: 2019/4/9 zqs 改回入口-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
 
