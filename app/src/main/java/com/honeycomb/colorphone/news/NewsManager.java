@@ -9,7 +9,9 @@ import com.ihs.commons.utils.HSError;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSMapUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -85,6 +87,10 @@ public class NewsManager {
                     if (resultBean == null) {
                         resultBean = bean;
                     } else {
+                        if (resultBean.content == null) {
+                            resultBean.content = new ArrayList<>();
+                        }
+                        
                         resultBean.content.addAll(bean.content);
                         resultBean.totalItems += bean.totalItems;
                     }
@@ -119,6 +125,7 @@ public class NewsManager {
     private static String getURL(String limit, String offset) {
         final StringBuffer url = new StringBuffer(HSConfig.optString("",
                 "Application", "News", "Url"));
+        
         url.append("?userId=").append(userID.toString());
 
         List keys = HSConfig.getList("Application", "News", "PublisherKey");
@@ -134,8 +141,10 @@ public class NewsManager {
             }
         }
 
-        url.append("&countryCode=").append("US");
-        url.append("&language=").append("en");
+        Locale locale = Locale.getDefault();
+
+        url.append("&countryCode=").append(locale.getCountry());
+        url.append("&language=").append(locale.getLanguage());
         url.append("&limit=").append(limit);
         url.append("&offset=").append(offset);
         String category = HSConfig.optString("", "Application", "News", "Category");
@@ -144,6 +153,8 @@ public class NewsManager {
         }
 
         HSLog.i(TAG, "getUrl: " + url.toString());
+
+
         return url.toString();
     }
 
