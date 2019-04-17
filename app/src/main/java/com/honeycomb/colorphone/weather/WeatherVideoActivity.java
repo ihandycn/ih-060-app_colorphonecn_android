@@ -18,7 +18,6 @@ import android.widget.PopupWindow;
 import com.acb.call.utils.FileUtils;
 import com.acb.call.views.VideoPlayerView;
 import com.honeycomb.colorphone.Ap;
-import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -140,7 +139,6 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
                 LauncherAnalytics.logEvent("weather_forecast_close", "type", "closebtn");
                 WeatherVideoActivity.this.finish();
             } else if (v == ivCallCccept || v == videoPlayerView) {
-                // TODO: 2019/4/13  pop up weather page
                 Ap.WeatherPush.logEvent("weather_forecast_click");
                 LauncherAnalytics.logEvent("weather_forecast_click",
                         "from", v == ivCallCccept ? "answerbtn" : "otherarea",
@@ -148,7 +146,7 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
                         "videotype", videoType,
                         "time", getShowTimeEventParameter());
                 ColorPhoneActivity.startWeatherPage(WeatherVideoActivity.this);
-
+                finish();
             }
         }
     };
