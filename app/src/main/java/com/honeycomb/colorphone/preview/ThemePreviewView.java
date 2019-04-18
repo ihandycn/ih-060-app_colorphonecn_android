@@ -50,6 +50,7 @@ import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -566,6 +567,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (mTheme.getId() == Theme.RANDOM_THEME ||
                 !GuideApplyThemeActivity.start(mActivity, true, null)) {
             Utils.showToast(mActivity.getString(R.string.apply_success));
+            GuideSetDefaultActivity.start(mActivity, false);
         }
 
         // Ringtone enabled

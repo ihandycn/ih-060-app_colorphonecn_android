@@ -123,6 +123,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 logOpenEvent = false;
                 ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
                 BoostStarterActivity.createShortCut(ColorPhoneActivity.this);
+                GuideSetDefaultActivity.start(ColorPhoneActivity.this, true);
             }
         }
     };
@@ -162,7 +163,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         AdManager.getInstance().preload(this);
         AppflyerLogger.logAppOpen();
         isCreate = true;
-        GuideSetDefaultActivity.start(this);
     }
 
     @Override

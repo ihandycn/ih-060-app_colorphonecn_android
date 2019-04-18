@@ -69,28 +69,27 @@ public class ConfigEvent {
         return Preferences.get(Constants.PREF_FILE_DEFAULT).getInt("guide_sys_show_time", 0);
     }
 
+    public static void guideClose() {
+        Analytics.logEvent("Dialer_Guide_Cancel_Click", "Time", String.valueOf(getGuideShowTime()));
+    }
+
     public static void guideConfirmed() {
-        boolean dialerEnable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && ConfigEvent.dialerEnable();
-        if (!dialerEnable) {
-            return;
-        }
         Threads.postOnMainThreadDelayed(sCheckPermissionResultRunnable, 5000);
         Preferences.get(Constants.PREF_FILE_DEFAULT).incrementAndGetInt("guide_sys_show_time");
-        Analytics.logEvent("Dialer_Set_Default_Success", "Time", String.valueOf(getGuideShowTime()));
+        Analytics.logEvent("Dialer_Guide_Btn_Click", "Time", String.valueOf(getGuideShowTime()));
     }
 
     private static Runnable sCheckPermissionResultRunnable = new Runnable() {
         @Override
         public void run() {
             if (DefaultPhoneUtils.isDefaultPhone()) {
-                Analytics.logEvent("Dialer_Guide_Btn_Click", "Time", String.valueOf(getSystemGuideShowTime()));
+                Analytics.logEvent("Dialer_Set_Default_Success", "Time", String.valueOf(getSystemGuideShowTime()));
             }
         }
     };
 
     public static void successSetAsDefault() {
-        Analytics.logEvent(Analytics.upperFirstCh("ColorPhone_" + "set_default_success"));
+//        Analytics.logEvent(Analytics.upperFirstCh("ColorPhone_" + "set_default_success"));
     }
 
     public static void dialerShow() {

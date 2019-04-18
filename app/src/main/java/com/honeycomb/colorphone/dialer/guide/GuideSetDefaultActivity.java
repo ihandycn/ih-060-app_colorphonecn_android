@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 
 import com.honeycomb.colorphone.R;
@@ -20,11 +21,19 @@ import com.superapps.util.Dimensions;
 public class GuideSetDefaultActivity extends AppCompatActivity {
 
     private boolean mOkClicked;
+    private static boolean sFlagOnce = true;
 
-    public static boolean start(Context context) {
+    public static boolean start(Context context, boolean limitOnce) {
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             // Not support default phone.
             return false;
+        }
+        if (limitOnce) {
+            if (!sFlagOnce) {
+                return false;
+            }
+            sFlagOnce = false;
         }
 
         if (ConfigEvent.dialerEnable()) {
@@ -64,6 +73,14 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
             DefaultPhoneUtils.checkDefaultPhoneSettings();
             mOkClicked = true;
             finish();
+        });
+
+        findViewById(R.id.guide_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConfigEvent.guideClose();
+                finish();
+            }
         });
     }
 

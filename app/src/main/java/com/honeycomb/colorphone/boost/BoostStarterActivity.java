@@ -40,13 +40,13 @@ public class BoostStarterActivity extends Activity {
     }
 
 
-    public static void createShortCut(Context context) {
+    public static boolean createShortCut(Context context) {
         if (!HSConfig.optBoolean(false, "Application", "Boost", "ShortcutEnable")) {
-            return;
+            return false;
         }
         boolean hasCreated = Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("shortcut_boost_exist", false);
         if (hasCreated) {
-            return;
+            return false;
         }
         Intent sIntent = new Intent(Intent.ACTION_MAIN);
         sIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -66,6 +66,7 @@ public class BoostStarterActivity extends Activity {
 
         Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("shortcut_boost_exist", true);
         Analytics.logEvent("Shortcut_Boost_Created");
+        return true;
     }
 
 }
