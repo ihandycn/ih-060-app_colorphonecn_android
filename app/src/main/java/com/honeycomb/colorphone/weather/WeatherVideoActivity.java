@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.StringDef;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +27,16 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Preferences;
 
+import net.appcloudbox.autopilot.AutopilotEvent;
+
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import colorphone.acb.com.libweather.base.BaseAppCompatActivity;
-
 /**
  * Created by zqs on 2019/4/9.
  */
-public class WeatherVideoActivity extends BaseAppCompatActivity {
+public class WeatherVideoActivity extends AppCompatActivity {
 
     private static final String WEATHER_TEXT_SHOW_TIME = "weather_text_show_time";
     public static final String SUNNY = "sunny";
@@ -93,6 +94,18 @@ public class WeatherVideoActivity extends BaseAppCompatActivity {
             }
         });
         homeKeyWatcher.startWatch();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AutopilotEvent.onExtendedActive();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        AutopilotEvent.onExtendedDeactive();
     }
 
     private String getShowTimeEventParameter() {
