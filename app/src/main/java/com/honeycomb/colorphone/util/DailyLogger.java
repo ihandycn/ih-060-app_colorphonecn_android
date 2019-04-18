@@ -14,11 +14,11 @@ import com.call.assistant.customize.CallAssistantSettings;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.autopermission.RomUtils;
-import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Calendars;
 import com.superapps.util.Compats;
+import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 
@@ -122,7 +122,7 @@ public class DailyLogger {
                 sb.append("Huawei");
             }
             if (sb.length() > 0) {
-                sb.append(DefaultPhoneUtils.isDefaultPhone() ? "Yes" : "No");
+                sb.append(Permissions.hasPermission(Manifest.permission.READ_CALL_LOG) ? "Yes" : "No");
                 Analytics.logEvent("Permission_Check_CallLog", "Device", sb.toString());
             }
         }
