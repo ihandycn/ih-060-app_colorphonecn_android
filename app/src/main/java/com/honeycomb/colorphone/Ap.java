@@ -310,6 +310,11 @@ public class Ap {
 
         public static boolean allowFullScreenClick() {
             return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "weather_forecast_video_allow_fullscreen_click", true);
+        }
+
+        public static boolean showAdInApp() {
+//            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "weather_forecast_wire_show_enter_in_app", false);
+            return false;
 
         }
 

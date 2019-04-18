@@ -69,6 +69,7 @@ public class WeatherPushManager {
     public void push(Context context) {
         if (CallIdleAlertActivity.exits) {
             HSLog.d("Weather.Push", "CallIdleAlertActivity exist. Show on next time");
+            LauncherAnalytics.logEvent("weather_forecast_show_delay");
             return;
         }
         if (Ap.WeatherPush.showPush()
@@ -78,7 +79,7 @@ public class WeatherPushManager {
         ) {
             if (!isAdReady()) {
                 HSLog.d("Weather.Push", "Ad is null");
-                preload();
+                preloadAd();
             }
 
             if (!isWeatherInfoAvailable()) {
@@ -289,7 +290,7 @@ public class WeatherPushManager {
         return isLegalTime && showOncePerTime;
     }
 
-    public void preload() {
+    public void preloadAd() {
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(getInterstitialAdPlacementName());
         AcbInterstitialAdManager.preload(1, getInterstitialAdPlacementName());
     }
@@ -332,7 +333,7 @@ public class WeatherPushManager {
                 @Override
                 public void onAdClosed() {
                     releaseInterstitialAd();
-                    preload();
+                    preloadAd();
                 }
 
                 @Override

@@ -101,7 +101,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         intent.putExtra("switch_weather", true);
         Navigations.startActivitySafely(context, intent);
     }
-    boolean mWeatherPageNeedShow;
+    boolean mWeatherPageNeedFirstShow;
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
@@ -183,7 +183,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void getDataFromIntent(Intent intent) {
-        mWeatherPageNeedShow = intent.getBooleanExtra("switch_weather", false);
+        mWeatherPageNeedFirstShow = intent.getBooleanExtra("switch_weather", false);
     }
 
     @Override
@@ -308,6 +308,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         Toasts.showToast(R.string.network_err_msg);
                     }
                 }
+
+                if (!mWeatherPageNeedFirstShow
+                        && Ap.WeatherPush.showAdInApp()) {
+                    WeatherPushManager.getInstance().showInterstitialAd();
+                }
             }
         });
         drawerDelegateToggleView.setOnClickListener(new View.OnClickListener() {
@@ -339,7 +344,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mDrawerLayout.requestLayout();
         }
 
-        if (mWeatherPageNeedShow) {
+        if (mWeatherPageNeedFirstShow) {
             weatherView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
@@ -347,6 +352,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     trySwitchToWeatherPage();
                 }
             });
+        }
+
+        if (Ap.WeatherPush.showAdInApp()) {
+            WeatherPushManager.getInstance().preloadAd();
         }
     }
 
@@ -396,7 +405,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onNewIntent(intent);
         getDataFromIntent(intent);
         // Show weather page if needed.
-        if (mWeatherPageNeedShow
+        if (mWeatherPageNeedFirstShow
                 && weatherView != null) {
             trySwitchToWeatherPage();
         }
