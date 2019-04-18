@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.honeycomb.colorphone.R;
@@ -18,6 +20,8 @@ import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
 public class GuideSetDefaultActivity extends AppCompatActivity {
 
@@ -59,7 +63,18 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        window.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         setContentView(R.layout.guide_set_default_phone);
+
         ConfigEvent.guideShow();
 
         findViewById(R.id.dialog_content_container)
