@@ -14,6 +14,7 @@ import com.call.assistant.customize.CallAssistantSettings;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.autopermission.RomUtils;
+import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Calendars;
@@ -110,6 +111,20 @@ public class DailyLogger {
                     phoneAccessGranted, contactsAccessGranted,
                     notificationAccessGranted);
             Analytics.logEvent("Permission_Check_above23_" + permission);
+        }
+
+
+        if (Build.VERSION.SDK_INT >= 28) {
+            StringBuilder sb = new StringBuilder();
+            if (Compats.IS_XIAOMI_DEVICE) {
+                sb.append("Xiaomi");
+            } else if (Compats.IS_HUAWEI_DEVICE) {
+                sb.append("Huawei");
+            }
+            if (sb.length() > 0) {
+                sb.append(DefaultPhoneUtils.isDefaultPhone() ? "Yes" : "No");
+                Analytics.logEvent("Permission_Check_CallLog", "Device", sb.toString());
+            }
         }
     }
 

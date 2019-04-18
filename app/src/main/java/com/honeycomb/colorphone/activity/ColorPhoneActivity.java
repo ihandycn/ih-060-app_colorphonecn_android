@@ -37,6 +37,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -161,12 +162,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         AdManager.getInstance().preload(this);
         AppflyerLogger.logAppOpen();
         isCreate = true;
+        GuideSetDefaultActivity.start(this);
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-
+        mSettingsPage.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
             if (mAdapter.isTipHeaderVisible() &&
                     !PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {

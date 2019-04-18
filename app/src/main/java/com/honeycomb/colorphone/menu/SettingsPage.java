@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.menu;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.honeycomb.colorphone.activity.AboutActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.LedFlashSettingsActivity;
 import com.honeycomb.colorphone.activity.SettingsActivity;
+import com.honeycomb.colorphone.dialer.ConfigEvent;
+import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -26,16 +29,29 @@ public class SettingsPage implements View.OnClickListener {
 
     private TextView mainSwitchTxt;
     private boolean initCheckState;
-
+    private SwitchCompat defaultDialer;
 
     public void initPage(View rootView) {
         mainSwitch = rootView.findViewById(R.id.main_switch);
         mainSwitchTxt = rootView.findViewById(R.id.settings_main_switch_txt);
 
-        boolean dialerEnable = false;
+        boolean dialerEnable = ConfigEvent.dialerEnable();
         rootView.findViewById(R.id.settings_default_dialer_switch)
                 .setVisibility(dialerEnable ? View.VISIBLE : View.GONE);
-
+        defaultDialer = rootView.findViewById(R.id.default_dialer_switch);
+        defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
+        defaultDialer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (isChecked) {
+                        DefaultPhoneUtils.checkDefaultPhoneSettings();
+                    } else {
+                        DefaultPhoneUtils.resetDefaultPhone();
+                    }
+                }
+            }
+        });
         initCheckState = ScreenFlashSettings.isScreenFlashModuleEnabled();
         mainSwitch.setChecked(initCheckState);
         mainSwitchTxt.setText(getString(initCheckState ? R.string.color_phone_enabled : R.string.color_phone_disable));
@@ -68,6 +84,12 @@ public class SettingsPage implements View.OnClickListener {
 
     }
 
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (hasFocus && defaultDialer != null) {
+            defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
+        }
+    }
+
     private String getString(int id) {
         return HSApplication.getContext().getString(id);
     }
@@ -80,7 +102,7 @@ public class SettingsPage implements View.OnClickListener {
                 mainSwitch.toggle();
                 break;
             case R.id.settings_default_dialer_switch:
-//                defaultDialer.toggle();
+                defaultDialer.toggle();
                 break;
             case R.id.settings_led_flash:
                 LedFlashSettingsActivity.start(context);

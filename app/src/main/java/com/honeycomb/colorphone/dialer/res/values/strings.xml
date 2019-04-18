@@ -222,8 +222,8 @@
     We only show this string if the user is not on the Verizon network. -->
   <string name="private_num_non_verizon">Private number</string>
 
-    <string name="guide_default_phone_title">Call Assistant</string>
+    <string name="guide_default_phone_title">开启替换来电页面权限，立即体验来电秀</string>
     <string name="guide_default_phone_content">Turn on Smart Assistant and you won\'t miss important calls at any time.</string>
-    <string name="guide_default_phone_action">Try now</string>
+    <string name="guide_default_phone_action">立即开启</string>
 
 </resources>

@@ -2,11 +2,16 @@ package com.honeycomb.colorphone.dialer;
 
 import android.os.Build;
 
+import com.honeycomb.colorphone.BuildConfig;
+import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Commons;
 import com.superapps.util.Compats;
+import com.superapps.util.Preferences;
+import com.superapps.util.Threads;
 
 import java.util.List;
 
@@ -16,6 +21,9 @@ import java.util.List;
 public class ConfigEvent {
 
     public static boolean dialerEnable() {
+        if (BuildConfig.DEBUG) {
+            return true;
+        }
         String path = null;
         if (Compats.IS_XIAOMI_DEVICE) {
             path = "Xiaomi";
@@ -40,21 +48,25 @@ public class ConfigEvent {
     }
 
     public static boolean setDefaultGuideShow() {
-        return false;
+        return true;
     }
 
     public static void guideShow() {
+        Preferences.get(Constants.PREF_FILE_DEFAULT).incrementAndGetInt("guide_show_time");
         boolean dialerEnable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && ConfigEvent.dialerEnable();
         if (!dialerEnable) {
             return;
         }
-        Analytics.logEvent("Dialer_Guide_Show", "Time", String.valueOf(getShowTime()));
+        Analytics.logEvent("Dialer_Guide_Show", "Time", String.valueOf(getGuideShowTime()));
     }
 
-    private static int getShowTime() {
-        // TODO
-        return 0;
+    private static int getGuideShowTime() {
+        return Preferences.get(Constants.PREF_FILE_DEFAULT).getInt("guide_show_time", 0);
+    }
+
+    private static int getSystemGuideShowTime() {
+        return Preferences.get(Constants.PREF_FILE_DEFAULT).getInt("guide_sys_show_time", 0);
     }
 
     public static void guideConfirmed() {
@@ -63,8 +75,19 @@ public class ConfigEvent {
         if (!dialerEnable) {
             return;
         }
-        Analytics.logEvent(Analytics.upperFirstCh("ColorPhone_" + "set_default_guide_set_clicked"));
+        Threads.postOnMainThreadDelayed(sCheckPermissionResultRunnable, 5000);
+        Preferences.get(Constants.PREF_FILE_DEFAULT).incrementAndGetInt("guide_sys_show_time");
+        Analytics.logEvent("Dialer_Set_Default_Success", "Time", String.valueOf(getGuideShowTime()));
     }
+
+    private static Runnable sCheckPermissionResultRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (DefaultPhoneUtils.isDefaultPhone()) {
+                Analytics.logEvent("Dialer_Guide_Btn_Click", "Time", String.valueOf(getSystemGuideShowTime()));
+            }
+        }
+    };
 
     public static void successSetAsDefault() {
         Analytics.logEvent(Analytics.upperFirstCh("ColorPhone_" + "set_default_success"));
