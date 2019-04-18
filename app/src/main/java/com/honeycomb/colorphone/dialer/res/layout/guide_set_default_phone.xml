@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#88000000">
+    android:background="#dc000000">
 
 
     <LinearLayout
@@ -46,8 +46,10 @@
         <com.honeycomb.colorphone.view.TypefacedTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
+            android:layout_marginLeft="36dp"
+            android:gravity="center"
+            android:layout_marginRight="36dp"
+            android:lineSpacingExtra="8sp"
             android:text="@string/guide_default_phone_title"
             android:textSize="16sp"
             android:textColor="#ccffffff"
@@ -57,10 +59,11 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/guide_action"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_height="44dp"
-            android:layout_marginLeft="52dp"
-            android:layout_marginRight="52dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
             android:layout_marginBottom="24dp"
             android:layout_marginTop="44dp"
             android:gravity="center"

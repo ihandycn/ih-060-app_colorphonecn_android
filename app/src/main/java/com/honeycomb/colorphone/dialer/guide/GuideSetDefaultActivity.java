@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.dialer.guide;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -42,6 +43,9 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
 
                 if (ConfigEvent.setDefaultGuideShow()) {
                     Intent starter = new Intent(context, GuideSetDefaultActivity.class);
+                    if (context instanceof Activity) {
+                        ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    }
                     context.startActivity(starter);
                 } else {
                     DefaultPhoneUtils.checkDefaultPhoneSettings();
