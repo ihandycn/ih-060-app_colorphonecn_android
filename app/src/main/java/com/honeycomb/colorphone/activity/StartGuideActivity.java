@@ -147,6 +147,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             view.setScaleY(0);
             view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator(3)).start();
 
+            AutoLogger.logEventWithBrandAndOS("Congratulation_Page_Shown");
             Threads.postOnMainThreadDelayed(this::finish, 2000);
         } else {
             HSLog.i("AutoPermission", "onPermissionChanged holder == " + holder);
