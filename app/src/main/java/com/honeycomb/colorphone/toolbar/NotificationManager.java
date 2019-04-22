@@ -74,6 +74,7 @@ public class NotificationManager implements FlashlightStatusListener {
     private static final int TRACK_COLOR = 0xff3f4043;
 
     public static final String ACTION_BOOST_TOOLBAR = "action_boost_toolbar";
+    @Deprecated
     public static final String ACTION_WIFI_STATE_CHANGE = "action_wifi_state_change";
     private static final String ACTION_WIFI_CLICK = "action_wifi_click";
     public static final String ACTION_MOBILE_DATA = "action_data";

@@ -125,7 +125,7 @@ dependencies {
         transitive = true
     }
 
-    debugCompile 'com.amitshekhar.android:debug-db:1.0.3'
+//    debugCompile 'com.amitshekhar.android:debug-db:1.0.3'
 
     final USE_BETA_ACB_LIBS = false
 
