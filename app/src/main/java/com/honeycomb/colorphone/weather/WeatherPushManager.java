@@ -170,7 +170,7 @@ public class WeatherPushManager {
             HSLog.d("Weather.Update", "autopilot disable!");
             return false;
         }
-        if (inValidTime()) {
+        if (!inValidTime()) {
             HSLog.d("Weather.Update", "current time not valid!");
             return false;
         }
