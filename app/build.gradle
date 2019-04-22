@@ -133,6 +133,18 @@ android {
 //            universalApk false
 //        }
 //    }
+
+    /*
+     * https://stackoverflow.com/questions/32317822/rebuild-required-after-changing-xml-layout-files-in-android-studio
+     */
+    applicationVariants.all { variant ->
+        tasks.named("generate${variant.name.capitalize()}Resources").configure { mergeResourceTask ->
+            mergeResourceTask.outputs.upToDateWhen { false }
+        }
+        tasks.named("merge${variant.name.capitalize()}Resources").configure { mergeResourceTask ->
+            mergeResourceTask.outputs.upToDateWhen { false }
+        }
+    }
 }
 
 final SUPPORT_LIBRARY_VERSION = '26.1.0'
