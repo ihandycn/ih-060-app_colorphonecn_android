@@ -42,7 +42,6 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -186,34 +185,6 @@ public final class Utils {
         return isOpen;
     }
 
-    public static boolean setMobileDataStatus(Context context, boolean enabled) {
-        if (isHuaweiDevice() && isWifiEnabled()) {
-            return false;
-        }
-        ConnectivityManager connectivityManager;
-        Class connectivityManagerClz;
-        try {
-            connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            connectivityManagerClz = connectivityManager.getClass();
-            @SuppressWarnings("unchecked")
-            Method method = connectivityManagerClz.getMethod("setMobileDataEnabled", boolean.class);
-            // Asynchronous invocation
-            method.invoke(connectivityManager, enabled);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return false;
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            return false;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
 
     public static void sentEmail(Context mContext, @NonNull String[] addresses, String subject, String body) {
         if (addresses.length == 0 || TextUtils.isEmpty(addresses[0])) {
@@ -239,16 +210,6 @@ public final class Utils {
                 Navigations.startActivitySafely(mContext, sendIntentIfGmailFail);
             }
         }
-    }
-
-    public static boolean isWifiEnabled() {
-        WifiManager wifiManager = (WifiManager) HSApplication.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        return wifiManager.isWifiEnabled();
-    }
-
-    public static boolean isHuaweiDevice() {
-        return Build.MANUFACTURER.equalsIgnoreCase("Huawei")
-                && !Build.BRAND.equalsIgnoreCase("google"); // Exclude Nexus 6P
     }
 
     /**
