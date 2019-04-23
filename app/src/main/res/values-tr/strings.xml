@@ -200,4 +200,8 @@
 
     <string name="guide_weather_hint">Hava durumunu dahil et</string>
     <string name="network_err_msg">Ağ kullanılamıyor</string>
+
+
+    <string name="weather_forecast">Hava Durumu</string>
+    <string name="weather_push_content">Hava durumunu öğrenmek için telefonu aç</string>
 </resources>

@@ -129,4 +129,8 @@
 
     <string name="guide_weather_hint">Weersverwachting opnemen</string>
     <string name="network_err_msg">Netwerk niet beschikbaar</string>
+
+
+    <string name="weather_forecast">Weersverwachting</string>
+    <string name="weather_push_content">Neem op voor weersinformatie</string>
 </resources>

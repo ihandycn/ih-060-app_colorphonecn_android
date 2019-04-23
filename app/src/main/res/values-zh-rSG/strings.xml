@@ -190,4 +190,7 @@
 
     <string name="guide_weather_hint">包含天气预报</string>
     <string name="network_err_msg">网络连接不可用</string>
+
+    <string name="weather_forecast">天气预报</string>
+    <string name="weather_push_content">接听电话就可获取天气详情</string>
 </resources>

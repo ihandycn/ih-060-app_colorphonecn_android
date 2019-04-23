@@ -303,4 +303,8 @@
     <string name="alert_turn_off_random_desc_beset">Daily Theme is in use. If you set this theme for all of your contacts, you can’t enjoy different callscreens everyday.</string>
     <string name="alert_button_keep_random_mode">Keep Daily Themes</string>
     <string name="alert_button_continue">Yes, Set Now</string>
+
+
+    <string name="weather_forecast">Weather Forecast</string>
+    <string name="weather_push_content">Pick up to get weather information</string>
 </resources>

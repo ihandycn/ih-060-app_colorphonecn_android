@@ -203,4 +203,8 @@
 
     <string name="guide_weather_hint">Inclure les prévisions météo</string>
     <string name="network_err_msg">Réseau non disponible</string>
+
+
+    <string name="weather_forecast">Prévisions météo</string>
+    <string name="weather_push_content">Décrochez pour obtenir des infos météo</string>
 </resources>

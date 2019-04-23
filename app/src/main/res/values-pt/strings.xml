@@ -203,4 +203,8 @@
 
     <string name="guide_weather_hint">Incluir previsão do tempo</string>
     <string name="network_err_msg">Rede indisponível</string>
+
+
+    <string name="weather_forecast">Previsão do tempo</string>
+    <string name="weather_push_content">Pegue o telefone para obter informações sobre o clima</string>
 </resources>

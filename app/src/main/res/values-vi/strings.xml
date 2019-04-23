@@ -196,4 +196,8 @@
 
     <string name="guide_weather_hint">Bao gồm dự báo thời tiết</string>
     <string name="network_err_msg">Mạng không khả dụng</string>
+
+
+    <string name="weather_forecast">Dự báo thời tiết</string>
+    <string name="weather_push_content">Mở điện thoại để nhận thông tin thời tiết</string>
 </resources>

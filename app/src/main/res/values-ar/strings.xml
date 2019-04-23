@@ -201,4 +201,8 @@
 
     <string name="guide_weather_hint">تضمين توقعات الطقس</string>
     <string name="network_err_msg">الشبكة غير متاحة</string>
+
+
+    <string name="weather_forecast">توقعات الطقس</string>
+    <string name="weather_push_content">رُد للحصول على معلومات عن الطقس</string>
 </resources>

@@ -209,4 +209,8 @@
 
     <string name="guide_weather_hint">Включить прогноз погоды</string>
     <string name="network_err_msg">Нет соединения с сетью</string>
+
+
+    <string name="weather_forecast">Прогноз погоды</string>
+    <string name="weather_push_content">Ответьте на вызов, чтобы узнать прогноз погоды</string>
 </resources>

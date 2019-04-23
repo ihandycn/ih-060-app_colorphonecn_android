@@ -208,4 +208,8 @@
 
     <string name="guide_weather_hint">Includi previsioni del tempo</string>
     <string name="network_err_msg">Rete non disponibile</string>
+
+
+    <string name="weather_forecast">Previsioni del tempo</string>
+    <string name="weather_push_content">Prendi il telefono per ricevere le previsioni del tempo</string>
 </resources>

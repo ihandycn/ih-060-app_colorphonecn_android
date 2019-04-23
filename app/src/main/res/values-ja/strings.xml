@@ -205,4 +205,8 @@
 
   <string name="guide_weather_hint">天気予報を含む</string>
   <string name="network_err_msg">ネットワークが利用不可</string>
+
+
+  <string name="weather_forecast">天気予報</string>
+  <string name="weather_push_content">携帯を手に取って天候状況を知りましょう</string>
 </resources>

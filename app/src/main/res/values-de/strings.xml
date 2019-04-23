@@ -202,4 +202,8 @@
 
     <string name="guide_weather_hint">Mit Wettervorhersage</string>
     <string name="network_err_msg">Netzwerk nicht verfügbar</string>
+
+
+    <string name="weather_forecast">Wettervorhersage</string>
+    <string name="weather_push_content">Annehmen, um Wetterinformationen zu erhalten</string>
 </resources>

@@ -203,4 +203,8 @@
 
     <string name="guide_weather_hint">Mencakup prakiraan cuaca</string>
     <string name="network_err_msg">Jaringan tidak tersedia</string>
+
+
+    <string name="weather_forecast">Prakiraan Cuaca</string>
+    <string name="weather_push_content">Ambil ponsel untuk mendapatkan informasi cuaca</string>
 </resources>

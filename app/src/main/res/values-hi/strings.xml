@@ -203,4 +203,8 @@
 
     <string name="guide_weather_hint">मौसम पूर्वानुमान शामिल हैं</string>
     <string name="network_err_msg">नेटवर्क उपलब्‍ध नहीं है</string>
+
+
+    <string name="weather_forecast">मौसम पूर्वानुमान</string>
+    <string name="weather_push_content">मौसम की जानकारी पाने के लिए फोन उठाएं</string>
 </resources>
