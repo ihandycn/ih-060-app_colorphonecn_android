@@ -204,4 +204,8 @@
     <string name="alert_turn_off_random_desc_beset">Tema quotidiano è in uso. Se imposti il tema per tutti i contatti potrai avere schermate di chiamate diverse ogni giorno.</string>
     <string name="alert_button_keep_random_mode">Mantieni temi quotidiani</string>
     <string name="alert_button_continue">Sì, Imposta ora</string>
+
+
+    <string name="guide_weather_hint">Includi previsioni del tempo</string>
+    <string name="network_err_msg">Rete non disponibile</string>
 </resources>

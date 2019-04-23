@@ -205,4 +205,8 @@
     <string name="alert_turn_off_random_desc_beset">Используются ежедневные темы. Если вы установите эту тему для всех контактов, вы не сможете менять экран вызова каждый день.</string>
     <string name="alert_button_keep_random_mode">Хранить ежедневные темы</string>
     <string name="alert_button_continue">Да, установить сейчас</string>
+
+
+    <string name="guide_weather_hint">Включить прогноз погоды</string>
+    <string name="network_err_msg">Нет соединения с сетью</string>
 </resources>

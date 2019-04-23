@@ -199,4 +199,8 @@
     <string name="alert_turn_off_random_desc_beset">Tema Harian sedang digunakan. Jika Anda mengatur tema ini untuk semua kontak, Anda tidak bisa menikmati layar panggilan berbeda setiap hari.</string>
     <string name="alert_button_keep_random_mode">Simpan Tema Harian</string>
     <string name="alert_button_continue">Ya, Setel Sekarang</string>
+
+
+    <string name="guide_weather_hint">Mencakup prakiraan cuaca</string>
+    <string name="network_err_msg">Jaringan tidak tersedia</string>
 </resources>

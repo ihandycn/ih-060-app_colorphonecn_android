@@ -201,4 +201,8 @@
   <string name="alert_turn_off_random_desc_beset">デイリーテーマが使用されています。このテーマをすべての連絡先に設定すると、毎日異なる通話画面を楽しむことができます。</string>
   <string name="alert_button_keep_random_mode">毎日のテーマを守る</string>
   <string name="alert_button_continue">はい、今すぐ設定</string>
+
+
+  <string name="guide_weather_hint">天気予報を含む</string>
+  <string name="network_err_msg">ネットワークが利用不可</string>
 </resources>

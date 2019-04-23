@@ -199,4 +199,7 @@
     <string name="alert_turn_off_random_desc_beset">Alltagsmotive wird gerade benutzt. Wenn Sie dieses Motiv für alle Ihre Kontakte festlegen, können Sie sich nicht jeden Tag an unterschiedlichen Motiven erfreuen.</string>
     <string name="alert_button_keep_random_mode">Tägliche Themen behalten</string>
     <string name="alert_button_continue">Jetzt einstellen</string>
+
+    <string name="guide_weather_hint">Mit Wettervorhersage</string>
+    <string name="network_err_msg">Netzwerk nicht verfügbar</string>
 </resources>

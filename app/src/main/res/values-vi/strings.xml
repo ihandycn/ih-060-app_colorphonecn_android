@@ -193,4 +193,7 @@
     <string name="alert_turn_off_random_desc_beset">Chủ đề Hàng ngày đang được sử dụng. Nếu bạn đặt chủ đề này cho tất cả các liên hệ của mình, bạn không thể sử dụng các màn hình cuộc gọi khác nhau mỗi ngày.</string>
     <string name="alert_button_keep_random_mode">Giữ chủ đề hàng ngày</string>
     <string name="alert_button_continue">Có, đặt ngay</string>
+
+    <string name="guide_weather_hint">Bao gồm dự báo thời tiết</string>
+    <string name="network_err_msg">Mạng không khả dụng</string>
 </resources>

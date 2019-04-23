@@ -197,4 +197,8 @@
     <string name="alert_turn_off_random_desc_beset">تستخدم حاليًا التصاميم اليومية. إذا عيّنت هذا النسق لجميع جهات اتصالك، لن تستمتع بشاشات اتصال مختلفة كل يوم.</string>
     <string name="alert_button_keep_random_mode">الحفاظ على الموضوعات اليومية</string>
     <string name="alert_button_continue">نعم ، حدد الآن</string>
+
+
+    <string name="guide_weather_hint">تضمين توقعات الطقس</string>
+    <string name="network_err_msg">الشبكة غير متاحة</string>
 </resources>

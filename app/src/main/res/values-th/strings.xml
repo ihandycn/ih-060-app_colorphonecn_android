@@ -199,4 +199,8 @@
     <string name="alert_turn_off_random_desc_beset">กำลังใช้ธืมประจำวันอยู่ หากคุณตั้งค่าธืมนี้ให้รายชื่อติดต่อทั้งหมด คุณจะไม่สามารถเพลิดเพลินกับหน้าจอโทรทุกวันได้</string>
     <string name="alert_button_keep_random_mode">เก็บธีมรายวัน</string>
     <string name="alert_button_continue">ใช่ตั้งค่าตอนนี้</string>
+
+
+    <string name="guide_weather_hint">มีพยากรณ์อากาศ</string>
+    <string name="network_err_msg">เครือข่ายไม่พร้อมใช้งาน</string>
 </resources>

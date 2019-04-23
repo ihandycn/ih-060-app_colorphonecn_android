@@ -199,4 +199,8 @@
     <string name="alert_turn_off_random_desc_beset">Thème quotidien est en cours d\'utilisation. Si vous définissez ce thème pour tous vos contacts, vous ne pourrez pas profiter d\'écrans d\'appel différents chaque jour.</string>
     <string name="alert_button_keep_random_mode">Gardez les thèmes quotidiens</string>
     <string name="alert_button_continue">Oui, maintenant</string>
+
+
+    <string name="guide_weather_hint">Inclure les prévisions météo</string>
+    <string name="network_err_msg">Réseau non disponible</string>
 </resources>

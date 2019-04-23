@@ -196,4 +196,8 @@
     <string name="alert_turn_off_random_desc_beset">Günlük Tema kullanılıyor. Bu temayı tüm kişilerin için ayarlarsan, her gün farklı arama ekranının keyfini çıkaramazsın.</string>
     <string name="alert_button_keep_random_mode">Günlük Temaları Koru</string>
     <string name="alert_button_continue">Evet, Şimdi Ayarla</string>
+
+
+    <string name="guide_weather_hint">Hava durumunu dahil et</string>
+    <string name="network_err_msg">Ağ kullanılamıyor</string>
 </resources>

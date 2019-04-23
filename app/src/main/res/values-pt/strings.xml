@@ -199,4 +199,8 @@
     <string name="alert_turn_off_random_desc_beset">Temas Diários está em uso. Se definir este tema para todos os seus contatos, você não poderá aproveitar telas de chamada diferentes todos os dias.</string>
     <string name="alert_button_keep_random_mode">Mantenha temas diários</string>
     <string name="alert_button_continue">Sim, definir agora</string>
+
+
+    <string name="guide_weather_hint">Incluir previsão do tempo</string>
+    <string name="network_err_msg">Rede indisponível</string>
 </resources>

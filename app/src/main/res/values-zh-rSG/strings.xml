@@ -186,4 +186,8 @@
     <string name="alert_turn_off_random_desc_beset">您正在使用每日主题。如果您将此主题应用给所有联系人，您将不能享受到每天不同的来电界面。</string>
     <string name="alert_button_keep_random_mode">保留每日主题</string>
     <string name="alert_button_continue">是，继续应用</string>
+
+
+    <string name="guide_weather_hint">包含天气预报</string>
+    <string name="network_err_msg">网络连接不可用</string>
 </resources>

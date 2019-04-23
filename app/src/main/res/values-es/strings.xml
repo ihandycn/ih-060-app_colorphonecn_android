@@ -200,4 +200,8 @@
     <string name="alert_turn_off_random_desc_beset">Tema diario está activo. Si estableces este tema para todos tus contactos, no disfrutarás de pantallas de llamada diferentes cada día.</string>
     <string name="alert_button_keep_random_mode">Mantener temas diarios</string>
     <string name="alert_button_continue">Establecer ahora</string>
+
+
+    <string name="guide_weather_hint">Incluir previsión meteorológica</string>
+    <string name="network_err_msg">Red no disponible</string>
 </resources>

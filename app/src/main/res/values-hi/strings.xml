@@ -199,4 +199,8 @@
     <string name="alert_turn_off_random_desc_beset">दैनिक थीम प्रयोग में है। यदि आप अपने सभी संपर्कों के लिए इस थीम को सेट करते हैं, तो आप हर रोज अलग-अलग कॉल्स का आनंद नहीं ले सकते।</string>
     <string name="alert_button_keep_random_mode">दैनिक विषय-वस्तु रखें</string>
     <string name="alert_button_continue">हां, अभी सेट करें</string>
+
+
+    <string name="guide_weather_hint">मौसम पूर्वानुमान शामिल हैं</string>
+    <string name="network_err_msg">नेटवर्क उपलब्‍ध नहीं है</string>
 </resources>

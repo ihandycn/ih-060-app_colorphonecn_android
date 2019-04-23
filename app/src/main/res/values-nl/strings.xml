@@ -125,4 +125,8 @@
     <string name="alert_turn_off_random_desc_beset">Dagthema wordt gebruikt. Als je dit thema voor al je contactpersonen instelt, krijg je niet langer elke dag nieuwe belschermen te zien.</string>
     <string name="alert_button_keep_random_mode">Houd dagelijkse thema\'s</string>
     <string name="alert_button_continue">Ja, nu instellen</string>
+
+
+    <string name="guide_weather_hint">Weersverwachting opnemen</string>
+    <string name="network_err_msg">Netwerk niet beschikbaar</string>
 </resources>
