@@ -59,6 +59,7 @@ import com.honeycomb.colorphone.weather.WeatherContentUtils;
 import com.honeycomb.colorphone.weather.WeatherPushManager;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSNotificationConstant;
+import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
@@ -180,7 +181,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         initMainFrame();
         AdManager.getInstance().preload();
         AppflyerLogger.logAppOpen();
-        WeatherPushManager.getInstance().updateWeatherIfNeeded();
+
+        WeatherPushManager.getInstance().updateWeatherIfNeeded(HSSessionMgr.getCurrentSessionId() <= 1);
         isCreate = true;
     }
 
@@ -396,8 +398,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void updateWeatherIcon() {
-        if (!Ap.WeatherPush.showPush()
-                || WeatherClockManager.getInstance().isWeatherUnknown()) {
+        if (!Ap.WeatherPush.showPush()) {
             weatherIcon.setVisibility(View.GONE);
         } else {
             weatherIcon.setVisibility(View.VISIBLE);

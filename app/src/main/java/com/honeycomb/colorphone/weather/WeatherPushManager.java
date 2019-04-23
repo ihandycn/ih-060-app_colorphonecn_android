@@ -166,11 +166,16 @@ public class WeatherPushManager {
     }
 
     public boolean updateWeatherIfNeeded() {
+        return updateWeatherIfNeeded(false);
+    }
+
+    public boolean updateWeatherIfNeeded(boolean ignoreTime) {
         if (!Ap.WeatherPush.showPush()) {
             HSLog.d("Weather.Update", "autopilot disable!");
             return false;
         }
-        if (!inValidTime()) {
+
+        if (!ignoreTime && !inValidTime()) {
             HSLog.d("Weather.Update", "current time not valid!");
             return false;
         }

@@ -3,7 +3,6 @@ package colorphone.acb.com.libweather.util;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -18,9 +17,6 @@ import android.provider.Settings;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Permissions;
-
-import colorphone.acb.com.libweather.R;
-import colorphone.acb.com.libweather.launcher.NormalPermissionGuide;
 
 public class PermissionUtils {
 

@@ -426,6 +426,7 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
         mAdapter.notifyDataSetChanged();
 
         HSLog.d("Weather.Update", "Update weather: " + queryId + ", isLocal: " + isLocal);
+        WeatherClockManager.getInstance().notifyWeatherRequestStart();
         if (isLocal) {
             fetchLocalWeather(cityData, ipOnly);
         } else {
@@ -502,6 +503,7 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
 
     @Thunk void handleWeatherFetchResult(final CityData oldData, final HSWeatherQueryResult result) {
         final boolean success = result != null;
+        WeatherClockManager.getInstance().notifyWeatherRequestFinish(success);
         mRefreshIndicator.requestStop();
         if (success) {
             WeatherClockManager.getInstance().setLocalWeather(result);
@@ -873,7 +875,7 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
                     // "Failed to load" page
                     View failurePage = mInflater.inflate(R.layout.weather_city_load_failure, container, false);
                     View refreshBtn = ViewUtils.findViewById(failurePage, R.id.weather_city_refresh_btn);
-                    refreshBtn.setOnClickListener((OnClickListener) mContext);
+                    refreshBtn.setOnClickListener(WeatherView.this);
                     itemView = failurePage;
                 }
             }

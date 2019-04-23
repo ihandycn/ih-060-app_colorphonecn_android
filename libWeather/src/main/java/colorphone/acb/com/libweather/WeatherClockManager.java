@@ -206,7 +206,7 @@ public class WeatherClockManager {
         });
     }
 
-    private void notifyWeatherRequestStart() {
+    public void notifyWeatherRequestStart() {
         if (mWeatherRequestListener != null) {
             mWeatherRequestListener.onWeatherRequestStart();
         }
@@ -286,7 +286,7 @@ public class WeatherClockManager {
         });
     }
 
-    private void notifyWeatherRequestFinish(boolean success) {
+    public void notifyWeatherRequestFinish(boolean success) {
         if (mWeatherRequestListener != null) {
             mWeatherRequestListener.onWeatherRequestFinish(success);
         }
