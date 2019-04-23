@@ -31,7 +31,7 @@
     <string name="call_assistant_hint">Trình Hỗ trợ Cuộc gọi sẽ nhắc bạn về những cuộc gọi nhỡ (Có thể chứa quảng cáo)</string>
 
     <string name="theme_set_for_all">THIẾT LẬP CHO TẤT CẢ</string>
-    <string name="theme_set_for_one">Thiết lập cho Một người</string>
+    <string name="theme_set_for_one">Thiết lập cho Liên hệ</string>
     <string name="contact_select_hint">Áp dụng chủ đề \'%1$s\' cho (những) liên hệ được chọn</string>
     <string name="contact_theme">Chủ đề Liên hệ</string>
 
@@ -177,4 +177,20 @@
     <string name="battery_optimized">Tối ưu hóa</string>
 
     <string name="guide_theme_random_hint">Khi áp dụng chủ đề này, bạn có thể trải nghiệm những chủ đề ngẫu nhiên khi có cuộc gọi đến.</string>
+
+
+    <string name="random_theme_guide_title">Tận hưởng đèn nháy màn hình khác biệt hàng ngày. </string>
+    <string name="random_theme_guide_desc">Bạn có thể tắt chế độ ngẫu nhiên trong phần cài đặt.</string>
+    <string name="alert_turn_off_random_desc"> Khi tắt, bạn không thể sử dụng đèn nháy màn hình khác nhau hàng ngày.</string>
+    <string name="random_mode">Chế độ ngẫu nhiên</string>
+
+
+    <string name="random_theme_guide_title2">Chủ đề Hàng ngày là chủ đề mặc định của bạn.</string>
+    <string name="random_theme_guide_desc2">Bạn có thể tận hưởng màn hình cuộc gọi khác nhau mỗi ngày.</string>
+    <string name="random_theme_guide_ok_btn">HIỂU RỒI</string>
+
+    <string name="alert_turn_off_random_title">Bạn có chắc chắn muốn thiết lập chủ đề này cho tất cả liên hệ của mình không?</string>
+    <string name="alert_turn_off_random_desc_beset">Chủ đề Hàng ngày đang được sử dụng. Nếu bạn đặt chủ đề này cho tất cả các liên hệ của mình, bạn không thể sử dụng các màn hình cuộc gọi khác nhau mỗi ngày.</string>
+    <string name="alert_button_keep_random_mode">Giữ chủ đề hàng ngày</string>
+    <string name="alert_button_continue">Có, đặt ngay</string>
 </resources>

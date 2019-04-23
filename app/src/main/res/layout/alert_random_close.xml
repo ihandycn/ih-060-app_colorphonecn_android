@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#a2000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="36dp"
+        android:background="@drawable/notification_access_white_bg"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/guide_close"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end|right"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/material_compat_bg"
+            android:scaleType="center"
+            android:src="@drawable/acb_phone_alert_call_close"
+            android:visibility="gone" />
+
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/alert_turn_off_random_title"
+            android:textColor="@color/textBlack"
+            android:textSize="22dp"
+            app:typeface="@string/proxima_nova_bold" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/alert_random_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/alert_turn_off_random_desc"
+            android:textColor="@color/textLightGray"
+            android:textSize="16sp"
+            app:typeface="@string/proxima_nova_semibold" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/button_keep"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/material_compat_button_bg_blue"
+            android:gravity="center"
+            android:text="@string/alert_button_keep_random_mode"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            app:typeface="@string/proxima_nova_bold" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/button_turn_off"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/dialog_gray_btn_bg"
+            android:gravity="center"
+            android:text="@string/alert_button_turn_off"
+            android:textAllCaps="true"
+            android:textColor="#5B5B5B"
+            android:textSize="15sp"
+            app:typeface="@string/proxima_nova_bold" />
+    </LinearLayout>
+</FrameLayout>

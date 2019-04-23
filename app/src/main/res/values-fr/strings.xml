@@ -30,7 +30,7 @@
     <string name="call_assistant_hint">L\'assistant d\'appel vous rappellera les appels manqués (peut contenir des publicités)</string>
 
     <string name="theme_set_for_all">CONFIGURER POUR TOUS</string>
-    <string name="theme_set_for_one">Configurer pour quelqu\'un</string>
+    <string name="theme_set_for_one">Définir pour le contact</string>
     <string name="contact_select_hint">Appliquer le thème « %1$s » au(x) contact(s) sélectionné(s)</string>
     <string name="contact_theme">Thème du contact</string>
 
@@ -183,4 +183,20 @@
     <string name="result_page_theme_recommend_optimal">Appliqué avec succès</string>
     <string name="result_page_theme_recommend_more">Trouver plus de thèmes</string>
 
+
+    <string name="random_theme_guide_title">Profitez d\'un flash d\'écran différent chaque jour. </string>
+    <string name="random_theme_guide_desc">Vous pouvez désactiver le mode aléatoire dans les paramètres.</string>
+    <string name="alert_turn_off_random_desc">En le désactivant, vous ne pouvez pas profiter d\'un flash d\'écran différent chaque jour.</string>
+    <string name="random_mode">Mode aléatoire</string>
+
+
+
+    <string name="random_theme_guide_title2">Thèmes quotidiens est votre thème par défaut.</string>
+    <string name="random_theme_guide_desc2">Vous pouvez profiter d\'écrans d\'appel différents chaque jour.</string>
+    <string name="random_theme_guide_ok_btn">je le sais</string>
+
+    <string name="alert_turn_off_random_title">Voulez-vous vraiment définir ce thème pour tous vos contacts ?</string>
+    <string name="alert_turn_off_random_desc_beset">Thème quotidien est en cours d\'utilisation. Si vous définissez ce thème pour tous vos contacts, vous ne pourrez pas profiter d\'écrans d\'appel différents chaque jour.</string>
+    <string name="alert_button_keep_random_mode">Gardez les thèmes quotidiens</string>
+    <string name="alert_button_continue">Oui, maintenant</string>
 </resources>

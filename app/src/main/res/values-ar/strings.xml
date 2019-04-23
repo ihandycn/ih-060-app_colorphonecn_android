@@ -31,7 +31,7 @@
     <string name="call_assistant_hint">يذكرك مساعد المكالمات بالمكالمات الفائتة (قد يتضمن إعلانات).</string>
 
     <string name="theme_set_for_all">التعيين للكل</string>
-    <string name="theme_set_for_one">التعيين للبعض</string>
+    <string name="theme_set_for_one">تعيين لجهة الاتصال</string>
     <string name="contact_select_hint">تطبيق التصميم \'%1$s\' لجهات الاتصال المحددة</string>
     <string name="contact_theme">تصميم جهة اتصال</string>
 
@@ -182,4 +182,19 @@
     <string name="result_page_theme_recommend_optimal">تم التطبيق بنجاح</string>
     <string name="result_page_theme_recommend_more">اعثر على المزيد من التصاميم</string>
 
+
+    <string name="random_theme_guide_title">استمتع بشاشات مختلفة كل يوم.</string>
+    <string name="random_theme_guide_desc">يمكنك إيقاف تشغيل الوضع العشوائي في الإعدادات.</string>
+    <string name="alert_turn_off_random_desc">من خلال إيقاف التشغيل ، لا يمكنك الاستمتاع بشاشات مختلفة كل يوم.</string>
+    <string name="random_mode">وضع عشوائي</string>
+
+
+    <string name="random_theme_guide_title2">التصاميم اليومية هي نسقك الافتراضي.</string>
+    <string name="random_theme_guide_desc2">يمكنك الاستمتاع بشاشات اتصال مختلفة كل يوم.</string>
+    <string name="random_theme_guide_ok_btn">فهمتك</string>
+
+    <string name="alert_turn_off_random_title">هل أنت متأكد من رغبتك في تعيين هذا التصميم لكل جهات الاتصال؟</string>
+    <string name="alert_turn_off_random_desc_beset">تستخدم حاليًا التصاميم اليومية. إذا عيّنت هذا النسق لجميع جهات اتصالك، لن تستمتع بشاشات اتصال مختلفة كل يوم.</string>
+    <string name="alert_button_keep_random_mode">الحفاظ على الموضوعات اليومية</string>
+    <string name="alert_button_continue">نعم ، حدد الآن</string>
 </resources>

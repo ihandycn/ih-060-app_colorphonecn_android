@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -14,29 +15,37 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.AboutActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
+import com.honeycomb.colorphone.activity.GuideRandomCloseActivity;
 import com.honeycomb.colorphone.activity.LedFlashSettingsActivity;
 import com.honeycomb.colorphone.activity.SettingsActivity;
+import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 import com.superapps.util.Navigations;
+import com.superapps.util.Preferences;
 
-import colorphone.acb.com.libweather.WeatherActivity;
-
-public class SettingsPage implements View.OnClickListener {
+public class SettingsPage implements View.OnClickListener, INotificationObserver {
     private SwitchCompat mainSwitch;
-
+    private SwitchCompat randomSwitch;
     private TextView mainSwitchTxt;
     private boolean initCheckState;
+
+    /**
+     * Mark for random toggle click
+     */
+    private boolean userTriggerRandom = true;
 
 
     public void initPage(View rootView) {
         mainSwitch = rootView.findViewById(R.id.main_switch);
         mainSwitchTxt = rootView.findViewById(R.id.settings_main_switch_txt);
 
-        boolean dialerEnable = false;
         rootView.findViewById(R.id.settings_default_dialer_switch)
-                .setVisibility(dialerEnable ? View.VISIBLE : View.GONE);
+                .setVisibility(View.GONE);
 
         initCheckState = ScreenFlashSettings.isScreenFlashModuleEnabled();
         mainSwitch.setChecked(initCheckState);
@@ -51,12 +60,43 @@ public class SettingsPage implements View.OnClickListener {
             }
         });
 
+        boolean randomThemeSwitch = false;
+        rootView.findViewById(R.id.settings_random_theme)
+                .setVisibility(randomThemeSwitch ? View.VISIBLE : View.GONE);
+
+        randomSwitch = rootView.findViewById(R.id.switch_random_theme);
+        if (randomThemeSwitch) {
+            randomSwitch.setChecked(RandomTheme.getInstance().userSettingsEnable());
+            randomSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (!userTriggerRandom) {
+                        userTriggerRandom = true;
+                        return;
+                    }
+                    if (!isChecked) {
+                        // Show alert if enable.
+                        Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
+                            @Override
+                            public void run() {
+                                GuideRandomCloseActivity.start(mainSwitch.getContext(), GuideRandomCloseActivity.SETTINGS, false);
+                                HSGlobalNotificationCenter.addObserver(GuideRandomCloseActivity.EVENT_KEEP, SettingsPage.this);
+                            }
+                        }, "token_random_close_alert");
+                        ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, Utils.getDefaultThemeId());
+                    }
+
+                    RandomTheme.getInstance().setUserSettingsEnable(isChecked);
+
+                }
+            });
+        }
+
         rootView.findViewById(R.id.settings_main_switch).setOnClickListener(this);
         rootView.findViewById(R.id.settings_default_dialer_switch).setOnClickListener(this);
         rootView.findViewById(R.id.settings_led_flash).setOnClickListener(this);
-//        rootView.findViewById(R.id.settings_notification_toolbar).setOnClickListener(this);
+
         rootView.findViewById(R.id.settings_feedback).setOnClickListener(this);
-//        rootView.findViewById(R.id.settings_boost).setOnClickListener(this);
         rootView.findViewById(R.id.settings_setting).setOnClickListener(this);
         rootView.findViewById(R.id.settings_contacts).setOnClickListener(this);
         rootView.findViewById(R.id.settings_about).setOnClickListener(this);
@@ -74,6 +114,13 @@ public class SettingsPage implements View.OnClickListener {
         return HSApplication.getContext().getString(id);
     }
 
+    public void refreshRandomTheme() {
+        if (randomSwitch != null) {
+            userTriggerRandom = false;
+            randomSwitch.setChecked(RandomTheme.getInstance().userSettingsEnable());
+        }
+    }
+
     @Override
     public void onClick(View v) {
         Context context = v.getContext();
@@ -84,20 +131,17 @@ public class SettingsPage implements View.OnClickListener {
             case R.id.settings_default_dialer_switch:
 //                defaultDialer.toggle();
                 break;
+            case R.id.settings_random_theme:
+                randomSwitch.toggle();
+                break;
             case R.id.settings_led_flash:
                 LedFlashSettingsActivity.start(context);
                 break;
-//            case R.id.settings_notification_toolbar:
-//                toggleNotificationToolbar();
-//                break;
+
             case R.id.settings_feedback:
                 feedBack();
                 ColorPhoneApplication.getConfigLog().getEvent().onFeedBackClick();
                 break;
-//            case R.id.settings_boost:
-//                BoostActivity.start(ColorPhoneActivity.context, false);
-//                LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Clicked");
-//                break;
             case R.id.settings_setting:
                 LauncherAnalytics.logEvent("Colorphone_Settings_Clicked");
                 SettingsActivity.start(context);
@@ -115,6 +159,9 @@ public class SettingsPage implements View.OnClickListener {
                                 "https://business.facebook.com/Color-Call-Call-Screen-LED-Flash-Ringtones-342916819531161"
                                 :
                                 "https://www.facebook.com/pg/Color-Phone-560161334373476");
+                break;
+
+            default:
                 break;
         }
     }
@@ -135,5 +182,12 @@ public class SettingsPage implements View.OnClickListener {
 
     public void onThemeSelected() {
         mainSwitch.setChecked(true);
+    }
+
+    @Override
+    public void onReceive(String name, HSBundle hsBundle) {
+        if (GuideRandomCloseActivity.EVENT_KEEP.equals(name)) {
+            randomSwitch.setChecked(true);
+        }
     }
 }

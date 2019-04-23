@@ -18,7 +18,7 @@
 
     <string name="theme_apply">Apply</string>
 
-    <string name="apply_success">Apply Success</string>
+    <string name="apply_success">@string/result_page_theme_recommend_optimal</string>
     <string name="theme_current">Current Theme</string>
     <string name="send_email">Send Email</string>
     <string name="loading">Loading </string>
@@ -61,7 +61,7 @@
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
     <string name="theme_set_for_all">SET FOR ALL</string>
-    <string name="theme_set_for_one">Set for Someone</string>
+    <string name="theme_set_for_one">Set for Contact</string>
 
     <string name="set" translatable="false">SET</string>
     <string name="empty_contact_hint" translatable="false">You haven’t set up theme\n for your contacts.</string>
@@ -287,4 +287,20 @@
 
     <string name="guide_weather_hint">Include weather forecast</string>
     <string name="network_err_msg">Network not available</string>
+
+    <string name="random_theme_guide_title">Enjoy different screenflash everyday.</string>
+    <string name="random_theme_guide_desc">You can turn off random mode in settings.</string>
+    <string name="alert_turn_off_random_desc">By turning off, you can’t enjoy different screenflash everyday.</string>
+    <string name="alert_button_turn_off">@string/gdpr_dialog_turn_off</string>
+    <string name="random_mode">Random mode</string>
+
+
+    <string name="random_theme_guide_title2">Daily Themes is your default theme</string>
+    <string name="random_theme_guide_desc2">You can enjoy different callscreens everyday.</string>
+    <string name="random_theme_guide_ok_btn">GOT IT</string>
+
+    <string name="alert_turn_off_random_title">Are you sure to set this theme for all of your contacts?</string>
+    <string name="alert_turn_off_random_desc_beset">Daily Theme is in use. If you set this theme for all of your contacts, you can’t enjoy different callscreens everyday.</string>
+    <string name="alert_button_keep_random_mode">Keep Daily Themes</string>
+    <string name="alert_button_continue">Yes, Set Now</string>
 </resources>

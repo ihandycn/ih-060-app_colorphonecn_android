@@ -248,6 +248,27 @@
             android:theme="@style/Theme.AppCompat.Translucent"/>
 
         <activity
+            android:name=".activity.GuideRandomCloseActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/Theme.AppCompat.Translucent"/>
+
+        <activity
+            android:name=".activity.GuideRandomThemeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/Theme.AppCompat.Translucent"/>
+
+        <activity
+            android:name=".activity.GuideRandomThemeActivity2"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/Theme.AppCompat.Translucent"/>
+
+        <activity
             android:name=".activity.ContactsSelectActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"

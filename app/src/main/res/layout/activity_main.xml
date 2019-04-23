@@ -88,7 +88,38 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"/>
                 </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/settings_random_theme"
+                    style="@style/LayoutSettings"
+                    >
 
+                    <ImageView
+                        android:id="@+id/settings_random_theme_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/settings_icon_random" />
+
+                    <com.honeycomb.colorphone.view.TypefacedTextView
+                        android:id="@+id/settings_random_theme_txt"
+                        style="@style/NormalText.Drawer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/nav_item_inner_spacing"
+                        android:layout_marginStart="@dimen/nav_item_inner_spacing"
+                        android:layout_toEndOf="@id/settings_random_theme_icon"
+                        android:layout_toRightOf="@id/settings_random_theme_icon"
+                        android:text="@string/random_mode" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switch_random_theme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/settings_default_dialer_switch"
                     style="@style/LayoutSettings"

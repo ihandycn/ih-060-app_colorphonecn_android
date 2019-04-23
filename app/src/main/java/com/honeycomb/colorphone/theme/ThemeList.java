@@ -51,7 +51,7 @@ public class ThemeList {
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
         boolean applyDefaultTheme = selectedThemeId == -1;
         boolean autopilotRandomEnable = Ap.RandomTheme.enable();
-        if (applyDefaultTheme) {
+        if (applyDefaultTheme && !onApplicationInit) {
             selectedThemeId = autopilotRandomEnable ? Theme.RANDOM_THEME : Utils.getDefaultThemeId();
             HSLog.d("AP-ScreenFlash", "defaultThemeID : " + selectedThemeId);
             ThemePreviewView.saveThemeApplys(selectedThemeId);

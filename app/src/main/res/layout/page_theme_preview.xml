@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -107,32 +108,75 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+    <View
+        android:id="@+id/vert_dark_bg"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/preview_item_vertail_bg"/>
 
     <LinearLayout
         android:id="@+id/theme_apply_layout"
-        android:layout_height="@dimen/theme_apply_btn_height"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="24dp"
         android:translationY="70dp"
+        tools:translationY="0dp"
         android:orientation="horizontal"
         app:layout_widthPercent="86%">
+
         <Button
             android:id="@+id/theme_apply_btn"
-            android:layout_height="match_parent"
             android:layout_width="0dp"
+            android:layout_height="@dimen/theme_apply_btn_height"
             android:layout_weight="1"
-            android:textSize="15sp"
             android:background="@drawable/btn_bg_yellow"
-            android:enabled="false" />
+            android:enabled="false"
+            android:textSize="15sp" />
+
         <ImageButton
             android:id="@+id/theme_set_for_one"
             android:layout_width="64dp"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/theme_apply_btn_height"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:background="@drawable/btn_bg_yellow"
             android:src="@drawable/icon_contact" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/theme_set_vert_layout"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/theme_set_for_one_textview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/theme_apply_btn_height"
+                android:background="@drawable/btn_bg_yellow"
+                android:text="@string/theme_set_for_one"
+                android:textSize="15sp" />
+
+            <com.honeycomb.colorphone.view.TypefacedTextView
+                android:id="@+id/theme_set_for_all_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:visibility="gone"
+                android:textSize="15sp"
+                tools:visibility="visible"
+                app:typeface="@string/proxima_nova_semibold"
+                tools:text="SET FOR ALL" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <ViewStub

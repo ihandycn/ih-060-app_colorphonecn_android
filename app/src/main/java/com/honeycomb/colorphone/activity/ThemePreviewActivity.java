@@ -144,6 +144,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         ThemeGuide.logThemeDetailShow();
 
         ThemeRecommendManager.logThemeRecommendThemeDetailFromResultPage();
+
+        Ap.RandomTheme.logEvent("deatil_page_show");
+        LauncherAnalytics.logEvent("deatil_page_show_round2");
     }
 
 

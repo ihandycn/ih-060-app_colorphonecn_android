@@ -2,10 +2,13 @@ package com.honeycomb.colorphone;
 
 import android.text.TextUtils;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Preferences;
 
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.autopilot.AutopilotEvent;
@@ -208,14 +211,38 @@ public class Ap {
     }
 
     public static class RandomTheme {
-        public static String TOPIC_ID = "topic-6zi0axif8";
+        public static String TOPIC_ID = "topic-71vlbha1x";
 
         public static boolean enable() {
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "randomthemeenable", false);
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_enable", false);
+        }
+
+        public static boolean setForAllEnable() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "normal_theme_can_set_for_all", false);
+        }
+
+        public static boolean setForAllButtonDimmed() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "move_setforall_btn_to_bottom", false);
+        }
+
+        public static boolean showFeatureGuide() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_guide_show", false);
+        }
+
+        public static boolean showRandomLoseAlert() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "normal_theme_show_retain_alert_after_setforall", false);
+        }
+
+        public static int randomLoseAlertMaxTime() {
+            return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "normal_theme_show_retain_alert_maxtime", 1);
+        }
+
+        public static boolean defaultSwitchOn() {
+            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "random_theme_default_switch_on", false);
         }
 
         public static int intervalHour() {
-            String value = AutopilotConfig.getStringToTestNow(TOPIC_ID, "themechangeinterval", "24");
+            String value = AutopilotConfig.getStringToTestNow(TOPIC_ID, "random_theme_change_interval", "24");
             return Integer.valueOf(value);
         }
 
@@ -223,6 +250,23 @@ public class Ap {
             AutopilotEvent.logTopicEvent(TOPIC_ID, name);
         }
 
+        public static boolean checkIfShowRandomLoseAlert() {
+            if (showRandomLoseAlert()
+                    && com.honeycomb.colorphone.theme.RandomTheme.getInstance().userSettingsEnable()
+                    && ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == Theme.RANDOM_THEME) {
+                int alertShowTime = Preferences.get(Constants.DESKTOP_PREFS).getInt("token_random_loss_alert_show", 0);
+                if (alertShowTime  < Ap.RandomTheme.randomLoseAlertMaxTime()) {
+                    Preferences.get(Constants.DESKTOP_PREFS).putInt("token_random_loss_alert_show", ++alertShowTime);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static int getRandomAlertShowTime() {
+            int alertShowTime = Preferences.get(Constants.DESKTOP_PREFS).getInt("token_random_loss_alert_show", 0);
+            return alertShowTime;
+        }
     }
 
     public static class TriviaTip {

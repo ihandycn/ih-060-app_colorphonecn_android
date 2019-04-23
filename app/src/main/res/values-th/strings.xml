@@ -31,7 +31,7 @@
     <string name="call_assistant_hint">ผู้ช่วยโทรศัพท์จะเตือนคุณเมื่อมีสายที่ไม่ได้รับ (อาจมีโฆษณา)</string>
 
     <string name="theme_set_for_all">ตั้งทั้งหมด</string>
-    <string name="theme_set_for_one">ตั้งสำหรับบางคน</string>
+    <string name="theme_set_for_one">ตั้งเป็นรายชื่อติดต่อ</string>
     <string name="contact_select_hint">ใช้ธีม "%1$s" กับรายชื่อติดต่อที่เลือก</string>
     <string name="contact_theme">ธีมรายชื่อติดต่อ</string>
 
@@ -182,4 +182,21 @@
     <string name="theme_recommend_content_default">your friend</string>
     <string name="result_page_theme_recommend_optimal">นำไปใช้สำเร็จแล้ว</string>
     <string name="result_page_theme_recommend_more">ค้นหาธีมเพิ่มเติม</string>
+
+
+    <string name="random_theme_guide_title">เพลิดเพลินกับแฟลชหน้าจอต่าง ๆ ทุกวัน </string>
+    <string name="random_theme_guide_desc">คุณสามารถปิดโหมดสุ่มได้ในการตั้งค่า</string>
+    <string name="alert_turn_off_random_desc">เมื่อปิด คุณจะไม่สามารถเพลิดเพลินกับแฟลชหน้าจอต่าง ๆ ทุกวันได้</string>
+    <string name="random_mode">โหมดสุ่ม</string>
+
+
+
+    <string name="random_theme_guide_title2">ธีมประจำวันเป็นธีมค่าเริ่มต้นของคุณ</string>
+    <string name="random_theme_guide_desc2">คุณสามารถเพลิดเพลินกับหน้าจอโทรทุกวัน</string>
+    <string name="random_theme_guide_ok_btn">ฉันรู้มัน</string>
+
+    <string name="alert_turn_off_random_title">คุณแน่ใจหรือว่าต้องการตั้งค่าธีมนี้ให้รายชื่อติดต่อทั้งหมด</string>
+    <string name="alert_turn_off_random_desc_beset">กำลังใช้ธืมประจำวันอยู่ หากคุณตั้งค่าธืมนี้ให้รายชื่อติดต่อทั้งหมด คุณจะไม่สามารถเพลิดเพลินกับหน้าจอโทรทุกวันได้</string>
+    <string name="alert_button_keep_random_mode">เก็บธีมรายวัน</string>
+    <string name="alert_button_continue">ใช่ตั้งค่าตอนนี้</string>
 </resources>

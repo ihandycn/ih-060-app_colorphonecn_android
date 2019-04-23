@@ -86,6 +86,7 @@ import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
+import com.superapps.phonestate.PhoneStateManager;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -96,6 +97,7 @@ import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
+import net.appcloudbox.common.utils.AcbApplicationHelper;
 import net.appcloudbox.h5game.AcbH5GameManager;
 import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
@@ -187,6 +189,9 @@ public class ColorPhoneApplication extends HSApplication {
             }
         }, "Permission_Check_Above23_FirstSessionEnd");
 
+        // Just ensure phone state not listen.
+        PhoneStateManager.getInstance().listenPhoneState();
+
         if (mDailyLogger != null) {
             mDailyLogger.checkAndLog();
         }
@@ -203,6 +208,7 @@ public class ColorPhoneApplication extends HSApplication {
             ADAutoPilotUtils.logAutopilotEventToFaric();
 
             TriviaTip.cacheImagesFirstTime();
+
         }
     };
 
@@ -225,6 +231,9 @@ public class ColorPhoneApplication extends HSApplication {
         super.onCreate();
 
         systemFix();
+
+        AcbApplicationHelper.init(this);
+
         launchTime = System.currentTimeMillis();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
@@ -448,17 +457,22 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void doCopyTheme(int id, String fileName) {
-        final File file = new File(FileUtils.getMediaDirectory(), "Mp4_" + (id - 2));
+        String targetFileName = "Mp4_" + (id - 2);
+        doCopyTheme(targetFileName, fileName);
+    }
+
+    private void doCopyTheme(String targetFileName, String srcfileName) {
+        final File file = new File(FileUtils.getMediaDirectory(), targetFileName);
         try {
             if (!(file.isFile() && file.exists())) {
                 Utils.copyAssetFileTo(getApplicationContext(),
-                        fileName, file);
-                HSLog.d("CopyFile", fileName + " copy ok");
+                        srcfileName, file);
+                HSLog.d("CopyFile", srcfileName + " copy ok");
             }
         } catch (Exception e) {
             e.printStackTrace();
             boolean result = file.delete();
-            HSLog.d("CopyFile", fileName + " deleted " + result);
+            HSLog.d("CopyFile", srcfileName + " deleted " + result);
         }
     }
 

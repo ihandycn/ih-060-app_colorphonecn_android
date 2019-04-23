@@ -32,7 +32,7 @@
     <string name="call_assistant_hint">L\'Assistente di chiamata ti ricorda le chiamate perse (sono presenti contenuti pubblicitari)</string>
 
     <string name="theme_set_for_all">IMPOSTA PER TUTTI</string>
-    <string name="theme_set_for_one">Imposta per alcuni</string>
+    <string name="theme_set_for_one">Imposta per il contatto</string>
     <string name="contact_select_hint">Applica il tema "%1$s" ai contatti selezionati</string>
     <string name="contact_theme">Tema contatti</string>
 
@@ -188,4 +188,20 @@
     <string name="result_page_theme_recommend_optimal">Applicato</string>
     <string name="result_page_theme_recommend_more">Trova altri temi</string>
 
+
+    <string name="random_theme_guide_title">Utilizza una schermata diversa ogni giorno.</string>
+    <string name="random_theme_guide_desc">Puoi disattivare la modalità casuale dalle impostazioni.</string>
+    <string name="alert_turn_off_random_desc">Se la disattivi non potrai utilizzare una schermata diversa ogni giorno.</string>
+    <string name="random_mode">Modalità casuale</string>
+
+
+
+    <string name="random_theme_guide_title2">Temi quotidiani è il tema predefinito.</string>
+    <string name="random_theme_guide_desc2">Puoi utilizzare diverse schermate di chiamate ogni giorno.</string>
+    <string name="random_theme_guide_ok_btn">lo so</string>
+
+    <string name="alert_turn_off_random_title">Vuoi impostare il tema selezionato per tutti i contatti?</string>
+    <string name="alert_turn_off_random_desc_beset">Tema quotidiano è in uso. Se imposti il tema per tutti i contatti potrai avere schermate di chiamate diverse ogni giorno.</string>
+    <string name="alert_button_keep_random_mode">Mantieni temi quotidiani</string>
+    <string name="alert_button_continue">Sì, Imposta ora</string>
 </resources>

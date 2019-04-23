@@ -49,6 +49,7 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -95,6 +96,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
+    private static final String TAG = ColorPhoneActivity.class.getSimpleName();
 
     public static void startWeatherPage(Context context) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -185,8 +187,27 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void getDataFromIntent(Intent intent) {
         mWeatherPageNeedFirstShow = intent.getBooleanExtra("switch_weather", false);
     }
+    private Runnable randomThemeGuideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                        if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+                            View contentView = ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).getCardView();
+                            GuideRandomThemeActivity2.start(ColorPhoneActivity.this, contentView, false);
+                            break;
+                        }
+                    }
+                }
+            }, "theme_random_guide_count_limit");
+        }
+    };
 
     @Override
+    @DebugLog
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
@@ -198,7 +219,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mAdapter.setHeaderTipVisible(false);
                 mAdapter.notifyDataSetChanged();
             }
-
             Threads.postOnMainThread(new Runnable() {
                 @Override
                 public void run() {
@@ -208,6 +228,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     }
                 }
             });
+            if (Ap.RandomTheme.showFeatureGuide()) {
+                mHandler.postDelayed(randomThemeGuideRunnable, 500);
+            }
+        } else {
+            mHandler.removeCallbacks(randomThemeGuideRunnable);
         }
     }
 
@@ -234,6 +259,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onDrawerOpened(View drawerView) {
+                mSettingsPage.refreshRandomTheme();
                 LauncherAnalytics.logEvent("Colorphone_Settings_Boost_Icon_Shown");
                 LauncherAnalytics.logEvent("Colorphone_Sidebar_Shown");
             }
@@ -412,6 +438,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     @Override
+    @DebugLog
     protected void onStart() {
         super.onStart();
         int maxId = -1;
@@ -442,14 +469,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     @Override
+    @DebugLog
     protected void onResume() {
         super.onResume();
         // clear previous observers.
         PermissionHelper.stopObservingPermission();
 
-        HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
+        HSLog.d(TAG, "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+            HSLog.d(TAG, "onResume [holder animation] ");
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
         }
 
@@ -462,7 +491,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onPause() {
         super.onPause();
 
-        HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedLayoutPos() + "");
+        HSLog.d(TAG, "onPause " + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
@@ -473,6 +502,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     @Override
+    @DebugLog
     protected void onStop() {
         super.onStop();
         if (mSettingsPage != null) {
@@ -483,6 +513,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         Glide.get(this).clearMemory();
     }
 
+    @DebugLog
     private void dispatchPermissionRequest() {
         boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
                 && ScreenFlashSettings.isScreenFlashModuleEnabled();
@@ -762,6 +793,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onReceive(String s, HSBundle hsBundle) {
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mSettingsPage.onThemeSelected();
+            mSettingsPage.refreshRandomTheme();
+            RandomTheme.getInstance().setUserSettingsEnable(false);
+
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
             HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "NOTIFICATION_REFRESH_MAIN_FRAME notifyDataSetChanged");
             initData();
