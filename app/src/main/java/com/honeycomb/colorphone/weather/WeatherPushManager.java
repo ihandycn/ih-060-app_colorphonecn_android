@@ -67,11 +67,22 @@ public class WeatherPushManager {
     }
 
     public void push(Context context) {
+        if (WeatherPushManager.weatherForecastShouldShow()) {
+            String videoType = getCurrentVideoType();
+            Ap.WeatherPush.logEvent("weather_forecast_should_show");
+            LauncherAnalytics.logEvent("weather_forecast_should_show",
+                    "type", WeatherPushManager.getInstance().getEventDayTime(),
+                    "videotype", videoType == null ? "NONE" : videoType,
+                    "time", WeatherVideoActivity.getShowTimeEventParameter());
+            Preferences.getDefault().putLong(WeatherPushManager.WEATHER_SHOULD_SHOW, System.currentTimeMillis());
+        }
+
         if (CallIdleAlertActivity.exits) {
             HSLog.d("Weather.Push", "CallIdleAlertActivity exist. Show on next time");
             LauncherAnalytics.logEvent("weather_forecast_show_delay");
             return;
         }
+
         if (Ap.WeatherPush.showPush()
                 && !isWeatherDisabledByUser()
                 && inValidTime()
@@ -128,7 +139,7 @@ public class WeatherPushManager {
         }
     }
 
-    private String getCurrentVideoType() {
+    public String getCurrentVideoType() {
         if (Ap.WeatherPush.isSinleVideoType()) {
             return WeatherVideoActivity.REAL;
         } else {

@@ -87,6 +87,7 @@ import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.phonestate.PhoneStateManager;
+import com.superapps.util.Commons;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -667,23 +668,26 @@ public class ColorPhoneApplication extends HSApplication {
         screenFilter.setPriority(SYSTEM_HIGH_PRIORITY);
 
         BroadcastCenter.register(this, new BroadcastListener() {
+
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                     ScreenStatusReceiver.onScreenOff(context);
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                     ScreenStatusReceiver.onScreenOn(context);
-                    if (WeatherPushManager.weatherForecastShouldShow()) {
-                        Ap.WeatherPush.logEvent("weather_forecast_should_show");
-                        LauncherAnalytics.logEvent("weather_forecast_should_show");
-                        Preferences.getDefault().putLong(WeatherPushManager.WEATHER_SHOULD_SHOW, System.currentTimeMillis());
+                    if (!Commons.isKeyguardLocked(getApplicationContext(), true)) {
+                        tryShowWeather();
                     }
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
-                    WeatherPushManager.getInstance().push(context);
+                    tryShowWeather();
                     ScreenStatusReceiver.onUserPresent(context);
                 }
             }
         }, screenFilter);
+    }
+
+    private void tryShowWeather() {
+        WeatherPushManager.getInstance().push(this);
     }
 
     private void initModules() {
