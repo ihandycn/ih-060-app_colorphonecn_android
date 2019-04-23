@@ -36,6 +36,10 @@ public class NewsManager {
 
     private NewsResultBean resultBean;
 
+    public NewsResultBean getResultBean() {
+        return resultBean;
+    }
+
     public void fetchNews() {
         HSLog.i(NewsManager.TAG, "fetchNews");
         newOffset += resultBean == null ? 0 : resultBean.totalItems;

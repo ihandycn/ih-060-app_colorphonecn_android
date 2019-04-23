@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
@@ -22,7 +23,6 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
@@ -54,10 +54,9 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
-
-import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -79,6 +78,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final int MAIN_TAB_THEMES = 0;
     private static final int MAIN_TAB_NEWS = 1;
     private static final int MAIN_TAB_SETTINGS = 2;
+    private static final String MAIN_TAB_KEY = "tabKey";
+
     private static final int EVENT_CLICK_TOOLBAR = 43020;
 
     private RecyclerView mRecyclerView;
@@ -144,6 +145,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean isCreate = false;
     private SettingsPage mSettingsPage = new SettingsPage();
 
+    public static void startNews(Context context) {
+        Intent intent = new Intent(context, ColorPhoneActivity.class);
+        intent.putExtra(MAIN_TAB_KEY, MAIN_TAB_NEWS);
+        Navigations.startActivitySafely(context, intent);
+    }
+
     @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +173,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         AdManager.getInstance().preload();
         AppflyerLogger.logAppOpen();
         isCreate = true;
+
+        Intent intent  = getIntent();
+        if (intent != null) {
+            int tabIndex = intent.getIntExtra(MAIN_TAB_KEY, MAIN_TAB_THEMES);
+            if (tabIndex != currentIndex) {
+                hideOldTab();
+                currentIndex = tabIndex;
+                switchPage();
+                highlightNewTab();
+            }
+        }
     }
 
     @Override
@@ -310,6 +328,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
+    private void switchPage() {
+        switch (currentIndex) {
+            case MAIN_TAB_NEWS:
+                newsLayout.setVisibility(View.VISIBLE);
+                break;
+            case MAIN_TAB_THEMES:
+                mRecyclerView.setVisibility(View.VISIBLE);
+                break;
+            case MAIN_TAB_SETTINGS:
+                settingLayout.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
     private void initSettingPage() {
         settingLayout = findViewById(R.id.setting_layout);
         settingLayout.setOnTouchListener((v, event) -> true);
@@ -359,15 +391,29 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Show");
             }
         }
-        AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
+//        AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
         if (!showAllFeatureGuide && isCreate) {
             dispatchPermissionRequest();
         }
+
         if (!showAllFeatureGuide) {
             isCreate = false;
         }
         showAllFeatureGuide = false;
+    }
 
+    @Override protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (intent != null) {
+            int tabIndex = intent.getIntExtra(MAIN_TAB_KEY, MAIN_TAB_THEMES);
+            if (tabIndex != currentIndex) {
+                hideOldTab();
+                currentIndex = tabIndex;
+                switchPage();
+                highlightNewTab();
+            }
+        }
     }
 
     @Override

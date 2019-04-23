@@ -201,4 +201,11 @@ public class ShapeImageView extends AppCompatImageView {
         mBorderPaint.setColor(mBorderColor);
         invalidate();
     }
+
+    public void setRadius(float leftTopRadius, float rightTopRadius, float leftBottomRadius, float rightBottomRadius) {
+        mRoundRadiusLeftBottom = leftBottomRadius;
+        mRoundRadiusLeftTop = leftTopRadius;
+        mRoundRadiusRightBottom = rightBottomRadius;
+        mRoundRadiusRightTop = rightTopRadius;
+    }
 }

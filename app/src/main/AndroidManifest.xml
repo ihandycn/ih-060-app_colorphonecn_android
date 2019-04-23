@@ -473,7 +473,8 @@
             android:name=".triviatip.TriviaTipActivity"
             android:theme="@style/Theme.AppCompat.Translucent"
             android:excludeFromRecents="true" />
-        <activity android:name=".news.NewsTestActivity"/>
+        <activity android:name=".news.NewsPushActivity"
+                  android:screenOrientation="portrait"/>
         <activity
             android:name=".news.WebViewActivity"
             android:launchMode="singleTop"

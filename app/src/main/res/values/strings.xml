@@ -287,4 +287,12 @@
     <string name="toolbar_title_themes">@string/app_name</string>
     <string name="toolbar_title_settings">@string/menu_item_settings</string>
 
+    <string name="behavior_sample_header" translatable="false" >com.othershe.behaviortest.test2.SampleHeaderBehavior</string>
+    <string name="behavior_recyclerview" translatable="false" >com.othershe.behaviortest.test2.RecyclerViewBehavior</string>
+    <string name="news_push_title">News Express</string>
+    <string name="news_push_view_more">VIEW MORE</string>
+
+    <string name="news_push_disable_confirm">Sure to turn off?</string>
+    <string name="news_push_disable_confirm_detail">Once disabled... you will not be able to see the news. Proceed?</string>
+
 </resources>
