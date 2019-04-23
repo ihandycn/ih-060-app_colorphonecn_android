@@ -108,7 +108,7 @@ public class WeatherVideoActivity extends AppCompatActivity {
         AutopilotEvent.onExtendedDeactive();
     }
 
-    private String getShowTimeEventParameter() {
+    public static String getShowTimeEventParameter() {
         int showTime = Preferences.getDefault().getInt(WEATHER_TEXT_SHOW_TIME, 1);
         if (showTime < 5) {
             return String.valueOf(showTime);
@@ -217,6 +217,7 @@ public class WeatherVideoActivity extends AppCompatActivity {
                 LauncherAnalytics.logEvent("weather_forecast_settings_disable_success");
                 WeatherPushManager.getInstance().disableWeather();
                 dismissDialogSafely(dialog);
+                finish();
             });
             notNow.setOnClickListener(v -> {
                 dismissDialogSafely(dialog);
