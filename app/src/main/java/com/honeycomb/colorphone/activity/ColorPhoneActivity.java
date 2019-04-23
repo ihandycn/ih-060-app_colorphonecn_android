@@ -23,6 +23,7 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
+import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
@@ -57,6 +58,8 @@ import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
+
+import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -391,7 +394,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Show");
             }
         }
-//        AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
+        AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
         if (!showAllFeatureGuide && isCreate) {
             dispatchPermissionRequest();
         }
