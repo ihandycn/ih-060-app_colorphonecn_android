@@ -11,6 +11,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.honeycomb.colorphone.util.Analytics;
+
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
@@ -26,6 +28,7 @@ public class DialerActivity extends AppCompatActivity {
         PackageManager pm = getPackageManager();
         List<ResolveInfo> intentResolvers = pm.queryIntentActivities(seekIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
+        boolean hasTarget = false;
         for (ResolveInfo resolveInfo : intentResolvers) {
             String packageName = resolveInfo.activityInfo.packageName;
             Log.d("Dialer-ResolveInfo", "packageName : " + packageName);
@@ -33,9 +36,14 @@ public class DialerActivity extends AppCompatActivity {
                 intent.setClassName(resolveInfo.activityInfo.applicationInfo.packageName,
                         resolveInfo.activityInfo.name);
                 startActivity(intent);
+                hasTarget = true;
                 finish();
                 break;
             }
+        }
+
+        if (!hasTarget) {
+            Analytics.logEvent("Dialer_Launch_Failed");
         }
 
     }
