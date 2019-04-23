@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.acb.call.customize.ScreenFlashManager;
@@ -75,6 +76,11 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             @Override
             public void onClick(View v) {
                 cb.performClick();
+            }
+        });
+        cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 LauncherAnalytics.logEvent("startguide_weather_checkbox_click_weather");
             }
         });
