@@ -73,7 +73,7 @@ import com.superapps.util.Networks;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
-import com.superappscommon.util.Toasts;
+import com.superapps.util.Toasts;
 
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
