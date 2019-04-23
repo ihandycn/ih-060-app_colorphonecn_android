@@ -86,7 +86,6 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             @Override
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_Cancel_Clicked");
-                LauncherAnalytics.logEvent("startguide_ok_click_weather");
 
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
 
@@ -101,6 +100,8 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             @Override
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
+                LauncherAnalytics.logEvent("startguide_ok_click_weather");
+
                 ModuleUtils.setAllModuleUserEnable();
                 if (!cb.isChecked()) {
                     WeatherPushManager.getInstance().disableWeather();
