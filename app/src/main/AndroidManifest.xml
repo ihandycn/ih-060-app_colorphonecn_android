@@ -25,24 +25,17 @@
     <!-- Required by libAppFramework -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" tools:node="remove"/>
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS"/>
 
     <!-- Ringtone -->
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
 
-    <!-- Recent Apps -->
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions"/>
     <!-- Required by Flash light -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission
@@ -95,6 +88,7 @@
 
     <uses-permission
         android:name="android.permission.CLEAR_APP_CACHE" tools:node="remove"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" tools:node="remove" />
 
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" tools:node="remove"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS" tools:node="remove"/>
@@ -102,10 +96,8 @@
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" tools:node="remove"/>
 
     <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
@@ -459,31 +451,11 @@
             tools:node="merge"
             />
 
-        <activity
-            android:name=".cashcenter.ShortcutGuideActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/ShortcutGuideTheme" />
-
-        <activity android:name=".cashcenter.GameStarterActivity"
-            android:screenOrientation="portrait"
-            android:noHistory="true"
-            android:icon="@drawable/cashcenter_icon"
-            android:label="@string/cash_center_cash_center"
-            android:excludeFromRecents="true"
-            android:theme="@style/INVisibleTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".cashcenter.OuterCashGuideActivity" />
-        <activity android:name=".cashcenter.InnerCashGuideActivity" />
         <activity android:name=".permission.OutsidePermissionGuideActivity"
             android:theme="@style/Theme.AppCompat.Translucent"/>
 
         <activity android:name=".themerecommend.ThemeRecommendActivity"
                   android:theme="@style/Theme.AppCompat.Translucent" />
-
         <activity
             android:name="com.honeycomb.colorphone.weather.WeatherVideoActivity"
             android:screenOrientation="portrait"

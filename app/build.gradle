@@ -8,7 +8,6 @@ apply plugin: 'ihandy.proguard.rewrite'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "26.0.2"
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 26
@@ -125,8 +124,11 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true
     }
-    debugCompile 'com.amitshekhar.android:debug-db:1.0.3'
+
+//    debugCompile 'com.amitshekhar.android:debug-db:1.0.3'
+
     final USE_BETA_ACB_LIBS = false
+
     final COMMON_DEPENDENCIES = [
             // ==== Support ====
             "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION".toString(),
@@ -182,10 +184,9 @@ dependencies {
     compile "com.ihandy.device:device-monitor-top-app$LIB_DEVICE_VERSION".toString()
     compile "com.ihandy.device:device-permanent$LIB_DEVICE_VERSION".toString()
 
-
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
-    compile(name: 'libCashCenter/cashcenter-release', ext: 'aar')
+
     compile project(':libChargingCommon')
     compile project(':libChargingReport')
     compile project(':libCallAssistant')

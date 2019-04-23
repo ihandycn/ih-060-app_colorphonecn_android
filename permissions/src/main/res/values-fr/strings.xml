@@ -9,5 +9,6 @@
   <string name="acb_phone_grant_notification_access_title">Activer les notifications d’accès pour répondre aux appels</string>
   <!-- TODO: string name="draw_overlay_window_hint" -->
   <string name="phone_contact_permission_settings_guide_title">Sélectionnez « Autorisations » et activez « Téléphone », « Contacts »</string>
-  <string name="acb_phone_grant_autostart_access_title">Activer le démarrage auto pour afficher le flash d\'appel</string>
+  <string name="acb_phone_grant_autostart_access_title">Activer le démarrage auto pour afficher le flash
+    d\'appel</string>
 </resources>

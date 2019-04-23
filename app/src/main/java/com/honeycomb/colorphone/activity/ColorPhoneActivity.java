@@ -146,6 +146,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ConfigChangeManager.Callback configChangeCallback =  new ConfigChangeManager.Callback() {
         @Override
         public void onChange(int type) {
+
         }
     };
 
@@ -153,7 +154,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean pendingShowRateAlert = false;
     private boolean showAllFeatureGuide = false;
     private boolean isCreate = false;
-    private boolean isPaused = false;
     private SettingsPage mSettingsPage = new SettingsPage();
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -455,7 +455,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         mAdapter.updateApplyInformationAutoPilotValue();
         mHandler.postDelayed(mainViewRunnable, 1000);
-        isPaused = false;
         mAdapter.markForeground(true);
     }
 
@@ -463,7 +462,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onPause() {
         super.onPause();
 
-        isPaused = true;
         HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
