@@ -91,6 +91,7 @@ public class WeatherPushManager {
             if (!isAdReady()) {
                 HSLog.d("Weather.Push", "Ad is null");
                 preloadAd();
+                return;
             }
 
             if (!isWeatherInfoAvailable()) {
