@@ -436,7 +436,7 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
 
     private void fetchLocalWeather(final CityData oldData, boolean ipOnly) {
         final HSLocationManager.LocationSource locationSource;
-        if (ContextCompat.checkSelfPermission(mContext,
+        if (WeatherUtils.onlyIpLocation() || ContextCompat.checkSelfPermission(mContext,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             locationSource = HSLocationManager.LocationSource.IP;
         } else {

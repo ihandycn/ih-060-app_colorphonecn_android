@@ -505,4 +505,14 @@ public class WeatherUtils {
         }
         return 0;
     }
+
+    /**
+     * We not register ACCESS_FINE_LOCATION  or ACCESS_COARSE_LOCATION
+     * so force ip location.
+     * Related crash : https://www.fabric.io/flashlightandroid/android/apps/com.app.phone.call.flash.screen/issues/5cbf22f5f8b88c2963ffd00b?time=last-seven-days
+     * @return
+     */
+    public static boolean onlyIpLocation() {
+        return true;
+    }
 }

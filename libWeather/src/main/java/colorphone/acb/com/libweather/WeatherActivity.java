@@ -461,7 +461,8 @@ public class WeatherActivity extends BaseAppCompatActivity
 
     private void fetchLocalWeather(final CityData oldData, boolean ipOnly) {
         final HSLocationManager.LocationSource locationSource;
-        if (ContextCompat.checkSelfPermission(this,
+
+        if (WeatherUtils.onlyIpLocation() || ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             locationSource = HSLocationManager.LocationSource.IP;
         } else {

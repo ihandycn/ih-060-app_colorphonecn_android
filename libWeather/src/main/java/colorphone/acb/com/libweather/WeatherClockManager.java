@@ -300,7 +300,7 @@ public class WeatherClockManager {
                     android.Manifest.permission.ACCESS_FINE_LOCATION) == RuntimePermissions.PERMISSION_GRANTED;
         } catch (RuntimeException ignored) {
         }
-        if (!granted) {
+        if (!granted || WeatherUtils.onlyIpLocation()) {
             if (listener != null) {
                 listener.onQueryFinished(false, null);
             }
