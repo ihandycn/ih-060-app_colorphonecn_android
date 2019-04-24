@@ -69,8 +69,7 @@ public class WeatherPushManager {
     public void push(Context context) {
         if (WeatherPushManager.weatherForecastShouldShow()) {
             String videoType = getCurrentVideoType();
-            Ap.WeatherPush.logEvent("weather_forecast_should_show");
-            LauncherAnalytics.logEvent("weather_forecast_should_show",
+            LauncherAnalytics.logEvent("unlock_lockscreen_in_limited_time",
                     "type", WeatherPushManager.getInstance().getEventDayTime(),
                     "videotype", videoType == null ? "NONE" : videoType,
                     "time", WeatherVideoActivity.getShowTimeEventParameter());
@@ -85,17 +84,39 @@ public class WeatherPushManager {
 
         if (Ap.WeatherPush.showPush()
                 && !isWeatherDisabledByUser()
-                && inValidTime()
-                && showOncePerValidTime()
         ) {
-            if (!isAdReady()) {
-                HSLog.d("Weather.Push", "Ad is null");
-                preloadAd();
+            if (!inValidTime()) {
+                HSLog.d("Weather.Push", "Time not valid");
                 return;
             }
 
-            if (!isWeatherInfoAvailable()) {
+            if (!showOncePerValidTime()) {
+                HSLog.d("Weather.Push", "Show already");
+                return;
+            }
+
+            String videoType = getCurrentVideoType();
+            Ap.WeatherPush.logEvent("weather_forecast_should_show");
+            LauncherAnalytics.logEvent("weather_forecast_should_show",
+                    "type", WeatherPushManager.getInstance().getEventDayTime(),
+                    "videotype", videoType == null ? "NONE" : videoType,
+                    "time", WeatherVideoActivity.getShowTimeEventParameter());
+
+
+            boolean isAdReady = isAdReady();
+            boolean isWeatherReady = isWeatherInfoAvailable();
+            if (!isAdReady) {
+                HSLog.d("Weather.Push", "Ad is null");
+                preloadAd();
+            }
+            if (!isWeatherReady) {
                 updateWeatherIfNeeded();
+            }
+
+            if (!isAdReady || !isWeatherReady) {
+                String reason = (isAdReady ? "" : "Ad") + (isWeatherReady ? "" : "Weather");
+                LauncherAnalytics.logEvent("weather_forcast_fail_to_show",
+                        "Lack", reason);
                 return;
             }
 

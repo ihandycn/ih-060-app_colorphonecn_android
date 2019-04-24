@@ -354,8 +354,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         weatherIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!weatherView.isWeatherViewInShow()) {
+                    LauncherAnalytics.logEvent("mainview_weatherbtn_click");
+                }
                 weatherView.toggle();
-                LauncherAnalytics.logEvent("mainview_weatherbtn_click");
             }
         });
 
