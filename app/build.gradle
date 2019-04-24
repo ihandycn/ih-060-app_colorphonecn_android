@@ -52,8 +52,8 @@ android {
 
         jinritoutiao {
             dimension "channel"
-            versionCode 111
-            versionName "1.2.1"
+            versionCode 112
+            versionName "1.2.2"
         }
     }
 
@@ -233,7 +233,7 @@ dependencies {
     compile project(':libPermissionacquire')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.03.19.001'
+    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.04.23.001'
 
     // Umeng
     colorphoneCompile 'com.umeng.umsdk:analytics:8.0.0'
