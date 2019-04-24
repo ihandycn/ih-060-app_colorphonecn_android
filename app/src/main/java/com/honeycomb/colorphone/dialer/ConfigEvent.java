@@ -79,6 +79,19 @@ public class ConfigEvent {
         Analytics.logEvent("Dialer_Guide_Btn_Click", "Time", String.valueOf(getGuideShowTime()));
     }
 
+    public static void monitorResult() {
+        Threads.postOnMainThreadDelayed(sCheckPermissionResultRunnable2, 5000);
+    }
+
+    private static Runnable sCheckPermissionResultRunnable2 = new Runnable() {
+        @Override
+        public void run() {
+            if (DefaultPhoneUtils.isDefaultPhone()) {
+                Analytics.logEvent("Dialer_Set_Default_From_Manual", "Time", String.valueOf(getSystemGuideShowTime()));
+            }
+        }
+    };
+
     private static Runnable sCheckPermissionResultRunnable = new Runnable() {
         @Override
         public void run() {

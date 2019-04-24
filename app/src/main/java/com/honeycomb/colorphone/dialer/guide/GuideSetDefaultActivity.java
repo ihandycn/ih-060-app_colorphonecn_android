@@ -91,7 +91,6 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
                 false, true));
         actionBtn.setOnClickListener(v ->
         {
-            ConfigEvent.guideConfirmed();
             DefaultPhoneUtils.checkDefaultPhoneSettings();
             mOkClicked = true;
             finish();

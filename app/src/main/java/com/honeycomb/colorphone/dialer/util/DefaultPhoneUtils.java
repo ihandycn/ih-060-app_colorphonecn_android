@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.dialer.ConfigEvent;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
@@ -60,6 +61,9 @@ public class DefaultPhoneUtils {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void checkDefaultPhoneSettings() {
+        Analytics.logEvent("Dialer_Set_Default_Show");
+        ConfigEvent.monitorResult();
+
         Preferences.get(Constants.DESKTOP_PREFS).putBoolean(Constants.PREFS_CHECK_DEFAULT_PHONE, true);
 
         Intent intent = new Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER);

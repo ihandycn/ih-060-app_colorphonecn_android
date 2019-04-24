@@ -72,6 +72,10 @@ public class FloatWindowManager {
         return mDialogs.get(cls);
     }
 
+    public void updateDialog(FloatWindowDialog dialog, WindowManager.LayoutParams windowParams) {
+        getWindowManager().updateViewLayout(dialog, windowParams);
+    }
+
     public void removeDialog(FloatWindowDialog dialog) {
         HSLog.d("BoostPlusCleanDialog", "removeDialog == " + dialog);
         if (dialog != null) {

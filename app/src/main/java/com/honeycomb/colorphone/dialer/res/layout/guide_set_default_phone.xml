@@ -47,14 +47,15 @@
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/typefacedTextView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="18dp"
         android:gravity="center"
         android:lineSpacingExtra="8sp"
+
         android:text="@string/guide_default_phone_title"
         android:textColor="#ccffffff"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,27 +64,47 @@
         app:typeface="@string/proxima_nova_semibold" />
 
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/guide_action"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="44dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:text="@string/guide_default_phone_action"
-        android:textColor="#292929"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_bias="0.4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typefacedTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/typefacedTextView">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/guide_action"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="@string/guide_default_phone_action"
+            android:textColor="#292929"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/guide_setting_progress"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:lottie_fileName="lottie/default_guide_progress.json"
+            app:lottie_loop="true"
+            app:lottie_progress="0" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/guide_setting_success"
+            android:layout_width="148dp"
+            android:layout_height="148dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            app:lottie_fileName="lottie/default_guide_success.json"
+            app:lottie_loop="false" />
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
