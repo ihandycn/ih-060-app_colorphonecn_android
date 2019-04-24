@@ -13,27 +13,28 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:scaleType="fitCenter"
         android:src="@drawable/phone_set_default_2"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.66"
         app:layout_constraintDimensionRatio="18:15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.25" />
 
     <ImageButton
         android:id="@+id/guide_close"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_gravity="end|right"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
         android:alpha="0.4"
         android:background="@drawable/material_compat_bg"
         android:src="@drawable/acb_phone_alert_call_close"
@@ -42,17 +43,17 @@
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0" />
 
     <com.honeycomb.colorphone.view.TypefacedTextView
         android:id="@+id/typefacedTextView"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="18dp"
-        android:gravity="center"
+        android:lines="2"
+        android:gravity="center_horizontal"
         android:lineSpacingExtra="8sp"
-
         android:text="@string/guide_default_phone_title"
         android:textColor="#ccffffff"
         android:textSize="18sp"
@@ -67,7 +68,7 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintVertical_bias="0.33"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,15 +88,23 @@
             android:textStyle="bold"
             />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/guide_setting_progress"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+        <FrameLayout
+            android:layout_width="25dp"
             android:layout_gravity="center"
-            android:visibility="invisible"
-            app:lottie_fileName="lottie/default_guide_progress.json"
-            app:lottie_loop="true"
-            app:lottie_progress="0" />
+            android:layout_height="25dp">
+            <ImageView
+                android:id="@+id/progress_image_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:src="@drawable/auto_set_progress_yellow"/>
+            <ImageView
+                android:id="@+id/progress_image_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:src="@drawable/auto_set_progress_purple"/>
+        </FrameLayout>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/guide_setting_success"

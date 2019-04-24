@@ -34,10 +34,11 @@ import java.util.ArrayList;
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class SetAsDialerDialog extends FullScreenDialog {
     private boolean blockDismiss = false;
-    LottieAnimationView progressLottie;
     LottieAnimationView successLottie;
     private Button actionBtn;
     private TextView titleView;
+    private View progressImage1;
+    private View progressImage2;
 
     public SetAsDialerDialog(Context context) {
         this(context, null);
@@ -80,7 +81,9 @@ public class SetAsDialerDialog extends FullScreenDialog {
         setAlpha(0.1f);
         animate().alpha(1f).setDuration(200).start();
 
-        progressLottie = findViewById(R.id.guide_setting_progress);
+//        progressLottie = findViewById(R.id.guide_setting_progress);
+        progressImage1 = findViewById(R.id.progress_image_1);
+        progressImage2 = findViewById(R.id.progress_image_2);
         successLottie = findViewById(R.id.guide_setting_success);
     }
 
@@ -106,6 +109,7 @@ public class SetAsDialerDialog extends FullScreenDialog {
                         }
                     }, 300);
                 } else {
+                    stopProgressAnimation();
                     onAutoRequestFail();
                     SetAsDialerDialog.this.dismiss();
                 }
@@ -117,8 +121,7 @@ public class SetAsDialerDialog extends FullScreenDialog {
         actionBtn.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                progressLottie.setVisibility(VISIBLE);
-                progressLottie.playAnimation();
+               startProgressAnimation();
             }
         }).start();
 
@@ -134,8 +137,8 @@ public class SetAsDialerDialog extends FullScreenDialog {
     private void onAutoRequestSuccess() {
         // Cancel progress
         actionBtn.animate().cancel();
-        progressLottie.setVisibility(INVISIBLE);
-        progressLottie.clearAnimation();
+
+        stopProgressAnimation();
         successLottie.setVisibility(VISIBLE);
         successLottie.playAnimation();
         successLottie.addAnimatorListener(new AnimatorListenerAdapter() {
@@ -159,6 +162,30 @@ public class SetAsDialerDialog extends FullScreenDialog {
         }, 200);
 
         Analytics.logEvent("Dialer_Set_Default_From_Automatic");
+    }
+
+    private Runnable progressSwitchTask = new Runnable() {
+        @Override
+        public void run() {
+            startProgressAnimation();
+        }
+    };
+
+    private void startProgressAnimation() {
+        if (progressImage1.getVisibility() == VISIBLE) {
+            progressImage1.setVisibility(INVISIBLE);
+            progressImage2.setVisibility(VISIBLE);
+        } else {
+            progressImage1.setVisibility(VISIBLE);
+            progressImage2.setVisibility(INVISIBLE);
+        }
+        Threads.postOnMainThreadDelayed(progressSwitchTask, 150);
+    }
+
+    private void stopProgressAnimation() {
+        progressImage1.setVisibility(INVISIBLE);
+        progressImage2.setVisibility(INVISIBLE);
+        Threads.removeOnMainThread(progressSwitchTask);
     }
 
     private void onAutoRequestFail() {
