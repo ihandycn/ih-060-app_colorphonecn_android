@@ -65,10 +65,12 @@ public class DefaultPhoneUtils {
         ConfigEvent.monitorResult();
 
         Preferences.get(Constants.DESKTOP_PREFS).putBoolean(Constants.PREFS_CHECK_DEFAULT_PHONE, true);
+        checkDefaultWithoutEvent();
+    }
 
+    public static void checkDefaultWithoutEvent() {
         Intent intent = new Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER);
         intent.putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, HSApplication.getContext().getPackageName());
-
         Navigations.startActivitySafely(HSApplication.getContext(), intent);
     }
 
