@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -22,6 +23,10 @@ import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
 import com.superapps.util.Networks;
+
+import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
+import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
+import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
 
 public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadListener, SwipeRefreshLayout.OnRefreshListener {
     private NewsResultBean newsResource;
@@ -149,15 +154,22 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
     private class NewsAdapter extends RecyclerView.Adapter {
 
-        private static final int NEWS_TYPE_ITEM = 0;
-        private static final int NEWS_TYPE_BIG = 1;
-        private static final int NEWS_TYPE_FOOT = 2;
+        static final int NEWS_TYPE_ITEM = 0;
+        static final int NEWS_TYPE_BIG = 1;
+        static final int NEWS_TYPE_FOOT = 2;
+        static final int NEWS_TYPE_NATIVE = 3;
 
         @Override public int getItemViewType(int position) {
             if (position == getItemCount() - 1) {
                 return NEWS_TYPE_FOOT;
             }
-            return (position % 5 == 0) ? NEWS_TYPE_BIG : NEWS_TYPE_ITEM;
+            if (newsResource != null && newsResource.totalItems > position) {
+                NewsBean bean = newsResource.content.get(position);
+                if (bean instanceof NewsNativeAdBean) {
+                    return NEWS_TYPE_NATIVE;
+                }
+            }
+            return (position % NewsManager.BIG_IMAGE_INTERVAL == 0) ? NEWS_TYPE_BIG : NEWS_TYPE_ITEM;
         }
 
         @NonNull @Override
@@ -173,6 +185,8 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
                 case NEWS_TYPE_FOOT:
                     view = LayoutInflater.from(getContext()).inflate(R.layout.news_foot_loading, parent, false);
                     return new NewsFootLoadingHolder(view);
+                case NEWS_TYPE_NATIVE:
+                    return new NewsNativeHolder(parent);
             }
             NewsBeanItemHolder holder = new NewsBeanItemHolder(view);
             return holder;
@@ -186,33 +200,16 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
                 loadingHolder.loading.animate().alpha(1).setDuration(200).start();
                 return;
             }
-
-            NewsBean bean = newsResource.content.get(position);
-            NewsBeanItemHolder beanHolder = (NewsBeanItemHolder) holder;
-            String url = null;
             int type = getItemViewType(position);
-            if (type == NEWS_TYPE_BIG) {
-                url = bean.images.mainImage.url;
-            } else {
-                url = bean.images.mainImageThumbnail.url;
+            NewsBean bean = newsResource.content.get(position);
+
+            if (type == NEWS_TYPE_NATIVE) {
+                ((NewsNativeHolder) holder).bindView((NewsNativeAdBean) bean);
+                return;
             }
 
-            beanHolder.title.setText(bean.title);
-            beanHolder.time.setText(String.valueOf(" · " + Utils.getNewDate(bean.publishedAt)));
-            beanHolder.resource.setText(bean.contentSourceDisplay);
-            GlideApp.with(beanHolder.image)
-                    .asDrawable()
-                    .load(url)
-                    .into(beanHolder.image);
-
-            holder.itemView.setOnClickListener(v -> {
-                HSLog.i(NewsManager.TAG, "NP onClicked: " + position);
-                Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(bean.contentURL, false));
-
-                LauncherAnalytics.logEvent("mainview_newstab_news_click",
-                        "type", (type == NEWS_TYPE_BIG ? "image" : "imagepreview"),
-                        "user", Utils.isNewUser() ? "new" : "upgrade");
-            });
+            NewsBeanItemHolder beanHolder = (NewsBeanItemHolder) holder;
+            beanHolder.bindNewsBean(bean, type);
         }
 
         @Override public int getItemCount() {
@@ -233,6 +230,32 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
             time = itemView.findViewById(R.id.news_time_tv);
             image = itemView.findViewById(R.id.news_icon_iv);
         }
+
+        void bindNewsBean(NewsBean bean, int type) {
+            String url = null;
+            if (type == NewsAdapter.NEWS_TYPE_BIG) {
+                url = bean.images.mainImage.url;
+            } else {
+                url = bean.images.mainImageThumbnail.url;
+            }
+
+            title.setText(bean.title);
+            time.setText(String.valueOf(" · " + Utils.getNewDate(bean.publishedAt)));
+            resource.setText(bean.contentSourceDisplay);
+            GlideApp.with(image)
+                    .asDrawable()
+                    .load(url)
+                    .into(image);
+
+            itemView.setOnClickListener(v -> {
+                HSLog.i(NewsManager.TAG, "NP onClicked");
+                Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(bean.contentURL, false));
+
+                LauncherAnalytics.logEvent("mainview_newstab_news_click",
+                        "type", (type == NewsAdapter.NEWS_TYPE_BIG ? "image" : "imagepreview"),
+                        "user", Utils.isNewUser() ? "new" : "upgrade");
+            });
+        }
     }
 
     private class NewsFootLoadingHolder extends RecyclerView.ViewHolder {
@@ -241,6 +264,46 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
         NewsFootLoadingHolder(View itemView) {
             super(itemView);
             loading = itemView.findViewById(R.id.news_foot_loading);
+        }
+    }
+
+    private class NewsNativeHolder extends RecyclerView.ViewHolder {
+        AcbNativeAdContainerView adContainer;
+        AcbNativeAdPrimaryView mAdImageContainer;
+        ViewGroup mAdChoice;
+        AcbNativeAdIconView mAdIconView;
+        TextView mTitleTv;
+        TextView mDescriptionTv;
+        View mActionBtn;
+
+        NewsNativeHolder(View itemView) {
+            super(itemView);
+
+            adContainer = new AcbNativeAdContainerView(getContext());
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.news_ad_view, adContainer, false);
+
+            mAdImageContainer = ViewUtils.findViewById(view, R.id.news_ad_image);
+            mAdChoice = ViewUtils.findViewById(view, R.id.news_ad_choice_icon);
+            mAdIconView = ViewUtils.findViewById(view, R.id.news_ad_icon);
+            mTitleTv = ViewUtils.findViewById(view, R.id.news_ad_title);
+            mDescriptionTv = ViewUtils.findViewById(view, R.id.news_ad_description);
+            mActionBtn = ViewUtils.findViewById(view, R.id.news_ad_action_btn);
+
+            adContainer.addContentView(itemView);
+            adContainer.setAdTitleView(mTitleTv);
+            adContainer.setAdBodyView(mDescriptionTv);
+            adContainer.setAdPrimaryView(mAdImageContainer);
+            adContainer.setAdChoiceView(mAdChoice);
+            adContainer.setAdIconView(mAdIconView);
+            adContainer.setAdActionView(mActionBtn);
+
+            ((ViewGroup) itemView).addView(adContainer);
+
+        }
+
+        void bindView(NewsNativeAdBean bean) {
+            adContainer.fillNativeAd(bean.acbNativeAd);
+
         }
     }
 }

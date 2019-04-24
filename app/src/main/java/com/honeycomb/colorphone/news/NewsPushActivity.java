@@ -22,7 +22,6 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
-import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.RoundImageVIew;
@@ -45,10 +44,20 @@ public class NewsPushActivity extends HSAppCompatActivity {
     private PopupView mCloseLockerPopupView;
     private ViewGroup rootView;
 
+    public static void start(Context context) {
+        if (NewsTest.canShowNewsAlert()) {
+            Navigations.startActivity(context, NewsPushActivity.class);
+        } else {
+            HSLog.w(NewsManager.TAG, "NewsPushActivity not start");
+        }
+    }
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_push_news);
         rootView = findViewById(R.id.container);
+
+        pushTypeAsNewsTab = !NewsTest.isNewsAlertWithBigPic();
 
         newsResource = NewsManager.getInstance().getResultBean();
         initRecyclerView();
@@ -67,6 +76,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
         view.setOnClickListener(v -> {
             ColorPhoneActivity.startNews(NewsPushActivity.this);
             finish();
+            NewsTest.logNewsEvent("news_alert_morebtn_click");
         });
 
         TextView timeView = findViewById(R.id.toolbar_time_tv);
@@ -81,6 +91,17 @@ public class NewsPushActivity extends HSAppCompatActivity {
         });
 
         configTextView(timeView);
+
+        NewsTest.logNewsEvent("news_alert_show");
+        NewsTest.recordShowNewsAlertTime();
+    }
+
+    @Override public void onBackPressed() {
+        if (NewsTest.isNewsAlertAllowBack()) {
+            super.onBackPressed();
+        } else {
+            HSLog.w(NewsManager.TAG, "isNewsAlertAllowBack false");
+        }
     }
 
     private void initRecyclerView() {
@@ -172,9 +193,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
                 HSLog.i(NewsManager.TAG, "NP onClicked: " + position);
                 Navigations.startActivitySafely(NewsPushActivity.this, WebViewActivity.newIntent(bean.contentURL, false));
 
-                LauncherAnalytics.logEvent("mainview_newstab_news_click",
-                        "type", (type == NEWS_TYPE_BIG ? "image" : "imagepreview"),
-                        "user", Utils.isNewUser() ? "new" : "upgrade");
+                NewsTest.logNewsEvent("news_alert_news_click");
             });
         }
 

@@ -792,11 +792,21 @@
       ],
       "topic_id": "topic-70rjkxrrs"
     },
-    "topic-1536215679114-660": {
+    "topic-73gcd98v9": {
       "topic_type": "life_time",
-      "topic_name": "Dialer Test",
+      "topic_name": "News Alert Test",
       "variations": {
-        "set default guide show": {
+        "news_alert_show_first_time_after_install": {
+          "values": [
+            {
+              "value": 2
+            }
+          ],
+          "type": "double",
+          "value": 2,
+          "strategy": "sole"
+        },
+        "news_alert_allow_back": {
           "values": [
             {
               "value": false
@@ -806,7 +816,7 @@
           "value": false,
           "strategy": "sole"
         },
-        "call_finish_wire_show": {
+        "news_alert_show_only_when_get_ad": {
           "values": [
             {
               "value": false
@@ -816,7 +826,7 @@
           "value": false,
           "strategy": "sole"
         },
-        "dialer enable": {
+        "news_alert_enable": {
           "values": [
             {
               "value": false
@@ -824,6 +834,36 @@
           ],
           "type": "boolean",
           "value": false,
+          "strategy": "sole"
+        },
+        "news_alert_type": {
+          "values": [
+            {
+              "value": "image"
+            }
+          ],
+          "type": "string",
+          "value": "image",
+          "strategy": "sole"
+        },
+        "news_wire_show_interval_seconds": {
+          "values": [
+            {
+              "value": 300
+            }
+          ],
+          "type": "double",
+          "value": 300,
+          "strategy": "sole"
+        },
+        "news_alert_show_interval_minutes": {
+          "values": [
+            {
+              "value": 30
+            }
+          ],
+          "type": "double",
+          "value": 30,
           "strategy": "sole"
         }
       },
@@ -832,31 +872,37 @@
           "name": "test"
         },
         {
-          "name": "set_default_guide_show"
+          "name": "news_alert_should_show"
         },
         {
-          "name": "set_default_guide_set_clicked"
+          "name": "news_alert_show"
         },
         {
-          "name": "set_default_success"
+          "name": "news_alert_news_click"
         },
         {
-          "name": "dailer_page_show"
+          "name": "news_alert_morebtn_click"
         },
         {
-          "name": "colorphone_call_finished"
+          "name": "news_detail_page_show"
         },
         {
-          "name": "colorphone_call_finished_call_assistant_show"
+          "name": "news_detail_page_wire_show_from_alert"
         },
         {
-          "name": "colorphone_call_finished_wire_should_show"
+          "name": "news_detail_page_wire_show_from_list"
         },
         {
-          "name": "colorphone_call_finished_wire_show"
+          "name": "mainview_open_news_enable"
+        },
+        {
+          "name": "mainview_open_from_news_alert"
+        },
+        {
+          "name": "mainview_tab_news_click"
         }
       ],
-      "topic_id": "topic-1536215679114-660"
+      "topic_id": "topic-73gcd98v9"
     },
     "topic-6y9jgfwg2": {
       "topic_type": "life_time",
@@ -865,11 +911,11 @@
         "callfinishwire_show_maxtime": {
           "values": [
             {
-              "value": 10
+              "value": 0
             }
           ],
           "type": "double",
-          "value": 10,
+          "value": 0,
           "strategy": "sole"
         },
         "themewire_show_maxtime": {
@@ -915,6 +961,89 @@
         }
       ],
       "topic_id": "topic-6y9jgfwg2"
+    },
+    "topic-723tiyrlr": {
+      "topic_type": "life_time",
+      "topic_name": "Wire After Call Assistant Test Round1",
+      "variations": {
+        "wire_after_callassistant_enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "wire_after_callassistant_show_interval": {
+          "values": [
+            {
+              "value": 15
+            }
+          ],
+          "type": "double",
+          "value": 15,
+          "strategy": "sole"
+        },
+        "show_animation_only_when_ad_show": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "wire_after_callassistant_show_maxtime": {
+          "values": [
+            {
+              "value": 10
+            }
+          ],
+          "type": "double",
+          "value": 10,
+          "strategy": "sole"
+        },
+        "animation_type": {
+          "values": [
+            {
+              "value": "all"
+            }
+          ],
+          "type": "string",
+          "value": "all",
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "call_assistant_show"
+        },
+        {
+          "name": "call_assistant_close"
+        },
+        {
+          "name": "wire_after_callassistant_interval_reach"
+        },
+        {
+          "name": "wire_after_callassistant_should_show"
+        },
+        {
+          "name": "wire_after_callassistant_show"
+        },
+        {
+          "name": "call_assistant_close_animation_show"
+        },
+        {
+          "name": "call_assistant_close_animation_interrupt"
+        }
+      ],
+      "topic_id": "topic-723tiyrlr"
     },
     "topic-1535427355191-617": {
       "topic_type": "life_time",
@@ -2667,6 +2796,187 @@
       ],
       "topic_id": "topic-1505290483207"
     },
+    "topic-71vlbha1x": {
+      "topic_type": "life_time",
+      "topic_name": "Random Theme Test Round Two",
+      "variations": {
+        "normal_theme_can_set_for_all": {
+          "values": [
+            {
+              "value": true
+            }
+          ],
+          "type": "boolean",
+          "value": true,
+          "strategy": "sole"
+        },
+        "normal_theme_show_retain_alert_after_setforall": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "random_theme_default_switch_on": {
+          "values": [
+            {
+              "value": true
+            }
+          ],
+          "type": "boolean",
+          "value": true,
+          "strategy": "sole"
+        },
+        "random_theme_enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "test_need_number": {
+          "values": [
+            {
+              "value": 0
+            }
+          ],
+          "type": "double",
+          "value": 0,
+          "strategy": "sole"
+        },
+        "random_theme_show_on_first_place": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "move_setforall_btn_to_bottom": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "random_theme_guide_show": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "normal_theme_show_retain_alert_maxtime": {
+          "values": [
+            {
+              "value": 1
+            }
+          ],
+          "type": "double",
+          "value": 1,
+          "strategy": "sole"
+        },
+        "random_theme_change_interval": {
+          "values": [
+            {
+              "value": 24
+            }
+          ],
+          "type": "double",
+          "value": 24,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "random_theme_guide_show"
+        },
+        {
+          "name": "random_theme_guide_ok_click"
+        },
+        {
+          "name": "detail_page_retain_alert_show"
+        },
+        {
+          "name": "detail_page_retain_alert_set_click"
+        },
+        {
+          "name": "screenflash_show"
+        },
+        {
+          "name": "screenflash_random_theme_show"
+        },
+        {
+          "name": "deatil_page_show"
+        },
+        {
+          "name": "detail_page_retain_alert_keep_click"
+        },
+        {
+          "name": "detail_page_setforall_click"
+        },
+        {
+          "name": "detail_page_setforcontact_click"
+        },
+        {
+          "name": "detail_page_setforcontact_success"
+        },
+        {
+          "name": "detail_page_retain_alert_close_by_back"
+        },
+        {
+          "name": "detail_page_retain_alert_show_firsttime"
+        },
+        {
+          "name": "detail_page_retain_alert_keep_click_firsttime"
+        },
+        {
+          "name": "detail_page_retain_alert_set_click_firsttime"
+        },
+        {
+          "name": "detail_page_retain_alert_show_secondtime"
+        },
+        {
+          "name": "detail_page_retain_alert_keep_click_secondtime"
+        },
+        {
+          "name": "detail_page_retain_alert_set_click_secondtime"
+        },
+        {
+          "name": "detail_page_retain_alert_show_thirdtime"
+        },
+        {
+          "name": "detail_page_retain_alert_keep_click_thirdtime"
+        },
+        {
+          "name": "detail_page_retain_alert_set_click_thirdtime"
+        },
+        {
+          "name": "random_theme_download_start"
+        },
+        {
+          "name": "random_theme_download_success"
+        }
+      ],
+      "topic_id": "topic-71vlbha1x"
+    },
     "topic-1528196849816-295": {
       "topic_type": "life_time",
       "topic_name": "Charing Card Test",
@@ -2754,6 +3064,72 @@
         }
       ],
       "topic_id": "topic-1528196849816-295"
+    },
+    "topic-1536215679114-660": {
+      "topic_type": "life_time",
+      "topic_name": "Dialer Test",
+      "variations": {
+        "set default guide show": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "call_finish_wire_show": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "dialer enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "set_default_guide_show"
+        },
+        {
+          "name": "set_default_guide_set_clicked"
+        },
+        {
+          "name": "set_default_success"
+        },
+        {
+          "name": "dailer_page_show"
+        },
+        {
+          "name": "colorphone_call_finished"
+        },
+        {
+          "name": "colorphone_call_finished_call_assistant_show"
+        },
+        {
+          "name": "colorphone_call_finished_wire_should_show"
+        },
+        {
+          "name": "colorphone_call_finished_wire_show"
+        }
+      ],
+      "topic_id": "topic-1536215679114-660"
     },
     "topic-1528955961310-328": {
       "topic_type": "one_time",
@@ -3110,12 +3486,109 @@
         }
       ],
       "topic_id": "topic-1512825907890-18"
+    },
+    "topic-72mxyzj8z": {
+      "topic_type": "life_time",
+      "topic_name": "Weather Test",
+      "variations": {
+        "weather_forecast_alert_show_maxtime": {
+          "values": [
+            {
+              "value": "100"
+            }
+          ],
+          "type": "string",
+          "value": "100",
+          "strategy": "sole"
+        },
+        "weather_forecast_show_at_night": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "weather_forecast_enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "weather_forecast_show_in_morning": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "weather_forecast_video_allow_fullscreen_click": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "weather_forecast_type": {
+          "values": [
+            {
+              "value": "multi"
+            }
+          ],
+          "type": "string",
+          "value": "multi",
+          "strategy": "sole"
+        },
+        "weather_forecast_video_allow_back": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "weather_forecast_should_show"
+        },
+        {
+          "name": "weather_forecast_show"
+        },
+        {
+          "name": "weather_forecast_click"
+        },
+        {
+          "name": "weather_forecast_closebtn_click"
+        },
+        {
+          "name": "weather_forecast_wire_show"
+        }
+      ],
+      "topic_id": "topic-72mxyzj8z"
     }
   },
   "autopilot_id": 10000,
   "service_url": "https://ap.appcloudbox.net",
   "other_app_events": [],
-  "json_id": "b60a024e-312c-4743-9a96-93eab0ae4fe5",
+  "json_id": "2786358d-eccd-45ff-89b0-d2a7523d87b9",
   "autopilot_name": "Color Phone",
   "autopilot_type": "app"
 }

@@ -18,7 +18,6 @@ import com.honeycomb.colorphone.news.NewsPushActivity;
 import com.honeycomb.colorphone.recentapp.SmartAssistantActivity;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
-import com.superapps.util.Navigations;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -100,6 +99,6 @@ public class TestActivity extends AppCompatActivity {
 //            HSLog.i("ThemeRecommendManager", "not show themeid == " + themeIdName);
 //        }
 
-        Navigations.startActivitySafely(view.getContext(), new Intent(view.getContext(), NewsPushActivity.class));
+        NewsPushActivity.start(view.getContext());
     }
 }

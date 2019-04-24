@@ -35,6 +35,7 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.news.NewsPage;
+import com.honeycomb.colorphone.news.NewsTest;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
@@ -186,6 +187,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 switchPage();
                 highlightNewTab();
             }
+
+            if (tabIndex == MAIN_TAB_NEWS) {
+                NewsTest.logNewsEvent("mainview_open_from_news_alert");
+            }
+        }
+
+        if (NewsTest.isNewsAlertEnable()) {
+            NewsTest.logNewsEvent("mainview_open_news_enable");
         }
     }
 
@@ -252,6 +261,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 LauncherAnalytics.logEvent("mainview_newstab_click", "type", Utils.isNewUser() ? "new" : "upgrade");
                 LauncherAnalytics.logEvent("mainview_newstab_show", "type", Utils.isNewUser() ? "new" : "upgrade");
                 LauncherAnalytics.logEvent("tab_change");
+
+                NewsTest.logNewsEvent("mainview_tab_news_click");
             }
         });
 

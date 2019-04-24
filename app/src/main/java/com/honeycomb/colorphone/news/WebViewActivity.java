@@ -132,7 +132,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
             }
         });
 
-        LauncherAnalytics.logEvent("news_detail_page_show");
+        NewsTest.logNewsEvent("news_detail_page_show");
     }
 
     @Override
