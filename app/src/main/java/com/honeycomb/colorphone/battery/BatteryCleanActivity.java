@@ -458,7 +458,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
 //        iconImageView.setBackgroundDrawable(iconCache.getIconForApp(cleanAppList.get(0)));
         // TODO: get App name and icon
         appNameTextView.setText(Utils.getAppTitle(cleanAppList.get(0)));
-        iconImageView.setBackgroundDrawable(Utils.getAppIcon(cleanAppList.get(0)));
+        iconImageView.setImageDrawable(Utils.getAppIcon(cleanAppList.get(0)));
 
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(iconAppNameLayout, "alpha", 0, 1);
         objectAnimator.setDuration(300);
