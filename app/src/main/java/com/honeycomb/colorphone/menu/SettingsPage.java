@@ -30,6 +30,7 @@ public class SettingsPage implements View.OnClickListener {
     private TextView mainSwitchTxt;
     private boolean initCheckState;
     private SwitchCompat defaultDialer;
+    private boolean defaultCheckIgnore;
 
     public void initPage(View rootView) {
         mainSwitch = rootView.findViewById(R.id.main_switch);
@@ -43,6 +44,10 @@ public class SettingsPage implements View.OnClickListener {
         defaultDialer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (defaultCheckIgnore) {
+                    defaultCheckIgnore = false;
+                    return;
+                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (isChecked) {
                         DefaultPhoneUtils.checkDefaultPhoneSettings();
@@ -86,6 +91,7 @@ public class SettingsPage implements View.OnClickListener {
 
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus && defaultDialer != null) {
+            defaultCheckIgnore = true;
             defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
         }
     }

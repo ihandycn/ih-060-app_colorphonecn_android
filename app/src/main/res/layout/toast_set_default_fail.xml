@@ -22,5 +22,5 @@
         android:textColor="@android:color/white"
         android:textSize="15sp"
         app:typeface="@string/proxima_nova_regular"
-        tools:text="开启失败，请点击【设为默认】" />
+        android:text="开启失败，请点击【设为默认】" />
 </LinearLayout>
