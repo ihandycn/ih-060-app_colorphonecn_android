@@ -1,8 +1,6 @@
 package com.honeycomb.colorphone.dialer.guide;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,8 +13,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
+import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.dialer.ConfigEvent;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
+import com.honeycomb.colorphone.startguide.SetAsDialerDialog;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -45,12 +46,13 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
             if (!DefaultPhoneUtils.isDefaultPhone()) {
                 DefaultPhoneUtils.saveSystemDefaultPhone();
 
-                if (ConfigEvent.setDefaultGuideShow()) {
-                    Intent starter = new Intent(context, GuideSetDefaultActivity.class);
-                    if (context instanceof Activity) {
-                        ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    }
-                    context.startActivity(starter);
+                if (ConfigEvent.setDefaultGuideShow() && AutoPermissionChecker.hasFloatWindowPermission()) {
+                    FloatWindowManager.getInstance().showDialog(new SetAsDialerDialog(context.getApplicationContext()));
+//                    Intent starter = new Intent(context, GuideSetDefaultActivity.class);
+//                    if (context instanceof Activity) {
+//                        ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//                    }
+//                    context.startActivity(starter);
                 } else {
                     DefaultPhoneUtils.checkDefaultPhoneSettings();
                 }
@@ -84,8 +86,9 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
         Button actionBtn = findViewById(R.id.guide_action);
         actionBtn.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_BOLD));
         actionBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.parseColor("#dcdcdc"),
+                Color.parseColor("#55000000"),
                 Dimensions.pxFromDp(22),
-                true));
+                false, true));
         actionBtn.setOnClickListener(v ->
         {
             ConfigEvent.guideConfirmed();
@@ -101,19 +104,5 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (!mOkClicked) {
-
-        }
-        super.onDestroy();
     }
 }

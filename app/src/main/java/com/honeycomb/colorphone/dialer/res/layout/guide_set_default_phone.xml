@@ -1,76 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout android:id="@+id/dialog_content_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#dc000000">
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="#1c1b29">
 
 
-    <LinearLayout
-        android:id="@+id/dialog_content_container"
+    <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/phone_set_default_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="18:15"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <ImageButton
+        android:id="@+id/guide_close"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="end|right"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.4"
+        android:background="@drawable/material_compat_bg"
+        android:src="@drawable/acb_phone_alert_call_close"
+        app:layout_constraintBottom_toTopOf="@id/imageView1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/typefacedTextView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="32dp"
-        tools:background="#1c1b29"
-        android:orientation="vertical">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.superapps.view.RatioRoundImageView
-                android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/phone_set_default_2"
-                app:radius_leftTop="24dp"
-                app:radius_rightTop="24dp"
-                app:super_apps_ratio="1.47" />
-            <ImageButton
-                android:id="@+id/guide_close"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="end|right"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:alpha="0.4"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/material_compat_bg"
-                android:src="@drawable/acb_phone_alert_call_close"
-                />
-        </FrameLayout>
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:lineSpacingExtra="8sp"
+        android:text="@string/guide_default_phone_title"
+        android:textColor="#ccffffff"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView1"
+        app:layout_constraintWidth_percent="0.66"
+        app:typeface="@string/proxima_nova_semibold" />
 
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="36dp"
-            android:gravity="center"
-            android:layout_marginRight="36dp"
-            android:lineSpacingExtra="8sp"
-            android:text="@string/guide_default_phone_title"
-            android:textSize="16sp"
-            android:textColor="#ccffffff"
-            android:textStyle="bold"
-            app:typeface="@string/proxima_nova_semibold" />
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/guide_action"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:text="@string/guide_default_phone_action"
+        android:textColor="#292929"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/typefacedTextView" />
 
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/guide_action"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="44dp"
-            android:paddingLeft="40dp"
-            android:paddingRight="40dp"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="44dp"
-            android:gravity="center"
-            android:text="@string/guide_default_phone_action"
-            android:textStyle="bold"
-            android:textColor="#292929"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>
