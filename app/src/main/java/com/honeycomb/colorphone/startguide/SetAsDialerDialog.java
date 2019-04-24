@@ -21,6 +21,7 @@ import com.honeycomb.colorphone.dialer.ConfigEvent;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.FontUtils;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.permission.HSPermissionRequestCallback;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.ihs.permission.HSPermissionType;
@@ -161,6 +162,12 @@ public class SetAsDialerDialog extends FullScreenDialog {
     }
 
     private void onAutoRequestFail() {
+        Threads.postOnMainThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Utils.showDefaultFailToast();
+            }
+        }, 300);
         DefaultPhoneUtils.checkDefaultPhoneSettings();
     }
 

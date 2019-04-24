@@ -851,6 +851,20 @@ public final class Utils {
         toast.show();
     }
 
+
+    public static void showDefaultFailToast() {
+        Toast toast = new Toast(HSApplication.getContext().getApplicationContext());
+        final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.toast_set_default_fail, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            contentView.setElevation(Dimensions.pxFromDp(8));
+        }
+        int yOffset = (int) (0.6f * Dimensions.getPhoneHeight(HSApplication.getContext()));
+        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, yOffset);
+        toast.setView(contentView);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.show();
+    }
+
     public static void deleteRecursive(File fileOrDirectory) {
         if (fileOrDirectory.isDirectory()) {
             File[] children = fileOrDirectory.listFiles();
