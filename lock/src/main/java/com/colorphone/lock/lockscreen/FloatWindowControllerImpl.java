@@ -169,11 +169,11 @@ public class FloatWindowControllerImpl {
         terminalAlarmAction.add("com.android.deskclock.ALARM_SNOOZE");
     }
 
-    public void showChargingScreen(Bundle bundle) {
+    public boolean showChargingScreen(Bundle bundle) {
         // If user revoked alert window permission, we just do nothing.
         if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
                 || !canDrawOverlays()) {
-            return;
+            return false;
         }
         if (addedToWindowMgr && isShowLockScreen) {
             doHideLockScreen(false);
@@ -189,9 +189,11 @@ public class FloatWindowControllerImpl {
             try {
                 windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
             } catch (SecurityException e) {
+                return false;
             }
         }
         startDismissActivity();
+        return true;
     }
 
     public void showLockScreen() {

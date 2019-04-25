@@ -144,7 +144,8 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                 mTimeReadyToShow = System.currentTimeMillis();
                 Analytics.logEvent("CallFinished_View_Should_Show",
                         "callType", getCallTypeStr(callType),
-                        "Brand", Build.BRAND.toLowerCase());
+                        "Brand", Build.BRAND.toLowerCase(),
+                "Lock", String.valueOf(isLocked));
                 if (isTargetBrand() && Build.VERSION.SDK_INT >= 23) {
                     Analytics.logEvent("Test_CallAssistantShouldShow" +  Build.BRAND.toUpperCase() + getDeviceInfo());
                     Threads.removeOnMainThread(mDisplayTimeoutRunnable2);
