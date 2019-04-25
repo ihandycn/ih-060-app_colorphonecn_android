@@ -1,14 +1,10 @@
 package com.colorphone.lock.lockscreen.locker;
 
 
-import com.colorphone.lock.util.ConfigUtils;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Preferences;
-
-import net.appcloudbox.autopilot.AutopilotConfig;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
 
@@ -33,7 +29,10 @@ public class LockerSettings {
     }
 
     public static boolean isLockerConfigEnabled() {
-        return (ConfigUtils.isEnabled(LOCKER_ENABLE_PATH) && ConfigUtils.isScreenAdEnabledThisVersion());
+        /*
+         * Disable locker, because we not have wifi-access permission.
+         */
+        return false;
     }
 
     public static boolean isLockerUserEnabled() {

@@ -85,16 +85,9 @@
     <string name="unlock">解锁</string>
     <string name="unlock_succeed">成功解锁</string>
 
-    <!--Notification Reminder-->
-    <string name="notification_reminder">通知提醒</string>
-    <string name="notification_reminder_content">请开启通知权限以便我们能在您收到通知时给您开启闪光灯提醒</string>
-    <string name="notification_reminder_action">授予权限</string>
-    <string name="notification_common">通用程序</string>
-    <string name="notification_other">其他程序</string>
     <string name="battery_clean_title">电池医生</string>
     <string name="cpu_positive_feedback_title">已降温</string>
     <string name="result_page_click_guide_tip">继续优化</string>
-    <string name="desktop_tips_content_guide_msg">开心一刻</string>
     <string name="apply_btn">应用</string>
     <string name="menu_item_settings">设置</string>
     <string name="battery_title">电池</string>
@@ -157,18 +150,6 @@
     <string name="cpu_cooler_state_extremely_heated">温度较热</string>
     <string name="cpu_cooler_cleaning_hint">正在关闭后台应用</string>
     <string name="cool_capital">一键降温</string>
-    <string name="notification_toolbar_clock">时钟</string>
-
-    <string name="desktop_tips_content_would_you_rather_title">你更愿意</string>
-    <string name="desktop_tips_content_would_you_rather_description">点击来看看有多少人做了和你相同的选择！</string>
-    <string name="desktop_tips_content_would_you_rather_result">d%的人和你做了同样的选择</string>
-    <string name="desktop_tips_content_trivia_quiz_title">脑力达人</string>
-    <string name="desktop_tips_content_trivia_quiz_correct">正确</string>
-    <string name="desktop_tips_content_trivia_quiz_wrong">错误</string>
-    <string name="desktop_tips_content_trivia_quiz_explanation">让思维活跃起来！</string>
-    <string name="desktop_tips_content_trivia_quiz_hint">点击来作出你的选择。</string>
-    <string name="desktop_tips_content_would_you_rather_explanation">来看看有多少人和你一样！</string>
-    <string name="or">或者</string>
 
     <string name="settings_activity_notification_reminder">通知栏开关</string>
     <string name="notification_toolbar_flash_light">手电筒</string>

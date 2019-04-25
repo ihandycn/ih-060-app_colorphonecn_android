@@ -5,11 +5,9 @@ apply from: 'stable-Ids.gradle'
 apply from: 'tasks.gradle'
 
 apply plugin: 'ihandy.proguard.rewrite'
-apply plugin: 'com.miracles.stableid'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "26.0.2"
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 26
@@ -105,10 +103,6 @@ android {
         ]
     }
 
-    stableXmlConfig{
-        inXmlPath file("public.xml").absolutePath
-    }
-
     dexOptions {
         javaMaxHeapSize "4g"
     }
@@ -143,7 +137,7 @@ dependencies {
         transitive = true
     }
 
-    debugCompile 'com.amitshekhar.android:debug-db:1.0.3'
+//    debugCompile 'com.amitshekhar.android:debug-db:1.0.3'
 
     final USE_BETA_ACB_LIBS = false
 
@@ -229,6 +223,13 @@ dependencies {
     colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2019.04.24.001'
     colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2019.02.13.001'
 }
-
+android.applicationVariants.all { variant ->
+    tasks.named("generate${variant.name.capitalize()}Resources").configure { mergeResourceTask ->
+        mergeResourceTask.outputs.upToDateWhen { false }
+    }
+    tasks.named("merge${variant.name.capitalize()}Resources").configure { mergeResourceTask ->
+        mergeResourceTask.outputs.upToDateWhen { false }
+    }
+}
 // ADD THIS AT THE BOTTOM
 apply plugin: 'com.google.gms.google-services'
