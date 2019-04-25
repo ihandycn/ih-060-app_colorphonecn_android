@@ -3,8 +3,6 @@ package com.honeycomb.colorphone.news;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.honeycomb.colorphone.ad.AdManager;
-import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.connection.HSHttpConnection;
 import com.ihs.commons.utils.HSError;
@@ -35,10 +33,9 @@ public class NewsManager {
         return NewsManager.NewsManagerHolder.instance;
     }
 
-    static String TAG = NewsManager.class.getSimpleName();
+    public static String TAG = NewsManager.class.getSimpleName();
     private static UUID userID = java.util.UUID.randomUUID();
-    private static String NEWS_LIST_BANNER = "NewsListBanner";
-//    private static String NEWS_LIST_BANNER = Placements.BOOST_DOWN;
+    private static String NEWS_LIST_BANNER = "NewsNative";
     private static String NEWS_WIRE = "NewsWire";
 
     private static int LIMIT_SIZE = 10;
@@ -60,6 +57,7 @@ public class NewsManager {
 
     public void fetchNews() {
         AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
+        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
 
         HSLog.i(NewsManager.TAG, "fetchNews");
         newOffset += resultBean == null ? 0 : resultBean.totalItems;
@@ -262,11 +260,11 @@ public class NewsManager {
     }
 
     public boolean showInterstitialAd() {
-        if (!ADAutoPilotUtils.canShowThemeWireADThisTime()) {
+        if (!NewsTest.canShowNewsWireAD()) {
             return false;
         }
 
-        AcbInterstitialAd ad = AdManager.getInstance().getInterstitialAd();
+        AcbInterstitialAd ad = getInterstitialAd();
         if (ad != null) {
             ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
                 @Override
@@ -281,6 +279,9 @@ public class NewsManager {
 
                 @Override
                 public void onAdClosed() {
+                    releaseInterstitialAd();
+                    AcbInterstitialAdManager.preload(1, NEWS_WIRE);
+                    NewsTest.recordShowNewsWireAdTime();
                 }
 
                 @Override

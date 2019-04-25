@@ -186,7 +186,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
                     view = LayoutInflater.from(getContext()).inflate(R.layout.news_foot_loading, parent, false);
                     return new NewsFootLoadingHolder(view);
                 case NEWS_TYPE_NATIVE:
-                    return new NewsNativeHolder(parent);
+                    return new NewsNativeHolder(new AcbNativeAdContainerView(getContext()));
             }
             NewsBeanItemHolder holder = new NewsBeanItemHolder(view);
             return holder;
@@ -276,10 +276,10 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
         TextView mDescriptionTv;
         View mActionBtn;
 
-        NewsNativeHolder(View itemView) {
-            super(itemView);
+        NewsNativeHolder(View root) {
+            super(root);
 
-            adContainer = new AcbNativeAdContainerView(getContext());
+            adContainer = (AcbNativeAdContainerView) root;
             View view = LayoutInflater.from(getContext()).inflate(R.layout.news_ad_view, adContainer, false);
 
             mAdImageContainer = ViewUtils.findViewById(view, R.id.news_ad_image);
@@ -289,7 +289,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
             mDescriptionTv = ViewUtils.findViewById(view, R.id.news_ad_description);
             mActionBtn = ViewUtils.findViewById(view, R.id.news_ad_action_btn);
 
-            adContainer.addContentView(itemView);
+            adContainer.addContentView(view);
             adContainer.setAdTitleView(mTitleTv);
             adContainer.setAdBodyView(mDescriptionTv);
             adContainer.setAdPrimaryView(mAdImageContainer);
@@ -297,7 +297,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
             adContainer.setAdIconView(mAdIconView);
             adContainer.setAdActionView(mActionBtn);
 
-            ((ViewGroup) itemView).addView(adContainer);
+//            ((ViewGroup) itemView).addView(adContainer);
 
         }
 

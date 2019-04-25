@@ -151,21 +151,6 @@ public class ColorPhoneApplication extends HSApplication {
         }
     };
 
-    private BroadcastReceiver mUserPresentReceiver = new BroadcastReceiver() {
-        @Override public void onReceive(Context context, Intent intent) {
-            Threads.postOnMainThreadDelayed(() -> {
-                NewsManager.getInstance().fetchPushNews(null);
-            }, 100);
-
-            Threads.postOnMainThreadDelayed(() -> {
-                if (NewsManager.getInstance().getPushBean() != null) {
-                    NewsPushActivity.start(ColorPhoneApplication.getContext());
-                }
-            }, 2000);
-
-        }
-    };
-
     private INotificationObserver mObserver = new INotificationObserver() {
 
         @Override
@@ -223,9 +208,6 @@ public class ColorPhoneApplication extends HSApplication {
 
             TriviaTip.cacheImagesFirstTime();
 
-            if (NewsTest.isNewsAlertEnable()) {
-                registerReceiver(mUserPresentReceiver, new IntentFilter(Intent.ACTION_USER_PRESENT));
-            }
         }
     };
 
@@ -683,6 +665,19 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onScreenOn(context);
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
                     ScreenStatusReceiver.onUserPresent(context);
+
+                    HSLog.i(NewsManager.TAG, "UserPresentReceiver");
+                    if (NewsTest.isNewsAlertEnable()) {
+                        Threads.postOnMainThreadDelayed(() -> {
+                            NewsManager.getInstance().fetchPushNews(null);
+                        }, 100);
+
+                        Threads.postOnMainThreadDelayed(() -> {
+                            if (NewsTest.canShowNewsAlert() && NewsManager.getInstance().getPushBean() != null) {
+                                NewsPushActivity.start(ColorPhoneApplication.getContext());
+                            }
+                        }, 2000);
+                    }
                 }
             }
         }, screenFilter);
@@ -736,9 +731,6 @@ public class ColorPhoneApplication extends HSApplication {
     public void onTerminate() {
         super.onTerminate();
         HSGlobalNotificationCenter.removeObserver(mObserver);
-        if (NewsTest.isNewsAlertEnable()) {
-            unregisterReceiver(mUserPresentReceiver);
-        }
     }
 
 

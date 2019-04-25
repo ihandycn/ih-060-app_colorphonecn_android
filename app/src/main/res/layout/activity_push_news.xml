@@ -26,19 +26,19 @@
             <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="105dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed" >
+                android:minHeight="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed" >
 
                 <android.support.v7.widget.Toolbar
                     android:layout_width="match_parent"
-                    android:layout_height="37dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="24dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="top|center_horizontal"
                     app:layout_collapseMode="pin">
                     <com.superapps.view.TypefacedTextView
                         android:id="@+id/toolbar_title_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+                        android:gravity="top|center_horizontal"
                         android:textColor="@android:color/white"
                         android:text="@string/news_push_title"
                         android:textSize="24sp"
@@ -62,7 +62,6 @@
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
-
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
@@ -78,8 +77,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/news_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                    android:layout_height="match_parent" />
 
                 <com.superapps.view.TypefacedTextView
                     android:id="@+id/news_push_view_more"

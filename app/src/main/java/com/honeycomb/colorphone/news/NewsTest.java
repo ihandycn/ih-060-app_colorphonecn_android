@@ -15,6 +15,7 @@ public class NewsTest {
     private static final String TOPIC_ID = "topic-73gcd98v9";
     private static final String PREF_FILE = "news";
     private static final String PREF_KEY_LAST_SHOW_NEWS_ALERT_TIME = "pref_key_last_show_news_alert_time";
+    private static final String PREF_KEY_LAST_SHOW_NEWS_WIRE_AD_TIME = "pref_key_last_show_news_wire_ad_time";
 
     public static boolean isNewsAlertAllowBack() {
 //        return true;
@@ -75,12 +76,28 @@ public class NewsTest {
         return true;
     }
 
+    public static boolean canShowNewsWireAD() {
+        if ((System.currentTimeMillis() - getLastShowNewsWireAdTime())
+                < getNewsWireShowIntervalSecond() * DateUtils.SECOND_IN_MILLIS) {
+            return false;
+        }
+        return true;
+    }
+
     private static long getLastShowNewsAlertTime() {
         return Preferences.get(PREF_FILE).getLong(PREF_KEY_LAST_SHOW_NEWS_ALERT_TIME, 0);
     }
 
     public static void recordShowNewsAlertTime() {
         Preferences.get(PREF_FILE).putLong(PREF_KEY_LAST_SHOW_NEWS_ALERT_TIME, System.currentTimeMillis());
+    }
+
+    private static long getLastShowNewsWireAdTime() {
+        return Preferences.get(PREF_FILE).getLong(PREF_KEY_LAST_SHOW_NEWS_WIRE_AD_TIME, 0);
+    }
+
+    public static void recordShowNewsWireAdTime() {
+        Preferences.get(PREF_FILE).putLong(PREF_KEY_LAST_SHOW_NEWS_WIRE_AD_TIME, System.currentTimeMillis());
     }
 
     public static void logNewsEvent(String eventID) {

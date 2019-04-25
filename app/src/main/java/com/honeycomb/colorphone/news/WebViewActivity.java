@@ -40,6 +40,7 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Networks;
+import com.superapps.util.Threads;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -133,6 +134,10 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
         });
 
         NewsTest.logNewsEvent("news_detail_page_show");
+
+        Threads.postOnMainThreadDelayed(() -> {
+            NewsManager.getInstance().showInterstitialAd();
+        }, 1000);
     }
 
     @Override
