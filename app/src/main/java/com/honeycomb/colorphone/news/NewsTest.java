@@ -18,12 +18,10 @@ public class NewsTest {
     private static final String PREF_KEY_LAST_SHOW_NEWS_WIRE_AD_TIME = "pref_key_last_show_news_wire_ad_time";
 
     public static boolean isNewsAlertAllowBack() {
-//        return true;
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "news_alert_allow_back", false);
     }
 
     public static boolean isNewsAlertEnable() {
-//        return true;
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "news_alert_enable", false);
     }
 
@@ -36,12 +34,10 @@ public class NewsTest {
     }
 
     public static boolean isNewsAlertShowOnlyWhenGetAd() {
-//        return true;
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "news_alert_show_only_when_get_ad", false);
     }
 
     private static String getNewsAlertType() {
-//        return "others";
         return AutopilotConfig.getStringToTestNow(TOPIC_ID, "news_alert_type", "image");
     }
 
@@ -76,6 +72,17 @@ public class NewsTest {
         return true;
     }
 
+    public static boolean shouldShowWithAD() {
+        if (isNewsAlertShowOnlyWhenGetAd()) {
+            boolean ret = NewsManager.getInstance().getInterstitialAd() != null;
+            if (!ret) {
+                HSLog.i(NewsManager.TAG, "canShowNewsAlert no AD");
+            }
+            return ret;
+        }
+        return true;
+    }
+
     public static boolean canShowNewsWireAD() {
         if ((System.currentTimeMillis() - getLastShowNewsWireAdTime())
                 < getNewsWireShowIntervalSecond() * DateUtils.SECOND_IN_MILLIS) {
@@ -84,7 +91,7 @@ public class NewsTest {
         return true;
     }
 
-    private static long getLastShowNewsAlertTime() {
+    static long getLastShowNewsAlertTime() {
         return Preferences.get(PREF_FILE).getLong(PREF_KEY_LAST_SHOW_NEWS_ALERT_TIME, 0);
     }
 

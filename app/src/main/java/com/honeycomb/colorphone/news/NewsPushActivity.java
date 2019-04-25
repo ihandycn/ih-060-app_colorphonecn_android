@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.news;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.colorphone.lock.PopupView;
 import com.colorphone.lock.RipplePopupView;
@@ -74,7 +74,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
 
         view = findViewById(R.id.news_push_view_more);
         view.setOnClickListener(v -> {
-            ColorPhoneActivity.startNews(NewsPushActivity.this);
+            Navigations.startActivitySafely(NewsPushActivity.this, ColorPhoneActivity.newIntent(NewsPushActivity.this));
             finish();
             NewsTest.logNewsEvent("news_alert_morebtn_click");
         });
@@ -98,10 +98,16 @@ public class NewsPushActivity extends HSAppCompatActivity {
 
     @Override public void onBackPressed() {
         if (NewsTest.isNewsAlertAllowBack()) {
+            NewsTest.recordShowNewsAlertTime();
             super.onBackPressed();
         } else {
             HSLog.w(NewsManager.TAG, "isNewsAlertAllowBack false");
         }
+    }
+
+    @Override public void finish() {
+        super.finish();
+        NewsTest.recordShowNewsAlertTime();
     }
 
     private void initRecyclerView() {
@@ -191,7 +197,13 @@ public class NewsPushActivity extends HSAppCompatActivity {
 
             holder.itemView.setOnClickListener(v -> {
                 HSLog.i(NewsManager.TAG, "NP onClicked: " + position);
-                Navigations.startActivitySafely(NewsPushActivity.this, WebViewActivity.newIntent(bean.contentURL, false));
+
+                Intent[] intents = new Intent[] {
+                        ColorPhoneActivity.newIntent(NewsPushActivity.this),
+                        WebViewActivity.newIntent(bean.contentURL, false)
+                };
+                Navigations.startActivitiesSafely(NewsPushActivity.this, intents);
+                finish();
 
                 NewsTest.logNewsEvent("news_alert_news_click");
             });
@@ -262,7 +274,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
             buttonYes.setText(com.colorphone.lock.R.string.charging_screen_close_dialog_negative_action);
             buttonYes.setOnClickListener(v -> {
                 finish();
-                Toast.makeText(NewsPushActivity.this, com.colorphone.lock.R.string.locker_diabled_success, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(NewsPushActivity.this, com.colorphone.lock.R.string.locker_diabled_success, Toast.LENGTH_SHORT).show();
                 mCloseLockerPopupView.dismiss();
             });
             mCloseLockerPopupView.setOutSideBackgroundColor(0xB3000000);

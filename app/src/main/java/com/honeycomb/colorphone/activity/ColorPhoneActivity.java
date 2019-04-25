@@ -149,10 +149,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean isCreate = false;
     private SettingsPage mSettingsPage = new SettingsPage();
 
-    public static void startNews(Context context) {
+    public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
         intent.putExtra(MAIN_TAB_KEY, MAIN_TAB_NEWS);
-        Navigations.startActivitySafely(context, intent);
+        return intent;
     }
 
     @DebugLog

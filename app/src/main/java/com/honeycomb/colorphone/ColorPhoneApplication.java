@@ -667,13 +667,14 @@ public class ColorPhoneApplication extends HSApplication {
                     ScreenStatusReceiver.onUserPresent(context);
 
                     HSLog.i(NewsManager.TAG, "UserPresentReceiver");
-                    if (NewsTest.isNewsAlertEnable()) {
+                    if (NewsTest.canShowNewsAlert()) {
                         Threads.postOnMainThreadDelayed(() -> {
                             NewsManager.getInstance().fetchPushNews(null);
+                            NewsManager.getInstance().preloadAD();
                         }, 100);
 
                         Threads.postOnMainThreadDelayed(() -> {
-                            if (NewsTest.canShowNewsAlert() && NewsManager.getInstance().getPushBean() != null) {
+                            if (NewsTest.shouldShowWithAD() && NewsManager.getInstance().getPushBean() != null) {
                                 NewsPushActivity.start(ColorPhoneApplication.getContext());
                             }
                         }, 2000);

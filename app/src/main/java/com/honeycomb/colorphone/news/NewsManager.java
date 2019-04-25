@@ -39,6 +39,7 @@ public class NewsManager {
     private static String NEWS_WIRE = "NewsWire";
 
     private static int LIMIT_SIZE = 10;
+    private static int LIMIT_PUSH_SIZE = 5;
     public static int BIG_IMAGE_INTERVAL = 5;
     private int newOffset = 0;
     private AcbInterstitialAd mInterstitialAd;
@@ -174,7 +175,10 @@ public class NewsManager {
         HSLog.i(NewsManager.TAG, "fetchPushNews offset == " + offset);
         pushBean = null;
 
-        HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), String.valueOf(offset)));
+        HSHttpConnection news = new HSHttpConnection(
+                getURL(String.valueOf(LIMIT_PUSH_SIZE),
+                        String.valueOf(offset),
+                        NewsTest.getLastShowNewsAlertTime()));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
             @Override public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
                 if (hsHttpConnection.isSucceeded()) {
@@ -229,7 +233,9 @@ public class NewsManager {
 
         url.append("&limit=").append(limit);
         url.append("&offset=").append(offset);
-//        url.append("&sortBy=newest");
+//        if (time > 0) {
+//
+//        }
 
         String category = HSConfig.optString("", "Application", "News", "Category");
         if (!TextUtils.isEmpty(category)) {
@@ -238,8 +244,11 @@ public class NewsManager {
 
         HSLog.i(TAG, "getUrl: " + url.toString());
 
-
         return url.toString();
+    }
+
+    public void preloadAD() {
+        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
     }
 
     public AcbInterstitialAd getInterstitialAd() {
