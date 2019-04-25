@@ -418,6 +418,12 @@
         <service android:name=".PermanentService$PermanentServiceInner" />
 
         <service
+            android:label="@string/acc_service_name"
+            tools:replace="android:label"
+            android:name="com.ihs.devicemonitor.accessibility.HSAccessibilityService">
+        </service>
+
+        <service
             android:name=".LockJobService"
             android:enabled="true"
             android:exported="false"
