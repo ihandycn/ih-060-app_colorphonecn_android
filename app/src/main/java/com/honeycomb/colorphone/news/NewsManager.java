@@ -278,7 +278,8 @@ public class NewsManager {
             ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
                 @Override
                 public void onAdDisplayed() {
-
+                    NewsTest.logNewsEvent("news_detail_page_wire_show_from_alert");
+                    NewsTest.logNewsEvent("news_detail_page_wire_show_from_list");
                 }
 
                 @Override

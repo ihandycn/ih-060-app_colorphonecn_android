@@ -85,6 +85,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             @Override
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
+                LauncherAnalytics.logEvent("startguide_ok_click_news");
                 ModuleUtils.setAllModuleUserEnable();
 
                 CheckBox cb = findViewById(R.id.welcome_guide_enable_checkbox);
@@ -108,6 +109,8 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         tvTitle.setText(titleNew() ? R.string.guide_first_page_title : R.string.guide_first_page_title_old);
 
         GdprUtils.showGdprAlertIfNeeded(this);
+
+        LauncherAnalytics.logEvent("startguide_show_news");
     }
 
 

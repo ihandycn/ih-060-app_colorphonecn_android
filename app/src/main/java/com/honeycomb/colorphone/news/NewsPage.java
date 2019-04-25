@@ -145,6 +145,8 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
         if (refreshLayout.isRefreshing()) {
             NewsManager.getInstance().fetchNews();
         }
+
+        LauncherAnalytics.logEvent("mainview_news_tab_pull_to_refresh");
     }
 
     public void onScrollToTop() {
@@ -210,12 +212,18 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
             NewsBeanItemHolder beanHolder = (NewsBeanItemHolder) holder;
             beanHolder.bindNewsBean(bean, type);
+
+            if (type == NEWS_TYPE_BIG && position > logBigImageIndex) {
+                LauncherAnalytics.logEvent("mainview_news_tab_slide");
+                logBigImageIndex = position;
+            }
         }
 
         @Override public int getItemCount() {
             return newsResource != null ? newsResource.totalItems + 1 : 0;
         }
     }
+    private int logBigImageIndex = 0;
 
     private class NewsBeanItemHolder extends RecyclerView.ViewHolder {
         TextView title;

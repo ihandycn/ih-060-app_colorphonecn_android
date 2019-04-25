@@ -22,6 +22,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.RoundImageVIew;
@@ -66,6 +67,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
         view = findViewById(R.id.news_push_more);
         view.setOnClickListener(v -> {
             showMenuPopupWindow(NewsPushActivity.this, v);
+            LauncherAnalytics.logEvent("news_alert_settings_click");
         });
 
         view = findViewById(R.id.news_push_view_more);
@@ -270,6 +272,8 @@ public class NewsPushActivity extends HSAppCompatActivity {
             buttonYes.setText(com.colorphone.lock.R.string.charging_screen_close_dialog_negative_action);
             buttonYes.setOnClickListener(v -> {
                 finish();
+                LauncherAnalytics.logEvent("news_alert_settings_disable_success");
+                NewsTest.setNewsEnable(false);
 //                Toast.makeText(NewsPushActivity.this, com.colorphone.lock.R.string.locker_diabled_success, Toast.LENGTH_SHORT).show();
                 mCloseLockerPopupView.dismiss();
             });
