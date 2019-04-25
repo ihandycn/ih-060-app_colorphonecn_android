@@ -366,26 +366,44 @@
         <activity
             android:name="net.appcloudbox.ads.base.FullAdActivity"
             android:excludeFromRecents="true"
-           />
+            android:taskAffinity=".acb_interstitial_quiet" />
+
         <activity
             android:name="net.appcloudbox.ads.interstitialad.NativeInterstitial.AcbNativeInterstitialActivity"
             android:excludeFromRecents="true"
-            />
+            android:taskAffinity=".acb_interstitial_quiet" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.NativeInterstitial.AcbNativeInterstitalQuietActivity"
             android:excludeFromRecents="true"
-            />
+            android:taskAffinity=".acb_interstitial_quiet" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.ExpressInterstitial.AcbExpressInterstitialActivity"
             android:excludeFromRecents="true"
-            />
+            android:taskAffinity=".acb_interstitial_quiet" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.ExpressInterstitial.AcbExpressInterstitalQuietActivity"
             android:excludeFromRecents="true"
-            />
+            android:taskAffinity=".acb_interstitial_quiet" />
+
+        <activity
+            android:name="com.qq.e.ads.ADActivity"
+            android:excludeFromRecents="true"
+            android:taskAffinity=".acb_interstitial_quiet" />
+
+        <activity
+            android:name="com.qq.e.ads.PortraitADActivity"
+            android:excludeFromRecents="true"
+            android:taskAffinity=".acb_interstitial_quiet" />
+
+        <activity
+            android:name="com.qq.e.ads.LandscapeADActivity"
+            android:excludeFromRecents="true"
+            android:taskAffinity=".acb_interstitial_quiet" />
+
+
         <service
             android:name=".theme.ThemeDownloadJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
