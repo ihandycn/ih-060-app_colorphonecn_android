@@ -20,6 +20,10 @@
         <item name="android:textColor">@color/primaryText</item>
         <item name="android:alpha">0.8</item>
         <item name="android:textSize">16dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/nav_item_inner_spacing</item>
+        <item name="android:layout_marginStart">@dimen/nav_item_inner_spacing</item>
     </style>
 
     <style name="RatioView.Container">
