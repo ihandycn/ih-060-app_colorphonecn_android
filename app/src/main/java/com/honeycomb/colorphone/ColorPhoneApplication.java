@@ -45,6 +45,9 @@ import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.module.LockerEvent;
 import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
+import com.honeycomb.colorphone.news.NewsManager;
+import com.honeycomb.colorphone.news.NewsPushActivity;
+import com.honeycomb.colorphone.news.NewsTest;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -148,6 +151,21 @@ public class ColorPhoneApplication extends HSApplication {
         }
     };
 
+    private BroadcastReceiver mUserPresentReceiver = new BroadcastReceiver() {
+        @Override public void onReceive(Context context, Intent intent) {
+            Threads.postOnMainThreadDelayed(() -> {
+                NewsManager.getInstance().fetchPushNews(null);
+            }, 100);
+
+            Threads.postOnMainThreadDelayed(() -> {
+                if (NewsManager.getInstance().getPushBean() != null) {
+                    NewsPushActivity.start(ColorPhoneApplication.getContext());
+                }
+            }, 2000);
+
+        }
+    };
+
     private INotificationObserver mObserver = new INotificationObserver() {
 
         @Override
@@ -205,6 +223,9 @@ public class ColorPhoneApplication extends HSApplication {
 
             TriviaTip.cacheImagesFirstTime();
 
+            if (NewsTest.isNewsAlertEnable()) {
+                registerReceiver(mUserPresentReceiver, new IntentFilter(Intent.ACTION_USER_PRESENT));
+            }
         }
     };
 
@@ -715,6 +736,9 @@ public class ColorPhoneApplication extends HSApplication {
     public void onTerminate() {
         super.onTerminate();
         HSGlobalNotificationCenter.removeObserver(mObserver);
+        if (NewsTest.isNewsAlertEnable()) {
+            unregisterReceiver(mUserPresentReceiver);
+        }
     }
 
 

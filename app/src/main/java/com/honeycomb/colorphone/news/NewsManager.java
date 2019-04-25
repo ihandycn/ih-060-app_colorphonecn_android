@@ -38,6 +38,7 @@ public class NewsManager {
     static String TAG = NewsManager.class.getSimpleName();
     private static UUID userID = java.util.UUID.randomUUID();
     private static String NEWS_LIST_BANNER = "NewsListBanner";
+//    private static String NEWS_LIST_BANNER = Placements.BOOST_DOWN;
     private static String NEWS_WIRE = "NewsWire";
 
     private static int LIMIT_SIZE = 10;
@@ -51,9 +52,10 @@ public class NewsManager {
     private NewsLoadListener loadListener;
 
     private NewsResultBean resultBean;
+    private NewsResultBean pushBean;
 
-    public NewsResultBean getResultBean() {
-        return resultBean;
+    public NewsResultBean getPushBean() {
+        return pushBean;
     }
 
     public void fetchNews() {
@@ -122,6 +124,8 @@ public class NewsManager {
     }
 
     public void fetchLaterNews() {
+        AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
+
         int offset = resultBean != null ? newOffset + resultBean.totalItems : 0;
         HSLog.i(NewsManager.TAG, "fetchLaterNews offset == " + offset);
 
@@ -167,9 +171,10 @@ public class NewsManager {
         news.startAsync();
     }
 
-    public void fetchPushNews(NewsLoadListener onceLoadListener) {
+    public void fetchPushNews(NewsLoadListener loadListener) {
         int offset = 0;
         HSLog.i(NewsManager.TAG, "fetchPushNews offset == " + offset);
+        pushBean = null;
 
         HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), String.valueOf(offset)));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
@@ -177,16 +182,16 @@ public class NewsManager {
                 if (hsHttpConnection.isSucceeded()) {
                     String jsonBody = hsHttpConnection.getBodyString();
                     Gson gson = new Gson();
-                    NewsResultBean bean = gson.fromJson(jsonBody, NewsResultBean.class);
-                    HSLog.i(TAG, "result: size == " + (bean != null ? bean.totalItems : null));
-                    if (onceLoadListener != null) {
-                        onceLoadListener.onNewsLoaded(bean);
+                    pushBean = gson.fromJson(jsonBody, NewsResultBean.class);
+                    HSLog.i(TAG, "result: size == " + (pushBean != null ? pushBean.totalItems : null));
+                    if (loadListener != null) {
+                        loadListener.onNewsLoaded(pushBean);
                     }
                 } else {
-                    if (onceLoadListener != null) {
-                        onceLoadListener.onNewsLoaded(null);
-                    }
                     HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
+                    if (loadListener != null) {
+                        loadListener.onNewsLoaded(null);
+                    }
                 }
             }
 
@@ -194,8 +199,8 @@ public class NewsManager {
             public void onConnectionFailed(HSHttpConnection hsHttpConnection, HSError hsError) {
                 HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
                 HSLog.i(TAG, "HSError: " + hsError);
-                if (onceLoadListener != null) {
-                    onceLoadListener.onNewsLoaded(null);
+                if (loadListener != null) {
+                    loadListener.onNewsLoaded(null);
                 }
             }
         });

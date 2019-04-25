@@ -59,7 +59,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
 
         pushTypeAsNewsTab = !NewsTest.isNewsAlertWithBigPic();
 
-        newsResource = NewsManager.getInstance().getResultBean();
+        newsResource = NewsManager.getInstance().getPushBean();
         initRecyclerView();
 
         View view = findViewById(R.id.news_push_close);

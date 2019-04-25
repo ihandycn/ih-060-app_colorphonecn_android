@@ -2,7 +2,7 @@ package com.honeycomb.colorphone.news;
 
 import java.util.List;
 
-class NewsResultBean {
+public class NewsResultBean {
     int totalItems;
     List<NewsBean> content;
 

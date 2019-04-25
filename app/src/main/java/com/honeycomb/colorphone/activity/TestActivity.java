@@ -14,7 +14,9 @@ import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
+import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.news.NewsPushActivity;
+import com.honeycomb.colorphone.news.NewsResultBean;
 import com.honeycomb.colorphone.recentapp.SmartAssistantActivity;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -99,6 +101,13 @@ public class TestActivity extends AppCompatActivity {
 //            HSLog.i("ThemeRecommendManager", "not show themeid == " + themeIdName);
 //        }
 
-        NewsPushActivity.start(view.getContext());
+        NewsManager.getInstance().fetchPushNews(new NewsManager.NewsLoadListener() {
+            @Override public void onNewsLoaded(NewsResultBean bean) {
+                if (bean != null) {
+                    NewsPushActivity.start(view.getContext());
+                }
+            }
+        });
+
     }
 }
