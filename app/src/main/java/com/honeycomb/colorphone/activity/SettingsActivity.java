@@ -17,10 +17,9 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
+import com.honeycomb.colorphone.news.NewsTest;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
-import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
-import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
@@ -51,7 +50,7 @@ public class SettingsActivity extends HSAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activitiy_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.settings);
+        toolbar.setTitle(R.string.general_settings);
         if (BuildConfig.DEBUG) {
             View testView = findViewById(R.id.test_entrance);
             testView.setVisibility(View.VISIBLE);
@@ -77,6 +76,15 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
+        mModuleStates.add(new ModuleState(true, NewsTest.isNewsEnable(),
+                R.id.setting_item_news_toggle,
+                R.id.setting_item_news) {
+            @Override
+            public void onCheckChanged(boolean isChecked) {
+                NewsTest.setNewsEnable(isChecked);
+            }
+        });
+
         mModuleStates.add(new ModuleState(ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT),
                 MessageCenterSettings.isSMSAssistantModuleEnabled(),
                 R.id.setting_item_sms_assistant_toggle,
@@ -88,7 +96,6 @@ public class SettingsActivity extends HSAppCompatActivity {
                 MessageCenterSettings.setSMSAssistantModuleEnabled(isChecked);
             }
         });
-
 
         boolean chargingImproverOpen = ModuleUtils.isChargingImproverEnabled();
         if (chargingImproverOpen) {

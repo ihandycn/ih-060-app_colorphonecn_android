@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.acb.call.customize.ScreenFlashManager;
@@ -17,6 +18,7 @@ import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
+import com.honeycomb.colorphone.news.NewsTest;
 import com.honeycomb.colorphone.notification.permission.EventSource;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
@@ -84,6 +86,10 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             public void onClick(View v) {
                 LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 ModuleUtils.setAllModuleUserEnable();
+
+                CheckBox cb = findViewById(R.id.welcome_guide_enable_checkbox);
+                NewsTest.setNewsEnable(cb.isChecked());
+
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
                 } else {
                     if (RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom()) {

@@ -181,6 +181,46 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/setting_item_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:background="@drawable/material_compat_bg"
+                android:clickable="true">
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/setting_item_news_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:clickable="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/setting_item_news_toggle"
+                    android:layout_toStartOf="@+id/setting_item_news_toggle"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.superapps.view.TypefacedTextView
+                        style="@style/NormalText.Settings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/news_push_setting_title"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/setting_item_call_assistant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -290,6 +330,7 @@
                         />
                 </LinearLayout>
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/setting_item_recent_apps"
                 android:layout_width="match_parent"

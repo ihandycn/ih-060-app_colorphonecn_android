@@ -156,7 +156,7 @@
 
             <com.superapps.view.TypefacedTextView
                 style="@style/NormalText.Drawer"
-                android:text="@string/settings" />
+                android:text="@string/general_settings" />
         </LinearLayout>
 
         <LinearLayout

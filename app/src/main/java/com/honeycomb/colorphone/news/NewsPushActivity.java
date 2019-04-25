@@ -45,11 +45,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
     private ViewGroup rootView;
 
     public static void start(Context context) {
-//        if (NewsTest.canShowNewsAlert()) {
-            Navigations.startActivity(context, NewsPushActivity.class);
-//        } else {
-//            HSLog.w(NewsManager.TAG, "NewsPushActivity not start");
-//        }
+        Navigations.startActivity(context, NewsPushActivity.class);
     }
 
     @Override protected void onCreate(Bundle savedInstanceState) {

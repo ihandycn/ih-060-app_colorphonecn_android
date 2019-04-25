@@ -16,13 +16,24 @@ public class NewsTest {
     private static final String PREF_FILE = "news";
     private static final String PREF_KEY_LAST_SHOW_NEWS_ALERT_TIME = "pref_key_last_show_news_alert_time";
     private static final String PREF_KEY_LAST_SHOW_NEWS_WIRE_AD_TIME = "pref_key_last_show_news_wire_ad_time";
+    private static final String PREF_KEY_NEWS_ENABLE = "pref_key_news_enable";
+
+    public static void setNewsEnable(boolean enable) {
+        HSLog.w(NewsManager.TAG, "setNewsEnable " + enable);
+        Preferences.get(PREF_FILE).putBoolean(PREF_KEY_NEWS_ENABLE, enable);
+    }
+
+    public static boolean isNewsEnable() {
+        return Preferences.get(PREF_FILE).getBoolean(PREF_KEY_NEWS_ENABLE, true);
+    }
 
     public static boolean isNewsAlertAllowBack() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "news_alert_allow_back", false);
     }
 
     public static boolean isNewsAlertEnable() {
-        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "news_alert_enable", false);
+        return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "news_alert_enable", false)
+                && isNewsEnable();
     }
 
     private static int getNewsAlertShowFirstTimeAfterInstall() {
