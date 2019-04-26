@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.news;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,26 +9,30 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.AppCompatButton;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.format.DateUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.colorphone.lock.PopupView;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
-import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.RoundImageVIew;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -38,14 +43,12 @@ import com.superapps.util.Navigations;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-
 public class NewsPushActivity extends HSAppCompatActivity {
     private NewsResultBean newsResource;
     private boolean pushTypeAsNewsTab = false;
 
     private RipplePopupView menuPopupView;
-    private PopupView mCloseLockerPopupView;
+    private AlertDialog closeDialog;
     private ViewGroup rootView;
     private boolean showTime = true;
 
@@ -116,6 +119,14 @@ public class NewsPushActivity extends HSAppCompatActivity {
     @Override public void finish() {
         super.finish();
         NewsTest.recordShowNewsAlertTime();
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        if (closeDialog != null) {
+            closeDialog.dismiss();
+            closeDialog = null;
+        }
     }
 
     private void initRecyclerView() {
@@ -280,7 +291,9 @@ public class NewsPushActivity extends HSAppCompatActivity {
                 }
 //                LockerCustomConfig.getLogger().logEvent("Locker_DisableLocker_Clicked");
                 menuPopupView.dismiss();
-                showLockerCloseDialog();
+//                showLockerCloseDialog();
+                showCloseDialog();
+
             });
 
             menuPopupView.setOutSideBackgroundColor(Color.TRANSPARENT);
@@ -294,33 +307,54 @@ public class NewsPushActivity extends HSAppCompatActivity {
                         + anchorView.getHeight()) / 2);
     }
 
-    private void showLockerCloseDialog() {
-        if (mCloseLockerPopupView == null) {
-            mCloseLockerPopupView = new PopupView(NewsPushActivity.this, rootView);
-            View content = LayoutInflater.from(NewsPushActivity.this).inflate(com.colorphone.lock.R.layout.locker_popup_dialog, null);
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams((int) (Dimensions
-                    .getPhoneWidth(NewsPushActivity.this) * 0.872f), WRAP_CONTENT);
-            content.setLayoutParams(layoutParams);
-            TextView title = ViewUtils.findViewById(content, com.colorphone.lock.R.id.title);
-            TextView hintContent = ViewUtils.findViewById(content, com.colorphone.lock.R.id.hint_content);
-            AppCompatButton buttonYes = ViewUtils.findViewById(content, com.colorphone.lock.R.id.button_yes);
-            AppCompatButton buttonNo = ViewUtils.findViewById(content, com.colorphone.lock.R.id.button_no);
-            title.setText(R.string.news_push_disable_confirm);
-            hintContent.setText(R.string.news_push_disable_confirm_detail);
-            buttonNo.setText(com.colorphone.lock.R.string.charging_screen_close_dialog_positive_action);
-            buttonNo.setOnClickListener(v -> mCloseLockerPopupView.dismiss());
-            buttonYes.setText(com.colorphone.lock.R.string.charging_screen_close_dialog_negative_action);
-            buttonYes.setOnClickListener(v -> {
+    private void showCloseDialog() {
+        if (closeDialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, com.ihs.chargingreport.R.style.CloseDialogTheme);
+
+            String title = getString(R.string.news_push_disable_confirm);
+            SpannableString spannableStringTitle = new SpannableString(title);
+            spannableStringTitle.setSpan(
+                    new ForegroundColorSpan(0xDF000000),
+                    0, title.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setTitle(title);
+
+            String message = getString(R.string.news_push_disable_confirm_detail);
+            SpannableString spannableStringMessage = new SpannableString(message);
+            spannableStringMessage.setSpan(
+                    new ForegroundColorSpan(0x8A000000),
+                    0, message.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setMessage(spannableStringMessage);
+
+            builder.setPositiveButton(getString(com.colorphone.lock.R.string.charging_screen_close_dialog_positive_action),
+                    (dialogInterface, i) -> {
+                if (closeDialog == null) {
+                    return;
+                }
+                closeDialog.dismiss();
+                closeDialog = null;
+            });
+
+            builder.setNegativeButton(getString(com.colorphone.lock.R.string.charging_screen_close_dialog_negative_action),
+                    (dialog, i) -> {
+                if (closeDialog == null) {
+                    return;
+                }
+
+                closeDialog.dismiss();
+                closeDialog = null;
+
                 finish();
                 LauncherAnalytics.logEvent("news_alert_settings_disable_success");
                 NewsTest.setNewsEnable(false);
-//                Toast.makeText(NewsPushActivity.this, com.colorphone.lock.R.string.locker_diabled_success, Toast.LENGTH_SHORT).show();
-                mCloseLockerPopupView.dismiss();
             });
-            mCloseLockerPopupView.setOutSideBackgroundColor(0xB3000000);
-            mCloseLockerPopupView.setContentView(content);
-            mCloseLockerPopupView.setOutSideClickListener(v -> mCloseLockerPopupView.dismiss());
+
+            closeDialog = builder.create();
+
+            closeDialog.setOnShowListener(dialog -> {
+                Button negativeButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE);
+                negativeButton.setTextColor(ContextCompat.getColor(HSApplication.getContext(), com.ihs.chargingreport.R.color.charging_screen_alert_negative_action));
+            });
         }
-        mCloseLockerPopupView.showInCenter();
+        closeDialog.show();
     }
 }
