@@ -4,11 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:layout_marginLeft="18dp"
-    android:layout_marginRight="18dp"
+    android:layout_marginLeft="@dimen/theme_card_margin_horizontal"
+    android:layout_marginRight="@dimen/theme_card_margin_horizontal"
+
     android:layout_marginTop="@dimen/notification_toast_margin_top"
     android:layout_marginBottom="@dimen/notification_toast_margin_bottom"
     android:background="@drawable/notificaiton_toast_top"
+
     android:elevation="6dp"
     android:gravity="center_vertical">
 

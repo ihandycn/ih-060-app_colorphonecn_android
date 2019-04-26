@@ -1,92 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/theme_text_margin_bottom_half"
     android:clipChildren="false">
 
     <include
         android:id="@+id/card_view"
-        layout="@layout/card_layout_preview"
+        layout="@layout/card_layout_preview_clean"
         android:visibility="visible"
-        tools:visibility="invisible"/>
+        tools:visibility="invisible" />
 
-    <com.honeycomb.colorphone.view.TypefacedTextView
-        android:id="@+id/card_title"
-        style="@style/NormalText"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="111dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/wallpaper_item_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/like_count_icon"
+            android:layout_width="@dimen/theme_heart_size"
+            android:layout_height="19dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:lottie_fileName="lottie/like.json"
+            app:lottie_loop="false"
+            app:lottie_progress="0" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:maxLines="1"
+            android:textColor="@color/primaryText"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/like_count_icon"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toLeftOf="@+id/like_count_icon"
+            app:layout_constraintRight_toRightOf="parent"
+            app:typeface="@string/proxima_nova_semibold"
+            tools:text="Neon" />
+
+        <com.honeycomb.colorphone.view.TypefacedTextView
+            android:id="@+id/card_like_count_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/theme_text_space"
+            android:layout_marginTop="@dimen/theme_text_space"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:textColor="@color/textLightGray"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/like_count_icon"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toRightOf="@+id/like_count_icon"
+            app:layout_constraintRight_toRightOf="parent"
+            app:typeface="@string/proxima_nova_semibold"
+            tools:text="6622335" />
+
+        <FrameLayout
+            android:id="@+id/action_view_container"
+            android:layout_width="63dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="@dimen/theme_card_margin_horizontal"
+            android:layout_marginRight="@dimen/theme_card_margin_horizontal"
+            android:clickable="false"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/like_count_icon"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintLeft_toRightOf="@+id/like_count_icon"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/card_title">
+
+            <include layout="@layout/card_view_layout_actions" />
+
+
+        </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
+
+
+    <ImageView
+        android:id="@+id/theme_hot_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/card_view"
-        android:layout_marginLeft="@dimen/theme_card_margin_horizontal"
-        android:layout_marginStart="@dimen/theme_card_margin_horizontal"
-        android:layout_marginTop="@dimen/theme_text_margin_top"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/action_view_container"
-        android:layout_toStartOf="@+id/action_view_container"
-        android:gravity="start"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textColor="@color/textDark"
-        android:textSize="18sp"
-        app:typeface="@string/proxima_nova_semibold"
-        tools:text="Neon" />
+        android:layout_gravity="start|top"
+        android:src="@drawable/theme_card_badge_hot"
+        android:visibility="visible" />
 
-    <!--<ImageView-->
-    <!--android:id="@+id/like_count_icon"-->
-    <!--android:layout_width="14dp"-->
-    <!--android:layout_height="14dp"-->
-    <!--android:layout_below="@id/card_title"-->
-    <!--android:layout_marginLeft="6dp"-->
-    <!--android:layout_marginStart="6dp"-->
-    <!--android:layout_marginTop="2dp"-->
-    <!--android:padding="2dp"-->
-    <!--android:src="@drawable/theme_card_like_icon" />-->
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/like_count_icon"
-        android:layout_width="@dimen/theme_heart_size"
-        android:layout_height="19dp"
-        android:layout_alignLeft="@id/card_title"
-        android:layout_alignStart="@id/card_title"
-        android:layout_below="@id/card_title"
-        app:lottie_fileName="lottie/like.json"
-        app:lottie_loop="false"
-        app:lottie_progress="0" />
-
-    <com.honeycomb.colorphone.view.TypefacedTextView
-        android:id="@+id/card_like_count_txt"
-        style="@style/NormalText"
+    <ImageView
+        android:id="@+id/theme_ringtone_mark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/like_count_icon"
-        android:layout_marginBottom="@dimen/theme_text_space"
-        android:layout_marginTop="@dimen/theme_text_space"
-        android:layout_toEndOf="@id/like_count_icon"
-        android:layout_toRightOf="@id/like_count_icon"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
-        android:textColor="@color/textLightGray"
-        android:textSize="12sp"
-        app:typeface="@string/proxima_nova_semibold"
-        tools:text="6622335" />
+        android:layout_gravity="end|top"
+        android:src="@drawable/ic_ringtone_badge"
+        android:visibility="visible" />
 
-    <FrameLayout
-        android:id="@+id/action_view_container"
-        android:layout_width="63dp"
-        android:layout_height="35dp"
-        android:layout_below="@id/card_view"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:gravity="center"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="@dimen/theme_card_margin_horizontal"
-        android:layout_marginRight="@dimen/theme_card_margin_horizontal"
-        android:clickable="false">
-
-        <include layout="@layout/card_view_layout_actions"/>
-
-    </FrameLayout>
-
-</RelativeLayout>
+</FrameLayout>

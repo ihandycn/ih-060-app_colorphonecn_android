@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -69,13 +68,14 @@ import java.util.ArrayList;
 
 import hugo.weaving.DebugLog;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static com.acb.call.constant.ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID;
 import static com.acb.utils.Utils.getTypeByThemeId;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_CONTEXT_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
 import static com.honeycomb.colorphone.preview.ThemePreviewView.saveThemeApplys;
-import static com.honeycomb.colorphone.util.Utils.pxFromDp;
 
 public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -83,7 +83,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     private static final boolean DEBUG_ADAPTER = BuildConfig.DEBUG;
     private final Activity activity;
     private RecyclerView recyclerView;
-    private float mTransX;
+
     private ArrayList<Theme> data = null;
     private GridLayoutManager layoutManager;
     private boolean mTipHeaderVisible;
@@ -191,10 +191,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         };
         layoutManager = new GridLayoutManager(HSApplication.getContext(), 2);
         layoutManager.setSpanSizeLookup(spanSizeLookup);
-        mTransX = activity.getResources().getDimensionPixelOffset(R.dimen.theme_card_margin_horizontal) * 0.6f;
-        if (Dimensions.isRtl()) {
-            mTransX = -mTransX;
-        }
+
     }
 
     @Deprecated
@@ -552,11 +549,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
             cardViewHolder.setPositionTag(themeIndex);
 
-            if (themeIndex % 2 == 0) {
-                cardViewHolder.getContentView().setTranslationX(mTransX);
-            } else {
-                cardViewHolder.getContentView().setTranslationX(-mTransX);
-            }
 
             int index = themeIndex / 2;
             if (index > mMaxShowThemeIndex) {
@@ -769,9 +761,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView mThemePreviewImg;
         ImageView mThemeLoadingImg;
         ImageView mAvatar;
-        TextView mAvatarName;
-        ImageView mAccept;
-        ImageView mReject;
+
         TextView mThemeTitle;
         TextView mThemeLikeCount;
         ThemePreviewWindow mThemeFlashPreviewWindow;
@@ -827,23 +817,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void initChildView() {
-            mCallActionView = (InCallActionView) itemView.findViewById(R.id.card_in_call_action_view);
             mLockActionView = itemView.findViewById(R.id.lock_action_view);
-            mCallActionView.setAutoRun(false);
-            if (TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
-                mCallActionView.setVisibility(View.INVISIBLE);
-            }
             mAvatar = (ImageView) mContentView.findViewById(R.id.caller_avatar);
-            mAvatarName = (TextView) mContentView.findViewById(R.id.first_line);
-            mAccept = (ImageView) mContentView.findViewById(R.id.call_accept);
-            mReject = (ImageView) mContentView.findViewById(R.id.call_reject);
-
             mRingtoneMark = itemView.findViewById(R.id.theme_ringtone_mark);
             mThemeHotMark = itemView.findViewById(R.id.theme_hot_mark);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mThemeHotMark.setTranslationX(pxFromDp(-1));
-            }
-
             mThemeStatusView = new ThemeStatusView(itemView, this);
         }
 
@@ -1021,15 +998,16 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 HSLog.d(TAG, "selected : " + theme.getIdName());
                 mThemeFlashPreviewWindow.playAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(true);
-                if (!TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+                if (mCallActionView != null) {
                     mCallActionView.setAutoRun(true);
                 }
             } else {
-
                 HSLog.d(TAG, "取消 selected : " + theme.getIdName());
                 mThemeFlashPreviewWindow.clearAnimation(theme);
                 mThemeFlashPreviewWindow.setAutoRun(false);
-                mCallActionView.setAutoRun(false);
+                if (mCallActionView != null) {
+                    mCallActionView.setAutoRun(false);
+                }
                 if (theme.isVideo()) {
                     getCoverView(theme).setVisibility(View.VISIBLE);
                 }
@@ -1048,8 +1026,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         @DebugLog
         public void updateTheme(final Theme theme, boolean fileExist) {
             mThemeTitle.setText(theme.getName());
-            mAvatarName.setText(theme.getAvatarName());
-            mCallActionView.setTheme(theme);
+
+            if (mCallActionView != null) {
+                mCallActionView.setTheme(theme);
+            }
 
             if (theme.isMedia()) {
                 ImageView targetView = getCoverView(theme);
@@ -1085,7 +1065,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 endLoadingScene(theme.isLocked());
             }
 
-            if (theme.getId() != Type.TECH) {
+            if (theme.getId() != Type.TECH &&
+                    mAvatar != null) {
                 GlideApp.with(mContentView)
                         .load(theme.getAvatar())
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
@@ -1103,24 +1084,31 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         private void startLoadingScene() {
             mThemeLoadingImg.setVisibility(View.VISIBLE);
-            mCallActionView.setVisibility(View.INVISIBLE);
+            setVisibleSafely(mCallActionView, INVISIBLE);
             mLockActionView.setVisibility(View.INVISIBLE);
-            mThemeFlashPreviewWindow.getCallView().setVisibility(View.INVISIBLE);
+            setVisibleSafely(mThemeFlashPreviewWindow.getCallView(), View.INVISIBLE);
+        }
+
+        private void setVisibleSafely(View view, int visible) {
+            if (view != null) {
+                view.setVisibility(visible);
+            }
         }
 
         private void endLoadingScene(boolean isCurrentThemeLocked) {
             mThemeLoadingImg.setVisibility(View.INVISIBLE);
             if (!TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
-                mCallActionView.setVisibility(View.VISIBLE);
+                setVisibleSafely(mCallActionView, VISIBLE);
                 if (isCurrentThemeLocked) {
-                    mCallActionView.setVisibility(View.INVISIBLE);
+                    setVisibleSafely(mCallActionView, INVISIBLE);
                     mLockActionView.setVisibility(View.VISIBLE);
                 } else {
-                    mCallActionView.setVisibility(View.VISIBLE);
+                    setVisibleSafely(mCallActionView, VISIBLE);
                     mLockActionView.setVisibility(View.INVISIBLE);
                 }
             }
-            mThemeFlashPreviewWindow.getCallView().setVisibility(View.VISIBLE);
+            setVisibleSafely(mThemeFlashPreviewWindow.getCallView(), View.VISIBLE);
+
         }
 
         private void setHotBadge(boolean hot) {
@@ -1269,13 +1257,15 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void stopAnimation() {
             mThemeFlashPreviewWindow.stopAnimations();
-            mCallActionView.stopAnimations();
+            if (mCallActionView != null) {
+                mCallActionView.stopAnimations();
+            }
         }
 
         public void startAnimation() {
             if (mHolderDataReady) {
                 mThemeFlashPreviewWindow.startAnimations();
-                if (!TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
+                if (mCallActionView != null) {
                     mCallActionView.doAnimation();
                 }
             }
