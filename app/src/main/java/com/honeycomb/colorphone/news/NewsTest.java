@@ -27,11 +27,11 @@ public class NewsTest {
         return Preferences.get(PREF_FILE).getBoolean(PREF_KEY_NEWS_ENABLE, true);
     }
 
-    public static boolean isNewsAlertAllowBack() {
+    static boolean isNewsAlertAllowBack() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "news_alert_allow_back", false);
     }
 
-    public static boolean isNewsAlertEnable() {
+    private static boolean isNewsAlertEnable() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "news_alert_enable", false)
                 && isNewsEnable();
     }
@@ -44,19 +44,19 @@ public class NewsTest {
         return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "news_alert_show_interval_minutes", 30);
     }
 
-    public static boolean isNewsAlertShowOnlyWhenGetAd() {
+    private static boolean isNewsAlertShowOnlyWhenGetAd() {
         return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "news_alert_show_only_when_get_ad", false);
     }
 
-    private static String getNewsAlertType() {
+    static String getNewsAlertType() {
         return AutopilotConfig.getStringToTestNow(TOPIC_ID, "news_alert_type", "image");
     }
 
-    public static boolean isNewsAlertWithBigPic() {
+    static boolean isNewsAlertWithBigPic() {
         return TextUtils.equals(getNewsAlertType(), "image");
     }
 
-    public static int getNewsWireShowIntervalSecond() {
+    private static int getNewsWireShowIntervalSecond() {
         return (int) AutopilotConfig.getDoubleToTestNow(TOPIC_ID, "news_wire_show_interval_seconds", 300);
     }
 
@@ -78,7 +78,8 @@ public class NewsTest {
             return false;
         }
 
-        logNewsEvent("news_alert_should_show");
+        logAutopilotEvent("news_alert_should_show");
+        LauncherAnalytics.logEvent("news_alert_should_show", "type", NewsTest.getNewsAlertType());
 
         return true;
     }
@@ -94,7 +95,7 @@ public class NewsTest {
         return true;
     }
 
-    public static boolean canShowNewsWireAD() {
+    static boolean canShowNewsWireAD() {
         if ((System.currentTimeMillis() - getLastShowNewsWireAdTime())
                 < getNewsWireShowIntervalSecond() * DateUtils.SECOND_IN_MILLIS) {
             return false;
@@ -106,7 +107,7 @@ public class NewsTest {
         return Preferences.get(PREF_FILE).getLong(PREF_KEY_LAST_SHOW_NEWS_ALERT_TIME, 0);
     }
 
-    public static void recordShowNewsAlertTime() {
+    static void recordShowNewsAlertTime() {
         Preferences.get(PREF_FILE).putLong(PREF_KEY_LAST_SHOW_NEWS_ALERT_TIME, System.currentTimeMillis());
     }
 
@@ -114,7 +115,7 @@ public class NewsTest {
         return Preferences.get(PREF_FILE).getLong(PREF_KEY_LAST_SHOW_NEWS_WIRE_AD_TIME, 0);
     }
 
-    public static void recordShowNewsWireAdTime() {
+    static void recordShowNewsWireAdTime() {
         Preferences.get(PREF_FILE).putLong(PREF_KEY_LAST_SHOW_NEWS_WIRE_AD_TIME, System.currentTimeMillis());
     }
 

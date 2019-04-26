@@ -79,7 +79,8 @@ public class NewsPushActivity extends HSAppCompatActivity {
         tv.setOnClickListener(v -> {
             Navigations.startActivitySafely(NewsPushActivity.this, ColorPhoneActivity.newIntent(NewsPushActivity.this));
             finish();
-            NewsTest.logNewsEvent("news_alert_morebtn_click");
+            NewsTest.logAutopilotEvent("news_alert_morebtn_click");
+            LauncherAnalytics.logEvent("news_alert_morebtn_click", "type", NewsTest.getNewsAlertType());
         });
 
         TextView timeView = findViewById(R.id.toolbar_time_tv);
@@ -94,7 +95,8 @@ public class NewsPushActivity extends HSAppCompatActivity {
 
         configTextView(timeView);
 
-        NewsTest.logNewsEvent("news_alert_show");
+        NewsTest.logAutopilotEvent("news_alert_show");
+        LauncherAnalytics.logEvent("news_alert_show", "type", NewsTest.getNewsAlertType());
         NewsTest.recordShowNewsAlertTime();
 
         showTime = HSConfig.optBoolean(true, "Application", "News", "NewsUpdateTimeShow");
@@ -118,6 +120,20 @@ public class NewsPushActivity extends HSAppCompatActivity {
         RecyclerView newsList = findViewById(R.id.news_list);
         newsList.setLayoutManager(new LinearLayoutManager(this));
         newsList.setAdapter(new NewsAdapter());
+
+        newsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    LauncherAnalytics.logEvent("news_alert_slide", "type", NewsTest.getNewsAlertType());
+                }
+            }
+
+            @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
 
         if (pushTypeAsNewsTab) {
             DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
@@ -217,7 +233,8 @@ public class NewsPushActivity extends HSAppCompatActivity {
                 Navigations.startActivitiesSafely(NewsPushActivity.this, intents);
                 finish();
 
-                NewsTest.logNewsEvent("news_alert_news_click");
+                NewsTest.logAutopilotEvent("news_alert_news_click");
+                LauncherAnalytics.logEvent("news_alert_news_click", "type", NewsTest.getNewsAlertType());
             });
         }
 
