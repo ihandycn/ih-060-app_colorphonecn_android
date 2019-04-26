@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -58,6 +59,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
         rootView = findViewById(R.id.container);
 
         pushTypeAsNewsTab = !NewsTest.isNewsAlertWithBigPic();
+        pushTypeAsNewsTab = false;
 
         newsResource = NewsManager.getInstance().getPushBean();
         initRecyclerView();
@@ -210,16 +212,21 @@ public class NewsPushActivity extends HSAppCompatActivity {
 
             if (!pushTypeAsNewsTab) {
                 if (beanHolder.mark != null) {
-                    beanHolder.mark.setVisibility(View.GONE);
+                    beanHolder.mark.setBackground(null);
+                    beanHolder.mark.setImageDrawable(new ColorDrawable(getResources().getColor(android.R.color.black)));
+                    beanHolder.mark.setAlpha(0.3f);
                 }
 
                 beanHolder.itemView.setPadding(0, 5, 0, 5);
                 if (position == 0) {
                     beanHolder.image.setRadius(radius, radius, 0, 0);
+                    if (beanHolder.mark != null) beanHolder.mark.setRadius(radius, radius, 0, 0);
                 } else if (position == getItemCount() - 1) {
                     beanHolder.image.setRadius(0, 0, radius, radius);
+                    if (beanHolder.mark != null) beanHolder.mark.setRadius(0, 0, radius, radius);
                 } else {
                     beanHolder.image.setRadius(0, 0, 0, 0);
+                    if (beanHolder.mark != null) beanHolder.mark.setRadius(0, 0, 0, 0);
                 }
             }
 
@@ -247,7 +254,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
         TextView title;
         TextView resource;
         TextView time;
-        View mark;
+        RoundImageVIew mark;
         RoundImageVIew image;
 
         NewsBeanItemHolder(View itemView) {
