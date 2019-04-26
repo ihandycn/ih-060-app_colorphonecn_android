@@ -194,8 +194,5 @@
     <string name="welcome_guide_news_push_title">Bao gồm tin nhanh</string>
     <string name="general_settings">Cài đặt chung</string>
 
-    <string name="news_push_view_more"></string>
-    <string name="news_push_disable_confirm"></string>
-    <string name="news_push_disable_confirm_detail"></string>
 
 </resources>

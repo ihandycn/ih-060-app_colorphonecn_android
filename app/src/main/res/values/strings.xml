@@ -307,8 +307,8 @@
     <string name="welcome_guide_news_push_title">Include news express</string>
     <string name="general_settings">General Settings</string>
 
-    <string name="news_push_view_more">VIEW MORE</string>
-    <string name="news_push_disable_confirm">Sure to turn off?</string>
-    <string name="news_push_disable_confirm_detail">Once disabled... you will not be able to see the news. Proceed?</string>
+    <string name="news_push_view_more"  translatable="false">VIEW MORE</string>
+    <string name="news_push_disable_confirm"  translatable="false">Are you sure to turn off News Express?</string>
+    <string name="news_push_disable_confirm_detail"  translatable="false">Once disabled, you won\'t receive News Express anymore.</string>
 
 </resources>
