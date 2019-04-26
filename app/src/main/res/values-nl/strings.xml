@@ -117,4 +117,15 @@
     <string name="menu_item_news">Nieuws</string>
     <string name="menu_item_themes">Thema's</string>
 
+
+    <!-- News 2 -->
+    <string name="news_push_title">Nieuwsflits</string>
+    <string name="news_push_setting_title">Nieuwsflits accepteren</string>
+    <string name="welcome_guide_news_push_title">Nieuwsflits opnemen</string>
+    <string name="general_settings">Algemene instellingen</string>
+
+    <string name="news_push_view_more"></string>
+    <string name="news_push_disable_confirm"></string>
+    <string name="news_push_disable_confirm_detail"></string>
+
 </resources>

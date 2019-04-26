@@ -195,4 +195,15 @@
   <string name="menu_item_themes">テーマ</string>
   <string name="news_detail_error_reload">再度読み込み</string>
 
+
+  <!-- News 2 -->
+  <string name="news_push_title">エクスプレスニュース</string>
+  <string name="news_push_setting_title">エクスプレスニュースを承認</string>
+  <string name="welcome_guide_news_push_title">エクスプレスニュースを含む</string>
+  <string name="general_settings">一般設定</string>
+
+  <string name="news_push_view_more"></string>
+  <string name="news_push_disable_confirm"></string>
+  <string name="news_push_disable_confirm_detail"></string>
+
 </resources>

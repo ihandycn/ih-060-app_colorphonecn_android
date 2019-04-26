@@ -198,4 +198,15 @@
     <string name="menu_item_themes">Темы</string>
     <string name="news_detail_error_reload">Перезагрузить</string>
 
+
+    <!-- News 2 -->
+    <string name="news_push_title">Актуальные новости</string>
+    <string name="news_push_setting_title">Принять актуальные новости</string>
+    <string name="welcome_guide_news_push_title">Включить актуальные новости</string>
+    <string name="general_settings">Общие настройки</string>
+
+    <string name="news_push_view_more"></string>
+    <string name="news_push_disable_confirm"></string>
+    <string name="news_push_disable_confirm_detail"></string>
+
 </resources>
