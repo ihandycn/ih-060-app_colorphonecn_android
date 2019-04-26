@@ -53,13 +53,17 @@ public class NewsManager {
 
     private NewsResultBean resultBean;
     private NewsResultBean pushBean;
+    private boolean showNativeAD;
 
     public NewsResultBean getPushBean() {
         return pushBean;
     }
 
     public void fetchNews() {
-        AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
+        showNativeAD = HSConfig.optBoolean(false, "Application", "News", "NewsTabShowNativeAd");
+        if (showNativeAD) {
+            AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
+        }
         AcbInterstitialAdManager.preload(1, NEWS_WIRE);
 
         HSLog.i(NewsManager.TAG, "fetchNews");
@@ -98,6 +102,10 @@ public class NewsManager {
     }
 
     private void addNativeADs(NewsResultBean resultBean) {
+        if (!showNativeAD) {
+            return;
+        }
+
         List<AcbNativeAd> ads = AcbNativeAdManager.fetch(NEWS_LIST_BANNER, 2);
         if (ads != null && ads.size() > 0) {
             NewsNativeAdBean bean;
@@ -125,7 +133,10 @@ public class NewsManager {
     }
 
     public void fetchLaterNews() {
-        AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
+        showNativeAD = HSConfig.optBoolean(false, "Application", "News", "NewsTabShowNativeAd");
+        if (showNativeAD) {
+            AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
+        }
 
         int offset = resultBean != null ? newOffset + resultBean.totalItems : 0;
         HSLog.i(NewsManager.TAG, "fetchLaterNews offset == " + offset);

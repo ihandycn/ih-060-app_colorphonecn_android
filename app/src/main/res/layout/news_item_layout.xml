@@ -27,7 +27,7 @@
         android:maxLines="3"
         android:ellipsize="end"
         android:textColor="#e60d0d0d"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_marginRight="18dp"
         android:layout_marginEnd="18dp"
         app:layout_constraintLeft_toLeftOf="parent"
