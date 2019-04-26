@@ -83,7 +83,6 @@ public class NewsPushActivity extends HSAppCompatActivity {
         AppBarLayout appBarLayout = findViewById(R.id.appbar_layout);
         appBarLayout.addOnOffsetChangedListener((appBar, verticalOffset) -> {
             float progress = verticalOffset * 1f / (appBar.getHeight() - Dimensions.pxFromDp(48));
-            HSLog.i(NewsManager.TAG, "AppBarLayout progress: " + progress);
             timeView.setAlpha(1 + progress);
             title.setTextSize((24 - 18) * (1 + progress) + 18);
         });

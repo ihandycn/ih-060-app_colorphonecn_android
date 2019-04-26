@@ -237,8 +237,9 @@ public class NewsManager {
         url.append("&limit=").append(limit);
         url.append("&offset=").append(offset);
         if (time > 0) {
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy%20hh:mm:ss");
             String date = sdf.format(new Date(time));
+//            url.append("&publishedAfter=").append(Uri.encode(date, "UTF-8"));
             url.append("&publishedAfter=").append(date);
         }
 
@@ -248,7 +249,6 @@ public class NewsManager {
         }
 
         HSLog.i(TAG, "getUrl: " + url.toString());
-
         return url.toString();
     }
 

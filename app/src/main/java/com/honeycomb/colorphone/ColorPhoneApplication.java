@@ -676,6 +676,8 @@ public class ColorPhoneApplication extends HSApplication {
                         Threads.postOnMainThreadDelayed(() -> {
                             if (NewsTest.shouldShowWithAD() && NewsManager.getInstance().getPushBean() != null) {
                                 NewsPushActivity.start(ColorPhoneApplication.getContext());
+                            } else {
+                                HSLog.i(NewsManager.TAG, "canShowNewsAlert no News");
                             }
                         }, 2000);
                     }
