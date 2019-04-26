@@ -303,8 +303,8 @@
 
     <!-- News 2 -->
     <string name="news_push_title">News Express</string>
-    <string name="news_push_setting_title">Receive news express</string>
-    <string name="welcome_guide_news_push_title">Receive news express (welcome)</string>
+    <string name="news_push_setting_title">Accept news express</string>
+    <string name="welcome_guide_news_push_title">Include news express</string>
     <string name="general_settings">General Settings</string>
 
     <string name="news_push_view_more">VIEW MORE</string>
