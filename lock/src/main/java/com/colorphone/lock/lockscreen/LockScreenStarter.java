@@ -107,7 +107,7 @@ public class LockScreenStarter {
                 && SmartChargingSettings.isChargingScreenEnabled()
                 && isCharging()) {
             LockerCustomConfig.getLogger().logEvent("ChargingScreen_Show_OnPresent",
-                    "Brand", Build.BRAND.toLowerCase(),
+                    "Brand", Build.BRAND.toLowerCase());
             ChargingScreenUtils.startChargingScreenActivity(false, false);
         }
     }

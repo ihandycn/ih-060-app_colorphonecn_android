@@ -191,11 +191,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         };
         layoutManager = new GridLayoutManager(HSApplication.getContext(), 2);
         layoutManager.setSpanSizeLookup(spanSizeLookup);
-        if (TextUtils.equals(BuildConfig.FLAVOR, "colorflash")) {
-            mTransX = -Utils.pxFromDp(1);
-        } else {
-            mTransX = activity.getResources().getDimensionPixelOffset(R.dimen.theme_card_margin_horizontal) * 0.6f;
-        }
+        mTransX = activity.getResources().getDimensionPixelOffset(R.dimen.theme_card_margin_horizontal) * 0.6f;
         if (Dimensions.isRtl()) {
             mTransX = -mTransX;
         }

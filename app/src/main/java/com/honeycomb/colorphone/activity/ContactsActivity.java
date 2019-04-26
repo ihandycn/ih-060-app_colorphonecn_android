@@ -91,7 +91,7 @@ public abstract class ContactsActivity extends HSAppCompatActivity {
 
         ImageView navBack = findViewById(R.id.nav_back);
         final Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.back_dark);
-        upArrow.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+        upArrow.setColorFilter(ContextCompat.getColor(this, R.color.colorPrimaryReverse), PorterDuff.Mode.SRC_ATOP);
         navBack.setImageDrawable(upArrow);
         navBack.setOnClickListener(new View.OnClickListener() {
             @Override

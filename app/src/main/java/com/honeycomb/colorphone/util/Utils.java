@@ -801,11 +801,11 @@ public final class Utils {
 
     public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar, int upDrawable) {
         toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimary));
-        toolbar.setTitleTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
+        toolbar.setTitleTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryReverse));
 
         activity.setSupportActionBar(toolbar);
         final Drawable upArrow = ContextCompat.getDrawable(activity, upDrawable);
-        upArrow.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+        upArrow.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimaryReverse), PorterDuff.Mode.SRC_ATOP);
         activity.getSupportActionBar().setHomeAsUpIndicator(upArrow);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.getSupportActionBar().setDisplayShowHomeEnabled(true);

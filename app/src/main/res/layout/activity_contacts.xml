@@ -27,7 +27,7 @@
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimaryReverse"
             android:textSize="20sp"
             android:textStyle="bold"
             app:typeface="@string/proxima_nova_semibold"

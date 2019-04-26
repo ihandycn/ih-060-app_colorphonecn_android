@@ -2,25 +2,23 @@ package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.graphics.drawable.DrawerArrowDrawable;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.MotionEvent;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
@@ -73,7 +71,7 @@ import java.util.List;
 import hugo.weaving.DebugLog;
 
 public class ColorPhoneActivity extends HSAppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, INotificationObserver {
+        implements View.OnClickListener, INotificationObserver {
 
     public static final String NOTIFICATION_ON_REWARDED = "notification_on_rewarded";
 
@@ -141,6 +139,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean isCreate = false;
     private SettingsPage mSettingsPage = new SettingsPage();
 
+    private static final int TAB_SIZE = 3;
+    private static final int MAIN_POSITION = 0;
+    private static final int USER_POSITION = 1;
+    private static final int SETTING_POSITION = 2;
+
+    private ViewPager mViewPager;
+    private MainTabAdapter mTabAdapter;
+
     @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +176,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onWindowFocusChanged(hasFocus);
         mSettingsPage.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-            if (mAdapter.isTipHeaderVisible() &&
+            if (mAdapter != null && mAdapter.isTipHeaderVisible() &&
                     !PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
                 HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "setHeaderTipVisible, " +
                         "notifyDataSetChanged");
@@ -181,55 +187,27 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     public void showRewardVideoView(String themeName) {
-        requestRewardAd(themeName);
-    }
 
-    @DebugLog
-    @NonNull
-    private DrawerLayout initDrawer() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        logOpenEvent = true;
-        Utils.configActivityStatusBar(this, toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-            @Override
-            public void onDrawerClosed(View view) {
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                Analytics.logEvent("Settings_Boost_Icon_Shown");
-                Analytics.logEvent("Colorphone_Sidebar_Shown");
-            }
-        };
-        DrawerArrowDrawable arrowDrawable = toggle.getDrawerArrowDrawable();
-        arrowDrawable.getPaint().setStrokeCap(Paint.Cap.ROUND);
-        arrowDrawable.getPaint().setStrokeJoin(Paint.Join.ROUND);
-        arrowDrawable.setBarThickness(arrowDrawable.getBarThickness() * 1.5f);
-        arrowDrawable.setBarLength(arrowDrawable.getBarLength() * 0.86f);
-
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        View leftDrawer = findViewById(R.id.left_drawer);
-        leftDrawer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
-        mSettingsPage.initPage(leftDrawer);
-
-        return drawer;
     }
 
     @DebugLog
     private void initMainFrame() {
-        initDrawer();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        logOpenEvent = true;
+        Utils.configActivityStatusBar(this, toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+
+        mViewPager = findViewById(R.id.viewpager);
+        mTabAdapter = new MainTabAdapter();
+        mViewPager.setAdapter(mTabAdapter);
+        mViewPager.setOffscreenPageLimit(2);
+        mViewPager.setCurrentItem(0);
+
+        initTab();
+
         initData();
-        initRecyclerView();
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
@@ -237,11 +215,51 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
-        Button avatar = findViewById(R.id.avatar_btn);
-        avatar.setVisibility(View.GONE);
-
         ConfigChangeManager.getInstance().registerCallbacks(
                 ConfigChangeManager.AUTOPILOT | ConfigChangeManager.REMOTE_CONFIG, configChangeCallback);
+
+    }
+
+    private String[] titles = new String[] {"首页", "资讯", "设置"};
+    private int[] drawableIds = new int[] {
+            R.drawable.seletor_tab_main,
+            R.drawable.seletor_tab_news,
+            R.drawable.seletor_tab_settings
+    };
+
+    private void initTab() {
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+
+        for (int i = 0; i < titles.length; i++) {
+            TabLayout.Tab tab = tabLayout.newTab();
+            TextView textView = new TextView(this);
+            textView.setText(titles[i]);
+            Drawable icon = ResourcesCompat.getDrawable(getResources(),drawableIds[i], null);
+            textView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
+            textView.setGravity(Gravity.CENTER);
+            textView.setTextSize(10);
+            textView.setTextColor(ResourcesCompat.getColorStateList(getResources(), R.color.seletor_color_tab_txt, null));
+            tab.setCustomView(textView);
+            tabLayout.addTab(tab);
+        }
+
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
     }
 
@@ -280,23 +298,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onResume();
         // clear previous observers.
         PermissionHelper.stopObservingPermission();
-
-        HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
-        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
-        if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
-            ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
-        }
-
-        mAdapter.updateApplyInformationAutoPilotValue();
-        mHandler.postDelayed(mainViewRunnable, 1000);
         isPaused = false;
-        mAdapter.markForeground(true);
+        mHandler.postDelayed(mainViewRunnable, 1000);
 
-        String[] testDeviceInfo = Utils.getTestDeviceInfo(this);
-        for (String s : testDeviceInfo) {
-            if (s != null) {
-                HSLog.d("Umeng.test", s);
+        if (mAdapter != null) {
+            HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
+            RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
+            if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+                ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
             }
+            mAdapter.updateApplyInformationAutoPilotValue();
+            mAdapter.markForeground(true);
         }
     }
 
@@ -305,15 +317,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onPause();
 
         isPaused = true;
-        HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedLayoutPos() + "");
-        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
-        if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
-            ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
-        }
-        mAdapter.markForeground(false);
-        mRecyclerView.getRecycledViewPool().clear();
         mHandler.removeCallbacks(mainViewRunnable);
 
+        if (mAdapter != null) {
+            HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedLayoutPos() + "");
+            RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
+            if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+                ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
+            }
+            mAdapter.markForeground(false);
+            mRecyclerView.getRecycledViewPool().clear();
+        }
     }
 
     @Override
@@ -464,10 +478,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (mRewardVideoView != null && mRewardVideoView.isLoading()) {
+        if (mRewardVideoView != null && mRewardVideoView.isLoading()) {
             mRewardVideoView.onHideAdLoading();
             mRewardVideoView.onCancel();
         } else {
@@ -477,22 +488,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
     private void initData() {
         mThemeList.fillData(mRecyclerViewData);
     }
 
-    private void initRecyclerView() {
-        View contentView = findViewById(R.id.recycler_view_content);
-        mRecyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
+    private void initRecyclerView(RecyclerView frame) {
+        mRecyclerView = frame;
         mRecyclerView.setItemAnimator(null);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new ThemeSelectorAdapter(this, mRecyclerViewData);
@@ -544,11 +545,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void updatePermissionHeader() {
-//        boolean notificationNotGranted = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-//                && !PermissionUtils.isNotificationAccessGranted(ColorPhoneActivity.this);
-//        boolean overlayNotGranted = !FloatWindowManager.getInstance().checkPermission(HSApplication.getContext());
-//        if (!DefaultPhoneUtils.isDefaultPhone()
-//                && (notificationNotGranted || overlayNotGranted)) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
                 PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
             mAdapter.setHeaderTipVisible(true);
@@ -563,46 +559,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         }
     }
-
-    private void requestRewardAd(final String themeName) {
-        if (mRewardVideoView == null) {
-            mRewardVideoView = new RewardVideoView((ViewGroup) findViewById(R.id.drawer_layout), new RewardVideoView.OnRewarded() {
-                @Override
-                public void onRewarded() {
-                    HSBundle bundle = new HSBundle();
-                    if (mAdapter.getUnLockThemeId() != -1) {
-                        bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mAdapter.getUnLockThemeId());
-                    }
-                    HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
-                    Analytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "list", "themeName", themeName);
-                }
-
-                @Override
-                public void onAdClose() {
-
-                }
-
-                @Override
-                public void onAdCloseAndRewarded() {
-
-                }
-
-                @Override
-                public void onAdShow() {
-
-                    //todo theme name needs to be recorded
-                    Analytics.logEvent("Colorphone_Rewardvideo_show", "from", "list", "themeName", themeName);
-                }
-
-                @Override
-                public void onAdFailed() {
-
-                }
-            }, false);
-        }
-        mRewardVideoView.onRequestRewardVideo();
-    }
-
 
     @Override
     public void onReceive(String s, HSBundle hsBundle) {
@@ -627,6 +583,62 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
                 mAdapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    private List<View> mTabContentLayoutList = new ArrayList<>();
+    private class MainTabAdapter extends PagerAdapter {
+        @Override
+        public int getCount() {
+            return TAB_SIZE;
+        }
+
+        @DebugLog
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+
+            HSLog.d("MainTabAdapter", "TabAdapter");
+            View frame = null;
+            switch (position) {
+                case MAIN_POSITION:
+                    frame = getLayoutInflater().inflate(R.layout.main_frame_content, container, false);
+                    initRecyclerView((RecyclerView) frame);
+                    break;
+
+                case SETTING_POSITION:
+                    frame = getLayoutInflater().inflate(R.layout.layout_settings, container, false);
+                    mSettingsPage.initPage(frame);
+                    break;
+
+                case USER_POSITION:
+                    frame = new TextView(ColorPhoneActivity.this);
+                    ((TextView) frame).setText("TODO");
+                    break;
+                default:
+                    throw new IllegalStateException("Pager index out of bounds");
+            }
+            container.addView(frame);
+            frame.setTag(position);
+            mTabContentLayoutList.add(frame);
+
+            return frame;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+            mTabContentLayoutList.remove(object);
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return super.getPageTitle(position);
         }
     }
 
