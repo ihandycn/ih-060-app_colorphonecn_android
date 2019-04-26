@@ -14,7 +14,9 @@ import net.appcloudbox.ads.common.utils.AcbError;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -148,6 +150,7 @@ public class NewsManager {
                     }
                     HSLog.i(TAG, "result: add size == " + (resultBean != null ? resultBean.totalItems : null));
                     if (loadListener != null) {
+                        addNativeADs(resultBean);
                         loadListener.onNewsLoaded(resultBean);
                     }
                 } else {
@@ -233,9 +236,11 @@ public class NewsManager {
 
         url.append("&limit=").append(limit);
         url.append("&offset=").append(offset);
-//        if (time > 0) {
-//
-//        }
+        if (time > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+            String date = sdf.format(new Date(time));
+            url.append("&publishedAfter=").append(date);
+        }
 
         String category = HSConfig.optString("", "Application", "News", "Category");
         if (!TextUtils.isEmpty(category)) {
@@ -248,6 +253,7 @@ public class NewsManager {
     }
 
     public void preloadAD() {
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(NEWS_WIRE);
         AcbInterstitialAdManager.preload(1, NEWS_WIRE);
     }
 
@@ -268,7 +274,7 @@ public class NewsManager {
         }
     }
 
-    public boolean showInterstitialAd() {
+    public boolean showInterstitialAd(String from) {
         if (!NewsTest.canShowNewsWireAD()) {
             return false;
         }
@@ -278,8 +284,11 @@ public class NewsManager {
             ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
                 @Override
                 public void onAdDisplayed() {
-                    NewsTest.logNewsEvent("news_detail_page_wire_show_from_alert");
-                    NewsTest.logNewsEvent("news_detail_page_wire_show_from_list");
+                    if (TextUtils.equals(from, WebViewActivity.FROM_ALERT)) {
+                        NewsTest.logNewsEvent("news_detail_page_wire_show_from_alert");
+                    } else if (TextUtils.equals(from, WebViewActivity.FROM_LIST)) {
+                        NewsTest.logNewsEvent("news_detail_page_wire_show_from_list");
+                    }
                 }
 
                 @Override

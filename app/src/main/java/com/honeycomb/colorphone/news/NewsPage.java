@@ -205,6 +205,11 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
             int type = getItemViewType(position);
             NewsBean bean = newsResource.content.get(position);
 
+            if ((type == NEWS_TYPE_BIG || type == NEWS_TYPE_NATIVE) && position > logBigImageIndex) {
+                LauncherAnalytics.logEvent("mainview_news_tab_slide");
+                logBigImageIndex = position;
+            }
+
             if (type == NEWS_TYPE_NATIVE) {
                 ((NewsNativeHolder) holder).bindView((NewsNativeAdBean) bean);
                 return;
@@ -212,11 +217,6 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
             NewsBeanItemHolder beanHolder = (NewsBeanItemHolder) holder;
             beanHolder.bindNewsBean(bean, type);
-
-            if (type == NEWS_TYPE_BIG && position > logBigImageIndex) {
-                LauncherAnalytics.logEvent("mainview_news_tab_slide");
-                logBigImageIndex = position;
-            }
         }
 
         @Override public int getItemCount() {
@@ -257,7 +257,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
             itemView.setOnClickListener(v -> {
                 HSLog.i(NewsManager.TAG, "NP onClicked");
-                Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(bean.contentURL, false));
+                Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(bean.contentURL, false, WebViewActivity.FROM_LIST));
 
                 LauncherAnalytics.logEvent("mainview_newstab_news_click",
                         "type", (type == NewsAdapter.NEWS_TYPE_BIG ? "image" : "imagepreview"),

@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone;
 
+import com.honeycomb.colorphone.news.NewsTest;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.NetUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -27,6 +28,7 @@ public class ConfigLogDefault implements ConfigLog {
         public void onMainViewOpen() {
             LauncherAnalytics.logEvent("ColorPhone_MainView_Opened");
             LauncherAnalytics.logEvent("mainview_open_news_enable", "type", Utils.isNewUser() ? "new" : "upgrade");
+            NewsTest.logAutopilotEvent("mainview_open_news_enable");
         }
 
         @Override

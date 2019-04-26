@@ -198,7 +198,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
 
                 Intent[] intents = new Intent[] {
                         ColorPhoneActivity.newIntent(NewsPushActivity.this),
-                        WebViewActivity.newIntent(bean.contentURL, false)
+                        WebViewActivity.newIntent(bean.contentURL, false, WebViewActivity.FROM_ALERT)
                 };
                 Navigations.startActivitiesSafely(NewsPushActivity.this, intents);
                 finish();

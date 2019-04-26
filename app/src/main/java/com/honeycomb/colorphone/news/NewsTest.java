@@ -68,13 +68,13 @@ public class NewsTest {
 
         if ((System.currentTimeMillis() - Utils.getAppInstallTimeMillis())
                 < getNewsAlertShowFirstTimeAfterInstall() * DateUtils.HOUR_IN_MILLIS) {
-            HSLog.i(NewsManager.TAG, "canShowNewsAlert  install time too short");
+            HSLog.i(NewsManager.TAG, "canShowNewsAlert  install time too short:" + getNewsAlertShowFirstTimeAfterInstall());
             return false;
         }
 
         if ((System.currentTimeMillis() - getLastShowNewsAlertTime())
                 < getNewsAlertShowIntervalMinutes() * DateUtils.MINUTE_IN_MILLIS) {
-            HSLog.i(NewsManager.TAG, "canShowNewsAlert  last show time too short");
+            HSLog.i(NewsManager.TAG, "canShowNewsAlert  last show time too short: " + getNewsAlertShowIntervalMinutes());
             return false;
         }
 
@@ -124,5 +124,11 @@ public class NewsTest {
 
         LauncherAnalytics.logEvent(eventID);
     }
+
+    public static void logAutopilotEvent(String eventID) {
+        isNewsAlertEnable();
+        AutopilotEvent.logTopicEvent(TOPIC_ID, eventID);
+    }
+
 
 }

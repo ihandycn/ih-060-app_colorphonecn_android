@@ -34,6 +34,7 @@ import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
+import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.news.NewsPage;
 import com.honeycomb.colorphone.news.NewsTest;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -130,7 +131,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         @Override
         public void run() {
             if (logOpenEvent) {
+                HSLog.i(NewsManager.TAG, "onMainViewOpen e: " + logOpenEvent + "  ei: " + logOpenEventInit);
                 logOpenEvent = false;
+                logOpenEventInit = false;
                 ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
             }
         }
@@ -144,6 +147,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     };
 
     private boolean logOpenEvent;
+    private boolean logOpenEventInit = true;
     private boolean pendingShowRateAlert = false;
     private boolean showAllFeatureGuide = false;
     private boolean isCreate = false;
@@ -192,10 +196,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 NewsTest.logNewsEvent("mainview_open_from_news_alert");
             }
         }
-
-        if (NewsTest.isNewsAlertEnable()) {
-            NewsTest.logNewsEvent("mainview_open_news_enable");
-        }
     }
 
     @Override
@@ -233,6 +233,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         });
 
         logOpenEvent = true;
+        HSLog.i(NewsManager.TAG, "initMainViewOpen e: " + logOpenEvent + "  ei: " + logOpenEventInit);
         Utils.configActivityStatusBar(this, toolbar, 0);
     }
 

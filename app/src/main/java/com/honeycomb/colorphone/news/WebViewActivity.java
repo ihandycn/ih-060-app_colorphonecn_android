@@ -56,6 +56,10 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
     private static final String NEWS_DETAIL_URL = "news_detail_url";
     private static final String NEWS_DETAIL_SHOULD_SHOW_TITLE = "news_detail_should_show_title";
     private static final String USE_WIDE_VIEWPORT_AND_LOAD_WITH_OVERVIEW_MODE = "use_wide_viewport_and_load_with_overview_mode";
+    private static final String KEY_FROM = "key_from";
+
+    public static final String FROM_ALERT = "alert";
+    public static final String FROM_LIST = "list";
 
     // Instantiate WebView after activity launch for better experience
     private ViewStub mWebViewStub;
@@ -77,16 +81,18 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
     private float mAnimatedValue;
     private List<String> mHistory = new ArrayList<>();
     private boolean mShouldShowTitle;
+    private String from;
 
-    public static Intent newIntent(String url, boolean shouldShowTitle) {
-        return newIntent(url, shouldShowTitle, true);
+    public static Intent newIntent(String url, boolean shouldShowTitle, String from) {
+        return newIntent(url, shouldShowTitle, from,  true);
     }
 
-    public static Intent newIntent(String url, boolean shouldShowTitle, boolean wideViewport) {
+    public static Intent newIntent(String url, boolean shouldShowTitle, String from, boolean wideViewport) {
         Intent intent = new Intent(HSApplication.getContext(), WebViewActivity.class);
         intent.putExtra(NEWS_DETAIL_URL, url);
         intent.putExtra(NEWS_DETAIL_SHOULD_SHOW_TITLE, shouldShowTitle);
         intent.putExtra(USE_WIDE_VIEWPORT_AND_LOAD_WITH_OVERVIEW_MODE, wideViewport);
+        intent.putExtra(KEY_FROM, from);
         return intent;
     }
 
@@ -97,6 +103,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_web_view);
 
         mShouldShowTitle = getIntent().getBooleanExtra(NEWS_DETAIL_SHOULD_SHOW_TITLE, false);
+        from = getIntent().getStringExtra(KEY_FROM);
         ViewUtils.findViewById(this, R.id.news_detail_root).setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
         mWebViewStub = ViewUtils.findViewById(this, R.id.web_view_stub);
@@ -136,7 +143,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
         NewsTest.logNewsEvent("news_detail_page_show");
 
         Threads.postOnMainThreadDelayed(() -> {
-            NewsManager.getInstance().showInterstitialAd();
+            NewsManager.getInstance().showInterstitialAd(from);
         }, 1000);
     }
 
