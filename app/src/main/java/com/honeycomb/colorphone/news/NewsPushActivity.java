@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.news;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -27,6 +28,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.RoundImageVIew;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -44,6 +46,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
     private RipplePopupView menuPopupView;
     private PopupView mCloseLockerPopupView;
     private ViewGroup rootView;
+    private boolean showTime = true;
 
     public static void start(Context context) {
         Navigations.startActivity(context, NewsPushActivity.class);
@@ -70,8 +73,10 @@ public class NewsPushActivity extends HSAppCompatActivity {
             LauncherAnalytics.logEvent("news_alert_settings_click");
         });
 
-        view = findViewById(R.id.news_push_view_more);
-        view.setOnClickListener(v -> {
+        TextView tv = findViewById(R.id.news_push_view_more);
+        tv.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+
+        tv.setOnClickListener(v -> {
             Navigations.startActivitySafely(NewsPushActivity.this, ColorPhoneActivity.newIntent(NewsPushActivity.this));
             finish();
             NewsTest.logNewsEvent("news_alert_morebtn_click");
@@ -91,6 +96,8 @@ public class NewsPushActivity extends HSAppCompatActivity {
 
         NewsTest.logNewsEvent("news_alert_show");
         NewsTest.recordShowNewsAlertTime();
+
+        showTime = HSConfig.optBoolean(true, "Application", "News", "NewsUpdateTimeShow");
     }
 
     @Override public void onBackPressed() {
@@ -172,7 +179,11 @@ public class NewsPushActivity extends HSAppCompatActivity {
             }
 
             beanHolder.title.setText(bean.title);
-            beanHolder.time.setText(String.valueOf(" · " + Utils.getNewDate(bean.publishedAt)));
+            if (showTime) {
+                beanHolder.time.setText(String.valueOf(" · " + Utils.getNewDate(bean.publishedAt)));
+            } else {
+                beanHolder.time.setVisibility(View.GONE);
+            }
             beanHolder.resource.setText(bean.contentSourceDisplay);
             GlideApp.with(beanHolder.image)
                     .asDrawable()
@@ -182,6 +193,10 @@ public class NewsPushActivity extends HSAppCompatActivity {
             float radius = Dimensions.pxFromDp(8);
 
             if (!pushTypeAsNewsTab) {
+                if (beanHolder.mark != null) {
+                    beanHolder.mark.setVisibility(View.GONE);
+                }
+
                 beanHolder.itemView.setPadding(0, 5, 0, 5);
                 if (position == 0) {
                     beanHolder.image.setRadius(radius, radius, 0, 0);
@@ -215,6 +230,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
         TextView title;
         TextView resource;
         TextView time;
+        View mark;
         RoundImageVIew image;
 
         NewsBeanItemHolder(View itemView) {
@@ -223,6 +239,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
             resource = itemView.findViewById(R.id.news_resource_tv);
             time = itemView.findViewById(R.id.news_time_tv);
             image = itemView.findViewById(R.id.news_icon_iv);
+            mark = itemView.findViewById(R.id.news_mark_view);
         }
     }
 

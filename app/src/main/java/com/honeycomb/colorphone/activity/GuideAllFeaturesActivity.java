@@ -111,6 +111,10 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         GdprUtils.showGdprAlertIfNeeded(this);
 
         LauncherAnalytics.logEvent("startguide_show_news");
+
+        if (!HSConfig.optBoolean(true, "Application", "News", "NewsGuideShowForNewUser")) {
+            findViewById(R.id.welcome_guide_news_container).setVisibility(View.GONE);
+        }
     }
 
 

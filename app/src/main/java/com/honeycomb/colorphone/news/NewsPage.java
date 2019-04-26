@@ -20,6 +20,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
 import com.superapps.util.Networks;
@@ -36,6 +37,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
     private View noNetWorkPage;
     private View loading;
     private boolean isRefreshing = false;
+    private boolean showTime;
 
     public NewsPage(Context context) {
         this(context, null);
@@ -49,6 +51,7 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
         super(context, attrs, defStyleAttr);
 
         NewsManager.getInstance().setNewsLoadListener(this);
+        showTime = HSConfig.optBoolean(true, "Application", "News", "NewsUpdateTimeShow");
     }
 
     @Override protected void onFinishInflate() {
@@ -248,7 +251,11 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
             }
 
             title.setText(bean.title);
-            time.setText(String.valueOf(" · " + Utils.getNewDate(bean.publishedAt)));
+            if (showTime) {
+                time.setText(String.valueOf(" · " + Utils.getNewDate(bean.publishedAt)));
+            } else {
+                time.setVisibility(View.GONE);
+            }
             resource.setText(bean.contentSourceDisplay);
             GlideApp.with(image)
                     .asDrawable()
