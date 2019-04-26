@@ -60,7 +60,7 @@
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
     <string name="theme_set_for_all">SET FOR ALL</string>
-    <string name="theme_set_for_one">Set for Someone</string>
+    <string name="theme_set_for_one">Set for Contact</string>
 
     <string name="set" translatable="false">SET</string>
     <string name="empty_contact_hint" translatable="false">You haven’t set up theme\n for your contacts.</string>
