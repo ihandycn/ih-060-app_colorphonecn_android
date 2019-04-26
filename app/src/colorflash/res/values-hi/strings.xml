@@ -1,6 +1,0 @@
-<resources>
-  <!--Need Translate-->
-  <string name="app_name">रंगीन फोन</string>
-  <string name="color_phone_disable">रंगीन फोन अक्षम</string>
-  <string name="color_phone_enabled">रंगीन फोन सक्षम</string>
-</resources>

@@ -1,6 +1,0 @@
-<resources>
-  <!--Need Translate-->
-  <string name="app_name">多彩电话</string>
-  <string name="color_phone_disable">关闭多彩电话</string>
-  <string name="color_phone_enabled">开启多彩电话</string>
-</resources>
