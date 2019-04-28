@@ -196,7 +196,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initMainFrame() {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(titles[INIT_POSITION]);
         logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -250,8 +249,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-                toolbar.setTitle(titles[tab.getPosition()]);
+                int pos = tab.getPosition();
+                mViewPager.setCurrentItem(pos);
+                if (pos == 0) {
+                    toolbar.setTitle(getTitle());
+                } else {
+                    toolbar.setTitle(titles[pos]);
+                }
             }
 
             @Override
