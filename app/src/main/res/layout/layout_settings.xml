@@ -17,35 +17,35 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <com.honeycomb.colorphone.view.RoundImageVIew
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:src="@drawable/drawer_icon"
-                app:radius="16dp" />
+            <!--<com.honeycomb.colorphone.view.RoundImageVIew-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="24dp"-->
+                <!--android:src="@drawable/drawer_icon"-->
+                <!--app:radius="16dp" />-->
 
-            <com.honeycomb.colorphone.view.TypefacedTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/app_name"
-                android:textColor="@color/drawerText"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:typeface="@string/proxima_nova_semibold" />
+            <!--<com.honeycomb.colorphone.view.TypefacedTextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="24dp"-->
+                <!--android:text="@string/app_name"-->
+                <!--android:textColor="@color/drawerText"-->
+                <!--android:textSize="24sp"-->
+                <!--android:textStyle="bold"-->
+                <!--app:typeface="@string/proxima_nova_semibold" />-->
 
-            <com.honeycomb.colorphone.view.TypefacedTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="@string/app_slogan"
-                android:textColor="@color/drawerSubText"
-                app:typeface="@string/proxima_nova_regular" />
+            <!--<com.honeycomb.colorphone.view.TypefacedTextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="4dp"-->
+                <!--android:text="@string/app_slogan"-->
+                <!--android:textColor="@color/drawerSubText"-->
+                <!--app:typeface="@string/proxima_nova_regular" />-->
 
             <RelativeLayout
                 android:id="@+id/settings_main_switch"
                 style="@style/LayoutSettings"
-                android:layout_marginTop="40dp">
+             >
 
                 <ImageView
                     android:id="@+id/settings_main_switch_icon"
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/ic_default_dialer" />
+                    app:srcCompat="@drawable/settings_icon_dialer" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
                     android:id="@+id/settings_default_dialer_switch_txt"
@@ -129,7 +129,13 @@
                     android:layout_toEndOf="@id/led_flash_switch_icon"
                     android:layout_toRightOf="@id/led_flash_switch_icon"
                     android:text="@string/led_flash_switch_text" />
-
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/led_flash_call_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
             </RelativeLayout>
 
             <LinearLayout

@@ -815,22 +815,30 @@ public final class Utils {
         applyFontForToolbarTitle(activity, toolbar);
     }
 
-    public static void applyFontForToolbarTitle(Activity context, Toolbar toolbar){
+    public static TextView getTitleView( Toolbar toolbar) {
         for(int i = 0; i < toolbar.getChildCount(); i++){
             View view = toolbar.getChildAt(i);
             if(view instanceof TextView){
                 TextView tv = (TextView) view;
-                Typeface typeface = FontUtils.getTypeface(FontUtils.Font.ofFontResId(R.string.proxima_nova_bold), 0);
                 if(tv.getText().equals(toolbar.getTitle())){
-                    tv.setTypeface(typeface);
-                    if (Locale.getDefault().getLanguage().equalsIgnoreCase(Locale.CHINA.getLanguage())) {
-                        Paint paint = tv.getPaint();
-                        if (paint != null) {
-                            paint.setFakeBoldText(true);
-                        }
-                    }
-                    break;
+                    return tv;
                 }
+            }
+        }
+        return null;
+    }
+
+    public static void applyFontForToolbarTitle(Activity context, Toolbar toolbar){
+        TextView tv = getTitleView(toolbar);
+        if (tv != null) {
+            Typeface typeface = FontUtils.getTypeface(FontUtils.Font.ofFontResId(R.string.proxima_nova_bold), 0);
+            tv.setTypeface(typeface);
+            if (Locale.getDefault().getLanguage().equalsIgnoreCase(Locale.CHINA.getLanguage())) {
+                Paint paint = tv.getPaint();
+                if (paint != null) {
+                    paint.setFakeBoldText(true);
+                }
+                tv.invalidate();
             }
         }
     }
