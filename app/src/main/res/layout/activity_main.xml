@@ -12,7 +12,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        app:titleTextAppearance="@style/Toolbar.TitleText"/>
 
     <com.superapps.view.ViewPagerFixed
         android:id="@+id/viewpager"

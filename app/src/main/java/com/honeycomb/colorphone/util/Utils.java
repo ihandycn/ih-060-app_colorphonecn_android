@@ -32,6 +32,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -95,6 +96,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -821,6 +823,12 @@ public final class Utils {
                 Typeface typeface = FontUtils.getTypeface(FontUtils.Font.ofFontResId(R.string.proxima_nova_bold), 0);
                 if(tv.getText().equals(toolbar.getTitle())){
                     tv.setTypeface(typeface);
+                    if (Locale.getDefault().getLanguage().equalsIgnoreCase(Locale.CHINA.getLanguage())) {
+                        Paint paint = tv.getPaint();
+                        if (paint != null) {
+                            paint.setFakeBoldText(true);
+                        }
+                    }
                     break;
                 }
             }
