@@ -17,7 +17,7 @@
             android:padding="8dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:background="@drawable/material_compat_bg"
+            style="@style/Widget.AppCompat.Toolbar.Button.Navigation"
             android:src="@drawable/back_dark"/>
 
         <com.honeycomb.colorphone.view.TypefacedTextView

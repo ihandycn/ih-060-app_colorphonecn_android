@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -26,6 +25,7 @@ import com.ihs.commons.utils.HSPreferenceHelper;
  * Created by sundxing on 17/9/13.
  */
 
+@Deprecated
 public class GuideApplyThemeActivity extends HSAppCompatActivity {
 
     public static String KEY_SHOW_TIME = "apply_guide_show_times";
@@ -39,21 +39,21 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
     }
 
     public static boolean start(final Activity activity, boolean fullScreen, ShareAlertActivity.UserInfo userInfo, boolean setForMulti) {
-        if (ModuleUtils.isNeedGuideAfterApply()) {
-            Intent starter = new Intent(activity, GuideApplyThemeActivity.class);
-            starter.putExtra("fullscreen", fullScreen);
-            activity.startActivity(starter);
-            return true;
-        } else if(ModuleUtils.isShareAlertInsideAppShow()) {
-            ShareAlertActivity.starInsideApp(activity, userInfo, setForMulti);
-            return true;
-//        } else if (NotificationUtils.isShowNotificationGuideAlertWhenApplyTheme(activity)) {
-//            NotificationAccessGuideAlertActivity.startInAppGuide(activity);
+//        if (ModuleUtils.isNeedGuideAfterApply()) {
+//            Intent starter = new Intent(activity, GuideApplyThemeActivity.class);
+//            starter.putExtra("fullscreen", fullScreen);
+//            activity.startActivity(starter);
 //            return true;
-        } else if (FiveStarRateTip.canShowWhenApplyTheme()) {
-            RateAlertActivity.showRateFrom(activity, FiveStarRateTip.From.SET_THEME);
-            return true;
-        }
+//        } else if(ModuleUtils.isShareAlertInsideAppShow()) {
+//            ShareAlertActivity.starInsideApp(activity, userInfo, setForMulti);
+//            return true;
+////        } else if (NotificationUtils.isShowNotificationGuideAlertWhenApplyTheme(activity)) {
+////            NotificationAccessGuideAlertActivity.startInAppGuide(activity);
+////            return true;
+//        } else if (FiveStarRateTip.canShowWhenApplyTheme()) {
+//            RateAlertActivity.showRateFrom(activity, FiveStarRateTip.From.SET_THEME);
+//            return true;
+//        }
         return false;
     }
 

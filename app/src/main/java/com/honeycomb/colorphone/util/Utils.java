@@ -32,7 +32,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -824,7 +823,7 @@ public final class Utils {
                     return tv;
                 }
             }
-        }
+    }
         return null;
     }
 
@@ -834,10 +833,7 @@ public final class Utils {
             Typeface typeface = FontUtils.getTypeface(FontUtils.Font.ofFontResId(R.string.proxima_nova_bold), 0);
             tv.setTypeface(typeface);
             if (Locale.getDefault().getLanguage().equalsIgnoreCase(Locale.CHINA.getLanguage())) {
-                Paint paint = tv.getPaint();
-                if (paint != null) {
-                    paint.setFakeBoldText(true);
-                }
+                tv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                 tv.invalidate();
             }
         }

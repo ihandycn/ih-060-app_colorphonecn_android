@@ -14,7 +14,6 @@ import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
-import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -105,11 +104,6 @@ public class ContactsSelectActivity extends ContactsActivity {
                 if (selectedCount >= 1 && !themeEntries.isEmpty()) {
                     ThemeEntry themeEntry = themeEntries.get(0);
                     ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
-                    NotificationUtils.logThemeAppliedFlurry(mTheme);
-                    if (GuideApplyThemeActivity.start(ContactsSelectActivity.this, true, userInfo, selectedCount >= 2)) {
-                        ContactsSelectActivity.this.finish();
-                        return;
-                    }
                 }
                 Utils.showToast(getString(R.string.apply_success));
                 ContactsSelectActivity.this.finish();
