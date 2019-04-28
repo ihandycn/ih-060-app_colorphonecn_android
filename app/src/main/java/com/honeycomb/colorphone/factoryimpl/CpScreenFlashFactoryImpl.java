@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -19,9 +18,9 @@ import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
-import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
+import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.call.assistant.util.CommonUtils;
 import com.colorphone.lock.lockscreen.locker.Locker;
@@ -35,7 +34,6 @@ import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -146,16 +144,6 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
         }
 
         @Override
-        public Typeface getBondFont() {
-            return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD);
-        }
-
-        @Override
-        public Typeface getNormalFont() {
-            return FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR);
-        }
-
-        @Override
         public void onConfigTypes(List<Type> types) {
             Iterator<Type> iter = types.iterator();
             while (iter.hasNext()) {
@@ -164,6 +152,16 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
                     ((Theme) t).configAvatar();
                 }
             }
+        }
+
+        @Override
+        public float getTitleSize() {
+            return 24;
+        }
+
+        @Override
+        public float getSecondTitleSize() {
+            return 16;
         }
     }
 
