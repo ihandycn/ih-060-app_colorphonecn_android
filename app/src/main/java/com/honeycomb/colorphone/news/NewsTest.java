@@ -100,7 +100,7 @@ public class NewsTest {
                 < getNewsWireShowIntervalSecond() * DateUtils.SECOND_IN_MILLIS) {
             return false;
         }
-        return true;
+        return false;
     }
 
     static long getLastShowNewsAlertTime() {

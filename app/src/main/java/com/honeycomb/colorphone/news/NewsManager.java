@@ -11,7 +11,6 @@ import com.ihs.commons.utils.HSLog;
 import net.appcloudbox.ads.base.AcbInterstitialAd;
 import net.appcloudbox.ads.base.AcbNativeAd;
 import net.appcloudbox.ads.common.utils.AcbError;
-import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 
 import java.text.SimpleDateFormat;
@@ -27,7 +26,7 @@ public class NewsManager {
 
     private NewsManager() {
         AcbNativeAdManager.getInstance().activePlacementInProcess(NEWS_LIST_BANNER);
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(NEWS_WIRE);
+//        AcbInterstitialAdManager.getInstance().activePlacementInProcess(NEWS_WIRE);
     }
 
     public static NewsManager getInstance() {
@@ -63,7 +62,7 @@ public class NewsManager {
         if (showNativeAD) {
             AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
         }
-        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
+//        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
 
         HSLog.i(NewsManager.TAG, "fetchNews");
         newOffset = 0;
@@ -235,7 +234,7 @@ public class NewsManager {
         if (showNativeAD) {
             AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
         }
-        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
+//        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
 
         HSLog.i(NewsManager.TAG, "fetchNews");
         newOffset = 0;
@@ -344,16 +343,16 @@ public class NewsManager {
     }
 
     public void preloadAD() {
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(NEWS_WIRE);
-        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
+//        AcbInterstitialAdManager.getInstance().activePlacementInProcess(NEWS_WIRE);
+//        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
     }
 
     AcbInterstitialAd getInterstitialAd() {
         if (mInterstitialAd == null) {
-            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(NEWS_WIRE, 1);
-            if (ads != null && ads.size() > 0) {
-                mInterstitialAd = ads.get(0);
-            }
+//            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(NEWS_WIRE, 1);
+//            if (ads != null && ads.size() > 0) {
+//                mInterstitialAd = ads.get(0);
+//            }
         }
         return mInterstitialAd;
     }
@@ -390,7 +389,7 @@ public class NewsManager {
                 @Override
                 public void onAdClosed() {
                     releaseInterstitialAd();
-                    AcbInterstitialAdManager.preload(1, NEWS_WIRE);
+//                    AcbInterstitialAdManager.preload(1, NEWS_WIRE);
                     NewsTest.recordShowNewsWireAdTime();
                 }
 
