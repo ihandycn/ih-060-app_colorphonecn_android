@@ -30,6 +30,7 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Strings;
+import com.superapps.util.Toasts;
 
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
@@ -52,6 +53,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     private boolean mIsVpDragger;
     private final int mTouchSlop;
     private DividerItemDecoration divider;
+    private String lastNewsContentID;
 
     public NewsPage(@NonNull Context context) {
         super(context);
@@ -143,8 +145,11 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                 if ((newState == RecyclerView.SCROLL_STATE_IDLE)
                         && lastVisibleItem > logBigImageIndex) {
                     LauncherAnalytics.logEvent("mainview_news_tab_slide");
-                    LauncherAnalytics.logEvent("videonews_video_page_slide");
-                    LauncherAnalytics.logEvent("videonews_mainview_news_page_slide");
+                    if (isVideo) {
+                        LauncherAnalytics.logEvent("videonews_video_page_slide");
+                    } else {
+                        LauncherAnalytics.logEvent("videonews_news_page_slide");
+                    }
                     logBigImageIndex = lastVisibleItem;
                 }
             }
@@ -181,6 +186,13 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         isRefreshing = false;
 
         if (bean != null) {
+            if (bean.content != null && bean.content.size() > 0) {
+                String newContentID = bean.content.get(0).contentId;
+                if (TextUtils.equals(newContentID, lastNewsContentID)) {
+                    Toasts.showToast(R.string.news_no_news_update);
+                }
+                lastNewsContentID = newContentID;
+            }
             newsPages.setVisibility(VISIBLE);
 
             newsResource = bean;

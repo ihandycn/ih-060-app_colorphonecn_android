@@ -66,7 +66,7 @@ public class NewsManager {
         AcbInterstitialAdManager.preload(1, NEWS_WIRE);
 
         HSLog.i(NewsManager.TAG, "fetchNews");
-        newOffset += resultBean == null ? 0 : resultBean.totalItems;
+        newOffset = 0;
 
         HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), String.valueOf(newOffset)));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
@@ -238,10 +238,8 @@ public class NewsManager {
         AcbInterstitialAdManager.preload(1, NEWS_WIRE);
 
         HSLog.i(NewsManager.TAG, "fetchNews");
-        newOffset += resultBean == null ? 0 : resultBean.totalItems;
+        newOffset = 0;
 
-        resultBean.totalItems = 0;
-        resultBean.content.clear();
 
         HSHttpConnection news = new HSHttpConnection(getVideoURL(String.valueOf(LIMIT_SIZE), String.valueOf(newOffset), 0));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {

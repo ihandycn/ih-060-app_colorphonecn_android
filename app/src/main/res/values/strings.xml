@@ -311,6 +311,7 @@
     <string name="news_push_disable_confirm"  translatable="false">Are you sure to turn off News Express?</string>
     <string name="news_push_disable_confirm_detail"  translatable="false">Once disabled, you won\'t receive News Express anymore.</string>
 
-    <string name="menu_item_news_video">Video</string>
+    <string name="menu_item_news_video">Videos</string>
+    <string name="news_no_news_update">No New Update</string>
 
 </resources>

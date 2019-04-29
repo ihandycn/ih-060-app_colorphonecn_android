@@ -21,9 +21,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
-import com.superapps.util.Fonts;
 import com.superapps.util.Networks;
-import com.superapps.view.TypefacedTextView;
 
 import java.util.ArrayList;
 
@@ -62,8 +60,6 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
         noNetWorkPage = findViewById(R.id.news_no_network);
         loading = findViewById(R.id.news_loading);
 
-        tabLayout.setupWithViewPager(newsPager);
-
         initDatas();
         initTabLayout();
         initViewPager();
@@ -97,8 +93,8 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
     }
 
     private void loadNews() {
-        if (0 <= currentIndex && currentIndex < newsPages.size()) {
-            newsPages.get(currentIndex).loadNews();
+        for (NewsPage np : newsPages) {
+            np.loadNews();
         }
 
         noNetWorkPage.setVisibility(GONE);
@@ -118,6 +114,7 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
         tabLayout.setSelectedTabIndicatorColor(0xffff4a4a);
         tabLayout.setSelectedTabIndicatorHeight(7);
         //关联tabLayout和ViewPager,两者的选择和滑动状态会相互影响
+        tabLayout.setupWithViewPager(newsPager);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override public void onTabSelected(TabLayout.Tab tab) {
@@ -138,14 +135,14 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
             }
         });
         //自定义标签布局
-        for (int i = 0; i < tabsTitle.size(); i++) {
-            TabLayout.Tab tab = tabLayout.newTab();
-            tabLayout.addTab(tab);
-            TypefacedTextView tv = (TypefacedTextView) LayoutInflater.from(getContext()).inflate(R.layout.news_tabview, tabLayout, false);
-            tv.setText(tabsTitle.get(i));
-            tv.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_BOLD));
-            tab.setCustomView(tv);
-        }
+//        for (int i = 0; i < tabsTitle.size(); i++) {
+//            TabLayout.Tab tab = tabLayout.newTab();
+//            tabLayout.addTab(tab);
+//            TypefacedTextView tv = (TypefacedTextView) LayoutInflater.from(getContext()).inflate(R.layout.news_tabview, tabLayout, false);
+//            tv.setText(tabsTitle.get(i));
+//            tv.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_BOLD));
+//            tab.setCustomView(tv);
+//        }
     }
 
     private void initViewPager() {
