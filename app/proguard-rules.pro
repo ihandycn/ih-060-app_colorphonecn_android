@@ -76,6 +76,10 @@
 *;
 }
 
+-keepclasseswithmembers class com.honeycomb.colorphone.news.VideoPreview {
+*;
+}
+
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
 }
