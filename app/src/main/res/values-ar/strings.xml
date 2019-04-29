@@ -197,4 +197,6 @@
     <string name="welcome_guide_news_push_title">تضمين الأخبار السريعة</string>
     <string name="general_settings">إعدادات عامة</string>
 
+    <string name="menu_item_news_video">فيديو</string>
+
 </resources>
