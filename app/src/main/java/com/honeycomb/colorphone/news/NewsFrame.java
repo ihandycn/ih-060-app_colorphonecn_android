@@ -22,6 +22,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Networks;
+import com.superapps.view.TypefacedTextView;
 
 import java.util.ArrayList;
 
@@ -114,19 +115,22 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
         tabLayout.setSelectedTabIndicatorColor(0xffff4a4a);
         tabLayout.setSelectedTabIndicatorHeight(7);
         //关联tabLayout和ViewPager,两者的选择和滑动状态会相互影响
-        tabLayout.setupWithViewPager(newsPager);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getCustomView() instanceof TextView) {
-                    ((TextView) tab.getCustomView()).setTextSize(24);
+                    TextView tv = (TextView) tab.getCustomView();
+                    tv.setTextSize(24);
+                    tv.setTextColor(getResources().getColor(android.R.color.black));
                 }
                 newsPager.setCurrentItem(tab.getPosition());
             }
 
             @Override public void onTabUnselected(TabLayout.Tab tab) {
                 if (tab.getCustomView() instanceof TextView) {
-                    ((TextView) tab.getCustomView()).setTextSize(18);
+                    TextView tv = (TextView) tab.getCustomView();
+                    tv.setTextSize(18);
+                    tv.setTextColor(getResources().getColor(android.R.color.darker_gray));
                 }
             }
 
@@ -134,19 +138,30 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
 
             }
         });
+
         //自定义标签布局
-//        for (int i = 0; i < tabsTitle.size(); i++) {
-//            TabLayout.Tab tab = tabLayout.newTab();
-//            tabLayout.addTab(tab);
-//            TypefacedTextView tv = (TypefacedTextView) LayoutInflater.from(getContext()).inflate(R.layout.news_tabview, tabLayout, false);
-//            tv.setText(tabsTitle.get(i));
-//            tv.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_BOLD));
-//            tab.setCustomView(tv);
-//        }
+
+        TabLayout.Tab tab = tabLayout.newTab();
+        tabLayout.addTab(tab);
+        TypefacedTextView tv = (TypefacedTextView) LayoutInflater.from(getContext()).inflate(R.layout.news_tabview, tabLayout, false);
+        tv.setTextSize(24);
+        tv.setTextColor(getResources().getColor(android.R.color.black));
+        tv.setText(tabsTitle.get(0));
+        tab.setCustomView(tv);
+
+        for (int i = 1; i < tabsTitle.size(); i++) {
+            tab = tabLayout.newTab();
+            tabLayout.addTab(tab);
+            tv = (TypefacedTextView) LayoutInflater.from(getContext()).inflate(R.layout.news_tabview, tabLayout, false);
+            tv.setText(tabsTitle.get(i));
+            tab.setCustomView(tv);
+        }
+
     }
 
     private void initViewPager() {
         newsPager.setAdapter(new NewsPagerAdapter());
+        newsPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         newsPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
