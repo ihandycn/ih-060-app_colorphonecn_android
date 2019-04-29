@@ -29,6 +29,7 @@ public class ConfigLogDefault implements ConfigLog {
             LauncherAnalytics.logEvent("ColorPhone_MainView_Opened");
             LauncherAnalytics.logEvent("mainview_open_news_enable", "type", Utils.isNewUser() ? "new" : "upgrade");
             NewsTest.logAutopilotEvent("mainview_open_news_enable");
+            LauncherAnalytics.logEvent("videonews_mainview_show_video_enable");
         }
 
         @Override

@@ -1,9 +1,12 @@
 package com.honeycomb.colorphone.news;
 
+import java.util.List;
+
 public class NewsBean {
     String contentId;
     String title;
     String summary;
+    List<String> categoriesEnglish;
     long publishedAt;
     String contentURL;
     String contentSourceDisplay;
@@ -24,6 +27,7 @@ public class NewsBean {
                 "contentId='" + contentId + '\'' +
                 ", title='" + title + '\'' +
                 ", summary='" + summary + '\'' +
+                ", categoriesEnglish='" + categoriesEnglish + '\'' +
                 ", publishedAt=" + publishedAt +
                 ", contentURL='" + contentURL + '\'' +
                 ", contentSourceDisplay='" + contentSourceDisplay + '\'' +

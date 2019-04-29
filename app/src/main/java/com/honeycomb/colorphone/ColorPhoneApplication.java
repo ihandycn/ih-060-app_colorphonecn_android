@@ -666,6 +666,13 @@ public class ColorPhoneApplication extends HSApplication {
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
                     ScreenStatusReceiver.onUserPresent(context);
 
+                    int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                    if (6 <= hour && hour <= 11) {
+                        LauncherAnalytics.logEvent("videonews_lockscreen_unlock_morning", "time", String.valueOf(hour));
+                    } else if (18 <= hour && hour <= 23) {
+                        LauncherAnalytics.logEvent("videonews_lockscreen_unlock_night", "time", String.valueOf(hour - 12));
+                    }
+
                     HSLog.i(NewsManager.TAG, "UserPresentReceiver");
                     if (NewsTest.canShowNewsAlert()) {
                         Threads.postOnMainThreadDelayed(() -> {

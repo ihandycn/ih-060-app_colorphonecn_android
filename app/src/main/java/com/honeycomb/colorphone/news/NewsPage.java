@@ -29,6 +29,7 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.superapps.util.Strings;
 
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
@@ -50,6 +51,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     // 记录viewPager是否拖拽的标记
     private boolean mIsVpDragger;
     private final int mTouchSlop;
+    private DividerItemDecoration divider;
 
     public NewsPage(@NonNull Context context) {
         super(context);
@@ -117,7 +119,9 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         adapter = new NewsAdapter();
         newsList.setAdapter(adapter);
         newsList.setLayoutManager(new LinearLayoutManager(getContext()));
-        DividerItemDecoration divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+
+        HSLog.i(NewsManager.TAG, "NP initRecyclerView: " + isVideo);
+        divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         divider.setDrawable(getResources().getDrawable(R.drawable.news_divider));
         newsList.addItemDecoration(divider);
 
@@ -135,6 +139,14 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                         NewsManager.getInstance().fetchLaterNews(newsResource, NewsPage.this);
                     }
                 }
+
+                if ((newState == RecyclerView.SCROLL_STATE_IDLE)
+                        && lastVisibleItem > logBigImageIndex) {
+                    LauncherAnalytics.logEvent("mainview_news_tab_slide");
+                    LauncherAnalytics.logEvent("videonews_video_page_slide");
+                    LauncherAnalytics.logEvent("videonews_mainview_news_page_slide");
+                    logBigImageIndex = lastVisibleItem;
+                }
             }
 
             @Override
@@ -149,7 +161,9 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     }
 
     public void setIsVideo(boolean video) {
+        HSLog.i(NewsManager.TAG, "NP setIsVideo: " + video);
         isVideo = video;
+        newsList.removeItemDecoration(divider);
     }
 
     public void loadNews() {
@@ -185,6 +199,10 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         }
 
         LauncherAnalytics.logEvent("mainview_news_tab_pull_to_refresh");
+
+        if (isVideo) {
+            LauncherAnalytics.logEvent("videonews_video_page_pull_to_refresh");
+        }
     }
 
     public void scrollToTop() {
@@ -252,11 +270,6 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             int type = getItemViewType(position);
             NewsBean bean = newsResource.content.get(position);
 
-            if ((type == NEWS_TYPE_BIG || type == NEWS_TYPE_NATIVE) && position > logBigImageIndex) {
-                LauncherAnalytics.logEvent("mainview_news_tab_slide");
-                logBigImageIndex = position;
-            }
-
             if (type == NEWS_TYPE_NATIVE) {
                 ((NewsNativeHolder) holder).bindView((NewsNativeAdBean) bean);
                 return;
@@ -322,6 +335,8 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                 LauncherAnalytics.logEvent("mainview_newstab_news_click",
                         "type", (type == NewsAdapter.NEWS_TYPE_BIG ? "image" : "imagepreview"),
                         "user", Utils.isNewUser() ? "new" : "upgrade");
+
+                LauncherAnalytics.logEvent("videonews_news_page_news_click", "NewsType", Strings.stringListToCsv(bean.categoriesEnglish));
             });
         }
     }
@@ -370,6 +385,8 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                 LauncherAnalytics.logEvent("mainview_newstab_news_click",
                         "type", "video",
                         "user", Utils.isNewUser() ? "new" : "upgrade");
+
+                LauncherAnalytics.logEvent("videonews_video_page_video_click", "NewsType", Strings.stringListToCsv(bean.categoriesEnglish));
             });
         }
     }

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -157,6 +158,11 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
 
             @Override public void onPageSelected(int position) {
                 currentIndex = position;
+                if (currentIndex == 0) {
+                    LauncherAnalytics.logEvent("videonews_video_page_show");
+                } else {
+                    LauncherAnalytics.logEvent("videonews_news_page_show");
+                }
             }
 
             @Override public void onPageScrollStateChanged(int state) {

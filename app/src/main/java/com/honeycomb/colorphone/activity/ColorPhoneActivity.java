@@ -261,8 +261,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 LauncherAnalytics.logEvent("mainview_newstab_click", "type", Utils.isNewUser() ? "new" : "upgrade");
                 LauncherAnalytics.logEvent("mainview_newstab_show", "type", Utils.isNewUser() ? "new" : "upgrade");
                 LauncherAnalytics.logEvent("tab_change");
+                LauncherAnalytics.logEvent("videonews_newstab_click");
+                LauncherAnalytics.logEvent("videonews_video_page_show");
 
                 NewsTest.logNewsEvent("mainview_tab_news_click");
+
             }
         });
 
@@ -338,6 +341,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             tv.setCompoundDrawablesWithIntrinsicBounds(null, res.getDrawable(resId), null, null);
         }
         if (stringResId != 0) {
+            toolbar.setVisibility(View.VISIBLE);
             toolbar.setTitle(stringResId);
         } else {
             toolbar.setVisibility(View.GONE);

@@ -336,7 +336,7 @@ public class NewsManager {
             url.append("&publishedAfter=").append(date);
         }
 
-        String category = HSConfig.optString("", "Application", "News", "Category");
+        String category = HSConfig.optString("", "Application", "News", "VideoType");
         if (!TextUtils.isEmpty(category)) {
             url.append("&category=").append(category);
         }
