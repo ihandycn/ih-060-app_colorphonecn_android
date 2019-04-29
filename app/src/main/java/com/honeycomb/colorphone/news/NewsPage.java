@@ -172,7 +172,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     }
 
     public void loadNews() {
-        HSLog.i(NewsManager.TAG, "NP loadNews");
+        HSLog.i(NewsManager.TAG, "NP loadNews: " + isVideo);
         if (isVideo) {
             NewsManager.getInstance().fetchVideoNews(newsResource, this);
         } else {
@@ -207,7 +207,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         HSLog.i(NewsManager.TAG, "NP onRefresh: " + newsPages.isRefreshing());
         isRefreshing = true;
         if (newsPages.isRefreshing()) {
-            NewsManager.getInstance().fetchNews(newsResource, this);
+            loadNews();
         }
 
         LauncherAnalytics.logEvent("mainview_news_tab_pull_to_refresh");
