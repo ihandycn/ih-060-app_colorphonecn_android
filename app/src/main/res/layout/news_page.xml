@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.honeycomb.colorphone.news.NewsPage
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/news_swipe_layout" >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/news_list"
+        android:paddingLeft="18dp"
+        android:paddingStart="18dp"
+        android:paddingRight="18dp"
+        android:paddingEnd="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</com.honeycomb.colorphone.news.NewsPage>

@@ -40,7 +40,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private Theme mTheme;
     private ArrayList<Theme> mThemes = new ArrayList<>();
-    private ViewPager mViewPager;
+    private ViewPagerFixed mViewPager;
     private View mNavBack;
     private ThemePagerAdapter mAdapter;
     private List<ThemePreviewView> mViews = new ArrayList<>();
@@ -83,7 +83,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         setContentView(R.layout.activity_theme_preview);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 
-        mViewPager = (ViewPager) findViewById(R.id.preview_view_pager);
+        mViewPager = findViewById(R.id.preview_view_pager);
+        mViewPager.setCanScroll(Ap.DetailAd.enableThemeSlide());
         mAdapter = new ThemePagerAdapter();
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(1);
@@ -194,8 +195,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mViewPager instanceof ViewPagerFixed
-                && ((ViewPagerFixed) mViewPager).isCanScroll()) {
+        if (mViewPager.isCanScroll()) {
             Ap.DetailAd.onPageScroll(scrollCount);
         }
     }

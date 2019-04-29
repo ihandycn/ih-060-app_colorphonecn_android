@@ -1010,7 +1010,32 @@ public final class Utils {
         return Theme.NEON;
     }
 
-    public static String getNewDate(long time) {
+    public static String getNewsDate(long time) {
         return DateUtils.getRelativeTimeSpanString(time * DateUtils.SECOND_IN_MILLIS).toString();
+    }
+
+    public static String getNewsVideoLength(long length) {
+        long hour = length / DateUtils.HOUR_IN_MILLIS;
+        long minute = (length % DateUtils.HOUR_IN_MILLIS) / DateUtils.MINUTE_IN_MILLIS;
+        long second = (length % DateUtils.MINUTE_IN_MILLIS) / DateUtils.SECOND_IN_MILLIS;
+
+        StringBuilder sb = new StringBuilder();
+        if (hour > 0) {
+            sb.append(hour).append(":");
+        }
+
+        if (minute >= 10) {
+            sb.append(minute).append(":");
+        } else {
+            sb.append("0").append(minute).append(":");
+        }
+
+        if (second >= 10) {
+            sb.append(second);
+        } else {
+            sb.append("0").append(second);
+        }
+
+        return sb.toString();
     }
 }

@@ -208,7 +208,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
 
             beanHolder.title.setText(bean.title);
             if (showTime) {
-                beanHolder.time.setText(String.valueOf(" · " + Utils.getNewDate(bean.publishedAt)));
+                beanHolder.time.setText(String.valueOf(" · " + Utils.getNewsDate(bean.publishedAt)));
             } else {
                 beanHolder.time.setVisibility(View.GONE);
             }

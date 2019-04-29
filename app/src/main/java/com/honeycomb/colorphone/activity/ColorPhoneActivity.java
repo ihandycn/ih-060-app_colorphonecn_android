@@ -35,7 +35,7 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.news.NewsManager;
-import com.honeycomb.colorphone.news.NewsPage;
+import com.honeycomb.colorphone.news.NewsFrame;
 import com.honeycomb.colorphone.news.NewsTest;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
@@ -57,7 +57,6 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
-import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 
@@ -94,7 +93,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RewardVideoView mRewardVideoView;
     private Toolbar toolbar;
     private View settingLayout;
-    private NewsPage newsLayout;
+    private NewsFrame newsLayout;
     private TextView themesTab;
     private TextView newsTab;
     private TextView settingTab;
@@ -225,7 +224,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         toolbar.setOnClickListener(v -> {
             if (currentIndex == MAIN_TAB_NEWS) {
                 if (mHandler.hasMessages(EVENT_CLICK_TOOLBAR)) {
-                    newsLayout.onScrollToTop();
+                    newsLayout.scrollToTop();
                 } else {
                     mHandler.sendEmptyMessageDelayed(EVENT_CLICK_TOOLBAR, 500);
                 }
@@ -323,7 +322,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 break;
             case MAIN_TAB_NEWS:
                 resId = R.drawable.main_tab_news_light;
-                stringResId = R.string.toolbar_title_news;
+//                stringResId = R.string.toolbar_title_news;
                 tv = newsTab;
                 break;
             case MAIN_TAB_SETTINGS:
@@ -340,6 +339,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         if (stringResId != 0) {
             toolbar.setTitle(stringResId);
+        } else {
+            toolbar.setVisibility(View.GONE);
         }
     }
 

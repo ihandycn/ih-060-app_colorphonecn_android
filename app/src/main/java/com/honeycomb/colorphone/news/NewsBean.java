@@ -7,20 +7,33 @@ public class NewsBean {
     long publishedAt;
     String contentURL;
     String contentSourceDisplay;
+    String contentSourceLogo;
     int views;
 
     ImagesBean images;
+
+    String thumbnail;
+    long length;
+    int totalViews;
+
+    VideoPreview videoPreview;
+
 
     @Override public String toString() {
         return "NewsBean{" +
                 "contentId='" + contentId + '\'' +
                 ", title='" + title + '\'' +
                 ", summary='" + summary + '\'' +
-                ", contentSourceDisplay='" + contentSourceDisplay + '\'' +
                 ", publishedAt=" + publishedAt +
                 ", contentURL='" + contentURL + '\'' +
-                ", images=" + images +
+                ", contentSourceDisplay='" + contentSourceDisplay + '\'' +
+                ", contentSourceLogo='" + contentSourceLogo + '\'' +
                 ", views=" + views +
+                ", images=" + images +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", length=" + length +
+                ", totalViews=" + totalViews +
+                ", videoPreview=" + videoPreview +
                 '}';
     }
 }

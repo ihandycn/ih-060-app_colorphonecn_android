@@ -2,14 +2,17 @@ package com.honeycomb.colorphone.news;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -21,66 +24,93 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
-import com.superapps.util.Networks;
 
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdContainerView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
 
-public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadListener, SwipeRefreshLayout.OnRefreshListener {
+public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoadListener, SwipeRefreshLayout.OnRefreshListener {
+
     private NewsResultBean newsResource;
     private RecyclerView newsList;
-    private SwipeRefreshLayout refreshLayout;
+    private SwipeRefreshLayout newsPages;
     private NewsAdapter adapter;
-    private View noNetWorkPage;
-    private View loading;
+
     private boolean isRefreshing = false;
     private boolean showTime;
+    private boolean isVideo = false;
 
-    public NewsPage(Context context) {
-        this(context, null);
+    private float startY;
+    private float startX;
+    // 记录viewPager是否拖拽的标记
+    private boolean mIsVpDragger;
+    private final int mTouchSlop;
+
+    public NewsPage(@NonNull Context context) {
+        super(context);
+        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     }
 
-    public NewsPage(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public NewsPage(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-
-        NewsManager.getInstance().setNewsLoadListener(this);
-        showTime = HSConfig.optBoolean(true, "Application", "News", "NewsUpdateTimeShow");
+    public NewsPage(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     }
 
     @Override protected void onFinishInflate() {
         super.onFinishInflate();
+        newsResource = new NewsResultBean();
 
-        refreshLayout = findViewById(R.id.news_swipe_layout);
+        newsPages = findViewById(R.id.news_swipe_layout);
         newsList = findViewById(R.id.news_list);
-        noNetWorkPage = findViewById(R.id.news_no_network);
-        loading = findViewById(R.id.news_loading);
 
-        refreshLayout.setOnRefreshListener(this);
+        newsPages.setOnRefreshListener(this);
 
         initRecyclerView();
 
-        if (Networks.isNetworkAvailable(-1)) {
-            loadNews();
-        } else {
-            showNoNetworkPage();
-        }
+        showTime = HSConfig.optBoolean(true, "Application", "News", "NewsUpdateTimeShow");
     }
 
-    public void showNoNetworkPage() {
-        noNetWorkPage.setVisibility(VISIBLE);
-        View action = noNetWorkPage.findViewById(R.id.news_no_network_action);
-        action.setOnClickListener(v -> {
-            loadNews();
-        });
-        refreshLayout.setVisibility(GONE);
-        loading.setVisibility(GONE);
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        int action = ev.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                // 记录手指按下的位置
+                startY = ev.getY();
+                startX = ev.getX();
+                // 初始化标记
+                mIsVpDragger = false;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                // 如果viewpager正在拖拽中，那么不拦截它的事件，直接return false；
+                if(mIsVpDragger) {
+                    return true;
+                }
+
+                // 获取当前手指位置
+                float endY = ev.getY();
+                float endX = ev.getX();
+                float distanceX = Math.abs(endX - startX);
+                float distanceY = Math.abs(endY - startY);
+                // 如果X轴位移大于Y轴位移，那么将事件交给viewPager处理。
+                if(distanceX > mTouchSlop && distanceX > distanceY) {
+                    mIsVpDragger = true;
+                    return true;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                // 初始化标记
+                mIsVpDragger = false;
+                break;
+        }
+        // 如果是Y轴位移大于X轴，事件交给swipeRefreshLayout处理。
+        return super.onInterceptTouchEvent(ev);
     }
 
     private void initRecyclerView() {
@@ -99,10 +129,10 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
                 //判断RecyclerView的状态 是空闲时，同时，是最后一个可见的ITEM时才加载
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
-                    HSLog.i(NewsManager.TAG, "NP onScrollStateChanged: " + refreshLayout.isRefreshing());
+                    HSLog.i(NewsManager.TAG, "NP onScrollStateChanged: " + newsPages.isRefreshing());
                     if (!isRefreshing) {
                         isRefreshing = true;
-                        NewsManager.getInstance().fetchLaterNews();
+                        NewsManager.getInstance().fetchLaterNews(newsResource, NewsPage.this);
                     }
                 }
             }
@@ -118,42 +148,47 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
         });
     }
 
+    public void setIsVideo(boolean video) {
+        isVideo = video;
+    }
+
     public void loadNews() {
         HSLog.i(NewsManager.TAG, "NP loadNews");
-        NewsManager.getInstance().fetchNews();
-        refreshLayout.setVisibility(GONE);
-        noNetWorkPage.setVisibility(GONE);
-        loading.setVisibility(VISIBLE);
+        if (isVideo) {
+            NewsManager.getInstance().fetchVideoNews(newsResource, this);
+        } else {
+            NewsManager.getInstance().fetchNews(newsResource, this);
+        }
     }
 
     @Override public void onNewsLoaded(NewsResultBean bean) {
-        HSLog.i(NewsManager.TAG, "NP onNewsLoaded");
-        refreshLayout.setRefreshing(false);
+        HSLog.i(NewsManager.TAG, "NP onNewsLoaded " + (bean != null ? bean.totalItems : 0));
+        newsPages.setRefreshing(false);
         isRefreshing = false;
 
         if (bean != null) {
-            loading.setVisibility(GONE);
-            refreshLayout.setVisibility(VISIBLE);
+            newsPages.setVisibility(VISIBLE);
 
             newsResource = bean;
             adapter.notifyDataSetChanged();
+            HSGlobalNotificationCenter.sendNotification(NewsFrame.LOAD_NEWS_SUCCESS);
         } else {
-            showNoNetworkPage();
+            HSGlobalNotificationCenter.sendNotification(NewsFrame.LOAD_NEWS_FAILED);
         }
     }
 
     @Override public void onRefresh() {
-        HSLog.i(NewsManager.TAG, "NP onRefresh: " + refreshLayout.isRefreshing());
+        HSLog.i(NewsManager.TAG, "NP onRefresh: " + newsPages.isRefreshing());
         isRefreshing = true;
-        if (refreshLayout.isRefreshing()) {
-            NewsManager.getInstance().fetchNews();
+        if (newsPages.isRefreshing()) {
+            NewsManager.getInstance().fetchNews(newsResource, this);
         }
 
         LauncherAnalytics.logEvent("mainview_news_tab_pull_to_refresh");
     }
 
-    public void onScrollToTop() {
-        HSLog.i(NewsManager.TAG, "onScrollToTop");
+    public void scrollToTop() {
+        HSLog.i(NewsManager.TAG, "scrollToTop");
         newsList.scrollToPosition(0);
     }
 
@@ -163,11 +198,17 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
         static final int NEWS_TYPE_BIG = 1;
         static final int NEWS_TYPE_FOOT = 2;
         static final int NEWS_TYPE_NATIVE = 3;
+        static final int NEWS_TYPE_VIDEO = 4;
 
         @Override public int getItemViewType(int position) {
             if (position == getItemCount() - 1) {
                 return NEWS_TYPE_FOOT;
             }
+
+            if (isVideo) {
+                return NEWS_TYPE_VIDEO;
+            }
+
             if (newsResource != null && newsResource.totalItems > position) {
                 NewsBean bean = newsResource.content.get(position);
                 if (bean instanceof NewsNativeAdBean) {
@@ -183,18 +224,21 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
             switch (viewType) {
                 case NEWS_TYPE_ITEM:
                     view = LayoutInflater.from(getContext()).inflate(R.layout.news_item_layout, parent, false);
-                    break;
+                    return new NewsBeanItemHolder(view);
                 case NEWS_TYPE_BIG:
                     view = LayoutInflater.from(getContext()).inflate(R.layout.news_big_layout, parent, false);
-                    break;
+                    return new NewsBeanItemHolder(view);
                 case NEWS_TYPE_FOOT:
                     view = LayoutInflater.from(getContext()).inflate(R.layout.news_foot_loading, parent, false);
                     return new NewsFootLoadingHolder(view);
+                case NEWS_TYPE_VIDEO:
+                    view = LayoutInflater.from(getContext()).inflate(R.layout.news_video_layout, parent, false);
+                    return new NewsBeanVideoHolder(view);
                 case NEWS_TYPE_NATIVE:
                     return new NewsNativeHolder(new AcbNativeAdContainerView(getContext()));
+                default:
+                    throw new RuntimeException("error News Type");
             }
-            NewsBeanItemHolder holder = new NewsBeanItemHolder(view);
-            return holder;
         }
 
         @Override
@@ -218,12 +262,17 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
                 return;
             }
 
+            if (type == NEWS_TYPE_VIDEO) {
+                ((NewsBeanVideoHolder) holder).bindNewsBean(bean);
+                return;
+            }
+
             NewsBeanItemHolder beanHolder = (NewsBeanItemHolder) holder;
             beanHolder.bindNewsBean(bean, type);
         }
 
         @Override public int getItemCount() {
-            return newsResource != null ? newsResource.totalItems + 1 : 0;
+            return (newsResource != null && newsResource.totalItems != 0) ? newsResource.totalItems + 1 : 0;
         }
     }
     private int logBigImageIndex = 0;
@@ -244,15 +293,19 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
         void bindNewsBean(NewsBean bean, int type) {
             String url = null;
-            if (type == NewsAdapter.NEWS_TYPE_BIG) {
-                url = bean.images.mainImage.url;
+            if (isVideo) {
+                url = bean.thumbnail;
             } else {
-                url = bean.images.mainImageThumbnail.url;
+                if (type == NewsAdapter.NEWS_TYPE_BIG) {
+                    url = bean.images.mainImage.url;
+                } else {
+                    url = bean.images.mainImageThumbnail.url;
+                }
             }
 
             title.setText(bean.title);
             if (showTime) {
-                time.setText(String.valueOf(" · " + Utils.getNewDate(bean.publishedAt)));
+                time.setText(String.valueOf(" · " + Utils.getNewsDate(bean.publishedAt)));
             } else {
                 time.setVisibility(View.GONE);
             }
@@ -268,6 +321,54 @@ public class NewsPage extends ConstraintLayout implements NewsManager.NewsLoadLi
 
                 LauncherAnalytics.logEvent("mainview_newstab_news_click",
                         "type", (type == NewsAdapter.NEWS_TYPE_BIG ? "image" : "imagepreview"),
+                        "user", Utils.isNewUser() ? "new" : "upgrade");
+            });
+        }
+    }
+
+    private class NewsBeanVideoHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        TextView resource;
+        TextView time;
+        ImageView image;
+        ImageView icon;
+
+        NewsBeanVideoHolder(View itemView) {
+            super(itemView);
+            icon = itemView.findViewById(R.id.news_resource_icon);
+            title = itemView.findViewById(R.id.news_title_tv);
+            resource = itemView.findViewById(R.id.news_resource_tv);
+            time = itemView.findViewById(R.id.news_time_tv);
+            image = itemView.findViewById(R.id.news_icon_iv);
+        }
+
+        void bindNewsBean(NewsBean bean) {
+
+            title.setText(bean.title);
+            time.setText(Utils.getNewsVideoLength(bean.length));
+            time.setBackground(BackgroundDrawables.createBackgroundDrawable(0xCC000000, Dimensions.pxFromDp(5.3f), false));
+
+            resource.setText(bean.contentSourceDisplay);
+            GlideApp.with(image)
+                    .asDrawable()
+                    .load(bean.thumbnail)
+                    .into(image);
+
+            if (!TextUtils.isEmpty(bean.contentSourceLogo)) {
+                GlideApp.with(icon)
+                        .asDrawable()
+                        .load(bean.contentSourceLogo)
+                        .into(icon);
+            } else {
+                icon.setVisibility(GONE);
+            }
+
+            itemView.setOnClickListener(v -> {
+                HSLog.i(NewsManager.TAG, "NP onClicked");
+                Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(bean.contentURL, false, WebViewActivity.FROM_LIST));
+
+                LauncherAnalytics.logEvent("mainview_newstab_news_click",
+                        "type", "video",
                         "user", Utils.isNewUser() ? "new" : "upgrade");
             });
         }

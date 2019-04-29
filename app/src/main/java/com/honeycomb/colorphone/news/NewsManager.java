@@ -15,7 +15,6 @@ import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -49,9 +48,9 @@ public class NewsManager {
     public interface NewsLoadListener {
         void onNewsLoaded(NewsResultBean bean);
     }
-    private NewsLoadListener loadListener;
+//    private NewsLoadListener loadListener;
 
-    private NewsResultBean resultBean;
+//    private NewsResultBean resultBean;
     private NewsResultBean pushBean;
     private boolean showNativeAD;
 
@@ -59,7 +58,7 @@ public class NewsManager {
         return pushBean;
     }
 
-    public void fetchNews() {
+    void fetchNews(NewsResultBean resultBean, NewsLoadListener loadListener) {
         showNativeAD = HSConfig.optBoolean(false, "Application", "News", "NewsTabShowNativeAd");
         if (showNativeAD) {
             AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
@@ -75,18 +74,22 @@ public class NewsManager {
                 if (hsHttpConnection.isSucceeded()) {
                     String jsonBody = hsHttpConnection.getBodyString();
                     Gson gson = new Gson();
-                    resultBean = gson.fromJson(jsonBody, NewsResultBean.class);
-                    HSLog.i(TAG, "result size == " + (resultBean != null ? resultBean.totalItems : null));
-                    if (loadListener != null) {
-                        addNativeADs(resultBean);
+                    NewsResultBean bean = gson.fromJson(jsonBody, NewsResultBean.class);
+                    HSLog.i(TAG, "result size == " + (bean != null ? bean.totalItems : null));
+                    if (bean != null && loadListener != null) {
+                        addNativeADs(bean);
+                        resultBean.totalItems = bean.totalItems;
+                        resultBean.content.clear();
+                        resultBean.content.addAll(bean.content);
                         loadListener.onNewsLoaded(resultBean);
+                        return;
                     }
-                } else {
-                    if (loadListener != null) {
-                        loadListener.onNewsLoaded(null);
-                    }
-                    HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
                 }
+
+                if (loadListener != null) {
+                    loadListener.onNewsLoaded(null);
+                }
+                HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
             }
 
             @Override
@@ -132,7 +135,7 @@ public class NewsManager {
         }
     }
 
-    public void fetchLaterNews() {
+    void fetchLaterNews(final NewsResultBean resultBean, NewsLoadListener loadListener) {
         showNativeAD = HSConfig.optBoolean(false, "Application", "News", "NewsTabShowNativeAd");
         if (showNativeAD) {
             AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
@@ -149,20 +152,24 @@ public class NewsManager {
                     Gson gson = new Gson();
                     NewsResultBean bean = gson.fromJson(jsonBody, NewsResultBean.class);
                     HSLog.i(TAG, "result: size == " + (bean != null ? bean.totalItems : null));
+                    NewsResultBean ret;
                     if (resultBean == null) {
-                        resultBean = bean;
+                        ret = bean;
+                    } else if (bean == null) {
+                        ret = resultBean;
                     } else {
-                        if (resultBean.content == null) {
-                            resultBean.content = new ArrayList<>();
-                        }
-                        
-                        resultBean.content.addAll(bean.content);
-                        resultBean.totalItems += bean.totalItems;
+                        ret = new NewsResultBean();
+                        ret.totalItems = resultBean.totalItems + bean.totalItems;
+                        ret.content.addAll(resultBean.content);
+                        ret.content.addAll(bean.content);
                     }
-                    HSLog.i(TAG, "result: add size == " + (resultBean != null ? resultBean.totalItems : null));
+
+                    HSLog.i(TAG, "result: add size == " + (ret != null ? ret.totalItems : null));
                     if (loadListener != null) {
-                        addNativeADs(resultBean);
-                        loadListener.onNewsLoaded(resultBean);
+                        if (ret != null) {
+                            addNativeADs(ret);
+                        }
+                        loadListener.onNewsLoaded(ret);
                     }
                 } else {
                     if (loadListener != null) {
@@ -223,9 +230,53 @@ public class NewsManager {
         news.startAsync();
     }
 
+    void fetchVideoNews(NewsResultBean resultBean, NewsLoadListener loadListener) {
+        showNativeAD = HSConfig.optBoolean(false, "Application", "News", "NewsTabShowNativeAd");
+        if (showNativeAD) {
+            AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
+        }
+        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
 
-    public void setNewsLoadListener(NewsLoadListener listener) {
-        loadListener = listener;
+        HSLog.i(NewsManager.TAG, "fetchNews");
+        newOffset += resultBean == null ? 0 : resultBean.totalItems;
+
+        resultBean.totalItems = 0;
+        resultBean.content.clear();
+
+        HSHttpConnection news = new HSHttpConnection(getVideoURL(String.valueOf(LIMIT_SIZE), String.valueOf(newOffset), 0));
+        news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
+            @Override public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
+                if (hsHttpConnection.isSucceeded()) {
+                    String jsonBody = hsHttpConnection.getBodyString();
+                    Gson gson = new Gson();
+                    NewsResultBean bean = gson.fromJson(jsonBody, NewsResultBean.class);
+                    HSLog.i(TAG, "result size == " + (bean != null ? bean.totalItems : null));
+                    if (bean != null && loadListener != null) {
+                        addNativeADs(bean);
+                        resultBean.totalItems = bean.totalItems;
+                        resultBean.content.clear();
+                        resultBean.content.addAll(bean.content);
+                        loadListener.onNewsLoaded(resultBean);
+                        return;
+                    }
+                }
+
+                if (loadListener != null) {
+                    loadListener.onNewsLoaded(null);
+                }
+                HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
+            }
+
+            @Override
+            public void onConnectionFailed(HSHttpConnection hsHttpConnection, HSError hsError) {
+                HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
+                HSLog.i(TAG, "HSError: " + hsError);
+                if (loadListener != null) {
+                    loadListener.onNewsLoaded(null);
+                }
+            }
+        });
+        news.startAsync();
     }
 
     private static String getURL(String limit, String offset) {
@@ -233,9 +284,40 @@ public class NewsManager {
     }
 
     private static String getURL(String limit, String offset, long time) {
-        final StringBuffer url = new StringBuffer(HSConfig.optString("",
+        final StringBuilder url = new StringBuilder(HSConfig.optString("",
                 "Application", "News", "Url"));
         
+        url.append("?userId=").append(userID.toString());
+
+        url.append("&publisherId=").append(HSConfig.optString("", "Application", "News", "PublisherId"));
+        url.append("&key=").append(HSConfig.optString("", "Application", "News", "Key"));
+
+        Locale locale = Locale.getDefault();
+        url.append("&countryCode=").append(locale.getCountry());
+        url.append("&language=").append(locale.getLanguage());
+
+        url.append("&limit=").append(limit);
+        url.append("&offset=").append(offset);
+        if (time > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy%20hh:mm:ss");
+            String date = sdf.format(new Date(time));
+//            url.append("&publishedAfter=").append(Uri.encode(date, "UTF-8"));
+            url.append("&publishedAfter=").append(date);
+        }
+
+        String category = HSConfig.optString("", "Application", "News", "Category");
+        if (!TextUtils.isEmpty(category)) {
+            url.append("&category=").append(category);
+        }
+
+        HSLog.i(TAG, "getUrl: " + url.toString());
+        return url.toString();
+    }
+
+    private static String getVideoURL(String limit, String offset, long time) {
+        final StringBuffer url = new StringBuffer(HSConfig.optString("",
+                "Application", "News", "VideoUrl"));
+
         url.append("?userId=").append(userID.toString());
 
         url.append("&publisherId=").append(HSConfig.optString("", "Application", "News", "PublisherId"));
@@ -268,7 +350,7 @@ public class NewsManager {
         AcbInterstitialAdManager.preload(1, NEWS_WIRE);
     }
 
-    public AcbInterstitialAd getInterstitialAd() {
+    AcbInterstitialAd getInterstitialAd() {
         if (mInterstitialAd == null) {
             List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(NEWS_WIRE, 1);
             if (ads != null && ads.size() > 0) {
@@ -278,14 +360,14 @@ public class NewsManager {
         return mInterstitialAd;
     }
 
-    public void releaseInterstitialAd() {
+    private void releaseInterstitialAd() {
         if (mInterstitialAd != null) {
             mInterstitialAd.release();
             mInterstitialAd = null;
         }
     }
 
-    public boolean showInterstitialAd(String from) {
+    boolean showInterstitialAd(String from) {
         if (!NewsTest.canShowNewsWireAD()) {
             return false;
         }
