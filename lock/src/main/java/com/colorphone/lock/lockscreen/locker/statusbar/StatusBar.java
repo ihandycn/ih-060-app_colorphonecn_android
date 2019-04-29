@@ -24,13 +24,12 @@ import android.widget.TextView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.SystemSettingsManager;
-import com.colorphone.lock.lockscreen.locker.Locker;
-import com.colorphone.lock.lockscreen.locker.LockerUtils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
+import com.superapps.util.Permissions;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
@@ -107,8 +106,8 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
     private BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context c, Intent intent) {
-            if (!LockerUtils.hasPermission(Manifest.permission.ACCESS_WIFI_STATE)
-                    || !LockerUtils.hasPermission(Manifest.permission.CHANGE_WIFI_STATE)) {
+            if (!Permissions.hasPermission(Manifest.permission.ACCESS_WIFI_STATE)
+                    || !Permissions.hasPermission(Manifest.permission.CHANGE_WIFI_STATE)) {
                 return;
             }
             final WifiManager wManager = (WifiManager) c.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -158,11 +157,6 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
 
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
-            if (state == TelephonyManager.CALL_STATE_RINGING) {
-                HSBundle bundle = new HSBundle();
-                bundle.putBoolean(Locker.EXTRA_SHOULD_DISMISS_KEYGUARD, false);
-                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
-            }
         }
 
         @Override

@@ -22,7 +22,6 @@ import android.view.WindowManager;
 
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreen;
-import com.colorphone.lock.lockscreen.locker.Locker;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Navigations;
@@ -70,28 +69,11 @@ public class FloatWindowControllerImpl {
                 }
                 switch (reason) {
                     case SYSTEM_DIALOG_REASON_HOME_KEY:
-                        if (lockScreenWindow != null) {
-                            // TODO: reset
-                        }
-                        if (isAutoLockState()) {
-                            showLockScreen();
-                        }
                         break;
                     case SYSTEM_DIALOG_REASON_GLOBAL_ACTIONS:
-                        hideLockScreen(true);
                         break;
                     default:
                         break;
-                }
-            } else if (startAlarmAction.contains(intent.getAction())) {
-                if (addedToWindowMgr) {
-                    hideLockScreen(true);
-                    alarmAlert = true;
-                }
-            } else if (terminalAlarmAction.contains(intent.getAction())) {
-                if (alarmAlert) {
-                    showLockScreen();
-                    alarmAlert = false;
                 }
             }
         }
@@ -138,7 +120,6 @@ public class FloatWindowControllerImpl {
                     case TelephonyManager.CALL_STATE_IDLE:
                         isCalling = false;
                         if (incomingcall) {
-                            showLockScreen();
                             incomingcall = false;
                         }
                         break;
@@ -194,28 +175,6 @@ public class FloatWindowControllerImpl {
         startDismissActivity();
     }
 
-    public void showLockScreen() {
-        // If user revoked alert window permission, we just do nothing.
-        if (!hasPermission(Manifest.permission.SYSTEM_ALERT_WINDOW)
-                || !canDrawOverlays()) {
-            return;
-        }
-        HSLog.i("LockManager", "showLockScreen ");
-        if (!addedToWindowMgr) {
-            addedToWindowMgr = true;
-            isShowLockScreen = true;
-            container = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.activity_locker, null);
-            isAutoUnlocked = false;
-            lockScreenWindow = new Locker();
-            lockScreenWindow.setup(container, null);
-            try {
-                windowMgr.addView(container, FloatWindowCompat.getLockScreenParams());
-            } catch (SecurityException e) {
-
-            }
-        }
-    }
-
     private void startDismissActivity() {
         Intent intentActivity = new Intent(context, DismissActivity.class);
         intentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -230,10 +189,6 @@ public class FloatWindowControllerImpl {
     public void hideLockScreen(int hideType) {
         HSLog.i("hideLockScreen(), hideType = " + hideType);
         doHideLockScreen((hideType & FloatWindowController.HIDE_LOCK_WINDOW_NO_ANIMATION) == 0);
-    }
-
-    public void hideUpSlideLockScreen() {
-        doHideLockScreen(false);
     }
 
     private void doHideLockScreen(boolean dismissKeyguard) {

@@ -47,47 +47,16 @@ public class FloatWindowController {
         }
     }
 
-    public void showLockScreen() {
-        if (null != floatWindowControllerImpl) {
-            floatWindowControllerImpl.showLockScreen();
-
-        }
-    }
-
     public void showChargingScreen(Bundle bundle) {
         if (null != floatWindowControllerImpl) {
             floatWindowControllerImpl.showChargingScreen(bundle);
         }
     }
 
-    public void hideLockScreen(boolean autoLock) {
-        hideLockScreen(autoLock ? HIDE_LOCK_WINDOW_AUTO_LOCK : HIDE_LOCK_WINDOW_NONE);
-    }
-
-    public void hideLockScreen(boolean autoLock, boolean closeDismissActivty) {
-        int type = autoLock ? HIDE_LOCK_WINDOW_AUTO_LOCK : HIDE_LOCK_WINDOW_NONE;
-        type |= closeDismissActivty ? HIDE_LOCK_WINDOW_DISMISS_ACTIVITY : HIDE_LOCK_WINDOW_NONE;
-        hideLockScreen(type);
-    }
-
     public void hideLockScreen(int closeType) {
         if (null != floatWindowControllerImpl) {
             floatWindowControllerImpl.hideLockScreen(closeType);
-//            HSGlobalNotificationCenter.sendNotification(KeepAliveService.NOTIFICATION_STOP_KEEP_ALIVE);
         }
-    }
-
-    public void hideUpSlideLockScreen() {
-        if (null != floatWindowControllerImpl) {
-            floatWindowControllerImpl.hideUpSlideLockScreen();
-        }
-    }
-
-    public boolean isAutoLockState() {
-        if (null != floatWindowControllerImpl) {
-            return floatWindowControllerImpl.isAutoLockState();
-        }
-        return false;
     }
 
     public boolean isLockScreenShown() {
@@ -97,10 +66,4 @@ public class FloatWindowController {
         return floatWindowControllerImpl.isLockScreenShown();
     }
 
-    public boolean isCalling() {
-        if (null == floatWindowControllerImpl) {
-            return false;
-        }
-        return floatWindowControllerImpl.isCalling();
-    }
 }

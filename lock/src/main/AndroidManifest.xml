@@ -27,16 +27,6 @@
             android:theme="@style/ChargingScreenTransparentTheme" />
 
         <activity
-            android:name=".lockscreen.locker.LockerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
-            android:taskAffinity=".cp_locker"
-            android:theme="@style/ChargingScreenTransparentTheme" />
-
-        <activity
             android:name=".lockscreen.DismissKeyguradActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:excludeFromRecents="true"

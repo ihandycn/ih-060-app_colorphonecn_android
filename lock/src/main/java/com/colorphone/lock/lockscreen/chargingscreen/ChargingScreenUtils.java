@@ -1,6 +1,5 @@
 package com.colorphone.lock.lockscreen.chargingscreen;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -10,9 +9,7 @@ import android.telephony.TelephonyManager;
 
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.FloatWindowController;
-import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.ihs.app.framework.HSApplication;
-import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
@@ -108,28 +105,9 @@ public class ChargingScreenUtils {
             Intent intent = new Intent(HSApplication.getContext(), ChargingScreenActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent.putExtras(bundle);
-            HSGlobalNotificationCenter.sendNotification(LockerActivity.EVENT_FINISH_SELF);
             Navigations.startActivitySafely(HSApplication.getContext(),intent);
         } else {
             FloatWindowController.getInstance().showChargingScreen(bundle);
-        }
-    }
-
-    public static void startLockerActivity() {
-        if (isCalling()) {
-            return;
-        }
-        if (MODE_ACTIVITY) {
-            try {
-                Intent intent = new Intent(HSApplication.getContext(), LockerActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                        | Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                Navigations.startActivitySafely(HSApplication.getContext(), intent);
-            } catch (ActivityNotFoundException ignore) {
-                // crash #749 some device report.
-            }
-        } else {
-            FloatWindowController.getInstance().showLockScreen();
         }
     }
 
