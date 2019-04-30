@@ -13,7 +13,6 @@ import android.widget.VideoView;
 
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.AvatarAutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.utils.HSMarketUtils;

@@ -9,7 +9,6 @@ import android.os.Build;
 import android.text.TextUtils;
 
 import com.acb.call.activity.RequestPermissionsActivity;
-import com.acb.call.customize.PermissionConfig;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ThemeViewConfig;
 import com.acb.call.themes.Type;
@@ -19,9 +18,9 @@ import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
-import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.OverlayGuideActivity;
 import com.acb.colorphone.permissions.PermissionUI;
+import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.call.assistant.util.CommonUtils;
 import com.colorphone.lock.lockscreen.locker.Locker;
@@ -420,19 +419,7 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
             @Override
             public void logScreenFlashAccessAllOpenGuide() {
-                if (CommonUtils.ATLEAST_MARSHMALLOW) {
-                    switch (launchTime) {
-                        case 1:
-                            PermissionTestUtils.logPermissionEvent("Permission_Check_Above23_FirstAlert", true);
-                            break;
-                        case 2:
-                            PermissionTestUtils.logPermissionEvent("Permission_Check_Above23_SecondAlert", true);
-                            break;
-                        case 3:
-                            PermissionTestUtils.logPermissionEvent("Permission_Check_Above23_ThirdAlert", true);
-                            break;
-                    }
-                }
+
             }
 
             @Override public void logConfirmAlertEvent(String eventID) {
@@ -518,35 +505,5 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
 
     private void logExceptionAcceptFailTurn() {
         ColorPhoneCrashlytics.getInstance().logException(new IllegalArgumentException("AcceptFail_Reject"));
-    }
-
-    @Override public PermissionConfig getPermissionConfig() {
-        return new PermissionConfig() {
-            public boolean isShowAlertOutsideApp() {
-                return PermissionTestUtils.getAlertOutSideApp();
-            }
-
-            public int getAlertShowMaxTimes() {
-                return PermissionTestUtils.getAlertShowMaxTime();
-            }
-
-            public boolean backButtonEnable() {
-                return PermissionTestUtils.getButtonBack();
-            }
-
-            public boolean useNewPermissionUI() {
-                HSLog.i("PermissionNewUI", "useNewPermissionUI == " + PermissionTestUtils.getAlertStyle());
-                return PermissionTestUtils.getAlertStyle();
-            }
-
-            public int getPermissionType() {
-                String type = PermissionTestUtils.getTitleCustomizeAlert();
-                if (TextUtils.equals(type, "text1")) {
-                    return PERMISSION_TYPE_ONE_LINE;
-                } else {
-                    return PERMISSION_TYPE_TWO_LINES;
-                }
-            }
-        };
     }
 }

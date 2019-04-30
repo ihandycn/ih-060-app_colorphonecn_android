@@ -13,9 +13,6 @@ import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Preferences;
 
-import net.appcloudbox.autopilot.AutopilotConfig;
-import net.appcloudbox.autopilot.AutopilotEvent;
-
 import java.util.List;
 
 public class CashUtils {
@@ -50,9 +47,7 @@ public class CashUtils {
     }
 
     private static boolean masterSwitch() {
-        boolean masterSwitch = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
-                "earncash_master_switch", false);
-        return  masterSwitch;
+       return false;
     }
 
     public static boolean checkGlobalSwitch() {
@@ -66,10 +61,8 @@ public class CashUtils {
         if (!checkGlobalSwitch()) {
             return false;
         }
-        boolean mainviewFloatButtonShowBoolean = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
-                "mainview_float_button_show", false);
-        return mainviewFloatButtonShowBoolean
-                && HSConfig.optBoolean(false, "Application", "EarnCash", "MainviewFloatButtonShow");
+
+        return  HSConfig.optBoolean(false, "Application", "EarnCash", "MainviewFloatButtonShow");
     }
 
 
@@ -77,58 +70,44 @@ public class CashUtils {
         if (!checkGlobalSwitch()) {
             return false;
         }
-        boolean earncashAlertShowWhenUnlockscreenBoolean = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
-                "earncash_alert_show_when_unlockscreen", false);
-        return HSConfig.optBoolean(false, "Application", "EarnCash", "UnlockAlertShow")
-                && earncashAlertShowWhenUnlockscreenBoolean;
+        return HSConfig.optBoolean(false, "Application", "EarnCash", "UnlockAlertShow");
     }
 
     public static boolean guideShowOnCallAlertClose() {
         if (!checkGlobalSwitch()) {
             return false;
         }
-        boolean enable = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
-                "earncash_alert_show_when_callassistant_close", false);
-        return HSConfig.optBoolean(false, "Application", "EarnCash", "CloseCallAssistantAlertShow")
-                && enable;
+        return HSConfig.optBoolean(false, "Application", "EarnCash", "CloseCallAssistantAlertShow");
     }
 
     public static boolean showEntranceAtCallAlert() {
         if (!checkGlobalSwitch()) {
             return false;
         }
-        boolean enable = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
-                "earncash_alert_show_on_callassistant", false);
-        return HSConfig.optBoolean(false, "Application", "EarnCash", "OnCallAssistantEntranceShow")
-                && enable;
+
+        return HSConfig.optBoolean(false, "Application", "EarnCash", "OnCallAssistantEntranceShow");
     }
 
     public static boolean guideShowOnBacktoMain() {
         if (!checkGlobalSwitch()) {
             return false;
         }
-        boolean enable = AutopilotConfig.getBooleanToTestNow("topic-1539675249991-758",
-                "earncash_alert_show_when_back_to_mainview_from_detail", false);
-        return HSConfig.optBoolean(false, "Application", "EarnCash", "InsideAppAlertShow")
-                && enable;
+
+        return HSConfig.optBoolean(false, "Application", "EarnCash", "InsideAppAlertShow");
     }
 
     public static int maxTimeOnUnlockScreen() {
-        double enable = AutopilotConfig.getDoubleToTestNow("topic-1539675249991-758",
-                "earncash_alert_show_maxtime_when_unlockscreen", 1);
-        return (int) enable;
+
+        return (int) 1;
     }
 
     public static int maxTimeOnCallAlertClose() {
-        double enable = AutopilotConfig.getDoubleToTestNow("topic-1539675249991-758",
-                        "earncash_alert_show_maxtime_when_callassistant_close", 1);
-        return (int) enable;
+
+        return (int) 1;
     }
 
     public static int maxTimeOnBacktoMain() {
-        double enable = AutopilotConfig.getDoubleToTestNow("topic-1539675249991-758",
-                "earncash_alert_show_maxtime_when_back_to_mainview_from_detail", 1);
-        return (int) enable;
+        return 1;
     }
 
     public static void logSwitchStatusToServer() {
@@ -143,12 +122,10 @@ public class CashUtils {
 
 
     public static class Event {
-        public static final String TOPIC_ID = "topic-1539675249991-758";
 
         public static void logEvent(String name) {
             // For start autopilot test
             CashUtils.masterSwitch();
-            AutopilotEvent.logTopicEvent(TOPIC_ID, name);
             Analytics.logEvent(name);
         }
 
@@ -174,12 +151,10 @@ public class CashUtils {
 
 
         public static void onShortcutGuideShow(int triggerCount) {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_shortcut_alert_show");
             Analytics.logEvent("colorphone_earncash_shortcut_alert_show", "ShowTime", String.valueOf(triggerCount));
         }
 
         public static void onShortcutGuideClick(int triggerCount) {
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_shortcut_alert_ok_click");
             Analytics.logEvent("colorphone_earncash_shortcut_alert_ok_click", "ShowTime", String.valueOf(triggerCount));
         }
 
@@ -230,7 +205,6 @@ public class CashUtils {
         public static void onSpinClick(Source cashWheelSource) {
             Analytics.logEvent("colorphone_earncash_spin",
                     "From", cashWheelSource == null ? "NULL" : cashWheelSource.getDisplayName());
-            AutopilotEvent.logTopicEvent(TOPIC_ID, "colorphone_earncash_spin");
         }
     }
 

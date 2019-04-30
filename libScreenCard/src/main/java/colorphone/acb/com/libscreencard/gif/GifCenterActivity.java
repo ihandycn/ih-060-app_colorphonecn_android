@@ -110,7 +110,6 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
                         mAcbInterstitialAd.setInterstitialAdListener(GifCenterActivity.this);
                         mAcbInterstitialAd.show();
                         CardCustomConfig.logAdViewEvent(getInterstitialAdPlacements(), true);
-                        AutoPilotUtils.logGIFInterstitialAdShow();
                     } else {
                         CardCustomConfig.logAdViewEvent(getInterstitialAdPlacements(), false);
                     }
@@ -160,7 +159,6 @@ public class GifCenterActivity extends HSAppCompatActivity implements AcbInterst
             @Override
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
                 mExpressLogger.adShow();
-                AutoPilotUtils.logGIFExpressAdShow();
             }
 
             @Override

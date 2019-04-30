@@ -22,12 +22,11 @@ import java.util.List;
 
 import colorphone.acb.com.libscreencard.CardCustomConfig;
 import colorphone.acb.com.libscreencard.R;
-import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 
 /**
  * Created by sundxing on 2018/6/20.
  */
-
+@Deprecated
 public class GameCardHelper {
 
     public static View getFourInOneView(Context context, Runnable dismissRunnable) {
@@ -50,7 +49,6 @@ public class GameCardHelper {
                 gameItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AutoPilotUtils.logFmCardClick();
                         GameManager.getInstance().startGame(gameInfo);
                         CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_FM_Game_Card_Clicked",
                                 "GameName", gameInfos.get(0).getTitle(), "CardType", "FourInOne");
@@ -65,7 +63,6 @@ public class GameCardHelper {
 
             }
 
-            AutoPilotUtils.logFmCardShow();
             CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_FM_Game_Card_Show",
                     "GameName", gameInfos.get(0).getTitle(), "CardType", "FourInOne");
 
@@ -92,12 +89,10 @@ public class GameCardHelper {
             @Override
             public void onClick(View v) {
                 if (fmGame) {
-                    AutoPilotUtils.logFmCardClick();
                     GameManager.getInstance().startGame(game);
                     CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_FM_Game_Card_Clicked",
                             "GameName", game.getTitle(), "CardType", "One");
                 } else {
-                    AutoPilotUtils.gameClick();
                     GameManager.getInstance().startGame();
                     CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Clicked");
 
@@ -137,11 +132,9 @@ public class GameCardHelper {
 
         gameCard.findViewById(R.id.container_view).setOnClickListener(clickListener);
         if (fmGame) {
-            AutoPilotUtils.logFmCardShow();
             CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_FM_Game_Card_Show",
                     "GameName", game.getTitle(), "CardType", "One");
         } else {
-            AutoPilotUtils.gameShow();
             CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Game_Card_Show");
 
         }

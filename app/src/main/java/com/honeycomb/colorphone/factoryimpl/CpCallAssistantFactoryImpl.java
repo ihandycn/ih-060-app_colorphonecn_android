@@ -11,8 +11,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.view.View;
 
-import com.acb.call.customize.ScreenFlashManager;
-import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.service.InCallWindow;
 import com.call.assistant.customize.ThemeViewConfig;
 import com.call.assistant.receiver.IncomingCallReceiver;
@@ -29,15 +27,12 @@ import com.honeycomb.colorphone.cashcenter.CashUtils;
 import com.honeycomb.colorphone.cashcenter.CustomCallIdleAlert;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.notification.NotificationConfig;
-import com.honeycomb.colorphone.permission.OutsidePermissionGuideActivity;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
-import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.PermissionTestUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -206,42 +201,17 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onCallFinished() {
                 Analytics.logEvent( "ColorPhone_Call_Finished");
-
-                if (PermissionTestUtils.getAlertOutSideApp()
-                        && Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
-                        && (ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
-                            && ScreenFlashSettings.isScreenFlashModuleEnabled()
-                            && (!Permissions.hasPermission(Manifest.permission.READ_CONTACTS)
-                                || !Permissions.isNotificationAccessGranted()))) {
-
-                    Threads.postOnMainThreadDelayed(() -> {
-                        if (!isADShown) {
-                            Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(() ->
-                                    OutsidePermissionGuideActivity.start(HSApplication.getContext()),
-                                    "alert_show_maxtime", PermissionTestUtils.getAlertShowMaxTime());
-                        }
-                    }, 1000);
-                } else {
-                    HSLog.i("PermissionNewUI", "outside enable: " + PermissionTestUtils.getAlertOutSideApp()
-                            + "  Phone: " + Permissions.hasPermission(Manifest.permission.READ_PHONE_STATE)
-                            + "  sf enable: " + ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
-                            + "  setting: " + ScreenFlashSettings.isScreenFlashModuleEnabled()
-                            + "  permission: " + (!Permissions.hasPermission(Manifest.permission.READ_CONTACTS)
-                            || !Permissions.isNotificationAccessGranted()) );
-                }
             }
 
             @Override
             public void onAdShow(int callType) {
                 Analytics.logEvent("CallFinished_View_AD_Shown", "callType", getCallTypeStr(callType));
                 isADShown = true;
-                HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
             }
 
             @Override
             public void onAlertDismiss(CallIdleAlertView.CallIdleAlertDismissType dismissType) {
                 super.onAlertDismiss(dismissType);
-                TriviaTip.getInstance().onCallAlertClose();
             }
 
             @Override
@@ -262,7 +232,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                     Analytics.logEvent("ColorPhone_CallFinishWire_Show");
                 }
                 isADShown = true;
-                HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
             }
 
             @Override public void onInsteadViewShown(View view) {
