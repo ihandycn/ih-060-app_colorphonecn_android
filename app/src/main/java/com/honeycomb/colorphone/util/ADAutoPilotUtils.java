@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.util;
 
+import android.text.format.DateUtils;
+
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
@@ -14,19 +16,19 @@ public class ADAutoPilotUtils {
     private static final int MONTH_DAY_VALUE = 100;
 
     public static int getCallFinishWireShowMaxTime() {
-        return HSConfig.optInteger(1000, "Application", "CallFinishWire", "Maxtime");
+        return HSConfig.optInteger(10, "Application", "CallFinishWire", "Maxtime");
     }
 
-    public static int getCallFinishWireTimeInterval() {
-        return 0;
+    public static long getCallFinishWireTimeInterval() {
+        return 60 * DateUtils.MINUTE_IN_MILLIS;
     }
 
     public static int getThemeWireShowMaxTime() {
         return HSConfig.optInteger(1000, "Application", "FullScreen", "Maxtime");
     }
 
-    public static int getThemeWireShowInterval() {
-        return 0;
+    public static long getThemeWireShowInterval() {
+        return 15 * DateUtils.SECOND_IN_MILLIS;
     }
 
     public static void logThemeWireShow() {
