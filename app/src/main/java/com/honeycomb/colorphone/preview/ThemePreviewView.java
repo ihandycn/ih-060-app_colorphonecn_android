@@ -44,7 +44,6 @@ import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ContactsActivity;
-import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -396,13 +395,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView.setTheme(mThemeType);
         callActionView.setAutoRun(false);
         mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
-        mApplyButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
         mActionLayout = findViewById(R.id.theme_apply_layout);
         mApplyForOne = findViewById(R.id.theme_set_for_one);
 
-        if (mTheme.getId() == Theme.RANDOM_THEME) {
-            mApplyForOne.setVisibility(GONE);
-        }
+        mApplyButton.setEnabled(mTheme.getId() == Theme.RANDOM_THEME);
+
         mProgressViewHolder = new ProgressViewHolder();
         mRingtoneViewHolder = new RingtoneViewHolder();
         previewImage = (ImageView) findViewById(R.id.preview_bg_img);
@@ -648,25 +645,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 });
                 return true;
             }
-        } else if (ModuleUtils.needShowSetForOneGuide()) {
-            ViewStub stub = findViewById(R.id.guide_for_set_one);
-            final View guideView = stub.inflate();
-            guideView.setAlpha(0);
-            guideView.animate().alpha(1).setDuration(ANIMATION_DURATION).start();
-            guideView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    guideView.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            guideView.setOnClickListener(null);
-                            guideView.setVisibility(GONE);
-                            scheduleNextHide();
-                        }
-                    }).start();
-                }
-            });
-            return true;
         }
         return false;
     }

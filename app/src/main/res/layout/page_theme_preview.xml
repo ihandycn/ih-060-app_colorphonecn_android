@@ -123,6 +123,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:textSize="15sp"
+            android:textStyle="bold"
             android:background="@drawable/btn_bg_yellow"
             android:enabled="false" />
         <ImageButton
@@ -131,6 +132,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
+            android:textStyle="bold"
             android:background="@drawable/btn_bg_yellow"
             android:src="@drawable/icon_contact" />
     </LinearLayout>
@@ -141,14 +143,6 @@
         android:layout_width="match_parent"
         android:layout="@layout/stub_theme_lock_in_page"
         />
-
-    <!--Display guide window, dim behind -->
-    <ViewStub
-        android:id="@+id/guide_for_set_one"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout="@layout/stub_theme_set_for_one_guide"
-       />
 
     <ViewStub
         android:id="@+id/guide_for_random_theme"
