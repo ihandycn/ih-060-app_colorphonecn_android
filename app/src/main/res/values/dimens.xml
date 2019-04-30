@@ -20,7 +20,7 @@
     <dimen name="contact_section_header_txt">15sp</dimen>
     <dimen name="contact_item_height">56dp</dimen>
     <dimen name="contact_item_footer_offset">72dp</dimen>
-    <dimen name="theme_apply_btn_height">44dp</dimen>
+    <dimen name="theme_apply_btn_height">56dp</dimen>
     <dimen name="guide_txt_margin_vertical">36dp</dimen>
     <dimen name="guide_txt_btn_vertical">10dp</dimen>
     <dimen name="ringtone_btn_height">64dp</dimen>

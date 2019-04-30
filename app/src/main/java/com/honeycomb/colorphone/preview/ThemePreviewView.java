@@ -23,7 +23,6 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -58,7 +57,6 @@ import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
@@ -123,7 +121,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private ProgressViewHolder mProgressViewHolder;
     private RingtoneViewHolder mRingtoneViewHolder;
-    private Button mApplyButton;
+    private TextView mApplyButton;
     private View mApplyForOne;
     private View mActionLayout;
 
@@ -394,8 +392,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
         callActionView.setTheme(mThemeType);
         callActionView.setAutoRun(false);
-        mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
+        mApplyButton = (TextView) findViewById(R.id.theme_apply_btn);
         mActionLayout = findViewById(R.id.theme_apply_layout);
+        int color = getResources().getColor(R.color.colorWindowBackground);
+        int r = Dimensions.pxFromDp(28);
+        mActionLayout.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                color, 0,
+                r, r, 0, 0,
+                false, false));
         mApplyForOne = findViewById(R.id.theme_set_for_one);
 
         mApplyButton.setEnabled(mTheme.getId() == Theme.RANDOM_THEME);
