@@ -777,7 +777,7 @@ public final class Utils {
     }
 
     public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar, int back_dark) {
-        configActivityStatusBar(activity, toolbar, back_dark, 24);
+        configActivityStatusBar(activity, toolbar, back_dark, 28);
     }
 
     public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar, int upDrawable, int textSize) {
