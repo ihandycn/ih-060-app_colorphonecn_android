@@ -138,7 +138,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                     HSLog.i(NewsManager.TAG, "NP onScrollStateChanged: " + newsPages.isRefreshing());
                     if (!isRefreshing) {
                         isRefreshing = true;
-                        NewsManager.getInstance().fetchLaterNews(newsResource, NewsPage.this);
+                        NewsManager.getInstance().fetchLaterNews(newsResource, NewsPage.this, isVideo);
                     }
                 }
 
@@ -173,22 +173,18 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
     public void loadNews() {
         HSLog.i(NewsManager.TAG, "NP loadNews: " + isVideo);
-        if (isVideo) {
-            NewsManager.getInstance().fetchVideoNews(newsResource, this);
-        } else {
-            NewsManager.getInstance().fetchNews(newsResource, this);
-        }
+        NewsManager.getInstance().fetchNews(newsResource, this, isVideo);
     }
 
     @Override public void onNewsLoaded(NewsResultBean bean) {
         HSLog.i(NewsManager.TAG, "NP onNewsLoaded " + (bean != null ? bean.totalItems : 0));
-        newsPages.setRefreshing(false);
+
         isRefreshing = false;
 
         if (bean != null) {
             if (bean.content != null && bean.content.size() > 0) {
                 String newContentID = bean.content.get(0).contentId;
-                if (TextUtils.equals(newContentID, lastNewsContentID)) {
+                if (newsPages.isRefreshing() && TextUtils.equals(newContentID, lastNewsContentID)) {
                     Toasts.showToast(R.string.news_no_news_update);
                 }
                 lastNewsContentID = newContentID;
@@ -201,6 +197,8 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         } else {
             HSGlobalNotificationCenter.sendNotification(NewsFrame.LOAD_NEWS_FAILED);
         }
+
+        newsPages.setRefreshing(false);
     }
 
     @Override public void onRefresh() {

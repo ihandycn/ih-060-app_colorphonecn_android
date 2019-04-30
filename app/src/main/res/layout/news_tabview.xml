@@ -6,10 +6,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:textSize="18sp"
-    android:textColor="#aaa"
+    android:textSize="24sp"
+    android:textColor="@android:color/black"
     android:letterSpacing="-0.03"
-    android:lineSpacingExtra="14.4sp"
+    android:maxLines="1"
     app:typeface="@string/custom_font_bold"
     tools:text="Videos" />
 

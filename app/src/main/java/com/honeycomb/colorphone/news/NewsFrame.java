@@ -108,29 +108,33 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
         }
     }
 
+    float scaleSrc = 1f;
+    float scaleDst = 0.75f;
+
     private void initTabLayout() {
         //MODE_FIXED标签栏不可滑动，各个标签会平分屏幕的宽度
-        tabLayout.setTabMode(tabsTitle.size() <= MOVABLE_COUNT ? TabLayout.MODE_FIXED : TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         //指示条的颜色
         tabLayout.setSelectedTabIndicatorColor(0xffff4a4a);
         tabLayout.setSelectedTabIndicatorHeight(7);
-        //关联tabLayout和ViewPager,两者的选择和滑动状态会相互影响
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getCustomView() instanceof TextView) {
                     TextView tv = (TextView) tab.getCustomView();
-                    tv.setTextSize(24);
-                    tv.setTextColor(getResources().getColor(android.R.color.black));
+                    tv.setScaleX(scaleSrc);
+                    tv.setScaleY(scaleSrc);
+                    tv.setAlpha(1f);
                 }
                 newsPager.setCurrentItem(tab.getPosition());
             }
 
             @Override public void onTabUnselected(TabLayout.Tab tab) {
                 if (tab.getCustomView() instanceof TextView) {
-                    TextView tv = (TextView) tab.getCustomView();
-                    tv.setTextSize(18);
-                    tv.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                    TypefacedTextView tv = (TypefacedTextView) tab.getCustomView();
+                    tv.setScaleX(scaleDst);
+                    tv.setScaleY(scaleDst);
+                    tv.setAlpha(0.6f);
                 }
             }
 
@@ -144,16 +148,20 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
         TabLayout.Tab tab = tabLayout.newTab();
         tabLayout.addTab(tab);
         TypefacedTextView tv = (TypefacedTextView) LayoutInflater.from(getContext()).inflate(R.layout.news_tabview, tabLayout, false);
-        tv.setTextSize(24);
-        tv.setTextColor(getResources().getColor(android.R.color.black));
         tv.setText(tabsTitle.get(0));
         tab.setCustomView(tv);
+        tv.setScaleX(scaleSrc);
+        tv.setScaleY(scaleSrc);
+        tv.setAlpha(1f);
 
         for (int i = 1; i < tabsTitle.size(); i++) {
             tab = tabLayout.newTab();
             tabLayout.addTab(tab);
             tv = (TypefacedTextView) LayoutInflater.from(getContext()).inflate(R.layout.news_tabview, tabLayout, false);
             tv.setText(tabsTitle.get(i));
+            tv.setScaleX(scaleDst);
+            tv.setScaleY(scaleDst);
+            tv.setAlpha(0.6f);
             tab.setCustomView(tv);
         }
 

@@ -57,7 +57,7 @@ public class NewsManager {
         return pushBean;
     }
 
-    void fetchNews(NewsResultBean resultBean, NewsLoadListener loadListener) {
+    void fetchNews(NewsResultBean resultBean, NewsLoadListener loadListener, boolean isVideo) {
         showNativeAD = HSConfig.optBoolean(false, "Application", "News", "NewsTabShowNativeAd");
         if (showNativeAD) {
             AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
@@ -67,7 +67,7 @@ public class NewsManager {
         HSLog.i(NewsManager.TAG, "fetchNews");
         newOffset = 0;
 
-        HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), String.valueOf(newOffset)));
+        HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), String.valueOf(newOffset), isVideo));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
             @Override public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
                 if (hsHttpConnection.isSucceeded()) {
@@ -134,7 +134,7 @@ public class NewsManager {
         }
     }
 
-    void fetchLaterNews(final NewsResultBean resultBean, NewsLoadListener loadListener) {
+    void fetchLaterNews(final NewsResultBean resultBean, NewsLoadListener loadListener, boolean isVideo) {
         showNativeAD = HSConfig.optBoolean(false, "Application", "News", "NewsTabShowNativeAd");
         if (showNativeAD) {
             AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
@@ -143,7 +143,7 @@ public class NewsManager {
         int offset = resultBean != null ? newOffset + resultBean.totalItems : 0;
         HSLog.i(NewsManager.TAG, "fetchLaterNews offset == " + offset);
 
-        HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), String.valueOf(offset)));
+        HSHttpConnection news = new HSHttpConnection(getURL(String.valueOf(LIMIT_SIZE), String.valueOf(offset), isVideo));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
             @Override public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
                 if (hsHttpConnection.isSucceeded()) {
@@ -198,6 +198,7 @@ public class NewsManager {
         HSHttpConnection news = new HSHttpConnection(
                 getURL(String.valueOf(LIMIT_PUSH_SIZE),
                         String.valueOf(offset),
+                        false,
                         NewsTest.getLastShowNewsAlertTime()));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
             @Override public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
@@ -229,60 +230,18 @@ public class NewsManager {
         news.startAsync();
     }
 
-    void fetchVideoNews(NewsResultBean resultBean, NewsLoadListener loadListener) {
-        showNativeAD = HSConfig.optBoolean(false, "Application", "News", "NewsTabShowNativeAd");
-        if (showNativeAD) {
-            AcbNativeAdManager.preload(2, NEWS_LIST_BANNER);
+    private static String getURL(String limit, String offset, boolean isVideo) {
+        return getURL(limit, offset, isVideo, 0);
+    }
+
+    private static String getURL(String limit, String offset, boolean isVideo, long time) {
+        final StringBuilder url = new StringBuilder();
+
+        if (isVideo) {
+            url.append(HSConfig.optString("", "Application", "News", "VideoUrl"));
+        } else {
+            url.append(HSConfig.optString("", "Application", "News", "Url"));
         }
-//        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
-
-        HSLog.i(NewsManager.TAG, "fetchNews");
-        newOffset = 0;
-
-
-        HSHttpConnection news = new HSHttpConnection(getVideoURL(String.valueOf(LIMIT_SIZE), String.valueOf(newOffset), 0));
-        news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
-            @Override public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
-                if (hsHttpConnection.isSucceeded()) {
-                    String jsonBody = hsHttpConnection.getBodyString();
-                    Gson gson = new Gson();
-                    NewsResultBean bean = gson.fromJson(jsonBody, NewsResultBean.class);
-                    HSLog.i(TAG, "result size == " + (bean != null ? bean.totalItems : null));
-                    if (bean != null && loadListener != null) {
-                        addNativeADs(bean);
-                        resultBean.totalItems = bean.totalItems;
-                        resultBean.content.clear();
-                        resultBean.content.addAll(bean.content);
-                        loadListener.onNewsLoaded(resultBean);
-                        return;
-                    }
-                }
-
-                if (loadListener != null) {
-                    loadListener.onNewsLoaded(null);
-                }
-                HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
-            }
-
-            @Override
-            public void onConnectionFailed(HSHttpConnection hsHttpConnection, HSError hsError) {
-                HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
-                HSLog.i(TAG, "HSError: " + hsError);
-                if (loadListener != null) {
-                    loadListener.onNewsLoaded(null);
-                }
-            }
-        });
-        news.startAsync();
-    }
-
-    private static String getURL(String limit, String offset) {
-        return getURL(limit, offset, 0);
-    }
-
-    private static String getURL(String limit, String offset, long time) {
-        final StringBuilder url = new StringBuilder(HSConfig.optString("",
-                "Application", "News", "Url"));
         
         url.append("?userId=").append(userID.toString());
 
@@ -302,38 +261,13 @@ public class NewsManager {
             url.append("&publishedAfter=").append(date);
         }
 
-        String category = HSConfig.optString("", "Application", "News", "Category");
-        if (!TextUtils.isEmpty(category)) {
-            url.append("&category=").append(category);
+        String category;
+        if (isVideo) {
+            category = HSConfig.optString("", "Application", "News", "VideoType");
+        } else {
+            category = HSConfig.optString("", "Application", "News", "Category");
         }
 
-        HSLog.i(TAG, "getUrl: " + url.toString());
-        return url.toString();
-    }
-
-    private static String getVideoURL(String limit, String offset, long time) {
-        final StringBuffer url = new StringBuffer(HSConfig.optString("",
-                "Application", "News", "VideoUrl"));
-
-        url.append("?userId=").append(userID.toString());
-
-        url.append("&publisherId=").append(HSConfig.optString("", "Application", "News", "PublisherId"));
-        url.append("&key=").append(HSConfig.optString("", "Application", "News", "Key"));
-
-        Locale locale = Locale.getDefault();
-        url.append("&countryCode=").append(locale.getCountry());
-        url.append("&language=").append(locale.getLanguage());
-
-        url.append("&limit=").append(limit);
-        url.append("&offset=").append(offset);
-        if (time > 0) {
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy%20hh:mm:ss");
-            String date = sdf.format(new Date(time));
-//            url.append("&publishedAfter=").append(Uri.encode(date, "UTF-8"));
-            url.append("&publishedAfter=").append(date);
-        }
-
-        String category = HSConfig.optString("", "Application", "News", "VideoType");
         if (!TextUtils.isEmpty(category)) {
             url.append("&category=").append(category);
         }
