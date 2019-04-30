@@ -2,8 +2,8 @@ package com.honeycomb.colorphone.ad;
 
 import android.text.format.DateUtils;
 
-import com.colorphone.lock.util.ConfigUtils;
 import com.honeycomb.colorphone.Ap;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -37,7 +37,7 @@ public class ConfigSettings {
     private static boolean userLimitByInstallTimes() {
         int disableDays = HSConfig.optInteger(-1, "Application", "FullScreen", "DisableAfterInstallDays");
         if (disableDays > 0) {
-            return System.currentTimeMillis() - ConfigUtils.getAppFirstInstallTime() > disableDays * DateUtils.DAY_IN_MILLIS;
+            return System.currentTimeMillis() - Utils.getInstallTime() > disableDays * DateUtils.DAY_IN_MILLIS;
         }
         return false;
     }

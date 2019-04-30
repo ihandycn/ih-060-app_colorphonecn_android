@@ -10,9 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.colorphone.lock.util.FontUtils;
 import com.honeycomb.colorphone.R;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,13 +45,13 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
         mSectionTextPaint.setTextSize(resources.getDimensionPixelOffset(R.dimen.contact_section_txt));
         mSectionTextPaint.setColor(Color.parseColor("#ff818181"));
         mSectionTextPaint.setAntiAlias(true);
-        mSectionTextPaint.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+        mSectionTextPaint.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD));
 
         mSectionHeaderPaint = new Paint();
         mSectionHeaderPaint.setTextSize(resources.getDimensionPixelOffset(R.dimen.contact_section_header_txt));
         mSectionHeaderPaint.setColor(Color.parseColor("#7f000000"));
         mSectionHeaderPaint.setAntiAlias(true);
-        mSectionHeaderPaint.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
+        mSectionHeaderPaint.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_REGULAR));
 
         mIsRtl = Dimensions.isRtl();
     }

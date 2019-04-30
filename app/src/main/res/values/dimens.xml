@@ -138,4 +138,6 @@
     <dimen name="result_page_guide_tip_translation_top">10dp</dimen>
 
     <dimen name="popular_theme_thumbnail_height">134dp</dimen>
+
+    <dimen name="boost_icon_size">80dp</dimen>
 </resources>

@@ -8,9 +8,6 @@ import android.provider.ContactsContract;
 import android.text.format.DateUtils;
 
 import com.call.assistant.customize.CallAssistantSettings;
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
-import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
 import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
@@ -90,9 +87,7 @@ public class ModuleUtils {
 
     public static boolean isAllModuleEnabled() {
         if (CallAssistantSettings.isCallAssistantModuleEnabled()
-                && MessageCenterSettings.isSMSAssistantModuleEnabled()
-                && ChargingScreenSettings.isChargingScreenEverEnabled()
-                && LockerSettings.isLockerUserEnabled()) {
+                && MessageCenterSettings.isSMSAssistantModuleEnabled()) {
             return true;
         }
         return false;
@@ -109,8 +104,6 @@ public class ModuleUtils {
     public static void setAllModuleUserEnable() {
         MessageCenterSettings.setSMSAssistantModuleEnabled(true);
         CallAssistantSettings.setCallAssistantModuleEnabled(true);
-        LockerSettings.setLockerEnabled(true);
-        SmartChargingSettings.setModuleEnabled(true);
         NotificationSettingsActivity.setNotificationBoostOn(true);
     }
 

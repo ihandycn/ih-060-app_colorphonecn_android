@@ -106,7 +106,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="2dp"
         android:layout_marginRight="2dp"
-        android:src="@drawable/ic_close"
+        android:src="@drawable/ic_close_result_page_ad"
         android:alpha="0.6"
         android:padding="@dimen/dialog_close_icon_margin_end"
         android:background="@drawable/material_compat_button_bg"

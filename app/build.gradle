@@ -197,12 +197,12 @@ dependencies {
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
 
-    compile project(':libChargingCommon')
-    compile project(':libChargingReport')
+//    compile project(':libChargingCommon')
+//    compile project(':libChargingReport')
     compile project(':libCallAssistant')
     compile project(':libMessageCenter')
     compile project(':libScreenFlash')
-    compile project(':lock')
+//    compile project(':lock')
     compile project(':libSuperApps')
     compile project(':permissions')
 

@@ -11,29 +11,22 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.call.assistant.customize.CallAssistantSettings;
-import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
-import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
-import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
-import com.ihs.chargingimprover.ChargingImproverUtils;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.util.Navigations;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import colorphone.acb.com.libscreencard.gif.GifCacheUtils;
 
 public class SettingsActivity extends HSAppCompatActivity {
 
@@ -93,22 +86,15 @@ public class SettingsActivity extends HSAppCompatActivity {
         boolean chargingImproverOpen = ModuleUtils.isChargingImproverEnabled();
         if (chargingImproverOpen) {
             TextView tv = findViewById(R.id.setting_item_charging_title);
-            tv.setText(R.string.charging_improver_title);
         }
         mModuleStates.add(new ModuleState(
-                chargingImproverOpen || SmartChargingSettings.isSmartChargingConfigEnabled(),
-                chargingImproverOpen ?
-                        ChargingImproverUtils.isChargingImproverUserEnabled() :
-                        SmartChargingSettings.isSmartChargingUserEnabled(),
+                false, false,
                 R.id.setting_item_charging_toggle,
                 R.id.setting_item_charging) {
             @Override
             public void onCheckChanged(boolean isChecked) {
                 LauncherAnalytics.logEvent("ColorPhone_Settings_ChargingReport_Clicked_" +
                         (isChecked ? "Enabled" : "Disabled"));
-                GifCacheUtils.cacheGif();
-                SmartChargingSettings.setModuleEnabled(isChecked);
-                ChargingImproverUtils.setChargingImproverUserEnabled(isChecked);
             }
         });
 
@@ -126,13 +112,11 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
-        mModuleStates.add(new ModuleState(LockerSettings.isLockerConfigEnabled(),
-                LockerSettings.isLockerUserEnabled(),
+        mModuleStates.add(new ModuleState(false, false,
                 R.id.setting_item_lockScreen_toggle,
                 R.id.setting_item_lockScreen) {
             @Override
             public void onCheckChanged(boolean isChecked) {
-                LockerSettings.setLockerEnabled(isChecked);
             }
         });
 

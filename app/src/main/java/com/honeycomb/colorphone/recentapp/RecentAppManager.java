@@ -11,9 +11,9 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 
-import com.colorphone.lock.ScreenStatusReceiver;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
+import com.honeycomb.colorphone.receiver.ScreenStatusReceiver;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;

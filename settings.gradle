@@ -1,10 +1,6 @@
-include ':app', ':lock', ':libSuperApps', ':libCallAssistant', ':libScreenFlash',
-        ':libMessageCenter', ':libChargingCommon', ':libChargingReport',
-        ':libScreenCard', ':permissions'
+include ':app', ':libSuperApps', ':libCallAssistant', ':libScreenFlash',
+        ':libMessageCenter', ':libScreenCard', ':permissions'
 project(':libSuperApps').projectDir = new File('libs/libSuperApps/lib')
 project(':libCallAssistant').projectDir = new File('libs/libNewColorPhone/libCallAssistant')
 project(':libScreenFlash').projectDir = new File('libs/libNewColorPhone/libScreenFlash')
 project(':libMessageCenter').projectDir = new File('libs/libNewColorPhone/libMessageCenter')
-
-project(':libChargingCommon').projectDir = new File('libs/libChargingImprover/libChargingCommon')
-project(':libChargingReport').projectDir = new File('libs/libChargingImprover/libChargingReport')
