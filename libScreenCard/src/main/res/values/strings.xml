@@ -9,6 +9,5 @@
     <!-- game -->
     <string name="game_card_title">Dunk Hit</string>
     <string name="game_card_desc">CAN YOU BEAT THIS CHALLENGE?!?!</string>
-    <string name="game_card_play">PLAY</string>
     <string name="title_game_four_in_one">The most addictive game on mobile!</string>
 </resources>

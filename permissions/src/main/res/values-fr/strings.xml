@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><resources>
   <string name="permission_request_failed_message">Échec de l\'autorisation d\'accès</string>
-<string name="normal_permission_guide_dialog_content">Sélectionnez « Autorisations » et activez « Téléphone », « SMS », « Contacts »</string>
-  <string name="draw_overlay_window_hint">Activez "Afficher par-dessus les autres applications" pour afficher le flash d\'écran</string>
-  <string name="normal_permission_guide_permission">Autorisations</string>
-  <string name="permission_request_call">Téléphone</string>
-  <string name="permission_request_sms">SMS</string>
-  <string name="permission_request_contacts">Contacts</string>
-  <string name="acb_phone_grant_notification_access_title">Activer les notifications d’accès pour répondre aux appels</string>
+    <string name="draw_overlay_window_hint">Activez "Afficher par-dessus les autres applications" pour afficher le flash d\'écran</string>
+    <string name="acb_phone_grant_notification_access_title">Activer les notifications d’accès pour répondre aux appels</string>
   <!-- TODO: string name="draw_overlay_window_hint" -->
   <string name="phone_contact_permission_settings_guide_title">Sélectionnez « Autorisations » et activez « Téléphone », « Contacts »</string>
   <string name="acb_phone_grant_autostart_access_title">Activer le démarrage auto pour afficher le flash

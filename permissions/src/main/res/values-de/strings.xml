@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><resources>
   <string name="permission_request_failed_message">Zugriff konnte nicht gewährt werden</string>
-<string name="normal_permission_guide_dialog_content">„Berechtigungen“ wählen und „Telefon“, „SMS“, „Kontakte“ aktivieren</string>
-  <string name="draw_overlay_window_hint">"Über anderen Apps einblenden" aktivieren, um Bildschirmanimation anzuzeigen</string>
-  <string name="normal_permission_guide_permission">Berechtigungen</string>
-  <string name="permission_request_call">Telefon</string>
-  <string name="permission_request_sms">SMS</string>
-  <string name="permission_request_contacts">Kontakte</string>
-  <string name="acb_phone_grant_notification_access_title">Benachrichtigungsberechtigung zum Annehmen von Anrufen aktivieren</string>
+    <string name="draw_overlay_window_hint">"Über anderen Apps einblenden" aktivieren, um Bildschirmanimation anzuzeigen</string>
+    <string name="acb_phone_grant_notification_access_title">Benachrichtigungsberechtigung zum Annehmen von Anrufen aktivieren</string>
   <string name="phone_contact_permission_settings_guide_title">„Berechtigungen“ wählen und „Phone“, „Contacts“ aktivieren</string>
   <string name="acb_phone_grant_autostart_access_title">Aktivieren Sie AutoStart, um Call Flash anzuzeigen</string>
 </resources>

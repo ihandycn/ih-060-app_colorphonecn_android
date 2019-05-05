@@ -96,7 +96,6 @@
                     app:srcCompat="@drawable/ic_default_dialer" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
-                    android:id="@+id/settings_default_dialer_switch_txt"
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,7 +107,6 @@
                     android:text="@string/default_dialer" />
 
                 <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/default_dialer_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -128,7 +126,6 @@
                     android:src="@drawable/settings_led_flash_switch" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
-                    android:id="@+id/led_flash_switch_txt"
                     style="@style/NormalText.Drawer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -182,7 +179,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/settings_boost"
                 style="@style/LayoutSettings"
                 android:gravity="center_vertical"
                 android:visibility="gone"

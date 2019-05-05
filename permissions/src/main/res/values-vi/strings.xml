@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><resources>
   <string name="permission_request_failed_message">Không thể cấp quyền truy cập</string>
-<string name="normal_permission_guide_dialog_content">Chọn "Quyền" và kích hoạt "Điện thoại", "Tin nhắn SMS", "Danh bạ"</string>
-  <string name="draw_overlay_window_hint">Bật "Hiển thị trên các ứng dụng khác" Để Hiện Đèn Nháy Màn Hình.</string>
-  <string name="normal_permission_guide_permission">Quyền</string>
-  <string name="permission_request_call">Điện thoại</string>
-  <string name="permission_request_sms">Tin nhắn SMS</string>
-  <string name="permission_request_contacts">Danh bạ</string>
-  <string name="acb_phone_grant_notification_access_title">Bật Truy cập Thông báo để Trả lời Cuộc gọi</string>
+    <string name="draw_overlay_window_hint">Bật "Hiển thị trên các ứng dụng khác" Để Hiện Đèn Nháy Màn Hình.</string>
+    <string name="acb_phone_grant_notification_access_title">Bật Truy cập Thông báo để Trả lời Cuộc gọi</string>
   <string name="phone_contact_permission_settings_guide_title">Chọn "Quyền" và kích hoạt "Phone", "Contacts"</string>
   <string name="acb_phone_grant_autostart_access_title">Bật Tự khởi động để hiện Đèn nháy cuộc gọi</string>
 

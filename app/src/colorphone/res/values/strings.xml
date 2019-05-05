@@ -5,6 +5,5 @@
     <string name="color_phone_disable">Color Phone Disabled</string>
     <string name="color_phone_enabled">Color Phone Enabled</string>
 
-    <string name="promote_apply_subtitle" translatable="false">Begin to enjoy color phone</string>
     <string name="acb_phone_enable_notification_access_description">Grant notification access for Color Phone to answer incoming calls. Please enable it manually</string>
 </resources>

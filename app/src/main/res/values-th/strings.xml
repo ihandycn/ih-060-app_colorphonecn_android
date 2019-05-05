@@ -5,10 +5,8 @@
     <string name="settings">ตั้งค่า</string>
     <string name="feedback">คำติชม</string>
 
-    <string name="theme_apply">นำไปใช้</string>
     <string name="apply_success">ตั้งสำเร็จ</string>
     <string name="theme_current">ธีมปัจจุบัน</string>
-    <string name="send_email">ส่งอีเมล</string>
     <string name="loading">กำลังโหลด </string>
 
     <string name="privacy_policy">นโยบายความเป็นส่วนตัว</string>
@@ -16,7 +14,6 @@
 
     <string name="guide_enable_all_module">เปิดใช้งานผู้ช่วยโทรศัพท์</string>
 
-    <string name="acb_outapp_guide_screen_flash_content">ลองใช้หน้าจอโทรศัพท์ที่ไม่เหมือนใครเพื่อให้โทรศัพท์คุณทันแฟชั่นมากขึ. อาจมีโฆษณา.</string>
     <string name="about">เกี่ยวกับ</string>
 
     <string name="guide_apply_theme_hint">ตั้งค่าธีมสำหรับหน้าจอผู้โทรของคุณสำเร็จแล้ว! ขอให้สนุก!</string>
@@ -40,10 +37,8 @@
     <string name="delete">ลบ</string>
     <string name="select_contacts">เลือกรายชื่อติดต่อ</string>
 
-    <string name="boost_plus_free_up">พื้นที่ว่างเพิ่ม</string>
     <string name="boost_plus_exiting">กำลังออก</string>
 
-    <string name="boost_tip_optimal">อุปกรณ์ของคุณใช้ได้เต็มประสิทธิภาพแล้ว!</string>
     <string name="boost_notification_low_ram_btn"> เร่งเครื่อง</string>
     <string name="boost_title">เร่งเครื่อง</string>
 
@@ -51,12 +46,8 @@
     <string name="settings_notification_boost">แจ้งเตือนการเร่ง</string>
     <string name="settings_notification_boost_sub">รับการแจ้งเตือนเมื่อใช้หน่วยความจำสูง</string>
 
-    <string name="may_contain_ads">อาจมีโฆษณา</string>
-
     <string name="guide_first_page_title">กรุณาเปิดใช้คุณสมบัติและอนุญาตการเข้าถึง:\ เตือนเมื่อคุณมีสายที่ไม่ได้รับ</string>
 
-    <string name="avatar_content">สร้างรูปประจำตัวของคุณได้ทันที</string>
-    <string name="action_back">ย้อนกลับ</string>
     <string name="action_install">ติดตั้ง</string>
 
     <!--Ringtone-->
@@ -87,7 +78,6 @@
     <string name="unlock_succeed">ปลดล็อกสำเร็จแล้ว</string>
 
     <string name="gdpr_settings_cell">การวิเคราะห์และการโฆษณา</string>
-    <string name="gdpr_share_data">เปิดเผยข้อมูลกับนักพัฒนา</string>
     <string name="gdpr_dialog_title">ยืนยันการปิดหรือไม่</string>
     <string name="gdpr_dialog_content">ข้อมูลเหล่านี้รวบรวมและใช้ในการช่วยให้นักพัฒนาปรับปรุงแอปเพื่อให้มีประสบการณ์การใช้งานที่ดีขึ้น</string>
     <string name="gdpr_dialog_turn_off">ปิด</string>
@@ -96,69 +86,21 @@
     <string name="battery_clean_title">ประหยัดแบตเตอรี</string>
     <string name="cpu_positive_feedback_title">ลดอุณหภูมิแล้ว</string>
     <string name="result_page_click_guide_tip">ปรับแต่งต่อไป</string>
-    <string name="desktop_tips_content_guide_msg">ความสนุกรายวัน</string>
     <string name="apply_btn">ใช้</string>
-    <string name="menu_item_settings">การตั้งค่า</string>
     <string name="battery_title">แบตเตอรี</string>
-    <string name="battery_bluetooth">บลูทูธ</string>
-    <string name="battery_mobile_data">ข้อมูลมือถือ</string>
-    <string name="battery_current">ปัจจุบัน</string>
-    <string name="battery_already_optimal">เครื่องของคุณทำงานอย่างเหมาะสมแล้ว</string>
-    <string name="battery_auto">อัตโนมัติ</string>
-    <string name="battery_auto_sync">ซิงค์อัตโนมัติ</string>
-    <string name="battery_brightness">ความสว่าง</string>
-    <string name="battery_careful">ระวัง</string>
-    <string name="battery_charging_left">การชาร์จที่เหลือ</string>
-    <string name="battery_current_content">การตั้งค่าปัจจุบันของคุณจะบันทึกที่นี่</string>
-    <string name="battery_haptic_feedback">ตอบสนองการสัมผัส</string>
-    <string name="battery_hide_system_apps">ซ่อนแอปของระบบ</string>
-    <string name="battery_low">แบตเตอรีต่ำ</string>
-    <string name="battery_low_content">ปรับแต่งเพื่อยืดเวลาใช้งานแบตเตอรี</string>
-    <string name="battery_max_saver">ประหยัดสูงสุด</string>
-    <string name="battery_max_saver_content">ปิด WiFi บลูทูธ การสั่น และตั้งเวลาปิดหน้าจอเป็น 15 วินาที</string>
-    <string name="battery_mode">โหมด</string>
-    <string name="battery_off">ปิด</string>
-    <string name="battery_on">เปิด</string>
-    <string name="battery_optimize">ปรับแต่ง</string>
-    <string name="battery_optimize_new">ประหยัดพลังงาน</string>
-    <string name="battery_previous">ก่อนหน้า</string>
-    <string name="battery_previous_content">เปลี่ยนกลับไปเป็นการตั้งค่าล่าสุด</string>
-    <string name="battery_rank">อันดับ</string>
-    <string name="battery_reapply">นำไปใช้อีกครั้ง</string>
-    <string name="battery_screen_timeout">เวลาปิดหน้าจอ</string>
-    <string name="battery_smart_saver">ประหยัดอัจฉริยะ</string>
-    <string name="battery_smart_saver_content">ปิด WiFi บลูทูธ การสั่น และตั้งเวลาปิดหน้าจอเป็น 30 วินาที</string>
     <string name="battery_stop">หยุด</string>
-    <string name="battery_vibrate">สั่น</string>
     <string name="battery_view">ดู</string>
-    <string name="battery_wifi">Wifi</string>
-    <string name="battery_low_tip_title">พลังงานต่ำ!</string>
-    <string name="battery_low_tip_desc">ลองใช้งานเครื่องมือประหยัดแบตเตอรี่เพื่อลดการใช้พลังงานให้อยู่ในระดับต่ำที่สุด  </string>
-    <string name="battery_low_tip_btn_cancel">ภายหลัง</string>
-    <string name="battery_low_tip_btn_ok">ลองเลย</string>
-    <string name="battery_draining_apps">แอปที่สูบเบตเตอรี!</string>
     <string name="battery_scaning">กำลังสแกน…</string>
-    <string name="battery_healthy">สุขภาพดี</string>
-    <string name="battery_time_remainning">เวลาที่เหลือ</string>
-    <string name="battery_call_time">โทร</string>
-    <string name="battery_wifi_time">WiFi</string>
-    <string name="battery_video_time">วีดีโอ</string>
     <string name="battery_clean_description">แอปที่สูบแบตเตอรี</string>
     <string name="battery_extended">ยืดได้</string>
-    <string name="battery_careful_content">แบตเตอรีของคุณกำลังหมดเร็วกว่าปกติ</string>
     <string name="boost_plus_optimal">เหมาะสม</string>
-    <string name="charging_screen_settings_title">การปกป้องแบตเตอรี</string>
-    <string name="charging_screen_settings_subtitle">(มีโฆษณา)</string>
-    <string name="charging_screen_settings_description">ปกป้องเครื่องจากการชาร์จมากเกินไป</string>
     <string name="promotion_max_card_title_cpu_cooler">ลดความร้อน CPU </string>
     <string name="cpu_cooler_list_head_title">แอปที่ทำให้ CPU ร้อน</string>
-    <string name="cpu_cooler_button_title">ลดความร้อน</string>
     <string name="cpu_cooler_state_hint">CPU %1$s</string>
     <string name="cpu_cooler_state_cool">เย็น</string>
     <string name="cpu_cooler_state_overheated">ร้อนเกินไป</string>
     <string name="cpu_cooler_state_extremely_heated">ร้อน</string>
     <string name="cpu_cooler_cleaning_hint">กำลังปิดแอปที่บริโภค CPU…</string>
-    <string name="cool_capital">ลดความร้อน</string>
 
     <string name="settings_activity_notification_reminder">เปิดปิดแถบแจ้งเตือน</string>
 
@@ -168,13 +110,10 @@
     <string name="grant_access_to_optimize_experience">อนุญาตการเข้าถึงเพื่อรับสาย</string>
 
     <!--Cash-Center-->
-    <string name="crash_guide_content">สร้างทางลัดเดสก์ท็อปเพื่อสร้างเงินอีกครั้งภายหลังหรือไม่</string>
-    <string name="spin">ปั่น</string>
 
     <!--Facebook fan page-->
     <string name="follow_facebook">ติดตามเราใน Facebook</string>
     <string name="skip">ข้าม</string>
-    <string name="battery_optimized">เพิ่มประสิทธิภาพ</string>
 
     <string name="guide_theme_random_hint">คุณสามารถเพลิดเพลินกับธีมสายเรียกเข้าแบบสุ่มจากการใช้ธีมนี้</string>
 

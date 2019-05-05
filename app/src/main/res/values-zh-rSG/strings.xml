@@ -5,10 +5,8 @@
     <string name="settings">设置</string>
     <string name="feedback">反馈</string>
 
-    <string name="theme_apply">应用</string>
     <string name="apply_success">应用成功</string>
     <string name="theme_current">当前主题</string>
-    <string name="send_email">发送邮件</string>
     <string name="loading">加载中 </string>
 
     <string name="privacy_policy">隐私政策</string>
@@ -16,7 +14,6 @@
 
     <string name="guide_enable_all_module">开启手机助手</string>
 
-    <string name="acb_outapp_guide_screen_flash_content">快试试独特的个性来电，让您的手机更时尚。可能包含广告。</string>
     <string name="about">关于</string>
 
     <string name="guide_apply_theme_hint">来电主题应用成功！尽情享受吧！</string>
@@ -39,10 +36,8 @@
     <string name="theme_set_for_one">设定给某人</string>
     <string name="select_contacts">选择联系人</string>
 
-    <string name="boost_plus_free_up">内存释放</string>
     <string name="boost_plus_exiting">结束中…</string>
 
-    <string name="boost_tip_optimal">你的手机已达最优！</string>
     <string name="boost_notification_low_ram_btn">加速</string>
     <string name="boost_title">加速</string>
 
@@ -50,12 +45,8 @@
     <string name="settings_notification_boost">手机加速提醒</string>
     <string name="settings_notification_boost_sub">手机内存使用过高时提醒</string>
 
-    <string name="may_contain_ads">可能包含广告</string>
-
     <string name="guide_first_page_title">请开启功能和权限:\n 不再错过未接来电。</string>
 
-    <string name="avatar_content">立即创建你的头像</string>
-    <string name="action_back">后退</string>
     <string name="action_install">安装</string>
 
     <!--Ringtone-->
@@ -89,76 +80,26 @@
     <string name="cpu_positive_feedback_title">已降温</string>
     <string name="result_page_click_guide_tip">继续优化</string>
     <string name="apply_btn">应用</string>
-    <string name="menu_item_settings">设置</string>
     <string name="battery_title">电池</string>
-    <string name="battery_bluetooth">蓝牙</string>
-    <string name="battery_mobile_data">数据</string>
-    <string name="battery_current">当前</string>
-    <string name="battery_already_optimal">手机状态良好。</string>
-    <string name="battery_auto">自动</string>
-    <string name="battery_auto_sync">自动同步</string>
-    <string name="battery_brightness">亮度</string>
-    <string name="battery_careful">紧急</string>
-    <string name="battery_charging_left">充电剩余时间</string>
-    <string name="battery_current_content">当前设置已被保存。</string>
-    <string name="battery_haptic_feedback">触摸反馈</string>
-    <string name="battery_hide_system_apps">隐藏系统应用</string>
-    <string name="battery_low">低电量</string>
-    <string name="battery_low_content">优化电池寿命</string>
-    <string name="battery_max_saver">强力省电</string>
-    <string name="battery_max_saver_content">关闭Wi-Fi、蓝牙、振动并设置自动灭屏时间为15秒。</string>
-    <string name="battery_mode">模式</string>
-    <string name="battery_off">关闭</string>
-    <string name="battery_on">打开</string>
-    <string name="battery_optimize">优化</string>
-    <string name="battery_optimize_new">节省电量</string>
-    <string name="battery_previous">先前状态</string>
-    <string name="battery_previous_content">回退至上次设置状态。</string>
-    <string name="battery_rank">耗电排行</string>
-    <string name="battery_reapply">再次应用</string>
-    <string name="battery_screen_timeout">屏幕自动休眠</string>
-    <string name="battery_smart_saver">智能省电</string>
-    <string name="battery_smart_saver_content">关闭蓝牙、振动并设置自动灭屏时间为30秒。</string>
     <string name="battery_stop">终止</string>
-    <string name="battery_vibrate">振动</string>
     <string name="battery_view">查看</string>
-    <string name="battery_wifi">Wi-Fi</string>
-    <string name="battery_low_tip_title">电量低！</string>
-    <string name="battery_low_tip_desc">使用电池优化减少后台应用耗电</string>
-    <string name="battery_low_tip_btn_cancel">以后再说</string>
-    <string name="battery_low_tip_btn_ok">试试看</string>
-    <string name="battery_draining_apps">耗电应用</string>
     <string name="battery_scaning">扫描中…</string>
-    <string name="battery_healthy">健康</string>
-    <string name="battery_time_remainning">剩余时间</string>
-    <string name="battery_call_time">通话</string>
-    <string name="battery_wifi_time">WiFi</string>
-    <string name="battery_video_time">视频</string>
     <string name="battery_clean_description">耗电应用</string>
     <string name="battery_extended">已延长</string>
-    <string name="battery_careful_content">您的电池比正常状态耗电得更快！</string>
     <string name="boost_plus_optimal">已优化</string>
-    <string name="charging_screen_settings_title">充电保护</string>
-    <string name="charging_screen_settings_subtitle">内含广告</string>
-    <string name="charging_screen_settings_description">保护电池防止过度充电</string>
     <string name="promotion_max_card_title_cpu_cooler">CPU降温大师</string>
     <string name="cpu_cooler_list_head_title">导致CPU温度过高的应用</string>
-    <string name="cpu_cooler_button_title">一键降温</string>
     <string name="cpu_cooler_state_hint">CPU 处于 %s 状态</string>
     <string name="cpu_cooler_state_cool">温度正常</string>
     <string name="cpu_cooler_state_overheated">温度过高</string>
     <string name="cpu_cooler_state_extremely_heated">温度较热</string>
     <string name="cpu_cooler_cleaning_hint">正在关闭后台应用</string>
-    <string name="cool_capital">一键降温</string>
 
     <string name="settings_activity_notification_reminder">通知栏开关</string>
     <string name="notification_toolbar_flash_light">手电筒</string>
     <string name="notification_permission_toolbar_title">通知</string>
     <string name="phone_contact_permission_settings_guide_title">选择"权限"，然后开启"电话"、"通讯录"权限</string>
     <string name="grant_access_to_optimize_experience">开启权限来接听电话</string>
-
-    <string name="crash_guide_content">想在桌面上创建快捷方式以便下次继续赢钱吗？</string>
-    <string name="spin">旋转</string>
 
     <!--Facebook fan page-->
     <string name="follow_facebook">在Facebook上关注我们</string>
