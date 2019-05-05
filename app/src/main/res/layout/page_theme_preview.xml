@@ -118,13 +118,13 @@
         android:translationY="@dimen/theme_apply_btn_height"
         tools:translationY="0dp"
         android:orientation="horizontal"
-        tools:background="@color/colorPrimary">
+        tools:background="@color/black_90_transparent">
         <TextView
-            android:id="@+id/theme_apply_btn"
+            android:id="@+id/theme_set_for_one"
             android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/selector_color_theme_set"
@@ -138,10 +138,11 @@
             android:layout_height="20dp"/>
 
         <TextView
-            android:id="@+id/theme_set_for_one"
+            android:id="@+id/theme_apply_btn"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/selector_color_theme_setdefault"

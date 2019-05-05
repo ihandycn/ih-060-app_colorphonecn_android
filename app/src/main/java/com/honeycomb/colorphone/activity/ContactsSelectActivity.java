@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -132,6 +133,7 @@ public class ContactsSelectActivity extends ContactsActivity {
         confirmButton.setEnabled(false);
         confirmButton.setBackgroundResource(R.drawable.btn_bg_yellow_disabled);
         confirmButton.setText(R.string.set);
+        confirmButton.setTextColor(ResourcesCompat.getColorStateList(getResources(), R.color.seletor_color_cotact_btn_txt, null));
     }
 
     @Override

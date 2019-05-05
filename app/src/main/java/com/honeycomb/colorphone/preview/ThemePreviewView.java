@@ -21,7 +21,9 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -148,7 +150,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private long animationDelay = 500;
     private float bottomBtnTransY;
-    private OvershootInterpolator mInter;
+    private Interpolator mInter;
     private ValueAnimator transAnimator;
 
 
@@ -394,15 +396,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView.setAutoRun(false);
         mApplyButton = (TextView) findViewById(R.id.theme_apply_btn);
         mActionLayout = findViewById(R.id.theme_apply_layout);
-        int color = getResources().getColor(R.color.colorWindowBackground);
+        int color = getResources().getColor(R.color.black_90_transparent);
         int r = Dimensions.pxFromDp(28);
         mActionLayout.setBackground(BackgroundDrawables.createBackgroundDrawable(
                 color, 0,
                 r, r, 0, 0,
                 false, false));
         mApplyForOne = findViewById(R.id.theme_set_for_one);
-
-        mApplyButton.setEnabled(mTheme.getId() == Theme.RANDOM_THEME);
+        mApplyForOne.setEnabled(mTheme.getId() != Theme.RANDOM_THEME);
 
         mProgressViewHolder = new ProgressViewHolder();
         mRingtoneViewHolder = new RingtoneViewHolder();
@@ -449,7 +450,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         });
         bottomBtnTransY = getTransBottomLayout().getTranslationY();
 
-        mInter = new OvershootInterpolator(1.5f);
+        mInter = new AccelerateDecelerateInterpolator();
 
     }
 

@@ -47,9 +47,8 @@
                 android:minWidth="64dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:textColor="@color/textDark"
+                android:textColor="@color/primaryText"
                 android:textSize="18sp"
-
                 app:typeface="@string/proxima_nova_regular"
                 tools:text="Cancel" />
         </FrameLayout>

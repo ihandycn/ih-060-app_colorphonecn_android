@@ -4,6 +4,8 @@
     <color name="colorAccentDark">#baaa00</color>
     <color name="colorMaskDark">#22000000</color>
     <color name="colorDisabled">#d9d9d9</color>
+    <color name="colorDisabledContactBg">#383743</color>
+    <color name="colorDisabledContactTxt">#5f5f68</color>
     <color name="black_trans_half">#88000000</color>
     <color name="lightBlue">#00b4ff</color>
     <color name="darkerBlue">#0078ff</color>
