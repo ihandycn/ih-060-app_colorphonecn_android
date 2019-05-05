@@ -4,9 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -17,12 +15,8 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
-import com.superapps.util.BackgroundDrawables;
-import com.superapps.util.Commons;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Navigations;
 import com.superapps.util.Networks;
 import com.superapps.util.Preferences;
 
@@ -31,8 +25,8 @@ import colorphone.acb.com.libscreencard.game.GameManager;
 import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 import colorphone.acb.com.libscreencard.gif.CardConfig;
 import colorphone.acb.com.libscreencard.gif.GifCacheUtils;
-import colorphone.acb.com.libscreencard.gif.GifCenterActivity;
 
+@Deprecated
 public class CustomizeContentContainer extends FrameLayout {
 
     private static final String TAG = CustomizeContentContainer.class.getSimpleName();
@@ -294,65 +288,6 @@ public class CustomizeContentContainer extends FrameLayout {
 
     private View getCurrentContent(Enum type) {
         CardCustomConfig.getLogger().logEvent("RecommendCard_Show", "Type", type.name());
-
-        Runnable dismissRunnable = new Runnable() {
-            @Override
-            public void run() {
-                CustomizeContentContainer.this.dismiss();
-            }
-        };
-        if (type == ContentType.FM_GAME && AutoPilotUtils.fmCardEnable()) {
-           View cardView = AutoPilotUtils.isFmCardFouInOneType() ?
-                   GameCardHelper.getFourInOneView(getContext(), dismissRunnable)
-                   : GameCardHelper.getOneCardGameView(getContext(), dismissRunnable, true);
-
-            GameManager.getInstance().prepareRandomGames();
-
-            return cardView;
-        } else if (type == ContentType.GAME && AutoPilotUtils.gameCardEnable()) {
-            GameManager.getInstance().prepareRandomGames();
-            return GameCardHelper.getOneCardGameView(getContext(), dismissRunnable, false);
-        } else if (type == ContentType.GIF && AutoPilotUtils.gifCardEnable()) {
-
-            View gifCard = View.inflate(getContext(), R.layout.sc_layout_card_gif, null);
-            gifCard.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(HSApplication.getContext(), GifCenterActivity.class);
-                            intent.putExtra(GifCenterActivity.INTENT_EXTRA_DATA_KEY_INIT_POSITION, GifCacheUtils.getCurrentViewedGifKey() - 1);
-                            Navigations.startActivitySafely(CustomizeContentContainer.this.getContext(), intent);
-                        }
-                    };
-                    if (Commons.isKeyguardLocked(CustomizeContentContainer.this.getContext(), false)) {
-                        ScreenStatus.setPresentRunnable(runnable);
-                    } else {
-                        runnable.run();
-                    }
-
-                    CustomizeContentContainer parent = (CustomizeContentContainer) view.getParent();
-                    parent.notifyClicked();
-                    AutoPilotUtils.logRecommendCardGIFClick();
-                    CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Gif_Card_Clicked");
-                    CustomizeContentContainer.this.dismiss();
-
-                }
-            });
-            View more = gifCard.findViewById(R.id.more);
-            Drawable backgroundDrawable = BackgroundDrawables.createBackgroundDrawable(0x80000000, Dimensions.pxFromDp(14), false);
-            more.setBackgroundDrawable(backgroundDrawable);
-            TextureVideoView videoView = gifCard.findViewById(R.id.video_view);
-            videoView.setVideoPath(GifCacheUtils.getCachedGifPath());
-            videoView.play();
-            GifCacheUtils.markCachedGifViewedState(true);
-            AutoPilotUtils.logRecommendCardGIFShow();
-            CardCustomConfig.getLogger().logEvent("Colorphone_Charging_View_Gif_Card_Show");
-            return gifCard;
-        }
-
-        GameCardHelper.debugToast(type.name(), "Autopilot disabled");
         return null;
     }
 

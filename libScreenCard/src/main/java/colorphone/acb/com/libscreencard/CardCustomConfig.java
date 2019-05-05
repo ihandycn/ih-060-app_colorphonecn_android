@@ -6,7 +6,7 @@ import com.ihs.commons.utils.HSLog;
 /**
  * Created by sundxing on 17/9/5.
  */
-
+@Deprecated
 public class CardCustomConfig {
 
     private static CardCustomConfig INSTANCE = new CardCustomConfig();

@@ -39,7 +39,6 @@ import com.superapps.util.HomeKeyWatcher;
 
 import net.appcloudbox.AcbAds;
 import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
-import net.appcloudbox.autopilot.AutopilotConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -305,9 +304,8 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
             return false;
         }
         boolean config = HSConfig.optBoolean(false, "Application", "ChargingImprover", "CleanPageShowSkipBtn");
-        boolean autopilot = AutopilotConfig.getBooleanToTestNow(Ap.Improver.TOPIC_ID, "clean_page_show_skip_btn", false);
-        HSLog.d("SkipButton", "config : " + config + "; autopilot : " + autopilot);
-        return config && autopilot;
+        HSLog.d("SkipButton", "config : " + config);
+        return config ;
     }
 
     private void startScan() {
@@ -555,10 +553,8 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
     public void onBackPressed() {
         boolean canBack = true;
         if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-            canBack = HSConfig.optBoolean(true, "Application", "ChargingImprover", "CleanAllowBack")
-            && AutopilotConfig.getBooleanToTestNow(Ap.Improver.TOPIC_ID, "clean_allow_back", false);
-            boolean backToResult = HSConfig.optBoolean(false, "Application", "ChargingImprover", "CleanClickBackToResultPage")
-                    && AutopilotConfig.getBooleanToTestNow(Ap.Improver.TOPIC_ID, "clean_click_back_to_result_page", false);
+            canBack = HSConfig.optBoolean(true, "Application", "ChargingImprover", "CleanAllowBack");
+            boolean backToResult = HSConfig.optBoolean(false, "Application", "ChargingImprover", "CleanClickBackToResultPage");
             if (canBack && backToResult) {
                 ResultPageActivity.startForBattery(this, true, 0, 0);
             }

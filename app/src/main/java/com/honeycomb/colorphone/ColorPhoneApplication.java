@@ -61,7 +61,6 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
-import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.CallFinishUtils;
@@ -186,6 +185,7 @@ public class ColorPhoneApplication extends HSApplication {
 
                 CrashGuard.updateIgnoredCrashes();
                 PushManager.getInstance().onConfigChanged();
+                NotificationCondition.getsInstance().onConfigChange();
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
@@ -223,8 +223,6 @@ public class ColorPhoneApplication extends HSApplication {
             ConfigChangeManager.getInstance().onChange(ConfigChangeManager.AUTOPILOT);
             ADAutoPilotUtils.update();
             ADAutoPilotUtils.logAutopilotEventToFaric();
-
-            TriviaTip.cacheImagesFirstTime();
         }
     };
 
@@ -399,8 +397,6 @@ public class ColorPhoneApplication extends HSApplication {
         }
 
         PushManager.getInstance().init();
-
-        TriviaTip.getInstance().init();
 
         // Only restore tasks here.
         TasksManager.getImpl().init();

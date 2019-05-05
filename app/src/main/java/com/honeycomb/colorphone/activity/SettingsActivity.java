@@ -16,7 +16,7 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
+import com.honeycomb.colorphone.boost.BoostConfig;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.Analytics;
@@ -168,7 +168,7 @@ public class SettingsActivity extends HSAppCompatActivity {
 
         }
 
-        if (BoostAutoPilotUtils.isBoostPushEnable()) {
+        if (BoostConfig.isBoostPushEnable()) {
             findViewById(R.id.setting_item_notification).setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     Intent intent = new Intent(SettingsActivity.this, NotificationSettingsActivity.class);

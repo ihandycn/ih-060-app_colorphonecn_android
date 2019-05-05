@@ -5,23 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.text.format.DateUtils;
 
 import com.call.assistant.customize.CallAssistantSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.colorphone.lock.lockscreen.locker.LockerSettings;
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
-import com.honeycomb.colorphone.notification.NotificationAutoPilotUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.util.Preferences;
-
-import net.appcloudbox.autopilot.AutopilotConfig;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,31 +36,7 @@ public class ModuleUtils {
     public static final String AUTO_KEY_CALL_ASSISTANT = "call_assistant_enable";
 
     public static boolean isNeedGuideAfterApply() {
-
-        if (!isModuleConfigEnabled(AUTO_KEY_APPLY_FINISH)){
-            return false;
-        }
-
-        long guideInterval = System.currentTimeMillis() - Preferences.get(PREFS_FILE_NAME).getLong("apply_guide_time", 0);
-        int interval = (int) AutopilotConfig.getDoubleToTestNow("topic-1505294061097", "apply_finish_guide_show_interval", 6);
-        if (guideInterval < interval * DateUtils.HOUR_IN_MILLIS) {
-            return false;
-        }
-
-        int guideCount = Preferences.get(PREFS_FILE_NAME).getInt("apply_guide_count", 0);
-        int max = (int) AutopilotConfig.getDoubleToTestNow("topic-1505294061097", "apply_finish_guide_max_show_time", 1);
-
-        if (guideCount >= max) {
-            return false;
-        }
-
-        if (isAllModuleEnabled()) {
-            return false;
-        }
-
-        Preferences.get(PREFS_FILE_NAME).putLong("apply_guide_time", System.currentTimeMillis());
-        Preferences.get(PREFS_FILE_NAME).putInt("apply_guide_count", ++guideCount);
-        return true;
+        return false;
     }
 
     public static boolean isModuleConfigEnabled(String moduleKey) {
@@ -76,8 +47,7 @@ public class ModuleUtils {
             }
 
             return isShowModulesDueToConfig() ||
-                    (HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable")
-                    && NotificationAutoPilotUtils.isMessageAssistantEnabled());
+                    (HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable"));
         } else if (AUTO_KEY_GUIDE_START.equals(moduleKey)) {
             return  HSConfig.optBoolean(false, "Application", "Guide", "StartGuideEnable");
         } else if (AUTO_KEY_APPLY_FINISH.equals(moduleKey)) {
@@ -225,7 +195,6 @@ public class ModuleUtils {
 
     public static boolean isChargingImproverEnabled() {
         return HSConfig.optBoolean(false, "Application", "ChargingImprover", "Enabled")
-                && Ap.Improver.enable()
                 && isChargingImproverNewUser();
     }
 
