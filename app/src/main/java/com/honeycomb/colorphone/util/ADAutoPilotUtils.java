@@ -20,7 +20,8 @@ public class ADAutoPilotUtils {
     }
 
     public static long getCallFinishWireTimeInterval() {
-        return 60 * DateUtils.MINUTE_IN_MILLIS;
+        return HSConfig.optInteger(30, "Application", "CallFinishWire", "TimeIntervalMinute")
+                * DateUtils.MINUTE_IN_MILLIS;
     }
 
     public static int getThemeWireShowMaxTime() {
@@ -28,7 +29,8 @@ public class ADAutoPilotUtils {
     }
 
     public static long getThemeWireShowInterval() {
-        return 15 * DateUtils.SECOND_IN_MILLIS;
+        return HSConfig.optInteger(15, "Application", "FullScreen", "TimeIntervalSecond")
+                * DateUtils.SECOND_IN_MILLIS;
     }
 
     public static void logThemeWireShow() {

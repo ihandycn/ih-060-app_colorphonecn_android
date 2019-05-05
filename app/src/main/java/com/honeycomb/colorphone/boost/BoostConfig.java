@@ -10,14 +10,14 @@ import com.ihs.commons.utils.HSLog;
  * Created by zhewang on 12/01/2018.
  */
 
-public class BoostAutoPilotUtils {
+public class BoostConfig {
 
     public static boolean isBoostPushEnable() {
         return HSConfig.optBoolean(false, "Application", "Boost", "Enable");
     }
 
     public static double getBoostPushInterval() {
-        double interval = 2;
+        double interval = HSConfig.optInteger(1, "Application", "Boost", "BoostPushIntervalHour");
         HSLog.i(NotificationCondition.TAG, "Debug getBoostPushInterval == " + interval);
         if (NotificationCondition.DEBUG_BOOST_PLUS_NOTIFICATION) {
             return 0;
@@ -26,7 +26,7 @@ public class BoostAutoPilotUtils {
     }
 
     public static int getBoostPushMaxCount() {
-        double max = 4;
+        double max = HSConfig.optInteger(1, "Application", "Boost", "BoostMaxTime");
         HSLog.i(NotificationCondition.TAG, "Debug getBoostPushMaxCount == " + max);
         if (NotificationCondition.DEBUG_BOOST_PLUS_NOTIFICATION) {
             return 100;

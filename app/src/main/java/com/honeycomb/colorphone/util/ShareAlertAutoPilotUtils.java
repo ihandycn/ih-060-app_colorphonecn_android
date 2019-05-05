@@ -2,18 +2,20 @@ package com.honeycomb.colorphone.util;
 
 import android.text.format.DateUtils;
 
+import com.ihs.commons.config.HSConfig;
+
 public class ShareAlertAutoPilotUtils {
 
     public static boolean isInsideAppEnable() {
-        return false;
+        return HSConfig.optBoolean(false, "Application", "Share", "Enable");
     }
 
     public static long getInsideAppShareAlertShowInterval() {
-        return 4 * DateUtils.DAY_IN_MILLIS;
+        return HSConfig.optInteger(4, "Application", "Share", "TimeInterval") * DateUtils.HOUR_IN_MILLIS;
     }
 
     public static int getInsideAppShareAlertShowMaxTime() {
-        return 2;
+        return HSConfig.optInteger(2, "Application", "Share", "MaxTime");
     }
 
     public static String getInsideAppShareText() {
@@ -26,23 +28,12 @@ public class ShareAlertAutoPilotUtils {
 
 
     public static long getOutsideAppShareAlertShowInterval() {
-        return 4 * DateUtils.DAY_IN_MILLIS;
+        return HSConfig.optInteger(4, "Application", "Share", "TimeInterval") * DateUtils.HOUR_IN_MILLIS;
     }
 
     public static int getOutsideAppShareAlerShowMaxTime() {
-        return 2;
-    }
+        return HSConfig.optInteger(2, "Application", "Share", "MaxTime");
 
-    public static void logInsideAppShareAlertShow() {
-    }
-
-    public static void logInsideAppShareAlertClicked() {
-    }
-
-    public static void logOutsideAppShareAlertShow() {
-    }
-
-    public static void logOutsideAppShareAlertClicked() {
     }
 
     public static String getOutsideAppShareText() {

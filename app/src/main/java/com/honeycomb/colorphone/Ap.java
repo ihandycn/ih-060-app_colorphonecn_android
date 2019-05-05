@@ -3,6 +3,7 @@ package com.honeycomb.colorphone;
 import android.text.TextUtils;
 
 import com.honeycomb.colorphone.util.Analytics;
+import com.ihs.commons.config.HSConfig;
 
 import net.appcloudbox.autopilot.AutopilotEvent;
 
@@ -117,11 +118,11 @@ public class Ap {
     public static class RandomTheme {
 
         public static boolean enable() {
-            return false;
+            return HSConfig.optBoolean(false, "Application", "RandomTheme", "Enable");
         }
 
         public static int intervalHour() {
-            return 24;
+            return HSConfig.optInteger(24, "Application", "RandomTheme", "TimeIntervalHour");
         }
 
         public static void logEvent(String name) {

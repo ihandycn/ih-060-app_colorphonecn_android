@@ -185,6 +185,7 @@ public class ColorPhoneApplication extends HSApplication {
 
                 CrashGuard.updateIgnoredCrashes();
                 PushManager.getInstance().onConfigChanged();
+                NotificationCondition.getsInstance().onConfigChange();
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
             } else if (ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH.equals(notificationName)) {
