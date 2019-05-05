@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/colorPrimary"
-        app:tabBackground="@drawable/bg_round_material_compat"
+        app:tabBackground="@drawable/tab_background"
         app:tabIndicatorHeight="0dp"
         app:tabGravity="fill"
         app:tabMode="fixed" />
