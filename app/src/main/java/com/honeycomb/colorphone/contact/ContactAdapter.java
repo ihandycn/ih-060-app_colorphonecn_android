@@ -114,7 +114,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
     private void onItemChecked(int pos, boolean isChecked) {
-        people.get(pos).setSelected(isChecked);
+        SimpleContact contactItem = people.get(pos);
+        boolean stateChange = isChecked != contactItem.isSelected();
+        if (!stateChange) {
+            // State not change
+            return;
+        }
+        contactItem.setSelected(isChecked);
         int lastTimeCount = selectedCount;
         if (isChecked) {
             selectedCount++;
