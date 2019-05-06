@@ -16,6 +16,7 @@ import com.superapps.util.Threads;
  * Created by jelly on 2017/12/18.
  */
 
+@Deprecated
 public class PackageAddReceiver extends BroadcastReceiver {
 
     private static final int INSTALL_NOT_BY_PROMOTE = 0;
