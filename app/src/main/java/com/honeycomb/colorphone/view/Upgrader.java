@@ -1,7 +1,5 @@
 package com.honeycomb.colorphone.view;
 
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
-import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.ihs.app.framework.HSApplication;
 
 public class Upgrader {
@@ -14,7 +12,7 @@ public class Upgrader {
         int newVersion = HSApplication.getCurrentLaunchInfo().appVersionCode;
 
         if (oldVersion <= VERSION_1_0_7 && newVersion > VERSION_1_0_7) {
-            SmartChargingSettings.setChargingReportUserEnabled(ChargingScreenSettings.isChargingScreenUserEnabled());
+//            SmartChargingSettings.setChargingReportUserEnabled(ChargingScreenSettings.isChargingScreenUserEnabled());
         }
     }
 }

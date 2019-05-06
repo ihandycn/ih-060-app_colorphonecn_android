@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Dark.CustomOverScroll" parent="@android:style/Theme.DeviceDefault">
-        <item name="android:colorEdgeEffect">#c9c9c9</item>
-    </style>
     <style name="AppLightStatusBarTheme.Welcome" parent="AppLightStatusBarTheme">
         <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="android:windowNoTitle">true</item>

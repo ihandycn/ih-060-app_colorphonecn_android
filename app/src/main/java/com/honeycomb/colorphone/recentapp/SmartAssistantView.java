@@ -21,7 +21,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
@@ -325,7 +324,7 @@ public class SmartAssistantView extends FrameLayout implements View.OnClickListe
             disableGuide.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (ChargingScreenUtils.isFastDoubleClick()) {
+                    if (Utils.isFastDoubleClick()) {
                         return;
                     }
                     LauncherAnalytics.logEvent("RecentApps_Disable_Success");

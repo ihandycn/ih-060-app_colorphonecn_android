@@ -21,7 +21,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.resultpage.data.CardData;
@@ -30,6 +29,7 @@ import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.AutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.util.ViewUtils;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -87,7 +87,6 @@ abstract class ResultController implements View.OnClickListener {
     private AcbNativeAdContainerView mAdContainer;
     private AcbNativeAdPrimaryView mAdImageContainer;
     private ViewGroup mChargingScreenImageContainer;
-    private ImageView mImageIv;
     private ViewGroup mAdChoice;
     private AcbNativeAdIconView mAdIconView;
     private TextView mTitleTv;
@@ -187,7 +186,6 @@ abstract class ResultController implements View.OnClickListener {
 //            mImageFrameShadow2 = ViewUtils.findViewById(resultView, R.id.result_image_iv_shadow_2);
             mAdImageContainer = ViewUtils.findViewById(resultView, R.id.result_image_container_ad);
             mChargingScreenImageContainer = ViewUtils.findViewById(resultView, R.id.result_image_container_charging_screen);
-            mImageIv = ViewUtils.findViewById(resultView, R.id.result_image_iv);
             mAdChoice = ViewUtils.findViewById(resultView, R.id.result_ad_choice);
             mAdIconView = ViewUtils.findViewById(resultView, R.id.result_ad_icon);
             mTitleTv = ViewUtils.findViewById(resultView, R.id.description_title_tv);

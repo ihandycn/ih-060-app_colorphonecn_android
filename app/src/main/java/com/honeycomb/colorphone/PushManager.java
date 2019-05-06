@@ -11,8 +11,8 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
-import com.colorphone.lock.boost.DeviceManager;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.util.LauncherAnalytics;

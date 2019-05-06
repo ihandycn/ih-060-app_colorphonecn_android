@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.airbnb.lottie.LottieAnimationView android:id="@+id/cash_center_entrance_icon"
+<com.airbnb.lottie.LottieAnimationView
     android:layout_width="66dp"
     android:layout_height="66dp"
     android:layout_gravity="center"

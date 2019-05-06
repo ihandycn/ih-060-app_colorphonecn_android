@@ -73,7 +73,6 @@
             android:src="@drawable/gif_center_arrow_left"
             />
         <ImageView
-            android:id="@+id/guide_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

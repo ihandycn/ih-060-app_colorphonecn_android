@@ -4,7 +4,6 @@
     <string name="loading_progress" translatable="false">%1$d %%</string>
     <string name="acb_phone_caller_default_name" translatable="false">Marry</string>
     <string name="acb_phone_caller_default_number" translatable="false">626-202-3399</string>
-    <string name="network_err" translatable="false">No Internet connection.</string>
     <!--DEBUG-->
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
@@ -15,11 +14,8 @@
     <string name="settings">Settings</string>
     <string name="feedback">Feedback</string>
 
-    <string name="theme_apply">Apply</string>
-
     <string name="apply_success">Apply Success</string>
     <string name="theme_current">Current Theme</string>
-    <string name="send_email">Send Email</string>
     <string name="loading">Loading </string>
 
     <string name="privacy_policy">Privacy policy</string>
@@ -29,7 +25,6 @@
     <string name="guide_first_page_title">Please enable the features and permissions:\n Remind you about missed calls.</string>
     <string name="guide_first_page_title_old">Enable Call Assistant &amp; Charging Monitor to:\n Remind you about missed calls\n Provide detailed charging status.</string>
 
-    <string name="acb_outapp_guide_screen_flash_content">Try the unique call interface to make your phone more fashionable. It may contain ads.</string>
     <string name="about">About</string>
     <string name="guide_apply_theme_hint">Your theme of Caller Screen has been  successfully set up! Enjoy it!</string>
 
@@ -66,11 +61,6 @@
     <string name="empty_contact_hint" translatable="false">You haven’t set up theme\n for your contacts.</string>
 
     <!--交叉推广-->
-    <string name="promote_locker_alert_title" translatable="false">Color Locker For Free</string>
-    <string name="promote_locker_alert_description" translatable="false">Choose beautiful wallpapers to make your lock screen stand out</string>
-    <string name="promote_add_for_free" translatable="false">ADD FOR FREE</string>
-    <string name="promote_no_thanks" translatable="false">NO, THANKS</string>
-    <string name="promote_apply_success" translatable="false">APPLY SUCCESS!</string>
 
     <!--Ringtone-->
     <string name="ringtone_hint_after_apply">Set the theme and ringtone successfully</string>
@@ -78,29 +68,18 @@
 
     <!-- Boost+ -->
     <string name="boost_plus_memory_used">Memory Used</string>
-    <string name="boost_plus_freeable">Memory to Clean</string>
-    <string name="optimalpage_boostplus">Perfect</string>
-    <string name="optimalpage_boostplus_desc">Your phone is as fast as a rocket!</string>
-    <string name="optimalpage_junkclean_desc">Your phone is clean as new!</string>
 
 
     <!-- Suffix added to a number to signify size in bytes. -->
-    <string name="byte_abbr" translatable="false">B</string>
     <!-- Suffix added to a number to signify size in kilobytes. -->
-    <string name="kilobyte_abbr" translatable="false">KB</string>
     <!-- Suffix added to a number to signify size in megabytes. -->
     <string name="megabyte_abbr" translatable="false">MB</string>
     <!-- Suffix added to a number to signify size in gigabytes. -->
-    <string name="gigabyte_abbr" translatable="false">GB</string>
     <!-- Suffix added to a number to signify size in terabytes. -->
-    <string name="terabyte_abbr" translatable="false">TB</string>
     <!-- Suffix added to a number to signify size in petabytes. -->
-    <string name="petabyte_abbr" translatable="false">PB</string>
 
-    <string name="boost_plus_free_up">Freed Up</string>
     <string name="boost_plus_exiting">Exiting</string>
 
-    <string name="boost_tip_optimal">Your phone is optimal now!</string>
     <string name="boost_title">Boost</string>
     <string name="boost_notification_low_ram_btn">BOOST</string>
 
@@ -114,10 +93,6 @@
     <string name="settings_notification_boost">Boost Notification</string>
     <string name="settings_notification_boost_sub">Get reminders when memory usage is high</string>
 
-    <string name="may_contain_ads">May Contain ads</string>
-
-    <string name="avatar_content">Create your avatar right away</string>
-    <string name="action_back">BACK</string>
     <string name="action_install">INSTALL</string>
 
     <string name="five_star_hint_text">How was your experience with us?</string>
@@ -135,7 +110,6 @@
     <string name="smart_assistant">Smart Assistant</string>
     <string name="smart_assistant_tip_msg">Recommend apps by intelligence.</string>
     <string name="disable">Disable</string>
-    <string name="usage_access_guide_hint">Enable Usage Access to Show Recommend Apps</string>
 
     <string name="accessibility_service_description" translatable="false">Not used</string>
 
@@ -144,7 +118,6 @@
     <!--notification access -->
     <string name="acb_phone_grant_notification_access_title">Enable Notifications Access to Answer Calls</string>
     <string name="draw_overlay_window_hint">Enable Drawing Over Other Apps to Show Screen Flash</string>
-    <string name="draw_overlay_bar_hint">Enable Access to Use Color Phone</string>
     <string name="acb_phone_enable_notification">Enable it Now</string>
     <string name="grant_access_to_optimize_experience">Enable Access to Answer Calls</string>
 
@@ -162,7 +135,6 @@
     <string name="gdpr_dialog_title">Confirm to turn off?</string>
     <string name="gdpr_dialog_content">These data are collected and used to help the developer improve the apps for better using experience.</string>
     <string name="gdpr_settings_cell">Analytics &amp; Advertising</string>
-    <string name="gdpr_share_data">Share data with developers</string>
     <string name="gdpr_dialog_not_now">NOT NOW</string>
     <string name="gdpr_dialog_turn_off">TURN OFF</string>
 
@@ -179,67 +151,20 @@
     <!-- Cpu Cooler -->
     <string name="cpu_cooler_notification_title" translatable="false">CPU</string>
     <string name="cpu_cooler_list_head_title">CPU-heating Apps</string>
-    <string name="cpu_cooler_button_title">COOL DOWN</string>
     <string name="cpu_cooler_state_hint">CPU is %1$s</string>
     <string name="cpu_cooler_state_cool">cool</string>
     <string name="cpu_cooler_state_overheated">overheated</string>
     <string name="cpu_cooler_state_extremely_heated">Heated</string>
     <string name="cpu_cooler_cleaning_hint">Closing CPU consumers…</string>
-    <string name="cool_capital">COOL</string>
 
     <!-- Battery Main-->
     <string name="battery_title">Battery</string>
-    <string name="battery_bluetooth">Bluetooth</string>
-    <string name="battery_mobile_data">Mobile Data</string>
-    <string name="battery_current">Current</string>
-    <string name="battery_already_optimal">Your battery is in good condition!</string>
-    <string name="battery_auto">Auto</string>
-    <string name="battery_auto_sync">Auto Sync</string>
-    <string name="battery_brightness">Brightness</string>
-    <string name="battery_careful">Careful</string>
-    <string name="battery_charging_left">CHARGING LEFT</string>
-    <string name="battery_current_content">Your current settings will be saved here.</string>
-    <string name="battery_haptic_feedback">Haptic Feedback</string>
-    <string name="battery_hide_system_apps">Hide System Apps</string>
-    <string name="battery_low">Low Battery</string>
-    <string name="battery_low_content">Optimize to extend your battery life.</string>
-    <string name="battery_max_saver">Max Saver</string>
-    <string name="battery_max_saver_content">Turn off WiFi, Bluetooth, vibrate and set screen timeout to 15s.</string>
-    <string name="battery_mode">Mode</string>
-    <string name="battery_off">Off</string>
-    <string name="battery_on">On</string>
-    <string name="battery_optimize">OPTIMIZE</string>
-    <string name="battery_optimize_new">SAVE POWER</string>
-    <string name="battery_previous">Previous</string>
-    <string name="battery_previous_content">Change back to your last settings.</string>
-    <string name="battery_rank">Rank</string>
-    <string name="battery_reapply">Reapply</string>
-    <string name="battery_screen_timeout">Screen Timeout</string>
-    <string name="battery_smart_saver">Smart Saver</string>
-    <string name="battery_smart_saver_content">Turn off Bluetooth, vibrate and set screen timeout to 30s.</string>
     <string name="battery_stop">STOP</string>
-    <string name="battery_vibrate">Vibrate</string>
     <string name="battery_view">VIEW</string>
-    <string name="battery_wifi">Wifi</string>
-    <string name="battery_low_tip_title">Low Battery!</string>
-    <string name="battery_low_tip_desc">Try battery saver to minimize power consumption.</string>
-    <string name="battery_low_tip_btn_cancel">LATER</string>
-    <string name="battery_low_tip_btn_ok">TRY IT NOW</string>
-    <string name="battery_draining_apps">Battery-draining apps!</string>
     <string name="battery_scaning">Scaning…</string>
-    <string name="battery_healthy">Healthy</string>
-    <string name="battery_time_remainning">Time remaining</string>
-    <string name="battery_call_time">Call time:</string>
-    <string name="battery_wifi_time">Wifi time:</string>
-    <string name="battery_video_time">Video time:</string>
     <string name="battery_clean_description">Power consuming apps</string>
     <string name="battery_extended">Battery Life Extended</string>
-    <string name="battery_careful_content">Your battery is draining faster than usual.</string>
 
-    <string name="menu_item_settings">Settings</string>
-    <string name="charging_screen_settings_title">Battery protection</string>
-    <string name="charging_screen_settings_subtitle">(May contain ads)</string>
-    <string name="charging_screen_settings_description">Monitor charging status.</string>
     <string name="apply_btn">APPLY</string>
     <string name="battery_clean_title">Battery Saver</string>
     <string name="boost_plus_optimal">OPTIMAL</string>
@@ -254,13 +179,10 @@
     <string name="phone_contact_permission_settings_guide_title">Select "Permissions" and activate "Phone", "Contacts"</string>
 
     <!--Cash-Center-->
-    <string name="crash_guide_content">Create a desktop to earn cash again later?</string>
-    <string name="spin">Spin</string>
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Follow us on facebook</string>
     <string name="skip">SKIP</string>
-    <string name="battery_optimized">OPTIMIZED</string>
     <string name="guide_theme_random_hint">Applying this theme, you can enjoy random themes for incoming calls.</string>
 
     <string name="theme_recommend_content">Apply this new theme for %1$s</string>
@@ -273,7 +195,6 @@
     <string name="trivia_tip_button_set_as_theme">Apply for ScreenFlash</string>
 
     <!-- TODO Remove unused-->
-    <string name="desktop_tips_content_guide_msg"> </string>
     <string name="theme_instead_title">Find More Themes</string>
 
     <!--TODO remove this. Use libSuperApps-->
@@ -283,4 +204,6 @@
     <string name="custom_font_semibold" translatable="false">ProximaNova-Semibold</string>
     <string name="custom_font_bold" translatable="false">ProximaNova-Bold</string>
     <string name="custom_font_regular_condensed" translatable="false">ProximaNova-Regular-Condensed</string>
+
+    <string name="more_gif">More</string>
 </resources>
