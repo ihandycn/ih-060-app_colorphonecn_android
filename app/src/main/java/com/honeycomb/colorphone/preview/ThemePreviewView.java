@@ -102,7 +102,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final boolean NO_ANIMITION = false;
 
     private static final long AUTO_HIDE_TIME = 15000; //15s
-    private static final long ANIMATION_DURATION = 400;
+    private static final long ANIMATION_DURATION = 300;
     private static final long WINDOW_ANIM_DURATION = 400;
     private static final int TRANS_IN_DURATION = 400;
 
@@ -396,14 +396,25 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView.setAutoRun(false);
         mApplyButton = (TextView) findViewById(R.id.theme_apply_btn);
         mActionLayout = findViewById(R.id.theme_apply_layout);
-        int color = getResources().getColor(R.color.black_90_transparent);
-        int r = Dimensions.pxFromDp(28);
-        mActionLayout.setBackground(BackgroundDrawables.createBackgroundDrawable(
-                color, 0,
-                r, r, 0, 0,
-                false, false));
+
+
         mApplyForOne = findViewById(R.id.theme_set_for_one);
         mApplyForOne.setEnabled(mTheme.getId() != Theme.RANDOM_THEME);
+
+
+        // set background
+        int color = getResources().getColor(R.color.black_80_transparent);
+        int colorRipple = getResources().getColor(R.color.material_ripple);
+
+        int r = Dimensions.pxFromDp(28);
+        mApplyForOne.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                color, colorRipple,
+                r, 0, 0, 0,
+                false, true));
+        mApplyButton.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                color, colorRipple,
+                0, r, 0, 0,
+                false, true));
 
         mProgressViewHolder = new ProgressViewHolder();
         mRingtoneViewHolder = new RingtoneViewHolder();

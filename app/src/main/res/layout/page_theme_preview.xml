@@ -118,7 +118,7 @@
         android:translationY="@dimen/theme_apply_btn_height"
         tools:translationY="0dp"
         android:orientation="horizontal"
-        tools:background="@color/black_90_transparent">
+        tools:background="@color/black_80_transparent">
         <TextView
             android:id="@+id/theme_set_for_one"
             android:layout_height="match_parent"
@@ -130,12 +130,17 @@
             android:textColor="@color/selector_color_theme_set"
             android:text="设给ta"
             android:enabled="false" />
-        <View
-            android:layout_width="2dp"
-            android:layout_gravity="center_vertical"
-            android:background="@color/primaryText"
-            android:alpha="0.5"
-            android:layout_height="20dp"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/black_80_transparent">
+            <View
+                android:layout_width="2dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/primaryText"
+                android:alpha="0.5"
+                android:layout_height="20dp"/>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/theme_apply_btn"
