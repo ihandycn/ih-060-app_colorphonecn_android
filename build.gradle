@@ -65,12 +65,6 @@ allprojects {
         maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 
-    gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            // Xbootclasspath/p:是 Java 编译的寻址优先设置，先找缺省路径还是全路径
-            options.compilerArgs.add('-Xbootclasspath/p:libs/api/android_27.jar')
-        }
-    }
 }
 
 task clean(type: Delete) {
