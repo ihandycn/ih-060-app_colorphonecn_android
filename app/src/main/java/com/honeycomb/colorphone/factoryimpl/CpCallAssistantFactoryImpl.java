@@ -181,7 +181,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinished() {
-                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
+                LauncherAnalytics.logEventAndFirebase( "ColorPhone_Call_Finished");
                 if (TriviaTip.isModuleEnable()
                         && Ap.TriviaTip.enableAdShowBeforeTrivia()) {
                     TriviaTip.getInstance().preloadAd();
@@ -213,7 +213,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onAdShow(int callType) {
-                super.onAdShow(callType);
+                LauncherAnalytics.logEventAndFirebase("CallFinished_View_AD_Shown", "callType", getCallTypeStr(callType));
                 isADShown = true;
                 HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
             }
@@ -221,7 +221,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onCallFinishedCallAssistantShow(String number) {
                 ThemeRecommendManager.getInstance().increaseCallTimes(number);
-                LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Call_Assistant_Show");
+                LauncherAnalytics.logEventAndFirebase("ColorPhone_Call_Finished_Call_Assistant_Show");
                 ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number);
             }
 

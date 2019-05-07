@@ -26,6 +26,7 @@ import com.call.assistant.customize.CallAssistantManager;
 import com.call.assistant.customize.CallAssistantSettings;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
@@ -637,6 +638,7 @@ public class ColorPhoneApplication extends HSApplication {
         // Set up Crashlytics, disabled for debug builds
         if (!isFabricInitted) {
             Fabric.with(this, new Crashlytics(), new Answers());
+            FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(true);
             isFabricInitted = true;
         }
     }
@@ -662,7 +664,7 @@ public class ColorPhoneApplication extends HSApplication {
         if (HSApplication.getFirstLaunchInfo().appVersionCode == HSApplication.getCurrentLaunchInfo().appVersionCode) {
             if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_AGENCY_INFO_LOGGED)) {
                 HSPreferenceHelper.getDefault().putBoolean(PREF_KEY_AGENCY_INFO_LOGGED, true);
-                LauncherAnalytics.logEvent("New_User_Agency_Info", "install_type", installType, "user_level", "" + HSConfig.optString("not_configured", "UserLevel"), "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
+                LauncherAnalytics.logEventAndFirebase("New_User_Agency_Info", "install_type", installType, "user_level", "" + HSConfig.optString("not_configured", "UserLevel"), "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
             }
         }
     }

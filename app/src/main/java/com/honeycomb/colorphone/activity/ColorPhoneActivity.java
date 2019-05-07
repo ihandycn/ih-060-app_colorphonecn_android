@@ -494,7 +494,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 Preferences prefsFile = Preferences.getDefault();
                 if (pastVisibleItems + visibleItemCount >= totalItemCount && !prefsFile.getBoolean(PREFS_SCROLL_TO_BOTTOM, false)) {
                     //End of list
-                    LauncherAnalytics.logEvent("ColorPhone_List_Bottom_Show");
+                    LauncherAnalytics.logEventAndFirebase("ColorPhone_List_Bottom_Show");
                     prefsFile.putBoolean(PREFS_SCROLL_TO_BOTTOM, true);
                 }
 
