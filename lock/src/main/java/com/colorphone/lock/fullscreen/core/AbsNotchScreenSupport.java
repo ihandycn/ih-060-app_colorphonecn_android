@@ -21,7 +21,7 @@ public abstract class AbsNotchScreenSupport implements INotchSupport {
     @Override
     public void fullScreenDontUseStatus(Activity activity, OnNotchCallBack notchCallBack) {
         NotchStatusBarUtils.setFullScreenWithSystemUi(activity.getWindow(), false);
-        onBindCallBackWithNotchProperty(activity, notchCallBack);
+        onBindCallBackWithNotchProperty(activity.getWindow(), notchCallBack);
     }
 
     @Override
@@ -37,29 +37,16 @@ public abstract class AbsNotchScreenSupport implements INotchSupport {
     @Override
     public void fullScreenUseStatus(Activity activity, OnNotchCallBack notchCallBack) {
         NotchStatusBarUtils.setFullScreenWithSystemUi(activity.getWindow(), false);
-        onBindCallBackWithNotchProperty(activity, getNotchHeight(activity.getWindow()), notchCallBack);
+        onBindCallBackWithNotchProperty(activity.getWindow(), notchCallBack);
     }
 
-    protected void onBindCallBackWithNotchProperty(Activity activity, OnNotchCallBack notchCallBack) {
+    protected void onBindCallBackWithNotchProperty(Window window, OnNotchCallBack notchCallBack) {
         if (notchCallBack != null) {
             NotchProperty notchProperty = new NotchProperty();
-            notchProperty.setNotchHeight(getNotchHeight(activity.getWindow()));
-            notchProperty.setNotch(isNotchScreen(activity.getWindow()));
-            if (notchCallBack != null) {
-                notchCallBack.onNotchPropertyCallback(notchProperty);
-            }
-        }
-    }
-
-    protected void onBindCallBackWithNotchProperty(Activity activity, int marginTop, OnNotchCallBack notchCallBack) {
-        if (notchCallBack != null) {
-            NotchProperty notchProperty = new NotchProperty();
-            notchProperty.setNotchHeight(getNotchHeight(activity.getWindow()));
-            notchProperty.setNotch(isNotchScreen(activity.getWindow()));
-            notchProperty.setMarginTop(marginTop);
-            if (notchCallBack != null) {
-                notchCallBack.onNotchPropertyCallback(notchProperty);
-            }
+            notchProperty.setNotchHeight(getNotchHeight(window));
+            notchProperty.setNotch(isNotchScreen(window));
+            notchProperty.setMarginTop(notchProperty.geNotchHeight());
+            notchCallBack.onNotchPropertyCallback(notchProperty);
         }
     }
 }

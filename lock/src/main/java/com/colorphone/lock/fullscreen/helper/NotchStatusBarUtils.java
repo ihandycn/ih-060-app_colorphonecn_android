@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.colorphone.lock.fullscreen.NotchTools;
+import com.superapps.util.Dimensions;
 
 
 /**
@@ -31,10 +32,7 @@ public class NotchStatusBarUtils {
             return statusBarHeight;
         }
         if (statusBarHeight <= 0) {
-            int resId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-            if (resId > 0) {
-                statusBarHeight = context.getResources().getDimensionPixelSize(resId);
-            }
+            statusBarHeight = Dimensions.getStatusBarHeight(context);
         }
         return statusBarHeight;
     }
