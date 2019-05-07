@@ -178,7 +178,7 @@ public class WeatherPushManager {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        return (6 <= hourOfDay && hourOfDay < 9 && Ap.WeatherPush.showInMor()) || (18 <= hourOfDay && hourOfDay < 21) && Ap.WeatherPush.showAtNight();
+        return (6 <= hourOfDay && hourOfDay < 11 && Ap.WeatherPush.showInMor()) || (18 <= hourOfDay && hourOfDay < 23) && Ap.WeatherPush.showAtNight();
     }
 
     public boolean showOncePerValidTime() {
