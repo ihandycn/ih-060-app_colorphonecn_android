@@ -544,18 +544,18 @@ public class ColorPhoneApplication extends HSApplication {
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                     ScreenStatusReceiver.onScreenOn(context);
                     if (!Commons.isKeyguardLocked(getApplicationContext(), true)) {
-                        tryShowWeather();
+                        tryShowWeather(false);
                     }
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
-                    tryShowWeather();
+                    tryShowWeather(true);
                     ScreenStatusReceiver.onUserPresent(context);
                 }
             }
         }, screenFilter);
     }
 
-    private void tryShowWeather() {
-        WeatherPushManager.getInstance().push(this);
+    private void tryShowWeather(boolean hasLockGuard) {
+        WeatherPushManager.getInstance().push(this, hasLockGuard);
     }
 
     private void systemFix() {

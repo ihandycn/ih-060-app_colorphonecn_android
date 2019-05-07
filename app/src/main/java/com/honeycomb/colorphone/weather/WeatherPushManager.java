@@ -66,10 +66,11 @@ public class WeatherPushManager {
         return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean(WeatherPushManager.PREF_KEY_DISABLE_WEATHER_PUSH, false);
     }
 
-    public void push(Context context) {
+    public void push(Context context, boolean hasLockGuard) {
         if (WeatherPushManager.weatherForecastShouldShow()) {
             String videoType = getCurrentVideoType();
             LauncherAnalytics.logEvent("unlock_lockscreen_in_limited_time",
+                    "lockstate", hasLockGuard ? "Yes" : "No",
                     "type", WeatherPushManager.getInstance().getEventDayTime(),
                     "videotype", videoType == null ? "NONE" : videoType,
                     "time", WeatherVideoActivity.getShowTimeEventParameter());
