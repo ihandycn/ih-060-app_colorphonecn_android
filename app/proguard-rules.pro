@@ -177,3 +177,5 @@
 -keep class com.alibaba.sdk.android.**{*;}
 -keep class com.ut.**{*;}
 -keep class com.ta.**{*;}
+
+-keep class com.colorphone.lock.fullscreen.helper.SystemProperties {*;}

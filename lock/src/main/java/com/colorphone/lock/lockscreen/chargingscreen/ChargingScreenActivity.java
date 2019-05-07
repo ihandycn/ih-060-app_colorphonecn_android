@@ -4,11 +4,16 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 
 import com.colorphone.lock.R;
+import com.colorphone.lock.fullscreen.NotchTools;
+import com.colorphone.lock.fullscreen.core.NotchProperty;
+import com.colorphone.lock.fullscreen.core.OnNotchCallBack;
+import com.colorphone.lock.fullscreen.phone.PVersionNotchScreen;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -69,6 +74,20 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
         mScreen = new ChargingScreen();
         mScreen.setActivityMode(true);
         mScreen.setup(((ViewGroup)findViewById(R.id.charging_screen_activity)), getIntent().getExtras());
+
+        NotchTools.getFullScreenTools().showNavigation(true).fullScreenUseStatus(this, new OnNotchCallBack() {
+            @Override
+            public void onNotchPropertyCallback(NotchProperty notchProperty) {
+                HSLog.d("Notch", "has notch : " + notchProperty.isNotch());
+                View titleLayout = findViewById(R.id.charging_screen_title_container);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) titleLayout.getLayoutParams();
+                if (params != null) {
+                    params.topMargin += notchProperty.getMarginTop();
+                    titleLayout.setLayoutParams(params);
+                }
+            }
+        });
+
     }
 
     @Override

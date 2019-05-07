@@ -6,6 +6,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.colorphone.lock.R;
+import com.colorphone.lock.fullscreen.NotchTools;
+import com.colorphone.lock.fullscreen.core.NotchProperty;
+import com.colorphone.lock.fullscreen.core.OnNotchCallBack;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -63,12 +66,19 @@ public class LockerActivity extends HSAppCompatActivity {
         try {
             setContentView(R.layout.activity_locker);
 
+            NotchTools.getFullScreenTools().showNavigation(true).fullScreenUseStatus(this, new OnNotchCallBack() {
+                @Override
+                public void onNotchPropertyCallback(NotchProperty notchProperty) {
+
+                }
+            });
+
             mLocker = new Locker();
             mLocker.setActivityMode(true);
             mLocker.setup(((ViewGroup)findViewById(R.id.activity_locker)), null);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !noNavigationPadding) {
-                ViewGroup container = (ViewGroup) findViewById(R.id.transition_container);
+                ViewGroup container = (ViewGroup) findViewById(R.id.locker_pager);
                 container.setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(this));
             }
         } catch (Exception e) {
