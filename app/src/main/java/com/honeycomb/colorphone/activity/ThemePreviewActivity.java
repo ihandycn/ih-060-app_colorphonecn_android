@@ -12,8 +12,8 @@ import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
+import com.colorphone.lock.fullscreen.NotchTools;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
@@ -85,16 +85,10 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
         setContentView(R.layout.activity_theme_preview);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            int uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN //hide statusBar
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //hide navigationBar
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-            getWindow().getDecorView().setSystemUiVisibility(uiFlags);
+            NotchTools.getFullScreenTools().showNavigation(false).fullScreenUseStatus(this);
         } else {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         }
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         mViewPager = (ViewPager) findViewById(R.id.preview_view_pager);
         mAdapter = new ThemePagerAdapter();
