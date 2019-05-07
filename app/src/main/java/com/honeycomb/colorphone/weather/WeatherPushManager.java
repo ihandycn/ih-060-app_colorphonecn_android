@@ -67,7 +67,8 @@ public class WeatherPushManager {
     }
 
     public void push(Context context, boolean hasLockGuard) {
-        if (WeatherPushManager.weatherForecastShouldShow()) {
+        if (inValidTime()
+                && WeatherPushManager.getInstance().weatherForecastShouldShow()) {
             String videoType = getCurrentVideoType();
             LauncherAnalytics.logEvent("unlock_lockscreen_in_limited_time",
                     "lockstate", hasLockGuard ? "Yes" : "No",
@@ -319,14 +320,10 @@ public class WeatherPushManager {
         return inMorning ? "morning" : "night";
     }
 
-    public static boolean weatherForecastShouldShow() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        boolean isLegalTime = (6 <= hourOfDay && hourOfDay < 9) || (18 <= hourOfDay && hourOfDay < 21);
+    public boolean weatherForecastShouldShow() {
         long lastShowTime = Preferences.getDefault().getLong(WEATHER_SHOULD_SHOW, 0);
         boolean showOncePerTime = System.currentTimeMillis() - lastShowTime > 3 * 60 * 60 * 1000;
-        return isLegalTime && showOncePerTime;
+        return showOncePerTime;
     }
 
     public void preloadAd() {
