@@ -565,7 +565,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             int index = themeIndex / 2;
             if (index > mMaxShowThemeIndex) {
                 mMaxShowThemeIndex = index;
-                LauncherAnalytics.logEvent("ColorPhone_Mainview_Slide");
+                LauncherAnalytics.logEventAndFirebase("ColorPhone_Mainview_Slide");
             }
 
             if (activity instanceof PopularThemeActivity) {

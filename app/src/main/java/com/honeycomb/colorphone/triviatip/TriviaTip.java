@@ -7,10 +7,12 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
-import com.colorphone.lock.ScreenStatusReceiver;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.Placements;
+import com.honeycomb.colorphone.download2.Downloader;
+import com.honeycomb.colorphone.download2.SingleDownloadTask;
+import com.honeycomb.colorphone.receiver.ScreenStatusReceiver;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -31,9 +33,6 @@ import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-
-import colorphone.acb.com.libscreencard.gif.Downloader;
-import colorphone.acb.com.libscreencard.gif.SingleDownloadTask;
 
 public class TriviaTip implements INotificationObserver, TriviaTipLayout.onTipDismissListener {
 

@@ -33,8 +33,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.colorphone.lock.util.ViewStyleUtils;
-import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.notification.NotificationCondition;
@@ -42,6 +40,8 @@ import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.util.ViewStyleUtils;
+import com.honeycomb.colorphone.util.ViewUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;

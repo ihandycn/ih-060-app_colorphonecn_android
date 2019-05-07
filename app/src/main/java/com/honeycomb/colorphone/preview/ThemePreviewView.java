@@ -451,6 +451,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     if (inTransition) {
                         return;
                     }
+                    LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_SetForAll_Click", LauncherAnalytics.FLAG_LOG_FIREBASE);
                     Ap.RandomTheme.logEvent("detail_page_setforall_click");
                     LauncherAnalytics.logEvent("detail_page_setforall_click_round2");
                     if (Ap.RandomTheme.checkIfShowRandomLoseAlert()) {
@@ -482,6 +483,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
                     LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
                 } else {
+                    LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_SetForContact_Click", LauncherAnalytics.FLAG_LOG_FIREBASE);
                     LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Started");
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
                 }
@@ -556,7 +558,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         if (startDownloadTime != 0) {
-            LauncherAnalytics.logEvent("ColorPhone_Theme_Download_Time", "Time",
+            LauncherAnalytics.logEventAndFirebase("ColorPhone_Theme_Download_Time", "Time",
                     String.valueOf((System.currentTimeMillis() - startDownloadTime + 999) / DateUtils.SECOND_IN_MILLIS));
         }
     }

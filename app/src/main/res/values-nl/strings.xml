@@ -5,10 +5,8 @@
     <string name="settings">Instellingen</string>
     <string name="feedback">Feedback</string>
 
-    <string name="theme_apply">Toepassen</string>
     <string name="apply_success">Instellen is gelukt</string>
     <string name="theme_current">Huidig thema</string>
-    <string name="send_email">E-mail verzenden</string>
     <string name="loading">Aan het laden </string>
 
     <string name="privacy_policy">Privacybeleid</string>
@@ -16,8 +14,6 @@
 
     <string name="guide_enable_all_module">Telefoonassistent inschakelen</string>
 
-    <string name="acb_outapp_guide_screen_flash_content">Probeer de unieke oproepinterface om je telefoon nog modieuzer
-        te maken. Kan advertenties bevatten.</string>
     <string name="about">Ongeveer</string>
 
     <string name="guide_apply_theme_hint">Het thema van je Oproepscherm is ingesteld! Veel plezier!</string>
@@ -42,10 +38,8 @@
     <string name="delete">VERWIJDEREN</string>
     <string name="select_contacts">Contacten selecteren</string>
 
-    <string name="boost_plus_free_up">Freed Up</string>
     <string name="boost_plus_exiting">Exiting</string>
 
-    <string name="boost_tip_optimal">Your phone is optimal now!</string>
     <string name="boost_title">Boost</string>
     <string name="boost_notification_low_ram_btn">BOOST</string>
 
@@ -53,12 +47,8 @@
     <string name="settings_notification_boost">Boost Notification</string>
     <string name="settings_notification_boost_sub">Get reminders when memory usage is high</string>
 
-    <string name="may_contain_ads">Mag advertenties bevatten</string>
-
     <string name="guide_first_page_title">Schakel de functies in en geef toestemming:\ \n- Laat je herinneren aan gemiste oproepen</string>
 
-    <string name="avatar_content">Maak direct je avatar</string>
-    <string name="action_back">TERUG</string>
     <string name="action_install">INSTALLEREN</string>
 
     <!--Ringtone-->
@@ -95,8 +85,6 @@
     <string name="phone_contact_permission_settings_guide_title">Select "Permissions" and activate "Phone", "Contacts"</string>
 
     <!--Cash-Center-->
-    <string name="crash_guide_content">Een snelkoppeling op je bureaublad plaatsen om later weer geld te verdienen?</string>
-    <string name="spin">spinnen</string>
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Volg ons op Facebook</string>

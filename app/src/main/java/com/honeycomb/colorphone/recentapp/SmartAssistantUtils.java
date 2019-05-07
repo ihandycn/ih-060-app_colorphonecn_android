@@ -25,6 +25,9 @@ import java.util.Comparator;
 import java.util.List;
 
 
+/**
+ * @author sundxing
+ */
 public class SmartAssistantUtils {
 
     public static final String PREF_FILE_NAME = "colorphone.recentapps";
@@ -234,6 +237,7 @@ public class SmartAssistantUtils {
         }
     }
 
+    @Deprecated
     public static List<RecentAppInfo> getSmartAssistantApps() {
 
         if (sRecentAppsCache != null) {
@@ -242,54 +246,6 @@ public class SmartAssistantUtils {
 
         List<RecentAppInfo> resultList = new ArrayList<>();
 
-        // App here may not launchable, need exclude those elements.
-        List<AppInfo> recentlyInstallApps = getRecentlyInstallApps();
-        List<String> frequentlyAppsByTime = RecentAppManager.getInstance().getAppUsageListRecently(SMART_ASSISTANT_AT_MOST_COUNT);
-        List<String> frequentlyAppsByUsed = RecentAppManager.getInstance().getAppUsageListFrequently(SMART_ASSISTANT_AT_MOST_COUNT);
-
-        int firstMax = frequentlyAppsByTime.size();
-        for (int i = 0; i < firstMax; i++) {
-            String packageName = frequentlyAppsByTime.get(i);
-            if (isOurSelf(packageName)) {
-                continue;
-            }
-            transPackageIntoAppList(resultList, packageName, RecentAppInfo.TYPE_RECENTLY_USED);
-            HSLog.d(TAG, "Recently used app: " + packageName);
-
-            if (resultList.size() >= COUNT_APP_RECENTLY_OPEN) {
-                break;
-            }
-        }
-
-        int startSize = resultList.size();
-        for (int i = 0; i < recentlyInstallApps.size(); i++) {
-            String packageName = recentlyInstallApps.get(i).getPackageName();
-            if (isOurSelf(packageName)) {
-                continue;
-            }
-            if (!isExistApplicationInfo(resultList, packageName)) {
-                resultList.add(buildRecentApp(recentlyInstallApps.get(i), RecentAppInfo.TYPE_NEW_INSTALL));
-                HSLog.d(TAG, "Recently install app: " + packageName);
-            }
-            if (resultList.size() - startSize >= COUNT_APP_RECENTLY_INSTALL) {
-                break;
-            }
-        }
-
-        for (int i = 0; i < frequentlyAppsByUsed.size(); i++) {
-            String pkgName = frequentlyAppsByUsed.get(i);
-            if (isOurSelf(pkgName)) {
-                continue;
-            }
-            if (!isExistApplicationInfo(resultList, pkgName)) {
-                transPackageIntoAppList(resultList, pkgName, RecentAppInfo.TYPE_MOSTLY_USED);
-                HSLog.d(TAG, "Frequently used app: " + pkgName);
-
-                if (resultList.size() >= SMART_ASSISTANT_AT_MOST_COUNT) {
-                    break;
-                }
-            }
-        }
         sRecentAppsCache = resultList;
         return resultList;
     }

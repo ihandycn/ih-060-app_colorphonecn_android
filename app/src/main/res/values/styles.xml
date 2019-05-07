@@ -58,20 +58,6 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="TxtButton">
-        <item name="android:gravity">center</item>
-        <item name="android:minHeight">32dp</item>
-        <item name="android:minWidth">48dp</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
     <style name="NormalButton">
         <item name="android:layout_width">44dp</item>
         <item name="android:layout_height">44dp</item>
@@ -90,8 +76,6 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">14sp</item>
     </style>
-
-    <style name="DefaultCompatDialog" parent="Theme.AppCompat.Light.Dialog.Alert"/>
 
     <style name="TransparentCompatDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="windowNoTitle">true</item>
@@ -167,14 +151,6 @@
         <item name="layout_heightPercent">40%</item>
     </style>
 
-    <style name="SettingsDivider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0.67dp</item>
-        <item name="android:background">@color/setting_line_color</item>
-        <item name="android:layout_marginLeft">16dp</item>
-        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">16dp</item>
-    </style>
-
     <style name="Theme.TransparentWithNoTitle" parent="android:Theme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -192,21 +168,14 @@
         <item name="colorControlActivated">#3ada45</item>
     </style>
 
-    <style name="ResultPagePrimaryImage">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/result_page_image_frame_height</item>
-        <item name="android:layout_marginLeft">@dimen/result_page_image_frame_horizontal_margin
-        </item>
-        <item name="android:layout_marginRight">@dimen/result_page_image_frame_horizontal_margin
-        </item>
-        <item name="android:paddingBottom">9dp</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dp</item>
-        <item name="android:paddingTop">9dp</item>
-    </style>
-    <style name="ShortcutGuideTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowIsTranslucent">true</item>
+    <style name="ToolbarTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title" />
+
+    <style name="ChargingScreenTransparentTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
     </style>
 </resources>

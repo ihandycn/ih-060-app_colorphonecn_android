@@ -24,15 +24,9 @@ import com.bumptech.glide.MemoryCategory;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
 import com.call.assistant.customize.CallAssistantSettings;
-import com.colorphone.lock.LockerCustomConfig;
-import com.colorphone.lock.ScreenStatusReceiver;
-import com.colorphone.lock.lockscreen.FloatWindowCompat;
-import com.colorphone.lock.lockscreen.LockScreenStarter;
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
-import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
@@ -42,12 +36,11 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
-import com.honeycomb.colorphone.module.LockerEvent;
-import com.honeycomb.colorphone.module.LockerLogger;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
 import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
+import com.honeycomb.colorphone.receiver.ScreenStatusReceiver;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
@@ -65,12 +58,7 @@ import com.honeycomb.colorphone.weather.WeatherPushManager;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
-import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.app.utils.HSVersionControlUtils;
-import com.ihs.chargingreport.ChargingReportCallback;
-import com.ihs.chargingreport.ChargingReportConfiguration;
-import com.ihs.chargingreport.ChargingReportManager;
-import com.ihs.chargingreport.DismissType;
 import com.ihs.commons.analytics.publisher.HSPublisherMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -79,7 +67,6 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.device.permanent.HSPermanentUtils;
-import com.ihs.libcharging.HSChargingManager;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.messagecenter.customize.MessageCenterSettings;
@@ -99,8 +86,6 @@ import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
-import net.appcloudbox.h5game.AcbH5GameManager;
-import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
 
 import java.io.File;
@@ -111,7 +96,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import colorphone.acb.com.libscreencard.CardCustomConfig;
 import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 
@@ -354,7 +338,6 @@ public class ColorPhoneApplication extends HSApplication {
 
         Upgrader.upgrade();
         addGlobalObservers();
-        initModules();
 
         Glide.get(this).setMemoryCategory(MemoryCategory.HIGH);
         String popularThemeBgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
@@ -404,8 +387,6 @@ public class ColorPhoneApplication extends HSApplication {
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.CASHCENTER);
 
-        initChargingReport();
-        initLockerCharging();
         initNotificationToolbar();
     }
 
@@ -541,125 +522,12 @@ public class ColorPhoneApplication extends HSApplication {
         }
     }
 
-    private void initChargingReport() {
-        long firstInstallTime = HSSessionMgr.getFirstSessionStartTime();
-        AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CHARGING_REPORT);
-        ChargingReportConfiguration configuration = new ChargingReportConfiguration.Builder()
-                .adPlacement(AdPlacements.AD_CHARGING_REPORT)
-                .appName(getResources().getString(R.string.smart_charging))
-                .appIconResourceId(R.drawable.ic_launcher)
-                .timeAppInstall(firstInstallTime > 0 ? firstInstallTime : System.currentTimeMillis())
-                .lockerConflic(new ChargingReportConfiguration.LockScreenConflict() {
-                    @Override
-                    public boolean hasChargingScreen() {
-                        return SmartChargingSettings.isChargingScreenEnabled();
-                    }
-                })
-                .sceneSwitch(new ChargingReportConfiguration.ISceneSwitch() {
-
-                    // TODO 库添加总开关。删除此代码
-                    @Override
-                    public boolean sceneUnlockPlugEnabled() {
-                        return SmartChargingSettings.isChargingReportEnabled()
-                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Plug_Unlocked");
-                    }
-
-                    @Override
-                    public boolean sceneLockPlugEnabled() {
-                        return SmartChargingSettings.isChargingReportEnabled()
-                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Plug_Locked");
-                    }
-
-                    // 解锁出现的充电报告
-                    @Override
-                    public boolean sceneChargingEnabled() {
-                        return SmartChargingSettings.isChargingReportEnabled()
-                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Charging");
-                    }
-
-                    @Override
-                    public boolean sceneUnlockUnplugEnabled() {
-                        return SmartChargingSettings.isChargingReportEnabled()
-                                && HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Unplug_Unlocked");
-                    }
-
-                    @Override
-                    public boolean sceneLockUnplugEnabled() {
-                        return SmartChargingSettings.isChargingReportEnabled() &&
-                                HSConfig.optBoolean(false, "Application", "ChargingReport", "ChargeReportScene", "Unplug_Locked");
-                    }
-                })
-                .build();
-        ChargingReportManager.getInstance().init(configuration);
-        ChargingReportManager.getInstance().setChargingReportCallback(new ChargingReportCallback() {
-            @Override
-            public void logEvent(String s, boolean logToFlurry, String... strings) {
-                LauncherAnalytics.logEvent(s, strings);
-
-            }
-
-            @Override
-            public void logAdEvent(String s, boolean b) {
-                LauncherAnalytics.logEvent("AcbAdNative_Viewed_In_App", s, String.valueOf(b));
-            }
-
-            @Override
-            public void onChargingReportShown() {
-
-            }
-
-            @Override
-            public void onChargingReportDismiss(DismissType dismissType) {
-
-            }
-        });
-
-//        ChargingImproverManager.getInstance().init(new ChargingImproverCallbackImpl());
-    }
-
-    private void initLockerCharging() {
-        if (!SmartChargingSettings.isChargingScreenConfigEnabled()
-                && !LockerSettings.isLockerConfigEnabled()) {
-            return;
-        }
-        LockScreenStarter.init();
-
-        HSLog.d("Start", "initLockScreen");
-        LockerCustomConfig.get().setLauncherIcon(R.drawable.ic_launcher);
-        LockerCustomConfig.get().setCustomScreenIcon(R.drawable.ic_charging_screen_logo);
-        LockerCustomConfig.get().setSPFileName("colorPhone_locker");
-        LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);
-        LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHARGING_SCREEN);
-        LockerCustomConfig.get().setEventDelegate(new LockerEvent());
-        LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
-        FloatWindowCompat.initLockScreen(this);
-        HSChargingManager.getInstance().start();
-
-        CardCustomConfig.get().setRemoteLogger(new CardCustomConfig.RemoteLogger() {
-            @Override
-            public void logEvent(String eventID) {
-                LauncherAnalytics.logEvent(eventID);
-            }
-
-            @Override
-            public void logEvent(String eventID, String... vars) {
-                LauncherAnalytics.logEvent(eventID, vars);
-            }
-        });
-        AcbH5GameManager.initialize(this);
-        AcbH5GameManager.setCustomerUserID(DeviceInfo.getUUID());
-        AcbH5GameManager.setGDPRConsentGranted(true);
-
-    }
-
     private void addGlobalObservers() {
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, mObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_END, mObserver);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_CONFIG_CHANGED, mObserver);
         HSGlobalNotificationCenter.addObserver(CallAssistantConsts.NOTIFY_CHANGE_CALL_ASSISTANT, mObserver);
         HSGlobalNotificationCenter.addObserver(ScreenFlashConst.NOTIFY_CHANGE_SCREEN_FLASH, mObserver);
-        HSGlobalNotificationCenter.addObserver(LockerSettings.NOTIFY_LOCKER_STATE, mObserver);
-        HSGlobalNotificationCenter.addObserver(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE, mObserver);
 
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -688,32 +556,6 @@ public class ColorPhoneApplication extends HSApplication {
 
     private void tryShowWeather() {
         WeatherPushManager.getInstance().push(this);
-    }
-
-    private void initModules() {
-        Module locker = new Module();
-        locker.setAdName(AdPlacements.AD_LOCKER);
-        locker.setAdType(Module.AD_EXPRESS);
-        locker.setNotifyKey(LockerSettings.NOTIFY_LOCKER_STATE);
-        locker.setChecker(new Module.Checker() {
-            @Override
-            public boolean isEnable() {
-                return LockerSettings.isLockerEnabled();
-            }
-        });
-
-        Module charging = new Module();
-        charging.setAdName(AdPlacements.AD_CHARGING_SCREEN);
-        charging.setAdType(Module.AD_EXPRESS);
-        charging.setNotifyKey(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE);
-        charging.setChecker(new Module.Checker() {
-            @Override
-            public boolean isEnable() {
-                return SmartChargingSettings.isChargingScreenEnabled();
-            }
-        });
-        mModules.add(locker);
-        mModules.add(charging);
     }
 
     private void systemFix() {
@@ -759,7 +601,6 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     public static void checkChargingReportAdPlacement() {
-        checkExpressAd(AdPlacements.AD_CHARGING_REPORT, SmartChargingSettings.isChargingReportEnabled());
     }
 
     private void checkModuleAdPlacement() {
@@ -826,6 +667,7 @@ public class ColorPhoneApplication extends HSApplication {
         // Set up Crashlytics, disabled for debug builds
         if (!isFabricInitted) {
             Fabric.with(this, new Crashlytics(), new Answers());
+            FirebaseAnalytics.getInstance(this).setAnalyticsCollectionEnabled(true);
             isFabricInitted = true;
         }
     }
@@ -851,7 +693,7 @@ public class ColorPhoneApplication extends HSApplication {
         if (HSApplication.getFirstLaunchInfo().appVersionCode == HSApplication.getCurrentLaunchInfo().appVersionCode) {
             if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_AGENCY_INFO_LOGGED)) {
                 HSPreferenceHelper.getDefault().putBoolean(PREF_KEY_AGENCY_INFO_LOGGED, true);
-                LauncherAnalytics.logEvent("New_User_Agency_Info", "install_type", installType, "user_level", "" + HSConfig.optString("not_configured", "UserLevel"), "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
+                LauncherAnalytics.logEventAndFirebase("New_User_Agency_Info", "install_type", installType, "user_level", "" + HSConfig.optString("not_configured", "UserLevel"), "version_code", "" + HSApplication.getCurrentLaunchInfo().appVersionCode);
             }
         }
     }

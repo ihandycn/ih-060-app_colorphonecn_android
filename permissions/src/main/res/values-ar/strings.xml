@@ -4,11 +4,6 @@
     <string name="acb_phone_grant_notification_access_title">مكّن الوصول إلى الإخطارات للرد على المكالمات</string>
     <string name="draw_overlay_window_hint">قم بتمكين "إظهار فوق التطبيقات الأخرى" لعرض فلاش الشاشة</string>
     <!-- TODO: string name="draw_overlay_window_hint" -->
-    <string name="normal_permission_guide_dialog_content">حدد الأذونات واسمح بـ "الهاتف"و "SMS"و "جهات الاتصال"</string>
-    <string name="normal_permission_guide_permission">الأذونات</string>
-    <string name="permission_request_call">الهاتف</string>
-    <string name="permission_request_sms">SMS</string>
-    <string name="permission_request_contacts">جهات الاتصال</string>
     <string name="phone_contact_permission_settings_guide_title">حدد الأذونات واسمح بـ "Phone"و "Contacts"</string>
     <string name="acb_phone_grant_autostart_access_title">مكّن البدء التلقائي لتمكين فلاش المكالمات</string>
 

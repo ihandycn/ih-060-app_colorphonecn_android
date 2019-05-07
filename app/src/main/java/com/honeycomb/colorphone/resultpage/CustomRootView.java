@@ -5,9 +5,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.util.ViewUtils;
 
 public class CustomRootView extends FrameLayout {
 

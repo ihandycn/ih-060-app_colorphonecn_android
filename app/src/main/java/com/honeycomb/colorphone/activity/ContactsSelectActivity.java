@@ -93,6 +93,7 @@ public class ContactsSelectActivity extends ContactsActivity {
             LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Success");
         } else {
             LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SeletContactForTheme_Success");
+            LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_SetForContact_Success", LauncherAnalytics.FLAG_LOG_FIREBASE);
         }
         ThemeGuide.logThemeApplied();
         Ap.DetailAd.onThemeChooseForOne();

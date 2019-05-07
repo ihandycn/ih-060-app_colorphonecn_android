@@ -17,10 +17,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.util.ViewUtils;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 

@@ -152,13 +152,13 @@ dependencies {
     ]
     final COMMON_COLORPHONE = [
             USE_BETA_ACB_LIBS ?
-                    'com.ihandy.appframework:libAppframework.beta:4.9.0.+' :
-                    'com.ihandy.appframework:libAppframework.gm:4.9.0.gm',
+                    'com.ihandy.appframework:libAppframework.beta:4.9.4.+' :
+                    'com.ihandy.appframework:libAppframework.gm:4.9.4.gm',
     ]
     final COMMON_COLORFLASH = [
             USE_BETA_ACB_LIBS ?
-                    'com.ihandy.appframework:libAppframework.beta:4.9.0.+' :
-                    'com.ihandy.appframework:libAppframework.gm:4.9.0.gm',
+                    'com.ihandy.appframework:libAppframework.beta:4.9.4.+' :
+                    'com.ihandy.appframework:libAppframework.gm:4.9.4.gm',
     ]
     for (dependency in COMMON_DEPENDENCIES) compile dependency
     for (dependency in COMMON_COLORPHONE) colorphoneCompile dependency
@@ -178,21 +178,17 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     // ==== ihandy ====
-    final LIB_DEVICE_VERSION = '.gm:4.5.3.gm'
+    final LIB_DEVICE_VERSION = '.gm:4.5.4.gm'
+    compile "com.ihandy.device:device-permanent$LIB_DEVICE_VERSION".toString()
     compile "com.ihandy.device:device-clean-memory$LIB_DEVICE_VERSION".toString()
     compile "com.ihandy.device:device-monitor-app-usage$LIB_DEVICE_VERSION".toString()
-    compile "com.ihandy.device:device-monitor-top-app$LIB_DEVICE_VERSION".toString()
-    compile "com.ihandy.device:device-permanent$LIB_DEVICE_VERSION".toString()
 
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
 
-    compile project(':libChargingCommon')
-    compile project(':libChargingReport')
     compile project(':libCallAssistant')
     compile project(':libMessageCenter')
     compile project(':libScreenFlash')
-    compile project(':lock')
     compile project(':libSuperApps')
     compile project(':permissions')
     compile project(':libWeather')

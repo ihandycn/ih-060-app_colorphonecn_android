@@ -17,8 +17,6 @@
 
     <color name="app_bar_activities_content_bg">#eaeaea</color>
 
-    <color name="white_40_transparent">#66ffffff</color>
-
     <!-- Dialog -->
 
     <color name="notification_boost_primary">#267dff</color>
@@ -38,6 +36,7 @@
     <color name="material_ripple_white">#33FFFFFF</color>
     <color name="material_text_black_secondary">#8a000000</color>
     <color name="material_ripple">#33000000</color>
+    <color name="material_text_black_primary">#de000000</color>
 
     <!-- settings activity-->
     <color name="settings_activity_switch_track">#24ff00</color>
@@ -105,5 +104,34 @@
     <color name="black_secondary">#89000000</color>
 
     <color name="white_alpha_50">#7fffffff</color>
+
+    <color name="white_10_transparent">#1AFFFFFF</color>
+    <color name="white_20_transparent">#32FFFFFF</color>
+    <color name="white_30_transparent">#4DFFFFFF</color>
+    <color name="white_40_transparent">#66FFFFFF</color>
+    <color name="white_50_transparent">#7FFFFFFF</color>
+    <color name="white_54_transparent">#8AFFFFFF</color>
+    <color name="white_60_transparent">#99FFFFFF</color>
+    <color name="white_70_transparent">#B3FFFFFF</color>
+    <color name="white_75_transparent">#BFFFFFFF</color>
+    <color name="white_80_transparent">#CEFFFFFF</color>
+    <color name="white_86_transparent">#DCFFFFFF</color>
+    <color name="white_87_transparent">#DFFFFFFF</color>
+    <color name="white_100_transparent">#FFFFFF</color>
+
     <color name="black_10_transparent">#1A000000</color>
+    <color name="black_12_transparent">#1f000000</color>
+    <color name="black_20_transparent">#32000000</color>
+    <color name="black_24_transparent">#3D000000</color>
+    <color name="black_27_transparent">#45000000</color>
+    <color name="black_30_transparent">#4D000000</color>
+    <color name="black_40_transparent">#66000000</color>
+    <color name="black_54_transparent">#8A000000</color>
+    <color name="black_60_transparent">#99000000</color>
+    <color name="black_70_transparent">#B3000000</color>
+    <color name="black_80_transparent">#CC000000</color>
+    <color name="black_87_transparent">#DF000000</color>
+    <color name="black_90_transparent">#E6000000</color>
+    <color name="black_100_transparent">#FF000000</color>
+
 </resources>

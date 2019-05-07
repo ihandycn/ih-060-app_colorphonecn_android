@@ -327,7 +327,7 @@
         android:layout_marginRight="16dp"
         android:layout_gravity="end|right"
         android:scaleType="centerInside"
-        android:background="@drawable/weather_icon_bg"
+        android:background="@drawable/bg_round_material_compat"
         android:src="@drawable/weather_cloudy" />
 </FrameLayout>
 
