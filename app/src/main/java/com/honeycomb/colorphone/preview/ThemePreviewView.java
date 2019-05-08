@@ -40,6 +40,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.ColorPhoneApplicationImpl;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
@@ -952,7 +953,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
-                boolean overrideSize = ColorPhoneApplication.mWidth > IMAGE_WIDTH;
+                boolean overrideSize = ColorPhoneApplicationImpl.mWidth > IMAGE_WIDTH;
 
                 GlideRequest request = GlideApp.with(getContext())
                         .asBitmap()

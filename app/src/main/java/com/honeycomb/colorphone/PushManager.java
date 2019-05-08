@@ -60,7 +60,7 @@ public class PushManager {
     };
 
     private String formatTimes() {
-        long time = System.currentTimeMillis() - ColorPhoneApplication.launchTime;
+        long time = System.currentTimeMillis() - ColorPhoneApplicationImpl.launchTime;
         long second =  time / 1000;
         if (second <= 3) {
             return String.valueOf(second);

@@ -177,3 +177,38 @@
 -keep class com.alibaba.sdk.android.**{*;}
 -keep class com.ut.**{*;}
 -keep class com.ta.**{*;}
+
+# Bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+# tinker
+-dontwarn com.tencent.tinker.**
+-keep class com.tencent.tinker.** { *; }
+#tinker multidex keep patterns:
+-keep public class * implements com.tencent.tinker.entry.ApplicationLifeCycle {
+    <init>();
+    void onBaseContextAttached(android.content.Context);
+}
+
+-keep public class * extends com.tencent.tinker.loader.TinkerLoader {
+    <init>();
+}
+
+-keep public class * extends android.app.Application {
+     <init>();
+     void attachBaseContext(android.content.Context);
+}
+
+-keep class com.tencent.tinker.loader.TinkerTestAndroidNClassLoader {
+    <init>();
+}
+
+#your dex.loader patterns here
+-keep class tinker.sample.android.app.SampleApplication {
+    <init>();
+}
+
+-keep class com.tencent.tinker.loader.** {
+    <init>();
+}
+#

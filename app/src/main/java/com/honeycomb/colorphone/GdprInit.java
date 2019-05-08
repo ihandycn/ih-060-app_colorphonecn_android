@@ -16,7 +16,7 @@ public class GdprInit extends AppMainInit {
             @Override
             public void onGDPRStateChanged(HSGdprConsent.ConsentState oldState, HSGdprConsent.ConsentState newState) {
                 if (GdprUtils.isNeedToAccessDataUsage()) {
-                    ((ColorPhoneApplication)application).initFabric();
+                    ((ColorPhoneApplication)application).onGdprGranted();
                     PushManager.getInstance().onGdprGranted();
                 }
                 if (!HSApplication.isMainProcess()) {
