@@ -34,6 +34,9 @@ public class ColorPhoneApplication extends HSApplication {
     public void onCreate() {
         super.onCreate();
         Bugly.init(this, getString(R.string.bugly_app_id), BuildConfig.DEBUG);
+        // For debug
+//        Bugly.init(this, "669a69987d", true);
+
         mColorPhoneApplicationProxy = new ColorPhoneApplicationImpl(this);
         mColorPhoneApplicationProxy.onCreate();
     }

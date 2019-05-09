@@ -40,6 +40,8 @@ allprojects {
         maven { url 'https://maven.fabric.io/public' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven { url "https://s3.amazonaws.com/avocarrot-android-builds/dist" }
+        maven { url 'https://dl.bintray.com/wemobiledev/maven'}
+
         maven {
             url "http://maven.ihandysoft.com:8081/repository/ihandygroup/"
         }
