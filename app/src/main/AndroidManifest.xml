@@ -43,6 +43,10 @@
         android:permissionGroup="android.permission-group.HARDWARE_CONTROLS"/>
 
     <uses-permission
+        android:name="android.permission.GET_TASKS"
+        tools:node="remove" />
+
+    <uses-permission
         android:name="android.permission.WRITE_INTERNAL_STORAGE"
         tools:node="remove"/>
 
