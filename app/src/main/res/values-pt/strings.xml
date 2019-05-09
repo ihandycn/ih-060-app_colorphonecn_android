@@ -5,10 +5,8 @@
     <string name="settings">Definições</string>
     <string name="feedback">Opinião</string>
 
-    <string name="theme_apply">Aplicar</string>
     <string name="apply_success">Definição com sucesso</string>
     <string name="theme_current">Tema atual</string>
-    <string name="send_email">Enviar e-mail</string>
     <string name="loading">A carregar </string>
 
     <string name="privacy_policy">Política de Privacidade</string>
@@ -16,8 +14,6 @@
 
     <string name="guide_enable_all_module">Ative o Assistente do Telefone</string>
 
-    <string name="acb_outapp_guide_screen_flash_content">Experimente a interface de chamadas única para dar mais estilo
-        ao seu telefone. Pode conter anúncios.</string>
     <string name="about">Sobre</string>
 
     <string name="guide_apply_theme_hint">O tema da tela de quem está ligando foi definido com sucesso!</string>
@@ -41,10 +37,8 @@
     <string name="delete">APAGAR</string>
     <string name="select_contacts">Selecione os contatos</string>
 
-    <string name="boost_plus_free_up">Libertado</string>
     <string name="boost_plus_exiting">A sair</string>
 
-    <string name="boost_tip_optimal">Dispositivo optimamente instalado!</string>
     <string name="boost_notification_low_ram_btn">Impulsionar</string>
     <string name="boost_title">Impulsionar</string>
 
@@ -52,12 +46,8 @@
     <string name="settings_notification_boost">Notif. de aceleração</string>
     <string name="settings_notification_boost_sub">Receba lembretes sobre o uso de muita memória</string>
 
-    <string name="may_contain_ads">Pode conter anúncios.</string>
-
     <string name="guide_first_page_title">Por favor, ative os recursos e as permissões:\ Lembra você das chamadas perdidas.</string>
 
-    <string name="avatar_content">Crie seu avatar agora mesmo</string>
-    <string name="action_back">VOLTAR</string>
     <string name="action_install">INSTALAR</string>
 
     <!--Ringtone-->
@@ -88,7 +78,6 @@
     <string name="unlock_succeed">Desbloqueio com sucesso</string>
 
     <string name="gdpr_settings_cell">Análises e publicidade</string>
-    <string name="gdpr_share_data">Compartilhar dados com desenvolvedores</string>
     <string name="gdpr_dialog_title">Confirma a desativação?</string>
     <string name="gdpr_dialog_content">Esses dados são coletados e usados ​​para ajudar o desenvolvedor a aprimorar os aplicativos para uma melhor experiência na utilização.</string>
     <string name="gdpr_dialog_turn_off">DESATIVAR</string>
@@ -97,69 +86,21 @@
     <string name="battery_clean_title">Economizador de bateria</string>
     <string name="cpu_positive_feedback_title">Resfriado</string>
     <string name="result_page_click_guide_tip">Continuar para otimizar</string>
-    <string name="desktop_tips_content_guide_msg">DIVERSÃO DIÁRIA</string>
     <string name="apply_btn">Aplicar</string>
-    <string name="menu_item_settings">Configurações</string>
     <string name="battery_title">Bateria</string>
-    <string name="battery_bluetooth">Bluetooth</string>
-    <string name="battery_mobile_data">Dados móveis</string>
-    <string name="battery_current">Atuais</string>
-    <string name="battery_already_optimal">O seu dispositivo já funciona de forma otimizada.</string>
-    <string name="battery_auto">Auto</string>
-    <string name="battery_auto_sync">Sincronização automática</string>
-    <string name="battery_brightness">Brilho</string>
-    <string name="battery_careful">Cuidado</string>
-    <string name="battery_charging_left">CARGA RESTANTE</string>
-    <string name="battery_current_content">As suas definições atuais irão ser guardadas aqui.</string>
-    <string name="battery_haptic_feedback">Feedback háptico</string>
-    <string name="battery_hide_system_apps">Esconder as aplicações do sistema</string>
-    <string name="battery_low">Bateria fraca</string>
-    <string name="battery_low_content">Otimize para prolongar a duração da bateria</string>
-    <string name="battery_max_saver">Economia máxima</string>
-    <string name="battery_max_saver_content">Desligue o WiFi, o Bluetooth, a vibração e defina o tempo para desligar o ecrã para 15 seg.</string>
-    <string name="battery_mode">Modo</string>
-    <string name="battery_off">Desligado</string>
-    <string name="battery_on">Ligado</string>
-    <string name="battery_optimize">OTIMIZAR</string>
-    <string name="battery_optimize_new">POUPAR BATERIA</string>
-    <string name="battery_previous">Anterior</string>
-    <string name="battery_previous_content">Voltar às suas últimas definições.</string>
-    <string name="battery_rank">Classificação</string>
-    <string name="battery_reapply">Voltar a aplicar</string>
-    <string name="battery_screen_timeout">Desligar o ecrã</string>
-    <string name="battery_smart_saver">Poupança inteligente</string>
-    <string name="battery_smart_saver_content">Desligue o Bluetooth, a vibração e defina o tempo para desligar o ecrã para 30 seg.</string>
     <string name="battery_stop">PARAR</string>
-    <string name="battery_vibrate">Vibrar</string>
     <string name="battery_view">VER</string>
-    <string name="battery_wifi">Wifi</string>
-    <string name="battery_low_tip_title">Bateria fraca!</string>
-    <string name="battery_low_tip_desc">Experimente a poupança de bateria para minimizar o consumo de energia.</string>
-    <string name="battery_low_tip_btn_cancel">Depois</string>
-    <string name="battery_low_tip_btn_ok">EXPERIMENTE AGORA</string>
-    <string name="battery_draining_apps">Aplicativos consumindo muita bateria!</string>
     <string name="battery_scaning">Verificando…</string>
-    <string name="battery_healthy">Saudável</string>
-    <string name="battery_time_remainning">TEMPO RESTANTE</string>
-    <string name="battery_call_time">Ligar</string>
-    <string name="battery_wifi_time">Wi-Fi</string>
-    <string name="battery_video_time">Vídeo</string>
     <string name="battery_clean_description">Aplicativos consumindo bateria</string>
     <string name="battery_extended">Prolongada</string>
-    <string name="battery_careful_content">A sua bateria está a gastar-se mais depressa do que o normal.</string>
     <string name="boost_plus_optimal">ÓTIMO</string>
-    <string name="charging_screen_settings_title">Proteção da bateria</string>
-    <string name="charging_screen_settings_subtitle">(Contém anúncios)</string>
-    <string name="charging_screen_settings_description">Proteger o dispositivo de sobrecargas</string>
     <string name="promotion_max_card_title_cpu_cooler">Arrefecedor da CPU</string>
     <string name="cpu_cooler_list_head_title">Aplicações que aquecem a CPU</string>
-    <string name="cpu_cooler_button_title">ARREFECER</string>
     <string name="cpu_cooler_state_hint">A CPU está %1$s</string>
     <string name="cpu_cooler_state_cool">Arrefecer</string>
     <string name="cpu_cooler_state_overheated">Sobreaquecida</string>
     <string name="cpu_cooler_state_extremely_heated">Quente</string>
     <string name="cpu_cooler_cleaning_hint">A fechar as aplicações consumidoras de CPU…</string>
-    <string name="cool_capital">ARREFECER</string>
 
     <string name="settings_activity_notification_reminder">Comutador da barra de ferramentas de notificações</string>
 
@@ -169,13 +110,10 @@
     <string name="grant_access_to_optimize_experience">Ative o acesso para atender as chamadas</string>
 
     <!--Cash-Center-->
-    <string name="crash_guide_content">Criar um atalho na área de trabalho para ganhar dinheiro novamente mais tarde?</string>
-    <string name="spin">girar</string>
 
     <!--Facebook fan page-->
     <string name="follow_facebook">Siga-nos no Facebook</string>
     <string name="skip">IGNORAR</string>
-    <string name="battery_optimized">OTIMIZADO</string>
 
     <string name="guide_theme_random_hint">Aplicando este tema, você pode aproveitar temas aleatórios para chamadas recebidas.</string>
 

@@ -11,8 +11,8 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
-import com.colorphone.lock.boost.DeviceManager;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -355,17 +355,17 @@ public class PushManager {
             long mins = intervalMills / DateUtils.MINUTE_IN_MILLIS;
 
             if (days > 0) {
-                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "1d+");
+                LauncherAnalytics.logEventAndFirebase("Test_CallStateChange_Interval", "Type", "1d+");
             } else if (hours > 12) {
-                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "12-24h");
+                LauncherAnalytics.logEventAndFirebase("Test_CallStateChange_Interval", "Type", "12-24h");
             } else if (hours > 4) {
-                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "4-12h");
+                LauncherAnalytics.logEventAndFirebase("Test_CallStateChange_Interval", "Type", "4-12h");
             } else if (hours >=1) {
-                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "1-4h");
+                LauncherAnalytics.logEventAndFirebase("Test_CallStateChange_Interval", "Type", "1-4h");
             } else if (mins >= 20) {
-                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "20min+");
+                LauncherAnalytics.logEventAndFirebase("Test_CallStateChange_Interval", "Type", "20min+");
             } else {
-                LauncherAnalytics.logEvent("Test_CallStateChange_Interval", "Type", "0-20min");
+                LauncherAnalytics.logEventAndFirebase("Test_CallStateChange_Interval", "Type", "0-20min");
             }
         }
     }

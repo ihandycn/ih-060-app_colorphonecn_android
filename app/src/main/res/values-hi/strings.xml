@@ -5,10 +5,8 @@
     <string name="settings">सेटिंग्स</string>
     <string name="feedback">प्रतिक्रिया</string>
 
-    <string name="theme_apply">लागू करें</string>
     <string name="apply_success">सफलतापूर्वक सेट</string>
     <string name="theme_current">वर्तमान थीम</string>
-    <string name="send_email">ईमेल भेजें</string>
     <string name="loading">लोड हो रहा है </string>
 
     <string name="privacy_policy">गोपनीयता नीति</string>
@@ -16,7 +14,6 @@
 
     <string name="guide_enable_all_module">फोन सहायक सक्षम करें</string>
 
-    <string name="acb_outapp_guide_screen_flash_content">अपने फोन को और फैशनेबल बनाने के लिए यूनिक कॉल इंटफेस ट्राई करें। इसमें विज्ञापन हो सकते हैं।</string>
     <string name="about">परिचय</string>
 
     <string name="guide_apply_theme_hint">कॉलर स्‍क्रीन पर आपकी थीम सफलतापूर्वक सेट हो चुकी है! इसका आनंद लें!</string>
@@ -40,10 +37,8 @@
     <string name="delete">हटाएं</string>
     <string name="select_contacts">संपर्कों को चुनें</string>
 
-    <string name="boost_plus_free_up">मुक्‍त करना</string>
     <string name="boost_plus_exiting">निकालना</string>
 
-    <string name="boost_tip_optimal">आपकी डिवाइस पहले से ही इष्टतम है!</string>
     <string name="boost_notification_low_ram_btn">बूस्ट</string>
     <string name="boost_title">बूस्ट</string>
 
@@ -51,12 +46,8 @@
     <string name="settings_notification_boost">अधिसूचना बूस्‍ट करें</string>
     <string name="settings_notification_boost_sub">जब मेमोरी प्रयोग ज्‍यादा हो तो तकाजा पाएं</string>
 
-    <string name="may_contain_ads">िज्ञापन हो सकते हैं।</string>
-
     <string name="guide_first_page_title">कृपया विशेषताएं और अनुमतियां सक्षम करें:\ आपको छूटी कॉल्‍स की याद दिलाए\n</string>
 
-    <string name="avatar_content">अपना अवतार तुरंत बनाएं</string>
-    <string name="action_back">वापस</string>
     <string name="action_install">इंस्‍टॉल</string>
 
     <!--Ringtone-->
@@ -87,7 +78,6 @@
     <string name="unlock_succeed">सफलतापूर्वक अनलॉक हो गया</string>
 
     <string name="gdpr_settings_cell">विश्‍लेषणात्‍मक और विज्ञापन</string>
-    <string name="gdpr_share_data">डेवलपर्स के साथ डाटा सांझा करें</string>
     <string name="gdpr_dialog_title">बंद करना है?</string>
     <string name="gdpr_dialog_content">इन डाटा को बेहतर प्रयोक्‍ता अनुभव के लिए डेवलपर के लिए ऐप्स को बेहतर बनाने की मदद में प्रयोग करने के लिए एकत्रित किया जाता है।</string>
     <string name="gdpr_dialog_turn_off">बंद करें</string>
@@ -96,69 +86,21 @@
     <string name="battery_clean_title">बैटरी सेवर </string>
     <string name="cpu_positive_feedback_title">शांत हुआ</string>
     <string name="result_page_click_guide_tip">अनुकूलन के लिए जारी</string>
-    <string name="desktop_tips_content_guide_msg">दैनिक मजा</string>
     <string name="apply_btn">लागू करें</string>
-    <string name="menu_item_settings">सेटिंग</string>
     <string name="battery_title">बैटरी</string>
-    <string name="battery_bluetooth">ब्लूटूथ</string>
-    <string name="battery_mobile_data">मोबाइल डेटा</string>
-    <string name="battery_current">मौजूदा</string>
-    <string name="battery_already_optimal">आपका उपकरण पहले से ही अच्‍छी तरह चल रहा है।</string>
-    <string name="battery_auto">स्‍वत:</string>
-    <string name="battery_auto_sync">स्‍वत: सिंक</string>
-    <string name="battery_brightness">चमकीला</string>
-    <string name="battery_careful">सावधान</string>
-    <string name="battery_charging_left">चार्जिंग बाकी</string>
-    <string name="battery_current_content">आपकी वर्तमान सेटिंग यहां सहेज जी जाएगी।</string>
-    <string name="battery_haptic_feedback">हैप्टिक प्रतिक्रिया</string>
-    <string name="battery_hide_system_apps">सिस्‍टम की एप्‍स को छिपाएं</string>
-    <string name="battery_low">बैटरी कम है</string>
-    <string name="battery_low_content">अपनी बैटरी लाइफ के विस्तार के लिए अनुकूलित करें</string>
-    <string name="battery_max_saver">अधिकतम बचत</string>
-    <string name="battery_max_saver_content">वाईफाई, ब्‍लूटूथ, वायब्रेट को बंद करें और और स्क्रिन टाइम आउट टाइम को 15 सेकंड का सेट करें</string>
-    <string name="battery_mode">मोड</string>
-    <string name="battery_off">बंद </string>
-    <string name="battery_on">चालू</string>
-    <string name="battery_optimize">अनुकूलन</string>
-    <string name="battery_optimize_new">पावर बचाएं</string>
-    <string name="battery_previous">पिछला</string>
-    <string name="battery_previous_content">अपनी आखिरी सेंटिंग पर वापस बदलें।</string>
-    <string name="battery_rank">रैंक</string>
-    <string name="battery_reapply">पुन: लागू</string>
-    <string name="battery_screen_timeout">स्‍क्रीन टाइम आउट</string>
-    <string name="battery_smart_saver">स्‍मार्ट सेवर</string>
-    <string name="battery_smart_saver_content">ब्‍लूटूथ, वायब्रेट को बंद करें और और स्क्रिन टाइम आउट टाइम को 30 सेकंड का सेट करें।</string>
     <string name="battery_stop">बंद</string>
-    <string name="battery_vibrate">वायब्रेट</string>
     <string name="battery_view">दृश्‍य</string>
-    <string name="battery_wifi">वाईफाई</string>
-    <string name="battery_low_tip_title">कम बिजली!</string>
-    <string name="battery_low_tip_desc">बिजली खपत को न्यूनतम करने के लिए बैटरी सेवर को ट्राई करें।</string>
-    <string name="battery_low_tip_btn_cancel">बाद में</string>
-    <string name="battery_low_tip_btn_ok">इसे अभी ट्राई करें</string>
-    <string name="battery_draining_apps">बैटरी खाली करने वाली एप्स!</string>
     <string name="battery_scaning">स्कैन हो रहा है…</string>
-    <string name="battery_healthy">स्वस्थ</string>
-    <string name="battery_time_remainning">समय बाकी</string>
-    <string name="battery_call_time">कॉल</string>
-    <string name="battery_wifi_time">वाईफाई</string>
-    <string name="battery_video_time">वीडियो</string>
     <string name="battery_clean_description">पावर खाने वाली एप्स</string>
     <string name="battery_extended">बढ़ाया</string>
-    <string name="battery_careful_content">आपकी बैटरी सामान्‍य से जल्‍दी खत्‍म हो रही है।</string>
     <string name="boost_plus_optimal">ऑप्टिमल</string>
-    <string name="charging_screen_settings_title">बैटरी सुरक्षा </string>
-    <string name="charging_screen_settings_subtitle">(विज्ञापन शामिल)</string>
-    <string name="charging_screen_settings_description">उपकरण को ओवरचार्जिंग से बचाएं</string>
     <string name="promotion_max_card_title_cpu_cooler">सीपीयू कूलर </string>
     <string name="cpu_cooler_list_head_title">सीपीयू को गर्म करने वाली एप्स</string>
-    <string name="cpu_cooler_button_title">ठंडा करें</string>
     <string name="cpu_cooler_state_hint">सीपीयू है %1$s</string>
     <string name="cpu_cooler_state_cool">ठंडा</string>
     <string name="cpu_cooler_state_overheated">ज्यादा गर्म</string>
     <string name="cpu_cooler_state_extremely_heated">गर्म </string>
     <string name="cpu_cooler_cleaning_hint">सीपीयू को खाने वाले बंद हो रही हैं....</string>
-    <string name="cool_capital">ठंडा</string>
 
     <string name="settings_activity_notification_reminder">नोटफिकेशन टूलबार टोगल</string>
 
@@ -168,13 +110,10 @@
     <string name="grant_access_to_optimize_experience">कॉल्‍स का जवाब देने के लिए एक्‍सेस सक्षम करें</string>
 
     <!--Cash-Center-->
-    <string name="crash_guide_content">बाद में दुबारा नकदी अर्जित करने के लिए डेस्‍कटॉप शॉर्टकट बनाना है?</string>
-    <string name="spin">स्पिन</string>
 
     <!--Facebook fan page-->
     <string name="follow_facebook">हमें फेसबुक पर फॉलो करें</string>
     <string name="skip">छोड़ें</string>
-    <string name="battery_optimized">अनुकूलित</string>
 
     <string name="guide_theme_random_hint">यह थीम लागू करते हुए, आप आने वाली कॉल्‍स के लिए क्रमरहित थीम्‍स का आनंद ले सकते हैं।</string>
 

@@ -31,11 +31,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Thunk;
+import com.honeycomb.colorphone.util.ViewUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
@@ -123,8 +123,9 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
                 if (Float.compare(newProgress, 100f) == 0 && Float.compare(mTargetProgress, 100f) == 0) {
                     mLoadingProgressBar.setVisibility(View.GONE);
                 }
-                if (newProgress <= 90 || newProgress <= mTargetProgress)
+                if (newProgress <= 90 || newProgress <= mTargetProgress) {
                     mLoadingProgressBar.setProgress(newProgress);
+                }
             }
         });
         mProgressAnimator.addListener(new AnimatorListenerAdapter() {
@@ -287,7 +288,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDisplayZoomControls(false);
 
-        mWebView.setBackgroundColor(ContextCompat.getColor(WebViewActivity.this, R.color.app_bar_activities_content_bg));
+        mWebView.setBackgroundColor(ContextCompat.getColor(WebViewActivity.this, R.color.content_gray_bg));
 
         mWebView.setOnTouchListener(new View.OnTouchListener() {
             @Override

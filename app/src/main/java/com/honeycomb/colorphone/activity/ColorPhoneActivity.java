@@ -22,7 +22,6 @@ import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.bumptech.glide.Glide;
-import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -56,7 +55,6 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
-import com.ihs.libcharging.ChargingPreferenceUtil;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 
@@ -660,7 +658,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 Preferences prefsFile = Preferences.getDefault();
                 if (pastVisibleItems + visibleItemCount >= totalItemCount && !prefsFile.getBoolean(PREFS_SCROLL_TO_BOTTOM, false)) {
                     //End of list
-                    LauncherAnalytics.logEvent("ColorPhone_List_Bottom_Show");
+                    LauncherAnalytics.logEventAndFirebase("ColorPhone_List_Bottom_Show");
                     prefsFile.putBoolean(PREFS_SCROLL_TO_BOTTOM, true);
                 }
 
@@ -760,8 +758,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             initData();
             mAdapter.notifyDataSetChanged();
         } else if (HSNotificationConstant.HS_SESSION_START.equals(s)) {
-            ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());
-            ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
             ColorPhoneApplication.checkChargingReportAdPlacement();
             if (mAdapter != null) {
                 mAdapter.resetShownCount();

@@ -172,7 +172,6 @@
 
     <!-- 2. Stop-cleaning confirmation dialog -->
     <include
-        android:id="@+id/stop_dialog_view"
         layout="@layout/activity_custom_alert"
         android:visibility="gone" />
 

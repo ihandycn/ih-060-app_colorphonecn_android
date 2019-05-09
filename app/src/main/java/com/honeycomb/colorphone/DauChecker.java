@@ -106,6 +106,12 @@ public class DauChecker {
             LauncherAnalytics.logEvent("DAU_Application_Check_" + getDeviceInfo(),
                     "Time", formatTotalTime(totalTime / DateUtils.MINUTE_IN_MILLIS),
                     "Count", String.valueOf(count));
+
+            LauncherAnalytics.logEvent("DAU_Application_Check",
+                    LauncherAnalytics.FLAG_LOG_FIREBASE,
+                    "Device", getDeviceInfo(),
+                    "Time", formatTotalTime(totalTime / DateUtils.MINUTE_IN_MILLIS),
+                    "Count", String.valueOf(count));
             // Reset
             Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(KEY_COUNT_LIVE_TOTAL, 0);
             Preferences.get(Constants.PREF_FILE_DEFAULT).putLong(KEY_TIME_LIVE_TOTAL, 0);

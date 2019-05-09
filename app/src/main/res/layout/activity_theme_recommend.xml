@@ -47,7 +47,6 @@
         tools:text="Apply this new theme for Jackson"/>
 
     <FrameLayout
-        android:id="@+id/recommend_view_preview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"

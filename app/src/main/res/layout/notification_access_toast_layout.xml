@@ -34,7 +34,6 @@
         android:src="@drawable/notification_arrow_right" />
 
     <com.superapps.view.TypefacedTextView
-        android:id="@+id/hint_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

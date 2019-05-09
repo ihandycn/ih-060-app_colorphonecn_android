@@ -24,8 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.colorphone.lock.RipplePopupView;
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
+import com.call.assistant.ui.RipplePopupView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -230,13 +229,19 @@ public class NewsPushActivity extends HSAppCompatActivity {
                 beanHolder.itemView.setPadding(0, 5, 0, 5);
                 if (position == 0) {
                     beanHolder.image.setRadius(radius, radius, 0, 0);
-                    if (beanHolder.mark != null) beanHolder.mark.setRadius(radius, radius, 0, 0);
+                    if (beanHolder.mark != null) {
+                        beanHolder.mark.setRadius(radius, radius, 0, 0);
+                    }
                 } else if (position == getItemCount() - 1) {
                     beanHolder.image.setRadius(0, 0, radius, radius);
-                    if (beanHolder.mark != null) beanHolder.mark.setRadius(0, 0, radius, radius);
+                    if (beanHolder.mark != null) {
+                        beanHolder.mark.setRadius(0, 0, radius, radius);
+                    }
                 } else {
                     beanHolder.image.setRadius(0, 0, 0, 0);
-                    if (beanHolder.mark != null) beanHolder.mark.setRadius(0, 0, 0, 0);
+                    if (beanHolder.mark != null) {
+                        beanHolder.mark.setRadius(0, 0, 0, 0);
+                    }
                 }
             }
 
@@ -280,12 +285,12 @@ public class NewsPushActivity extends HSAppCompatActivity {
     private void showMenuPopupWindow(Context context, View anchorView) {
         if (menuPopupView == null) {
             menuPopupView = new RipplePopupView(context, rootView);
-            View view = LayoutInflater.from(context).inflate(com.colorphone.lock.R.layout.charging_screen_popup_window,
+            View view = LayoutInflater.from(context).inflate(R.layout.screen_popup_window,
                     rootView, false);
-            TextView txtCloseChargingBoost = view.findViewById(com.colorphone.lock.R.id.tv_close);
+            TextView txtCloseChargingBoost = view.findViewById(R.id.tv_close);
             txtCloseChargingBoost.requestLayout();
             txtCloseChargingBoost.setOnClickListener(v -> {
-                if (ChargingScreenUtils.isFastDoubleClick()) {
+                if (Utils.isFastDoubleClick()) {
                     return;
                 }
 //                LockerCustomConfig.getLogger().logEvent("Locker_DisableLocker_Clicked");
@@ -308,7 +313,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
 
     private void showCloseDialog() {
         if (closeDialog == null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, com.ihs.chargingreport.R.style.CloseDialogTheme);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CloseDialogTheme);
 
             String title = getString(R.string.news_push_disable_confirm);
             SpannableString spannableStringTitle = new SpannableString(title);
@@ -324,7 +329,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
                     0, message.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             builder.setMessage(spannableStringMessage);
 
-            builder.setPositiveButton(getString(com.colorphone.lock.R.string.charging_screen_close_dialog_positive_action),
+            builder.setPositiveButton(getString(R.string.acb_phone_alert_close_dialog_positive_action),
                     (dialogInterface, i) -> {
                 if (closeDialog == null) {
                     return;
@@ -333,7 +338,7 @@ public class NewsPushActivity extends HSAppCompatActivity {
                 closeDialog = null;
             });
 
-            builder.setNegativeButton(getString(com.colorphone.lock.R.string.charging_screen_close_dialog_negative_action),
+            builder.setNegativeButton(getString(R.string.acb_phone_alert_close_dialog_negative_action),
                     (dialog, i) -> {
                 if (closeDialog == null) {
                     return;
@@ -351,7 +356,8 @@ public class NewsPushActivity extends HSAppCompatActivity {
 
             closeDialog.setOnShowListener(dialog -> {
                 Button negativeButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_NEGATIVE);
-                negativeButton.setTextColor(ContextCompat.getColor(HSApplication.getContext(), com.ihs.chargingreport.R.color.charging_screen_alert_negative_action));
+                negativeButton.setTextColor(ContextCompat.getColor(HSApplication.getContext(),
+                        R.color.textLightGray));
             });
         }
         closeDialog.show();

@@ -26,7 +26,7 @@ public class ConfigLogDefault implements ConfigLog {
         Set<String> downloadThemes = new HashSet<>(3);
         @Override
         public void onMainViewOpen() {
-            LauncherAnalytics.logEvent("ColorPhone_MainView_Opened");
+            LauncherAnalytics.logEventAndFirebase("ColorPhone_MainView_Opened");
             LauncherAnalytics.logEvent("mainview_open_news_enable", "type", Utils.isNewUser() ? "new" : "upgrade");
             NewsTest.logAutopilotEvent("mainview_open_news_enable");
             LauncherAnalytics.logEvent("videonews_mainview_show_video_enable");
@@ -34,17 +34,17 @@ public class ConfigLogDefault implements ConfigLog {
 
         @Override
         public void onThemePreviewOpen(String name) {
-            LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_View", "ThemeName", name);
+            LauncherAnalytics.logEventAndFirebase("ColorPhone_ThemeDetail_View", "ThemeName", name);
         }
 
         @Override
         public void onChooseTheme(String name, String from) {
-            LauncherAnalytics.logEvent("ColorPhone_ChooseTheme", "ThemeName", name, "from", from);
+            LauncherAnalytics.logEventAndFirebase("ColorPhone_ChooseTheme", "ThemeName", name, "from", from);
         }
 
         @Override
         public void onThemeDownloadStart(String name, String from) {
-            LauncherAnalytics.logEvent("ColorPhone_Theme_Download_Started", "ThemeName", name, "from", from,
+            LauncherAnalytics.logEventAndFirebase("ColorPhone_Theme_Download_Started", "ThemeName", name, "from", from,
              "Network", NetUtils.getNetWorkStateName());
         }
 
@@ -52,7 +52,7 @@ public class ConfigLogDefault implements ConfigLog {
         public void onThemeDownloadFinish(String name) {
             boolean firstDownload = downloadThemes.add(name);
             if (firstDownload) {
-                LauncherAnalytics.logEvent("ColorPhone_Theme_Download_Finished", "ThemeName", name,
+                LauncherAnalytics.logEventAndFirebase("ColorPhone_Theme_Download_Finished", "ThemeName", name,
                         "Network",  NetUtils.getNetWorkStateName());
 
             }

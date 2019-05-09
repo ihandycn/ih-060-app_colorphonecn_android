@@ -25,6 +25,7 @@ import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.ScreenStateMgr;
 import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -37,7 +38,6 @@ import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.triviatip.TriviaTip;
-import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.PermissionTestUtils;
@@ -51,7 +51,6 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.flashlight.FlashlightManager;
-import com.ihs.libcharging.ScreenStateMgr;
 import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
@@ -182,7 +181,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onCallFinished() {
-                LauncherAnalytics.logEvent( "ColorPhone_Call_Finished");
+                LauncherAnalytics.logEventAndFirebase( "ColorPhone_Call_Finished");
                 if (TriviaTip.isModuleEnable()
                         && Ap.TriviaTip.enableAdShowBeforeTrivia()) {
                     TriviaTip.getInstance().preloadAd();
@@ -214,7 +213,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
             @Override
             public void onAdShow(int callType) {
-                super.onAdShow(callType);
+                LauncherAnalytics.logEventAndFirebase("CallFinished_View_AD_Shown", "callType", getCallTypeStr(callType));
                 isADShown = true;
                 HSGlobalNotificationCenter.sendNotification(OutsidePermissionGuideActivity.EVENT_DISMISS);
             }
@@ -222,7 +221,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             @Override
             public void onCallFinishedCallAssistantShow(String number) {
                 ThemeRecommendManager.getInstance().increaseCallTimes(number);
-                LauncherAnalytics.logEvent("ColorPhone_Call_Finished_Call_Assistant_Show");
+                LauncherAnalytics.logEventAndFirebase("ColorPhone_Call_Finished_Call_Assistant_Show");
                 ThemeRecommendManager.getInstance().getRecommendThemeIdAndPrepare(number);
             }
 

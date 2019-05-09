@@ -34,6 +34,7 @@ import android.widget.RemoteViews;
 
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.ScreenStateMgr;
 import com.honeycomb.colorphone.battery.BatteryCleanActivity;
 import com.honeycomb.colorphone.battery.BatteryUtils;
 import com.honeycomb.colorphone.boost.BoostActivity;
@@ -54,7 +55,6 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.flashlight.FlashlightManager;
 import com.ihs.flashlight.FlashlightStatusListener;
-import com.ihs.libcharging.ScreenStateMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 

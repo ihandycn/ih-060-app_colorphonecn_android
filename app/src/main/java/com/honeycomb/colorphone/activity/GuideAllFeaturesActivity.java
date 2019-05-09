@@ -67,11 +67,11 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         StatusBarUtils.hideStatusBar(this);
 
         setUpPrivacyTextView();
-        LauncherAnalytics.logEvent("ColorPhone_StartGuide_Show");
+        LauncherAnalytics.logEventAndFirebase("ColorPhone_StartGuide_Show");
         findViewById(R.id.guide_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LauncherAnalytics.logEvent("ColorPhone_StartGuide_Cancel_Clicked");
+                LauncherAnalytics.logEventAndFirebase("ColorPhone_StartGuide_Cancel_Clicked");
                 if (CommonUtils.ATLEAST_MARSHMALLOW && requiresPermission()) {
 
                 } else {
@@ -84,7 +84,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LauncherAnalytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
+                LauncherAnalytics.logEventAndFirebase("ColorPhone_StartGuide_OK_Clicked");
                 LauncherAnalytics.logEvent("startguide_ok_click_news");
                 ModuleUtils.setAllModuleUserEnable();
 

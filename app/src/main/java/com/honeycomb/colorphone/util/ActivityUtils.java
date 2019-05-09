@@ -18,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.InsettableFrameLayout;
 import com.ihs.app.framework.HSApplication;
@@ -210,7 +209,7 @@ public class ActivityUtils {
         Toolbar toolbar;
 
         if (container instanceof LinearLayout) {
-            toolbar = container.findViewById(com.colorphone.lock.R.id.inner_tool_bar);
+            toolbar = container.findViewById(R.id.inner_tool_bar);
         } else {
             toolbar = (Toolbar) container;
         }

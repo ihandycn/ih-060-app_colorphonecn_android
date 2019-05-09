@@ -1,9 +1,6 @@
 [submodule "libs/libColorhone"]
 	path = libs/libColorhone
 	url = http://git.ihandysoft.com/bingroup/Bin_ColorPhone_Android.git
-[submodule "libs/chargingscreen"]
-	path = libs/chargingscreen
-	url = http://git.ihandysoft.com/bingroup/bin_chargingscreen_android.git
 [submodule "libs/libSuperApps"]
 	path = libs/libSuperApps
 	url = http://git.ihandysoft.com/nogroup/Lib_SuperApps_Android.git
@@ -13,9 +10,3 @@
 [submodule "libs/libNewColorPhone"]
 	path = libs/libNewColorPhone
 	url = http://git.ihandysoft.com/nogroup/Lib_ColorPhone_Android.git
-[submodule "libs/libCashCenter"]
-	path = libs/libCashCenter
-	url = http://git.ihandysoft.com/bingroup/Bin_CashCenter_Android.git
-[submodule "libs/libChargingImprover"]
-	path = libs/libChargingImprover
-	url = https://git.ihandysoft.com/nogroup/Lib_FlashlightCharging_Android.git

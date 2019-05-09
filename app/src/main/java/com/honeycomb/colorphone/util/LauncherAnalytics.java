@@ -1,9 +1,13 @@
 package com.honeycomb.colorphone.util;
 
+import android.os.Bundle;
+
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 
 import java.util.HashMap;
@@ -17,6 +21,7 @@ public class LauncherAnalytics {
 
     public static int FLAG_LOG_FLURRY = 0x1;
     public static int FLAG_LOG_FABRIC = 0x2;
+    public static int FLAG_LOG_FIREBASE = 0x4;
 
     public static void logEvent(String eventID) {
         logEvent(eventID, FLAG_LOG_FABRIC | FLAG_LOG_FLURRY, (Map) (new HashMap()));
@@ -77,6 +82,14 @@ public class LauncherAnalytics {
             if ((flag & FLAG_LOG_FLURRY) == FLAG_LOG_FLURRY) {
                 com.ihs.app.analytics.HSAnalytics.logEvent(eventID, eventValue);
             }
+            if ((flag & FLAG_LOG_FIREBASE) == FLAG_LOG_FIREBASE) {
+                Bundle bundle = new Bundle();
+                for (String key : eventValue.keySet()) {
+                    bundle.putString(key, eventValue.get(key));
+                }
+                FirebaseAnalytics.getInstance(HSApplication.getContext())
+                        .logEvent(eventID, bundle);
+            }
         } else {
             HSLog.i("FlurryWithAnswers", "not init fabric event: " + eventID);
         }
@@ -89,6 +102,14 @@ public class LauncherAnalytics {
             } catch (Exception ignore) {
             }
         }
+    }
+
+    public static void logEventAndFirebase(String event) {
+        logEvent(event);
+    }
+
+    public static void logEventAndFirebase(String eventID, String... vars) {
+        logEvent(eventID, FLAG_LOG_FABRIC | FLAG_LOG_FLURRY | FLAG_LOG_FIREBASE, vars);
     }
 
     public static String upperFirstCh(String event) {
