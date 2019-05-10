@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="103dp"
+    android:layout_height="86dp"
     android:background="@drawable/material_compat_bg"
     android:gravity="center_vertical"
     android:paddingBottom="8dp"
@@ -13,30 +13,31 @@
 
     <com.honeycomb.colorphone.view.RoundImageVIew
         android:id="@+id/news_icon_iv"
-        android:layout_width="90dp"
-        android:layout_height="86dp"
+        android:layout_width="102dp"
+        android:layout_height="68dp"
         android:scaleType="centerCrop"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:radius="8dp" />
+        app:radius="4dp" />
 
     <com.superapps.view.TypefacedTextView
         android:id="@+id/news_title_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:maxLines="3"
+        android:maxLines="2"
         android:ellipsize="end"
         android:textColor="@color/news_title_color"
         android:textSize="16sp"
-        android:layout_marginRight="18dp"
-        android:layout_marginEnd="18dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
+        android:lineSpacingExtra="4sp"
         app:layout_goneMarginEnd="0dp"
         app:layout_goneMarginRight="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/news_icon_iv"
         app:layout_constraintTop_toTopOf="parent"
-        app:typeface="@string/custom_font_bold"
+        app:typeface="@string/custom_font_regular"
         tools:text="Jackson Supported by Mom Debbie Rowe and Macaulay Culkin"
         />
 
@@ -44,20 +45,18 @@
         android:id="@+id/news_resource_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
         android:textColor="@color/news_sub_title_color"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="@id/news_title_tv"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:typeface="@string/custom_font_bold"
+        app:typeface="@string/custom_font_medium"
         tools:text="CNN "/>
 
     <com.superapps.view.TypefacedTextView
         android:id="@+id/news_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
         android:textColor="@color/news_sub_title_color"
         android:textSize="12sp"
         app:layout_constraintTop_toTopOf="@+id/news_resource_tv"

@@ -7,7 +7,8 @@ public class Thumbnail {
     String type;
 
     public String getUrl() {
-        return url + "&width=" + width + "&height=" + height;
+        int h = width * 71 / 106;
+        return url + "&width=" + Math.min(width, this.width) + "&height=" + Math.min(h, height);
     }
 
     @Override public String toString() {

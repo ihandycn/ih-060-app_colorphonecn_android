@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -262,6 +263,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 if (pos == USER_POSITION) {
                     NewsManager.logNewsListShow("Tab");
+
+                    toolbar.setBackgroundColor(Color.WHITE);
+                    toolbar.setTitleTextColor(Color.BLACK);
+                } else {
+                    toolbar.setBackgroundColor(Color.BLACK);
+                    toolbar.setTitleTextColor(Color.WHITE);
                 }
             }
 

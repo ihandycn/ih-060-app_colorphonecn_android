@@ -228,11 +228,13 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                HSLog.w(NewsManager.TAG, "onPageStarted " + url);
                 mOnPageStart = true;
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
+                HSLog.w(NewsManager.TAG, "onPageFinished " + url);
                 mOnPageStart = false;
             }
 
@@ -242,6 +244,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
             @Override
             @TargetApi(Build.VERSION_CODES.M)
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                HSLog.w(NewsManager.TAG, "onReceivedError " + error);
                 handleError(request, error);
             }
 
@@ -250,6 +253,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
              */
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                HSLog.w(NewsManager.TAG, "onReceivedError6 " + description);
                 handleError(null, null);
             }
 
@@ -282,6 +286,8 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
             webSettings.setUseWideViewPort(true);
             webSettings.setLoadWithOverviewMode(true);
         }
+
+        webSettings.setDomStorageEnabled(true);
 
         // Enable zoom
         webSettings.setBuiltInZoomControls(true);

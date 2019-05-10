@@ -377,17 +377,13 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         void bindNewsBean(NewsArticle bean, int type) {
             String url = null;
-
             if (bean.thumbnails != null && bean.thumbnails.size() > 0) {
                 url = bean.thumbnails.get(0).getUrl();
             }
 
             title.setText(bean.title);
-            if (showTime) {
-                time.setText(String.valueOf(" · " + NewsUtils.getNewsDate(bean.publish_time)));
-            } else {
-                time.setVisibility(View.GONE);
-            }
+            time.setVisibility(View.GONE);
+
             resource.setText(bean.source_name);
             if (type == NewsAdapter.NEWS_TYPE_TEXT) {
                 image.setVisibility(GONE);
