@@ -503,7 +503,12 @@
             android:screenOrientation="portrait"
             android:taskAffinity=".main"
             android:theme="@style/AppLightStatusBarThemeDarkTemp" />
-
+        <activity
+            android:name=".news.WebViewActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <!-- JPush Daemon-->
         <service
             android:name="cn.jpush.android.service.DaemonService"
@@ -602,6 +607,7 @@
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:theme="@style/AppTranslucent" />
+
         <!--===== Dialer Module End =====-->
     </application>
 

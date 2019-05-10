@@ -38,6 +38,8 @@ import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
+import com.honeycomb.colorphone.news.NewsFrame;
+import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
@@ -139,6 +141,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean showAllFeatureGuide = false;
     private boolean isCreate = false;
     private SettingsPage mSettingsPage = new SettingsPage();
+    private NewsFrame newsLayout;
 
     private static final int TAB_SIZE = 3;
     private static final int MAIN_POSITION = 0;
@@ -255,6 +258,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     toolbar.setTitle(getTitle());
                 } else {
                     toolbar.setTitle(titles[pos]);
+                }
+
+                if (pos == USER_POSITION) {
+                    NewsManager.logNewsListShow("Tab");
                 }
             }
 
@@ -611,6 +618,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 case MAIN_POSITION:
                     frame = getLayoutInflater().inflate(R.layout.main_frame_content, container, false);
                     initRecyclerView((RecyclerView) frame);
+
+                    Analytics.logEvent("Tab_Themes_Show");
                     break;
 
                 case SETTING_POSITION:
@@ -619,8 +628,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     break;
 
                 case USER_POSITION:
-                    frame = new TextView(ColorPhoneActivity.this);
-                    ((TextView) frame).setText("TODO");
+                    frame = getLayoutInflater().inflate(R.layout.news_frame, container, false);
+                    newsLayout = (NewsFrame) frame;
+
+                    Analytics.logEvent("Tab_News_Show");
                     break;
                 default:
                     throw new IllegalStateException("Pager index out of bounds");

@@ -294,4 +294,12 @@
     <string name="guide_first_page_title_new">Please enable the features and permissions, Remind you about missed calls.</string>
     <string name="acc_service_name">💥【炫彩来电】超级无敌，点击💥</string>
 
+    <string name="news_network_err">Network not available</string>
+    <string name="news_network_err_content">Please check your internet connection and try again</string>
+    <string name="news_network_err_action">RETRY</string>
+    <string name="menu_item_news">News</string>
+    <string name="news_detail_error_reload">Reload</string>
+
+    <string name="news_no_news_update"  translatable="false">No New Update</string>
+    <string name="news_network_failed_toast">网络不稳定，请稍后重试！</string>
 </resources>

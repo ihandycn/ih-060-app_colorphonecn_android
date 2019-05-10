@@ -109,4 +109,7 @@
     <color name="white_alpha_50">#7fffffff</color>
     <color name="black_10_transparent">#1A000000</color>
 
+    <color name="news_title_color">@android:color/black</color>
+    <color name="news_sub_title_color">#b3000000</color>
+
 </resources>

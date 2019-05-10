@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
@@ -208,8 +209,11 @@ public class ActivityUtils {
         assert container != null;
         Toolbar toolbar;
 
-        toolbar = (Toolbar) container;
-
+        if (container instanceof LinearLayout) {
+            toolbar = container.findViewById(com.colorphone.lock.R.id.inner_tool_bar);
+        } else {
+            toolbar = (Toolbar) container;
+        }
         assert toolbar != null;
 
         toolbar.setTitle("");
