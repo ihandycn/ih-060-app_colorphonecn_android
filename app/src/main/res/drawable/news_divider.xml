@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <size android:height="20.3dp" />
+            <size android:height="8.3dp" />
         </shape>
     </item>
     <item android:top="4dp" android:bottom="4dp">

@@ -528,6 +528,11 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         void bindView(NewsNativeAdBean bean) {
             adContainer.fillNativeAd(bean.acbNativeAd);
+            bean.acbNativeAd.setNativeClickListener(acbAd -> {
+                Analytics.logEvent("News_List_Ad_Click");
+            });
+
+            Analytics.logEvent("News_List_Ad_Show");
         }
     }
 

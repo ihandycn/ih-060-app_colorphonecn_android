@@ -206,6 +206,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         mViewPager = findViewById(R.id.viewpager);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            mViewPager.setNestedScrollingEnabled(false);
+//        }
         mTabAdapter = new MainTabAdapter();
         mViewPager.setAdapter(mTabAdapter);
         mViewPager.setOffscreenPageLimit(2);
@@ -254,7 +257,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int pos = tab.getPosition();
-                mViewPager.setCurrentItem(pos);
+                mViewPager.setCurrentItem(pos, false);
                 if (pos == 0) {
                     toolbar.setTitle(getTitle());
                 } else {

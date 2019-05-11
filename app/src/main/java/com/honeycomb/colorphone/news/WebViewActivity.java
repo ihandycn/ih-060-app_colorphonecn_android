@@ -413,6 +413,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
     @Override public void onBackPressed() {
         super.onBackPressed();
         Analytics.logEvent("news_detail_page_back_click");
+        NewsManager.logNewsListShow("Back");
     }
 
     @Override

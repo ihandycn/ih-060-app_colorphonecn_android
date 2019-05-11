@@ -118,8 +118,12 @@ public class NewsManager {
 
     private void replaceADs(NewsResultBean resultBean, int size) {
         List<Integer> adIndexes = new ArrayList<>();
+        if (resultBean == null || resultBean.articlesList == null) {
+            HSLog.i(TAG, "replaceADs resultBean or articlesList is NULL ");
+            return;
+        }
 
-        if (resultBean != null && resultBean.articlesList != null && resultBean.articlesList.size() > 0) {
+        if (resultBean.articlesList.size() > 0) {
             int index = 0;
             for (NewsArticle article : resultBean.articlesList) {
                 if (article.item_type == 8) {
@@ -140,32 +144,25 @@ public class NewsManager {
             return;
         }
 
+        int index = 1;
+        if (size > 0) {
+            index = size + AD_INTERVAL - (size - adSize - 1) % AD_INTERVAL;
+        }
+
+        size = (resultBean.articlesList != null ? resultBean.articlesList.size() : size);
+
+        adIndexes.clear();
+        for (; index < size; ) {
+            adIndexes.add(index);
+            index += AD_INTERVAL + 1;
+            size++;
+
+            Analytics.logEvent("News_List_Ad_Should_Show");
+        }
+
         List<AcbNativeAd> ads = AcbNativeAdManager.fetch(NEWS_LIST_BANNER, NATIVE_AD_SIZE);
         if (ads != null && ads.size() > 0) {
             NewsNativeAdBean bean;
-
-//            int divier = ads.size() - adIndexes.size();
-//            int index = size + 1;
-//            if (adIndexes.size() > 0) {
-//                index = adIndexes.get(0) + AD_INTERVAL;
-//            }
-//
-//            while (divier > 0) {
-//                adIndexes.add(0, index);
-//                index += AD_INTERVAL;
-//                divier--;
-//            }
-
-            int index = 1;
-            if (size > 0) {
-                index = size + AD_INTERVAL - (size - adSize - 1) % AD_INTERVAL;
-            }
-
-            adIndexes.clear();
-            for (int i = 0; i < ads.size(); i++) {
-                adIndexes.add(index);
-                index += AD_INTERVAL + 1;
-            }
 
             HSLog.i(TAG, "replaceADs addIndex: " + adIndexes + "  AdSize: " + ads.size());
 
@@ -176,6 +173,7 @@ public class NewsManager {
                 index = adIndexes.remove(0);
                 if (index < resultBean.articlesList.size()) {
                     resultBean.articlesList.add(index, bean);
+                    Analytics.logEvent("New_List_Ad_Fetch_Success");
                 }
             }
 
