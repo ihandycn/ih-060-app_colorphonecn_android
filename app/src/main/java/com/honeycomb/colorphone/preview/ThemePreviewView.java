@@ -577,10 +577,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        if (mTheme.getId() == Theme.RANDOM_THEME ) {
-            Utils.showToast(mActivity.getString(R.string.apply_success));
-            GuideSetDefaultActivity.start(mActivity, false);
-        }
+        Utils.showToast(mActivity.getString(R.string.apply_success));
+        GuideSetDefaultActivity.start(mActivity, false);
 
         // Ringtone enabled
         if (mRingtoneViewHolder.isSelect()) {
