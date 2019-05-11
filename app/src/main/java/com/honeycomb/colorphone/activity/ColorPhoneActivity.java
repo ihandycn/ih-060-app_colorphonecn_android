@@ -152,6 +152,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private ViewPagerFixed mViewPager;
     private MainTabAdapter mTabAdapter;
     private Toolbar toolbar;
+    private TabLayout tabLayout;
 
     @DebugLog
     @Override
@@ -235,7 +236,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     };
 
     private void initTab() {
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout = findViewById(R.id.tab_layout);
 
         for (int i = 0; i < titles.length; i++) {
             TabLayout.Tab tab = tabLayout.newTab();
@@ -260,13 +261,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (mViewPager != null) {
                     mViewPager.setCurrentItem(pos, false);
                 }
-
-                if (pos == 0) {
-                    toolbar.setTitle(getTitle());
-                } else {
-                    toolbar.setTitle(titles[pos]);
-                }
-
+                updateTitle(pos);
                 if (pos == NEWS_POSITION) {
                     toolbar.setBackgroundColor(Color.WHITE);
                     toolbar.setTitleTextColor(Color.BLACK);
@@ -322,6 +317,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
+    private void updateTitle(int pos) {
+        if (pos == 0) {
+            toolbar.setTitle(getTitle());
+        } else {
+            toolbar.setTitle(titles[pos]);
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -359,6 +362,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         PermissionHelper.stopObservingPermission();
         isPaused = false;
         mHandler.postDelayed(mainViewRunnable, 1000);
+
+        if (tabLayout != null) {
+            updateTitle(tabLayout.getSelectedTabPosition());
+        }
 
         if (mAdapter != null) {
             HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
