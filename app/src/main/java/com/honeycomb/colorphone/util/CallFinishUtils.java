@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.util;
 
 import android.os.Build;
 
+import com.colorphone.lock.util.ConfigUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -15,7 +16,9 @@ public class CallFinishUtils {
                 || enabledThisVersion();
 
         HSLog.d("CallFinish", "config enable : " + configEnable );
-        return configEnable && enabledThisBrand();
+        return configEnable
+                && enabledThisBrand()
+                && !ConfigUtils.isNewUserInAdBlockStatus();
     }
 
     private static boolean enabledThisVersion() {

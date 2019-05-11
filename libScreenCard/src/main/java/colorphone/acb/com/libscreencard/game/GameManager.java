@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Set;
 
 import colorphone.acb.com.libscreencard.CardCustomConfig;
-import colorphone.acb.com.libscreencard.gif.AutoPilotUtils;
 
 /**
  * Created by sundxing on 2018/6/9.
@@ -76,13 +75,7 @@ public class GameManager {
                     @Override
                     public void onAdDisplayed(String s) {
                         if (AD_NAME.equals(s)) {
-                            if (!original) {
-                                AutoPilotUtils.logFmGameExpressAdShow();
-                            } else {
-                                AutoPilotUtils.logGameExpressAdShow();
-                            }
                         } else if (AD_REWARD_NAME.equals(s)) {
-                            AutoPilotUtils.logGameRewardAdShow();
                         }
 
                     }

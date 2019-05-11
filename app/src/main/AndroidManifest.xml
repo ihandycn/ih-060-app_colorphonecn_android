@@ -266,15 +266,6 @@
             android:theme="@style/ContactTheme" />
 
         <activity
-            android:name=".activity.AvatarVideoActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:parentActivityName=".activity.ColorPhoneActivity"
-            android:screenOrientation="portrait"
-            android:taskAffinity=":main"
-            android:theme="@style/AppTheme.DarkFullScreen" />
-
-        <activity
             android:name="com.acb.call.activity.RequestPermissionsActivity"
             android:taskAffinity=":main"
             tools:node="merge" />
@@ -488,14 +479,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".permission.OutsidePermissionGuideActivity"
-            android:theme="@style/Theme.AppCompat.Translucent" />
-        <activity
-            android:name=".triviatip.TriviaTipActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.AppCompat.Translucent" />
 
         <activity
             android:name=".activity.StartGuideActivity"

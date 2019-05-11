@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatButton;
@@ -357,6 +358,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         // ======== onStart ========
         isStart = true;
         HSLog.d(TAG, "onStart()");
+
+        PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = powerManager != null && powerManager.isScreenOn();
+
         if (customizeContentContainer != null) {
             customizeContentContainer.onVisibilityChange(true);
         }
@@ -385,9 +390,11 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             isChargingOnInit = false;
             updateChargingStateTipIconAnimator();
         }
-        String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
-        LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix,
-                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
+        if (isScreenOn) {
+            String suffix = ChargingScreenUtils.isFromPush ? "_Push" : "";
+            LockerCustomConfig.getLogger().logEvent("ChargingScreen_Shown" + suffix,
+                    "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
+        }
 
         // ======== onResume ========
 

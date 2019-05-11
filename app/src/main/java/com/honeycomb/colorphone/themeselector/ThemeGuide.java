@@ -26,6 +26,7 @@ import java.util.List;
 
 import static com.acb.call.constant.ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID;
 
+@Deprecated
 public class ThemeGuide {
 
     private static final String TAG = ThemeGuide.class.getSimpleName();
@@ -96,7 +97,6 @@ public class ThemeGuide {
         if (isFromThemeGuide()) {
             ThemeGuideTest.logThemeGuideApply();
         }
-//        ColorPhone_ThemeWireAd_Show_FromThemeGuide
     }
 
     public static boolean isFromThemeGuide() {

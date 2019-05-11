@@ -170,15 +170,7 @@ dependencies {
 
             "com.android.support:multidex:1.0.1",
 
-//            "com.google.android.gms:play-services-gcm:$GOOGLE_PLAY_SERVICES_VERSION".toString(),
-//            "com.google.android.gms:play-services-ads:$GOOGLE_PLAY_SERVICES_VERSION".toString(),
-
-//            'com.google.firebase:firebase-core:16.0.3',
-//            'com.google.firebase:firebase-messaging:17.3.0',
-//            USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.5.0.+"
-//                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.0.gm",
-
-            "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.2.gm",
+            "cn.appcloudbox.autopilot:libAutoPilot.gm:5.5.3.cn.gm",
 
     ]
 

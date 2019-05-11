@@ -29,7 +29,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.boost.BoostAnimationManager;
-import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
+import com.honeycomb.colorphone.boost.BoostConfig;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
@@ -96,15 +96,15 @@ public class NotificationCondition implements INotificationObserver {
 //    // 没有打开相应功能模块的时间
 //    public static final long NOT_OPEN_FEATURE_INTERVAL       = HSConfig.optInteger(30, "Application", "NotificationSystem", "CleanTimeDelay") * DateUtils.MINUTE_IN_MILLIS;
 //    // 两条消息之间的时间间隔
-      // 替换为 BoostAutoPilotUtils.getBoostPushInterval()
+      // 替换为 BoostConfig.getBoostPushInterval()
     private static final long CHECK_NOTIFICATION_INTERVAL    = HSConfig.optInteger(60, "Application", "NotificationSystem", "PushDelayTime") * DateUtils.MINUTE_IN_MILLIS;
     // 亮屏之后到检查通知的时间
     private static final long AFTER_UNLOCK_TIME = 3 * DateUtils.SECOND_IN_MILLIS;
     // 同一类型的消息的时间间隔 (需求为 0 小时)
-    // 替换为 BoostAutoPilotUtils.getBoostPushInterval()
+    // 替换为 BoostConfig.getBoostPushInterval()
     private static final long SAME_NOTIFICATION_INTERVAL     = HSConfig.optInteger(0, "Application", "NotificationSystem", "DelayTimePerPush") * DateUtils.HOUR_IN_MILLIS;
     // 每天最多通知条数 (需求为 24 小时 6 条)
-    // 替换为 BoostAutoPilotUtils.getBoostPushMaxCount()
+    // 替换为 BoostConfig.getBoostPushMaxCount()
 //    private static final int NOTIFICATION_LIMIT_IN_DAY = HSConfig.optInteger(6, "Application", "NotificationSystem", "MaxTimesNotification");
 //    // 每天同类最多通知条数 (需求为 24 小时 2 条)
 //    private static final int SAME_NOTIFICATION_LIMIT_IN_DAY = HSConfig.optInteger(2, "Application", "NotificationSystem", "MaxTimesPerNotification");
@@ -116,8 +116,8 @@ public class NotificationCondition implements INotificationObserver {
 //    private static int HIGH_BATTERY = HSConfig.optInteger(50, "Application", "NotificationSystem", "BatteryAlarmB");
 //    private static int BATTERY_APPS = HSConfig.optInteger(3, "Application", "NotificationSystem", "BatteryApp");
 //    private static int JUNK_CLEAN_NOTIFICATION_SIZE = HSConfig.optInteger(80, "Application", "NotificationSystem", "JunkAlarm") * 1024 * 1024;
-    private static int BOOST_RAM = HSConfig.optInteger(60, "Application", "NotificationSystem", "BoostAlarmA");
-    private static int BOOST_APPS = HSConfig.optInteger(3, "Application", "NotificationSystem", "BoostAlarmB");
+    private static int BOOST_RAM = HSConfig.optInteger(55, "Application", "Boost", "BoostRam");
+    private static int BOOST_APPS = HSConfig.optInteger(2, "Application", "Boost", "BoostApps");
 
     private Context context;
     private static NotificationCondition sInstance;
@@ -145,6 +145,11 @@ public class NotificationCondition implements INotificationObserver {
         }
     };
 
+    public void onConfigChange() {
+        BOOST_RAM = HSConfig.optInteger(55, "Application", "Boost", "BoostRam");
+        BOOST_APPS = HSConfig.optInteger(2, "Application", "Boost", "BoostApps");
+    }
+
     public synchronized static void init() {
         if (sInstance == null) {
             sInstance = new NotificationCondition(HSApplication.getContext());
@@ -166,7 +171,7 @@ public class NotificationCondition implements INotificationObserver {
     @SuppressWarnings("WeakerAccess")
     public NotificationCondition(Context context) {
         this.context = context;
-        notificationHolderList = new ArrayList<>(BoostAutoPilotUtils.getBoostPushMaxCount());
+        notificationHolderList = new ArrayList<>(BoostConfig.getBoostPushMaxCount());
         readFromPref();
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_CHECK_DONE, this);
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_PRESENT, this);
@@ -223,16 +228,16 @@ public class NotificationCondition implements INotificationObserver {
         long keepOnTime = now - screenOnTime;
         HSLog.d(TAG, "sendNotificationIfNeeded keepOnTime == " + keepOnTime);
         if (keepOnTime > AFTER_UNLOCK_TIME && lastScreenOnTime != screenOnTime) {
-            if (lastHolder == null || now - lastHolder.sendTime > BoostAutoPilotUtils.getBoostPushInterval()) {
+            if (lastHolder == null || now - lastHolder.sendTime > BoostConfig.getBoostPushInterval()) {
                 lastScreenOnTime = screenOnTime;
                 checkHolders();
-                if (notificationHolderList.size() >= BoostAutoPilotUtils.getBoostPushMaxCount()) {
-                    HSLog.d(TAG, String.format(Locale.getDefault(), "24 小时，超过 %d 个", BoostAutoPilotUtils.getBoostPushMaxCount()));
+                if (notificationHolderList.size() >= BoostConfig.getBoostPushMaxCount()) {
+                    HSLog.d(TAG, String.format(Locale.getDefault(), "24 小时，超过 %d 个", BoostConfig.getBoostPushMaxCount()));
                     return;
                 }
                 trySendNotificationInOrder();
             } else {
-                HSLog.d(TAG, String.format("%s 小时内发送过消息", String.valueOf(BoostAutoPilotUtils.getBoostPushInterval())));
+                HSLog.d(TAG, String.format("%s 小时内发送过消息", String.valueOf(BoostConfig.getBoostPushInterval())));
             }
         } else {
             HSLog.d(TAG, "亮屏不超过 1 分钟 或者 本次亮屏已经判断过通知");
@@ -390,7 +395,7 @@ public class NotificationCondition implements INotificationObserver {
             return true;
         }
 
-        return Utils.ATLEAST_JELLY_BEAN && NotificationSettingsActivity.isNotificationBoostOn() && BoostAutoPilotUtils.isBoostPushEnable();
+        return Utils.ATLEAST_JELLY_BEAN && NotificationSettingsActivity.isNotificationBoostOn() && BoostConfig.isBoostPushEnable();
     }
 
     private boolean sendBoostPlusNotificationIfNeeded() {
@@ -475,7 +480,7 @@ public class NotificationCondition implements INotificationObserver {
         localNotification.buttonBgDrawableId = R.drawable.notification_inset_and_real_style_boost_btn_bg;
         localNotification.primaryColor = ContextCompat.getColor(context, R.color.notification_boost_primary);
         localNotification.smallIconDrawableId = R.drawable.notification_boost_plus_small_icon;
-        localNotification.isHeadsUp = HSConfig.optBoolean(false, "Application", "NotificationSystem", "BoostSuspension");
+        localNotification.isHeadsUp = HSConfig.optBoolean(false, "Application", "Boost", "BoostSuspension");
         localNotification.iconDrawableIdRealStyle = R.drawable.push_icon_boost_real_style;
 
         final int notificationId = localNotification.notificationId;
@@ -489,7 +494,7 @@ public class NotificationCondition implements INotificationObserver {
                     }
                 });
         showNotification(localNotification);
-        BoostAutoPilotUtils.logBoostPushShow();
+        BoostConfig.logBoostPushShow();
         Analytics.logEvent("Colorphone_Push_Boost_Show");
 //        logNotificationPushed(type);
     }
@@ -706,7 +711,7 @@ public class NotificationCondition implements INotificationObserver {
     }
 
     private static boolean checkLastNotificationInterval(long last) {
-        return (System.currentTimeMillis() - last) > BoostAutoPilotUtils.getBoostPushInterval();
+        return (System.currentTimeMillis() - last) > BoostConfig.getBoostPushInterval();
     }
 
     static class NotificationHolder {
