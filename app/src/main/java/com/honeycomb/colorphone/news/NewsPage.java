@@ -25,6 +25,8 @@ import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Networks;
 import com.superapps.util.Toasts;
@@ -373,6 +375,8 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             resource = itemView.findViewById(R.id.news_resource_tv);
             time = itemView.findViewById(R.id.news_time_tv);
             image = itemView.findViewById(R.id.news_icon_iv);
+
+            image.setBackground(BackgroundDrawables.createBackgroundDrawable(getResources().getColor(R.color.black_10_transparent), Dimensions.pxFromDp(4), false));
         }
 
         void bindNewsBean(NewsArticle bean, int type) {
@@ -415,6 +419,9 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             super(itemView);
             image2 = itemView.findViewById(R.id.news_icon_iv2);
             image3 = itemView.findViewById(R.id.news_icon_iv3);
+
+            image2.setBackground(BackgroundDrawables.createBackgroundDrawable(getResources().getColor(R.color.black_10_transparent), Dimensions.pxFromDp(4), false));
+            image3.setBackground(BackgroundDrawables.createBackgroundDrawable(getResources().getColor(R.color.black_10_transparent), Dimensions.pxFromDp(4), false));
         }
 
         void bindNewsBean(NewsArticle bean, int type) {
@@ -502,6 +509,8 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         TextView mTitleTv;
         TextView mDescriptionTv;
         View mActionBtn;
+        TextView resource;
+        TextView time;
 
         NewsNativeHolder(View root) {
             super(root);
@@ -515,6 +524,9 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             mTitleTv = ViewUtils.findViewById(view, R.id.news_ad_title);
             mDescriptionTv = ViewUtils.findViewById(view, R.id.news_ad_description);
             mActionBtn = ViewUtils.findViewById(view, R.id.news_ad_action_btn);
+
+            resource = view.findViewById(R.id.news_resource_tv);
+            time = view.findViewById(R.id.news_time_tv);
 
             adContainer.addContentView(view);
             adContainer.setAdTitleView(mTitleTv);
@@ -531,6 +543,19 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             bean.acbNativeAd.setNativeClickListener(acbAd -> {
                 Analytics.logEvent("News_List_Ad_Click");
             });
+
+            mDescriptionTv.setText(bean.acbNativeAd.getTitle());
+            String title = bean.acbNativeAd.getBody();
+            if (TextUtils.isEmpty(title)) {
+                title = bean.acbNativeAd.getSubtitle();
+            }
+            if (TextUtils.isEmpty(title)) {
+                title = bean.acbNativeAd.getTitle();
+            }
+            mTitleTv.setText(title);
+
+            resource.setText(bean.acbNativeAd.getTitle());
+            time.setVisibility(GONE);
 
             Analytics.logEvent("News_List_Ad_Show");
         }

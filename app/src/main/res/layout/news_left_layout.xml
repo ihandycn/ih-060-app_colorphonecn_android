@@ -16,9 +16,10 @@
         android:layout_width="102dp"
         android:layout_height="68dp"
         android:scaleType="centerCrop"
+        android:src="@color/black_10_transparent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:radius="8dp" />
+        app:radius="4dp" />
 
     <com.superapps.view.TypefacedTextView
         android:id="@+id/news_title_tv"

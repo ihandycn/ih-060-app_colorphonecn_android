@@ -16,6 +16,7 @@
         android:layout_width="102dp"
         android:layout_height="68dp"
         android:scaleType="centerCrop"
+        android:src="@color/black_10_transparent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:radius="4dp" />
@@ -47,7 +48,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/news_sub_title_color"
         android:textSize="12sp"
-        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="@id/news_title_tv"
         app:layout_constraintBottom_toBottomOf="parent"
         app:typeface="@string/custom_font_medium"
