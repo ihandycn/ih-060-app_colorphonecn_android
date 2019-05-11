@@ -211,9 +211,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mTabAdapter = new MainTabAdapter();
         mViewPager.setAdapter(mTabAdapter);
         mViewPager.setOffscreenPageLimit(2);
-        mViewPager.setCurrentItem(tabPos);
         mViewPager.setCanScroll(false);
         initTab();
+        mViewPager.setCurrentItem(tabPos, false);
 
         initData();
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
