@@ -139,10 +139,13 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
                     HSLog.i(NewsManager.TAG, "NP onScrollStateChanged: " + newsPages.isRefreshing());
                     if (!isRefreshing) {
-                        isRefreshing = true;
-                        NewsManager.getInstance().fetchLaterNews(newsResource, NewsPage.this, isVideo);
-
-                        NewsManager.logNewsListShow("LoadMore");
+                        if (Networks.isNetworkAvailable(-1)) {
+                            isRefreshing = true;
+                            NewsManager.getInstance().fetchLaterNews(newsResource, NewsPage.this, isVideo);
+                            NewsManager.logNewsListShow("LoadMore");
+                        } else {
+                            Toasts.showToast(R.string.news_network_failed_toast);
+                        }
                     }
                 }
 
@@ -184,8 +187,12 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
     public void loadNews(String from) {
         HSLog.i(NewsManager.TAG, "NP loadNews: " + isVideo);
-        NewsManager.getInstance().fetchNews(newsResource, this, isVideo);
-        NewsManager.logNewsListShow(from);
+        if (Networks.isNetworkAvailable(-1)) {
+            NewsManager.getInstance().fetchNews(newsResource, this, isVideo);
+            NewsManager.logNewsListShow(from);
+        } else {
+            Toasts.showToast(R.string.news_network_failed_toast);
+        }
     }
 
     @Override public void onNewsLoaded(NewsResultBean bean, int size) {
@@ -421,11 +428,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             itemView.setOnClickListener(v -> {
                 HSLog.i(NewsManager.TAG, "NP onClicked: " + bean.url);
 
-                showNewsDetail(bean.url);
-
-                Analytics.logEvent("News_Details_Show",
-                        "NewsType", (type == NewsAdapter.NEWS_TYPE_VIDEO ? "Video" : "News") );
-
+                showNewsDetail(bean.url, type);
              });
         }
     }
@@ -580,10 +583,13 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         }
     }
 
-    private void showNewsDetail(String url) {
+    private void showNewsDetail(String url, int type) {
         if (Networks.isNetworkAvailable(-1)) {
             HSLog.i(NewsManager.TAG, "UrlDecode:" + URLDecoder.decode(url));
             Navigations.startActivitySafely(getContext(), WebViewActivity.newIntent(URLDecoder.decode(url), false, WebViewActivity.FROM_LIST));
+
+            Analytics.logEvent("News_Details_Show",
+                    "NewsType", (type == NewsAdapter.NEWS_TYPE_VIDEO ? "Video" : "News") );
         } else {
             Analytics.logEvent("Network_Connection_Failed", Analytics.FLAG_LOG_FABRIC | Analytics.FLAG_LOG_UMENG);
             Toasts.showToast(R.string.news_network_failed_toast);
