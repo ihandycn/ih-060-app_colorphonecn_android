@@ -18,7 +18,7 @@ public abstract class BaseSettingsActivity extends BasePermissionActivity {
 
         setContentView(getLayoutId());
         ActivityUtils.configSimpleAppBar(this, getString(getTitleId()), ContextCompat.getColor(this, R.color.material_text_black_primary), Color.WHITE, true);
-        ActivityUtils.configStatusBarColor(this);
+
     }
 
     protected abstract @LayoutRes int getLayoutId();

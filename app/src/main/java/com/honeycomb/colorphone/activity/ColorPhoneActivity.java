@@ -46,6 +46,7 @@ import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
@@ -168,7 +169,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             HSAlertMgr.delayRateAlert();
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         }
-        setTheme(R.style.AppLightStatusBarTheme);
 
         setContentView(R.layout.activity_main);
         initMainFrame();
@@ -267,9 +267,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                     toolbar.setBackgroundColor(Color.WHITE);
                     toolbar.setTitleTextColor(Color.BLACK);
+                    ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.WHITE);
                 } else {
                     toolbar.setBackgroundColor(Color.BLACK);
                     toolbar.setTitleTextColor(Color.WHITE);
+                    ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.BLACK);
                 }
             }
 
