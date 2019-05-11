@@ -428,7 +428,6 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                 Analytics.logEvent("News_Details_Show",
                         "NewsType", (type == NewsAdapter.NEWS_TYPE_VIDEO ? "Video" : "News") );
 
-                Analytics.logEvent("videonews_news_page_news_click");
              });
         }
     }
