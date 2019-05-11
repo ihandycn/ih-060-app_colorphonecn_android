@@ -295,8 +295,8 @@
     <string name="acc_service_name">⭐【焕彩来电秀】- 请开启</string>
 
     <string name="news_network_err">Network not available</string>
-    <string name="news_network_err_content">Please check your internet connection and try again</string>
-    <string name="news_network_err_action">RETRY</string>
+    <string name="news_network_err_content">网络错误,请检查你的网络连接再试一次</string>
+    <string name="news_network_err_action">点击重试</string>
     <string name="menu_item_news">News</string>
     <string name="news_detail_error_reload">Reload</string>
 

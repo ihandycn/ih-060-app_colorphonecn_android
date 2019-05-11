@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
@@ -21,7 +22,10 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Networks;
+import com.superapps.util.Preferences;
 import com.superapps.util.Toasts;
 import com.superapps.view.TypefacedTextView;
 
@@ -89,6 +93,7 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
     public void showNoNetworkPage() {
         noNetWorkPage.setVisibility(VISIBLE);
         View action = noNetWorkPage.findViewById(R.id.news_no_network_action);
+        action.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff696681, Dimensions.pxFromDp(21), true));
         action.setOnClickListener(v -> {
             loadNews();
         });
@@ -230,6 +235,8 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
             NewsPage curNewsPages = newsPages.get(position);
             curNewsPages.loadNews("");
             container.addView(curNewsPages);
+
+            Preferences.get(Constants.PREF_FILE_DEFAULT).putLong(Constants.KEY_TAB_LEAVE_NEWS, System.currentTimeMillis());
             return curNewsPages;
         }
     }

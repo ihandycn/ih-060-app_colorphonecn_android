@@ -304,7 +304,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 int pos = tab.getPosition();
-                if (pos == USER_POSITION) {
+                if (pos == NEWS_POSITION) {
                     Preferences.get(Constants.PREF_FILE_DEFAULT).putLong(Constants.KEY_TAB_LEAVE_NEWS, System.currentTimeMillis());
                 }
             }

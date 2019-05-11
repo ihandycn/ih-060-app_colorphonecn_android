@@ -188,7 +188,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         NewsManager.logNewsListShow(from);
     }
 
-    @Override public void onNewsLoaded(NewsResultBean bean) {
+    @Override public void onNewsLoaded(NewsResultBean bean, int size) {
         HSLog.i(NewsManager.TAG, "NP onNewsLoaded " + (bean != null ? bean.articlesList.size() : 0));
 
         isRefreshing = false;
@@ -200,16 +200,14 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                     if (TextUtils.equals(newContentID, lastNewsContentID)) {
                         Toasts.showToast(R.string.news_no_news_update);
                     } else {
-                        int newSize = bean.articlesList.size();
-                        if (newSize > 0) {
-                            Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(newSize)));
+                        if (size > 0) {
+                            Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
                         }
                         newsList.scrollToPosition(0);
                     }
                 } else {
-                    int newSize = bean.articlesList.size() - lastNewsSize;
-                    if (newSize > 0) {
-                        Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(newSize)));
+                    if (size > 0) {
+                        Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
                     }
                 }
                 lastNewsContentID = newContentID;

@@ -39,48 +39,58 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" >
 
-        <com.superapps.view.TypefacedTextView
+        <!--<com.superapps.view.TypefacedTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:alpha=".9"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textColor="#e6101010"-->
+            <!--android:textStyle="bold"-->
+            <!--android:text="@string/news_network_err"-->
+            <!--app:typeface="@string/custom_font_bold" />-->
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alpha=".9"
-            android:textSize="20sp"
-            android:textColor="#e6101010"
-            android:textStyle="bold"
-            android:text="@string/news_network_err"
-            app:typeface="@string/custom_font_bold" />
+            android:src="@drawable/news_network_err_image"/>
 
         <com.superapps.view.TypefacedTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="56dp"
-            android:layout_marginStart="56dp"
-            android:layout_marginRight="56dp"
-            android:layout_marginEnd="56dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginLeft="96dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginRight="96dp"
+            android:layout_marginEnd="96dp"
             android:gravity="center"
             android:alpha=".5"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textColor="#80101010"
             android:text="@string/news_network_err_content"
             app:typeface="@string/custom_font_regular" />
 
         <com.superapps.view.TypefacedTextView
             android:id="@+id/news_no_network_action"
-            android:layout_width="81dp"
-            android:layout_height="38dp"
-            android:layout_marginTop="53dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="33dp"
             android:gravity="center"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:paddingLeft="22dp"
+            android:paddingStart="22dp"
+            android:paddingRight="22dp"
+            android:paddingEnd="22dp"
             android:alpha=".8"
             android:textSize="16sp"
             android:textColor="@android:color/black"
             android:text="@string/news_network_err_action"
-            android:background="@drawable/material_compat_button_box"
             app:typeface="@string/custom_font_bold" />
     </LinearLayout>
 

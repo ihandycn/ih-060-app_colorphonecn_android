@@ -57,7 +57,7 @@ public class NewsManager {
 //    private AcbInterstitialAd mInterstitialAd;
 
     public interface NewsLoadListener {
-        void onNewsLoaded(NewsResultBean bean);
+        void onNewsLoaded(NewsResultBean bean, int size);
     }
 //    private NewsLoadListener loadListener;
 
@@ -87,19 +87,20 @@ public class NewsManager {
                     Gson gson = new Gson();
                     NewsResultBean bean = gson.fromJson(jsonBody, NewsResultBean.class);
                     bean.parseArticles();
+                    int size = bean.articlesList.size();
 //                    HSLog.i(TAG, "result size == " + (bean != null ? bean.totalItems : null));
                     if (bean != null && loadListener != null) {
                         replaceADs(bean, 0);
 //                        resultBean.totalItems = bean.totalItems;
 //                        resultBean.content.clear();
 //                        resultBean.content.addAll(bean.content);
-                        loadListener.onNewsLoaded(bean);
+                        loadListener.onNewsLoaded(bean, size);
                         return;
                     }
                 }
 
                 if (loadListener != null) {
-                    loadListener.onNewsLoaded(null);
+                    loadListener.onNewsLoaded(null, 0);
                 }
                 HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
             }
@@ -109,7 +110,7 @@ public class NewsManager {
                 HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
                 HSLog.i(TAG, "HSError: " + hsError);
                 if (loadListener != null) {
-                    loadListener.onNewsLoaded(null);
+                    loadListener.onNewsLoaded(null, 0);
                 }
             }
         });
@@ -204,17 +205,17 @@ public class NewsManager {
                     bean.parseArticles();
 
                     int size = resultBean.articlesList.size();
-
+                    int newSize = bean.articlesList.size();
                     resultBean.articlesList.addAll(bean.articlesList);
                     if (loadListener != null) {
                         if (resultBean != null) {
                             replaceADs(resultBean, size);
                         }
-                        loadListener.onNewsLoaded(resultBean);
+                        loadListener.onNewsLoaded(resultBean, newSize);
                     }
                 } else {
                     if (loadListener != null) {
-                        loadListener.onNewsLoaded(null);
+                        loadListener.onNewsLoaded(null, 0);
                     }
                     HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
                 }
@@ -225,7 +226,7 @@ public class NewsManager {
                 HSLog.i(TAG, "responseCode: " + hsHttpConnection.getResponseCode() + "  msg: " + hsHttpConnection.getResponseMessage());
                 HSLog.i(TAG, "HSError: " + hsError);
                 if (loadListener != null) {
-                    loadListener.onNewsLoaded(null);
+                    loadListener.onNewsLoaded(null, 0);
                 }
             }
         });
