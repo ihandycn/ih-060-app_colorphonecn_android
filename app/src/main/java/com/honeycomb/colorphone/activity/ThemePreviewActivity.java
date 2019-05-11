@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.colorphone.lock.fullscreen.NotchTools;
+import com.colorphone.lock.fullscreen.helper.NotchStatusBarUtils;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
@@ -25,6 +26,7 @@ import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
@@ -152,6 +154,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
         AcbAds.getInstance().setActivity(this);
         AcbInterstitialAdManager.getInstance().setForegroundActivity(this);
+        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                NotchStatusBarUtils.setFullScreenWithSystemUi(getWindow(),false);
+            }
+        });
     }
 
 
