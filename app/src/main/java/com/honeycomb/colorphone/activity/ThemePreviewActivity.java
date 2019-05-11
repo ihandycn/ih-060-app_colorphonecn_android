@@ -44,7 +44,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private Theme mTheme;
     private ArrayList<Theme> mThemes = new ArrayList<>();
-    private ViewPager mViewPager;
+    private ViewPagerFixed mViewPager;
     private View mNavBack;
     private ThemePagerAdapter mAdapter;
     private List<ThemePreviewView> mViews = new ArrayList<>();
@@ -91,11 +91,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         }
 
-        mViewPager = (ViewPager) findViewById(R.id.preview_view_pager);
+        mViewPager = (ViewPagerFixed) findViewById(R.id.preview_view_pager);
         mAdapter = new ThemePagerAdapter();
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(pos);
+        mViewPager.setCanScroll(false);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

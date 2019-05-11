@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -50,6 +49,7 @@ import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
+import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -149,7 +149,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final int USER_POSITION = 1;
     private static final int SETTING_POSITION = 2;
 
-    private ViewPager mViewPager;
+    private ViewPagerFixed mViewPager;
     private MainTabAdapter mTabAdapter;
     private Toolbar toolbar;
 
@@ -206,14 +206,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         mViewPager = findViewById(R.id.viewpager);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            mViewPager.setNestedScrollingEnabled(false);
-//        }
+
         mTabAdapter = new MainTabAdapter();
         mViewPager.setAdapter(mTabAdapter);
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setCurrentItem(INIT_POSITION);
-
+        mViewPager.setCanScroll(false);
         initTab();
 
         initData();
