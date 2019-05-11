@@ -140,8 +140,6 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
             }
         });
 
-        NewsTest.logNewsEvent("news_detail_page_show");
-
         Threads.postOnMainThreadDelayed(() -> {
 //            NewsManager.getInstance().showInterstitialAd(from);
         }, 1000);
@@ -381,7 +379,8 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Analytics.logEvent("news_detail_page_back_click");
+//                Analytics.logEvent("news_detail_page_back_click");
+                NewsManager.logNewsListShow("Back");
                 finish();
                 return true;
             case R.id.action_bar_refresh:
@@ -402,7 +401,8 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
                 mHistory.remove(mHistory.size() - 1);
                 mWebView.loadUrl(mHistory.get(mHistory.size() - 1));
             } else {
-                Analytics.logEvent("news_detail_page_back_click");
+//                Analytics.logEvent("news_detail_page_back_click");
+                NewsManager.logNewsListShow("Back");
                 finish();
             }
             return true;
@@ -412,7 +412,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
 
     @Override public void onBackPressed() {
         super.onBackPressed();
-        Analytics.logEvent("news_detail_page_back_click");
+//        Analytics.logEvent("news_detail_page_back_click");
         NewsManager.logNewsListShow("Back");
     }
 
@@ -421,7 +421,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
         super.onPause();
         if (isFinishing()) {
             if (mShouldShowTitle) {
-                Analytics.logEvent("Search_WebPage_CloseIcon_Clicked");
+//                Analytics.logEvent("Search_WebPage_CloseIcon_Clicked");
             }
         }
     }
@@ -448,7 +448,7 @@ public class WebViewActivity extends HSAppCompatActivity implements View.OnClick
 
     private void onClickRefresh(View v) {
         if (mShouldShowTitle) {
-            Analytics.logEvent("Search_WebPage_RefreshIcon_Clicked");
+//            Analytics.logEvent("Search_WebPage_RefreshIcon_Clicked");
         }
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.search_trending_word_refresh);
         v.clearAnimation();

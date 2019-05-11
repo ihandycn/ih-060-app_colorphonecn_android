@@ -15,6 +15,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -256,7 +257,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 int pos = tab.getPosition();
                 Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(Constants.KEY_TAB_POSITION, pos);
 
-                mViewPager.setCurrentItem(pos, false);
+                if (mViewPager != null) {
+                    mViewPager.setCurrentItem(pos, false);
+                }
+
                 if (pos == 0) {
                     toolbar.setTitle(getTitle());
                 } else {
@@ -267,6 +271,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     toolbar.setBackgroundColor(Color.WHITE);
                     toolbar.setTitleTextColor(Color.BLACK);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.WHITE);
+
+                    if (System.currentTimeMillis()
+                            - Preferences.get(Constants.PREF_FILE_DEFAULT).getLong(Constants.KEY_TAB_LEAVE_NEWS, 0)
+                        > 30 * DateUtils.SECOND_IN_MILLIS) {
+                        if (newsLayout != null) {
+                            newsLayout.refreshNews("");
+                        }
+                    }
                 } else {
                     toolbar.setBackgroundColor(Color.BLACK);
                     toolbar.setTitleTextColor(Color.WHITE);
@@ -291,7 +303,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                int pos = tab.getPosition();
+                if (pos == USER_POSITION) {
+                    Preferences.get(Constants.PREF_FILE_DEFAULT).putLong(Constants.KEY_TAB_LEAVE_NEWS, System.currentTimeMillis());
+                }
             }
 
             @Override
@@ -299,7 +314,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 int pos = tab.getPosition();
                 if (pos == NEWS_POSITION) {
                     if (newsLayout != null) {
-                        newsLayout.clickToRefresh("Tab");
+                        newsLayout.refreshNews("Tab");
                     }
                 }
             }

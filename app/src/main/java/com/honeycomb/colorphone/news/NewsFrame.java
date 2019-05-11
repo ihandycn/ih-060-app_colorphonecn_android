@@ -111,7 +111,7 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
         }
     }
 
-    public void clickToRefresh(String from) {
+    public void refreshNews(String from) {
         if (0 <= currentIndex && currentIndex < newsPages.size()) {
             newsPages.get(currentIndex).refreshNews(from);
         }
