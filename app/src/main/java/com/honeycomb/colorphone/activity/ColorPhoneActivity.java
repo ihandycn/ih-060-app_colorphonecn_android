@@ -84,7 +84,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
-    private static final int INIT_POSITION = 0;
+
 
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
@@ -207,10 +207,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         mViewPager = findViewById(R.id.viewpager);
 
+        int tabPos = Preferences.get(Constants.PREF_FILE_DEFAULT).getInt(Constants.KEY_TAB_POSITION, 0);
         mTabAdapter = new MainTabAdapter();
         mViewPager.setAdapter(mTabAdapter);
         mViewPager.setOffscreenPageLimit(2);
-        mViewPager.setCurrentItem(INIT_POSITION);
+        mViewPager.setCurrentItem(tabPos);
         mViewPager.setCanScroll(false);
         initTab();
 
@@ -255,6 +256,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int pos = tab.getPosition();
+                Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(Constants.KEY_TAB_POSITION, pos);
                 mViewPager.setCurrentItem(pos, false);
                 if (pos == 0) {
                     toolbar.setTitle(getTitle());
