@@ -594,6 +594,18 @@
             android:noHistory="true"
             android:theme="@style/AppTranslucent" />
         <!--===== Dialer Module End =====-->
+
+        <provider
+            android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
+            android:authorities="${applicationId}.TTFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:node="replace"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/cmgamesdk_file_paths" />
+        </provider>
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
