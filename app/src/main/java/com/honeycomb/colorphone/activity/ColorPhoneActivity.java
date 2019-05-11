@@ -145,7 +145,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private static final int TAB_SIZE = 3;
     private static final int MAIN_POSITION = 0;
-    private static final int USER_POSITION = 1;
+    private static final int NEWS_POSITION = 1;
     private static final int SETTING_POSITION = 2;
 
     private ViewPagerFixed mViewPager;
@@ -263,7 +263,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     toolbar.setTitle(titles[pos]);
                 }
 
-                if (pos == USER_POSITION) {
+                if (pos == NEWS_POSITION) {
                     toolbar.setBackgroundColor(Color.WHITE);
                     toolbar.setTitleTextColor(Color.BLACK);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.WHITE);
@@ -272,6 +272,21 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     toolbar.setTitleTextColor(Color.WHITE);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.BLACK);
                 }
+
+                switch (pos) {
+                    case MAIN_POSITION:
+                        Analytics.logEvent("Tab_Themes_Show");
+                        break;
+                    case NEWS_POSITION:
+                        Analytics.logEvent("Tab_News_Show");
+                        break;
+                    case SETTING_POSITION:
+                        Analytics.logEvent("Tab_Settings_Show");
+                        break;
+                    default:
+                        break;
+                }
+
             }
 
             @Override
@@ -282,7 +297,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 int pos = tab.getPosition();
-                if (pos == USER_POSITION) {
+                if (pos == NEWS_POSITION) {
                     if (newsLayout != null) {
                         newsLayout.clickToRefresh("Tab");
                     }
@@ -632,8 +647,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 case MAIN_POSITION:
                     frame = getLayoutInflater().inflate(R.layout.main_frame_content, container, false);
                     initRecyclerView((RecyclerView) frame);
-
-                    Analytics.logEvent("Tab_Themes_Show");
                     break;
 
                 case SETTING_POSITION:
@@ -641,11 +654,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     mSettingsPage.initPage(frame);
                     break;
 
-                case USER_POSITION:
+                case NEWS_POSITION:
                     frame = getLayoutInflater().inflate(R.layout.news_frame, container, false);
                     newsLayout = (NewsFrame) frame;
 
-                    Analytics.logEvent("Tab_News_Show");
                     break;
                 default:
                     throw new IllegalStateException("Pager index out of bounds");

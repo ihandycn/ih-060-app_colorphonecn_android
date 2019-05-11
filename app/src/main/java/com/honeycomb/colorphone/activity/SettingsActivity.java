@@ -130,6 +130,9 @@ public class SettingsActivity extends HSAppCompatActivity {
                 R.id.setting_item_lockScreen) {
             @Override
             public void onCheckChanged(boolean isChecked) {
+                Analytics.logEvent("Settings_LockScreen_Clicked_" +
+                        (isChecked ? "Enabled" : "Disabled"));
+                MessageCenterSettings.setSMSAssistantModuleEnabled(isChecked);
                 LockerSettings.setLockerEnabled(isChecked);
             }
         });

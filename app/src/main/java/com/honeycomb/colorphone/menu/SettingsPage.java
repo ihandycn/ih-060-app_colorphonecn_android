@@ -119,6 +119,8 @@ public class SettingsPage implements View.OnClickListener {
                 mainSwitch.toggle();
                 break;
             case R.id.settings_default_dialer_switch:
+                Analytics.logEvent("Settings_Default_Icon_Clicked",
+                        "Type", (defaultDialer.isChecked() ? "OFF" : "ON"));
                 defaultDialer.toggle();
                 break;
             case R.id.settings_led_flash:
@@ -145,6 +147,8 @@ public class SettingsPage implements View.OnClickListener {
                                 "https://business.facebook.com/Color-Call-Call-Screen-LED-Flash-Ringtones-342916819531161"
                                 :
                                 "https://www.facebook.com/pg/Color-Phone-560161334373476");
+                break;
+            default:
                 break;
         }
     }
