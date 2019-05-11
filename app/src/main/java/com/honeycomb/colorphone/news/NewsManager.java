@@ -161,7 +161,7 @@ public class NewsManager {
             Analytics.logEvent("News_List_Ad_Should_Show");
         }
 
-        List<AcbNativeAd> ads = AcbNativeAdManager.fetch(NEWS_LIST_BANNER, NATIVE_AD_SIZE);
+        List<AcbNativeAd> ads = AcbNativeAdManager.fetch(NEWS_LIST_BANNER, adIndexes.size());
         if (ads != null && ads.size() > 0) {
             NewsNativeAdBean bean;
 
@@ -171,10 +171,15 @@ public class NewsManager {
                 bean = new NewsNativeAdBean();
                 bean.acbNativeAd = ad;
 
-                index = adIndexes.remove(0);
-                if (index < resultBean.articlesList.size()) {
-                    resultBean.articlesList.add(index, bean);
-                    Analytics.logEvent("New_List_Ad_Fetch_Success");
+                if (adIndexes.size() > 0) {
+                    index = adIndexes.remove(0);
+                    if (index < resultBean.articlesList.size()) {
+                        resultBean.articlesList.add(index, bean);
+                        Analytics.logEvent("New_List_Ad_Fetch_Success");
+                    }
+                } else {
+                    ad.release();
+                    break;
                 }
             }
 
