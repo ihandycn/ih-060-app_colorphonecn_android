@@ -26,7 +26,6 @@ import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
-import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;

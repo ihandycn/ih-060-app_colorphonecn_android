@@ -16,7 +16,6 @@ import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.AboutActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
-import com.honeycomb.colorphone.activity.LedFlashSettingsActivity;
 import com.honeycomb.colorphone.activity.SettingsActivity;
 import com.honeycomb.colorphone.dialer.ConfigEvent;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
@@ -32,6 +31,7 @@ public class SettingsPage implements View.OnClickListener {
     private TextView mainSwitchTxt;
     private boolean initCheckState;
     private SwitchCompat defaultDialer;
+    private SwitchCompat ledSwitch;
 
     public void initPage(View rootView) {
         mainSwitch = rootView.findViewById(R.id.main_switch);
@@ -67,7 +67,7 @@ public class SettingsPage implements View.OnClickListener {
             }
         });
 
-        SwitchCompat ledSwitch = rootView.findViewById(R.id.led_flash_call_switch);
+        ledSwitch = rootView.findViewById(R.id.led_flash_call_switch);
         ledSwitch.setChecked(Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE, false));
         ledSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -122,7 +122,7 @@ public class SettingsPage implements View.OnClickListener {
                 defaultDialer.toggle();
                 break;
             case R.id.settings_led_flash:
-                LedFlashSettingsActivity.start(context);
+                ledSwitch.toggle();
                 break;
             case R.id.settings_feedback:
                 feedBack();
