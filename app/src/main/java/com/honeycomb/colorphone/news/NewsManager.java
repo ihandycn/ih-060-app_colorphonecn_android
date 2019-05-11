@@ -372,6 +372,8 @@ public class NewsManager {
 //    }
 
     public static void logNewsListShow(String from) {
-        Analytics.logEvent("News_List_Show", "Source", from);
+        if (!TextUtils.isEmpty(from)) {
+            Analytics.logEvent("News_List_Show", "Source", from);
+        }
     }
 }

@@ -16,7 +16,6 @@
         android:layout_width="102dp"
         android:layout_height="68dp"
         android:scaleType="centerCrop"
-        android:src="@color/black_10_transparent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:radius="4dp" />

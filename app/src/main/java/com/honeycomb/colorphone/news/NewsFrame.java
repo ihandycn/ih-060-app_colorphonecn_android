@@ -98,7 +98,7 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
 
     private void loadNews() {
         for (NewsPage np : newsPages) {
-            np.loadNews();
+            np.loadNews("");
         }
 
         noNetWorkPage.setVisibility(GONE);
@@ -108,6 +108,12 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
     public void scrollToTop() {
         if (0 <= currentIndex && currentIndex < newsPages.size()) {
             newsPages.get(currentIndex).scrollToTop();
+        }
+    }
+
+    public void clickToRefresh(String from) {
+        if (0 <= currentIndex && currentIndex < newsPages.size()) {
+            newsPages.get(currentIndex).refreshNews(from);
         }
     }
 
@@ -222,7 +228,7 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             HSLog.i(NewsManager.TAG, "instantiateItem");
             NewsPage curNewsPages = newsPages.get(position);
-            curNewsPages.loadNews();
+            curNewsPages.loadNews("");
             container.addView(curNewsPages);
             return curNewsPages;
         }

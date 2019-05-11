@@ -39,7 +39,6 @@ import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.news.NewsFrame;
-import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
@@ -84,7 +83,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
-
 
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
@@ -199,7 +197,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @DebugLog
     private void initMainFrame() {
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -257,6 +255,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             public void onTabSelected(TabLayout.Tab tab) {
                 int pos = tab.getPosition();
                 Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(Constants.KEY_TAB_POSITION, pos);
+
                 mViewPager.setCurrentItem(pos, false);
                 if (pos == 0) {
                     toolbar.setTitle(getTitle());
@@ -265,8 +264,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
 
                 if (pos == USER_POSITION) {
-                    NewsManager.logNewsListShow("Tab");
-
                     toolbar.setBackgroundColor(Color.WHITE);
                     toolbar.setTitleTextColor(Color.BLACK);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.WHITE);
@@ -284,7 +281,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                int pos = tab.getPosition();
+                if (pos == USER_POSITION) {
+                    if (newsLayout != null) {
+                        newsLayout.clickToRefresh("Tab");
+                    }
+                }
             }
         });
 

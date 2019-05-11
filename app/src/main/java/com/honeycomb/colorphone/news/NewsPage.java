@@ -55,6 +55,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     private final int mTouchSlop;
     private DividerItemDecoration divider;
     private String lastNewsContentID;
+    private int lastNewsSize;
 
     public NewsPage(@NonNull Context context) {
         super(context);
@@ -174,9 +175,17 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         newsList.removeItemDecoration(divider);
     }
 
-    public void loadNews() {
+    public void refreshNews(String from) {
+        HSLog.i(NewsManager.TAG, "NP refreshNews: " + isVideo);
+        newsPages.setRefreshing(true);
+        isRefreshing = true;
+        loadNews(from);
+    }
+
+    public void loadNews(String from) {
         HSLog.i(NewsManager.TAG, "NP loadNews: " + isVideo);
         NewsManager.getInstance().fetchNews(newsResource, this, isVideo);
+        NewsManager.logNewsListShow(from);
     }
 
     @Override public void onNewsLoaded(NewsResultBean bean) {
@@ -187,12 +196,25 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         if (bean != null) {
             if (bean.articlesList != null && bean.articlesList.size() > 0) {
                 String newContentID = bean.articlesList.get(0).recoid;
-                if (newsPages.isRefreshing() && TextUtils.equals(newContentID, lastNewsContentID)) {
-                    Toasts.showToast(R.string.news_no_news_update);
+                if (newsPages.isRefreshing()) {
+                    if (TextUtils.equals(newContentID, lastNewsContentID)) {
+                        Toasts.showToast(R.string.news_no_news_update);
+                    } else {
+                        int newSize = bean.articlesList.size();
+                        if (newSize > 0) {
+                            Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(newSize)));
+                        }
+                        newsList.scrollToPosition(0);
+                    }
+                } else {
+                    int newSize = bean.articlesList.size() - lastNewsSize;
+                    if (newSize > 0) {
+                        Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(newSize)));
+                    }
                 }
                 lastNewsContentID = newContentID;
             }
-            newsPages.setVisibility(VISIBLE);
+//            newsPages.setVisibility(VISIBLE);
 
             if (newsResource != null && newsResource.articlesList != null && newsResource != bean) {
                 for (NewsArticle article : newsResource.articlesList) {
@@ -201,7 +223,9 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                     }
                 }
             }
+
             newsResource = bean;
+            lastNewsSize = newsResource.articlesList.size();
             adapter.notifyDataSetChanged();
             HSGlobalNotificationCenter.sendNotification(NewsFrame.LOAD_NEWS_SUCCESS);
             if (newsPages.isRefreshing()) {
@@ -225,9 +249,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         HSLog.i(NewsManager.TAG, "NP onRefresh: " + newsPages.isRefreshing());
         isRefreshing = true;
         if (newsPages.isRefreshing()) {
-            loadNews();
-
-            NewsManager.logNewsListShow("Refresh");
+            loadNews("Refresh");
         }
 
 //        Analytics.logEvent("mainview_news_tab_pull_to_refresh");

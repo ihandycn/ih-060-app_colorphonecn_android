@@ -302,4 +302,5 @@
 
     <string name="news_no_news_update"  translatable="false">No New Update</string>
     <string name="news_network_failed_toast">网络不稳定，请稍后重试！</string>
+    <string name="news_news_update">成功为您推荐%1$s条最新资讯</string>
 </resources>
