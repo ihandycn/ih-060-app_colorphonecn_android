@@ -33,10 +33,6 @@ buildscript {
     }
 }
 
-plugins {
-    id 'nu.studer.credentials' version '1.0.1'  // 用于在本地加密存储用户密码
-}
-
 allprojects {
     repositories {
         maven {
@@ -63,13 +59,6 @@ allprojects {
         jcenter()
 
         maven { url 'https://dl.bintray.com/umsdk/release' }
-    }
-
-    gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            // Xbootclasspath/p:是 Java 编译的寻址优先设置，先找缺省路径还是全路径
-            options.compilerArgs.add('-Xbootclasspath/p:libs/api/android_27.jar')
-        }
     }
 }
 

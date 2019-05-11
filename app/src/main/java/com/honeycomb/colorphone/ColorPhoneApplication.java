@@ -471,7 +471,7 @@ public class ColorPhoneApplication extends HSApplication {
         logUserLevelDistribution();
 
         watchLifeTimeAutopilot();
-        CmGameUtil.initGame();
+        CmGameUtil.initGame(this);
     }
 
     private void watchLifeTimeAutopilot() {
