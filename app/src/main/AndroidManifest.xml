@@ -483,7 +483,7 @@
         <activity android:name=".boost.GameStarterActivity"
             android:screenOrientation="portrait"
             android:noHistory="true"
-            android:icon="@drawable/ic_boost_plus"
+            android:icon="@drawable/game_icon_launch"
             android:label="@string/boost_title"
             android:excludeFromRecents="true"
             android:theme="@style/INVisibleTheme">

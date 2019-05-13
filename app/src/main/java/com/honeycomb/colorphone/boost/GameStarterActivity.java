@@ -45,20 +45,20 @@ public class GameStarterActivity extends Activity {
 
     public static boolean createShortCut(Context context) {
 
-//        boolean hasCreated = Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean(KEY_SHORTCUT_FLAG, false);
-//        if (hasCreated) {
-//            return false;
-//        }
+        boolean hasCreated = Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean(KEY_SHORTCUT_FLAG, false);
+        if (hasCreated) {
+            return false;
+        }
         Intent sIntent = new Intent(Intent.ACTION_MAIN);
         sIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         sIntent.setClass(context, GameStarterActivity.class );
-        String name = context.getString(R.string.boost_title);
+        String name = context.getString(R.string.title_cmgame);
 
 
-        ShortcutInfoCompat.Builder builder = new ShortcutInfoCompat.Builder(context, "shortcut_boost");
+        ShortcutInfoCompat.Builder builder = new ShortcutInfoCompat.Builder(context, "shortcut_game");
 
         ShortcutInfoCompat shortcutInfoCompat = builder
-                .setIcon(IconCompat.createWithResource(context, R.drawable.ic_boost_plus))
+                .setIcon(IconCompat.createWithResource(context, R.drawable.game_icon_launch))
                 .setShortLabel(name)
                 .setIntent(sIntent)
                 .build();
