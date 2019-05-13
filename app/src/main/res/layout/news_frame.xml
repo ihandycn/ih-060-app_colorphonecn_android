@@ -39,7 +39,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -69,9 +69,9 @@
             android:layout_marginRight="96dp"
             android:layout_marginEnd="96dp"
             android:gravity="center"
-            android:alpha=".5"
+            android:alpha=".8"
             android:textSize="14sp"
-            android:textColor="#80101010"
+            android:textColor="@android:color/black"
             android:text="@string/news_network_err_content"
             app:typeface="@string/custom_font_regular" />
 
@@ -87,11 +87,11 @@
             android:paddingStart="22dp"
             android:paddingRight="22dp"
             android:paddingEnd="22dp"
-            android:alpha=".8"
             android:textSize="16sp"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:text="@string/news_network_err_action"
-            app:typeface="@string/custom_font_bold" />
+            app:typeface="@string/custom_font_bold"
+            tools:background="#7f7f7f"/>
     </LinearLayout>
 
     <ProgressBar
