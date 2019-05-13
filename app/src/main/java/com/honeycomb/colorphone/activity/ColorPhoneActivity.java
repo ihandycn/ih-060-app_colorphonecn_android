@@ -36,6 +36,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
+import com.honeycomb.colorphone.boost.GameStarterActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -122,7 +123,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (logOpenEvent) {
                 logOpenEvent = false;
                 ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
+                GameStarterActivity.createShortCut(ColorPhoneActivity.this);
                 BoostStarterActivity.createShortCut(ColorPhoneActivity.this);
+
                 GuideSetDefaultActivity.start(ColorPhoneActivity.this, true);
             }
         }
