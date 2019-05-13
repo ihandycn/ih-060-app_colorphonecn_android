@@ -45,6 +45,7 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
     private ArrayList<String> tabsTitle;
     private ArrayList<NewsPage> newsPages;
     private int currentIndex;
+    private boolean mSelected;
 
     public NewsFrame(Context context) {
         this(context, null);
@@ -214,6 +215,15 @@ public class NewsFrame extends ConstraintLayout implements INotificationObserver
         newsPages.add((NewsPage) LayoutInflater.from(getContext()).inflate(R.layout.news_page, null, false));
 //        newsPages.add((NewsPage) LayoutInflater.from(getContext()).inflate(R.layout.news_page, null, false));
 //        newsPages.get(0).setIsVideo(true);
+    }
+
+    public void onSelected(boolean onSelected) {
+        mSelected = onSelected;
+        newsPages.get(currentIndex).onSelected(onSelected);
+    }
+
+    public boolean isPageSelected() {
+        return mSelected;
     }
 
     private class NewsPagerAdapter extends PagerAdapter {
