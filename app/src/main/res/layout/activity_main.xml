@@ -13,7 +13,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        app:titleTextAppearance="@style/Toolbar.TitleText"/>
+        app:titleTextAppearance="@style/Toolbar.TitleText">
+
+        <ImageView
+            android:id="@+id/iv_game"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="4dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/material_compat_button_bg_round"
+            android:scaleType="fitCenter"
+            android:src="@drawable/game_icon_inapp"
+            android:visibility="gone"/>
+    </android.support.v7.widget.Toolbar>
 
     <com.honeycomb.colorphone.view.ViewPagerFixed
         android:id="@+id/viewpager"

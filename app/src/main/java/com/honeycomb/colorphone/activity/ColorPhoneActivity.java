@@ -36,6 +36,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.boost.GameStarterActivity;
+import com.honeycomb.colorphone.cmgame.CmGameUtil;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -203,6 +204,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initMainFrame() {
 
         toolbar = findViewById(R.id.toolbar);
+        View gameIcon = findViewById(R.id.iv_game);
+        boolean gameMainEntranceEnabled = CmGameUtil.canUseCmGame()
+                && HSConfig.optBoolean(false, "Application", "GameCenter", "MainViewEnable");
+        if (gameMainEntranceEnabled) {
+            Analytics.logEvent("MainView_GameCenter_Shown");
+        }
+        gameIcon.setVisibility(gameMainEntranceEnabled ? View.VISIBLE : View.GONE);
+        gameIcon.setOnClickListener(this);
+
         logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -625,7 +635,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.iv_game:
+                Analytics.logEvent("MainView_GameCenter_Clicked");
+                CmGameUtil.startCmGameActivity(this, "MainIcon");
+                break;
+            default:
+                break;
         }
     }
 
