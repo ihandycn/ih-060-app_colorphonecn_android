@@ -1,12 +1,13 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/colorWindowBackground</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+
     </style>
 
     <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
@@ -20,8 +21,8 @@
     </style>
 
     <style name="RatioView.Container">
-        <item name="android:layout_marginTop">@dimen/theme_text_margin_bottom_half</item>
         <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">@dimen/theme_card_margin_vertical</item>
         <item name="android:layout_marginLeft">@dimen/theme_card_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/theme_card_margin_horizontal</item>
         <item name="android:clipChildren">false</item>

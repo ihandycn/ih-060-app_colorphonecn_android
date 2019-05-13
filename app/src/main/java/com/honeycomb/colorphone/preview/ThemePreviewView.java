@@ -21,9 +21,10 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -44,7 +45,6 @@ import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ContactsActivity;
-import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -59,7 +59,6 @@ import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
@@ -103,7 +102,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final boolean NO_ANIMITION = false;
 
     private static final long AUTO_HIDE_TIME = 15000; //15s
-    private static final long ANIMATION_DURATION = 400;
+    private static final long ANIMATION_DURATION = 300;
     private static final long WINDOW_ANIM_DURATION = 400;
     private static final int TRANS_IN_DURATION = 400;
 
@@ -124,7 +123,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private ProgressViewHolder mProgressViewHolder;
     private RingtoneViewHolder mRingtoneViewHolder;
-    private Button mApplyButton;
+    private TextView mApplyButton;
     private View mApplyForOne;
     private View mActionLayout;
 
@@ -151,7 +150,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private long animationDelay = 500;
     private float bottomBtnTransY;
-    private OvershootInterpolator mInter;
+    private Interpolator mInter;
     private ValueAnimator transAnimator;
 
 
@@ -395,14 +394,28 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
         callActionView.setTheme(mThemeType);
         callActionView.setAutoRun(false);
-        mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
-        mApplyButton.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_SEMIBOLD));
+        mApplyButton = (TextView) findViewById(R.id.theme_apply_btn);
         mActionLayout = findViewById(R.id.theme_apply_layout);
-        mApplyForOne = findViewById(R.id.theme_set_for_one);
 
-        if (mTheme.getId() == Theme.RANDOM_THEME) {
-            mApplyForOne.setVisibility(GONE);
-        }
+
+        mApplyForOne = findViewById(R.id.theme_set_for_one);
+        mApplyForOne.setEnabled(mTheme.getId() != Theme.RANDOM_THEME);
+
+
+        // set background
+        int color = getResources().getColor(R.color.black_80_transparent);
+        int colorRipple = getResources().getColor(R.color.material_ripple);
+
+        int r = Dimensions.pxFromDp(28);
+        mApplyForOne.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                color, colorRipple,
+                r, 0, 0, 0,
+                false, true));
+        mApplyButton.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                color, colorRipple,
+                0, r, 0, 0,
+                false, true));
+
         mProgressViewHolder = new ProgressViewHolder();
         mRingtoneViewHolder = new RingtoneViewHolder();
         previewImage = (ImageView) findViewById(R.id.preview_bg_img);
@@ -448,7 +461,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         });
         bottomBtnTransY = getTransBottomLayout().getTranslationY();
 
-        mInter = new OvershootInterpolator(1.5f);
+        mInter = new AccelerateDecelerateInterpolator();
 
     }
 
@@ -564,11 +577,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        if (mTheme.getId() == Theme.RANDOM_THEME ||
-                !GuideApplyThemeActivity.start(mActivity, true, null)) {
-            Utils.showToast(mActivity.getString(R.string.apply_success));
-            GuideSetDefaultActivity.start(mActivity, false);
-        }
+        Utils.showToast(mActivity.getString(R.string.apply_success));
+        GuideSetDefaultActivity.start(mActivity, false);
 
         // Ringtone enabled
         if (mRingtoneViewHolder.isSelect()) {
@@ -649,25 +659,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 });
                 return true;
             }
-        } else if (ModuleUtils.needShowSetForOneGuide()) {
-            ViewStub stub = findViewById(R.id.guide_for_set_one);
-            final View guideView = stub.inflate();
-            guideView.setAlpha(0);
-            guideView.animate().alpha(1).setDuration(ANIMATION_DURATION).start();
-            guideView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    guideView.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            guideView.setOnClickListener(null);
-                            guideView.setVisibility(GONE);
-                            scheduleNextHide();
-                        }
-                    }).start();
-                }
-            });
-            return true;
         }
         return false;
     }

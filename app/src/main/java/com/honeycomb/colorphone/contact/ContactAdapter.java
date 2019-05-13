@@ -114,7 +114,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     }
 
     private void onItemChecked(int pos, boolean isChecked) {
-        people.get(pos).setSelected(isChecked);
+        SimpleContact contactItem = people.get(pos);
+        boolean stateChange = isChecked != contactItem.isSelected();
+        if (!stateChange) {
+            // State not change
+            return;
+        }
+        contactItem.setSelected(isChecked);
         int lastTimeCount = selectedCount;
         if (isChecked) {
             selectedCount++;
@@ -137,10 +143,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, final int position) {
         SimpleContact person = people.get(position);
         holder.fullName.setText(person.getName());
-        if (themeVisible) {
-            holder.themeName.setText(getThemeName(person.getThemeId()));
+        String themeName = getThemeName(person.getThemeId());
+        if (themeVisible && !TextUtils.isEmpty(themeName)) {
+            holder.themeName.setVisibility(View.VISIBLE);
+            holder.themeName.setText(themeName);
         } else {
-            holder.themeName.setText("");
+            holder.themeName.setVisibility(View.GONE);
         }
         if (inSelectMode) {
             holder.itemView.setClickable(true);

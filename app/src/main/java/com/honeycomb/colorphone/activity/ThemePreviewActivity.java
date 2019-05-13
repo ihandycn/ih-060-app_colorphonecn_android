@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.colorphone.lock.fullscreen.NotchTools;
+import com.colorphone.lock.fullscreen.helper.NotchStatusBarUtils;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
@@ -42,7 +44,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private Theme mTheme;
     private ArrayList<Theme> mThemes = new ArrayList<>();
-    private ViewPager mViewPager;
+    private ViewPagerFixed mViewPager;
     private View mNavBack;
     private ThemePagerAdapter mAdapter;
     private List<ThemePreviewView> mViews = new ArrayList<>();
@@ -83,13 +85,18 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
         setContentView(R.layout.activity_theme_preview);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            NotchTools.getFullScreenTools().showNavigation(false).fullScreenUseStatus(this);
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        }
 
-        mViewPager = (ViewPager) findViewById(R.id.preview_view_pager);
+        mViewPager = (ViewPagerFixed) findViewById(R.id.preview_view_pager);
         mAdapter = new ThemePagerAdapter();
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(pos);
+        mViewPager.setCanScroll(false);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -147,6 +154,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
         AcbAds.getInstance().setActivity(this);
         AcbInterstitialAdManager.getInstance().setForegroundActivity(this);
+        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                NotchStatusBarUtils.setFullScreenWithSystemUi(getWindow(),false);
+            }
+        });
     }
 
 

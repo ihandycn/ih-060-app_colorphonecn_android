@@ -31,7 +31,7 @@ public class AboutActivity extends HSAppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.about);
 
-        Utils.configActivityStatusBar(this, toolbar, R.drawable.back_dark);
+        Utils.configActivityStatusBar(this, toolbar);
 
 
         findViewById(R.id.privacy_item).setOnClickListener(new View.OnClickListener() {

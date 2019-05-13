@@ -2,14 +2,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="false">
         <shape xmlns:android="http://schemas.android.com/apk/res/android">
-            <solid android:color="@color/colorDisabled" />
+            <solid android:color="@color/colorDisabledContactBg" />
             <size android:height="44dp" />
             <corners android:radius="22dp" />
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape xmlns:android="http://schemas.android.com/apk/res/android">
-            <solid android:color="@color/colorAccentDark" />
+            <gradient android:endColor="#b200df" android:startColor="#cfa54f" />
             <size android:height="44dp" />
             <corners android:radius="22dp" />
         </shape>
@@ -17,7 +17,7 @@
 
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android">
-            <solid android:color="@color/colorAccent" />
+            <gradient android:endColor="#e200ff" android:startColor="#ffb55f" />
             <size android:height="44dp" />
             <corners android:radius="22dp" />
         </shape>

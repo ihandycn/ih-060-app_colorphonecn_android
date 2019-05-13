@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -20,7 +21,7 @@
         android:id="@+id/card_in_call_action_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         android:layout_above="@+id/theme_apply_layout" />
 
     <View
@@ -111,28 +112,47 @@
     <LinearLayout
         android:id="@+id/theme_apply_layout"
         android:layout_height="@dimen/theme_apply_btn_height"
+        android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp"
-        android:translationY="70dp"
+        android:translationY="@dimen/theme_apply_btn_height"
+        tools:translationY="0dp"
         android:orientation="horizontal"
-        app:layout_widthPercent="86%">
-        <Button
-            android:id="@+id/theme_apply_btn"
+        tools:background="@color/black_80_transparent">
+        <TextView
+            android:id="@+id/theme_set_for_one"
             android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:textSize="15sp"
-            android:background="@drawable/btn_bg_yellow"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/selector_color_theme_set"
+            android:text="设给ta"
             android:enabled="false" />
-        <ImageButton
-            android:id="@+id/theme_set_for_one"
-            android:layout_width="64dp"
+        <FrameLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/btn_bg_yellow"
-            android:src="@drawable/icon_contact" />
+            android:background="@color/black_80_transparent">
+            <View
+                android:layout_width="2dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/primaryText"
+                android:alpha="0.5"
+                android:layout_height="20dp"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/theme_apply_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/selector_color_theme_setdefault"
+            android:text="设为默认"
+            />
     </LinearLayout>
 
     <ViewStub
@@ -141,14 +161,6 @@
         android:layout_width="match_parent"
         android:layout="@layout/stub_theme_lock_in_page"
         />
-
-    <!--Display guide window, dim behind -->
-    <ViewStub
-        android:id="@+id/guide_for_set_one"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout="@layout/stub_theme_set_for_one_guide"
-       />
 
     <ViewStub
         android:id="@+id/guide_for_random_theme"

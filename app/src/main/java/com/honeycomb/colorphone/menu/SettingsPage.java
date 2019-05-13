@@ -12,10 +12,10 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.AboutActivity;
 import com.honeycomb.colorphone.activity.ContactsActivity;
-import com.honeycomb.colorphone.activity.LedFlashSettingsActivity;
 import com.honeycomb.colorphone.activity.SettingsActivity;
 import com.honeycomb.colorphone.dialer.ConfigEvent;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
@@ -23,6 +23,7 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Navigations;
+import com.superapps.util.Preferences;
 
 public class SettingsPage implements View.OnClickListener {
     private SwitchCompat mainSwitch;
@@ -30,6 +31,7 @@ public class SettingsPage implements View.OnClickListener {
     private TextView mainSwitchTxt;
     private boolean initCheckState;
     private SwitchCompat defaultDialer;
+    private SwitchCompat ledSwitch;
 
     public void initPage(View rootView) {
         mainSwitch = rootView.findViewById(R.id.main_switch);
@@ -62,6 +64,21 @@ public class SettingsPage implements View.OnClickListener {
                 mainSwitchTxt.setText(getString(isChecked ? R.string.color_phone_enabled : R.string.color_phone_disable));
                 ScreenFlashSettings.setScreenFlashModuleEnabled(isChecked);
                 Analytics.logEvent("Settings_Enable_Icon_Clicked", "type", isChecked ? "on" : "off");
+            }
+        });
+
+        ledSwitch = rootView.findViewById(R.id.led_flash_call_switch);
+        ledSwitch.setChecked(Preferences.get(Constants.DESKTOP_PREFS).getBoolean(Constants.PREFS_LED_FLASH_ENABLE, false));
+        ledSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Preferences.get(Constants.DESKTOP_PREFS).putBoolean(Constants.PREFS_LED_FLASH_ENABLE, isChecked);
+                if (isChecked) {
+                    FlashManager.getInstance().startFlash(3);
+                    Analytics.logEvent("LEDReminder_Enabled_FromSettings");
+                } else {
+                    Analytics.logEvent("LEDReminder_Disabled_FromSettings");
+                }
             }
         });
 
@@ -102,22 +119,17 @@ public class SettingsPage implements View.OnClickListener {
                 mainSwitch.toggle();
                 break;
             case R.id.settings_default_dialer_switch:
+                Analytics.logEvent("Settings_Default_Icon_Clicked",
+                        "Type", (defaultDialer.isChecked() ? "OFF" : "ON"));
                 defaultDialer.toggle();
                 break;
             case R.id.settings_led_flash:
-                LedFlashSettingsActivity.start(context);
+                ledSwitch.toggle();
                 break;
-//            case R.id.settings_notification_toolbar:
-//                toggleNotificationToolbar();
-//                break;
             case R.id.settings_feedback:
                 feedBack();
                 ColorPhoneApplication.getConfigLog().getEvent().onFeedBackClick();
                 break;
-//            case R.id.settings_boost:
-//                BoostActivity.start(ColorPhoneActivity.context, false);
-//                Analytics.logEvent("Settings_Boost_Icon_Clicked");
-//                break;
             case R.id.settings_setting:
                 Analytics.logEvent("Settings_Clicked");
                 SettingsActivity.start(context);
@@ -135,6 +147,8 @@ public class SettingsPage implements View.OnClickListener {
                                 "https://business.facebook.com/Color-Call-Call-Screen-LED-Flash-Ringtones-342916819531161"
                                 :
                                 "https://www.facebook.com/pg/Color-Phone-560161334373476");
+                break;
+            default:
                 break;
         }
     }

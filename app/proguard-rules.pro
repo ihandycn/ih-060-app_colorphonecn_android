@@ -40,6 +40,42 @@
   *;
 }
 
+-keepclasseswithmembers class com.honeycomb.colorphone.news.NewsResultBean {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.NewsBean {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.DislikeInfo {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.NewsArticle {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.NewsContentData {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.NewsData {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.NewsItem {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.Thumbnail {
+*;
+}
+
+-keepclasseswithmembers class com.honeycomb.colorphone.news.UserInfo {
+*;
+}
+
 -keepnames class com.honeycomb.colorphone.PermanentService$* {
     public <fields>;
     public <methods>;
@@ -177,3 +213,5 @@
 -keep class com.alibaba.sdk.android.**{*;}
 -keep class com.ut.**{*;}
 -keep class com.ta.**{*;}
+
+-keep class com.colorphone.lock.fullscreen.helper.SystemProperties {*;}

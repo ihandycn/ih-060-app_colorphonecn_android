@@ -4,6 +4,8 @@
     <color name="colorAccentDark">#baaa00</color>
     <color name="colorMaskDark">#22000000</color>
     <color name="colorDisabled">#d9d9d9</color>
+    <color name="colorDisabledContactBg">#383743</color>
+    <color name="colorDisabledContactTxt">#5f5f68</color>
     <color name="black_trans_half">#88000000</color>
     <color name="lightBlue">#00b4ff</color>
     <color name="darkerBlue">#0078ff</color>
@@ -38,7 +40,7 @@
 
     <color name="material_ripple_white">#33FFFFFF</color>
     <color name="material_text_black_secondary">#8a000000</color>
-    <color name="material_ripple">#33000000</color>
+    <color name="material_ripple">#33FFFFFF</color>
 
     <!-- settings activity-->
     <color name="settings_activity_switch_track">#24ff00</color>
@@ -69,7 +71,7 @@
     <color name="settings_activity_toolbar_bgn">#212121</color>
     <color name="white">#ffffff</color>
     <color name="activate_charging_fullscreen_bgn">#2d3135</color>
-    <color name="button_pressed_bg">#0d000000</color>
+    <color name="button_pressed_bg">#0dffffff</color>
     <color name="dialog_button_blue">#2b84ff</color>
 
     <color name="result_page_color">#2572E3</color>
@@ -106,5 +108,8 @@
 
     <color name="white_alpha_50">#7fffffff</color>
     <color name="black_10_transparent">#1A000000</color>
+
+    <color name="news_title_color">#cc000000</color>
+    <color name="news_sub_title_color">#66000000</color>
 
 </resources>

@@ -17,7 +17,7 @@
             android:padding="8dp"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:background="@drawable/material_compat_bg"
+            style="@style/Widget.AppCompat.Toolbar.Button.Navigation"
             android:src="@drawable/back_dark"/>
 
         <com.honeycomb.colorphone.view.TypefacedTextView
@@ -27,7 +27,7 @@
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimaryReverse"
             android:textSize="20sp"
             android:textStyle="bold"
             app:typeface="@string/proxima_nova_semibold"
@@ -47,9 +47,8 @@
                 android:minWidth="64dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:textColor="@color/textDark"
+                android:textColor="@color/primaryText"
                 android:textSize="18sp"
-
                 app:typeface="@string/proxima_nova_regular"
                 tools:text="Cancel" />
         </FrameLayout>
@@ -101,8 +100,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:src="@drawable/contact_empty_placeholder"
-                app:layout_constraintHorizontal_bias="0.0"
+                android:src="@drawable/contact_empty_image"
                 app:layout_constraintLeft_toLeftOf="@+id/guideline"
                 app:layout_constraintRight_toLeftOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/guideline3" />
@@ -110,11 +108,12 @@
             <com.honeycomb.colorphone.view.TypefacedTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:textColor="@color/primaryText"
                 android:alpha="0.3"
-                android:textSize="19.3sp"
+                android:textSize="16sp"
+                android:lineSpacingExtra="8sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3"
@@ -126,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.3"
+                app:layout_constraintGuide_percent="0.27"
                 tools:layout_editor_absoluteX="103dp"
                 tools:layout_editor_absoluteY="75dp" />
 
@@ -144,7 +143,7 @@
                 android:layout_width="1dp"
                 android:layout_height="1dp"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.7"
+                app:layout_constraintGuide_percent="0.73"
                 tools:layout_editor_absoluteX="217dp"
                 tools:layout_editor_absoluteY="75dp" />
 

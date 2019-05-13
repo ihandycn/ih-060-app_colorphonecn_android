@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorWindowBackground">@android:color/white</color>
-    <color name="colorPrimary">@android:color/white</color>
-    <color name="colorPrimaryDark">#0d0d0d</color>
+    <color name="colorWindowBackground">#060514</color>
+    <color name="colorPrimary">#060514</color>
+    <color name="colorPrimaryReverse">@color/white</color>
     <!--TODO: 等待暗黑新主题颜色-->
     <color name="colorPrimaryTemp">#0d0d0d</color>
 
     <color name="colorAccent">#ffe400</color>
-    <color name="primaryText">#101010</color>
+    <color name="primaryText">@color/white</color>
     <color name="primarySubText">#606060</color>
     <color name="drawerText">#404040</color>
     <color name="drawerSubText">#8a8a8a</color>

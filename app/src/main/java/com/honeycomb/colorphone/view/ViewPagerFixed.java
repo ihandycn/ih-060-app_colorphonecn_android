@@ -4,8 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.honeycomb.colorphone.Ap;
-
 /**
  * https://github.com/chrisbanes/PhotoView/issues/31
  */
@@ -25,7 +23,6 @@ public class ViewPagerFixed extends android.support.v4.view.ViewPager {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        isCanScroll = Ap.DetailAd.enableThemeSlide();
     }
 
     public void setCanScroll(boolean canScroll) {
@@ -62,8 +59,6 @@ public class ViewPagerFixed extends android.support.v4.view.ViewPager {
 
     @Override
     public void scrollTo(int x, int y) {
-        if (isCanScroll) {
-            super.scrollTo(x, y);
-        }
+        super.scrollTo(x, y);
     }
 }

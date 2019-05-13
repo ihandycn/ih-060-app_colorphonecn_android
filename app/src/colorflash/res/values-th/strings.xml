@@ -1,6 +1,0 @@
-<resources>
-  <!--Need Translate-->
-  <string name="app_name">สีโทรศัพท์</string>
-  <string name="color_phone_disable">สีโทรศัพท์ ปิดใช้งาน</string>
-  <string name="color_phone_enabled">สีโทรศัพท์ เปิดใช้งาน</string>
-</resources>

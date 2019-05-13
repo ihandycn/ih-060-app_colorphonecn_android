@@ -11,7 +11,6 @@ import android.view.Window;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
-import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.superapps.util.rom.RomUtils;
@@ -82,11 +81,6 @@ public class WelcomeActivity extends Activity {
             if (needShowGuidePermissionActivity) {
                 guideIntent = new Intent(WelcomeActivity.this, StartGuideActivity.class);
                 HSAlertMgr.delayRateAlert();
-            }
-        } else if (ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_GUIDE_START)
-                && !ModuleUtils.isAllModuleEnabled()) {
-            if (!GuideAllFeaturesActivity.isStarted()) {
-                guideIntent = new Intent(WelcomeActivity.this, GuideAllFeaturesActivity.class);
             }
         }
         Intent mainIntent = new Intent(WelcomeActivity.this, ColorPhoneActivity.class);

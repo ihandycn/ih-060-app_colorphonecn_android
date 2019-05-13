@@ -6,7 +6,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.ColorInt;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
@@ -27,43 +29,37 @@ public class ActivityUtils {
     private static final int DEFAULT_NAVIGATION_BAR_COLOR = Color.BLACK;
 
     public static void configStatusBarColor(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setWhiteStatusBar(activity);
-            View decor = activity.getWindow().getDecorView();
-            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        } else {
-            setCustomColorStatusBar(activity, Color.BLACK);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static void setWhiteStatusBar(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(ContextCompat.getColor(activity, android.R.color.white));
-        }
+        setCustomColorStatusBar(activity, activity.getResources().getColor(android.R.color.white));
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void setCustomColorStatusBar(Activity activity, int color) {
+        boolean isLightColor = isLightColor(color);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(color);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                    && isLightColor) {
+                window.setStatusBarColor(Color.LTGRAY);
+            } else {
+                window.setStatusBarColor(color);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            View decor = activity.getWindow().getDecorView();
+            if (isLightColor) {
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            } else {
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            }
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static void setStatusBarColor(Activity activity, int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(color);
-        }
+    private static boolean isLightColor(@ColorInt int color) {
+        return ColorUtils.calculateLuminance(color) >= 0.5;
     }
 
     public static void hideStatusBar(Activity activity) {
@@ -208,8 +204,11 @@ public class ActivityUtils {
         assert container != null;
         Toolbar toolbar;
 
-        toolbar = (Toolbar) container;
-
+        if (container instanceof LinearLayout) {
+            toolbar = container.findViewById(com.colorphone.lock.R.id.inner_tool_bar);
+        } else {
+            toolbar = (Toolbar) container;
+        }
         assert toolbar != null;
 
         toolbar.setTitle("");

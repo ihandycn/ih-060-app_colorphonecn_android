@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.honeycomb.colorphone.view.FixRatioPreviewWindow
-    android:id="@+id/card_view"
-    style="@style/RatioView.Container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:showIn="@layout/card_view_theme_selector">
+<com.honeycomb.colorphone.view.FixRatioPreviewWindow xmlns:android="http://schemas.android.com/apk/res/android"
+                                                     xmlns:tools="http://schemas.android.com/tools"
+                                                     android:id="@+id/card_view"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="wrap_content"
+                                                     tools:showIn="@layout/card_view_theme_selector"
+                                                     style="@style/RatioView.Container">
 
-    <com.honeycomb.colorphone.view.RatioCornerImageView
+    <com.honeycomb.colorphone.view.RatioImageView
         android:id="@+id/card_preview_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:round_left_bottom_corner_radius="@dimen/theme_card_radius"
-        app:round_left_top_corner_radius="@dimen/theme_card_radius"
-        app:round_right_bottom_corner_radius="@dimen/theme_card_radius"
-        app:round_right_top_corner_radius="@dimen/theme_card_radius"
         style="@style/RatioView.Image"
         />
 
@@ -28,11 +22,13 @@
         android:layout_height="match_parent" />
 
     <ImageView
-        android:id="@+id/place_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/theme_loading_holder" />
+        android:id="@+id/place_holder"
+        android:src="@drawable/theme_loading_holder"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
     <include
         layout="@layout/lock_action_view_layout"
@@ -41,39 +37,7 @@
     <com.acb.call.views.InCallActionView
         android:id="@+id/card_in_call_action_view"
         android:layout_width="match_parent"
-        android:gravity="bottom"
         android:layout_height="match_parent"
-        android:layout_marginBottom="24dp" />
+        android:paddingBottom="24dp"/>
 
-    <!--<com.honeycomb.colorphone.view.CircularCoverView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:cover_color="@color/colorWindowBackground"-->
-        <!--app:left_bottom_radius="@dimen/theme_card_radius"-->
-        <!--app:left_top_radius="@dimen/theme_card_radius"-->
-        <!--app:right_bottom_radius="@dimen/theme_card_radius"-->
-        <!--app:right_top_radius="@dimen/theme_card_radius"-->
-        <!--tools:visibility="gone" />-->
-
-    <ImageView
-        android:id="@+id/theme_hot_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/card_view"
-        android:layout_alignStart="@id/card_view"
-        android:layout_alignTop="@id/card_view"
-        android:layout_gravity="start|top"
-        android:src="@drawable/theme_card_badge_hot" />
-
-    <ImageView
-        android:id="@+id/theme_ringtone_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/card_view"
-        android:layout_alignRight="@id/card_view"
-        android:layout_alignTop="@id/card_view"
-        android:layout_gravity="end|top"
-        android:src="@drawable/ic_ringtone_badge" />
 </com.honeycomb.colorphone.view.FixRatioPreviewWindow>
-
-    

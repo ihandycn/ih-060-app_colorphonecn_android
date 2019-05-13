@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    tools:ignore="UnusedAttribute"
+    tools:background="@android:color/white">
+
+    <RelativeLayout
+        android:id="@+id/news_ad_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/news_ad_image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView
+            android:id="@+id/news_ad_icon"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:visibility="gone"
+            android:layout_centerVertical="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toEndOf="@id/news_ad_icon"
+            android:layout_toRightOf="@id/news_ad_icon"
+            android:orientation="vertical"
+            tools:ignore="RtlHardcoded">
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/news_ad_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:textColor="@color/news_title_color"
+                android:textSize="16sp"
+                android:lineSpacingExtra="4sp"
+                app:typeface="@string/roboto_condensed"
+                tools:ignore="HardcodedText,SpUsage" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView
+        android:id="@+id/news_ad_image"
+        android:layout_width="match_parent"
+        android:layout_height="184dp"
+        android:background="#ffe5e5e5"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/news_ad_content_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.honeycomb.colorphone.view.RoundImageVIew
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/adcorner"
+        android:visibility="gone"
+        app:radius_leftTop="8dp"
+        app:layout_constraintTop_toTopOf="@+id/news_ad_image"
+        app:layout_constraintLeft_toLeftOf="@+id/news_ad_image" />
+
+    <FrameLayout
+        android:id="@+id/news_ad_choice_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
+        tools:background="#e0000000"
+        tools:layout_height="10dp"
+        tools:layout_width="10dp"
+        app:layout_constraintTop_toTopOf="@+id/news_ad_image"
+        app:layout_constraintRight_toRightOf="@+id/news_ad_image" />
+
+    <com.honeycomb.colorphone.view.RoundImageVIew
+        android:id="@+id/news_ad_bg"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:background="#ffe5e5e5"
+        app:radius_leftBottom="4dp"
+        app:radius_rightBottom="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/news_ad_image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"  />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/news_ad_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Description of the theme"
+        android:textColor="#666666"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="@+id/news_ad_bg"
+        app:layout_constraintBottom_toBottomOf="@+id/news_ad_bg"
+        app:layout_constraintLeft_toLeftOf="@+id/news_ad_image"
+        tools:ignore="HardcodedText,SmallSp,SpUsage" />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/news_ad_action_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/material_compat_ad_button_box"
+        android:gravity="center"
+        android:paddingBottom="4dp"
+        android:paddingEnd="4dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingStart="4dp"
+        android:paddingTop="4dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAllCaps="true"
+        android:textColor="#ff58b8ff"
+        android:textSize="10sp"
+        app:typeface="@string/roboto_medium"
+        app:layout_constraintTop_toTopOf="@+id/news_ad_bg"
+        app:layout_constraintBottom_toBottomOf="@+id/news_ad_bg"
+        app:layout_constraintRight_toRightOf="@+id/news_ad_image"
+        tools:text="install now" />
+
+    <ImageView
+        android:id="@+id/news_ad_icon_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/news_ad_icon"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/news_ad_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/news_resource_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/news_sub_title_color"
+        android:textSize="12sp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toRightOf="@id/news_ad_icon_view"
+        app:layout_constraintTop_toTopOf="@id/news_ad_icon_view"
+        app:layout_constraintBottom_toBottomOf="@id/news_ad_icon_view"
+        app:typeface="@string/custom_font_medium"
+        tools:text="CNN "/>
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/news_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/news_sub_title_color"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="@+id/news_resource_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/news_resource_tv"
+        app:layout_constraintLeft_toRightOf="@+id/news_resource_tv"
+        app:typeface="@string/custom_font_medium"
+        tools:text="· 45min ago" />
+
+</android.support.constraint.ConstraintLayout>

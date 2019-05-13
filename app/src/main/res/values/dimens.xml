@@ -8,7 +8,8 @@
     <dimen name="nav_drawer_margin_offset">-16dp</dimen>
     <dimen name="nav_drawer_width">276dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="theme_card_margin_horizontal">12dp</dimen>
+    <dimen name="theme_card_margin_vertical">8dp</dimen>
+    <dimen name="theme_card_margin_horizontal">4dp</dimen>
     <dimen name="theme_card_radius">8dp</dimen>
     <dimen name="theme_badge_margin">24dp</dimen>
     <dimen name="theme_text_margin_top">7dp</dimen>
@@ -20,7 +21,7 @@
     <dimen name="contact_section_header_txt">15sp</dimen>
     <dimen name="contact_item_height">56dp</dimen>
     <dimen name="contact_item_footer_offset">72dp</dimen>
-    <dimen name="theme_apply_btn_height">44dp</dimen>
+    <dimen name="theme_apply_btn_height">56dp</dimen>
     <dimen name="guide_txt_margin_vertical">36dp</dimen>
     <dimen name="guide_txt_btn_vertical">10dp</dimen>
     <dimen name="ringtone_btn_height">64dp</dimen>
@@ -52,7 +53,7 @@
 
     <dimen name="promote_screen_icon_half_height">32dp</dimen>
 
-    <dimen name="preview_window_elevation">8dp</dimen>
+    <dimen name="preview_window_elevation">0dp</dimen>
 
     <dimen name="status_bar_default_height">24dp</dimen>
     <dimen name="bottom_bar_default_height">56dp</dimen>
@@ -138,4 +139,6 @@
     <dimen name="result_page_guide_tip_translation_top">10dp</dimen>
 
     <dimen name="popular_theme_thumbnail_height">134dp</dimen>
+
+    <dimen name="web_view_progress_bar_height">2.3dp</dimen>
 </resources>

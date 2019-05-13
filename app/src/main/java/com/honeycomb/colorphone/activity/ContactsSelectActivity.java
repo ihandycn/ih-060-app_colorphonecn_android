@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,7 +15,6 @@ import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
-import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -105,11 +105,6 @@ public class ContactsSelectActivity extends ContactsActivity {
                 if (selectedCount >= 1 && !themeEntries.isEmpty()) {
                     ThemeEntry themeEntry = themeEntries.get(0);
                     ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
-                    NotificationUtils.logThemeAppliedFlurry(mTheme);
-                    if (GuideApplyThemeActivity.start(ContactsSelectActivity.this, true, userInfo, selectedCount >= 2)) {
-                        ContactsSelectActivity.this.finish();
-                        return;
-                    }
                 }
                 Utils.showToast(getString(R.string.apply_success));
                 ContactsSelectActivity.this.finish();
@@ -138,6 +133,7 @@ public class ContactsSelectActivity extends ContactsActivity {
         confirmButton.setEnabled(false);
         confirmButton.setBackgroundResource(R.drawable.btn_bg_yellow_disabled);
         confirmButton.setText(R.string.set);
+        confirmButton.setTextColor(ResourcesCompat.getColorStateList(getResources(), R.color.seletor_color_cotact_btn_txt, null));
     }
 
     @Override

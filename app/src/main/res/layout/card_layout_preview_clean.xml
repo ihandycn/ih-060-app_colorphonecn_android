@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.honeycomb.colorphone.view.FixRatioPreviewWindow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/card_view_theme_selector"
+    style="@style/RatioView.Container">
+
+    <com.honeycomb.colorphone.view.RatioImageView
+        android:id="@+id/card_preview_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        style="@style/RatioView.Image"
+        />
+
+    <com.acb.call.views.ThemePreviewWindow
+        android:id="@+id/card_flash_preview_window"
+        android:layout_width="match_parent"
+        app:enableContactLayout="false"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:layout_gravity="center"
+        android:id="@+id/place_holder"
+        android:src="@drawable/theme_loading_holder"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <include
+        layout="@layout/lock_action_view_layout"
+        />
+
+
+</com.honeycomb.colorphone.view.FixRatioPreviewWindow>

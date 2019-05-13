@@ -95,6 +95,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -801,11 +802,11 @@ public final class Utils {
 
     public static void configActivityStatusBar(AppCompatActivity activity, Toolbar toolbar, int upDrawable) {
         toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimary));
-        toolbar.setTitleTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
+        toolbar.setTitleTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryReverse));
 
         activity.setSupportActionBar(toolbar);
         final Drawable upArrow = ContextCompat.getDrawable(activity, upDrawable);
-        upArrow.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_ATOP);
+        upArrow.setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimaryReverse), PorterDuff.Mode.SRC_ATOP);
         activity.getSupportActionBar().setHomeAsUpIndicator(upArrow);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -813,16 +814,27 @@ public final class Utils {
         applyFontForToolbarTitle(activity, toolbar);
     }
 
-    public static void applyFontForToolbarTitle(Activity context, Toolbar toolbar){
+    public static TextView getTitleView( Toolbar toolbar) {
         for(int i = 0; i < toolbar.getChildCount(); i++){
             View view = toolbar.getChildAt(i);
             if(view instanceof TextView){
                 TextView tv = (TextView) view;
-                Typeface typeface = FontUtils.getTypeface(FontUtils.Font.ofFontResId(R.string.proxima_nova_bold), 0);
                 if(tv.getText().equals(toolbar.getTitle())){
-                    tv.setTypeface(typeface);
-                    break;
+                    return tv;
                 }
+            }
+    }
+        return null;
+    }
+
+    public static void applyFontForToolbarTitle(Activity context, Toolbar toolbar){
+        TextView tv = getTitleView(toolbar);
+        if (tv != null) {
+            Typeface typeface = FontUtils.getTypeface(FontUtils.Font.ofFontResId(R.string.proxima_nova_bold), 0);
+            tv.setTypeface(typeface);
+            if (Locale.getDefault().getLanguage().equalsIgnoreCase(Locale.CHINA.getLanguage())) {
+                tv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                tv.invalidate();
             }
         }
     }
