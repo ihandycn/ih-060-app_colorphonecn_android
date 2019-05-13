@@ -29,6 +29,18 @@
         android:paddingTop="4dp"
         app:srcCompat="@drawable/ic_more_vert_black_24dp"/>
 
+    <ImageView
+        android:id="@+id/lock_game_view"
+        android:layout_width="54.3dp"
+        android:layout_height="54.3dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="103.8dp"
+        android:clickable="true"
+        android:src="@drawable/lock_game_selector" />
+
+
     <com.colorphone.lock.TypefacedTextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
