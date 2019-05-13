@@ -31,8 +31,6 @@ import com.superapps.util.Navigations;
 import java.util.ArrayList;
 import java.util.List;
 
-import colorphone.acb.com.libscreencard.gif.GifCacheUtils;
-
 public class SettingsActivity extends HSAppCompatActivity {
 
     private static final String TAG = SettingsActivity.class.getSimpleName();
@@ -104,7 +102,7 @@ public class SettingsActivity extends HSAppCompatActivity {
             public void onCheckChanged(boolean isChecked) {
                 Analytics.logEvent("Settings_ChargingReport_Clicked_" +
                         (isChecked ? "Enabled" : "Disabled"));
-                GifCacheUtils.cacheGif();
+//                GifCacheUtils.cacheGif();
                 SmartChargingSettings.setModuleEnabled(isChecked);
                 ChargingImproverUtils.setChargingImproverUserEnabled(isChecked);
             }

@@ -215,6 +215,7 @@ dependencies {
 //    compile(name: 'libCashCenter/cashcenter-release', ext: 'aar')
 
     compile project(':libChargingCommon')
+    compile project(':libCashCenter')
     compile project(':libChargingReport')
     compile project(':libCallAssistant')
     compile project(':libMessageCenter')

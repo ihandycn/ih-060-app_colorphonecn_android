@@ -128,7 +128,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import colorphone.acb.com.libscreencard.CardCustomConfig;
 import hugo.weaving.DebugLog;
 import io.fabric.sdk.android.Fabric;
 
@@ -662,18 +661,18 @@ public class ColorPhoneApplication extends HSApplication {
         FloatWindowCompat.initLockScreen(this);
         HSChargingManager.getInstance().start();
 
-        CardCustomConfig.get().setRemoteLogger(new CardCustomConfig.RemoteLogger() {
-            @Override
-            public void logEvent(String eventID) {
-                Analytics.logEvent(eventID);
-            }
-
-            @Override
-            public void logEvent(String eventID, String... vars) {
-                Analytics.logEvent(eventID, vars);
-            }
-        });
-        AcbH5GameManager.initialize(this);
+//        CardCustomConfig.get().setRemoteLogger(new CardCustomConfig.RemoteLogger() {
+//            @Override
+//            public void logEvent(String eventID) {
+//                Analytics.logEvent(eventID);
+//            }
+//
+//            @Override
+//            public void logEvent(String eventID, String... vars) {
+//                Analytics.logEvent(eventID, vars);
+//            }
+//        });
+        AcbH5GameManager.initialize(this, getString(R.string.app_name));
         AcbH5GameManager.setCustomerUserID(DeviceInfo.getUUID());
         AcbH5GameManager.setGDPRConsentGranted(true);
 

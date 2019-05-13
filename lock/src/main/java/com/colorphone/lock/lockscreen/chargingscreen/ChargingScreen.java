@@ -69,9 +69,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
-import colorphone.acb.com.libscreencard.CardCustomConfig;
-import colorphone.acb.com.libscreencard.CustomizeContentContainer;
-
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.colorphone.lock.lockscreen.locker.Locker.getDeviceInfo;
@@ -129,7 +126,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     private ChargingQuantityView chargingQuantityView;
     private ChargingBubbleView chargingBubbleView;
     private ImageView imageBackgroundView;
-    private CustomizeContentContainer customizeContentContainer;
+//    private CustomizeContentContainer customizeContentContainer;
 
     private ObjectAnimator chargingStateAlphaAnimator;
 
@@ -272,7 +269,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
 
         mIsSetup = true;
-        adEnabled = CardCustomConfig.get().enableAdChard();
+//        adEnabled = CardCustomConfig.get().enableAdChard();
 
         // ======== onCreate ========
         HSLog.d(TAG, "onCreate()");
@@ -362,9 +359,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
         boolean isScreenOn = powerManager != null && powerManager.isScreenOn();
 
-        if (customizeContentContainer != null) {
-            customizeContentContainer.onVisibilityChange(true);
-        }
+//        if (customizeContentContainer != null) {
+//            customizeContentContainer.onVisibilityChange(true);
+//        }
         if (adEnabled) {
             if (expressAdView == null) {
                 requestAds();
@@ -918,9 +915,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     public void onStop() {
         // ======== onPause ========
         isStart = false;
-        if (customizeContentContainer != null) {
-            customizeContentContainer.onVisibilityChange(false);
-        }
+//        if (customizeContentContainer != null) {
+//            customizeContentContainer.onVisibilityChange(false);
+//        }
 
 
         if (chargingBubbleView != null) {

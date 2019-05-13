@@ -127,7 +127,7 @@ public class NewsManager {
         if (resultBean.articlesList.size() > 0) {
             int index = 0;
             for (NewsArticle article : resultBean.articlesList) {
-                if (article.item_type == 8) {
+                if (article.item_type == 8 || article.item_type == 30 || article.item_type == 100) {
                     adIndexes.add(0, index);
                 }
                 index++;
@@ -204,7 +204,6 @@ public class NewsManager {
             @Override public void onConnectionFinished(HSHttpConnection hsHttpConnection) {
                 if (hsHttpConnection.isSucceeded()) {
                     String jsonBody = hsHttpConnection.getBodyString();
-                    NewsResultBean ret = null;
                     Gson gson = new Gson();
                     NewsResultBean bean = gson.fromJson(jsonBody, NewsResultBean.class);
                     bean.parseArticles();

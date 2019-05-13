@@ -7,12 +7,12 @@
 [submodule "libs/libNewColorPhone"]
 	path = libs/libNewColorPhone
 	url = http://git.ihandysoft.com/nogroup/Lib_ColorPhone_Android.git
-[submodule "libs/libCashCenter"]
-	path = libs/libCashCenter
-	url = http://git.ihandysoft.com/bingroup/Bin_CashCenter_Android.git
 [submodule "libs/libChargingImprover"]
 	path = libs/libChargingImprover
 	url = https://git.ihandysoft.com/nogroup/Lib_FlashlightCharging_Android.git
 [submodule "libs/libPermissionacquire"]
 	path = libs/libPermissionacquire
 	url = https://git.ihandysoft.com/nogroup/lib_permissionacquire_android.git
+[submodule "libs/libCashCenter"]
+	path = libs/libCashCenter
+	url = https://git.ihandysoft.com/nogroup/Lib_CashCenter_Android.git

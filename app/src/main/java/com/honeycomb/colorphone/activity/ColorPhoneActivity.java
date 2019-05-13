@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
+import com.acb.cashcenter.lottery.LotteryWheelLayout;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
@@ -143,11 +144,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean isCreate = false;
     private SettingsPage mSettingsPage = new SettingsPage();
     private NewsFrame newsLayout;
+    private LotteryWheelLayout lotteryWhellLayout;
 
-    private static final int TAB_SIZE = 3;
+    private static final int TAB_SIZE = 4;
     private static final int MAIN_POSITION = 0;
     private static final int NEWS_POSITION = 1;
-    private static final int SETTING_POSITION = 2;
+    private static final int CASH_POSITION = 2;
+    private static final int SETTING_POSITION = 3;
 
     private ViewPagerFixed mViewPager;
     private MainTabAdapter mTabAdapter;
@@ -228,9 +231,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
-    private String[] titles = new String[] {"首页", "资讯", "设置"};
+    private String[] titles = new String[] {"首页", "资讯", "现金", "设置"};
     private int[] drawableIds = new int[] {
             R.drawable.seletor_tab_main,
+            R.drawable.seletor_tab_news,
             R.drawable.seletor_tab_news,
             R.drawable.seletor_tab_settings
     };
@@ -263,18 +267,31 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
                 updateTitle(pos);
                 if (pos == NEWS_POSITION) {
+                    toolbar.setVisibility(View.VISIBLE);
                     toolbar.setBackgroundColor(Color.WHITE);
                     toolbar.setTitleTextColor(Color.BLACK);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.WHITE);
 
                     if (System.currentTimeMillis()
                             - Preferences.get(Constants.PREF_FILE_DEFAULT).getLong(Constants.KEY_TAB_LEAVE_NEWS, 0)
-                        > 30 * DateUtils.SECOND_IN_MILLIS) {
+                            > 30 * DateUtils.SECOND_IN_MILLIS) {
+                        if (newsLayout != null) {
+                            newsLayout.refreshNews("");
+                        }
+                    }
+                } else if (pos == CASH_POSITION) {
+                    toolbar.setVisibility(View.GONE);
+                    ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, 0xffb62121);
+
+                    if (System.currentTimeMillis()
+                            - Preferences.get(Constants.PREF_FILE_DEFAULT).getLong(Constants.KEY_TAB_LEAVE_NEWS, 0)
+                            > 30 * DateUtils.SECOND_IN_MILLIS) {
                         if (newsLayout != null) {
                             newsLayout.refreshNews("");
                         }
                     }
                 } else {
+                    toolbar.setVisibility(View.VISIBLE);
                     toolbar.setBackgroundColor(Color.BLACK);
                     toolbar.setTitleTextColor(Color.WHITE);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.BLACK);
@@ -679,6 +696,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 case NEWS_POSITION:
                     frame = getLayoutInflater().inflate(R.layout.news_frame, container, false);
                     newsLayout = (NewsFrame) frame;
+
+                    break;
+                case CASH_POSITION:
+                    frame = getLayoutInflater().inflate(R.layout.activity_lottery, container, false);
+                    frame.setFitsSystemWindows(true);
+                    lotteryWhellLayout = (LotteryWheelLayout) frame;
 
                     break;
                 default:

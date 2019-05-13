@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -347,7 +348,12 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                 case NEWS_TYPE_NATIVE:
                     return new NewsNativeHolder(new AcbNativeAdContainerView(getContext()));
                 default:
-                    throw new RuntimeException("error News Type: " + viewType);
+                    if (BuildConfig.DEBUG) {
+                        throw new RuntimeException("error News Type: " + viewType);
+                    } else {
+                        view = LayoutInflater.from(getContext()).inflate(R.layout.news_item_layout, parent, false);
+                        return new NewsBeanItemHolder(view);
+                    }
             }
         }
 
