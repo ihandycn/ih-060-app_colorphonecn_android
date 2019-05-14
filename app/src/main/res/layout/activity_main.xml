@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/main_root_layout"
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/main_root_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,13 +14,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        app:titleTextAppearance="@style/Toolbar.TitleText"/>
+        app:titleTextAppearance="@style/Toolbar.TitleText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <com.honeycomb.colorphone.view.ViewPagerFixed
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/tab_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
@@ -29,5 +37,23 @@
         app:tabBackground="@drawable/tab_background"
         app:tabIndicatorHeight="0dp"
         app:tabGravity="fill"
-        app:tabMode="fixed" />
-</LinearLayout>
+        app:tabMode="fixed"
+        app:layout_constraintTop_toBottomOf="@id/viewpager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/tab_cash_center_guide"
+        android:layout_width="117dp"
+        android:layout_height="133dp"
+        android:layout_marginBottom="46dp"
+        android:visibility="visible"
+        app:lottie_fileName="lottie/tab_cash_center_guide.json"
+        app:lottie_imageAssetsFolder="lottie/tab_cash_center_guide"
+        app:layout_constraintHorizontal_bias="0.687"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

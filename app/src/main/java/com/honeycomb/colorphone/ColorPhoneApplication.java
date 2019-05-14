@@ -116,8 +116,6 @@ import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
-import net.appcloudbox.h5game.AcbH5GameManager;
-import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
 
 import java.io.File;
@@ -672,9 +670,9 @@ public class ColorPhoneApplication extends HSApplication {
 //                Analytics.logEvent(eventID, vars);
 //            }
 //        });
-        AcbH5GameManager.initialize(this, getString(R.string.app_name));
-        AcbH5GameManager.setCustomerUserID(DeviceInfo.getUUID());
-        AcbH5GameManager.setGDPRConsentGranted(true);
+//        AcbH5GameManager.initialize(this, getString(R.string.app_name));
+//        AcbH5GameManager.setCustomerUserID(DeviceInfo.getUUID());
+//        AcbH5GameManager.setGDPRConsentGranted(true);
 
     }
 
