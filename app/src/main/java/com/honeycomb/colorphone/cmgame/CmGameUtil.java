@@ -40,7 +40,7 @@ public class CmGameUtil {
         if (canUseCmGame()) {
             try {
                 Navigations.startActivitySafely(context, getCmGameIntent(context));
-                Analytics.logEvent("GameCenter_Shown", true, "Openway", openType);
+                Analytics.logEvent("GameCenter_Shown", "Openway", openType);
             } catch (Exception e){
                 HSLog.e("CmGameCenter", "failed to open cm game center");
                 e.printStackTrace();
