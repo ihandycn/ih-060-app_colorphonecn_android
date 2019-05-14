@@ -157,6 +157,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private MainTabAdapter mTabAdapter;
     private Toolbar toolbar;
     private TabLayout tabLayout;
+    private View gameIcon;
 
     @DebugLog
     @Override
@@ -204,7 +205,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initMainFrame() {
 
         toolbar = findViewById(R.id.toolbar);
-        View gameIcon = findViewById(R.id.iv_game);
+        gameIcon = findViewById(R.id.iv_game);
         boolean gameMainEntranceEnabled = CmGameUtil.canUseCmGame()
                 && HSConfig.optBoolean(false, "Application", "GameCenter", "MainViewEnable");
         if (gameMainEntranceEnabled) {
@@ -292,6 +293,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     toolbar.setTitleTextColor(Color.WHITE);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.BLACK);
                 }
+
+                gameIcon.setVisibility(pos == MAIN_POSITION ? View.VISIBLE : View.INVISIBLE);
 
                 switch (pos) {
                     case MAIN_POSITION:
