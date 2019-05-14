@@ -298,7 +298,8 @@ public class Locker extends LockScreen implements INotificationObserver {
         }
     }
 
-    @Override public void onReceive(String s, HSBundle hsBundle) {
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
         switch (s) {
             case EVENT_FINISH_SELF:
                 boolean shouldDismissKeyguard = true;

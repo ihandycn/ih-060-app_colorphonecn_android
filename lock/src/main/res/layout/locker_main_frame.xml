@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.colorphone.lock.lockscreen.locker.LockerMainFrame
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.colorphone.lock.lockscreen.locker.LockerMainFrame xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:drawer="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/app_custom_icon"
@@ -27,7 +27,33 @@
         android:paddingLeft="20dp"
         android:paddingStart="20dp"
         android:paddingTop="4dp"
-        app:srcCompat="@drawable/ic_more_vert_black_24dp"/>
+        app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+
+    <ImageView
+        android:id="@+id/lock_game_view"
+        android:layout_width="54.3dp"
+        android:layout_height="54.3dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="103.8dp"
+        android:layout_marginRight="20dp"
+        android:clickable="true"
+        android:src="@drawable/lock_game_selector" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_game_view"
+        android:layout_width="58dp"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="104dp"
+        android:layout_marginRight="19.7dp"
+        app:lottie_fileName="tetris.json"
+        app:lottie_loop="true"
+        app:lottie_imageAssetsFolder="tetrisImages"
+        app:lottie_autoPlay="true"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <com.colorphone.lock.TypefacedTextView
         android:id="@+id/tv_time"
