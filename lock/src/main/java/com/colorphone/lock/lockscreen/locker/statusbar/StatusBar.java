@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.SystemSettingsManager;
@@ -52,6 +53,10 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
     private ImageView ivAirPlane;
     private ImageView ivSound;
     private ImageView ivBatteryCharging;
+
+    private LottieAnimationView tvLottieGameEntrance;
+
+
     private StatusBarBatteryIndicator batteryIndicator;
     private int[] resWifiImages = new int[]{
             R.drawable.status_wifi_strength_1,
@@ -246,6 +251,7 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
         ivBatteryCharging = (ImageView) findViewById(R.id.iv_battery_charging);
         batteryIndicator = (StatusBarBatteryIndicator) findViewById(R.id.battery_indicator);
         mLockerGameEntrance = findViewById(R.id.lock_game_view);
+        tvLottieGameEntrance = (LottieAnimationView) findViewById(R.id.animation_game_view);
     }
 
     @Override
