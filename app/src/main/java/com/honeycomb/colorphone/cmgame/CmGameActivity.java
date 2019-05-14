@@ -63,7 +63,6 @@ public class CmGameActivity extends AppCompatActivity implements IAppCallback {
         CmGameSdk.INSTANCE.setGameClickCallback(this);
 
         mContainer.post(() -> mContainer.scrollTo(0, 0));
-        Analytics.logEvent("GameCenter_Shown");
     }
 
     private boolean isCurrentAtBottom() {
