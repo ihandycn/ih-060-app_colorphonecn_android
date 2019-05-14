@@ -661,6 +661,12 @@ public class ColorPhoneApplication extends HSApplication {
         LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHARGING_SCREEN);
         LockerCustomConfig.get().setEventDelegate(new LockerEvent());
         LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
+        LockerCustomConfig.get().setGameCallback(new LockerCustomConfig.GameCallback() {
+            @Override
+            public void startGameCenter(Context context) {
+                CmGameUtil.startCmGameActivity(context, "Locker");
+            }
+        });
         FloatWindowCompat.initLockScreen(this);
         HSChargingManager.getInstance().start();
 
