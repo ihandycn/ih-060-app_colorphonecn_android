@@ -22,8 +22,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.SystemSettingsManager;
@@ -464,16 +462,4 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
         }
     }
 
-    private boolean isGameEntranceEnable() {
-        return LockerCustomConfig.get().isGameEntranceEnable();
-    }
-
-    private void onGameShow() {
-        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Shown");
-    }
-
-    private void onGameClick() {
-        LockerCustomConfig.get().getGameCallback().startGameCenter(getContext());
-        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Clicked");
-    }
 }

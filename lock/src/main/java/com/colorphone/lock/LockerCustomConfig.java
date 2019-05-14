@@ -3,7 +3,6 @@ package com.colorphone.lock;
 import android.content.Context;
 
 import com.ihs.app.analytics.HSAnalytics;
-import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 
 /**
@@ -113,7 +112,7 @@ public class LockerCustomConfig {
     }
 
     public boolean isGameEntranceEnable() {
-        return HSConfig.optBoolean(false, "Application", "GameCenter", "LockScreenEnable");
+        return mGameCallback.isGameEnable();
     }
 
     public GameCallback getGameCallback() {
@@ -179,6 +178,10 @@ public class LockerCustomConfig {
 
     public static abstract class GameCallback {
         public abstract void startGameCenter(Context context);
+
+        public boolean isGameEnable() {
+            return false;
+        }
     }
 
     public static class DefaultLogger implements RemoteLogger {

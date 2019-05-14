@@ -47,4 +47,5 @@
   <string name="locker_settings_title">Screensaver</string>
   <string name="locker_settings_subtitle">(May contain ads)</string>
   <string name="wallpaper_network_error">Network errors. Please try again.</string>
+  <string name="game_locker_hint">点击开玩</string>
 </resources>

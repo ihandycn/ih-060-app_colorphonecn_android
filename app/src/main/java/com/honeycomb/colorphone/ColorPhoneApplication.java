@@ -666,6 +666,12 @@ public class ColorPhoneApplication extends HSApplication {
             public void startGameCenter(Context context) {
                 CmGameUtil.startCmGameActivity(context, "Locker");
             }
+
+            @Override
+            public boolean isGameEnable() {
+                return CmGameUtil.canUseCmGame()
+                        && HSConfig.optBoolean(false, "Application", "GameCenter", "LockScreenEnable");
+            }
         });
         FloatWindowCompat.initLockScreen(this);
         HSChargingManager.getInstance().start();
