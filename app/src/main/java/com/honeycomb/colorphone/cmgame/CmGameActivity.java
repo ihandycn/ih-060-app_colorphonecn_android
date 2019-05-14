@@ -9,8 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.cmcm.cmgame.CmGameSdk;
 import com.cmcm.cmgame.IAppCallback;
+import com.colorphone.lock.lockscreen.locker.LockerUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
+
+import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
+import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
 public class CmGameActivity extends AppCompatActivity implements IAppCallback {
     private final static float MIN_DOWN_DST = 100f;
@@ -42,6 +47,12 @@ public class CmGameActivity extends AppCompatActivity implements IAppCallback {
         // 为避免数据异常，这个方法建议在小游戏列表页面展现前（可以是二级页面）才调用
         CmGameSdk.INSTANCE.initCmGameAccount();
         CmGameSdk.INSTANCE.setGameClickCallback(this);
+
+        getWindow().addFlags(FLAG_SHOW_WHEN_LOCKED);
+        getWindow().setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        if (!LockerUtils.isKeyguardSecure(this, false)) {
+            getWindow().addFlags(FLAG_DISMISS_KEYGUARD);
+        }
 
         mContainer.post(()->mContainer.scrollTo(0,0));
         Analytics.logEvent("GameCenter_Shown");
