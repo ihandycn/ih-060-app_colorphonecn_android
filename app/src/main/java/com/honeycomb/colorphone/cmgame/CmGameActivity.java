@@ -1,6 +1,8 @@
 package com.honeycomb.colorphone.cmgame;
 
 import android.annotation.TargetApi;
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.cmcm.cmgame.CmGameSdk;
 import com.cmcm.cmgame.IAppCallback;
-import com.colorphone.lock.lockscreen.locker.LockerUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
 
@@ -34,11 +35,24 @@ public class CmGameActivity extends AppCompatActivity implements IAppCallback {
         super.onCreate(savedInstanceState);
         getWindow().setNavigationBarColor(Color.BLACK);
 
+        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+
+        getWindow().setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getWindow().addFlags(FLAG_SHOW_WHEN_LOCKED);
+
+        if (keyguardManager != null &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            keyguardManager.requestDismissKeyguard(this, null);
+        } else {
+            getWindow().addFlags(FLAG_DISMISS_KEYGUARD);
+        }
+
+
         setContentView(R.layout.activity_cm_game);
         mContainer = findViewById(R.id.cm_game_scroll_container);
         mContainer.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
                 (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-                    if (!mIsMoving && isCurrentAtBottom()){
+                    if (!mIsMoving && isCurrentAtBottom()) {
                         mLastScrollToBottom = true;
                     }
                 });
@@ -48,13 +62,7 @@ public class CmGameActivity extends AppCompatActivity implements IAppCallback {
         CmGameSdk.INSTANCE.initCmGameAccount();
         CmGameSdk.INSTANCE.setGameClickCallback(this);
 
-        getWindow().addFlags(FLAG_SHOW_WHEN_LOCKED);
-        getWindow().setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        if (!LockerUtils.isKeyguardSecure(this, false)) {
-            getWindow().addFlags(FLAG_DISMISS_KEYGUARD);
-        }
-
-        mContainer.post(()->mContainer.scrollTo(0,0));
+        mContainer.post(() -> mContainer.scrollTo(0, 0));
         Analytics.logEvent("GameCenter_Shown");
     }
 
@@ -65,6 +73,6 @@ public class CmGameActivity extends AppCompatActivity implements IAppCallback {
 
     @Override
     public void gameClickCallback(String gameName, String gameId) {
-        Analytics.logEvent("GameCenter_Game_Played","Game", gameName);
+        Analytics.logEvent("GameCenter_Game_Played", "Game", gameName);
     }
 }

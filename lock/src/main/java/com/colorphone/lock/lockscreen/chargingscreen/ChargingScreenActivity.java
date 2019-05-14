@@ -13,7 +13,6 @@ import com.colorphone.lock.R;
 import com.colorphone.lock.fullscreen.NotchTools;
 import com.colorphone.lock.fullscreen.core.NotchProperty;
 import com.colorphone.lock.fullscreen.core.OnNotchCallBack;
-import com.colorphone.lock.fullscreen.phone.PVersionNotchScreen;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -21,6 +20,7 @@ import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
 
+import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
 public class ChargingScreenActivity extends HSAppCompatActivity {
@@ -66,7 +66,12 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
         window.addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         window.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         if (!keyguardFlag) {
-            window.addFlags(LayoutParams.FLAG_DISMISS_KEYGUARD);
+            if (keyguardManager != null &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                keyguardManager.requestDismissKeyguard(this, null);
+            } else {
+                getWindow().addFlags(FLAG_DISMISS_KEYGUARD);
+            }
         }
 
         setContentView(R.layout.activity_charging_screen);
