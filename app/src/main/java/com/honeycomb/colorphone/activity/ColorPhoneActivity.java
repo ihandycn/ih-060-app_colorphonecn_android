@@ -42,6 +42,7 @@ import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.news.NewsFrame;
+import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
@@ -280,6 +281,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     toolbar.setBackgroundColor(Color.WHITE);
                     toolbar.setTitleTextColor(Color.BLACK);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.WHITE);
+                    NewsManager.logNewsListShow("othertab");
 
                     if (System.currentTimeMillis()
                             - Preferences.get(Constants.PREF_FILE_DEFAULT).getLong(Constants.KEY_TAB_LEAVE_NEWS, 0)
@@ -288,10 +290,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                             newsLayout.refreshNews("");
                         }
                     }
+                    if (newsLayout != null) {
+                        newsLayout.onSelected(true);
+                    }
                 } else {
                     toolbar.setBackgroundColor(Color.BLACK);
                     toolbar.setTitleTextColor(Color.WHITE);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.BLACK);
+
+                    if (newsLayout != null) {
+                        newsLayout.onSelected(false);
+                    }
                 }
 
                 gameIcon.setVisibility(pos == MAIN_POSITION ? View.VISIBLE : View.INVISIBLE);

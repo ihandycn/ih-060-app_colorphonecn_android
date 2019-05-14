@@ -36,6 +36,7 @@ import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
 
 import java.net.URLDecoder;
+import java.util.ArrayList;
 
 public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoadListener, SwipeRefreshLayout.OnRefreshListener {
 
@@ -56,6 +57,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     private DividerItemDecoration divider;
     private String lastNewsContentID;
     private int lastNewsSize;
+    private boolean mSelected;
 
     public NewsPage(@NonNull Context context) {
         super(context);
@@ -267,6 +269,16 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     public void scrollToTop() {
         HSLog.i(NewsManager.TAG, "scrollToTop");
         newsList.scrollToPosition(0);
+    }
+
+    public void onSelected(boolean onSelected) {
+        mSelected = onSelected;
+        if (mSelected) {
+            for (Runnable doWhenSelectedTask : mSelectedRunnable) {
+                doWhenSelectedTask.run();
+            }
+            mSelectedRunnable.clear();
+        }
     }
 
     private class NewsAdapter extends RecyclerView.Adapter {
@@ -579,8 +591,22 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             resource.setText(bean.acbNativeAd.getTitle());
             time.setVisibility(GONE);
 
-            Analytics.logEvent("News_List_Ad_Show");
+            if (mSelected) {
+                Analytics.logEvent("News_List_Ad_Show");
+            } else {
+                addSelectedRunnableOnce(new Runnable() {
+                    @Override
+                    public void run() {
+                        Analytics.logEvent("News_List_Ad_Show");
+                    }
+                });
+            }
         }
+    }
+
+    private ArrayList<Runnable> mSelectedRunnable = new ArrayList<>();
+    private void addSelectedRunnableOnce(Runnable runnable) {
+        mSelectedRunnable.add(runnable);
     }
 
     private void showNewsDetail(String url, int type) {
