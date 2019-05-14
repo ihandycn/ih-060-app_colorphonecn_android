@@ -17,7 +17,6 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.BoostConfig;
-import com.honeycomb.colorphone.cmgame.CmGameUtil;
 import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.Analytics;
@@ -183,7 +182,6 @@ public class SettingsActivity extends HSAppCompatActivity {
             findViewById(R.id.setting_item_notification).setVisibility(View.GONE);
         }
 
-        CmGameUtil.startCmGameActivity(this, "TEST");
     }
 
     @Override
