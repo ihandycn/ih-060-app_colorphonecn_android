@@ -215,3 +215,12 @@
 -keep class com.ta.**{*;}
 
 -keep class com.colorphone.lock.fullscreen.helper.SystemProperties {*;}
+
+#========== CmGame ============
+-dontwarn org.conscrypt.**
+-dontwarn android.os.SystemProperties
+-dontwarn dalvik.system.VMStack
+-keep class org.conscrypt.** {*;}
+-keep class android.os.SystemProperties {*;}
+-keep class dalvik.system.VMStack {*;}
+
