@@ -38,7 +38,8 @@
         android:layout_marginTop="103.8dp"
         android:layout_marginRight="20dp"
         android:clickable="true"
-        android:src="@drawable/lock_game_selector" />
+        android:src="@drawable/lock_game_selector"
+        android:visibility="gone"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation_game_view"
@@ -48,12 +49,9 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="104dp"
         android:layout_marginRight="19.7dp"
-        app:lottie_fileName="tetris.json"
         app:lottie_loop="true"
-        app:lottie_imageAssetsFolder="tetrisImages"
-        app:lottie_autoPlay="true"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        app:lottie_autoPlay="false"
+        />
 
     <com.colorphone.lock.TypefacedTextView
         android:id="@+id/tv_time"

@@ -48,14 +48,13 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
     private TextView tvTime;
     private TextView tvBattery;
     private ImageView ivWifi;
-    private ImageView mLockerGameEntrance;
+
     private TextView tvMobileData;
     private ImageView ivMobileStrength;
     private ImageView ivAirPlane;
     private ImageView ivSound;
     private ImageView ivBatteryCharging;
 
-    private LottieAnimationView tvLottieGameEntrance;
 
 
     private StatusBarBatteryIndicator batteryIndicator;
@@ -251,8 +250,6 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
         ivSound = (ImageView) findViewById(R.id.iv_sound);
         ivBatteryCharging = (ImageView) findViewById(R.id.iv_battery_charging);
         batteryIndicator = (StatusBarBatteryIndicator) findViewById(R.id.battery_indicator);
-        mLockerGameEntrance = findViewById(R.id.lock_game_view);
-        tvLottieGameEntrance = (LottieAnimationView) findViewById(R.id.animation_game_view);
     }
 
     @Override

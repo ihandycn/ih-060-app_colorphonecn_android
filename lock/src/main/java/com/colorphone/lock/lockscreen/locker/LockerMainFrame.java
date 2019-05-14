@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
@@ -86,6 +87,11 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private AcbExpressAdView expressAdView;
     private boolean mAdShown;
     private long mOnStartTime;
+
+    private int lockerCount = 0;
+    private ImageView mLockerGameEntrance;
+
+    private LottieAnimationView tvLottieGameEntrance;
 
     public LockerMainFrame(Context context) {
         this(context, null);
@@ -156,6 +162,14 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             }
         });
 
+        mLockerGameEntrance = findViewById(R.id.lock_game_view);
+        tvLottieGameEntrance = (LottieAnimationView) findViewById(R.id.animation_game_view);
+        updateLockerEntrance(lockerCount);
+        lockerCount = lockerCount + 1;
+        if (lockerCount > 20){
+            lockerCount = 0;
+        }
+
         mSlidingDrawer.setListener(this);
         mSlidingDrawer.setHandle(R.id.blank_handle, 0);
         mDrawerHandleDown.setOnClickListener(new OnClickListener() {
@@ -209,6 +223,42 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
         if (pm.isScreenOn()) {
             mShimmer.start(mUnlockText);
+        }
+    }
+
+    private void updateLockerEntrance(int count){
+        if (count == 0) {
+            tvLottieGameEntrance.setVisibility(View.VISIBLE);
+            tvLottieGameEntrance.setAnimation("tetris.json");
+            tvLottieGameEntrance.setImageAssetsFolder("tetrisImages");
+            tvLottieGameEntrance.playAnimation();
+
+        }
+        if (count > 0 && count <= 6) {
+            tvLottieGameEntrance.setVisibility(View.GONE);
+            mLockerGameEntrance.setVisibility(VISIBLE);
+        }
+        if (count == 7) {
+            mLockerGameEntrance.setVisibility(GONE);
+            tvLottieGameEntrance.setVisibility(VISIBLE);
+            tvLottieGameEntrance.setAnimation("racing.json");
+            tvLottieGameEntrance.setImageAssetsFolder("racingImages");
+            tvLottieGameEntrance.playAnimation();
+        }
+        if (count > 7 && count <= 13) {
+            tvLottieGameEntrance.setVisibility(LottieAnimationView.GONE);
+            mLockerGameEntrance.setVisibility(VISIBLE);
+        }
+        if (count == 14) {
+            mLockerGameEntrance.setVisibility(GONE);
+            tvLottieGameEntrance.setVisibility(LottieAnimationView.VISIBLE);
+            tvLottieGameEntrance.setAnimation("dunk.json");
+            tvLottieGameEntrance.setImageAssetsFolder("dunkImages");
+            tvLottieGameEntrance.playAnimation();
+        }
+        if (count > 14 && count <= 20) {
+            tvLottieGameEntrance.setVisibility(LottieAnimationView.GONE);
+            mLockerGameEntrance.setVisibility(VISIBLE);
         }
     }
 
@@ -304,6 +354,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 }
                 break;
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_ON:
+
+
                 if (expressAdView == null) {
                     requestAds();
                     showExpressAd();
