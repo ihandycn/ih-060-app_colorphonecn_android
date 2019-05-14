@@ -49,14 +49,14 @@ public class CmGameUtil {
     }
 
     public static void initGame(Application context) {
-        final String adAppId = "5011513";
+        final String adAppId = "5011673";
 
         TTAdSdk.init(context,
                 new TTAdConfig.Builder()
                         .appId(adAppId)
                         //使用TextureView控件播放视频,默认为SurfaceView,当有SurfaceView冲突的场景，可以使用TextureView
                         .useTextureView(false)
-                        .appName("焕彩桌面_android")
+                        .appName("焕彩来电秀_android")
                         .titleBarTheme(TTAdConstant.TITLE_BAR_THEME_DARK)
                         //是否允许sdk展示通知栏提示
                         .allowShowNotify(true)
@@ -71,18 +71,18 @@ public class CmGameUtil {
                         .build());
 
         // 下面的 app id 要替换成小游戏官方分配的正式 app id
-        final String appId = "huancaizhuomian";
-        final String baseUrl = "https://hczm-xyx-sdk-svc.cmcm.com";
+        final String appId = "huancailaidianxiu";
+        final String baseUrl = "https://hcldx-xyx-sdk-svc.beike.cn";
 
         CmGameAppInfo cmGameAppInfo = new CmGameAppInfo();
         cmGameAppInfo.setAppId(appId);
         cmGameAppInfo.setAppHost(baseUrl);
         CmGameAppInfo.TTInfo ttInfo = new CmGameAppInfo.TTInfo();
-        ttInfo.setRewardVideoId("911513342");
-        ttInfo.setFullVideoId("911513706");
-        ttInfo.setBannerId("911513290");
-        ttInfo.setInterId("911513683");
-        ttInfo.setInterEndId("911513683");//??
+        ttInfo.setRewardVideoId("911673812");
+        ttInfo.setFullVideoId("911673755");
+        ttInfo.setBannerId("911673854");
+        ttInfo.setInterId("911673384");
+        ttInfo.setInterEndId("911673384");//??
         cmGameAppInfo.setTtInfo(ttInfo);
 
         CmGameSdk.INSTANCE.initCmGameSdk(context, cmGameAppInfo, new CmGameImageLoader(), BuildConfig.DEBUG);
