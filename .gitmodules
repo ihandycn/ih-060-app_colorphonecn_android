@@ -15,4 +15,4 @@
 	url = https://git.ihandysoft.com/nogroup/lib_permissionacquire_android.git
 [submodule "libs/libCashCenter"]
 	path = libs/libCashCenter
-	url = https://git.ihandysoft.com/nogroup/Lib_CashCenter_Android.git
+	url = https://git.ihandysoft.com/bingroup/lib_feast_android_outter.git

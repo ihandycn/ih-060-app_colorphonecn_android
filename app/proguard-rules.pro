@@ -76,6 +76,10 @@
 *;
 }
 
+-keep class com.acb.cashcenter.HSCashCenterManager{*;}
+
+-keep class com.acb.cashcenter.model.**{*;}
+
 -keepnames class com.honeycomb.colorphone.PermanentService$* {
     public <fields>;
     public <methods>;

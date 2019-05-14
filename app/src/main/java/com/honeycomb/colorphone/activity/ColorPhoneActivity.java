@@ -19,11 +19,14 @@ import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
+import com.acb.cashcenter.CashCenterManager;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
@@ -63,6 +66,8 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
+import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 
@@ -231,11 +236,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
-    private String[] titles = new String[] {"首页", "资讯", "现金", "设置"};
+    private String[] titles = new String[] {"首页", "资讯", "赚现金", "设置"};
     private int[] drawableIds = new int[] {
             R.drawable.seletor_tab_main,
             R.drawable.seletor_tab_news,
-            R.drawable.seletor_tab_news,
+            R.drawable.seletor_tab_cash_center,
             R.drawable.seletor_tab_settings
     };
 
@@ -699,8 +704,39 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                     break;
                 case CASH_POSITION:
+
                     frame = getLayoutInflater().inflate(R.layout.activity_lottery, container, false);
                     frame.setFitsSystemWindows(true);
+
+                    frame.findViewById(com.acb.cashcenter.R.id.lottery_layout_root_view)
+                            .setPadding(0, 0, 0, 0);
+//                    frame.findViewById(com.acb.cashcenter.R.id.toolbar_container)
+//                    frame.findViewById(com.acb.cashcenter.R.id.toolbar_container).getLayoutParams().height = Dimensions.pxFromDp(36);
+                    final View.OnClickListener onClickListener = v -> {
+                        Navigations.startActivitySafely(ColorPhoneActivity.this, CashCenterActivity.class);
+                    };
+
+                    frame.findViewById(com.acb.cashcenter.R.id.iv_back).setOnClickListener(onClickListener);
+                    frame.findViewById(com.acb.cashcenter.R.id.title).setOnClickListener(onClickListener);
+
+                    ((ImageView) frame.findViewById(com.acb.cashcenter.R.id.iv_back)).setImageResource(R.drawable.cash_center_icon);
+                    frame.findViewById(com.acb.cashcenter.R.id.title).setVisibility(View.VISIBLE);
+
+                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) frame.findViewById(com.acb.cashcenter.R.id.title).getLayoutParams();
+                    params.addRule(RelativeLayout.RIGHT_OF, com.acb.cashcenter.R.id.iv_back);
+                    params.topMargin = Dimensions.pxFromDp(12);
+
+                    params = (RelativeLayout.LayoutParams) frame.findViewById(com.acb.cashcenter.R.id.tv_last_times).getLayoutParams();
+                    params.topMargin = Dimensions.pxFromDp(12);
+
+                    ((TextView) frame.findViewById(com.acb.cashcenter.R.id.title)).setText(R.string.cash_center);
+                    ((TextView) frame.findViewById(com.acb.cashcenter.R.id.title)).setTextColor(0xffffffff);
+                    ((TextView) frame.findViewById(com.acb.cashcenter.R.id.title)).setTextSize(14);
+
+                    (frame.findViewById(com.acb.cashcenter.R.id.lottery_spin_view)).getLayoutParams().height = Dimensions.pxFromDp(300);
+
+//                    ((ViewGroup.MarginLayoutParams) frame.findViewById(com.acb.cashcenter.R.id.loading_container).getLayoutParams()).topMargin = Dimensions.pxFromDp(36);
+
                     lotteryWhellLayout = (LotteryWheelLayout) frame;
 
                     break;

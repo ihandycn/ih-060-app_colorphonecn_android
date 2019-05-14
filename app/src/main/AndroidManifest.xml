@@ -492,6 +492,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".activity.CashCenterActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/BaseTheme"/>
         <!-- JPush Daemon-->
         <service
             android:name="cn.jpush.android.service.DaemonService"
