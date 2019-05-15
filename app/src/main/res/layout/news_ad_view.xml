@@ -114,7 +114,7 @@
         android:textSize="12sp"
         app:layout_constraintTop_toTopOf="@+id/news_ad_bg"
         app:layout_constraintBottom_toBottomOf="@+id/news_ad_bg"
-        app:layout_constraintLeft_toLeftOf="@+id/news_ad_image"
+        app:layout_constraintLeft_toLeftOf="@+id/news_ad_bg"
         tools:ignore="HardcodedText,SmallSp,SpUsage" />
 
     <com.superapps.view.TypefacedTextView
@@ -140,7 +140,7 @@
         app:typeface="@string/roboto_medium"
         app:layout_constraintTop_toTopOf="@+id/news_ad_bg"
         app:layout_constraintBottom_toBottomOf="@+id/news_ad_bg"
-        app:layout_constraintRight_toRightOf="@+id/news_ad_image"
+        app:layout_constraintRight_toRightOf="@+id/news_ad_bg"
         tools:text="install now" />
 
     <ImageView
