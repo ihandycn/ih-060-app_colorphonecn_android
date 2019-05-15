@@ -74,10 +74,8 @@ public class NewsManager {
         if (showNativeAD) {
             AcbNativeAdManager.preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
         }
-//        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
 
         HSLog.i(NewsManager.TAG, "fetchNews");
-//        newOffset = 0;
 
         HSHttpConnection news = new HSHttpConnection(getURL(false));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
