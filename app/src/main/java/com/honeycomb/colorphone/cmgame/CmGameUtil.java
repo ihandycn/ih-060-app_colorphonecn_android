@@ -81,8 +81,8 @@ public class CmGameUtil {
         ttInfo.setRewardVideoId("911673812");
         ttInfo.setFullVideoId("911673384");
         ttInfo.setBannerId("911673854");
-        ttInfo.setInterId("911673755");
-        ttInfo.setInterEndId("911673755");//??
+        ttInfo.setInterId("911673989");
+        ttInfo.setInterEndId("911673989");//??
         cmGameAppInfo.setTtInfo(ttInfo);
 
         CmGameSdk.INSTANCE.initCmGameSdk(context, cmGameAppInfo, new CmGameImageLoader(), BuildConfig.DEBUG);
