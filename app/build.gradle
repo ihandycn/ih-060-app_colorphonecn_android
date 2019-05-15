@@ -246,7 +246,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.12.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.12.0'
 
-    compile name: 'libCmgameCenter/cmgame-sdk-1.0.4', ext: 'aar'
+    compile name: 'libCmgameCenter/cmgame-sdk-tt2011-1.0.7', ext: 'aar'
     compile files('../libs/libCmgameCenter/qq_x5.jar')
 }
 
