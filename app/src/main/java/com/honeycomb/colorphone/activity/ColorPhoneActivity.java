@@ -127,7 +127,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (logOpenEvent) {
                 logOpenEvent = false;
                 ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
-                GameStarterActivity.createShortCut(ColorPhoneActivity.this);
                 BoostStarterActivity.createShortCut(ColorPhoneActivity.this);
 
                 GuideSetDefaultActivity.start(ColorPhoneActivity.this, true);

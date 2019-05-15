@@ -493,7 +493,16 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".cmgame.CmGameActivity"/>
+        <activity android:name=".cmgame.CmGameActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".game"
+            android:excludeFromRecents="true"/>
+
+        <activity android:name="com.cmcm.cmgame.activity.H5GameActivity"
+            android:excludeFromRecents="true"
+            android:taskAffinity=".game"
+            tools:replace="android:excludeFromRecents,android:taskAffinity"/>
 
         <activity
             android:name=".activity.StartGuideActivity"
