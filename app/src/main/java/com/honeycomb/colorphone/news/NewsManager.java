@@ -74,10 +74,8 @@ public class NewsManager {
         if (showNativeAD) {
             AcbNativeAdManager.preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
         }
-//        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
 
         HSLog.i(NewsManager.TAG, "fetchNews");
-//        newOffset = 0;
 
         HSHttpConnection news = new HSHttpConnection(getURL(false));
         news.setConnectionFinishedListener(new HSHttpConnection.OnConnectionFinishedListener() {
@@ -85,17 +83,17 @@ public class NewsManager {
                 if (hsHttpConnection.isSucceeded()) {
                     String jsonBody = hsHttpConnection.getBodyString();
                     Gson gson = new Gson();
-                    NewsResultBean bean = gson.fromJson(jsonBody, NewsResultBean.class);
-                    bean.parseArticles();
-                    int size = bean.articlesList.size();
-//                    HSLog.i(TAG, "result size == " + (bean != null ? bean.totalItems : null));
-                    if (bean != null && loadListener != null) {
-                        replaceADs(bean, 0);
-//                        resultBean.totalItems = bean.totalItems;
-//                        resultBean.content.clear();
-//                        resultBean.content.addAll(bean.content);
-                        loadListener.onNewsLoaded(bean, size);
-                        return;
+                    try {
+                        NewsResultBean bean = gson.fromJson(jsonBody, NewsResultBean.class);
+                        if (bean != null && loadListener != null) {
+                            bean.parseArticles();
+                            int size = bean.articlesList.size();
+                            replaceADs(bean, 0);
+                            loadListener.onNewsLoaded(bean, size);
+                            return;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -205,17 +203,21 @@ public class NewsManager {
                 if (hsHttpConnection.isSucceeded()) {
                     String jsonBody = hsHttpConnection.getBodyString();
                     Gson gson = new Gson();
-                    NewsResultBean bean = gson.fromJson(jsonBody, NewsResultBean.class);
-                    bean.parseArticles();
+                    try {
+                        NewsResultBean bean = gson.fromJson(jsonBody, NewsResultBean.class);
+                        bean.parseArticles();
 
-                    int size = resultBean.articlesList.size();
-                    int newSize = bean.articlesList.size();
-                    resultBean.articlesList.addAll(bean.articlesList);
-                    if (loadListener != null) {
-                        if (resultBean != null) {
-                            replaceADs(resultBean, size);
+                        int size = resultBean.articlesList.size();
+                        int newSize = bean.articlesList.size();
+                        resultBean.articlesList.addAll(bean.articlesList);
+                        if (loadListener != null) {
+                            if (resultBean != null) {
+                                replaceADs(resultBean, size);
+                            }
+                            loadListener.onNewsLoaded(resultBean, newSize);
                         }
-                        loadListener.onNewsLoaded(resultBean, newSize);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 } else {
                     if (loadListener != null) {

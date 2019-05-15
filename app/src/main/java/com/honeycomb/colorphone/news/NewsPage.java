@@ -37,6 +37,7 @@ import net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView;
 import net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView;
 
 import java.net.URLDecoder;
+import java.util.ArrayList;
 
 public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoadListener, SwipeRefreshLayout.OnRefreshListener {
 
@@ -57,6 +58,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     private DividerItemDecoration divider;
     private String lastNewsContentID;
     private int lastNewsSize;
+    private boolean mSelected;
 
     public NewsPage(@NonNull Context context) {
         super(context);
@@ -201,26 +203,23 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         isRefreshing = false;
 
-        if (bean != null) {
-            if (bean.articlesList != null && bean.articlesList.size() > 0) {
-                String newContentID = bean.articlesList.get(0).recoid;
-                if (newsPages.isRefreshing()) {
-                    if (TextUtils.equals(newContentID, lastNewsContentID)) {
-                        Toasts.showToast(R.string.news_no_news_update);
-                    } else {
-                        if (size > 0) {
-                            Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
-                        }
-                        newsList.scrollToPosition(0);
-                    }
+        if (bean != null && bean.articlesList != null && bean.articlesList.size() > 0) {
+            String newContentID = bean.articlesList.get(0).recoid;
+            if (newsPages.isRefreshing()) {
+                if (TextUtils.equals(newContentID, lastNewsContentID)) {
+                    Toasts.showToast(R.string.news_no_news_update);
                 } else {
                     if (size > 0) {
                         Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
                     }
+                    newsList.scrollToPosition(0);
                 }
-                lastNewsContentID = newContentID;
+            } else {
+                if (size > 0) {
+                    Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
+                }
             }
-//            newsPages.setVisibility(VISIBLE);
+            lastNewsContentID = newContentID;
 
             if (newsResource != null && newsResource.articlesList != null && newsResource != bean) {
                 for (NewsArticle article : newsResource.articlesList) {
@@ -268,6 +267,16 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
     public void scrollToTop() {
         HSLog.i(NewsManager.TAG, "scrollToTop");
         newsList.scrollToPosition(0);
+    }
+
+    public void onSelected(boolean onSelected) {
+        mSelected = onSelected;
+        if (mSelected) {
+            for (Runnable doWhenSelectedTask : mSelectedRunnable) {
+                doWhenSelectedTask.run();
+            }
+            mSelectedRunnable.clear();
+        }
     }
 
     private class NewsAdapter extends RecyclerView.Adapter {
@@ -585,8 +594,22 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             resource.setText(bean.acbNativeAd.getTitle());
             time.setVisibility(GONE);
 
-            Analytics.logEvent("News_List_Ad_Show");
+            if (mSelected) {
+                Analytics.logEvent("News_List_Ad_Show");
+            } else {
+                addSelectedRunnableOnce(new Runnable() {
+                    @Override
+                    public void run() {
+                        Analytics.logEvent("News_List_Ad_Show");
+                    }
+                });
+            }
         }
+    }
+
+    private ArrayList<Runnable> mSelectedRunnable = new ArrayList<>();
+    private void addSelectedRunnableOnce(Runnable runnable) {
+        mSelectedRunnable.add(runnable);
     }
 
     private void showNewsDetail(String url, int type) {
