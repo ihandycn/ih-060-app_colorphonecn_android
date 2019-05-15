@@ -27,27 +27,14 @@
             android:visibility="gone"
             android:layout_centerVertical="true"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/news_ad_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="8dp"
             android:layout_toEndOf="@id/news_ad_icon"
             android:layout_toRightOf="@id/news_ad_icon"
-            android:orientation="vertical"
-            tools:ignore="RtlHardcoded">
-
-            <com.superapps.view.TypefacedTextView
-                android:id="@+id/news_ad_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/NewsItemTitle"
-                tools:ignore="HardcodedText,SpUsage" />
-
-        </LinearLayout>
+            style="@style/NewsItemTitle"
+            tools:ignore="HardcodedText,SpUsage" />
 
     </RelativeLayout>
 
