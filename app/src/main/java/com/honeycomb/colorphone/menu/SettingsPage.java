@@ -33,7 +33,20 @@ public class SettingsPage implements View.OnClickListener {
     private SwitchCompat defaultDialer;
     private SwitchCompat ledSwitch;
 
+    private boolean init = false;
+    private View rootView;
+
+    public boolean isInit() {
+        return init;
+    }
+
+    public View getRootView() {
+        return rootView;
+    }
+
     public void initPage(View rootView) {
+        init = true;
+        this.rootView = rootView;
         mainSwitch = rootView.findViewById(R.id.main_switch);
         mainSwitchTxt = rootView.findViewById(R.id.settings_main_switch_txt);
 

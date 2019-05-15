@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.acb.cashcenter.CashCenterLayout;
 import com.acb.cashcenter.CashCenterManager;
-import com.acb.cashcenter.lottery.LotteryWheelActivity;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superappscommon.util.Navigations;
 
@@ -34,13 +33,16 @@ public class CashCenterActivity extends HSAppCompatActivity {
       /*  TelephonyManager TelephonyMgr = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
         imei = TelephonyMgr.getDeviceId();
         Log.i("imei是",imei);*/
-        if (getIntent() != null && getIntent().getBooleanExtra(EXTRA_NAVIGATE_TO_WHEEL, false)) {
-            Navigations.startActivitySafely(this, new Intent(this, LotteryWheelActivity.class));
-        }
+//        if (getIntent() != null && getIntent().getBooleanExtra(EXTRA_NAVIGATE_TO_WHEEL, false)) {
+//            Navigations.startActivitySafely(this, new Intent(this, LotteryWheelActivity.class));
+//        }
 
         cashCenterLayout = findViewById(com.acb.cashcenter.R.id.cash_center_layout);
         cashCenterLayout.setFitsSystemWindows(true);
         cashCenterLayout.setFinishListener(() -> finish());
+
+        findViewById(com.acb.cashcenter.R.id.cash_center_root_view)
+                .setPadding(0, 0, 0, 0);
 
         View flashButton = findViewById(com.acb.cashcenter.R.id.btn_wheel_start);
         flashButton.setOnClickListener(v -> {

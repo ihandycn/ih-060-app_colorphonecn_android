@@ -11,13 +11,10 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -28,7 +25,6 @@ import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.cashcenter.CashCenterCallback;
-import com.acb.cashcenter.CashCenterConfiguration;
 import com.acb.cashcenter.CashCenterManager;
 import com.acb.cashcenter.ads.AdUtils;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
@@ -59,6 +55,7 @@ import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.LazyViewPagerAdapter;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -156,6 +153,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 tabCashCenterGuide.playAnimation();
 
                 Preferences.getDefault().putBoolean(PREFS_CASH_CENTER_GUIDE_SHOW, true);
+                Analytics.logEvent("Tab_CashCenter_Guide_Show");
             }
         }
     };
@@ -173,7 +171,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean isCreate = false;
     private SettingsPage mSettingsPage = new SettingsPage();
     private NewsFrame newsLayout;
-    private LotteryWheelLayout lotteryWhellLayout;
+    private LotteryWheelLayout lotteryWheelLayout;
 
     private static final int TAB_SIZE = 4;
     private static final int MAIN_POSITION = 0;
@@ -275,6 +273,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         if (showTabCashCenter) {
             initCashCenterMgr();
+
+            Analytics.logEvent("Tab_CashCenter_Icon_Show");
         } else {
             titles = new String[] {"首页", "资讯", "设置"};
             drawableIds = new int[] {
@@ -297,6 +297,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             tabLayout.addTab(tab);
         }
         tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide);
+        tabCashCenterGuide.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mViewPager.setCurrentItem(CASH_POSITION);
+            }
+        });
 
         if (showTabCashCenter && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
             tabLayout.getTabAt(CASH_POSITION).getCustomView().findViewById(R.id.tab_layout_hint).setVisibility(View.VISIBLE);
@@ -366,7 +371,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         break;
                     case CASH_POSITION:
                         if (showTabCashCenter) {
-                            Analytics.logEvent("Tab_Cash_Center_Show");
+                            Analytics.logEvent("CashCenter_Wheel_Shown", "type", "Click");
                         } else {
                             Analytics.logEvent("Tab_Settings_Show");
                         }
@@ -428,7 +433,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
 
             @Override public void onWheelAdChance(boolean adShow, String adType) {
-
+                Analytics.logEvent("AcbAdNative_Viewed_In_App", adType, String.valueOf(adShow));
             }
 
             @Override public void onWheelCoinEarn(long amount) {
@@ -794,7 +799,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private List<View> mTabContentLayoutList = new ArrayList<>();
-    private class MainTabAdapter extends PagerAdapter {
+
+    private class MainTabAdapter extends LazyViewPagerAdapter {
         @Override
         public int getCount() {
             return TAB_SIZE;
@@ -803,77 +809,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         @DebugLog
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-
-            HSLog.d("MainTabAdapter", "TabAdapter");
-            View frame = null;
-            switch (position) {
-                case MAIN_POSITION:
-                    frame = getLayoutInflater().inflate(R.layout.main_frame_content, container, false);
-                    initRecyclerView((RecyclerView) frame);
-                    break;
-
-                case SETTING_POSITION:
-                    frame = getLayoutInflater().inflate(R.layout.layout_settings, container, false);
-                    mSettingsPage.initPage(frame);
-                    break;
-
-                case NEWS_POSITION:
-                    frame = getLayoutInflater().inflate(R.layout.news_frame, container, false);
-                    newsLayout = (NewsFrame) frame;
-
-                    break;
-                case CASH_POSITION:
-                    if (showTabCashCenter) {
-
-                        frame = getLayoutInflater().inflate(R.layout.activity_lottery, container, false);
-                        frame.setFitsSystemWindows(true);
-
-                        frame.findViewById(com.acb.cashcenter.R.id.lottery_layout_root_view)
-                                .setPadding(0, 0, 0, 0);
-
-                        final View.OnClickListener onClickListener = v -> {
-                            Navigations.startActivitySafely(ColorPhoneActivity.this, CashCenterActivity.class);
-                        };
-
-                        frame.findViewById(com.acb.cashcenter.R.id.iv_back).setOnClickListener(onClickListener);
-                        frame.findViewById(com.acb.cashcenter.R.id.title).setOnClickListener(onClickListener);
-
-                        ((ImageView) frame.findViewById(com.acb.cashcenter.R.id.iv_back)).setImageResource(R.drawable.cash_center_icon);
-
-                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) frame.findViewById(com.acb.cashcenter.R.id.title).getLayoutParams();
-                        params.addRule(RelativeLayout.RIGHT_OF, com.acb.cashcenter.R.id.iv_back);
-                        params.topMargin = Dimensions.pxFromDp(15);
-
-                        params = (RelativeLayout.LayoutParams) frame.findViewById(com.acb.cashcenter.R.id.tv_last_times).getLayoutParams();
-                        params.topMargin = Dimensions.pxFromDp(15);
-
-                        TextView title = frame.findViewById(com.acb.cashcenter.R.id.title);
-                        title.setVisibility(View.VISIBLE);
-                        title.setText(R.string.cash_center);
-                        title.setTextColor(0xffffffff);
-                        title.setTextSize(14);
-
-                        (frame.findViewById(com.acb.cashcenter.R.id.lottery_spin_view)).getLayoutParams().height = Dimensions.pxFromDp(300);
-
-                        lotteryWhellLayout = (LotteryWheelLayout) frame;
-                    } else {
-                        frame = getLayoutInflater().inflate(R.layout.layout_settings, container, false);
-                        mSettingsPage.initPage(frame);
-                    }
-                    break;
-                default:
-                    throw new IllegalStateException("Pager index out of bounds");
-            }
-            container.addView(frame);
-            frame.setTag(position);
-            mTabContentLayoutList.add(frame);
-
-            return frame;
+            View object = (View) super.instantiateItem(container, position);
+//            container.addView(object);
+            mTabContentLayoutList.add(object);
+            return object;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
+//            container.removeView((View) object);
             mTabContentLayoutList.remove(object);
         }
 
@@ -886,6 +830,92 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         @Override
         public CharSequence getPageTitle(int position) {
             return super.getPageTitle(position);
+        }
+
+        @Override protected View getItem(ViewGroup container, int position) {
+            HSLog.d("MainTabAdapter", "getItem");
+            View frame = null;
+            switch (position) {
+                case MAIN_POSITION:
+                    if (mRecyclerView == null) {
+                        frame = getLayoutInflater().inflate(R.layout.main_frame_content, null, false);
+                        initRecyclerView((RecyclerView) frame);
+                    } else {
+                        frame = mRecyclerView;
+                    }
+                    break;
+
+                case SETTING_POSITION:
+                    if (!mSettingsPage.isInit()) {
+                        frame = getLayoutInflater().inflate(R.layout.layout_settings, null, false);
+                        mSettingsPage.initPage(frame);
+                    } else {
+                        frame = mSettingsPage.getRootView();
+                    }
+                    break;
+
+                case NEWS_POSITION:
+                    if (newsLayout == null) {
+                        frame = getLayoutInflater().inflate(R.layout.news_frame, null, false);
+                        newsLayout = (NewsFrame) frame;
+                    } else {
+                        frame = newsLayout;
+                    }
+                    break;
+                case CASH_POSITION:
+                    if (showTabCashCenter) {
+                        if (lotteryWheelLayout == null) {
+                            frame = getLayoutInflater().inflate(R.layout.activity_lottery, container, false);
+                            frame.setFitsSystemWindows(true);
+
+                            frame.findViewById(com.acb.cashcenter.R.id.lottery_layout_root_view)
+                                    .setPadding(0, 0, 0, 0);
+
+                            final View.OnClickListener onClickListener = v -> {
+                                Navigations.startActivitySafely(ColorPhoneActivity.this, CashCenterActivity.class);
+                                Analytics.logEvent("CashCenter_Clicked");
+                            };
+
+                            frame.findViewById(com.acb.cashcenter.R.id.iv_back).setOnClickListener(onClickListener);
+
+                            ((ImageView) frame.findViewById(com.acb.cashcenter.R.id.iv_back)).setImageResource(R.drawable.cash_center_icon);
+
+                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) frame.findViewById(com.acb.cashcenter.R.id.title).getLayoutParams();
+                            params.addRule(RelativeLayout.RIGHT_OF, com.acb.cashcenter.R.id.iv_back);
+                            params.topMargin = Dimensions.pxFromDp(15);
+
+                            params = (RelativeLayout.LayoutParams) frame.findViewById(com.acb.cashcenter.R.id.tv_last_times).getLayoutParams();
+                            params.topMargin = Dimensions.pxFromDp(15);
+
+                            TextView title = frame.findViewById(com.acb.cashcenter.R.id.title);
+                            title.setVisibility(View.VISIBLE);
+                            title.setText(R.string.cash_center);
+                            title.setTextColor(0xffffffff);
+                            title.setTextSize(14);
+
+                            (frame.findViewById(com.acb.cashcenter.R.id.lottery_spin_view)).getLayoutParams().height = Dimensions.pxFromDp(300);
+
+                            lotteryWheelLayout = (LotteryWheelLayout) frame;
+                        } else {
+                            frame = lotteryWheelLayout;
+                        }
+                    } else {
+                        if (!mSettingsPage.isInit()) {
+                            frame = getLayoutInflater().inflate(R.layout.layout_settings, null, false);
+                            mSettingsPage.initPage(frame);
+                        } else {
+                            frame = mSettingsPage.getRootView();
+                        }
+                    }
+                    break;
+                default:
+                    throw new IllegalStateException("Pager index out of bounds");
+            }
+//            container.addView(frame);
+            frame.setTag(position);
+//            mTabContentLayoutList.add(frame);
+
+            return frame;
         }
     }
 

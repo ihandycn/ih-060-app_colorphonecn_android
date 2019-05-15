@@ -212,7 +212,6 @@ dependencies {
 
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
-//    compile(name: 'libCashCenter/cashcenter-release', ext: 'aar')
 
     compile project(':libChargingCommon')
     compile project(':libCashCenter')
