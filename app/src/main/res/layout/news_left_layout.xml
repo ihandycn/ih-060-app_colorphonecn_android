@@ -35,12 +35,12 @@
 
     <com.superapps.view.TypefacedTextView
         android:id="@+id/news_resource_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="wap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/news_sub_title_color"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="@+id/news_title_tv"
+        app:layout_constraintTop_toBottomOf="@id/news_title_tv"
+        app:layout_constraintLeft_toLeftOf="@id/news_title_tv"
         app:typeface="@string/custom_font_bold"
         tools:text="CNN "/>
 
