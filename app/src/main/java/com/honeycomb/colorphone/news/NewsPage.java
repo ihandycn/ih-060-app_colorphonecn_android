@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.colorphone.lock.util.ViewUtils;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -202,26 +203,23 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
 
         isRefreshing = false;
 
-        if (bean != null) {
-            if (bean.articlesList != null && bean.articlesList.size() > 0) {
-                String newContentID = bean.articlesList.get(0).recoid;
-                if (newsPages.isRefreshing()) {
-                    if (TextUtils.equals(newContentID, lastNewsContentID)) {
-                        Toasts.showToast(R.string.news_no_news_update);
-                    } else {
-                        if (size > 0) {
-                            Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
-                        }
-                        newsList.scrollToPosition(0);
-                    }
+        if (bean != null && bean.articlesList != null && bean.articlesList.size() > 0) {
+            String newContentID = bean.articlesList.get(0).recoid;
+            if (newsPages.isRefreshing()) {
+                if (TextUtils.equals(newContentID, lastNewsContentID)) {
+                    Toasts.showToast(R.string.news_no_news_update);
                 } else {
                     if (size > 0) {
                         Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
                     }
+                    newsList.scrollToPosition(0);
                 }
-                lastNewsContentID = newContentID;
+            } else {
+                if (size > 0) {
+                    Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
+                }
             }
-//            newsPages.setVisibility(VISIBLE);
+            lastNewsContentID = newContentID;
 
             if (newsResource != null && newsResource.articlesList != null && newsResource != bean) {
                 for (NewsArticle article : newsResource.articlesList) {
@@ -359,7 +357,12 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                 case NEWS_TYPE_NATIVE:
                     return new NewsNativeHolder(new AcbNativeAdContainerView(getContext()));
                 default:
-                    throw new RuntimeException("error News Type: " + viewType);
+                    if (BuildConfig.DEBUG) {
+                        throw new RuntimeException("error News Type: " + viewType);
+                    } else {
+                        view = LayoutInflater.from(getContext()).inflate(R.layout.news_item_layout, parent, false);
+                        return new NewsBeanItemHolder(view);
+                    }
             }
         }
 
