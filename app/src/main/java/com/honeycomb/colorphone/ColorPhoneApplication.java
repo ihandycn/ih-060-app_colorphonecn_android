@@ -94,7 +94,6 @@ import com.ihs.device.permanent.HSPermanentUtils;
 import com.ihs.libcharging.HSChargingManager;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
-import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
@@ -742,8 +741,20 @@ public class ColorPhoneApplication extends HSApplication {
                 return SmartChargingSettings.isChargingScreenEnabled();
             }
         });
+
+        Module sms = new Module();
+        charging.setAdName(AdPlacements.AD_MSG);
+        charging.setAdType(Module.AD_EXPRESS);
+        charging.setChecker(new Module.Checker() {
+            @Override
+            public boolean isEnable() {
+                return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT);
+            }
+        });
+
         mModules.add(locker);
         mModules.add(charging);
+        mModules.add(sms);
     }
 
     private void systemFix() {
@@ -783,9 +794,6 @@ public class ColorPhoneApplication extends HSApplication {
         final String adName = CallAssistantManager.getInstance().getCallAssistantFactory().getCallIdleConfig().getAdPlaceName();
         boolean enable = CallAssistantSettings.isCallAssistantModuleEnabled();
         checkExpressAd(adName, enable);
-        final String smsName = MessageCenterManager.getInstance().getMessageCenterFactory().getSMSConfig().getAdPlacement();
-        checkExpressAd(smsName, MessageCenterSettings.isSMSAssistantModuleEnabled());
-
     }
 
     public static void checkChargingReportAdPlacement() {
