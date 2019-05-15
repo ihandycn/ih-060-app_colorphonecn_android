@@ -158,7 +158,9 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
                 if (type == NotificationMessageAlertActivity.DismissType.MENU_CLOSE) {
                     Analytics.logEvent("MessageAssistant_Disable", "From", "Popup");
                 }
-                Analytics.logEvent("Message_View_PopUp_Closed", "DismissType", getFormatName(type));
+                if (type != NotificationMessageAlertActivity.DismissType.ACTIVITY_DESTROY) {
+                    Analytics.logEvent("Message_View_PopUp_Closed", "DismissType", getFormatName(type));
+                }
             }
 
             private String getFormatName(NotificationMessageAlertActivity.DismissType type) {
