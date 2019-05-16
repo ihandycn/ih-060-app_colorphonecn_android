@@ -12,7 +12,6 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
-import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
@@ -213,10 +212,6 @@ public class PushManager {
             }
         });
 
-        boolean isCharging = DeviceManager.getInstance().isCharging();
-        if (isCharging) {
-            Preferences.get(Constants.DESKTOP_PREFS).putLong(Constants.PREFS_LAST_CHARGING_CHANGE, System.currentTimeMillis());
-        }
         IntentFilter powerFilter = new IntentFilter();
         powerFilter.addAction(Intent.ACTION_POWER_CONNECTED);
         powerFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);

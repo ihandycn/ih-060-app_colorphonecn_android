@@ -30,7 +30,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
-import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
@@ -38,11 +37,9 @@ import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.module.Module;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
-import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.receiver.ScreenStatusReceiver;
 import com.honeycomb.colorphone.theme.ThemeList;
-import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
@@ -249,7 +246,6 @@ public class ColorPhoneApplication extends HSApplication {
             UserSettings.setNotificationToolbarEnabled(ModuleUtils.isNotificationToolBarEnabled());
         }
 
-        NotificationManager.getInstance().showNotificationToolbarIfEnabled();
     }
 
 
@@ -332,9 +328,6 @@ public class ColorPhoneApplication extends HSApplication {
         MessageCenterManager.init(new CpMessageCenterFactoryImpl());
 
         ContactManager.init();
-
-        SystemAppsManager.getInstance().init();
-        NotificationCondition.init();
 
         Upgrader.upgrade();
         addGlobalObservers();

@@ -405,15 +405,6 @@
 
             <intent-filter>
 
-                <data
-                    android:scheme="package" />
-
-                <action
-                    android:name="android.intent.action.PACKAGE_REMOVED" />
-            </intent-filter>
-
-            <intent-filter>
-
                 <action
                     android:name="android.intent.action.QUICKBOOT_POWERON" />
 
@@ -520,10 +511,6 @@
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            </intent-filter>
-            <intent-filter>
-                <data android:scheme="package"/>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
             </intent-filter>
         </receiver>
 

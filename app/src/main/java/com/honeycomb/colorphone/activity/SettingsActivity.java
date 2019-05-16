@@ -14,16 +14,11 @@ import com.call.assistant.customize.CallAssistantSettings;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
-import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
-import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.messagecenter.customize.MessageCenterSettings;
-import com.superapps.util.Navigations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,20 +93,6 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
-
-        mModuleStates.add(new ModuleState(ModuleUtils.isNotificationToolBarEnabled(),
-                UserSettings.isNotificationToolbarEnabled(),
-                R.id.notification_toolbar_switch,
-                R.id.settings_notification_toolbar) {
-            @Override
-            public void onCheckChanged(boolean isChecked) {
-                LauncherAnalytics.logEvent("ColorPhone_Settings_Toolbar_Clicked_" +
-                        (isChecked ? "Enabled" : "Disabled"));
-                UserSettings.setNotificationToolbarEnabled(isChecked);
-                NotificationManager.getInstance().showNotificationToolbarIfEnabled();
-            }
-        });
-
         mModuleStates.add(new ModuleState(false, false,
                 R.id.setting_item_lockScreen_toggle,
                 R.id.setting_item_lockScreen) {
@@ -119,17 +100,6 @@ public class SettingsActivity extends HSAppCompatActivity {
             public void onCheckChanged(boolean isChecked) {
             }
         });
-
-        mModuleStates.add(new ModuleState(SmartAssistantUtils.isConfigEnabled(),
-                SmartAssistantUtils.isUserEnabled(),
-                R.id.setting_item_recent_apps_toggle,
-                R.id.setting_item_recent_apps) {
-            @Override
-            public void onCheckChanged(boolean isChecked) {
-                SmartAssistantUtils.setUserEnable(isChecked);
-            }
-        });
-
 
         for (final ModuleState moduleState : mModuleStates) {
             View rootView = findViewById(moduleState.itemLayoutId);
@@ -154,16 +124,6 @@ public class SettingsActivity extends HSAppCompatActivity {
 
         }
 
-        if (BoostAutoPilotUtils.isBoostPushEnable()) {
-            findViewById(R.id.setting_item_notification).setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    Intent intent = new Intent(SettingsActivity.this, NotificationSettingsActivity.class);
-                    Navigations.startActivitySafely(SettingsActivity.this, intent);
-                }
-            });
-        } else {
-            findViewById(R.id.setting_item_notification).setVisibility(View.GONE);
-        }
     }
 
     @Override
