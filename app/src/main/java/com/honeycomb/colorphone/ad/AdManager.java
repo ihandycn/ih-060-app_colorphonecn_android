@@ -1,7 +1,6 @@
 package com.honeycomb.colorphone.ad;
 
 import com.honeycomb.colorphone.Placements;
-import com.honeycomb.colorphone.resultpage.ResultPageManager;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuideTest;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
@@ -32,7 +31,7 @@ public class AdManager {
 
     public static AdManager getInstance() {
         if (sInstance == null) {
-            synchronized (ResultPageManager.class) {
+            synchronized (AdManager.class) {
                 if (sInstance == null) {
                     sInstance = new AdManager();
                 }

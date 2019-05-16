@@ -7,8 +7,6 @@ import android.content.Intent;
 
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
-import com.honeycomb.colorphone.boost.BoostAutoPilotUtils;
-import com.honeycomb.colorphone.boost.BoostPlusCleanDialog;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.commons.utils.HSLog;
 
@@ -73,12 +71,12 @@ public class NotificationActionReceiver extends BroadcastReceiver {
                             "ThemeName", themeName, "isDownloaded", String.valueOf(isMp4Downloaded));
                 }
                 break;
-            case NotificationConstants.ACTION_BOOST_PLUS:
-                BoostAutoPilotUtils.logBoostPushClicked();
-                LauncherAnalytics.logEvent("Colorphone_Push_Boost_Clicked");
-                BoostPlusCleanDialog.showBoostPlusCleanDialog(context, BoostPlusCleanDialog.CLEAN_TYPE_CLEAN_CENTER);
+//            case NotificationConstants.ACTION_BOOST_PLUS:
+//                BoostAutoPilotUtils.logBoostPushClicked();
+//                LauncherAnalytics.logEvent("Colorphone_Push_Boost_Clicked");
+//                BoostPlusCleanDialog.showBoostPlusCleanDialog(context, BoostPlusCleanDialog.CLEAN_TYPE_CLEAN_CENTER);
 //                BoostActivity.start(context, false);
-                break;
+//                break;
             default:
                 break;
         }

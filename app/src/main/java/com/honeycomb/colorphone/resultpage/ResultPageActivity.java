@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
-import com.honeycomb.colorphone.battery.BatteryUtils;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
 import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
@@ -80,60 +79,6 @@ public class ResultPageActivity extends BaseAppCompatActivity
     private static boolean sAttached;
     private int mClearNotificationsCount;
     private boolean isPaused;
-
-    public static void startForBoost(Context context, int cleanedSizeMbs) {
-        if (context == null) {
-            return;
-        }
-        Intent intent = new Intent(context, ResultPageActivity.class);
-        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BOOST_PUSH);
-        intent.putExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, cleanedSizeMbs);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
-
-    public static void startForBoostPlus(Activity activity, int cleanedSizeMbs, int resultType) {
-        if (activity == null) {
-            return;
-        }
-        Intent intent = new Intent(activity, ResultPageActivity.class);
-        intent.putExtra(EXTRA_KEY_RESULT_TYPE, resultType);
-        intent.putExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, cleanedSizeMbs);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_NEW_TASK);
-        activity.startActivity(intent);
-//        activity.overridePendingTransition(0, 0);
-    }
-
-    public static void startForBattery(Context context, boolean isBatteryOptimal, int extendHour, int extendMinute) {
-        if (context == null) {
-            return;
-        }
-
-        Intent intent = new Intent(context, ResultPageActivity.class);
-        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_BATTERY);
-        intent.putExtra(EXTRA_KEY_BATTERY_OPTIMAL, isBatteryOptimal);
-        intent.putExtra(EXTRA_KEY_BATTERY_EXTEND_HOUR, extendHour);
-        intent.putExtra(EXTRA_KEY_BATTERY_EXTEND_MINUTE, extendMinute);
-        boolean shouldStartToLauncher = BatteryUtils.shouldReturnToLauncherFromResultPage();
-        intent.putExtra(EXTRA_KEY_SHOULD_START_TO_LAUNCHER, shouldStartToLauncher);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Navigations.startActivitySafely(context, intent);
-        if (context instanceof Activity) {
-            ((Activity) context).overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
-        }
-    }
-
-    public static void startForCpuCooler(Activity activity) {
-        if (activity == null) {
-            return;
-        }
-
-        Intent intent = new Intent(activity, ResultPageActivity.class);
-        intent.putExtra(EXTRA_KEY_RESULT_TYPE, ResultConstants.RESULT_TYPE_CPU_COOLER);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.no_anim, R.anim.no_anim);
-    }
 
     public static void startForThemeRecommend(Activity activity, Type mThemeType) {
         if (activity == null) {
@@ -239,17 +184,6 @@ public class ResultPageActivity extends BaseAppCompatActivity
                 int cleanedSizeMbs = intent.getIntExtra(EXTRA_KEY_BOOST_PLUS_CLEANED_SIZE, 0);
                 mResultController = new BoostPlusResultController(this, mResultType, cleanedSizeMbs, type,  cards);
                 titleText = getString(R.string.boost_title);
-                break;
-            case ResultConstants.RESULT_TYPE_BATTERY:
-                boolean isBatteryOptimal = intent.getBooleanExtra(EXTRA_KEY_BATTERY_OPTIMAL, false);
-                int extendHour = intent.getIntExtra(EXTRA_KEY_BATTERY_EXTEND_HOUR, 0);
-                int extendMinute = intent.getIntExtra(EXTRA_KEY_BATTERY_EXTEND_MINUTE, 0);
-                mResultController = new BatteryResultController(this, isBatteryOptimal, extendHour, extendMinute, type, cards);
-                titleText = getString(R.string.battery_title);
-                break;
-            case ResultConstants.RESULT_TYPE_CPU_COOLER:
-                mResultController = new CpuCoolerResultController(this, type, cards);
-                titleText = getString(R.string.promotion_max_card_title_cpu_cooler);
                 break;
             case ResultConstants.RESULT_TYPE_THEME_RECOMMEND:
                 Type themeType = (Type) intent.getSerializableExtra(EXTRA_KEY_RECOMMEND_THEME);

@@ -30,7 +30,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
-import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
@@ -41,26 +40,21 @@ import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.news.NewsPushActivity;
 import com.honeycomb.colorphone.news.NewsTest;
 import com.honeycomb.colorphone.notification.NotificationAlarmReceiver;
-import com.honeycomb.colorphone.notification.NotificationCondition;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.receiver.ScreenStatusReceiver;
 import com.honeycomb.colorphone.theme.ThemeList;
-import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.trigger.DailyTrigger;
 import com.honeycomb.colorphone.triviatip.TriviaTip;
 import com.honeycomb.colorphone.util.ADAutoPilotUtils;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
-import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
-import com.ihs.app.utils.HSVersionControlUtils;
 import com.ihs.commons.analytics.publisher.HSPublisherMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -87,7 +81,6 @@ import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
 import net.appcloudbox.common.utils.AcbApplicationHelper;
-import net.appcloudbox.internal.service.DeviceInfo;
 import net.appcloudbox.service.AcbService;
 
 import java.io.File;
@@ -152,7 +145,6 @@ public class ColorPhoneApplication extends HSApplication {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
                 Theme.updateThemesTotally();
-                initNotificationToolbar();
                 ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
 
                 CrashGuard.updateIgnoredCrashes();
@@ -237,19 +229,6 @@ public class ColorPhoneApplication extends HSApplication {
         HSPermanentUtils.setJobSchedulePeriodic(2 * DateUtils.HOUR_IN_MILLIS);
     }
 
-    private void initNotificationToolbar() {
-        if (HSVersionControlUtils.isFirstLaunchSinceInstallation() || HSVersionControlUtils.isFirstLaunchSinceUpgrade()) {
-            UserSettings.checkNotificationToolbarToggleClicked();
-        }
-
-        if (!UserSettings.isNotificationToolbarToggleClicked()) {
-            UserSettings.setNotificationToolbarEnabled(ModuleUtils.isNotificationToolBarEnabled());
-        }
-
-        NotificationManager.getInstance().showNotificationToolbarIfEnabled();
-    }
-
-
     public static boolean isFabricInitted() {
         return isFabricInitted;
     }
@@ -330,9 +309,6 @@ public class ColorPhoneApplication extends HSApplication {
 
         ContactManager.init();
 
-        SystemAppsManager.getInstance().init();
-        NotificationCondition.init();
-
         Upgrader.upgrade();
         addGlobalObservers();
 
@@ -383,7 +359,6 @@ public class ColorPhoneApplication extends HSApplication {
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.CASHCENTER);
 
-        initNotificationToolbar();
     }
 
     private void initGoldenEye() {
