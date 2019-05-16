@@ -123,7 +123,7 @@
 
     <!-- News 2 -->
     <string name="news_push_title">新闻快报</string>
-    <string name="news_push_setting_title">接受新闻快报</string>
+    <string name="news_push_setting_title">新闻快报</string>
     <string name="welcome_guide_news_push_title">包含新闻快报</string>
     <string name="general_settings">一般设置</string>
 

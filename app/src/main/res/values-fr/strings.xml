@@ -133,7 +133,7 @@
 
     <!-- News 2 -->
     <string name="news_push_title">Actus express</string>
-    <string name="news_push_setting_title">Accepter les actus express</string>
+    <string name="news_push_setting_title">Actus express</string>
     <string name="welcome_guide_news_push_title">Inclure les actus express</string>
     <string name="general_settings">Paramètres généraux</string>
 

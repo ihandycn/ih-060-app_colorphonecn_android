@@ -137,7 +137,7 @@
 
     <!-- News 2 -->
     <string name="news_push_title">Ultime notizie</string>
-    <string name="news_push_setting_title">Accetta ultime notizie</string>
+    <string name="news_push_setting_title">Ultime notizie</string>
     <string name="welcome_guide_news_push_title">Includi ultime notizie</string>
     <string name="general_settings">Impostazioni generali</string>
 
