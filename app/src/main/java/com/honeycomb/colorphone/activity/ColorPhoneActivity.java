@@ -16,7 +16,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -241,14 +240,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         for (int i = 0; i < titles.length; i++) {
             TabLayout.Tab tab = tabLayout.newTab();
-            TextView textView = new TextView(this);
+            View view = getLayoutInflater().inflate(R.layout.tab_item_layout, null, false);
+            TextView textView = view.findViewById(R.id.tab_layout_title);
             textView.setText(titles[i]);
             Drawable icon = ResourcesCompat.getDrawable(getResources(),drawableIds[i], null);
             textView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
-            textView.setGravity(Gravity.CENTER);
-            textView.setTextSize(10);
-            textView.setTextColor(ResourcesCompat.getColorStateList(getResources(), R.color.seletor_color_tab_txt, null));
-            tab.setCustomView(textView);
+
+            tab.setCustomView(view);
             tabLayout.addTab(tab);
         }
 
@@ -269,15 +267,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.WHITE);
                     NewsManager.logNewsListShow("othertab");
 
-                    if (System.currentTimeMillis()
-                            - Preferences.get(Constants.PREF_FILE_DEFAULT).getLong(Constants.KEY_TAB_LEAVE_NEWS, 0)
-                        > 30 * DateUtils.SECOND_IN_MILLIS) {
+                    if (needUpdateNews()) {
                         if (newsLayout != null) {
                             newsLayout.refreshNews("");
                         }
                     }
                     if (newsLayout != null) {
                         newsLayout.onSelected(true);
+                    }
+
+                    View view = tab.getCustomView();
+                    if (view != null) {
+                        view.findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
                     }
                 } else {
                     toolbar.setBackgroundColor(Color.BLACK);
@@ -384,6 +385,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
             mAdapter.updateApplyInformationAutoPilotValue();
             mAdapter.markForeground(true);
+        }
+
+        if (needUpdateNews()) {
+            showNewsHint();
         }
     }
 
@@ -657,6 +662,25 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (visible != mAdapter.isTipHeaderVisible()) {
                 HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
                 mAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    public boolean isNewsTab() {
+        return tabLayout.getSelectedTabPosition() == NEWS_POSITION;
+    }
+
+    private boolean needUpdateNews() {
+        return System.currentTimeMillis()
+                - Preferences.get(Constants.PREF_FILE_DEFAULT).getLong(Constants.KEY_TAB_LEAVE_NEWS, 0)
+                > 30 * DateUtils.SECOND_IN_MILLIS;
+    }
+
+    private void showNewsHint() {
+        if (tabLayout.getSelectedTabPosition() != NEWS_POSITION) {
+            View view = tabLayout.getTabAt(NEWS_POSITION).getCustomView();
+            if (view != null) {
+                view.findViewById(R.id.tab_layout_hint).setVisibility(View.VISIBLE);
             }
         }
     }

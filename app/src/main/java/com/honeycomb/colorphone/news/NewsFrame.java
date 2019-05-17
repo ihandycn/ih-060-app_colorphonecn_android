@@ -32,7 +32,7 @@ import com.superapps.view.TypefacedTextView;
 import java.util.ArrayList;
 
 public class NewsFrame extends ConstraintLayout implements INotificationObserver {
-    static final String LOAD_NEWS_SUCCESS = "load_news_success";
+    public static final String LOAD_NEWS_SUCCESS = "load_news_success";
     static final String LOAD_NEWS_FAILED = "load_news_failed";
 
     private static final int MOVABLE_COUNT = 4;
