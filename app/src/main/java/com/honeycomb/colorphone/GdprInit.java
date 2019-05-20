@@ -9,7 +9,6 @@ public class GdprInit extends AppMainInit {
     public void onInit(HSApplication application) {
         if (!GdprUtils.isGdprNewUser() && HSGdprConsent.getConsentState() == HSGdprConsent.ConsentState.TO_BE_CONFIRMED) {
             GdprUtils.setDataUsageUserEnabled(true);
-            PushManager.getInstance().onGdprGranted();
         }
 
         HSGdprConsent.addListener(new HSGdprConsent.GDPRConsentListener() {
@@ -17,7 +16,6 @@ public class GdprInit extends AppMainInit {
             public void onGDPRStateChanged(HSGdprConsent.ConsentState oldState, HSGdprConsent.ConsentState newState) {
                 if (GdprUtils.isNeedToAccessDataUsage()) {
                     ((ColorPhoneApplication)application).initFabric();
-                    PushManager.getInstance().onGdprGranted();
                 }
                 if (!HSApplication.isMainProcess()) {
                     if (oldState == HSGdprConsent.ConsentState.ACCEPTED && newState != oldState) {

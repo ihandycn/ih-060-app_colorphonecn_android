@@ -21,6 +21,8 @@ import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
+import com.appsflyer.AFLogger;
+import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.call.assistant.customize.CallAssistantConsts;
@@ -186,7 +188,6 @@ public class ColorPhoneApplication extends HSApplication {
                 ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
 
                 CrashGuard.updateIgnoredCrashes();
-                PushManager.getInstance().onConfigChanged();
                 NotificationCondition.getsInstance().onConfigChange();
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
@@ -246,6 +247,8 @@ public class ColorPhoneApplication extends HSApplication {
     @DebugLog
     @Override
     public void onCreate() {
+        initAppFlyer();
+
         super.onCreate();
         systemFix();
         mAppInitList.add(new GdprInit());
@@ -362,6 +365,14 @@ public class ColorPhoneApplication extends HSApplication {
         }, TIME_NEED_LOW);
     }
 
+    private void initAppFlyer() {
+        AppsFlyerLib.getInstance().setLogLevel(BuildConfig.DEBUG ? AFLogger.LogLevel.DEBUG : AFLogger.LogLevel.ERROR);
+        AppsFlyerLib.getInstance().setDebugLog(BuildConfig.DEBUG);
+        AppsFlyerLib.getInstance().setCollectIMEI(true);
+        AppsFlyerLib.getInstance().setCollectAndroidID(true);
+        AppsFlyerLib.getInstance().setOutOfStore(ChannelInfoUtil.getStore(this));
+    }
+
     private void checkChargingOrLocker() {
         if (ChargingReportUtils.isScreenOn()) {
             return;
@@ -398,8 +409,6 @@ public class ColorPhoneApplication extends HSApplication {
                 appInit.onInit(this);
             }
         }
-
-        PushManager.getInstance().init();
 
         // Only restore tasks here.
         TasksManager.getImpl().init();
