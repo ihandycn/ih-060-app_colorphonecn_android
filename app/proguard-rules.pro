@@ -33,6 +33,9 @@
 #-keep public class * extends android.app.backup.BackupAgentHelper
 #-keep public class * extends android.preference.Preference
 
+#-obfuscationdictionary ../proguard-ihandy/dict/dict_1.txt
+#-classobfuscationdictionary ../proguard-ihandy/dict/dict_1.txt
+
 -keep class com.honeycomb.colorphone.activity.WelcomeActivity {
   *;
 }
@@ -223,4 +226,22 @@
 -keep class org.conscrypt.** {*;}
 -keep class android.os.SystemProperties {*;}
 -keep class dalvik.system.VMStack {*;}
+
+# Remove logs
+-assumenosideeffects class com.ihs.commons.utils.HSLog {
+    public static void v(...);
+    public static void d(...);
+    public static void i(...);
+    public static void w(...);
+    public static void e(...);
+    public static void pt(...);
+}
+
+# Remove logs
+-assumenosideeffects class android.util.Log {
+    public static *** v(...);
+    public static *** i(...);
+    public static *** d(...);
+    public static *** w(...);
+}
 

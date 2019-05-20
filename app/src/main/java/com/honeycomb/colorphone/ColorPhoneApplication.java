@@ -46,6 +46,7 @@ import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.cmgame.CmGameUtil;
+import com.honeycomb.colorphone.cmgame.GameInit;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
@@ -249,6 +250,7 @@ public class ColorPhoneApplication extends HSApplication {
         systemFix();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
+        mAppInitList.add(new GameInit());
         onAllProcessCreated();
 
         String packageName = getPackageName();
@@ -471,7 +473,7 @@ public class ColorPhoneApplication extends HSApplication {
         logUserLevelDistribution();
 
         watchLifeTimeAutopilot();
-        CmGameUtil.initGame(this);
+
     }
 
     private void watchLifeTimeAutopilot() {
