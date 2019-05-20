@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/main_root_layout"
+<RelativeLayout android:id="@+id/main_root_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -32,16 +32,17 @@
     <com.honeycomb.colorphone.view.ViewPagerFixed
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         app:tabBackground="@drawable/tab_background"
-        app:tabIndicatorHeight="0dp"
         app:tabGravity="fill"
+        app:tabIndicatorHeight="0dp"
         app:tabMode="fixed" />
-</LinearLayout>
+</RelativeLayout>

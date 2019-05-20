@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.WatchedScrollListener;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.config.HSConfig;
@@ -132,7 +133,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
         divider.setDrawable(getResources().getDrawable(R.drawable.news_divider));
         newsList.addItemDecoration(divider);
 
-        newsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        newsList.addOnScrollListener(new WatchedScrollListener() {
             int lastVisibleItem ;
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

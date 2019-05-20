@@ -64,6 +64,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 
@@ -156,6 +157,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private MainTabAdapter mTabAdapter;
     private Toolbar toolbar;
     private TabLayout tabLayout;
+    private TabTransController tabTransController;
     private View gameIcon;
 
     @DebugLog
@@ -250,7 +252,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void initTab() {
         tabLayout = findViewById(R.id.tab_layout);
-
+        tabTransController = new TabTransController(tabLayout);
         for (int i = 0; i < titles.length; i++) {
             TabLayout.Tab tab = tabLayout.newTab();
             TextView textView = new TextView(this);
@@ -388,6 +390,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         if (tabLayout != null) {
             updateTitle(tabLayout.getSelectedTabPosition());
+        }
+
+        if (tabTransController != null) {
+            tabTransController.showNow();
         }
 
         if (mAdapter != null) {
@@ -559,6 +565,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         if (mRewardVideoView != null) {
             mRewardVideoView.onCancel();
+        }
+
+        if (tabTransController != null) {
+            tabTransController.release();
         }
         ConfigChangeManager.getInstance().removeCallback(configChangeCallback);
 
@@ -734,6 +744,69 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         @Override
         public CharSequence getPageTitle(int position) {
             return super.getPageTitle(position);
+        }
+    }
+
+    private static class TabTransController implements INotificationObserver {
+        private static final int TRANS_TRIGGER_Y = Dimensions.pxFromDp(24);
+        private View mTab;
+        int totalDy = 0;
+        boolean upScrolled = false;
+        TabTransController(View tabView) {
+            mTab = tabView;
+            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED,this);
+        }
+
+        private void onInnerListScrollChange(int state, int dy) {
+            if (state == RecyclerView.SCROLL_STATE_DRAGGING) {
+                totalDy += dy;
+                if (Math.abs(totalDy) >= TRANS_TRIGGER_Y) {
+                    boolean upScroll = totalDy > 0;
+                    boolean changed = upScrolled != upScroll;
+                    if (changed) {
+                        upScrolled = upScroll;
+                        updateTabVisibility(upScroll);
+                    }
+                }
+            } else {
+                totalDy = 0;
+            }
+        }
+
+        private void updateTabVisibility(boolean upScroll) {
+            if (upScroll) {
+                hide();
+            } else {
+                show();
+            }
+        }
+
+        private void hide() {
+            mTab.animate().translationY(mTab.getHeight()).setDuration(200).start();
+        }
+
+        private void showNow() {
+            mTab.setTranslationY(0);
+        }
+
+        private void show() {
+            if (mTab.getTranslationY() == 0) {
+                return;
+            }
+            mTab.animate().translationY(0).setDuration(200).start();
+        }
+
+        private void release() {
+            HSGlobalNotificationCenter.removeObserver(this);
+        }
+
+        @Override
+        public void onReceive(String s, HSBundle hsBundle) {
+            if (hsBundle != null) {
+                int state = hsBundle.getInt("state", RecyclerView.SCROLL_STATE_IDLE);
+                int dy = hsBundle.getInt("dy", 0);
+                onInnerListScrollChange(state, dy);
+            }
         }
     }
 
