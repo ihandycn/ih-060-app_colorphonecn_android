@@ -268,6 +268,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            int lastPosition = -1;
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int pos = tab.getPosition();
@@ -293,11 +294,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     if (newsLayout != null) {
                         newsLayout.onSelected(true);
                     }
+                    updateTabStyle(true);
                 } else {
-                    toolbar.setBackgroundColor(Color.BLACK);
-                    toolbar.setTitleTextColor(Color.WHITE);
-                    ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.BLACK);
-
+                    if (lastPosition == NEWS_POSITION || lastPosition == -1) {
+                        toolbar.setBackgroundColor(Color.BLACK);
+                        toolbar.setTitleTextColor(Color.WHITE);
+                        ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.BLACK);
+                        updateTabStyle(false);
+                    }
                     if (newsLayout != null) {
                         newsLayout.onSelected(false);
                     }
@@ -318,6 +322,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     default:
                         break;
                 }
+
+                lastPosition = pos;
 
             }
 
@@ -340,6 +346,28 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
+    }
+
+    private void updateTabStyle(boolean reverseColor) {
+        int colorRes = reverseColor ? R.color.colorPrimaryReverse : R.color.colorPrimary;
+        int tabBgRes = reverseColor ? R.drawable.tab_background_reverse : R.drawable.tab_background;
+        tabLayout.setBackgroundColor(getResources().getColor(colorRes));
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            View customView = tabLayout.getTabAt(i).getCustomView();
+            if (customView != null) {
+                if (i == NEWS_POSITION) {
+                    // Change TextColor
+                    TextView textView = (TextView) customView;
+                    if (reverseColor) {
+                        textView.setTextColor(ResourcesCompat.getColor(getResources(), R.color.black_90_transparent, null));
+                    } else {
+                        textView.setTextColor(ResourcesCompat.getColorStateList(getResources(), R.color.seletor_color_tab_txt, null));
+                    }
+                }
+                View parent = (View) customView.getParent();
+                parent.setBackgroundResource(tabBgRes);
+            }
+        }
     }
 
     private void updateTitle(int pos) {

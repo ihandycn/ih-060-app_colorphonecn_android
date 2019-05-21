@@ -131,7 +131,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
-            android:excludeFromRecents="true"
             android:theme="@style/AppLightStatusBarTheme">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
@@ -500,7 +499,7 @@
 
         <activity android:name="com.cmcm.cmgame.activity.H5GameActivity"
             android:taskAffinity=".game"
-            tools:replace="android:excludeFromRecents,android:taskAffinity"/>
+            tools:replace="android:taskAffinity"/>
 
         <activity
             android:name=".activity.StartGuideActivity"
