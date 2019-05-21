@@ -187,6 +187,8 @@
 
 -dontwarn com.ihs.affiliateads.**
 
+-keep class com.honeycomb.colorphone.util.ActivityUtils { *; }
+
 # ========== Umeng ===============
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);

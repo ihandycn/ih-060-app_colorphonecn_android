@@ -23,7 +23,11 @@ import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.InsettableFrameLayout;
 import com.ihs.app.framework.HSApplication;
+import com.superapps.util.Compats;
 import com.superapps.util.Dimensions;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class ActivityUtils {
     private static final int DEFAULT_NAVIGATION_BAR_COLOR = Color.BLACK;
@@ -51,8 +55,14 @@ public class ActivityUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decor = activity.getWindow().getDecorView();
             if (isLightColor) {
+                if (Compats.IS_XIAOMI_DEVICE) {
+                    setStatusBarDarkModeXiaomi(true, activity.getWindow());
+                }
                 decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             } else {
+                if (Compats.IS_XIAOMI_DEVICE) {
+                    setStatusBarDarkModeXiaomi(false, activity.getWindow());
+                }
                 decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             }
         }
@@ -328,4 +338,21 @@ public class ActivityUtils {
         }
         return false;
     }
+
+    public static boolean setStatusBarDarkModeXiaomi(boolean darkmode, Window window) {
+        Class<? extends Window> clazz = window.getClass();
+        try {
+            int darkModeFlag = 0;
+            Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+            Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
+            darkModeFlag = field.getInt(layoutParams);
+            Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
+            extraFlagField.invoke(window, darkmode ? darkModeFlag : 0, darkModeFlag);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
