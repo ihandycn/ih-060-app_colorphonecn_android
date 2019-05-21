@@ -21,5 +21,8 @@ public class WatchedScrollListener extends RecyclerView.OnScrollListener {
         scrollData.putInt("dx", dx);
         scrollData.putInt("dy", dy);
         HSGlobalNotificationCenter.sendNotification(Constants.NOTIFY_KEY_LIST_SCROLLED, scrollData);
+        if (!recyclerView.canScrollVertically(-1)) {
+            HSGlobalNotificationCenter.sendNotification(Constants.NOTIFY_KEY_LIST_SCROLLED_TOP);
+        }
     }
 }

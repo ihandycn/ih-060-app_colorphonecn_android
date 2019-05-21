@@ -359,7 +359,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (customView != null) {
                 if (i == NEWS_POSITION) {
                     // Change TextColor
-                    TextView textView = (TextView) customView;
+                    TextView textView = (TextView) customView.findViewById(R.id.tab_layout_title);
                     if (reverseColor) {
                         textView.setTextColor(ResourcesCompat.getColor(getResources(), R.color.black_90_transparent, null));
                     } else {
@@ -803,18 +803,25 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static class TabTransController implements INotificationObserver {
         private static final int TRANS_TRIGGER_Y = Dimensions.pxFromDp(24);
         private View mTab;
-        int totalDy = 0;
+        int distance = 0;
+        int totalDraggingDy = 0;
         boolean upScrolled = false;
         TabTransController(View tabView) {
             mTab = tabView;
             HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED,this);
+            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED_TOP,this);
         }
 
         private void onInnerListScrollChange(int state, int dy) {
             if (state == RecyclerView.SCROLL_STATE_DRAGGING) {
-                totalDy += dy;
-                if (Math.abs(totalDy) >= TRANS_TRIGGER_Y) {
-                    boolean upScroll = totalDy > 0;
+                // Direction changed.
+                if (totalDraggingDy * dy < 0) {
+                    totalDraggingDy = 0;
+                }
+
+                totalDraggingDy += dy;
+                if (Math.abs(totalDraggingDy) >= TRANS_TRIGGER_Y) {
+                    boolean upScroll = totalDraggingDy > 0;
                     boolean changed = upScrolled != upScroll;
                     if (changed) {
                         upScrolled = upScroll;
@@ -822,7 +829,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     }
                 }
             } else {
-                totalDy = 0;
+                totalDraggingDy = 0;
             }
         }
 
@@ -855,10 +862,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         @Override
         public void onReceive(String s, HSBundle hsBundle) {
-            if (hsBundle != null) {
-                int state = hsBundle.getInt("state", RecyclerView.SCROLL_STATE_IDLE);
-                int dy = hsBundle.getInt("dy", 0);
-                onInnerListScrollChange(state, dy);
+            if (Constants.NOTIFY_KEY_LIST_SCROLLED.equals(s)) {
+                if (hsBundle != null) {
+                    int state = hsBundle.getInt("state", RecyclerView.SCROLL_STATE_IDLE);
+                    int dy = hsBundle.getInt("dy", 0);
+                    onInnerListScrollChange(state, dy);
+                }
+            } else if (Constants.NOTIFY_KEY_LIST_SCROLLED_TOP.equals(s)) {
+                HSLog.d("TabTransController", "Scrolled to Top!");
+                show();
             }
         }
     }
