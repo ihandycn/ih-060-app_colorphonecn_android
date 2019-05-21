@@ -23,6 +23,8 @@
             android:background="@drawable/wallpaper_item_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="@dimen/theme_card_margin_horizontal"
+            android:layout_marginRight="@dimen/theme_card_margin_horizontal"
             app:layout_constraintVertical_bias="1.0"
             tools:layout_editor_absoluteX="0dp" />
 

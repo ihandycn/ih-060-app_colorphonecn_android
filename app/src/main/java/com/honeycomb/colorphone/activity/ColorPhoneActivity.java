@@ -250,6 +250,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     };
 
     private void initTab() {
+        final int colorPrimary = ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null);
         tabLayout = findViewById(R.id.tab_layout);
         tabTransController = new TabTransController(tabLayout);
         for (int i = 0; i < titles.length; i++) {
@@ -278,7 +279,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 updateTitle(pos);
                 if (pos == NEWS_POSITION) {
                     toolbar.setBackgroundColor(Color.WHITE);
-                    toolbar.setTitleTextColor(Color.BLACK);
+                    toolbar.setTitleTextColor(colorPrimary);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.WHITE);
                     NewsManager.logNewsListShow("othertab");
 
@@ -299,9 +300,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 } else {
                     if (lastPosition == NEWS_POSITION || lastPosition == -1) {
-                        toolbar.setBackgroundColor(Color.BLACK);
+                        toolbar.setBackgroundColor(colorPrimary);
                         toolbar.setTitleTextColor(Color.WHITE);
-                        ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.BLACK);
+                        ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, colorPrimary);
                         updateTabStyle(false);
                     }
                     if (newsLayout != null) {

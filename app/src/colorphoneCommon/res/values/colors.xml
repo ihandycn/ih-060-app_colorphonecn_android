@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorWindowBackground">#060514</color>
-    <color name="colorPrimary">#060514</color>
+    <color name="colorWindowBackground">#14131F</color>
+    <color name="colorPrimary">#14131F</color>
     <color name="colorPrimaryReverse">@color/white</color>
     <!--TODO: 等待暗黑新主题颜色-->
     <color name="colorPrimaryTemp">#0d0d0d</color>
