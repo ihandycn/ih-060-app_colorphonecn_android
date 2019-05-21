@@ -22,6 +22,7 @@ import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.WatchedScrollListener;
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.commons.config.HSConfig;
@@ -148,7 +149,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                             NewsManager.getInstance().fetchLaterNews(newsResource, NewsPage.this, isVideo);
                             NewsManager.logNewsListShow("LoadMore");
                         } else {
-                            Toasts.showToast(R.string.news_network_failed_toast);
+                            showToast(R.string.news_network_failed_toast);
                         }
                     }
                 }
@@ -195,7 +196,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             NewsManager.getInstance().fetchNews(newsResource, this, isVideo);
             NewsManager.logNewsListShow(from);
         } else {
-            Toasts.showToast(R.string.news_network_failed_toast);
+            showToast(R.string.news_network_failed_toast);
         }
     }
 
@@ -208,16 +209,16 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
             String newContentID = bean.articlesList.get(0).recoid;
             if (newsPages.isRefreshing()) {
                 if (TextUtils.equals(newContentID, lastNewsContentID)) {
-                    Toasts.showToast(R.string.news_no_news_update);
+                    showToast(R.string.news_no_news_update);
                 } else {
                     if (size > 0) {
-                        Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
+                        showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
                     }
                     newsList.scrollToPosition(0);
                 }
             } else {
                 if (size > 0) {
-                    Toasts.showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
+                    showToast(String.format(getResources().getString(R.string.news_news_update), String.valueOf(size)));
                 }
             }
             lastNewsContentID = newContentID;
@@ -277,6 +278,22 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                 doWhenSelectedTask.run();
             }
             mSelectedRunnable.clear();
+        }
+    }
+
+    private void showToast(int toast) {
+        if (getContext() instanceof ColorPhoneActivity) {
+            if (((ColorPhoneActivity) getContext()).isNewsTab()){
+                Toasts.showToast(toast);
+            }
+        }
+    }
+
+    private void showToast(String toast) {
+        if (getContext() instanceof ColorPhoneActivity) {
+            if (((ColorPhoneActivity) getContext()).isNewsTab()){
+                Toasts.showToast(toast);
+            }
         }
     }
 
@@ -622,7 +639,7 @@ public class NewsPage extends SwipeRefreshLayout implements NewsManager.NewsLoad
                     "NewsType", (type == NewsAdapter.NEWS_TYPE_VIDEO ? "Video" : "News") );
         } else {
             Analytics.logEvent("Network_Connection_Failed", Analytics.FLAG_LOG_FABRIC | Analytics.FLAG_LOG_UMENG);
-            Toasts.showToast(R.string.news_network_failed_toast);
+            showToast(R.string.news_network_failed_toast);
         }
     }
 }

@@ -42,19 +42,13 @@ public class ModuleUtils {
     public static boolean isModuleConfigEnabled(String moduleKey) {
 
         if (AUTO_SMS_KEY_ASSISTANT.equals(moduleKey)) {
-            if (Utils.installVersionAfter(38)) {
-                return false;
-            }
-
-            return isShowModulesDueToConfig() ||
-                    (HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable"));
+            return (HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable"));
         } else if (AUTO_KEY_GUIDE_START.equals(moduleKey)) {
             return  HSConfig.optBoolean(false, "Application", "Guide", "StartGuideEnable");
         } else if (AUTO_KEY_APPLY_FINISH.equals(moduleKey)) {
             return HSConfig.optBoolean(false, "Application", "Guide", "ApplyFinishGuideEnable");
         } else if (AUTO_KEY_CALL_ASSISTANT.equals(moduleKey)) {
-            return isShowModulesDueToConfig() ||
-                    (HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "Enable"));
+            return (HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "Enable"));
         }
         return false;
     }
@@ -68,15 +62,6 @@ public class ModuleUtils {
         }
         return false;
     }
-
-    public static boolean isShowModulesDueToConfig() {
-
-        if (HSApplication.getContext().getPackageName().equals("com.colorphone.smooth.dialer")) {
-            return HSApplication.getFirstLaunchInfo().appVersionCode < SHOW_AD_VERSION_CODE;
-        }
-        return false;
-    }
-
     public static void setAllModuleUserEnable() {
         MessageCenterSettings.setSMSAssistantModuleEnabled(true);
         CallAssistantSettings.setCallAssistantModuleEnabled(true);

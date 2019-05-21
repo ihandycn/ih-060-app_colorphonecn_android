@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.boost.AppInfo;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
-import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -147,7 +146,7 @@ public class SmartAssistantUtils {
     }
 
     public static boolean isConfigEnabled() {
-        return ModuleUtils.isShowModulesDueToConfig() || HSConfig.optBoolean(DEFAULT_CONFIG_ENABLED, "Application", "RecentApps", "Recent_Apps_Enable");
+        return  HSConfig.optBoolean(DEFAULT_CONFIG_ENABLED, "Application", "RecentApps", "Recent_Apps_Enable");
     }
 
     public static boolean isShowOnlyOnDesktop() {
