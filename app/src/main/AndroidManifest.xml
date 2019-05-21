@@ -625,6 +625,23 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/cmgamesdk_file_paths" />
         </provider>
+
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTLandingPageActivity"
+            android:excludeFromRecents="true"
+             />
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTVideoLandingPageActivity"
+            android:excludeFromRecents="true"
+            />
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTRewardVideoActivity"
+            android:excludeFromRecents="true"
+            />
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTFullScreenVideoActivity"
+            android:excludeFromRecents="true"
+            />
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
