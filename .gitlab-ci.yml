@@ -21,6 +21,7 @@ build_colorphone:
   -   cp app/build/outputs/apk/colorphone/release/*.apk outputs/
   -   cp app/build/outputs/mapping/colorphone/release/mapping.txt outputs/
   -   cp app/build/intermediates/assets/colorphone/release/HSRemoteConfig.sp outputs/
+  -   cp app/build/intermediates/assets/colorphone/release/alerts.sp outputs/
   - fi
   only:
     variables:
@@ -31,6 +32,7 @@ build_colorphone:
     - outputs/*.apk
     - outputs/mapping.txt
     - outputs/HSRemoteConfig.sp
+    - outputs/alerts.sp
 
     expire_in: 1 week
   tags:
@@ -55,6 +57,7 @@ build_colorflash:
   -   cp app/build/outputs/apk/colorflash/release/*.apk outputs/
   -   cp app/build/outputs/mapping/colorflash/release/mapping.txt outputs/
   -   cp app/build/intermediates/assets/colorflash/release/HSRemoteConfig.sp outputs/
+  -   cp app/build/intermediates/assets/colorflash/release/alerts.sp outputs/
   - fi
   only:
     variables:
@@ -65,6 +68,7 @@ build_colorflash:
     - outputs/*.apk
     - outputs/mapping.txt
     - outputs/HSRemoteConfig.sp
+    - outputs/alerts.sp
 
     expire_in: 1 week
   tags:
