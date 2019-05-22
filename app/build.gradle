@@ -158,6 +158,20 @@ android {
         tasks.named("merge${variant.name.capitalize()}Resources").configure { mergeResourceTask ->
             mergeResourceTask.outputs.upToDateWhen { false }
         }
+
+        def taskMiddleName = variant.variantData.name.capitalize()
+        def flavor = variant.flavorName
+        // For all launcher builds: perform plist -> pa conversion before merge{Variant}Assets tasks
+        Task mergeAssets = tasks.findByName("merge${taskMiddleName}Assets")
+        Task encodePlistArchives = tasks.create(name: "encode${taskMiddleName}PlistArchives",
+                type: Exec,
+                group: 'Color Phone',
+                description: 'Perform plist -> pa conversion before merge{Variant}Assets tasks.') {
+            commandLine '../plist-conv.sh', flavor
+            mergeAssets.outputs.upToDateWhen { false }
+            // Clear mergeAssets task UP-TO-DATE status to force a re-run
+        }
+        mergeAssets.dependsOn encodePlistArchives
     }
 }
 
@@ -256,20 +270,6 @@ dependencies {
 
     implementation 'com.appsflyer:af-android-sdk:4.9.0'
 
-
-    def taskMiddleName = variant.variantData.name.capitalize()
-    def flavor = variant.flavorName
-    // For all launcher builds: perform plist -> pa conversion before merge{Variant}Assets tasks
-    Task mergeAssets = tasks.findByName("merge${taskMiddleName}Assets")
-    Task encodePlistArchives = tasks.create(name: "encode${taskMiddleName}PlistArchives",
-            type: Exec,
-            group: 'Color Phone',
-            description: 'Perform plist -> pa conversion before merge{Variant}Assets tasks.') {
-        commandLine '../plist-conv.sh', flavor
-        mergeAssets.outputs.upToDateWhen { false }
-        // Clear mergeAssets task UP-TO-DATE status to force a re-run
-    }
-    mergeAssets.dependsOn encodePlistArchives
 }
 
 // ADD THIS AT THE BOTTOM
