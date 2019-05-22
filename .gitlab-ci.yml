@@ -56,8 +56,8 @@ build_yingyongbao:
   -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
   -   cp app/build/outputs/apk/colorphoneYingyongbao/release/*.apk outputs/
   -   cp app/build/outputs/mapping/colorphoneYingyongbao/release/mapping.txt outputs/
-  -   cp app/build/intermediates/assets/colorphoneJinritoutiao/release/HSRemoteConfig.sp outputs/
-  -   cp app/build/intermediates/assets/colorphoneJinritoutiao/release/alerts.sp outputs/
+  -   cp app/build/intermediates/assets/colorphoneYingyongbao/release/HSRemoteConfig.sp outputs/
+  -   cp app/build/intermediates/assets/colorphoneYingyongbao/release/alerts.sp outputs/
   - fi
   only:
     variables:
