@@ -40,7 +40,6 @@ import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.PopularThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
-import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -48,7 +47,6 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.framework.HSApplication;
@@ -61,7 +59,6 @@ import com.ihs.commons.utils.HSPreferenceHelper;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Threads;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -254,7 +251,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             HSLog.d(TAG, "onCreateViewHolder : type " + viewType);
         }
         if ((viewType & THEME_TYPE_MASK) == viewType) {
-            View cardViewContent = activity.getLayoutInflater().inflate(R.layout.card_view_theme_selector, null);
+            View cardViewContent = activity.getLayoutInflater().inflate(R.layout.card_view_theme_selector, parent, false);
 
             final ThemeCardViewHolder holder = new ThemeCardViewHolder(cardViewContent);
             // Theme
@@ -467,17 +464,17 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     theme.getIdName().toLowerCase(),
                     ConfigLog.FROM_LIST);
 
-            Threads.postOnThreadPoolExecutor(new Runnable() {
-                @Override
-                public void run() {
-                    if (RingtoneHelper.isActive(theme.getId())) {
-                        RingtoneHelper.setDefaultRingtone(theme);
-                        ContactManager.getInstance().updateRingtoneOnTheme(theme, true);
-                    } else {
-                        RingtoneHelper.resetDefaultRingtone();
-                    }
-                }
-            });
+//            Threads.postOnThreadPoolExecutor(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (RingtoneHelper.isActive(theme.getId())) {
+//                        RingtoneHelper.setDefaultRingtone(theme);
+//                        ContactManager.getInstance().updateRingtoneOnTheme(theme, true);
+//                    } else {
+//                        RingtoneHelper.resetDefaultRingtone();
+//                    }
+//                }
+//            });
         }
     }
 

@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.honeycomb.colorphone.view.FixRatioPreviewWindow android:id="@+id/card_view"
+    style="@style/RatioView.Container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipChildren="false">
+    android:layout_height="wrap_content">
 
-    <include
-        android:id="@+id/card_view"
-        layout="@layout/card_layout_preview_clean"
-        android:visibility="visible"
-        tools:visibility="invisible" />
+    <com.honeycomb.colorphone.view.RatioImageView
+        android:id="@+id/card_preview_img"
+        style="@style/RatioView.Image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <com.acb.call.views.ThemePreviewWindow
+        android:id="@+id/card_flash_preview_window"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:enableContactLayout="false" />
+
+    <ImageView
+        android:id="@+id/place_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/theme_loading_holder"
+        android:visibility="invisible" />
+
+    <include layout="@layout/lock_action_view_layout" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,8 +51,8 @@
             android:layout_height="19dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -81,8 +100,6 @@
             android:id="@+id/action_view_container"
             android:layout_width="63dp"
             android:layout_height="35dp"
-            android:layout_marginEnd="@dimen/theme_card_margin_horizontal"
-            android:layout_marginRight="@dimen/theme_card_margin_horizontal"
             android:clickable="false"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@id/like_count_icon"
@@ -95,23 +112,29 @@
 
 
         </FrameLayout>
+
+
+        <ImageView
+            android:id="@+id/theme_hot_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/theme_card_badge_hot"
+            android:visibility="visible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/theme_ringtone_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_ringtone_badge"
+            android:visibility="visible"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </android.support.constraint.ConstraintLayout>
 
 
-    <ImageView
-        android:id="@+id/theme_hot_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start|top"
-        android:src="@drawable/theme_card_badge_hot"
-        android:visibility="visible" />
+</com.honeycomb.colorphone.view.FixRatioPreviewWindow>
 
-    <ImageView
-        android:id="@+id/theme_ringtone_mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|top"
-        android:src="@drawable/ic_ringtone_badge"
-        android:visibility="visible" />
 
-</FrameLayout>

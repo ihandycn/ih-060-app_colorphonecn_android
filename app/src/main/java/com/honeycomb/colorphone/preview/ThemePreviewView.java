@@ -24,7 +24,6 @@ import android.view.ViewStub;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -36,7 +35,6 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
-import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
@@ -540,13 +538,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
                 }
                 RingtoneHelper.ringtoneActive(mTheme.getId(), true);
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRingtoneViewHolder.toastLimit(isCurrentTheme);
-                    }
-                }, 1000);
-
                 mRingtoneViewHolder.selectNoAnim();
 
                 if (resumed) {
@@ -1293,14 +1284,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private class RingtoneViewHolder {
         private View imageView;
-        private LottieAnimationView mLottieAnimationView;
-        private TextView toastView;
         private int helloTimes = 0;
 
         public RingtoneViewHolder() {
             imageView = findViewById(R.id.ringtone_image);
-            mLottieAnimationView = findViewById(R.id.ringtone_lottie_open);
-            toastView = findViewById(R.id.ringtone_toast);
 
             imageView.setOnClickListener(new OnClickListener() {
                 @Override
@@ -1308,59 +1295,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     toggle();
                 }
             });
-        }
-
-        private void showToast(boolean afterApply) {
-            HSLog.d("Ringtone", "start showToast");
-            String txt = getContext().getString(afterApply ? R.string.ringtone_hint_after_apply : R.string.ringtone_hint_before_apply);
-            toastView.setVisibility(VISIBLE);
-            toastView.setText(txt);
-            toastView.setAlpha(0.1f);
-            toastView.setScaleX(0.1f);
-            toastView.setScaleY(0.1f);
-            toastView.post(new Runnable() {
-                @Override
-                public void run() {
-                    toastView.setPivotX(Math.max(toastView.getWidth(), Utils.pxFromDp(64)));
-                    toastView.setPivotY(toastView.getHeight() * 0.4f);
-                }
-            });
-
-            toastView.animate().scaleX(1f).scaleY(1f).alpha(1f)
-                    .setDuration(400)
-                    .setInterpolator(new OvershootInterpolator())
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            toastView.setAlpha(1f);
-                            toastView.setScaleX(1f);
-                            toastView.setScaleY(1f);
-                        }
-                    })
-                    .start();
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    HSLog.d("Ringtone", "hide Toast");
-                    toastView.animate().alpha(0).setDuration(500).setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            toastView.setVisibility(GONE);
-                        }
-                    });
-                }
-            }, 3000);
-
-        }
-
-        private void toastLimit(final boolean currentTheme) {
-            Utils.doLimitedTimes(new Runnable() {
-                @Override
-                public void run() {
-                    showToast(currentTheme);
-                }
-            }, currentTheme ? "ringtone_toast_active" : "ringtone_toast_need_apply", 1);
-
         }
 
         private void toggle() {
@@ -1389,7 +1323,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             } else {
                 selectAnim();
                 startRingtone();
-                toastLimit(isCurrentTheme());
 
                 Threads.postOnThreadPoolExecutor(new Runnable() {
                     @Override
@@ -1406,46 +1339,23 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         private void hide() {
-            mLottieAnimationView.setVisibility(View.INVISIBLE);
             imageView.setVisibility(INVISIBLE);
             imageView.setEnabled(false);
         }
 
         private void disable() {
-            mLottieAnimationView.setVisibility(View.INVISIBLE);
             imageView.setVisibility(VISIBLE);
             imageView.setEnabled(false);
         }
 
         private void hello() {
-            mLottieAnimationView.setVisibility(View.VISIBLE);
-            mLottieAnimationView.setAnimation("lottie/ringtone_hello.json");
-            mLottieAnimationView.playAnimation();
-            imageView.setVisibility(INVISIBLE);
-            mLottieAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
 
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    helloTimes ++;
-                    if (helloTimes >= 2) {
-                        imageView.setVisibility(VISIBLE);
-                        mLottieAnimationView.setVisibility(INVISIBLE);
-                        mLottieAnimationView.setAnimation("lottie/ringtone_open.json", LottieAnimationView.CacheStrategy.Strong);
-                    } else {
-                        mHandler.sendEmptyMessage(MSG_RINGTONE_HELLO);
-                    }
-                }
-            });
         }
 
         private void unSelect() {
             imageView.setVisibility(VISIBLE);
             imageView.setEnabled(true);
             imageView.setActivated(false);
-            mLottieAnimationView.setVisibility(View.INVISIBLE);
         }
 
         private boolean isSelect() {
@@ -1464,24 +1374,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             imageView.setVisibility(VISIBLE);
             imageView.setEnabled(true);
             imageView.setActivated(true);
-            if (anim) {
-                mLottieAnimationView.setVisibility(View.VISIBLE);
-                mLottieAnimationView.setAnimation("lottie/ringtone_open.json", LottieAnimationView.CacheStrategy.Strong);
-                mLottieAnimationView.playAnimation();
-                HSLog.d("Ringtone", "Animation [open] call play()");
-                imageView.setVisibility(INVISIBLE);
 
-                mLottieAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        imageView.setVisibility(VISIBLE);
-                        mLottieAnimationView.setVisibility(INVISIBLE);
-                    }
-                });
-            } else {
-                mLottieAnimationView.setVisibility(View.INVISIBLE);
-            }
         }
 
 

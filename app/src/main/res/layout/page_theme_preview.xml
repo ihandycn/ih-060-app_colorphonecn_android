@@ -61,13 +61,6 @@
             android:layout_gravity="right|end|center_vertical"
             android:background="@drawable/ringtone_state_selector" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/ringtone_lottie_open"
-            android:layout_width="@dimen/ringtone_btn_width"
-            android:layout_height="@dimen/ringtone_btn_height"
-            android:layout_gravity="right|end|center_vertical"
-            app:lottie_loop="false"
-            app:lottie_progress="0" />
     </FrameLayout>
 
     <ProgressBar
