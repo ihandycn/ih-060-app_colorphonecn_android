@@ -181,7 +181,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         super.onResume();
         for (ThemePreviewView previewView : mViews) {
             previewView.setBlockAnimationForPageChange(false);
-            previewView.onStart();
+            if (previewView.isSelectedPos()) {
+                previewView.onStart();
+            }
         }
 
 
@@ -191,7 +193,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     protected void onPause() {
         super.onPause();
         for (ThemePreviewView previewView : mViews) {
-            previewView.onStop();
+            if (previewView.isSelectedPos()) {
+                previewView.onStop();
+            }
         }
     }
 

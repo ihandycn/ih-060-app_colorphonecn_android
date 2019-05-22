@@ -167,14 +167,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
      */
     private boolean mBlockAnimationForPageChange = true;
     private boolean hasStopped;
-
-    /**
-     * If Ringtone file ready, theme file is downloading, wait.
-     */
-    private boolean waitingForThemeReady = false;
     private boolean resumed;
 
     private long startDownloadTime;
+
+    private int mWaitMediaReadyCount = 0;
+    private ProgressHelper mProgressHelper = new ProgressHelper();
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -224,7 +222,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            playDownloadOkTransAnimation();
+            if (triggerMediaReady()) {
+                playDownloadOkTransAnimation();
+            }
         }
 
         @Override
@@ -238,14 +238,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public void updateDownloading(int status, long sofar, long total) {
             final float percent = sofar
                     / (float) total;
-            mProgressViewHolder.updateProgressView((int) (percent * 100));
+
+            mProgressHelper.setProgressVideo((int) (percent * 100));
+            mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
         }
     };
 
     DownloadStateListener mRingtoneDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            onRingtoneReady();
+            if (triggerMediaReady()) {
+                playDownloadOkTransAnimation();
+            }
         }
 
         @Override
@@ -260,10 +264,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         @Override
         public void updateDownloading(int status, long sofar, long total) {
-            // Do nothing
+            final float percent = sofar
+                    / (float) total;
+
+            mProgressHelper.setProgressRingtone((int) (percent * 100));
+            mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
             if (BuildConfig.DEBUG) {
-                final float percent = sofar
-                        / (float) total;
                 HSLog.d("Ringtone", "Downloading : " +  mTheme.getIdName() + ", progress: " + (int) (percent * 100));
             }
         }
@@ -273,10 +279,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     Runnable transEndRunnable = new Runnable() {
         @Override
         public void run() {
-            if (waitingForThemeReady) {
-                waitingForThemeReady  = false;
-                onRingtoneReady();
-            }
+
             if (!mBlockAnimationForPageChange) {
                 resumeAnimation();
                 mBlockAnimationForPageChange = true;
@@ -289,7 +292,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         }
     };
-    private boolean isRintoneReady;
 
     public static void saveThemeApplys(int themeId) {
         if (isThemeAppliedEver(themeId)) {
@@ -477,6 +479,35 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         onThemeReady(NO_ANIMITION);
     }
 
+    private boolean triggerMediaReady() {
+        if (mWaitMediaReadyCount > 2 || mWaitMediaReadyCount <= 0) {
+            throw new IllegalStateException("triggerMedia count invalid : " + mWaitMediaReadyCount);
+        }
+        mWaitMediaReadyCount--;
+        return mWaitMediaReadyCount <= 0;
+    }
+
+    private void onVideoReady(boolean playTrans) {
+        HSLog.d(TAG, "onVideoReady");
+        mProgressHelper.setProgressVideo(100);
+        if (triggerMediaReady()) {
+            onThemeReady(playTrans);
+        }
+    }
+
+    private void onRingtoneReady(boolean playTrans) {
+        mProgressHelper.setProgressRingtone(100);
+        HSLog.d(TAG, "onRingtoneReady");
+        if (triggerMediaReady()) {
+            onThemeReady(playTrans);
+        }
+    }
+
+    /**
+     * This called only when Music file and Video file all downloaded.
+     * If no Music file here, this called same as {onVideoReady}
+     * @param needTransAnim
+     */
     private void onThemeReady(boolean needTransAnim) {
         themeReady = true;
         dimCover.setVisibility(View.INVISIBLE);
@@ -504,16 +535,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (startDownloadTime != 0) {
             Analytics.logEvent("ColorPhone_Theme_Download_Time", "Time",
                     String.valueOf((System.currentTimeMillis() - startDownloadTime + 999) / DateUtils.SECOND_IN_MILLIS));
-        }
-    }
-
-    private void onRingtoneReady() {
-        HSLog.d(TAG, "onRingtoneReady");
-        isRintoneReady = true;
-        if (isDimming()) {
-            waitingForThemeReady = true;
-            mRingtoneViewHolder.disable();
-            return;
         }
     }
 
@@ -834,6 +855,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         boolean playTrans = !hasStopped;
         final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getId());
         final TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(mTheme.getId());
+
+        boolean hasRingtone = mTheme.hasRingtone() && ringtoneModel != null;
+        boolean hasMediaVideo = model != null;
+        if (hasRingtone) {
+            mWaitMediaReadyCount++;
+        }
+        if (hasMediaVideo) {
+            mWaitMediaReadyCount++;
+        }
+
+        mProgressHelper.setHasRingtoneProgress(hasRingtone);
+
         /**
          * Flag for theme loading, ringtone will loading with theme data.
          */
@@ -842,28 +875,29 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             // GIf/Mp4
 
             if (TasksManager.getImpl().isDownloaded(model)) {
-                onThemeReady(playTrans);
+                onVideoReady(playTrans);
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
                 themeLoading = true;
-                startDownloadTime = System.currentTimeMillis();
-                onThemeLoading();
             }
         } else {
             // Directly applicable
             onThemeReady(playTrans);
         }
 
-        if (mTheme.hasRingtone() && ringtoneModel != null)  {
+        if (hasRingtone)  {
             if (TasksManager.getImpl().isDownloaded(ringtoneModel)) {
-                onRingtoneReady();
+                onRingtoneReady(playTrans);
             } else {
                 // Ringtone data not ready yet. If theme data not loads, we load ringtone separately.
                 mDownloadTasks.put(DownloadTask.TYPE_RINGTONE, new DownloadTask(ringtoneModel, DownloadTask.TYPE_RINGTONE));
-                if (!themeLoading) {
-                    downloadRingtone(ringtoneModel);
-                }
+                themeLoading = true;
             }
+        }
+
+        if (themeLoading) {
+            startDownloadTime = System.currentTimeMillis();
+            onThemeLoading();
         }
 
         // Show background if gif drawable not ready.
@@ -946,7 +980,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         Ap.Ringtone.onShow(mTheme);
     }
 
-    private boolean isSelectedPos() {
+    public boolean isSelectedPos() {
         return mPosition == mPageSelectedPos;
     }
 
@@ -1030,7 +1064,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void downloadRingtone(TasksManagerModel model) {
         HSLog.d(TAG, "start download ringtone");
-        mRingtoneViewHolder.disable();
         TasksManager.doDownload(model, null);
         FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mRingtoneDownloadStateListener);
     }
@@ -1174,6 +1207,32 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
+    private class ProgressHelper {
+        int progressRingtone;
+        int progressVideo;
+        boolean hasRingtoneProgress;
+
+        public void setHasRingtoneProgress(boolean hasRingtoneProgress) {
+            this.hasRingtoneProgress = hasRingtoneProgress;
+        }
+
+        public void setProgressRingtone(int progressRingtone) {
+            this.progressRingtone = progressRingtone;
+        }
+
+        public void setProgressVideo(int progressVideo) {
+            this.progressVideo = progressVideo;
+        }
+
+        public int getRealProgress() {
+            if (hasRingtoneProgress) {
+                return (progressRingtone + progressVideo) / 2;
+            } else {
+                return progressVideo;
+            }
+        }
+    }
+
     private class ProgressViewHolder {
         private ProgressBar mProgressBar;
         private TextView mProgressTxt;
@@ -1257,12 +1316,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         private void hide() {
             imageView.setVisibility(INVISIBLE);
-            imageView.setEnabled(false);
-        }
-
-        private void disable() {
-            imageView.setVisibility(VISIBLE);
-            imageView.setEnabled(false);
         }
 
         private void mute() {
