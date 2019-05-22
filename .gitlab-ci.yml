@@ -20,6 +20,7 @@ build_colorphone:
   -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
   -   cp app/build/outputs/apk/colorphone/release/*.apk outputs/
   -   cp app/build/outputs/mapping/colorphone/release/mapping.txt outputs/
+  -   cp app/build/intermediates/assets/colorphone/release/HSRemoteConfig.sp outputs/
   - fi
   only:
     variables:
@@ -29,6 +30,7 @@ build_colorphone:
     - outputs/build-dependencies.txt
     - outputs/*.apk
     - outputs/mapping.txt
+    - outputs/HSRemoteConfig.sp
 
     expire_in: 1 week
   tags:
@@ -52,6 +54,7 @@ build_colorflash:
   -   ./gradlew -p . :app:dependencies > outputs/build-dependencies.txt
   -   cp app/build/outputs/apk/colorflash/release/*.apk outputs/
   -   cp app/build/outputs/mapping/colorflash/release/mapping.txt outputs/
+  -   cp app/build/intermediates/assets/colorflash/release/HSRemoteConfig.sp outputs/
   - fi
   only:
     variables:
@@ -61,6 +64,7 @@ build_colorflash:
     - outputs/build-dependencies.txt
     - outputs/*.apk
     - outputs/mapping.txt
+    - outputs/HSRemoteConfig.sp
 
     expire_in: 1 week
   tags:
