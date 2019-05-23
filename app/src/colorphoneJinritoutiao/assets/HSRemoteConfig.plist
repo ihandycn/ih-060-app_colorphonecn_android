@@ -1531,8 +1531,6 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/acb_phone_theme_preview_love.jpg</string>
 						<key>ResType</key>
 						<string>url</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/ring/DeepLove.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
@@ -1609,8 +1607,6 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/panda/acb_phone_theme_preview_panda.jpg</string>
 						<key>ResType</key>
 						<string>url</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/ring/Panda.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
@@ -2618,8 +2614,6 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/pub/pub_preview.jpg</string>
 						<key>ResType</key>
 						<string>url</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/ring/Pub.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
@@ -2870,8 +2864,6 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/whelp/acb_phone_theme_preview_whelp.jpg</string>
 						<key>ResType</key>
 						<string>url</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/ring/Whelp.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
