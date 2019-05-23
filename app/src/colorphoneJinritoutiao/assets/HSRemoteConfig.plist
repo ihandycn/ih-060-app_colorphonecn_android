@@ -1081,7 +1081,7 @@
 							<key>vn</key>
 							<string>Tình Yêu Sâu Đậm</string>
 							<key>zh-CN</key>
-							<string>深爱</string>
+							<string>我的心在砰砰跳</string>
 							<key>zh-HK</key>
 							<string>深愛</string>
 							<key>zh-SG</key>
@@ -1138,7 +1138,7 @@
 							<key>Default</key>
 							<string>Spin</string>
 							<key>zh-CN</key>
-							<string>转盘</string>
+							<string>梦幻摩天轮</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Spin/Spin_preview.jpg</string>
@@ -1189,7 +1189,7 @@
 							<key>Default</key>
 							<string>Heart</string>
 							<key>zh-CN</key>
-							<string>心</string>
+							<string>爱心泡泡</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Heart/Heart_preview.jpg</string>
@@ -1240,7 +1240,7 @@
 							<key>Default</key>
 							<string>ColorfulRing</string>
 							<key>zh-CN</key>
-							<string>彩环</string>
+							<string>酷炫灯光秀</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/ColorfulRing/ColorfulRing_preview.jpg</string>
@@ -1291,7 +1291,9 @@
 							<key>Default</key>
 							<string>Diamond</string>
 							<key>zh-CN</key>
-							<string>菱形</string>
+							<string>闪耀夜店风
+闪耀夜店风 
+</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Diamond/Diamond_preview.jpg</string>
@@ -1342,7 +1344,7 @@
 							<key>Default</key>
 							<string>Squares</string>
 							<key>zh-CN</key>
-							<string>方块</string>
+							<string>坠落方形黑洞</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Squares/Squares_preview.jpg</string>
@@ -1444,7 +1446,7 @@
 							<key>Default</key>
 							<string>Dog</string>
 							<key>zh-CN</key>
-							<string>戴耳机的狗</string>
+							<string>主人那家伙又来电话啦</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Dog/Dog_preview.jpg</string>
@@ -1495,7 +1497,7 @@
 							<key>Default</key>
 							<string>Venom</string>
 							<key>zh-CN</key>
-							<string>恐惧</string>
+							<string>狂暴之魂</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Venom/Venom_preview.jpg</string>
@@ -1546,7 +1548,7 @@
 							<key>Default</key>
 							<string>Discoskull</string>
 							<key>zh-CN</key>
-							<string>音乐骷髅</string>
+							<string>骷髅DJ</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Discoskull/Discoskull_preview.jpg</string>
@@ -1597,7 +1599,7 @@
 							<key>Default</key>
 							<string>Metalskull</string>
 							<key>zh-CN</key>
-							<string>金属骷髅</string>
+							<string>炫酷重金属</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Metalskull/Metalskull_preview.jpg</string>
@@ -1648,7 +1650,7 @@
 							<key>Default</key>
 							<string>Dance</string>
 							<key>zh-CN</key>
-							<string>跳舞</string>
+							<string>这条街最靓的仔</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Dance/Dance_preview.jpg</string>
@@ -1716,7 +1718,7 @@
 							<key>vn</key>
 							<string>Bữa tiệc Neon</string>
 							<key>zh-CN</key>
-							<string>走马灯</string>
+							<string>酷炫走马灯</string>
 							<key>zh-HK</key>
 							<string>走馬燈</string>
 							<key>zh-SG</key>
@@ -1771,7 +1773,7 @@
 							<key>Default</key>
 							<string>Monkey</string>
 							<key>zh-CN</key>
-							<string>猴子</string>
+							<string>是逗比派来的猴子么</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Monkey/Monkey_preview.jpg</string>
@@ -1820,7 +1822,7 @@
 							<key>Default</key>
 							<string>FlashingRing</string>
 							<key>zh-CN</key>
-							<string>闪烁的环</string>
+							<string>焕彩音波来电</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing_preview.jpg</string>
@@ -1869,7 +1871,7 @@
 							<key>Default</key>
 							<string>Skeleton</string>
 							<key>zh-CN</key>
-							<string>透视</string>
+							<string>骷髅舞</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Skeleton/Skeleton_preview.jpg</string>
@@ -1918,7 +1920,7 @@
 							<key>Default</key>
 							<string>ColorRay</string>
 							<key>zh-CN</key>
-							<string>彩色射线</string>
+							<string>追光灯</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/colorray/ColorRay_preview.jpg</string>
@@ -1997,7 +1999,7 @@
 							<key>vn</key>
 							<string>Tỏa sáng</string>
 							<key>zh-CN</key>
-							<string>闪亮</string>
+							<string>你来了 我的世界就亮了</string>
 							<key>zh-HK</key>
 							<string>閃亮</string>
 							<key>zh-SG</key>
@@ -2082,7 +2084,7 @@
 							<key>vn</key>
 							<string>Sao băng</string>
 							<key>zh-CN</key>
-							<string>流星</string>
+							<string>一起去看流星雨</string>
 							<key>zh-HK</key>
 							<string>流星</string>
 							<key>zh-SG</key>
@@ -2137,7 +2139,7 @@
 							<key>Default</key>
 							<string>Colorlight</string>
 							<key>zh-CN</key>
-							<string>彩色灯光</string>
+							<string>立体三维灯光秀</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/colorlight/Colorlight_preview.jpg</string>
@@ -2186,7 +2188,7 @@
 							<key>Default</key>
 							<string>Stars</string>
 							<key>zh-CN</key>
-							<string>繁星</string>
+							<string>繁星点点</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/stars/acb_phone_theme_preview_stars2.jpg</string>
@@ -2254,7 +2256,7 @@
 							<key>vn</key>
 							<string>Đi bộ Không gian</string>
 							<key>zh-CN</key>
-							<string>太空漫步</string>
+							<string>科幻主题</string>
 							<key>zh-HK</key>
 							<string>太空漫步</string>
 							<key>zh-SG</key>
@@ -2309,7 +2311,7 @@
 							<key>Default</key>
 							<string>Rotate</string>
 							<key>zh-CN</key>
-							<string>旋转</string>
+							<string>烟花旋转</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/rotate/Rotate_preview.jpg</string>
@@ -2358,7 +2360,7 @@
 							<key>Default</key>
 							<string>Hearts</string>
 							<key>zh-CN</key>
-							<string>爱心</string>
+							<string>多彩爱心飘舞</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/hearts/acb_phone_theme_preview_hearts.jpg</string>
@@ -2407,7 +2409,7 @@
 							<key>Default</key>
 							<string>Merry Christmas</string>
 							<key>zh-CN</key>
-							<string>圣诞快乐</string>
+							<string>圣诞老人送礼来</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/merrychristmas/MerryChristmas_preview.jpg</string>
@@ -2477,7 +2479,7 @@
 							<key>vn</key>
 							<string>DJ</string>
 							<key>zh-CN</key>
-							<string>DJ</string>
+							<string>大厦灯光秀</string>
 							<key>zh-HK</key>
 							<string>DJ</string>
 							<key>zh-SG</key>
@@ -2532,7 +2534,7 @@
 							<key>Default</key>
 							<string>Pub</string>
 							<key>zh-CN</key>
-							<string>酒馆</string>
+							<string>最酷夜店风</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/pub/pub_preview.jpg</string>
@@ -2653,7 +2655,7 @@
 							<key>vn</key>
 							<string>Tia sáng</string>
 							<key>zh-CN</key>
-							<string>射线</string>
+							<string>烟花射线</string>
 							<key>zh-HK</key>
 							<string>射線</string>
 							<key>zh-SG</key>
@@ -2708,7 +2710,7 @@
 							<key>Default</key>
 							<string>Mini Santa</string>
 							<key>zh-CN</key>
-							<string>迷你圣诞老人</string>
+							<string>圣诞老人也爱跳舞</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/minisanta/MiniSanta_preview.jpg</string>
@@ -2778,7 +2780,7 @@
 							<key>vn</key>
 							<string>Cún con</string>
 							<key>zh-CN</key>
-							<string>幼崽</string>
+							<string>在公园扑腾的小短腿</string>
 							<key>zh-HK</key>
 							<string>幼崽</string>
 							<key>zh-SG</key>
@@ -2856,7 +2858,7 @@
 							<key>vn</key>
 							<string>Gấu trúc</string>
 							<key>zh-CN</key>
-							<string>熊猫</string>
+							<string>疯狂的小熊猫</string>
 							<key>zh-HK</key>
 							<string>熊貓</string>
 							<key>zh-SG</key>
@@ -2943,7 +2945,7 @@
 							<key>vn</key>
 							<string>Bảng màu</string>
 							<key>zh-CN</key>
-							<string>调色板</string>
+							<string>深夜的尼罗河</string>
 							<key>zh-HK</key>
 							<string>調色板</string>
 							<key>zh-SG</key>
@@ -3077,7 +3079,7 @@
 							<key>vn</key>
 							<string>Sóng biển</string>
 							<key>zh-CN</key>
-							<string>波浪</string>
+							<string>大海的传说</string>
 							<key>zh-HK</key>
 							<string>波浪</string>
 							<key>zh-SG</key>
@@ -3162,7 +3164,7 @@
 							<key>vn</key>
 							<string>Tiền mặt</string>
 							<key>zh-CN</key>
-							<string>现金</string>
+							<string>一夜暴富</string>
 							<key>zh-HK</key>
 							<string>現金</string>
 							<key>zh-SG</key>
@@ -3296,7 +3298,7 @@
 							<key>vn</key>
 							<string>Trôi dạt</string>
 							<key>zh-CN</key>
-							<string>前进</string>
+							<string>穿越彩色气泡</string>
 							<key>zh-HK</key>
 							<string>前進</string>
 							<key>zh-SG</key>
@@ -3372,7 +3374,7 @@
 							<key>vn</key>
 							<string>Mê cung</string>
 							<key>zh-CN</key>
-							<string>迷宫</string>
+							<string>万花筒</string>
 							<key>zh-HK</key>
 							<string>迷宮</string>
 							<key>zh-SG</key>
@@ -3448,7 +3450,7 @@
 							<key>vn</key>
 							<string>Cánh hoa</string>
 							<key>zh-CN</key>
-							<string>花瓣</string>
+							<string>漫天飞舞</string>
 							<key>zh-HK</key>
 							<string>花瓣</string>
 							<key>zh-SG</key>
@@ -3524,7 +3526,7 @@
 							<key>vn</key>
 							<string>Bánh gừng</string>
 							<key>zh-CN</key>
-							<string>姜饼人</string>
+							<string>快吃了这个姜饼人</string>
 							<key>zh-HK</key>
 							<string>薑餅人</string>
 							<key>zh-SG</key>
@@ -3600,7 +3602,7 @@
 							<key>vn</key>
 							<string>cún yêu</string>
 							<key>zh-CN</key>
-							<string>小狗</string>
+							<string>海滩撒欢的小狗</string>
 							<key>zh-HK</key>
 							<string>小狗</string>
 							<key>zh-SG</key>
@@ -3676,7 +3678,7 @@
 							<key>vn</key>
 							<string>Thần thoại Vàng</string>
 							<key>zh-CN</key>
-							<string>黄金神话</string>
+							<string>被禁锢的能量</string>
 							<key>zh-HK</key>
 							<string>黃金神話</string>
 							<key>zh-SG</key>
@@ -3761,7 +3763,7 @@
 							<key>vn</key>
 							<string>Sáng chói</string>
 							<key>zh-CN</key>
-							<string>耀眼</string>
+							<string>穿越时光</string>
 							<key>zh-HK</key>
 							<string>耀眼</string>
 							<key>zh-SG</key>
@@ -3837,7 +3839,7 @@
 							<key>vn</key>
 							<string>Hiện đại</string>
 							<key>zh-CN</key>
-							<string>摩登</string>
+							<string>摩登机械</string>
 							<key>zh-HK</key>
 							<string>摩登</string>
 							<key>zh-SG</key>
@@ -3913,7 +3915,7 @@
 							<key>vn</key>
 							<string>Vũ trụ</string>
 							<key>zh-CN</key>
-							<string>宇宙</string>
+							<string>星星点灯</string>
 							<key>zh-HK</key>
 							<string>宇宙</string>
 							<key>zh-SG</key>
@@ -3989,7 +3991,7 @@
 							<key>vn</key>
 							<string>Ngẫu nhiên</string>
 							<key>zh-CN</key>
-							<string>布朗运动</string>
+							<string>梦幻灯光秀</string>
 							<key>zh-HK</key>
 							<string>布朗運動</string>
 							<key>zh-SG</key>
@@ -4065,7 +4067,7 @@
 							<key>vn</key>
 							<string>Mặt trời Sa mạc</string>
 							<key>zh-CN</key>
-							<string>太阳</string>
+							<string>燃烧的太阳</string>
 							<key>zh-HK</key>
 							<string>太陽</string>
 							<key>zh-SG</key>
@@ -4141,7 +4143,7 @@
 							<key>vn</key>
 							<string>Tuyết</string>
 							<key>zh-CN</key>
-							<string>下雪</string>
+							<string>玄幻梦境</string>
 							<key>zh-HK</key>
 							<string>下雪</string>
 							<key>zh-SG</key>
@@ -4217,7 +4219,7 @@
 							<key>vn</key>
 							<string>Mưa</string>
 							<key>zh-CN</key>
-							<string>下雨</string>
+							<string>星星点点</string>
 							<key>zh-HK</key>
 							<string>下雨</string>
 							<key>zh-SG</key>
@@ -4272,7 +4274,7 @@
 							<key>Default</key>
 							<string>Sea</string>
 							<key>zh-CN</key>
-							<string>大海</string>
+							<string>碧海蓝天</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Sea/Sea_Preview.jpg</string>
@@ -4370,7 +4372,7 @@
 							<key>Default</key>
 							<string>Color</string>
 							<key>zh-CN</key>
-							<string>彩色</string>
+							<string>一闪一闪亮晶晶</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Color/Color_Preview.jpg</string>
@@ -4419,7 +4421,7 @@
 							<key>Default</key>
 							<string>Fire</string>
 							<key>zh-CN</key>
-							<string>火焰</string>
+							<string>热情似火</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fire/Fire_Preview.jpg</string>
@@ -4468,7 +4470,7 @@
 							<key>Default</key>
 							<string>Fancy</string>
 							<key>zh-CN</key>
-							<string>幻想</string>
+							<string>幻想嘉年华</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Fancy/Fancy_Preview.jpg</string>
@@ -4517,7 +4519,7 @@
 							<key>Default</key>
 							<string>Galaxy</string>
 							<key>zh-CN</key>
-							<string>宇宙</string>
+							<string>梦幻星空</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Galaxy/Galaxy_Preview.jpg</string>
@@ -4566,7 +4568,7 @@
 							<key>Default</key>
 							<string>Cube</string>
 							<key>zh-CN</key>
-							<string>魔方</string>
+							<string>指尖魔方</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Cube/Cube_Preview.jpg</string>
@@ -4615,7 +4617,7 @@
 							<key>Default</key>
 							<string>Disc</string>
 							<key>zh-CN</key>
-							<string>唱片</string>
+							<string>黄金时代</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Disc/Disc_Preview.jpg</string>
@@ -4664,7 +4666,7 @@
 							<key>Default</key>
 							<string>Moon</string>
 							<key>zh-CN</key>
-							<string>月亮</string>
+							<string>月亮之上</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Moon/Moon_Preview.jpg</string>
@@ -4713,7 +4715,7 @@
 							<key>Default</key>
 							<string>Mixture</string>
 							<key>zh-CN</key>
-							<string>混合色彩</string>
+							<string>旋转的彩虹</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Mixture/Mixture_Preview.jpg</string>
@@ -4811,7 +4813,7 @@
 							<key>Default</key>
 							<string>Luxurious</string>
 							<key>zh-CN</key>
-							<string>奢华</string>
+							<string>金碧辉煌</string>
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Luxurious/Luxurious_Preview.jpg</string>
