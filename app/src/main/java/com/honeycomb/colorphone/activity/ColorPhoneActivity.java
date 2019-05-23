@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.acb.call.VideoManager;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -370,6 +371,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onResume();
         // clear previous observers.
         PermissionHelper.stopObservingPermission();
+        VideoManager.get().mute(true);
         isPaused = false;
         mHandler.postDelayed(mainViewRunnable, 1000);
 
