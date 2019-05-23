@@ -1,5 +1,7 @@
 package com.colorphone.lock;
 
+import android.content.Context;
+
 import com.ihs.app.analytics.HSAnalytics;
 import com.ihs.commons.utils.HSLog;
 
@@ -17,6 +19,12 @@ public class LockerCustomConfig {
     private int mCustomScreenIcon;
     private Event mEventDelegate = new DefaultEvent();
     private RemoteLogger mRemoteLogger = new DefaultLogger();
+    private GameCallback mGameCallback = new GameCallback() {
+        @Override
+        public void startGameCenter(Context context) {
+            // Ignore
+        }
+    };
 
     public static LockerCustomConfig get() {
         return INSTANCE;
@@ -103,6 +111,18 @@ public class LockerCustomConfig {
         mCustomScreenIcon = customScreenIcon;
     }
 
+    public boolean isGameEntranceEnable() {
+        return mGameCallback.isGameEnable();
+    }
+
+    public GameCallback getGameCallback() {
+        return mGameCallback;
+    }
+
+    public void setGameCallback(GameCallback gameCallback) {
+        mGameCallback = gameCallback;
+    }
+
 
     public static abstract class Event {
         public abstract void onEventLockerAdShow();
@@ -154,6 +174,14 @@ public class LockerCustomConfig {
     public interface RemoteLogger {
         void logEvent(String eventID);
         void logEvent(String eventID, String... vars);
+    }
+
+    public static abstract class GameCallback {
+        public abstract void startGameCenter(Context context);
+
+        public boolean isGameEnable() {
+            return false;
+        }
     }
 
     public static class DefaultLogger implements RemoteLogger {

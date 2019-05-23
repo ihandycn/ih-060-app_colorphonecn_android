@@ -36,6 +36,7 @@ import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.WatchedScrollListener;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.PopularThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
@@ -225,12 +226,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.recyclerView = recyclerView;
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-        });
+        recyclerView.addOnScrollListener(new WatchedScrollListener());
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
 

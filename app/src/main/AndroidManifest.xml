@@ -124,7 +124,7 @@
             android:value="af46bdc38bf1267984ed38b9784a45489a5dc2c3" />
 
         <meta-data android:name="android.max_aspect" android:value="2.4" />
-
+        <meta-data android:name="CHANNEL" android:value="ColorPhone_K" />
         <activity
             android:name=".activity.ColorPhoneActivity"
             android:label="@string/app_name"
@@ -478,6 +478,29 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".boost.GameStarterActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
+            android:icon="@drawable/game_icon_launch"
+            android:label="@string/boost_title"
+            android:excludeFromRecents="true"
+            android:theme="@style/INVisibleTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".cmgame.CmGameActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".game"
+            />
+
+        <activity android:name="com.cmcm.cmgame.activity.H5GameActivity"
+            android:taskAffinity=".game"
+            tools:replace="android:taskAffinity"/>
+
         <activity
             android:name=".activity.StartGuideActivity"
             android:launchMode="singleTop"
@@ -590,6 +613,35 @@
             android:theme="@style/AppTranslucent" />
 
         <!--===== Dialer Module End =====-->
+
+        <provider
+            android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
+            android:authorities="${applicationId}.TTFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:node="replace"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/cmgamesdk_file_paths" />
+        </provider>
+
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTLandingPageActivity"
+            android:excludeFromRecents="true"
+             />
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTVideoLandingPageActivity"
+            android:excludeFromRecents="true"
+            />
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTRewardVideoActivity"
+            android:excludeFromRecents="true"
+            />
+        <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTFullScreenVideoActivity"
+            android:excludeFromRecents="true"
+            />
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->

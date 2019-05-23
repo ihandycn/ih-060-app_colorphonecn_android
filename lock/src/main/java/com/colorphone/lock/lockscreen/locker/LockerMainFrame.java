@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
@@ -26,6 +27,7 @@ import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockScreen;
+import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.locker.shimmer.Shimmer;
 import com.colorphone.lock.lockscreen.locker.shimmer.ShimmerTextView;
@@ -41,6 +43,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.flashlight.FlashlightManager;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Preferences;
 
 import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
@@ -54,7 +57,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 
-public class LockerMainFrame extends RelativeLayout implements INotificationObserver, SlidingDrawer.SlidingDrawerListener {
+public class LockerMainFrame extends RelativeLayout implements INotificationObserver, SlidingDrawer.SlidingDrawerListener{
 
     public static final String EVENT_SLIDING_DRAWER_OPENED = "EVENT_SLIDING_DRAWER_OPENED";
     public static final String EVENT_SLIDING_DRAWER_CLOSED = "EVENT_SLIDING_DRAWER_CLOSED";
@@ -86,6 +89,12 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private AcbExpressAdView expressAdView;
     private boolean mAdShown;
     private long mOnStartTime;
+
+    private int lockerCount = 0;
+    private ImageView mGameIconEntrance;
+
+    private LottieAnimationView mGameLottieEntrance;
+    private View mGameLottieTitleEntrance;
 
     public LockerMainFrame(Context context) {
         this(context, null);
@@ -156,6 +165,30 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             }
         });
 
+        mGameIconEntrance = findViewById(R.id.lock_game_view);
+        mGameLottieEntrance = (LottieAnimationView) findViewById(R.id.animation_game_view);
+        mGameLottieTitleEntrance = findViewById(R.id.animation_game_view_hint);
+
+        View.OnClickListener clickListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onGameClick();
+            }
+        };
+
+        mGameIconEntrance.setOnClickListener(clickListener);
+        mGameLottieEntrance.setOnClickListener(clickListener);
+        mGameLottieTitleEntrance.setOnClickListener(clickListener);
+
+        if (isGameEntranceEnable()) {
+            updateLockerEntrance();
+            onGameShow();
+        } else {
+            mGameIconEntrance.setVisibility(GONE);
+            mGameLottieEntrance.setVisibility(GONE);
+            mGameLottieTitleEntrance.setVisibility(GONE);
+        }
+
         mSlidingDrawer.setListener(this);
         mSlidingDrawer.setHandle(R.id.blank_handle, 0);
         mDrawerHandleDown.setOnClickListener(new OnClickListener() {
@@ -210,6 +243,71 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         if (pm.isScreenOn()) {
             mShimmer.start(mUnlockText);
         }
+    }
+
+
+    private boolean isGameEntranceEnable() {
+        return LockerCustomConfig.get().isGameEntranceEnable();
+    }
+
+    private void onGameShow() {
+        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Shown");
+    }
+
+    private void onGameClick() {
+        LockerCustomConfig.get().getGameCallback().startGameCenter(getContext());
+        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Clicked");
+    }
+
+    private void increaseLockerCounter() {
+        lockerCount++;
+        if (lockerCount > 20){
+            lockerCount = 0;
+        }
+        Preferences.get(ChargingScreenSettings.LOCKER_PREFS).putInt("locker_game_count", lockerCount);
+    }
+
+    private void updateLockerEntrance(){
+        lockerCount = Preferences.get(ChargingScreenSettings.LOCKER_PREFS)
+                .getInt("locker_game_count", 0);
+
+        final int count = lockerCount;
+        if (count == 0) {
+            showGameAsLottie(true);
+            mGameLottieEntrance.setAnimation("tetris.json");
+            mGameLottieEntrance.setImageAssetsFolder("tetrisImages");
+            mGameLottieEntrance.playAnimation();
+
+        }
+        if (count > 0 && count <= 6) {
+            showGameAsLottie(false);
+        }
+        if (count == 7) {
+            showGameAsLottie(true);
+            mGameLottieEntrance.setAnimation("racing.json");
+            mGameLottieEntrance.setImageAssetsFolder("racingImages");
+            mGameLottieEntrance.playAnimation();
+        }
+        if (count > 7 && count <= 13) {
+            showGameAsLottie(false);
+        }
+        if (count == 14) {
+            showGameAsLottie(true);
+            mGameLottieEntrance.setAnimation("dunk.json");
+            mGameLottieEntrance.setImageAssetsFolder("dunkImages");
+            mGameLottieEntrance.playAnimation();
+        }
+        if (count > 14 && count <= 20) {
+            showGameAsLottie(false);
+        }
+
+        increaseLockerCounter();
+    }
+
+    private void showGameAsLottie(boolean showLottie) {
+        mGameIconEntrance.setVisibility(showLottie ? GONE : VISIBLE);
+        mGameLottieEntrance.setVisibility(showLottie ? VISIBLE : GONE);
+        mGameLottieTitleEntrance.setVisibility(showLottie ? VISIBLE : GONE);
     }
 
     private void requestAds() {
@@ -304,6 +402,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 }
                 break;
             case ScreenStatusReceiver.NOTIFICATION_SCREEN_ON:
+
+
                 if (expressAdView == null) {
                     requestAds();
                     showExpressAd();

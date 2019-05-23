@@ -21,6 +21,8 @@ import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
+import com.appsflyer.AFLogger;
+import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.MemoryCategory;
 import com.call.assistant.customize.CallAssistantConsts;
@@ -45,6 +47,8 @@ import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
+import com.honeycomb.colorphone.cmgame.CmGameUtil;
+import com.honeycomb.colorphone.cmgame.GameInit;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
@@ -183,7 +187,6 @@ public class ColorPhoneApplication extends HSApplication {
                 ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
 
                 CrashGuard.updateIgnoredCrashes();
-                PushManager.getInstance().onConfigChanged();
                 NotificationCondition.getsInstance().onConfigChange();
                 // remove download New Type when config changed to reduce
 //                downloadNewType();
@@ -243,10 +246,13 @@ public class ColorPhoneApplication extends HSApplication {
     @DebugLog
     @Override
     public void onCreate() {
+        initAppFlyer();
+
         super.onCreate();
         systemFix();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
+        mAppInitList.add(new GameInit());
         onAllProcessCreated();
 
         String packageName = getPackageName();
@@ -358,6 +364,14 @@ public class ColorPhoneApplication extends HSApplication {
         }, TIME_NEED_LOW);
     }
 
+    private void initAppFlyer() {
+        AppsFlyerLib.getInstance().setLogLevel(BuildConfig.DEBUG ? AFLogger.LogLevel.DEBUG : AFLogger.LogLevel.ERROR);
+        AppsFlyerLib.getInstance().setDebugLog(BuildConfig.DEBUG);
+        AppsFlyerLib.getInstance().setCollectIMEI(true);
+        AppsFlyerLib.getInstance().setCollectAndroidID(true);
+        AppsFlyerLib.getInstance().setOutOfStore(ChannelInfoUtil.getStore(this));
+    }
+
     private void checkChargingOrLocker() {
         if (ChargingReportUtils.isScreenOn()) {
             return;
@@ -394,8 +408,6 @@ public class ColorPhoneApplication extends HSApplication {
                 appInit.onInit(this);
             }
         }
-
-        PushManager.getInstance().init();
 
         // Only restore tasks here.
         TasksManager.getImpl().init();
@@ -469,6 +481,7 @@ public class ColorPhoneApplication extends HSApplication {
         logUserLevelDistribution();
 
         watchLifeTimeAutopilot();
+
     }
 
     private void watchLifeTimeAutopilot() {
@@ -658,6 +671,18 @@ public class ColorPhoneApplication extends HSApplication {
         LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHARGING_SCREEN);
         LockerCustomConfig.get().setEventDelegate(new LockerEvent());
         LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
+        LockerCustomConfig.get().setGameCallback(new LockerCustomConfig.GameCallback() {
+            @Override
+            public void startGameCenter(Context context) {
+                CmGameUtil.startCmGameActivity(context, "Locker");
+            }
+
+            @Override
+            public boolean isGameEnable() {
+                return CmGameUtil.canUseCmGame()
+                        && HSConfig.optBoolean(false, "Application", "GameCenter", "LockScreenEnable");
+            }
+        });
         FloatWindowCompat.initLockScreen(this);
         HSChargingManager.getInstance().start();
 
@@ -743,9 +768,9 @@ public class ColorPhoneApplication extends HSApplication {
         });
 
         Module sms = new Module();
-        charging.setAdName(AdPlacements.AD_MSG);
-        charging.setAdType(Module.AD_EXPRESS);
-        charging.setChecker(new Module.Checker() {
+        sms.setAdName(AdPlacements.AD_MSG);
+        sms.setAdType(Module.AD_EXPRESS);
+        sms.setChecker(new Module.Checker() {
             @Override
             public boolean isEnable() {
                 return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT);

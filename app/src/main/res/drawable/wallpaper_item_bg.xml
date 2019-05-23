@@ -7,4 +7,7 @@
               android:endColor="#990c0217"
               android:angle="270"/>
 
+    <corners
+        android:bottomLeftRadius="@dimen/theme_card_radius"
+        android:bottomRightRadius="@dimen/theme_card_radius" />
 </shape>
