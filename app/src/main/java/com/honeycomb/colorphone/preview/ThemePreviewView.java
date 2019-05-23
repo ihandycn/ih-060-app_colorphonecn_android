@@ -1006,7 +1006,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 final DownloadTask task = mDownloadTasks.get(DownloadTask.TYPE_THEME);
                 if (task != null) {
                     float percent = TasksManager.getImpl().getDownloadProgress(task.getTasksManagerModel().getId());
-                    mProgressViewHolder.updateProgressView((int) (percent * 100));
+                    mProgressHelper.setProgressVideo((int) (percent * 100));
                     Message msg = Message.obtain();
                     msg.what = MSG_DOWNLOAD;
                     msg.arg1 = DownloadTask.TYPE_THEME;
@@ -1015,10 +1015,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 final DownloadTask ringtoneTask = mDownloadTasks.get((DownloadTask.TYPE_RINGTONE));
                 if (ringtoneTask != null) {
+                    float percent = TasksManager.getImpl().getDownloadProgress(ringtoneTask.getTasksManagerModel().getId());
+                    mProgressHelper.setProgressRingtone((int) (percent * 100));
                     Message msg = Message.obtain();
                     msg.what = MSG_DOWNLOAD;
                     msg.arg1 = DownloadTask.TYPE_RINGTONE;
                     mHandler.sendMessageDelayed(msg, duration);
+                }
+
+                if (ringtoneTask != null || task != null) {
+                    mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
                 }
             }
         });
