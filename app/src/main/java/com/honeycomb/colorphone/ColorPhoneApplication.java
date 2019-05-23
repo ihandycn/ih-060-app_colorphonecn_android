@@ -768,9 +768,9 @@ public class ColorPhoneApplication extends HSApplication {
         });
 
         Module sms = new Module();
-        charging.setAdName(AdPlacements.AD_MSG);
-        charging.setAdType(Module.AD_EXPRESS);
-        charging.setChecker(new Module.Checker() {
+        sms.setAdName(AdPlacements.AD_MSG);
+        sms.setAdType(Module.AD_EXPRESS);
+        sms.setChecker(new Module.Checker() {
             @Override
             public boolean isEnable() {
                 return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_SMS_KEY_ASSISTANT);
