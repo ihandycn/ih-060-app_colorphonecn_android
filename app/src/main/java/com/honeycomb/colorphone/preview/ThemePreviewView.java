@@ -6,6 +6,7 @@ import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -13,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -45,6 +47,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
+import com.honeycomb.colorphone.activity.ThemeSetHelper;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -292,6 +295,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         }
     };
+    private boolean mWaitContactResult;
 
     public static void saveThemeApplys(int themeId) {
         if (isThemeAppliedEver(themeId)) {
@@ -375,7 +379,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         previewWindow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (themeReady && !inTransition) {
+                if (themeReady
+                        && !inTransition
+                        && !mRingtoneViewHolder.isRingtoneSettingsShow()) {
                     boolean isInHide = getTransBottomLayout().getTranslationY() == bottomBtnTransY;
                     if (isInHide) {
                         mHandler.sendEmptyMessage(MSG_SHOW);
@@ -428,7 +434,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
                     PermissionChecker.getInstance().check(mActivity, "SetForAll");
                 }
-                onThemeApply();
+
+                if (!mTheme.hasRingtone()) {
+                    onThemeApply();
+                } else {
+                    showNavView(false);
+                    fadeOutActionView();
+                    mRingtoneViewHolder.setApplyForAll(true);
+                    showRingtoneSetButton();
+                }
 
                 if (mActivity instanceof PopularThemePreviewActivity) {
                     Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
@@ -455,6 +469,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     Analytics.logEvent("ThemeDetail_SetForContact_Started");
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
                 }
+
+                mWaitContactResult = true;
+
             }
         });
         bottomBtnTransY = getTransBottomLayout().getTranslationY();
@@ -515,7 +532,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         // Video has audio
         if (mTheme.hasRingtone()) {
+            mRingtoneViewHolder.setEnable(true);
             mRingtoneViewHolder.play();
+        } else {
+            mRingtoneViewHolder.setEnable(false);
+            mRingtoneViewHolder.hide();
         }
 
         previewWindow.updateThemeLayout(mThemeType);
@@ -559,13 +580,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         GuideSetDefaultActivity.start(mActivity, false);
 
         // Ringtone enabled
-        if (mRingtoneViewHolder.isSelect()) {
-            RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
-        } else {
-            RingtoneHelper.resetDefaultRingtone();
+        if (mTheme.hasRingtone()) {
+            if (mRingtoneViewHolder.isSelect()) {
+                RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
+            } else {
+                RingtoneHelper.resetDefaultRingtone();
+            }
+            Ap.Ringtone.onApply(mTheme);
         }
 
-        Ap.Ringtone.onApply(mTheme);
         if (!TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
             String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Apply", mTheme.getIdName());
             Analytics.logEvent(event,
@@ -581,10 +604,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-    }
-
-    private void startRingtone() {
-        VideoManager.get().mute(false);
     }
 
     private boolean checkNewFeatureGuideView() {
@@ -787,6 +806,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void fadeInActionView(boolean anim) {
+        if (needShowRingtoneSetButton()) {
+            showNavView(false);
+            fadeOutActionView();
+            mRingtoneViewHolder.setApplyForAll(false);
+            showRingtoneSetButton();
+            mWaitContactResult = false;
+            return;
+        }
+
         if (anim) {
             inTransition = true;
             getTransBottomLayout().animate().translationY(0)
@@ -806,6 +834,23 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
         mRingtoneViewHolder.transIn(true, anim);
+    }
+
+    private void showRingtoneSetButton() {
+        mRingtoneViewHolder.showRingtoneSettings();
+    }
+
+    private boolean needShowRingtoneSetButton() {
+        if (!mTheme.hasRingtone()) {
+            return false;
+        }
+        // If ringtone not set , show ringtone setting page
+        if (mWaitContactResult
+                && ThemeSetHelper.getCacheContactList() != null
+                && !ThemeSetHelper.getCacheContactList().isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     private void fadeOutActionView(boolean anim) {
@@ -1279,16 +1324,66 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
-    private class RingtoneViewHolder {
+    private class RingtoneViewHolder implements OnClickListener {
         private View imageView;
+        private View ringtoneSetLayout;
+        private View ringtoneChangeBtn;
+        private View ringtoneKeepBtn;
+
+        private Interpolator mPathInterpolator = PathInterpolatorCompat.create(
+                0, 0, 0.34f, 0.99f);
+        private float transYTop;
+        private boolean isEnable;
+        private boolean mApplyForAll;
 
         public RingtoneViewHolder() {
             imageView = findViewById(R.id.ringtone_image);
+            imageView.setOnClickListener(this);
 
-            imageView.setOnClickListener(new OnClickListener() {
+            Drawable btnBg = BackgroundDrawables.createBackgroundDrawable(
+                    getResources().getColor(R.color.white_87_transparent),
+                    getResources().getColor(R.color.black_20_transparent),
+                    Dimensions.pxFromDp(24),false, true);
+
+            ringtoneSetLayout = findViewById(R.id.ringtone_apply_layout);
+            ringtoneSetLayout.setVisibility(GONE);
+            transYTop = getResources().getDimension(R.dimen.ringtone_apply_layout_height);
+
+            ringtoneChangeBtn = findViewById(R.id.ringtone_apply_change);
+            ringtoneChangeBtn.setOnClickListener(this);
+            ringtoneChangeBtn.setBackground(btnBg);
+
+            ringtoneKeepBtn = findViewById(R.id.ringtone_apply_keep);
+            ringtoneKeepBtn.setOnClickListener(this);
+            ringtoneKeepBtn.setBackground(btnBg.mutate());
+        }
+
+        public void showRingtoneSettings() {
+            dimCover.setVisibility(VISIBLE);
+            dimCover.setAlpha(0);
+            dimCover.animate().alpha(1).setDuration(200);
+
+            ringtoneSetLayout.setVisibility(VISIBLE);
+            ringtoneSetLayout.setAlpha(1);
+            ringtoneChangeBtn.setTranslationY(transYTop);
+            ringtoneKeepBtn.setTranslationY(transYTop);
+            ringtoneChangeBtn.animate().setDuration(320).setInterpolator(mPathInterpolator).translationY(0).start();
+            ringtoneKeepBtn.animate().setDuration(320).setInterpolator(mPathInterpolator).translationY(0).setStartDelay(40).start();
+        }
+
+        public boolean isRingtoneSettingsShow() {
+            return ringtoneSetLayout.getVisibility() == VISIBLE && ringtoneSetLayout.getAlpha() > 0;
+        }
+
+        public void hideRingtoneSettings() {
+            dimCover.animate().alpha(0).setDuration(200);
+            ringtoneSetLayout.animate().setDuration(200).alpha(0).setListener(new AnimatorListenerAdapter() {
                 @Override
-                public void onClick(View v) {
-                    toggle();
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    ringtoneSetLayout.setVisibility(GONE);
+                    dimCover.setVisibility(INVISIBLE);
+
                 }
             });
         }
@@ -1321,7 +1416,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         private void hide() {
-            imageView.setVisibility(INVISIBLE);
+            imageView.setVisibility(GONE);
         }
 
         private void mute() {
@@ -1356,6 +1451,41 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.ringtone_image:
+                    toggle();
+                    break;
+                case R.id.ringtone_apply_change:
+                    hideRingtoneSettings();
+                    if (mApplyForAll) {
+                        onThemeApply();
+                    } else {
+                        ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
+                        setAsRingtone(true, false);
+                        Utils.showToast(mActivity.getString(R.string.apply_success));
+                    }
+                    break;
+                case R.id.ringtone_apply_keep:
+                    hideRingtoneSettings();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void setEnable(boolean enable) {
+            isEnable = enable;
+        }
+
+        public boolean isEnable() {
+            return isEnable;
+        }
+
+        public void setApplyForAll(boolean applyForAll) {
+            mApplyForAll = applyForAll;
+        }
     }
 
     public static class DownloadTask {

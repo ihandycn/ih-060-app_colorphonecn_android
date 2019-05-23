@@ -6,18 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.ad.AdManager;
-import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
-import com.honeycomb.colorphone.themeselector.ThemeGuide;
-import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
+import com.ihs.app.framework.HSApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +45,11 @@ public class ContactsSelectActivity extends ContactsActivity {
 
         ContactManager.getInstance().register(mCallback);
 
+        /**
+         * Clear cached contact
+         */
+        ThemeSetHelper.cacheContactList(null);
+
     }
 
     @Override
@@ -59,13 +60,9 @@ public class ContactsSelectActivity extends ContactsActivity {
 
     @Override
     protected void onConfirmed(List<SimpleContact> contacts) {
-
         final List<ThemeEntry> themeEntries = new ArrayList<>();
-
-        int contactSelectedCount = 0;
         for (SimpleContact c : contacts) {
             if (c.isSelected()) {
-                contactSelectedCount++;
                 ContactDBHelper.Action action = ContactDBHelper.Action.INSERT;
                 if (c.getThemeId() > 0) {
                     action = ContactDBHelper.Action.UPDATE;
@@ -79,53 +76,18 @@ public class ContactsSelectActivity extends ContactsActivity {
             }
         }
 
-        if (!ThemeGuide.isFromThemeGuide()) {
-            Analytics.logEvent("Colorphone_SeletContactForTheme_Success",
-                    "ThemeName", mTheme.getIdName(),
-                    "SelectedContactsNumber", themeEntries.size() + "");
-        }
-        int fromType = getIntent().getIntExtra(INTENT_KEY_FROM_TYPE, FROM_TYPE_MAIN);
-        if (fromType == FROM_TYPE_POPULAR_THEME) {
-            Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Success");
+        if (mTheme.hasRingtone()) {
+            ContactsSelectActivity.this.finish();
+            ThemeSetHelper.cacheContactList(themeEntries);
         } else {
-            Analytics.logEvent("ThemeDetail_SetForContact_Success");
-        }
-        ThemeGuide.logThemeApplied();
-        Ap.DetailAd.onThemeChooseForOne();
-
-        if (!themeEntries.isEmpty()) {
-            ContactManager.getInstance().markDataChanged();
-        }
-
-        final int selectedCount = contactSelectedCount;
-        ContactManager.getInstance().updateDb(themeEntries, new Runnable() {
-            @Override
-            public void run() {
-
-                if (selectedCount >= 1 && !themeEntries.isEmpty()) {
-                    ThemeEntry themeEntry = themeEntries.get(0);
-                    ShareAlertActivity.UserInfo userInfo = new ShareAlertActivity.UserInfo(themeEntry.getRawNumber(), themeEntry.getName(), themeEntry.getPhotoUri());
+            ThemeSetHelper.onConfirm(themeEntries, mTheme, new Runnable() {
+                @Override
+                public void run() {
+                    ContactsSelectActivity.this.finish();
+                    Utils.showToast(HSApplication.getContext().getString(R.string.apply_success));
                 }
-                Utils.showToast(getString(R.string.apply_success));
-                ContactsSelectActivity.this.finish();
-
-                if (ConfigSettings.showAdOnApplyTheme()) {
-                    if (!ThemeGuide.isFromThemeGuide()) {
-                        Ap.DetailAd.logEvent("colorphone_seletcontactfortheme_ad_should_show");
-                    }
-                    boolean show = AdManager.getInstance().showInterstitialAd();
-                    if (show) {
-                        if (!ThemeGuide.isFromThemeGuide()) {
-                            Ap.DetailAd.logEvent("colorphone_seletcontactfortheme_ad_show");
-                        }
-                        if (ThemeGuide.isFromThemeGuide()) {
-                            Analytics.logEvent("ThemeWireAd_Show_FromThemeGuide");
-                        }
-                    }
-                }
-            }
-        });
-
+            });
+        }
     }
 
     @Override
