@@ -308,43 +308,12 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
-            android:name=".boost.BoostActivity"
-            android:excludeFromRecents="true"
-            android:noHistory="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="nosensor"
-            android:taskAffinity=".acb_interstitial_quiet"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-
-        <activity android:name=".battery.BatteryCleanActivity"
-                  android:excludeFromRecents="true"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="nosensor"
-                  android:taskAffinity=".acb_interstitial_quiet"
-                  android:theme="@style/SwitchCompatTheme" />
-
-        <activity android:name=".cpucooler.CpuCoolDownActivity"
-                  android:excludeFromRecents="true"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="nosensor"
-                  android:taskAffinity=".acb_interstitial_quiet"
-                  android:theme="@style/SwitchCompatTheme"/>
-
-        <activity
             android:name=".resultpage.ResultPageActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@style/AppTranslucent"/>
-
-        <activity
-            android:name=".recentapp.SmartAssistantActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:taskAffinity=".recentapps"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
             android:name=".gdpr.DataUsageSettingsActivity"
@@ -370,8 +339,6 @@
             android:excludeFromRecents="true"
             android:taskAffinity=".acb_interstitial_quiet"/>
 
-        <activity android:name=".toolbar.NotificationActivity"/>
-
         <service android:name=".theme.ThemeDownloadJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
 
@@ -390,15 +357,6 @@
             android:exported="true"
             android:enabled="true"
             tools:node="replace">
-
-            <intent-filter>
-
-                <data
-                    android:scheme="package" />
-
-                <action
-                    android:name="android.intent.action.PACKAGE_REMOVED" />
-            </intent-filter>
 
             <intent-filter>
 
@@ -483,19 +441,6 @@
             android:name=".notification.NotificationActionReceiver"
             android:exported="true"></receiver>
 
-        <!--Disable this receivers for unnecessary process-launch-->
-        <receiver
-            android:name="com.ihs.device.monitor.usage.UsageBroadcastReceiver"
-            android:enabled="false"
-            tools:replace="android:enabled" />
-        <receiver
-            android:name="com.ihs.device.clean.memory.MemoryReceiver"
-            android:enabled="false"
-            tools:replace="android:enabled" />
-        <receiver
-            android:name="com.ihs.device.clean.junk.JunkBroadcastReceiver"
-            android:enabled="false"
-            tools:replace="android:enabled" />
 
         <receiver
             android:name=".PermanentService$PermanentReceiver"
@@ -512,14 +457,7 @@
         </receiver>
 
         <receiver android:name=".notification.NotificationAlarmReceiver"></receiver>
-        <receiver android:name=".toolbar.NotificationReceiver"/>
 
-        <activity
-            android:name="net.appcloudbox.internal.h5game.GameActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity=".h5game"
-            tools:node="merge"
-            />
 
         <activity android:name=".permission.OutsidePermissionGuideActivity"
             android:theme="@style/Theme.AppCompat.Translucent"/>
