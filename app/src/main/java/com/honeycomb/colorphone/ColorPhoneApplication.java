@@ -500,7 +500,7 @@ public class ColorPhoneApplication extends HSApplication {
             @Override
             public void run() {
                 doCopyTheme(10000, "randomtheme.mp4");
-                doCopyTheme(8, "deeplove.mp4");
+                doCopyTheme(65, "dog.mp4");
             }
         });
     }
