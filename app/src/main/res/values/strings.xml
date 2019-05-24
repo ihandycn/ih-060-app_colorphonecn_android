@@ -306,4 +306,6 @@
     <string name="title_cmgame">Online Games</string>
     <string name="ringtone_replace_by_music">使用视频声音作为铃声</string>
     <string name="ringtone_not_change">保持手机铃声</string>
+    
+    <string name="click_again_to_exit">再按一次退出应用</string>
 </resources>

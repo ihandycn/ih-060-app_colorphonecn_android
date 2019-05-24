@@ -160,6 +160,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private TabTransController tabTransController;
     private View gameIcon;
 
+    private DoubleBackHandler mDoubleBackHandler = new DoubleBackHandler();
+
     @DebugLog
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -618,9 +620,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mRewardVideoView.onHideAdLoading();
             mRewardVideoView.onCancel();
         } else {
-            super.onBackPressed();
-            // Stop all download tasks;
-            TasksManager.getImpl().stopAllTasks();
+            if (mDoubleBackHandler.interceptBackPressed()) {
+                mDoubleBackHandler.toast();
+            } else {
+                super.onBackPressed();
+                // Stop all download tasks;
+                TasksManager.getImpl().stopAllTasks();
+            }
         }
     }
 
