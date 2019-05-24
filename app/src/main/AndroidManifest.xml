@@ -423,6 +423,12 @@
             </intent-filter>
         </service>
 
+        <!-- Auto permission -->
+        <service
+            android:name="com.ihs.permission.HSPermissionService"
+            android:process=":work"
+            android:stopWithTask="false" />
+
         <receiver android:name=".receiver.PackageAddReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />

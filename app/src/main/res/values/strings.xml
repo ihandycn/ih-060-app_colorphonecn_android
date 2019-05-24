@@ -137,7 +137,7 @@
     <string name="usage_access_guide_hint">Enable Usage Access to Show Recommend Apps</string>
 
     <string name="accessibility_service_description">请点击右上角开关按钮，开启过程中请不要操作↗ ↗ ↗\n开启后，来电秀将自动完成以下服务设置\n1.为确保正常显示来电秀，会自动开启自启动管理权限和悬浮窗权限\n2.为确保锁屏正常，会自动开启锁屏显示权限\n3.为确保来电秀上正常接听电话，会自动开启通知权限\n焕彩来电秀完整功能必须保证自动服务的设置完成，来电秀被强制关闭时可能导致自动服务的设置失效。若出现该情况，可以尝试先关闭再重试开启该服务</string>
-
+    <string name="accessibility_service_description_xiaomi">@string/accessibility_service_description</string>
     <string name="led_flash_switch_text">Led Flash</string>
 
     <!--notification access -->

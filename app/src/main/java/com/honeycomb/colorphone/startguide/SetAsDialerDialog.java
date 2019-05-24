@@ -24,7 +24,6 @@ import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.permission.HSPermissionRequestCallback;
 import com.ihs.permission.HSPermissionRequestMgr;
-import com.ihs.permission.HSPermissionType;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
@@ -94,8 +93,8 @@ public class SetAsDialerDialog extends FullScreenDialog {
 
         showProgress();
 
-        ArrayList<HSPermissionType> permission = new ArrayList<HSPermissionType>();
-        permission.add(HSPermissionType.TYPE_DEFAULT_DAILER);
+        ArrayList<String> permission = new ArrayList<String>();
+        permission.add(HSPermissionRequestMgr.TYPE_DEFAULT_DAILER);
         HSPermissionRequestMgr.getInstance().startRequest(permission, new HSPermissionRequestCallback.Stub() {
             @Override
             public void onFinished(int succeedCount, int totalCount) {

@@ -35,7 +35,6 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.device.accessibility.service.HSAccessibilityManager;
 import com.ihs.permission.HSPermissionRequestCallback;
 import com.ihs.permission.HSPermissionRequestMgr;
-import com.ihs.permission.HSPermissionType;
 import com.ihs.permission.Utils;
 import com.superapps.BuildConfig;
 import com.superapps.util.Compats;
@@ -116,8 +115,8 @@ public class AutoRequestManager {
             onFloatWindowPermissionReady();
         } else {
             HSLog.d(TAG, "start request draw overlay!");
-            ArrayList<HSPermissionType> permission = new ArrayList<HSPermissionType>();
-            permission.add(HSPermissionType.TYPE_DRAW_OVERLAY);
+            ArrayList<String> permission = new ArrayList<String>();
+            permission.add(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY);
             HSPermissionRequestMgr.getInstance().startRequest(permission, new HSPermissionRequestCallback.Stub() {
                 @Override
                 public void onFinished(int succeedCount, int totalCount) {
@@ -134,7 +133,7 @@ public class AutoRequestManager {
                 @Override
                 public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
                     if (!isSucceed) {
-                        AutoLogger.logAutomaticPermissionFailed(HSPermissionType.TYPE_DRAW_OVERLAY, msg);
+                        AutoLogger.logAutomaticPermissionFailed(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY, msg);
                     }
                 }
             });
@@ -153,17 +152,17 @@ public class AutoRequestManager {
     }
 
     private void executeAutoTask() {
-        ArrayList<HSPermissionType> permission = new ArrayList<HSPermissionType>();
+        ArrayList<String> permission = new ArrayList<String>();
         if (!AutoPermissionChecker.hasAutoStartPermission()) {
-            permission.add(HSPermissionType.TYPE_AUTO_START);
+            permission.add(HSPermissionRequestMgr.TYPE_AUTO_START);
         }
 
         if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
-            permission.add(HSPermissionType.TYPE_SHOW_ON_LOCK);
+            permission.add(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK);
         }
 
         if (!Permissions.isNotificationAccessGranted()) {
-            permission.add(HSPermissionType.TYPE_NOTIFICATION_LISTENING);
+            permission.add(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
         }
 
         if (permission.isEmpty()) {
@@ -202,15 +201,15 @@ public class AutoRequestManager {
                     HSLog.d(TAG, "[AutoPermission-Result] : index " + index + " finished, " + result);
                     Toasts.showToast(result, Toast.LENGTH_LONG);
                 }
-                HSPermissionType type = permission.get(index);
+                String type = permission.get(index);
                 switch (type) {
-                    case TYPE_AUTO_START:
+                    case HSPermissionRequestMgr.TYPE_AUTO_START:
                         AutoPermissionChecker.onAutoStartChange(isSucceed);
                         break;
-                    case TYPE_NOTIFICATION_LISTENING:
+                    case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
 
                         break;
-                    case TYPE_SHOW_ON_LOCK:
+                    case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
                         AutoPermissionChecker.onShowOnLockScreenChange(isSucceed);
                         break;
                     default:
@@ -254,9 +253,9 @@ public class AutoRequestManager {
         }
     }
 
-    private void notifyPermissionGranted(HSPermissionType type, boolean isSucceed) {
+    private void notifyPermissionGranted(String type, boolean isSucceed) {
         HSBundle hsBundle = new HSBundle();
-        hsBundle.putObject(BUNDLE_PERMISSION_TYPE, type);
+        hsBundle.putString(BUNDLE_PERMISSION_TYPE, type);
         hsBundle.putBoolean(BUNDLE_PERMISSION_RESULT, isSucceed);
         HSGlobalNotificationCenter.sendNotification(NOTIFICATION_PERMISSION_RESULT, hsBundle);
     }
@@ -348,8 +347,8 @@ public class AutoRequestManager {
         }
     }
 
-    public boolean openPermission(HSPermissionType type) {
-        if (type == HSPermissionType.TYPE_AUTO_START) {
+    public boolean openPermission(String type) {
+        if (HSPermissionRequestMgr.TYPE_AUTO_START.equals(type)) {
             if (AutoPermissionChecker.hasAutoStartPermission()) {
                 return true;
             } else if (!AutoPermissionChecker.isAccessibilityGranted()) {
@@ -361,7 +360,7 @@ public class AutoRequestManager {
                     }
                 }, 900);
             }
-        } else if (type == HSPermissionType.TYPE_NOTIFICATION_LISTENING) {
+        } else if (HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING.equals(type)) {
             if (Permissions.isNotificationAccessGranted()) {
                 return true;
             } else if (!AutoPermissionChecker.isAccessibilityGranted()) {
@@ -373,7 +372,7 @@ public class AutoRequestManager {
                     }
                 }, 900);
             }
-        } else if (type == HSPermissionType.TYPE_SHOW_ON_LOCK) {
+        } else if (HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK.equals(type)) {
             if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
                 return true;
             } else if (!AutoPermissionChecker.hasShowOnLockScreenPermission()) {
@@ -402,9 +401,9 @@ public class AutoRequestManager {
                 HSLog.d(TAG, "permission open index " + index + " finished, result " + isSucceed + "，msg = " + msg);
                 if (isSucceed) {
                     // already has permission.
-                    if (type == HSPermissionType.TYPE_AUTO_START) {
+                    if (HSPermissionRequestMgr.TYPE_AUTO_START.equals(type)) {
                         AutoPermissionChecker.onAutoStartChange(true);
-                    } else if (type == HSPermissionType.TYPE_SHOW_ON_LOCK) {
+                    } else if (HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK.equals(type)) {
                         AutoPermissionChecker.onShowOnLockScreenChange(true);
                     }
                     notifyPermissionGranted(type, true);
