@@ -418,7 +418,10 @@ public class ActivityUtils {
             systemUiVisibility |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         }
         layoutParams.systemUiVisibility = layoutParams.systemUiVisibility | systemUiVisibility;
-        layoutParams.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            layoutParams.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        }
 
         return layoutParams;
     }
