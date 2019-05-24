@@ -95,6 +95,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private LottieAnimationView mGameLottieEntrance;
     private View mGameLottieTitleEntrance;
+    private String gameEntranceType;
 
     public LockerMainFrame(Context context) {
         this(context, null);
@@ -251,12 +252,12 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     private void onGameShow() {
-        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Shown");
+        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Shown", "type", gameEntranceType);
     }
 
     private void onGameClick() {
         LockerCustomConfig.get().getGameCallback().startGameCenter(getContext());
-        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Clicked");
+        LockerCustomConfig.getLogger().logEvent("LockScreen_GameCenter_Clicked","type", gameEntranceType);
     }
 
     private void increaseLockerCounter() {
@@ -274,30 +275,36 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         final int count = lockerCount;
         if (count == 0) {
             showGameAsLottie(true);
+            gameEntranceType = "Tetris";
             mGameLottieEntrance.setAnimation("tetris.json");
             mGameLottieEntrance.setImageAssetsFolder("tetrisImages");
             mGameLottieEntrance.playAnimation();
 
         }
         if (count > 0 && count <= 6) {
+            gameEntranceType = "GamePad";
             showGameAsLottie(false);
         }
         if (count == 7) {
             showGameAsLottie(true);
+            gameEntranceType = "RacingCar";
             mGameLottieEntrance.setAnimation("racing.json");
             mGameLottieEntrance.setImageAssetsFolder("racingImages");
             mGameLottieEntrance.playAnimation();
         }
         if (count > 7 && count <= 13) {
+            gameEntranceType = "GamePad";
             showGameAsLottie(false);
         }
         if (count == 14) {
+            gameEntranceType = "Basketball";
             showGameAsLottie(true);
             mGameLottieEntrance.setAnimation("dunk.json");
             mGameLottieEntrance.setImageAssetsFolder("dunkImages");
             mGameLottieEntrance.playAnimation();
         }
         if (count > 14 && count <= 20) {
+            gameEntranceType = "GamePad";
             showGameAsLottie(false);
         }
 

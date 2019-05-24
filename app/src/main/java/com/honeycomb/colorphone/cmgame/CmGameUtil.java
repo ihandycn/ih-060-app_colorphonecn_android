@@ -24,14 +24,16 @@ public class CmGameUtil {
         return Preferences.getDefault().incrementAndGetInt(BACK_TO_DESKTOP_TIMES_FOR_CM_GAME) == 3;
     }
 
-    public static Intent getCmGameIntent(Context context) {
-        return new Intent(context, CmGameActivity.class);
+    public static Intent getCmGameIntent(Context context, String openType) {
+        Intent intent = new Intent(context, CmGameActivity.class);
+        intent.putExtra(CmGameActivity.EXTRA_ENTRANCE, openType);
+        return intent;
     }
 
     public static void startCmGameActivity(Context context, String openType) {
         if (canUseCmGame()) {
             try {
-                Navigations.startActivitySafely(context, getCmGameIntent(context));
+                Navigations.startActivitySafely(context, getCmGameIntent(context, openType));
                 Analytics.logEvent("GameCenter_Shown", "Openway", openType);
             } catch (Exception e){
                 HSLog.e("CmGameCenter", "failed to open cm game center");

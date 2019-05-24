@@ -11,18 +11,16 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.cmcm.cmgame.CmGameSdk;
 import com.cmcm.cmgame.IAppCallback;
-import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.boost.GameStarterActivity;
 import com.honeycomb.colorphone.util.Analytics;
-import com.superapps.util.Preferences;
 
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 
 public class CmGameActivity extends AppCompatActivity implements IAppCallback {
+    public static final String EXTRA_ENTRANCE = "extra_entrance";
     private final static float MIN_DOWN_DST = 100f;
     private boolean mIsSlideClosing = false;
     private int mUsefulSlideCount = 0;
@@ -76,7 +74,9 @@ public class CmGameActivity extends AppCompatActivity implements IAppCallback {
 
     @Override
     public void gameClickCallback(String gameName, String gameId) {
-        Analytics.logEvent("GameCenter_Game_Played", "Game", gameName);
+        Analytics.logEvent("GameCenter_Game_Played",
+                "Game", gameName,
+                "Entrance", getIntent().getStringExtra(EXTRA_ENTRANCE));
     }
 
     @Override
