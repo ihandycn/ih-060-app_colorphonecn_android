@@ -579,6 +579,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
         HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
 
+        Analytics.logEvent("ColorPhone_Set_Successed",
+                "SetType", "SetForAll",
+                "Theme", mTheme.getName());
+
         setButtonState(true);
         for (ThemePreviewView preV : mActivity.getViews()) {
             int viewPos = (int) preV.getTag();
@@ -1371,6 +1375,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             ringtoneKeepBtn.setTranslationY(transYTop);
             ringtoneChangeBtn.animate().setDuration(320).setInterpolator(mPathInterpolator).translationY(0).start();
             ringtoneKeepBtn.animate().setDuration(320).setInterpolator(mPathInterpolator).translationY(0).setStartDelay(40).start();
+
+            Analytics.logEvent("Ringtone_Set_Shown", "ThemeName", mTheme.getName());
         }
 
         public boolean isRingtoneSettingsShow() {
@@ -1460,6 +1466,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     toggle();
                     break;
                 case R.id.ringtone_apply_change:
+                    Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
+
                     hideRingtoneSettings();
                     if (mApplyForAll) {
                         // Ringtone enabled
@@ -1474,6 +1482,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                     break;
                 case R.id.ringtone_apply_keep:
+                    Analytics.logEvent("Ringtone_Default_Set_Success", "ThemeName", mTheme.getName());
+
                     hideRingtoneSettings();
                     if (mApplyForAll) {
                         onThemeApply();

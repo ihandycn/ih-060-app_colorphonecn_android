@@ -21,6 +21,11 @@ public class ThemeSetHelper {
     private static List<SimpleContact> sCacheContactList;
 
     public static void onConfirm(List<SimpleContact> contacts, Theme theme, @Nullable Runnable onCompleteCallback) {
+        if (contacts == null) {
+            return;
+        }
+        Analytics.logEvent("ColorPhone_Set_Successed", "SetType", "SetForSomeone",
+         "Theme", theme.getName());
 
         List<ThemeEntry> themeEntries = new ArrayList<>();
         for (SimpleContact c : contacts) {
@@ -39,7 +44,7 @@ public class ThemeSetHelper {
         if (!ThemeGuide.isFromThemeGuide()) {
             Analytics.logEvent("Colorphone_SeletContactForTheme_Success",
                     "ThemeName", theme.getIdName(),
-                    "SelectedContactsNumber", themeEntries.size() + "");
+                    "SelectedContactsNumber", contacts.size() + "");
         }
 
         Analytics.logEvent("ThemeDetail_SetForContact_Success");
