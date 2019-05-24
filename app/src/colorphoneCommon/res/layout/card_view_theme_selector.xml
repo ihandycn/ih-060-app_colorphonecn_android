@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:layout_width="180dp">
 
     <com.honeycomb.colorphone.view.RatioImageView
         android:id="@+id/card_preview_img"
@@ -65,19 +66,18 @@
 
         <com.honeycomb.colorphone.view.TypefacedTextView
             android:id="@+id/card_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="start"
-            android:maxLines="1"
+            android:maxLines="2"
             android:textColor="@color/primaryText"
             android:textSize="16sp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
             app:layout_constraintBottom_toTopOf="@id/like_count_icon"
-            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintLeft_toLeftOf="@+id/like_count_icon"
             app:layout_constraintRight_toRightOf="parent"
             app:typeface="@string/proxima_nova_semibold"
-            tools:text="Neon" />
+            tools:text="主人那家伙哦y又来电话了，换回老的" />
 
         <com.honeycomb.colorphone.view.TypefacedTextView
             android:id="@+id/card_like_count_txt"
