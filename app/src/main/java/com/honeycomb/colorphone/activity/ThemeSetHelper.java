@@ -6,18 +6,36 @@ import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
+import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ThemeSetHelper {
 
-    private static List<ThemeEntry> sCacheContacntList;
+    private static List<SimpleContact> sCacheContactList;
 
-    public static void onConfirm(List<ThemeEntry> themeEntries, Theme theme, @Nullable Runnable onCompleteCallback) {
+    public static void onConfirm(List<SimpleContact> contacts, Theme theme, @Nullable Runnable onCompleteCallback) {
+
+        List<ThemeEntry> themeEntries = new ArrayList<>();
+        for (SimpleContact c : contacts) {
+            ContactDBHelper.Action action = ContactDBHelper.Action.INSERT;
+            if (c.getThemeId() > 0) {
+                action = ContactDBHelper.Action.UPDATE;
+            }
+            c.setThemeId(theme.getId());
+            List<ThemeEntry> entries = ThemeEntry.valueOf(c, action);
+            themeEntries.addAll(entries);
+            // Clear status
+            c.setSelected(false);
+            ContactManager.getInstance().updateThemeId(c.getContactId(), theme.getId());
+        }
+
         if (!ThemeGuide.isFromThemeGuide()) {
             Analytics.logEvent("Colorphone_SeletContactForTheme_Success",
                     "ThemeName", theme.getIdName(),
@@ -66,11 +84,11 @@ public class ThemeSetHelper {
 
     }
 
-    public static void cacheContactList(List<ThemeEntry> contacts) {
-        sCacheContacntList = contacts;
+    public static void cacheContactList(List<SimpleContact> contacts) {
+        sCacheContactList = contacts;
     }
 
-    public static List<ThemeEntry> getCacheContactList() {
-        return sCacheContacntList;
+    public static List<SimpleContact> getCacheContactList() {
+        return sCacheContactList;
     }
 }

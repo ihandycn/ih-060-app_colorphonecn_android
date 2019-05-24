@@ -8,10 +8,8 @@ import android.widget.TextView;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
-import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
-import com.honeycomb.colorphone.contact.ThemeEntry;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 
@@ -60,27 +58,18 @@ public class ContactsSelectActivity extends ContactsActivity {
 
     @Override
     protected void onConfirmed(List<SimpleContact> contacts) {
-        final List<ThemeEntry> themeEntries = new ArrayList<>();
+        final List<SimpleContact> selectContacts = new ArrayList<>();
         for (SimpleContact c : contacts) {
             if (c.isSelected()) {
-                ContactDBHelper.Action action = ContactDBHelper.Action.INSERT;
-                if (c.getThemeId() > 0) {
-                    action = ContactDBHelper.Action.UPDATE;
-                }
-                c.setThemeId(mTheme.getId());
-                List<ThemeEntry> entries = ThemeEntry.valueOf(c, action);
-                themeEntries.addAll(entries);
-
-                // Clear status
-                c.setSelected(false);
+               selectContacts.add(c);
             }
         }
 
         if (mTheme.hasRingtone()) {
             ContactsSelectActivity.this.finish();
-            ThemeSetHelper.cacheContactList(themeEntries);
+            ThemeSetHelper.cacheContactList(selectContacts);
         } else {
-            ThemeSetHelper.onConfirm(themeEntries, mTheme, new Runnable() {
+            ThemeSetHelper.onConfirm(selectContacts, mTheme, new Runnable() {
                 @Override
                 public void run() {
                     ContactsSelectActivity.this.finish();
