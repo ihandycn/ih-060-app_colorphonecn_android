@@ -76,6 +76,9 @@ public class StartGuideViewHolder implements INotificationObserver {
     private static final int PROGRESS_MAX_VALUE = 100;
     private static final int EVENT_UPGRADE = 5000;
 
+    /**
+     *
+     */
     private boolean isConfirmPage = true;
     private View container;
     private View circleAnimView;

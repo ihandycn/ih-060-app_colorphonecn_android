@@ -61,6 +61,11 @@ public class AutoRequestManager {
     public static final String AUTO_PERMISSION_FROM_AUTO = "auto";
     public static final String AUTO_PERMISSION_FROM_FIX = "fix";
 
+    public static final String TYPE_CUSTOM_CONTACT_READ = "ReadContact";
+    public static final String TYPE_CUSTOM_CONTACT_WRITE = "WriteContact";
+
+    private static final boolean DEBUG_TEST = false && BuildConfig.DEBUG;
+
     private HomeKeyWatcher homeKeyWatcher;
     private boolean needRestartApplication;
 
@@ -145,7 +150,9 @@ public class AutoRequestManager {
         AutoPermissionChecker.incrementAutoRequestCount();
 
         Threads.postOnMainThreadDelayed(() -> {
-            showCoverWindow();
+            if (!DEBUG_TEST) {
+                showCoverWindow();
+            }
 
             executeAutoTask();
         }, 1000);
@@ -160,7 +167,10 @@ public class AutoRequestManager {
         if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
             permission.add(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK);
         }
-
+        if (Compats.IS_XIAOMI_DEVICE) {
+            permission.add(TYPE_CUSTOM_CONTACT_WRITE);
+            permission.add(TYPE_CUSTOM_CONTACT_READ);
+        }
         if (!Permissions.isNotificationAccessGranted()) {
             permission.add(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
         }

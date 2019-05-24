@@ -96,6 +96,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.device.permanent.HSPermanentUtils;
 import com.ihs.libcharging.HSChargingManager;
+import com.ihs.permission.HSPermissionRequestMgr;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.superapps.broadcast.BroadcastCenter;
@@ -362,6 +363,8 @@ public class ColorPhoneApplication extends HSApplication {
                 HSPermanentUtils.startKeepAlive();
             }
         }, TIME_NEED_LOW);
+
+        HSPermissionRequestMgr.getInstance().setCustomConfig("action_custom.ja", null, null, "rules_config_custom.ja");
     }
 
     private void initAppFlyer() {
