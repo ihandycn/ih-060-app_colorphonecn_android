@@ -1581,6 +1581,57 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
+						<integer>72932</integer>
+						<key>Gif</key>
+						<string></string>
+						<key>Hot</key>
+						<false/>
+						<key>Icon</key>
+						<string></string>
+						<key>IconAccept</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png</string>
+						<key>IconReject</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
+						<key>Id</key>
+						<integer>100</integer>
+						<key>IdName</key>
+						<string>Girl</string>
+						<key>LocalPush</key>
+						<dict>
+							<key>Enable</key>
+							<true/>
+							<key>LocalPushIcon</key>
+							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_icon.png</string>
+							<key>LocalPushPreviewImage</key>
+							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
+						</dict>
+						<key>Mp4</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Girl/Girl.mp4</string>
+						<key>Name</key>
+						<dict>
+							<key>Default</key>
+							<string>Girl</string>
+							<key>zh-CN</key>
+							<string>情侣女版《一百万个可能》</string>
+						</dict>
+						<key>PreviewImage</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Girl/Girl_preview.png</string>
+						<key>ResType</key>
+						<string>url</string>
+						<key>Ringtone</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Girl/Girl.mp3</string>
+						<key>Status</key>
+						<dict>
+							<key>Lock</key>
+							<false/>
+							<key>StaticPreview</key>
+							<true/>
+						</dict>
+					</dict>
+					<dict>
+						<key>Description</key>
+						<string></string>
+						<key>DownloadNum</key>
 						<integer>72163</integer>
 						<key>Gif</key>
 						<string></string>
@@ -1671,57 +1722,6 @@
 						<string>url</string>
 						<key>Ringtone</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Meteor/Meteor.mp3</string>
-						<key>Status</key>
-						<dict>
-							<key>Lock</key>
-							<false/>
-							<key>StaticPreview</key>
-							<true/>
-						</dict>
-					</dict>
-					<dict>
-						<key>Description</key>
-						<string></string>
-						<key>DownloadNum</key>
-						<integer>72932</integer>
-						<key>Gif</key>
-						<string></string>
-						<key>Hot</key>
-						<false/>
-						<key>Icon</key>
-						<string></string>
-						<key>IconAccept</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png</string>
-						<key>IconReject</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
-						<key>Id</key>
-						<integer>100</integer>
-						<key>IdName</key>
-						<string>Girl</string>
-						<key>LocalPush</key>
-						<dict>
-							<key>Enable</key>
-							<true/>
-							<key>LocalPushIcon</key>
-							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_icon.png</string>
-							<key>LocalPushPreviewImage</key>
-							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
-						</dict>
-						<key>Mp4</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Girl/Girl.mp4</string>
-						<key>Name</key>
-						<dict>
-							<key>Default</key>
-							<string>Girl</string>
-							<key>zh-CN</key>
-							<string>情侣女版《一百万个可能》</string>
-						</dict>
-						<key>PreviewImage</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Girl/Girl_preview.png</string>
-						<key>ResType</key>
-						<string>url</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Girl/Girl.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
@@ -2193,6 +2193,57 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
+						<integer>59732</integer>
+						<key>Gif</key>
+						<string></string>
+						<key>Hot</key>
+						<false/>
+						<key>Icon</key>
+						<string></string>
+						<key>IconAccept</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png</string>
+						<key>IconReject</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
+						<key>Id</key>
+						<integer>84</integer>
+						<key>IdName</key>
+						<string>HeartLaunch</string>
+						<key>LocalPush</key>
+						<dict>
+							<key>Enable</key>
+							<true/>
+							<key>LocalPushIcon</key>
+							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_icon.png</string>
+							<key>LocalPushPreviewImage</key>
+							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
+						</dict>
+						<key>Mp4</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HeartLaunch/HeartLaunch.mp4</string>
+						<key>Name</key>
+						<dict>
+							<key>Default</key>
+							<string>HeartLaunch</string>
+							<key>zh-CN</key>
+							<string>可爱爱心发射biu</string>
+						</dict>
+						<key>PreviewImage</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HeartLaunch/HeartLaunch_preview.png</string>
+						<key>ResType</key>
+						<string>url</string>
+						<key>Ringtone</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HeartLaunch/HeartLaunch.mp3</string>
+						<key>Status</key>
+						<dict>
+							<key>Lock</key>
+							<false/>
+							<key>StaticPreview</key>
+							<true/>
+						</dict>
+					</dict>
+					<dict>
+						<key>Description</key>
+						<string></string>
+						<key>DownloadNum</key>
 						<integer>62981</integer>
 						<key>Gif</key>
 						<string></string>
@@ -2487,57 +2538,6 @@
 						<string>url</string>
 						<key>Ringtone</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Monster/Monster.mp3</string>
-						<key>Status</key>
-						<dict>
-							<key>Lock</key>
-							<false/>
-							<key>StaticPreview</key>
-							<true/>
-						</dict>
-					</dict>
-					<dict>
-						<key>Description</key>
-						<string></string>
-						<key>DownloadNum</key>
-						<integer>59732</integer>
-						<key>Gif</key>
-						<string></string>
-						<key>Hot</key>
-						<false/>
-						<key>Icon</key>
-						<string></string>
-						<key>IconAccept</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_answer.png</string>
-						<key>IconReject</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
-						<key>Id</key>
-						<integer>84</integer>
-						<key>IdName</key>
-						<string>HeartLaunch</string>
-						<key>LocalPush</key>
-						<dict>
-							<key>Enable</key>
-							<true/>
-							<key>LocalPushIcon</key>
-							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_icon.png</string>
-							<key>LocalPushPreviewImage</key>
-							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
-						</dict>
-						<key>Mp4</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HeartLaunch/HeartLaunch.mp4</string>
-						<key>Name</key>
-						<dict>
-							<key>Default</key>
-							<string>HeartLaunch</string>
-							<key>zh-CN</key>
-							<string>可爱爱心发射biu</string>
-						</dict>
-						<key>PreviewImage</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HeartLaunch/HeartLaunch_preview.png</string>
-						<key>ResType</key>
-						<string>url</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/HeartLaunch/HeartLaunch.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
