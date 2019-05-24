@@ -162,7 +162,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         });
     }
 
-
     public MediaPlayer getMediaPlayer() {
         return mMediaPlayer;
     }
@@ -185,8 +184,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 previewView.onStart();
             }
         }
-
-
     }
 
     @Override
