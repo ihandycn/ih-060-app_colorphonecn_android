@@ -6,7 +6,6 @@ import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -578,16 +577,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         Utils.showToast(mActivity.getString(R.string.apply_success));
         GuideSetDefaultActivity.start(mActivity, false);
-
-        // Ringtone enabled
-        if (mTheme.hasRingtone()) {
-            if (mRingtoneViewHolder.isSelect()) {
-                RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
-            } else {
-                RingtoneHelper.resetDefaultRingtone();
-            }
-            Ap.Ringtone.onApply(mTheme);
-        }
 
         if (!TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
             String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Apply", mTheme.getIdName());
@@ -1340,22 +1329,23 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             imageView = findViewById(R.id.ringtone_image);
             imageView.setOnClickListener(this);
 
-            Drawable btnBg = BackgroundDrawables.createBackgroundDrawable(
-                    getResources().getColor(R.color.white_87_transparent),
-                    getResources().getColor(R.color.black_20_transparent),
-                    Dimensions.pxFromDp(24),false, true);
-
             ringtoneSetLayout = findViewById(R.id.ringtone_apply_layout);
             ringtoneSetLayout.setVisibility(GONE);
             transYTop = getResources().getDimension(R.dimen.ringtone_apply_layout_height);
 
             ringtoneChangeBtn = findViewById(R.id.ringtone_apply_change);
             ringtoneChangeBtn.setOnClickListener(this);
-            ringtoneChangeBtn.setBackground(btnBg);
+            ringtoneChangeBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                    getResources().getColor(R.color.white_87_transparent),
+                    getResources().getColor(R.color.black_20_transparent),
+                    Dimensions.pxFromDp(24),false, true));
 
             ringtoneKeepBtn = findViewById(R.id.ringtone_apply_keep);
             ringtoneKeepBtn.setOnClickListener(this);
-            ringtoneKeepBtn.setBackground(btnBg.mutate());
+            ringtoneKeepBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                    getResources().getColor(R.color.white_87_transparent),
+                    getResources().getColor(R.color.black_20_transparent),
+                    Dimensions.pxFromDp(24),false, true));
         }
 
         public void showRingtoneSettings() {
@@ -1460,15 +1450,25 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 case R.id.ringtone_apply_change:
                     hideRingtoneSettings();
                     if (mApplyForAll) {
+                        // Ringtone enabled
+                        RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
+
                         onThemeApply();
                     } else {
-                        ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
                         setAsRingtone(true, false);
+
+                        ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
                         Utils.showToast(mActivity.getString(R.string.apply_success));
                     }
                     break;
                 case R.id.ringtone_apply_keep:
                     hideRingtoneSettings();
+                    if (mApplyForAll) {
+                        onThemeApply();
+                    } else {
+                        ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
+                        Utils.showToast(mActivity.getString(R.string.apply_success));
+                    }
                     break;
                 default:
                     break;

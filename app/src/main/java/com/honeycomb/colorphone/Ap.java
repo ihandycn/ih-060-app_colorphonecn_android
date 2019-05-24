@@ -36,13 +36,6 @@ public class Ap {
             }
         }
 
-        /**
-         * 上传日志: topic-1516083421924-90 - 主题在详情页被应用
-         */
-        public static void onApply(Theme theme) {
-
-        }
-
     }
 
     public static class DetailAd {
