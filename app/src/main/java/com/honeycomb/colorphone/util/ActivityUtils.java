@@ -10,7 +10,9 @@ import android.support.annotation.ColorInt;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.ContextThemeWrapper;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -353,6 +355,72 @@ public class ActivityUtils {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static WindowManager.LayoutParams getFullScreenFloatWindowParams(WindowManager mWm) {
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.systemUiVisibility = 1;
+        layoutParams.type = 2010;
+        layoutParams.screenOrientation = 1;
+        layoutParams.gravity = 48;
+        layoutParams.format = 1;
+        layoutParams.flags = 264072;
+        layoutParams.width = -1;
+        layoutParams.height = -1;
+        layoutParams.y = 0;
+
+        boolean needFix = false;
+        int l = 0;
+        if (Build.VERSION.SDK_INT < 19) {
+            needFix = false;
+        } else {
+            Display defaultDisplay = mWm.getDefaultDisplay();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            defaultDisplay.getRealMetrics(displayMetrics);
+            int i = displayMetrics.heightPixels;
+            int i2 = displayMetrics.widthPixels;
+            DisplayMetrics displayMetrics2 = new DisplayMetrics();
+            defaultDisplay.getMetrics(displayMetrics2);
+            int i3 = displayMetrics2.heightPixels;
+            int i4 = displayMetrics2.widthPixels;
+            l = i - i3;
+            if (i2 - i4 > 0 || i - i3 > 0) {
+                needFix = true;
+            }
+        }
+
+        if (needFix) {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            mWm.getDefaultDisplay().getMetrics(displayMetrics);
+            layoutParams.y = 0;
+            layoutParams.width = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
+            layoutParams.height = Math.max(displayMetrics.widthPixels, displayMetrics.heightPixels) + l;
+            if (displayMetrics.widthPixels > displayMetrics.heightPixels) {
+                layoutParams.width += l;
+                layoutParams.height -= l;
+            }
+            layoutParams.gravity = 48;
+            layoutParams.flags = 155714048;
+            layoutParams.type = 2006;
+            layoutParams.systemUiVisibility = 5890;
+        }
+
+        // Add extra
+        int systemUiVisibility = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            systemUiVisibility |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            systemUiVisibility |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        }
+        layoutParams.systemUiVisibility = layoutParams.systemUiVisibility | systemUiVisibility;
+        layoutParams.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+
+        return layoutParams;
     }
 
 }
