@@ -365,6 +365,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return false;
     }
 
+    public boolean isRingtoneSettingShow() {
+        return mRingtoneViewHolder.isRingtoneSettingsShow();
+    }
+
+    public void dismissRingtoneSettingPage() {
+        mHandler.sendEmptyMessage(MSG_SHOW);
+        mRingtoneViewHolder.hideRingtoneSettings();
+    }
+
     public void stopRewardVideoLoading() {
         if (mRewardVideoView != null) {
             mRewardVideoView.onHideAdLoading();
@@ -391,6 +400,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     } else {
                         scheduleNextHide();
                     }
+                }
+                if (mRingtoneViewHolder.isRingtoneSettingsShow()) {
+                    dismissRingtoneSettingPage();
                 }
             }
         });
@@ -535,7 +547,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mRingtoneViewHolder.play();
         } else {
             mRingtoneViewHolder.setEnable(false);
-            mRingtoneViewHolder.hide();
+            mRingtoneViewHolder.hideMusicSwitch();
         }
 
         previewWindow.updateThemeLayout(mThemeType);
@@ -581,7 +593,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (!TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
             String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Apply", mTheme.getIdName());
             Analytics.logEvent(event,
-                    "RingtoneState", mRingtoneViewHolder.isSelect() ? "On" : "Off");
+                    "RingtoneState", mRingtoneViewHolder.isMusicOn() ? "On" : "Off");
         }
         NotificationUtils.logThemeAppliedFlurry(mTheme);
 
@@ -629,7 +641,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void switchToLockState() {
         ViewStub stub = findViewById(R.id.lock_layout);
         dimCover.setVisibility(INVISIBLE);
-        mRingtoneViewHolder.hide();
+        mRingtoneViewHolder.hideMusicSwitch();
         if (mLockLayout == null) {
             mLockLayout = stub.inflate();
             mUnLockButton = mLockLayout.findViewById(R.id.unlock_button_container);
@@ -1405,7 +1417,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        private void hide() {
+        private void hideMusicSwitch() {
             imageView.setVisibility(GONE);
         }
 
@@ -1416,7 +1428,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             VideoManager.get().mute(true);
         }
 
-        private boolean isSelect() {
+        private boolean isMusicOn() {
             return imageView.isActivated();
         }
 
