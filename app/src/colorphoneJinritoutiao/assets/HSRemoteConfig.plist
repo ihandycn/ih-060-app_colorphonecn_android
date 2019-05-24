@@ -1173,7 +1173,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>83266</real>
+						<integer>64321</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -1185,9 +1185,9 @@
 						<key>IconReject</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
 						<key>Id</key>
-						<integer>110</integer>
+						<integer>99</integer>
 						<key>IdName</key>
-						<string>Duck</string>
+						<string>DanceDuck</string>
 						<key>LocalPush</key>
 						<dict>
 							<key>Enable</key>
@@ -1198,20 +1198,20 @@
 							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
 						</dict>
 						<key>Mp4</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Duck/Duck.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DanceDuck/DanceDuck.mp4</string>
 						<key>Name</key>
 						<dict>
 							<key>Default</key>
-							<string>Duck</string>
+							<string>DanceDuck</string>
 							<key>zh-CN</key>
-							<string>魔性小黄鸭</string>
+							<string>网红小黄鸭</string>
 						</dict>
 						<key>PreviewImage</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Duck/Duck_preview.png</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DanceDuck/DanceDuck_preview.png</string>
 						<key>ResType</key>
 						<string>url</string>
 						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Duck/Duck.mp3</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DanceDuck/DanceDuck.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
@@ -1734,7 +1734,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<integer>64321</integer>
+						<real>83266</real>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -1746,9 +1746,9 @@
 						<key>IconReject</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/defaultbutton/acb_phone_call_refuse.png</string>
 						<key>Id</key>
-						<integer>99</integer>
+						<integer>110</integer>
 						<key>IdName</key>
-						<string>DanceDuck</string>
+						<string>Duck</string>
 						<key>LocalPush</key>
 						<dict>
 							<key>Enable</key>
@@ -1759,20 +1759,20 @@
 							<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/thumbnail/love/love_%20localpush_preview_image.jpg</string>
 						</dict>
 						<key>Mp4</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DanceDuck/DanceDuck.mp4</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Duck/Duck.mp4</string>
 						<key>Name</key>
 						<dict>
 							<key>Default</key>
-							<string>DanceDuck</string>
+							<string>Duck</string>
 							<key>zh-CN</key>
-							<string>网红小黄鸭</string>
+							<string>魔性小黄鸭</string>
 						</dict>
 						<key>PreviewImage</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DanceDuck/DanceDuck_preview.png</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Duck/Duck_preview.png</string>
 						<key>ResType</key>
 						<string>url</string>
 						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/DanceDuck/DanceDuck.mp3</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Duck/Duck.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
