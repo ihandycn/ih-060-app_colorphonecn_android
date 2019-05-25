@@ -904,6 +904,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onStart() {
+        mWaitMediaReadyCount = 0;
         // We do not play animation if activity restart.
         boolean playTrans = !hasStopped;
         final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getId());
