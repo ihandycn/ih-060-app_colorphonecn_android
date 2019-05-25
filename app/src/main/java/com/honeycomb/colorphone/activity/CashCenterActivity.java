@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
+import android.text.TextUtils;
 
 import com.acb.cashcenter.CashCenterLayout;
-import com.acb.cashcenter.CashCenterManager;
+import com.acb.cashcenter.HSCashCenterManager;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.superappscommon.util.Navigations;
 
@@ -38,30 +38,31 @@ public class CashCenterActivity extends HSAppCompatActivity {
 //        }
 
         cashCenterLayout = findViewById(com.acb.cashcenter.R.id.cash_center_layout);
-        cashCenterLayout.setFitsSystemWindows(true);
-        cashCenterLayout.setFinishListener(() -> finish());
+        cashCenterLayout.setCashCenterTaskListener(new CashCenterLayout.CashCenterTaskListener() {
+            @Override public void onBackIconClick() {
+                finish();
+            }
 
-        findViewById(com.acb.cashcenter.R.id.cash_center_root_view)
-                .setPadding(0, 0, 0, 0);
-
-        View flashButton = findViewById(com.acb.cashcenter.R.id.btn_wheel_start);
-        flashButton.setOnClickListener(v -> {
-            CashCenterManager.getInstance().logEvent("CashCenter_CashWheel_Click");
-            CashCenterManager.getInstance().logEvent("CashCenter_CashWheel_Show", "CashCenterWheel", true);
-            Navigations.startActivity(CashCenterActivity.this, ColorPhoneActivity.class);
+            @Override public void onTaskClick(String s) {
+                if (TextUtils.equals(s, CashCenterLayout.TASK_BIG_WHEEL)) {
+                    HSCashCenterManager.getInstance().logEvent("CashCenter_CashWheel_Click");
+                    HSCashCenterManager.getInstance().logEvent("CashCenter_CashWheel_Show", "CashCenterWheel", true);
+                    Navigations.startActivity(CashCenterActivity.this, ColorPhoneActivity.class);
+                    finish();
+                }
+            }
         });
-
     }
 
     @Override protected void onDestroy() {
         super.onDestroy();
 
-        CashCenterManager.getInstance().onExit();
+        cashCenterLayout.onDestory();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        cashCenterLayout.init();
+        cashCenterLayout.onResume();
     }
 }

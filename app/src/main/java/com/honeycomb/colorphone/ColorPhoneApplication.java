@@ -116,6 +116,8 @@ import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
+import net.appcloudbox.feast.call.HSFeast;
+import net.appcloudbox.feast.call.IHSFeastInitListener;
 import net.appcloudbox.service.AcbService;
 
 import java.io.File;
@@ -394,6 +396,15 @@ public class ColorPhoneApplication extends HSApplication {
         }
 
         PushManager.getInstance().init();
+        HSFeast.getInstance().init(this, new IHSFeastInitListener() {
+            @Override public void onSuccess() {
+
+            }
+
+            @Override public void onFailure(int i, String s) {
+
+            }
+        });
 
         // Only restore tasks here.
         TasksManager.getImpl().init();

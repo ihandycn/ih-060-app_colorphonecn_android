@@ -76,9 +76,15 @@
 *;
 }
 
+-keep class com.feast.nativegamecenter.withdraw.module.**{*;}
+
 -keep class com.acb.cashcenter.HSCashCenterManager{*;}
 
 -keep class com.acb.cashcenter.model.**{*;}
+
+-keep class com.acb.cashcenter.util.AppInfoUtils{*;}
+
+-keep class com.acb.cashcenter.ads.AdUtils{*;}
 
 -keepnames class com.honeycomb.colorphone.PermanentService$* {
     public <fields>;

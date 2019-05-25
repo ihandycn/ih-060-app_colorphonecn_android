@@ -212,9 +212,11 @@ dependencies {
 
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
+    compile(name: 'libCashCenter/alipaySdk', ext: 'aar')
+    compile(name: 'libCashCenter/cashcenter-release', ext: 'aar')
+    compile(name: 'libCashCenter/withdraw-release', ext: 'aar')
 
     compile project(':libChargingCommon')
-    compile project(':libCashCenter')
     compile project(':libChargingReport')
     compile project(':libCallAssistant')
     compile project(':libMessageCenter')
@@ -226,6 +228,10 @@ dependencies {
 
     //  -------- GoldEye ------
     colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.05.14.001'
+
+    compile 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta04'
+    compile 'com.android.volley:volley:1.1.1'
+    compile 'com.gavin.com.library:stickyDecoration:1.4.13'
 
     // Umeng
     colorphoneCompile 'com.umeng.umsdk:analytics:8.0.0'

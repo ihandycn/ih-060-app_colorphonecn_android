@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.acb.call.service.InCallWindow;
-import com.acb.cashcenter.lottery.LotteryWheelActivity;
+import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
@@ -79,7 +79,7 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void checkFloatWindow(View view) {
-//        FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
+        FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
 //        ArrayList<String> perms = new ArrayList<>(1);
 //        perms.add(RequestPermissionsActivity.PERMISSION_SHOW_ON_LOCK_SCREEN_OUTSIDE);
 //        RequestPermissionsActivity.start(this, "", perms);
@@ -92,7 +92,8 @@ public class TestActivity extends AppCompatActivity {
 //        NewsResultBean bean = gson.fromJson(json, NewsResultBean.class);
 //
 //        HSLog.i("News", "bean: " + bean);
-
-        LotteryWheelActivity.start(this, true);
+//
+//        LotteryWheelActivity.start(this, true);
+//        Navigations.startActivitySafely(getApplicationContext(), LotteryActivity.class);
     }
 }
