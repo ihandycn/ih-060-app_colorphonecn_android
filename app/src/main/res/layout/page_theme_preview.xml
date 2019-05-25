@@ -37,7 +37,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/preview_button_bg_dark_gradient"
-        android:paddingBottom="18dp">
+        android:paddingBottom="14dp">
 
         <ImageView
             android:id="@+id/ringtone_image"
