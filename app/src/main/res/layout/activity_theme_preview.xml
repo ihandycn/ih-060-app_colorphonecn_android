@@ -15,5 +15,5 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_round_material_compat"
-        android:src="@drawable/back_indicator_white_selector" />
+        android:src="@drawable/ic_back_round_thin" />
 </merge>
