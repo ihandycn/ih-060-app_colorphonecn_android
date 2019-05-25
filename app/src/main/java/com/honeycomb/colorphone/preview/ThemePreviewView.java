@@ -541,13 +541,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         dimCover.setVisibility(View.INVISIBLE);
         mProgressViewHolder.hide();
 
-        // Video has audio
-        if (mTheme.hasRingtone()) {
-            mRingtoneViewHolder.setEnable(true);
-            mRingtoneViewHolder.play();
-        } else {
-            mRingtoneViewHolder.setEnable(false);
-            mRingtoneViewHolder.hideMusicSwitch();
+        // If user back from ringtone settings, we keep switch state as before.
+        if (!mWaitContactResult) {
+            // Video has audio
+            if (mTheme.hasRingtone()) {
+                mRingtoneViewHolder.setEnable(true);
+                mRingtoneViewHolder.play();
+            } else {
+                mRingtoneViewHolder.setEnable(false);
+                mRingtoneViewHolder.hideMusicSwitch();
+            }
         }
 
         previewWindow.updateThemeLayout(mThemeType);
@@ -1412,9 +1415,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         private void toggle() {
             final boolean currentSelect = imageView.isActivated();
             HSLog.d("Ringtone", "Switch to " + (currentSelect ? "Close" : "Open"));
-            String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Ringtone_Clicked", mTheme.getIdName());
-            Analytics.logEvent(event,
-                    "Type", currentSelect ? "TurnOff" : "TurnOn");
+            Analytics.logEvent("Ringtone_Action",
+                    "Type", currentSelect ? "Close" : "Open",
+                    "Theme", mTheme.getName());
 
             if (currentSelect) {
                 mute();
