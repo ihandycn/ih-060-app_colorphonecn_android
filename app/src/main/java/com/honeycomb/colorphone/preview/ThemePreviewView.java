@@ -14,9 +14,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -138,6 +141,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private ViewGroup mUnLockButton;
     private RewardVideoView mRewardVideoView;
 
+    private static final int ENJOY_MODE = 0;
+    private static final int PREVIEW_MODE = 1;
+    private TextView mThemeLikeCount;
+    TextView mThemeTitle;
+    private TextView mThemeSetting;
+    private TextView mThemeSettingDefault;
+    private TextView mThemeSettingSingle;
+    private ImageView mThemeSettingClose;
+    private LottieAnimationView mThemeLikeAnim;
+    private int themeMode;
+    private int changeMode = 1;
+    private RelativeLayout mEnjoyThemeLayout;
 
     // DownloadTask
     private SparseArray<DownloadTask> mDownloadTasks = new SparseArray<>(2);
@@ -183,25 +198,27 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_HIDE:
-                    showNavView(false);
-                    for (ThemePreviewView preV : mActivity.getViews()) {
+                    //showNavView(false);
+                    switchMode(PREVIEW_MODE);
+                    /*for (ThemePreviewView preV : mActivity.getViews()) {
                         if (preV == ThemePreviewView.this) {
                             fadeOutActionView();
                         } else {
                             preV.fadeOutActionViewImmediately();
                         }
-                    }
+                    }*/
                     return true;
 
                 case MSG_SHOW:
-                    showNavView(true);
-                    for (ThemePreviewView preV : mActivity.getViews()) {
+                    //showNavView(true);
+                    /*for (ThemePreviewView preV : mActivity.getViews()) {
                         if (preV == ThemePreviewView.this) {
                             fadeInActionView();
                         } else {
                             preV.fadeInActionViewImmediately();
                         }
-                    }
+                    }*/
+                    switchMode(ENJOY_MODE);
                     return true;
 
                 case MSG_DOWNLOAD: {
@@ -378,13 +395,26 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             @Override
             public void onClick(View v) {
                 if (themeReady && !inTransition) {
-                    boolean isInHide = getTransBottomLayout().getTranslationY() == bottomBtnTransY;
+                    /*boolean isInHide = getTransBottomLayout().getTranslationY() == bottomBtnTransY;
                     if (isInHide) {
                         mHandler.sendEmptyMessage(MSG_SHOW);
                     }
                     boolean isShown = getTransBottomLayout().getTranslationY() == 0 && themeReady;
                     if (isShown) {
                         mHandler.sendEmptyMessage(MSG_HIDE);
+                    } else {
+                        scheduleNextHide();
+                    }*/
+                    if (getMode() == PREVIEW_MODE) {
+                        mHandler.sendEmptyMessage(MSG_SHOW);
+
+                    }
+                    if (getMode() == ENJOY_MODE) {
+                        if (changeMode == 0) {
+                            settingFoldingView();
+                        } else {
+                            mHandler.sendEmptyMessage(MSG_HIDE);
+                        }
                     } else {
                         scheduleNextHide();
                     }
@@ -400,6 +430,17 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         mApplyForOne = findViewById(R.id.theme_set_for_one);
         mApplyForOne.setEnabled(mTheme.getId() != Theme.RANDOM_THEME);
+
+        mEnjoyThemeLayout = findViewById(R.id.enjoy_layout);
+        mThemeTitle = findViewById(R.id.title_line);
+        mThemeTitle.setText(mTheme.getName());
+        mThemeLikeCount = findViewById(R.id.collect_num);
+        mThemeSetting = findViewById(R.id.theme_setting);
+        mThemeSettingDefault = findViewById(R.id.theme_setting_default);
+        mThemeSettingSingle = findViewById(R.id.theme_setting_single);
+        mThemeSettingClose = findViewById(R.id.theme_setting_close);
+        mThemeLikeAnim = findViewById(R.id.like_count_icon);
+
 
 
         // set background
@@ -476,7 +517,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void playDownloadOkTransAnimation() {
         mProgressViewHolder.fadeOut();
         dimCover.animate().alpha(0).setDuration(200);
-        getTransBottomLayout().setVisibility(View.VISIBLE);
+        initEnjoyView();
         animationDelay = 0;
         onThemeReady(NO_ANIMITION);
     }
@@ -688,6 +729,388 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
+    private int getMode() {
+        return themeMode;
+    }
+
+    private void switchMode(int mode) {
+        switch (mode) {
+            case ENJOY_MODE:
+                changeMode = 1;
+                themeMode = ENJOY_MODE;
+                enjoyView();
+                break;
+            case PREVIEW_MODE:
+                themeMode = PREVIEW_MODE;
+                previewView();
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private void initDownloading() {
+        mEnjoyThemeLayout.setVisibility(GONE);
+        callActionView.setVisibility(GONE);
+        mUserView.setVisibility(GONE);
+        mNumberName.setVisibility(GONE);
+        mCallName.setVisibility(GONE);
+        mActionLayout.setVisibility(GONE);
+        mThemeSetting.setVisibility(GONE);
+        mNavBack.setVisibility(VISIBLE);
+        mThemeSettingClose.setVisibility(GONE);
+        mThemeSettingDefault.setVisibility(GONE);
+        mThemeSettingSingle.setVisibility(GONE);
+    }
+
+    private void initEnjoyView() {
+        mEnjoyThemeLayout.setVisibility(VISIBLE);
+
+        callActionView.setVisibility(GONE);
+        mUserView.setVisibility(GONE);
+        mNumberName.setVisibility(GONE);
+        mCallName.setVisibility(GONE);
+        mActionLayout.setVisibility(GONE);
+        mThemeSetting.setVisibility(VISIBLE);
+
+        mNavBack.setVisibility(VISIBLE);
+        mThemeSettingClose.setVisibility(GONE);
+        mThemeSettingDefault.setVisibility(GONE);
+        mThemeSettingSingle.setVisibility(GONE);
+        mThemeSetting.setScaleX(1.0f);
+        mThemeSetting.setAlpha(1);
+        mThemeSetting.setTextColor(Color.WHITE);
+        mThemeSetting.setBackgroundResource(R.drawable.shape_theme_setting);
+
+
+        mThemeSetting.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingUndoldingView();
+            }
+        });
+
+        mThemeSettingClose.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                settingFoldingView();
+            }
+        });
+    }
+     private void enjoyView() {
+         mActionLayout.setVisibility(GONE);
+         mNavBack.setVisibility(VISIBLE);
+         changeModeToEnjoy();
+         mThemeSettingClose.setVisibility(GONE);
+         mThemeSettingDefault.setVisibility(GONE);
+         mThemeSettingSingle.setVisibility(GONE);
+         mThemeSetting.setScaleX(1.0f);
+         mThemeSetting.setAlpha(1);
+         mThemeSetting.setTextColor(Color.WHITE);
+         mThemeSetting.setBackgroundResource(R.drawable.shape_theme_setting);
+
+         mThemeSetting.setOnClickListener(new OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 settingUndoldingView();
+             }
+         });
+
+         mThemeSettingClose.setOnClickListener(new OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 settingFoldingView();
+             }
+         });
+     }
+
+    private void previewView() {
+        mNavBack.setVisibility(GONE);
+        changeModeToPreview();
+    }
+
+    private void changeModeToPreview() {
+        mEnjoyThemeLayout.setAlpha(1);
+        mEnjoyThemeLayout.animate().alpha(0)
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mEnjoyThemeLayout.setVisibility(GONE);
+                    }
+                })
+                .start();
+        mUserView.setAlpha(0);
+        mUserView.animate().alpha(1)
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mUserView.setVisibility(VISIBLE);
+                    }
+                })
+                .start();
+        mNumberName.setAlpha(0);
+        mNumberName.animate().alpha(1)
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mNumberName.setVisibility(VISIBLE);
+                    }
+                })
+                .start();
+        callActionView.setAlpha(0);
+        callActionView.animate().alpha(1)
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        callActionView.setVisibility(VISIBLE);
+                    }
+                })
+                .start();
+        mCallName.setAlpha(0);
+        mCallName.animate().alpha(1)
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mCallName.setVisibility(VISIBLE);
+                    }
+                })
+                .start();
+        if (themeMode == PREVIEW_MODE) {
+            mActionLayoutfadeInView();
+        }
+
+    }
+    private void changeModeToEnjoy() {
+        mEnjoyThemeLayout.setAlpha(0);
+        mEnjoyThemeLayout.animate().alpha(1)
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mEnjoyThemeLayout.setVisibility(VISIBLE);
+                    }
+                })
+                .start();
+        callActionView.animate().alpha(0)
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        callActionView.setVisibility(GONE);
+                    }
+                })
+                .start();
+        mUserView.animate().alpha(0)
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mUserView.setVisibility(GONE);
+                    }
+                })
+                .start();
+        mCallName.animate().alpha(0)
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mCallName.setVisibility(GONE);
+                    }
+                })
+                .start();
+        mNumberName.animate().alpha(0)
+                .setDuration(200)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mNumberName.setVisibility(GONE);
+                    }
+                })
+                .start();
+    }
+
+    private Interpolator getmInterForTheme() {
+        Interpolator mInterForTheme = PathInterpolatorCompat.create(0.175f, 0.885f, 0.32f, 1.275f);
+        return mInterForTheme;
+    }
+
+    private void settingUndoldingView() {
+
+        int startCoordinateDefault = 168;
+        int endCoordinate = 0;
+        mThemeSettingDefault.setTranslationY(startCoordinateDefault);
+        mThemeSettingDefault.setAlpha(0);
+        mThemeSettingDefault.animate().translationY(endCoordinate)
+                .alpha(1)
+                .setDuration(300)
+                .setInterpolator(getmInterForTheme())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mThemeSettingDefault.setVisibility(VISIBLE);
+                    }
+                })
+                .start();
+
+        int startCoordinateSingle = 84;
+        mThemeSettingSingle.setTranslationY(startCoordinateSingle);
+        mThemeSettingDefault.setAlpha(0);
+        mThemeSettingSingle.animate().translationY(endCoordinate)
+                .alpha(1)
+                .setDuration(300)
+                .setInterpolator(getmInterForTheme())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mThemeSettingSingle.setVisibility(VISIBLE);
+                    }
+                })
+                .start();
+
+        int widthOfmThemeSetting = mThemeSetting.getMeasuredWidth();
+        float multipleOfSettingAndClose = 0.41f;
+        mThemeSetting.setPivotX(widthOfmThemeSetting);
+        mThemeSetting.setScaleX(1.0f);
+        mThemeSetting.setAlpha(1);
+        mThemeSetting.animate().scaleX(multipleOfSettingAndClose)
+                .alpha(0)
+                .setDuration(300)
+                .setInterpolator(getmInterForTheme())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mThemeSetting.setVisibility(GONE);
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mThemeSetting.setBackgroundResource(R.drawable.shape_theme_setting_click);
+                    }
+                })
+                .start();
+        mThemeSettingClose.setTranslationX(-31.5f);
+        mThemeSettingClose.setRotation(90);
+        mThemeSettingClose.setAlpha(0f);
+        mThemeSettingClose.animate()
+                .alpha(1)
+                .rotation(180)
+                .translationX(0)
+                .setInterpolator(getmInterForTheme())
+                .setDuration(300)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mThemeSettingClose.setVisibility(VISIBLE);
+                        mThemeSettingClose.setBackgroundResource(R.drawable.shape_theme_setting_close);
+                    }
+                })
+                .start();
+        changeMode = 0;
+
+    }
+
+    private void settingFoldingView() {
+        int endCoordinateDefault = 168;
+        int startCoordinate = 0;
+        mThemeSettingDefault.setTranslationY(startCoordinate);
+        mThemeSettingDefault.setAlpha(1);
+        mThemeSettingDefault.animate().translationY(endCoordinateDefault)
+                .alpha(0)
+                .setDuration(300)
+                .setInterpolator(getmInterForTheme())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mThemeSettingDefault.setVisibility(GONE);
+                    }
+                })
+                .start();
+
+        int endCoordinateSingle = 84;
+        mThemeSettingSingle.setTranslationY(startCoordinate);
+        mThemeSettingSingle.setAlpha(1);
+        mThemeSettingSingle.animate().translationY(endCoordinateSingle)
+                .alpha(0)
+                .setDuration(300)
+                .setInterpolator(getmInterForTheme())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mThemeSettingSingle.setVisibility(GONE);
+                    }
+                })
+                .start();
+
+        int widthOfmThemeSetting = mThemeSetting.getMeasuredWidth();
+        float multipleOfSettingAndClose = 0.41f;
+        mThemeSetting.setPivotX(widthOfmThemeSetting);
+        mThemeSetting.setScaleX(multipleOfSettingAndClose);
+        mThemeSetting.setAlpha(0);
+        mThemeSetting.animate().scaleX(1.0f)
+                .alpha(1)
+                .setDuration(300)
+                .setInterpolator(getmInterForTheme())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mThemeSetting.setVisibility(VISIBLE);
+                        mThemeSetting.setBackgroundResource(R.drawable.shape_theme_setting);
+                    }
+                })
+                .start();
+        mThemeSettingClose.setTranslationX(0f);
+        mThemeSettingClose.setRotation(180);
+        mThemeSettingClose.setAlpha(1f);
+        mThemeSettingClose.animate()
+                .alpha(0f)
+                .rotation(90)
+                .translationX(-31.5f)
+                .setDuration(300)
+                .setInterpolator(getmInterForTheme())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mThemeSettingClose.setVisibility(GONE);
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mThemeSettingClose.setBackgroundResource(R.drawable.shape_theme_setting_close_click);
+                    }
+                })
+                .start();
+        changeMode = 1;
+    }
+
+    private void mActionLayoutfadeInView(/*boolean anim*/) {
+        int mActionLayoutHeight = 56;
+        mActionLayout.setTranslationY(mActionLayoutHeight);
+        getTransBottomLayout().animate().translationY(0)
+                .setDuration(ANIMATION_DURATION)
+                .setInterpolator(mInter)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (themeMode == PREVIEW_MODE) {
+                            onActionButtonReady();
+                            inTransition = false;
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        if (themeMode == PREVIEW_MODE) {
+                            mActionLayout.setVisibility(VISIBLE);
+                        }
+                    }
+                }).setStartDelay(600).start();
+    }
 
     private void playTransInAnimation(final Runnable completeRunnable) {
         mCallName = findViewById(R.id.first_line);
@@ -710,11 +1133,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             return;
         }
 
-        mUserView.setVisibility(VISIBLE);
+        /*mUserView.setVisibility(VISIBLE);
         mCallName.setVisibility(VISIBLE);
         mNumberName.setVisibility(VISIBLE);
         callActionView.setVisibility(VISIBLE);
-        mActionLayout.setVisibility(VISIBLE);
+        mActionLayout.setVisibility(VISIBLE);*/
 
         if (mNoTransition) {
             if (completeRunnable != null) {
@@ -906,18 +1329,21 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         boolean themeLoading = false;
         if (model != null) {
             // GIf/Mp4
-
             if (TasksManager.getImpl().isDownloaded(model)) {
                 onThemeReady(playTrans);
+                switchMode(ENJOY_MODE);
+                mThemeSetting.setVisibility(VISIBLE);
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
                 themeLoading = true;
                 startDownloadTime = System.currentTimeMillis();
                 onThemeLoading();
+                initDownloading();
             }
         } else {
             // Directly applicable
             onThemeReady(playTrans);
+            switchMode(ENJOY_MODE);
         }
 
         if (!mTheme.hasRingtone()) {
