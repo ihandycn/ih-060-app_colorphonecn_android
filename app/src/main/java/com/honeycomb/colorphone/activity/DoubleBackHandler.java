@@ -1,12 +1,22 @@
 package com.honeycomb.colorphone.activity;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.Analytics;
+import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
 
 public class DoubleBackHandler {
     // 2s
     private long CLICK_BACK_INTERVAL = 2 * 1000;
-    long mLastClickTimeMills = 0;
+    private long mLastClickTimeMills = 0;
+    private Runnable toastDismissCallback = new Runnable() {
+        @Override
+        public void run() {
+            Analytics.logEvent("Quit_Toast_Show", "Result", "False");
+            isToastShow = false;
+        }
+    };
+    private boolean isToastShow;
 
     /**
      * If handle back press event
@@ -18,10 +28,18 @@ public class DoubleBackHandler {
         if (interval > CLICK_BACK_INTERVAL) {
             return true;
         }
+        Threads.removeOnMainThread(toastDismissCallback);
+        if (isToastShow) {
+            Analytics.logEvent("Quit_Toast_Show", "Result", "True");
+            isToastShow = false;
+        }
+
         return false;
     }
 
     public void toast() {
+        isToastShow = true;
+        Threads.postOnMainThreadDelayed(toastDismissCallback,2000);
         Toasts.showToast(R.string.click_again_to_exit);
     }
 }
