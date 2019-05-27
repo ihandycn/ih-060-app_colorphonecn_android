@@ -883,8 +883,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         if (lotteryWheelLayout == null) {
                             lotteryWheelLayout = (LotteryWheelLayout) getLayoutInflater().inflate(R.layout.lottery_layout, container, false);
                             HSLog.i("CashCenterCp", "bottom: nav == " + Dimensions.getNavigationBarHeight(getBaseContext()) + " tabH == " + tabLayout.getHeight());
-                            lotteryWheelLayout.setMarginTopAndBottomDp(0, Dimensions.dpFromPx(Dimensions.getNavigationBarHeight(ColorPhoneActivity.this)) + 56);
-//                            lotteryWheelLayout = new LotteryWheelLayout(ColorPhoneActivity.this);
+                            int navH = Dimensions.dpFromPx(Dimensions.getNavigationBarHeight(ColorPhoneActivity.this));
+                            int phoneH = Dimensions.getPhoneHeight(ColorPhoneActivity.this);
+                            if (phoneH <= 1920) {
+                                lotteryWheelLayout.setMarginTopAndBottomDp(0,  navH + 56);
+                            }
                             lotteryWheelLayout.setLeftCornerIconResource(R.drawable.cash_center_icon);
                             lotteryWheelLayout.setTvLeftCornerTextRes(R.string.cash_center);
                             lotteryWheelLayout.setIconClickListener(new OnIconClickListener() {
