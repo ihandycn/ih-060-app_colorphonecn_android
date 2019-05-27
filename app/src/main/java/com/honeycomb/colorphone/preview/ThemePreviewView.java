@@ -224,6 +224,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
+            clearTask(DownloadTask.TYPE_THEME);
+
             if (triggerMediaReady()) {
                 playDownloadOkTransAnimation();
             }
@@ -249,6 +251,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     DownloadStateListener mRingtoneDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
+            clearTask(DownloadTask.TYPE_RINGTONE);
             if (triggerMediaReady()) {
                 playDownloadOkTransAnimation();
             }
@@ -508,8 +511,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private boolean triggerMediaReady() {
-        if (mWaitMediaReadyCount > 2 || mWaitMediaReadyCount <= 0) {
-            throw new IllegalStateException("triggerMedia count invalid : " + mWaitMediaReadyCount);
+        if (BuildConfig.DEBUG) {
+            if (mWaitMediaReadyCount > 2 || mWaitMediaReadyCount <= 0) {
+                throw new IllegalStateException("triggerMedia count invalid : " + mWaitMediaReadyCount);
+            }
         }
         mWaitMediaReadyCount--;
         return mWaitMediaReadyCount <= 0;
@@ -1126,6 +1131,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         HSLog.d(TAG, "start download ringtone");
         TasksManager.doDownload(model, null);
         FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mRingtoneDownloadStateListener);
+    }
+
+    private void clearTask(int taskType) {
+        DownloadTask downloadTask = mDownloadTasks.get(taskType);
+        if (downloadTask != null) {
+            mDownloadTasks.remove(taskType);
+            if (downloadTask.getTasksManagerModel() != null) {
+                FileDownloadMultiListener.getDefault().removeStateListener(downloadTask.getTasksManagerModel().getId());
+            }
+        }
     }
 
     @Override
