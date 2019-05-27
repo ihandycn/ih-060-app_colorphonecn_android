@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
+import com.acb.cashcenter.CashCenterCallback;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
@@ -79,6 +80,7 @@ import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import hugo.weaving.DebugLog;
 
@@ -315,7 +317,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (mViewPager != null) {
                     mViewPager.setCurrentItem(pos, false);
                 }
+
                 updateTitle(pos);
+                HSCashCenterManager.getInstance().setAutoFirstRewardFlag(false);
+
                 if (pos == NEWS_POSITION) {
                     toolbar.setVisibility(View.VISIBLE);
                     toolbar.setBackgroundColor(Color.WHITE);
@@ -340,7 +345,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     Preferences.getDefault().putBoolean(PREFS_CASH_CENTER_SHOW, true);
                     tab.getCustomView().findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
                     tabCashCenterGuide.setVisibility(View.GONE);
-                    
+
+                    try {
+                        HSCashCenterManager.getInstance().startFirstReward();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        HSCashCenterManager.getInstance().setAutoFirstRewardFlag(true);
+                    }
+
                     if (newsLayout != null) {
                         newsLayout.onSelected(false);
                     }
@@ -403,6 +415,47 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void initCashCenterMgr() {
         HSCashCenterManager.init(ColorPhoneActivity.this);
+        HSCashCenterManager.getInstance().init(ColorPhoneActivity.this, new CashCenterCallback() {
+            @Override public void onCashCenterShow() {
+
+            }
+
+            @Override public void onWheelShow() {
+
+            }
+
+            @Override public void onWheelSpinClick() {
+
+            }
+
+            @Override public void onWheelAdShow() {
+
+            }
+
+            @Override public void onWheelAdDismiss() {
+
+            }
+
+            @Override public void onWheelAdChance(boolean b, AdSource adSource) {
+
+            }
+
+            @Override public void onWheelCoinEarn(long l) {
+
+            }
+
+            @Override public void onLogEvent(String s, Map<String, Object> map, boolean b) {
+
+            }
+
+            @Override public void logGameClick() {
+
+            }
+
+            @Override public void onExit() {
+
+            }
+        });
 
         AcbNativeAdManager.getInstance().activePlacementInProcess("CashNative");
         HSCashCenterManager.setNativeAdPlacement("CashNative");
@@ -414,6 +467,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         AcbAds.getInstance().setActivity(this);
         AcbAds.getInstance().setForegroundActivity(this);
+
+        HSCashCenterManager.getInstance().setAutoFirstRewardFlag(false);
     }
 
     private void updateTitle(int pos) {
@@ -841,11 +896,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                                 }
                             });
 
-//                            TextView title = lotteryWheelLayout.findViewById(com.acb.cashcenter.R.id.cash_center_left_corner_text);
-//                            title.setVisibility(View.VISIBLE);
-//                            title.setText(R.string.cash_center);
-//                            title.setTextColor(0xffffffff);
-//                            title.setTextSize(14);
+                            TextView title = lotteryWheelLayout.findViewById(com.acb.cashcenter.R.id.cash_center_left_corner_text);
+                            title.setVisibility(View.VISIBLE);
+                            title.setText(R.string.cash_center);
+                            title.setTextColor(0xffffffff);
+                            title.setTextSize(14);
 
                             frame = lotteryWheelLayout;
                         } else {
