@@ -1036,7 +1036,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Show", mTheme.getIdName());
             Analytics.logEvent(event);
         }
-        Ap.Ringtone.onShow(mTheme);
     }
 
     public boolean isSelectedPos() {
