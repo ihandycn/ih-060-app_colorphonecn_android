@@ -14,7 +14,8 @@ public class Ap {
     public static class Ringtone {
 
         public static boolean isEnable() {
-            return true;
+            return HSConfig.optBoolean(true,
+                    "Application", "Theme", "RingtoneEnable");
         }
 
     }
