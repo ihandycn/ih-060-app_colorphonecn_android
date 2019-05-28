@@ -26,6 +26,7 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
+import com.superapps.util.rom.RomUtils;
 
 import java.util.Calendar;
 
@@ -264,6 +265,10 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
 
     public static boolean isPeriod() {
         if (!HSConfig.optBoolean(false, "Application", "CashCenter", "FloatingGuide")) {
+            return false;
+        }
+
+        if (!RomUtils.checkIsHuaweiRom()) {
             return false;
         }
 

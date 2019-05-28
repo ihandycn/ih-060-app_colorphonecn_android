@@ -340,6 +340,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (lotteryWheelLayout != null && lotteryWheelLayout.isSpining()) {
+                    tabLayout.setScrollPosition(CASH_POSITION, 0f, true);
+                    return;
+                }
+
                 int pos = tab.getPosition();
                 Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(Constants.KEY_TAB_POSITION, pos);
 
@@ -752,10 +757,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         ConfigChangeManager.getInstance().removeCallback(configChangeCallback);
 
-        if (lotteryWheelLayout != null) {
-            lotteryWheelLayout.onBackPressed();
-        }
-
         super.onDestroy();
     }
 
@@ -765,22 +766,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mRewardVideoView.onHideAdLoading();
             mRewardVideoView.onCancel();
         } else {
-            if (tabLayout.getSelectedTabPosition() == CASH_POSITION) {
-                if (lotteryWheelLayout != null && !lotteryWheelLayout.isSpining()) {
-                    super.onBackPressed();
-                    // Stop all download tasks;
-                    TasksManager.getImpl().stopAllTasks();
-
-                    lotteryWheelLayout.onBackPressed();
-                }
-            } else {
+            if (tabLayout.getSelectedTabPosition() != CASH_POSITION || !(lotteryWheelLayout != null && lotteryWheelLayout.isSpining())) {
                 super.onBackPressed();
                 // Stop all download tasks;
                 TasksManager.getImpl().stopAllTasks();
-
-                if (lotteryWheelLayout != null) {
-                    lotteryWheelLayout.onBackPressed();
-                }
             }
         }
     }
@@ -951,6 +940,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     if (showTabCashCenter) {
                         if (lotteryWheelLayout == null) {
                             lotteryWheelLayout = (LotteryWheelLayout) getLayoutInflater().inflate(R.layout.lottery_layout, container, false);
+                            lotteryWheelLayout.setBackToCashCenterPage(false);
                             HSLog.i("CashCenterCp", "bottom: nav == " + Dimensions.getNavigationBarHeight(getBaseContext()) + " tabH == " + tabLayout.getHeight());
                             int navH = Dimensions.dpFromPx(Dimensions.getNavigationBarHeight(ColorPhoneActivity.this));
                             int phoneH = Dimensions.getPhoneHeight(ColorPhoneActivity.this);
