@@ -372,6 +372,12 @@
             android:taskAffinity=".acb_interstitial_quiet" />
 
         <activity
+            android:name="com.bytedance.sdk.openadsdk.activity.TTRewardVideoActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity=".acb_interstitial_quiet" />
+
+        <activity
             android:name="com.qq.e.ads.ADActivity"
             android:excludeFromRecents="true"
             android:taskAffinity=".acb_interstitial_quiet" />
