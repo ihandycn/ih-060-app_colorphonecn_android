@@ -509,6 +509,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         AcbAds.getInstance().setForegroundActivity(this);
 
         HSCashCenterManager.getInstance().setAutoFirstRewardFlag(false);
+        HSCashCenterManager.getInstance().setCpid(4);
     }
 
     private void updateTitle(int pos) {

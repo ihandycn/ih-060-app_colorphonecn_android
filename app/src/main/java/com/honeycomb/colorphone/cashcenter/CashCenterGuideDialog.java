@@ -24,13 +24,13 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
-import com.messagecenter.notification.FloatWindow;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 
 import java.util.Calendar;
 
 public class CashCenterGuideDialog extends FloatWindowDialog {
+    private final static String TAG = "CCGuideD";
     private final static String PREF_KEY_LAST_SHOW_CASH_GUIDE = "pref_key_last_show_cash_guide";
     private final int TOUCH_IGNORE = 10;
     protected ViewGroup mContentView;
@@ -92,7 +92,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
         mLayoutParams.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-        mLayoutParams.gravity = Gravity.END | Gravity.TOP;
+        mLayoutParams.gravity = Gravity.START | Gravity.TOP;
         mLayoutParams.x = viewOriginalX;
         mLayoutParams.y = Dimensions.pxFromDp(200);
         mLayoutParams.width = viewViewWidth;
@@ -112,7 +112,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!isStop) {
-            HSLog.d(FloatWindow.TAG, "not onTouch");
+            HSLog.d(TAG, "not onTouch");
             return false;
         }
         switch (event.getAction()) {
@@ -125,7 +125,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
                 yDownInScreen = event.getRawY() - statusBarHeight;
                 xInScreen = event.getRawX();
                 yInScreen = event.getRawY() - statusBarHeight;
-                HSLog.d(FloatWindow.TAG, "ACTION_DOWN x == " + xDownInScreen + "  y == " + yDownInScreen);
+                HSLog.d(TAG, "ACTION_DOWN x == " + xDownInScreen + "  y == " + yDownInScreen);
 
 //                actionDownStatus();
                 break;
@@ -154,7 +154,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
                     Analytics.logEvent("CashCenter_FloatingGuide_Click", "type", getPeriod());
                     dismiss();
                 }
-                HSLog.d(FloatWindow.TAG, "ACTION_UP " + "x == " + xInScreen + "  y == " + yInScreen);
+                HSLog.d(TAG, "ACTION_UP " + "x == " + xInScreen + "  y == " + yInScreen);
                 break;
             default:
                 break;
@@ -182,11 +182,10 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
 
     private void startBallViewMoveToBorderAnim(final Runnable runnable) {
         final int borderX;
-        final WindowManager.LayoutParams ballParams = FloatWindow.getInstance().getBallParams();
-        if (ballParams == null) {
+        if (mLayoutParams == null) {
             return;
         }
-        if (ballParams.x > ((Dimensions.getPhoneWidth(HSApplication.getContext()) - viewViewWidth) / 2f)) {
+        if (mLayoutParams.x > ((Dimensions.getPhoneWidth(HSApplication.getContext()) - viewViewWidth) / 2f)) {
             borderX = viewOriginalX;
         } else {
             borderX = -Dimensions.pxFromDp(8);
@@ -194,7 +193,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
 
         int bottom = Dimensions.getPhoneHeight(getContext()) - Dimensions.pxFromDp(170);
         int top = Dimensions.getStatusBarHeight(getContext()) + Dimensions.pxFromDp(35);
-        final int ballY = ballParams.y;
+        final int ballY = mLayoutParams.y;
         final int tranceY;
 
         if (ballY < top) {
@@ -205,7 +204,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
             tranceY = 0;
         }
 
-        ValueAnimator animator = ValueAnimator.ofInt(ballParams.x, borderX);
+        ValueAnimator animator = ValueAnimator.ofInt(mLayoutParams.x, borderX);
         animator.setInterpolator(PathInterpolatorCompat.create(0.49f, 1.47f, 0.66f, 0.99f));
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
@@ -228,7 +227,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
                 }
             }
         });
-        int x = Math.abs(ballParams.x - borderX);
+        int x = Math.abs(mLayoutParams.x - borderX);
         animator.setDuration(getMoveToBorderAnimDuration(x));
         animator.start();
     }
