@@ -6,7 +6,6 @@ import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -26,7 +25,6 @@ import android.view.ViewStub;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -34,6 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.acb.call.VideoManager;
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -50,6 +49,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
+import com.honeycomb.colorphone.activity.ThemeSetHelper;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -76,7 +76,6 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -94,18 +93,21 @@ import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEM
 // TODO : clean Theme & Ringtone logic
 public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageChangeListener {
 
+    private static final String TAG = ThemePreviewWindow.class.getSimpleName();
+
     private static final boolean DEBUG_LIFE_CALLBACK = true & BuildConfig.DEBUG;
 
     private static final int MSG_HIDE = 1;
     private static final int MSG_SHOW = 2;
     private static final int MSG_DOWNLOAD = 10;
-    private static final int MSG_RINGTONE_HELLO = 12;
 
     private static final boolean PLAY_ANIMITION = true;
     private static final boolean NO_ANIMITION = false;
 
     private static final long AUTO_HIDE_TIME = 15000; //15s
     private static final long ANIMATION_DURATION = 300;
+    private static final long ANIMATION_DURMATION_DELAY = 1000;
+    private static final long CHANGE_MODE_DURTION = 200;
     private static final long WINDOW_ANIM_DURATION = 400;
     private static final int TRANS_IN_DURATION = 400;
 
@@ -143,15 +145,20 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private static final int ENJOY_MODE = 0;
     private static final int PREVIEW_MODE = 1;
+    private static final int THEME_ENJOY_UNFOLDING = 0;
+    private static final int THEME_ENJOY_FOLDING = 1;
+    private static final int NAV_FADE_IN = 1;
+    private static final int NAV_VISIBLE = 0;
     private TextView mThemeLikeCount;
     TextView mThemeTitle;
-    private TextView mThemeSetting;
-    private TextView mThemeSettingDefault;
-    private TextView mThemeSettingSingle;
-    private ImageView mThemeSettingClose;
+    private TextView mEnjoyApplyBtn;
+    private TextView mEnjoyApplyDefault;
+    private TextView mEnjoyApplyForOne;
+    private ImageView mEnjoyClose;
     private LottieAnimationView mThemeLikeAnim;
     private int themeMode;
-    private int changeMode = 1;
+    private int foldingOrNot = THEME_ENJOY_FOLDING;
+    private int navFadeInOrVisible = NAV_VISIBLE;
     private RelativeLayout mEnjoyThemeLayout;
 
     // DownloadTask
@@ -184,40 +191,22 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
      */
     private boolean mBlockAnimationForPageChange = true;
     private boolean hasStopped;
-
-    /**
-     * If Ringtone file ready, theme file is downloading, wait.
-     */
-    private boolean waitingForThemeReady = false;
     private boolean resumed;
 
     private long startDownloadTime;
+
+    private int mWaitMediaReadyCount = 0;
+    private ProgressHelper mProgressHelper = new ProgressHelper();
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_HIDE:
-                    //showNavView(false);
                     switchMode(PREVIEW_MODE);
-                    /*for (ThemePreviewView preV : mActivity.getViews()) {
-                        if (preV == ThemePreviewView.this) {
-                            fadeOutActionView();
-                        } else {
-                            preV.fadeOutActionViewImmediately();
-                        }
-                    }*/
                     return true;
 
                 case MSG_SHOW:
-                    //showNavView(true);
-                    /*for (ThemePreviewView preV : mActivity.getViews()) {
-                        if (preV == ThemePreviewView.this) {
-                            fadeInActionView();
-                        } else {
-                            preV.fadeInActionViewImmediately();
-                        }
-                    }*/
                     switchMode(ENJOY_MODE);
                     return true;
 
@@ -233,9 +222,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                     return true;
                 }
-                case MSG_RINGTONE_HELLO :
-                    mRingtoneViewHolder.hello();
-                    return true;
                 default:
                     return false;
 
@@ -246,7 +232,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            playDownloadOkTransAnimation();
+            if (triggerMediaReady()) {
+                playDownloadOkTransAnimation();
+            }
         }
 
         @Override
@@ -260,14 +248,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public void updateDownloading(int status, long sofar, long total) {
             final float percent = sofar
                     / (float) total;
-            mProgressViewHolder.updateProgressView((int) (percent * 100));
+
+            mProgressHelper.setProgressVideo((int) (percent * 100));
+            mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
         }
     };
 
     DownloadStateListener mRingtoneDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            onRingtoneReady();
+            if (triggerMediaReady()) {
+                playDownloadOkTransAnimation();
+            }
         }
 
         @Override
@@ -282,10 +274,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         @Override
         public void updateDownloading(int status, long sofar, long total) {
-            // Do nothing
+            final float percent = sofar
+                    / (float) total;
+
+            mProgressHelper.setProgressRingtone((int) (percent * 100));
+            mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
             if (BuildConfig.DEBUG) {
-                final float percent = sofar
-                        / (float) total;
                 HSLog.d("Ringtone", "Downloading : " +  mTheme.getIdName() + ", progress: " + (int) (percent * 100));
             }
         }
@@ -295,10 +289,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     Runnable transEndRunnable = new Runnable() {
         @Override
         public void run() {
-            if (waitingForThemeReady) {
-                waitingForThemeReady  = false;
-                onRingtoneReady();
-            }
+
             if (!mBlockAnimationForPageChange) {
                 resumeAnimation();
                 mBlockAnimationForPageChange = true;
@@ -311,6 +302,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         }
     };
+    private boolean mWaitContactResult;
 
     public static void saveThemeApplys(int themeId) {
         if (isThemeAppliedEver(themeId)) {
@@ -381,6 +373,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return false;
     }
 
+    public boolean isRingtoneSettingShow() {
+        return mRingtoneViewHolder.isRingtoneSettingsShow();
+    }
+
+    public void dismissRingtoneSettingPage() {
+        mHandler.sendEmptyMessage(MSG_SHOW);
+        mEnjoyApplyBtn.setVisibility(VISIBLE);
+        mRingtoneViewHolder.hideRingtoneSettings();
+    }
+
     public void stopRewardVideoLoading() {
         if (mRewardVideoView != null) {
             mRewardVideoView.onHideAdLoading();
@@ -394,23 +396,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         previewWindow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (themeReady && !inTransition) {
-                    /*boolean isInHide = getTransBottomLayout().getTranslationY() == bottomBtnTransY;
-                    if (isInHide) {
-                        mHandler.sendEmptyMessage(MSG_SHOW);
-                    }
-                    boolean isShown = getTransBottomLayout().getTranslationY() == 0 && themeReady;
-                    if (isShown) {
-                        mHandler.sendEmptyMessage(MSG_HIDE);
-                    } else {
-                        scheduleNextHide();
-                    }*/
+                if (themeReady
+                        && !inTransition
+                        && !mRingtoneViewHolder.isRingtoneSettingsShow()) {
                     if (getMode() == PREVIEW_MODE) {
                         mHandler.sendEmptyMessage(MSG_SHOW);
 
                     }
                     if (getMode() == ENJOY_MODE) {
-                        if (changeMode == 0) {
+                        if (foldingOrNot == THEME_ENJOY_UNFOLDING) {
                             settingFoldingView();
                         } else {
                             mHandler.sendEmptyMessage(MSG_HIDE);
@@ -418,6 +412,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     } else {
                         scheduleNextHide();
                     }
+                }
+                if (mRingtoneViewHolder.isRingtoneSettingsShow()) {
+                    dismissRingtoneSettingPage();
                 }
             }
         });
@@ -435,10 +432,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mThemeTitle = findViewById(R.id.title_line);
         mThemeTitle.setText(mTheme.getName());
         mThemeLikeCount = findViewById(R.id.collect_num);
-        mThemeSetting = findViewById(R.id.theme_setting);
-        mThemeSettingDefault = findViewById(R.id.theme_setting_default);
-        mThemeSettingSingle = findViewById(R.id.theme_setting_single);
-        mThemeSettingClose = findViewById(R.id.theme_setting_close);
+        mEnjoyApplyBtn = findViewById(R.id.theme_setting);
+        mEnjoyApplyDefault = findViewById(R.id.theme_setting_default);
+        mEnjoyApplyForOne = findViewById(R.id.theme_setting_single);
+        mEnjoyClose = findViewById(R.id.theme_setting_close);
         mThemeLikeAnim = findViewById(R.id.like_count_icon);
 
 
@@ -471,7 +468,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
                     PermissionChecker.getInstance().check(mActivity, "SetForAll");
                 }
-                onThemeApply();
+
+                if (!mTheme.hasRingtone()) {
+                    onThemeApply();
+                } else {
+                    showNavView(false);
+                    fadeOutActionView();
+                    navFadeInOrVisible = NAV_FADE_IN;
+                    mRingtoneViewHolder.setApplyForAll(true);
+                    showRingtoneSetButton();
+                }
 
                 if (mActivity instanceof PopularThemePreviewActivity) {
                     Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
@@ -498,6 +504,60 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     Analytics.logEvent("ThemeDetail_SetForContact_Started");
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
                 }
+
+                mWaitContactResult = true;
+
+            }
+        });
+
+        mEnjoyApplyDefault.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (inTransition) {
+                    return;
+                }
+                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
+                }
+
+                if (!mTheme.hasRingtone()) {
+                    onThemeApply();
+
+                } else {
+                    showNavView(false);
+                    fadeOutActionView();
+                    navFadeInOrVisible = NAV_FADE_IN;
+                    mRingtoneViewHolder.setApplyForAll(true);
+                    showRingtoneSetButton();
+                }
+
+                if (mActivity instanceof PopularThemePreviewActivity) {
+                    Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
+                    Analytics.logEvent("ColorPhone_BanboList_Set_Success");
+                } else {
+                    Analytics.logEvent("ThemeDetail_SetForAll");
+                    Analytics.logEvent("ThemeDetail_SetForAll_Success");
+                }
+            }
+        });
+
+        mEnjoyApplyForOne.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                    PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
+                }
+
+                Analytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
+                if (mActivity instanceof PopularThemePreviewActivity) {
+                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
+                    Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
+                } else {
+                    Analytics.logEvent("ThemeDetail_SetForContact_Started");
+                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
+                }
+
+                mWaitContactResult = true;
             }
         });
         bottomBtnTransY = getTransBottomLayout().getTranslationY();
@@ -522,10 +582,51 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         onThemeReady(NO_ANIMITION);
     }
 
+    private boolean triggerMediaReady() {
+        if (mWaitMediaReadyCount > 2 || mWaitMediaReadyCount <= 0) {
+            throw new IllegalStateException("triggerMedia count invalid : " + mWaitMediaReadyCount);
+        }
+        mWaitMediaReadyCount--;
+        return mWaitMediaReadyCount <= 0;
+    }
+
+    private void onVideoReady(boolean playTrans) {
+        HSLog.d(TAG, "onVideoReady");
+        mProgressHelper.setProgressVideo(100);
+        if (triggerMediaReady()) {
+            onThemeReady(playTrans);
+        }
+    }
+
+    private void onRingtoneReady(boolean playTrans) {
+        mProgressHelper.setProgressRingtone(100);
+        HSLog.d(TAG, "onRingtoneReady");
+        if (triggerMediaReady()) {
+            onThemeReady(playTrans);
+        }
+    }
+
+    /**
+     * This called only when Music file and Video file all downloaded.
+     * If no Music file here, this called same as {onVideoReady}
+     * @param needTransAnim
+     */
     private void onThemeReady(boolean needTransAnim) {
         themeReady = true;
         dimCover.setVisibility(View.INVISIBLE);
         mProgressViewHolder.hide();
+
+        // If user back from ringtone settings, we keep switch state as before.
+        if (!mWaitContactResult) {
+            // Video has audio
+            if (mTheme.hasRingtone()) {
+                mRingtoneViewHolder.setEnable(true);
+                mRingtoneViewHolder.play();
+            } else {
+                mRingtoneViewHolder.setEnable(false);
+                mRingtoneViewHolder.hideMusicSwitch();
+            }
+        }
 
         previewWindow.updateThemeLayout(mThemeType);
 
@@ -547,60 +648,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
-    private void onRingtoneReady() {
-        if (isDimming()) {
-            waitingForThemeReady = true;
-            mRingtoneViewHolder.disable();
-            return;
-        }
-        boolean isAnimated = RingtoneHelper.isAnimationFinish(mTheme.getId());
-        boolean isActive = RingtoneHelper.isActive(mTheme.getId());
-
-        boolean needAutoPlay = Ap.Ringtone.isAutoPlay();
-        final boolean isCurrentTheme = isCurrentTheme();
-
-        HSLog.d("Ringtone", "Anim Over: " + isAnimated
-         + ", Active: " + isActive + ", autoPlay: " + needAutoPlay);
-        if (isAnimated) {
-            if (isActive) {
-                if (isCurrentTheme && !RingtoneHelper.isDefaultRingtone(mTheme)) {
-                    // User change ringtone from outside. We uncheck it
-                    RingtoneHelper.ringtoneActive(mTheme.getId(), false);
-                    mRingtoneViewHolder.unSelect();
-                } else {
-                    mRingtoneViewHolder.selectNoAnim();
-                }
-            } else {
-                mRingtoneViewHolder.unSelect();
-            }
-        } else {
-            RingtoneHelper.ringtoneAnim(mTheme.getId());
-            if (needAutoPlay) {
-                if (isCurrentTheme) {
-                    // 设置主题
-                    RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
-                }
-                RingtoneHelper.ringtoneActive(mTheme.getId(), true);
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRingtoneViewHolder.toastLimit(isCurrentTheme);
-                    }
-                }, 1000);
-
-                mRingtoneViewHolder.selectNoAnim();
-
-                if (resumed) {
-                    startRingtone();
-                }
-            } else {
-                mRingtoneViewHolder.unSelect();
-            }
-
-            mRingtoneViewHolder.hello();
-        }
-    }
-
     @DebugLog
     private void onThemeApply() {
         saveThemeApplys(mTheme.getId());
@@ -609,6 +656,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         HSBundle bundle = new HSBundle();
         bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
         HSGlobalNotificationCenter.sendNotification(NOTIFY_THEME_SELECT, bundle);
+
+        Analytics.logEvent("ColorPhone_Set_Successed",
+                "SetType", "SetForAll",
+                "Theme", mTheme.getName());
 
         setButtonState(true);
         for (ThemePreviewView preV : mActivity.getViews()) {
@@ -621,18 +672,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         Utils.showToast(mActivity.getString(R.string.apply_success));
         GuideSetDefaultActivity.start(mActivity, false);
 
-        // Ringtone enabled
-        if (mRingtoneViewHolder.isSelect()) {
-            RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
-        } else {
-            RingtoneHelper.resetDefaultRingtone();
-        }
-
-        Ap.Ringtone.onApply(mTheme);
         if (!TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
             String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Apply", mTheme.getIdName());
             Analytics.logEvent(event,
-                    "RingtoneState", mRingtoneViewHolder.isSelect() ? "On" : "Off");
+                    "RingtoneState", mRingtoneViewHolder.isMusicOn() ? "On" : "Off");
         }
         NotificationUtils.logThemeAppliedFlurry(mTheme);
 
@@ -644,33 +687,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-    }
-
-    private void stopRingtone() {
-        final MediaPlayer mediaPlayer = mActivity.getMediaPlayer();
-        mediaPlayer.stop();
-    }
-
-    private void startRingtone() {
-        final TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(mTheme.getId());
-        final MediaPlayer mediaPlayer = mActivity.getMediaPlayer();
-        try {
-
-            mediaPlayer.reset();
-
-            HSLog.d("Ringtone", ringtoneModel.getPath());
-            mediaPlayer.setDataSource(ringtoneModel.getPath());
-            mediaPlayer.setLooping(true);
-            mediaPlayer.prepareAsync();
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mediaPlayer.start();
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private boolean checkNewFeatureGuideView() {
@@ -707,7 +723,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void switchToLockState() {
         ViewStub stub = findViewById(R.id.lock_layout);
         dimCover.setVisibility(INVISIBLE);
-        mRingtoneViewHolder.hide();
+        mRingtoneViewHolder.hideMusicSwitch();
         if (mLockLayout == null) {
             mLockLayout = stub.inflate();
             mUnLockButton = mLockLayout.findViewById(R.id.unlock_button_container);
@@ -736,7 +752,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void switchMode(int mode) {
         switch (mode) {
             case ENJOY_MODE:
-                changeMode = 1;
+                foldingOrNot = THEME_ENJOY_FOLDING;
                 themeMode = ENJOY_MODE;
                 enjoyView();
                 break;
@@ -747,7 +763,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             default:
                 break;
         }
-
     }
 
     private void initDownloading() {
@@ -757,11 +772,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mNumberName.setVisibility(GONE);
         mCallName.setVisibility(GONE);
         mActionLayout.setVisibility(GONE);
-        mThemeSetting.setVisibility(GONE);
+        mEnjoyApplyBtn.setVisibility(GONE);
         mNavBack.setVisibility(VISIBLE);
-        mThemeSettingClose.setVisibility(GONE);
-        mThemeSettingDefault.setVisibility(GONE);
-        mThemeSettingSingle.setVisibility(GONE);
+        mEnjoyClose.setVisibility(GONE);
+        mEnjoyApplyDefault.setVisibility(GONE);
+        mEnjoyApplyForOne.setVisibility(GONE);
     }
 
     private void initEnjoyView() {
@@ -772,26 +787,25 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mNumberName.setVisibility(GONE);
         mCallName.setVisibility(GONE);
         mActionLayout.setVisibility(GONE);
-        mThemeSetting.setVisibility(VISIBLE);
+        mEnjoyApplyBtn.setVisibility(VISIBLE);
 
         mNavBack.setVisibility(VISIBLE);
-        mThemeSettingClose.setVisibility(GONE);
-        mThemeSettingDefault.setVisibility(GONE);
-        mThemeSettingSingle.setVisibility(GONE);
-        mThemeSetting.setScaleX(1.0f);
-        mThemeSetting.setAlpha(1);
-        mThemeSetting.setTextColor(Color.WHITE);
-        mThemeSetting.setBackgroundResource(R.drawable.shape_theme_setting);
-
-
-        mThemeSetting.setOnClickListener(new OnClickListener() {
+        mEnjoyClose.setVisibility(GONE);
+        mEnjoyApplyDefault.setVisibility(GONE);
+        mEnjoyApplyForOne.setVisibility(GONE);
+        mEnjoyApplyBtn.setScaleX(1.0f);
+        mEnjoyApplyBtn.setAlpha(1);
+        mEnjoyApplyBtn.setTextColor(Color.WHITE);
+        mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
+        
+        mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingUndoldingView();
             }
         });
 
-        mThemeSettingClose.setOnClickListener(new OnClickListener() {
+        mEnjoyClose.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 settingFoldingView();
@@ -800,24 +814,31 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
      private void enjoyView() {
          mActionLayout.setVisibility(GONE);
-         mNavBack.setVisibility(VISIBLE);
+         if (navFadeInOrVisible == NAV_FADE_IN) {
+             showNavView(true);
+             fadeInActionView();
+             navFadeInOrVisible = NAV_VISIBLE;
+         } else {
+             mNavBack.setVisibility(VISIBLE);
+         }
          changeModeToEnjoy();
-         mThemeSettingClose.setVisibility(GONE);
-         mThemeSettingDefault.setVisibility(GONE);
-         mThemeSettingSingle.setVisibility(GONE);
-         mThemeSetting.setScaleX(1.0f);
-         mThemeSetting.setAlpha(1);
-         mThemeSetting.setTextColor(Color.WHITE);
-         mThemeSetting.setBackgroundResource(R.drawable.shape_theme_setting);
+         mEnjoyClose.setVisibility(GONE);
+         mEnjoyApplyDefault.setVisibility(GONE);
+         mEnjoyApplyForOne.setVisibility(GONE);
+         mEnjoyApplyBtn.setScaleX(1.0f);
+         mEnjoyApplyBtn.setAlpha(1);
+         mEnjoyApplyBtn.setTextColor(Color.WHITE);
+         mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
 
-         mThemeSetting.setOnClickListener(new OnClickListener() {
+         mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
              @Override
              public void onClick(View v) {
+
                  settingUndoldingView();
              }
          });
 
-         mThemeSettingClose.setOnClickListener(new OnClickListener() {
+         mEnjoyClose.setOnClickListener(new OnClickListener() {
              @Override
              public void onClick(View v) {
                  settingFoldingView();
@@ -831,9 +852,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void changeModeToPreview() {
-        mEnjoyThemeLayout.setAlpha(1);
         mEnjoyThemeLayout.animate().alpha(0)
-                .setDuration(200)
+                .setDuration(CHANGE_MODE_DURTION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -843,7 +863,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 .start();
         mUserView.setAlpha(0);
         mUserView.animate().alpha(1)
-                .setDuration(200)
+                .setDuration(CHANGE_MODE_DURTION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -853,7 +873,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 .start();
         mNumberName.setAlpha(0);
         mNumberName.animate().alpha(1)
-                .setDuration(200)
+                .setDuration(CHANGE_MODE_DURTION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -863,7 +883,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 .start();
         callActionView.setAlpha(0);
         callActionView.animate().alpha(1)
-                .setDuration(200)
+                .setDuration(CHANGE_MODE_DURTION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -873,7 +893,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 .start();
         mCallName.setAlpha(0);
         mCallName.animate().alpha(1)
-                .setDuration(200)
+                .setDuration(CHANGE_MODE_DURTION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -887,9 +907,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     }
     private void changeModeToEnjoy() {
-        mEnjoyThemeLayout.setAlpha(0);
         mEnjoyThemeLayout.animate().alpha(1)
-                .setDuration(200)
+                .setDuration(CHANGE_MODE_DURTION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
@@ -897,8 +916,17 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                 })
                 .start();
+        mEnjoyApplyBtn.animate().alpha(1)
+                .setDuration(CHANGE_MODE_DURTION)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mEnjoyApplyBtn.setVisibility(VISIBLE);
+                    }
+                })
+                .start();
         callActionView.animate().alpha(0)
-                .setDuration(200)
+                .setDuration(CHANGE_MODE_DURTION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -907,7 +935,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 })
                 .start();
         mUserView.animate().alpha(0)
-                .setDuration(200)
+                .setDuration(CHANGE_MODE_DURTION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -916,7 +944,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 })
                 .start();
         mCallName.animate().alpha(0)
-                .setDuration(200)
+                .setDuration(CHANGE_MODE_DURTION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -925,7 +953,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 })
                 .start();
         mNumberName.animate().alpha(0)
-                .setDuration(200)
+                .setDuration(CHANGE_MODE_DURTION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -944,152 +972,160 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         int startCoordinateDefault = 168;
         int endCoordinate = 0;
-        mThemeSettingDefault.setTranslationY(startCoordinateDefault);
-        mThemeSettingDefault.setAlpha(0);
-        mThemeSettingDefault.animate().translationY(endCoordinate)
+        mEnjoyApplyDefault.setTranslationY(startCoordinateDefault);
+        mEnjoyApplyDefault.setAlpha(0);
+        mEnjoyApplyDefault.animate().translationY(endCoordinate)
                 .alpha(1)
-                .setDuration(300)
+                .setDuration(ANIMATION_DURATION)
                 .setInterpolator(getmInterForTheme())
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
-                        mThemeSettingDefault.setVisibility(VISIBLE);
+                        mEnjoyApplyDefault.setVisibility(VISIBLE);
                     }
                 })
                 .start();
 
         int startCoordinateSingle = 84;
-        mThemeSettingSingle.setTranslationY(startCoordinateSingle);
-        mThemeSettingDefault.setAlpha(0);
-        mThemeSettingSingle.animate().translationY(endCoordinate)
+        mEnjoyApplyForOne.setTranslationY(startCoordinateSingle);
+        mEnjoyApplyDefault.setAlpha(0);
+        mEnjoyApplyForOne.animate().translationY(endCoordinate)
                 .alpha(1)
-                .setDuration(300)
+                .setDuration(ANIMATION_DURATION)
                 .setInterpolator(getmInterForTheme())
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
-                        mThemeSettingSingle.setVisibility(VISIBLE);
+                        mEnjoyApplyForOne.setVisibility(VISIBLE);
                     }
                 })
                 .start();
 
-        int widthOfmThemeSetting = mThemeSetting.getMeasuredWidth();
-        float multipleOfSettingAndClose = 0.41f;
-        mThemeSetting.setPivotX(widthOfmThemeSetting);
-        mThemeSetting.setScaleX(1.0f);
-        mThemeSetting.setAlpha(1);
-        mThemeSetting.animate().scaleX(multipleOfSettingAndClose)
+        int widthOfmThemeSetting = mEnjoyApplyBtn.getMeasuredWidth();
+        float targetScaleX = 0.41f;
+        mEnjoyApplyBtn.setPivotX(widthOfmThemeSetting);
+        mEnjoyApplyBtn.setScaleX(1.0f);
+        mEnjoyApplyBtn.setAlpha(1);
+        mEnjoyApplyBtn.animate().scaleX(targetScaleX)
                 .alpha(0)
-                .setDuration(300)
+                .setDuration(ANIMATION_DURATION)
                 .setInterpolator(getmInterForTheme())
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        mThemeSetting.setVisibility(GONE);
+                        mEnjoyApplyBtn.setVisibility(GONE);
                     }
 
                     @Override
                     public void onAnimationStart(Animator animation) {
-                        mThemeSetting.setBackgroundResource(R.drawable.shape_theme_setting_click);
+                        mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting_click);
                     }
                 })
                 .start();
-        mThemeSettingClose.setTranslationX(-31.5f);
-        mThemeSettingClose.setRotation(90);
-        mThemeSettingClose.setAlpha(0f);
-        mThemeSettingClose.animate()
+        mEnjoyClose.setTranslationX(-31.5f);
+        mEnjoyClose.setRotation(90);
+        mEnjoyClose.setAlpha(0f);
+        mEnjoyClose.animate()
                 .alpha(1)
                 .rotation(180)
                 .translationX(0)
                 .setInterpolator(getmInterForTheme())
-                .setDuration(300)
+                .setDuration(ANIMATION_DURATION)
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
-                        mThemeSettingClose.setVisibility(VISIBLE);
-                        mThemeSettingClose.setBackgroundResource(R.drawable.shape_theme_setting_close);
+                        mEnjoyClose.setVisibility(VISIBLE);
+                        mEnjoyClose.setBackgroundResource(R.drawable.shape_theme_setting_close);
                     }
                 })
                 .start();
-        changeMode = 0;
+        foldingOrNot = THEME_ENJOY_UNFOLDING;
 
     }
 
     private void settingFoldingView() {
         int endCoordinateDefault = 168;
         int startCoordinate = 0;
-        mThemeSettingDefault.setTranslationY(startCoordinate);
-        mThemeSettingDefault.setAlpha(1);
-        mThemeSettingDefault.animate().translationY(endCoordinateDefault)
+        mEnjoyApplyDefault.setTranslationY(startCoordinate);
+        mEnjoyApplyDefault.setAlpha(1);
+        mEnjoyApplyDefault.animate().translationY(endCoordinateDefault)
                 .alpha(0)
-                .setDuration(300)
+                .setDuration(ANIMATION_DURATION)
                 .setInterpolator(getmInterForTheme())
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        mThemeSettingDefault.setVisibility(GONE);
+                        mEnjoyApplyDefault.setVisibility(GONE);
                     }
                 })
                 .start();
 
         int endCoordinateSingle = 84;
-        mThemeSettingSingle.setTranslationY(startCoordinate);
-        mThemeSettingSingle.setAlpha(1);
-        mThemeSettingSingle.animate().translationY(endCoordinateSingle)
+        mEnjoyApplyForOne.setTranslationY(startCoordinate);
+        mEnjoyApplyForOne.setAlpha(1);
+        mEnjoyApplyForOne.animate().translationY(endCoordinateSingle)
                 .alpha(0)
-                .setDuration(300)
+                .setDuration(ANIMATION_DURATION)
                 .setInterpolator(getmInterForTheme())
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        mThemeSettingSingle.setVisibility(GONE);
+                        mEnjoyApplyForOne.setVisibility(GONE);
                     }
                 })
                 .start();
 
-        int widthOfmThemeSetting = mThemeSetting.getMeasuredWidth();
-        float multipleOfSettingAndClose = 0.41f;
-        mThemeSetting.setPivotX(widthOfmThemeSetting);
-        mThemeSetting.setScaleX(multipleOfSettingAndClose);
-        mThemeSetting.setAlpha(0);
-        mThemeSetting.animate().scaleX(1.0f)
+        int widthOfmThemeSetting = mEnjoyApplyBtn.getMeasuredWidth();
+        float scaleX = 0.41f;
+        mEnjoyApplyBtn.setPivotX(widthOfmThemeSetting);
+        mEnjoyApplyBtn.setScaleX(scaleX);
+        mEnjoyApplyBtn.setAlpha(0);
+        mEnjoyApplyBtn.animate().scaleX(1.0f)
                 .alpha(1)
-                .setDuration(300)
+                .setDuration(ANIMATION_DURATION)
                 .setInterpolator(getmInterForTheme())
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationStart(Animator animation) {
-                        mThemeSetting.setVisibility(VISIBLE);
-                        mThemeSetting.setBackgroundResource(R.drawable.shape_theme_setting);
+                        mEnjoyApplyBtn.setVisibility(VISIBLE);
+                        mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
                     }
                 })
                 .start();
-        mThemeSettingClose.setTranslationX(0f);
-        mThemeSettingClose.setRotation(180);
-        mThemeSettingClose.setAlpha(1f);
-        mThemeSettingClose.animate()
+        mEnjoyClose.setTranslationX(0f);
+        mEnjoyClose.setRotation(180);
+        mEnjoyClose.setAlpha(1f);
+        mEnjoyClose.animate()
                 .alpha(0f)
                 .rotation(90)
                 .translationX(-31.5f)
-                .setDuration(300)
+                .setDuration(ANIMATION_DURATION)
                 .setInterpolator(getmInterForTheme())
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        mThemeSettingClose.setVisibility(GONE);
+                        mEnjoyClose.setVisibility(GONE);
                     }
 
                     @Override
                     public void onAnimationStart(Animator animation) {
-                        mThemeSettingClose.setBackgroundResource(R.drawable.shape_theme_setting_close_click);
+                        mEnjoyClose.setBackgroundResource(R.drawable.shape_theme_setting_close_click);
                     }
                 })
                 .start();
-        changeMode = 1;
+        foldingOrNot = THEME_ENJOY_FOLDING;
     }
 
-    private void mActionLayoutfadeInView(/*boolean anim*/) {
-        int mActionLayoutHeight = 56;
+    public boolean isThemeSettingShow() {
+        return foldingOrNot == THEME_ENJOY_UNFOLDING;
+    }
+
+    public void returnThemeSettingPage() {
+        settingFoldingView();
+    }
+
+    private void mActionLayoutfadeInView() {
+        int mActionLayoutHeight = 90;
         mActionLayout.setTranslationY(mActionLayoutHeight);
         getTransBottomLayout().animate().translationY(0)
                 .setDuration(ANIMATION_DURATION)
@@ -1109,7 +1145,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                             mActionLayout.setVisibility(VISIBLE);
                         }
                     }
-                }).setStartDelay(600).start();
+                }).setStartDelay(ANIMATION_DURMATION_DELAY).start();
     }
 
     private void playTransInAnimation(final Runnable completeRunnable) {
@@ -1132,12 +1168,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
             return;
         }
-
-        /*mUserView.setVisibility(VISIBLE);
-        mCallName.setVisibility(VISIBLE);
-        mNumberName.setVisibility(VISIBLE);
-        callActionView.setVisibility(VISIBLE);
-        mActionLayout.setVisibility(VISIBLE);*/
 
         if (mNoTransition) {
             if (completeRunnable != null) {
@@ -1240,6 +1270,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mNavBack.animate().translationX(targetX)
                     .setDuration(ANIMATION_DURATION)
                     .setInterpolator(mInter)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            if (show == true) {
+                                mNavBack.setVisibility(VISIBLE);
+                            }
+                        }
+                    })
                     .start();
         } else {
             mNavBack.setTranslationX(targetX);
@@ -1255,7 +1293,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void fadeInActionView(boolean anim) {
+        if (needShowRingtoneSetButton()) {
+            showNavView(false);
+            fadeOutActionView();
+            mRingtoneViewHolder.setApplyForAll(false);
+            showRingtoneSetButton();
+            mWaitContactResult = false;
+            return;
+        }
+
         if (anim) {
+            int mActionLayoutHeight = 90;
+            mActionLayout.setTranslationY(mActionLayoutHeight);
             inTransition = true;
             getTransBottomLayout().animate().translationY(0)
                     .setDuration(ANIMATION_DURATION)
@@ -1267,13 +1316,30 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                             inTransition = false;
 
                         }
-                    }).setStartDelay(animationDelay).start();
+                    }).setStartDelay(ANIMATION_DURMATION_DELAY).start();
         } else {
             if (themeReady) {
                 onActionButtonReady();
             }
         }
         mRingtoneViewHolder.transIn(true, anim);
+    }
+
+    private void showRingtoneSetButton() {
+        mRingtoneViewHolder.showRingtoneSettings();
+    }
+
+    private boolean needShowRingtoneSetButton() {
+        if (!mTheme.hasRingtone()) {
+            return false;
+        }
+        // If ringtone not set , show ringtone setting page
+        if (mWaitContactResult
+                && ThemeSetHelper.getCacheContactList() != null
+                && !ThemeSetHelper.getCacheContactList().isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     private void fadeOutActionView(boolean anim) {
@@ -1303,7 +1369,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onActionButtonReady() {
-        getTransBottomLayout().setTranslationY(0);
+        //getTransBottomLayout().setTranslationY(0);
         mRingtoneViewHolder.transIn(true, false);
         animationDelay = 0;
         if (isSelectedPos() && !mTheme.isLocked()) {
@@ -1314,15 +1380,28 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void scheduleNextHide() {
-        mHandler.removeMessages(MSG_HIDE);
-        mHandler.sendEmptyMessageDelayed(MSG_HIDE, AUTO_HIDE_TIME);
+        /*mHandler.removeMessages(MSG_HIDE);
+        mHandler.sendEmptyMessageDelayed(MSG_HIDE, AUTO_HIDE_TIME);*/
     }
 
     public void onStart() {
+        mWaitMediaReadyCount = 0;
         // We do not play animation if activity restart.
         boolean playTrans = !hasStopped;
         final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getId());
         final TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(mTheme.getId());
+
+        boolean hasRingtone = mTheme.hasRingtone() && ringtoneModel != null;
+        boolean hasMediaVideo = model != null;
+        if (hasRingtone) {
+            mWaitMediaReadyCount++;
+        }
+        if (hasMediaVideo) {
+            mWaitMediaReadyCount++;
+        }
+
+        mProgressHelper.setHasRingtoneProgress(hasRingtone);
+
         /**
          * Flag for theme loading, ringtone will loading with theme data.
          */
@@ -1331,36 +1410,34 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             // GIf/Mp4
             if (TasksManager.getImpl().isDownloaded(model)) {
                 onThemeReady(playTrans);
-                switchMode(ENJOY_MODE);
-                mThemeSetting.setVisibility(VISIBLE);
+                mHandler.sendEmptyMessage(MSG_SHOW);
+                mEnjoyApplyBtn.setVisibility(VISIBLE);
+                onVideoReady(playTrans);
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
                 themeLoading = true;
-                startDownloadTime = System.currentTimeMillis();
-                onThemeLoading();
-                initDownloading();
             }
         } else {
             // Directly applicable
             onThemeReady(playTrans);
-            switchMode(ENJOY_MODE);
+            mHandler.sendEmptyMessage(MSG_SHOW);
+            mEnjoyApplyBtn.setVisibility(VISIBLE);
         }
 
-        if (!mTheme.hasRingtone()) {
-            mRingtoneViewHolder.hide();
-        } else if (ringtoneModel != null)  {
+        if (hasRingtone)  {
             if (TasksManager.getImpl().isDownloaded(ringtoneModel)) {
-                onRingtoneReady();
+                onRingtoneReady(playTrans);
             } else {
                 // Ringtone data not ready yet. If theme data not loads, we load ringtone separately.
                 mDownloadTasks.put(DownloadTask.TYPE_RINGTONE, new DownloadTask(ringtoneModel, DownloadTask.TYPE_RINGTONE));
-                if (!themeLoading) {
-                    downloadRingtone(ringtoneModel);
-                }
+                themeLoading = true;
             }
-        } else {
-            // Hide ringtone
-            mRingtoneViewHolder.hide();
+        }
+
+        if (themeLoading) {
+            startDownloadTime = System.currentTimeMillis();
+            onThemeLoading();
+            initDownloading();
         }
 
         // Show background if gif drawable not ready.
@@ -1402,6 +1479,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onStop() {
+        Log.e(TAG, "onStop: " );
         hasStopped = true;
         pauseAnimation();
 
@@ -1425,9 +1503,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (themeReady) {
             previewWindow.stopAnimations();
             callActionView.stopAnimations();
-            if (mRingtoneViewHolder.isSelect()) {
-                stopRingtone();
-            }
             resumed = false;
         }
     }
@@ -1437,10 +1512,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             resumed = true;
             previewWindow.playAnimation(mThemeType);
             callActionView.doAnimation();
-
-            if (mRingtoneViewHolder.isSelect()) {
-                startRingtone();
-            }
         }
 
         if (mTheme != null && !TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
@@ -1450,7 +1521,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         Ap.Ringtone.onShow(mTheme);
     }
 
-    private boolean isSelectedPos() {
+    public boolean isSelectedPos() {
         return mPosition == mPageSelectedPos;
     }
 
@@ -1476,7 +1547,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 final DownloadTask task = mDownloadTasks.get(DownloadTask.TYPE_THEME);
                 if (task != null) {
                     float percent = TasksManager.getImpl().getDownloadProgress(task.getTasksManagerModel().getId());
-                    mProgressViewHolder.updateProgressView((int) (percent * 100));
+                    mProgressHelper.setProgressVideo((int) (percent * 100));
                     Message msg = Message.obtain();
                     msg.what = MSG_DOWNLOAD;
                     msg.arg1 = DownloadTask.TYPE_THEME;
@@ -1485,10 +1556,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 final DownloadTask ringtoneTask = mDownloadTasks.get((DownloadTask.TYPE_RINGTONE));
                 if (ringtoneTask != null) {
+                    float percent = TasksManager.getImpl().getDownloadProgress(ringtoneTask.getTasksManagerModel().getId());
+                    mProgressHelper.setProgressRingtone((int) (percent * 100));
                     Message msg = Message.obtain();
                     msg.what = MSG_DOWNLOAD;
                     msg.arg1 = DownloadTask.TYPE_RINGTONE;
                     mHandler.sendMessageDelayed(msg, duration);
+                }
+
+                if (ringtoneTask != null || task != null) {
+                    mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
                 }
             }
         });
@@ -1533,7 +1610,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void downloadRingtone(TasksManagerModel model) {
-        mRingtoneViewHolder.disable();
+        HSLog.d(TAG, "start download ringtone");
         TasksManager.doDownload(model, null);
         FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mRingtoneDownloadStateListener);
     }
@@ -1677,6 +1754,32 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
+    private class ProgressHelper {
+        int progressRingtone;
+        int progressVideo;
+        boolean hasRingtoneProgress;
+
+        public void setHasRingtoneProgress(boolean hasRingtoneProgress) {
+            this.hasRingtoneProgress = hasRingtoneProgress;
+        }
+
+        public void setProgressRingtone(int progressRingtone) {
+            this.progressRingtone = progressRingtone;
+        }
+
+        public void setProgressVideo(int progressVideo) {
+            this.progressVideo = progressVideo;
+        }
+
+        public int getRealProgress() {
+            if (hasRingtoneProgress) {
+                return (progressRingtone + progressVideo) / 2;
+            } else {
+                return progressVideo;
+            }
+        }
+    }
+
     private class ProgressViewHolder {
         private ProgressBar mProgressBar;
         private TextView mProgressTxt;
@@ -1717,199 +1820,123 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
-    private class RingtoneViewHolder {
+    private class RingtoneViewHolder implements OnClickListener {
         private View imageView;
-        private LottieAnimationView mLottieAnimationView;
-        private TextView toastView;
-        private int helloTimes = 0;
+        private View ringtoneSetLayout;
+        private View ringtoneChangeBtn;
+        private View ringtoneKeepBtn;
+
+        private Interpolator mPathInterpolator = PathInterpolatorCompat.create(
+                0, 0, 0.34f, 0.99f);
+        private float transYTop;
+        private boolean isEnable;
+        private boolean mApplyForAll;
 
         public RingtoneViewHolder() {
             imageView = findViewById(R.id.ringtone_image);
-            mLottieAnimationView = findViewById(R.id.ringtone_lottie_open);
-            toastView = findViewById(R.id.ringtone_toast);
+            imageView.setOnClickListener(this);
 
-            imageView.setOnClickListener(new OnClickListener() {
+            ringtoneSetLayout = findViewById(R.id.ringtone_apply_layout);
+            ringtoneSetLayout.setVisibility(GONE);
+            transYTop = getResources().getDimension(R.dimen.ringtone_apply_layout_height);
+
+            ringtoneChangeBtn = findViewById(R.id.ringtone_apply_change);
+            ringtoneChangeBtn.setOnClickListener(this);
+            ringtoneChangeBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                    getResources().getColor(R.color.white_87_transparent),
+                    getResources().getColor(R.color.black_20_transparent),
+                    Dimensions.pxFromDp(24),false, true));
+
+            ringtoneKeepBtn = findViewById(R.id.ringtone_apply_keep);
+            ringtoneKeepBtn.setOnClickListener(this);
+            ringtoneKeepBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(
+                    getResources().getColor(R.color.white_87_transparent),
+                    getResources().getColor(R.color.black_20_transparent),
+                    Dimensions.pxFromDp(24),false, true));
+        }
+
+        public void showRingtoneSettings() {
+            dimCover.setVisibility(VISIBLE);
+            dimCover.setAlpha(0);
+            dimCover.animate().alpha(1).setDuration(200);
+
+            mEnjoyThemeLayout.setVisibility(GONE);
+            ringtoneSetLayout.setVisibility(VISIBLE);
+            ringtoneSetLayout.bringToFront();
+            ringtoneSetLayout.setAlpha(1);
+            ringtoneChangeBtn.setTranslationY(transYTop);
+            ringtoneKeepBtn.setTranslationY(transYTop);
+            ringtoneChangeBtn.animate().setDuration(320).setInterpolator(mPathInterpolator).translationY(0).start();
+            ringtoneKeepBtn.animate().setDuration(320).setInterpolator(mPathInterpolator).translationY(0).setStartDelay(40).start();
+
+            Analytics.logEvent("Ringtone_Set_Shown", "ThemeName", mTheme.getName());
+        }
+
+        public boolean isRingtoneSettingsShow() {
+            return ringtoneSetLayout.getVisibility() == VISIBLE && ringtoneSetLayout.getAlpha() > 0;
+        }
+
+        public void hideRingtoneSettings() {
+            dimCover.animate().alpha(0).setDuration(200);
+            ringtoneSetLayout.animate().setDuration(200).alpha(0).setListener(new AnimatorListenerAdapter() {
                 @Override
-                public void onClick(View v) {
-                    toggle();
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    ringtoneSetLayout.setVisibility(GONE);
+                    dimCover.setVisibility(INVISIBLE);
+
                 }
             });
         }
 
-        private void showToast(boolean afterApply) {
-            HSLog.d("Ringtone", "start showToast");
-            String txt = getContext().getString(afterApply ? R.string.ringtone_hint_after_apply : R.string.ringtone_hint_before_apply);
-            toastView.setVisibility(VISIBLE);
-            toastView.setText(txt);
-            toastView.setAlpha(0.1f);
-            toastView.setScaleX(0.1f);
-            toastView.setScaleY(0.1f);
-            toastView.post(new Runnable() {
+        public void setAsRingtone(boolean asRingtone, boolean resetDefault) {
+            Threads.postOnThreadPoolExecutor(new Runnable() {
                 @Override
                 public void run() {
-                    toastView.setPivotX(Math.max(toastView.getWidth(), Utils.pxFromDp(64)));
-                    toastView.setPivotY(toastView.getHeight() * 0.4f);
+                    RingtoneHelper.ringtoneActive(mTheme.getId(), asRingtone);
+                    if (resetDefault) {
+                        RingtoneHelper.resetDefaultRingtone();
+                    }
+                    ContactManager.getInstance().updateRingtoneOnTheme(mTheme, asRingtone);
                 }
             });
-
-            toastView.animate().scaleX(1f).scaleY(1f).alpha(1f)
-                    .setDuration(400)
-                    .setInterpolator(new OvershootInterpolator())
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            toastView.setAlpha(1f);
-                            toastView.setScaleX(1f);
-                            toastView.setScaleY(1f);
-                        }
-                    })
-                    .start();
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    HSLog.d("Ringtone", "hide Toast");
-                    toastView.animate().alpha(0).setDuration(500).setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            toastView.setVisibility(GONE);
-                        }
-                    });
-                }
-            }, 3000);
-
-        }
-
-        private void toastLimit(final boolean currentTheme) {
-            Utils.doLimitedTimes(new Runnable() {
-                @Override
-                public void run() {
-                    showToast(currentTheme);
-                }
-            }, currentTheme ? "ringtone_toast_active" : "ringtone_toast_need_apply", 1);
-
         }
 
         private void toggle() {
-            final boolean currentTheme = isCurrentTheme();
             final boolean currentSelect = imageView.isActivated();
-
             HSLog.d("Ringtone", "Switch to " + (currentSelect ? "Close" : "Open"));
-            String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Ringtone_Clicked", mTheme.getIdName());
-            Analytics.logEvent(event,
-                    "Type", currentSelect ? "TurnOff" : "TurnOn");
+            Analytics.logEvent("Ringtone_Action",
+                    "Type", currentSelect ? "Close" : "Open",
+                    "Theme", mTheme.getName());
 
             if (currentSelect) {
-                unSelect();
-                stopRingtone();
-                Threads.postOnThreadPoolExecutor(new Runnable() {
-                    @Override
-                    public void run() {
-                        RingtoneHelper.ringtoneActive(mTheme.getId(), false);
-                        if (currentTheme) {
-                            RingtoneHelper.resetDefaultRingtone();
-                        }
-                        ContactManager.getInstance().updateRingtoneOnTheme(mTheme, false);
-                    }
-                });
-
+                mute();
             } else {
-                selectAnim();
-                startRingtone();
-                toastLimit(isCurrentTheme());
-
-                Threads.postOnThreadPoolExecutor(new Runnable() {
-                    @Override
-                    public void run() {
-                        RingtoneHelper.ringtoneActive(mTheme.getId(), true);
-                        if (currentTheme) {
-                            RingtoneHelper.setDefaultRingtone(mTheme);
-                        }
-                        ContactManager.getInstance().updateRingtoneOnTheme(mTheme, true);
-
-                    }
-                });
+                play();
             }
         }
 
-        private void hide() {
-            mLottieAnimationView.setVisibility(View.INVISIBLE);
-            imageView.setVisibility(INVISIBLE);
-            imageView.setEnabled(false);
+        private void hideMusicSwitch() {
+            imageView.setVisibility(GONE);
         }
 
-        private void disable() {
-            mLottieAnimationView.setVisibility(View.INVISIBLE);
-            imageView.setVisibility(VISIBLE);
-            imageView.setEnabled(false);
-        }
-
-        private void hello() {
-            mLottieAnimationView.setVisibility(View.VISIBLE);
-            mLottieAnimationView.setAnimation("lottie/ringtone_hello.json");
-            mLottieAnimationView.playAnimation();
-            imageView.setVisibility(INVISIBLE);
-            mLottieAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    helloTimes ++;
-                    if (helloTimes >= 2) {
-                        imageView.setVisibility(VISIBLE);
-                        mLottieAnimationView.setVisibility(INVISIBLE);
-                        mLottieAnimationView.setAnimation("lottie/ringtone_open.json", LottieAnimationView.CacheStrategy.Strong);
-                    } else {
-                        mHandler.sendEmptyMessage(MSG_RINGTONE_HELLO);
-                    }
-                }
-            });
-        }
-
-        private void unSelect() {
+        private void mute() {
             imageView.setVisibility(VISIBLE);
             imageView.setEnabled(true);
             imageView.setActivated(false);
-            mLottieAnimationView.setVisibility(View.INVISIBLE);
+            VideoManager.get().mute(true);
         }
 
-        private boolean isSelect() {
+        private boolean isMusicOn() {
             return imageView.isActivated();
         }
 
-        private void selectNoAnim() {
-            select(false);
-        }
-
-        private void selectAnim() {
-            select(true);
-        }
-
-        private void select(boolean anim) {
+        private void play() {
             imageView.setVisibility(VISIBLE);
             imageView.setEnabled(true);
             imageView.setActivated(true);
-            if (anim) {
-                mLottieAnimationView.setVisibility(View.VISIBLE);
-                mLottieAnimationView.setAnimation("lottie/ringtone_open.json", LottieAnimationView.CacheStrategy.Strong);
-                mLottieAnimationView.playAnimation();
-                HSLog.d("Ringtone", "Animation [open] call play()");
-                imageView.setVisibility(INVISIBLE);
-
-                mLottieAnimationView.addAnimatorListener(new AnimatorListenerAdapter() {
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        imageView.setVisibility(VISIBLE);
-                        mLottieAnimationView.setVisibility(INVISIBLE);
-                    }
-                });
-            } else {
-                mLottieAnimationView.setVisibility(View.INVISIBLE);
-            }
+            VideoManager.get().mute(false);
         }
-
 
         private void transIn(boolean in, boolean anim) {
             float offsetX = Dimensions.isRtl() ?  -Dimensions.pxFromDp(60) : Dimensions.pxFromDp(60);
@@ -1925,6 +1952,67 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.ringtone_image:
+                    toggle();
+                    break;
+                case R.id.ringtone_apply_change:
+                    Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
+
+                    hideRingtoneSettings();
+                    if (mApplyForAll) {
+                        // Ringtone enabled
+                        RingtoneHelper.setDefaultRingtoneInBackground(mTheme);
+
+                        onThemeApply();
+                    } else {
+                        setAsRingtone(true, false);
+
+                        ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
+                        Utils.showToast(mActivity.getString(R.string.apply_success));
+                    }
+                    if (getMode() == ENJOY_MODE) {
+                        mHandler.sendEmptyMessage(MSG_SHOW);
+                        mEnjoyApplyBtn.setVisibility(VISIBLE);
+                    } else {
+                        mHandler.sendEmptyMessage(MSG_HIDE);
+                    }
+                    break;
+                case R.id.ringtone_apply_keep:
+                    Analytics.logEvent("Ringtone_Default_Set_Success", "ThemeName", mTheme.getName());
+
+                    hideRingtoneSettings();
+                    if (mApplyForAll) {
+                        onThemeApply();
+                    } else {
+                        ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
+                        Utils.showToast(mActivity.getString(R.string.apply_success));
+                    }
+                    if (getMode() == ENJOY_MODE) {
+                        mHandler.sendEmptyMessage(MSG_SHOW);
+                        mEnjoyApplyBtn.setVisibility(VISIBLE);
+                    } else {
+                        mHandler.sendEmptyMessage(MSG_HIDE);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void setEnable(boolean enable) {
+            isEnable = enable;
+        }
+
+        public boolean isEnable() {
+            return isEnable;
+        }
+
+        public void setApplyForAll(boolean applyForAll) {
+            mApplyForAll = applyForAll;
+        }
     }
 
     public static class DownloadTask {

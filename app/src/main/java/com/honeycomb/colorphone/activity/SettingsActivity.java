@@ -183,6 +183,7 @@ public class SettingsActivity extends HSAppCompatActivity {
         } else {
             findViewById(R.id.setting_item_notification).setVisibility(View.GONE);
         }
+
     }
 
     @Override

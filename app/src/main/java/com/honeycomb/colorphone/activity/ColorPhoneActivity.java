@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.acb.call.VideoManager;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
@@ -34,6 +35,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
+import com.honeycomb.colorphone.cmgame.CmGameUtil;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -62,6 +64,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.libcharging.ChargingPreferenceUtil;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 
@@ -125,6 +128,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 logOpenEvent = false;
                 ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
                 BoostStarterActivity.createShortCut(ColorPhoneActivity.this);
+
                 GuideSetDefaultActivity.start(ColorPhoneActivity.this, true);
             }
         }
@@ -153,6 +157,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private MainTabAdapter mTabAdapter;
     private Toolbar toolbar;
     private TabLayout tabLayout;
+    private TabTransController tabTransController;
+    private View gameIcon;
+
+    private DoubleBackHandler mDoubleBackHandler = new DoubleBackHandler();
 
     @DebugLog
     @Override
@@ -200,6 +208,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initMainFrame() {
 
         toolbar = findViewById(R.id.toolbar);
+        gameIcon = findViewById(R.id.iv_game);
+        boolean gameMainEntranceEnabled = CmGameUtil.canUseCmGame()
+                && HSConfig.optBoolean(false, "Application", "GameCenter", "MainViewEnable");
+        if (gameMainEntranceEnabled) {
+            Analytics.logEvent("MainView_GameCenter_Shown");
+        }
+        gameIcon.setVisibility(gameMainEntranceEnabled ? View.VISIBLE : View.GONE);
+        gameIcon.setOnClickListener(this);
+
         logOpenEvent = true;
         Utils.configActivityStatusBar(this, toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -236,8 +253,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     };
 
     private void initTab() {
+        final int colorPrimary = ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null);
         tabLayout = findViewById(R.id.tab_layout);
-
+        tabTransController = new TabTransController(tabLayout);
         for (int i = 0; i < titles.length; i++) {
             TabLayout.Tab tab = tabLayout.newTab();
             View view = getLayoutInflater().inflate(R.layout.tab_item_layout, null, false);
@@ -252,6 +270,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            int lastPosition = -1;
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int pos = tab.getPosition();
@@ -263,7 +282,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 updateTitle(pos);
                 if (pos == NEWS_POSITION) {
                     toolbar.setBackgroundColor(Color.WHITE);
-                    toolbar.setTitleTextColor(Color.BLACK);
+                    toolbar.setTitleTextColor(colorPrimary);
                     ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.WHITE);
                     NewsManager.logNewsListShow("othertab");
 
@@ -280,15 +299,21 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     if (view != null) {
                         view.findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
                     }
-                } else {
-                    toolbar.setBackgroundColor(Color.BLACK);
-                    toolbar.setTitleTextColor(Color.WHITE);
-                    ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, Color.BLACK);
+                    updateTabStyle(true);
 
+                } else {
+                    if (lastPosition == NEWS_POSITION || lastPosition == -1) {
+                        toolbar.setBackgroundColor(colorPrimary);
+                        toolbar.setTitleTextColor(Color.WHITE);
+                        ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, colorPrimary);
+                        updateTabStyle(false);
+                    }
                     if (newsLayout != null) {
                         newsLayout.onSelected(false);
                     }
                 }
+
+                gameIcon.setVisibility(pos == MAIN_POSITION ? View.VISIBLE : View.INVISIBLE);
 
                 switch (pos) {
                     case MAIN_POSITION:
@@ -303,6 +328,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     default:
                         break;
                 }
+
+                lastPosition = pos;
 
             }
 
@@ -325,6 +352,28 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
+    }
+
+    private void updateTabStyle(boolean reverseColor) {
+        int colorRes = reverseColor ? R.color.colorPrimaryReverse : R.color.colorPrimary;
+        int tabBgRes = reverseColor ? R.drawable.tab_background_reverse : R.drawable.tab_background;
+        tabLayout.setBackgroundColor(getResources().getColor(colorRes));
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            View customView = tabLayout.getTabAt(i).getCustomView();
+            if (customView != null) {
+                if (i == NEWS_POSITION) {
+                    // Change TextColor
+                    TextView textView = (TextView) customView.findViewById(R.id.tab_layout_title);
+                    if (reverseColor) {
+                        textView.setTextColor(ResourcesCompat.getColor(getResources(), R.color.black_90_transparent, null));
+                    } else {
+                        textView.setTextColor(ResourcesCompat.getColorStateList(getResources(), R.color.seletor_color_tab_txt, null));
+                    }
+                }
+                View parent = (View) customView.getParent();
+                parent.setBackgroundResource(tabBgRes);
+            }
+        }
     }
 
     private void updateTitle(int pos) {
@@ -370,11 +419,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onResume();
         // clear previous observers.
         PermissionHelper.stopObservingPermission();
+        VideoManager.get().mute(true);
         isPaused = false;
         mHandler.postDelayed(mainViewRunnable, 1000);
 
         if (tabLayout != null) {
             updateTitle(tabLayout.getSelectedTabPosition());
+        }
+
+        if (tabTransController != null) {
+            tabTransController.showNow();
         }
 
         if (mAdapter != null) {
@@ -551,6 +605,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (mRewardVideoView != null) {
             mRewardVideoView.onCancel();
         }
+
+        if (tabTransController != null) {
+            tabTransController.release();
+        }
         ConfigChangeManager.getInstance().removeCallback(configChangeCallback);
 
         super.onDestroy();
@@ -562,9 +620,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mRewardVideoView.onHideAdLoading();
             mRewardVideoView.onCancel();
         } else {
-            super.onBackPressed();
-            // Stop all download tasks;
-            TasksManager.getImpl().stopAllTasks();
+            if (mDoubleBackHandler.interceptBackPressed()) {
+                mDoubleBackHandler.toast();
+            } else {
+                super.onBackPressed();
+                // Stop all download tasks;
+                TasksManager.getImpl().stopAllTasks();
+            }
         }
     }
 
@@ -636,7 +698,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.iv_game:
+                Analytics.logEvent("MainView_GameCenter_Clicked");
+                CmGameUtil.startCmGameActivity(this, "MainIcon");
+                break;
+            default:
+                break;
         }
     }
 
@@ -739,6 +806,81 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         @Override
         public CharSequence getPageTitle(int position) {
             return super.getPageTitle(position);
+        }
+    }
+
+    private static class TabTransController implements INotificationObserver {
+        private static final int TRANS_TRIGGER_Y = Dimensions.pxFromDp(24);
+        private View mTab;
+        int distance = 0;
+        int totalDraggingDy = 0;
+        boolean upScrolled = false;
+        TabTransController(View tabView) {
+            mTab = tabView;
+            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED,this);
+            HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED_TOP,this);
+        }
+
+        private void onInnerListScrollChange(int state, int dy) {
+            if (state == RecyclerView.SCROLL_STATE_DRAGGING) {
+                // Direction changed.
+                if (totalDraggingDy * dy < 0) {
+                    totalDraggingDy = 0;
+                }
+
+                totalDraggingDy += dy;
+                if (Math.abs(totalDraggingDy) >= TRANS_TRIGGER_Y) {
+                    boolean upScroll = totalDraggingDy > 0;
+                    boolean changed = upScrolled != upScroll;
+                    if (changed) {
+                        upScrolled = upScroll;
+                        updateTabVisibility(upScroll);
+                    }
+                }
+            } else {
+                totalDraggingDy = 0;
+            }
+        }
+
+        private void updateTabVisibility(boolean upScroll) {
+            if (upScroll) {
+                hide();
+            } else {
+                show();
+            }
+        }
+
+        private void hide() {
+            mTab.animate().translationY(mTab.getHeight()).setDuration(200).start();
+        }
+
+        private void showNow() {
+            mTab.setTranslationY(0);
+        }
+
+        private void show() {
+            if (mTab.getTranslationY() == 0) {
+                return;
+            }
+            mTab.animate().translationY(0).setDuration(200).start();
+        }
+
+        private void release() {
+            HSGlobalNotificationCenter.removeObserver(this);
+        }
+
+        @Override
+        public void onReceive(String s, HSBundle hsBundle) {
+            if (Constants.NOTIFY_KEY_LIST_SCROLLED.equals(s)) {
+                if (hsBundle != null) {
+                    int state = hsBundle.getInt("state", RecyclerView.SCROLL_STATE_IDLE);
+                    int dy = hsBundle.getInt("dy", 0);
+                    onInnerListScrollChange(state, dy);
+                }
+            } else if (Constants.NOTIFY_KEY_LIST_SCROLLED_TOP.equals(s)) {
+                HSLog.d("TabTransController", "Scrolled to Top!");
+                show();
+            }
         }
     }
 

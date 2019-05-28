@@ -24,19 +24,7 @@ public class Ap {
          * Topic.x 描述:         铃声功能及按钮是否显示
          */
         public static boolean isEnable() {
-            return false;
-        }
-
-        /**
-         * 使用 topic-1516083421924-90 - ringtone_auto_play 远程配置
-         * ---------------------------------------------
-         * Topic 名称:           Ringtone Test
-         * Topic 描述:           铃声功能试验
-         * Topic.x 可能值:       [true, false]
-         * Topic.x 描述:         铃声是否自动播放
-         */
-        public static boolean isAutoPlay() {
-            return false;
+            return true;
         }
 
         /**
@@ -46,13 +34,6 @@ public class Ap {
             if (theme != null && !TextUtils.isEmpty(theme.getRingtoneUrl()) && isEnable()) {
 
             }
-        }
-
-        /**
-         * 上传日志: topic-1516083421924-90 - 主题在详情页被应用
-         */
-        public static void onApply(Theme theme) {
-
         }
 
     }

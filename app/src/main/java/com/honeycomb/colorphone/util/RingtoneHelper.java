@@ -55,6 +55,7 @@ public class RingtoneHelper {
         return mActiveThemes.contains(themeId);
     }
 
+    @Deprecated
     public static void ringtoneAnim(int themeId) {
         ensureAnimThemeList();
         boolean update = mAnimThemes.add(themeId);

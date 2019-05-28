@@ -1,3 +1,33 @@
+///** List of all build variants. */
+//def DEF_FLAVOR = [
+//        'colorphoneYingyongbao',
+//        'colorphoneJinritoutiao',
+//]
+//
+//android {
+//    applicationVariants.all { variant ->
+//        def buildType = variant.buildType.name
+//        def flavor = variant.flavorName
+//        def taskMiddleName = variant.variantData.name.capitalize()
+//
+//        if (DEF_FLAVOR.contains(flavor)) {
+//            // For launcher release builds: post-process generated APK to shrink and obfuscate resources
+//            if (buildType == 'release') {
+//                Task shrinkApk = tasks.create(name: "shrink${taskMiddleName}Apk",
+//                        type: Exec,
+//                        group: 'Air Launcher',
+//                        description: 'Post-process generated APK to shrink and obfuscate resources with AndResGuard.') {
+//                    commandLine '../shrink_apk/shrink.command', flavor, variant.mergedFlavor.versionName, variant
+//                            .mergedFlavor.versionCode
+//                }
+//                variant.assemble.finalizedBy shrinkApk
+//            }
+//        }
+//    }
+//}
+
+
+
 tasks.whenTaskAdded { task ->
     android.productFlavors.all { flavor ->
         if (task.name.startsWith("assemble") && task.name.endsWith("Release")) {

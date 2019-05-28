@@ -1,5 +1,7 @@
 package com.colorphone.lock.lockscreen.locker;
 
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import com.colorphone.lock.fullscreen.core.OnNotchCallBack;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
@@ -57,8 +60,22 @@ public class LockerActivity extends HSAppCompatActivity {
 
         window.addFlags(FLAG_SHOW_WHEN_LOCKED);
         window.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        if (!LockerUtils.isKeyguardSecure(LockerActivity.this, false)) {
-            window.addFlags(FLAG_DISMISS_KEYGUARD);
+
+        // Dismiss keyguard if needed
+        boolean keyguardFlag = false;
+        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        if (keyguardManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            keyguardFlag = keyguardManager.isKeyguardSecure();
+            HSLog.d("isKeyguardSecure: " + keyguardManager.isKeyguardSecure()
+                    + " isKeyguardLocked: " + keyguardManager.isKeyguardLocked());
+        }
+        if (!keyguardFlag) {
+            if (keyguardManager != null &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                keyguardManager.requestDismissKeyguard(this, null);
+            } else {
+                getWindow().addFlags(FLAG_DISMISS_KEYGUARD);
+            }
         }
 
         HSAlertMgr.delayRateAlert();

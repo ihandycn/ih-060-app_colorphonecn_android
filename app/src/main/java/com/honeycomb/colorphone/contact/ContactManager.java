@@ -242,6 +242,7 @@ public class ContactManager {
                     database.beginTransaction();
 
                     for (ThemeEntry entry : themes) {
+                        markDataChanged();
                         entry.toContentValues(initialValues);
                         if (entry.mAction == ContactDBHelper.Action.UPDATE) {
                             result = database.update(ThemeEntry.TABLE_NAME, initialValues,
@@ -358,6 +359,14 @@ public class ContactManager {
     public synchronized void clearThemeStatus() {
         for (SimpleContact contact : mAllContacts) {
             contact.setSelected(false);
+        }
+    }
+
+    public synchronized void updateThemeId(int contactId, int id) {
+        for (SimpleContact contact : mAllContacts) {
+            if (contactId == contact.getContactId()) {
+                contact.setThemeId(id);
+            }
         }
     }
 

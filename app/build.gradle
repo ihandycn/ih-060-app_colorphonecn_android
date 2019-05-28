@@ -1,11 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.hugo'
-apply from: 'stable-Ids.gradle'
-apply from: 'tasks.gradle'
-
 apply plugin: 'ihandy.proguard.rewrite'
 apply plugin: 'com.miracles.stableid'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply from: 'stable-Ids.gradle'
+apply from: 'tasks.gradle'
 
 android {
     compileSdkVersion 28
@@ -20,6 +22,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    aaptOptions {
+        ignoreAssetsPattern "!*.plist:!.DS_Store"
     }
 
     signingConfigs {
@@ -52,8 +58,8 @@ android {
 
         jinritoutiao {
             dimension "channel"
-            versionCode 120
-            versionName "1.2.9"
+            versionCode 123
+            versionName "1.3.2"
         }
     }
 
@@ -73,6 +79,7 @@ android {
                            'src/main/java/com/honeycomb/colorphone/dialer/res']
             assets.srcDirs = ['src/main/assets']
             java.srcDirs = ['src/main/java']
+            jniLibs.srcDirs = ['../libs/jniLibs']
         }
 
         colorphoneYingyongbao {
@@ -95,10 +102,17 @@ android {
             minifyEnabled true
             shrinkResources true
             signingConfig signingConfigs.release
+            // cmGame-only support x64/arm
+            ndk {
+                abiFilters "x86", "x86_64", "armeabi-v7a", "armeabi"
+            }
         }
 
         debug {
             versionNameSuffix ".develop"
+            ndk {
+                abiFilters "x86", "x86_64", "armeabi-v7a", "armeabi"
+            }
         }
     }
     lintOptions {
@@ -144,12 +158,26 @@ android {
         tasks.named("merge${variant.name.capitalize()}Resources").configure { mergeResourceTask ->
             mergeResourceTask.outputs.upToDateWhen { false }
         }
+
+        def taskMiddleName = variant.variantData.name.capitalize()
+        def flavor = variant.flavorName
+        // For all launcher builds: perform plist -> pa conversion before merge{Variant}Assets tasks
+        Task mergeAssets = tasks.findByName("merge${taskMiddleName}Assets")
+        Task encodePlistArchives = tasks.create(name: "encode${taskMiddleName}PlistArchives",
+                type: Exec,
+                group: 'Color Phone',
+                description: 'Perform plist -> pa conversion before merge{Variant}Assets tasks.') {
+            commandLine '../plist-conv.sh', flavor
+            mergeAssets.outputs.upToDateWhen { false }
+            // Clear mergeAssets task UP-TO-DATE status to force a re-run
+        }
+        mergeAssets.dependsOn encodePlistArchives
     }
 }
 
 final SUPPORT_LIBRARY_VERSION = '26.1.0'
 final GOOGLE_PLAY_SERVICES_VERSION = '15.0.0'
-
+final kotlin_version = '1.3.10'
 dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true
@@ -176,7 +204,7 @@ dependencies {
 
     final COMMON_COLORPHONE = [
             USE_BETA_ACB_LIBS ?
-                    'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta06' :
+                    'cn.ihandy.appframework:libAppframework.beta:4.9.0.cn.beta08' :
                     'com.ihandy.appframework:libAppframework.gm:4.9.0.gm',
     ]
 
@@ -232,6 +260,16 @@ dependencies {
     colorphoneCompile 'com.umeng.umsdk:common:2.0.0'
     colorphoneCompile 'com.umeng.umsdk:utdid:1.1.5.3'
     colorphoneCompile 'com.umeng.umsdk:push:5.0.2'
+
+    // Cmgame
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compile 'com.squareup.okhttp3:okhttp:3.12.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+
+    compile name: 'libCmgameCenter/cmgame-sdk-tt2011-1.0.7', ext: 'aar'
+
+    implementation 'com.appsflyer:af-android-sdk:4.9.0'
+
 }
 
 // ADD THIS AT THE BOTTOM

@@ -10,7 +10,9 @@ import android.support.annotation.ColorInt;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.ContextThemeWrapper;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +25,11 @@ import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.InsettableFrameLayout;
 import com.ihs.app.framework.HSApplication;
+import com.superapps.util.Compats;
 import com.superapps.util.Dimensions;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class ActivityUtils {
     private static final int DEFAULT_NAVIGATION_BAR_COLOR = Color.BLACK;
@@ -51,8 +57,14 @@ public class ActivityUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decor = activity.getWindow().getDecorView();
             if (isLightColor) {
+                if (Compats.IS_XIAOMI_DEVICE) {
+                    setStatusBarDarkModeXiaomi(true, activity.getWindow());
+                }
                 decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             } else {
+                if (Compats.IS_XIAOMI_DEVICE) {
+                    setStatusBarDarkModeXiaomi(false, activity.getWindow());
+                }
                 decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             }
         }
@@ -328,4 +340,90 @@ public class ActivityUtils {
         }
         return false;
     }
+
+    public static boolean setStatusBarDarkModeXiaomi(boolean darkmode, Window window) {
+        Class<? extends Window> clazz = window.getClass();
+        try {
+            int darkModeFlag = 0;
+            Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+            Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
+            darkModeFlag = field.getInt(layoutParams);
+            Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
+            extraFlagField.invoke(window, darkmode ? darkModeFlag : 0, darkModeFlag);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static WindowManager.LayoutParams getFullScreenFloatWindowParams(WindowManager mWm) {
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.systemUiVisibility = 1;
+        layoutParams.type = 2010;
+        layoutParams.screenOrientation = 1;
+        layoutParams.gravity = 48;
+        layoutParams.format = 1;
+        layoutParams.flags = 264072;
+        layoutParams.width = -1;
+        layoutParams.height = -1;
+        layoutParams.y = 0;
+
+        boolean needFix = false;
+        int l = 0;
+        if (Build.VERSION.SDK_INT < 19) {
+            needFix = false;
+        } else {
+            Display defaultDisplay = mWm.getDefaultDisplay();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            defaultDisplay.getRealMetrics(displayMetrics);
+            int i = displayMetrics.heightPixels;
+            int i2 = displayMetrics.widthPixels;
+            DisplayMetrics displayMetrics2 = new DisplayMetrics();
+            defaultDisplay.getMetrics(displayMetrics2);
+            int i3 = displayMetrics2.heightPixels;
+            int i4 = displayMetrics2.widthPixels;
+            l = i - i3;
+            if (i2 - i4 > 0 || i - i3 > 0) {
+                needFix = true;
+            }
+        }
+
+        if (needFix) {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            mWm.getDefaultDisplay().getMetrics(displayMetrics);
+            layoutParams.y = 0;
+            layoutParams.width = Math.min(displayMetrics.widthPixels, displayMetrics.heightPixels);
+            layoutParams.height = Math.max(displayMetrics.widthPixels, displayMetrics.heightPixels) + l;
+            if (displayMetrics.widthPixels > displayMetrics.heightPixels) {
+                layoutParams.width += l;
+                layoutParams.height -= l;
+            }
+            layoutParams.gravity = 48;
+            layoutParams.flags = 155714048;
+            layoutParams.type = 2006;
+            layoutParams.systemUiVisibility = 5890;
+        }
+
+        // Add extra
+        int systemUiVisibility = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            systemUiVisibility |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            systemUiVisibility |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        }
+        layoutParams.systemUiVisibility = layoutParams.systemUiVisibility | systemUiVisibility;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            layoutParams.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        }
+
+        return layoutParams;
+    }
+
 }

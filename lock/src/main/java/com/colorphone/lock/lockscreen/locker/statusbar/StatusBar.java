@@ -46,11 +46,15 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
     private TextView tvTime;
     private TextView tvBattery;
     private ImageView ivWifi;
+
     private TextView tvMobileData;
     private ImageView ivMobileStrength;
     private ImageView ivAirPlane;
     private ImageView ivSound;
     private ImageView ivBatteryCharging;
+
+
+
     private StatusBarBatteryIndicator batteryIndicator;
     private int[] resWifiImages = new int[]{
             R.drawable.status_wifi_strength_1,
@@ -69,7 +73,8 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
 
     private HSChargingManager.IChargingListener chargingListener = new HSChargingManager.IChargingListener() {
 
-        @Override public void onBatteryLevelChanged(int i, int i1) {
+        @Override
+        public void onBatteryLevelChanged(int i, int i1) {
             updateBattery();
         }
 
@@ -78,11 +83,13 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
             updateBattery();
         }
 
-        @Override public void onChargingRemainingTimeChanged(int i) {
+        @Override
+        public void onChargingRemainingTimeChanged(int i) {
 
         }
 
-        @Override public void onBatteryTemperatureChanged(float v, float v1) {
+        @Override
+        public void onBatteryTemperatureChanged(float v, float v1) {
 
         }
     };
@@ -172,16 +179,19 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
                 int asu = signalStrength.getGsmSignalStrength();
                 if (asu <= 2 || asu == 99)
                     mobileStrengthView.setImageResource(statusBar.resMobileStrengthImages[0]);
-                else if (asu >= 12) mobileStrengthView.setImageResource(statusBar.resMobileStrengthImages[4]);
-                else if (asu >= 8) mobileStrengthView.setImageResource(statusBar.resMobileStrengthImages[3]);
-                else if (asu >= 5) mobileStrengthView.setImageResource(statusBar.resMobileStrengthImages[2]);
+                else if (asu >= 12)
+                    mobileStrengthView.setImageResource(statusBar.resMobileStrengthImages[4]);
+                else if (asu >= 8)
+                    mobileStrengthView.setImageResource(statusBar.resMobileStrengthImages[3]);
+                else if (asu >= 5)
+                    mobileStrengthView.setImageResource(statusBar.resMobileStrengthImages[2]);
                 else mobileStrengthView.setImageResource(statusBar.resMobileStrengthImages[1]);
             }
         }
 
         @Override
         public void onDataConnectionStateChanged(int state, int networkType) {
-            StatusBar statusBar = StatusBar.this;;
+            StatusBar statusBar = StatusBar.this;
             if (statusBar.isValid()) {
                 TextView mobileDataView = statusBar.tvMobileData;
                 switch (networkType) {
@@ -451,4 +461,5 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
                 break;
         }
     }
+
 }
