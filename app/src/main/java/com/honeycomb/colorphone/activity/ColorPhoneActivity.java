@@ -340,10 +340,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (lotteryWheelLayout != null && lotteryWheelLayout.isSpining()) {
-                    tabLayout.setScrollPosition(CASH_POSITION, 0f, true);
-                    return;
-                }
 
                 int pos = tab.getPosition();
                 Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(Constants.KEY_TAB_POSITION, pos);
@@ -430,6 +426,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (pos == NEWS_POSITION) {
                     Preferences.get(Constants.PREF_FILE_DEFAULT).putLong(Constants.KEY_TAB_LEAVE_NEWS, System.currentTimeMillis());
                 }
+
             }
 
             @Override
@@ -489,6 +486,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override public void onSpinClicked() {
                 Analytics.logEvent("CashCenter_Wheel_Spin_Click");
+                HSLog.i("CCTest", "setEnabled(false)");
+                tabLayout.setEnabled(false);
+            }
+
+            @Override public void onSpinStop() {
+                HSLog.i("CCTest", "setEnabled(true)");
+                tabLayout.setEnabled(true);
             }
 
             @Override public void onInterstitialShown(boolean b) {
@@ -592,6 +596,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (tabLayout.getSelectedTabPosition() == CASH_POSITION && lotteryWheelLayout != null) {
             lotteryWheelLayout.onResume();
         }
+
+        tabLayout.setEnabled(true);
     }
 
     @Override
