@@ -139,7 +139,6 @@ import static net.appcloudbox.AcbAds.GDPR_USER;
 
 public class ColorPhoneApplicationImpl {
     private static final long TIME_NEED_LOW = 10 * 1000; // 10s
-    private static final String BUGLY_ID = "c6e186b7b5";
     private static ConfigLog mConfigLog;
 
     private List<Module> mModules = new ArrayList<>();
@@ -290,7 +289,7 @@ public class ColorPhoneApplicationImpl {
     private void onAllProcessCreated() {
         initFabric();
 
-        CrashReport.initCrashReport(mBaseApplication.getApplicationContext(), BUGLY_ID, BuildConfig.DEBUG);
+        CrashReport.initCrashReport(mBaseApplication.getApplicationContext(), mBaseApplication.getString(R.string.bugly_app_id), BuildConfig.DEBUG);
 
         String channel = ChannelInfoUtil.getChannelInfo(mBaseApplication);
 
