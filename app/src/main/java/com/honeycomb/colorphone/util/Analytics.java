@@ -71,7 +71,7 @@ public class Analytics {
         if (ColorPhoneApplication.isFabricInitted()) {
             CustomEvent event = new CustomEvent(eventID);
             for (String key : eventValue.keySet()) {
-                event.putCustomAttribute(key, eventValue.get(key));
+                event.putCustomAttribute(key, eventValue.get(key).toString());
             }
             HSLog.d("FlurryWithAnswers", eventID);
             if ((flag & FLAG_LOG_FABRIC) == FLAG_LOG_FABRIC) {

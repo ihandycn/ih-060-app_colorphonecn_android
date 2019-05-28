@@ -44,7 +44,10 @@ import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
+import com.honeycomb.colorphone.boost.FloatWindowDialog;
+import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.boost.SystemAppsManager;
+import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
@@ -721,6 +724,18 @@ public class ColorPhoneApplication extends HSApplication {
                                 perms.add(RequestPermissionsActivity.PERMISSION_SHOW_ON_LOCK_SCREEN_OUTSIDE);
                                 RequestPermissionsActivity.start(context, "", perms);
                             }
+                        }
+                    } else {
+                        if (CashCenterGuideDialog.isPeriod()) {
+                            CashCenterGuideDialog.showCashCenterGuideDialog(context);
+
+                            Threads.postOnMainThreadDelayed(() -> {
+                                FloatWindowDialog dialog = FloatWindowManager.getInstance().getDialog(CashCenterGuideDialog.class);
+                                FloatWindowManager.getInstance().removeDialog(dialog);
+                            }, 5 * DateUtils.MINUTE_IN_MILLIS);
+
+                        } else {
+                            HSLog.i("CCTest", "not time");
                         }
                     }
                 }

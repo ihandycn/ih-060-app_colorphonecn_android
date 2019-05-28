@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -174,7 +175,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final int TAB_SIZE = 4;
     private static final int MAIN_POSITION = 0;
     private static final int NEWS_POSITION = 1;
-    private static final int CASH_POSITION = 2;
+    public static final int CASH_POSITION = 2;
     private static final int SETTING_POSITION = 3;
 
     private ViewPagerFixed mViewPager;
@@ -183,6 +184,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private TabLayout tabLayout;
     private LottieAnimationView tabCashCenterGuide;
     private boolean showTabCashCenter = false;
+
+    public static void startColorPhone(Context context, int page) {
+        Intent intent = new Intent(context, ColorPhoneActivity.class);
+        intent.putExtra(Constants.INTENT_KEY_TAB_POSITION, page);
+        Navigations.startActivitySafely(context, intent);
+    }
 
     @DebugLog
     @Override
@@ -226,6 +233,18 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
+    @Override protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int tabPos = getIntent().getIntExtra(Constants.INTENT_KEY_TAB_POSITION, -1);
+        if (tabPos == -1) {
+            tabPos = Preferences.get(Constants.PREF_FILE_DEFAULT).getInt(Constants.KEY_TAB_POSITION, 0);
+        }
+
+        if (mViewPager != null) {
+            mViewPager.setCurrentItem(tabPos, false);
+        }
+    }
+
     @DebugLog
     private void initMainFrame() {
 
@@ -237,7 +256,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         mViewPager = findViewById(R.id.viewpager);
 
-        int tabPos = Preferences.get(Constants.PREF_FILE_DEFAULT).getInt(Constants.KEY_TAB_POSITION, 0);
+        int tabPos = getIntent().getIntExtra(Constants.INTENT_KEY_TAB_POSITION, -1);
+        if (tabPos == -1) {
+            tabPos = Preferences.get(Constants.PREF_FILE_DEFAULT).getInt(Constants.KEY_TAB_POSITION, 0);
+        }
         initTab();
 
         mTabAdapter = new MainTabAdapter();
@@ -346,10 +368,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     tab.getCustomView().findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
                     tabCashCenterGuide.setVisibility(View.GONE);
 
-                    try {
-                        HSCashCenterManager.getInstance().startFirstReward();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    boolean show = HSCashCenterManager.getInstance().startFirstReward();
+                    if (!show) {
                         HSCashCenterManager.getInstance().setAutoFirstRewardFlag(true);
                     }
 
@@ -414,7 +434,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void initCashCenterMgr() {
-        HSCashCenterManager.init(ColorPhoneActivity.this);
         HSCashCenterManager.getInstance().init(ColorPhoneActivity.this, new CashCenterCallback() {
             @Override public void onCashCenterShow() {
 
@@ -630,8 +649,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         RuntimePermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
 
-        List<String> granted = new ArrayList();
-        List<String> denied = new ArrayList();
+        List<String> granted = new ArrayList<>();
+        List<String> denied = new ArrayList<>();
 
         for (int i = 0; i < permissions.length; ++i) {
             String perm = permissions[i];
