@@ -765,12 +765,22 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mRewardVideoView.onHideAdLoading();
             mRewardVideoView.onCancel();
         } else {
-            super.onBackPressed();
-            // Stop all download tasks;
-            TasksManager.getImpl().stopAllTasks();
+            if (tabLayout.getSelectedTabPosition() == CASH_POSITION) {
+                if (lotteryWheelLayout != null && !lotteryWheelLayout.isSpining()) {
+                    super.onBackPressed();
+                    // Stop all download tasks;
+                    TasksManager.getImpl().stopAllTasks();
 
-            if (lotteryWheelLayout != null) {
-                lotteryWheelLayout.onBackPressed();
+                    lotteryWheelLayout.onBackPressed();
+                }
+            } else {
+                super.onBackPressed();
+                // Stop all download tasks;
+                TasksManager.getImpl().stopAllTasks();
+
+                if (lotteryWheelLayout != null) {
+                    lotteryWheelLayout.onBackPressed();
+                }
             }
         }
     }
@@ -953,8 +963,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                                 @Override public void onRightCornerIcClick() { }
 
                                 @Override public void onLeftCornerIcClick() {
-                                    Navigations.startActivitySafely(ColorPhoneActivity.this, CashCenterActivity.class);
-                                    Analytics.logEvent("CashCenter_Clicked");
+                                    if (!lotteryWheelLayout.isSpining()) {
+                                        Navigations.startActivitySafely(ColorPhoneActivity.this, CashCenterActivity.class);
+                                        Analytics.logEvent("CashCenter_Clicked");
+                                    }
                                 }
                             });
 
