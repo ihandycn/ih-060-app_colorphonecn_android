@@ -48,7 +48,7 @@ public class ColorPhoneApplication extends HSApplication {
         Beta.betaPatchListener = new BetaPatchListener() {
             @Override
             public void onPatchReceived(String patchFile) {
-                Analytics.logEvent("Patch_Download_Success");
+                Analytics.logEvent("Patch_Received");
             }
 
             @Override
