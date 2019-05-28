@@ -725,18 +725,18 @@ public class ColorPhoneApplication extends HSApplication {
                                 RequestPermissionsActivity.start(context, "", perms);
                             }
                         }
+                    }
+
+                    if (CashCenterGuideDialog.isPeriod()) {
+                        CashCenterGuideDialog.showCashCenterGuideDialog(context);
+
+                        Threads.postOnMainThreadDelayed(() -> {
+                            FloatWindowDialog dialog = FloatWindowManager.getInstance().getDialog(CashCenterGuideDialog.class);
+                            FloatWindowManager.getInstance().removeDialog(dialog);
+                        }, 5 * DateUtils.MINUTE_IN_MILLIS);
+
                     } else {
-                        if (CashCenterGuideDialog.isPeriod()) {
-                            CashCenterGuideDialog.showCashCenterGuideDialog(context);
-
-                            Threads.postOnMainThreadDelayed(() -> {
-                                FloatWindowDialog dialog = FloatWindowManager.getInstance().getDialog(CashCenterGuideDialog.class);
-                                FloatWindowManager.getInstance().removeDialog(dialog);
-                            }, 5 * DateUtils.MINUTE_IN_MILLIS);
-
-                        } else {
-                            HSLog.i("CCTest", "not time");
-                        }
+                        HSLog.i("CCTest", "not time");
                     }
                 }
             }

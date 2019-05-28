@@ -236,7 +236,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @Override protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int tabPos = getIntent().getIntExtra(Constants.INTENT_KEY_TAB_POSITION, -1);
+        int tabPos = -1;
+
+        if (intent != null) {
+            tabPos = intent.getIntExtra(Constants.INTENT_KEY_TAB_POSITION, -1);
+        }
+
         if (tabPos == -1) {
             tabPos = Preferences.get(Constants.PREF_FILE_DEFAULT).getInt(Constants.KEY_TAB_POSITION, 0);
         }
