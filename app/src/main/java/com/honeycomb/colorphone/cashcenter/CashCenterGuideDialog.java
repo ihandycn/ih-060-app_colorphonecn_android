@@ -1,9 +1,13 @@
 package com.honeycomb.colorphone.cashcenter;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -17,6 +21,7 @@ import com.honeycomb.colorphone.boost.FloatWindowDialog;
 import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.boost.SafeWindowManager;
 import com.honeycomb.colorphone.util.Analytics;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.messagecenter.notification.FloatWindow;
@@ -39,10 +44,13 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
     private float yInView;
     public static int viewX;
     public static int viewY;
-//    private final int viewOriginalX;
+    private static int viewOriginalX;
     public static int viewViewWidth;
     public static int viewViewHeight;
     private boolean isStop = true;
+
+    private Point point = new Point();
+    private Point oldPoint = new Point();
 
     public static void showCashCenterGuideDialog(Context context) {
         FloatWindowDialog dialog = new CashCenterGuideDialog(context);
@@ -68,6 +76,9 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
 
     private void init() {
         mContentView = (ViewGroup) View.inflate(getContext(), R.layout.cash_center_guide, this);
+        viewViewWidth = Dimensions.pxFromDp(130);
+        viewViewHeight = Dimensions.pxFromDp(100);
+        viewOriginalX = Dimensions.getPhoneWidth(HSApplication.getContext()) - viewViewWidth;
     }
 
     @Override public void dismiss() {
@@ -75,20 +86,20 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
     }
 
     @Override public WindowManager.LayoutParams getLayoutParams() {
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.type = getFloatWindowType();
-        lp.format = PixelFormat.RGBA_8888;
-        lp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+        mLayoutParams.type = getFloatWindowType();
+        mLayoutParams.format = PixelFormat.RGBA_8888;
+        mLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
-        lp.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-        lp.gravity = Gravity.END | Gravity.TOP;
-        lp.y = Dimensions.pxFromDp(200);
-        lp.width = Dimensions.pxFromDp(130);
-        lp.height = Dimensions.pxFromDp(100);
+        mLayoutParams.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        mLayoutParams.gravity = Gravity.END | Gravity.TOP;
+        mLayoutParams.x = viewOriginalX;
+        mLayoutParams.y = Dimensions.pxFromDp(200);
+        mLayoutParams.width = viewViewWidth;
+        mLayoutParams.height = viewViewHeight;
 
-        this.setLayoutParams(lp);
-        return lp;
+        this.setLayoutParams(mLayoutParams);
+        return mLayoutParams;
     }
 
     @Override public boolean shouldDismissOnLauncherStop() {
@@ -122,7 +133,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
 //                checkActionDownFinalStatus();
                 xInScreen = event.getRawX();
                 yInScreen = event.getRawY() - statusBarHeight;
-//                updateViewPosition();
+                updateViewPosition();
 
                 break;
             case MotionEvent.ACTION_CANCEL:
@@ -133,8 +144,11 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
 //                    FloatWindow.getInstance().hideFloatingview();
 //                    return false;
 //                }
-
+//
 //                isStop = false;
+
+                updateOnActionUpFloatStatue();
+
                 if (isMisOperation()) {
                     ColorPhoneActivity.startColorPhone(getContext(), ColorPhoneActivity.CASH_POSITION);
                     Analytics.logEvent("CashCenter_FloatingGuide_Click", "type", getPeriod());
@@ -146,6 +160,87 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
                 break;
         }
         return false;
+    }
+
+    private void updateViewPosition() {
+        oldPoint.set(point.x, point.y);
+        point.x = (int) (xInScreen - xInView);
+        point.y = (int) (yInScreen - yInView);
+//        if (listener != null) {
+//            isRemoveBallView = listener.onPositionChange(point, isMisOperation(oldPoint, point));
+//        }
+        moveView(point.x, point.y);
+    }
+
+    private void updateOnActionUpFloatStatue() {
+        if (!isMisOperation()) {
+            startBallViewMoveToBorderAnim(() -> isStop = true);
+        } else {
+            isStop = true;
+        }
+    }
+
+    private void startBallViewMoveToBorderAnim(final Runnable runnable) {
+        final int borderX;
+        final WindowManager.LayoutParams ballParams = FloatWindow.getInstance().getBallParams();
+        if (ballParams == null) {
+            return;
+        }
+        if (ballParams.x > ((Dimensions.getPhoneWidth(HSApplication.getContext()) - viewViewWidth) / 2f)) {
+            borderX = viewOriginalX;
+        } else {
+            borderX = -Dimensions.pxFromDp(8);
+        }
+
+        int bottom = Dimensions.getPhoneHeight(getContext()) - Dimensions.pxFromDp(170);
+        int top = Dimensions.getStatusBarHeight(getContext()) + Dimensions.pxFromDp(35);
+        final int ballY = ballParams.y;
+        final int tranceY;
+
+        if (ballY < top) {
+            tranceY = top - ballY;
+        } else if (ballY > bottom) {
+            tranceY = bottom - ballY;
+        } else {
+            tranceY = 0;
+        }
+
+        ValueAnimator animator = ValueAnimator.ofInt(ballParams.x, borderX);
+        animator.setInterpolator(PathInterpolatorCompat.create(0.49f, 1.47f, 0.66f, 0.99f));
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int x = (int) animation.getAnimatedValue();
+                int y = mLayoutParams.y;
+
+                if (tranceY != 0) {
+                    y = (int) (ballY + tranceY * animation.getAnimatedFraction());
+                }
+                moveView(x, y);
+            }
+        });
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (runnable != null) {
+                    runnable.run();
+                }
+            }
+        });
+        int x = Math.abs(ballParams.x - borderX);
+        animator.setDuration(getMoveToBorderAnimDuration(x));
+        animator.start();
+    }
+
+    private long getMoveToBorderAnimDuration(int x) {
+        return (long) (1.689f * Dimensions.dpFromPx(x)) + 200;
+    }
+
+    private void moveView(int x, int y) {
+        mLayoutParams.x = x;
+        mLayoutParams.y = y;
+        FloatWindowManager.getInstance().updateDialog(CashCenterGuideDialog.this, mLayoutParams);
     }
 
     private static void recordShow() {

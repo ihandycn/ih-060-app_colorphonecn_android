@@ -52,6 +52,7 @@ import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -473,6 +474,26 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override public void onExit() {
 
+            }
+
+            @Override public void onSpinClicked() {
+                Analytics.logEvent("CashCenter_Wheel_Spin_Click");
+            }
+
+            @Override public void onInterstitialShown(boolean b) {
+                Analytics.logEvent("CashCenter_Wire_Ad_Show");
+
+                AcbNativeAdAnalytics.logAppViewEvent("CashWire", b);
+            }
+
+            @Override public void onRewardShown() {
+                Analytics.logEvent("CashCenter_Reward_Ad_Show");
+            }
+
+            @Override public void onNativeShown(boolean b) {
+                Analytics.logEvent("CashCenter_Native_Ad_Show");
+
+                AcbNativeAdAnalytics.logAppViewEvent("CashNative", b);
             }
         });
 

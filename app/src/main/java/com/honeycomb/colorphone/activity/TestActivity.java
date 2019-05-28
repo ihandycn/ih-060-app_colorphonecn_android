@@ -13,10 +13,12 @@ import com.acb.call.service.InCallWindow;
 import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 import com.honeycomb.colorphone.recentapp.SmartAssistantActivity;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
+import com.superapps.util.Threads;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -95,5 +97,9 @@ public class TestActivity extends AppCompatActivity {
 //
 //        LotteryWheelActivity.start(this, true);
 //        Navigations.startActivitySafely(getApplicationContext(), LotteryActivity.class);
+
+        Threads.postOnMainThreadDelayed(() -> {
+            CashCenterGuideDialog.showCashCenterGuideDialog(getApplicationContext());
+        }, 5000);
     }
 }
