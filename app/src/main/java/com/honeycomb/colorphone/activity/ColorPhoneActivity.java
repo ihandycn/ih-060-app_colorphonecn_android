@@ -593,7 +593,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mHandler.postDelayed(cashCenterGuideRunnable, 10 * DateUtils.SECOND_IN_MILLIS);
         }
 
-        if (tabLayout.getSelectedTabPosition() == CASH_POSITION && lotteryWheelLayout != null) {
+        if (lotteryWheelLayout != null) {
             lotteryWheelLayout.onResume();
         }
 
