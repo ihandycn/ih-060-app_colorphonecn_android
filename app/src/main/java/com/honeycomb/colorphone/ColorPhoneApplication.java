@@ -3,10 +3,11 @@ package com.honeycomb.colorphone;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
-
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.beta.interfaces.BetaPatchListener;
 
 import hugo.weaving.DebugLog;
 
@@ -34,8 +35,6 @@ public class ColorPhoneApplication extends HSApplication {
     public void onCreate() {
         super.onCreate();
         Bugly.init(this, getString(R.string.bugly_app_id), BuildConfig.DEBUG);
-        // For debug
-//        Bugly.init(this, "669a69987d", true);
 
         mColorPhoneApplicationProxy = new ColorPhoneApplicationImpl(this);
         mColorPhoneApplicationProxy.onCreate();
@@ -46,6 +45,40 @@ public class ColorPhoneApplication extends HSApplication {
         super.attachBaseContext(base);
         MultiDex.install(this);
         // 安装tinker
+        Beta.betaPatchListener = new BetaPatchListener() {
+            @Override
+            public void onPatchReceived(String patchFile) {
+                Analytics.logEvent("Patch_Download_Success");
+            }
+
+            @Override
+            public void onDownloadReceived(long savedLength, long totalLength) {
+            }
+
+            @Override
+            public void onDownloadSuccess(String msg) {
+                Analytics.logEvent("Patch_Download_Success");
+            }
+
+            @Override
+            public void onDownloadFailure(String msg) {
+                Analytics.logEvent("Patch_Download_Failed", "Reason", msg);
+            }
+
+            @Override
+            public void onApplySuccess(String msg) {
+                Analytics.logEvent("Patch_Apply_Success");
+            }
+
+            @Override
+            public void onApplyFailure(String msg) {
+                Analytics.logEvent("Patch_Apply_Failed", "Reason", msg);
+            }
+
+            @Override
+            public void onPatchRollback() {
+            }
+        };
         Beta.installTinker();
     }
 

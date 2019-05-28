@@ -102,6 +102,7 @@ import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
+import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
@@ -175,6 +176,8 @@ public class ColorPhoneApplicationImpl {
 
             if (HSNotificationConstant.HS_SESSION_START.equals(notificationName)) {
                 checkModuleAdPlacement();
+                Beta.checkUpgrade();
+
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
                 HSLog.d("Session End.");
