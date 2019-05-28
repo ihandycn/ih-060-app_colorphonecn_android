@@ -196,6 +196,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ContactManager.getInstance().update();
         AcbAds.getInstance().setActivity(this);
         if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
@@ -582,6 +583,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
             mHandler.postDelayed(cashCenterGuideRunnable, 10 * DateUtils.SECOND_IN_MILLIS);
         }
+
+        if (tabLayout.getSelectedTabPosition() == CASH_POSITION && lotteryWheelLayout != null) {
+            lotteryWheelLayout.onResume();
+        }
     }
 
     @Override
@@ -747,6 +752,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         ConfigChangeManager.getInstance().removeCallback(configChangeCallback);
 
+        if (lotteryWheelLayout != null) {
+            lotteryWheelLayout.onBackPressed();
+        }
+
         super.onDestroy();
     }
 
@@ -759,6 +768,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             super.onBackPressed();
             // Stop all download tasks;
             TasksManager.getImpl().stopAllTasks();
+
+            if (lotteryWheelLayout != null) {
+                lotteryWheelLayout.onBackPressed();
+            }
         }
     }
 
