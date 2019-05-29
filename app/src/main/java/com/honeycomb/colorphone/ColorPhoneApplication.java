@@ -733,7 +733,7 @@ public class ColorPhoneApplication extends HSApplication {
                         Threads.postOnMainThreadDelayed(() -> {
                             FloatWindowDialog dialog = FloatWindowManager.getInstance().getDialog(CashCenterGuideDialog.class);
                             FloatWindowManager.getInstance().removeDialog(dialog);
-                        }, 5 * DateUtils.MINUTE_IN_MILLIS);
+                        }, 3 * DateUtils.MINUTE_IN_MILLIS);
 
                     } else {
                         HSLog.i("CCTest", "not time");
