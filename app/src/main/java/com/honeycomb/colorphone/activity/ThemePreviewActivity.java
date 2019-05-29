@@ -162,7 +162,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         });
     }
 
-
     public MediaPlayer getMediaPlayer() {
         return mMediaPlayer;
     }
@@ -181,27 +180,37 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         super.onResume();
         for (ThemePreviewView previewView : mViews) {
             previewView.setBlockAnimationForPageChange(false);
-            previewView.onStart();
+            if (previewView.isSelectedPos()) {
+                previewView.onStart();
+            }
         }
-
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         for (ThemePreviewView previewView : mViews) {
-            previewView.onStop();
+            if (previewView.isSelectedPos()) {
+                previewView.onStop();
+            }
         }
     }
 
     @Override
     public void onBackPressed() {
+        boolean intercept = false;
         for (ThemePreviewView previewView : mViews) {
             if (previewView.isRewardVideoLoading()) {
                 previewView.stopRewardVideoLoading();
-                return;
+                intercept = true;
             }
+            if (previewView.isRingtoneSettingShow()) {
+                previewView.dismissRingtoneSettingPage();
+                intercept = true;
+            }
+        }
+        if (intercept) {
+            return;
         }
         super.onBackPressed();
     }

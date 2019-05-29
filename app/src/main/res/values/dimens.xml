@@ -8,8 +8,8 @@
     <dimen name="nav_drawer_margin_offset">-16dp</dimen>
     <dimen name="nav_drawer_width">276dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="theme_card_margin_vertical">8dp</dimen>
-    <dimen name="theme_card_margin_horizontal">4dp</dimen>
+    <dimen name="theme_card_margin_vertical">6dp</dimen>
+    <dimen name="theme_card_margin_horizontal">3dp</dimen>
     <dimen name="theme_card_radius">8dp</dimen>
     <dimen name="theme_badge_margin">24dp</dimen>
     <dimen name="theme_text_margin_top">7dp</dimen>
@@ -22,12 +22,10 @@
     <dimen name="contact_item_height">56dp</dimen>
     <dimen name="contact_item_footer_offset">72dp</dimen>
     <dimen name="theme_apply_btn_height">56dp</dimen>
+    <dimen name="ringtone_apply_layout_height">144dp</dimen>
     <dimen name="guide_txt_margin_vertical">36dp</dimen>
     <dimen name="guide_txt_btn_vertical">10dp</dimen>
-    <dimen name="ringtone_btn_height">64dp</dimen>
-    <dimen name="ringtone_btn_width">71.3dp</dimen>
-
-    <dimen name="settings_row_height">77dp</dimen>
+    <dimen name="settings_row_height">64dp</dimen>
 
     <!-- Dialog -->
     <dimen name="dialog_elevation">24dp</dimen>

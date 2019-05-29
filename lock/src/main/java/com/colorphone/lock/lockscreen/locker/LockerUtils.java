@@ -57,7 +57,7 @@ public class LockerUtils {
     }
 
     @SuppressWarnings("TryWithIdenticalCatches")
-    static boolean isKeyguardSecure(Context context, boolean defaultValue) {
+    public static boolean isKeyguardSecure(Context context, boolean defaultValue) {
         KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
         try {
             Method declaredMethod = ReflectionHelper.getDeclaredMethod(KeyguardManager.class, "isKeyguardSecure");

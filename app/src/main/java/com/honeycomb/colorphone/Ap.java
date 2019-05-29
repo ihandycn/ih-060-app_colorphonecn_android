@@ -1,7 +1,5 @@
 package com.honeycomb.colorphone;
 
-import android.text.TextUtils;
-
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.config.HSConfig;
 
@@ -15,44 +13,9 @@ public class Ap {
 
     public static class Ringtone {
 
-        /**
-         * 使用 topic-1516083421924-90 - ringtone_btn_show 远程配置
-         * ---------------------------------------------
-         * Topic 名称:           Ringtone Test
-         * Topic 描述:           铃声功能试验
-         * Topic.x 可能值:       [true, false]
-         * Topic.x 描述:         铃声功能及按钮是否显示
-         */
         public static boolean isEnable() {
-            return false;
-        }
-
-        /**
-         * 使用 topic-1516083421924-90 - ringtone_auto_play 远程配置
-         * ---------------------------------------------
-         * Topic 名称:           Ringtone Test
-         * Topic 描述:           铃声功能试验
-         * Topic.x 可能值:       [true, false]
-         * Topic.x 描述:         铃声是否自动播放
-         */
-        public static boolean isAutoPlay() {
-            return false;
-        }
-
-        /**
-         * 上传日志: topic-1516083421924-90 - 主题详情页展示
-         */
-        public static void onShow(Theme theme) {
-            if (theme != null && !TextUtils.isEmpty(theme.getRingtoneUrl()) && isEnable()) {
-
-            }
-        }
-
-        /**
-         * 上传日志: topic-1516083421924-90 - 主题在详情页被应用
-         */
-        public static void onApply(Theme theme) {
-
+            return HSConfig.optBoolean(true,
+                    "Application", "Theme", "RingtoneEnable");
         }
 
     }

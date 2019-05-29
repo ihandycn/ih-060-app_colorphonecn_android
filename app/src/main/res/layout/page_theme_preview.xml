@@ -28,48 +28,67 @@
         android:id="@+id/dim_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#55000000"
+        android:background="@color/black_54_transparent"
         android:visibility="invisible" />
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="90dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:background="@drawable/preview_button_bg_dark_gradient"
+        android:paddingBottom="14dp">
 
-        <com.honeycomb.colorphone.view.TypefacedTextView
-            android:id="@+id/ringtone_toast"
-            style="@style/NormalText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|end|center_vertical"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="64dp"
-            android:gravity="center"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:background="@drawable/bubble_h"
-            android:textColor="@color/transparent_black"
-            android:textSize="14sp"
-            android:minHeight="48dp"
-            android:visibility="gone"/>
-
-        <View
+        <ImageView
             android:id="@+id/ringtone_image"
-            android:layout_width="@dimen/ringtone_btn_width"
-            android:layout_height="@dimen/ringtone_btn_height"
+            style="@style/NormalButton"
             android:layout_gravity="right|end|center_vertical"
-            android:background="@drawable/ringtone_state_selector" />
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/bg_round_material_compat"
+            android:scaleType="centerInside"
+            android:src="@drawable/ringtone_state_selector"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/ringtone_lottie_open"
-            android:layout_width="@dimen/ringtone_btn_width"
-            android:layout_height="@dimen/ringtone_btn_height"
-            android:layout_gravity="right|end|center_vertical"
-            app:lottie_loop="false"
-            app:lottie_progress="0" />
     </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/ringtone_apply_layout"
+        android:layout_height="@dimen/ringtone_apply_layout_height"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        tools:background="@color/black_80_transparent">
+
+        <TextView
+            android:id="@+id/ringtone_apply_change"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:gravity="center"
+            android:text="@string/ringtone_replace_by_music"
+            android:textColor="@color/textBlack"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:background="@drawable/white_rounded_corner_bg" />
+
+        <TextView
+            android:id="@+id/ringtone_apply_keep"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/ringtone_not_change"
+            android:textColor="@color/textBlack"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:background="@drawable/white_rounded_corner_bg" />
+    </LinearLayout>
     <ProgressBar
         android:id="@+id/theme_progress_bar"
         style="@style/ProgressBar"

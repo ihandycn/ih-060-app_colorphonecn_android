@@ -49,7 +49,7 @@ public class RecyclerSectionItemDecoration extends RecyclerView.ItemDecoration {
 
         mSectionHeaderPaint = new Paint();
         mSectionHeaderPaint.setTextSize(resources.getDimensionPixelOffset(R.dimen.contact_section_header_txt));
-        mSectionHeaderPaint.setColor(Color.parseColor("#7f000000"));
+        mSectionHeaderPaint.setColor(Color.parseColor("#8fffffff"));
         mSectionHeaderPaint.setAntiAlias(true);
         mSectionHeaderPaint.setTypeface(FontUtils.getTypeface(FontUtils.Font.PROXIMA_NOVA_REGULAR));
 

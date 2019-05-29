@@ -27,7 +27,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.service.InCallWindow;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialer.animation.AnimUtils;
@@ -662,9 +661,6 @@ public class InCallActivity extends AppCompatActivity implements PseudoScreenSta
         ViewGroup root = findViewById(R.id.main);
 
         if (mIncomingCallUI) {
-            ScreenFlashManager.getInstance().getAcbCallFactory().logEvent(false,
-                    "Acb_Screenflash_Shouldshow", "Brand", Build.BRAND.toLowerCase());
-
             InCallWindow inCallWindow = new InCallWindow(this);
             View mainCallView = inCallWindow.getFlashRootView();
             mainCallView.setTag("incoming");

@@ -33,6 +33,9 @@
 #-keep public class * extends android.app.backup.BackupAgentHelper
 #-keep public class * extends android.preference.Preference
 
+#-obfuscationdictionary ../proguard-ihandy/dict/dict_1.txt
+#-classobfuscationdictionary ../proguard-ihandy/dict/dict_1.txt
+
 -keep class com.honeycomb.colorphone.activity.WelcomeActivity {
   *;
 }
@@ -194,6 +197,8 @@
 
 -dontwarn com.ihs.affiliateads.**
 
+-keep class com.honeycomb.colorphone.util.ActivityUtils { *; }
+
 # ========== Umeng ===============
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
@@ -225,3 +230,30 @@
 -keep class com.ta.**{*;}
 
 -keep class com.colorphone.lock.fullscreen.helper.SystemProperties {*;}
+
+#========== CmGame ============
+-dontwarn org.conscrypt.**
+-dontwarn android.os.SystemProperties
+-dontwarn dalvik.system.VMStack
+-keep class org.conscrypt.** {*;}
+-keep class android.os.SystemProperties {*;}
+-keep class dalvik.system.VMStack {*;}
+
+# Remove logs
+-assumenosideeffects class com.ihs.commons.utils.HSLog {
+    public static void v(...);
+    public static void d(...);
+    public static void i(...);
+    public static void w(...);
+    public static void e(...);
+    public static void pt(...);
+}
+
+# Remove logs
+-assumenosideeffects class android.util.Log {
+    public static *** v(...);
+    public static *** i(...);
+    public static *** d(...);
+    public static *** w(...);
+}
+

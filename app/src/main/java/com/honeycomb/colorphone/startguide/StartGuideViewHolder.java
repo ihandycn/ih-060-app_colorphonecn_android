@@ -28,7 +28,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
-import com.ihs.permission.HSPermissionType;
+import com.ihs.permission.HSPermissionRequestMgr;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -76,6 +76,9 @@ public class StartGuideViewHolder implements INotificationObserver {
     private static final int PROGRESS_MAX_VALUE = 100;
     private static final int EVENT_UPGRADE = 5000;
 
+    /**
+     *
+     */
     private boolean isConfirmPage = true;
     private View container;
     private View circleAnimView;
@@ -170,7 +173,7 @@ public class StartGuideViewHolder implements INotificationObserver {
             screenFlashFix = container.findViewById(R.id.start_guide_permission_auto_start_fix);
             screenFlashFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
             screenFlashFix.setOnClickListener(v -> {
-                AutoRequestManager.getInstance().openPermission(HSPermissionType.TYPE_AUTO_START);
+                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_AUTO_START);
                 AutoLogger.logEventWithBrandAndOS("FixALert_AutoStart_Click");
                 gotoFetchScreenFlash = true;
             });
@@ -179,7 +182,7 @@ public class StartGuideViewHolder implements INotificationObserver {
             onLockerFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
             onLockerFix.setOnClickListener(v -> {
 
-                AutoRequestManager.getInstance().openPermission(HSPermissionType.TYPE_SHOW_ON_LOCK);
+                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK);
                 AutoLogger.logEventWithBrandAndOS("FixALert_Lock_Click");
                 gotoFetchOnLock = true;
             });
@@ -187,7 +190,7 @@ public class StartGuideViewHolder implements INotificationObserver {
             callFix = container.findViewById(R.id.start_guide_permission_call_fix);
             callFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
             callFix.setOnClickListener(v -> {
-                AutoRequestManager.getInstance().openPermission(HSPermissionType.TYPE_NOTIFICATION_LISTENING);
+                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
                 AutoLogger.logEventWithBrandAndOS("FixALert_NA_Click");
                 gotoFetchCall = true;
             });
@@ -317,19 +320,19 @@ public class StartGuideViewHolder implements INotificationObserver {
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(s, AutoRequestManager.NOTIFICATION_PERMISSION_RESULT)) {
-            HSPermissionType pType = (HSPermissionType) hsBundle.getObject(AutoRequestManager.BUNDLE_PERMISSION_TYPE);
+            String pType = hsBundle.getString(AutoRequestManager.BUNDLE_PERMISSION_TYPE);
             boolean result = hsBundle.getBoolean(AutoRequestManager.BUNDLE_PERMISSION_RESULT);
             int status = result ? PERMISSION_STATUS_OK : isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_FAILED;
             switch (pType) {
-                case TYPE_AUTO_START:
+                case HSPermissionRequestMgr.TYPE_AUTO_START:
                     updateProgress(TYPE_PERMISSION_TYPE_SCREEN_FLASH, status);
                     HSLog.w(TAG, "cast time 11 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
-                case TYPE_SHOW_ON_LOCK:
+                case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
                     updateProgress(TYPE_PERMISSION_TYPE_ON_LOCK, status);
                     HSLog.w(TAG, "cast time 22 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
-                case TYPE_NOTIFICATION_LISTENING:
+                case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
                     updateProgress(TYPE_PERMISSION_TYPE_CALL, status);
                     HSLog.w(TAG, "cast time 33 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;

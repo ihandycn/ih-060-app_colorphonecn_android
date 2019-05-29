@@ -4,15 +4,15 @@ import android.os.Build;
 
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
-import com.ihs.permission.HSPermissionType;
+import com.ihs.permission.HSPermissionRequestMgr;
 import com.superapps.util.Compats;
 
 /**
  * @author sundxing
  */
 public class AutoLogger {
-    public static void logAutomaticPermissionFailed(HSPermissionType type, String reason) {
-        Analytics.logEvent("Automatic_Failed_" + getBrand() + "_" + formatPermissionName(type),
+    public static void logAutomaticPermissionFailed(String typeName, String reason) {
+        Analytics.logEvent("Automatic_Failed_" + getBrand() + "_" + formatPermissionName(typeName),
                 "Reason", reason == null ? "Null" : reason,
                 "Os", getOSVersion());
     }
@@ -26,15 +26,15 @@ public class AutoLogger {
                 "Brand", getBrand(), "Os", getOSVersion());
     }
 
-    public static String formatPermissionName(HSPermissionType type) {
+    public static String formatPermissionName(String type) {
         switch (type) {
-            case TYPE_AUTO_START:
+            case HSPermissionRequestMgr.TYPE_AUTO_START:
                 return "AutoStart";
-            case TYPE_NOTIFICATION_LISTENING:
+            case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
                 return "NA";
-            case TYPE_SHOW_ON_LOCK:
+            case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
                 return "Lock";
-            case TYPE_DRAW_OVERLAY:
+            case HSPermissionRequestMgr.TYPE_DRAW_OVERLAY:
                 return "Float";
             default:
                 return "Unknown";
@@ -60,19 +60,19 @@ public class AutoLogger {
     public static String getPermissionString(boolean isHuawei) {
         StringBuilder stringBuilder = new StringBuilder();
         if (AutoPermissionChecker.hasFloatWindowPermission()) {
-            stringBuilder.append(formatPermissionName(HSPermissionType.TYPE_DRAW_OVERLAY)).append("_");
+            stringBuilder.append(formatPermissionName(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY)).append("_");
         }
 
         if (AutoPermissionChecker.hasAutoStartPermission()) {
-            stringBuilder.append(formatPermissionName(HSPermissionType.TYPE_AUTO_START)).append("_");
+            stringBuilder.append(formatPermissionName(HSPermissionRequestMgr.TYPE_AUTO_START)).append("_");
         }
 
         if (!isHuawei && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
-            stringBuilder.append(formatPermissionName(HSPermissionType.TYPE_SHOW_ON_LOCK)).append("_");
+            stringBuilder.append(formatPermissionName(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK)).append("_");
         }
 
         if (AutoPermissionChecker.isNotificationListeningGranted()) {
-            stringBuilder.append(formatPermissionName(HSPermissionType.TYPE_NOTIFICATION_LISTENING)).append("_");
+            stringBuilder.append(formatPermissionName(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING)).append("_");
         }
 
         if (stringBuilder.length() > 0) {

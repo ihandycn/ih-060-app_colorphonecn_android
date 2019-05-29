@@ -82,6 +82,9 @@ public class SettingsActivity extends HSAppCompatActivity {
                 Analytics.logEvent("Settings_SMSAssistant_Clicked_" +
                         (isChecked ? "Enabled" : "Disabled"));
                 MessageCenterSettings.setSMSAssistantModuleEnabled(isChecked);
+                if (!isChecked) {
+                    Analytics.logEvent("MessageAssistant_Disable", "From", "Settings");
+                }
             }
         });
 
@@ -130,7 +133,6 @@ public class SettingsActivity extends HSAppCompatActivity {
             public void onCheckChanged(boolean isChecked) {
                 Analytics.logEvent("Settings_LockScreen_Clicked_" +
                         (isChecked ? "Enabled" : "Disabled"));
-                MessageCenterSettings.setSMSAssistantModuleEnabled(isChecked);
                 LockerSettings.setLockerEnabled(isChecked);
             }
         });
@@ -179,6 +181,7 @@ public class SettingsActivity extends HSAppCompatActivity {
         } else {
             findViewById(R.id.setting_item_notification).setVisibility(View.GONE);
         }
+
     }
 
     @Override

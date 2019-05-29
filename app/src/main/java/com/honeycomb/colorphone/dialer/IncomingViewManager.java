@@ -4,6 +4,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.View;
 
+import com.acb.call.FlashScreenPresenter;
 import com.acb.call.service.InCallWindow;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.dialer.call.CallList;
@@ -39,6 +40,7 @@ public class IncomingViewManager implements
         inCallPresenter.addIncomingCallListener(this);
         final DialerCall dialerCall = CallList.getInstance().getIncomingCall();
         if (dialerCall != null) {
+            FlashScreenPresenter.getInstance().onShowInDialer(dialerCall.getNumber());
             mInCallWindow.show(dialerCall.getNumber());
             mInCallWindow.setCallHandler(new InCallWindow.CallHandler() {
                 @Override
