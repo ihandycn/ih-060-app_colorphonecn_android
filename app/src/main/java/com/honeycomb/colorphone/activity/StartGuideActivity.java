@@ -229,7 +229,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
                 Analytics.logEvent("FixALert_BackgroundPopup_Granted");
                 if (AutoRequestManager.getInstance().isGrantAllPermission()) {
-                    AutoLogger.logEventWithBrandAndOS("BackgroundPopupAlert_All_Granted");
+                    AutoLogger.logEventWithBrandAndOS("FixAlert_All_Granted");
                 }
                 onPermissionChanged();
             });
