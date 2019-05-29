@@ -1035,7 +1035,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 case CASH_POSITION:
                     if (showTabCashCenter) {
                         if (lotteryWheelLayout == null) {
-                            lotteryWheelLayout = (LotteryWheelLayout) getLayoutInflater().inflate(R.layout.lottery_layout, container, false);
+                            lotteryWheelLayout = (LotteryWheelLayout) getLayoutInflater().inflate(R.layout.cashcenter_layout, container, false);
                             lotteryWheelLayout.setBackToCashCenterPage(false);
                             HSLog.i("CashCenterCp", "bottom: nav == " + Dimensions.getNavigationBarHeight(getBaseContext()) + " tabH == " + tabLayout.getHeight());
                             int navH = Dimensions.dpFromPx(Dimensions.getNavigationBarHeight(ColorPhoneActivity.this));
