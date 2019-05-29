@@ -2,12 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'ihandy.proguard.rewrite'
-apply plugin: 'com.miracles.stableid'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-
-apply from: 'stable-Ids.gradle'
-apply from: 'tasks.gradle'
 
 android {
     compileSdkVersion 28
@@ -129,10 +123,6 @@ android {
                 "colorflash": ['cfl'],
                 "colorphone": ['cph']
         ]
-    }
-
-    stableXmlConfig {
-        inXmlPath file("public.xml").absolutePath
     }
 
     dexOptions {

@@ -257,9 +257,5 @@
     public static *** w(...);
 }
 
-# Alipay
--keep class com.alipay.** { *; }
--dontwarn com.alipay.*
-
 
 
