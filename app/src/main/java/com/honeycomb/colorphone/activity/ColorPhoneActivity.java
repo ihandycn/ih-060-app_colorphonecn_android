@@ -340,7 +340,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
+                
                 int pos = tab.getPosition();
                 Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(Constants.KEY_TAB_POSITION, pos);
 
@@ -486,13 +486,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
             @Override public void onSpinClicked() {
                 Analytics.logEvent("CashCenter_Wheel_Spin_Click");
-                HSLog.i("CCTest", "setEnabled(false)");
-                tabLayout.setEnabled(false);
             }
 
             @Override public void onSpinStop() {
-                HSLog.i("CCTest", "setEnabled(true)");
-                tabLayout.setEnabled(true);
             }
 
             @Override public void onInterstitialShown(boolean b) {
