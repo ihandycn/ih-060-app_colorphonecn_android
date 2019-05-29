@@ -260,7 +260,6 @@ dependencies {
     compile 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta04'
     compile 'com.android.volley:volley:1.1.1'
     compile 'com.gavin.com.library:stickyDecoration:1.4.13'
-    compile 'com.alipay.sdk:alipay-sdk-java:3.7.26.ALL'
 
     // Umeng
     colorphoneCompile 'com.umeng.umsdk:analytics:8.0.0'
