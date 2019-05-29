@@ -257,3 +257,16 @@
     public static *** w(...);
 }
 
+# Alipay
+-keep class com.alipay.** { *; }
+-dontwarn com.alipay.*
+
+# Ktor
+-keep class io.ktor.** { *; }
+-keep class kotlinx.coroutines.** { *; }
+-dontwarn kotlinx.atomicfu.**
+-dontwarn io.netty.**
+-dontwarn com.typesafe.**
+-dontwarn org.slf4j.**
+
+
