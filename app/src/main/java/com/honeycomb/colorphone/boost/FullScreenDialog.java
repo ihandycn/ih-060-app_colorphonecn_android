@@ -14,7 +14,7 @@ import com.superapps.util.Dimensions;
 public abstract class FullScreenDialog extends FloatWindowDialog {
 
     @SuppressWarnings("PointlessBooleanExpression")
-    private static final boolean DEBUG_SEMI_TRANSPARENT_CONTENT = false && BuildConfig.DEBUG;
+    private static final boolean DEBUG_SEMI_TRANSPARENT_CONTENT = BuildConfig.DEBUG;
 
     protected ViewGroup mContentView;
 

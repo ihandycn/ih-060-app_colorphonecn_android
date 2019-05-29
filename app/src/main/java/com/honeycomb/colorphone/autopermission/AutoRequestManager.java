@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.autopermission;
 
+import android.accessibilityservice.AccessibilityService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -64,6 +65,11 @@ public class AutoRequestManager {
     public static final String TYPE_CUSTOM_CONTACT_READ = "ReadContact";
     public static final String TYPE_CUSTOM_CONTACT_WRITE = "WriteContact";
 
+    /**
+     * 后台弹出界面
+     */
+    public static final String TYPE_CUSTOM_BACKGROUND_POPUP = "BackgroundPopup";
+
     private static final boolean DEBUG_TEST = false && BuildConfig.DEBUG;
 
     private HomeKeyWatcher homeKeyWatcher;
@@ -116,6 +122,27 @@ public class AutoRequestManager {
 
     public void onAccessibilityReady() {
         isRequestPermission = true;
+        if (Compats.IS_XIAOMI_DEVICE) {
+            HSPermissionRequestMgr.getInstance().performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK, new HSPermissionRequestMgr.GloableActionResult() {
+                @Override
+                public void onSuccess() {
+                    HSLog.d(TAG, "performGlobalAction success");
+                    performPermissionCheck();
+                }
+
+                @Override
+                public void onFailed() {
+                    HSLog.d(TAG, "performGlobalAction fail");
+                }
+            });
+
+        } else {
+            performPermissionCheck();
+        }
+
+    }
+
+    private void performPermissionCheck() {
         if (AutoPermissionChecker.hasFloatWindowPermission()) {
             onFloatWindowPermissionReady();
         } else {
@@ -166,6 +193,9 @@ public class AutoRequestManager {
 
         if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
             permission.add(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK);
+        }
+        if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasBgPopupPermission()) {
+            permission.add(TYPE_CUSTOM_BACKGROUND_POPUP);
         }
         if (Compats.IS_XIAOMI_DEVICE) {
             permission.add(TYPE_CUSTOM_CONTACT_WRITE);
@@ -221,6 +251,9 @@ public class AutoRequestManager {
                         break;
                     case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
                         AutoPermissionChecker.onShowOnLockScreenChange(isSucceed);
+                        break;
+                    case TYPE_CUSTOM_BACKGROUND_POPUP:
+                        AutoPermissionChecker.onBgPopupChange(isSucceed);
                         break;
                     default:
                         break;
