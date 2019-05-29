@@ -29,7 +29,7 @@ public class ContactsSelectActivity extends ContactsActivity {
         public void onLoadFinish() {
             onContactsDataReady(ContactManager.getInstance().getThemes(false));
             updateSelectMode(true);
-            setHeaderHint(getString(R.string.contact_select_hint, mTheme.getName()));
+            //setHeaderHint(getString(R.string.contact_select_hint, mTheme.getName()));
         }
     };
 
