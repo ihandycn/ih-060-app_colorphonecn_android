@@ -409,12 +409,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                             newsLayout.onSelected(false);
                         }
                     } else {
+                        ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, colorPrimary);
                         toolbar.setVisibility(View.VISIBLE);
                     }
                     if (lastPosition == NEWS_POSITION || lastPosition == -1) {
                         toolbar.setBackgroundColor(colorPrimary);
                         toolbar.setTitleTextColor(Color.WHITE);
-                        ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, colorPrimary);
                         updateTabStyle(false);
                     }
                     if (newsLayout != null) {
@@ -963,7 +963,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (tabLayout.getSelectedTabPosition() != NEWS_POSITION) {
             View view = tabLayout.getTabAt(NEWS_POSITION).getCustomView();
             if (view != null) {
-                view.findViewById(R.id.tab_layout_hint).setVisibility(View.VISIBLE);
+                TextView tv = view.findViewById(R.id.tab_layout_hint);
+                tv.setVisibility(View.VISIBLE);
+                tv.setText("10+");
+                tv.setTextSize(9);
             }
         }
     }
