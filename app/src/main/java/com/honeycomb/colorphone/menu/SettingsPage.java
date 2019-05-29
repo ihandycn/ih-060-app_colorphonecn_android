@@ -181,6 +181,8 @@ public class SettingsPage implements View.OnClickListener {
     }
 
     public void onThemeSelected() {
-        mainSwitch.setChecked(true);
+        if (mainSwitch != null) {
+            mainSwitch.setChecked(true);
+        }
     }
 }

@@ -349,6 +349,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
+        tabTransController.setInterceptView(tabCashCenterGuide);
+
         if (showTabCashCenter && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
             tabLayout.getTabAt(CASH_POSITION).getCustomView().findViewById(R.id.tab_layout_hint).setVisibility(View.VISIBLE);
         }
@@ -367,6 +369,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
 
                 updateTitle(pos);
+                tabTransController.showNow();
+
                 HSCashCenterManager.getInstance().setAutoFirstRewardFlag(false);
 
                 if (pos == NEWS_POSITION) {
@@ -656,7 +660,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             lotteryWheelLayout.onResume();
         }
 
-        tabLayout.setEnabled(true);
     }
 
     @Override
@@ -1090,13 +1093,19 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static class TabTransController implements INotificationObserver {
         private static final int TRANS_TRIGGER_Y = Dimensions.pxFromDp(24);
         private View mTab;
+        private View mInterceptView;
         int distance = 0;
         int totalDraggingDy = 0;
         boolean upScrolled = false;
+
         TabTransController(View tabView) {
             mTab = tabView;
             HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED,this);
             HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_LIST_SCROLLED_TOP,this);
+        }
+
+        public void setInterceptView(View view) {
+            mInterceptView = view;
         }
 
         private void onInnerListScrollChange(int state, int dy) {
@@ -1129,7 +1138,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
 
         private void hide() {
-            mTab.animate().translationY(mTab.getHeight()).setDuration(200).start();
+            if (mInterceptView != null) {
+                if (mInterceptView.getVisibility() != View.VISIBLE) {
+                    mTab.animate().translationY(mTab.getHeight()).setStartDelay(200).setDuration(200).start();
+                }
+            } else {
+                mTab.animate().translationY(mTab.getHeight()).setStartDelay(200).setDuration(200).start();
+            }
         }
 
         private void showNow() {
