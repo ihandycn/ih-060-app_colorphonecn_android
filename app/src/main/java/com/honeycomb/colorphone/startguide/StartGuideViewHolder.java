@@ -43,6 +43,7 @@ public class StartGuideViewHolder implements INotificationObserver {
     public static final int TYPE_PERMISSION_TYPE_SCREEN_FLASH = 1;
     public static final int TYPE_PERMISSION_TYPE_ON_LOCK = 2;
     public static final int TYPE_PERMISSION_TYPE_CALL = 3;
+    public static final int TYPE_PERMISSION_TYPE_BG_POP = 4;
 
     public static final int PERMISSION_STATUS_HIDE = -1;
     public static final int PERMISSION_STATUS_NOT_START = 0;
@@ -53,7 +54,8 @@ public class StartGuideViewHolder implements INotificationObserver {
 
     @IntDef({TYPE_PERMISSION_TYPE_SCREEN_FLASH,
             TYPE_PERMISSION_TYPE_ON_LOCK,
-            TYPE_PERMISSION_TYPE_CALL})
+            TYPE_PERMISSION_TYPE_CALL, 
+            TYPE_PERMISSION_TYPE_BG_POP})
     @Retention(RetentionPolicy.SOURCE)
     private @interface PERMISSION_TYPES {
     }
@@ -101,6 +103,12 @@ public class StartGuideViewHolder implements INotificationObserver {
     private View callFix;
     private View callText;
     public boolean gotoFetchCall = false;
+
+    private ImageView bgPopOK;
+    private LottieAnimationView bgPopLoading;
+    private View bgPopFix;
+    private View bgPopText;
+    public boolean gotoFetchBgPop = false;
 
     private View oneKeyFix;
 
@@ -153,6 +161,7 @@ public class StartGuideViewHolder implements INotificationObserver {
         permissionList.append(TYPE_PERMISSION_TYPE_SCREEN_FLASH, isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_LOADING);
         permissionList.append(TYPE_PERMISSION_TYPE_ON_LOCK, isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_LOADING);
         permissionList.append(TYPE_PERMISSION_TYPE_CALL, isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_LOADING);
+        permissionList.append(TYPE_PERMISSION_TYPE_BG_POP, isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_LOADING);
 
         screenFlashText = container.findViewById(R.id.start_guide_permission_auto_start);
         screenFlashOK = container.findViewById(R.id.start_guide_permission_auto_start_ok);
@@ -168,6 +177,11 @@ public class StartGuideViewHolder implements INotificationObserver {
         callOK = container.findViewById(R.id.start_guide_permission_call_ok);
         callOK.setTag(PERMISSION_STATUS_NOT_START);
         callLoading = container.findViewById(R.id.start_guide_permission_call_loading);
+        
+        bgPopText = container.findViewById(R.id.start_guide_permission_bg_pop);
+        bgPopOK = container.findViewById(R.id.start_guide_permission_bg_pop_ok);
+        bgPopOK.setTag(PERMISSION_STATUS_NOT_START);
+        bgPopLoading = container.findViewById(R.id.start_guide_permission_bg_pop_loading);
 
         if (isConfirmPage) {
             screenFlashFix = container.findViewById(R.id.start_guide_permission_auto_start_fix);
@@ -195,6 +209,14 @@ public class StartGuideViewHolder implements INotificationObserver {
                 gotoFetchCall = true;
             });
 
+            bgPopFix = container.findViewById(R.id.start_guide_permission_bg_pop_fix);
+            bgPopFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
+            bgPopFix.setOnClickListener(v -> {
+                AutoRequestManager.getInstance().openPermission(AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP);
+                AutoLogger.logEventWithBrandAndOS("FixALert_BgPop_Click");
+                gotoFetchBgPop = true;
+            });
+
             oneKeyFix = container.findViewById(R.id.start_guide_confirm_fix);
             oneKeyFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
 
@@ -213,6 +235,8 @@ public class StartGuideViewHolder implements INotificationObserver {
                     AutoPermissionChecker.hasShowOnLockScreenPermission() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
             setPermissionStatus(TYPE_PERMISSION_TYPE_CALL,
                     AutoPermissionChecker.isAccessibilityGranted() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
+            setPermissionStatus(TYPE_PERMISSION_TYPE_BG_POP,
+                    AutoPermissionChecker.hasBgPopupPermission() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
         }
 
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFICATION_PERMISSION_RESULT, this);
@@ -229,9 +253,11 @@ public class StartGuideViewHolder implements INotificationObserver {
         boolean screenFlashGrant = AutoPermissionChecker.hasAutoStartPermission();
         boolean onLockGrant = AutoPermissionChecker.hasShowOnLockScreenPermission();
         boolean callGrant = Utils.isNotificationListeningGranted();
+        boolean bgPopGrant = AutoPermissionChecker.hasBgPopupPermission();
         setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, screenFlashGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
         setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK, onLockGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
         setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, callGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
+        setPermissionStatus(TYPE_PERMISSION_TYPE_BG_POP, bgPopGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
 
         int notGrant = 0;
         if (!screenFlashGrant) {
@@ -243,6 +269,10 @@ public class StartGuideViewHolder implements INotificationObserver {
         }
 
         if (!callGrant) {
+            notGrant++;
+        }
+
+        if (!bgPopGrant) {
             notGrant++;
         }
 
@@ -259,11 +289,16 @@ public class StartGuideViewHolder implements INotificationObserver {
             gotoFetchScreenFlash = false;
             confirmPermission = TYPE_PERMISSION_TYPE_SCREEN_FLASH;
         }
+
         if (gotoFetchOnLock) {
             gotoFetchOnLock = false;
             confirmPermission = TYPE_PERMISSION_TYPE_ON_LOCK;
         }
 
+        if (gotoFetchBgPop) {
+            gotoFetchBgPop = false;
+            confirmPermission = TYPE_PERMISSION_TYPE_BG_POP;
+        }
 
         TextView ball = container.findViewById(R.id.start_guide_confirm_number);
         TextView title = container.findViewById(R.id.start_guide_permission_title);
@@ -273,7 +308,7 @@ public class StartGuideViewHolder implements INotificationObserver {
     }
 
     public boolean isManualFix() {
-        return gotoFetchOnLock || gotoFetchScreenFlash || gotoFetchCall;
+        return gotoFetchOnLock || gotoFetchScreenFlash || gotoFetchCall || gotoFetchBgPop;
     }
 
     public void setCircleAnimView(@IdRes int viewID) {
@@ -336,6 +371,10 @@ public class StartGuideViewHolder implements INotificationObserver {
                     updateProgress(TYPE_PERMISSION_TYPE_CALL, status);
                     HSLog.w(TAG, "cast time 33 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
+                case AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP:
+                    updateProgress(TYPE_PERMISSION_TYPE_BG_POP, status);
+                    HSLog.w(TAG, "cast time 44 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
+                    break;
 
                 default:
                     break;
@@ -350,7 +389,7 @@ public class StartGuideViewHolder implements INotificationObserver {
     }
 
     private void updateProgress(int pType, int status) {
-        goalNum += 33;
+        goalNum += 25;
         progressInterval = (1500 / (PROGRESS_MAX_VALUE - progressNum));
         setPermissionStatus(pType, status);
     }
@@ -420,6 +459,12 @@ public class StartGuideViewHolder implements INotificationObserver {
                 loading = screenFlashLoading;
                 fix = screenFlashFix;
                 text = screenFlashText;
+                break;
+            case TYPE_PERMISSION_TYPE_BG_POP:
+                ok = bgPopOK;
+                loading = bgPopLoading;
+                fix = bgPopFix;
+                text = bgPopText;
                 break;
             default:
 

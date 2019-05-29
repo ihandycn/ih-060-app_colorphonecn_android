@@ -115,10 +115,65 @@
         tools:text="@string/start_guide_request_title"/>
 
     <com.honeycomb.colorphone.view.TypefacedTextView
-        android:id="@+id/start_guide_permission_auto_start"
+        android:id="@+id/start_guide_permission_bg_pop"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:layout_marginRight="61dp"
+        android:layout_marginEnd="61dp"
+        android:lineSpacingExtra="12sp"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:text="@string/start_guide_permission_bg_pop"
+        android:alpha="0.72"
+        android:drawableLeft="@drawable/start_guide_confirm_image_bg_pop"
+        android:drawablePadding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/start_guide_permission_title"
+        app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+        app:layout_constraintRight_toRightOf="@id/guideline_right" />
+
+    <ImageView
+        android:id="@+id/start_guide_permission_bg_pop_ok"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/start_guide_confirm_alert_image"
+        app:layout_constraintTop_toTopOf="@id/start_guide_permission_bg_pop"
+        app:layout_constraintBottom_toBottomOf="@id/start_guide_permission_bg_pop"
+        app:layout_constraintLeft_toRightOf="@id/start_guide_permission_bg_pop"
+        app:layout_constraintRight_toRightOf="@id/guideline_right" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/start_guide_permission_bg_pop_loading"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:gravity="center"
+        android:visibility="gone"
+        app:lottie_fileName="lottie/start_guide/permission_loading.json"
+        app:lottie_loop="true"
+        app:layout_constraintTop_toTopOf="@id/start_guide_permission_bg_pop"
+        app:layout_constraintBottom_toBottomOf="@id/start_guide_permission_bg_pop"
+        app:layout_constraintLeft_toRightOf="@id/start_guide_permission_bg_pop"
+        app:layout_constraintRight_toRightOf="@id/guideline_right" />
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/start_guide_permission_bg_pop_fix"
+        android:layout_width="61dp"
+        android:layout_height="29dp"
+        android:gravity="center"
+        android:text="@string/start_guide_confirm_fix"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/start_guide_permission_bg_pop"
+        app:layout_constraintBottom_toBottomOf="@id/start_guide_permission_bg_pop"
+        app:layout_constraintLeft_toRightOf="@id/start_guide_permission_bg_pop"
+        app:layout_constraintRight_toRightOf="@id/guideline_right" />
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/start_guide_permission_auto_start"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="61dp"
         android:layout_marginEnd="61dp"
         android:lineSpacingExtra="12sp"
@@ -128,7 +183,7 @@
         android:alpha="0.72"
         android:drawableLeft="@drawable/start_guide_confirm_image_screen_flash"
         android:drawablePadding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/start_guide_permission_title"
+        app:layout_constraintTop_toBottomOf="@id/start_guide_permission_bg_pop"
         app:layout_constraintLeft_toLeftOf="@id/guideline_left"
         app:layout_constraintRight_toRightOf="@id/guideline_right" />
 

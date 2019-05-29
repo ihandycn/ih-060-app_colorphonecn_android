@@ -220,6 +220,23 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             builder.setNegativeButton(com.acb.call.R.string.no, (dialog, which) -> Analytics.logEvent("LockScreenAlert_No_Click"));
             Analytics.logEvent("LockScreenAlert_Show");
 
+        } else if (confirmPermission == StartGuideViewHolder.TYPE_PERMISSION_TYPE_BG_POP) {
+            builder.setTitle(R.string.acb_request_permission_bg_pop_title);
+            builder.setMessage(R.string.acb_request_permission_bg_pop_content);
+            builder.setPositiveButton(com.acb.call.R.string.yes, (dialog, which) -> {
+                AutoPermissionChecker.onBgPopupChange(true);
+                Analytics.logEvent("BackgroundPopupAlert_Yes_Click");
+
+                Analytics.logEvent("FixALert_BackgroundPopup_Granted");
+                if (AutoRequestManager.getInstance().isGrantAllPermission()) {
+                    AutoLogger.logEventWithBrandAndOS("BackgroundPopupAlert_All_Granted");
+                }
+                onPermissionChanged();
+            });
+
+            builder.setNegativeButton(com.acb.call.R.string.no, (dialog, which) -> Analytics.logEvent("BackgroundPopupAlert_No_Click"));
+            Analytics.logEvent("BackgroundPopupAlert_Show");
+
         } else {
             if (confirmPermission == StartGuideViewHolder.TYPE_PERMISSION_TYPE_CALL) {
                 if (AutoPermissionChecker.isNotificationListeningGranted()) {

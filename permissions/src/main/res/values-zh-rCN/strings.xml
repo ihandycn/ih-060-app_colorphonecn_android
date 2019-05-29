@@ -18,6 +18,7 @@
   <string name="acb_phone_grant_autostart_access_title_huawei_above23">请找到焕彩来电秀，并允许自动启动，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_huawei_above26">请找到焕彩来电秀，关闭自动管理，并手动开启所有启动权限，以保持来电秀正常启动</string>
   <string name="acb_phone_grant_autostart_access_title_miui">开启自启动权限，以保持来电秀正常启动</string>
+  <string name="acb_phone_grant_background_popup_title_miui">开启后台弹出界面权限，以保持来电秀正常启动</string>
 
   <string name="acb_phone_grant_show_onlockscreen_access_title_vivo">请进入软件权限管理，开启锁屏显示权限，以在锁屏时展示来电秀</string>
   <string name="acb_phone_grant_show_onlockscreen_access_title_oppo">Enable Notification On Lock Screen to Show Call Flash</string>
@@ -32,4 +33,7 @@
 
   <string name="acb_phone_grant_accessibility_title_huawei">1：向下滑动，点击【服务】下的【焕彩来电秀】\n2：在下一页打开右上角开关</string>
   <string name="acb_phone_grant_accessibility_title_miui">请打开开关</string>
+
+  <string name="acb_request_permission_bg_pop_title">后台弹出界面权限是否已开启？</string>
+  <string name="acb_request_permission_bg_pop_content">后台弹出界面权限保证来电时展示来电秀</string>
 </resources>
