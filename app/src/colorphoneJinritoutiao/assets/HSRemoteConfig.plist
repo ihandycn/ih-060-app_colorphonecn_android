@@ -166,6 +166,13 @@
 				<key>Unplug_UnlockTime</key>
 				<integer>180</integer>
 			</dict>
+			<key>CashCenter</key>
+			<dict>
+				<key>Enable</key>
+				<true/>
+				<key>FloatingGuide</key>
+				<true/>
+			</dict>
 			<key>Dialer</key>
 			<dict>
 				<key>Huawei</key>
