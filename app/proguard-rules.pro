@@ -85,6 +85,8 @@
 
 -keep class com.acb.cashcenter.model.**{*;}
 
+-keep class net.appcloudbox.feast.**{*;}
+
 -keep class com.acb.cashcenter.util.AppInfoUtils{*;}
 
 -keep class com.acb.cashcenter.ads.AdUtils{*;}
