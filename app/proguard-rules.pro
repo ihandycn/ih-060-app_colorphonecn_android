@@ -24,7 +24,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -printconfiguration "build/outputs/mapping/configuration.txt"
-
+-dontoptimize
 #-keep public class * extends android.app.Activity
 #-keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
