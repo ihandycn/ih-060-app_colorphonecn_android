@@ -261,14 +261,5 @@
 -keep class com.alipay.** { *; }
 -dontwarn com.alipay.*
 
--dontwarn com.acb.cashcenter.** { *; }
-
-# Ktor
--keep class io.ktor.** { *; }
--keep class kotlinx.coroutines.** { *; }
--dontwarn kotlinx.atomicfu.**
--dontwarn io.netty.**
--dontwarn com.typesafe.**
--dontwarn org.slf4j.**
 
 
