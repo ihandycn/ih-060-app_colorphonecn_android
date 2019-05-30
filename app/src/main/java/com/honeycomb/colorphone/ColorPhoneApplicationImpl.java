@@ -179,7 +179,7 @@ public class ColorPhoneApplicationImpl {
 
             if (HSNotificationConstant.HS_SESSION_START.equals(notificationName)) {
                 checkModuleAdPlacement();
-                Beta.checkUpgrade(true, true);
+                Beta.checkUpgrade(false, true);
 
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
