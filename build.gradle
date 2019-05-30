@@ -27,10 +27,7 @@ buildscript {
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
         classpath 'me.tatarka:gradle-retrolambda:3.7.0'
         classpath 'com.ihandy.proguard:gradle-plugin:1.1'
-        classpath 'com.github.lauhwong:stableid:1.0.3-SNAPSHOT'
-        classpath 'com.google.gms:google-services:4.1.0' // google-services plugin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
+        classpath 'com.tencent.bugly:tinker-support:1.1.5'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -45,14 +42,10 @@ allprojects {
         maven { url 'https://maven.fabric.io/public' }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
         maven { url "https://s3.amazonaws.com/avocarrot-android-builds/dist" }
+        maven { url 'https://dl.bintray.com/wemobiledev/maven'}
+
         maven {
             url "http://maven.ihandysoft.com:8081/repository/ihandygroup/"
-        }
-
-        configurations.all {
-            resolutionStrategy {
-                cacheDynamicVersionsFor 0, 'seconds' // 确保gradle sync的时候总是会去拉取最新的积木版本。默认情况下gradle 每24小时才回去更新缓存
-            }
         }
 
         flatDir {

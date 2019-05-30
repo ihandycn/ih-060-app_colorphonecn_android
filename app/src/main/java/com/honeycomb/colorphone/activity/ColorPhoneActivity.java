@@ -937,7 +937,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         } else if (HSNotificationConstant.HS_SESSION_START.equals(s)) {
             ChargingPreferenceUtil.setChargingModulePreferenceEnabled(SmartChargingSettings.isChargingScreenEnabled());
             ChargingPreferenceUtil.setChargingReportSettingEnabled(SmartChargingSettings.isChargingReportEnabled());
-            ColorPhoneApplication.checkChargingReportAdPlacement();
             if (mAdapter != null) {
                 mAdapter.resetShownCount();
             }
