@@ -9,7 +9,7 @@
 			<key>AdProtection</key>
 			<dict>
 				<key>EnableAfterInstallMinutes</key>
-				<integer>180</integer>
+				<integer>360</integer>
 			</dict>
 			<key>AutoPermission</key>
 			<dict>
