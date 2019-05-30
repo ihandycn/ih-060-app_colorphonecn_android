@@ -124,6 +124,7 @@ import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 import net.appcloudbox.autopilot.AutopilotConfig;
 import net.appcloudbox.common.notificationcenter.AcbNotificationConstant;
+import net.appcloudbox.feast.call.HSFeast;
 import net.appcloudbox.service.AcbService;
 
 import java.io.File;
@@ -270,6 +271,8 @@ public class ColorPhoneApplicationImpl {
             onWorkProcessCreate();
         }
         launchTime = System.currentTimeMillis();
+
+        HSFeast.getInstance().init(mBaseApplication, null);
     }
 
     private void onWorkProcessCreate() {
