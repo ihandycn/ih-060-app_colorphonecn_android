@@ -654,6 +654,12 @@
             android:name="com.bytedance.sdk.openadsdk.activity.TTFullScreenVideoActivity"
             android:excludeFromRecents="true"
             />
+        <activity
+            android:name="com.messagecenter.notification.NotificationMessageAlertActivity"
+            android:label="@string/label_message_activity"
+            android:icon="@drawable/icon_message_activity"
+            tools:replace="android:label" >
+        </activity>
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
