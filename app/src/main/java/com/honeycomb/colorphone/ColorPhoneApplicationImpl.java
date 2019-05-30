@@ -100,7 +100,6 @@ import com.ihs.libcharging.HSChargingManager;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
-import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
@@ -180,7 +179,7 @@ public class ColorPhoneApplicationImpl {
 
             if (HSNotificationConstant.HS_SESSION_START.equals(notificationName)) {
                 checkModuleAdPlacement();
-                Beta.checkUpgrade();
+                Beta.checkUpgrade(true, true);
 
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
@@ -292,7 +291,7 @@ public class ColorPhoneApplicationImpl {
     }
 
 
-    public static boolean isFabricInitted() {
+    public static boolean isFabricInited() {
         return isFabricInitted;
     }
 

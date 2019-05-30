@@ -68,7 +68,7 @@ public class Analytics {
     }
 
     private static void logEvent(final String eventID, int flag, final Map<String, String> eventValue) {
-        if (ColorPhoneApplication.isFabricInitted()) {
+        if (ColorPhoneApplication.isFabricInited()) {
             CustomEvent event = new CustomEvent(eventID);
             for (String key : eventValue.keySet()) {
                 event.putCustomAttribute(key, eventValue.get(key).toString());
@@ -93,7 +93,7 @@ public class Analytics {
     }
 
     public static void logException(Exception e) {
-        if (ColorPhoneApplication.isFabricInitted()) {
+        if (ColorPhoneApplication.isFabricInited()) {
             try {
                 CrashlyticsCore.getInstance().logException(e);
             } catch (Exception ignore) {

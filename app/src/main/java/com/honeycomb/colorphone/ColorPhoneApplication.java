@@ -23,15 +23,15 @@ public class ColorPhoneApplication extends HSApplication {
         return ColorPhoneApplicationImpl.isAppForeground();
     }
 
-    ColorPhoneApplicationImpl mColorPhoneApplicationProxy;
-
     public static ConfigLog getConfigLog() {
         return ColorPhoneApplicationImpl.getConfigLog();
     }
 
-    public static boolean isFabricInitted() {
-        return ColorPhoneApplicationImpl.isFabricInitted();
+    public static boolean isFabricInited() {
+        return ColorPhoneApplicationImpl.isFabricInited();
     }
+
+    ColorPhoneApplicationImpl mColorPhoneApplicationProxy;
 
     @DebugLog
     @Override
