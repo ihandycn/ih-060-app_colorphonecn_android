@@ -1250,7 +1250,7 @@
 						<key>ResType</key>
 						<string>url</string>
 						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Camel/Camel.mp3</string>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
