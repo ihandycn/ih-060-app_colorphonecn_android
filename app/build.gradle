@@ -19,7 +19,7 @@ android {
     }
 
     aaptOptions {
-        ignoreAssetsPattern "!*.plist:!.DS_Store"
+        ignoreAssetsPattern "!*.plist:!.DS_Store:!*_custom.json"
     }
 
     signingConfigs {
