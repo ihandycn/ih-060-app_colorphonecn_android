@@ -935,7 +935,7 @@
 				<key>DefaultThemeID</key>
 				<string>Dog</string>
 				<key>RingtoneEnable</key>
-				<false/>
+				<true/>
 				<key>List</key>
 				<array>
 					<dict>
@@ -1249,6 +1249,8 @@
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing_preview.jpg</string>
 						<key>ResType</key>
 						<string>url</string>
+						<key>Ringtone</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Camel/Camel.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
