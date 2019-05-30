@@ -66,10 +66,7 @@ public class AutoRequestManager {
     public static final String TYPE_CUSTOM_CONTACT_READ = "ReadContact";
     public static final String TYPE_CUSTOM_CONTACT_WRITE = "WriteContact";
 
-    /**
-     * 后台弹出界面
-     */
-    public static final String TYPE_CUSTOM_BACKGROUND_POPUP = "BackgroundPopup";
+    public static final String TYPE_CUSTOM_BACKGROUND_POPUP = HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP;
 
     private static final boolean DEBUG_TEST = false && BuildConfig.DEBUG;
 
