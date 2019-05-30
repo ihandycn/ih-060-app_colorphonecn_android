@@ -383,18 +383,22 @@ public class AutoRequestManager {
         if (Utils.isAccessibilityGranted()) {
             AutoRequestManager.getInstance().onAccessibilityReady();
         } else {
-            Utils.goToAccessibilitySettingsPage();
+            Intent intent = Utils.getAccessibilitySettingsIntent();
+
             Analytics.logEvent("Accessbility_Show",
                     "Brand", AutoLogger.getBrand(),
                     "Os", AutoLogger.getOSVersion(),
                     "Time", String.valueOf(Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("Accessbility_Show")));
-            Threads.postOnMainThreadDelayed(() -> {
-                if (RomUtils.checkIsHuaweiRom()) {
-                    Navigations.startActivitySafely(HSApplication.getContext(), AccessibilityHuaweiGuideActivity.class);
-                } else if (RomUtils.checkIsMiuiRom()) {
-                    Navigations.startActivitySafely(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
-                }
-            }, 900);
+            Intent guideIntent = null;
+            if (RomUtils.checkIsHuaweiRom()) {
+                guideIntent = new Intent(HSApplication.getContext(), AccessibilityHuaweiGuideActivity.class);
+            } else if (RomUtils.checkIsMiuiRom()) {
+                guideIntent = new Intent(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
+            }
+            if (guideIntent != null) {
+                guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                HSApplication.getContext().startActivities(new Intent[] {intent, guideIntent});
+            }
             AutoRequestManager.getInstance().listenAccessibility();
         }
     }
