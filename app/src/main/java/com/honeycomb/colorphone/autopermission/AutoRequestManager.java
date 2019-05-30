@@ -90,6 +90,7 @@ public class AutoRequestManager {
     private WindowManager windowMgr;
     private boolean isCoverWindow = false;
     private boolean isRequestPermission = false;
+    private int executeBackPressTryCount;
 
     private AutoRequestManager() {}
 
@@ -118,9 +119,9 @@ public class AutoRequestManager {
         }
     }
 
-    public void onAccessibilityReady() {
-        isRequestPermission = true;
-        if (Compats.IS_XIAOMI_DEVICE) {
+    private Runnable backTask = new Runnable() {
+        @Override
+        public void run() {
             HSPermissionRequestMgr.getInstance().performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK, new HSPermissionRequestMgr.GloableActionResult() {
                 @Override
                 public void onSuccess() {
@@ -131,9 +132,20 @@ public class AutoRequestManager {
                 @Override
                 public void onFailed() {
                     HSLog.d(TAG, "performGlobalAction fail");
+                    if (executeBackPressTryCount < MAX_RETRY_COUNT) {
+                        executeBackPressTryCount++;
+                        HSLog.d(TAG, "performGlobalAction try , time = " + executeBackPressTryCount);
+                        Threads.postOnMainThreadDelayed(backTask, 200 * executeBackPressTryCount);
+                    }
                 }
             });
+        }
+    };
 
+    public void onAccessibilityReady() {
+        isRequestPermission = true;
+        if (Compats.IS_XIAOMI_DEVICE) {
+            backTask.run();
         } else {
             performPermissionCheck();
         }
