@@ -34,6 +34,7 @@ build_toutiao:
     - outputs/mapping.txt
     - outputs/HSRemoteConfig.sp
     - outputs/alerts.sp
+    - outputs/R.txt
 
     expire_in: 1 week
   tags:
@@ -71,6 +72,7 @@ build_yingyongbao:
     - outputs/mapping.txt
     - outputs/HSRemoteConfig.sp
     - outputs/alerts.sp
+    - outputs/R.txt
 
     expire_in: 1 week
   tags:
