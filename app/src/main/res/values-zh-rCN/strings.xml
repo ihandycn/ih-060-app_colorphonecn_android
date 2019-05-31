@@ -25,7 +25,7 @@
     <string name="guide_apply_theme_hint">来电主题应用成功！尽情享受吧！</string>
 
     <string name="smart_charging">充电锁屏</string>
-    <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。</string>
+    <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏</string>
 
     <string name="color_lockscreen">多彩屏保</string>
     <string name="color_lockscreen_hint">用多彩的主题装饰你的屏保</string>
