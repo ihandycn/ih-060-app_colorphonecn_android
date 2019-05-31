@@ -437,8 +437,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
                 ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
             }
-            mAdapter.updateApplyInformationAutoPilotValue();
-            mAdapter.markForeground(true);
+
         }
 
         if (needUpdateNews()) {
@@ -459,7 +458,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
                 ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
             }
-            mAdapter.markForeground(false);
+
             mRecyclerView.getRecycledViewPool().clear();
         }
     }

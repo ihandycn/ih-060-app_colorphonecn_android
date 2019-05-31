@@ -1125,7 +1125,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void mActionLayoutfadeInView() {
-        int mActionLayoutHeight = 90;
+        int mActionLayoutHeight = 200;
         mActionLayout.setTranslationY(mActionLayoutHeight);
         getTransBottomLayout().animate().translationY(0)
                 .setDuration(ANIMATION_DURATION)
@@ -1303,7 +1303,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         if (anim) {
-            int mActionLayoutHeight = 90;
+            int mActionLayoutHeight = 200;
             mActionLayout.setTranslationY(mActionLayoutHeight);
             inTransition = true;
             getTransBottomLayout().animate().translationY(0)
