@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.text.format.DateUtils;
 
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
@@ -28,8 +29,8 @@ public class RamUsageDisplayUpdater {
     private static final int RAM_OPTIMIZED_VALUE = 35;
 
     private static final int RAM_UPDATE_MESSAGE = 1;
-    private static final int RAM_UPDATE_INTERVAL = 10000;
-    private static final int FAKE_INTERVAL = 600000; // 10 minutes to move from fake value to real value
+    private static final long RAM_UPDATE_INTERVAL = 3 * DateUtils.MINUTE_IN_MILLIS;
+    private static final long FAKE_INTERVAL = 600000; // 10 minutes to move from fake value to real value
 
     public static RamUsageDisplayUpdater sInstance = new RamUsageDisplayUpdater();
     private long mCleandSize;
