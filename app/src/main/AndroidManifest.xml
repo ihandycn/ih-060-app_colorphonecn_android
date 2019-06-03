@@ -122,6 +122,8 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
 
+        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
+
         <activity
             android:name=".activity.ColorPhoneActivity"
             android:label="@string/app_name"
@@ -320,43 +322,12 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
-            android:name=".boost.BoostActivity"
-            android:excludeFromRecents="true"
-            android:noHistory="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="nosensor"
-            android:taskAffinity=".acb_interstitial_quiet"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-
-        <activity android:name=".battery.BatteryCleanActivity"
-                  android:excludeFromRecents="true"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="nosensor"
-                  android:taskAffinity=".acb_interstitial_quiet"
-                  android:theme="@style/SwitchCompatTheme" />
-
-        <activity android:name=".cpucooler.CpuCoolDownActivity"
-                  android:excludeFromRecents="true"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="nosensor"
-                  android:taskAffinity=".acb_interstitial_quiet"
-                  android:theme="@style/SwitchCompatTheme"/>
-
-        <activity
             android:name=".resultpage.ResultPageActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@style/AppTranslucent"/>
-
-        <activity
-            android:name=".recentapp.SmartAssistantActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:taskAffinity=".recentapps"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
             android:name=".gdpr.DataUsageSettingsActivity"
@@ -381,8 +352,6 @@
             android:name="com.google.android.gms.ads.AdActivity"
             android:excludeFromRecents="true"
             android:taskAffinity=".acb_interstitial_quiet"/>
-
-        <activity android:name=".toolbar.NotificationActivity"/>
 
         <service android:name=".theme.ThemeDownloadJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
@@ -486,19 +455,6 @@
             android:name=".notification.NotificationActionReceiver"
             android:exported="true"></receiver>
 
-        <!--Disable this receivers for unnecessary process-launch-->
-        <receiver
-            android:name="com.ihs.device.monitor.usage.UsageBroadcastReceiver"
-            android:enabled="false"
-            tools:replace="android:enabled" />
-        <receiver
-            android:name="com.ihs.device.clean.memory.MemoryReceiver"
-            android:enabled="false"
-            tools:replace="android:enabled" />
-        <receiver
-            android:name="com.ihs.device.clean.junk.JunkBroadcastReceiver"
-            android:enabled="false"
-            tools:replace="android:enabled" />
 
         <receiver
             android:name=".PermanentService$PermanentReceiver"
@@ -515,14 +471,7 @@
         </receiver>
 
         <receiver android:name=".notification.NotificationAlarmReceiver"></receiver>
-        <receiver android:name=".toolbar.NotificationReceiver"/>
 
-        <activity
-            android:name="net.appcloudbox.internal.h5game.GameActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity=".h5game"
-            tools:node="merge"
-            />
 
         <activity android:name=".permission.OutsidePermissionGuideActivity"
             android:theme="@style/Theme.AppCompat.Translucent"/>
@@ -541,83 +490,83 @@
             android:excludeFromRecents="true" />
         <!--&lt;!&ndash;===== Dialer Module =====&ndash;&gt;-->
 
-        <!--<activity-->
-            <!--android:name="com.honeycomb.colorphone.dialer.InCallActivity"-->
-            <!--android:excludeFromRecents="true"-->
-            <!--android:exported="false"-->
-            <!--android:hardwareAccelerated="true"-->
-            <!--android:label="@string/app_name"-->
-            <!--android:launchMode="singleInstance"-->
-            <!--android:screenOrientation="nosensor"-->
-            <!--android:taskAffinity="com.android.incallui"-->
-            <!--android:theme="@style/Theme.InCallScreen"-->
-            <!--android:windowSoftInputMode="adjustResize" >-->
+        <activity
+            android:name="com.honeycomb.colorphone.dialer.InCallActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:hardwareAccelerated="true"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance"
+            android:screenOrientation="nosensor"
+            android:taskAffinity="com.android.incallui"
+            android:theme="@style/Theme.InCallScreen"
+            android:windowSoftInputMode="adjustResize" >
 
-        <!--</activity>-->
-        <!--<activity-->
-            <!--android:name=".dialer.DialerActivity"-->
-            <!--&gt;-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.DIAL" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-                <!--<data android:mimeType="vnd.android.cursor.item/phone" />-->
-                <!--<data android:mimeType="vnd.android.cursor.item/person" />-->
-            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name=".dialer.DialerActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:mimeType="vnd.android.cursor.item/phone" />
+                <data android:mimeType="vnd.android.cursor.item/person" />
+            </intent-filter>
 
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-                <!--<data android:mimeType="vnd.android.cursor.dir/calls" />-->
-            <!--</intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:mimeType="vnd.android.cursor.dir/calls" />
+            </intent-filter>
 
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.CALL_BUTTON" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-            <!--</intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.CALL_BUTTON" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
 
-            <!--<intent-filter>-->
-                <!--&lt;!&ndash; Handle links from other applications &ndash;&gt;-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-                <!--<action android:name="android.intent.action.DIAL" />-->
-                <!--&lt;!&ndash; Populate the system chooser &ndash;&gt;-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--&lt;!&ndash; Handle links in browsers &ndash;&gt;-->
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-                <!--<data android:scheme="tel" />-->
-            <!--</intent-filter>-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.DIAL" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+            <intent-filter>
+                <!-- Handle links from other applications -->
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.DIAL" />
+                <!-- Populate the system chooser -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- Handle links in browsers -->
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tel" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
-        <!--<service-->
-            <!--android:name="com.honeycomb.colorphone.dialer.InCallServiceImpl"-->
-            <!--android:permission="android.permission.BIND_INCALL_SERVICE">-->
-            <!--<meta-data-->
-                <!--android:name="android.telecom.IN_CALL_SERVICE_UI"-->
-                <!--android:value="true" />-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.telecom.InCallService" />-->
-            <!--</intent-filter>-->
-        <!--</service>-->
+        <service
+            android:name="com.honeycomb.colorphone.dialer.InCallServiceImpl"
+            android:permission="android.permission.BIND_INCALL_SERVICE">
+            <meta-data
+                android:name="android.telecom.IN_CALL_SERVICE_UI"
+                android:value="true" />
+            <intent-filter>
+                <action android:name="android.telecom.InCallService" />
+            </intent-filter>
+        </service>
 
-        <!--&lt;!&ndash; BroadcastReceiver for receiving Intents from Notification mechanism. &ndash;&gt;-->
-        <!--<receiver-->
-            <!--android:name="com.honeycomb.colorphone.dialer.NotificationBroadcastReceiver"-->
-            <!--android:directBootAware="true"-->
-            <!--android:exported="false" />-->
+        <!-- BroadcastReceiver for receiving Intents from Notification mechanism. -->
+        <receiver
+            android:name="com.honeycomb.colorphone.dialer.NotificationBroadcastReceiver"
+            android:directBootAware="true"
+            android:exported="false" />
 
-        <!--<activity-->
-            <!--android:name=".dialer.guide.GuideSetDefaultActivity"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
-            <!--android:excludeFromRecents="true"-->
-            <!--android:noHistory="true"-->
-            <!--android:theme="@style/AppTranslucent" />-->
-        <!--&lt;!&ndash;===== Dialer Module End =====&ndash;&gt;-->
+        <activity
+            android:name=".dialer.guide.GuideSetDefaultActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/AppTranslucent" />
+        <!--===== Dialer Module End =====-->
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->

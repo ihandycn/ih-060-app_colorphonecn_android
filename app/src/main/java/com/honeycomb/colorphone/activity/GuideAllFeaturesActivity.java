@@ -18,6 +18,7 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.dialer.ConfigEvent;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.notification.permission.EventSource;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
@@ -64,6 +65,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         HSPreferenceHelper.getDefault().putBoolean("guide_locker_stated", true);
+        ConfigEvent.guideShow();
         setContentView(R.layout.guide_all_features);
         StatusBarUtils.hideStatusBar(this);
 
@@ -103,6 +105,8 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         enableBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ConfigEvent.guideConfirmed();
+
                 LauncherAnalytics.logEventAndFirebase("ColorPhone_StartGuide_OK_Clicked");
                 LauncherAnalytics.logEvent("startguide_ok_click_weather");
                 ModuleUtils.setAllModuleUserEnable();

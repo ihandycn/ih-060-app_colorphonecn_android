@@ -212,6 +212,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
+            if (mSettingsPage != null) {
+                mSettingsPage.onFocusChanged();
+            }
             if (mAdapter.isTipHeaderVisible() &&
                     !PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
                 HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "setHeaderTipVisible, " +
