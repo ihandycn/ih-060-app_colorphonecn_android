@@ -1,0 +1,84 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="BaseSettings.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="colorControlNormal">@color/material_text_black_primary</item>
+    </style>
+
+    <style name="Theme.CustomOverScroll" parent="@android:style/Theme.DeviceDefault">
+        <item name="android:colorEdgeEffect">#e4e4e4</item>
+    </style>
+
+    <style name="WideHorizontalDivider">
+        <item name="android:background">#f4f4f4</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">6dp</item>
+    </style>
+
+    <style name="SettingsGroupTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/settings_group_text_size</item>
+        <item name="android:textColor">@color/material_text_black_hint</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_gravity">bottom|left</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <!-- Settings activities -->
+    <style name="ThinHorizontalDivider">
+        <item name="android:background">@color/list_item_divider</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.33dp</item>
+    </style>
+
+    <style name="SettingsItem.SingleLine">
+        <item name="android:textColor">@color/material_text_black_primary</item>
+        <item name="android:lines">1</item>
+        <item name="android:textSize">@dimen/settings_item_content_text_size</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="SettingsItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:textSize">@dimen/settings_item_text_size</item>
+    </style>
+
+    <style name="ToolbarTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title" />
+
+    <style name="AppCompatTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="ThemeAppBarActivity" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/app_bar_activities_content_bg</item>
+        <item name="colorSwitchThumbNormal">@color/material_color_switch_thumb</item>
+        <item name="android:colorForeground">@color/material_color_foreground</item>
+        <item name="colorAccent">@color/material_color_accent</item>
+    </style>
+
+    <style name="BaseDialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowFrame">@null</item>       <!-- Dialog的windowFrame框为无 -->
+        <item name="android:windowBackground">@android:color/transparent</item> <!-- 设置dialog的背景 -->
+        <item name="android:windowNoTitle">true</item>      <!-- 是否显示title -->
+        <item name="android:windowIsFloating">false</item>       <!-- 是否浮现在activity之上 -->
+        <item name="android:backgroundDimEnabled">true</item>  <!-- 背景是否模糊显示 -->
+        <item name="android:backgroundDimAmount">@dimen/dialog_background_dim_amount</item>
+    </style>
+</resources>

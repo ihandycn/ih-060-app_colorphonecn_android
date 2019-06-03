@@ -20,4 +20,5 @@ public class Placements {
 
     public static final String TRIVIA_TIP_INTERSTITIAL_AD_PLACEMENT_NAME = "TriviaWire";
     public static final String TRIVIA_TIP_NATIVE_AD_PLACEMENT_NAME = "TriviaDone";
+    public static final String WEATHER_PUSH_AD_PLACEMENT_NAME = "WeatherWire";
 }

@@ -13,9 +13,10 @@ import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
-import com.honeycomb.colorphone.news.NewsManager;
-import com.honeycomb.colorphone.news.NewsPushActivity;
-import com.honeycomb.colorphone.news.NewsResultBean;
+import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendActivity;
+import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
+import com.ihs.commons.utils.HSLog;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -81,27 +82,18 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void themeRecommend(View view) {
-//        ResultPageManager.getInstance().preloadThemeRecommendAds();
-//
-//        String number = editText.getText().toString().trim();
-//        number = TextUtils.isEmpty(number) ? "13800138000" : number;
-//
-//        String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number, true);
-//        ThemeRecommendManager.getInstance().isShowRecommendTheme(number);
-//
-//        if (!TextUtils.isEmpty(themeIdName)) {
-//            ThemeRecommendActivity.start(TestActivity.this, number, themeIdName);
-//        } else {
-//            HSLog.i("ThemeRecommendManager", "not show themeid == " + themeIdName);
-//        }
+        ResultPageManager.getInstance().preloadThemeRecommendAds();
 
-        NewsManager.getInstance().fetchPushNews(new NewsManager.NewsLoadListener() {
-            @Override public void onNewsLoaded(NewsResultBean bean) {
-                if (bean != null) {
-                    NewsPushActivity.start(view.getContext());
-                }
-            }
-        });
+        String number = editText.getText().toString().trim();
+        number = TextUtils.isEmpty(number) ? "13800138000" : number;
 
+        String themeIdName = ThemeRecommendManager.getInstance().getRecommendThemeIdAndRecord(number, true);
+        ThemeRecommendManager.getInstance().isShowRecommendTheme(number);
+
+        if (!TextUtils.isEmpty(themeIdName)) {
+            ThemeRecommendActivity.start(TestActivity.this, number, themeIdName);
+        } else {
+            HSLog.i("ThemeRecommendManager", "not show themeid == " + themeIdName);
+        }
     }
 }

@@ -134,12 +134,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity=":main"
-            android:theme="@style/AppLightStatusBarTheme">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            android:theme="@style/AppLightStatusBarTheme.Main">
         </activity>
 
         <activity
@@ -256,6 +251,27 @@
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:taskAffinity=".call"
+            android:theme="@style/Theme.AppCompat.Translucent"/>
+
+        <activity
+            android:name=".activity.GuideRandomCloseActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/Theme.AppCompat.Translucent"/>
+
+        <activity
+            android:name=".activity.GuideRandomThemeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/Theme.AppCompat.Translucent"/>
+
+        <activity
+            android:name=".activity.GuideRandomThemeActivity2"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Translucent"/>
 
         <activity
@@ -466,6 +482,12 @@
 
         <activity android:name=".themerecommend.ThemeRecommendActivity"
                   android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity
+            android:name="com.honeycomb.colorphone.weather.WeatherVideoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppLightStatusBarTheme"
+            android:windowSoftInputMode="stateHidden"/>
+
         <activity
             android:name=".triviatip.TriviaTipActivity"
             android:theme="@style/Theme.AppCompat.Translucent"

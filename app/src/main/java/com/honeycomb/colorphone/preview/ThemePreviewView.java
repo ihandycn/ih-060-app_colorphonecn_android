@@ -18,12 +18,12 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -45,6 +45,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
+import com.honeycomb.colorphone.activity.GuideRandomCloseActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -56,6 +57,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.themerecommend.ThemeRecommendManager;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -65,6 +67,7 @@ import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
@@ -122,7 +125,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private ProgressViewHolder mProgressViewHolder;
     private RingtoneViewHolder mRingtoneViewHolder;
-    private Button mApplyButton;
+    private TextView mApplyButton;
     private View mApplyForOne;
     private View mActionLayout;
 
@@ -176,6 +179,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private boolean resumed;
 
     private long startDownloadTime;
+
+    private boolean mIsActionVertical;
 
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
@@ -293,6 +298,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         }
     };
+    private INotificationObserver turnOffRandomObserver = new INotificationObserver() {
+        @Override
+        public void onReceive(String s, HSBundle hsBundle) {
+            performApplyClickResult();
+        }
+    };
 
     public static void saveThemeApplys(int themeId) {
         // TODO MMKV
@@ -374,40 +385,90 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         callActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
         callActionView.setTheme(mThemeType);
         callActionView.setAutoRun(false);
-        mApplyButton = (Button) findViewById(R.id.theme_apply_btn);
+        mApplyButton = findViewById(R.id.theme_apply_btn);
         mApplyButton.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD));
+
         mActionLayout = findViewById(R.id.theme_apply_layout);
         mApplyForOne = findViewById(R.id.theme_set_for_one);
 
+        View layoutContainer2 = findViewById(R.id.theme_set_vert_layout);
+        TextView setForOneView2 = findViewById(R.id.theme_set_for_one_textview);
+        setForOneView2.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD));
+        final TextView setForAllView2 = findViewById(R.id.theme_set_for_all_sub);
+        setForAllView2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        setForAllView2.setAlpha(0.5f);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        setForAllView2.setAlpha(1f);
+                        break;
+                    default:
+                        break;
+
+                }
+                return false;
+            }
+        });
+
+        boolean showForAllButton = true;
         if (mTheme.getId() == Theme.RANDOM_THEME) {
             mApplyForOne.setVisibility(GONE);
+        } else {
+            if (Ap.RandomTheme.setForAllEnable()
+             || !RandomTheme.getInstance().userSettingsEnable()) {
+                // Use vertical layout
+                if (Ap.RandomTheme.setForAllButtonDimmed()) {
+                    mApplyButton.setVisibility(GONE);
+                    mApplyForOne.setVisibility(GONE);
+                    layoutContainer2.setVisibility(VISIBLE);
+                    mApplyForOne = setForOneView2;
+                    mApplyButton = setForAllView2;
+                    mIsActionVertical = true;
+                }
+
+                mApplyButton.setVisibility(VISIBLE);
+            } else {
+                mApplyButton.setVisibility(GONE);
+                mApplyForOne.setVisibility(GONE);
+                layoutContainer2.setVisibility(VISIBLE);
+                mApplyForOne = setForOneView2;
+
+                mApplyForOne.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                mApplyForOne.requestLayout();
+                showForAllButton = false;
+            }
+        }
+
+        if (showForAllButton) {
+            mApplyButton.setVisibility(VISIBLE);
+            mApplyButton.setTypeface(Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD));
+            mApplyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (inTransition) {
+                        return;
+                    }
+                    LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_SetForAll_Click", LauncherAnalytics.FLAG_LOG_FIREBASE);
+                    Ap.RandomTheme.logEvent("detail_page_setforall_click");
+                    LauncherAnalytics.logEvent("detail_page_setforall_click_round2");
+                    if (Ap.RandomTheme.checkIfShowRandomLoseAlert()) {
+                        GuideRandomCloseActivity.start(mActivity, GuideRandomCloseActivity.DETAIL, true);
+                        HSGlobalNotificationCenter.addObserver(GuideRandomCloseActivity.EVENT_TURNOFF, turnOffRandomObserver);
+                    } else {
+                        performApplyClickResult();
+                    }
+                }
+            });
         }
         mProgressViewHolder = new ProgressViewHolder();
         mRingtoneViewHolder = new RingtoneViewHolder();
         previewImage = (ImageView) findViewById(R.id.preview_bg_img);
         dimCover = findViewById(R.id.dim_cover);
 
-        mApplyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (inTransition) {
-                    return;
-                }
-                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
-                }
-                onThemeApply();
-
-                if (mActivity instanceof PopularThemePreviewActivity) {
-                    LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
-                    LauncherAnalytics.logEvent("ColorPhone_BanboList_Set_Success");
-                } else {
-                    LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SetForAll");
-                    LauncherAnalytics.logEvent("ColorPhone_ThemeDetail_SetForAll_Click", LauncherAnalytics.FLAG_LOG_FIREBASE);
-                    LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success");
-                }
-            }
-        });
 
         mApplyForOne.setOnClickListener(new OnClickListener() {
             @Override
@@ -417,6 +478,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
 
                 LauncherAnalytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
+                Ap.RandomTheme.logEvent("detail_page_setforcontact_click");
+                LauncherAnalytics.logEvent("detail_page_setforcontact_click_round2");
                 if (mActivity instanceof PopularThemePreviewActivity) {
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
                     LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
@@ -427,10 +490,37 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
             }
         });
+        if (mIsActionVertical) {
+            getTransBottomLayout().setTranslationY(Dimensions.pxFromDp(110));
+        } else {
+            findViewById(R.id.vert_dark_bg).setVisibility(GONE);
+        }
         bottomBtnTransY = getTransBottomLayout().getTranslationY();
 
         mInter = new OvershootInterpolator(1.5f);
 
+    }
+
+    private void viewSwitch(View orig, View target) {
+        orig.setVisibility(GONE);
+        target.setVisibility(VISIBLE);
+    }
+
+    private void performApplyClickResult() {
+        RandomTheme.getInstance().setUserSettingsEnable(false);
+
+        if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+            PermissionChecker.getInstance().check(mActivity, "SetForAll");
+        }
+        onThemeApply();
+
+        if (mActivity instanceof PopularThemePreviewActivity) {
+            LauncherAnalytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
+            LauncherAnalytics.logEvent("ColorPhone_BanboList_Set_Success");
+        } else {
+            LauncherAnalytics.logEvent("Colorphone_MainView_ThemeDetail_SetForAll");
+            LauncherAnalytics.logEvent("ColorPhone_MainView_Set_Success");
+        }
     }
 
     private View getTransBottomLayout() {
@@ -546,9 +636,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
+        boolean adBlockThisTime = true;
+
+        Utils.showToast(mActivity.getString(R.string.apply_success));
+
+        /**
+         * 出现引导界面后，屏蔽此次广告时机
+         */
         if (mTheme.getId() == Theme.RANDOM_THEME ||
                 !GuideApplyThemeActivity.start(mActivity, true, null)) {
-            Utils.showToast(mActivity.getString(R.string.apply_success));
+            adBlockThisTime = false;
         }
 
         // Ringtone enabled
@@ -566,7 +663,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         NotificationUtils.logThemeAppliedFlurry(mTheme);
 
-        if (ConfigSettings.showAdOnApplyTheme()) {
+        if (!adBlockThisTime && ConfigSettings.showAdOnApplyTheme()) {
             Ap.DetailAd.logEvent("colorphone_themedetail_choosetheme_ad_should_show");
             boolean show = AdManager.getInstance().showInterstitialAd();
             if (show) {
@@ -606,7 +703,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private boolean checkNewFeatureGuideView() {
         //TODO remove guide if no need to show.
         if (mTheme.getId() == Theme.RANDOM_THEME) {
-            if (ModuleUtils.needShowRandomThemeGuide()) {
+            if (!Ap.RandomTheme.showFeatureGuide()
+                    && ModuleUtils.needShowRandomThemeGuide()) {
                 ViewStub stub = findViewById(R.id.guide_for_random_theme);
                 final View guideView = stub.inflate();
                 guideView.setAlpha(0);
@@ -630,7 +728,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 });
                 return true;
             }
-        } else if (ModuleUtils.needShowSetForOneGuide()) {
+        } else if (mApplyButton.getVisibility() == VISIBLE
+                && !mIsActionVertical
+                && ModuleUtils.needShowSetForOneGuide()) {
             ViewStub stub = findViewById(R.id.guide_for_set_one);
             final View guideView = stub.inflate();
             guideView.setAlpha(0);
@@ -763,10 +863,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     }
 
-//    private View findViewById(int id) {
-//        return mRootView.findViewById(id);
-//    }
-
     private void setButtonState(final boolean curTheme) {
         if (curTheme) {
             mApplyButton.setText(getString(R.string.theme_current));
@@ -774,6 +870,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mApplyButton.setText(getString(R.string.theme_set_for_all));
         }
         mApplyButton.setEnabled(!curTheme);
+        if (mIsActionVertical) {
+            mApplyButton.setAlpha(curTheme ? 0.5f : 1f);
+        }
     }
 
     private void playButtonAnimation() {

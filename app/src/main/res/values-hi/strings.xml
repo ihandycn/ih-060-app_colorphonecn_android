@@ -28,7 +28,7 @@
     <string name="call_assistant_hint">कॉल सहायक आपको छुटी कॉल की याद दिलाएगा (विज्ञापन शामिल हैं)</string>
 
     <string name="theme_set_for_all">सभी के लिए सेट</string>
-    <string name="theme_set_for_one">कुछ के लिए सेट</string>
+    <string name="theme_set_for_one">संपर्क के लिए सेट करें</string>
     <string name="contact_select_hint">चयनित संपर्क(कों) पर \'%1$s\' लागू करें</string>
     <string name="contact_theme">संपर्क थीम</string>
 
@@ -123,6 +123,30 @@
     <string name="result_page_theme_recommend_more">अधिक थीम्‍स पाएं</string>
 
 
+    <string name="random_theme_guide_title">प्रतिदिन अलग-अलग स्क्रीनफ्लैश का आनंद लें। </string>
+    <string name="random_theme_guide_desc">आप सेटिंग्स में क्रम रहित मोड को बंद कर सकते हैं।</string>
+    <string name="alert_turn_off_random_desc">हैं बंद करते हुए, आप प्रतिदिन विभिन्न स्क्रीनफ्लैश का आनंद नहीं ले सकते।</string>
+    <string name="random_mode">क्रम रहित मोड</string>
+
+
+
+    <string name="random_theme_guide_title2">दैनिक थीम्‍स आपकी डिफॉल्‍ट थीम है।</string>
+    <string name="random_theme_guide_desc2">आप प्रतिदिन अलग-अलग कॉलस्‍क्रीन्‍स का आनंद ले सकते हो।</string>
+    <string name="random_theme_guide_ok_btn">समझ लिया</string>
+
+    <string name="alert_turn_off_random_title">क्‍या आप वाकई में इस थीम को अपने सभी संपर्कों के लिए सेट करना चाहते हो?</string>
+    <string name="alert_turn_off_random_desc_beset">दैनिक थीम प्रयोग में है। यदि आप अपने सभी संपर्कों के लिए इस थीम को सेट करते हैं, तो आप हर रोज अलग-अलग कॉल्स का आनंद नहीं ले सकते।</string>
+    <string name="alert_button_keep_random_mode">दैनिक विषय-वस्तु रखें</string>
+    <string name="alert_button_continue">हां, अभी सेट करें</string>
+
+
+    <string name="guide_weather_hint">मौसम पूर्वानुमान शामिल हैं</string>
+    <string name="network_err_msg">नेटवर्क उपलब्‍ध नहीं है</string>
+
+
+    <string name="weather_forecast">मौसम पूर्वानुमान</string>
+    <string name="weather_push_content">मौसम की जानकारी पाने के लिए फोन उठाएं</string>
+
     <!-- News -->
     <string name="news_network_err">नेटवर्क उपलब्‍ध नहीं है</string>
     <string name="news_network_err_content">कृपया अपने इंटरनेट कनेक्‍शन की जांच करें और दुबारा प्रयास करें।</string>
@@ -131,13 +155,11 @@
     <string name="menu_item_themes">थीम्‍स</string>
     <string name="news_detail_error_reload">पुन:लोड करें</string>
 
-
     <!-- News 2 -->
     <string name="news_push_title">समाचार एक्‍सप्रेस</string>
     <string name="news_push_setting_title">समाचार एक्‍सप्रेस</string>
     <string name="welcome_guide_news_push_title">समाचार एक्‍सप्रेस शामिल है</string>
     <string name="general_settings">सामान्‍य सेटिंग्‍स</string>
-
 
     <string name="menu_item_news_video">वीडियो</string>
 </resources>

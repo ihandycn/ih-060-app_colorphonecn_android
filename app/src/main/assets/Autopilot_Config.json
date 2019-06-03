@@ -2077,6 +2077,108 @@
       ],
       "topic_id": "topic-1510751463187"
     },
+    "topic-72063ki99": {
+      "topic_type": "life_time",
+      "topic_name": "DiyTest",
+      "variations": {
+        "diybutton_enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "diybutton_alert_show": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        },
+        "diytheme_enable": {
+          "values": [
+            {
+              "value": false
+            }
+          ],
+          "type": "boolean",
+          "value": false,
+          "strategy": "sole"
+        }
+      },
+      "events": [
+        {
+          "name": "test"
+        },
+        {
+          "name": "diytheme_page_show"
+        },
+        {
+          "name": "diytheme_page_show_firsttime"
+        },
+        {
+          "name": "diytheme_page_createbtn_click"
+        },
+        {
+          "name": "diytheme_page_addbtn_click"
+        },
+        {
+          "name": "diytheme_video_select"
+        },
+        {
+          "name": "diytheme_pic_select"
+        },
+        {
+          "name": "diytheme_preview_page_show"
+        },
+        {
+          "name": "diytheme_preview_page_save_click"
+        },
+        {
+          "name": "diytheme_detail_page_show"
+        },
+        {
+          "name": "diytheme_detail_page_setforall_click"
+        },
+        {
+          "name": "diytheme_detail_page_setforsomeone_click"
+        },
+        {
+          "name": "diytheme_detail_page_setforsomeone_success"
+        },
+        {
+          "name": "diybutton_alert_show"
+        },
+        {
+          "name": "diybutton_editbtn_click"
+        },
+        {
+          "name": "diybutton_phonebtn_click"
+        },
+        {
+          "name": "diybutton_other_button_select"
+        },
+        {
+          "name": "diybutton_other_button_applied"
+        },
+        {
+          "name": "diybutton_slide_to_right"
+        },
+        {
+          "name": "diytheme_show"
+        },
+        {
+          "name": "screenflash_show"
+        }
+      ],
+      "topic_id": "topic-72063ki99"
+    },
     "topic-6zi0axif8": {
       "topic_type": "life_time",
       "topic_name": "Random Theme Test",

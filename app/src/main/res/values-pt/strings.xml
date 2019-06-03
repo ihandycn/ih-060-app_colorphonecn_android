@@ -28,7 +28,7 @@
     <string name="call_assistant_hint">O Assistente de Chamadas lembrará você das chamadas perdidas (Pode conter anúncios)</string>
 
     <string name="theme_set_for_all">DEFINIR PARA TODOS</string>
-    <string name="theme_set_for_one">Definir para uma pessoa</string>
+    <string name="theme_set_for_one">Definir para Contato</string>
     <string name="contact_select_hint">Aplicar tema "%1$s" aos contatos selecionados</string>
     <string name="contact_theme">Tema dos contatos</string>
 
@@ -122,6 +122,29 @@
     <string name="result_page_theme_recommend_optimal">Aplicado com sucesso</string>
     <string name="result_page_theme_recommend_more">Encontre mais temas</string>
 
+
+    <string name="random_theme_guide_title">Aproveite diferentes exibições de tela todos os dias. </string>
+    <string name="random_theme_guide_desc"> Você pode desativar o modo aleatório nas configurações.</string>
+    <string name="alert_turn_off_random_desc">Ao desativar, você não poderá aproveitar diferentes exibições de tela todos os dias.</string>
+    <string name="random_mode">Modo aleatório</string>
+
+
+    <string name="random_theme_guide_title2">Temas Diários é seu tema padrão.</string>
+    <string name="random_theme_guide_desc2">Você pode curtir telas de chamada diferentes todos os dias.</string>
+    <string name="random_theme_guide_ok_btn">eu sei</string>
+
+    <string name="alert_turn_off_random_title">Tem certeza de que deseja definir este tema para todos os seus contatos?</string>
+    <string name="alert_turn_off_random_desc_beset">Temas Diários está em uso. Se definir este tema para todos os seus contatos, você não poderá aproveitar telas de chamada diferentes todos os dias.</string>
+    <string name="alert_button_keep_random_mode">Mantenha temas diários</string>
+    <string name="alert_button_continue">Sim, definir agora</string>
+
+
+    <string name="guide_weather_hint">Incluir previsão do tempo</string>
+    <string name="network_err_msg">Rede indisponível</string>
+
+
+    <string name="weather_forecast">Previsão do tempo</string>
+    <string name="weather_push_content">Pegue o telefone para obter informações sobre o clima</string>
 
     <!-- News -->
     <string name="news_network_err">Rede indisponível</string>

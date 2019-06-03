@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
 import com.acb.utils.Utils;
-import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
@@ -257,10 +256,7 @@ public class ThemeRecommendManager {
 
     private void downloadMediaTheme(int pendingThemeIndex, TasksManagerModel model) {
         boolean downloadStart = TasksManager.doDownload(model, null);
-        if (downloadStart) {
-            Ap.RandomTheme.logEvent("random_theme_download_start");
-            LauncherAnalytics.logEvent("clorphone_random_theme_download_start");
-        }
+
         final int taskId = model.getId();
         FileDownloadMultiListener.getDefault().addStateListener(taskId, new DownloadStateListener() {
 
@@ -268,9 +264,6 @@ public class ThemeRecommendManager {
             public void updateDownloaded(boolean progressFlag) {
                 // In case method call more than once.
                 FileDownloadMultiListener.getDefault().removeStateListener(taskId);
-                Ap.RandomTheme.logEvent("random_theme_download_success");
-                LauncherAnalytics.logEvent("colorphone_random_theme_download_success");
-
                 HSLog.d(TAG, "prepareTheme next success , file downloaded : " + pendingThemeIndex);
             }
 

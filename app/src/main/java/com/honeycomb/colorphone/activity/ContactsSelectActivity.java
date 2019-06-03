@@ -97,6 +97,8 @@ public class ContactsSelectActivity extends ContactsActivity {
         }
         ThemeGuide.logThemeApplied();
         Ap.DetailAd.onThemeChooseForOne();
+        Ap.RandomTheme.logEvent("detail_page_setforcontact_success");
+        LauncherAnalytics.logEvent("detail_page_setforcontact_success_round2");
 
         if (!themeEntries.isEmpty()) {
             ContactManager.getInstance().markDataChanged();

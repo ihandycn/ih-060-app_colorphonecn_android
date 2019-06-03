@@ -41,6 +41,44 @@
         app:typeface="@string/custom_font_semibold"
         tools:text="Please enable the features and permissions: Remind your missed calls"/>
 
+    <LinearLayout
+        android:id="@+id/checkbox_layout"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_above="@+id/welcome_guide_bottom_container"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/welcome_guide_enable_checkbox_container"
+            android:layout_width="20dp"
+            android:layout_height="20dp">
+
+            <CheckBox
+                android:id="@+id/welcome_guide_enable_checkbox"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center"
+                android:alpha="0.6"
+                android:button="@drawable/welcome_guide_check_box_selector"
+                android:checked="true"
+                android:gravity="center" />
+
+        </FrameLayout>
+
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
+            android:text="@string/guide_weather_hint"
+            android:textColor="@color/primaryText"
+            android:alpha="0.6"
+            android:textSize="10sp"
+            app:typeface="@string/custom_font_regular" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/welcome_guide_function_enable_btn"
         app:layout_widthPercent="78%"
@@ -59,7 +97,7 @@
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/welcome_guide_bottom_container"
+        android:layout_above="@+id/checkbox_layout"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
         android:paddingLeft="8dp"

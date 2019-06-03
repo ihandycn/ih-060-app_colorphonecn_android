@@ -802,6 +802,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return mContentView;
         }
 
+        public View getCardView() {
+            return mContentView.findViewById(R.id.card_view);
+        }
+
         ThemeCardViewHolder(View itemView) {
             super(itemView);
             mContentView = itemView;

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="#4c6889">
+
+    <LinearLayout
+        android:id="@+id/weather_city_add_new_btn_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="24dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="20dp"
+        android:background="@drawable/weather_add_new_city_card_bg"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/weather_add_new_city"
+            tools:ignore="ContentDescription"/>
+
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/weather_city_add_new_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/material_compat_button_bg"
+            android:drawableLeft="@drawable/weather_detail_refresh_add_cross"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/weather_detail_refresh_add_cross"
+            android:maxLength="30"
+            android:padding="12dp"
+            android:text="@string/weather_city_add_new_btn"
+            android:textColor="@color/weather_primary"
+            app:typeface="@string/custom_font_regular"/>
+    </LinearLayout>
+</FrameLayout>

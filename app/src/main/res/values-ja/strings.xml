@@ -30,7 +30,7 @@
     <string name="call_assistant_hint">SMSアシスタントは不在着信をお知らせします（広告が含まれている可能性があります）</string>
 
     <string name="theme_set_for_all">すべてを設定</string>
-    <string name="theme_set_for_one">特定の人に設定</string>
+    <string name="theme_set_for_one">連絡先に設定する</string>
     <string name="contact_select_hint">選択した連絡先に「%1$s」テーマを適用する</string>
     <string name="contact_theme">連絡のテーマ</string>
 
@@ -126,21 +126,44 @@
   <string name="result_page_theme_recommend_more">テーマをもっと見つける</string>
 
 
-  <!-- News -->
-  <string name="news_network_err">ネットワークが利用不可</string>
-  <string name="news_network_err_content">インターネット接続を確認して、もう一度お試しください。</string>
-  <string name="news_network_err_action">再試行</string>
-  <string name="menu_item_news">ニュース</string>
-  <string name="menu_item_themes">テーマ</string>
-  <string name="news_detail_error_reload">再度読み込み</string>
+  <string name="random_theme_guide_title">毎日色々なスクリーンフラッシュをお楽しみください。</string>
+  <string name="random_theme_guide_desc">設定でランダムモードをオフにすることができます。</string>
+  <string name="alert_turn_off_random_desc">オフにすると、色々なスクリーンフラッシュを毎日楽しむことができません。</string>
+  <string name="random_mode">ランダムモード</string>
 
 
-  <!-- News 2 -->
-  <string name="news_push_title">エクスプレスニュース</string>
-  <string name="news_push_setting_title">エクスプレスニュース</string>
-  <string name="welcome_guide_news_push_title">エクスプレスニュースを含む</string>
-  <string name="general_settings">一般設定</string>
+  <string name="random_theme_guide_title2">デイリーテーマがデフォルトテーマです。</string>
+  <string name="random_theme_guide_desc2">毎日異なる通話画面を楽しむことができます。</string>
+  <string name="random_theme_guide_ok_btn">私は知っている</string>
+
+  <string name="alert_turn_off_random_title">すべての連絡先にテーマを設定してもよろしいですか？</string>
+  <string name="alert_turn_off_random_desc_beset">デイリーテーマが使用されています。このテーマをすべての連絡先に設定すると、毎日異なる通話画面を楽しむことができます。</string>
+  <string name="alert_button_keep_random_mode">毎日のテーマを守る</string>
+  <string name="alert_button_continue">はい、今すぐ設定</string>
 
 
-  <string name="menu_item_news_video">動画</string>
+  <string name="guide_weather_hint">天気予報を含む</string>
+  <string name="network_err_msg">ネットワークが利用不可</string>
+
+
+  <string name="weather_forecast">天気予報</string>
+  <string name="weather_push_content">携帯を手に取って天候状況を知りましょう</string>
+
+    <!-- News -->
+    <string name="news_network_err">ネットワークが利用不可</string>
+    <string name="news_network_err_content">インターネット接続を確認して、もう一度お試しください。</string>
+    <string name="news_network_err_action">再試行</string>
+    <string name="menu_item_news">ニュース</string>
+    <string name="menu_item_themes">テーマ</string>
+    <string name="news_detail_error_reload">再度読み込み</string>
+
+
+    <!-- News 2 -->
+    <string name="news_push_title">エクスプレスニュース</string>
+    <string name="news_push_setting_title">エクスプレスニュース</string>
+    <string name="welcome_guide_news_push_title">エクスプレスニュースを含む</string>
+    <string name="general_settings">一般設定</string>
+
+
+    <string name="menu_item_news_video">動画</string>
 </resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.honeycomb.colorphone.view.FixRatioPreviewWindow
+    android:id="@+id/card_view"
+    style="@style/RatioView.Container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.acb.call.views.VideoPlayerView
+        android:id="@+id/animation_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include layout="@layout/acb_layout_call_user_infos" />
+
+    <com.acb.call.views.InCallActionView
+        android:id="@+id/card_in_call_action_view"
+        android:layout_width="match_parent"
+        android:gravity="bottom"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="24dp" />
+
+
+</com.honeycomb.colorphone.view.FixRatioPreviewWindow>
+
+    

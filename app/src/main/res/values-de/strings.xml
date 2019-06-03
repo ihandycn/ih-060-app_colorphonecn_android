@@ -28,7 +28,7 @@
     <string name="call_assistant_hint">Der Anrufassistent erinnert Sie an verpasste Anrufe (Kann Werbung enthalten)</string>
 
     <string name="theme_set_for_all">FÜR ALLE FESTLEGEN</string>
-    <string name="theme_set_for_one">Für 1 Person festlegen</string>
+    <string name="theme_set_for_one">Für einen Kontakt festlegen</string>
     <string name="contact_select_hint">Motiv „%1$s“ auf ausgewählte Kontakte anwenden</string>
     <string name="contact_theme">Kontaktmotiv</string>
 
@@ -123,6 +123,27 @@
     <string name="result_page_theme_recommend_more">Mehr Designs finden</string>
 
 
+    <string name="random_theme_guide_title">Freuen Sie sich jeden Tag über unterschiedliche Bildschirm-Flashs. </string>
+    <string name="random_theme_guide_desc">Sie können den Zufallsmodus in den Einstellungen abstellen.</string>
+    <string name="alert_turn_off_random_desc">Dadurch können Sie sich nicht jeden Tag über andere Bildschirm-Flashs freuen.</string>
+    <string name="random_mode">Zufallsmodus</string>
+
+
+    <string name="random_theme_guide_title2">Alltagsmotive ist Ihr benutzerdefiniertes Design</string>
+    <string name="random_theme_guide_desc2">Sie können sich jeden Tag über verschiedene Anrufbildschirme freuen.</string>
+    <string name="random_theme_guide_ok_btn">es wissen</string>
+
+    <string name="alert_turn_off_random_title">Sind Sie sicher, dass Sie dieses Motiv für alle Ihre Kontakte festlegen möchten?</string>
+    <string name="alert_turn_off_random_desc_beset">Alltagsmotive wird gerade benutzt. Wenn Sie dieses Motiv für alle Ihre Kontakte festlegen, können Sie sich nicht jeden Tag an unterschiedlichen Motiven erfreuen.</string>
+    <string name="alert_button_keep_random_mode">Tägliche Themen behalten</string>
+    <string name="alert_button_continue">Jetzt einstellen</string>
+
+    <string name="guide_weather_hint">Mit Wettervorhersage</string>
+    <string name="network_err_msg">Netzwerk nicht verfügbar</string>
+
+
+    <string name="weather_forecast">Wettervorhersage</string>
+    <string name="weather_push_content">Annehmen, um Wetterinformationen zu erhalten</string>
     <!-- News -->
     <string name="news_network_err">Netzwerk nicht verfügbar</string>
     <string name="news_network_err_content">Bitte Ihre Netzwerkverbindung überprüfen und erneut versuchen.</string>
@@ -130,7 +151,6 @@
     <string name="menu_item_news">News</string>
     <string name="menu_item_themes">Designs</string>
     <string name="news_detail_error_reload">Erneut laden</string>
-
 
     <!-- News 2 -->
     <string name="news_push_title">News Express</string>

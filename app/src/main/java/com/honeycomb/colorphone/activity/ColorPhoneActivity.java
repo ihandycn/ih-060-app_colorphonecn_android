@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,12 +23,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.bumptech.glide.Glide;
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
@@ -40,13 +51,17 @@ import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
+import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.RewardVideoView;
+import com.honeycomb.colorphone.weather.WeatherContentUtils;
+import com.honeycomb.colorphone.weather.WeatherPushManager;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSNotificationConstant;
+import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
@@ -55,8 +70,13 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
+import com.superapps.util.Networks;
 import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
+import com.superapps.util.Threads;
+import com.superapps.util.Toasts;
 
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
@@ -64,6 +84,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import colorphone.acb.com.libweather.WeatherClockManager;
+import colorphone.acb.com.libweather.view.WeatherView;
 import hugo.weaving.DebugLog;
 
 public class ColorPhoneActivity extends HSAppCompatActivity
@@ -76,6 +98,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private static final int WELCOME_REQUEST_CODE = 2;
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 3;
+    private static final String TAG = ColorPhoneActivity.class.getSimpleName();
 
     private static final int MAIN_TAB_THEMES = 0;
     private static final int MAIN_TAB_NEWS = 1;
@@ -84,6 +107,12 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private static final int EVENT_CLICK_TOOLBAR = 43020;
 
+    public static void startWeatherPage(Context context) {
+        Intent intent = new Intent(context, ColorPhoneActivity.class);
+        intent.putExtra("switch_weather", true);
+        Navigations.startActivitySafely(context, intent);
+    }
+    boolean mWeatherPageNeedFirstShow;
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
@@ -97,15 +126,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private TextView settingTab;
     private int currentIndex = MAIN_TAB_THEMES;
 
-    private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
-    private boolean initCheckState;
-    private boolean isPaused;
-
     private Handler mHandler = new Handler();
 
     private boolean mIsHandsDown = false;
     private boolean mIsFirstScrollThisTimeHandsDown = true;
     public static final int SCROLL_STATE_DRAGGING = 1;
+
+    private Toolbar toolbar;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -149,6 +176,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean showAllFeatureGuide = false;
     private boolean isCreate = false;
     private SettingsPage mSettingsPage = new SettingsPage();
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -171,12 +200,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             HSAlertMgr.delayRateAlert();
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         }
-        setTheme(R.style.AppLightStatusBarTheme);
-
+        getDataFromIntent(getIntent());
         setContentView(R.layout.activity_main);
         initMainFrame();
         AdManager.getInstance().preload();
         AppflyerLogger.logAppOpen();
+
+        WeatherPushManager.getInstance().updateWeatherIfNeeded(HSSessionMgr.getCurrentSessionId() <= 1);
         isCreate = true;
 
         Intent intent  = getIntent();
@@ -195,7 +225,30 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
+    private void getDataFromIntent(Intent intent) {
+        mWeatherPageNeedFirstShow = intent.getBooleanExtra("switch_weather", false);
+    }
+    private Runnable randomThemeGuideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Preferences.get(Constants.DESKTOP_PREFS).doOnce(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                        RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                        if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+                            View contentView = ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).getCardView();
+                            GuideRandomThemeActivity2.start(ColorPhoneActivity.this, contentView, false);
+                            break;
+                        }
+                    }
+                }
+            }, "theme_random_guide_count_limit");
+        }
+    };
+
     @Override
+    @DebugLog
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
@@ -207,6 +260,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 mAdapter.setHeaderTipVisible(false);
                 mAdapter.notifyDataSetChanged();
             }
+            Threads.postOnMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    boolean heightChanged = WeatherContentUtils.saveWeatherTransHeight(ColorPhoneActivity.this, toolbar.getHeight());
+                    if (heightChanged) {
+                        weatherView.setWeatherHeight(WeatherContentUtils.getWeatherWindowHeight());
+                    }
+                }
+            });
+            if (Ap.RandomTheme.showFeatureGuide()) {
+                mHandler.postDelayed(randomThemeGuideRunnable, 500);
+            }
+        } else {
+            mHandler.removeCallbacks(randomThemeGuideRunnable);
         }
     }
 
@@ -378,11 +445,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         initRecyclerView();
         initNewsPage();
         initSettingPage();
+        initWeather();
+
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
+        HSGlobalNotificationCenter.addObserver(WeatherClockManager.NOTIFICATION_WEATHER_CONDITION_CHANGED, this);
+
         TasksManager.getImpl().onCreate(new WeakReference<Runnable>(UpdateRunnable));
 
         ConfigChangeManager.getInstance().registerCallbacks(
@@ -390,7 +461,131 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
+    private ViewGroup main_container;
+    private WeatherView weatherView;
+    private ImageButton weatherIcon;
+    private void initWeather() {
+        if (weatherView != null) {
+            return;
+        }
+        int weatherHeight = WeatherContentUtils.getWeatherWindowHeight();
+        HSLog.d("Weather", "content height = " + weatherHeight);
+
+        main_container = findViewById(R.id.main_container_framelayout);
+
+        weatherView = new WeatherView(ColorPhoneActivity.this);
+        FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        main_container.addView(weatherView, 0, weatherParams);
+        weatherIcon = findViewById(R.id.toolbar_weather_icon);
+        weatherView.setOuterMainLayout(mDrawerLayout);
+        weatherView.setOuterIconView(weatherIcon);
+        weatherView.setWeatherHeight(weatherHeight);
+        View drawerDelegateToggleView = findViewById(R.id.toolbar_delegate_toggle_button);
+        drawerDelegateToggleView.setVisibility(View.GONE);
+        weatherView.setOnWeatherVisibleListener(new WeatherView.OnWeatherVisibleListener() {
+            @Override
+            public void onVisibleChange(boolean visible) {
+                drawerDelegateToggleView.setVisibility(visible ? View.VISIBLE : View.GONE);
+                if (visible) {
+                    if (!Networks.isNetworkAvailable(-1)) {
+                        Toasts.showToast(R.string.network_err_msg);
+                    }
+                }
+
+                if (!mWeatherPageNeedFirstShow
+                        && Ap.WeatherPush.showAdInApp()) {
+                    WeatherPushManager.getInstance().showInterstitialAd();
+                }
+            }
+        });
+        drawerDelegateToggleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                weatherView.toggle();
+            }
+        });
+
+
+        weatherIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!weatherView.isWeatherViewInShow()) {
+                    LauncherAnalytics.logEvent("mainview_weatherbtn_click");
+                }
+                weatherView.toggle();
+            }
+        });
+
+        updateWeatherIcon();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            final int statusBarInset = Dimensions.getStatusBarInset(this);
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) weatherIcon.getLayoutParams();
+            params.topMargin += statusBarInset;
+            weatherIcon.requestLayout();
+
+            ViewGroup.MarginLayoutParams drawParams = (ViewGroup.MarginLayoutParams) mDrawerLayout.getLayoutParams();
+            drawParams.topMargin += statusBarInset;
+            mDrawerLayout.requestLayout();
+        }
+
+        if (mWeatherPageNeedFirstShow) {
+            weatherView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    weatherView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    trySwitchToWeatherPage();
+                }
+            });
+        }
+
+        if (Ap.WeatherPush.showAdInApp()) {
+            WeatherPushManager.getInstance().preloadAd();
+        }
+    }
+
+    private void trySwitchToWeatherPage() {
+        if (!weatherView.isWeatherViewInShow()) {
+            weatherView.toggleImmediately();
+            WeatherPushManager.getInstance().showInterstitialAd();
+            LauncherAnalytics.logEvent("mainview_show_weather_enable");
+            HSLog.d("Weather.Page", "Show");
+        }
+        weatherView.invalidate();
+    }
+
+    private void updateWeatherIcon() {
+        if (!Ap.WeatherPush.showPush()) {
+            weatherIcon.setVisibility(View.GONE);
+        } else {
+            weatherIcon.setVisibility(View.VISIBLE);
+            int weatherIconId = WeatherClockManager.getInstance().getWeatherConditionIconResourceID();
+            weatherIcon.setImageResource(weatherIconId);
+        }
+    }
+
+    private void setFullScreen(){
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    private void quitFullScreen(){
+        final WindowManager.LayoutParams attrs = getWindow().getAttributes();
+        attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setAttributes(attrs);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+    public  int getStatusBarHeight(){
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
     @Override
+    @DebugLog
     protected void onStart() {
         super.onStart();
         int maxId = -1;
@@ -431,24 +626,32 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 switchPage();
                 highlightNewTab();
             }
+            getDataFromIntent(intent);
+            // Show weather page if needed.
+            if (mWeatherPageNeedFirstShow
+                    && weatherView != null) {
+                trySwitchToWeatherPage();
+            }
         }
+
     }
 
     @Override
+    @DebugLog
     protected void onResume() {
         super.onResume();
         // clear previous observers.
         PermissionHelper.stopObservingPermission();
 
-        HSLog.d("ColorPhoneActivity", "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
+        HSLog.d(TAG, "onResume " + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
+            HSLog.d(TAG, "onResume [holder animation] ");
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
         }
 
         mAdapter.updateApplyInformationAutoPilotValue();
         mHandler.postDelayed(mainViewRunnable, 1000);
-        isPaused = false;
         mAdapter.markForeground(true);
     }
 
@@ -456,8 +659,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     protected void onPause() {
         super.onPause();
 
-        isPaused = true;
-        HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedLayoutPos() + "");
+        HSLog.d(TAG, "onPause " + mAdapter.getLastSelectedLayoutPos() + "");
         RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).stopAnimation();
@@ -465,10 +667,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mAdapter.markForeground(false);
         mRecyclerView.getRecycledViewPool().clear();
         mHandler.removeCallbacks(mainViewRunnable);
-
     }
 
     @Override
+    @DebugLog
     protected void onStop() {
         super.onStop();
         if (mSettingsPage != null) {
@@ -479,6 +681,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         Glide.get(this).clearMemory();
     }
 
+    @DebugLog
     private void dispatchPermissionRequest() {
         boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
                 && ScreenFlashSettings.isScreenFlashModuleEnabled();
@@ -709,43 +912,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
+    @Deprecated
     private void requestRewardAd(final String themeName) {
-        if (mRewardVideoView == null) {
-            mRewardVideoView = new RewardVideoView((ViewGroup) findViewById(R.id.drawer_layout), new RewardVideoView.OnRewarded() {
-                @Override
-                public void onRewarded() {
-                    HSBundle bundle = new HSBundle();
-                    if (mAdapter.getUnLockThemeId() != -1) {
-                        bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mAdapter.getUnLockThemeId());
-                    }
-                    HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
-                    LauncherAnalytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "list", "themeName", themeName);
-                }
 
-                @Override
-                public void onAdClose() {
-
-                }
-
-                @Override
-                public void onAdCloseAndRewarded() {
-
-                }
-
-                @Override
-                public void onAdShow() {
-
-                    //todo theme name needs to be recorded
-                    LauncherAnalytics.logEvent("Colorphone_Rewardvideo_show", "from", "list", "themeName", themeName);
-                }
-
-                @Override
-                public void onAdFailed() {
-
-                }
-            }, false);
-        }
-        mRewardVideoView.onRequestRewardVideo();
     }
 
 
@@ -753,6 +922,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onReceive(String s, HSBundle hsBundle) {
         if (ThemePreviewActivity.NOTIFY_THEME_SELECT.equals(s)) {
             mSettingsPage.onThemeSelected();
+            mSettingsPage.refreshRandomTheme();
+            RandomTheme.getInstance().setUserSettingsEnable(false);
+
         } else if (NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME.equals(s)) {
             HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "NOTIFICATION_REFRESH_MAIN_FRAME notifyDataSetChanged");
             initData();
@@ -770,6 +942,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
                 mAdapter.notifyDataSetChanged();
             }
+        } else if (WeatherClockManager.NOTIFICATION_WEATHER_CONDITION_CHANGED.equals(s)) {
+            updateWeatherIcon();
         }
     }
 

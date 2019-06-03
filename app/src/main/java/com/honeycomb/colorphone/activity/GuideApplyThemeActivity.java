@@ -69,6 +69,14 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
         }
         View cbContainer = findViewById(R.id.welcome_guide_enable_checkbox_container);
         final CheckBox cb = (CheckBox) findViewById(R.id.welcome_guide_enable_checkbox);
+
+        cbContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cb.performClick();
+            }
+        });
+
         cb.setButtonDrawable(AppCompatResources.getDrawable(this, R.drawable.welcome_guide_check_box_selector));
         setUpPrivacyTextView();
         LauncherAnalytics.logEvent("ColorPhone_ApplyFinishGuide_Show");
@@ -94,12 +102,6 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
             }
         });
 
-        cbContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cb.performClick();
-            }
-        });
 
         HSPreferenceHelper.getDefault().putInt(PREFS_GUIDE_APPLY_ALERT_SHOW_SESSION_ID, SessionMgr.getInstance().getCurrentSessionId());
     }

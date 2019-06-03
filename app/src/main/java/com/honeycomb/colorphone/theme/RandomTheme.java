@@ -9,6 +9,8 @@ import android.os.PersistableBundle;
 import android.support.annotation.RequiresApi;
 import android.text.format.DateUtils;
 
+import com.acb.call.constant.ScreenFlashConst;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.Theme;
@@ -16,11 +18,13 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.NetUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Preferences;
 
@@ -126,8 +130,10 @@ public class RandomTheme {
             } else if (NetUtils.isWifiConnected(HSApplication.getContext())) {
                 downloadMediaTheme(pendingThemeIndex, model, null);
             }
-        } else {
+        } else if (theme != null){
             HSLog.d(TAG, "prepareTheme next success , native theme : " + pendingThemeIndex);
+        } else {
+            HSLog.e(TAG, "prepareTheme next fail , not config theme : " + pendingThemeIndex);
         }
     }
 
@@ -135,7 +141,7 @@ public class RandomTheme {
         boolean downloadStart = TasksManager.doDownload(model, null);
         if (downloadStart) {
             Ap.RandomTheme.logEvent("random_theme_download_start");
-            LauncherAnalytics.logEvent("clorphone_random_theme_download_start");
+            LauncherAnalytics.logEvent("random_theme_download_start_round2");
         }
         final int taskId = model.getId();
         FileDownloadMultiListener.getDefault().addStateListener(taskId, new DownloadStateListener() {
@@ -145,7 +151,7 @@ public class RandomTheme {
                 // In case method call more than once.
                 FileDownloadMultiListener.getDefault().removeStateListener(taskId);
                 Ap.RandomTheme.logEvent("random_theme_download_success");
-                LauncherAnalytics.logEvent("colorphone_random_theme_download_success");
+                LauncherAnalytics.logEvent("random_theme_download_success_round2");
 
                 if (delegateListener != null) {
                     delegateListener.updateDownloaded(progressFlag);
@@ -256,6 +262,10 @@ public class RandomTheme {
     }
 
     public void onFlashShow(String themeId) {
+        Ap.RandomTheme.logEvent("screenflash_show");
+        if (Ap.RandomTheme.enable()) {
+            LauncherAnalytics.logEvent("screenflash_show_random_theme_test_round2");
+        }
         if (flashDisplayFlag) {
             flashDisplayFlag = false;
             HSLog.d(TAG, "onFlashShow");
@@ -270,14 +280,37 @@ public class RandomTheme {
             Preferences.get(Constants.PREF_FILE_DEFAULT).doOnce(new Runnable() {
                 @Override
                 public void run() {
-                    Ap.RandomTheme.logEvent("random_theme_enabled");
-                    LauncherAnalytics.logEvent("colorphone_random_theme_enabled");
+//                    Ap.RandomTheme.logEvent("random_theme_enabled");
+                    LauncherAnalytics.logEvent("random_theme_enabled_round2");
                 }
             }, "colorphone_random_theme_enabled");
-            Ap.RandomTheme.logEvent("random_theme_show");
-            LauncherAnalytics.logEvent("colorphone_random_theme_show",
+            Ap.RandomTheme.logEvent("screenflash_random_theme_show");
+            LauncherAnalytics.logEvent("screenflash_random_theme_show_round2",
                     "IdName", targetTheme == null ? "NULL" : targetTheme.getIdName(),
                     "Network", NetUtils.isWifiConnected(HSApplication.getContext()) ? "Wifi" : "Data");
         }
     }
+
+    public boolean userSettingsEnable() {
+        return  true;
+//        boolean defaultSwitch = Ap.RandomTheme.defaultSwitchOn();
+//        if (defaultSwitch && !Preferences.get(Constants.PREF_FILE_DEFAULT).contains("random_setting_switch")) {
+//            setUserSettingsEnable(true);
+//            return true;
+//        }
+//
+//        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("random_setting_switch", false);
+    }
+
+    public void setUserSettingsEnable(boolean enable) {
+        if (enable) {
+            ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, Theme.RANDOM_THEME);
+        }
+        boolean oldState = Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("random_setting_switch", false);
+        if (enable != oldState) {
+            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+            Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("random_setting_switch", enable);
+        }
+    }
+
 }

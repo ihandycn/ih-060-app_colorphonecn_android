@@ -28,7 +28,7 @@
     <string name="call_assistant_hint">Asisten Panggilan akan mengingatkan Anda tentang panggilan tidak terjawab (Mungkin berisi iklan)</string>
 
     <string name="theme_set_for_all">ATUR UNTUK SEMUA</string>
-    <string name="theme_set_for_one">Atur untuk Seseorang</string>
+    <string name="theme_set_for_one">Atur untuk Kontak</string>
     <string name="contact_select_hint">Terapkan tema \'%1$s\' untuk kontak yang dipilih</string>
     <string name="contact_theme">Tema Kontak</string>
 
@@ -122,6 +122,30 @@
     <string name="result_page_theme_recommend_optimal">Berhasil diterapkan</string>
     <string name="result_page_theme_recommend_more">Temukan Lebih Banyak Tema</string>
 
+
+    <string name="random_theme_guide_title">Nikmati animasi layar yang berbeda setiap hari. </string>
+    <string name="random_theme_guide_desc">Anda dapat menonaktifkan mode acak di pengaturan.</string>
+    <string name="alert_turn_off_random_desc">Dengan menonaktifkannya, Anda tidak dapat menikmati animasi layar yang berbeda setiap hari.</string>
+    <string name="random_mode">Mode acak</string>
+
+
+
+    <string name="random_theme_guide_title2">Tema Harian adalah tema default Anda.</string>
+    <string name="random_theme_guide_desc2">Anda bisa menikmati layar panggilan berbeda setiap hari.</string>
+    <string name="random_theme_guide_ok_btn">BAIK</string>
+
+    <string name="alert_turn_off_random_title">Yakin akan mengatur tema ini untuk semua kontak Anda?</string>
+    <string name="alert_turn_off_random_desc_beset">Tema Harian sedang digunakan. Jika Anda mengatur tema ini untuk semua kontak, Anda tidak bisa menikmati layar panggilan berbeda setiap hari.</string>
+    <string name="alert_button_keep_random_mode">Simpan Tema Harian</string>
+    <string name="alert_button_continue">Ya, Setel Sekarang</string>
+
+
+    <string name="guide_weather_hint">Mencakup prakiraan cuaca</string>
+    <string name="network_err_msg">Jaringan tidak tersedia</string>
+
+
+    <string name="weather_forecast">Prakiraan Cuaca</string>
+    <string name="weather_push_content">Ambil ponsel untuk mendapatkan informasi cuaca</string>
 
     <!-- News -->
     <string name="news_network_err">Jaringan tidak tersedia</string>

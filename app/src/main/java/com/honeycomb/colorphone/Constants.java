@@ -12,6 +12,7 @@ public class Constants {
     public static final String PREF_FILE_DEFAULT = "default_main";
     public static final String PREFS_LAST_CALLSTATE_CHANGE = "call_changed_time_mills";
     public static final String PREFS_LAST_CHARGING_CHANGE = "charge_changed_time_mills";
+    public static final String RANDOM_GUIDE_FILE_NAME = "Mp4_9998";
 
     public static String getFeedBackAddress() {
         return HSConfig.optString("", "Application", "FeedbackEmailAddress");

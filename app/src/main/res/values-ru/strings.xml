@@ -28,7 +28,7 @@
     <string name="call_assistant_hint">Телефонный помощник будет напоминать вам о пропущенных вызовах (может содержать рекламу)</string>
 
     <string name="theme_set_for_all">УСТАНОВИТЬ ДЛЯ ВСЕХ</string>
-    <string name="theme_set_for_one">Установить для некоторых</string>
+    <string name="theme_set_for_one">Установить для контакта</string>
     <string name="contact_select_hint">Применить тему «%1$s» для выбранных контактов</string>
     <string name="contact_theme">Тема контакта</string>
 
@@ -135,6 +135,10 @@
     <string name="menu_item_news">Новости</string>
     <string name="menu_item_themes">Темы</string>
     <string name="news_detail_error_reload">Перезагрузить</string>
+    <string name="random_theme_guide_title">Разные мигающие экраны каждый день. </string>
+    <string name="random_theme_guide_desc">Случайный режим можно выключить в настройках.</string>
+    <string name="alert_turn_off_random_desc">Если сделать это, у вас не будут каждый день появляться разные мигающие экраны.</string>
+    <string name="random_mode">Случайный режим</string>
 
 
     <!-- News 2 -->
@@ -143,6 +147,21 @@
     <string name="welcome_guide_news_push_title">Включить актуальные новости</string>
     <string name="general_settings">Общие настройки</string>
 
+    <string name="random_theme_guide_title2">Ежедневные темы используются по умолчанию.</string>
+    <string name="random_theme_guide_desc2">Вы можете менять экран вызова каждый день.</string>
+    <string name="random_theme_guide_ok_btn">ПОНЯЛ</string>
 
     <string name="menu_item_news_video">видео</string>
+    <string name="alert_turn_off_random_title">Вы действительно хотите установить эту тему для всех своих контактов?</string>
+    <string name="alert_turn_off_random_desc_beset">Используются ежедневные темы. Если вы установите эту тему для всех контактов, вы не сможете менять экран вызова каждый день.</string>
+    <string name="alert_button_keep_random_mode">Хранить ежедневные темы</string>
+    <string name="alert_button_continue">Да, установить сейчас</string>
+
+
+    <string name="guide_weather_hint">Включить прогноз погоды</string>
+    <string name="network_err_msg">Нет соединения с сетью</string>
+
+
+    <string name="weather_forecast">Прогноз погоды</string>
+    <string name="weather_push_content">Ответьте на вызов, чтобы узнать прогноз погоды</string>
 </resources>

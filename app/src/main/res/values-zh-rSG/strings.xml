@@ -33,7 +33,7 @@
     <string name="cancel">取消</string>
     <string name="edit">编辑</string>
     <string name="theme_set_for_all">设定为默认</string>
-    <string name="theme_set_for_one">设定给某人</string>
+    <string name="theme_set_for_one">设定给联系人</string>
     <string name="select_contacts">选择联系人</string>
 
     <string name="boost_plus_exiting">结束中…</string>
@@ -111,6 +111,29 @@
     <string name="result_page_theme_recommend_optimal">应用成功</string>
     <string name="result_page_theme_recommend_more">发现更多的主题</string>
 
+
+
+    <string name="random_theme_guide_title">每天享受不同的来电主题</string>
+    <string name="random_theme_guide_desc">您可以在设置中关闭随机模式</string>
+    <string name="alert_turn_off_random_desc">关闭了随机模式，您就无法享受每天不同的来电主题。</string>
+    <string name="random_mode">随机模式</string>
+
+
+    <string name="random_theme_guide_title2">每日主题是您的默认主题</string>
+    <string name="random_theme_guide_desc2">您能每天享受不同的来电界面。</string>
+    <string name="random_theme_guide_ok_btn">知道了</string>
+
+    <string name="alert_turn_off_random_title">您确定要将此主题应用给所有人吗？</string>
+    <string name="alert_turn_off_random_desc_beset">您正在使用每日主题。如果您将此主题应用给所有联系人，您将不能享受到每天不同的来电界面。</string>
+    <string name="alert_button_keep_random_mode">保留每日主题</string>
+    <string name="alert_button_continue">是，继续应用</string>
+
+
+    <string name="guide_weather_hint">包含天气预报</string>
+    <string name="network_err_msg">网络连接不可用</string>
+
+    <string name="weather_forecast">天气预报</string>
+    <string name="weather_push_content">接听电话就可获取天气详情</string>
 
     <!-- News -->
     <string name="news_network_err">网络连接不可用</string>

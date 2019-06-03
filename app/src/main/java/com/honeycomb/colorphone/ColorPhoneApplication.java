@@ -52,6 +52,7 @@ import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
+import com.honeycomb.colorphone.weather.WeatherPushManager;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
@@ -70,6 +71,8 @@ import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.util.Dimensions;
+import com.superapps.phonestate.PhoneStateManager;
+import com.superapps.util.Commons;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -168,6 +171,9 @@ public class ColorPhoneApplication extends HSApplication {
             }
         }, "Permission_Check_Above23_FirstSessionEnd");
 
+        // Just ensure phone state not listen.
+        PhoneStateManager.getInstance().listenPhoneState();
+
         if (mDailyLogger != null) {
             mDailyLogger.checkAndLog();
         }
@@ -184,6 +190,7 @@ public class ColorPhoneApplication extends HSApplication {
             ADAutoPilotUtils.logAutopilotEventToFaric();
 
             TriviaTip.cacheImagesFirstTime();
+
         }
     };
 
@@ -195,6 +202,7 @@ public class ColorPhoneApplication extends HSApplication {
 
     private static boolean isFabricInitted;
     public static long launchTime;
+
     public static boolean isAppForeground() {
         return !activityStack.isEmpty();
     }
@@ -347,6 +355,7 @@ public class ColorPhoneApplication extends HSApplication {
 
         watchLifeTimeAutopilot();
 
+        WeatherPushManager.getInstance().updateWeatherIfNeeded();
     }
 
     private void delayInitOnFirstLaunch() {
@@ -383,6 +392,8 @@ public class ColorPhoneApplication extends HSApplication {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Theme.updateThemes();
+                WeatherPushManager.getInstance().onAutoPilotDataInit();
+
             }
         }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(this), null);
     }
@@ -408,17 +419,22 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void doCopyTheme(int id, String fileName) {
-        final File file = new File(FileUtils.getMediaDirectory(), "Mp4_" + (id - 2));
+        String targetFileName = "Mp4_" + (id - 2);
+        doCopyTheme(targetFileName, fileName);
+    }
+
+    private void doCopyTheme(String targetFileName, String srcfileName) {
+        final File file = new File(FileUtils.getMediaDirectory(), targetFileName);
         try {
             if (!(file.isFile() && file.exists())) {
                 Utils.copyAssetFileTo(getApplicationContext(),
-                        fileName, file);
-                HSLog.d("CopyFile", fileName + " copy ok");
+                        srcfileName, file);
+                HSLog.d("CopyFile", srcfileName + " copy ok");
             }
         } catch (Exception e) {
             e.printStackTrace();
             boolean result = file.delete();
-            HSLog.d("CopyFile", fileName + " deleted " + result);
+            HSLog.d("CopyFile", srcfileName + " deleted " + result);
         }
     }
 
@@ -500,13 +516,18 @@ public class ColorPhoneApplication extends HSApplication {
         screenFilter.setPriority(SYSTEM_HIGH_PRIORITY);
 
         BroadcastCenter.register(this, new BroadcastListener() {
+
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                     ScreenStatusReceiver.onScreenOff(context);
                 } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                     ScreenStatusReceiver.onScreenOn(context);
+                    if (!Commons.isKeyguardLocked(getApplicationContext(), true)) {
+                        tryShowWeather(false);
+                    }
                 } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+                    tryShowWeather(true);
                     ScreenStatusReceiver.onUserPresent(context);
 
                     int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -536,13 +557,16 @@ public class ColorPhoneApplication extends HSApplication {
         }, screenFilter);
     }
 
+    private void tryShowWeather(boolean hasLockGuard) {
+        WeatherPushManager.getInstance().push(this, hasLockGuard);
+    }
+
     private void systemFix() {
         // Fix crash: NoClassDefFoundError: android.os.AsyncTask
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             try {
                 Class.forName("android.os.AsyncTask");
-            }
-            catch(Throwable ignore) {
+            } catch (Throwable ignore) {
                 // ignored
             }
         }
@@ -599,7 +623,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private static void checkExpressAd(String adName, boolean enable) {
-        HSLog.d("AD_CHECK_express", "Name = " + adName + ", enable = " + enable );
+        HSLog.d("AD_CHECK_express", "Name = " + adName + ", enable = " + enable);
         if (enable) {
             AcbExpressAdManager.getInstance().activePlacementInProcess(adName);
         } else {
@@ -608,7 +632,7 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private static void checkNativeAd(String adName, boolean enable) {
-        HSLog.d("AD_CHECK_native", "Name = " + adName + ", enable = " + enable );
+        HSLog.d("AD_CHECK_native", "Name = " + adName + ", enable = " + enable);
         if (enable) {
             AcbNativeAdManager.getInstance().activePlacementInProcess(adName);
         } else {
@@ -636,7 +660,8 @@ public class ColorPhoneApplication extends HSApplication {
         if (alarmMgr != null) {
             try {
                 alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, timeInMillis, DateUtils.DAY_IN_MILLIS, pendingIntent);
-            } catch (NullPointerException ingore) {}
+            } catch (NullPointerException ingore) {
+            }
         }
     }
 
@@ -681,7 +706,7 @@ public class ColorPhoneApplication extends HSApplication {
         HSConfig.fetchRemote();
         if (Utils.isNewUser()) {
             if (!HSPreferenceHelper.getDefault().contains(PREF_KEY_New_User_User_Level_LOGGED)) {
-                int delayTimes [] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
+                int delayTimes[] = {20, 40, 65, 95, 125, 365, 1850, 7300, 11000};
                 for (int delay : delayTimes) {
                     new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
