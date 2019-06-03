@@ -289,7 +289,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         logOpenEvent = true;
         HSLog.i(NewsManager.TAG, "initMainViewOpen e: " + logOpenEvent + "  ei: " + logOpenEventInit);
-        Utils.configActivityStatusBar(this, toolbar, 0);
     }
 
     private void initTabs() {
