@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:targetApi="m">
+  <!-- TODO(calderwoodra): Delete this once new call log and new voicemail ship. -->
+  <!-- Ideally we would make a callLogCardStyle attribute but we don't want to expand dialer/app -->
+
+  <style name="Dialer" parent="Theme.AppCompat.Light">
+
+  </style>
+  <style name="Dialer.ThemeBase">
+    <!-- These values should be used to color all backgrounds. -->
+    <item name="android:colorBackground">@color/dialer_background_color</item>
+    <item name="android:colorBackgroundFloating" >@android:color/white</item>
+
+    <!-- These values should be used to set text color. -->
+    <!--<item name="android:textColorPrimary">@color/dialer_primary_text_color</item>-->
+    <!--<item name="android:textColorSecondary">@color/dialer_secondary_text_color</item>-->
+    <item name="android:textColorPrimaryInverse">@color/google_grey_300</item>
+    <item name="android:textColorSecondaryInverse">@color/google_grey_400</item>
+    <item name="android:textColorHint">@color/google_grey_600</item>
+
+    <!-- These will be automatically used to color most Appcompat/Material widgets. -->
+    <item name="android:colorPrimary">@color/dialer_theme_color</item>
+    <item name="colorPrimary">@color/dialer_theme_color</item>
+    <item name="android:colorPrimaryDark">@color/dialer_theme_color_dark</item>
+    <item name="colorPrimaryDark">@color/dialer_theme_color_dark</item>
+    <item name="android:colorAccent">@color/dialer_secondary_color</item>
+    <item name="colorAccent">@color/dialer_secondary_color</item>
+
+    <!-- Used to automatically style check/selected checkbox, switches and radio buttons -->
+    <item name="colorControlActivated">?android:attr/colorPrimary</item>
+
+    <!-- Dialer specific attributes. -->
+    <item name="colorIcon">@color/google_grey_700</item>
+    <item name="colorIconSecondary">@color/google_grey_400</item>
+    <item name="colorTextOnUnthemedDarkBackground">@android:color/white</item>
+    <item name="colorIconOnUnthemedDarkBackground">@android:color/white</item>
+    <item name="colorMobileTerminatingChatText">@color/google_grey_900</item>
+    <item name="colorMobileTerminatingChatBackground">@color/google_grey_100</item>
+    <item name="colorMobileOriginatingChatText">@color/google_blue_900</item>
+    <item name="colorMobileOriginatingChatBackground">@color/google_blue_100</item>
+    <item name="colorPrimary20pct">@color/dialer_theme_color_20pct</item>
+  </style>
+
+
+  <style name="CallLogCardStyle" parent="CardView">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_margin">4dp</item>
+    <item name="android:baselineAligned">false</item>
+    <item name="cardCornerRadius">2dp</item>
+    <item name="cardBackgroundColor">?android:attr/colorBackgroundFloating</item>
+  </style>
+
+  <style name="Theme.InCallScreen" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:navigationBarColor">@android:color/transparent</item>
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    <item name="dialpad_key_button_touch_tint">?attr/colorPrimary20pct</item>
+    <item name="dialpad_style">@style/InCallDialpad</item>
+    <item name="android:windowBackground">@drawable/incall_background_gradient</item>
+    <item name="android:windowShowWallpaper">true</item>
+  </style>
+
+  <style name="Theme.InCallScreen.IncomingCall">
+    <item name="android:windowShowWallpaper">false</item>
+  </style>
+
+  <!-- This Checkbox style helps align checkboxes with the common list element layout(Image + text) -->
+  <style name="DialerCheckboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+    <item name="android:layout_marginStart">20dp</item>
+    <item name="android:paddingLeft">12dp</item>
+  </style>
+
+  <style name="Theme.Incall.DialogHolder" parent="Theme.AppCompat.Dialog">
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:windowActivityTransitions">false</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:navigationBarColor">@android:color/transparent</item>
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+  </style>
+</resources>

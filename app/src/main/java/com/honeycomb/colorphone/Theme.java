@@ -162,7 +162,7 @@ public class Theme extends Type {
     }
 
     public void setSelected(boolean selected) {
-        HSLog.d("AP-ScreenFlash", getIdName() + " setSelected " + selected);
+        HSLog.d("ConfigEvent-ScreenFlash", getIdName() + " setSelected " + selected);
         isSelected = selected;
     }
 
@@ -331,7 +331,7 @@ public class Theme extends Type {
     }
 
     public void setPendingSelected(boolean pendingSelected) {
-        HSLog.d("AP-ScreenFlash", getIdName() + " setPendingSelected " + pendingSelected);
+        HSLog.d("ConfigEvent-ScreenFlash", getIdName() + " setPendingSelected " + pendingSelected);
         this.pendingSelected = pendingSelected;
     }
 

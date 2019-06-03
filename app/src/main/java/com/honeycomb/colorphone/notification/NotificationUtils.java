@@ -27,6 +27,9 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.GuideApplyThemeActivity;
 import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
+import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
+import com.honeycomb.colorphone.notification.permission.PermissionUtils;
+import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -90,6 +93,10 @@ public class NotificationUtils {
 
     private static boolean isInsideAppAccessAlertEnabled(Context context) {
         if (!NotificationConfig.isInsideAppAccessAlertOpen()) {
+            return false;
+        }
+
+        if (DefaultPhoneUtils.isDefaultPhone()) {
             return false;
         }
 

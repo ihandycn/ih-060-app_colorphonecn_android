@@ -62,7 +62,17 @@ android {
     sourceSets {
         main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
-            res.srcDirs = ['src/main/res']
+            res.srcDirs = ['src/main/res',
+                           'src/main/java/com/honeycomb/colorphone/telecomeventui/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/notification/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/lettertile/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/commontheme/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/impl/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/contactgrid/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/dialpadview/res',
+                           'src/main/java/com/honeycomb/colorphone/dialer/theme/res',
+
+                           'src/main/java/com/honeycomb/colorphone/dialer/res']
             assets.srcDirs = ['src/main/assets']
             java.srcDirs = ['src/main/java']
         }

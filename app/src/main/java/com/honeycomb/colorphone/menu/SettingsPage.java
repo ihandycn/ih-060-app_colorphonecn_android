@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.menu;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.SwitchCompat;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.GuideRandomCloseActivity;
 import com.honeycomb.colorphone.activity.LedFlashSettingsActivity;
 import com.honeycomb.colorphone.activity.SettingsActivity;
+import com.honeycomb.colorphone.dialer.ConfigEvent;
+import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.theme.RandomTheme;
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.honeycomb.colorphone.util.Utils;
@@ -35,6 +38,7 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
      * Mark for random toggle click
      */
     private boolean userTriggerRandom = true;
+    private SwitchCompat defaultDialer;
 
 
     public void initPage(View rootView) {
@@ -56,6 +60,26 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
                 LauncherAnalytics.logEvent("ColorPhone_Settings_Enable_Icon_Clicked", "type", isChecked ? "on" : "off");
             }
         });
+
+        defaultDialer = rootView.findViewById(R.id.default_dialer_switch);
+        if (ConfigEvent.dialerEnable()) {
+            defaultDialer.setVisibility(View.VISIBLE);
+            defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
+            defaultDialer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (isChecked) {
+                            DefaultPhoneUtils.checkDefaultPhoneSettings();
+                        } else {
+                            DefaultPhoneUtils.resetDefaultPhone();
+                        }
+                    }
+                }
+            });
+        } else {
+            defaultDialer.setVisibility(View.GONE);
+        }
 
 //        boolean randomThemeSwitch = false;
 //        rootView.findViewById(R.id.settings_random_theme)
@@ -115,6 +139,12 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
         if (randomSwitch != null) {
             userTriggerRandom = false;
             randomSwitch.setChecked(RandomTheme.getInstance().userSettingsEnable());
+        }
+    }
+
+    public void onFocusChanged() {
+        if (defaultDialer != null) {
+            defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
         }
     }
 
