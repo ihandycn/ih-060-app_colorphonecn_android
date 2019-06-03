@@ -255,7 +255,7 @@ dependencies {
     //  -------- GoldEye ------
     colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.05.14.001'
 
-    compile 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta04'
+    compile 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta06'
     compile 'com.android.volley:volley:1.1.1'
     compile 'com.gavin.com.library:stickyDecoration:1.4.13'
 
