@@ -3,7 +3,6 @@ package com.honeycomb.colorphone.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,28 +10,24 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.bumptech.glide.Glide;
-import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -44,8 +39,8 @@ import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
-import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.news.NewsFrame;
+import com.honeycomb.colorphone.news.NewsManager;
 import com.honeycomb.colorphone.news.NewsTest;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
@@ -77,8 +72,6 @@ import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
-
-import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -131,8 +124,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean mIsHandsDown = false;
     private boolean mIsFirstScrollThisTimeHandsDown = true;
     public static final int SCROLL_STATE_DRAGGING = 1;
-
-    private Toolbar toolbar;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -480,12 +471,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         weatherView.setOuterMainLayout(mDrawerLayout);
         weatherView.setOuterIconView(weatherIcon);
         weatherView.setWeatherHeight(weatherHeight);
-        View drawerDelegateToggleView = findViewById(R.id.toolbar_delegate_toggle_button);
-        drawerDelegateToggleView.setVisibility(View.GONE);
         weatherView.setOnWeatherVisibleListener(new WeatherView.OnWeatherVisibleListener() {
             @Override
             public void onVisibleChange(boolean visible) {
-                drawerDelegateToggleView.setVisibility(visible ? View.VISIBLE : View.GONE);
                 if (visible) {
                     if (!Networks.isNetworkAvailable(-1)) {
                         Toasts.showToast(R.string.network_err_msg);
@@ -498,13 +486,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 }
             }
         });
-        drawerDelegateToggleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                weatherView.toggle();
-            }
-        });
-
 
         weatherIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -604,7 +585,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 LauncherAnalytics.logEvent("Colorphone_List_Page_Notification_Alert_Show");
             }
         }
-        AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
         if (!showAllFeatureGuide && isCreate) {
             dispatchPermissionRequest();
         }
