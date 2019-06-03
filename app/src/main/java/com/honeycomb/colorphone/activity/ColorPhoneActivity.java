@@ -468,6 +468,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         rootContainer.addView(weatherView, 0, weatherParams);
         weatherIcon = findViewById(R.id.toolbar_weather_icon);
+        weatherView.setCoverColor(getResources().getColor(R.color.colorWindowBackground));
         weatherView.setOuterMainLayout(mainLayoutGroup);
         weatherView.setOuterIconView(weatherIcon);
         weatherView.setWeatherHeight(weatherHeight);

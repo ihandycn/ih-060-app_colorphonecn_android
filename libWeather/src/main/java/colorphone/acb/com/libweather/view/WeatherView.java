@@ -20,7 +20,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
@@ -694,6 +696,15 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
         mOuterMainLayout = outerMainLayout;
     }
 
+    public void setCoverColor(@ColorInt int color) {
+        if (isLightColor(color)) {
+            mWeatherFooterBgView.setVisibility(GONE);
+        } else {
+            mWeatherFooterBgView.setVisibility(VISIBLE);
+        }
+        mWeatherForegroundView.setBackgroundColor(color);
+    }
+
     public void ensureOuterIconTransData() {
         if (mCloseBtn.getWidth() != 0 && mOuterIconTrans[0] == 0) {
             int[] outerIconLocation = new int[2];
@@ -995,4 +1006,10 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
             mCurrentPage = newPage;
         }
     }
+
+
+    private static boolean isLightColor(@ColorInt int color) {
+        return ColorUtils.calculateLuminance(color) >= 0.5;
+    }
+
 }
