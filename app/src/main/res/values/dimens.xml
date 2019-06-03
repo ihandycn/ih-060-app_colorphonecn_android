@@ -112,4 +112,5 @@
 
     <dimen name="news_push_pop_menu_offset_x">80dp</dimen>
     <dimen name="news_push_pop_menu_to_top_height">32dp</dimen>
+    <dimen name="toolbar_height">48dp</dimen>
 </resources>

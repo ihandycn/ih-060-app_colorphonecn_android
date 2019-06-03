@@ -22,7 +22,6 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -150,7 +149,7 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
     private boolean weatherViewInShow;
     private int mWeatherHeight;
 
-    private DrawerLayout mOuterMainLayout;
+    private View mOuterMainLayout;
     private View mOuterIconView;
     private int[] mOuterIconTrans = new int[2];
     private OnWeatherVisibleListener mOnWeatherVisibleListener;
@@ -691,12 +690,8 @@ public class WeatherView extends FrameLayout implements  LoaderManager.LoaderCal
         outerIconView.setTranslationY(mOuterIconTrans[1] * sizeFraction);
     }
 
-    public void setOuterMainLayout(DrawerLayout outerMainLayout) {
+    public void setOuterMainLayout(View outerMainLayout) {
         mOuterMainLayout = outerMainLayout;
-    }
-
-    public DrawerLayout getOuterMainLayout() {
-        return mOuterMainLayout;
     }
 
     public void ensureOuterIconTransData() {

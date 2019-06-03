@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_container_framelayout"
+    android:id="@+id/main_container_framelayout">
+
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="@dimen/toolbar_height"
         android:gravity="center_vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -92,17 +98,20 @@
         tools:ignore="SmallSp"
         />
 
+</android.support.constraint.ConstraintLayout>
+
+
     <ImageButton
         android:id="@+id/toolbar_weather_icon"
+        android:layout_marginTop="8dp"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:background="@drawable/bg_round_material_compat"
         android:padding="4dp"
+        android:layout_gravity="end|top"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:scaleType="centerInside"
-        android:src="@drawable/weather_cloudy"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        android:src="@drawable/weather_cloudy" />
 
+</FrameLayout>

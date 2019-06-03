@@ -10,8 +10,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -99,6 +97,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final String MAIN_TAB_KEY = "tabKey";
 
     private static final int EVENT_CLICK_TOOLBAR = 43020;
+    private View mainLayoutGroup;
 
     public static void startWeatherPage(Context context) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -167,8 +166,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean showAllFeatureGuide = false;
     private boolean isCreate = false;
     private SettingsPage mSettingsPage = new SettingsPage();
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, ColorPhoneActivity.class);
@@ -452,7 +449,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     }
 
-    private ViewGroup main_container;
+    private ViewGroup rootContainer;
     private WeatherView weatherView;
     private ImageButton weatherIcon;
     private void initWeather() {
@@ -462,13 +459,14 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         int weatherHeight = WeatherContentUtils.getWeatherWindowHeight();
         HSLog.d("Weather", "content height = " + weatherHeight);
 
-        main_container = findViewById(R.id.main_container_framelayout);
+        rootContainer = findViewById(R.id.main_container_framelayout);
+        mainLayoutGroup = findViewById(R.id.main_content);
 
         weatherView = new WeatherView(ColorPhoneActivity.this);
         FrameLayout.LayoutParams weatherParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        main_container.addView(weatherView, 0, weatherParams);
+        rootContainer.addView(weatherView, 0, weatherParams);
         weatherIcon = findViewById(R.id.toolbar_weather_icon);
-        weatherView.setOuterMainLayout(mDrawerLayout);
+        weatherView.setOuterMainLayout(mainLayoutGroup);
         weatherView.setOuterIconView(weatherIcon);
         weatherView.setWeatherHeight(weatherHeight);
         weatherView.setOnWeatherVisibleListener(new WeatherView.OnWeatherVisibleListener() {
@@ -505,9 +503,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             params.topMargin += statusBarInset;
             weatherIcon.requestLayout();
 
-            ViewGroup.MarginLayoutParams drawParams = (ViewGroup.MarginLayoutParams) mDrawerLayout.getLayoutParams();
+            ViewGroup.MarginLayoutParams drawParams = (ViewGroup.MarginLayoutParams) mainLayoutGroup.getLayoutParams();
             drawParams.topMargin += statusBarInset;
-            mDrawerLayout.requestLayout();
+            mainLayoutGroup.requestLayout();
         }
 
         if (mWeatherPageNeedFirstShow) {
