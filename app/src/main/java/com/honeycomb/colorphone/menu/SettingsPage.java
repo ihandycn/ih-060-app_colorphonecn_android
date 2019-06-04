@@ -45,9 +45,6 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
         mainSwitch = rootView.findViewById(R.id.main_switch);
         mainSwitchTxt = rootView.findViewById(R.id.settings_main_switch_txt);
 
-        rootView.findViewById(R.id.settings_default_dialer_switch)
-                .setVisibility(View.GONE);
-
         initCheckState = ScreenFlashSettings.isScreenFlashModuleEnabled();
         mainSwitch.setChecked(initCheckState);
         mainSwitchTxt.setText(getString(initCheckState ? R.string.color_phone_enabled : R.string.color_phone_disable));
@@ -61,25 +58,25 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
             }
         });
 
+
+        rootView.findViewById(R.id.settings_default_dialer_switch)
+                .setVisibility(ConfigEvent.dialerEnable() ? View.VISIBLE : View.GONE);
+
         defaultDialer = rootView.findViewById(R.id.default_dialer_switch);
-        if (ConfigEvent.dialerEnable()) {
-            defaultDialer.setVisibility(View.VISIBLE);
-            defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
-            defaultDialer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (isChecked) {
-                            DefaultPhoneUtils.checkDefaultPhoneSettings();
-                        } else {
-                            DefaultPhoneUtils.resetDefaultPhone();
-                        }
+        defaultDialer.setVisibility(View.VISIBLE);
+        defaultDialer.setChecked(DefaultPhoneUtils.isDefaultPhone());
+        defaultDialer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (isChecked) {
+                        DefaultPhoneUtils.checkDefaultPhoneSettings();
+                    } else {
+                        DefaultPhoneUtils.resetDefaultPhone();
                     }
                 }
-            });
-        } else {
-            defaultDialer.setVisibility(View.GONE);
-        }
+            }
+        });
 
 //        boolean randomThemeSwitch = false;
 //        rootView.findViewById(R.id.settings_random_theme)
