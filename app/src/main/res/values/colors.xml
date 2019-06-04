@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorAccentContact">#ffb22c</color>
-    <color name="colorControlNormal">#999999</color>
     <color name="colorAccentDark">#baaa00</color>
     <color name="colorMaskDark">#22000000</color>
     <color name="black_trans_half">#88000000</color>
