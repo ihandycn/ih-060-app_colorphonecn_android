@@ -17,7 +17,7 @@ public class ConfigEvent {
 
     private static boolean enabledThisVersion() {
         List<Integer> enableList = (List<Integer>) HSConfig.getList("Application", "Dialer", "EnableVersionList");
-        int versionCode = HSApplication.getFirstLaunchInfo().appVersionCode;
+        int versionCode = Build.VERSION.SDK_INT;
         if (enableList != null && enableList.contains(versionCode)) {
             return true;
         }
