@@ -367,12 +367,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return new StatementViewHolder(stateViewContent);
         } else if (viewType == THEME_SELECTOR_ITEM_TYPE_TIP) {
             View tipView = activity.getLayoutInflater().inflate(R.layout.notification_access_toast_layout, parent, false);
-            tipView.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff000000, Dimensions.pxFromDp(27), true));
+            tipView.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff000000, Dimensions.pxFromDp(27), false));
             tipView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 //                    PermissionChecker.getInstance().checkForcely(activity, "Banner");
                     StartGuideActivity.start(activity, StartGuideActivity.FROM_KEY_BANNER);
+                    Analytics.logEvent("List_Page_Permission_Alert_Click");
                 }
             });
             return new TopTipViewHolder(tipView);

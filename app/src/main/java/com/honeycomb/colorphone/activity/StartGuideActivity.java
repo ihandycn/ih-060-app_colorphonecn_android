@@ -110,7 +110,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     showAccessibilityPermissionPage();
                 });
                 Analytics.logEvent("ColorPhone_StartGuide_Show");
-                Analytics.logEvent("FixAlert_Show", "From", from);
             }
         }
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
@@ -191,17 +190,27 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 holder.setCircleAnimView(R.id.start_guide_confirm_number);
                 holder.startCircleAnimation();
 
-                View skip = view.findViewById(R.id.start_guide_confirm_skip);
-                skip.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
+                if (TextUtils.equals(from, FROM_KEY_START)) {
+                    view.findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
+                    View skip = view.findViewById(R.id.start_guide_confirm_skip);
+                    skip.setVisibility(View.VISIBLE);
+                    skip.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
 
-                skip.setOnClickListener(v -> {
-                    if (TextUtils.equals(from, FROM_KEY_START)) {
+                    skip.setOnClickListener(v -> {
                         finish();
-                    } else {
+                        Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
+                    });
+                } else {
+                    view.findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
+                    View close = view.findViewById(R.id.start_guide_confirm_close);
+                    close.setVisibility(View.VISIBLE);
+                    close.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
+
+                    close.setOnClickListener(v -> {
                         showSkipDialog();
-                    }
-                    Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
-                });
+                        Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
+                    });
+                }
 
                 View oneKeyFix = view.findViewById(R.id.start_guide_confirm_fix);
                 oneKeyFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
@@ -215,6 +224,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
 
                 Analytics.logEvent("FixAlert_Show",
+                        "From", from,
                         "Brand", AutoLogger.getBrand(),
                         "Os", AutoLogger.getOSVersion(),
                         "AccessType", AutoLogger.getPermissionString(RomUtils.checkIsHuaweiRom()));

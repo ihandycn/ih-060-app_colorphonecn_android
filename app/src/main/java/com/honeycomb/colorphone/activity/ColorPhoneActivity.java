@@ -606,7 +606,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         boolean isNearSession = Math.abs(sessionPast) < 2000;
         if (isNearSession) {
             if (mAdapter != null && mAdapter.isTipHeaderVisible()) {
-                Analytics.logEvent("List_Page_Notification_Alert_Show");
+                Analytics.logEvent("List_Page_Permission_Alert_Show");
             }
         }
         AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
