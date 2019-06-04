@@ -40,6 +40,7 @@ import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
+import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.boost.BoostStarterActivity;
 import com.honeycomb.colorphone.cmgame.CmGameUtil;
 import com.honeycomb.colorphone.contact.ContactManager;
@@ -610,7 +611,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
         if (!showAllFeatureGuide) {
-            dispatchPermissionRequest();
+//            dispatchPermissionRequest();
         }
         if (!showAllFeatureGuide) {
             isCreate = false;
@@ -907,7 +908,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void updatePermissionHeader() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT &&
-                PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                !AutoRequestManager.getInstance().isGrantAllPermission()) {
+//                PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
             mAdapter.setHeaderTipVisible(true);
         } else {
             mAdapter.setHeaderTipVisible(false);

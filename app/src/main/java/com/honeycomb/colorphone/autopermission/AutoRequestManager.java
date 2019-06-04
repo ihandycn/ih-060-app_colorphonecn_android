@@ -87,6 +87,7 @@ public class AutoRequestManager {
 
     private int mRetryCount = 0;
     private String from;
+    private String point;
     private WindowManager windowMgr;
     private boolean isCoverWindow = false;
     private boolean isRequestPermission = false;
@@ -106,12 +107,13 @@ public class AutoRequestManager {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     Analytics.logEvent("Accessbility_Granted",
+                            "From", point,
                             "Brand", AutoLogger.getBrand(),
                             "Os", AutoLogger.getOSVersion(),
                             "Time", String.valueOf(
                                     Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)));
 
-                    onAccessibilityReady();
+                    Analytics.logEvent(point);
 
                 }
             }, filter);
@@ -377,8 +379,9 @@ public class AutoRequestManager {
         mPermissionTester.startTest(HSApplication.getContext());
     }
 
-    public void startAutoCheck(@AUTO_PERMISSION_FROM String from) {
+    public void startAutoCheck(@AUTO_PERMISSION_FROM String from, String point) {
         this.from = from;
+        this.point = point;
 
         if (Utils.isAccessibilityGranted()) {
             AutoRequestManager.getInstance().onAccessibilityReady();

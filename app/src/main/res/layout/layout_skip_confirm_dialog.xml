@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/skip_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_gravity="center"
+    tools:background="@android:color/white">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:alpha="0.9"
+        android:textSize="20sp"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/gdpr_dialog_title"
+        app:typeface="@string/custom_font_semibold"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:alpha="0.9"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
+        android:lineSpacingExtra="8dp"
+        android:text="@string/gdpr_dialog_content"
+        app:typeface="@string/custom_font_semibold"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintTop_toBottomOf="@id/title"/>
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/tv_ok"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:text="@string/gdpr_dialog_not_now"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        app:typeface="@string/custom_font_semibold"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toEndOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/message"
+        tools:background="#ff6c63ff"/>
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/tv_turn_off"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#ff696681"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/gdpr_dialog_turn_off"
+        android:background="@drawable/material_compat_bg"
+        app:typeface="@string/custom_font_semibold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_ok"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

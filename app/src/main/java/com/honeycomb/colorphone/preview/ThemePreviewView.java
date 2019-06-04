@@ -46,6 +46,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
+import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemeSetHelper;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -67,6 +68,7 @@ import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -89,7 +91,7 @@ import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEM
  */
 
 // TODO : clean Theme & Ringtone logic
-public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageChangeListener {
+public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageChangeListener, INotificationObserver {
 
     private static final String TAG = ThemePreviewWindow.class.getSimpleName();
 
@@ -299,6 +301,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     };
     private boolean mWaitContactResult;
+    private boolean mWaitForAll;
 
     public static void saveThemeApplys(int themeId) {
         if (isThemeAppliedEver(themeId)) {
@@ -447,52 +450,60 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     return;
                 }
                 if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
-                }
-
-                if (!mTheme.hasRingtone()) {
-                    onThemeApply();
+//                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
+                    StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
+                    mWaitForAll = true;
                 } else {
-                    showNavView(false);
-                    fadeOutActionView();
-                    mRingtoneViewHolder.setApplyForAll(true);
-                    showRingtoneSetButton();
-                }
-
-                if (mActivity instanceof PopularThemePreviewActivity) {
-                    Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
-                    Analytics.logEvent("ColorPhone_BanboList_Set_Success");
-                } else {
-                    Analytics.logEvent("ThemeDetail_SetForAll");
-                    Analytics.logEvent("ThemeDetail_SetForAll_Success");
+                    onApplyForAll();
                 }
             }
         });
 
-        mApplyForOne.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
-                }
-
-                Analytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
-                if (mActivity instanceof PopularThemePreviewActivity) {
-                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
-                    Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
-                } else {
-                    Analytics.logEvent("ThemeDetail_SetForContact_Started");
-                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
-                }
-
-                mWaitContactResult = true;
-
+        mApplyForOne.setOnClickListener(v -> {
+            if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+//                PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
+                StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
+                mWaitForAll = false;
+            } else {
+                onApplyForOne();
             }
         });
         bottomBtnTransY = getTransBottomLayout().getTranslationY();
 
         mInter = new AccelerateDecelerateInterpolator();
 
+    }
+
+    private void onApplyForAll() {
+        if (!mTheme.hasRingtone()) {
+            onThemeApply();
+        } else {
+            showNavView(false);
+            fadeOutActionView();
+            mRingtoneViewHolder.setApplyForAll(true);
+            showRingtoneSetButton();
+        }
+
+        if (mActivity instanceof PopularThemePreviewActivity) {
+            Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
+            Analytics.logEvent("ColorPhone_BanboList_Set_Success");
+        } else {
+            Analytics.logEvent("ThemeDetail_SetForAll");
+            Analytics.logEvent("ThemeDetail_SetForAll_Success");
+        }
+    }
+
+    private void onApplyForOne() {
+        Analytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
+        if (mActivity instanceof PopularThemePreviewActivity) {
+            ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
+            Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
+        } else {
+            Analytics.logEvent("ThemeDetail_SetForContact_Started");
+            ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
+        }
+
+        mWaitContactResult = true;
     }
 
     private View getTransBottomLayout() {
@@ -1159,6 +1170,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         super.onAttachedToWindow();
         onStart();
+
+        HSGlobalNotificationCenter.addObserver(StartGuideActivity.NOTIFICATION_PERMISSION_GRANT, this);
     }
 
     @Override
@@ -1172,6 +1185,17 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mRewardVideoView.onCancel();
         }
         super.onDetachedFromWindow();
+        HSGlobalNotificationCenter.removeObserver(this);
+    }
+
+    @Override public void onReceive(String s, HSBundle hsBundle) {
+        if (TextUtils.equals(StartGuideActivity.NOTIFICATION_PERMISSION_GRANT, s)) {
+            if (mWaitForAll) {
+                onApplyForAll();
+            } else {
+                onApplyForOne();
+            }
+        }
     }
 
     @Override

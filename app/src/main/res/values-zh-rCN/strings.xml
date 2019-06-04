@@ -193,7 +193,8 @@
     <string name="notification_toolbar_flash_light">手电筒</string>
     <string name="notification_permission_toolbar_title">通知</string>
     <string name="phone_contact_permission_settings_guide_title">选择"权限"，然后开启"电话"、"通讯录"权限</string>
-    <string name="grant_access_to_optimize_experience">开启权限来接听电话</string>
+    <!--<string name="grant_access_to_optimize_experience">开启权限来接听电话</string>-->
+    <string name="grant_access_to_optimize_experience">检测到来电秀发生故障，请点击修复</string>
 
     <string name="default_dialer">默认电话</string>
 

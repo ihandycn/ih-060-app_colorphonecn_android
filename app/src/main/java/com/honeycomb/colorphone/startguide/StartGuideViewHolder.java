@@ -21,9 +21,9 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
-import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -88,29 +88,27 @@ public class StartGuideViewHolder implements INotificationObserver {
 
     private ImageView screenFlashOK;
     private LottieAnimationView screenFlashLoading;
-    private View screenFlashFix;
     private View screenFlashText;
     private boolean gotoFetchScreenFlash = false;
 
     private ImageView onLockerOK;
     private LottieAnimationView onLockerLoading;
-    private View onLockerFix;
     private View onLockerText;
     private boolean gotoFetchOnLock = false;
 
     private ImageView callOK;
     private LottieAnimationView callLoading;
-    private View callFix;
     private View callText;
     public boolean gotoFetchCall = false;
 
     private ImageView bgPopOK;
     private LottieAnimationView bgPopLoading;
-    private View bgPopFix;
     private View bgPopText;
     public boolean gotoFetchBgPop = false;
 
     private View oneKeyFix;
+    private View skip;
+    private boolean showSkipDialog = true;
 
     private TextView progress;
     private int progressNum;
@@ -184,46 +182,6 @@ public class StartGuideViewHolder implements INotificationObserver {
         bgPopLoading = container.findViewById(R.id.start_guide_permission_bg_pop_loading);
 
         if (isConfirmPage) {
-            screenFlashFix = container.findViewById(R.id.start_guide_permission_auto_start_fix);
-            screenFlashFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
-            screenFlashFix.setOnClickListener(v -> {
-                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_AUTO_START);
-                AutoLogger.logEventWithBrandAndOS("FixALert_AutoStart_Click");
-                gotoFetchScreenFlash = true;
-            });
-
-            onLockerFix = container.findViewById(R.id.start_guide_permission_onlocker_fix);
-            onLockerFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
-            onLockerFix.setOnClickListener(v -> {
-
-                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK);
-                AutoLogger.logEventWithBrandAndOS("FixALert_Lock_Click");
-                gotoFetchOnLock = true;
-            });
-
-            callFix = container.findViewById(R.id.start_guide_permission_call_fix);
-            callFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
-            callFix.setOnClickListener(v -> {
-                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
-                AutoLogger.logEventWithBrandAndOS("FixALert_NA_Click");
-                gotoFetchCall = true;
-            });
-
-            bgPopFix = container.findViewById(R.id.start_guide_permission_bg_pop_fix);
-            bgPopFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
-            bgPopFix.setOnClickListener(v -> {
-                AutoRequestManager.getInstance().openPermission(AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP);
-                AutoLogger.logEventWithBrandAndOS("FixALert_BgPop_Click");
-                gotoFetchBgPop = true;
-            });
-
-            oneKeyFix = container.findViewById(R.id.start_guide_confirm_fix);
-            oneKeyFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
-
-            oneKeyFix.setOnClickListener(v -> {
-                Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
-                AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX);
-            });
 
             refresh();
         } else {
@@ -439,31 +397,26 @@ public class StartGuideViewHolder implements INotificationObserver {
     private void setPermissionStatus(@PERMISSION_TYPES int pType, @PERMISSION_STATUS int pStatus) {
         ImageView ok;
         LottieAnimationView loading;
-        View fix;
         View text;
         switch (pType) {
             case TYPE_PERMISSION_TYPE_CALL:
                 ok = callOK;
                 loading = callLoading;
-                fix = callFix;
                 text = callText;
                 break;
             case TYPE_PERMISSION_TYPE_ON_LOCK:
                 ok = onLockerOK;
                 loading = onLockerLoading;
-                fix = onLockerFix;
                 text = onLockerText;
                 break;
             case TYPE_PERMISSION_TYPE_SCREEN_FLASH:
                 ok = screenFlashOK;
                 loading = screenFlashLoading;
-                fix = screenFlashFix;
                 text = screenFlashText;
                 break;
             case TYPE_PERMISSION_TYPE_BG_POP:
                 ok = bgPopOK;
                 loading = bgPopLoading;
-                fix = bgPopFix;
                 text = bgPopText;
                 break;
             default:
@@ -506,10 +459,8 @@ public class StartGuideViewHolder implements INotificationObserver {
                 }
                 break;
             case PERMISSION_STATUS_FIX:
-                if (fix != null) {
-                    ok.setVisibility(View.GONE);
-                    fix.setVisibility(View.VISIBLE);
-                }
+                ok.setVisibility(View.VISIBLE);
+                ok.setImageResource(R.drawable.start_guide_confirm_alert_image);
                 break;
             case PERMISSION_STATUS_LOADING:
                 if (lastStatus != PERMISSION_STATUS_OK) {
@@ -526,9 +477,6 @@ public class StartGuideViewHolder implements INotificationObserver {
                 ok.setImageResource(R.drawable.start_guide_confirm_alert_image);
                 if (loading != null) {
                     loading.setVisibility(View.GONE);
-                }
-                if (fix != null) {
-                    fix.setVisibility(View.GONE);
                 }
                 break;
             case PERMISSION_STATUS_OK:
@@ -592,9 +540,6 @@ public class StartGuideViewHolder implements INotificationObserver {
                     }
                 }
 
-                if (fix != null) {
-                    fix.setVisibility(View.GONE);
-                }
                 break;
         }
         ok.setTag(pStatus);

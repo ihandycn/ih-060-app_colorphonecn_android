@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
@@ -44,6 +45,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private static final String TAG = "AutoPermission";
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 1000;
     public static final String ACC_KEY_SHOW_COUNT = "key_acc_permission_count";
+    public static final String NOTIFICATION_PERMISSION_GRANT = "notification_permission_grant";
+    public static final String PREF_KEY_GUIDE_SHOW_WHEN_WELCOME = "pref_key_guide_show_when_welcome";
+    private static final String INTENT_KEY_FROM = "intent_key_from";
+    public static final String FROM_KEY_START = "Start";
+    public static final String FROM_KEY_APPLY = "Apply";
+    public static final String FROM_KEY_BANNER = "Banner";
 
     private String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
     private int permsCount = 0;
@@ -52,15 +59,28 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private StartGuideViewHolder holder;
     private AlertDialog dialog;
     private int permissionShowCount;
+    private String from;
 
-    public static void start(Context context) {
-        Intent starter = new Intent(context, StartGuideActivity.class);
-        Navigations.startActivitySafely(context, starter);
+    public static @Nullable Intent getIntent(Context context, String from) {
+        if (RomUtils.checkIsMiuiRom()
+                || RomUtils.checkIsHuaweiRom()) {
+            Intent starter = new Intent(context, StartGuideActivity.class);
+            starter.putExtra(INTENT_KEY_FROM, from);
+            return starter;
+        } else {
+            return null;
+        }
+    }
+
+    public static void start(Context context, String from) {
+        Intent intent = getIntent(context, from);
+        if (intent != null) {
+            Navigations.startActivitySafely(context, intent);
+        }
     }
 
     public static boolean isStarted() {
-        return false;
-//       return HSPreferenceHelper.getDefault().getBoolean("guide_locker_stated", false);
+        return Preferences.getDefault().contains(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME);
     }
 
     @Override
@@ -69,6 +89,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         setContentView(R.layout.start_guide_all_features);
         StatusBarUtils.hideStatusBar(this);
         permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).getInt(ACC_KEY_SHOW_COUNT, 0);
+
+        from = getIntent().getStringExtra(INTENT_KEY_FROM);
+        if (TextUtils.isEmpty(from)) {
+            from = FROM_KEY_START;
+        }
 
         TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
         if (Utils.isAccessibilityGranted() || isRetryEnd()) {
@@ -85,9 +110,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     showAccessibilityPermissionPage();
                 });
                 Analytics.logEvent("ColorPhone_StartGuide_Show");
+                Analytics.logEvent("FixAlert_Show", "From", from);
             }
         }
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
+
+        Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
     }
 
     @Override
@@ -147,6 +175,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             view.setScaleY(0);
             view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator(3)).start();
 
+            Analytics.logEvent("Congratulation_Page_Shown_From_" + from);
+
             AutoLogger.logEventWithBrandAndOS("Congratulation_Page_Shown");
             Threads.postOnMainThreadDelayed(this::finish, 2000);
         } else {
@@ -161,6 +191,29 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 holder.setCircleAnimView(R.id.start_guide_confirm_number);
                 holder.startCircleAnimation();
 
+                View skip = view.findViewById(R.id.start_guide_confirm_skip);
+                skip.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
+
+                skip.setOnClickListener(v -> {
+                    if (TextUtils.equals(from, FROM_KEY_START)) {
+                        finish();
+                    } else {
+                        showSkipDialog();
+                    }
+                    Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
+                });
+
+                View oneKeyFix = view.findViewById(R.id.start_guide_confirm_fix);
+                oneKeyFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
+
+                oneKeyFix.setOnClickListener(v -> {
+                    Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
+                    AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX);
+
+                    Analytics.logEvent("FixAlert_Ok_Click", "From", from);
+                });
+
+
                 Analytics.logEvent("FixAlert_Show",
                         "Brand", AutoLogger.getBrand(),
                         "Os", AutoLogger.getOSVersion(),
@@ -170,6 +223,38 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 showConfirmDialog(confirmPermission);
             }
         }
+    }
+
+    private void showSkipDialog() {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+
+        View view = getLayoutInflater().inflate(R.layout.layout_skip_confirm_dialog, null);
+
+        View bgView = view.findViewById(R.id.skip_layout);
+        bgView.setBackground(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
+        View btn = view.findViewById(R.id.tv_ok);
+        btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
+        btn.setOnClickListener(v -> {
+            dismissDialog();
+            Analytics.logEvent("FixAlert_Retain_Ok_Click", "From", from);
+        });
+
+        btn = view.findViewById(R.id.tv_turn_off);
+        btn.setOnClickListener(v -> {
+            dismissDialog();
+            finish();
+        });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog);
+        builder.setCancelable(false);
+        builder.setView(view);
+        dialog = builder.create();
+
+        showDialog(dialog);
+
+        Analytics.logEvent("FixAlert_Retain_Show", "From", from);
     }
 
     private void showConfirmDialog(int confirmPermission) {

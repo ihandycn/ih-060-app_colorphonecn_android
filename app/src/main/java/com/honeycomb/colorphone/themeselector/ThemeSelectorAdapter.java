@@ -40,13 +40,13 @@ import com.honeycomb.colorphone.WatchedScrollListener;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.PopularThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
+import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.download.DownloadHolder;
 import com.honeycomb.colorphone.download.DownloadViewHolder;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationUtils;
-import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -59,6 +59,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
 import java.io.File;
@@ -366,10 +367,12 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return new StatementViewHolder(stateViewContent);
         } else if (viewType == THEME_SELECTOR_ITEM_TYPE_TIP) {
             View tipView = activity.getLayoutInflater().inflate(R.layout.notification_access_toast_layout, parent, false);
+            tipView.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff000000, Dimensions.pxFromDp(27), true));
             tipView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PermissionChecker.getInstance().checkForcely(activity, "Banner");
+//                    PermissionChecker.getInstance().checkForcely(activity, "Banner");
+                    StartGuideActivity.start(activity, StartGuideActivity.FROM_KEY_BANNER);
                 }
             });
             return new TopTipViewHolder(tipView);
@@ -420,11 +423,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         boolean startDownload = holder.startDownload();
         if (startDownload) {
             theme.setPendingSelected(true);
-            PermissionChecker.getInstance().check((Activity) activity, "List");
+//            PermissionChecker.getInstance().check((Activity) activity, "List");
+            StartGuideActivity.start(activity, StartGuideActivity.FROM_KEY_APPLY);
         } else {
             if (selectTheme(pos, holder, true)) {
                 onThemeSelected(pos);
-                PermissionChecker.getInstance().check(activity, "SetForAll");
+//                PermissionChecker.getInstance().check(activity, "SetForAll");
+                StartGuideActivity.start(activity, StartGuideActivity.FROM_KEY_APPLY);
             }
         }
 
