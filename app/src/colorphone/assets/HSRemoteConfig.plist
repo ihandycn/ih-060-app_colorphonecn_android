@@ -6,23 +6,126 @@
 	<dict>
 		<key>Application</key>
 		<dict>
-			<key>Dialer</key>
+			<key>Boost</key>
 			<dict>
+				<key>Enable</key>
+				<false/>
+			</dict>
+			<key>CallFinishWire</key>
+			<dict>
+				<key>Enable</key>
+				<false/>
 				<key>EnableVersionList</key>
 				<array>
-					<string>28</string>
-					<string>29</string>
+					<integer>0</integer>
 				</array>
+				<key>Maxtime</key>
+				<integer>1000</integer>
+			</dict>
+			<key>Charging</key>
+			<dict>
+				<key>ChargingLockScreen</key>
+				<dict>
+					<key>Enable</key>
+					<dict>
+						<key>After</key>
+						<false/>
+						<key>Before</key>
+						<true/>
+						<key>Time</key>
+						<string>2018.01.03</string>
+					</dict>
+				</dict>
+				<key>ChargingReport</key>
+				<dict>
+					<key>AppConflictList</key>
+					<array>
+						<string>com.surpax.ledflashlight.panel</string>
+					</array>
+					<key>Enable</key>
+					<dict>
+						<key>After</key>
+						<true/>
+						<key>Before</key>
+						<false/>
+						<key>Time</key>
+						<string>2018.01.03</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>ChargingImprover</key>
+			<dict>
+				<key>AlertAllowBack</key>
+				<false/>
+				<key>CableImproverWireShowMaxTime</key>
+				<integer>10</integer>
+				<key>ChargingImproverXAdEnabled</key>
+				<true/>
+				<key>CleanAllowBack</key>
+				<true/>
+				<key>CleanAppsMaxCount</key>
+				<integer>10</integer>
+				<key>CleanAppsMinCount</key>
+				<integer>3</integer>
+				<key>CleanClickBackToResultPage</key>
+				<true/>
+				<key>CleanPageShowSkipBtn</key>
+				<true/>
+				<key>Enabled</key>
+				<true/>
+				<key>FirstAlertShowTime</key>
+				<integer>2</integer>
+				<key>FirstVersionCode</key>
+				<integer>39</integer>
+				<key>IntervalTimeMinutes</key>
+				<integer>15</integer>
+				<key>MinAlertShowRate</key>
+				<integer>15</integer>
+				<key>ShowAlertOnceWhenOneCharging</key>
+				<true/>
+			</dict>
+			<key>ChargingReport</key>
+			<dict>
+				<key>ActivateChargingReportTime</key>
+				<integer>6</integer>
+				<key>BarSwitch</key>
+				<false/>
+				<key>ChargeReportScene</key>
+				<dict>
+					<key>Charging</key>
+					<true/>
+					<key>Plug_Locked</key>
+					<true/>
+					<key>Plug_Unlocked</key>
+					<true/>
+					<key>Unplug_Locked</key>
+					<true/>
+					<key>Unplug_Unlocked</key>
+					<true/>
+				</dict>
+				<key>DefaultSwitch</key>
+				<false/>
+				<key>GuideSwitch</key>
+				<false/>
+				<key>MasterSwitch</key>
+				<true/>
+				<key>Plug_UnlockTime</key>
+				<string>30</string>
+				<key>Plug_UntilLastUnplug</key>
+				<integer>60</integer>
+				<key>PushSwitch</key>
+				<false/>
+				<key>TimeIntervalSecond</key>
+				<integer>600</integer>
+				<key>TimeThresholdSecond</key>
+				<integer>900</integer>
+				<key>Unplug_MinChargeTime</key>
+				<integer>900</integer>
+				<key>Unplug_UnlockTime</key>
+				<integer>180</integer>
 			</dict>
 			<key>DailyTheme</key>
 			<dict>
-				<key>Time</key>
-				<dict>
-					<key>Begin</key>
-					<integer>6</integer>
-					<key>Until</key>
-					<integer>22</integer>
-				</dict>
 				<key>ThemeList</key>
 				<array>
 					<dict>
@@ -2544,7 +2647,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d&apos;épice</string>
+							<string>Pain d'épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -2702,7 +2805,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell&apos;oro</string>
+							<string>Il mito dell'oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>
@@ -3846,124 +3949,21 @@
 						</dict>
 					</dict>
 				</array>
+				<key>Time</key>
+				<dict>
+					<key>Begin</key>
+					<integer>6</integer>
+					<key>Until</key>
+					<integer>22</integer>
+				</dict>
 			</dict>
-			<key>Boost</key>
+			<key>Dialer</key>
 			<dict>
-				<key>Enable</key>
-				<false/>
-			</dict>
-			<key>CallFinishWire</key>
-			<dict>
-				<key>Enable</key>
-				<false/>
 				<key>EnableVersionList</key>
 				<array>
-					<integer>0</integer>
+					<integer>28</integer>
+					<integer>29</integer>
 				</array>
-				<key>Maxtime</key>
-				<integer>1000</integer>
-			</dict>
-			<key>Charging</key>
-			<dict>
-				<key>ChargingLockScreen</key>
-				<dict>
-					<key>Enable</key>
-					<dict>
-						<key>After</key>
-						<false/>
-						<key>Before</key>
-						<true/>
-						<key>Time</key>
-						<string>2018.01.03</string>
-					</dict>
-				</dict>
-				<key>ChargingReport</key>
-				<dict>
-					<key>AppConflictList</key>
-					<array>
-						<string>com.surpax.ledflashlight.panel</string>
-					</array>
-					<key>Enable</key>
-					<dict>
-						<key>After</key>
-						<true/>
-						<key>Before</key>
-						<false/>
-						<key>Time</key>
-						<string>2018.01.03</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>ChargingImprover</key>
-			<dict>
-				<key>AlertAllowBack</key>
-				<false/>
-				<key>CableImproverWireShowMaxTime</key>
-				<integer>10</integer>
-				<key>ChargingImproverXAdEnabled</key>
-				<true/>
-				<key>CleanAllowBack</key>
-				<true/>
-				<key>CleanAppsMaxCount</key>
-				<integer>10</integer>
-				<key>CleanAppsMinCount</key>
-				<integer>3</integer>
-				<key>CleanClickBackToResultPage</key>
-				<true/>
-				<key>CleanPageShowSkipBtn</key>
-				<true/>
-				<key>Enabled</key>
-				<true/>
-				<key>FirstAlertShowTime</key>
-				<integer>2</integer>
-				<key>FirstVersionCode</key>
-				<integer>39</integer>
-				<key>IntervalTimeMinutes</key>
-				<integer>15</integer>
-				<key>MinAlertShowRate</key>
-				<integer>15</integer>
-				<key>ShowAlertOnceWhenOneCharging</key>
-				<true/>
-			</dict>
-			<key>ChargingReport</key>
-			<dict>
-				<key>ActivateChargingReportTime</key>
-				<integer>6</integer>
-				<key>BarSwitch</key>
-				<false/>
-				<key>ChargeReportScene</key>
-				<dict>
-					<key>Charging</key>
-					<true/>
-					<key>Plug_Locked</key>
-					<true/>
-					<key>Plug_Unlocked</key>
-					<true/>
-					<key>Unplug_Locked</key>
-					<true/>
-					<key>Unplug_Unlocked</key>
-					<true/>
-				</dict>
-				<key>DefaultSwitch</key>
-				<false/>
-				<key>GuideSwitch</key>
-				<false/>
-				<key>MasterSwitch</key>
-				<true/>
-				<key>Plug_UnlockTime</key>
-				<string>30</string>
-				<key>Plug_UntilLastUnplug</key>
-				<integer>60</integer>
-				<key>PushSwitch</key>
-				<false/>
-				<key>TimeIntervalSecond</key>
-				<integer>600</integer>
-				<key>TimeThresholdSecond</key>
-				<integer>900</integer>
-				<key>Unplug_MinChargeTime</key>
-				<integer>900</integer>
-				<key>Unplug_UnlockTime</key>
-				<integer>180</integer>
 			</dict>
 			<key>EarnCash</key>
 			<dict>
@@ -4077,7 +4077,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>can&apos;t deliver broadcast</string>
+					<string>can't deliver broadcast</string>
 					<key>Type</key>
 					<string>RemoteServiceException</string>
 				</dict>
@@ -4106,7 +4106,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to invoke virtual method &apos;void android.view.Display.getSize(android.graphics.Point)&apos; on a null object reference</string>
+					<string>Attempt to invoke virtual method 'void android.view.Display.getSize(android.graphics.Point)' on a null object reference</string>
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
@@ -4114,7 +4114,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to read from field &apos;int android.view.View.mViewFlags&apos; on a null object reference</string>
+					<string>Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference</string>
 				</dict>
 			</array>
 			<key>LEDReminder</key>
@@ -7227,7 +7227,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d&apos;épice</string>
+							<string>Pain d'épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -7385,7 +7385,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell&apos;oro</string>
+							<string>Il mito dell'oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>
