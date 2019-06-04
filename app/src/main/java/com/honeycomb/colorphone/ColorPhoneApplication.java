@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +32,8 @@ import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.dialer.ConfigProvider;
+import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
@@ -72,6 +75,8 @@ import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.phonestate.PhoneStateManager;
 import com.superapps.util.Commons;
+import com.superapps.util.Dimensions;
+import com.superapps.util.Fonts;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -304,6 +309,9 @@ public class ColorPhoneApplication extends HSApplication {
     @DebugLog
     private void onMainProcessCreate() {
         CrashFix.fix();
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationChannelManager.initChannels(this);
+        }
         copyMediaFromAssertToFile();
         DauChecker.get().start();
 
@@ -368,6 +376,23 @@ public class ColorPhoneApplication extends HSApplication {
         watchLifeTimeAutopilot();
 
         WeatherPushManager.getInstance().updateWeatherIfNeeded();
+
+        ConfigProvider.set(new ConfigProvider() {
+            @Override
+            public Typeface getCustomBoldTypeface() {
+                return Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_BOLD);
+            }
+
+            @Override
+            public Typeface getCustomMediumTypeface() {
+                return Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_SEMIBOLD);
+            }
+
+            @Override
+            public Typeface getCustomTypeface() {
+                return Fonts.getTypeface(Fonts.Font.CUSTOM_FONT_REGULAR);
+            }
+        });
     }
 
     private void delayInitOnFirstLaunch() {

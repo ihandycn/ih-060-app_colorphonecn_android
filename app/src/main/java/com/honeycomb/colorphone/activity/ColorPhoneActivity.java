@@ -42,6 +42,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.menu.SettingsPage;
 import com.honeycomb.colorphone.notification.NotificationConstants;
@@ -165,7 +166,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
 
         ContactManager.getInstance().update();
-        if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
+        if (GuideSetDefaultActivity.start(this)) {
+            HSLog.d(TAG, "GuideSetDefaultActivity start");
+        } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
             Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
@@ -212,6 +215,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
+            if (mSettingsPage != null) {
+                mSettingsPage.onFocusChanged();
+            }
             if (mAdapter.isTipHeaderVisible() &&
                     !PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
                 HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "setHeaderTipVisible, " +

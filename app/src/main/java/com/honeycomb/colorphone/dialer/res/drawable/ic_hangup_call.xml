@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (C) 2017 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License
+  -->
+
+<!-- This is came from Motorola which is requested by Sprint for HD call. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="168"
+    android:viewportHeight="168">
+  <!--<path-->
+      <!--android:fillColor="#F93D3D"-->
+      <!--android:pathData="M 84 0.1 C 130.391918986 0.1 168 37.7080810142 168 84.1 C 168 130.491918986 130.391918986 168.1 84 168.1 C 37.6080810142 168.1 0 130.491918986 0 84.1 C 0 37.7080810142 37.6080810142 0.1 84 0.1 Z" />-->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M60.7,94.1l0.4-7.5c0.2-4,3.1-7.3,7-8.1c4.8-1,10.1-1.5,15.9-1.5c5.7,0,11,0.5,15.8,1.5c3.9,0.8,6.7,4.1,7,8.1 l0.4,7.5c0.2,4,3.1,7.3,7,8.1l17.6,3.6c8.9,1.8,15.8-7.7,11.2-15.6C132.4,71.7,112.5,62.2,84,62.2c-28.5,0-48.4,9.5-59.1,27.9 c-4.6,7.9,2.3,17.4,11.2,15.6l17.6-3.6C57.6,101.3,60.4,98,60.7,94.1z" />
+</vector>
