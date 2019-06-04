@@ -7,7 +7,7 @@ apply from: 'tasks.gradle'
 apply plugin: 'ihandy.proguard.rewrite'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 26
@@ -176,13 +176,18 @@ dependencies {
     // LeakCanary
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
     // ==== ihandy ====
+    // ------ Permanent ------
+    final permanentVersion = ".gm:4.0.0.gm"
+    compile "com.ihandy.permanent:permanent$permanentVersion" // 保活主模块
+    compile "com.ihandy.permanent:native-guard$permanentVersion" // native保活模块，需要才加
+
     final LIB_DEVICE_VERSION = '.special:4.5.4.special-20190515'
-    compile "com.ihandy.device:device-permanent$LIB_DEVICE_VERSION".toString()
     compile "com.ihandy.device:device-clean-memory$LIB_DEVICE_VERSION".toString()
     compile "com.ihandy.device:device-monitor-app-usage$LIB_DEVICE_VERSION".toString()
 
-    // Submodule
+    // ------ Submodule ------
     compile files('../libs/libFlashlight/libFlashlight.jar')
 
     compile project(':libCallAssistant')

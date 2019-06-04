@@ -22,19 +22,6 @@ import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.ihs.app.framework.HSApplication;
 
 public class PermanentService extends Service {
-    /**
-     * 提供给库 Notification 和 NotificationID
-     * Api 25(7.1) 版本，如果没有提供合法 Notification 和 NotificationID，PermanentService将不会 startForeground
-     *
-     * Service onCreate 后会回调 onServiceCreate 事件
-     */
-    public interface PermanentServiceListener {
-        Notification getForegroundNotification();
-
-        int getNotificationID();
-
-        void onServiceCreate();
-    }
 
     public static class PermanentReceiver extends BroadcastReceiver {
 
