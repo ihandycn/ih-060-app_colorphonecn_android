@@ -6,6 +6,14 @@
 	<dict>
 		<key>Application</key>
 		<dict>
+			<key>Dialer</key>
+			<dict>
+				<key>EnableVersionList</key>
+				<array>
+					<string>28</string>
+					<string>29</string>
+				</array>
+			</dict>
 			<key>DailyTheme</key>
 			<dict>
 				<key>Time</key>
