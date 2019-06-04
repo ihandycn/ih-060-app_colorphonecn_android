@@ -78,6 +78,7 @@ import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.phonestate.PhoneStateManager;
 import com.superapps.util.Commons;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Fonts;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
