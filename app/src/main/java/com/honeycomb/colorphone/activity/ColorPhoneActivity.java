@@ -141,7 +141,20 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             if (logOpenEvent) {
                 logOpenEvent = false;
                 ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
+
+                if (GuideSetDefaultActivity.start(ColorPhoneActivity.this)) {
+                    HSLog.d(TAG, "GuideSetDefaultActivity start");
+                } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(ColorPhoneActivity.this)) {
+                    Intent intent = new Intent(ColorPhoneActivity.this, NotificationAccessGuideAlertActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
+                    intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_APP_IS_FIRST_SESSION, true);
+                    startActivity(intent);
+                    HSAlertMgr.delayRateAlert();
+                    HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
+                }
             }
+
         }
     };
 
@@ -166,17 +179,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         super.onCreate(savedInstanceState);
 
         ContactManager.getInstance().update();
-        if (GuideSetDefaultActivity.start(this)) {
-            HSLog.d(TAG, "GuideSetDefaultActivity start");
-        } else if (NotificationUtils.isShowNotificationGuideAlertInFirstSession(this)) {
-            Intent intent = new Intent(this, NotificationAccessGuideAlertActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_GUIDE_INSIDE_APP, true);
-            intent.putExtra(NotificationAccessGuideAlertActivity.ACB_PHONE_NOTIFICATION_APP_IS_FIRST_SESSION, true);
-            startActivity(intent);
-            HSAlertMgr.delayRateAlert();
-            HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
-        }
         getDataFromIntent(getIntent());
         setContentView(R.layout.activity_main);
         initMainFrame();
