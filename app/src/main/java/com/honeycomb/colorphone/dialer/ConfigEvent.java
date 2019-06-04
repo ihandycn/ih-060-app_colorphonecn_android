@@ -4,12 +4,21 @@ import android.os.Build;
 
 import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Commons;
+
+import java.util.List;
 
 public class ConfigEvent {
 
     public static boolean dialerEnable() {
-        if (Build.VERSION.SDK_INT >= 28) {
+        return enabledThisVersion();
+    }
+
+    private static boolean enabledThisVersion() {
+        List<Integer> enableList = (List<Integer>) HSConfig.getList("Application", "Dialer", "EnableVersionList");
+        int versionCode = HSApplication.getFirstLaunchInfo().appVersionCode;
+        if (enableList != null && enableList.contains(versionCode)) {
             return true;
         }
         return false;
