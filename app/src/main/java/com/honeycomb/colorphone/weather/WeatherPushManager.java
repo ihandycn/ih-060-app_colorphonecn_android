@@ -139,6 +139,7 @@ public class WeatherPushManager {
     public void downloadAllWeatherVideosIfNeeded() {
         if (!Ap.WeatherPush.showPush()) {
             HSLog.d("Weather.Push", "autopilot disable!");
+            return;
         }
         HSLog.d("Weather.Push", "downloadAllWeatherVideosIfNeeded");
         if (Ap.WeatherPush.isSinleVideoType()) {

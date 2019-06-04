@@ -325,7 +325,8 @@ public class Ap {
         public static String TOPIC_ID = "topic-72mxyzj8z";
 
         public static boolean showPush() {
-            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "weather_forecast_enable", false);
+            return false;
+//            return AutopilotConfig.getBooleanToTestNow(TOPIC_ID, "weather_forecast_enable", false);
         }
 
         public static boolean isSinleVideoType() {
