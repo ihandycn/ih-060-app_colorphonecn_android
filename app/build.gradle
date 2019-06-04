@@ -168,22 +168,14 @@ dependencies {
 
             'com.google.firebase:firebase-core:16.0.3',
             'com.google.firebase:firebase-messaging:17.3.0',
-            "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.2.gm",
+//            USE_BETA_ACB_LIBS ? "net.appcloudbox.autopilot:libAutoPilot.beta:5.5.0.+"
+//                    : "net.appcloudbox.autopilot:libAutoPilot.gm:5.5.0.gm",
+            'net.appcloudbox.autopilot:libAutoPilot.gm:5.5.2.gm',
+            'com.ihandy.appframework:libAppframework.gm:4.12.0.gm',
+    ]
 
-    ]
-    final COMMON_COLORPHONE = [
-            USE_BETA_ACB_LIBS ?
-                    'com.ihandy.appframework:libAppframework.beta:4.9.4.+' :
-                    'com.ihandy.appframework:libAppframework.gm:4.9.4.gm',
-    ]
-    final COMMON_COLORFLASH = [
-            USE_BETA_ACB_LIBS ?
-                    'com.ihandy.appframework:libAppframework.beta:4.9.4.+' :
-                    'com.ihandy.appframework:libAppframework.gm:4.9.4.gm',
-    ]
     for (dependency in COMMON_DEPENDENCIES) compile dependency
-    for (dependency in COMMON_COLORPHONE) colorphoneCompile dependency
-    for (dependency in COMMON_COLORFLASH) colorflashCompile dependency
+
     // ==== Third part ====
     compile 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'

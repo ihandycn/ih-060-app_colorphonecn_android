@@ -153,7 +153,7 @@ public class SettingsPage implements View.OnClickListener, INotificationObserver
                 mainSwitch.toggle();
                 break;
             case R.id.settings_default_dialer_switch:
-//                defaultDialer.toggle();
+                defaultDialer.toggle();
                 break;
 //            case R.id.settings_random_theme:
 //                randomSwitch.toggle();
