@@ -66,7 +66,7 @@ public class SettingsActivity extends HSAppCompatActivity {
             }
         });
 
-        mModuleStates.add(new ModuleState(true, NewsTest.isNewsEnable(),
+        mModuleStates.add(new ModuleState(false, NewsTest.isNewsEnable(),
                 R.id.setting_item_news_toggle,
                 R.id.setting_item_news) {
             @Override

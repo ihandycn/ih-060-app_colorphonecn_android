@@ -24,7 +24,7 @@ public class NewsTest {
     }
 
     public static boolean isNewsEnable() {
-        return Preferences.get(PREF_FILE).getBoolean(PREF_KEY_NEWS_ENABLE, true);
+        return Preferences.get(PREF_FILE).getBoolean(PREF_KEY_NEWS_ENABLE, false);
     }
 
     static boolean isNewsAlertAllowBack() {
