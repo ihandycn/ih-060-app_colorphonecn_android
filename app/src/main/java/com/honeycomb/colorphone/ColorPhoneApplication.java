@@ -2,6 +2,7 @@ package com.honeycomb.colorphone;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -67,6 +68,8 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.device.permanent.HSPermanentUtils;
+import com.ihs.device.permanent.PermanentService;
+import com.ihs.device.permanent.nativeguard.HSNativeGuardUtils;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.messagecenter.customize.MessageCenterManager;
 import com.messagecenter.customize.MessageCenterSettings;
@@ -75,7 +78,6 @@ import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.phonestate.PhoneStateManager;
 import com.superapps.util.Commons;
-import com.superapps.util.Dimensions;
 import com.superapps.util.Fonts;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
@@ -238,7 +240,6 @@ public class ColorPhoneApplication extends HSApplication {
     }
 
     private void onWorkProcessCreate() {
-        HSPermanentUtils.setJobSchedulePeriodic(2 * DateUtils.HOUR_IN_MILLIS);
     }
 
     public static boolean isFabricInitted() {
@@ -265,16 +266,33 @@ public class ColorPhoneApplication extends HSApplication {
 
         initAutopilot();
 
-        HSPermanentUtils.initKeepAlive(
-                true,
-                false,
-                false,
-                true,
-                true,
-                false,
-                false,
-                false,
-                null, null);
+        HSPermanentUtils.KeepAliveConfig.Builder keepAliveConfigBuilder = new HSPermanentUtils.KeepAliveConfig.Builder()
+                .setOreoOptimizationEnabled(true)
+                // .setAssistantProcessEnabled(true)
+                .setJobScheduleEnabled(true, DateUtils.HOUR_IN_MILLIS);
+                // .setForegroundActivityEnabled(true)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)  {
+            keepAliveConfigBuilder.setOreoForceForegroundEnabled(true);
+        }
+
+        // init仅包含简单的赋值操作，建议在每个进程的Application的onCreate方法中调用，否则参数可能设置不上
+        HSPermanentUtils.initKeepAlive(keepAliveConfigBuilder.build(), new PermanentService.PermanentServiceListener() {
+            @Override
+            public Notification getForegroundNotification() {
+                return null;
+            }
+
+            @Override
+            public int getNotificationID() {
+                return 1;
+            }
+
+            @Override
+            public void onServiceCreate() {
+                HSNativeGuardUtils.start(com.honeycomb.colorphone.PermanentService.class, null, BuildConfig.DEBUG);
+            }
+        });
 
         Threads.postOnMainThreadDelayed(new Runnable() {
             @Override

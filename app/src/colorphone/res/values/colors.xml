@@ -8,6 +8,7 @@
     <color name="primarySubText">#606060</color>
     <color name="drawerText">#404040</color>
     <color name="drawerSubText">#8a8a8a</color>
+    <color name="colorControlNormal">#999999</color>
 
     <color name="colorDisabled">#d9d9d9</color>
 

@@ -367,70 +367,7 @@
             android:label="GuardService"
             android:stopWithTask="false"/>
 
-        <service android:name=".PermanentService$PermanentServiceInner"/>
-
-        <!-- lib permanent -->
-        <receiver
-            android:name="com.ihs.device.permanent.PermanentReceiver"
-            android:exported="true"
-            android:enabled="true"
-            tools:node="replace">
-
-            <intent-filter>
-
-                <action
-                    android:name="android.intent.action.QUICKBOOT_POWERON" />
-
-                <action
-                    android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
-
-                <action
-                    android:name="android.net.wifi.WIFI_STATE_CHANGED" />
-            </intent-filter>
-
-            <intent-filter
-                android:priority="999">
-
-                <action
-                    android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-
-                <action
-                    android:name="android.intent.action.BOOT_COMPLETED" />
-
-                <action
-                    android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-
-            <intent-filter>
-
-                <action
-                    android:name="android.intent.action.PACKAGE_RESTARTED" />
-
-                <action
-                    android:name="android.intent.action.PACKAGE_REPLACED" />
-
-                <data
-                    android:scheme="package" />
-            </intent-filter>
-
-            <intent-filter>
-
-                <action
-                    android:name="android.intent.action.MEDIA_MOUNTED" />
-
-                <action
-                    android:name="android.intent.action.MEDIA_UNMOUNTED" />
-
-                <data
-                    android:scheme="file" />
-            </intent-filter>
-
-            <intent-filter>
-
-                <action
-                    android:name="ihs.device.permanent.GUARD_PERMANENT" />
-            </intent-filter>
-        </receiver>
+        <service android:name=".PermanentService$PermanentServiceInner"/>\
 
         <service
             android:name=".LockJobService"
