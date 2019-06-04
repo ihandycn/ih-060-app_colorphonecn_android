@@ -210,7 +210,7 @@
     <string name="guide_theme_random_hint">应用了当前主题后，每次来电会随机展示不同主题视频</string>
     <string name="start_guide_loading_text">来电秀功能开启中……</string>
     <string name="start_guide_loading_action">立即授予</string>
-    <string name="start_guide_request_accessibility_title">只要几秒钟授予我们辅助权限，我们将自动帮您完成复杂繁琐的来电秀设置</string>
+    <string name="start_guide_request_accessibility_title">开启过程中遇到一些问题\n请授予我们辅助权限来完成修复</string>
     <string name="start_guide_confirm_fix">手动修复</string>
     <string name="start_guide_confirm_fix_one_key">立即修复</string>
     <string name="start_guide_request_image_title">自动开启中</string>
@@ -219,10 +219,15 @@
     <string name="start_guide_permission_onlocker">锁屏显示来电秀</string>
     <string name="start_guide_permission_call">读取来电时的通知</string>
     <string name="start_guide_permission_bg_pop">来电时展示来电秀</string>
-    <string name="start_guide_permission_title">%1$s项问题待修复</string>
+    <string name="start_guide_permission_title">只差最后一步啦！\n完成修复就可以使用来电秀</string>
     <string name="start_guide_congratulation_title">恭喜你</string>
     <string name="start_guide_congratulation_text">欢迎来到焕彩世界~</string>
     <string name="guide_first_page_title_new">请开启焕彩来电秀，享受非凡的来电体验</string>
 
     <string name="title_cmgame">在线小游戏</string>
+
+    <string name="start_guide_skip_dialog_title">来电秀部分功能失效</string>
+    <string name="start_guide_skip_dialog_content">权限未全部开启，可能导致无法正常展示来电秀功能</string>
+    <string name="start_guide_skip_dialog_ok">立即修复</string>
+    <string name="start_guide_skip_dialog_cancel">暂不修复</string>
 </resources>

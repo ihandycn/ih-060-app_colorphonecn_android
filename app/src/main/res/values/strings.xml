@@ -315,4 +315,9 @@
 
     <string name="click_again_to_exit">再按一次退出应用</string>
     <string name="label_message_activity">信息中心</string>
+
+    <string name="start_guide_skip_dialog_title">来电秀部分功能失效</string>
+    <string name="start_guide_skip_dialog_content">权限未全部开启，可能导致无法正常展示来电秀功能</string>
+    <string name="start_guide_skip_dialog_ok">立即修复</string>
+    <string name="start_guide_skip_dialog_cancel">暂不修复</string>
 </resources>

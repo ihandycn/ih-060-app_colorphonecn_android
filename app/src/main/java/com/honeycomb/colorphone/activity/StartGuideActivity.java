@@ -208,7 +208,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
                 oneKeyFix.setOnClickListener(v -> {
                     Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
-                    AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX);
+                    AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
 
                     Analytics.logEvent("FixAlert_Ok_Click", "From", from);
                 });
@@ -395,6 +395,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     private void gotoAcc() {
         HSLog.i("AutoPermission", "isAccessibilityGranted == " + Utils.isAccessibilityGranted());
-        AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_AUTO);
+        AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_AUTO, from);
     }
 }

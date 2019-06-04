@@ -18,21 +18,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
-import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.ihs.permission.Utils;
-import com.superapps.util.BackgroundDrawables;
-import com.superapps.util.Dimensions;
-import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import java.lang.annotation.Retention;
@@ -261,7 +255,6 @@ public class StartGuideViewHolder implements INotificationObserver {
         TextView ball = container.findViewById(R.id.start_guide_confirm_number);
         TextView title = container.findViewById(R.id.start_guide_permission_title);
         ball.setText(String.valueOf(notGrant));
-        title.setText(String.format(container.getContext().getString(R.string.start_guide_permission_title), String.valueOf(notGrant)));
         return confirmPermission;
     }
 
