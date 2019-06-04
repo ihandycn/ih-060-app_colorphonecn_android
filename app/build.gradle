@@ -197,8 +197,8 @@ dependencies {
     compile project(':permissions')
     compile project(':libWeather')
     //  -------- GoldEye ------
-    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2019.02.12.001'
-    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2019.04.17.001'
+    colorphoneCompile 'net.appcloudbox.goldeneye:colorphone_a:2019.06.04.001'
+    colorflashCompile 'net.appcloudbox.goldeneye:colorflash_a:2019.06.04.001'
 
 }
 android.applicationVariants.all { variant ->
