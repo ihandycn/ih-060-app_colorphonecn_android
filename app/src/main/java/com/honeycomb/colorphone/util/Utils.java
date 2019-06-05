@@ -36,6 +36,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -55,6 +56,7 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.PathInterpolatorCompat;
@@ -69,6 +71,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -109,6 +112,9 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.view.View.SYSTEM_UI_FLAG_FULLSCREEN;
+import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 import static android.view.View.VISIBLE;
 
 public final class Utils {
@@ -862,19 +868,27 @@ public final class Utils {
         return BitmapFactory.decodeFile(path, options);
     }
 
-    public static void showToast() {
-        Toast toast = new Toast(HSApplication.getContext().getApplicationContext());
-
+    public static void showApplyView(PercentRelativeLayout rootView) {
         final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.lottie_theme_apply, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             contentView.setElevation(Dimensions.pxFromDp(8));
         }
+
+        ViewGroup viewGroup = (ViewGroup) rootView;
+        viewGroup.addView(contentView);
+
+        contentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         RelativeLayout themeApply = contentView.findViewById(R.id.theme_apply_view);
         RelativeLayout themeChange = contentView.findViewById(R.id.theme_apply_view_change);
         LottieAnimationView lottieThemeApply = contentView.findViewById(R.id.lottie_theme_apply);
         TextView applySuccessText = contentView.findViewById(R.id.apply_success_text);
         TextView applyText = contentView.findViewById(R.id.apply_text);
-
 
         themeChange.animate().alpha(1f)
                 .setDuration(166)
@@ -963,11 +977,6 @@ public final class Utils {
                     }
                 }).start();
 
-        toast.setGravity(Gravity.FILL, 0, 0);
-        toast.setView(contentView);
-        toast.getView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        toast.show();
-
         Threads.postOnMainThreadDelayed(new Runnable() {
             @Override
             public void run() {
@@ -987,6 +996,7 @@ public final class Utils {
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 themeApply.setVisibility(View.GONE);
+                                viewGroup.removeView(contentView);
                             }
                         })
                         .start();

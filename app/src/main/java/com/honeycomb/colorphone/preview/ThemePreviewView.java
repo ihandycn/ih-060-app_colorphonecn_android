@@ -2,8 +2,6 @@ package com.honeycomb.colorphone.preview;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -13,6 +11,7 @@ import android.os.Message;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.PathInterpolatorCompat;
@@ -25,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
@@ -154,8 +152,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final int NAV_VISIBLE = 0;
     private TextView mThemeLikeCount;
     TextView mThemeTitle;
+    private PercentRelativeLayout rootView;
 
-    public static final int NOSHOW_THEME_APPLY_VIEW = 0;
+    public static boolean ifShowThemeApplyView = false;
     private boolean mContactReturn = false;
     private TextView mEnjoyApplyBtn;
     private TextView mEnjoyApplyDefault;
@@ -444,6 +443,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mEnjoyClose = findViewById(R.id.theme_setting_close);
         mThemeLikeAnim = findViewById(R.id.like_count_icon);
 
+        rootView = findViewById(R.id.root);
 
 
         // set background
@@ -678,7 +678,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        Utils.showToast();
+        Utils.showApplyView(rootView);
         GuideSetDefaultActivity.start(mActivity, false);
 
 
@@ -1430,6 +1430,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             // GIf/Mp4
             if (TasksManager.getImpl().isDownloaded(model)) {
                 onThemeReady(playTrans);
+                if (ifShowThemeApplyView) {
+                    Utils.showApplyView(rootView);
+                    ifShowThemeApplyView = false;
+                }
                 if (mContactReturn) {
                     themeMode = ENJOY_MODE;
                     initDownloading();
@@ -2000,7 +2004,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         setAsRingtone(true, false);
 
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
-                        Utils.showToast();
+                        Utils.showApplyView(rootView);
 
                     }
                     if (getMode() == ENJOY_MODE) {
@@ -2020,7 +2024,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         onThemeApply();
                     } else {
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
-                        Utils.showToast();
+                        Utils.showApplyView(rootView);
                     }
                     if (getMode() == ENJOY_MODE) {
                         navFadeInOrVisible = NAV_FADE_IN;

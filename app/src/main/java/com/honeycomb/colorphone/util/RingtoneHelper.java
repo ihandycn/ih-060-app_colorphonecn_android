@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.honeycomb.colorphone.BuildConfig;
@@ -222,7 +223,7 @@ public class RingtoneHelper {
         }
 
         if (BuildConfig.DEBUG) {
-            Toasts.showToast("Ringtone change to: " + title, Toast.LENGTH_SHORT);
+            Log.d("RingtoneHelper:", "Ringtone change to: " + title);
         }
     }
 
