@@ -50,7 +50,7 @@
         android:layout_toStartOf="@id/imageView2"
         android:maxLines="2"
         android:text="@string/grant_access_to_optimize_experience"
-        android:textColor="#ffffe048"
+        android:textColor="@color/banner_text_selector"
         android:textSize="14sp"
         app:typeface="@string/proxima_nova_semibold" />
 

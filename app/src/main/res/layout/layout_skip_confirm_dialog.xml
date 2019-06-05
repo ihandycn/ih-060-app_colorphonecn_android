@@ -89,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:textColor="#ff696681"
+        android:textColor="@color/start_guide_not_now_selector"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="24dp"
         android:text="@string/start_guide_skip_dialog_cancel"
