@@ -51,7 +51,7 @@ public class ConfigEvent {
     }
 
     public static void dialerShow() {
-        LauncherAnalytics.logEvent(LauncherAnalytics.upperFirstCh("dialer_page_show"), "Type",
+        LauncherAnalytics.logEvent(LauncherAnalytics.upperFirstCh("dialer_page_show_above9"), "Type",
                 Commons.isKeyguardLocked(HSApplication.getContext(), false) ?
                         "Withlock" : "Withoutlock");
     }

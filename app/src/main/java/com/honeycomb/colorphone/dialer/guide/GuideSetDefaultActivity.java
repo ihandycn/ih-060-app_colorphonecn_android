@@ -1,6 +1,5 @@
 package com.honeycomb.colorphone.dialer.guide;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,10 +13,11 @@ import android.widget.Button;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialer.ConfigEvent;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
+import com.honeycomb.colorphone.util.LauncherAnalytics;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Fonts;
-import com.superapps.util.Preferences;
+import com.superapps.util.Threads;
 
 public class GuideSetDefaultActivity extends AppCompatActivity {
 
@@ -29,20 +29,22 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
 
         if (ConfigEvent.dialerEnable()) {
             if (!DefaultPhoneUtils.isDefaultPhone()) {
-                return Preferences.get("phone_guide").doOnce(new Runnable() {
-                    @SuppressLint("NewApi")
-                    @Override
-                    public void run() {
-                        DefaultPhoneUtils.saveSystemDefaultPhone();
-
-                        if (ConfigEvent.setDefaultGuideShow()) {
-                            Intent starter = new Intent(context, GuideSetDefaultActivity.class);
-                            context.startActivity(starter);
-                        } else {
-                            DefaultPhoneUtils.checkDefaultPhoneSettings();
+                DefaultPhoneUtils.saveSystemDefaultPhone();
+                if (ConfigEvent.setDefaultGuideShow()) {
+                    Intent starter = new Intent(context, GuideSetDefaultActivity.class);
+                    context.startActivity(starter);
+                } else {
+                    LauncherAnalytics.logEventAndFirebase("ColorPhone_Set_Default_Guide_Show_Above9");
+                    DefaultPhoneUtils.checkDefaultPhoneSettings();
+                    Threads.postOnMainThreadDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (DefaultPhoneUtils.isDefaultPhone()) {
+                                LauncherAnalytics.logEventAndFirebase("ColorPhone_Set_Default_Guide_Set_Clicked_Above9");
+                            }
                         }
-                    }
-                }, "prefs_guide_show");
+                    }, 10000);
+                }
             }
         }
         return false;
