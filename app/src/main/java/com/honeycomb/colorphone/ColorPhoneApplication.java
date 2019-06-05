@@ -298,7 +298,7 @@ public class ColorPhoneApplication extends HSApplication {
 
             @Override
             public int getNotificationID() {
-                return 1;
+                return NotificationID.PERMANENT;
             }
 
             @Override
