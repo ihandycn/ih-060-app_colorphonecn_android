@@ -155,7 +155,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public void messageViewSource(String source) {
-                Analytics.logEvent("Message_View_Source", "AddresserType", source);
+                Analytics.logEvent("Message_View_In", "Type", source);
             }
 
 
