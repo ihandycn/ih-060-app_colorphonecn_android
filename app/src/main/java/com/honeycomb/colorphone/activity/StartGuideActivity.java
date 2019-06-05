@@ -154,6 +154,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             }
 
             View newView = findViewById(R.id.start_guide_congratulation_page);
+
+            if (newView.getVisibility() != View.VISIBLE) {
+                Analytics.logEvent("Congratulation_Page_Shown_From_" + from);
+                AutoLogger.logEventWithBrandAndOS("Congratulation_Page_Shown");
+            }
+
             newView.setVisibility(View.VISIBLE);
             newView.setAlpha(0);
             newView.animate().alpha(1).setDuration(200).start();
@@ -172,9 +178,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             view.setScaleY(0);
             view.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator(3)).start();
 
-            Analytics.logEvent("Congratulation_Page_Shown_From_" + from);
-
-            AutoLogger.logEventWithBrandAndOS("Congratulation_Page_Shown");
             Threads.postOnMainThreadDelayed(this::finish, 2000);
         } else {
             HSLog.i("AutoPermission", "onPermissionChanged holder == " + holder);
