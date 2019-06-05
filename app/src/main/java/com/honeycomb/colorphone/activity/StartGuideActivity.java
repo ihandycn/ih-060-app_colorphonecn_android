@@ -48,6 +48,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     public static final String NOTIFICATION_PERMISSION_GRANT = "notification_permission_grant";
     public static final String PREF_KEY_GUIDE_SHOW_WHEN_WELCOME = "pref_key_guide_show_when_welcome";
     private static final String INTENT_KEY_FROM = "intent_key_from";
+    public static final String FROM_KEY_GUIDE = "Guide";
     public static final String FROM_KEY_START = "Start";
     public static final String FROM_KEY_APPLY = "Apply";
     public static final String FROM_KEY_BANNER = "Banner";
@@ -191,7 +192,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 holder.setCircleAnimView(R.id.start_guide_confirm_number);
                 holder.startCircleAnimation();
 
-                if (TextUtils.equals(from, FROM_KEY_START)) {
+                if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
                     view.findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
                     View skip = view.findViewById(R.id.start_guide_confirm_skip);
                     skip.setVisibility(View.VISIBLE);
@@ -217,6 +218,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 oneKeyFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
 
                 oneKeyFix.setOnClickListener(v -> {
+                    if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
+                        from = FROM_KEY_START;
+                    }
                     Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
                     AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
 

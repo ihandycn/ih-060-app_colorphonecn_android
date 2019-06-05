@@ -77,7 +77,7 @@ public class WelcomeActivity extends Activity {
                 !StartGuideActivity.isStarted()
                         && (!AutoRequestManager.getInstance().isGrantAllPermission());
         if (needShowGuidePermissionActivity) {
-            guideIntent = StartGuideActivity.getIntent(WelcomeActivity.this, StartGuideActivity.FROM_KEY_START);
+            guideIntent = StartGuideActivity.getIntent(WelcomeActivity.this, StartGuideActivity.FROM_KEY_GUIDE);
             HSAlertMgr.delayRateAlert();
         }
 
