@@ -678,7 +678,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        Utils.showToast(mActivity.getString(R.string.apply_success));
+        Utils.showToast();
         GuideSetDefaultActivity.start(mActivity, false);
 
 
@@ -2000,7 +2000,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         setAsRingtone(true, false);
 
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
-                        Utils.showToast(mActivity.getString(R.string.apply_success));
+                        Utils.showToast();
 
                     }
                     if (getMode() == ENJOY_MODE) {
@@ -2020,7 +2020,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         onThemeApply();
                     } else {
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
-                        Utils.showToast(mActivity.getString(R.string.apply_success));
+                        Utils.showToast();
                     }
                     if (getMode() == ENJOY_MODE) {
                         navFadeInOrVisible = NAV_FADE_IN;

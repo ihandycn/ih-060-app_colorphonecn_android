@@ -73,7 +73,7 @@ public class ContactsSelectActivity extends ContactsActivity {
                 @Override
                 public void run() {
                     ContactsSelectActivity.this.finish();
-                    Utils.showToast(HSApplication.getContext().getString(R.string.apply_success));
+                    Utils.showToast();
                 }
             });
         }
