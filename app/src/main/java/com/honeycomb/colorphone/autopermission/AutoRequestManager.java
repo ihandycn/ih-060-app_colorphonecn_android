@@ -128,7 +128,7 @@ public class AutoRequestManager {
     private Runnable backTask = new Runnable() {
         @Override
         public void run() {
-            HSPermissionRequestMgr.getInstance().performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK, new HSPermissionRequestMgr.GloableActionResult() {
+            HSPermissionRequestMgr.getInstance().performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK, new HSPermissionRequestMgr.GlobalActionResult() {
                 @Override
                 public void onSuccess() {
                     HSLog.d(TAG, "performGlobalAction success");

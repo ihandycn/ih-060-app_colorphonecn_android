@@ -235,7 +235,7 @@ dependencies {
     compile "com.ihandy.device:device-monitor-app-usage$LIB_DEVICE_VERSION".toString()
     compile "com.ihandy.device:device-monitor-top-app$LIB_DEVICE_VERSION".toString()
     compile "com.ihandy.device:device-permanent$LIB_DEVICE_VERSION".toString()
-
+    compile 'cn.ihandy.device:libPermissionAcquire.beta:1.0.0.cn.beta01'
     // Submodule
     compile files('../libs/libFlashlight/libFlashlight.jar')
     compile(name: 'libCashCenter/alipaySdk', ext: 'aar')
@@ -250,7 +250,6 @@ dependencies {
     compile project(':lock')
     compile project(':libSuperApps')
     compile project(':permissions')
-    compile project(':libPermissionacquire')
 
     //  -------- GoldEye ------
     colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.06.03.002'
