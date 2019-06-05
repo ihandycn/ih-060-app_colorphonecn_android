@@ -644,16 +644,16 @@
 
         <activity
             android:name="com.bytedance.sdk.openadsdk.activity.TTLandingPageActivity"
-            android:excludeFromRecents="true"
-             />
+            android:excludeFromRecents="true" />
+
         <activity
             android:name="com.bytedance.sdk.openadsdk.activity.TTVideoLandingPageActivity"
-            android:excludeFromRecents="true"
-            />
+            android:excludeFromRecents="true" />
+
         <activity
             android:name="com.bytedance.sdk.openadsdk.activity.TTFullScreenVideoActivity"
-            android:excludeFromRecents="true"
-            />
+            android:excludeFromRecents="true" />
+
         <activity
             android:name="com.messagecenter.notification.NotificationMessageAlertActivity"
             android:label="@string/label_message_activity"
