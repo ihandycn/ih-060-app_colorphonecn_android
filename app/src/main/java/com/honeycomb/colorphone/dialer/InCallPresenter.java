@@ -57,6 +57,9 @@ import com.honeycomb.colorphone.dialer.util.GeoUtil;
 import com.honeycomb.colorphone.dialer.util.TouchPointManager;
 import com.honeycomb.colorphone.telecomeventui.InternationalCallOnWifiDialogActivity;
 import com.honeycomb.colorphone.telecomeventui.InternationalCallOnWifiDialogFragment;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSBundle;
+import com.superapps.util.LifetimePhoneStateListener;
 
 import java.util.Collections;
 import java.util.List;
@@ -754,18 +757,33 @@ public class InCallPresenter implements CallList.Listener, AudioModeProvider.Aud
 
     // Foreground call changed
     DialerCall primary = null;
+    int phoneState = TelephonyManager.CALL_STATE_IDLE;
     if (newState == InCallState.INCOMING) {
       primary = callList.getIncomingCall();
+      phoneState = TelephonyManager.CALL_STATE_RINGING;
     } else if (newState == InCallState.PENDING_OUTGOING || newState == InCallState.OUTGOING) {
       primary = callList.getOutgoingCall();
       if (primary == null) {
         primary = callList.getPendingOutgoingCall();
       }
+      phoneState = TelephonyManager.CALL_STATE_OFFHOOK;
+
     } else if (newState == InCallState.INCALL) {
+      phoneState = TelephonyManager.CALL_STATE_OFFHOOK;
       primary = getCallToDisplay(callList, null, false);
     }
     if (primary != null) {
       onForegroundCallChanged(primary);
+    }
+
+    // Notify state by HSGlobalNotificationCenter
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+      HSBundle hsBundle = new HSBundle();
+      hsBundle.putInt(LifetimePhoneStateListener.EXTRA_CALL_STATE, phoneState);
+      if (primary != null) {
+        hsBundle.putString(LifetimePhoneStateListener.EXTRA_INCOMING_NUMBER, primary.getNumber());
+      }
+      HSGlobalNotificationCenter.sendNotification(LifetimePhoneStateListener.EVENT_CALL_STATE_CHANGED, hsBundle);
     }
 
     // notify listeners of new state
