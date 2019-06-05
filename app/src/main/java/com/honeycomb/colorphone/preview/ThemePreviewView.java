@@ -2,6 +2,8 @@ package com.honeycomb.colorphone.preview;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -23,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
@@ -147,10 +150,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final int PREVIEW_MODE = 1;
     private static final int THEME_ENJOY_UNFOLDING = 0;
     private static final int THEME_ENJOY_FOLDING = 1;
-    private static final int NAV_FADE_IN = 1;
+    public static final int NAV_FADE_IN = 1;
     private static final int NAV_VISIBLE = 0;
     private TextView mThemeLikeCount;
     TextView mThemeTitle;
+
+    public static final int NOSHOW_THEME_APPLY_VIEW = 0;
+    private boolean mContactReturn = false;
     private TextView mEnjoyApplyBtn;
     private TextView mEnjoyApplyDefault;
     private TextView mEnjoyApplyForOne;
@@ -158,7 +164,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private LottieAnimationView mThemeLikeAnim;
     private int themeMode;
     private int foldingOrNot = THEME_ENJOY_FOLDING;
-    private int navFadeInOrVisible = NAV_VISIBLE;
+    public static int navFadeInOrVisible = NAV_VISIBLE;
     private RelativeLayout mEnjoyThemeLayout;
 
     // DownloadTask
@@ -504,7 +510,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     Analytics.logEvent("ThemeDetail_SetForContact_Started");
                     ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
                 }
-
+                if (mTheme.hasRingtone()) {
+                    mContactReturn = true;
+                }
                 mWaitContactResult = true;
 
             }
@@ -522,7 +530,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 if (!mTheme.hasRingtone()) {
                     onThemeApply();
-
+                    mHandler.sendEmptyMessage(MSG_SHOW);
+                    mEnjoyApplyBtn.setVisibility(VISIBLE);
                 } else {
                     showNavView(false);
                     fadeOutActionView();
@@ -672,6 +681,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         Utils.showToast(mActivity.getString(R.string.apply_success));
         GuideSetDefaultActivity.start(mActivity, false);
 
+
         if (!TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
             String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Apply", mTheme.getIdName());
             Analytics.logEvent(event,
@@ -688,6 +698,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
     }
+
 
     private boolean checkNewFeatureGuideView() {
         //TODO remove guide if no need to show.
@@ -970,7 +981,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void settingUndoldingView() {
 
-        int startCoordinateDefault = 168;
+        int startCoordinateDefault = Dimensions.pxFromDp(110);
         int endCoordinate = 0;
         mEnjoyApplyDefault.setTranslationY(startCoordinateDefault);
         mEnjoyApplyDefault.setAlpha(0);
@@ -986,7 +997,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 })
                 .start();
 
-        int startCoordinateSingle = 84;
+        int startCoordinateSingle = Dimensions.pxFromDp(54);
         mEnjoyApplyForOne.setTranslationY(startCoordinateSingle);
         mEnjoyApplyDefault.setAlpha(0);
         mEnjoyApplyForOne.animate().translationY(endCoordinate)
@@ -1022,7 +1033,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                 })
                 .start();
-        mEnjoyClose.setTranslationX(-31.5f);
+        mEnjoyClose.setTranslationX(-Dimensions.pxFromDp(21));
         mEnjoyClose.setRotation(90);
         mEnjoyClose.setAlpha(0f);
         mEnjoyClose.animate()
@@ -1044,7 +1055,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void settingFoldingView() {
-        int endCoordinateDefault = 168;
+        int endCoordinateDefault = Dimensions.pxFromDp(110);
         int startCoordinate = 0;
         mEnjoyApplyDefault.setTranslationY(startCoordinate);
         mEnjoyApplyDefault.setAlpha(1);
@@ -1060,7 +1071,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 })
                 .start();
 
-        int endCoordinateSingle = 84;
+        int endCoordinateSingle = Dimensions.pxFromDp(54);
         mEnjoyApplyForOne.setTranslationY(startCoordinate);
         mEnjoyApplyForOne.setAlpha(1);
         mEnjoyApplyForOne.animate().translationY(endCoordinateSingle)
@@ -1098,7 +1109,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mEnjoyClose.animate()
                 .alpha(0f)
                 .rotation(90)
-                .translationX(-31.5f)
+                .translationX(-Dimensions.pxFromDp(21))
                 .setDuration(ANIMATION_DURATION)
                 .setInterpolator(getmInterForTheme())
                 .setListener(new AnimatorListenerAdapter() {
@@ -1125,7 +1136,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void mActionLayoutfadeInView() {
-        int mActionLayoutHeight = 200;
+        int mActionLayoutHeight = Dimensions.pxFromDp(60);
         mActionLayout.setTranslationY(mActionLayoutHeight);
         getTransBottomLayout().animate().translationY(0)
                 .setDuration(ANIMATION_DURATION)
@@ -1244,7 +1255,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             if (mNoTransition) {
                 fadeInActionViewImmediately();
             } else {
-                fadeInActionView();
+                //fadeInActionView();
+                if (needShowRingtoneSetButton()) {
+                    showNavView(false);
+                    fadeOutActionView();
+                    mRingtoneViewHolder.setApplyForAll(false);
+                    navFadeInOrVisible = NAV_FADE_IN;
+                    showRingtoneSetButton();
+                    mWaitContactResult = false;
+                }
             }
         } else {
             fadeOutActionViewImmediately();
@@ -1297,13 +1316,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             showNavView(false);
             fadeOutActionView();
             mRingtoneViewHolder.setApplyForAll(false);
+            navFadeInOrVisible = NAV_FADE_IN;
             showRingtoneSetButton();
             mWaitContactResult = false;
             return;
         }
 
         if (anim) {
-            int mActionLayoutHeight = 200;
+            int mActionLayoutHeight = Dimensions.pxFromDp(60);
             mActionLayout.setTranslationY(mActionLayoutHeight);
             inTransition = true;
             getTransBottomLayout().animate().translationY(0)
@@ -1410,8 +1430,17 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             // GIf/Mp4
             if (TasksManager.getImpl().isDownloaded(model)) {
                 onThemeReady(playTrans);
-                mHandler.sendEmptyMessage(MSG_SHOW);
-                mEnjoyApplyBtn.setVisibility(VISIBLE);
+                if (mContactReturn) {
+                    themeMode = ENJOY_MODE;
+                    initDownloading();
+                    mContactReturn = false;
+
+                } else {
+                    mHandler.sendEmptyMessage(MSG_SHOW);
+                    mEnjoyApplyBtn.setVisibility(VISIBLE);
+                }
+
+                Log.e(TAG, "onStart: " );
                 onVideoReady(playTrans);
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
@@ -1972,11 +2001,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
                         Utils.showToast(mActivity.getString(R.string.apply_success));
+
                     }
                     if (getMode() == ENJOY_MODE) {
+                        navFadeInOrVisible = NAV_FADE_IN;
                         mHandler.sendEmptyMessage(MSG_SHOW);
                         mEnjoyApplyBtn.setVisibility(VISIBLE);
                     } else {
+                        navFadeInOrVisible = NAV_FADE_IN;
                         mHandler.sendEmptyMessage(MSG_HIDE);
                     }
                     break;
@@ -1991,9 +2023,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         Utils.showToast(mActivity.getString(R.string.apply_success));
                     }
                     if (getMode() == ENJOY_MODE) {
+                        navFadeInOrVisible = NAV_FADE_IN;
                         mHandler.sendEmptyMessage(MSG_SHOW);
                         mEnjoyApplyBtn.setVisibility(VISIBLE);
                     } else {
+                        navFadeInOrVisible = NAV_FADE_IN;
                         mHandler.sendEmptyMessage(MSG_HIDE);
                     }
                     break;

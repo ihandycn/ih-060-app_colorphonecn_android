@@ -16,6 +16,10 @@
 
 package com.honeycomb.colorphone.util;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -51,6 +55,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -64,9 +69,11 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.ReflectionHelper;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
@@ -98,6 +105,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.view.View.VISIBLE;
 
 public final class Utils {
 
@@ -850,16 +859,131 @@ public final class Utils {
     }
 
     public static void showToast(String hint) {
-       Toast toast = new Toast(HSApplication.getContext().getApplicationContext());
-        final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.toast_theme_apply, null);
+        Toast toast = new Toast(HSApplication.getContext().getApplicationContext());
+
+        final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.lottie_theme_apply, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             contentView.setElevation(Dimensions.pxFromDp(8));
         }
-        TextView textView = contentView.findViewById(R.id.text_toast);
-        textView.setText(hint);
-        int yOffset = (int) (0.6f * Dimensions.getPhoneHeight(HSApplication.getContext()));
-        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, yOffset);
+
+        RelativeLayout mThemeApply = contentView.findViewById(R.id.theme_apply_view);
+        RelativeLayout mThemeChange = contentView.findViewById(R.id.theme_apply_view_change);
+        LottieAnimationView mLottieThemeApply = contentView.findViewById(R.id.lottie_theme_apply);
+        TextView mApplySuccessText = contentView.findViewById(R.id.apply_success_text);
+        TextView mApplyText = contentView.findViewById(R.id.apply_text);
+
+
+        mThemeChange.animate().alpha(1f)
+                .setDuration(166)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mThemeChange.setVisibility(VISIBLE);
+
+                    }
+                })
+                .start();
+
+        mApplySuccessText.setTranslationY(Dimensions.pxFromDp(40));
+        mApplySuccessText.setAlpha(0);
+        ObjectAnimator moveUp = ObjectAnimator.ofFloat(mApplySuccessText, "translationY", Dimensions.pxFromDp(40), 0f);
+        moveUp.setInterpolator(PathInterpolatorCompat.create(0.4f, 0.61f, 1f, 1f));
+        ObjectAnimator fadeInOut = ObjectAnimator.ofFloat(mApplySuccessText, "alpha", 0f, 0.8f);
+        fadeInOut.setInterpolator(PathInterpolatorCompat.create(0.4f, 0.57f, 0.74f, 1f));
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(250);
+        animatorSet.setStartDelay(116);
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                mApplySuccessText.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animatorSet.play(moveUp).with(fadeInOut);
+        animatorSet.start();
+
+        mApplyText.setTranslationY(Dimensions.pxFromDp(50));
+        mApplyText.setAlpha(0);
+        ObjectAnimator moveUp1 = ObjectAnimator.ofFloat(mApplyText, "translationY", Dimensions.pxFromDp(50), 0f);
+        moveUp1.setInterpolator(PathInterpolatorCompat.create(0.4f, 0.35f, 1f, 1f));
+        ObjectAnimator fadeInOut1 = ObjectAnimator.ofFloat(mApplyText, "alpha", 0f, 0.5f);
+        fadeInOut1.setInterpolator(PathInterpolatorCompat.create(0.4f, 0.6f, 0.74f, 1f));
+        AnimatorSet animatorSet1 = new AnimatorSet();
+        animatorSet1.setDuration(250);
+        animatorSet1.setStartDelay(116);
+        animatorSet1.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                mApplyText.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animatorSet1.play(moveUp1).with(fadeInOut1);
+        animatorSet1.start();
+
+        mLottieThemeApply.animate().setStartDelay(166)
+                .setDuration(716)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mLottieThemeApply.setVisibility(VISIBLE);
+                        mLottieThemeApply.playAnimation();
+                    }
+                }).start();
+
+        mThemeChange.animate().alpha(0)
+                .setStartDelay(1132)
+                .setDuration(166)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mThemeChange.setVisibility(View.GONE);
+                    }
+                })
+                .start();
+
+        mThemeApply.animate().alpha(0)
+                .setStartDelay(1132)
+                .setDuration(166)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mThemeApply.setVisibility(View.GONE);
+                    }
+                })
+                .start();
+        toast.setGravity(Gravity.FILL, 0, 0);
         toast.setView(contentView);
+        toast.getView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         toast.show();
     }
 
