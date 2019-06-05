@@ -113,8 +113,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             }
         }
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
-
-        Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
     }
 
     @Override
@@ -393,6 +391,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     "Brand", AutoLogger.getBrand(),
                     "Os", AutoLogger.getOSVersion(),
                     "Time", String.valueOf(permissionShowCount));
+
+            Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
         });
 
         handler.postDelayed(() -> {
