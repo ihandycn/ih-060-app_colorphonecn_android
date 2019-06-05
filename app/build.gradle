@@ -146,7 +146,7 @@ final SUPPORT_LIBRARY_VERSION = '26.1.0'
 final GOOGLE_PLAY_SERVICES_VERSION = '15.0.0'
 
 dependencies {
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
         transitive = true
     }
 
