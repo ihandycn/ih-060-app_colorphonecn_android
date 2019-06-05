@@ -100,10 +100,6 @@ public class StartGuideViewHolder implements INotificationObserver {
     private View bgPopText;
     public boolean gotoFetchBgPop = false;
 
-    private View oneKeyFix;
-    private View skip;
-    private boolean showSkipDialog = true;
-
     private TextView progress;
     private int progressNum;
     private int goalNum = 0;
