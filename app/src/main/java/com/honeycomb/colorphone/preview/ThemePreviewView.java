@@ -151,7 +151,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     public static final int NAV_FADE_IN = 1;
     private static final int NAV_VISIBLE = 0;
     private TextView mThemeLikeCount;
-    TextView mThemeTitle;
+    private TextView mThemeTitle;
     private PercentRelativeLayout rootView;
 
     public static boolean ifShowThemeApplyView = false;
@@ -444,7 +444,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mEnjoyApplyForOne = findViewById(R.id.theme_setting_single);
         mEnjoyClose = findViewById(R.id.theme_setting_close);
         mThemeLikeAnim = findViewById(R.id.like_count_icon);
-        //mThemeSelected = findViewById(R.id.theme_selected);
+        mThemeSelected = findViewById(R.id.theme_selected);
+        mThemeSelected.setVisibility(GONE);
 
         rootView = findViewById(R.id.root);
 
@@ -834,6 +835,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
              navFadeInOrVisible = NAV_VISIBLE;
          } else {
              mNavBack.setVisibility(VISIBLE);
+         }
+         if (ifThemeSelected()) {
+             mThemeSelected.setVisibility(VISIBLE);
+         } else {
+             mThemeSelected.setVisibility(GONE);
          }
          changeModeToEnjoy();
          mEnjoyClose.setVisibility(GONE);
@@ -1407,6 +1413,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mHandler.sendEmptyMessageDelayed(MSG_HIDE, AUTO_HIDE_TIME);*/
     }
 
+    private boolean ifThemeSelected () {
+        return ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
+    }
+
     public void onStart() {
         mWaitMediaReadyCount = 0;
         // We do not play animation if activity restart.
@@ -1902,8 +1912,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             ringtoneSetLayout.setAlpha(1);
             ringtoneChangeBtn.setTranslationY(transYTop);
             ringtoneKeepBtn.setTranslationY(transYTop);
-            ringtoneChangeBtn.animate().setDuration(320).setInterpolator(mPathInterpolator).translationY(0).start();
-            ringtoneKeepBtn.animate().setDuration(320).setInterpolator(mPathInterpolator).translationY(0).setStartDelay(40).start();
+            ringtoneChangeBtn.animate().setDuration(240).setInterpolator(mPathInterpolator).translationY(0).start();
+            ringtoneKeepBtn.animate().setDuration(240).setInterpolator(mPathInterpolator).translationY(0).setStartDelay(40).start();
 
             Analytics.logEvent("Ringtone_Set_Shown", "ThemeName", mTheme.getName());
         }

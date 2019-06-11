@@ -217,6 +217,23 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/theme_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="19dp"
+            android:layout_above="@+id/title_line"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/shape_card_selected"
+            android:letterSpacing="0.1"
+            android:lineSpacingExtra="10sp"
+            android:text="当前主题"
+            android:textColor="#000000"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            />
+
+
+        <TextView
             android:id="@+id/collect_num"
             android:layout_width="72dp"
             android:layout_height="23dp"
