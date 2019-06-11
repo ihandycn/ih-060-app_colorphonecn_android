@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ import com.acb.cashcenter.OnIconClickListener;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.colorphone.lock.AnimatorListenerAdapter;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.AppflyerLogger;
@@ -144,9 +146,40 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 BoostStarterActivity.createShortCut(ColorPhoneActivity.this);
 
                 GuideSetDefaultActivity.start(ColorPhoneActivity.this, true);
+
+                LottieAnimationView lottieAnimationView = findViewById(R.id.lottie_guide_game);
+                lottieAnimationView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onGameClick();
+                        hideLottieGuide(lottieAnimationView);
+                    }
+                });
+                gameIcon.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        lottieAnimationView.setVisibility(View.VISIBLE);
+                        lottieAnimationView.playAnimation();
+
+                    }
+                });
+
             }
         }
     };
+
+    private void hideLottieGuide(LottieAnimationView lottieAnimationView) {
+        gameIcon.animate().alpha(1).setDuration(200).start();
+        lottieAnimationView.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                lottieAnimationView.setVisibility(View.GONE);
+                lottieAnimationView.setAlpha(1);
+            }
+        }).start();
+
+    }
 
     private Runnable cashCenterGuideRunnable = new Runnable() {
         @Override
@@ -190,6 +223,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private LottieAnimationView tabCashCenterGuide;
     private boolean showTabCashCenter = false;
     private TabTransController tabTransController;
+    private View gameContainer;
     private View gameIcon;
 
     private DoubleBackHandler mDoubleBackHandler = new DoubleBackHandler();
@@ -264,13 +298,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initMainFrame() {
 
         toolbar = findViewById(R.id.toolbar);
-        gameIcon = findViewById(R.id.iv_game);
+
+        gameContainer = findViewById(R.id.layout_game);
+
         boolean gameMainEntranceEnabled = CmGameUtil.canUseCmGame()
                 && HSConfig.optBoolean(false, "Application", "GameCenter", "MainViewEnable");
         if (gameMainEntranceEnabled) {
             Analytics.logEvent("MainView_GameCenter_Shown");
         }
-        gameIcon.setVisibility(gameMainEntranceEnabled ? View.VISIBLE : View.GONE);
+        gameContainer.setVisibility(gameMainEntranceEnabled ? View.VISIBLE : View.GONE);
+        gameIcon = findViewById(R.id.iv_game);
         gameIcon.setOnClickListener(this);
 
         logOpenEvent = true;
@@ -427,7 +464,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     }
                 }
 
-                gameIcon.setVisibility(pos == MAIN_POSITION ? View.VISIBLE : View.INVISIBLE);
+                gameContainer.setVisibility(pos == MAIN_POSITION ? View.VISIBLE : View.INVISIBLE);
 
                 switch (pos) {
                     case MAIN_POSITION:
@@ -920,12 +957,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_game:
-                Analytics.logEvent("MainView_GameCenter_Clicked");
-                CmGameUtil.startCmGameActivity(this, "MainIcon");
+                onGameClick();
                 break;
             default:
                 break;
         }
+    }
+
+    private void onGameClick() {
+        Analytics.logEvent("MainView_GameCenter_Clicked");
+        CmGameUtil.startCmGameActivity(this, "MainIcon");
     }
 
     @Override
