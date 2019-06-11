@@ -126,6 +126,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         return permissionShowCount >= HSConfig.optInteger(1, "Application", "AutoPermission", "AccessibilityShowCount");
     }
 
+    private boolean canShowSkip() {
+        return permissionShowCount >= HSConfig.optInteger(3, "Application", "AutoPermission", "SkipShowCount")
+                && !AutoRequestManager.getInstance().isGrantAllPermission();
+    }
+
     private void showAccessibilityPermissionPage() {
         View view = findViewById(R.id.start_guide_function_page);
         view.setVisibility(View.GONE);
@@ -192,26 +197,31 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 holder.setCircleAnimView(R.id.start_guide_confirm_number);
                 holder.startCircleAnimation();
 
-                if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
-                    view.findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
-                    View skip = view.findViewById(R.id.start_guide_confirm_skip);
-                    skip.setVisibility(View.VISIBLE);
-                    skip.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
+                if (canShowSkip()) {
+                    if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
+                        view.findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
+                        View skip = view.findViewById(R.id.start_guide_confirm_skip);
+                        skip.setVisibility(View.VISIBLE);
+                        skip.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
 
-                    skip.setOnClickListener(v -> {
-                        finish();
-                        Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
-                    });
+                        skip.setOnClickListener(v -> {
+                            finish();
+                            Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
+                        });
+                    } else {
+                        view.findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
+                        View close = view.findViewById(R.id.start_guide_confirm_close);
+                        close.setVisibility(View.VISIBLE);
+                        close.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
+
+                        close.setOnClickListener(v -> {
+                            showSkipDialog();
+                            Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
+                        });
+                    }
                 } else {
                     view.findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
-                    View close = view.findViewById(R.id.start_guide_confirm_close);
-                    close.setVisibility(View.VISIBLE);
-                    close.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
-
-                    close.setOnClickListener(v -> {
-                        showSkipDialog();
-                        Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
-                    });
+                    view.findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
                 }
 
                 View oneKeyFix = view.findViewById(R.id.start_guide_confirm_fix);
@@ -221,7 +231,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
                         from = FROM_KEY_START;
                     }
-                    Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
+                    permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
                     AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
 
                     Analytics.logEvent("FixAlert_Ok_Click", "From", from);
@@ -253,8 +263,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         btn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(26), true));
         btn.setOnClickListener(v -> {
             dismissDialog();
-            Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
-            AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
+//            permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
+//            AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, from);
 
             Analytics.logEvent("FixAlert_Retain_Ok_Click", "From", from);
         });
@@ -395,7 +405,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         button.setAlpha(0);
         button.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
         button.setOnClickListener(v -> {
-            gotoAcc();
+            AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_AUTO, from);
+
             permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(ACC_KEY_SHOW_COUNT);
             Analytics.logEvent("Accessbility_Guide_Btn_Click",
                     "Brand", AutoLogger.getBrand(),
@@ -411,10 +422,5 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             button.animate().alpha(1f).setDuration(750).start();
         }, 2400);
         AutoLogger.logEventWithBrandAndOS("Accessbility_Guide_Show");
-    }
-
-    private void gotoAcc() {
-        HSLog.i("AutoPermission", "isAccessibilityGranted == " + Utils.isAccessibilityGranted());
-        AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_AUTO, from);
     }
 }

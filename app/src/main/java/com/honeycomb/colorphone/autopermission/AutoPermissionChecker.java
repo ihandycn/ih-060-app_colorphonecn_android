@@ -37,7 +37,12 @@ public class AutoPermissionChecker {
     }
 
     public static boolean hasBgPopupPermission() {
-        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_bg_popup_permission", false);
+        if (Compats.IS_XIAOMI_DEVICE) {
+            return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_bg_popup_permission", false);
+        } else {
+            // TODO
+            return true;
+        }
     }
 
     public static void onShowOnLockScreenChange(boolean hasPermission) {

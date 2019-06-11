@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -27,6 +28,8 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.ihs.permission.Utils;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Threads;
 
 import java.lang.annotation.Retention;
@@ -83,21 +86,25 @@ public class StartGuideViewHolder implements INotificationObserver {
     private ImageView screenFlashOK;
     private LottieAnimationView screenFlashLoading;
     private View screenFlashText;
+    private View screenFlashFix;
     private boolean gotoFetchScreenFlash = false;
 
     private ImageView onLockerOK;
     private LottieAnimationView onLockerLoading;
     private View onLockerText;
+    private View onLockerFix;
     private boolean gotoFetchOnLock = false;
 
     private ImageView callOK;
     private LottieAnimationView callLoading;
     private View callText;
+    private View callFix;
     public boolean gotoFetchCall = false;
 
     private ImageView bgPopOK;
     private LottieAnimationView bgPopLoading;
     private View bgPopText;
+    private View bgPopFix;
     public boolean gotoFetchBgPop = false;
 
     private TextView progress;
@@ -172,6 +179,38 @@ public class StartGuideViewHolder implements INotificationObserver {
         bgPopLoading = container.findViewById(R.id.start_guide_permission_bg_pop_loading);
 
         if (isConfirmPage) {
+            screenFlashFix = container.findViewById(R.id.start_guide_permission_auto_start_fix);
+            screenFlashFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
+            screenFlashFix.setOnClickListener(v -> {
+                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_AUTO_START);
+                AutoLogger.logEventWithBrandAndOS("FixALert_AutoStart_Click");
+                gotoFetchScreenFlash = true;
+            });
+
+            onLockerFix = container.findViewById(R.id.start_guide_permission_onlocker_fix);
+            onLockerFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
+            onLockerFix.setOnClickListener(v -> {
+
+                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK);
+                AutoLogger.logEventWithBrandAndOS("FixALert_Lock_Click");
+                gotoFetchOnLock = true;
+            });
+
+            callFix = container.findViewById(R.id.start_guide_permission_call_fix);
+            callFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
+            callFix.setOnClickListener(v -> {
+                AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
+                AutoLogger.logEventWithBrandAndOS("FixALert_NA_Click");
+                gotoFetchCall = true;
+            });
+
+            bgPopFix = container.findViewById(R.id.start_guide_permission_bg_pop_fix);
+            bgPopFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
+            bgPopFix.setOnClickListener(v -> {
+                AutoRequestManager.getInstance().openPermission(AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP);
+                AutoLogger.logEventWithBrandAndOS("FixALert_BgPop_Click");
+                gotoFetchBgPop = true;
+            });
 
             refresh();
         } else {
@@ -182,7 +221,7 @@ public class StartGuideViewHolder implements INotificationObserver {
             setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK,
                     AutoPermissionChecker.hasShowOnLockScreenPermission() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
             setPermissionStatus(TYPE_PERMISSION_TYPE_CALL,
-                    AutoPermissionChecker.isAccessibilityGranted() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
+                    AutoPermissionChecker.isNotificationListeningGranted() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
             setPermissionStatus(TYPE_PERMISSION_TYPE_BG_POP,
                     AutoPermissionChecker.hasBgPopupPermission() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
         }
@@ -387,26 +426,31 @@ public class StartGuideViewHolder implements INotificationObserver {
         ImageView ok;
         LottieAnimationView loading;
         View text;
+        View fix;
         switch (pType) {
             case TYPE_PERMISSION_TYPE_CALL:
                 ok = callOK;
                 loading = callLoading;
                 text = callText;
+                fix = callFix;
                 break;
             case TYPE_PERMISSION_TYPE_ON_LOCK:
                 ok = onLockerOK;
                 loading = onLockerLoading;
                 text = onLockerText;
+                fix = onLockerFix;
                 break;
             case TYPE_PERMISSION_TYPE_SCREEN_FLASH:
                 ok = screenFlashOK;
                 loading = screenFlashLoading;
                 text = screenFlashText;
+                fix = screenFlashFix;
                 break;
             case TYPE_PERMISSION_TYPE_BG_POP:
                 ok = bgPopOK;
                 loading = bgPopLoading;
                 text = bgPopText;
+                fix = bgPopFix;
                 break;
             default:
 
@@ -448,8 +492,10 @@ public class StartGuideViewHolder implements INotificationObserver {
                 }
                 break;
             case PERMISSION_STATUS_FIX:
-                ok.setVisibility(View.VISIBLE);
-                ok.setImageResource(R.drawable.start_guide_confirm_alert_image);
+                if (fix != null) {
+                    ok.setVisibility(View.GONE);
+                    fix.setVisibility(View.VISIBLE);
+                }
                 break;
             case PERMISSION_STATUS_LOADING:
                 if (lastStatus != PERMISSION_STATUS_OK) {
@@ -459,6 +505,9 @@ public class StartGuideViewHolder implements INotificationObserver {
                         loading.useHardwareAcceleration();
                         loading.playAnimation();
                     }
+                }
+                if (fix != null) {
+                    fix.setVisibility(View.GONE);
                 }
                 break;
             case PERMISSION_STATUS_NOT_START:
@@ -527,6 +576,10 @@ public class StartGuideViewHolder implements INotificationObserver {
                         ok.animate().alpha(0.3f).setDuration(100).start();
                         text.animate().alpha(0.3f).setDuration(100).start();
                     }
+                }
+
+                if (fix != null) {
+                    fix.setVisibility(View.GONE);
                 }
 
                 break;
