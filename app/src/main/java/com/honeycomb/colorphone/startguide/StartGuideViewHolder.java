@@ -30,12 +30,14 @@ import com.ihs.permission.HSPermissionRequestMgr;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class StartGuideViewHolder implements INotificationObserver {
+    private static final String AUTO_PERMISSION_FAILED = "auto_permission_failed";
 
     public static final int TYPE_PERMISSION_TYPE_SCREEN_FLASH = 1;
     public static final int TYPE_PERMISSION_TYPE_ON_LOCK = 2;
@@ -213,6 +215,8 @@ public class StartGuideViewHolder implements INotificationObserver {
                 gotoFetchBgPop = true;
             });
 
+            isAutoPermissionFailed = Preferences.getDefault().getBoolean(AUTO_PERMISSION_FAILED, false);
+
             refresh();
         } else {
             progress = container.findViewById(R.id.start_guide_request_progress);
@@ -345,8 +349,10 @@ public class StartGuideViewHolder implements INotificationObserver {
             boolean result = hsBundle.getBoolean(AutoRequestManager.BUNDLE_PERMISSION_RESULT);
             int status = result ? PERMISSION_STATUS_OK : isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_FAILED;
             if (!result) {
+                Preferences.getDefault().putBoolean(AUTO_PERMISSION_FAILED, true);
                 isAutoPermissionFailed = true;
             }
+
             switch (pType) {
                 case HSPermissionRequestMgr.TYPE_AUTO_START:
                     updateProgress(TYPE_PERMISSION_TYPE_SCREEN_FLASH, status);
