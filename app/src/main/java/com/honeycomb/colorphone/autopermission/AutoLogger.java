@@ -36,6 +36,8 @@ public class AutoLogger {
                 return "Lock";
             case HSPermissionRequestMgr.TYPE_DRAW_OVERLAY:
                 return "Float";
+            case "TYPE_PERMISSION_TYPE_BG_POP":
+                return "BgPop";
             default:
                 return "Unknown";
         }
@@ -73,6 +75,10 @@ public class AutoLogger {
 
         if (AutoPermissionChecker.isNotificationListeningGranted()) {
             stringBuilder.append(formatPermissionName(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING)).append("_");
+        }
+
+        if (AutoPermissionChecker.hasBgPopupPermission()) {
+            stringBuilder.append(formatPermissionName("TYPE_PERMISSION_TYPE_BG_POP")).append("_");
         }
 
         if (stringBuilder.length() > 0) {

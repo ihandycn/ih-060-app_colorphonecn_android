@@ -366,6 +366,7 @@ public class AutoRequestManager {
 
     public boolean isGrantAllPermission() {
         return AutoPermissionChecker.hasAutoStartPermission()
+                && AutoPermissionChecker.hasBgPopupPermission()
                 && AutoPermissionChecker.hasShowOnLockScreenPermission()
                 && AutoPermissionChecker.isNotificationListeningGranted();
     }
