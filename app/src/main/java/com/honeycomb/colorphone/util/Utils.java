@@ -868,7 +868,7 @@ public final class Utils {
         return BitmapFactory.decodeFile(path, options);
     }
 
-    public static void showApplyView(PercentRelativeLayout rootView) {
+    public static void showApplyView(PercentRelativeLayout rootView, View mNavBack) {
         final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.lottie_theme_apply, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             contentView.setElevation(Dimensions.pxFromDp(8));
@@ -896,6 +896,17 @@ public final class Utils {
                     @Override
                     public void onAnimationStart(Animator animation) {
                         themeChange.setVisibility(VISIBLE);
+
+                    }
+                })
+                .start();
+
+        mNavBack.animate().alpha(0f)
+                .setDuration(166)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mNavBack.setVisibility(View.GONE);
 
                     }
                 })
@@ -997,6 +1008,16 @@ public final class Utils {
                             public void onAnimationEnd(Animator animation) {
                                 themeApply.setVisibility(View.GONE);
                                 viewGroup.removeView(contentView);
+                            }
+                        })
+                        .start();
+                mNavBack.animate().alpha(1f)
+                        .setDuration(166)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+                                mNavBack.setVisibility(VISIBLE);
+
                             }
                         })
                         .start();

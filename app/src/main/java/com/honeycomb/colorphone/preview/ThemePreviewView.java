@@ -155,6 +155,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private PercentRelativeLayout rootView;
 
     public static boolean ifShowThemeApplyView = false;
+    public static boolean isSelected = false;
     private boolean mContactReturn = false;
     private TextView mEnjoyApplyBtn;
     private TextView mEnjoyApplyDefault;
@@ -165,6 +166,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private int foldingOrNot = THEME_ENJOY_FOLDING;
     public static int navFadeInOrVisible = NAV_VISIBLE;
     private RelativeLayout mEnjoyThemeLayout;
+    private TextView mThemeSelected;
 
     // DownloadTask
     private SparseArray<DownloadTask> mDownloadTasks = new SparseArray<>(2);
@@ -442,6 +444,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mEnjoyApplyForOne = findViewById(R.id.theme_setting_single);
         mEnjoyClose = findViewById(R.id.theme_setting_close);
         mThemeLikeAnim = findViewById(R.id.like_count_icon);
+        //mThemeSelected = findViewById(R.id.theme_selected);
 
         rootView = findViewById(R.id.root);
 
@@ -678,7 +681,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        Utils.showApplyView(rootView);
+        Utils.showApplyView(rootView, mNavBack);
         GuideSetDefaultActivity.start(mActivity, false);
 
 
@@ -1431,7 +1434,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             if (TasksManager.getImpl().isDownloaded(model)) {
                 onThemeReady(playTrans);
                 if (ifShowThemeApplyView) {
-                    Utils.showApplyView(rootView);
+                    Utils.showApplyView(rootView, mNavBack);
                     ifShowThemeApplyView = false;
                 }
                 if (mContactReturn) {
@@ -2004,7 +2007,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         setAsRingtone(true, false);
 
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
-                        Utils.showApplyView(rootView);
+                        Utils.showApplyView(rootView, mNavBack);
 
                     }
                     if (getMode() == ENJOY_MODE) {
@@ -2024,7 +2027,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         onThemeApply();
                     } else {
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
-                        Utils.showApplyView(rootView);
+                        Utils.showApplyView(rootView, mNavBack);
                     }
                     if (getMode() == ENJOY_MODE) {
                         navFadeInOrVisible = NAV_FADE_IN;

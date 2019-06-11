@@ -296,6 +296,7 @@
             android:id="@+id/theme_setting_close"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:visibility="gone"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="24dp"
