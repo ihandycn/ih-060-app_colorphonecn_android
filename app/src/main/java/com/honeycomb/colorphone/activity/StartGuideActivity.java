@@ -222,7 +222,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             }
 
             if (canShowSkip()) {
-                if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
+                if (TextUtils.equals(from, FROM_KEY_GUIDE) || TextUtils.equals(from, FROM_KEY_START)) {
                     findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
                     View skip = findViewById(R.id.start_guide_confirm_skip);
                     skip.setVisibility(View.VISIBLE);

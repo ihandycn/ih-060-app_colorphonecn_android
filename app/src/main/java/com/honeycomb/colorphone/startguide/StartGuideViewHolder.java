@@ -112,6 +112,7 @@ public class StartGuideViewHolder implements INotificationObserver {
     private int goalNum = 0;
     private int progressInterval = UPGRADE_MIN_INTERVAL * 2;
     private int finalStatus;
+    private boolean isAutoPermissionFailed = false;
 
     private SparseIntArray permissionList = new SparseIntArray();
 
@@ -343,6 +344,9 @@ public class StartGuideViewHolder implements INotificationObserver {
             String pType = hsBundle.getString(AutoRequestManager.BUNDLE_PERMISSION_TYPE);
             boolean result = hsBundle.getBoolean(AutoRequestManager.BUNDLE_PERMISSION_RESULT);
             int status = result ? PERMISSION_STATUS_OK : isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_FAILED;
+            if (!result) {
+                isAutoPermissionFailed = true;
+            }
             switch (pType) {
                 case HSPermissionRequestMgr.TYPE_AUTO_START:
                     updateProgress(TYPE_PERMISSION_TYPE_SCREEN_FLASH, status);
@@ -491,9 +495,14 @@ public class StartGuideViewHolder implements INotificationObserver {
                 }
                 break;
             case PERMISSION_STATUS_FIX:
-                if (fix != null) {
-                    ok.setVisibility(View.GONE);
-                    fix.setVisibility(View.VISIBLE);
+                if (isAutoPermissionFailed) {
+                    if (fix != null) {
+                        ok.setVisibility(View.GONE);
+                        fix.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    ok.setVisibility(View.VISIBLE);
+                    ok.setImageResource(R.drawable.start_guide_confirm_alert_image);
                 }
                 break;
             case PERMISSION_STATUS_LOADING:
