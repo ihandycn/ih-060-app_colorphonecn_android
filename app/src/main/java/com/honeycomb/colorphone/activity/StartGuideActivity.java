@@ -197,33 +197,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 holder.setCircleAnimView(R.id.start_guide_confirm_number);
                 holder.startCircleAnimation();
 
-                if (canShowSkip()) {
-                    if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
-                        view.findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
-                        View skip = view.findViewById(R.id.start_guide_confirm_skip);
-                        skip.setVisibility(View.VISIBLE);
-                        skip.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
-
-                        skip.setOnClickListener(v -> {
-                            finish();
-                            Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
-                        });
-                    } else {
-                        view.findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
-                        View close = view.findViewById(R.id.start_guide_confirm_close);
-                        close.setVisibility(View.VISIBLE);
-                        close.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
-
-                        close.setOnClickListener(v -> {
-                            showSkipDialog();
-                            Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
-                        });
-                    }
-                } else {
-                    view.findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
-                    view.findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
-                }
-
                 View oneKeyFix = view.findViewById(R.id.start_guide_confirm_fix);
                 oneKeyFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
 
@@ -246,6 +219,33 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             } else {
                 int confirmPermission = holder.refresh();
                 showConfirmDialog(confirmPermission);
+            }
+
+            if (canShowSkip()) {
+                if (TextUtils.equals(from, FROM_KEY_GUIDE)) {
+                    findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
+                    View skip = findViewById(R.id.start_guide_confirm_skip);
+                    skip.setVisibility(View.VISIBLE);
+                    skip.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
+
+                    skip.setOnClickListener(v -> {
+                        finish();
+                        Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
+                    });
+                } else {
+                    findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
+                    View close = findViewById(R.id.start_guide_confirm_close);
+                    close.setVisibility(View.VISIBLE);
+                    close.setBackground(BackgroundDrawables.createBackgroundDrawable(0x0, Dimensions.pxFromDp(24), true));
+
+                    close.setOnClickListener(v -> {
+                        showSkipDialog();
+                        Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
+                    });
+                }
+            } else {
+                findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
+                findViewById(R.id.start_guide_confirm_close).setVisibility(View.GONE);
             }
         }
     }

@@ -288,7 +288,6 @@ public class StartGuideViewHolder implements INotificationObserver {
         }
 
         TextView ball = container.findViewById(R.id.start_guide_confirm_number);
-        TextView title = container.findViewById(R.id.start_guide_permission_title);
         ball.setText(String.valueOf(notGrant));
         return confirmPermission;
     }
