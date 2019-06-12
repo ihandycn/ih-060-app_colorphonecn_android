@@ -6,6 +6,7 @@ import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -20,6 +21,7 @@ import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -468,7 +470,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mRingtoneViewHolder = new RingtoneViewHolder();
         previewImage = (ImageView) findViewById(R.id.preview_bg_img);
         dimCover = findViewById(R.id.dim_cover);
-
+        expandViewTouchDelegate(mThemeLikeAnim, Dimensions.pxFromDp(10), Dimensions.pxFromDp(37), Dimensions.pxFromDp(30), Dimensions.pxFromDp(72));
         mApplyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -827,7 +829,32 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         });
     }
-     private void enjoyView() {
+
+    public static void expandViewTouchDelegate(final View view, final int top,
+                                               final int bottom, final int left, final int right) {
+
+        ((View) view.getParent()).post(new Runnable() {
+            @Override
+            public void run() {
+                Rect bounds = new Rect();
+                view.setEnabled(true);
+                view.getHitRect(bounds);
+
+                bounds.top -= top;
+                bounds.bottom += bottom;
+                bounds.left -= left;
+                bounds.right += right;
+
+                TouchDelegate touchDelegate = new TouchDelegate(bounds, view);
+
+                if (View.class.isInstance(view.getParent())) {
+                    ((View) view.getParent()).setTouchDelegate(touchDelegate);
+                }
+            }
+        });
+    }
+
+    private void enjoyView() {
          mActionLayout.setVisibility(GONE);
 
          mThemeLikeCount.setText(String.valueOf(mTheme.getDownload()));
@@ -1535,6 +1562,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (themeLoading) {
             startDownloadTime = System.currentTimeMillis();
+            Log.e(TAG, "onStart:32 " );
             onThemeLoading();
             initDownloading();
         }
@@ -1545,6 +1573,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
+                Log.e(TAG, "onStart: 43" );
                 boolean overrideSize = ColorPhoneApplication.mWidth > IMAGE_WIDTH;
 
                 GlideRequest request = GlideApp.with(getContext())
