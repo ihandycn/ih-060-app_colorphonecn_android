@@ -69,6 +69,7 @@ public class AutoRequestManager {
     public static final String TYPE_CUSTOM_BACKGROUND_POPUP = HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP;
 
     private static final boolean DEBUG_TEST = false && BuildConfig.DEBUG;
+    private static final long GUIDE_DELAY = 900;
 
     private HomeKeyWatcher homeKeyWatcher;
     private boolean needRestartApplication;
@@ -417,7 +418,7 @@ public class AutoRequestManager {
                     } else if (RomUtils.checkIsMiuiRom()){
                         Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
                     }
-                }, 900);
+                }, GUIDE_DELAY);
             }
         } else if (HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING.equals(type)) {
             if (Permissions.isNotificationAccessGranted()) {
@@ -429,7 +430,7 @@ public class AutoRequestManager {
                     } else {
                         Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
                     }
-                }, 900);
+                }, GUIDE_DELAY);
             }
         } else if (HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK.equals(type)) {
             if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
@@ -441,7 +442,7 @@ public class AutoRequestManager {
                     } else {
                         Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
                     }
-                }, 900);
+                }, GUIDE_DELAY);
             }
         } else if (TYPE_CUSTOM_BACKGROUND_POPUP.equals(type)) {
             if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasBgPopupPermission()) {
@@ -451,7 +452,7 @@ public class AutoRequestManager {
                     if (RomUtils.checkIsMiuiRom()){
                         Navigations.startActivitySafely(HSApplication.getContext(), BackgroundPopupMIUIGuideActivity.class);
                     }
-                }, 900);
+                }, GUIDE_DELAY);
             }
         }
 
