@@ -501,14 +501,9 @@ public class StartGuideViewHolder implements INotificationObserver {
                 }
                 break;
             case PERMISSION_STATUS_FIX:
-                if (isAutoPermissionFailed) {
-                    if (fix != null) {
-                        ok.setVisibility(View.GONE);
-                        fix.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    ok.setVisibility(View.VISIBLE);
-                    ok.setImageResource(R.drawable.start_guide_confirm_alert_image);
+                if (fix != null) {
+                    ok.setVisibility(View.GONE);
+                    fix.setVisibility(View.VISIBLE);
                 }
                 break;
             case PERMISSION_STATUS_LOADING:
