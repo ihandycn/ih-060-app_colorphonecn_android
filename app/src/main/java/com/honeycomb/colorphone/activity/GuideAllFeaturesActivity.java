@@ -135,9 +135,6 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
 
     private void buildPermissionList() {
         perms.add(Manifest.permission.READ_PHONE_STATE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            perms.add(Manifest.permission.ANSWER_PHONE_CALLS);
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             perms.add(Manifest.permission.READ_CALL_LOG);
         }
