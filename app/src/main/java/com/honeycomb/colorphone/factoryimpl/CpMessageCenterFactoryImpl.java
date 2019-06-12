@@ -69,6 +69,21 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             }
 
             @Override
+            public boolean showWeChatMessage() {
+                return true;
+            }
+
+            @Override
+            public boolean showWeChatWhenScreenOff() {
+                return true;
+            }
+
+            @Override
+            public boolean showWeChatWhenScreenOn() {
+                return false;
+            }
+
+            @Override
             public boolean showFacebookMessengerWhenScreenOn() {
                 return false;
             }
