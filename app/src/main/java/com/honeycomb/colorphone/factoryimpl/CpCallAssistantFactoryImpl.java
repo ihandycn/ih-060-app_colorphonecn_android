@@ -298,8 +298,11 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
             }
 
             @Override
-            public void onIdle(int i, String s) {
+            public void onIdle(int i, String number) {
                 stopFlashIfProper();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    LauncherAnalytics.logEvent("ColorPhone_CallFinish_Above9", true,"Number", TextUtils.isEmpty(number) ? "NO" : "Yes");
+                }
             }
 
             @Override
