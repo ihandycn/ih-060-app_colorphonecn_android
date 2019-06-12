@@ -112,6 +112,24 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (hsBundle != null) {
                     notifyItemChanged(unlockThemeAndGetAdapterPos(hsBundle));
                 }
+            } else if (ThemePreviewActivity.NOTIFY_LIKE_COUNT_CHANGE.equals(s)) {
+                if (hsBundle != null) {
+                    int pos = getDataPos(hsBundle);
+                    Theme theme = data.get(pos);
+                    int adapterPos = pos + getHeaderCount();
+                    RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
+
+                    if (holder instanceof  ThemeCardViewHolder) {
+                        ThemeCardViewHolder cardViewHolder = (ThemeCardViewHolder) holder;
+                        cardViewHolder.mThemeLikeCount.setText(String.valueOf(theme.getDownload()));
+                        if (theme.isLike()) {
+                            cardViewHolder.mThemeLikeAnim.setProgress(1f);
+                        } else {
+                            cardViewHolder.mThemeLikeAnim.setProgress(0f);
+                        }
+                    }
+
+                }
             }
         }
 
@@ -198,6 +216,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         recyclerView.addOnScrollListener(new WatchedScrollListener());
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, observer);
+        HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_LIKE_COUNT_CHANGE, observer);
 
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD, observer);
         HSGlobalNotificationCenter.addObserver(ColorPhoneActivity.NOTIFICATION_ON_REWARDED, observer);

@@ -41,6 +41,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public static final String NOTIFY_THEME_KEY = "notify_theme_select_key";
     public static final String NOTIFY_CONTEXT_KEY = "notify_theme_context_key";
     public static final String FROM_MAIN = "notify_theme_context_key";
+    public final static String NOTIFY_LIKE_COUNT_CHANGE = "theme_like_count_change";
 
     private Theme mTheme;
     private ArrayList<Theme> mThemes = new ArrayList<>();

@@ -829,6 +829,34 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
      private void enjoyView() {
          mActionLayout.setVisibility(GONE);
+
+         mThemeLikeCount.setText(String.valueOf(mTheme.getDownload()));
+         if (mTheme.isLike()) {
+             mThemeLikeAnim.setProgress(1f);
+         } else {
+             mThemeLikeAnim.setProgress(0f);
+         }
+         setLikeClick(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+
+                 mTheme.setLike(!mTheme.isLike());
+                 if (mTheme.isLike()) {
+                     mTheme.setDownload(mTheme.getDownload() + 1);
+                 } else {
+                     mTheme.setDownload(mTheme.getDownload() - 1);
+                 }
+
+                 HSBundle bundle = new HSBundle();
+                 bundle.putInt(NOTIFY_THEME_KEY, mTheme.getId());
+                 HSGlobalNotificationCenter.sendNotification(ThemePreviewActivity.NOTIFY_LIKE_COUNT_CHANGE, bundle);
+
+                 setLike(mTheme);
+
+             }
+         });
+
+
          if (navFadeInOrVisible == NAV_FADE_IN) {
              showNavView(true);
              fadeInActionView();
@@ -865,6 +893,31 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
              }
          });
      }
+
+    public void setLikeClick(View.OnClickListener onClickListener) {
+        mThemeLikeCount.setOnClickListener(onClickListener);
+        mThemeLikeAnim.setOnClickListener(onClickListener);
+    }
+
+    public void setLike(Theme theme) {
+        if (mThemeLikeAnim.isAnimating()) {
+            return;
+        }
+        if (theme.isLike()) {
+            mThemeLikeAnim.playAnimation();
+
+        } else {
+            setLottieProgress(mThemeLikeAnim, 0f);
+        }
+        mThemeLikeCount.setText(String.valueOf(theme.getDownload()));
+
+    }
+
+    private static void setLottieProgress(LottieAnimationView animationView, float v) {
+        if (animationView.getProgress() != v) {
+            animationView.setProgress(v);
+        }
+    }
 
     private void previewView() {
         mNavBack.setVisibility(GONE);

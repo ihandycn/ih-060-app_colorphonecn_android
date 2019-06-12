@@ -71,6 +71,7 @@
             android:maxLines="2"
             android:textColor="@color/primaryText"
             android:textSize="16sp"
+            android:textStyle="bold"
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
             app:layout_constraintBottom_toTopOf="@id/like_count_icon"
