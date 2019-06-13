@@ -177,6 +177,7 @@ public class ColorPhoneApplicationImpl {
             HSLog.d("Receive INotification: " + notificationName);
 
             if (HSNotificationConstant.HS_SESSION_START.equals(notificationName)) {
+                Analytics.logEvent("ColorPhone_Session_Start");
                 checkModuleAdPlacement();
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
@@ -213,9 +214,6 @@ public class ColorPhoneApplicationImpl {
                             + Dimensions.getPhoneHeight(HSApplication.getContext()));
         }, "Permission_Check_Above23_FirstSessionEnd");
 
-        if (mDailyLogger != null) {
-            mDailyLogger.checkAndLog();
-        }
     }
 
     private BroadcastReceiver mAutopilotFetchReceiver = new BroadcastReceiver() {
@@ -482,6 +480,11 @@ public class ColorPhoneApplicationImpl {
         logUserLevelDistribution();
 
         watchLifeTimeAutopilot();
+
+
+        if (mDailyLogger != null) {
+            mDailyLogger.checkAndLog();
+        }
     }
 
     private void watchLifeTimeAutopilot() {
