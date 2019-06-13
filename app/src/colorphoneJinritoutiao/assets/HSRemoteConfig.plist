@@ -895,9 +895,9 @@
 				<key>SmsAssistant</key>
 				<dict>
 					<key>Enable</key>
-					<false/>
+					<true/>
 					<key>ShowAds</key>
-					<false/>
+					<true/>
 				</dict>
 			</dict>
 			<key>Share</key>
