@@ -4,9 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -134,6 +139,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private TextView mApplyButton;
     private View mApplyForOne;
     private View mActionLayout;
+    private NetworkChangeReceiver networkChangeReceiver;
+    private IntentFilter intentFilter;
+    private boolean themeLoading = false;
+
 
     private View mNavBack;
 
@@ -599,7 +608,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void onMediaDownloadOK() {
         previewWindow.setVisibility(VISIBLE);
-        initEnjoyView();
+        intoEnjoyView();
         onThemeReady(NO_ANIMITION);
     }
 
@@ -777,18 +786,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             case ENJOY_MODE:
                 foldingOrNot = THEME_ENJOY_FOLDING;
                 themeMode = ENJOY_MODE;
-                enjoyView();
+                setEnjoyView();
                 break;
             case PREVIEW_MODE:
                 themeMode = PREVIEW_MODE;
-                previewView();
+                setPreviewView();
                 break;
             default:
                 break;
         }
     }
 
-    private void initDownloading() {
+    private void intoDownloadingMode() {
         mEnjoyThemeLayout.setVisibility(GONE);
         callActionView.setVisibility(GONE);
         mUserView.setVisibility(GONE);
@@ -802,7 +811,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mEnjoyApplyForOne.setVisibility(GONE);
     }
 
-    private void initEnjoyView() {
+    private void intoEnjoyView() {
         mEnjoyThemeLayout.setVisibility(VISIBLE);
 
         callActionView.setVisibility(GONE);
@@ -860,7 +869,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         });
     }
 
-    private void enjoyView() {
+    private void setEnjoyView() {
          mActionLayout.setVisibility(GONE);
 
          mThemeLikeCount.setText(String.valueOf(mTheme.getDownload()));
@@ -952,7 +961,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
-    private void previewView() {
+    private void setPreviewView() {
         mNavBack.setVisibility(GONE);
         changeModeToPreview();
     }
@@ -1504,6 +1513,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onStart() {
+        Log.e(TAG, "onStart" );
         mWaitMediaReadyCount = 0;
         // We do not play animation if activity restart.
         boolean playTrans = !hasStopped;
@@ -1524,7 +1534,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         /**
          * Flag for theme loading, ringtone will loading with theme data.
          */
-        boolean themeLoading = false;
         if (model != null) {
             // GIf/Mp4
             if (TasksManager.getImpl().isDownloaded(model)) {
@@ -1535,7 +1544,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
                 if (mContactReturn) {
                     themeMode = ENJOY_MODE;
-                    initDownloading();
+                    intoDownloadingMode();
                     mContactReturn = false;
 
                 } else {
@@ -1571,7 +1580,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
             onThemeLoading();
             previewWindow.setVisibility(INVISIBLE);
-            initDownloading();
+            intoDownloadingMode();
         } else {
             previewWindow.setVisibility(VISIBLE);
         }
@@ -1616,7 +1625,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onStop() {
-        Log.e(TAG, "onStop: " );
+        Log.e(TAG, "onStop" );
         hasStopped = true;
         pauseAnimation();
 
@@ -1752,6 +1761,19 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mRingtoneDownloadStateListener);
     }
 
+    private void registerReceiver() {
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        networkChangeReceiver = new NetworkChangeReceiver();
+        Log.e(TAG, "registerReceiverForInternetChange" );
+        getContext().registerReceiver(networkChangeReceiver, intentFilter);
+    }
+
+    private void unregisterReceiver() {
+        Log.e(TAG, "unregisterReceiverForInternetChange ");
+        getContext().unregisterReceiver(networkChangeReceiver);
+    }
+
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         // Not called !!
@@ -1768,6 +1790,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         super.onAttachedToWindow();
         onStart();
+        registerReceiver();
     }
 
     @Override
@@ -1775,6 +1798,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (DEBUG_LIFE_CALLBACK) {
             HSLog.d(" onDetachedFromWindow");
         }
+        unregisterReceiver();
         onStop();
 
         if (mRewardVideoView != null) {
@@ -2203,6 +2227,27 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         public void setStatus(int status) {
             mStatus = status;
+        }
+    }
+
+    class NetworkChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isAvailable()) {
+                if (themeLoading) {
+                    Toast.makeText(context, "network is available",
+                            Toast.LENGTH_SHORT).show();
+                    onThemeLoading();
+                    previewWindow.setVisibility(INVISIBLE);
+                    intoDownloadingMode();
+                } else {
+                    previewWindow.setVisibility(VISIBLE);
+                }
+
+            }
+
         }
     }
 
