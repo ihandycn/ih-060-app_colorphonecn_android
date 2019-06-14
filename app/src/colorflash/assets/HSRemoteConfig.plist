@@ -126,6 +126,14 @@
 			</dict>
 			<key>Dialer</key>
 			<dict>
+				<key>EnableAllOSVersionForBrand</key>
+				<array>
+					<string>vivo</string>
+					<string>xiaomi</string>
+					<string>Xiaomi</string>
+					<string>Itel</string>
+					<string>Infinix</string>
+				</array>
 				<key>EnableVersionList</key>
 				<array>
 					<integer>28</integer>
@@ -352,7 +360,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>can't deliver broadcast</string>
+					<string>can&apos;t deliver broadcast</string>
 					<key>Type</key>
 					<string>RemoteServiceException</string>
 				</dict>
@@ -381,7 +389,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to invoke virtual method 'void android.view.Display.getSize(android.graphics.Point)' on a null object reference</string>
+					<string>Attempt to invoke virtual method &apos;void android.view.Display.getSize(android.graphics.Point)&apos; on a null object reference</string>
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
@@ -389,7 +397,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference</string>
+					<string>Attempt to read from field &apos;int android.view.View.mViewFlags&apos; on a null object reference</string>
 				</dict>
 			</array>
 			<key>LEDReminder</key>
@@ -1015,7 +1023,7 @@
 							<key>ko</key>
 							<string>오늘의 테마</string>
 							<key>nl</key>
-							<string>Dagthema's</string>
+							<string>Dagthema&apos;s</string>
 							<key>pt</key>
 							<string>Temas diários</string>
 							<key>ru</key>
@@ -3541,7 +3549,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d'épice</string>
+							<string>Pain d&apos;épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -3703,7 +3711,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell'oro</string>
+							<string>Il mito dell&apos;oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>
@@ -4858,14 +4866,14 @@
 							<string>Los besos pueden consumir 1,560 calorías por hora, lo que equivale a 26 calorías por minuto. Besar puede que no sea la mejor manera de perder peso, pero no daña su cuerpo.
 </string>
 							<key>fr</key>
-							<string>Embrasser peut consommer 1 560 calories par heure, ce qui équivaut à 26 calories par minute. Embrasser n'est peut-être pas le meilleur moyen de perdre du poids, mais cela ne nuit pas à votre corps.
+							<string>Embrasser peut consommer 1 560 calories par heure, ce qui équivaut à 26 calories par minute. Embrasser n&apos;est peut-être pas le meilleur moyen de perdre du poids, mais cela ne nuit pas à votre corps.
 </string>
 							<key>hi</key>
 							<string>चुंबन प्रति घंटे 1,560 कैलोरी का उपभोग कर सकता है, जो 26 कैलोरी प्रति मिनट के बराबर है। चुंबन वजन कम करने का सबसे अच्छा तरीका नहीं हो सकता है, लेकिन यह आपके शरीर को नुकसान नहीं पहुंचाता है।</string>
 							<key>in</key>
 							<string>Berciuman dapat mengonsumsi 1.560 kalori per jam, yang setara dengan 26 kalori per menit. Berciuman mungkin bukan cara terbaik untuk menurunkan berat badan, tetapi itu tidak menyakiti tubuh Anda.</string>
 							<key>it</key>
-							<string>I baci possono consumare 1.560 calorie all'ora, equivalenti a 26 calorie al minuto. Baciarsi potrebbe non essere il modo migliore per perdere peso, ma non fa male al tuo corpo.</string>
+							<string>I baci possono consumare 1.560 calorie all&apos;ora, equivalenti a 26 calorie al minuto. Baciarsi potrebbe non essere il modo migliore per perdere peso, ma non fa male al tuo corpo.</string>
 							<key>ja</key>
 							<string>キスをすると1時間あたり1,560カロリーを消費することができます。これは、1分あたり26カロリーに相当します。キスは体重を減らすための最良の方法ではないかもしれませんが、それはあなたの体を傷つけることはありません。</string>
 							<key>ko</key>
@@ -4935,7 +4943,7 @@
 						<key>desc</key>
 						<dict>
 							<key>Default</key>
-							<string>The back of an elephant's ears are covered with an intricate network of blood vessels. And the thin skin over them allows some of the heat of the blood to dissipate through it.</string>
+							<string>The back of an elephant&apos;s ears are covered with an intricate network of blood vessels. And the thin skin over them allows some of the heat of the blood to dissipate through it.</string>
 							<key>ar</key>
 							<string>أذن الفيل رقيقة جدا والجزء الخلفي مغطى بشبكة معقدة من الأوعية الدموية حتى يمكن أن تتبدد عبر الأذن.
 </string>
@@ -4946,14 +4954,14 @@
 							<string>La oreja del elefante es muy delgada y la espalda está cubierta por una red intrincada de vasos sanguíneos para que pueda disiparse a través de la oreja.
 </string>
 							<key>fr</key>
-							<string>L'oreille de l'éléphant est très fine et le dos est recouvert d'un réseau complexe de vaisseaux sanguins, ce qui permet de le dissiper par l'oreille.
+							<string>L&apos;oreille de l&apos;éléphant est très fine et le dos est recouvert d&apos;un réseau complexe de vaisseaux sanguins, ce qui permet de le dissiper par l&apos;oreille.
 </string>
 							<key>hi</key>
 							<string>हाथी का कान बहुत पतला होता है और पीठ को रक्त वाहिकाओं के जटिल नेटवर्क से ढक दिया जाता है ताकि इसे कान के माध्यम से छीना जा सके।</string>
 							<key>in</key>
 							<string>Telinga gajah sangat tipis dan bagian belakang ditutupi dengan jaringan pembuluh darah yang rumit sehingga dapat dibuang melalui telinga.</string>
 							<key>it</key>
-							<string>L'orecchio dell'elefante è molto sottile e la parte posteriore è coperta da una rete intricata di vasi sanguigni che può essere dissipata attraverso l'orecchio.</string>
+							<string>L&apos;orecchio dell&apos;elefante è molto sottile e la parte posteriore è coperta da una rete intricata di vasi sanguigni che può essere dissipata attraverso l&apos;orecchio.</string>
 							<key>ja</key>
 							<string>象の耳は非常に細く、背中は複雑な血管網で覆われているため、耳を通して消散させることができます。</string>
 							<key>ko</key>
@@ -5040,7 +5048,7 @@
 							<key>in</key>
 							<string>Apel mengandung sekitar 13 gram gula alami. Gula ini menyebabkan rangsangan seperti kafein di dalam tubuh dan secara perlahan dilepaskan ke seluruh tubuh, membuat Anda merasa lebih terjaga.</string>
 							<key>it</key>
-							<string>La mela contiene circa 13 grammi di zucchero naturale. Questi zuccheri provocano l'eccitabilità simile alla caffeina nel corpo e vengono rilasciati lentamente in tutto il corpo, facendoti sentire più sveglio.</string>
+							<string>La mela contiene circa 13 grammi di zucchero naturale. Questi zuccheri provocano l&apos;eccitabilità simile alla caffeina nel corpo e vengono rilasciati lentamente in tutto il corpo, facendoti sentire più sveglio.</string>
 							<key>ja</key>
 							<string>アップルには約13グラムの天然糖が含まれています。これらの糖分は、体内でカフェインのような興奮性を引き起こし、ゆっくりと体中に放出されます。</string>
 							<key>ko</key>
@@ -5112,37 +5120,37 @@
 							<key>Default</key>
 							<string>Seasons and weather conditions play a role in birthdays.The mercury drops in the late fall and winter, things heat up at home as people spend more time indoors. About nine months later, a summer baby is born.</string>
 							<key>ar</key>
-							<string>يلعب الفصول والطقس دورًا خفيفًا في معدل المواليد. انخفض الناس في الخريف والشتاء ، ويقضي الناس وقتًا أطول في الداخل. بعد حوالي 9 أشهر ، ولد الطفل "الصيف"!
+							<string>يلعب الفصول والطقس دورًا خفيفًا في معدل المواليد. انخفض الناس في الخريف والشتاء ، ويقضي الناس وقتًا أطول في الداخل. بعد حوالي 9 أشهر ، ولد الطفل &quot;الصيف&quot;!
 </string>
 							<key>de</key>
-							<string>Jahreszeiten und Wetter spielen eine subtile Rolle bei der Geburtenrate. Die Menschen im Herbst und im Winter gehen nicht mehr, und die Menschen verbringen mehr Zeit in geschlossenen Räumen. Ungefähr 9 Monate später wurde das "Sommerbaby" geboren!
+							<string>Jahreszeiten und Wetter spielen eine subtile Rolle bei der Geburtenrate. Die Menschen im Herbst und im Winter gehen nicht mehr, und die Menschen verbringen mehr Zeit in geschlossenen Räumen. Ungefähr 9 Monate später wurde das &quot;Sommerbaby&quot; geboren!
 </string>
 							<key>es</key>
-							<string>Las estaciones y el clima desempeñan un papel sutil en la tasa de natalidad. Las personas en el otoño y el invierno están bajas, y la gente pasa más tiempo en el interior. Unos 9 meses después, ¡nació el bebé "de verano"!
+							<string>Las estaciones y el clima desempeñan un papel sutil en la tasa de natalidad. Las personas en el otoño y el invierno están bajas, y la gente pasa más tiempo en el interior. Unos 9 meses después, ¡nació el bebé &quot;de verano&quot;!
 </string>
 							<key>fr</key>
-							<string>Les saisons et la météo jouent un rôle subtil dans le taux de natalité. Les gens en automne et en hiver sont en baisse et ils passent plus de temps à l'intérieur. Environ 9 mois plus tard, le bébé "été" était né!
+							<string>Les saisons et la météo jouent un rôle subtil dans le taux de natalité. Les gens en automne et en hiver sont en baisse et ils passent plus de temps à l&apos;intérieur. Environ 9 mois plus tard, le bébé &quot;été&quot; était né!
 </string>
 							<key>hi</key>
-							<string>मौसम और मौसम जन्म दर में सूक्ष्म भूमिका निभाते हैं। गिरावट और सर्दियों में लोग नीचे हैं, और लोग घर के अंदर अधिक समय बिताते हैं। लगभग 9 महीने बाद, "गर्मी" बच्चे का जन्म हुआ!</string>
+							<string>मौसम और मौसम जन्म दर में सूक्ष्म भूमिका निभाते हैं। गिरावट और सर्दियों में लोग नीचे हैं, और लोग घर के अंदर अधिक समय बिताते हैं। लगभग 9 महीने बाद, &quot;गर्मी&quot; बच्चे का जन्म हुआ!</string>
 							<key>in</key>
-							<string>Musim dan cuaca memainkan peran halus dalam tingkat kelahiran. Orang-orang di musim gugur dan musim dingin turun, dan orang-orang menghabiskan lebih banyak waktu di dalam ruangan. Sekitar 9 bulan kemudian, bayi "musim panas" lahir!</string>
+							<string>Musim dan cuaca memainkan peran halus dalam tingkat kelahiran. Orang-orang di musim gugur dan musim dingin turun, dan orang-orang menghabiskan lebih banyak waktu di dalam ruangan. Sekitar 9 bulan kemudian, bayi &quot;musim panas&quot; lahir!</string>
 							<key>it</key>
-							<string>Le stagioni e il tempo giocano un ruolo sottile nel tasso di natalità. Le persone in autunno e in inverno sono giù e le persone passano più tempo in casa. Circa 9 mesi dopo, il bambino "estivo" è nato!</string>
+							<string>Le stagioni e il tempo giocano un ruolo sottile nel tasso di natalità. Le persone in autunno e in inverno sono giù e le persone passano più tempo in casa. Circa 9 mesi dopo, il bambino &quot;estivo&quot; è nato!</string>
 							<key>ja</key>
 							<string>季節や天候は出生率に微妙な役割を果たします。秋と冬の人々は衰退し、人々は屋内でより多くの時間を費やします。約9ヵ月後、「夏」の赤ちゃんが生まれました！</string>
 							<key>ko</key>
-							<string>계절과 날씨는 출생률에서 미묘한 역할을합니다. 가을과 겨울에 사람들이 쓰러지고 사람들은 실내에서 더 많은 시간을 보냅니다. 약 9 개월 후, "여름"아기가 태어났습니다!</string>
+							<string>계절과 날씨는 출생률에서 미묘한 역할을합니다. 가을과 겨울에 사람들이 쓰러지고 사람들은 실내에서 더 많은 시간을 보냅니다. 약 9 개월 후, &quot;여름&quot;아기가 태어났습니다!</string>
 							<key>pt</key>
-							<string>Estações e clima desempenham um papel sutil na taxa de natalidade. As pessoas no outono e no inverno caíram e as pessoas passam mais tempo dentro de casa. Cerca de 9 meses depois, nasceu o bebê "verão"!</string>
+							<string>Estações e clima desempenham um papel sutil na taxa de natalidade. As pessoas no outono e no inverno caíram e as pessoas passam mais tempo dentro de casa. Cerca de 9 meses depois, nasceu o bebê &quot;verão&quot;!</string>
 							<key>ru</key>
-							<string>Времена года и погода играют тонкую роль в уровне рождаемости. Люди осенью и зимой не работают, и люди проводят больше времени в помещении. Спустя 9 месяцев у "летнего" ребенка родился!</string>
+							<string>Времена года и погода играют тонкую роль в уровне рождаемости. Люди осенью и зимой не работают, и люди проводят больше времени в помещении. Спустя 9 месяцев у &quot;летнего&quot; ребенка родился!</string>
 							<key>th</key>
-							<string>ฤดูกาลและสภาพอากาศมีบทบาทอย่างละเอียดในอัตราการเกิด ผู้คนในฤดูใบไม้ร่วงและฤดูหนาวเริ่มลดลงและผู้คนใช้เวลาอยู่ข้างในมากขึ้น ประมาณ 9 เดือนต่อมาทารก "ฤดูร้อน" ก็ถือกำเนิดขึ้น!</string>
+							<string>ฤดูกาลและสภาพอากาศมีบทบาทอย่างละเอียดในอัตราการเกิด ผู้คนในฤดูใบไม้ร่วงและฤดูหนาวเริ่มลดลงและผู้คนใช้เวลาอยู่ข้างในมากขึ้น ประมาณ 9 เดือนต่อมาทารก &quot;ฤดูร้อน&quot; ก็ถือกำเนิดขึ้น!</string>
 							<key>tr</key>
-							<string>Mevsimler ve hava, doğum oranında belirsiz bir rol oynamaktadır. Sonbahar ve kış aylarında insanlar çökmekte ve insanlar iç mekanda daha fazla zaman geçirmektedir. Yaklaşık 9 ay sonra, "yaz" bebeği doğdu!</string>
+							<string>Mevsimler ve hava, doğum oranında belirsiz bir rol oynamaktadır. Sonbahar ve kış aylarında insanlar çökmekte ve insanlar iç mekanda daha fazla zaman geçirmektedir. Yaklaşık 9 ay sonra, &quot;yaz&quot; bebeği doğdu!</string>
 							<key>vi</key>
-							<string>Mùa và thời tiết đóng một vai trò tinh tế trong tỷ lệ sinh. Mọi người vào mùa thu và mùa đông xuống, và mọi người dành nhiều thời gian hơn trong nhà. Khoảng 9 tháng sau, em bé "mùa hè" chào đời!</string>
+							<string>Mùa và thời tiết đóng một vai trò tinh tế trong tỷ lệ sinh. Mọi người vào mùa thu và mùa đông xuống, và mọi người dành nhiều thời gian hơn trong nhà. Khoảng 9 tháng sau, em bé &quot;mùa hè&quot; chào đời!</string>
 							<key>zh</key>
 							<string>季节和天气对出生率起到潜移默化的作用。秋季和冬季人的精力下降，人们会在室内度过更多时间。大约9个月后，“夏季”宝宝就出生啦！</string>
 							<key>zh-rCN</key>
@@ -5166,14 +5174,14 @@
 							<string>La tasa de natalidad del bebé fue la más alta en agosto del año.
 </string>
 							<key>fr</key>
-							<string>Le taux de natalité du bébé était le plus élevé en août de l'année.
+							<string>Le taux de natalité du bébé était le plus élevé en août de l&apos;année.
 </string>
 							<key>hi</key>
 							<string>बच्चे की जन्म दर वर्ष के अगस्त में सबसे अधिक थी।</string>
 							<key>in</key>
 							<string>Tingkat kelahiran bayi adalah yang tertinggi pada bulan Agustus tahun ini.</string>
 							<key>it</key>
-							<string>Il tasso di natalità del bambino era il più alto in agosto dell'anno.</string>
+							<string>Il tasso di natalità del bambino era il più alto in agosto dell&apos;anno.</string>
 							<key>ja</key>
 							<string>赤ちゃんの出生率は、今年の8月に最高でした。</string>
 							<key>ko</key>
@@ -5273,7 +5281,7 @@
 							<key>th</key>
 							<string>แมวนอนหลับไป 66%</string>
 							<key>tr</key>
-							<string>Kedinin hayatının% 66'sı uyuyor.</string>
+							<string>Kedinin hayatının% 66&apos;sı uyuyor.</string>
 							<key>vi</key>
 							<string>Con mèo có 66% cuộc đời đang ngủ.</string>
 							<key>zh</key>
@@ -5304,7 +5312,7 @@
 							<key>in</key>
 							<string>Hewan yang melompat membutuhkan pergelangan kaki yang sangat fleksibel dan otot tendon dan betis Achilles yang sangat kuat, sedangkan otot tungkai bawah gajah benar-benar lemah dan pergelangan kaki tidak sangat fleksibel.</string>
 							<key>it</key>
-							<string>animali Jumping devono essere molto flessibili e molto forte alla caviglia del tendine d'Achille e del polpaccio muscoli, muscoli delle gambe e gli elefanti molto debole e la caviglia non è molto flessibile.</string>
+							<string>animali Jumping devono essere molto flessibili e molto forte alla caviglia del tendine d&apos;Achille e del polpaccio muscoli, muscoli delle gambe e gli elefanti molto debole e la caviglia non è molto flessibile.</string>
 							<key>ja</key>
 							<string>動物の跳躍は非常に柔軟な足首と非常に強いアキレス腱とふくらはぎの筋肉を必要としますが、象の下肢の筋肉は本当に弱く、足首はそれほど柔軟ではありません。</string>
 							<key>ko</key>
@@ -5331,7 +5339,7 @@
 						<key>title</key>
 						<dict>
 							<key>Default</key>
-							<string>Elephants are the only mammal that can't jump.</string>
+							<string>Elephants are the only mammal that can&apos;t jump.</string>
 							<key>ar</key>
 							<string>الفيلة هي الثدييات الأرضية الوحيدة التي لا يمكنها القفز.
 </string>
@@ -5437,7 +5445,7 @@
 							<key>in</key>
 							<string>Madu adalah satu-satunya makanan alami yang tidak merusak.</string>
 							<key>it</key>
-							<string>Il miele è l'unico alimento naturale che non guasta.</string>
+							<string>Il miele è l&apos;unico alimento naturale che non guasta.</string>
 							<key>ja</key>
 							<string>蜂蜜は腐らない唯一の天然食品です。</string>
 							<key>ko</key>
@@ -5473,7 +5481,7 @@
 							<string>La fresa tiene aproximadamente un 40% de azúcar, mientras que el limón es de hasta un 70%.
 </string>
 							<key>fr</key>
-							<string>La fraise contient environ 40% de sucre, tandis que le citron en contient jusqu'à 70%
+							<string>La fraise contient environ 40% de sucre, tandis que le citron en contient jusqu&apos;à 70%
 </string>
 							<key>hi</key>
 							<string>स्ट्रॉबेरी में लगभग 40% चीनी होती है, जबकि नींबू में 70% तक होता है</string>
@@ -5561,7 +5569,7 @@
 							<string>Puede ser porque los hombres tienen más probabilidades de estar en un ambiente peligroso.
 </string>
 							<key>fr</key>
-							<string>C'est peut-être parce que les hommes sont plus susceptibles d'être dans un environnement dangereux.
+							<string>C&apos;est peut-être parce que les hommes sont plus susceptibles d&apos;être dans un environnement dangereux.
 </string>
 							<key>hi</key>
 							<string>यह हो सकता है क्योंकि पुरुषों के लिए खतरनाक वातावरण में होने की अधिक संभावना है।</string>
@@ -5606,7 +5614,7 @@
 							<string>Los hombres tienen 7 veces más probabilidades de ser alcanzados por un rayo que las mujeres.
 </string>
 							<key>fr</key>
-							<string>Les hommes sont 7 fois plus susceptibles d'être frappés par la foudre que les femmes.
+							<string>Les hommes sont 7 fois plus susceptibles d&apos;être frappés par la foudre que les femmes.
 </string>
 							<key>hi</key>
 							<string>महिलाओं की तुलना में पुरुषों को बिजली गिरने का 7 गुना अधिक खतरा होता है।</string>
@@ -5835,7 +5843,7 @@
 							<key>in</key>
 							<string>Menurut Dewan Telur AS, ayam menghasilkan sekitar lima telur seminggu. Ini berarti rata-rata 260 telur per tahun.</string>
 							<key>it</key>
-							<string>Secondo l'US Egg Council, le galline producono circa cinque uova alla settimana. Ciò significa una media di 260 uova all'anno.</string>
+							<string>Secondo l&apos;US Egg Council, le galline producono circa cinque uova alla settimana. Ciò significa una media di 260 uova all&apos;anno.</string>
 							<key>ja</key>
 							<string>米国卵評議会によると、鶏は週に約5個の卵を産みます。これは年間平均260個の卵を意味します。</string>
 							<key>ko</key>
@@ -5847,7 +5855,7 @@
 							<key>th</key>
 							<string>ตามที่สภาไข่ของสหรัฐอเมริกาไก่ผลิตไข่ได้ประมาณห้าฟองต่อสัปดาห์ ซึ่งหมายความว่าโดยเฉลี่ย 260 ฟองต่อปี</string>
 							<key>tr</key>
-							<string>ABD Yumurta Konseyi'ne göre, tavuklar haftada yaklaşık beş yumurta üretiyorlar. Bu, yılda ortalama 260 yumurta anlamına gelir.</string>
+							<string>ABD Yumurta Konseyi&apos;ne göre, tavuklar haftada yaklaşık beş yumurta üretiyorlar. Bu, yılda ortalama 260 yumurta anlamına gelir.</string>
 							<key>vi</key>
 							<string>Theo Hội đồng Trứng Hoa Kỳ, gà mái sản xuất khoảng năm quả trứng mỗi tuần. Điều này có nghĩa là trung bình 260 quả trứng mỗi năm.</string>
 							<key>zh</key>
@@ -5880,7 +5888,7 @@
 							<key>in</key>
 							<string>Ayam dapat menghasilkan rata-rata 260 telur setahun.</string>
 							<key>it</key>
-							<string>La gallina può produrre in media 260 uova all'anno.</string>
+							<string>La gallina può produrre in media 260 uova all&apos;anno.</string>
 							<key>ja</key>
 							<string>鶏は年間平均260個の卵を生産することができます。</string>
 							<key>ko</key>
@@ -5916,14 +5924,14 @@
 							<string>El cerebro está formado por un 78% de agua. Los seres humanos necesitan 2,4 litros de agua al día, algunos beben, y el resto del agua se toma de los alimentos que consumen.
 </string>
 							<key>fr</key>
-							<string>Le cerveau est composé à 78% d'eau. Les humains ont besoin de 2,4 litres d’eau par jour, certains en buvant, et le reste de l’eau provient des aliments qu’ils consomment.
+							<string>Le cerveau est composé à 78% d&apos;eau. Les humains ont besoin de 2,4 litres d’eau par jour, certains en buvant, et le reste de l’eau provient des aliments qu’ils consomment.
 </string>
 							<key>hi</key>
 							<string>मस्तिष्क 78% पानी से बना है। मनुष्य को एक दिन में 2.4 लीटर पानी की आवश्यकता होती है, कुछ पीने से, और बाकी पानी वे जो भोजन लेते हैं उससे लिया जाता है।</string>
 							<key>in</key>
 							<string>Otak terdiri dari 78% air. Manusia membutuhkan 2,4 liter air sehari, sebagian dengan minum, dan sisanya diambil dari makanan yang mereka konsumsi.</string>
 							<key>it</key>
-							<string>Il cervello è composto per il 78% di acqua. Gli esseri umani hanno bisogno di 2,4 litri di acqua al giorno, alcuni bevendo, e il resto dell'acqua viene prelevato dal cibo che consumano.</string>
+							<string>Il cervello è composto per il 78% di acqua. Gli esseri umani hanno bisogno di 2,4 litri di acqua al giorno, alcuni bevendo, e il resto dell&apos;acqua viene prelevato dal cibo che consumano.</string>
 							<key>ja</key>
 							<string>脳は78％の水で構成されています。人間は一日に2.4リットルの水を必要とし、そのうちのいくつかは飲むことによって、残りの水は彼らが消費する食物から取られます。</string>
 							<key>ko</key>
@@ -5961,7 +5969,7 @@
 							<string>El cerebro humano contiene un promedio de 78% de agua.
 </string>
 							<key>fr</key>
-							<string>Le cerveau humain contient en moyenne 78% d'eau.
+							<string>Le cerveau humain contient en moyenne 78% d&apos;eau.
 </string>
 							<key>hi</key>
 							<string>मानव मस्तिष्क में औसतन 78% पानी होता है।</string>
@@ -6099,7 +6107,7 @@
 							<key>in</key>
 							<string>Kami menghabiskan sekitar 8 jam sehari, 56 jam seminggu, 240 jam sebulan dan 2.920 jam setahun. Anda tidur sekitar 122 hari setahun. Jadi 75 tahun akan menghabiskan sekitar 25 tahun tidur.</string>
 							<key>it</key>
-							<string>Passiamo circa 8 ore al giorno, 56 ore alla settimana, 240 ore al mese e 2.920 ore all'anno. Dormi circa 122 giorni all'anno. Quindi un 75enne trascorrerà circa 25 anni a dormire.</string>
+							<string>Passiamo circa 8 ore al giorno, 56 ore alla settimana, 240 ore al mese e 2.920 ore all&apos;anno. Dormi circa 122 giorni all&apos;anno. Quindi un 75enne trascorrerà circa 25 anni a dormire.</string>
 							<key>ja</key>
 							<string>1日8時間、1週間に56時間、1か月に240時間、1年に2,920時間を費やしています。あなたは年間122日眠ります。そのため、75歳の子供は約25年間眠ることになるでしょう。</string>
 							<key>ko</key>
@@ -6139,7 +6147,7 @@
 							<string>La vida de una persona durará unos 25 años en el sueño.
 </string>
 							<key>fr</key>
-							<string>La vie d'une personne durera environ 25 ans en sommeil.
+							<string>La vie d&apos;une personne durera environ 25 ans en sommeil.
 </string>
 							<key>hi</key>
 							<string>एक व्यक्ति का जीवन लगभग 25 साल की नींद में होगा।</string>
@@ -6189,7 +6197,7 @@
 							<key>in</key>
 							<string>Warna-warna cerah membuat mobil lebih terlihat, membuatnya lebih aman di jalan.</string>
 							<key>it</key>
-							<string>I colori più brillanti rendono l'auto più visibile, rendendoli più sicuri sulla strada.</string>
+							<string>I colori più brillanti rendono l&apos;auto più visibile, rendendoli più sicuri sulla strada.</string>
 							<key>ja</key>
 							<string>明るい色は車をより見やすくし、路上での安全性を高めます。</string>
 							<key>ko</key>
@@ -6270,7 +6278,7 @@
 							<string>Por lo general, es mejor parpadear cuando una persona está en un estado de tensión. Tal vez las mujeres tienen más probabilidades de estar nerviosas.
 </string>
 							<key>fr</key>
-							<string>Il est généralement préférable de cligner des yeux lorsqu'une personne est dans un état de tension. Peut-être que les femmes sont plus susceptibles d'être nerveuses.
+							<string>Il est généralement préférable de cligner des yeux lorsqu&apos;une personne est dans un état de tension. Peut-être que les femmes sont plus susceptibles d&apos;être nerveuses.
 </string>
 							<key>hi</key>
 							<string>जब व्यक्ति तनाव की स्थिति में होता है तो पलक झपकना आमतौर पर बेहतर होता है। हो सकता है कि महिलाओं के नर्वस होने की संभावना अधिक हो।</string>
@@ -6367,7 +6375,7 @@
 							<key>in</key>
 							<string>Tidur sekitar satu jam mengkonsumsi sekitar 77 kalori.</string>
 							<key>it</key>
-							<string>Dormire per circa un'ora consuma circa 77 calorie.</string>
+							<string>Dormire per circa un&apos;ora consuma circa 77 calorie.</string>
 							<key>ja</key>
 							<string>約1時間睡眠すると、約77カロリーを消費します。</string>
 							<key>ko</key>
@@ -6449,7 +6457,7 @@
 							<string>El empaque original de Coca-Cola era verde. Se cambió a marrón desde 1886.
 </string>
 							<key>fr</key>
-							<string>L'emballage d'origine de Coca-Cola était vert. Il a été changé en brun à partir de 1886.
+							<string>L&apos;emballage d&apos;origine de Coca-Cola était vert. Il a été changé en brun à partir de 1886.
 </string>
 							<key>hi</key>
 							<string>कोका-कोला की मूल पैकेजिंग हरे रंग की थी। इसे 1886 से भूरे रंग में बदल दिया गया था।</string>
@@ -6468,7 +6476,7 @@
 							<key>th</key>
 							<string>บรรจุภัณฑ์ดั้งเดิมของ Coca-Cola เป็นสีเขียว มันเปลี่ยนเป็นสีน้ำตาลจาก 2429</string>
 							<key>tr</key>
-							<string>Coca-Cola'nın orijinal ambalajı yeşildi. 1886'dan kahverengiye dönüştü.</string>
+							<string>Coca-Cola&apos;nın orijinal ambalajı yeşildi. 1886&apos;dan kahverengiye dönüştü.</string>
 							<key>vi</key>
 							<string>Bao bì ban đầu của Coca-Cola có màu xanh lá cây. Nó được đổi thành màu nâu từ năm 1886.</string>
 							<key>zh</key>
@@ -6494,7 +6502,7 @@
 							<string>El empaque original de Coca-Cola era verde.
 </string>
 							<key>fr</key>
-							<string>L'emballage d'origine de Coca-Cola était vert.
+							<string>L&apos;emballage d&apos;origine de Coca-Cola était vert.
 </string>
 							<key>hi</key>
 							<string>कोका-कोला की मूल पैकेजिंग हरे रंग की थी।</string>
@@ -6513,7 +6521,7 @@
 							<key>th</key>
 							<string>บรรจุภัณฑ์ดั้งเดิมของ Coca-Cola เป็นสีเขียว</string>
 							<key>tr</key>
-							<string>Coca-Cola'nın orijinal ambalajı yeşildi.</string>
+							<string>Coca-Cola&apos;nın orijinal ambalajı yeşildi.</string>
 							<key>vi</key>
 							<string>Bao bì ban đầu của Coca-Cola có màu xanh lá cây.</string>
 							<key>zh</key>
@@ -6537,14 +6545,14 @@
 							<string>En general, esto significa que a uno de cada 1,000 bebés se le enviará un error. La buena noticia, sin embargo, es que la mayoría de estos errores se descubren antes de que la familia salga del hospital.
 </string>
 							<key>fr</key>
-							<string>Dans l’ensemble, cela signifie qu’un bébé sur 1 000 recevra une erreur. La bonne nouvelle, toutefois, est que la plupart de ces erreurs sont découvertes avant le départ de la famille de l'hôpital.
+							<string>Dans l’ensemble, cela signifie qu’un bébé sur 1 000 recevra une erreur. La bonne nouvelle, toutefois, est que la plupart de ces erreurs sont découvertes avant le départ de la famille de l&apos;hôpital.
 </string>
 							<key>hi</key>
 							<string>कुल मिलाकर, इसका मतलब है कि हर 1,000 में से एक बच्चे को गलती से भेजा जाएगा। हालाँकि, अच्छी खबर यह है कि इनमें से अधिकांश गलतियाँ परिवार के अस्पताल छोड़ने से पहले ही पता चल जाती हैं।</string>
 							<key>in</key>
 							<string>Secara keseluruhan, ini berarti bahwa satu dari setiap 1.000 bayi akan dikirim kesalahan. Namun, kabar baiknya adalah bahwa sebagian besar kesalahan ini ditemukan sebelum keluarga meninggalkan rumah sakit.</string>
 							<key>it</key>
-							<string>Nel complesso, ciò significa che a uno su 1.000 bambini verrà inviato un errore. La buona notizia, tuttavia, è che la maggior parte di questi errori viene scoperta prima che la famiglia lasci l'ospedale.</string>
+							<string>Nel complesso, ciò significa che a uno su 1.000 bambini verrà inviato un errore. La buona notizia, tuttavia, è che la maggior parte di questi errori viene scoperta prima che la famiglia lasci l&apos;ospedale.</string>
 							<key>ja</key>
 							<string>全体的に、これは1000人の赤ん坊のうちの1人が間違いを送られることを意味します。しかし、幸いなことに、これらの過ちの大部分は家族が退院する前に発見されています。</string>
 							<key>ko</key>
@@ -6625,7 +6633,7 @@
 							<string>La nariz y los ojos están conectados por los nervios craneales, por lo que los estímulos estornudos pasan un nervio al cerebro y luego a lo largo de otro nervio a los párpados, lo que hace que la mayoría de las personas cierren los ojos.
 </string>
 							<key>fr</key>
-							<string>Le nez et les yeux étant reliés par les nerfs crâniens, les stimuli d'éternuement transmettent un nerf au cerveau, puis un autre nerf aux paupières, ce qui force la plupart des gens à fermer les yeux.
+							<string>Le nez et les yeux étant reliés par les nerfs crâniens, les stimuli d&apos;éternuement transmettent un nerf au cerveau, puis un autre nerf aux paupières, ce qui force la plupart des gens à fermer les yeux.
 </string>
 							<key>hi</key>
 							<string>नाक और आंखें कपाल नसों से जुड़ी होती हैं, इसलिए छींकने वाली उत्तेजनाएं एक तंत्रिका को मस्तिष्क तक और फिर एक और तंत्रिका के साथ पलकों तक ले जाती हैं, जिससे ज्यादातर लोग अपनी आंखें बंद कर लेते हैं।</string>
@@ -6670,7 +6678,7 @@
 							<string>Es imposible estornudar con los ojos abiertos.
 </string>
 							<key>fr</key>
-							<string>Il est impossible d'éternuer les yeux ouverts.
+							<string>Il est impossible d&apos;éternuer les yeux ouverts.
 </string>
 							<key>hi</key>
 							<string>अपनी आँखें खोलकर छींकना असंभव है।</string>
@@ -6713,7 +6721,7 @@
 							<string>Sir Joseph inventó la bombilla incandescente. Edison solo mejoró el diseño que patentó hace 10 años.
 </string>
 							<key>fr</key>
-							<string>Sir Joseph a inventé l'ampoule à incandescence. Edison n'a amélioré que le design qu'il a breveté il y a 10 ans.
+							<string>Sir Joseph a inventé l&apos;ampoule à incandescence. Edison n&apos;a amélioré que le design qu&apos;il a breveté il y a 10 ans.
 </string>
 							<key>hi</key>
 							<string>सर जोसेफ ने गरमागरम बल्ब का आविष्कार किया। एडिसन ने केवल उस डिजाइन में सुधार किया जिसे उन्होंने 10 साल पहले पेटेंट कराया था।</string>
@@ -6747,7 +6755,7 @@
 						<key>title</key>
 						<dict>
 							<key>Default</key>
-							<string>9 out of 10 people believe Thomas Edison invented the light bulb.This isn't true; Joseph Swan did.</string>
+							<string>9 out of 10 people believe Thomas Edison invented the light bulb.This isn&apos;t true; Joseph Swan did.</string>
 							<key>ar</key>
 							<string>يعتقد تسعة أشخاص بالغين أن إديسون اخترع المصباح الكهربائي ، في الواقع أن مخترع المصباح الكهربائي هو جوزيف سوان.
 </string>
@@ -6758,14 +6766,14 @@
 							<string>El 90% cree que Edison inventó la bombilla, de hecho, el inventor de la bombilla es Joseph Swann.
 </string>
 							<key>fr</key>
-							<string>90% pensent qu'Edison a inventé l'ampoule. En fait, l'inventeur de l'ampoule est Joseph Swann.
+							<string>90% pensent qu&apos;Edison a inventé l&apos;ampoule. En fait, l&apos;inventeur de l&apos;ampoule est Joseph Swann.
 </string>
 							<key>hi</key>
 							<string>10 में से 9 लोगों का मानना ​​है कि थॉमस एडिसन ने प्रकाश बल्ब का आविष्कार किया था। यह सच नहीं है, जोसेफ स्वान ने किया था।</string>
 							<key>in</key>
 							<string>9 dari 10 orang percaya Thomas Edison menemukan bola lampu. Ini tidak benar, Joseph Swan melakukannya.</string>
 							<key>it</key>
-							<string>Nove adulti pensano che Edison abbia inventato la lampadina, infatti l'inventore della lampadina è Joseph Swann.</string>
+							<string>Nove adulti pensano che Edison abbia inventato la lampadina, infatti l&apos;inventore della lampadina è Joseph Swann.</string>
 							<key>ja</key>
 							<string>トーマスエジソンが電球を発明したと90％が信じています、実際には電球の発明者はジョセフスワンです。</string>
 							<key>ko</key>
@@ -6777,7 +6785,7 @@
 							<key>th</key>
 							<string>ผู้ใหญ่เก้าคนคิดว่าเอดิสันเป็นผู้คิดค้นหลอดไฟในความเป็นจริงผู้ประดิษฐ์หลอดไฟคือโจเซฟสวอนน์</string>
 							<key>tr</key>
-							<string>Dokuz yetişkin Edison'un ampulü icat ettiğini düşünüyor, aslında ampulün mucidi Joseph Swann.</string>
+							<string>Dokuz yetişkin Edison&apos;un ampulü icat ettiğini düşünüyor, aslında ampulün mucidi Joseph Swann.</string>
 							<key>vi</key>
 							<string>90% tin rằng Edison đã phát minh ra bóng đèn, trên thực tế, người phát minh ra bóng đèn là Joseph Swann.</string>
 							<key>zh</key>
@@ -6808,7 +6816,7 @@
 							<key>in</key>
 							<string>Setiap kali kita membuka jendela atau pintu, kita mengambil dan mengganggu partikel-partikel kecil di udara, yang akhirnya jatuh di sekitar rumah.</string>
 							<key>it</key>
-							<string>Ogni volta che apriamo una finestra o una porta, raccogliamo e disturbiamo le minuscole particelle nell'aria, che alla fine cadono intorno alla casa.</string>
+							<string>Ogni volta che apriamo una finestra o una porta, raccogliamo e disturbiamo le minuscole particelle nell&apos;aria, che alla fine cadono intorno alla casa.</string>
 							<key>ja</key>
 							<string>私たちが窓やドアを開けるときはいつでも、私たちは空気中の小さな粒子を拾い上げて乱します。そして、それは結局家の周りに落ちます。</string>
 							<key>ko</key>
@@ -6934,7 +6942,7 @@
 							<string>Cuando dos personas se besan, alrededor de dos tercios de ellas se inclinan hacia la derecha.
 </string>
 							<key>fr</key>
-							<string>Lorsque deux personnes s'embrassent, environ les deux tiers d'entre elles se penchent à droite.
+							<string>Lorsque deux personnes s&apos;embrassent, environ les deux tiers d&apos;entre elles se penchent à droite.
 </string>
 							<key>hi</key>
 							<string>जब दो लोग चुंबन करते हैं, तो उनमें से लगभग दो-तिहाई दाईं ओर झुक जाते हैं।</string>
@@ -6978,14 +6986,14 @@
 							<string>Las mujeres profesionales generalmente hacen los 365 días del año, incluso si no aplican maquillaje pesado, se frotarán el lápiz labial.
 </string>
 							<key>fr</key>
-							<string>Les femmes professionnelles maquillent généralement 365 jours par an, même si elles n'appliquent pas de maquillage épais, elles frottent le rouge à lèvres.
+							<string>Les femmes professionnelles maquillent généralement 365 jours par an, même si elles n&apos;appliquent pas de maquillage épais, elles frottent le rouge à lèvres.
 </string>
 							<key>hi</key>
 							<string>पेशेवर महिलाएं आमतौर पर वर्ष में 365 दिन बनाती हैं, भले ही वे भारी मेकअप लागू न करें, वे लिपस्टिक को रगड़ेंगी।</string>
 							<key>in</key>
 							<string>Wanita profesional biasanya melakukan 365 hari setahun, bahkan jika mereka tidak menggunakan riasan tebal, mereka akan menggosok lipstik.</string>
 							<key>it</key>
-							<string>Le donne professioniste di solito compongono 365 giorni all'anno, anche se non applicano il trucco pesante, si strofineranno il rossetto.</string>
+							<string>Le donne professioniste di solito compongono 365 giorni all&apos;anno, anche se non applicano il trucco pesante, si strofineranno il rossetto.</string>
 							<key>ja</key>
 							<string>プロの女性は通常、365日はメイクをしています。たとえ重い化粧をしなくても、口紅をこすります。</string>
 							<key>ko</key>
@@ -7086,7 +7094,7 @@
 							<key>th</key>
 							<string>เกี่ยวกับวัฏจักรการเผาผลาญของผิวหนังจะรับรู้ได้ว่าผิวที่มีเขาด้านนอกสุดคือ 28 วัน ชั้น corneum ใช้เวลา 14 วันในการฟอร์มและใช้เวลา 14 วันในการตกออก</string>
 							<key>tr</key>
-							<string>Derinin metabolik döngüsüyle ilgili olarak, en dıştaki azgın cildin 28 gün olduğu kabul edilmektedir. Stratum korneum'un oluşması 14 gün, düşmesi 14 gün sürer.</string>
+							<string>Derinin metabolik döngüsüyle ilgili olarak, en dıştaki azgın cildin 28 gün olduğu kabul edilmektedir. Stratum korneum&apos;un oluşması 14 gün, düşmesi 14 gün sürer.</string>
 							<key>vi</key>
 							<string>Liên quan đến chu kỳ trao đổi chất của da, người ta nhận ra rằng lớp sừng ngoài cùng là 28 ngày. Tầng sừng mất 14 ngày để hình thành và mất 14 ngày để rụng.</string>
 							<key>zh</key>
@@ -7155,14 +7163,14 @@
 							<string>Cuando te pones los auriculares, cubrirás tus oídos del aire natural, lo que aumentará la producción de bacterias en un 700% en 1 hora. Sus tímpanos, naturalmente, no pueden soportar la entrada de esta cantidad de bacterias.
 </string>
 							<key>fr</key>
-							<string>Lorsque vous portez vos écouteurs, vos oreilles seront couvertes de l'air naturel, ce qui augmentera la production de bactéries de 700% en moins d'une heure. Vos tympans ne peuvent naturellement pas résister à l'afflux de cette bactérie.
+							<string>Lorsque vous portez vos écouteurs, vos oreilles seront couvertes de l&apos;air naturel, ce qui augmentera la production de bactéries de 700% en moins d&apos;une heure. Vos tympans ne peuvent naturellement pas résister à l&apos;afflux de cette bactérie.
 </string>
 							<key>hi</key>
 							<string>जब आप अपने हेडफ़ोन पर डालते हैं, तो आप अपने कानों को प्राकृतिक हवा से ढक लेंगे, जिससे 1 घंटे के भीतर बैक्टीरिया का उत्पादन 700% बढ़ जाएगा। आपके इयरड्रम प्राकृतिक रूप से इस बैक्टीरिया की मात्रा का सामना नहीं कर सकते हैं।</string>
 							<key>in</key>
 							<string>Ketika Anda memakai headphone, Anda akan menutup telinga dari udara alami, yang akan meningkatkan produksi bakteri hingga 700% dalam 1 jam. Gendang telinga Anda secara alami tidak dapat menahan aliran bakteri dalam jumlah ini.</string>
 							<key>it</key>
-							<string>Quando ti metti le cuffie, coprirai le orecchie dall'aria naturale, che aumenterà la produzione di batteri del 700% entro 1 ora. I timpani non possono sopportare naturalmente l'afflusso di questa quantità di batteri.</string>
+							<string>Quando ti metti le cuffie, coprirai le orecchie dall&apos;aria naturale, che aumenterà la produzione di batteri del 700% entro 1 ora. I timpani non possono sopportare naturalmente l&apos;afflusso di questa quantità di batteri.</string>
 							<key>ja</key>
 							<string>ヘッドフォンを装着すると、自然な空気で耳が覆われるようになります。これにより、1時間以内にバクテリアの生産量が700％増加します。あなたの鼓膜は自然にこの量の細菌の流入に耐えることができません。</string>
 							<key>ko</key>
@@ -7207,7 +7215,7 @@
 							<key>in</key>
 							<string>Mengenakan headphone selama satu jam meningkatkan bakteri di telinga Anda sebanyak 700 kali.</string>
 							<key>it</key>
-							<string>Indossare le cuffie per un'ora aumenta i batteri nelle orecchie di 700 volte.</string>
+							<string>Indossare le cuffie per un&apos;ora aumenta i batteri nelle orecchie di 700 volte.</string>
 							<key>ja</key>
 							<string>1時間ヘッドフォンを装着すると、耳の中のバクテリアが700倍増えます。</string>
 							<key>ko</key>
@@ -7243,14 +7251,14 @@
 							<string>Cuando escuchan música, las vacas son propensas a liberar oxitocina, una hormona asociada con el proceso de ordeño. Esto se debe a que cuando hay música en sus oídos, sienten que la presión se reduce gradualmente y se relaja más.
 </string>
 							<key>fr</key>
-							<string>Lorsqu'elles écoutent de la musique, les vaches sont susceptibles de libérer de l'ocytocine, une hormone associée au processus de traite. En effet, quand il y a de la musique dans leurs oreilles, ils sentent que la pression est progressivement réduite et plus détendue.
+							<string>Lorsqu&apos;elles écoutent de la musique, les vaches sont susceptibles de libérer de l&apos;ocytocine, une hormone associée au processus de traite. En effet, quand il y a de la musique dans leurs oreilles, ils sentent que la pression est progressivement réduite et plus détendue.
 </string>
 							<key>hi</key>
 							<string>जब संगीत सुनते हैं, तो गायों को ऑक्सीटोसिन छोड़ने की संभावना होती है, एक हार्मोन जो दूध देने की प्रक्रिया से जुड़ा होता है। ऐसा इसलिए है क्योंकि जब उनके कानों में संगीत होता है, तो उन्हें लगता है कि दबाव धीरे-धीरे कम हो जाता है और अधिक आराम मिलता है।</string>
 							<key>in</key>
 							<string>Saat mendengarkan musik, sapi cenderung melepaskan oksitosin, hormon yang terkait dengan proses pemerahan. Ini karena ketika ada musik di telinga mereka, mereka merasakan tekanan secara bertahap berkurang dan lebih santai.</string>
 							<key>it</key>
-							<string>Quando si ascolta la musica, le mucche sono inclini a rilasciare ossitocina, un ormone associato al processo di mungitura. Questo perché quando c'è musica nelle loro orecchie, sentono che la pressione viene gradualmente ridotta e più rilassata.</string>
+							<string>Quando si ascolta la musica, le mucche sono inclini a rilasciare ossitocina, un ormone associato al processo di mungitura. Questo perché quando c&apos;è musica nelle loro orecchie, sentono che la pressione viene gradualmente ridotta e più rilassata.</string>
 							<key>ja</key>
 							<string>音楽を聴くとき、牛は搾乳プロセスに関連するホルモンであるオキシトシンを放出する傾向があります。これは、音楽が耳に入っていると、プレッシャーが徐々に軽減されてリラックスしたように感じるためです。</string>
 							<key>ko</key>
@@ -7331,7 +7339,7 @@
 							<string>La principal dificultad es que el grosor aumenta y la resistencia del papel aumenta. Si dobla la misma hoja de papel 7 veces, tendrá un grosor de 128 hojas.
 </string>
 							<key>fr</key>
-							<string>La principale difficulté est que l'épaisseur augmente et que la résistance du papier augmente elle-même. Si vous pliez la même feuille de papier 7 fois, l’épaisseur de celle-ci sera de 128 feuilles.
+							<string>La principale difficulté est que l&apos;épaisseur augmente et que la résistance du papier augmente elle-même. Si vous pliez la même feuille de papier 7 fois, l’épaisseur de celle-ci sera de 128 feuilles.
 </string>
 							<key>hi</key>
 							<string>मुख्य कठिनाई यह है कि मोटाई बढ़ रही है और कागज की ताकत बढ़ रही है। यदि आप कागज की एक ही शीट को 7 बार मोड़ते हैं, तो यह कागज की 128 शीट जितनी मोटी होगी।</string>
@@ -7419,14 +7427,14 @@
 							<string>Debido a que las mujeres portan dos cromosomas X y los hombres portan solo uno, la probabilidad de que un niño obtenga inteligencia de una madre es el doble.
 </string>
 							<key>fr</key>
-							<string>Étant donné que les femmes ont deux chromosomes X et que les hommes n'en ont qu'un, les chances qu'un enfant obtienne l'intelligence d'une mère sont deux fois plus nombreuses.
+							<string>Étant donné que les femmes ont deux chromosomes X et que les hommes n&apos;en ont qu&apos;un, les chances qu&apos;un enfant obtienne l&apos;intelligence d&apos;une mère sont deux fois plus nombreuses.
 </string>
 							<key>hi</key>
 							<string>क्योंकि महिलाएं दो एक्स गुणसूत्र ले जाती हैं और पुरुष केवल एक ही ले जाते हैं, एक बच्चे को मां से बुद्धिमत्ता मिलने की संभावना दोगुनी होती है।</string>
 							<key>in</key>
 							<string>Karena wanita membawa dua kromosom X dan pria hanya membawa satu, kemungkinan seorang anak mendapatkan kecerdasan dari seorang ibu adalah dua kali lipat.</string>
 							<key>it</key>
-							<string>Poiché le donne portano due cromosomi X e gli uomini ne portano solo una, la probabilità che un bambino ottenga l'intelligenza da una madre è il doppio.</string>
+							<string>Poiché le donne portano due cromosomi X e gli uomini ne portano solo una, la probabilità che un bambino ottenga l&apos;intelligenza da una madre è il doppio.</string>
 							<key>ja</key>
 							<string>女性は2つのX染色体を持っており、男性は1つしか持っていないので、子供が母親から知能を得る可能性はその2倍です。</string>
 							<key>ko</key>
@@ -7453,7 +7461,7 @@
 						<key>title</key>
 						<dict>
 							<key>Default</key>
-							<string>Approximately 80% of a child's intelligence is acquired from the mother.</string>
+							<string>Approximately 80% of a child&apos;s intelligence is acquired from the mother.</string>
 							<key>ar</key>
 							<string>80 ٪ من ذكاء الطفل يأتي من الأم.
 </string>
@@ -7464,14 +7472,14 @@
 							<string>El 80% de la inteligencia del niño proviene de la madre.
 </string>
 							<key>fr</key>
-							<string>80% de l'intelligence de l'enfant provient de la mère.
+							<string>80% de l&apos;intelligence de l&apos;enfant provient de la mère.
 </string>
 							<key>hi</key>
 							<string>बच्चे की 80% बुद्धि माँ से आती है।</string>
 							<key>in</key>
 							<string>80% kecerdasan anak berasal dari ibu.</string>
 							<key>it</key>
-							<string>L'80% dell'intelligenza del bambino proviene dalla madre.</string>
+							<string>L&apos;80% dell&apos;intelligenza del bambino proviene dalla madre.</string>
 							<key>ja</key>
 							<string>子供の知能の80％は母親から来ています。</string>
 							<key>ko</key>
@@ -7483,7 +7491,7 @@
 							<key>th</key>
 							<string>สติปัญญาของเด็ก 80% มาจากแม่</string>
 							<key>tr</key>
-							<string>Çocuğun istihbaratının% 80'i anneden geliyor.</string>
+							<string>Çocuğun istihbaratının% 80&apos;i anneden geliyor.</string>
 							<key>vi</key>
 							<string>80% trí thông minh của trẻ đến từ người mẹ.</string>
 							<key>zh</key>
