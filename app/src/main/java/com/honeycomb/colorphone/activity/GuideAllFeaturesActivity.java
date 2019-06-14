@@ -195,13 +195,6 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
                 == RuntimePermissions.PERMISSION_GRANTED;
         boolean contactPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                 == RuntimePermissions.PERMISSION_GRANTED;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            boolean callLogPerm = RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG)
-                    == RuntimePermissions.PERMISSION_GRANTED;
-            if (!callLogPerm) {
-                LauncherAnalytics.logEvent("ColorPhone_CallLog_Alert_Show_Above9");
-            }
-        }
         if (!phonePerm) {
             LauncherAnalytics.logEvent("ColorPhone_Permission__Phone_SystemStyle_Show_FirstScreen");
         }
@@ -258,11 +251,6 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
             if (list.contains(Manifest.permission.READ_CONTACTS)) {
                 LauncherAnalytics.logEvent("ColorPhone_Permission_Contact_SystemStyle_Allow_Click_FirstScreen");
                 PermissionChecker.onContactPermissionGranted();
-            }
-
-            if (list.contains(Manifest.permission.READ_CALL_LOG)) {
-                LauncherAnalytics.logEvent("ColorPhone_CallLog_Alert_OK_Click_Above9");
-                PermissionChecker.onPhonePermissionGranted();
             }
         }
     }

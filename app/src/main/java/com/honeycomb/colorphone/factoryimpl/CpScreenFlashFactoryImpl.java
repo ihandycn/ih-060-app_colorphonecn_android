@@ -427,10 +427,6 @@ public class CpScreenFlashFactoryImpl extends com.acb.call.customize.ScreenFlash
             logExceptionAcceptFailTurn();
         } else if ("Acb_ScreenFlash_AcceptFail_TimeOut".equalsIgnoreCase(eventID)) {
             logExceptionAcceptFailTimeout();
-        } else if ("Acb_Screenflash_Show".equalsIgnoreCase(eventID)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                LauncherAnalytics.logEvent("ColorPhone_ScreenFlash_Show_Above9", true);
-            }
         }
     }
 
