@@ -243,6 +243,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public void updateDownloaded(boolean progressFlag) {
             if (triggerMediaReady()) {
                 playDownloadOkTransAnimation();
+                onMediaDownloadOK();
             }
         }
 
@@ -268,6 +269,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public void updateDownloaded(boolean progressFlag) {
             if (triggerMediaReady()) {
                 playDownloadOkTransAnimation();
+                onMediaDownloadOK();
             }
         }
 
@@ -592,8 +594,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void playDownloadOkTransAnimation() {
         mProgressViewHolder.fadeOut();
         dimCover.animate().alpha(0).setDuration(200);
-        initEnjoyView();
         animationDelay = 0;
+    }
+
+    private void onMediaDownloadOK() {
+        previewWindow.setVisibility(VISIBLE);
+        initEnjoyView();
         onThemeReady(NO_ANIMITION);
     }
 
@@ -1537,7 +1543,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     mEnjoyApplyBtn.setVisibility(VISIBLE);
                 }
 
-                Log.e(TAG, "onStart: " );
+
                 onVideoReady(playTrans);
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
@@ -1562,9 +1568,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (themeLoading) {
             startDownloadTime = System.currentTimeMillis();
-            Log.e(TAG, "onStart:32 " );
+
             onThemeLoading();
+            previewWindow.setVisibility(INVISIBLE);
             initDownloading();
+        } else {
+            previewWindow.setVisibility(VISIBLE);
         }
 
         // Show background if gif drawable not ready.
@@ -1573,7 +1582,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
-                Log.e(TAG, "onStart: 43" );
+
                 boolean overrideSize = ColorPhoneApplication.mWidth > IMAGE_WIDTH;
 
                 GlideRequest request = GlideApp.with(getContext())
