@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -45,9 +44,9 @@ import java.util.List;
 
 public class GuideAllFeaturesActivity extends HSAppCompatActivity {
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 1000;
-    private int permsCount = 0;
 
-    private List<String> perms = new ArrayList<>();
+    private String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
+    private int permsCount = 0;
 
     Handler mHandler = new Handler(Looper.getMainLooper());
     private boolean ingoreNotificationPermission;
@@ -64,8 +63,6 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        buildPermissionList();
-
         HSPreferenceHelper.getDefault().putBoolean("guide_locker_stated", true);
         setContentView(R.layout.guide_all_features);
         StatusBarUtils.hideStatusBar(this);
@@ -133,16 +130,6 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         GdprUtils.showGdprAlertIfNeeded(this);
     }
 
-    private void buildPermissionList() {
-        perms.add(Manifest.permission.READ_PHONE_STATE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            perms.add(Manifest.permission.ANSWER_PHONE_CALLS);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            perms.add(Manifest.permission.READ_CALL_LOG);
-        }
-        perms.add(Manifest.permission.READ_CONTACTS);
-    }
 
     private boolean titleNew() {
         String titleType = HSConfig.optString("new", "Application", "NotificationAccess", "FirstScreenTitle");
@@ -203,7 +190,7 @@ public class GuideAllFeaturesActivity extends HSAppCompatActivity {
         }
         if (!phonePerm || !contactPerm){
             // Do not have permissions, request them now
-            RuntimePermissions.requestPermissions(this, perms.toArray(new String[0]), FIRST_LAUNCH_PERMISSION_REQUEST);
+            RuntimePermissions.requestPermissions(this, perms, FIRST_LAUNCH_PERMISSION_REQUEST);
             return true;
         }
         return false;
