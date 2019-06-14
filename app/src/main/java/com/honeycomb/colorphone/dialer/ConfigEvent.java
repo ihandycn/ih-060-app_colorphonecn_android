@@ -16,11 +16,21 @@ public class ConfigEvent {
     }
 
     private static boolean enabledThisVersion() {
+        // Check os version
         List<Integer> enableList = (List<Integer>) HSConfig.getList("Application", "Dialer", "EnableVersionList");
         int versionCode = Build.VERSION.SDK_INT;
         if (enableList != null && enableList.contains(versionCode)) {
             return true;
         }
+
+        // Check brand
+        List<String> enableBrandList = (List<String>) HSConfig.getList("Application", "Dialer", "EnableAllOSVersionForBrand");
+        for (String brand : enableBrandList) {
+            if (Build.BRAND.equalsIgnoreCase(brand)){
+                return true;
+            }
+        }
+
         return false;
     }
 
