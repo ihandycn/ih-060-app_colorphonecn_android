@@ -304,7 +304,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>can&apos;t deliver broadcast</string>
+					<string>can't deliver broadcast</string>
 					<key>Type</key>
 					<string>RemoteServiceException</string>
 				</dict>
@@ -333,7 +333,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to invoke virtual method &apos;void android.view.Display.getSize(android.graphics.Point)&apos; on a null object reference</string>
+					<string>Attempt to invoke virtual method 'void android.view.Display.getSize(android.graphics.Point)' on a null object reference</string>
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
@@ -341,7 +341,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to read from field &apos;int android.view.View.mViewFlags&apos; on a null object reference</string>
+					<string>Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference</string>
 				</dict>
 			</array>
 			<key>LEDReminder</key>
@@ -896,8 +896,17 @@
 				<dict>
 					<key>Enable</key>
 					<true/>
+					<key>NotShowOnScreen</key>
+					<true/>
 					<key>ShowAds</key>
 					<true/>
+					<key>SourceSwitch</key>
+					<dict>
+						<key>SMS</key>
+						<true/>
+						<key>WeChat</key>
+						<true/>
+					</dict>
 				</dict>
 			</dict>
 			<key>Share</key>
@@ -936,19 +945,6 @@
 				<true/>
 				<key>DefaultThemeID</key>
 				<string>Dog</string>
-				<key>RandomTheme</key>
-				<array>
-					<string>DeepLove</string>
-					<string>Shining</string>
-					<string>FlashingRing</string>
-					<string>LovelyBanbu</string>
-					<string>Colorlight</string>
-					<string>MiniSanta</string>
-					<string>STARS</string>
-					<string>Dance</string>
-					<string>BanboKitty</string>
-					<string>Gingerbread</string>
-				</array>
 				<key>List</key>
 				<array>
 					<dict>
@@ -3300,10 +3296,10 @@
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing_preview.jpg</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing.mp3</string>
 						<key>ResType</key>
 						<string>url</string>
+						<key>Ringtone</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
@@ -5554,7 +5550,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d&apos;épice</string>
+							<string>Pain d'épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -5712,7 +5708,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell&apos;oro</string>
+							<string>Il mito dell'oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>
@@ -6879,6 +6875,19 @@
 							<true/>
 						</dict>
 					</dict>
+				</array>
+				<key>RandomTheme</key>
+				<array>
+					<string>DeepLove</string>
+					<string>Shining</string>
+					<string>FlashingRing</string>
+					<string>LovelyBanbu</string>
+					<string>Colorlight</string>
+					<string>MiniSanta</string>
+					<string>STARS</string>
+					<string>Dance</string>
+					<string>BanboKitty</string>
+					<string>Gingerbread</string>
 				</array>
 				<key>RingtoneEnable</key>
 				<true/>

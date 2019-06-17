@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.honeycomb.colorphone.AdPlacements;
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
@@ -71,17 +70,18 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean showWeChatMessage() {
-                return true;
+                return HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "SourceSwitch", "WeChat");
             }
 
             @Override
             public boolean showWeChatWhenScreenOff() {
-                return true;
+                return showWeChatMessage();
             }
 
             @Override
             public boolean showWeChatWhenScreenOn() {
-                return BuildConfig.DEBUG;
+                return showWeChatMessage()
+                        && !HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "NotShowOnScreen");
             }
 
             @Override
@@ -96,12 +96,12 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean showGmailMessage() {
-                return true;
+                return false;
             }
 
             @Override
             public boolean showGmailWhenScreenOff() {
-                return true;
+                return false;
             }
 
             @Override
@@ -111,17 +111,18 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean showSmsMessage() {
-                return true;
+                return HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "SourceSwitch", "SMS");
             }
 
             @Override
             public boolean showSmsWhenScreenOff() {
-                return true;
+                return showSmsMessage();
             }
 
             @Override
             public boolean showSmsWhenScreenOn() {
-                return true;
+                return showSmsMessage()
+                        && !HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "NotShowOnScreen");
             }
 
         };
@@ -202,6 +203,18 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             @Override
             public void onNextClicked(String msgType) {
                 Analytics.logEvent("Message_View_NextBtn_Clicked");
+            }
+
+            @Override public void onContentClick(String msgType) {
+                Analytics.logEvent("Message_View_Alert_Content_Clicked", "MessageType", msgType);
+            }
+
+            @Override public void onReplyClicked(String msgType) {
+                Analytics.logEvent("Message_View_Alert_Btn_Reply_Clicked","MessageType", msgType);
+            }
+
+            @Override public void logEvent(String eventID, String... vars) {
+                Analytics.logEvent(eventID, vars);
             }
         };
     }
