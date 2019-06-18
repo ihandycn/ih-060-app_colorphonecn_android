@@ -105,7 +105,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean showSmsWhenScreenOn() {
-                return true;
+                return HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "ShowWhenScreenOn");
             }
 
         };
