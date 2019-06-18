@@ -58,7 +58,7 @@ public class GameStarterActivity extends Activity {
         ShortcutInfoCompat.Builder builder = new ShortcutInfoCompat.Builder(context, "shortcut_game");
 
         ShortcutInfoCompat shortcutInfoCompat = builder
-                .setIcon(IconCompat.createWithResource(context, R.drawable.game_icon_launch))
+                .setIcon(IconCompat.createWithResource(context, R.drawable.icon_game_launch))
                 .setShortLabel(name)
                 .setIntent(sIntent)
                 .build();
