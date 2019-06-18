@@ -7,13 +7,16 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
@@ -24,14 +27,18 @@ public class StableToast {
     private static Handler sHandler = new Handler();
     private static HomeKeyWatcher homeKeyWatcher = new HomeKeyWatcher(HSApplication.getContext());
 
+    private static long timeMills;
     public static void showHuaweiAccToast() {
+        timeMills = System.currentTimeMillis();
         doShowAccToast();
+        long duration = HSConfig.optInteger(18, "Application", "AutoPermission", "ToastDurationSeconds")
+                * DateUtils.SECOND_IN_MILLIS;
         sHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                cancelToast();
+                cancelToastInner();
             }
-        }, 18 * 1000);
+        }, duration);
 
         homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
             @Override
@@ -111,12 +118,21 @@ public class StableToast {
 
     }
 
-    public static void cancelToast() {
+    private static void cancelToastInner() {
         if (toast != null) {
             toast.cancel();
             toast = null;
         }
         sHandler.removeCallbacksAndMessages(null);
         homeKeyWatcher.stopWatch();
+    }
+
+    public static void cancelToast() {
+        long curTimeMills = System.currentTimeMillis();
+        long intervalMills = timeMills - curTimeMills;
+        long secondsInTen = intervalMills / 10000 + 1;
+
+        Analytics.logEvent("AccessibilityPageDuration", String.valueOf(secondsInTen * 10));
+        cancelToastInner();
     }
 }
