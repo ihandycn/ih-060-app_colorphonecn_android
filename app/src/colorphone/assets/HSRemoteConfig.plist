@@ -2647,7 +2647,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d&apos;épice</string>
+							<string>Pain d'épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -2805,7 +2805,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell&apos;oro</string>
+							<string>Il mito dell'oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>
@@ -3959,6 +3959,13 @@
 			</dict>
 			<key>Dialer</key>
 			<dict>
+				<key>EnableAllOSVersionForBrand</key>
+				<array>
+					<string>vivo</string>
+					<string>xiaomi</string>
+					<string>Itel</string>
+					<string>Infinix</string>
+				</array>
 				<key>EnableVersionList</key>
 				<array>
 					<integer>28</integer>
@@ -4077,7 +4084,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>can&apos;t deliver broadcast</string>
+					<string>can't deliver broadcast</string>
 					<key>Type</key>
 					<string>RemoteServiceException</string>
 				</dict>
@@ -4106,7 +4113,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to invoke virtual method &apos;void android.view.Display.getSize(android.graphics.Point)&apos; on a null object reference</string>
+					<string>Attempt to invoke virtual method 'void android.view.Display.getSize(android.graphics.Point)' on a null object reference</string>
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
@@ -4114,7 +4121,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to read from field &apos;int android.view.View.mViewFlags&apos; on a null object reference</string>
+					<string>Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference</string>
 				</dict>
 			</array>
 			<key>LEDReminder</key>
@@ -7227,7 +7234,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d&apos;épice</string>
+							<string>Pain d'épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -7385,7 +7392,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell&apos;oro</string>
+							<string>Il mito dell'oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>
