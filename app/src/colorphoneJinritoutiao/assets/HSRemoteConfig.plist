@@ -895,9 +895,11 @@
 				<key>SmsAssistant</key>
 				<dict>
 					<key>Enable</key>
-					<false/>
+					<true/>
 					<key>ShowAds</key>
-					<false/>
+					<true/>
+					<key>ActiveAfterInstallMinutes</key>
+					<integer>360</integer>
 				</dict>
 			</dict>
 			<key>Share</key>
