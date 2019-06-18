@@ -21,6 +21,9 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
 
+/**
+ * @author sundxing
+ */
 public class StableToast {
 
     private static Toast toast;
@@ -40,6 +43,7 @@ public class StableToast {
             }
         }, duration);
 
+        // Watch home key pressed
         homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
             @Override
             public void onHomePressed() {
@@ -52,48 +56,52 @@ public class StableToast {
             }
         });
         homeKeyWatcher.startWatch();
+
+        // Watch activity life callbacks
         Context context = HSApplication.getContext().getApplicationContext();
         if (context instanceof Application) {
-            ((Application) context).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
-                @Override
-                public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
-                }
-
-                @Override
-                public void onActivityStarted(Activity activity) {
-                    if (activity.getPackageName().equals(context.getPackageName())) {
-                        cancelToast();
-                    }
-                }
-
-                @Override
-                public void onActivityResumed(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivityPaused(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivityStopped(Activity activity) {
-
-                }
-
-                @Override
-                public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-                }
-
-                @Override
-                public void onActivityDestroyed(Activity activity) {
-
-                }
-            });
+            ((Application) context).registerActivityLifecycleCallbacks(sActivityLifecycleCallbacks);
         }
+    }
+
+    public static Application.ActivityLifecycleCallbacks sActivityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
         }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+            if (activity.getPackageName().equals(HSApplication.getContext().getPackageName())) {
+                cancelToast();
+            }
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+
+        }
+    };
 
     private static void doShowAccToast() {
         toast = new Toast(HSApplication.getContext().getApplicationContext());
@@ -124,6 +132,10 @@ public class StableToast {
             toast = null;
         }
         sHandler.removeCallbacksAndMessages(null);
+        Context context = HSApplication.getContext().getApplicationContext();
+        if (context instanceof Application) {
+            ((Application) context).unregisterActivityLifecycleCallbacks(sActivityLifecycleCallbacks);
+        }
         homeKeyWatcher.stopWatch();
     }
 
