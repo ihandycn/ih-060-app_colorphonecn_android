@@ -51,8 +51,8 @@ android {
         colorflash {
             dimension "mode"
             applicationId "com.app.phone.call.flash.screen"
-            versionCode 54
-            versionName "1.2.4"
+            versionCode 56
+            versionName "1.2.6"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
                     'src/colorflash/proguard-rules.pro'
 
@@ -197,6 +197,7 @@ dependencies {
     final permanentVersion = ".gm:4.0.0.gm"
     compile "com.ihandy.permanent:permanent$permanentVersion" // 保活主模块
     compile "com.ihandy.permanent:native-guard$permanentVersion" // native保活模块，需要才加
+
     // ------ Submodule ------
     compile files('../libs/libFlashlight/libFlashlight.jar')
 
