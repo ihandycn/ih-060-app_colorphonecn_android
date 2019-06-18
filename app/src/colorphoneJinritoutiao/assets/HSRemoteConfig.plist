@@ -16,7 +16,7 @@
 				<key>AccessibilityShowCount</key>
 				<integer>1</integer>
 				<key>SkipShowCount</key>
-				<integer>3</integer>
+				<integer>100</integer>
 				<key>WaitListScroll</key>
 				<true/>
 			</dict>
