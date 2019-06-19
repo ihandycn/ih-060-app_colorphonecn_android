@@ -689,6 +689,17 @@
             tools:replace="android:label" >
 
         </activity>
+        <activity
+            android:name="com.colorphone.lock.lockscreen.locker.LockerActivity"
+            android:icon="@drawable/shape_empty"
+            android:excludeFromRecents="true"
+            android:label="@string/title_locker_activity" />
+        <activity
+            android:name="com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity"
+            android:icon="@drawable/shape_empty"
+            android:excludeFromRecents="true"
+            android:label="@string/title_locker_activity" />
+
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
