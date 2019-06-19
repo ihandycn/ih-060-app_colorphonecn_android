@@ -110,7 +110,7 @@ public class ChargingScreenUtils {
             LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Forbidden");
             return;
         }
-        Preferences.get(ChargingScreenSettings.LOCKER_PREFS).getLong("charging_display_datetime", System.currentTimeMillis());
+        Preferences.get(ChargingScreenSettings.LOCKER_PREFS).putLong("charging_display_datetime", System.currentTimeMillis());
 
         //
         isFromPush = fromPush;
