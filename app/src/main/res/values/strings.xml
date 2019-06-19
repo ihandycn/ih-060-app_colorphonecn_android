@@ -314,7 +314,7 @@
     <string name="title_boost_activity">手机加速</string>
     <string name="title_message_activity">信息</string>
     <string name="title_callassistant_activity">通话助手</string>
-    <string name="title_locker_activity">通话助手</string>
+    <string name="title_locker_activity">锁屏</string>
 
 
     <string name="ringtone_replace_by_music">使用视频声音作为铃声</string>
