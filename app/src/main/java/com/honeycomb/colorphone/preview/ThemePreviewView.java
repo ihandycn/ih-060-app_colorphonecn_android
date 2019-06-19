@@ -77,6 +77,7 @@ import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -93,6 +94,12 @@ import static com.honeycomb.colorphone.activity.ColorPhoneActivity.NOTIFICATION_
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
+import static com.honeycomb.colorphone.preview.ThemeStateManager.ENJOY_MODE;
+import static com.honeycomb.colorphone.preview.ThemeStateManager.NOTIFY_ENJOY_MODE;
+import static com.honeycomb.colorphone.preview.ThemeStateManager.NOTIFY_PREVIEW_MODE;
+import static com.honeycomb.colorphone.preview.ThemeStateManager.PREVIEW_MODE;
+
+
 
 /**
  * Created by sundxing on 17/8/4.
@@ -155,8 +162,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private ViewGroup mUnLockButton;
     private RewardVideoView mRewardVideoView;
 
-    private static final int ENJOY_MODE = 0;
-    private static final int PREVIEW_MODE = 1;
+    private ThemeStateManager themeStateManager;
     private static final int THEME_ENJOY_UNFOLDING = 0;
     private static final int THEME_ENJOY_FOLDING = 1;
     public static final int NAV_FADE_IN = 1;
@@ -173,7 +179,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private TextView mEnjoyApplyForOne;
     private ImageView mEnjoyClose;
     private LottieAnimationView mThemeLikeAnim;
-    private int themeMode;
+
     private int foldingOrNot = THEME_ENJOY_FOLDING;
     public static int navFadeInOrVisible = NAV_VISIBLE;
     private RelativeLayout mEnjoyThemeLayout;
@@ -222,10 +228,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             switch (msg.what) {
                 case MSG_HIDE:
                     switchMode(PREVIEW_MODE);
+                    themeStateManager.setThemeMode(PREVIEW_MODE);
+                    HSGlobalNotificationCenter.sendNotification(NOTIFY_PREVIEW_MODE);
                     return true;
 
                 case MSG_SHOW:
                     switchMode(ENJOY_MODE);
+                    themeStateManager.setThemeMode(ENJOY_MODE);
+                    HSGlobalNotificationCenter.sendNotification(NOTIFY_ENJOY_MODE);
                     return true;
 
                 case MSG_DOWNLOAD: {
@@ -246,6 +256,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
     });
+
+    private INotificationObserver observer = new INotificationObserver() {
+        @Override
+        public void onReceive(String s, HSBundle hsBundle) {
+            Log.e(TAG, "onReceive: testTheme" + getThemeMode() );
+            if (NOTIFY_ENJOY_MODE.equals(s)) {
+                switchMode(ENJOY_MODE);
+            } else if (NOTIFY_PREVIEW_MODE.equals(s)) {
+                switchMode(PREVIEW_MODE);
+            }
+        }
+    };
 
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
         @Override
@@ -419,11 +441,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (themeReady
                         && !inTransition
                         && !mRingtoneViewHolder.isRingtoneSettingsShow()) {
-                    if (getMode() == PREVIEW_MODE) {
+                    if (getThemeMode() == PREVIEW_MODE) {
                         mHandler.sendEmptyMessage(MSG_SHOW);
 
                     }
-                    if (getMode() == ENJOY_MODE) {
+                    if (getThemeMode() == ENJOY_MODE) {
                         if (foldingOrNot == THEME_ENJOY_UNFOLDING) {
                             settingFoldingView();
                         } else {
@@ -608,7 +630,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void onMediaDownloadOK() {
         previewWindow.setVisibility(VISIBLE);
-        intoEnjoyView();
+        if (getThemeMode() == ENJOY_MODE) {
+            intoEnjoyView();
+        } else if (getThemeMode() == PREVIEW_MODE){
+            switchMode(PREVIEW_MODE);
+        }
+
         onThemeReady(NO_ANIMITION);
     }
 
@@ -676,6 +703,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             Analytics.logEvent("ColorPhone_Theme_Download_Time", "Time",
                     String.valueOf((System.currentTimeMillis() - startDownloadTime + 999) / DateUtils.SECOND_IN_MILLIS));
         }
+    }
+
+    private int getThemeMode() {
+        return themeStateManager.getThemeMode();
     }
 
     @DebugLog
@@ -777,19 +808,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
-    private int getMode() {
-        return themeMode;
-    }
 
-    private void switchMode(int mode) {
+    public void switchMode(int mode) {
         switch (mode) {
             case ENJOY_MODE:
                 foldingOrNot = THEME_ENJOY_FOLDING;
-                themeMode = ENJOY_MODE;
+
                 setEnjoyView();
                 break;
             case PREVIEW_MODE:
-                themeMode = PREVIEW_MODE;
+
                 setPreviewView();
                 break;
             default:
@@ -1016,7 +1044,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                 })
                 .start();
-        if (themeMode == PREVIEW_MODE) {
+        if (getThemeMode() == PREVIEW_MODE) {
             mActionLayoutfadeInView();
         }
 
@@ -1248,7 +1276,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 .setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        if (themeMode == PREVIEW_MODE) {
+                        if (getThemeMode() == PREVIEW_MODE) {
                             onActionButtonReady();
                             inTransition = false;
                         }
@@ -1256,7 +1284,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                     @Override
                     public void onAnimationStart(Animator animation) {
-                        if (themeMode == PREVIEW_MODE) {
+                        if (getThemeMode() == PREVIEW_MODE) {
                             mActionLayout.setVisibility(VISIBLE);
                         }
                     }
@@ -1543,13 +1571,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     ifShowThemeApplyView = false;
                 }
                 if (mContactReturn) {
-                    themeMode = ENJOY_MODE;
+                    themeStateManager.setThemeMode(ENJOY_MODE);
                     intoDownloadingMode();
                     mContactReturn = false;
 
                 } else {
-                    mHandler.sendEmptyMessage(MSG_SHOW);
-                    mEnjoyApplyBtn.setVisibility(VISIBLE);
+                    switchMode(getThemeMode());
+                    if (getThemeMode() == ENJOY_MODE) {
+                        mEnjoyApplyBtn.setVisibility(VISIBLE);
+                    }
                 }
 
 
@@ -1561,8 +1591,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         } else {
             // Directly applicable
             onThemeReady(playTrans);
-            mHandler.sendEmptyMessage(MSG_SHOW);
-            mEnjoyApplyBtn.setVisibility(VISIBLE);
+            switchMode(getThemeMode());
+            if (getThemeMode() == ENJOY_MODE) {
+                mEnjoyApplyBtn.setVisibility(VISIBLE);
+            }
         }
 
         if (hasRingtone)  {
@@ -1761,7 +1793,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         FileDownloadMultiListener.getDefault().addStateListener(model.getId(), mRingtoneDownloadStateListener);
     }
 
-    private void registerReceiver() {
+    private void registerForInternetChange() {
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         networkChangeReceiver = new NetworkChangeReceiver();
@@ -1769,7 +1801,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         getContext().registerReceiver(networkChangeReceiver, intentFilter);
     }
 
-    private void unregisterReceiver() {
+    private void unregisterForInternetChange() {
         Log.e(TAG, "unregisterReceiverForInternetChange ");
         getContext().unregisterReceiver(networkChangeReceiver);
     }
@@ -1790,7 +1822,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         super.onAttachedToWindow();
         onStart();
-        registerReceiver();
+        registerForInternetChange();
+        HSGlobalNotificationCenter.addObserver(NOTIFY_ENJOY_MODE, observer);
+        HSGlobalNotificationCenter.addObserver(NOTIFY_PREVIEW_MODE, observer);
     }
 
     @Override
@@ -1798,7 +1832,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (DEBUG_LIFE_CALLBACK) {
             HSLog.d(" onDetachedFromWindow");
         }
-        unregisterReceiver();
+        unregisterForInternetChange();
+        HSGlobalNotificationCenter.removeObserver(observer);
         onStop();
 
         if (mRewardVideoView != null) {
@@ -2135,7 +2170,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         Utils.showApplyView(rootView, mNavBack);
 
                     }
-                    if (getMode() == ENJOY_MODE) {
+                    if (getThemeMode() == ENJOY_MODE) {
                         navFadeInOrVisible = NAV_FADE_IN;
                         mHandler.sendEmptyMessage(MSG_SHOW);
                         mEnjoyApplyBtn.setVisibility(VISIBLE);
@@ -2154,7 +2189,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
                         Utils.showApplyView(rootView, mNavBack);
                     }
-                    if (getMode() == ENJOY_MODE) {
+                    if (getThemeMode() == ENJOY_MODE) {
                         navFadeInOrVisible = NAV_FADE_IN;
                         mHandler.sendEmptyMessage(MSG_SHOW);
                         mEnjoyApplyBtn.setVisibility(VISIBLE);

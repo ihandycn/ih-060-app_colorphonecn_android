@@ -97,7 +97,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(pos);
-        mViewPager.setCanScroll(false);
+        //mViewPager.setCanScroll(false);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
