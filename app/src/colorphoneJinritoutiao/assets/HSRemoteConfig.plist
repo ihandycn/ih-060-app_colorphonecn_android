@@ -13,6 +13,8 @@
 			</dict>
 			<key>AutoPermission</key>
 			<dict>
+				<key>ToastDurationSeconds</key>
+				<integer>18</integer>
 				<key>AccessibilityShowCount</key>
 				<integer>1</integer>
 				<key>SkipShowCount</key>
