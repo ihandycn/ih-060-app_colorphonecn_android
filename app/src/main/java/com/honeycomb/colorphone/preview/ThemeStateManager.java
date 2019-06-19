@@ -1,13 +1,16 @@
 package com.honeycomb.colorphone.preview;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ThemeStateManager {
-    public static final String NOTIFY_ENJOY_MODE = "notify_enjoy_mode";
-    public static final String NOTIFY_PREVIEW_MODE = "notify_preview_mode";
+
     public static final int ENJOY_MODE = 0;
     public static final int PREVIEW_MODE = 1;
     private static ThemeStateManager themeStateManager;
-    public int themeMode = ENJOY_MODE;
+    private int themeMode = ENJOY_MODE;
+    private List<StateChangeObserver> list = new ArrayList<>();
 
     public static ThemeStateManager getInstance() {
         if (themeStateManager == null) {
@@ -20,11 +23,19 @@ public class ThemeStateManager {
         return themeMode;
     }
 
-    public void setThemeMode(int themeMode) {
+    public void sendNotification(int themeMode) {
         this.themeMode = themeMode;
+        for (StateChangeObserver observer : list) {
+            observer.onReceive(themeMode);
+        }
     }
 
+    public void registerForThemeStateChange(StateChangeObserver observer) {
+        list.add(observer);
+    }
 
-
+    public void unregisterForThemeStateChange(StateChangeObserver observer) {
+        list.remove(observer);
+    }
 
 }

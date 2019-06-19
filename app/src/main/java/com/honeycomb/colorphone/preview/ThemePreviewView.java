@@ -77,7 +77,6 @@ import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
-import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -95,8 +94,6 @@ import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEM
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.ENJOY_MODE;
-import static com.honeycomb.colorphone.preview.ThemeStateManager.NOTIFY_ENJOY_MODE;
-import static com.honeycomb.colorphone.preview.ThemeStateManager.NOTIFY_PREVIEW_MODE;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.PREVIEW_MODE;
 
 
@@ -163,6 +160,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private RewardVideoView mRewardVideoView;
 
     private ThemeStateManager themeStateManager;
+
     private static final int THEME_ENJOY_UNFOLDING = 0;
     private static final int THEME_ENJOY_FOLDING = 1;
     public static final int NAV_FADE_IN = 1;
@@ -228,14 +226,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             switch (msg.what) {
                 case MSG_HIDE:
                     switchMode(PREVIEW_MODE);
-                    themeStateManager.setThemeMode(PREVIEW_MODE);
-                    HSGlobalNotificationCenter.sendNotification(NOTIFY_PREVIEW_MODE);
-                    return true;
+                    themeStateManager.sendNotification(PREVIEW_MODE);
+                return true;
 
                 case MSG_SHOW:
                     switchMode(ENJOY_MODE);
-                    themeStateManager.setThemeMode(ENJOY_MODE);
-                    HSGlobalNotificationCenter.sendNotification(NOTIFY_ENJOY_MODE);
+                    themeStateManager.sendNotification(ENJOY_MODE);
                     return true;
 
                 case MSG_DOWNLOAD: {
@@ -257,15 +253,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     });
 
-    private INotificationObserver observer = new INotificationObserver() {
+    private StateChangeObserver observer = new StateChangeObserver() {
         @Override
-        public void onReceive(String s, HSBundle hsBundle) {
-            Log.e(TAG, "onReceive: testTheme" + getThemeMode() );
-            if (NOTIFY_ENJOY_MODE.equals(s)) {
-                switchMode(ENJOY_MODE);
-            } else if (NOTIFY_PREVIEW_MODE.equals(s)) {
-                switchMode(PREVIEW_MODE);
-            }
+        public void onReceive(int themeMode) {
+            Log.e(TAG, "onReceive: testTheme" + themeMode );
+            switchMode(themeMode);
         }
     };
 
@@ -460,6 +452,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
             }
         });
+        themeStateManager = ThemeStateManager.getInstance();
         callActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
         callActionView.setTheme(mThemeType);
         callActionView.setAutoRun(false);
@@ -1521,7 +1514,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onActionButtonReady() {
-        //getTransBottomLayout().setTranslationY(0);
+
         mRingtoneViewHolder.transIn(true, false);
         animationDelay = 0;
         if (isSelectedPos() && !mTheme.isLocked()) {
@@ -1532,8 +1525,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void scheduleNextHide() {
-        /*mHandler.removeMessages(MSG_HIDE);
-        mHandler.sendEmptyMessageDelayed(MSG_HIDE, AUTO_HIDE_TIME);*/
+
     }
 
     private boolean ifThemeSelected () {
@@ -1571,7 +1563,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     ifShowThemeApplyView = false;
                 }
                 if (mContactReturn) {
-                    themeStateManager.setThemeMode(ENJOY_MODE);
+                    themeStateManager.sendNotification(ENJOY_MODE);
                     intoDownloadingMode();
                     mContactReturn = false;
 
@@ -1823,8 +1815,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         super.onAttachedToWindow();
         onStart();
         registerForInternetChange();
-        HSGlobalNotificationCenter.addObserver(NOTIFY_ENJOY_MODE, observer);
-        HSGlobalNotificationCenter.addObserver(NOTIFY_PREVIEW_MODE, observer);
+        themeStateManager.registerForThemeStateChange(observer);
     }
 
     @Override
@@ -1833,7 +1824,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             HSLog.d(" onDetachedFromWindow");
         }
         unregisterForInternetChange();
-        HSGlobalNotificationCenter.removeObserver(observer);
+        themeStateManager.unregisterForThemeStateChange(observer);
         onStop();
 
         if (mRewardVideoView != null) {
