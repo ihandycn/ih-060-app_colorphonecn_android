@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 /**
  * https://github.com/chrisbanes/PhotoView/issues/31
  */
-public class ViewPagerFixed extends android.support.v4.view.ViewPager {
+public class ViewPagerFixed extends VerticalViewPager {
 
 
     private boolean isCanScroll = true;
