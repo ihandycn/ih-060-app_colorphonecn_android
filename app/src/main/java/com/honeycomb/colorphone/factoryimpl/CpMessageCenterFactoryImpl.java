@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
@@ -80,8 +81,8 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override
             public boolean showWeChatWhenScreenOn() {
-                return showWeChatMessage()
-                        && !HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "NotShowOnScreen");
+                return BuildConfig.DEBUG || (showWeChatMessage()
+                        && !HSConfig.optBoolean(true, "Application", "ScreenFlash", "SmsAssistant", "NotShowOnScreen"));
             }
 
             @Override

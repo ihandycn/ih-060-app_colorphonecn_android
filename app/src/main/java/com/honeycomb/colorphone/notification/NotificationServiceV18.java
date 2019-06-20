@@ -50,6 +50,7 @@ public class NotificationServiceV18 extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
+        MessageCenterManager.getInstance().removeMessage(sbn);
         HSLog.d(TAG, "Removed notification: " + sbn);
     }
 
