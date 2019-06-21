@@ -27,6 +27,7 @@ public class CmGameUtil {
     public static Intent getCmGameIntent(Context context, String openType) {
         Intent intent = new Intent(context, CmGameActivity.class);
         intent.putExtra(CmGameActivity.EXTRA_ENTRANCE, openType);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
     }
 

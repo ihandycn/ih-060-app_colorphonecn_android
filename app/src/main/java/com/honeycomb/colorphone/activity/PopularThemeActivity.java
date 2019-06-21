@@ -80,7 +80,6 @@ public class PopularThemeActivity extends HSAppCompatActivity {
         if (holder instanceof ThemeSelectorAdapter.ThemeCardViewHolder) {
             ((ThemeSelectorAdapter.ThemeCardViewHolder) holder).startAnimation();
         }
-        mAdapter.updateApplyInformationAutoPilotValue();
     }
 
     @Override

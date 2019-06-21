@@ -13,6 +13,8 @@
 			</dict>
 			<key>AutoPermission</key>
 			<dict>
+				<key>ToastDurationSeconds</key>
+				<integer>18</integer>
 				<key>AccessibilityShowCount</key>
 				<integer>1</integer>
 				<key>SkipShowCount</key>
@@ -897,6 +899,7 @@
 					<key>Enable</key>
 					<true/>
 					<key>ShowAds</key>
+					<true/>
 					<true/>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>

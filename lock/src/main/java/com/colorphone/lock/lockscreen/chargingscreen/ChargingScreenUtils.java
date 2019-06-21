@@ -9,12 +9,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.telephony.TelephonyManager;
+import android.text.format.DateUtils;
 
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.Navigations;
@@ -98,6 +100,19 @@ public class ChargingScreenUtils {
         if (isCalling()) {
             return;
         }
+
+        // Check interval
+        int intervalMins = HSConfig.optInteger( 3,
+                "Application", "Charging", "ChargingLockScreen", "MinDisplayIntervalMinutes");
+        long lastTime = Preferences.get(ChargingScreenSettings.LOCKER_PREFS).getLong("charging_display_datetime", 0);
+        if (System.currentTimeMillis() - lastTime < intervalMins * DateUtils.MINUTE_IN_MILLIS) {
+            // Too frequency
+            LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Forbidden");
+            return;
+        }
+        Preferences.get(ChargingScreenSettings.LOCKER_PREFS).putLong("charging_display_datetime", System.currentTimeMillis());
+
+        //
         isFromPush = fromPush;
         Bundle bundle = new Bundle();
         bundle.putBoolean(ChargingScreen.EXTRA_BOOLEAN_IS_CHARGING, HSChargingManager.getInstance().isCharging());

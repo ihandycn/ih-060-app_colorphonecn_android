@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -28,6 +27,7 @@ import com.superapps.util.Networks;
 import com.superapps.util.Preferences;
 import com.superapps.util.Toasts;
 import com.superapps.view.TypefacedTextView;
+import com.superapps.view.ViewPagerFixed;
 
 import java.util.ArrayList;
 

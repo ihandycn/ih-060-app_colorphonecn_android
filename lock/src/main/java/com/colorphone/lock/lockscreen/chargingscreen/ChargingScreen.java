@@ -39,6 +39,7 @@ import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
+import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
@@ -980,6 +981,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         if (context instanceof Activity) {
             ((Activity) context).finish();
             ((Activity) context).overridePendingTransition(0, 0);
+            if (dismissKeyguard) {
+                DismissKeyguradActivity.startSelfIfKeyguardSecure((Activity) context);
+            }
         } else {
             onStop();
             onDestroy();

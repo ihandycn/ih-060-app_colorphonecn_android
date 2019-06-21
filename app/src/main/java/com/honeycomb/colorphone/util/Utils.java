@@ -16,6 +16,10 @@
 
 package com.honeycomb.colorphone.util;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -32,6 +36,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -45,12 +50,16 @@ import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.percent.PercentRelativeLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -62,11 +71,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.colorphone.lock.ReflectionHelper;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
@@ -78,6 +90,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
+import com.superapps.util.Threads;
 import com.umeng.commonsdk.statistics.common.DeviceConfig;
 
 import java.io.File;
@@ -99,9 +112,15 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.view.View.SYSTEM_UI_FLAG_FULLSCREEN;
+import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+import static android.view.View.VISIBLE;
+
 public final class Utils {
 
     private static final String TAG = "Utils";
+    private static final int ALPHA_TEXT = 1;
 
     public static final boolean ATLEAST_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     public static final boolean ATLEAST_JELLY_BEAN = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
@@ -849,19 +868,163 @@ public final class Utils {
         return BitmapFactory.decodeFile(path, options);
     }
 
-    public static void showToast(String hint) {
-       Toast toast = new Toast(HSApplication.getContext().getApplicationContext());
-        final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.toast_theme_apply, null);
+    public static void showApplyView(PercentRelativeLayout rootView, View mNavBack) {
+        final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.lottie_theme_apply, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             contentView.setElevation(Dimensions.pxFromDp(8));
         }
-        TextView textView = contentView.findViewById(R.id.text_toast);
-        textView.setText(hint);
-        int yOffset = (int) (0.6f * Dimensions.getPhoneHeight(HSApplication.getContext()));
-        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, yOffset);
-        toast.setView(contentView);
-        toast.show();
+
+        ViewGroup viewGroup = (ViewGroup) rootView;
+        viewGroup.addView(contentView);
+
+        contentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        RelativeLayout themeApply = contentView.findViewById(R.id.theme_apply_view);
+        RelativeLayout themeChange = contentView.findViewById(R.id.theme_apply_view_change);
+        LottieAnimationView lottieThemeApply = contentView.findViewById(R.id.lottie_theme_apply);
+        TextView applySuccessText = contentView.findViewById(R.id.apply_success_text);
+        TextView applyText = contentView.findViewById(R.id.apply_text);
+
+        themeChange.animate().alpha(1f)
+                .setDuration(166)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        themeChange.setVisibility(VISIBLE);
+
+                    }
+                })
+                .start();
+
+        mNavBack.animate().alpha(0f)
+                .setDuration(166)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mNavBack.setVisibility(View.GONE);
+
+                    }
+                })
+                .start();
+
+        applySuccessText.setTranslationY(Dimensions.pxFromDp(40));
+        applySuccessText.setAlpha(0);
+        ObjectAnimator moveUp = ObjectAnimator.ofFloat(applySuccessText, "translationY", Dimensions.pxFromDp(40), 0f);
+        moveUp.setInterpolator(PathInterpolatorCompat.create(0.4f, 0.61f, 1f, 1f));
+        ObjectAnimator fadeInOut = ObjectAnimator.ofFloat(applySuccessText, "alpha", 0f, 0.8f);
+        fadeInOut.setInterpolator(PathInterpolatorCompat.create(0.4f, 0.57f, 0.74f, 1f));
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setDuration(250);
+        animatorSet.setStartDelay(116);
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                applySuccessText.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animatorSet.play(moveUp).with(fadeInOut);
+        animatorSet.start();
+
+        applyText.setTranslationY(Dimensions.pxFromDp(50));
+        applyText.setAlpha(0);
+        ObjectAnimator moveUp1 = ObjectAnimator.ofFloat(applyText, "translationY", Dimensions.pxFromDp(50), 0f);
+        moveUp1.setInterpolator(PathInterpolatorCompat.create(0.4f, 0.35f, 1f, 1f));
+        ObjectAnimator fadeInOut1 = ObjectAnimator.ofFloat(applyText, "alpha", 0f, 0.5f);
+        fadeInOut1.setInterpolator(PathInterpolatorCompat.create(0.4f, 0.6f, 0.74f, 1f));
+        AnimatorSet animatorSet1 = new AnimatorSet();
+        animatorSet1.setDuration(250);
+        animatorSet1.setStartDelay(116);
+        animatorSet1.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                applyText.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animatorSet1.play(moveUp1).with(fadeInOut1);
+        animatorSet1.start();
+
+        lottieThemeApply.animate().setStartDelay(166)
+                .setDuration(716)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        lottieThemeApply.setVisibility(VISIBLE);
+                        lottieThemeApply.playAnimation();
+                    }
+                }).start();
+
+        Threads.postOnMainThreadDelayed(new Runnable() {
+            @Override
+            public void run() {
+                themeChange.animate().alpha(0)
+                        .setDuration(166)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                themeChange.setVisibility(View.GONE);
+                            }
+                        })
+                        .start();
+
+                themeApply.animate().alpha(0)
+                        .setDuration(166)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                themeApply.setVisibility(View.GONE);
+                                viewGroup.removeView(contentView);
+                            }
+                        })
+                        .start();
+                mNavBack.animate().alpha(1f)
+                        .setDuration(166)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+                                mNavBack.setVisibility(VISIBLE);
+
+                            }
+                        })
+                        .start();
+            }
+        }, 1382);
     }
+
 
 
     public static void showDefaultFailToast() {

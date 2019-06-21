@@ -36,10 +36,10 @@ public class AutoLogger {
                 return "Lock";
             case HSPermissionRequestMgr.TYPE_DRAW_OVERLAY:
                 return "Float";
-            case "TYPE_PERMISSION_TYPE_BG_POP":
+            case AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP:
                 return "BgPop";
             default:
-                return "Unknown";
+                return type;
         }
     }
 

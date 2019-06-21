@@ -294,6 +294,8 @@
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
+            android:icon="@drawable/icon_boost2"
+            android:label="@string/title_boost_activity"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -302,6 +304,8 @@
             android:name=".battery.BatteryCleanActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
+            android:icon="@drawable/icon_boost2"
+            android:label="@string/title_boost_activity"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@style/SwitchCompatTheme" />
@@ -312,6 +316,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
             android:taskAffinity=".acb_interstitial_quiet"
+            android:icon="@drawable/icon_boost2"
+            android:label="@string/title_boost_activity"
             android:theme="@style/SwitchCompatTheme" />
 
         <activity
@@ -319,6 +325,8 @@
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
+            android:icon="@drawable/icon_boost2"
+            android:label="@string/title_boost_activity"
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@style/AppTranslucent" />
 
@@ -329,6 +337,11 @@
             android:screenOrientation="portrait"
             android:taskAffinity=".recentapps"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <activity android:name="com.call.assistant.ui.CallIdleAlertActivity"
+            android:icon="@drawable/icon_callassistant"
+            android:label="@string/title_callassistant_activity"/>
+
 
         <activity
             android:name=".gdpr.DataUsageSettingsActivity"
@@ -352,42 +365,58 @@
         <activity
             android:name="net.appcloudbox.ads.interstitialad.NativeInterstitial.AcbNativeInterstitialActivity"
             android:excludeFromRecents="true"
+            android:icon="@drawable/shape_empty"
+            android:label="@string/ad_activity_label"
             android:taskAffinity=".acb_interstitial_quiet" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.NativeInterstitial.AcbNativeInterstitalQuietActivity"
             android:excludeFromRecents="true"
+            android:icon="@drawable/shape_empty"
+            android:label="@string/ad_activity_label"
             android:taskAffinity=".acb_interstitial_quiet" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.ExpressInterstitial.AcbExpressInterstitialActivity"
             android:excludeFromRecents="true"
+            android:icon="@drawable/shape_empty"
+            android:label="@string/ad_activity_label"
             android:taskAffinity=".acb_interstitial_quiet" />
 
         <activity
             android:name="net.appcloudbox.ads.interstitialad.ExpressInterstitial.AcbExpressInterstitalQuietActivity"
             android:excludeFromRecents="true"
+            android:icon="@drawable/shape_empty"
+            android:label="@string/ad_activity_label"
             android:taskAffinity=".acb_interstitial_quiet" />
 
         <activity
             android:name="com.bytedance.sdk.openadsdk.activity.TTRewardVideoActivity"
             android:excludeFromRecents="true"
+            android:icon="@drawable/shape_empty"
+            android:label="@string/ad_activity_label"
             android:noHistory="true"
             android:taskAffinity=".acb_interstitial_quiet" />
 
         <activity
             android:name="com.qq.e.ads.ADActivity"
             android:excludeFromRecents="true"
+            android:icon="@drawable/shape_empty"
+            android:label="@string/ad_activity_label"
             android:taskAffinity=".acb_interstitial_quiet" />
 
         <activity
             android:name="com.qq.e.ads.PortraitADActivity"
             android:excludeFromRecents="true"
+            android:icon="@drawable/shape_empty"
+            android:label="@string/ad_activity_label"
             android:taskAffinity=".acb_interstitial_quiet" />
 
         <activity
             android:name="com.qq.e.ads.LandscapeADActivity"
             android:excludeFromRecents="true"
+            android:icon="@drawable/shape_empty"
+            android:label="@string/ad_activity_label"
             android:taskAffinity=".acb_interstitial_quiet" />
 
 
@@ -471,12 +500,6 @@
         <receiver android:name=".notification.NotificationAlarmReceiver"></receiver>
         <receiver android:name=".toolbar.NotificationReceiver" />
 
-        <activity
-            android:name="net.appcloudbox.internal.h5game.GameActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity=".h5game"
-            tools:node="merge" />
-
         <activity android:name=".boost.BoostStarterActivity"
             android:screenOrientation="portrait"
             android:noHistory="true"
@@ -493,8 +516,9 @@
         <activity android:name=".boost.GameStarterActivity"
             android:screenOrientation="portrait"
             android:noHistory="true"
-            android:icon="@drawable/game_icon_launch"
-            android:label="@string/boost_title"
+            android:icon="@drawable/icon_game_launch"
+            android:label="@string/title_game_center"
+            android:taskAffinity=".game"
             android:excludeFromRecents="true"
             android:theme="@style/INVisibleTheme">
             <intent-filter>
@@ -505,12 +529,16 @@
 
         <activity android:name=".cmgame.CmGameActivity"
             android:launchMode="singleTop"
+            android:icon="@drawable/icon_game_launch"
+            android:label="@string/title_game_center"
             android:screenOrientation="portrait"
             android:taskAffinity=".game"
             />
 
         <activity android:name="com.cmcm.cmgame.activity.H5GameActivity"
             android:taskAffinity=".game"
+            android:icon="@drawable/icon_game_launch"
+            android:label="@string/title_game_center"
             tools:replace="android:taskAffinity"/>
 
         <activity
@@ -656,10 +684,22 @@
 
         <activity
             android:name="com.messagecenter.notification.NotificationMessageAlertActivity"
-            android:label="@string/label_message_activity"
-            android:icon="@drawable/icon_message_activity"
+            android:label="@string/title_message_activity"
+            android:icon="@drawable/icon_message"
             tools:replace="android:label" >
+
         </activity>
+        <activity
+            android:name="com.colorphone.lock.lockscreen.locker.LockerActivity"
+            android:icon="@drawable/shape_empty"
+            android:excludeFromRecents="true"
+            android:label="@string/title_locker_activity" />
+        <activity
+            android:name="com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity"
+            android:icon="@drawable/shape_empty"
+            android:excludeFromRecents="true"
+            android:label="@string/title_locker_activity" />
+
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
