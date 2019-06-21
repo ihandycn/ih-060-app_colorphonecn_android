@@ -11,6 +11,7 @@ public class ThemeStateManager {
     private static ThemeStateManager themeStateManager;
     private int themeMode = ENJOY_MODE;
     private List<StateChangeObserver> list = new ArrayList<>();
+    private boolean mAudioMute = true;
 
     public static ThemeStateManager getInstance() {
         if (themeStateManager == null) {
@@ -38,4 +39,11 @@ public class ThemeStateManager {
         list.remove(observer);
     }
 
+    public boolean isAudioMute() {
+        return mAudioMute;
+    }
+
+    public void setAudioMute(boolean audioMute) {
+        mAudioMute = audioMute;
+    }
 }

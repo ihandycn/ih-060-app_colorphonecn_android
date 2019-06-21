@@ -3,7 +3,6 @@ package com.honeycomb.colorphone.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -22,6 +21,7 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
+import com.honeycomb.colorphone.preview.ThemeStateManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
@@ -49,7 +49,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private View mNavBack;
     private ThemePagerAdapter mAdapter;
     private List<ThemePreviewView> mViews = new ArrayList<>();
-    private MediaPlayer mMediaPlayer;
     private int scrollCount = 0;
     private int lastPos = -1;
 
@@ -85,7 +84,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         String from = getIntent().getStringExtra("from");
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
+
+        // Open music
+        ThemeStateManager.getInstance().setAudioMute(false);
+
         setContentView(R.layout.activity_theme_preview);
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             NotchTools.getFullScreenTools().showNavigation(false).fullScreenUseStatus(this);
         } else {
@@ -127,7 +131,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 onBackPressed();
             }
         });
-        mMediaPlayer = new MediaPlayer();
         if (mTheme.isLocked()) {
             Analytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
@@ -161,10 +164,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 NotchStatusBarUtils.setFullScreenWithSystemUi(getWindow(),false);
             }
         });
-    }
-
-    public MediaPlayer getMediaPlayer() {
-        return mMediaPlayer;
     }
 
     protected List<Theme> getThemes() {

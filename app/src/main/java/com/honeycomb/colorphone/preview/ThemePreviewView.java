@@ -325,11 +325,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     };
 
-
     Runnable transEndRunnable = new Runnable() {
         @Override
         public void run() {
-
             if (!mBlockAnimationForPageChange) {
                 resumeAnimation();
                 mBlockAnimationForPageChange = true;
@@ -379,7 +377,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     public ThemePreviewView(@NonNull Context context, @Nullable AttributeSet attrs, @AttrRes int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
 
     public void init(ThemePreviewActivity activity, ArrayList<Theme> themes, int position, View navBack) {
         mActivity = activity;
@@ -450,8 +447,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         } else {
                             mHandler.sendEmptyMessage(MSG_HIDE);
                         }
-                    } else {
-                        scheduleNextHide();
                     }
                 }
                 if (mRingtoneViewHolder.isRingtoneSettingsShow()) {
@@ -625,10 +620,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return mActionLayout;
     }
 
-    private boolean isDimming() {
-        return dimCover != null && dimCover.getVisibility() == VISIBLE;
-    }
-
     private void playDownloadOkTransAnimation() {
         mProgressViewHolder.fadeOut();
         dimCover.animate().alpha(0).setDuration(200);
@@ -687,7 +678,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             // Video has audio
             if (mTheme.hasRingtone()) {
                 mRingtoneViewHolder.setEnable(true);
-                mRingtoneViewHolder.play();
+                mRingtoneViewHolder.refreshMuteStatus();
             } else {
                 mRingtoneViewHolder.setEnable(false);
                 mRingtoneViewHolder.hideMusicSwitch();
@@ -781,7 +772,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                             public void onAnimationEnd(Animator animation) {
                                 guideView.setOnClickListener(null);
                                 guideView.setVisibility(GONE);
-                                scheduleNextHide();
                             }
                         }).start();
                     }
@@ -816,7 +806,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mLockLayout.setVisibility(GONE);
         }
     }
-
 
     public void switchMode(int mode) {
         switch (mode) {
@@ -1530,18 +1519,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onActionButtonReady() {
-
         mRingtoneViewHolder.transIn(true, false);
         animationDelay = 0;
         if (isSelectedPos() && !mTheme.isLocked()) {
             checkNewFeatureGuideView();
-        } else {
-            scheduleNextHide();
         }
-    }
-
-    private void scheduleNextHide() {
-
     }
 
     private boolean ifThemeSelected () {
@@ -1698,6 +1680,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             resumed = true;
             previewWindow.playAnimation(mThemeType);
             callActionView.doAnimation();
+            if (mTheme.hasRingtone()) {
+                mRingtoneViewHolder.refreshMuteStatus();
+            }
         }
 
         if (mTheme != null && !TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
@@ -2133,10 +2118,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     "Type", currentSelect ? "Close" : "Open",
                     "Theme", mTheme.getName());
 
+            ThemeStateManager.getInstance().setAudioMute(currentSelect);
             if (currentSelect) {
                 mute();
             } else {
-                play();
+                muteOff();
             }
         }
 
@@ -2151,15 +2137,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             VideoManager.get().mute(true);
         }
 
-        private boolean isMusicOn() {
-            return imageView.isActivated();
-        }
-
-        private void play() {
+        private void muteOff() {
             imageView.setVisibility(VISIBLE);
             imageView.setEnabled(true);
             imageView.setActivated(true);
             VideoManager.get().mute(false);
+        }
+
+        private boolean isMusicOn() {
+            return imageView.isActivated();
         }
 
         private void transIn(boolean in, boolean anim) {
@@ -2241,6 +2227,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         public void setApplyForAll(boolean applyForAll) {
             mApplyForAll = applyForAll;
+        }
+
+        public void refreshMuteStatus() {
+            if (ThemeStateManager.getInstance().isAudioMute()) {
+                mute();
+            } else {
+                muteOff();
+            }
         }
     }
 
