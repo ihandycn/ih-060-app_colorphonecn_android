@@ -900,7 +900,6 @@
 					<true/>
 					<key>ShowAds</key>
 					<true/>
-					<true/>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
 				</dict>
