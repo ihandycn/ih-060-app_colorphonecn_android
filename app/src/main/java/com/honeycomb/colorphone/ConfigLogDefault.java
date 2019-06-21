@@ -32,7 +32,7 @@ public class ConfigLogDefault implements ConfigLog {
 
         @Override
         public void onThemePreviewOpen(String name) {
-            Analytics.logEvent("ColorPhone_ThemeDetail_View", "ThemeName", name);
+            Analytics.logEvent("ColorPhone_ThemeDetail_View", "ThemeName", name, "From", "MainView");
         }
 
         @Override

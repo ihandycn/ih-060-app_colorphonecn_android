@@ -443,7 +443,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                     if (getThemeMode() == ENJOY_MODE) {
                         if (foldingOrNot == THEME_ENJOY_UNFOLDING) {
-                            settingFoldingView();
+                            foldView();
                         } else {
                             mHandler.sendEmptyMessage(MSG_HIDE);
                         }
@@ -720,7 +720,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         Analytics.logEvent("ColorPhone_Set_Successed",
                 "SetType", "SetForAll",
-                "Theme", mTheme.getName());
+                "Theme", mTheme.getName(),
+        "SetFrom", ThemeStateManager.getInstance().getThemeModeName());
 
         setButtonState(true);
         for (ThemePreviewView preV : mActivity.getViews()) {
@@ -859,14 +860,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                settingUndoldingView();
+                Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
+                unFoldView();
             }
         });
 
         mEnjoyClose.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                settingFoldingView();
+                foldView();
             }
         });
     }
@@ -950,14 +952,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
              @Override
              public void onClick(View v) {
 
-                 settingUndoldingView();
+                 unFoldView();
              }
          });
 
          mEnjoyClose.setOnClickListener(new OnClickListener() {
              @Override
              public void onClick(View v) {
-                 settingFoldingView();
+                 foldView();
              }
          });
      }
@@ -1109,7 +1111,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return mInterForTheme;
     }
 
-    private void settingUndoldingView() {
+    private void unFoldView() {
 
         int startCoordinateDefault = Dimensions.pxFromDp(110);
         int endCoordinate = 0;
@@ -1184,7 +1186,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     }
 
-    private void settingFoldingView() {
+    private void foldView() {
         int endCoordinateDefault = Dimensions.pxFromDp(110);
         int startCoordinate = 0;
         mEnjoyApplyDefault.setTranslationY(startCoordinate);
@@ -1262,7 +1264,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void returnThemeSettingPage() {
-        settingFoldingView();
+        foldView();
     }
 
     private void mActionLayoutfadeInView() {
@@ -1944,6 +1946,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             triggerPageChangeWhenIdle = false;
             if (isSelectedPos()) {
                 HSLog.d("onPageSelected " + mPosition);
+                Analytics.logEvent("ColorPhone_ThemeDetail_View",
+                        "ThemeName", mTheme.getIdName(),
+                        "From", "Slide");
+                Analytics.logEvent("ColorPhone_ThemeSwitch_Slide",
+                        "PreviewMode", ThemeStateManager.getInstance().getThemeModeName());
                 resumeAnimation();
             } else {
                 HSLog.d("onPageUnSelected " + mPosition);

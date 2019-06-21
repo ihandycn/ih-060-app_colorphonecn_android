@@ -1,6 +1,8 @@
 package com.honeycomb.colorphone.preview;
 
 
+import com.honeycomb.colorphone.util.Analytics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +27,15 @@ public class ThemeStateManager {
     }
 
     public void sendNotification(int themeMode) {
-        this.themeMode = themeMode;
-        for (StateChangeObserver observer : list) {
-            observer.onReceive(themeMode);
+        boolean isChange = themeMode != this.themeMode;
+        if (isChange) {
+            this.themeMode = themeMode;
+            Analytics.logEvent("ColorPhone_ThemeMode_Changed",
+                    "PreviewMode", getThemeModeName());
+
+            for (StateChangeObserver observer : list) {
+                observer.onReceive(themeMode);
+            }
         }
     }
 
@@ -45,5 +53,9 @@ public class ThemeStateManager {
 
     public void setAudioMute(boolean audioMute) {
         mAudioMute = audioMute;
+    }
+
+    public String getThemeModeName() {
+       return themeMode == PREVIEW_MODE ? "CallScreen" : "FullScreen";
     }
 }

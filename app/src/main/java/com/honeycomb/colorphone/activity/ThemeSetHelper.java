@@ -10,6 +10,7 @@ import com.honeycomb.colorphone.contact.ContactDBHelper;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.contact.ThemeEntry;
+import com.honeycomb.colorphone.preview.ThemeStateManager;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 
@@ -25,7 +26,8 @@ public class ThemeSetHelper {
             return;
         }
         Analytics.logEvent("ColorPhone_Set_Successed", "SetType", "SetForSomeone",
-         "Theme", theme.getName());
+                "Theme", theme.getName(),
+                "SetFrom", ThemeStateManager.getInstance().getThemeModeName());
 
         List<ThemeEntry> themeEntries = new ArrayList<>();
         for (SimpleContact c : contacts) {
