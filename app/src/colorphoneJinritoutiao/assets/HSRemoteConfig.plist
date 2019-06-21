@@ -88,6 +88,8 @@
 						<key>Time</key>
 						<string>2018.01.03</string>
 					</dict>
+					<key>MinDisplayIntervalMinutes</key>
+					<integer>3</integer>
 				</dict>
 				<key>ChargingReport</key>
 				<dict>
