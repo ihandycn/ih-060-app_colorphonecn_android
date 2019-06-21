@@ -72,17 +72,15 @@ public class WelcomeActivity extends Activity {
 
     public void launchMainActivityWithGuide() {
         Intent guideIntent = null;
-        if (RomUtils.checkIsMiuiRom()
-                || RomUtils.checkIsHuaweiRom()) {
-            // Huawei & Xiaomi use auto permission guide window.
-            boolean needShowGuidePermissionActivity =
-                    !StartGuideActivity.isStarted()
-                            && (!AutoRequestManager.getInstance().isGrantAllPermission());
-            if (needShowGuidePermissionActivity) {
-                guideIntent = new Intent(WelcomeActivity.this, StartGuideActivity.class);
-                HSAlertMgr.delayRateAlert();
-            }
+        // Huawei & Xiaomi use auto permission guide window.
+        boolean needShowGuidePermissionActivity =
+                !StartGuideActivity.isStarted()
+                        && (!AutoRequestManager.getInstance().isGrantAllPermission());
+        if (needShowGuidePermissionActivity) {
+            guideIntent = StartGuideActivity.getIntent(WelcomeActivity.this, StartGuideActivity.FROM_KEY_GUIDE);
+            HSAlertMgr.delayRateAlert();
         }
+
         Intent mainIntent = new Intent(WelcomeActivity.this, ColorPhoneActivity.class);
         if (guideIntent != null) {
             startActivities(new Intent[]{mainIntent, guideIntent});

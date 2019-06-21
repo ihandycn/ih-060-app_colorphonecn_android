@@ -22,7 +22,7 @@
     <string name="guide_apply_theme_hint">来电主题应用成功！尽情享受吧！</string>
 
     <string name="smart_charging">充电监视器</string>
-    <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。</string>
+    <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏</string>
 
     <string name="color_lockscreen">多彩屏保</string>
     <string name="color_lockscreen_hint">用多彩的主题装饰你的屏保（可能包含广告）</string>
@@ -174,7 +174,8 @@
     <string name="notification_toolbar_flash_light">手电筒</string>
     <string name="notification_permission_toolbar_title">通知</string>
     <string name="phone_contact_permission_settings_guide_title">选择"权限"，然后开启"电话"、"通讯录"权限</string>
-    <string name="grant_access_to_optimize_experience">开启权限来接听电话</string>
+    <!--<string name="grant_access_to_optimize_experience">开启权限来接听电话</string>-->
+    <string name="grant_access_to_optimize_experience">检测到来电秀发生故障，请点击修复</string>
 
     <string name="crash_guide_content">想在桌面上创建快捷方式以便下次继续赢钱吗？</string>
     <string name="spin">旋转</string>

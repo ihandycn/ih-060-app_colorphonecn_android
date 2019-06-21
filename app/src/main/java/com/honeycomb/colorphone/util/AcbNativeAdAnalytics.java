@@ -7,6 +7,6 @@ public class AcbNativeAdAnalytics {
     }
 
     public static void logAppViewEvent(String placementName, boolean success) {
-        AcbAnalytics.logEvent("AcbAdNative_Viewed_In_App", new String[]{placementName, String.valueOf(success)});
+        Analytics.logEvent("AcbAdNative_Viewed_In_App", new String[]{placementName, String.valueOf(success)});
     }
 }

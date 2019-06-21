@@ -51,11 +51,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.ColorPhoneApplicationImpl;
 import com.honeycomb.colorphone.ConfigLog;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
+import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemeSetHelper;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -77,6 +79,7 @@ import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
@@ -103,7 +106,7 @@ import static com.honeycomb.colorphone.preview.ThemeStateManager.PREVIEW_MODE;
  */
 
 // TODO : clean Theme & Ringtone logic
-public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageChangeListener {
+public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageChangeListener, INotificationObserver {
 
     private static final String TAG = ThemePreviewWindow.class.getSimpleName();
 
@@ -264,6 +267,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
+            clearTask(DownloadTask.TYPE_THEME);
+
             if (triggerMediaReady()) {
                 playDownloadOkTransAnimation();
                 onMediaDownloadOK();
@@ -290,6 +295,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     DownloadStateListener mRingtoneDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
+            clearTask(DownloadTask.TYPE_RINGTONE);
             if (triggerMediaReady()) {
                 playDownloadOkTransAnimation();
                 onMediaDownloadOK();
@@ -337,6 +343,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     };
     private boolean mWaitContactResult;
+    private boolean mWaitForAll;
 
     public static void saveThemeApplys(int themeId) {
         if (isThemeAppliedEver(themeId)) {
@@ -504,52 +511,24 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     return;
                 }
                 if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
-                }
-
-                if (!mTheme.hasRingtone()) {
-                    onThemeApply();
+//                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
+                    StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
+                    mWaitForAll = true;
                 } else {
-                    showNavView(false);
-                    fadeOutActionView();
-                    navFadeInOrVisible = NAV_FADE_IN;
-                    mRingtoneViewHolder.setApplyForAll(true);
-                    showRingtoneSetButton();
-                }
-
-                if (mActivity instanceof PopularThemePreviewActivity) {
-                    Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
-                    Analytics.logEvent("ColorPhone_BanboList_Set_Success");
-                } else {
-                    Analytics.logEvent("ThemeDetail_SetForAll");
-                    Analytics.logEvent("ThemeDetail_SetForAll_Success");
+                    onApplyForAll();
                 }
             }
         });
 
-        mApplyForOne.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
-                }
-
-                Analytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
-                if (mActivity instanceof PopularThemePreviewActivity) {
-                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
-                    Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
-                } else {
-                    Analytics.logEvent("ThemeDetail_SetForContact_Started");
-                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
-                }
-                if (mTheme.hasRingtone()) {
-                    mContactReturn = true;
-                }
-                mWaitContactResult = true;
-
+        mApplyForOne.setOnClickListener(v -> {
+            if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+//                PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
+                StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
+                mWaitForAll = false;
+            } else {
+                onApplyForOne();
             }
         });
-
         mEnjoyApplyDefault.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -607,6 +586,41 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     }
 
+    private void onApplyForAll() {
+        if (!mTheme.hasRingtone()) {
+            onThemeApply();
+        } else {
+            showNavView(false);
+            fadeOutActionView();
+            navFadeInOrVisible = NAV_FADE_IN;
+                    mRingtoneViewHolder.setApplyForAll(true);
+                    showRingtoneSetButton();
+                }
+
+        if (mActivity instanceof PopularThemePreviewActivity) {
+            Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
+            Analytics.logEvent("ColorPhone_BanboList_Set_Success");
+        } else {
+            Analytics.logEvent("ThemeDetail_SetForAll");
+            Analytics.logEvent("ThemeDetail_SetForAll_Success");
+        }
+    }
+
+    private void onApplyForOne() {
+        Analytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
+        if (mActivity instanceof PopularThemePreviewActivity) {
+            ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
+            Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
+        } else {
+            Analytics.logEvent("ThemeDetail_SetForContact_Started");
+            ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
+        }
+        if (mTheme.hasRingtone()) {
+            mContactReturn = true;
+        }
+        mWaitContactResult = true;
+    }
+
     private View getTransBottomLayout() {
         return mActionLayout;
     }
@@ -633,8 +647,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private boolean triggerMediaReady() {
-        if (mWaitMediaReadyCount > 2 || mWaitMediaReadyCount <= 0) {
-            throw new IllegalStateException("triggerMedia count invalid : " + mWaitMediaReadyCount);
+        if (BuildConfig.DEBUG) {
+            if (mWaitMediaReadyCount > 2 || mWaitMediaReadyCount <= 0) {
+                throw new IllegalStateException("triggerMedia count invalid : " + mWaitMediaReadyCount);
+            }
         }
         mWaitMediaReadyCount--;
         return mWaitMediaReadyCount <= 0;
@@ -850,7 +866,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mEnjoyApplyBtn.setAlpha(1);
         mEnjoyApplyBtn.setTextColor(Color.WHITE);
         mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
-        
+
         mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1616,7 +1632,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
 
-                boolean overrideSize = ColorPhoneApplication.mWidth > IMAGE_WIDTH;
+                boolean overrideSize = ColorPhoneApplicationImpl.mWidth > IMAGE_WIDTH;
 
                 GlideRequest request = GlideApp.with(getContext())
                         .asBitmap()
@@ -1688,7 +1704,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             String event = String.format(Locale.ENGLISH, "Colorphone_Theme_%s_Detail_Page_Show", mTheme.getIdName());
             Analytics.logEvent(event);
         }
-        Ap.Ringtone.onShow(mTheme);
     }
 
     public boolean isSelectedPos() {
@@ -1798,6 +1813,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         getContext().unregisterReceiver(networkChangeReceiver);
     }
 
+    private void clearTask(int taskType) {
+        DownloadTask downloadTask = mDownloadTasks.get(taskType);
+        if (downloadTask != null) {
+            mDownloadTasks.remove(taskType);
+            if (downloadTask.getTasksManagerModel() != null) {
+                FileDownloadMultiListener.getDefault().removeStateListener(downloadTask.getTasksManagerModel().getId());
+            }
+        }
+    }
+
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         // Not called !!
@@ -1814,6 +1839,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         super.onAttachedToWindow();
         onStart();
+        HSGlobalNotificationCenter.addObserver(StartGuideActivity.NOTIFICATION_PERMISSION_GRANT, this);
         registerForInternetChange();
         themeStateManager.registerForThemeStateChange(observer);
     }
@@ -1831,6 +1857,17 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mRewardVideoView.onCancel();
         }
         super.onDetachedFromWindow();
+        HSGlobalNotificationCenter.removeObserver(this);
+    }
+
+    @Override public void onReceive(String s, HSBundle hsBundle) {
+        if (TextUtils.equals(StartGuideActivity.NOTIFICATION_PERMISSION_GRANT, s)) {
+            if (mWaitForAll) {
+                onApplyForAll();
+            } else {
+                onApplyForOne();
+            }
+        }
     }
 
     @Override

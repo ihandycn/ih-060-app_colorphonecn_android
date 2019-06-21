@@ -1,6 +1,6 @@
 include ':app', ':lock', ':libSuperApps', ':libCallAssistant', ':libScreenFlash',
         ':libMessageCenter', ':libChargingCommon', ':libChargingReport',
-        ':libScreenCard', ':permissions', ':libPermissionacquire'
+        ':permissions', ':libPermissionacquire'
 project(':libSuperApps').projectDir = new File('libs/libSuperApps/lib')
 project(':libCallAssistant').projectDir = new File('libs/libNewColorPhone/libCallAssistant')
 project(':libScreenFlash').projectDir = new File('libs/libNewColorPhone/libScreenFlash')

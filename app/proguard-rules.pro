@@ -24,7 +24,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -printconfiguration "build/outputs/mapping/configuration.txt"
-
+-dontoptimize
 #-keep public class * extends android.app.Activity
 #-keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
@@ -78,6 +78,18 @@
 -keepclasseswithmembers class com.honeycomb.colorphone.news.UserInfo {
 *;
 }
+
+-keep class com.feast.nativegamecenter.withdraw.module.**{*;}
+
+-keep class com.acb.cashcenter.HSCashCenterManager{*;}
+
+-keep class com.acb.cashcenter.model.**{*;}
+
+-keep class net.appcloudbox.feast.**{*;}
+
+-keep class com.acb.cashcenter.util.AppInfoUtils{*;}
+
+-keep class com.acb.cashcenter.ads.AdUtils{*;}
 
 -keepnames class com.honeycomb.colorphone.PermanentService$* {
     public <fields>;
@@ -247,3 +259,37 @@
     public static *** w(...);
 }
 
+# Bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+# tinker
+-dontwarn com.tencent.tinker.**
+-keep class com.tencent.tinker.** { *; }
+#tinker multidex keep patterns:
+-keep public class * implements com.tencent.tinker.entry.ApplicationLifeCycle {
+    <init>();
+    void onBaseContextAttached(android.content.Context);
+}
+
+-keep public class * extends com.tencent.tinker.loader.TinkerLoader {
+    <init>();
+}
+
+-keep public class * extends android.app.Application {
+     <init>();
+     void attachBaseContext(android.content.Context);
+}
+
+-keep class com.tencent.tinker.loader.TinkerTestAndroidNClassLoader {
+    <init>();
+}
+
+#your dex.loader patterns here
+-keep class tinker.sample.android.app.SampleApplication {
+    <init>();
+}
+
+-keep class com.tencent.tinker.loader.** {
+    <init>();
+}
+#

@@ -28,6 +28,7 @@
     <string name="acb_phone_grant_autostart_access_title_huawei_above23">Enable AutoStart to Show Call Flash</string>
     <string name="acb_phone_grant_autostart_access_title_huawei">Enable AutoStart to Show Call Flash</string>
     <string name="acb_phone_grant_autostart_access_title_miui">Enable AutoStart to Show Call Flash</string>
+    <string name="acb_phone_grant_background_popup_title_miui">Enable Background Popup to Show Call Flash</string>
 
     <string name="acb_phone_grant_show_onlockscreen_access_title_vivo">Enable Notification On Lock Screen to Show Call Flash</string>
     <string name="acb_phone_grant_show_onlockscreen_access_title_oppo">Enable Notification On Lock Screen to Show Call Flash</string>
@@ -42,4 +43,7 @@
 
     <string name="acb_phone_grant_accessibility_title_huawei">1: scroll down \n2: click switch button</string>
     <string name="acb_phone_grant_accessibility_title_miui">open button</string>
+
+    <string name="acb_request_permission_bg_pop_title">后台弹出界面权限是否已开启？</string>
+    <string name="acb_request_permission_bg_pop_content">后台弹出界面权限保证来电时展示来电秀</string>
 </resources>

@@ -4,7 +4,6 @@ import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.honeycomb.colorphone.ColorPhoneApplication;
-import com.honeycomb.colorphone.ConfigLog;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.umeng.analytics.MobclickAgent;
@@ -69,10 +68,10 @@ public class Analytics {
     }
 
     private static void logEvent(final String eventID, int flag, final Map<String, String> eventValue) {
-        if (ColorPhoneApplication.isFabricInitted()) {
+        if (ColorPhoneApplication.isFabricInited()) {
             CustomEvent event = new CustomEvent(eventID);
             for (String key : eventValue.keySet()) {
-                event.putCustomAttribute(key, eventValue.get(key));
+                event.putCustomAttribute(key, eventValue.get(key).toString());
             }
             HSLog.d("FlurryWithAnswers", eventID);
             if ((flag & FLAG_LOG_FABRIC) == FLAG_LOG_FABRIC) {
@@ -94,7 +93,7 @@ public class Analytics {
     }
 
     public static void logException(Exception e) {
-        if (ColorPhoneApplication.isFabricInitted()) {
+        if (ColorPhoneApplication.isFabricInited()) {
             try {
                 CrashlyticsCore.getInstance().logException(e);
             } catch (Exception ignore) {

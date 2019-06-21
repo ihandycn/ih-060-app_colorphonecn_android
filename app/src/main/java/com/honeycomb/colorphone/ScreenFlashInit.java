@@ -14,8 +14,6 @@ import com.ihs.commons.utils.HSMapUtils;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
 
-import net.appcloudbox.autopilot.AutopilotConfig;
-
 import java.util.Map;
 
 public class ScreenFlashInit extends AppMainInit {
@@ -108,11 +106,7 @@ public class ScreenFlashInit extends AppMainInit {
                         themeNotReady = !TasksManager.getImpl().isDownloaded(model);
                     }
                 }
-
-                if (targetTheme != null) {
-                    AutopilotConfig.setAudienceProperty("theme_id", targetTheme.getIdName());
-                }
-
+                
                 String name = "Null";
                 if (targetTheme != null) {
                     name = targetTheme.getIdName();

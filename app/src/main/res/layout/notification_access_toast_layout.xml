@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/notification_access_toast"
+<RelativeLayout
+    android:id="@+id/notification_access_toast"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_marginLeft="@dimen/theme_card_margin_horizontal"
     android:layout_marginRight="@dimen/theme_card_margin_horizontal"
-
     android:layout_marginTop="@dimen/notification_toast_margin_top"
     android:layout_marginBottom="@dimen/notification_toast_margin_bottom"
     android:background="@drawable/notificaiton_toast_top"
-
     android:elevation="6dp"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    tools:background="@android:color/black">
 
     <ImageView
         android:id="@+id/imageView1"
@@ -40,6 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginTop="2dp"
         android:layout_marginLeft="13dp"
         android:layout_marginStart="13dp"
         android:layout_toEndOf="@id/imageView1"
@@ -48,7 +50,7 @@
         android:layout_toStartOf="@id/imageView2"
         android:maxLines="2"
         android:text="@string/grant_access_to_optimize_experience"
-        android:textColor="@android:color/white"
+        android:textColor="@color/banner_text_selector"
         android:textSize="14sp"
         app:typeface="@string/proxima_nova_semibold" />
 

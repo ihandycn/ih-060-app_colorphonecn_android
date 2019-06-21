@@ -35,7 +35,7 @@ dependencies {
     compile files('../libs/libFlashlight/libFlashlight.jar')
     compile project(':libChargingCommon')
     compile project(':libSuperApps')
-    compile project(':libScreenCard')
+//    compile project(':libScreenCard')
 
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.1.0'

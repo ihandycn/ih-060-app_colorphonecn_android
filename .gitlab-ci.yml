@@ -22,6 +22,7 @@ build_toutiao:
   -   cp app/build/outputs/mapping/colorphoneJinritoutiao/release/mapping.txt outputs/
   -   cp app/build/intermediates/assets/colorphoneJinritoutiao/release/HSRemoteConfig.sp outputs/
   -   cp app/build/intermediates/assets/colorphoneJinritoutiao/release/alerts.sp outputs/
+  -   cp app/build/intermediates/symbols/colorphoneJinritoutiao/release/R.txt outputs/
   - fi
   only:
     variables:
@@ -33,6 +34,7 @@ build_toutiao:
     - outputs/mapping.txt
     - outputs/HSRemoteConfig.sp
     - outputs/alerts.sp
+    - outputs/R.txt
 
     expire_in: 1 week
   tags:
@@ -58,6 +60,7 @@ build_yingyongbao:
   -   cp app/build/outputs/mapping/colorphoneYingyongbao/release/mapping.txt outputs/
   -   cp app/build/intermediates/assets/colorphoneYingyongbao/release/HSRemoteConfig.sp outputs/
   -   cp app/build/intermediates/assets/colorphoneYingyongbao/release/alerts.sp outputs/
+  -   cp app/build/intermediates/symbols/colorphoneYingyongbao/release/R.txt outputs/
   - fi
   only:
     variables:
@@ -69,6 +72,7 @@ build_yingyongbao:
     - outputs/mapping.txt
     - outputs/HSRemoteConfig.sp
     - outputs/alerts.sp
+    - outputs/R.txt
 
     expire_in: 1 week
   tags:

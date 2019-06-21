@@ -63,7 +63,7 @@ public abstract class FloatWindowDialog extends FrameLayout implements FloatWind
         return super.dispatchKeyEvent(event);
     }
 
-    private WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams();
+    protected WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams();
     protected  WindowManager.LayoutParams getDefaultWindowLayoutParams() {
         if (mLayoutParams == null) {
             mLayoutParams = new WindowManager.LayoutParams();

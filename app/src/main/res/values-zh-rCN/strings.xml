@@ -25,7 +25,7 @@
     <string name="guide_apply_theme_hint">来电主题应用成功！尽情享受吧！</string>
 
     <string name="smart_charging">充电锁屏</string>
-    <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏。</string>
+    <string name="smart_charging_hint">自动监控充电状态并停止过渡充电以防止电池损坏</string>
 
     <string name="color_lockscreen">多彩屏保</string>
     <string name="color_lockscreen_hint">用多彩的主题装饰你的屏保</string>
@@ -193,7 +193,8 @@
     <string name="notification_toolbar_flash_light">手电筒</string>
     <string name="notification_permission_toolbar_title">通知</string>
     <string name="phone_contact_permission_settings_guide_title">选择"权限"，然后开启"电话"、"通讯录"权限</string>
-    <string name="grant_access_to_optimize_experience">开启权限来接听电话</string>
+    <!--<string name="grant_access_to_optimize_experience">开启权限来接听电话</string>-->
+    <string name="grant_access_to_optimize_experience">检测到来电秀发生故障，请点击修复</string>
 
     <string name="default_dialer">默认电话</string>
 
@@ -209,7 +210,7 @@
     <string name="guide_theme_random_hint">应用了当前主题后，每次来电会随机展示不同主题视频</string>
     <string name="start_guide_loading_text">来电秀功能开启中……</string>
     <string name="start_guide_loading_action">立即授予</string>
-    <string name="start_guide_request_accessibility_title">只要几秒钟授予我们辅助权限，我们将自动帮您完成复杂繁琐的来电秀设置</string>
+    <string name="start_guide_request_accessibility_title">来电秀开启遇到一些问题\n请授予我们辅助权限完成修复</string>
     <string name="start_guide_confirm_fix">手动修复</string>
     <string name="start_guide_confirm_fix_one_key">立即修复</string>
     <string name="start_guide_request_image_title">自动开启中</string>
@@ -217,10 +218,17 @@
     <string name="start_guide_permission_auto_start">保持来电秀正常启动</string>
     <string name="start_guide_permission_onlocker">锁屏显示来电秀</string>
     <string name="start_guide_permission_call">读取来电时的通知</string>
-    <string name="start_guide_permission_title">%1$s项问题待修复</string>
+    <string name="start_guide_permission_bg_pop">来电时展示来电秀</string>
+    <string name="start_guide_permission_title">只差最后一步啦！\n完成修复就可以使用来电秀哦</string>
     <string name="start_guide_congratulation_title">恭喜你</string>
     <string name="start_guide_congratulation_text">欢迎来到焕彩世界~</string>
     <string name="guide_first_page_title_new">请开启焕彩来电秀，享受非凡的来电体验</string>
 
     <string name="title_cmgame">在线小游戏</string>
+    <string name="title_game_center">游戏中心</string>
+
+    <string name="start_guide_skip_dialog_title">来电秀部分功能失效</string>
+    <string name="start_guide_skip_dialog_content">权限未全部开启，可能导致无法正常展示来电秀功能</string>
+    <string name="start_guide_skip_dialog_ok">立即修复</string>
+    <string name="start_guide_skip_dialog_cancel">暂不修复</string>
 </resources>

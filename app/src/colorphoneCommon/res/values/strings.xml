@@ -1,5 +1,7 @@
 <resources>
     <string name="facebook_app_id" translatable="false">3023571531414057</string>
+    <string name="bugly_app_id" translatable="false">c6e186b7b5</string>
+
     <string name="sync_account_type" translatable="false">com.colorphone.smooth.dialer.cn.account</string>
     <string name="app_name">Color Phone</string>
     <string name="color_phone_disable">Color Phone Disabled</string>

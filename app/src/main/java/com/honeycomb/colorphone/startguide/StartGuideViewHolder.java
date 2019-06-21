@@ -18,9 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
@@ -39,10 +37,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class StartGuideViewHolder implements INotificationObserver {
+    private static final String AUTO_PERMISSION_FAILED = "auto_permission_failed";
 
     public static final int TYPE_PERMISSION_TYPE_SCREEN_FLASH = 1;
     public static final int TYPE_PERMISSION_TYPE_ON_LOCK = 2;
     public static final int TYPE_PERMISSION_TYPE_CALL = 3;
+    public static final int TYPE_PERMISSION_TYPE_BG_POP = 4;
 
     public static final int PERMISSION_STATUS_HIDE = -1;
     public static final int PERMISSION_STATUS_NOT_START = 0;
@@ -53,7 +53,8 @@ public class StartGuideViewHolder implements INotificationObserver {
 
     @IntDef({TYPE_PERMISSION_TYPE_SCREEN_FLASH,
             TYPE_PERMISSION_TYPE_ON_LOCK,
-            TYPE_PERMISSION_TYPE_CALL})
+            TYPE_PERMISSION_TYPE_CALL, 
+            TYPE_PERMISSION_TYPE_BG_POP})
     @Retention(RetentionPolicy.SOURCE)
     private @interface PERMISSION_TYPES {
     }
@@ -86,29 +87,34 @@ public class StartGuideViewHolder implements INotificationObserver {
 
     private ImageView screenFlashOK;
     private LottieAnimationView screenFlashLoading;
-    private View screenFlashFix;
     private View screenFlashText;
+    private View screenFlashFix;
     private boolean gotoFetchScreenFlash = false;
 
     private ImageView onLockerOK;
     private LottieAnimationView onLockerLoading;
-    private View onLockerFix;
     private View onLockerText;
+    private View onLockerFix;
     private boolean gotoFetchOnLock = false;
 
     private ImageView callOK;
     private LottieAnimationView callLoading;
-    private View callFix;
     private View callText;
+    private View callFix;
     public boolean gotoFetchCall = false;
 
-    private View oneKeyFix;
+    private ImageView bgPopOK;
+    private LottieAnimationView bgPopLoading;
+    private View bgPopText;
+    private View bgPopFix;
+    public boolean gotoFetchBgPop = false;
 
     private TextView progress;
     private int progressNum;
     private int goalNum = 0;
     private int progressInterval = UPGRADE_MIN_INTERVAL * 2;
     private int finalStatus;
+    private boolean isAutoPermissionFailed = false;
 
     private SparseIntArray permissionList = new SparseIntArray();
 
@@ -153,6 +159,7 @@ public class StartGuideViewHolder implements INotificationObserver {
         permissionList.append(TYPE_PERMISSION_TYPE_SCREEN_FLASH, isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_LOADING);
         permissionList.append(TYPE_PERMISSION_TYPE_ON_LOCK, isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_LOADING);
         permissionList.append(TYPE_PERMISSION_TYPE_CALL, isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_LOADING);
+        permissionList.append(TYPE_PERMISSION_TYPE_BG_POP, isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_LOADING);
 
         screenFlashText = container.findViewById(R.id.start_guide_permission_auto_start);
         screenFlashOK = container.findViewById(R.id.start_guide_permission_auto_start_ok);
@@ -168,6 +175,11 @@ public class StartGuideViewHolder implements INotificationObserver {
         callOK = container.findViewById(R.id.start_guide_permission_call_ok);
         callOK.setTag(PERMISSION_STATUS_NOT_START);
         callLoading = container.findViewById(R.id.start_guide_permission_call_loading);
+        
+        bgPopText = container.findViewById(R.id.start_guide_permission_bg_pop);
+        bgPopOK = container.findViewById(R.id.start_guide_permission_bg_pop_ok);
+        bgPopOK.setTag(PERMISSION_STATUS_NOT_START);
+        bgPopLoading = container.findViewById(R.id.start_guide_permission_bg_pop_loading);
 
         if (isConfirmPage) {
             screenFlashFix = container.findViewById(R.id.start_guide_permission_auto_start_fix);
@@ -195,13 +207,15 @@ public class StartGuideViewHolder implements INotificationObserver {
                 gotoFetchCall = true;
             });
 
-            oneKeyFix = container.findViewById(R.id.start_guide_confirm_fix);
-            oneKeyFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
-
-            oneKeyFix.setOnClickListener(v -> {
-                Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt(StartGuideActivity.ACC_KEY_SHOW_COUNT);
-                AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX);
+            bgPopFix = container.findViewById(R.id.start_guide_permission_bg_pop_fix);
+            bgPopFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
+            bgPopFix.setOnClickListener(v -> {
+                AutoRequestManager.getInstance().openPermission(AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP);
+                AutoLogger.logEventWithBrandAndOS("FixALert_BgPop_Click");
+                gotoFetchBgPop = true;
             });
+
+            isAutoPermissionFailed = Preferences.getDefault().getBoolean(AUTO_PERMISSION_FAILED, false);
 
             refresh();
         } else {
@@ -212,7 +226,9 @@ public class StartGuideViewHolder implements INotificationObserver {
             setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK,
                     AutoPermissionChecker.hasShowOnLockScreenPermission() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
             setPermissionStatus(TYPE_PERMISSION_TYPE_CALL,
-                    AutoPermissionChecker.isAccessibilityGranted() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
+                    AutoPermissionChecker.isNotificationListeningGranted() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
+            setPermissionStatus(TYPE_PERMISSION_TYPE_BG_POP,
+                    AutoPermissionChecker.hasBgPopupPermission() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
         }
 
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFICATION_PERMISSION_RESULT, this);
@@ -229,9 +245,11 @@ public class StartGuideViewHolder implements INotificationObserver {
         boolean screenFlashGrant = AutoPermissionChecker.hasAutoStartPermission();
         boolean onLockGrant = AutoPermissionChecker.hasShowOnLockScreenPermission();
         boolean callGrant = Utils.isNotificationListeningGranted();
+        boolean bgPopGrant = AutoPermissionChecker.hasBgPopupPermission();
         setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, screenFlashGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
         setPermissionStatus(TYPE_PERMISSION_TYPE_ON_LOCK, onLockGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
         setPermissionStatus(TYPE_PERMISSION_TYPE_CALL, callGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
+        setPermissionStatus(TYPE_PERMISSION_TYPE_BG_POP, bgPopGrant ? PERMISSION_STATUS_OK : PERMISSION_STATUS_FIX);
 
         int notGrant = 0;
         if (!screenFlashGrant) {
@@ -243,6 +261,10 @@ public class StartGuideViewHolder implements INotificationObserver {
         }
 
         if (!callGrant) {
+            notGrant++;
+        }
+
+        if (!bgPopGrant) {
             notGrant++;
         }
 
@@ -259,21 +281,24 @@ public class StartGuideViewHolder implements INotificationObserver {
             gotoFetchScreenFlash = false;
             confirmPermission = TYPE_PERMISSION_TYPE_SCREEN_FLASH;
         }
+
         if (gotoFetchOnLock) {
             gotoFetchOnLock = false;
             confirmPermission = TYPE_PERMISSION_TYPE_ON_LOCK;
         }
 
+        if (gotoFetchBgPop) {
+            gotoFetchBgPop = false;
+            confirmPermission = TYPE_PERMISSION_TYPE_BG_POP;
+        }
 
         TextView ball = container.findViewById(R.id.start_guide_confirm_number);
-        TextView title = container.findViewById(R.id.start_guide_permission_title);
         ball.setText(String.valueOf(notGrant));
-        title.setText(String.format(container.getContext().getString(R.string.start_guide_permission_title), String.valueOf(notGrant)));
         return confirmPermission;
     }
 
     public boolean isManualFix() {
-        return gotoFetchOnLock || gotoFetchScreenFlash || gotoFetchCall;
+        return gotoFetchOnLock || gotoFetchScreenFlash || gotoFetchCall || gotoFetchBgPop;
     }
 
     public void setCircleAnimView(@IdRes int viewID) {
@@ -323,6 +348,11 @@ public class StartGuideViewHolder implements INotificationObserver {
             String pType = hsBundle.getString(AutoRequestManager.BUNDLE_PERMISSION_TYPE);
             boolean result = hsBundle.getBoolean(AutoRequestManager.BUNDLE_PERMISSION_RESULT);
             int status = result ? PERMISSION_STATUS_OK : isConfirmPage ? PERMISSION_STATUS_FIX : PERMISSION_STATUS_FAILED;
+            if (!result) {
+                Preferences.getDefault().putBoolean(AUTO_PERMISSION_FAILED, true);
+                isAutoPermissionFailed = true;
+            }
+
             switch (pType) {
                 case HSPermissionRequestMgr.TYPE_AUTO_START:
                     updateProgress(TYPE_PERMISSION_TYPE_SCREEN_FLASH, status);
@@ -335,6 +365,10 @@ public class StartGuideViewHolder implements INotificationObserver {
                 case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
                     updateProgress(TYPE_PERMISSION_TYPE_CALL, status);
                     HSLog.w(TAG, "cast time 33 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
+                    break;
+                case AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP:
+                    updateProgress(TYPE_PERMISSION_TYPE_BG_POP, status);
+                    HSLog.w(TAG, "cast time 44 " + (System.currentTimeMillis() - startAutoRequestAnimation) + "  num == " + progressNum);
                     break;
 
                 default:
@@ -350,7 +384,7 @@ public class StartGuideViewHolder implements INotificationObserver {
     }
 
     private void updateProgress(int pType, int status) {
-        goalNum += 33;
+        goalNum += 25;
         progressInterval = (1500 / (PROGRESS_MAX_VALUE - progressNum));
         setPermissionStatus(pType, status);
     }
@@ -400,26 +434,32 @@ public class StartGuideViewHolder implements INotificationObserver {
     private void setPermissionStatus(@PERMISSION_TYPES int pType, @PERMISSION_STATUS int pStatus) {
         ImageView ok;
         LottieAnimationView loading;
-        View fix;
         View text;
+        View fix;
         switch (pType) {
             case TYPE_PERMISSION_TYPE_CALL:
                 ok = callOK;
                 loading = callLoading;
-                fix = callFix;
                 text = callText;
+                fix = callFix;
                 break;
             case TYPE_PERMISSION_TYPE_ON_LOCK:
                 ok = onLockerOK;
                 loading = onLockerLoading;
-                fix = onLockerFix;
                 text = onLockerText;
+                fix = onLockerFix;
                 break;
             case TYPE_PERMISSION_TYPE_SCREEN_FLASH:
                 ok = screenFlashOK;
                 loading = screenFlashLoading;
-                fix = screenFlashFix;
                 text = screenFlashText;
+                fix = screenFlashFix;
+                break;
+            case TYPE_PERMISSION_TYPE_BG_POP:
+                ok = bgPopOK;
+                loading = bgPopLoading;
+                text = bgPopText;
+                fix = bgPopFix;
                 break;
             default:
 
@@ -475,15 +515,15 @@ public class StartGuideViewHolder implements INotificationObserver {
                         loading.playAnimation();
                     }
                 }
+                if (fix != null) {
+                    fix.setVisibility(View.GONE);
+                }
                 break;
             case PERMISSION_STATUS_NOT_START:
                 ok.setVisibility(View.VISIBLE);
                 ok.setImageResource(R.drawable.start_guide_confirm_alert_image);
                 if (loading != null) {
                     loading.setVisibility(View.GONE);
-                }
-                if (fix != null) {
-                    fix.setVisibility(View.GONE);
                 }
                 break;
             case PERMISSION_STATUS_OK:
@@ -550,6 +590,7 @@ public class StartGuideViewHolder implements INotificationObserver {
                 if (fix != null) {
                     fix.setVisibility(View.GONE);
                 }
+
                 break;
         }
         ok.setTag(pStatus);

@@ -49,7 +49,7 @@ public class FloatWindowManager {
                 HSLog.i(TAG, "Dialog " + token + " has no need to show");
                 return;
             }
-           FloatWindowDialog oDialog = mDialogs.put(dialog.getClass(), dialog);
+            FloatWindowDialog oDialog = mDialogs.put(dialog.getClass(), dialog);
             if (oDialog != null) {
                 removeDialog(oDialog);
                 if (HSLog.isDebugging()) {
@@ -73,7 +73,13 @@ public class FloatWindowManager {
     }
 
     public void updateDialog(FloatWindowDialog dialog, WindowManager.LayoutParams windowParams) {
-        getWindowManager().updateViewLayout(dialog, windowParams);
+        if (dialog != null && mDialogs.get(dialog.getClass()) != null) {
+            try {
+                getWindowManager().updateViewLayout(dialog, windowParams);
+            } catch (Exception ignored) {
+                HSLog.d("BoostPlusCleanDialog", "removeDialog Exception");
+            }
+        }
     }
 
     public void removeDialog(FloatWindowDialog dialog) {

@@ -32,6 +32,18 @@ public class AutoPermissionChecker {
     public static boolean hasAutoStartPermission() {
         return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_auto_start_permission", false);
     }
+    public static void onBgPopupChange(boolean hasPermission) {
+        Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("prefs_bg_popup_permission", hasPermission);
+    }
+
+    public static boolean hasBgPopupPermission() {
+        if (Compats.IS_XIAOMI_DEVICE) {
+            return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_bg_popup_permission", false);
+        } else {
+            // TODO
+            return true;
+        }
+    }
 
     public static void onShowOnLockScreenChange(boolean hasPermission) {
         Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("prefs_show_on_lockscreen_permission", hasPermission);

@@ -154,6 +154,12 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             }
 
             @Override
+            public void messageViewSource(String source) {
+                Analytics.logEvent("Message_View_In", "Type", source);
+            }
+
+
+            @Override
             public void onDismiss(NotificationMessageAlertActivity.DismissType type) {
                 if (type == NotificationMessageAlertActivity.DismissType.MENU_CLOSE) {
                     Analytics.logEvent("MessageAssistant_Disable", "From", "Popup");

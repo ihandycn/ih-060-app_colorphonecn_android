@@ -11,6 +11,7 @@ public class Constants {
     public static final String PREFS_CHECK_DEFAULT_PHONE = "PREFS_CHECK_DEFAULT_PHONE";
     public static final String PREF_FILE_DEFAULT = "default_main";
     public static final String KEY_TAB_POSITION = "tab_position";
+    public static final String INTENT_KEY_TAB_POSITION = "intent_tab_position";
     public static final String KEY_TAB_LEAVE_NEWS = "tab_leave_news";
 
     public static final String NOTIFY_KEY_LIST_SCROLLED = "content_list_scrolled";

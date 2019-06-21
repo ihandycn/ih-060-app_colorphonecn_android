@@ -9,12 +9,16 @@
 			<key>AdProtection</key>
 			<dict>
 				<key>EnableAfterInstallMinutes</key>
-				<integer>180</integer>
+				<integer>360</integer>
 			</dict>
 			<key>AutoPermission</key>
 			<dict>
+				<key>ToastDurationSeconds</key>
+				<integer>18</integer>
 				<key>AccessibilityShowCount</key>
 				<integer>1</integer>
+				<key>SkipShowCount</key>
+				<integer>3</integer>
 				<key>WaitListScroll</key>
 				<true/>
 			</dict>
@@ -63,6 +67,13 @@
 				<integer>10</integer>
 				<key>TimeIntervalMinute</key>
 				<integer>0</integer>
+			</dict>
+			<key>CashCenter</key>
+			<dict>
+				<key>Enable</key>
+				<true/>
+				<key>FloatingGuide</key>
+				<true/>
 			</dict>
 			<key>Charging</key>
 			<dict>
@@ -927,8 +938,19 @@
 				<true/>
 				<key>DefaultThemeID</key>
 				<string>Dog</string>
-				<key>RingtoneEnable</key>
-				<true/>
+				<key>RandomTheme</key>
+				<array>
+					<string>DeepLove</string>
+					<string>Shining</string>
+					<string>FlashingRing</string>
+					<string>LovelyBanbu</string>
+					<string>Colorlight</string>
+					<string>MiniSanta</string>
+					<string>STARS</string>
+					<string>Dance</string>
+					<string>BanboKitty</string>
+					<string>Gingerbread</string>
+				</array>
 				<key>List</key>
 				<array>
 					<dict>
@@ -3280,6 +3302,8 @@
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing_preview.jpg</string>
+						<key>Ringtone</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing.mp3</string>
 						<key>ResType</key>
 						<string>url</string>
 						<key>Status</key>
@@ -6858,19 +6882,8 @@
 						</dict>
 					</dict>
 				</array>
-				<key>RandomTheme</key>
-				<array>
-					<string>DeepLove</string>
-					<string>Shining</string>
-					<string>FlashingRing</string>
-					<string>LovelyBanbu</string>
-					<string>Colorlight</string>
-					<string>MiniSanta</string>
-					<string>STARS</string>
-					<string>Dance</string>
-					<string>BanboKitty</string>
-					<string>Gingerbread</string>
-				</array>
+				<key>RingtoneEnable</key>
+				<true/>
 			</dict>
 			<key>ThemeStyle</key>
 			<dict>

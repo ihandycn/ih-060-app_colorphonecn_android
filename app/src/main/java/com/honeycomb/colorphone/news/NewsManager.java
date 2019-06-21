@@ -125,7 +125,7 @@ public class NewsManager {
         if (resultBean.articlesList.size() > 0) {
             int index = 0;
             for (NewsArticle article : resultBean.articlesList) {
-                if (article.item_type == 8) {
+                if (article.item_type == 8 || article.item_type == 30 || article.item_type == 100) {
                     adIndexes.add(0, index);
                 }
                 index++;

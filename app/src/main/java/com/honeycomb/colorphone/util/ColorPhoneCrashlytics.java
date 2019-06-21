@@ -13,13 +13,13 @@ public class ColorPhoneCrashlytics  {
     }
 
     public void log(String msg) {
-        if (ColorPhoneApplication.isFabricInitted()) {
+        if (ColorPhoneApplication.isFabricInited()) {
             CrashlyticsCore.getInstance().log(msg);
         }
     }
 
     public void logException(Throwable throwable) {
-        if (ColorPhoneApplication.isFabricInitted() && HSConfig.optBoolean(true, "Application", "EnableCrashLog")) {
+        if (ColorPhoneApplication.isFabricInited() && HSConfig.optBoolean(true, "Application", "EnableCrashLog")) {
             CrashlyticsCore.getInstance().logException(throwable);
         }
     }

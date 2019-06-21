@@ -39,6 +39,7 @@ import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
+import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
@@ -68,9 +69,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
-
-import colorphone.acb.com.libscreencard.CardCustomConfig;
-import colorphone.acb.com.libscreencard.CustomizeContentContainer;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -129,7 +127,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     private ChargingQuantityView chargingQuantityView;
     private ChargingBubbleView chargingBubbleView;
     private ImageView imageBackgroundView;
-    private CustomizeContentContainer customizeContentContainer;
+//    private CustomizeContentContainer customizeContentContainer;
 
     private ObjectAnimator chargingStateAlphaAnimator;
 
@@ -272,7 +270,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
 
         mIsSetup = true;
-        adEnabled = CardCustomConfig.get().enableAdChard();
+//        adEnabled = CardCustomConfig.get().enableAdChard();
 
         // ======== onCreate ========
         HSLog.d(TAG, "onCreate()");
@@ -362,9 +360,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         PowerManager powerManager = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
         boolean isScreenOn = powerManager != null && powerManager.isScreenOn();
 
-        if (customizeContentContainer != null) {
-            customizeContentContainer.onVisibilityChange(true);
-        }
+//        if (customizeContentContainer != null) {
+//            customizeContentContainer.onVisibilityChange(true);
+//        }
         if (adEnabled) {
             if (expressAdView == null) {
                 requestAds();
@@ -918,9 +916,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     public void onStop() {
         // ======== onPause ========
         isStart = false;
-        if (customizeContentContainer != null) {
-            customizeContentContainer.onVisibilityChange(false);
-        }
+//        if (customizeContentContainer != null) {
+//            customizeContentContainer.onVisibilityChange(false);
+//        }
 
 
         if (chargingBubbleView != null) {
@@ -983,6 +981,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         if (context instanceof Activity) {
             ((Activity) context).finish();
             ((Activity) context).overridePendingTransition(0, 0);
+            if (dismissKeyguard) {
+                DismissKeyguradActivity.startSelfIfKeyguardSecure((Activity) context);
+            }
         } else {
             onStop();
             onDestroy();

@@ -36,6 +36,7 @@ import com.honeycomb.colorphone.WatchedScrollListener;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.PopularThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
+import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.util.Analytics;
@@ -47,6 +48,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
 import java.util.ArrayList;
@@ -315,10 +317,13 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return new StatementViewHolder(stateViewContent);
         } else if (viewType == THEME_SELECTOR_ITEM_TYPE_TIP) {
             View tipView = activity.getLayoutInflater().inflate(R.layout.notification_access_toast_layout, parent, false);
+            tipView.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff000000, Dimensions.pxFromDp(27), false));
             tipView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PermissionChecker.getInstance().checkForcely(activity, "Banner");
+//                    PermissionChecker.getInstance().checkForcely(activity, "Banner");
+                    StartGuideActivity.start(activity, StartGuideActivity.FROM_KEY_BANNER);
+                    Analytics.logEvent("List_Page_Permission_Alert_Click");
                 }
             });
             return new TopTipViewHolder(tipView);

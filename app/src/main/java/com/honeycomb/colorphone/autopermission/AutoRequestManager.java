@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.autopermission;
 
+import android.accessibilityservice.AccessibilityService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +15,10 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
 import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
+import com.acb.colorphone.permissions.BackgroundPopupMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
@@ -64,7 +65,10 @@ public class AutoRequestManager {
     public static final String TYPE_CUSTOM_CONTACT_READ = "ReadContact";
     public static final String TYPE_CUSTOM_CONTACT_WRITE = "WriteContact";
 
+    public static final String TYPE_CUSTOM_BACKGROUND_POPUP = HSPermissionRequestMgr.TYPE_BACKGROUND_POPUP;
+
     private static final boolean DEBUG_TEST = false && BuildConfig.DEBUG;
+    private static final long GUIDE_DELAY = 900;
 
     private HomeKeyWatcher homeKeyWatcher;
     private boolean needRestartApplication;
@@ -83,9 +87,11 @@ public class AutoRequestManager {
 
     private int mRetryCount = 0;
     private String from;
+    private String point;
     private WindowManager windowMgr;
     private boolean isCoverWindow = false;
     private boolean isRequestPermission = false;
+    private int executeBackPressTryCount;
 
     private AutoRequestManager() {}
 
@@ -101,12 +107,18 @@ public class AutoRequestManager {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     Analytics.logEvent("Accessbility_Granted",
+                            "From", point,
                             "Brand", AutoLogger.getBrand(),
                             "Os", AutoLogger.getOSVersion(),
                             "Time", String.valueOf(
                                     Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)));
 
-                    onAccessibilityReady();
+                    if (Compats.IS_XIAOMI_DEVICE) {
+                        backTask.run();
+                    } else {
+                        StableToast.cancelToast();
+                        onAccessibilityReady();
+                    }
 
                 }
             }, filter);
@@ -114,8 +126,35 @@ public class AutoRequestManager {
         }
     }
 
+    private Runnable backTask = new Runnable() {
+        @Override
+        public void run() {
+            HSPermissionRequestMgr.getInstance().performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK, new HSPermissionRequestMgr.GlobalActionResult() {
+                @Override
+                public void onSuccess() {
+                    HSLog.d(TAG, "performGlobalAction success");
+                    performPermissionCheck();
+                }
+
+                @Override
+                public void onFailed() {
+                    HSLog.d(TAG, "performGlobalAction fail");
+                    if (executeBackPressTryCount < MAX_RETRY_COUNT) {
+                        executeBackPressTryCount++;
+                        HSLog.d(TAG, "performGlobalAction try , time = " + executeBackPressTryCount);
+                        Threads.postOnMainThreadDelayed(backTask, 200 * executeBackPressTryCount);
+                    }
+                }
+            });
+        }
+    };
+
     public void onAccessibilityReady() {
         isRequestPermission = true;
+        performPermissionCheck();
+    }
+
+    private void performPermissionCheck() {
         if (AutoPermissionChecker.hasFloatWindowPermission()) {
             onFloatWindowPermissionReady();
         } else {
@@ -160,10 +199,12 @@ public class AutoRequestManager {
 
     private void executeAutoTask() {
         ArrayList<String> permission = new ArrayList<String>();
+        if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasBgPopupPermission()) {
+            permission.add(TYPE_CUSTOM_BACKGROUND_POPUP);
+        }
         if (!AutoPermissionChecker.hasAutoStartPermission()) {
             permission.add(HSPermissionRequestMgr.TYPE_AUTO_START);
         }
-
         if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
             permission.add(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK);
         }
@@ -221,6 +262,9 @@ public class AutoRequestManager {
                         break;
                     case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
                         AutoPermissionChecker.onShowOnLockScreenChange(isSucceed);
+                        break;
+                    case TYPE_CUSTOM_BACKGROUND_POPUP:
+                        AutoPermissionChecker.onBgPopupChange(isSucceed);
                         break;
                     default:
                         break;
@@ -323,6 +367,7 @@ public class AutoRequestManager {
 
     public boolean isGrantAllPermission() {
         return AutoPermissionChecker.hasAutoStartPermission()
+                && AutoPermissionChecker.hasBgPopupPermission()
                 && AutoPermissionChecker.hasShowOnLockScreenPermission()
                 && AutoPermissionChecker.isNotificationListeningGranted();
     }
@@ -335,24 +380,31 @@ public class AutoRequestManager {
         mPermissionTester.startTest(HSApplication.getContext());
     }
 
-    public void startAutoCheck(@AUTO_PERMISSION_FROM String from) {
+    public void startAutoCheck(@AUTO_PERMISSION_FROM String from, String point) {
         this.from = from;
+        this.point = point;
 
         if (Utils.isAccessibilityGranted()) {
             AutoRequestManager.getInstance().onAccessibilityReady();
         } else {
-            Utils.goToAccessibilitySettingsPage();
+            Intent intent = Utils.getAccessibilitySettingsIntent();
+
             Analytics.logEvent("Accessbility_Show",
                     "Brand", AutoLogger.getBrand(),
                     "Os", AutoLogger.getOSVersion(),
                     "Time", String.valueOf(Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("Accessbility_Show")));
-            Threads.postOnMainThreadDelayed(() -> {
-                if (RomUtils.checkIsHuaweiRom()) {
-                    Navigations.startActivitySafely(HSApplication.getContext(), AccessibilityHuaweiGuideActivity.class);
-                } else if (RomUtils.checkIsMiuiRom()) {
-                    Navigations.startActivitySafely(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
-                }
-            }, 900);
+            Intent guideIntent = null;
+            if (RomUtils.checkIsHuaweiRom()) {
+                StableToast.showHuaweiAccToast();
+            } else if (RomUtils.checkIsMiuiRom()) {
+                guideIntent = new Intent(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
+            }
+            if (guideIntent != null) {
+                guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                HSApplication.getContext().startActivities(new Intent[] {intent, guideIntent});
+            } else {
+                HSApplication.getContext().startActivity(intent);
+            }
             AutoRequestManager.getInstance().listenAccessibility();
         }
     }
@@ -361,38 +413,48 @@ public class AutoRequestManager {
         if (HSPermissionRequestMgr.TYPE_AUTO_START.equals(type)) {
             if (AutoPermissionChecker.hasAutoStartPermission()) {
                 return true;
-            } else if (!AutoPermissionChecker.isAccessibilityGranted()) {
+            } else {
                 Threads.postOnMainThreadDelayed(() -> {
                     if (RomUtils.checkIsHuaweiRom()) {
                         Navigations.startActivitySafely(HSApplication.getContext(), AutoStartHuaweiGuideActivity.class);
                     } else if (RomUtils.checkIsMiuiRom()){
                         Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
                     }
-                }, 900);
+                }, GUIDE_DELAY);
             }
         } else if (HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING.equals(type)) {
             if (Permissions.isNotificationAccessGranted()) {
                 return true;
-            } else if (!AutoPermissionChecker.isAccessibilityGranted()) {
+            } else {
                 Threads.postOnMainThreadDelayed(() -> {
                     if (RomUtils.checkIsMiuiRom()){
                         Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);
                     } else {
                         Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
                     }
-                }, 900);
+                }, GUIDE_DELAY);
             }
         } else if (HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK.equals(type)) {
             if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
                 return true;
-            } else if (!AutoPermissionChecker.hasShowOnLockScreenPermission()) {
+            } else if (RomUtils.checkIsMiuiRom() && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
                 Threads.postOnMainThreadDelayed(() -> {
                     if (RomUtils.checkIsMiuiRom()){
                         Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenMIUIGuideActivity.class);
                     } else {
                         Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
                     }
-                }, 900);
+                }, GUIDE_DELAY);
+            }
+        } else if (TYPE_CUSTOM_BACKGROUND_POPUP.equals(type)) {
+            if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasBgPopupPermission()) {
+                return true;
+            } else if (RomUtils.checkIsMiuiRom() && !AutoPermissionChecker.hasBgPopupPermission()) {
+                Threads.postOnMainThreadDelayed(() -> {
+                    if (RomUtils.checkIsMiuiRom()){
+                        Navigations.startActivitySafely(HSApplication.getContext(), BackgroundPopupMIUIGuideActivity.class);
+                    }
+                }, GUIDE_DELAY);
             }
         }
 
