@@ -49,8 +49,8 @@
         </FrameLayout>
     </android.support.v7.widget.Toolbar>
 
-    <com.honeycomb.colorphone.view.ViewPagerFixed
-        android:id="@+id/viewpager"
+    <com.honeycomb.colorphone.view.TabFrameLayout
+        android:id="@+id/tab_frame_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

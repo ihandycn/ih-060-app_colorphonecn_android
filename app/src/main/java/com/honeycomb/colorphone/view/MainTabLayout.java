@@ -98,6 +98,10 @@ public class MainTabLayout extends LinearLayout {
         return lp;
     }
 
+    public void setCurrentTab(int selectedTabPosition) {
+        selectTab(selectedTabPosition, true);
+    }
+
     private void selectTab(int position, boolean updateIndicator) {
         int curPos = mSelectedTabPosition;
         if (curPos == position) {
@@ -295,7 +299,7 @@ public class MainTabLayout extends LinearLayout {
     }
 
 
-    class TabView extends FrameLayout {
+    class TabView extends LinearLayout {
         private int position;
 
         public TabView(@NonNull Context context) {
