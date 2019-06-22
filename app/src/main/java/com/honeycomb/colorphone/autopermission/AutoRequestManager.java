@@ -119,7 +119,8 @@ public class AutoRequestManager {
                         StableToast.cancelToast();
                         onAccessibilityReady();
                     }
-
+                    HSApplication.getContext().unregisterReceiver(this);
+                    listened = false;
                 }
             }, filter);
             listened = true;
