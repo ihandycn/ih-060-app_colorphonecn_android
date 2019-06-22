@@ -26,7 +26,8 @@ public class FontUtils {
         PROXIMA_NOVA_LIGHT(8, R.string.proxima_nova_light),
         PROXIMA_NOVA_THIN(9, R.string.proxima_nova_thin),
         PROXIMA_NOVA_SEMIBOLD(11, R.string.proxima_nova_semibold),
-        PROXIMA_NOVA_REGULAR_CONDENSED(12, R.string.proxima_nova_regular_condensed);
+        PROXIMA_NOVA_REGULAR_CONDENSED(12, R.string.proxima_nova_regular_condensed),
+        BARLOW_REGULAR(13, R.string.barlow_regular);
 
         private int mValue;
         private int mResId;
@@ -62,6 +63,7 @@ public class FontUtils {
         sCustomFontsResIds.add(R.string.proxima_nova_semibold);
         sCustomFontsResIds.add(R.string.proxima_nova_bold);
         sCustomFontsResIds.add(R.string.proxima_nova_regular_condensed);
+        sCustomFontsResIds.add(R.string.barlow_regular);
     }
 
     public static Typeface getTypeface(Font font) {

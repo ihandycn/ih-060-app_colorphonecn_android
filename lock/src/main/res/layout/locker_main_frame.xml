@@ -75,32 +75,38 @@
 
 
 
-    <com.colorphone.lock.TypefacedTextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="18dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="90dp"
-        android:textColor="@android:color/white"
-        android:textSize="84sp"
-        app:typeface="@string/akrobat_light"/>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.colorphone.lock.TypefacedTextView
-        android:id="@+id/tv_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tv_time"
-        android:layout_alignStart="@id/tv_time"
-        android:layout_below="@id/tv_time"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:lineSpacingExtra="5dp"
-        android:lines="2"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:typeface="@string/akrobat_light"/>
+        <com.colorphone.lock.TypefacedTextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5.2sp"
+            android:textColor="@android:color/white"
+            android:textSize="60.2sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.12"
+            app:typeface="@string/barlow_regular"/>
+
+        <com.colorphone.lock.TypefacedTextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="12.3sp"
+            android:textColor="#b3ffffff"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.22" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <View
         android:id="@+id/dim_cover"
@@ -111,15 +117,98 @@
         android:visibility="invisible"/>
 
     <RelativeLayout
+        android:id="@+id/lock_notification_window"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_above="@id/rl_ad_container"
+        android:layout_marginBottom="4dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="29.7dp"
+        android:layout_marginLeft="26.7dp"
+        android:layout_marginRight="29.7dp"
+        android:layout_marginStart="26.7dp"
+        android:background="@drawable/shape_notification_window">
+
+        <ImageView
+            android:id="@+id/source_app_avatar"
+            android:layout_width="12.7dp"
+            android:layout_height="12.7dp"
+            android:layout_marginTop="9.3dp"
+            android:layout_marginStart="9.7dp"
+            android:layout_marginLeft="9.7dp"
+            android:background="#000000"/>
+
+        <TextView
+            android:id="@+id/source_app_name_and_send_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/source_app_avatar"
+            android:layout_toRightOf="@id/source_app_avatar"
+            android:layout_marginTop="9.5dp"
+            android:layout_marginStart="4.7dp"
+            android:layout_marginLeft="4.7dp"
+            android:textColor="#cc000000"
+            android:text="微信 · 15分钟前"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:id="@+id/sender_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9.7dp"
+            android:layout_marginLeft="9.7dp"
+            android:layout_below="@id/source_app_avatar"
+            android:layout_marginTop="6dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#e6000000"
+            android:text="淹死的鱼"
+            />
+
+        <ImageView
+            android:id="@+id/sender_avatar"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/sender_name"
+            android:layout_marginTop="0.3dp"
+            android:layout_marginEnd="9.7dp"
+            android:layout_marginRight="9.3dp"
+            android:background="@drawable/shape_send_avatar"
+            />
+
+        <TextView
+            android:id="@+id/notification_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9.7dp"
+            android:layout_marginLeft="9.7dp"
+            android:layout_toStartOf="@id/sender_avatar"
+            android:layout_toLeftOf="@id/sender_avatar"
+            android:layout_marginEnd="20.7dp"
+            android:layout_marginRight="20.7dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:textColor="#cc000000"
+            android:textSize="12sp"
+            android:maxLines="2"
+            android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_ad_container"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_above="@+id/bottom_operation_area"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginEnd="29.7dp"
+        android:layout_marginLeft="26.7dp"
+        android:layout_marginRight="29.7dp"
+        android:layout_marginStart="26.7dp"
+        android:layout_marginBottom="54.7dp"
+        android:background="@drawable/shape_ad_container"
         android:visibility="gone">
     </RelativeLayout>
 
@@ -146,7 +235,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"
@@ -185,10 +275,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:paddingBottom="48dp"
-            android:text="@string/slide_to_unlock"
-            android:textColor="#cc000000"
-            android:textSize="18sp"/>
+            android:paddingBottom="15.7dp"
+            android:lineSpacingExtra="5.8sp"
+            android:text="右滑解锁"
+            android:textColor="#ffffff"
+            android:textSize="12.5sp"/>
 
         <LinearLayout
             android:id="@+id/wallpaper_container"

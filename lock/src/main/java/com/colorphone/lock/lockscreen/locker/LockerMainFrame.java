@@ -80,6 +80,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private View mWallpaperContainer;
     private RelativeLayout mAdContainer;
 
+    private NotificationWindowHolder mNotificationWindowHolder;
     private View mMenuMore;
     private RipplePopupView menuPopupView;
     private PopupView mCloseLockerPopupView;
@@ -147,7 +148,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         if (!FloatWindowCompat.needsSystemErrorFloatWindow()) {
             setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(HSApplication.getContext()));
         }
-
+        mNotificationWindowHolder = new NotificationWindowHolder();
         mDimCover = findViewById(R.id.dim_cover);
         mSlidingDrawerContent = (SlidingDrawerContent) findViewById(R.id.sliding_drawer_content);
         mDrawerHandleUp = findViewById(R.id.handle_action_up);
@@ -463,7 +464,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             hour = hour % 12;
         }
         mTvTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
-        DateFormat format = new SimpleDateFormat("MMMM, dd\nEEE", Locale.getDefault());
+        DateFormat format = new SimpleDateFormat("M月dd日\tEEE", Locale.getDefault());
         mTvDate.setText(format.format(new Date()));
     }
 
@@ -618,5 +619,24 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             });
         }
         mCloseLockerPopupView.showInCenter();
+    }
+
+    private class NotificationWindowHolder {
+        private RelativeLayout mNotificationWindow;
+        private ImageView mSourceAppAvatar;
+        private TextView mAppNameAndSendTime;
+        private TextView mSenderName;
+        private ImageView mSenderAvatar;
+        private TextView mNoticationContent;
+
+        public NotificationWindowHolder() {
+            mNotificationWindow = findViewById(R.id.lock_notification_window);
+            mSourceAppAvatar = findViewById(R.id.source_app_avatar);
+            mAppNameAndSendTime = findViewById(R.id.source_app_name_and_send_time);
+            mSenderAvatar = findViewById(R.id.sender_avatar);
+            mSenderName = findViewById(R.id.sender_name);
+            mNoticationContent = findViewById(R.id.notification_content);
+
+        }
     }
 }
