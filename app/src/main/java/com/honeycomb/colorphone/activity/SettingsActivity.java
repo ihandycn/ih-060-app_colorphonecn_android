@@ -17,7 +17,6 @@ import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.boost.BoostConfig;
-import com.honeycomb.colorphone.recentapp.SmartAssistantUtils;
 import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -136,17 +135,6 @@ public class SettingsActivity extends HSAppCompatActivity {
                 LockerSettings.setLockerEnabled(isChecked);
             }
         });
-
-        mModuleStates.add(new ModuleState(SmartAssistantUtils.isConfigEnabled(),
-                SmartAssistantUtils.isUserEnabled(),
-                R.id.setting_item_recent_apps_toggle,
-                R.id.setting_item_recent_apps) {
-            @Override
-            public void onCheckChanged(boolean isChecked) {
-                SmartAssistantUtils.setUserEnable(isChecked);
-            }
-        });
-
 
         for (final ModuleState moduleState : mModuleStates) {
             View rootView = findViewById(moduleState.itemLayoutId);

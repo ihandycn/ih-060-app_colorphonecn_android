@@ -330,14 +330,6 @@
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@style/AppTranslucent" />
 
-        <activity
-            android:name=".recentapp.SmartAssistantActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:taskAffinity=".recentapps"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity android:name="com.call.assistant.ui.CallIdleAlertActivity"
             android:icon="@drawable/icon_callassistant"
             android:label="@string/title_callassistant_activity"/>
