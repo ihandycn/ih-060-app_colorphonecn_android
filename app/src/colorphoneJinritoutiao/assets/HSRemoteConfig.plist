@@ -901,16 +901,16 @@
 					<key>Enable</key>
 					<true/>
 					<key>NotShowOnScreen</key>
-					<true/>
+                    <true/>
 					<key>ShowAds</key>
 					<true/>
-					<key>SourceSwitch</key>
-					<dict>
-						<key>SMS</key>
-						<true/>
-						<key>WeChat</key>
-						<true/>
-					</dict>
+                    <key>SourceSwitch</key>
+                    <dict>
+                        <key>SMS</key>
+                        <true/>
+                        <key>WeChat</key>
+                        <true/>
+                    </dict>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
 				</dict>
@@ -951,6 +951,19 @@
 				<true/>
 				<key>DefaultThemeID</key>
 				<string>Dog</string>
+				<key>RandomTheme</key>
+				<array>
+					<string>DeepLove</string>
+					<string>Shining</string>
+					<string>FlashingRing</string>
+					<string>LovelyBanbu</string>
+					<string>Colorlight</string>
+					<string>MiniSanta</string>
+					<string>STARS</string>
+					<string>Dance</string>
+					<string>BanboKitty</string>
+					<string>Gingerbread</string>
+				</array>
 				<key>List</key>
 				<array>
 					<dict>
@@ -3352,15 +3365,9 @@
 							<string>狂暴之魂</string>
 						</dict>
 						<key>PreviewImage</key>
-<<<<<<< HEAD
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing_preview.jpg</string>
-=======
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/Venom/Venom_preview.jpg</string>
->>>>>>> 2c7bfe48ec2e6710ae1b99e46892144944709b3a
 						<key>ResType</key>
 						<string>url</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
@@ -7448,19 +7455,6 @@
 							<true/>
 						</dict>
 					</dict>
-				</array>
-				<key>RandomTheme</key>
-				<array>
-					<string>DeepLove</string>
-					<string>Shining</string>
-					<string>FlashingRing</string>
-					<string>LovelyBanbu</string>
-					<string>Colorlight</string>
-					<string>MiniSanta</string>
-					<string>STARS</string>
-					<string>Dance</string>
-					<string>BanboKitty</string>
-					<string>Gingerbread</string>
 				</array>
 				<key>RingtoneEnable</key>
 				<true/>
