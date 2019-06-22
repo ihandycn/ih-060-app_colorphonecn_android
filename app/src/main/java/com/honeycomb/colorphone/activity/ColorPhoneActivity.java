@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,6 +60,7 @@ import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.RewardVideoView;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.alerts.HSAlertMgr;
@@ -110,8 +110,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private final ThemeList mThemeList = new ThemeList();
     private RewardVideoView mRewardVideoView;
 
-    private final static int RECYCLER_VIEW_SPAN_COUNT = 2;
-    private boolean initCheckState;
     private boolean isPaused;
 
     private Handler mHandler = new Handler();
@@ -217,9 +215,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private static final int SETTING_POSITION = 3;
 
     private ViewPagerFixed mViewPager;
-    private MainTabAdapter mTabAdapter;
     private Toolbar toolbar;
-    private TabLayout tabLayout;
+    private MainTabAdapter mTabAdapter;
+    private MainTabLayout mTabLayout;
     private LottieAnimationView tabCashCenterGuide;
     private boolean showTabCashCenter = false;
     private TabTransController tabTransController;
@@ -368,17 +366,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
         final int colorPrimary = ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null);
 
-        tabLayout = findViewById(R.id.tab_layout);
-        tabTransController = new TabTransController(tabLayout);
+        mTabLayout = findViewById(R.id.tab_layout);
+        mTabLayout.setTabBackgroundResId(R.drawable.tab_background);
+        tabTransController = new TabTransController(mTabLayout);
         for (int i = 0; i < titles.length; i++) {
-            TabLayout.Tab tab = tabLayout.newTab();
             View view = getLayoutInflater().inflate(R.layout.tab_item_layout, null, false);
             TextView textView = view.findViewById(R.id.tab_layout_title);
             textView.setText(titles[i]);
             Drawable icon = ResourcesCompat.getDrawable(getResources(),drawableIds[i], null);
             textView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
-            tab.setCustomView(view);
-            tabLayout.addTab(tab);
+            mTabLayout.addTab(view);
         }
         tabCashCenterGuide = findViewById(R.id.tab_cash_center_guide);
         tabCashCenterGuide.setOnClickListener(new View.OnClickListener() {
@@ -390,16 +387,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         tabTransController.setInterceptView(tabCashCenterGuide);
 
         if (showTabCashCenter && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
-            tabLayout.getTabAt(CASH_POSITION).getCustomView().findViewById(R.id.tab_layout_hint).setVisibility(View.VISIBLE);
+            mTabLayout.getTabAt(CASH_POSITION).findViewById(R.id.tab_layout_hint).setVisibility(View.VISIBLE);
         }
 
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mViewPager.addOnPageChangeListener(new MainTabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mTabLayout.addOnTabSelectedListener(new MainTabLayout.OnTabSelectedListener() {
             int lastPosition = -1;
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+            public void onTabSelected(int pos) {
+                View tabView = mTabLayout.getTabAt(pos);
 
-                int pos = tab.getPosition();
                 Preferences.get(Constants.PREF_FILE_DEFAULT).putInt(Constants.KEY_TAB_POSITION, pos);
 
                 if (mViewPager != null) {
@@ -427,9 +424,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         newsLayout.onSelected(true);
                     }
 
-                    View view = tab.getCustomView();
-                    if (view != null) {
-                        view.findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
+                    if (tabView != null) {
+                        tabView.findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
                     }
                     updateTabStyle(true);
 
@@ -439,7 +435,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         ActivityUtils.setCustomColorStatusBar(ColorPhoneActivity.this, 0xffb62121);
 
                         Preferences.getDefault().putBoolean(PREFS_CASH_CENTER_SHOW, true);
-                        tab.getCustomView().findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
+                        tabView.findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
                         tabCashCenterGuide.setVisibility(View.GONE);
 
                         boolean show = HSCashCenterManager.getInstance().startFirstReward();
@@ -494,8 +490,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                int pos = tab.getPosition();
+            public void onTabUnselected(int pos) {
                 if (pos == NEWS_POSITION) {
                     Preferences.get(Constants.PREF_FILE_DEFAULT).putLong(Constants.KEY_TAB_LEAVE_NEWS, System.currentTimeMillis());
                 }
@@ -503,8 +498,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                int pos = tab.getPosition();
+            public void onTabReselected(int pos) {
                 if (pos == NEWS_POSITION) {
                     if (newsLayout != null) {
                         newsLayout.refreshNews("Tab");
@@ -518,9 +512,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void updateTabStyle(boolean reverseColor) {
         int colorRes = reverseColor ? R.color.colorPrimaryReverse : R.color.colorPrimary;
         int tabBgRes = reverseColor ? R.drawable.tab_background_reverse : R.drawable.tab_background;
-        tabLayout.setBackgroundColor(getResources().getColor(colorRes));
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            View customView = tabLayout.getTabAt(i).getCustomView();
+        mTabLayout.setBackgroundColor(ResourcesCompat.getColor(getResources(), colorRes, null));
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            View customView = mTabLayout.getTabAt(i);
             if (customView != null) {
                 if (i == NEWS_POSITION) {
                     // Change TextColor
@@ -531,12 +525,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         textView.setTextColor(ResourcesCompat.getColorStateList(getResources(), R.color.seletor_color_tab_txt, null));
                     }
                 }
-                View parent = (View) customView.getParent();
-                parent.setBackgroundResource(tabBgRes);
+                customView.setBackgroundResource(tabBgRes);
             }
         }
     }
-
 
     private void initCashCenterMgr() {
         HSCashCenterManager.getInstance().init(ColorPhoneActivity.this, new CashCenterCallback() {
@@ -666,8 +658,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         isPaused = false;
         mHandler.postDelayed(mainViewRunnable, 1000);
 
-        if (tabLayout != null) {
-            updateTitle(tabLayout.getSelectedTabPosition());
+        if (mTabLayout != null) {
+            updateTitle(mTabLayout.getSelectedTabPosition());
         }
 
         if (tabTransController != null) {
@@ -875,7 +867,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mRewardVideoView.onHideAdLoading();
             mRewardVideoView.onCancel();
             // TODO logic confusing
-        }  if (tabLayout.getSelectedTabPosition() != CASH_POSITION || !(lotteryWheelLayout != null && lotteryWheelLayout.isSpining())) {
+        }  if (mTabLayout.getSelectedTabPosition() != CASH_POSITION || !(lotteryWheelLayout != null && lotteryWheelLayout.isSpining())) {
             if (mDoubleBackHandler.interceptBackPressed()) {
                 mDoubleBackHandler.toast();
             } else {
@@ -996,7 +988,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     public boolean isNewsTab() {
-        return tabLayout.getSelectedTabPosition() == NEWS_POSITION;
+        return mTabLayout.getSelectedTabPosition() == NEWS_POSITION;
     }
 
     private boolean needUpdateNews() {
@@ -1006,8 +998,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void showNewsHint() {
-        if (tabLayout.getSelectedTabPosition() != NEWS_POSITION) {
-            View view = tabLayout.getTabAt(NEWS_POSITION).getCustomView();
+        if (mTabLayout.getSelectedTabPosition() != NEWS_POSITION) {
+            View view = mTabLayout.getTabAt(NEWS_POSITION);
             if (view != null) {
                 TextView tv = view.findViewById(R.id.tab_layout_hint);
                 tv.setVisibility(View.VISIBLE);
@@ -1086,7 +1078,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         if (lotteryWheelLayout == null) {
                             lotteryWheelLayout = (LotteryWheelLayout) getLayoutInflater().inflate(R.layout.cashcenter_layout, container, false);
                             lotteryWheelLayout.setBackToCashCenterPage(false);
-                            HSLog.i("CashCenterCp", "bottom: nav == " + Dimensions.getNavigationBarHeight(getBaseContext()) + " tabH == " + tabLayout.getHeight());
+                            HSLog.i("CashCenterCp", "bottom: nav == " + Dimensions.getNavigationBarHeight(getBaseContext()) + " tabH == " + mTabLayout.getHeight());
                             int navH = Dimensions.dpFromPx(Dimensions.getNavigationBarHeight(ColorPhoneActivity.this));
                             int phoneH = Dimensions.getPhoneHeight(ColorPhoneActivity.this);
                             if (phoneH <= 1920) {

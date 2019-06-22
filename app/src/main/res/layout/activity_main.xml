@@ -59,15 +59,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <android.support.design.widget.TabLayout
+    <com.honeycomb.colorphone.view.MainTabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tablayout_bottom_height"
         android:background="@color/colorPrimary"
-        app:tabBackground="@drawable/tab_background"
-        app:tabIndicatorHeight="0dp"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
