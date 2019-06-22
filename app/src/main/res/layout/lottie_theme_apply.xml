@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toast_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/theme_apply_view_change"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3000000"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        >
+    </RelativeLayout>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/theme_apply_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_theme_apply"
+            android:layout_width="260dp"
+            android:layout_height="156dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="21dp"
+            android:layout_above="@+id/apply_success_text"
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="lottie/theme_apply/themeApply.json"
+            app:lottie_imageAssetsFolder="lottie/theme_apply/themeApplyImages"
+            app:lottie_loop="false"
+            />
+
+        <TextView
+            android:id="@+id/apply_success_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_above="@+id/apply_text"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="-10.6sp"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:text="设置成功！" />
+
+        <TextView
+            android:id="@+id/apply_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="245dp"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="19.4sp"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:text="来电时就会看到精美的来电秀啦" />
+    </RelativeLayout>
+
+</RelativeLayout>

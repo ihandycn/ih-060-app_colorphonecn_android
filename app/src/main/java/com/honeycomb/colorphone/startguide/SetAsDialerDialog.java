@@ -94,7 +94,7 @@ public class SetAsDialerDialog extends FullScreenDialog {
         showProgress();
 
         ArrayList<String> permission = new ArrayList<String>();
-        permission.add(HSPermissionRequestMgr.TYPE_DEFAULT_DAILER);
+        permission.add(HSPermissionRequestMgr.TYPE_DEFAULT_DIALER);
         HSPermissionRequestMgr.getInstance().startRequest(permission, new HSPermissionRequestCallback.Stub() {
             @Override
             public void onFinished(int succeedCount, int totalCount) {

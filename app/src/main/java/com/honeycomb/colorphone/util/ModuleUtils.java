@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.text.format.DateUtils;
 
 import com.call.assistant.customize.CallAssistantSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
@@ -13,6 +14,7 @@ import com.colorphone.lock.lockscreen.locker.LockerSettings;
 import com.honeycomb.colorphone.activity.NotificationSettingsActivity;
 import com.honeycomb.colorphone.activity.ShareAlertActivity;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.messagecenter.customize.MessageCenterSettings;
@@ -42,7 +44,8 @@ public class ModuleUtils {
     public static boolean isModuleConfigEnabled(String moduleKey) {
 
         if (AUTO_SMS_KEY_ASSISTANT.equals(moduleKey)) {
-            return (HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable"));
+            return (HSConfig.optBoolean(false, "Application", "ScreenFlash", "SmsAssistant", "Enable"))
+                    && !isSMSInNewUserBlockStatus();
         } else if (AUTO_KEY_GUIDE_START.equals(moduleKey)) {
             return  HSConfig.optBoolean(false, "Application", "Guide", "StartGuideEnable");
         } else if (AUTO_KEY_APPLY_FINISH.equals(moduleKey)) {
@@ -186,6 +189,13 @@ public class ModuleUtils {
     public static boolean isChargingImproverNewUser() {
         return HSApplication.getFirstLaunchInfo().appVersionCode
                 >= HSConfig.optInteger(39, "Application", "ChargingImprover", "FirstVersionCode");
+    }
+
+    public static boolean isSMSInNewUserBlockStatus() {
+        long currentTimeMills = System.currentTimeMillis();
+        return currentTimeMills - HSSessionMgr.getFirstSessionStartTime() <
+                HSConfig.optInteger(360, "Application", "ScreenFlash", "SmsAssistant", "ActiveAfterInstallMinutes")
+                        * DateUtils.MINUTE_IN_MILLIS;
     }
 
 }

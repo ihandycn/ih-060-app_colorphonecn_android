@@ -15,7 +15,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.acb.colorphone.permissions.AccessibilityHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
 import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
@@ -117,6 +116,7 @@ public class AutoRequestManager {
                     if (Compats.IS_XIAOMI_DEVICE) {
                         backTask.run();
                     } else {
+                        StableToast.cancelToast();
                         onAccessibilityReady();
                     }
 
@@ -395,13 +395,15 @@ public class AutoRequestManager {
                     "Time", String.valueOf(Preferences.get(Constants.DESKTOP_PREFS).incrementAndGetInt("Accessbility_Show")));
             Intent guideIntent = null;
             if (RomUtils.checkIsHuaweiRom()) {
-                guideIntent = new Intent(HSApplication.getContext(), AccessibilityHuaweiGuideActivity.class);
+                StableToast.showHuaweiAccToast();
             } else if (RomUtils.checkIsMiuiRom()) {
                 guideIntent = new Intent(HSApplication.getContext(), AccessibilityMIUIGuideActivity.class);
             }
             if (guideIntent != null) {
                 guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 HSApplication.getContext().startActivities(new Intent[] {intent, guideIntent});
+            } else {
+                HSApplication.getContext().startActivity(intent);
             }
             AutoRequestManager.getInstance().listenAccessibility();
         }

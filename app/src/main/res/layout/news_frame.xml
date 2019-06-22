@@ -24,7 +24,7 @@
         app:tabTextAppearance="@style/NewsTabAppearance"
         app:tabTextColor="@android:color/darker_gray"/>
 
-    <com.honeycomb.colorphone.view.ViewPagerFixed
+    <com.superapps.view.ViewPagerFixed
         android:id="@+id/news_pages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
