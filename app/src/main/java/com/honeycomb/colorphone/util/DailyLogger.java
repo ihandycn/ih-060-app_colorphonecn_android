@@ -52,12 +52,12 @@ public class DailyLogger {
     private void logDailyStatus(int daysSinceInstall) {
         if (Compats.IS_XIAOMI_DEVICE) {
             Analytics.logEvent("Rom_Active_Xiaomi",
-                    "Version", RomUtils.getRomVerison(RomUtils.KEY_VERSION_MIUI),
+                    "Version", RomUtils.getRomVersion(),
                     "SDK", String.valueOf(Build.VERSION.SDK_INT),
                     "InDays", String.valueOf(daysSinceInstall));
         } else if (Compats.IS_HUAWEI_DEVICE) {
             Analytics.logEvent("Rom_Active_Huawei",
-                    "Version", RomUtils.getRomVerison(RomUtils.KEY_VERSION_EMUI),
+                    "Version", RomUtils.getRomVersion(),
                     "SDK", String.valueOf(Build.VERSION.SDK_INT),
                     "InDays", String.valueOf(daysSinceInstall));
         }
