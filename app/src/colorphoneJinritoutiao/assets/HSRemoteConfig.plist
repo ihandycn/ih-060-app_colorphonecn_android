@@ -73,7 +73,7 @@
 				<key>Enable</key>
 				<true/>
 				<key>FloatingGuide</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>Charging</key>
 			<dict>
@@ -901,16 +901,16 @@
 					<key>Enable</key>
 					<true/>
 					<key>NotShowOnScreen</key>
-                    <true/>
+					<true/>
 					<key>ShowAds</key>
 					<true/>
-                    <key>SourceSwitch</key>
-                    <dict>
-                        <key>SMS</key>
-                        <true/>
-                        <key>WeChat</key>
-                        <true/>
-                    </dict>
+					<key>SourceSwitch</key>
+					<dict>
+						<key>SMS</key>
+						<true/>
+						<key>WeChat</key>
+						<true/>
+					</dict>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
 				</dict>
