@@ -899,7 +899,7 @@
 				<key>SmsAssistant</key>
 				<dict>
 					<key>Enable</key>
-					<true/>
+					<false/>
 					<key>NotShowOnScreen</key>
 					<true/>
 					<key>ShowAds</key>
@@ -907,9 +907,9 @@
 					<key>SourceSwitch</key>
 					<dict>
 						<key>SMS</key>
-						<true/>
+						<false/>
 						<key>WeChat</key>
-						<true/>
+						<false/>
 					</dict>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
