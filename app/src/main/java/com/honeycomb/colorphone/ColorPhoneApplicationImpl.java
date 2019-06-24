@@ -95,6 +95,8 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.ihs.device.monitor.usage.monitor.AppMobileMonitorMgr;
+import com.ihs.device.monitor.usage.monitor.AppUsageMonitorMgr;
 import com.ihs.device.permanent.HSPermanentUtils;
 import com.ihs.libcharging.HSChargingManager;
 import com.ihs.permission.HSPermissionRequestMgr;
@@ -179,6 +181,13 @@ public class ColorPhoneApplicationImpl {
             if (HSNotificationConstant.HS_SESSION_START.equals(notificationName)) {
                 Analytics.logEvent("ColorPhone_Session_Start");
                 checkModuleAdPlacement();
+
+                /*
+                 *  Because we disabled {@link com.ihs.device.monitor.usage.UsageBroadcastReceiver}, handle it ourself.
+                 */
+                AppUsageMonitorMgr.getInstance().handleOnSessionStart();
+                AppMobileMonitorMgr.getInstance().handleOnSessionStart();
+
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
                 HSLog.d("Session End.");

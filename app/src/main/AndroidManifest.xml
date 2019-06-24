@@ -697,8 +697,10 @@
 
         <receiver
             android:name="com.ihs.device.clean.memory.MemoryReceiver"
-            tools:node="remove"/>
-
+            tools:node="remove" />
+        <receiver
+            android:name="com.ihs.device.monitor.usage.UsageBroadcastReceiver"
+            tools:node="remove" />
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
