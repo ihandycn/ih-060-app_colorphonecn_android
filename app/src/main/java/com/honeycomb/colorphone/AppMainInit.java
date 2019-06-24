@@ -6,4 +6,9 @@ public abstract class AppMainInit implements AppInit {
     public boolean onlyInMainProcess() {
         return true;
     }
+
+    @Override
+    public boolean afterAppFullyDisplay() {
+        return false;
+    }
 }

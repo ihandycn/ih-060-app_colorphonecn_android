@@ -198,8 +198,12 @@ public class ColorPhoneApplicationImpl {
                 ColorPhonePermanentUtils.checkAliveForProcess();
             } else if (SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE.equals(notificationName)) {
                 BoostActivity.start(HSApplication.getContext(), ResultConstants.RESULT_TYPE_BOOST_LOCKER);
-            } else {
-                checkModuleAdPlacement();
+            } else if (Constants.NOTIFY_KEY_APP_FULLY_DISPLAY.equals(notificationName)) {
+                for (AppInit appInit : mAppInitList) {
+                    if (appInit.afterAppFullyDisplay()) {
+                        appInit.onInit(mBaseApplication);
+                    }
+                }
             }
         }
     };
@@ -403,7 +407,7 @@ public class ColorPhoneApplicationImpl {
         DauChecker.get().start();
 
         for (AppInit appInit : mAppInitList) {
-            if (appInit.onlyInMainProcess()) {
+            if (appInit.onlyInMainProcess() && !appInit.afterAppFullyDisplay()) {
                 appInit.onInit(mBaseApplication);
             }
         }
