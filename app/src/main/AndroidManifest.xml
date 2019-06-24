@@ -700,6 +700,13 @@
             android:excludeFromRecents="true"
             android:label="@string/title_locker_activity" />
 
+
+        <!--Override  - Tag : process-->
+
+        <receiver
+            android:name="com.ihs.device.clean.memory.MemoryReceiver"
+            tools:node="remove"/>
+
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
