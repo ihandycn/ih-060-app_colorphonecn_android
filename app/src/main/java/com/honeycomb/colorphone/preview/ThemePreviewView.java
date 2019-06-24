@@ -635,6 +635,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         onThemeReady(NO_ANIMITION);
+        themeLoading = false;
     }
 
     private boolean triggerMediaReady() {
