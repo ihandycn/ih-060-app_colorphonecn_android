@@ -105,7 +105,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
-    private final ThemeList mThemeList = new ThemeList();
     private RewardVideoView mRewardVideoView;
 
     private boolean isPaused;
@@ -891,7 +890,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void initData() {
-        mThemeList.fillData(mRecyclerViewData);
+        ThemeList.getInstance().fillData(mRecyclerViewData);
     }
 
     private void initRecyclerView(RecyclerView frame) {

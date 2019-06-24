@@ -10,7 +10,6 @@ import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
-import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
@@ -40,10 +39,12 @@ public class ThemeList {
 
     private static final boolean DEBUG_THEME_CHANGE = BuildConfig.DEBUG & false;
 
-    public static Theme mThemeNone;
-    public static ArrayList<Theme> themes = new ArrayList<>(30);
-    private static Handler mTestHandler = new Handler(Looper.getMainLooper());
-    private static Runnable sTestRunnable = new Runnable() {
+    private static ThemeList INSTANCE = new ThemeList();
+
+    private Theme mThemeNone;
+    private final ArrayList<Theme> themes = new ArrayList<>(30);
+    private Handler mTestHandler = new Handler(Looper.getMainLooper());
+    private Runnable sTestRunnable = new Runnable() {
         @Override
         public void run() {
             Iterator<Theme> iter = themes.iterator();
@@ -58,39 +59,37 @@ public class ThemeList {
         }
     };
 
-    public ThemeList() {
-        ConfigChangeManager.getInstance().registerCallbacks(ConfigChangeManager.AUTOPILOT, new ConfigChangeManager.Callback() {
-            @Override
-            public void onChange(int type) {
-                if (type == ConfigChangeManager.AUTOPILOT) {
-                    // Lifetime autopilot not handle it
-                }
-            }
-        });
+    private ThemeList() {
+
     }
 
-    private static void updateThemes() {
+    public static ThemeList getInstance() {
+        return INSTANCE;
+    }
+
+    private void loadRawThemesSync() {
         final ArrayList<Theme> oldThemes = new ArrayList<>(themes);
-        themes.clear();
+        synchronized (themes) {
+            themes.clear();
+            ArrayList<Type> types = Type.values();
+            if (types.isEmpty() || !(types.get(0) instanceof Theme)) {
+                ColorPhoneCrashlytics.getInstance().logException(new Exception("Theme load fail!"));
+                return;
+            }
+            for (Type type : types) {
+                if (!(type instanceof Theme)) {
+                    continue;
+                }
 
-        ArrayList<Type> types = Type.values();
-        if (types.isEmpty() || !(types.get(0) instanceof Theme)) {
-            ColorPhoneCrashlytics.getInstance().logException(new Exception("Theme load fail!"));
-            return;
-        }
-        for (Type type : types) {
-            if (!(type instanceof Theme)) {
-                continue;
+                if (type.getId() == Theme.RANDOM_THEME && !Ap.RandomTheme.enable()) {
+                    HSLog.d("RandomTheme", "Unable");
+                    continue;
+                }
+                if (type.getId() == Type.NONE) {
+                    mThemeNone = (Theme) type;
+                }
+                themes.add((Theme) type);
             }
-
-            if (type.getId() == Theme.RANDOM_THEME && !Ap.RandomTheme.enable()) {
-                HSLog.d("RandomTheme", "Unable");
-                continue;
-            }
-            if (type.getId() == Type.NONE) {
-                mThemeNone = (Theme) type;
-            }
-            themes.add((Theme) type);
         }
 
         boolean isThemeChanged = isThemeChanged(themes, oldThemes);
@@ -121,14 +120,20 @@ public class ThemeList {
         return false;
     }
 
-    public static ArrayList<Theme> themes() {
-        if (themes.isEmpty()) {
-            updateThemes();
-        }
-        if (mThemeNone != null ) {
-            themes.remove(mThemeNone);
+    private ArrayList<Theme> getThemesInner() {
+        synchronized (themes) {
+            if (themes.isEmpty()) {
+                loadRawThemesSync();
+            }
+            if (mThemeNone != null) {
+                themes.remove(mThemeNone);
+            }
         }
         return themes;
+    }
+
+    public static ArrayList<Theme> themes() {
+        return getInstance().getThemesInner();
     }
 
     /**
@@ -137,11 +142,13 @@ public class ThemeList {
      *
      * Reload theme info from config file.
      */
-    public static void updateThemesTotally() {
-        Type.updateTypes();
+    public void updateThemesTotally() {
+        synchronized (themes) {
+            Type.updateTypes();
 
-        themes.clear();
-        updateThemes();
+            themes.clear();
+            loadRawThemesSync();
+        }
     }
 
     public void fillData(ArrayList<Theme> mRecyclerViewData) {
@@ -151,12 +158,24 @@ public class ThemeList {
         mRecyclerViewData.addAll(bgThemes);
     }
 
-    @NonNull
-    public static List<Theme> updateThemes(boolean onApplicationInit) {
-        if (onApplicationInit || themes.isEmpty()) {
-            updateThemes();
-        }
 
+    public void initThemes() {
+        Threads.postOnThreadPoolExecutor(new Runnable() {
+            @Override
+            public void run() {
+                loadRawThemesSync();
+                Threads.postOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateThemes(false);
+                    }
+                });
+            }
+        });
+    }
+
+    @NonNull
+    public List<Theme> updateThemes(boolean onApplicationInit) {
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
 
         boolean isSpacialUser = RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom();
@@ -224,7 +243,7 @@ public class ThemeList {
         return bgThemes;
     }
 
-    private static void updateThemeTasks(List<Theme> bgThemes, boolean applyDefaultTheme, int idDefault) {
+    private void updateThemeTasks(List<Theme> bgThemes, boolean applyDefaultTheme, int idDefault) {
         boolean needPreload  = false;
         // Task update (if new theme added here, we update download task)
         for (Theme theme : bgThemes) {
@@ -259,13 +278,13 @@ public class ThemeList {
         });
     }
 
-    private static void prepareThemeMediaFile(int idDefault) {
+    private void prepareThemeMediaFile(int idDefault) {
         HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "prepareThemeMediaFile");
         TasksManagerModel model = TasksManager.getImpl().getByThemeId(idDefault);
         TasksManager.doDownload(model, null);
     }
 
-    private static boolean isLikeTheme(String[] likeThemes, int themeId) {
+    private boolean isLikeTheme(String[] likeThemes, int themeId) {
         for (String likeThemeId : likeThemes) {
             if (TextUtils.isEmpty(likeThemeId)) {
                 continue;
@@ -277,8 +296,9 @@ public class ThemeList {
         return false;
     }
 
-    private static String[] getThemeLikes() {
+    private String[] getThemeLikes() {
         String likes = HSPreferenceHelper.getDefault().getString(PREFS_THEME_LIKE, "");
         return likes.split(",");
     }
+
 }

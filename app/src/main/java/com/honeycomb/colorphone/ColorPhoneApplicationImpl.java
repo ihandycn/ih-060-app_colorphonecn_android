@@ -195,7 +195,7 @@ public class ColorPhoneApplicationImpl {
             } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
-                ThemeList.updateThemesTotally();
+                ThemeList.getInstance().updateThemesTotally();
                 initNotificationToolbar();
                 ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
 
@@ -259,6 +259,7 @@ public class ColorPhoneApplicationImpl {
         mBaseApplication = application;
     }
 
+    @DebugLog
     public void onCreate() {
         systemFix();
         mAppInitList.add(new GdprInit());
@@ -358,7 +359,12 @@ public class ColorPhoneApplicationImpl {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         FileDownloader.setup(mBaseApplication);
 
-        initAutopilot();
+        Threads.postOnSingleThreadExecutor(new Runnable() {
+            @Override
+            public void run() {
+                initAutopilot();
+            }
+        });
 
         HSPermanentUtils.initKeepAlive(
                 true,
@@ -412,6 +418,7 @@ public class ColorPhoneApplicationImpl {
     @DebugLog
     private void onMainProcessCreate() {
         CrashFix.fix();
+        ThemeList.getInstance().initThemes();
         copyMediaFromAssertToFile();
         DauChecker.get().start();
 
@@ -423,7 +430,6 @@ public class ColorPhoneApplicationImpl {
 
         // Only restore tasks here.
         TasksManager.getImpl().init();
-        ThemeList.updateThemes(true);
 
         mBaseApplication.registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
         AcbAds.getInstance().initializeFromGoldenEye(mBaseApplication, new AcbAds.GoldenEyeInitListener() {
@@ -505,7 +511,7 @@ public class ColorPhoneApplicationImpl {
         mBaseApplication.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                ThemeList.updateThemes(false);
+                ThemeList.getInstance().updateThemes(false);
             }
         }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(mBaseApplication), null);
     }
