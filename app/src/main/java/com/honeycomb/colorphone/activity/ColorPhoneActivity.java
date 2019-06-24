@@ -135,8 +135,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private Runnable mainViewRunnable = new Runnable() {
         @Override
         public void run() {
-            if (logOpenEvent) {
-                logOpenEvent = false;
+            if (mMainViewShowFlag) {
+                mMainViewShowFlag = false;
                 ColorPhoneApplication.getConfigLog().getEvent().onMainViewOpen();
                 BoostStarterActivity.createShortCut(ColorPhoneActivity.this);
 
@@ -159,6 +159,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                     }
                 });
+
+                HSGlobalNotificationCenter.sendNotificationOnMainThread(Constants.NOTIFY_KEY_APP_FULLY_DISPLAY);
 
             }
         }
@@ -197,8 +199,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     };
 
-    private boolean logOpenEvent;
-    private boolean pendingShowRateAlert = false;
+    private boolean mMainViewShowFlag;
     private boolean showAllFeatureGuide = false;
     private boolean isCreate = false;
     private SettingsPage mSettingsPage = new SettingsPage();
@@ -304,7 +305,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         gameIcon = findViewById(R.id.iv_game);
         gameIcon.setOnClickListener(this);
 
-        logOpenEvent = true;
+        mMainViewShowFlag = true;
         Utils.configActivityStatusBar(this, toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);

@@ -50,6 +50,7 @@ import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
 import com.honeycomb.colorphone.cmgame.CmGameUtil;
 import com.honeycomb.colorphone.cmgame.GameInit;
+import com.honeycomb.colorphone.cmgame.NotificationBarInit;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
@@ -73,7 +74,6 @@ import com.honeycomb.colorphone.util.ChannelInfoUtil;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
@@ -81,7 +81,6 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.HSSessionMgr;
-import com.ihs.app.utils.HSVersionControlUtils;
 import com.ihs.chargingimprover.ChargingImproverManager;
 import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
@@ -196,7 +195,7 @@ public class ColorPhoneApplicationImpl {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
                 ThemeList.getInstance().updateThemesTotally();
-                initNotificationToolbar();
+                NotificationManager.getInstance().showNotificationToolbarIfEnabled();
                 ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
 
                 CrashGuard.updateIgnoredCrashes();
@@ -265,6 +264,7 @@ public class ColorPhoneApplicationImpl {
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
         mAppInitList.add(new GameInit());
+        mAppInitList.add(new NotificationBarInit());
 
         onAllProcessCreated();
 
@@ -284,18 +284,6 @@ public class ColorPhoneApplicationImpl {
 
     private void onWorkProcessCreate() {
         HSPermanentUtils.setJobSchedulePeriodic(2 * DateUtils.HOUR_IN_MILLIS);
-    }
-
-    private void initNotificationToolbar() {
-        if (HSVersionControlUtils.isFirstLaunchSinceInstallation() || HSVersionControlUtils.isFirstLaunchSinceUpgrade()) {
-            UserSettings.checkNotificationToolbarToggleClicked();
-        }
-
-        if (!UserSettings.isNotificationToolbarToggleClicked()) {
-            UserSettings.setNotificationToolbarEnabled(ModuleUtils.isNotificationToolBarEnabled());
-        }
-
-        NotificationManager.getInstance().showNotificationToolbarIfEnabled();
     }
 
 
@@ -418,15 +406,15 @@ public class ColorPhoneApplicationImpl {
     @DebugLog
     private void onMainProcessCreate() {
         CrashFix.fix();
-        ThemeList.getInstance().initThemes();
-        copyMediaFromAssertToFile();
-        DauChecker.get().start();
 
         for (AppInit appInit : mAppInitList) {
             if (appInit.onlyInMainProcess() && !appInit.afterAppFullyDisplay()) {
                 appInit.onInit(mBaseApplication);
             }
         }
+        ThemeList.getInstance().initThemes();
+
+        copyMediaFromAssertToFile();
 
         // Only restore tasks here.
         TasksManager.getImpl().init();
@@ -475,7 +463,6 @@ public class ColorPhoneApplicationImpl {
 
         initChargingReport();
         initLockerCharging();
-        initNotificationToolbar();
 
         Glide.get(mBaseApplication).setMemoryCategory(MemoryCategory.HIGH);
         String popularThemeBgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
@@ -499,7 +486,7 @@ public class ColorPhoneApplicationImpl {
 
         watchLifeTimeAutopilot();
 
-
+        DauChecker.get().start();
         if (mDailyLogger != null) {
             mDailyLogger.checkAndLog();
         }
