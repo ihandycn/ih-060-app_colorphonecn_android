@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -95,7 +96,7 @@ public class PopularThemeActivity extends HSAppCompatActivity {
 
     private void initData() {
         mRecyclerViewData.clear();
-        for (Theme theme : Theme.themes()) {
+        for (Theme theme : ThemeList.themes()) {
             if (theme.isSpecialTopic()) {
                 mRecyclerViewData.add(theme);
             }

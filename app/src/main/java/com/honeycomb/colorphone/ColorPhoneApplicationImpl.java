@@ -195,7 +195,7 @@ public class ColorPhoneApplicationImpl {
             } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
-                Theme.updateThemesTotally();
+                ThemeList.updateThemesTotally();
                 initNotificationToolbar();
                 ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
 
@@ -423,7 +423,6 @@ public class ColorPhoneApplicationImpl {
 
         // Only restore tasks here.
         TasksManager.getImpl().init();
-        Theme.updateThemes();
         ThemeList.updateThemes(true);
 
         mBaseApplication.registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
@@ -506,7 +505,7 @@ public class ColorPhoneApplicationImpl {
         mBaseApplication.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Theme.updateThemes();
+                ThemeList.updateThemes(false);
             }
         }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(mBaseApplication), null);
     }

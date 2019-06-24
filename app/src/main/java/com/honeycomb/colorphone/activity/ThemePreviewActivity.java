@@ -22,6 +22,7 @@ import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.preview.ThemeStateManager;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
@@ -167,7 +168,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     }
 
     protected List<Theme> getThemes() {
-        return Theme.themes();
+        return ThemeList.themes();
     }
 
     @Override

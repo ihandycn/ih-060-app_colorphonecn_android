@@ -7,6 +7,7 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.theme.RandomTheme;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -90,7 +91,7 @@ public class ScreenFlashInit extends AppMainInit {
 
             private void logOnceFlashShowNewUser(String themeId) {
                 Theme targetTheme = null;
-                for (Theme theme : Theme.themes()) {
+                for (Theme theme : ThemeList.themes()) {
                     if (String.valueOf(theme.getId()).equals(themeId)) {
                         targetTheme = theme;
                         break;

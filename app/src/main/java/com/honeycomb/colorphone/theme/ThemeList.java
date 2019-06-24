@@ -1,19 +1,26 @@
 package com.honeycomb.colorphone.theme;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashSettings;
+import com.acb.call.themes.Type;
 import com.honeycomb.colorphone.Ap;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
+import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Threads;
@@ -22,6 +29,7 @@ import com.superapps.util.rom.RomUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 public class ThemeList {
@@ -29,6 +37,26 @@ public class ThemeList {
     private static final String PREFS_THEME_LIKE = "theme_like_array";
 
     private static final String TAG = ThemeList.class.getSimpleName();
+
+    private static final boolean DEBUG_THEME_CHANGE = BuildConfig.DEBUG & false;
+
+    public static Theme mThemeNone;
+    public static ArrayList<Theme> themes = new ArrayList<>(30);
+    private static Handler mTestHandler = new Handler(Looper.getMainLooper());
+    private static Runnable sTestRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Iterator<Theme> iter = themes.iterator();
+            if (iter.hasNext()) {
+                iter.next();
+                iter.remove();
+                HSLog.d("THEME", "Test size --, current size = " + themes.size());
+                HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+                mTestHandler.postDelayed(this, 4000);
+            }
+
+        }
+    };
 
     public ThemeList() {
         ConfigChangeManager.getInstance().registerCallbacks(ConfigChangeManager.AUTOPILOT, new ConfigChangeManager.Callback() {
@@ -41,6 +69,81 @@ public class ThemeList {
         });
     }
 
+    private static void updateThemes() {
+        final ArrayList<Theme> oldThemes = new ArrayList<>(themes);
+        themes.clear();
+
+        ArrayList<Type> types = Type.values();
+        if (types.isEmpty() || !(types.get(0) instanceof Theme)) {
+            ColorPhoneCrashlytics.getInstance().logException(new Exception("Theme load fail!"));
+            return;
+        }
+        for (Type type : types) {
+            if (!(type instanceof Theme)) {
+                continue;
+            }
+
+            if (type.getId() == Theme.RANDOM_THEME && !Ap.RandomTheme.enable()) {
+                HSLog.d("RandomTheme", "Unable");
+                continue;
+            }
+            if (type.getId() == Type.NONE) {
+                mThemeNone = (Theme) type;
+            }
+            themes.add((Theme) type);
+        }
+
+        boolean isThemeChanged = isThemeChanged(themes, oldThemes);
+        if (isThemeChanged) {
+            HSLog.d("Theme list changed");
+            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME);
+        }
+
+        if (DEBUG_THEME_CHANGE) {
+            mTestHandler.postDelayed(sTestRunnable, 8000);
+        }
+    }
+
+    private static boolean isThemeChanged(ArrayList<Theme> themes, ArrayList<Theme> oldThemes) {
+        if (themes.size() != oldThemes.size()) {
+            return true;
+        }
+        final int size = themes.size();
+        for (int i = 0; i < size; i++) {
+            Theme t = themes.get(i);
+            Theme t2 = oldThemes.get(i);
+            if (t.getId() != t2.getId()
+                    || !TextUtils.equals(t.getName(), t2.getName())
+                    || !TextUtils.equals(t.getMp4Url(), t2.getMp4Url())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static ArrayList<Theme> themes() {
+        if (themes.isEmpty()) {
+            updateThemes();
+        }
+        if (mThemeNone != null ) {
+            themes.remove(mThemeNone);
+        }
+        return themes;
+    }
+
+    /**
+     *  Base type of theme info has changed.
+     * (Language change,or Remote config that define themes has changed)
+     *
+     * Reload theme info from config file.
+     */
+    public static void updateThemesTotally() {
+        Type.updateTypes();
+
+        themes.clear();
+        updateThemes();
+    }
+
     public void fillData(ArrayList<Theme> mRecyclerViewData) {
         final List<Theme> bgThemes = updateThemes(false);
         // Data ready
@@ -50,6 +153,10 @@ public class ThemeList {
 
     @NonNull
     public static List<Theme> updateThemes(boolean onApplicationInit) {
+        if (onApplicationInit || themes.isEmpty()) {
+            updateThemes();
+        }
+
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
 
         boolean isSpacialUser = RomUtils.checkIsMiuiRom() || RomUtils.checkIsVivoRom();
@@ -76,7 +183,7 @@ public class ThemeList {
             ScreenFlashSettings.putInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, selectedThemeId);
         }
 
-        final List<Theme> bgThemes = new ArrayList<>(Theme.themes());
+        final List<Theme> bgThemes = new ArrayList<>(themes());
 
         String[] likeThemes = getThemeLikes();
         final int count = bgThemes.size();

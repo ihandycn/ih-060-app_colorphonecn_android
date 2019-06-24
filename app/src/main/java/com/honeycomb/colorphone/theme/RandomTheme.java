@@ -190,7 +190,7 @@ public class RandomTheme {
     }
 
     private Theme getThemeByName(String idName) {
-        for (Theme theme : Theme.themes()) {
+        for (Theme theme : ThemeList.themes()) {
             if (theme.getIdName().equals(idName)) {
                 return theme;
             }
