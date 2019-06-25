@@ -134,7 +134,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             onScrollStarted();
             onScrollEnded(false);
             mBottomOperationArea.setAlpha(1);
-            mDrawerHandleUp.setAlpha(1);
+            mToolBarContainer.setAlpha(1);
             mDrawerHandleDown.setAlpha(0);
             mDimCover.setAlpha(0);
         }
@@ -152,7 +152,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         mNotificationWindowHolder = new NotificationWindowHolder();
         mDimCover = findViewById(R.id.dim_cover);
         mSlidingDrawerContent = (SlidingDrawerContent) findViewById(R.id.sliding_drawer_content);
-        mDrawerHandleUp = findViewById(R.id.handle_action_up);
+        //mDrawerHandleUp = findViewById(R.id.handle_action_up);
         mDrawerHandleDown = findViewById(R.id.handle_action_down);
         mBottomOperationArea = findViewById(R.id.bottom_operation_area);
         mSlidingDrawer = (SlidingDrawer) findViewById(R.id.operation_area);
@@ -201,20 +201,21 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 mSlidingDrawer.closeDrawer(true);
             }
         });
-        mDrawerHandleUp.setOnClickListener(new OnClickListener() {
+        /*mDrawerHandleUp.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!mIsSlidingDrawerOpened) {
                     mSlidingDrawer.doBounceUpAnimation();
                 }
             }
-        });
+        });*/
 
         mToolBarContainer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!mIsSlidingDrawerOpened) {
-                    mSlidingDrawer.doBounceUpAnimation();
+                    mSlidingDrawer.openDrawer(true);
+                    mDimCover.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -369,7 +370,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     public void onPause() {
 //        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
-//            expressAdView.pauseDisplayNewAd();
+//            expressAdView.pauseDiblank_handlesplayNewAd();
 //        }
     }
 
@@ -439,7 +440,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
                 // toggle guide
                 if (!LockerSettings.isLockerToggleGuideShown()) {
-                    if (mDrawerHandleUp == null) {
+                    if (mToolBarContainer == null) {
                         return;
                     }
 
@@ -447,7 +448,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                         @Override
                         public void run() {
                             int bounceTranslationY = -Dimensions.pxFromDp(13);
-                            ObjectAnimator bounceAnimator = ObjectAnimator.ofFloat(mDrawerHandleUp,
+                            ObjectAnimator bounceAnimator = ObjectAnimator.ofFloat(mToolBarContainer,
                                     View.TRANSLATION_Y,
                                     0, bounceTranslationY, 0, bounceTranslationY, 0, bounceTranslationY, 0, bounceTranslationY, 0);
                             bounceAnimator.setDuration(3500);
@@ -510,7 +511,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         float alpha = (heightToDisappear + cur - total) / heightToDisappear;
         alpha = alpha < 0 ? 0 : (alpha > 1 ? 1 : alpha);
         mBottomOperationArea.setAlpha(alpha);
-        mDrawerHandleUp.setAlpha(cur / total);
+        mToolBarContainer.setAlpha(cur / total);
         mDrawerHandleDown.setAlpha(1f - cur / total);
         mDimCover.setAlpha(1f - cur / total);
         mSlidingDrawerContent.onScroll(cur, total);
