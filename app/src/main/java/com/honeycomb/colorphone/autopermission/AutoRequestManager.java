@@ -113,6 +113,7 @@ public class AutoRequestManager {
                             "Time", String.valueOf(
                                     Preferences.get(Constants.DESKTOP_PREFS).getInt(StartGuideActivity.ACC_KEY_SHOW_COUNT, 0)));
 
+                    isRequestPermission = true;
                     if (Compats.IS_XIAOMI_DEVICE) {
                         backTask.run();
                     } else {
@@ -150,7 +151,6 @@ public class AutoRequestManager {
     };
 
     public void onAccessibilityReady() {
-        isRequestPermission = true;
         performPermissionCheck();
     }
 
