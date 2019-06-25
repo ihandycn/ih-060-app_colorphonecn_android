@@ -49,7 +49,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="104dp">
+        android:layout_marginTop="104dp"
+        android:visibility="gone">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_game_view"
@@ -116,91 +117,100 @@
         android:background="#99000000"
         android:visibility="invisible"/>
 
-    <RelativeLayout
-        android:id="@+id/lock_notification_window"
+    <com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout
+        android:id="@+id/lock_sliding_window"
         android:layout_width="match_parent"
         android:layout_height="85dp"
         android:layout_above="@id/rl_ad_container"
-        android:layout_marginBottom="4dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="29.7dp"
-        android:layout_marginLeft="26.7dp"
-        android:layout_marginRight="29.7dp"
-        android:layout_marginStart="26.7dp"
-        android:background="@drawable/shape_notification_window">
+        android:layout_marginBottom="4dp">
+        <RelativeLayout
+            android:id="@+id/lock_notification_window"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_above="@id/rl_ad_container"
+            android:layout_marginBottom="4dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="29.7dp"
+            android:layout_marginLeft="26.7dp"
+            android:layout_marginRight="29.7dp"
+            android:layout_marginStart="26.7dp"
+            android:background="@drawable/shape_notification_window">
 
-        <ImageView
-            android:id="@+id/source_app_avatar"
-            android:layout_width="12.7dp"
-            android:layout_height="12.7dp"
-            android:layout_marginTop="9.3dp"
-            android:layout_marginStart="9.7dp"
-            android:layout_marginLeft="9.7dp"
-            android:background="#000000"/>
+            <ImageView
+                android:id="@+id/source_app_avatar"
+                android:layout_width="12.7dp"
+                android:layout_height="12.7dp"
+                android:layout_marginTop="9.3dp"
+                android:layout_marginStart="9.7dp"
+                android:layout_marginLeft="9.7dp"
+                android:background="#000000"/>
 
-        <TextView
-            android:id="@+id/source_app_name_and_send_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/source_app_avatar"
-            android:layout_toRightOf="@id/source_app_avatar"
-            android:layout_marginTop="9.5dp"
-            android:layout_marginStart="4.7dp"
-            android:layout_marginLeft="4.7dp"
-            android:textColor="#cc000000"
-            android:text="微信 · 15分钟前"
-            android:textSize="10sp"/>
+            <TextView
+                android:id="@+id/source_app_name_and_send_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/source_app_avatar"
+                android:layout_toRightOf="@id/source_app_avatar"
+                android:layout_marginTop="9.5dp"
+                android:layout_marginStart="4.7dp"
+                android:layout_marginLeft="4.7dp"
+                android:textColor="#cc000000"
+                android:text="微信 · 15分钟前"
+                android:textSize="10sp"/>
 
-        <TextView
-            android:id="@+id/sender_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9.7dp"
-            android:layout_marginLeft="9.7dp"
-            android:layout_below="@id/source_app_avatar"
-            android:layout_marginTop="6dp"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:textColor="#e6000000"
-            android:text="淹死的鱼"
-            />
+            <TextView
+                android:id="@+id/sender_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9.7dp"
+                android:layout_marginLeft="9.7dp"
+                android:layout_below="@id/source_app_avatar"
+                android:layout_marginTop="5dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#e6000000"
+                android:text="淹死的鱼"
+                />
 
-        <ImageView
-            android:id="@+id/sender_avatar"
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/sender_name"
-            android:layout_marginTop="0.3dp"
-            android:layout_marginEnd="9.7dp"
-            android:layout_marginRight="9.3dp"
-            android:background="@drawable/shape_send_avatar"
-            />
+            <ImageView
+                android:id="@+id/sender_avatar"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/sender_name"
+                android:layout_marginTop="0.3dp"
+                android:layout_marginEnd="9.7dp"
+                android:layout_marginRight="9.3dp"
+                android:background="@drawable/shape_send_avatar"
+                />
 
-        <TextView
-            android:id="@+id/notification_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9.7dp"
-            android:layout_marginLeft="9.7dp"
-            android:layout_toStartOf="@id/sender_avatar"
-            android:layout_toLeftOf="@id/sender_avatar"
-            android:layout_marginEnd="20.7dp"
-            android:layout_marginRight="20.7dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:textColor="#cc000000"
-            android:textSize="12sp"
-            android:maxLines="2"
-            android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下"/>
+            <TextView
+                android:id="@+id/notification_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9.7dp"
+                android:layout_marginLeft="9.7dp"
+                android:layout_toStartOf="@id/sender_avatar"
+                android:layout_toLeftOf="@id/sender_avatar"
+                android:layout_marginEnd="20.7dp"
+                android:layout_marginRight="20.7dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="8dp"
+                android:textColor="#cc000000"
+                android:textSize="12sp"
+                android:maxLines="2"
+                android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下"/>
 
-    </RelativeLayout>
+        </RelativeLayout>
+    </com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout>
+
+
 
     <RelativeLayout
         android:id="@+id/rl_ad_container"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="240dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="29.7dp"
@@ -209,7 +219,7 @@
         android:layout_marginStart="26.7dp"
         android:layout_marginBottom="54.7dp"
         android:background="@drawable/shape_ad_container"
-        android:visibility="gone">
+        android:visibility="invisible">
     </RelativeLayout>
 
     <com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawer
@@ -236,11 +246,13 @@
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
             android:orientation="vertical"
-            android:visibility="gone">
+            >
 
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="12dp"/>
+                android:layout_height="12dp"
+                android:visibility="gone"
+                />
 
             <ImageView
                 android:id="@+id/handle_action_up"
@@ -248,11 +260,12 @@
                 android:layout_height="24dp"
                 android:rotation="180"
                 android:scaleType="center"
-                android:src="@drawable/actionbar_down"/>
+                android:src="@drawable/actionbar_down"
+                android:visibility="gone"/>
 
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="12dp"/>
+                android:layout_height="48dp"/>
 
             <ImageView
                 android:id="@+id/handle_action_down"
@@ -302,20 +315,38 @@
 
         <RelativeLayout
             android:id="@+id/camera_container"
-            android:layout_width="60dp"
-            android:layout_height="48dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:paddingBottom="14dp"
-            android:paddingRight="16dp">
+            android:paddingBottom="12dp"
+            android:paddingRight="12dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:scaleType="center"
-                android:src="@drawable/main_camera"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/lock_camera"
+                android:background="#4dff009c"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/toolbar_container"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/lock_toolbar"
+                android:background="#4dff009c"/>
         </RelativeLayout>
     </RelativeLayout>
 </com.colorphone.lock.lockscreen.locker.LockerMainFrame>

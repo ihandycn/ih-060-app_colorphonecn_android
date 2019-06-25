@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.colorphone.lock.BuildConfig;
@@ -49,6 +50,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTipView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingBubbleView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingQuantityView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.SlidingFinishRelativeLayout;
+import com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout;
 import com.colorphone.lock.util.ViewUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -122,8 +124,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     private ToolTipView continuousChargeToolTipView;
     private ToolTipView trickleChargeToolTipView;
 
+    private NotificationWindowHolder mNotificationWindowHolder;
+
     private SlidingFinishRelativeLayout slidingFinishRelativeLayout;
-    private LinearLayout advertisementContainer;
+    private RelativeLayout advertisementContainer;
     private ChargingQuantityView chargingQuantityView;
     private ChargingBubbleView chargingBubbleView;
     private ImageView imageBackgroundView;
@@ -440,6 +444,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
     private void showExpressAd() {
         if (expressAdView.getParent() == null) {
+            advertisementContainer.setVisibility(View.VISIBLE);
             advertisementContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
             expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
         }
@@ -571,7 +576,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         tipTextView = (TextView) mRootView.findViewById(R.id.charging_screen_tip);
         toolTipContainer = (ToolTipRelativeLayout) mRootView.findViewById(R.id.charging_screen_show_tip_container);
 
-        advertisementContainer = (LinearLayout) mRootView.findViewById(R.id.charging_screen_advertisement_container);
+        advertisementContainer = mRootView.findViewById(R.id.charging_screen_advertisement_container);
+        mNotificationWindowHolder = new NotificationWindowHolder();
 //        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
 //        customizeContentContainer.setDismissCallback(new Runnable() {
 //            @Override
@@ -760,7 +766,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         String txtMonth = Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
 
         timeTextView.setText(getContext().getString(R.string.charging_screen_time, txtHour, txtMinute));
-        dateTextView.setText(getContext().getString(R.string.charging_screen_date, txtWeek, txtMonth, txtDay));
+        dateTextView.setText(getContext().getString(R.string.charging_screen_date, txtMonth, txtDay, txtWeek));
     }
 
     private void updateChargingStateTipIconAnimator() {
@@ -993,5 +999,27 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
     public void setActivityMode(boolean activityMode) {
         mActivityMode = activityMode;
+    }
+
+    private class NotificationWindowHolder {
+        private RelativeLayout mNotificationWindow;
+        private SlidingNotificationLayout mSlidingWindow;
+        private ImageView mSourceAppAvatar;
+        private TextView mAppNameAndSendTime;
+        private TextView mSenderName;
+        private ImageView mSenderAvatar;
+        private TextView mNoticationContent;
+
+        public NotificationWindowHolder() {
+            mSlidingWindow = mRootView.findViewById(R.id.lock_sliding_window);
+            mSlidingWindow.setClickable(true);
+            mNotificationWindow = mRootView.findViewById(R.id.lock_notification_window);
+            mSourceAppAvatar = mRootView.findViewById(R.id.source_app_avatar);
+            mAppNameAndSendTime = mRootView.findViewById(R.id.source_app_name_and_send_time);
+            mSenderAvatar = mRootView.findViewById(R.id.sender_avatar);
+            mSenderName = mRootView.findViewById(R.id.sender_name);
+            mNoticationContent = mRootView.findViewById(R.id.notification_content);
+
+        }
     }
 }

@@ -77,6 +77,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private View mBottomOperationArea;
     private View mCameraContainer;
+    private View mToolBarContainer;
     private View mWallpaperContainer;
     private RelativeLayout mAdContainer;
 
@@ -156,6 +157,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         mBottomOperationArea = findViewById(R.id.bottom_operation_area);
         mSlidingDrawer = (SlidingDrawer) findViewById(R.id.operation_area);
         mCameraContainer = findViewById(R.id.camera_container);
+        mToolBarContainer = findViewById(R.id.toolbar_container);
         mWallpaperContainer = findViewById(R.id.wallpaper_container);
         mAdContainer = ViewUtils.findViewById(this, R.id.rl_ad_container);
         mMenuMore = findViewById(R.id.ic_menu);
@@ -200,6 +202,15 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             }
         });
         mDrawerHandleUp.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mIsSlidingDrawerOpened) {
+                    mSlidingDrawer.doBounceUpAnimation();
+                }
+            }
+        });
+
+        mToolBarContainer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!mIsSlidingDrawerOpened) {
@@ -313,9 +324,9 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     private void showGameAsLottie(boolean showLottie) {
-        mGameIconEntrance.setVisibility(showLottie ? GONE : VISIBLE);
-        mGameLottieEntrance.setVisibility(showLottie ? VISIBLE : GONE);
-        mGameLottieTitleEntrance.setVisibility(showLottie ? VISIBLE : GONE);
+        //mGameIconEntrance.setVisibility(showLottie ? GONE : VISIBLE);
+        //mGameLottieEntrance.setVisibility(showLottie ? VISIBLE : GONE);
+        //mGameLottieTitleEntrance.setVisibility(showLottie ? VISIBLE : GONE);
     }
 
     private void requestAds() {
@@ -340,6 +351,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private void showExpressAd() {
         if (expressAdView != null && expressAdView.getParent() == null) {
+            mAdContainer.setVisibility(View.VISIBLE);
             mAdContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
             expressAdView.switchAd();
         }
@@ -473,7 +485,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     public void onScrollStarted() {
         mBottomOperationArea.setVisibility(View.VISIBLE);
         mDimCover.setVisibility(View.VISIBLE);
-        mAdContainer.setVisibility(View.VISIBLE);
+        //mAdContainer.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -623,6 +635,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private class NotificationWindowHolder {
         private RelativeLayout mNotificationWindow;
+        private SlidingNotificationLayout mSlidingWindow;
         private ImageView mSourceAppAvatar;
         private TextView mAppNameAndSendTime;
         private TextView mSenderName;
@@ -630,6 +643,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         private TextView mNoticationContent;
 
         public NotificationWindowHolder() {
+            mSlidingWindow = findViewById(R.id.lock_sliding_window);
+            mSlidingWindow.setClickable(true);
             mNotificationWindow = findViewById(R.id.lock_notification_window);
             mSourceAppAvatar = findViewById(R.id.source_app_avatar);
             mAppNameAndSendTime = findViewById(R.id.source_app_name_and_send_time);
