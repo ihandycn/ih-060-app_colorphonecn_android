@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <com.honeycomb.colorphone.view.ViewPagerFixed
+        android:transitionName="@string/transition_view_theme_image"
         android:id="@+id/preview_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

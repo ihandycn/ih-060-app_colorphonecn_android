@@ -3,6 +3,7 @@ package com.honeycomb.colorphone.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -53,18 +54,24 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private int scrollCount = 0;
     private int lastPos = -1;
 
-    public static void start(Context context, int position) {
-        start(context, position, FROM_MAIN);
+    public static void start(Context context, int position, Bundle options) {
+        start(context, position, FROM_MAIN, options);
     }
+
     public static void start(Context context, int position, String from) {
+        start(context, position, from, null);
+    }
+
+    private static void start(Context context, int position, String from, Bundle options) {
         Intent starter = new Intent(context, ThemePreviewActivity.class);
         starter.putExtra("position", position);
         starter.putExtra("from", from);
         if (context instanceof Activity) {
             ((Activity)context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
         }
+
         starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(starter);
+        context.startActivity(starter, options);
     }
 
 
@@ -217,8 +224,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         if (intercept) {
             return;
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        }
         super.onBackPressed();
     }
+
 
     @Override
     protected void onDestroy() {

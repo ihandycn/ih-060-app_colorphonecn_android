@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
@@ -38,7 +40,6 @@ import com.honeycomb.colorphone.activity.PopularThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
-import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -282,7 +283,12 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         PopularThemePreviewActivity.start(activity, pos);
                     } else {
                         Analytics.logEvent("MainView_ThemeDetail_View", "type", theme.getIdName());
-                        ThemePreviewActivity.start(activity, pos);
+                        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.
+                                makeSceneTransitionAnimation(activity,
+                                        cardViewContent.findViewById(R.id.card_preview_img),
+                                        activity.getString(R.string.transition_view_theme_image));
+
+                        ThemePreviewActivity.start(activity, pos, activityOptionsCompat.toBundle());
                     }
                 }
             });
