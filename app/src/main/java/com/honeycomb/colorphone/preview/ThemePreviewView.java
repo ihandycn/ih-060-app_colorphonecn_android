@@ -84,6 +84,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import java.util.ArrayList;
@@ -108,6 +109,7 @@ import static com.honeycomb.colorphone.preview.ThemeStateManager.PREVIEW_MODE;
 public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageChangeListener, INotificationObserver {
 
     private static final String TAG = ThemePreviewWindow.class.getSimpleName();
+    private static final String PREF_KEY_SCROLL_GUIDE_SHOWN = "pref_key_scroll_guide_shown";
 
     private static final boolean DEBUG_LIFE_CALLBACK = true & BuildConfig.DEBUG;
 
@@ -635,6 +637,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         onThemeReady(NO_ANIMITION);
         themeLoading = false;
+        checkCheckGuideView();
     }
 
     private boolean triggerMediaReady() {
@@ -779,6 +782,33 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 });
                 return true;
             }
+        }
+        return false;
+    }
+
+    private boolean checkCheckGuideView() {
+        if (Preferences.getDefault().getBoolean(PREF_KEY_SCROLL_GUIDE_SHOWN, true)) {
+            ViewStub stub = findViewById(R.id.preview_guide_viewstub);
+            final View guideView = stub.inflate();
+            guideView.setAlpha(0);
+            guideView.animate().alpha(1).setDuration(ANIMATION_DURATION).start();
+            guideView.setOnClickListener(v -> {
+                mActivity.findViewById(R.id.nav_back).setAlpha(1f);
+                guideView.animate().alpha(0).translationY(-Dimensions.getPhoneHeight(getContext())).setDuration(ANIMATION_DURATION)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                guideView.setVisibility(GONE);
+                            }
+                        }).start();
+            });
+
+            LottieAnimationView view = guideView.findViewById(R.id.theme_preview_guide_anim);
+            view.useHardwareAcceleration();
+
+            mActivity.findViewById(R.id.nav_back).setAlpha(0.1f);
+            Preferences.getDefault().putBoolean(PREF_KEY_SCROLL_GUIDE_SHOWN, false);
+            return true;
         }
         return false;
     }
@@ -1574,8 +1604,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                 }
 
-
                 onVideoReady(playTrans);
+
+                checkCheckGuideView();
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
                 themeLoading = true;
