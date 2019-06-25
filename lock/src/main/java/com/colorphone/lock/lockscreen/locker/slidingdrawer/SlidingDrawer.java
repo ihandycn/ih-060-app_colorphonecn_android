@@ -209,7 +209,7 @@ public class SlidingDrawer extends FrameLayout implements OnTouchListener {
                 onDrawerScrollStarted(getMotionAxisValue(event));
                 break;
             case MotionEvent.ACTION_MOVE:
-                onDrawerScroll(getMotionAxisValue(event));
+                //onDrawerScroll(getMotionAxisValue(event));
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:

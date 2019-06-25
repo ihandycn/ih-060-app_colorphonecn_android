@@ -107,6 +107,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     private RipplePopupView menuPopupView;
     private ImageView menuImageView;
     private PopupView mCloseLockerPopupView;
+    private View mCameraContainer;
+    private View mToolBarContainer;
 
     private TextView timeTextView;
     private TextView dateTextView;
@@ -578,6 +580,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
         advertisementContainer = mRootView.findViewById(R.id.charging_screen_advertisement_container);
         mNotificationWindowHolder = new NotificationWindowHolder();
+        mCameraContainer = mRootView.findViewById(R.id.camera_container);
+        mToolBarContainer = mRootView.findViewById(R.id.toolbar_container);
 //        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
 //        customizeContentContainer.setDismissCallback(new Runnable() {
 //            @Override
