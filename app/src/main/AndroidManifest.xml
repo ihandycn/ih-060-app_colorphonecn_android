@@ -277,6 +277,13 @@
             android:taskAffinity=".RateAlert"
             android:theme="@style/TransparentCompatDialog" />
 
+        <activity
+            android:name=".feedback.FeedbackActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity=":main"
+            android:theme="@style/AppLightStatusBarTheme"/>
 
         <!--Activity for test function-->
         <activity android:name=".activity.TestActivity" />
@@ -691,7 +698,6 @@
             android:icon="@drawable/shape_empty"
             android:excludeFromRecents="true"
             android:label="@string/title_locker_activity" />
-
 
         <!--Override  - Tag : process-->
 

@@ -140,4 +140,6 @@
 
     <dimen name="web_view_progress_bar_height">2.3dp</dimen>
     <dimen name="tablayout_bottom_height">56dp</dimen>
+
+    <dimen name="feedback_content_lr_margin">5dp</dimen>
 </resources>
