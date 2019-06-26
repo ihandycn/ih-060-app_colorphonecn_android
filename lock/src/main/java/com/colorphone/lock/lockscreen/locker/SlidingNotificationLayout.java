@@ -1,21 +1,29 @@
 package com.colorphone.lock.lockscreen.locker;
 
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.RelativeLayout;
 
+import com.colorphone.lock.lockscreen.LockNotificationManager;
 
-public class SlidingNotificationLayout extends RelativeLayout{
+
+public class SlidingNotificationLayout extends RelativeLayout {
 
 
     private ViewDragHelper mViewDragHelper;
 
     int mDragOriLeft;
     int mDragOriTop;
+    boolean mScrolling;
+    private float touchDownX;
+    private float touchDownY;
 
 
     public SlidingNotificationLayout(Context context) {
@@ -46,16 +54,35 @@ public class SlidingNotificationLayout extends RelativeLayout{
      */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return mViewDragHelper.shouldInterceptTouchEvent(ev);
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                touchDownX = ev.getX();
+                touchDownY = ev.getY();
+                mScrolling = false;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (Math.abs(touchDownX - ev.getX()) >= ViewConfiguration.get(getContext()).getScaledTouchSlop()||Math.abs(touchDownY - ev.getY()) >= ViewConfiguration.get(getContext()).getScaledTouchSlop()) {
+                    mScrolling = true;
+                } else {
+                    mScrolling = false;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                mScrolling = false;
+                break;
+            default:
+                break;
+        }
+
+        return mViewDragHelper.shouldInterceptTouchEvent(ev) && mScrolling;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        //将触摸事件传给ViewDragHelper处理
+
         mViewDragHelper.processTouchEvent(event);
         return true;
     }
-
 
     private ViewDragHelper.Callback callback = new ViewDragHelper.Callback() {
 
@@ -78,7 +105,7 @@ public class SlidingNotificationLayout extends RelativeLayout{
             mDragOriTop = capturedChild.getTop();
         }
 
-        //处理垂直方向的滑动，这里我们用不到，设置return 0
+
         @Override
         public int clampViewPositionVertical(View child, int top, int dy) {
             return 0;
@@ -91,10 +118,8 @@ public class SlidingNotificationLayout extends RelativeLayout{
             final int childWidth = getWidth() / 2;
             float offset = (releasedChild.getLeft()) * 1.0f / childWidth;
             if (xvel > 0 && offset > 0.5f) {
-
                 mViewDragHelper.settleCapturedViewAt(getWidth(), (int) mDragOriTop);
             } else if (xvel <= 0 && offset < -0.5f) {
-
                 mViewDragHelper.settleCapturedViewAt(-getWidth(), (int) mDragOriTop);
             } else {
                 mViewDragHelper.settleCapturedViewAt((int) mDragOriLeft, (int) mDragOriTop);

@@ -12,6 +12,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
 import com.acb.call.CallIntentManager;
+import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.ihs.commons.utils.HSLog;
 import com.messagecenter.customize.MessageCenterManager;
 
@@ -45,6 +46,7 @@ public class NotificationServiceV18 extends NotificationListenerService {
         inServiceRunning = true;
         CallIntentManager.getInstance().recordAnswerCallIntent(statusBarNotification);
         MessageCenterManager.getInstance().showMessageAssistantIfProper(statusBarNotification);
+        LockNotificationManager.getInstance().getNotificationInfo(statusBarNotification);
         HSLog.e(TAG, "New notification: " + statusBarNotification);
     }
 

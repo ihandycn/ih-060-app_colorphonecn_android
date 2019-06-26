@@ -1,8 +1,13 @@
 package com.colorphone.lock.lockscreen.locker;
 
 import android.animation.ObjectAnimator;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.PowerManager;
 import android.support.v7.widget.AppCompatButton;
 import android.text.format.DateUtils;
@@ -25,8 +30,12 @@ import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
+import com.colorphone.lock.lockscreen.AppNotificationInfo;
+import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
+import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
+import com.colorphone.lock.lockscreen.ViewChangeObserver;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.colorphone.lock.lockscreen.locker.shimmer.Shimmer;
@@ -235,6 +244,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     @SuppressWarnings("deprecation")
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        LockNotificationManager.getInstance().registerForThemeStateChange(observer);
 
         ViewTreeObserver viewTreeObserver = getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -389,6 +399,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
         HSGlobalNotificationCenter.removeObserver(this);
         mShimmer.cancel();
+        LockNotificationManager.getInstance().unregisterForThemeStateChange(observer);
 
         super.onDetachedFromWindow();
     }
@@ -477,7 +488,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             hour = hour % 12;
         }
         mTvTime.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
-        DateFormat format = new SimpleDateFormat("M月dd日\tEEE", Locale.getDefault());
+        DateFormat format = new SimpleDateFormat("M月d日\tEEE", Locale.getDefault());
         mTvDate.setText(format.format(new Date()));
     }
 
@@ -637,6 +648,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private class NotificationWindowHolder {
         private RelativeLayout mNotificationWindow;
         private SlidingNotificationLayout mSlidingWindow;
+
         private ImageView mSourceAppAvatar;
         private TextView mAppNameAndSendTime;
         private TextView mSenderName;
@@ -647,12 +659,82 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             mSlidingWindow = findViewById(R.id.lock_sliding_window);
             mSlidingWindow.setClickable(true);
             mNotificationWindow = findViewById(R.id.lock_notification_window);
+
             mSourceAppAvatar = findViewById(R.id.source_app_avatar);
-            mAppNameAndSendTime = findViewById(R.id.source_app_name_and_send_time);
+            mAppNameAndSendTime = findViewById(R.id.source_app_name);
             mSenderAvatar = findViewById(R.id.sender_avatar);
             mSenderName = findViewById(R.id.sender_name);
             mNoticationContent = findViewById(R.id.notification_content);
+            mSlidingWindow.setVisibility(INVISIBLE);
+
+            mNotificationWindow.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DismissKeyguradActivity.startSelfIfKeyguardSecure(getContext());
+                    PendingIntent pendingIntent = getInfo().notification.contentIntent;
+                    if (pendingIntent != null) {
+                        try {
+                            pendingIntent.send();
+                        } catch (PendingIntent.CanceledException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
 
         }
+
+        public void changeNotificationWindow() {
+            mSenderName.setText(getInfo().title);
+            mNoticationContent.setText(getInfo().content);
+            mSenderAvatar.setImageBitmap(getInfo().notification.largeIcon);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                mSourceAppAvatar.setBackground(getAppIcon(getInfo().packageName));
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("", Locale.SIMPLIFIED_CHINESE);
+            sdf.applyPattern("HH:mm");
+            mAppNameAndSendTime.setText(getAppName(getInfo().packageName) + "·" + sdf.format(getInfo().when));
+        }
+
+        private AppNotificationInfo getInfo() {
+            return LockNotificationManager.getInstance().getInfo();
+        }
+
+        public Drawable getAppIcon(String packageName){
+            try {
+                PackageManager pm = getContext().getPackageManager();
+                ApplicationInfo info = pm.getApplicationInfo(packageName, 0);
+                return info.loadIcon(pm);
+            } catch (PackageManager.NameNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+
+            }
+            return null;
+        }
+
+        public String getAppName(String packname){
+            try {
+                PackageManager pm = getContext().getPackageManager();
+                ApplicationInfo info = pm.getApplicationInfo(packname, 0);
+                return info.loadLabel(pm).toString();
+            } catch (PackageManager.NameNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+
+            }
+            return null;
+        }
+
+
     }
+
+    private ViewChangeObserver observer = new ViewChangeObserver() {
+        @Override
+        public void onReceive(AppNotificationInfo info) {
+            mNotificationWindowHolder.mSlidingWindow.setVisibility(VISIBLE);
+            mNotificationWindowHolder.changeNotificationWindow();
+        }
+    };
+
 }

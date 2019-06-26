@@ -230,7 +230,7 @@ public class StatusBarNotifier
 
   @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
   private void showNotification(final DialerCall call) {
-    Trace.beginSection("StatusBarNotifier.showNotification");
+    Trace.beginSection("StatusBarNotifier.getNotificationInfo");
     final boolean isIncoming =
         (call.getState() == DialerCallState.INCOMING
             || call.getState() == DialerCallState.CALL_WAITING);
