@@ -21,7 +21,6 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.acb.call.VideoManager;
@@ -245,7 +244,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         ContactManager.getInstance().update();
         AcbAds.getInstance().setActivity(this);
@@ -258,7 +256,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             HSAlertMgr.delayRateAlert();
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         }
+
         setContentView(R.layout.activity_main);
+
+        Utils.setupTransparentStatusBarsForLmp(this);
+
         initMainFrame();
         AdManager.getInstance().preload(this);
         AppflyerLogger.logAppOpen();
