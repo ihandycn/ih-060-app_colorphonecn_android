@@ -120,6 +120,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean mIsHandsDown = false;
     private boolean mIsFirstScrollThisTimeHandsDown = true;
     public static final int SCROLL_STATE_DRAGGING = 1;
+    private boolean isDoubleClickToolbar = false;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -325,6 +326,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initMainFrame() {
 
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setOnClickListener(v -> {
+            if (!isDoubleClickToolbar) {
+                isDoubleClickToolbar = true;
+                mHandler.postDelayed(() -> isDoubleClickToolbar = false, 500);
+            } else {
+                if (mRecyclerView != null) {
+                    mRecyclerView.scrollToPosition(0);
+                }
+            }
+        });
 
         gameContainer = findViewById(R.id.layout_game);
 
@@ -537,6 +548,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 if (pos == NEWS_POSITION) {
                     if (newsLayout != null) {
                         newsLayout.refreshNews("Tab");
+                    }
+                } else if (pos == MAIN_POSITION) {
+                    if (mRecyclerView != null) {
+                        mRecyclerView.scrollToPosition(0);
                     }
                 }
             }
