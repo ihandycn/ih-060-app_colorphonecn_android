@@ -199,6 +199,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 Preferences.getDefault().putBoolean(PREFS_CASH_CENTER_GUIDE_SHOW, true);
                 Analytics.logEvent("Tab_CashCenter_Guide_Show");
+
+                tabTransController.setInterceptView(tabCashCenterGuide);
             }
         }
     };
@@ -401,8 +403,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         });
 
-        tabTransController.setInterceptView(tabCashCenterGuide);
-
         if (showTabCashCenter && !Preferences.getDefault().getBoolean(PREFS_CASH_CENTER_SHOW, false)) {
             mTabLayout.getTabAt(CASH_POSITION).findViewById(R.id.tab_layout_hint).setVisibility(View.VISIBLE);
         }
@@ -470,6 +470,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                         Preferences.getDefault().putBoolean(PREFS_CASH_CENTER_SHOW, true);
                         tabView.findViewById(R.id.tab_layout_hint).setVisibility(View.GONE);
                         tabCashCenterGuide.setVisibility(View.GONE);
+
+                        tabTransController.setInterceptView(null);
 
                         boolean show = HSCashCenterManager.getInstance().startFirstReward();
                         if (!show) {

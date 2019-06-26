@@ -23,7 +23,6 @@ import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -85,6 +84,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import java.util.ArrayList;
@@ -109,6 +109,7 @@ import static com.honeycomb.colorphone.preview.ThemeStateManager.PREVIEW_MODE;
 public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageChangeListener, INotificationObserver {
 
     private static final String TAG = ThemePreviewWindow.class.getSimpleName();
+    private static final String PREF_KEY_SCROLL_GUIDE_SHOWN = "pref_key_scroll_guide_shown";
 
     private static final boolean DEBUG_LIFE_CALLBACK = true & BuildConfig.DEBUG;
 
@@ -259,7 +260,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private StateChangeObserver observer = new StateChangeObserver() {
         @Override
         public void onReceive(int themeMode) {
-            Log.e(TAG, "onReceive: testTheme" + themeMode );
+
             switchMode(themeMode);
         }
     };
@@ -640,6 +641,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void onMediaDownloadOK() {
         onThemeReady(NO_ANIMITION);
+        checkCheckGuideView();
     }
 
     private boolean triggerMediaReady() {
@@ -782,6 +784,33 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 });
                 return true;
             }
+        }
+        return false;
+    }
+
+    private boolean checkCheckGuideView() {
+        if (Preferences.getDefault().getBoolean(PREF_KEY_SCROLL_GUIDE_SHOWN, true)) {
+            ViewStub stub = findViewById(R.id.preview_guide_viewstub);
+            final View guideView = stub.inflate();
+            guideView.setAlpha(0);
+            guideView.animate().alpha(1).setDuration(ANIMATION_DURATION).start();
+            guideView.setOnClickListener(v -> {
+                mActivity.findViewById(R.id.nav_back).setAlpha(1f);
+                guideView.animate().alpha(0).translationY(-Dimensions.getPhoneHeight(getContext())).setDuration(ANIMATION_DURATION)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                guideView.setVisibility(GONE);
+                            }
+                        }).start();
+            });
+
+            LottieAnimationView view = guideView.findViewById(R.id.theme_preview_guide_anim);
+            view.useHardwareAcceleration();
+
+            mActivity.findViewById(R.id.nav_back).setAlpha(0.1f);
+            Preferences.getDefault().putBoolean(PREF_KEY_SCROLL_GUIDE_SHOWN, false);
+            return true;
         }
         return false;
     }
@@ -1486,7 +1515,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onStart() {
-        Log.e(TAG, "onStart" );
+
         mWaitMediaReadyCount = 0;
         // We do not play animation if activity restart.
         // TODO as method
@@ -1526,8 +1555,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                 }
 
-
                 onVideoReady(playTrans);
+
+                checkCheckGuideView();
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
                 themeLoading = true;
@@ -1597,7 +1627,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onStop() {
-        Log.e(TAG, "onStop" );
+
         hasStopped = true;
         pauseAnimation();
 
@@ -1737,12 +1767,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         networkChangeReceiver = new NetworkChangeReceiver();
-        Log.e(TAG, "registerReceiverForInternetChange" );
+
         getContext().registerReceiver(networkChangeReceiver, intentFilter);
     }
 
     private void unregisterForInternetChange() {
-        Log.e(TAG, "unregisterReceiverForInternetChange ");
+
         getContext().unregisterReceiver(networkChangeReceiver);
     }
 
@@ -2269,8 +2299,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isAvailable()) {
                 if (themeLoading) {
-                    Toast.makeText(context, "network is available",
-                            Toast.LENGTH_SHORT).show();
+
                     onThemeLoading();
                     intoDownloadingMode();
                 }

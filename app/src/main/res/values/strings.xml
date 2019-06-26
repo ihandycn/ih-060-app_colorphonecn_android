@@ -328,4 +328,6 @@
     <string name="start_guide_skip_dialog_cancel">暂不修复</string>
     <string name="ad_activity_label">广告</string>
     <string name="transition_view_theme_image">theme_image</string>
+
+    <string name="theme_preview_guide_content">滑动查看更多</string>
 </resources>

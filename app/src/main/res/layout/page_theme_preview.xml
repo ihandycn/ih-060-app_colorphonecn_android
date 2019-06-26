@@ -323,7 +323,10 @@
             android:src="@drawable/theme_setting_close" />
     </RelativeLayout>
 
-
-
+    <ViewStub
+        android:id="@+id/preview_guide_viewstub"
+        android:layout="@layout/theme_preview_guide_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </android.support.percent.PercentRelativeLayout>
