@@ -3,7 +3,6 @@ package com.honeycomb.colorphone.preview;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.TimeInterpolator;
-import android.animation.ValueAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -136,7 +135,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private InCallActionView callActionView;
 
     private View mUserView;
-    private View mCallName;
+    private TextView mCallName;
     private View mNumberName;
 
     private ThemePreviewActivity mActivity;
@@ -199,13 +198,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private long animationDelay = 500;
     private float bottomBtnTransY;
     private Interpolator mInter;
-    private ValueAnimator transAnimator;
 
 
     private int mPosition = -1;
     private int mPageSelectedPos = -1;
     /**
      * Play no Transition animation when page scroll.
+     * TODO remove Call views
      */
     private boolean mNoTransition = false;
     private boolean triggerPageChangeWhenIdle = false;
@@ -398,11 +397,20 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         onCreate();
     }
 
-    public void setCustomStyle() {
-        TextView name = (TextView) findViewById(R.id.first_line);
+    public void updateThemePreviewLayout(Type themeType) {
+        previewWindow.updateThemeLayout(themeType);
+
+        mCallName = findViewById(R.id.first_line);
+        mCallName.setText(mTheme.getAvatarName());
+
+        mNumberName = findViewById(R.id.second_line);
+
         ImageView avatar = (ImageView) findViewById(R.id.caller_avatar);
         avatar.setImageDrawable(ContextCompat.getDrawable(mActivity, mTheme.getAvatar()));
-        name.setText(mTheme.getAvatarName());
+        mUserView = findViewById(R.id.caller_avatar_container);
+        if (mUserView == null) {
+            mUserView = avatar;
+        }
     }
 
     public boolean isRewardVideoLoading() {
@@ -455,6 +463,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
             }
         });
+        previewWindow.setVisibility(INVISIBLE);
         themeStateManager = ThemeStateManager.getInstance();
         callActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
         callActionView.setTheme(mThemeType);
@@ -628,23 +637,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void onMediaDownloadOK() {
-        previewWindow.setVisibility(VISIBLE);
-        if (getThemeMode() == ENJOY_MODE) {
-            intoEnjoyView();
-        } else if (getThemeMode() == PREVIEW_MODE){
-            switchMode(PREVIEW_MODE);
-        }
-
         onThemeReady(NO_ANIMITION);
-        themeLoading = false;
     }
 
     private boolean triggerMediaReady() {
-        if (BuildConfig.DEBUG) {
-            if (mWaitMediaReadyCount > 2 || mWaitMediaReadyCount <= 0) {
-                throw new IllegalStateException("triggerMedia count invalid : " + mWaitMediaReadyCount);
-            }
-        }
         mWaitMediaReadyCount--;
         return mWaitMediaReadyCount <= 0;
     }
@@ -672,6 +668,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
      */
     private void onThemeReady(boolean needTransAnim) {
         themeReady = true;
+        themeLoading = false;
+
         dimCover.setVisibility(View.INVISIBLE);
         mProgressViewHolder.hide();
 
@@ -687,13 +685,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        previewWindow.updateThemeLayout(mThemeType);
+        updateThemePreviewLayout(mThemeType);
 
         if (mTheme.isLocked()) {
             switchToLockState();
         }
+        switchMode(getThemeMode(), needTransAnim);
 
-        setCustomStyle();
 
         if (needTransAnim || mCallName.getVisibility() != VISIBLE) {
             playTransInAnimation(transEndRunnable);
@@ -705,6 +703,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             Analytics.logEvent("ColorPhone_Theme_Download_Time", "Time",
                     String.valueOf((System.currentTimeMillis() - startDownloadTime + 999) / DateUtils.SECOND_IN_MILLIS));
         }
+
     }
 
     private int getThemeMode() {
@@ -810,20 +809,29 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
-    public void switchMode(int mode) {
+    private void switchMode(int mode, boolean anim) {
+        if (themeLoading) {
+            return;
+        }
         switch (mode) {
             case ENJOY_MODE:
                 foldingOrNot = THEME_ENJOY_FOLDING;
-
-                setEnjoyView();
+                if (anim) {
+                    setEnjoyView();
+                } else {
+                    intoEnjoyView();
+                }
                 break;
             case PREVIEW_MODE:
-
                 setPreviewView();
                 break;
             default:
                 break;
         }
+    }
+
+    public void switchMode(int mode) {
+        switchMode(mode, true);
     }
 
     private void intoDownloadingMode() {
@@ -1294,14 +1302,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void playTransInAnimation(final Runnable completeRunnable) {
-        mCallName = findViewById(R.id.first_line);
-        mNumberName = findViewById(R.id.second_line);
-
-        mUserView = findViewById(R.id.caller_avatar_container);
-        if (mUserView == null) {
-            mUserView = findViewById(R.id.caller_avatar);
-        }
-
         if (mTheme.isLocked()) {
             mCallName.setVisibility(INVISIBLE);
             mNumberName.setVisibility(INVISIBLE);
@@ -1318,62 +1318,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             if (completeRunnable != null) {
                 completeRunnable.run();
             }
-            return;
+        } else {
+            // TODO trigger by callback
+            mHandler.postDelayed(completeRunnable, WINDOW_ANIM_DURATION);
         }
-        int pHeight = Utils.getPhoneHeight(mActivity);
-
-
-
-        final View[] animViews = new View[] {mUserView, mCallName, mNumberName, callActionView};
-        final int[] alpha = new int[] {0, 0, 0 ,0};
-        final float[] transY = new float[] {-pHeight * 0.15f, -pHeight * 0.12f, -pHeight * 0.12f, pHeight * 0.15f};
-        final TimeInterpolator transInterpolator = new DecelerateInterpolator(2f);
-        int duration = 300;
-        for (int i = 0; i < animViews.length; i++) {
-            View v = animViews[i];
-            v.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-            v.setAlpha(alpha[i]);
-            v.setTranslationY(transY[i]);
-        }
-
-        transAnimator = ValueAnimator.ofFloat(0f, 1f);
-        transAnimator.setDuration(duration);
-        transAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float fraction = animation.getAnimatedFraction();
-                float transFraction = transInterpolator.getInterpolation(fraction);
-                HSLog.d("SUNDXING", "fraction = " + fraction + "transFraction = " + transFraction);
-                for (int i = 0; i < animViews.length; i++) {
-                    View v = animViews[i];
-                    v.setAlpha(fraction);
-                    v.setTranslationY(transY[i] * (1f - transFraction));
-                }
-            }
-        });
-
-        transAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                if (completeRunnable != null) {
-                    completeRunnable.run();
-                }
-                for (View v : animViews) {
-                    v.setAlpha(1.0f);
-                    v.setTranslationY(0f);
-                    v.setLayerType(View.LAYER_TYPE_NONE, null);
-                }
-            }
-        });
-        transAnimator.setStartDelay(WINDOW_ANIM_DURATION);
-        transAnimator.start();
-
     }
-
-//    private View findViewById(int id) {
-//        return mRootView.findViewById(id);
-//    }
 
     private void setButtonState(final boolean curTheme) {
         if (curTheme) {
@@ -1538,6 +1487,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         Log.e(TAG, "onStart" );
         mWaitMediaReadyCount = 0;
         // We do not play animation if activity restart.
+        // TODO as method
         boolean playTrans = !hasStopped;
         final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getId());
         final TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(mTheme.getId());
@@ -1559,7 +1509,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (model != null) {
             // GIf/Mp4
             if (TasksManager.getImpl().isDownloaded(model)) {
-                onThemeReady(playTrans);
                 if (ifShowThemeApplyView) {
                     Utils.showApplyView(rootView, mNavBack);
                     ifShowThemeApplyView = false;
@@ -1570,7 +1519,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     mContactReturn = false;
 
                 } else {
-                    switchMode(getThemeMode());
                     if (getThemeMode() == ENJOY_MODE) {
                         mEnjoyApplyBtn.setVisibility(VISIBLE);
                     }
@@ -1585,7 +1533,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         } else {
             // Directly applicable
             onThemeReady(playTrans);
-            switchMode(getThemeMode());
             if (getThemeMode() == ENJOY_MODE) {
                 mEnjoyApplyBtn.setVisibility(VISIBLE);
             }
@@ -1605,10 +1552,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             startDownloadTime = System.currentTimeMillis();
 
             onThemeLoading();
-            previewWindow.setVisibility(INVISIBLE);
             intoDownloadingMode();
-        } else {
-            previewWindow.setVisibility(VISIBLE);
         }
 
         // Show background if gif drawable not ready.
@@ -1657,12 +1601,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         getTransBottomLayout().animate().cancel();
         mHandler.removeCallbacksAndMessages(null);
-        if (transAnimator != null && transAnimator.isStarted()) {
-            transAnimator.end();
-
-            transAnimator.removeAllUpdateListeners();
-            transAnimator.removeAllListeners();
-        }
 
         for (int i = 0; i < mDownloadTasks.size(); i++) {
             DownloadTask downloadTask = mDownloadTasks.valueAt(i);
@@ -1682,6 +1620,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void resumeAnimation() {
         if (themeReady) {
             resumed = true;
+            previewWindow.setVisibility(VISIBLE);
             previewWindow.playAnimation(mThemeType);
             callActionView.doAnimation();
             if (mTheme.hasRingtone()) {
@@ -1706,9 +1645,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void onThemeLoading() {
         dimCover.setVisibility(View.VISIBLE);
         mProgressViewHolder.show();
-        previewWindow.updateThemeLayout(mThemeType);
-        setCustomStyle();
-
+        updateThemePreviewLayout(mThemeType);
 
         mProgressViewHolder.mProgressTxtGroup.setAlpha(0);
         mProgressViewHolder.mProgressBar.setAlpha(0);
@@ -1980,6 +1917,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (isSelectedPos()) {
             mBlockAnimationForPageChange = blockAnimationForPageChange;
         }
+    }
+
+    public void onWindowTransitionStart() {
+
+    }
+
+    public void onWindowTransitionEnd() {
+
     }
 
     private class ProgressHelper {

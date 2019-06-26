@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.SharedElementCallback;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.transition.Transition;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +94,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         return super.onTouchEvent(event);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,10 +109,51 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
         setContentView(R.layout.activity_theme_preview);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             NotchTools.getFullScreenTools().showNavigation(false).fullScreenUseStatus(this);
         } else {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
+                @Override
+                public void onTransitionStart(Transition transition) {
+                    HSLog.d("SharedElement start");
+                    for (ThemePreviewView previewView : mViews) {
+                        previewView.setBlockAnimationForPageChange(false);
+                        if (previewView.isSelectedPos()) {
+                            previewView.onWindowTransitionStart();
+                        }
+                    }
+                }
+
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                    HSLog.d("SharedElement end");
+                    for (ThemePreviewView previewView : mViews) {
+                        previewView.setBlockAnimationForPageChange(false);
+                        if (previewView.isSelectedPos()) {
+                            previewView.onWindowTransitionEnd();
+                        }
+                    }
+                }
+
+                @Override
+                public void onTransitionCancel(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionPause(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionResume(Transition transition) {
+
+                }
+            });
         }
 
         mViewPager = (ViewPagerFixed) findViewById(R.id.preview_view_pager);
@@ -123,16 +167,18 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(pos)));
 
         ActivityCompat.setEnterSharedElementCallback(this, new SharedElementCallback() {
+
             @Override
             public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                names.clear();
-                sharedElements.clear();
-
                 String name = ViewCompat.getTransitionName(mViewPager);
-                names.add(name);
-                sharedElements.put(Objects.requireNonNull(name), mViewPager);
-                HSLog.d("SharedElement enter", " onMapSharedElements : " + name);
+                if (!TextUtils.isEmpty(name)) {
+                    names.clear();
+                    sharedElements.clear();
 
+                    names.add(name);
+                    sharedElements.put(Objects.requireNonNull(name), mViewPager);
+                    HSLog.d("SharedElement enter", " onMapSharedElements : " + name);
+                }
             }
         });
 
