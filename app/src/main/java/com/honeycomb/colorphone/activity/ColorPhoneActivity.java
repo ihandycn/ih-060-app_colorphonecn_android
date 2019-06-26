@@ -10,13 +10,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.acb.call.VideoManager;
@@ -33,6 +38,7 @@ import com.colorphone.lock.AnimatorListenerAdapter;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.AppflyerLogger;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
@@ -86,6 +92,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import hugo.weaving.DebugLog;
 
@@ -166,6 +173,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     };
 
+    /**
+     * For activity transition
+     */
+    private int mTransitionItemPos = -1;
+
     private void hideLottieGuide(LottieAnimationView lottieAnimationView) {
         gameIcon.animate().alpha(1).setDuration(200).start();
         lottieAnimationView.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {
@@ -233,6 +245,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         ContactManager.getInstance().update();
         AcbAds.getInstance().setActivity(this);
@@ -245,12 +258,27 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             HSAlertMgr.delayRateAlert();
             HSPreferenceHelper.getDefault().putBoolean(NotificationUtils.PREFS_NOTIFICATION_GUIDE_ALERT_FIRST_SESSION_SHOWED, true);
         }
-
         setContentView(R.layout.activity_main);
         initMainFrame();
         AdManager.getInstance().preload(this);
         AppflyerLogger.logAppOpen();
         isCreate = true;
+        // Transition
+        ActivityCompat.setExitSharedElementCallback(this, new SharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                if (mTransitionItemPos >= 0) {
+                    names.clear();
+                    sharedElements.clear();
+                    final View view = getExitView(mTransitionItemPos);
+                    String name = ViewCompat.getTransitionName(view);
+                    names.add(name);
+                    sharedElements.put(Objects.requireNonNull(name), view);
+                    HSLog.d("SharedElement exit", " onMapSharedElements : " + name);
+                    mTransitionItemPos =  -1;
+                }
+            }
+        });
     }
 
     @Override
@@ -316,6 +344,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         initData();
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
+        HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_PREVIEW_POSITION, this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
@@ -607,7 +636,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 AcbNativeAdAnalytics.logAppViewEvent("CashNative", b);
             }
         });
-
         AcbNativeAdManager.getInstance().activePlacementInProcess("CashNative");
         HSCashCenterManager.setNativeAdPlacement("CashNative");
         AcbInterstitialAdManager.getInstance().activePlacementInProcess("CashWire");
@@ -996,6 +1024,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
                 mAdapter.notifyDataSetChanged();
             }
+        } else if (NotificationConstants.NOTIFICATION_PREVIEW_POSITION.equals(s)) {
+            int pos = hsBundle.getInt("position");
+            HSLog.d("preview pos = " + pos);
+            mRecyclerView.scrollToPosition(pos);
         }
     }
 
@@ -1103,6 +1135,47 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         frame.setTag(position);
         return frame;
+    }
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && data != null) {
+            final int exitPos = data.getIntExtra("index", -1);
+            if (mRecyclerView != null) {
+                ActivityCompat.postponeEnterTransition(this);
+                mRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        mRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        overrideSharedElement(exitPos);
+                        ActivityCompat.startPostponedEnterTransition(ColorPhoneActivity.this);
+                        return true;
+                    }
+                });
+            }
+        }
+    }
+
+    private void overrideSharedElement(int exitPos) {
+        mTransitionItemPos = exitPos;
+        if (BuildConfig.DEBUG) {
+            final View exitView = getExitView(exitPos);
+            String name = (exitView != null) ? ViewCompat.getTransitionName(exitView) : "Null";
+            HSLog.d("SharedElement exit ", "setExitSharedElementCallback [ " + name + ":" + exitPos + "]");
+        }
+    }
+
+    private View getExitView(int position) {
+        if (position == -1) {
+            return null;
+        }
+        if ( mRecyclerView != null) {
+            View itemView = mRecyclerView.findViewHolderForAdapterPosition(position).itemView;
+            if (itemView != null) {
+                return itemView.findViewById(R.id.card_preview_img);
+            }
+        }
+        return null;
     }
 
     private static class TabTransController implements INotificationObserver {

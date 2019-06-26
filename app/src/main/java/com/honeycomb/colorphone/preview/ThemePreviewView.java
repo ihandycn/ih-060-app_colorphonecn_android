@@ -68,6 +68,7 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
+import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
@@ -1868,21 +1869,31 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (DEBUG_LIFE_CALLBACK) {
             HSLog.d("onPageSelected " + position);
         }
-
         mPageSelectedPos = position;
-        if ((isSelectedPos() && mDownloadTasks != null)) {
-            for (int i = 0; i < mDownloadTasks.size(); i++) {
-                DownloadTask downloadTask = mDownloadTasks.valueAt(i);
-                if (downloadTask != null && downloadTask.getStatus() == DownloadTask.PENDING) {
-                    download(downloadTask);
+
+        boolean isCurrentPageActive = isSelectedPos();
+
+        if (isCurrentPageActive) {
+            // Update download task
+            if (mDownloadTasks != null){
+                for (int i = 0; i < mDownloadTasks.size(); i++) {
+                    DownloadTask downloadTask = mDownloadTasks.valueAt(i);
+                    if (downloadTask != null && downloadTask.getStatus() == DownloadTask.PENDING) {
+                        download(downloadTask);
+                    }
                 }
             }
+
+            if (mTheme.isLocked()) {
+                Analytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
+            }
+
+            // Notify others
+            HSBundle bundle = new HSBundle();
+            bundle.putInt("position", position);
+            HSGlobalNotificationCenter.sendNotification(NotificationConstants.NOTIFICATION_PREVIEW_POSITION, bundle);
         }
         triggerPageChangeWhenIdle = true;
-
-        if (isSelectedPos() && mTheme.isLocked()) {
-            Analytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
-        }
     }
 
     public void updateButtonState() {

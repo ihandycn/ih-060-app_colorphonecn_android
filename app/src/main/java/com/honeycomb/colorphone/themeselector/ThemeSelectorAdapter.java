@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -41,6 +42,7 @@ import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.framework.HSApplication;
@@ -285,8 +287,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                         Analytics.logEvent("MainView_ThemeDetail_View", "type", theme.getIdName());
                         ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.
                                 makeSceneTransitionAnimation(activity,
-                                        cardViewContent.findViewById(R.id.card_preview_img),
-                                        activity.getString(R.string.transition_view_theme_image));
+                                        holder.mThemePreviewImg,
+                                        TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme));
 
                         ThemePreviewActivity.start(activity, pos, activityOptionsCompat.toBundle());
                     }
@@ -664,6 +666,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (mCallActionView != null) {
                 mCallActionView.setTheme(theme);
             }
+            ViewCompat.setTransitionName(mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme));
+
 
             if (theme.isMedia()) {
                 ImageView targetView = getCoverView(theme);

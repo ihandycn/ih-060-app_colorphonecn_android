@@ -1,12 +1,16 @@
 package com.honeycomb.colorphone.activity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -26,8 +30,10 @@ import com.honeycomb.colorphone.preview.ThemeStateManager;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
@@ -35,6 +41,8 @@ import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 
 public class ThemePreviewActivity extends HSAppCompatActivity {
@@ -110,6 +118,24 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(pos);
         //mViewPager.setCanScroll(false);
+
+        ViewCompat.setTransitionName(mViewPager,
+                TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(pos)));
+
+        ActivityCompat.setEnterSharedElementCallback(this, new SharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                names.clear();
+                sharedElements.clear();
+
+                String name = ViewCompat.getTransitionName(mViewPager);
+                names.add(name);
+                sharedElements.put(Objects.requireNonNull(name), mViewPager);
+                HSLog.d("SharedElement enter", " onMapSharedElements : " + name);
+
+            }
+        });
+
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -124,6 +150,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 }
                 Ap.DetailAd.onPageScrollOnce();
 
+                ViewCompat.setTransitionName(mViewPager,
+                        TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(position)));
             }
 
             @Override
@@ -204,6 +232,16 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         }
     }
 
+
+    @TargetApi(22)
+    @Override
+    public void supportFinishAfterTransition() {
+        Intent data = new Intent();
+        data.putExtra("index", mViewPager.getCurrentItem());
+        setResult(RESULT_OK, data);
+        super.supportFinishAfterTransition();
+    }
+
     @Override
     public void onBackPressed() {
         boolean intercept = false;
@@ -225,9 +263,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
+            supportFinishAfterTransition();
         }
-        super.onBackPressed();
     }
 
 
@@ -259,6 +296,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
             container.addView(controller);
             controller.setTag(position);
+
             mViews.add(controller);
             mViewPager.addOnPageChangeListener(controller);
 
