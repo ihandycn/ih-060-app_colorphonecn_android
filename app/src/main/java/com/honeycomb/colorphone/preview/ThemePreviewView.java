@@ -342,6 +342,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     };
     private boolean mWaitContactResult;
     private boolean mWaitForAll;
+    private boolean mWindowInTransition;
+    private boolean mPendingResume;
 
     public static void saveThemeApplys(int themeId) {
         if (isThemeAppliedEver(themeId)) {
@@ -1618,6 +1620,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void resumeAnimation() {
+        if (mWindowInTransition) {
+            mPendingResume = true;
+            return;
+        }
+
         if (themeReady) {
             resumed = true;
             previewWindow.setVisibility(VISIBLE);
@@ -1920,11 +1927,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onWindowTransitionStart() {
-
+        mWindowInTransition = true;
     }
 
     public void onWindowTransitionEnd() {
-
+        mWindowInTransition = false;
+        if (mPendingResume) {
+            resumeAnimation();
+            mPendingResume = false;
+        }
     }
 
     private class ProgressHelper {
@@ -2261,10 +2272,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     Toast.makeText(context, "network is available",
                             Toast.LENGTH_SHORT).show();
                     onThemeLoading();
-                    previewWindow.setVisibility(INVISIBLE);
                     intoDownloadingMode();
-                } else {
-                    previewWindow.setVisibility(VISIBLE);
                 }
 
             }
