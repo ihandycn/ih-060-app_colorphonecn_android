@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -114,6 +116,28 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             }
         }
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH_AND_CLOSE_WINDOW, this);
+
+        setUpPrivacyTextView();
+    }
+
+    private void setUpPrivacyTextView() {
+        final String privacyPolicyStr = Constants.getUrlPrivacy();
+        if (!TextUtils.isEmpty(privacyPolicyStr)) {
+            TextView privacyPolicy = findViewById(R.id.start_guide_policy);
+            if (privacyPolicy != null) {
+                privacyPolicy.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+                privacyPolicy.setOnClickListener(v -> Navigations.startActivitySafely(StartGuideActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyStr))));
+            }
+        }
+
+        final String termServiceStr = Constants.getUrlTermServices();
+        if (!TextUtils.isEmpty(termServiceStr)) {
+            TextView termsOfService = findViewById(R.id.start_guide_service);
+            if (termsOfService != null) {
+                termsOfService.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+                termsOfService.setOnClickListener(v ->  Navigations.startActivitySafely(StartGuideActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(termServiceStr))));
+            }
+        }
     }
 
     @Override

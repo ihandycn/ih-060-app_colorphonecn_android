@@ -39,7 +39,7 @@
 
         <Button
             android:id="@+id/start_guide_function_enable_btn"
-            app:layout_widthPercent="48.5%"
+            app:layout_widthPercent="64.1%"
             android:layout_height="48dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
@@ -49,14 +49,53 @@
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:textSize="16sp" />
-    </android.support.percent.PercentRelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_launcher_policy_service_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="70dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/start_guide_policy"
+            android:text="@string/privacy_policy"
+            android:textColor="@color/start_guide_text_selector"
+            android:textSize="10sp"
+            app:typeface="@string/custom_font_regular"
+            tools:ignore="SmallSp"/>
+
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" &amp; "
+            android:textColor="#4cffffff"
+            android:textSize="10sp"
+            app:typeface="@string/custom_font_regular"
+            tools:ignore="SmallSp"/>
+
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/start_guide_service"
+            android:text="@string/terms_of_service"
+            android:textColor="@color/start_guide_text_selector"
+            android:textSize="10sp"
+            app:typeface="@string/custom_font_regular"
+            tools:ignore="SmallSp"/>
+    </LinearLayout>
+
+</android.support.percent.PercentRelativeLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/start_guide_permission_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:visibility="gone">
         
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/start_guide_permission_anim"
