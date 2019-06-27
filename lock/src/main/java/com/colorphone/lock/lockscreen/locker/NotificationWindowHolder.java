@@ -107,8 +107,13 @@ public class NotificationWindowHolder implements NotificationObserver {
     @Override
     public void onReceive(AppNotificationInfo info) {
         LockNotificationManager.getInstance().logEvent("ColorPhone_" + getSourceName(mSource) + "_Notification_Receive", info.packageName);
-        mSlidingWindow.setVisibility(View.VISIBLE);
-        changeNotificationWindow(info);
+        boolean userEnabled = mSource == SOURCE_LOCKER ?
+                LockerSettings.needShowNotificationLocker()
+                : LockerSettings.needShowNotificationCharging();
+        if (userEnabled) {
+            mSlidingWindow.setVisibility(View.VISIBLE);
+            changeNotificationWindow(info);
+        }
     }
 
     private String getSourceName(int source) {
