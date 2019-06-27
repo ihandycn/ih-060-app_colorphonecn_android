@@ -732,6 +732,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private ViewChangeObserver observer = new ViewChangeObserver() {
         @Override
         public void onReceive(AppNotificationInfo info) {
+            LockNotificationManager.getInstance().logEvent("ColorPhone_LockScreen_Notification_Receive");
             mNotificationWindowHolder.mSlidingWindow.setVisibility(VISIBLE);
             mNotificationWindowHolder.changeNotificationWindow();
         }

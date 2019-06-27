@@ -2,6 +2,10 @@ package com.colorphone.lock.lockscreen;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
@@ -10,6 +14,10 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.colorphone.lock.BuildConfig;
+import com.colorphone.lock.LockerCustomConfig;
+import com.colorphone.lock.ScreenStatusReceiver;
+import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 
 import java.lang.reflect.Field;
@@ -18,14 +26,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+@TargetApi (Build.VERSION_CODES.KITKAT)
 public class LockNotificationManager {
 
     private static LockNotificationManager lockNotificationManager;
+    private final String mDefaultPhone;
+    private final String mDefaultSMS;
     private AppNotificationInfo info;
     private List<ViewChangeObserver> list = new ArrayList<>();
+    private List<String> mWantedAppList = new ArrayList<>();
 
     public AppNotificationInfo getInfo() {
         return info;
+    }
+
+    private LockNotificationManager() {
+        List<String> whiteList = (List<String>) HSConfig.getList("Application", "Locker", "Notification", "WhiteList");
+
+        mDefaultSMS = findDefaultSMSPkg();
+        mDefaultPhone = findDefaultDialerPkg();
+
+        for (String appName : whiteList) {
+            String pkgName = appName;
+            if ("Phone".equalsIgnoreCase(appName)) {
+                pkgName = mDefaultPhone;
+            } else if ("Text".equalsIgnoreCase(appName)) {
+                pkgName = mDefaultSMS;
+            }
+            if (!TextUtils.isEmpty(pkgName)) {
+                mWantedAppList.add(pkgName);
+            }
+        }
     }
 
     public static LockNotificationManager getInstance() {
@@ -35,14 +66,27 @@ public class LockNotificationManager {
         return lockNotificationManager;
     }
 
-
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public void getNotificationInfo(StatusBarNotification statusBarNotification) {
+    public void onNotificationPosted(StatusBarNotification statusBarNotification) {
         if (BuildConfig.DEBUG) {
-            HSLog.e("Lock", "New notification:" + 11);
+            HSLog.e("LockNotificationManager", "New notification:" + 11);
         }
-        info = loadNotificationInfo(statusBarNotification);
-        sendNotification();
+
+        if (isNotificationWanted(statusBarNotification)) {
+            boolean isScreenOn = ScreenStatusReceiver.isScreenOn();
+
+            if (!isScreenOn && list.isEmpty()) {
+                LockerCustomConfig.getLogger().logEvent("ColorPhone_Notification_Missed_ScreenOff",
+                        "Source", getEventSourceName(statusBarNotification.getPackageName()));
+            }
+            info = loadNotificationInfo(statusBarNotification);
+            sendNotification();
+        }
+    }
+
+    private boolean isNotificationWanted(StatusBarNotification statusBarNotification) {
+        String pkgName = statusBarNotification.getPackageName();
+        return mWantedAppList.contains(pkgName);
     }
 
 
@@ -163,6 +207,55 @@ public class LockNotificationManager {
 
     public void unregisterForThemeStateChange(ViewChangeObserver observer) {
         list.remove(observer);
+    }
+
+    private String findDefaultDialerPkg() {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        Uri data = Uri.parse("tel:" + "911");
+        intent.setData(data);
+
+        PackageManager packageManager = HSApplication.getContext().getPackageManager();
+        final String myPkg = HSApplication.getContext().getPackageName();
+        List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, 0);
+        for (ResolveInfo resolveInfo : resolveInfos) {
+            if (!TextUtils.equals(resolveInfo.activityInfo.packageName, myPkg)) {
+                return resolveInfo.activityInfo.packageName;
+            }
+        }
+        return null;
+    }
+
+    private String findDefaultSMSPkg() {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        Uri data = Uri.parse("smsto:" + "911");
+        intent.setData(data);
+
+        PackageManager packageManager = HSApplication.getContext().getPackageManager();
+        final String myPkg = HSApplication.getContext().getPackageName();
+        List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, 0);
+        for (ResolveInfo resolveInfo : resolveInfos) {
+            if (!TextUtils.equals(resolveInfo.activityInfo.packageName, myPkg)) {
+                return resolveInfo.activityInfo.packageName;
+            }
+        }
+        return null;
+    }
+
+    private String getEventSourceName(String pkg) {
+        if (pkg.equalsIgnoreCase(mDefaultPhone)) {
+            return "Phone";
+        } else if (pkg.equalsIgnoreCase(mDefaultSMS)) {
+            return "Text";
+        }
+        return pkg;
+    }
+
+    public void logEvent(String event, String pkg) {
+        LockerCustomConfig.getLogger().logEvent(event,
+                "Source", getEventSourceName(pkg));
+    }
+    public void logEvent(String event) {
+        LockerCustomConfig.getLogger().logEvent(event);
     }
 }
 

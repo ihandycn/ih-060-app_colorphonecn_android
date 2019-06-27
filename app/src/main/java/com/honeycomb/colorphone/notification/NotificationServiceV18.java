@@ -46,7 +46,7 @@ public class NotificationServiceV18 extends NotificationListenerService {
         inServiceRunning = true;
         CallIntentManager.getInstance().recordAnswerCallIntent(statusBarNotification);
         MessageCenterManager.getInstance().showMessageAssistantIfProper(statusBarNotification);
-        LockNotificationManager.getInstance().getNotificationInfo(statusBarNotification);
+        LockNotificationManager.getInstance().onNotificationPosted(statusBarNotification);
         HSLog.e(TAG, "New notification: " + statusBarNotification);
     }
 

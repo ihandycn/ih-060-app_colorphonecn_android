@@ -1078,6 +1078,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     private ViewChangeObserver observer = new ViewChangeObserver() {
         @Override
         public void onReceive(AppNotificationInfo info) {
+            LockNotificationManager.getInstance().logEvent("ColorPhone_ChargingScreen_Notification_Receive");
             mNotificationWindowHolder.changeNotificationWindow();
         }
     };
