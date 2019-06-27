@@ -3,8 +3,10 @@ package com.colorphone.lock.lockscreen;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,8 +35,34 @@ public class LockNotificationManager {
     private final String mDefaultPhone;
     private final String mDefaultSMS;
     private AppNotificationInfo info;
-    private List<ViewChangeObserver> list = new ArrayList<>();
+    private List<NotificationObserver> list = new ArrayList<>();
     private List<String> mWantedAppList = new ArrayList<>();
+
+    public static Drawable getAppIcon(String packageName){
+        try {
+            PackageManager pm = HSApplication.getContext().getPackageManager();
+            ApplicationInfo info = pm.getApplicationInfo(packageName, 0);
+            return info.loadIcon(pm);
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        }
+        return null;
+    }
+
+    public static String getAppName(String packageName){
+        try {
+            PackageManager pm = HSApplication.getContext().getPackageManager();
+            ApplicationInfo info = pm.getApplicationInfo(packageName, 0);
+            return info.loadLabel(pm).toString();
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+
+        }
+        return null;
+    }
 
     public AppNotificationInfo getInfo() {
         return info;
@@ -196,16 +224,16 @@ public class LockNotificationManager {
 
 
     public void sendNotification() {
-        for (ViewChangeObserver observer : list) {
+        for (NotificationObserver observer : list) {
             observer.onReceive(info);
         }
     }
 
-    public void registerForThemeStateChange(ViewChangeObserver observer) {
+    public void registerForThemeStateChange(NotificationObserver observer) {
         list.add(observer);
     }
 
-    public void unregisterForThemeStateChange(ViewChangeObserver observer) {
+    public void unregisterForThemeStateChange(NotificationObserver observer) {
         list.remove(observer);
     }
 

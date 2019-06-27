@@ -8,8 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -41,20 +39,18 @@ import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
-import com.colorphone.lock.lockscreen.AppNotificationInfo;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
-import com.colorphone.lock.lockscreen.ViewChangeObserver;
 import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTip;
 import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTipRelativeLayout;
 import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTipView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingBubbleView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingQuantityView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.SlidingFinishRelativeLayout;
-import com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout;
+import com.colorphone.lock.lockscreen.locker.NotificationWindowHolder;
 import com.colorphone.lock.util.ViewUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -348,6 +344,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
         HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
 
+        LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
+
         // Life cycle
         LockScreensLifeCycleRegistry.setChargingScreenActive(true);
         LockerCustomConfig.get().onEventChargingViewShow();
@@ -358,7 +356,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     }
 
     public void onStart() {
-        LockNotificationManager.getInstance().registerForThemeStateChange(observer);
         if (isStart) {
             return;
         }
@@ -582,7 +579,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         toolTipContainer = (ToolTipRelativeLayout) mRootView.findViewById(R.id.charging_screen_show_tip_container);
 
         advertisementContainer = mRootView.findViewById(R.id.charging_screen_advertisement_container);
-        mNotificationWindowHolder = new NotificationWindowHolder();
+        mNotificationWindowHolder = new NotificationWindowHolder(mRootView, NotificationWindowHolder.SOURCE_CHARGING);
 //        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
 //        customizeContentContainer.setDismissCallback(new Runnable() {
 //            @Override
@@ -951,7 +948,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
 
         cancelChargingStateAlphaAnimation();
-        LockNotificationManager.getInstance().unregisterForThemeStateChange(observer);
 
     }
 
@@ -969,6 +965,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         // Life cycle
         LockScreensLifeCycleRegistry.setChargingScreenActive(false);
         HSGlobalNotificationCenter.removeObserver(this);
+        LockNotificationManager.getInstance().unregisterForThemeStateChange(mNotificationWindowHolder);
 
     }
 
@@ -1007,79 +1004,4 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         mActivityMode = activityMode;
     }
 
-    private class NotificationWindowHolder {
-        private RelativeLayout mNotificationWindow;
-        private SlidingNotificationLayout mSlidingWindow;
-
-        private ImageView mSourceAppAvatar;
-        private TextView mAppNameAndSendTime;
-        private TextView mSenderName;
-        private ImageView mSenderAvatar;
-        private TextView mNoticationContent;
-
-        public NotificationWindowHolder() {
-            mSlidingWindow = mRootView.findViewById(R.id.lock_sliding_window);
-            mSlidingWindow.setClickable(true);
-            mNotificationWindow = mRootView.findViewById(R.id.lock_notification_window);
-
-            mSourceAppAvatar = mRootView.findViewById(R.id.source_app_avatar);
-            mAppNameAndSendTime = mRootView.findViewById(R.id.source_app_name);
-            mSenderAvatar = mRootView.findViewById(R.id.sender_avatar);
-            mSenderName = mRootView.findViewById(R.id.sender_name);
-            mNoticationContent = mRootView.findViewById(R.id.notification_content);
-
-        }
-
-        public void changeNotificationWindow() {
-            mSenderName.setText(getInfo().title);
-            mNoticationContent.setText(getInfo().content);
-            mSenderAvatar.setImageBitmap(getInfo().notification.largeIcon);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                mSourceAppAvatar.setBackground(getAppIcon(getInfo().packageName));
-            }
-            SimpleDateFormat sdf = new SimpleDateFormat("", Locale.SIMPLIFIED_CHINESE);
-            sdf.applyPattern("HH:mm");
-            mAppNameAndSendTime.setText(getAppName(getInfo().packageName) + "·" + sdf.format(getInfo().when));
-        }
-
-        private AppNotificationInfo getInfo() {
-            return LockNotificationManager.getInstance().getInfo();
-        }
-
-        public Drawable getAppIcon(String packageName){
-            try {
-                PackageManager pm = getContext().getPackageManager();
-                ApplicationInfo info = pm.getApplicationInfo(packageName, 0);
-                return info.loadIcon(pm);
-            } catch (PackageManager.NameNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-
-            }
-            return null;
-        }
-
-        public String getAppName(String packname){
-            try {
-                PackageManager pm = getContext().getPackageManager();
-                ApplicationInfo info = pm.getApplicationInfo(packname, 0);
-                return info.loadLabel(pm).toString();
-            } catch (PackageManager.NameNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-
-            }
-            return null;
-        }
-
-
-    }
-
-    private ViewChangeObserver observer = new ViewChangeObserver() {
-        @Override
-        public void onReceive(AppNotificationInfo info) {
-            LockNotificationManager.getInstance().logEvent("ColorPhone_ChargingScreen_Notification_Receive");
-            mNotificationWindowHolder.changeNotificationWindow();
-        }
-    };
 }
