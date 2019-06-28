@@ -27,6 +27,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -459,7 +460,7 @@ public class NotificationUtils {
         int maxId = HSPreferenceHelper.getDefault().getInt(NotificationConstants.PREFS_NOTIFICATION_OLD_MAX_ID, 26);
         Theme notificationType = null;
         int tempIndex = Integer.MAX_VALUE;
-        for (Theme theme : Theme.themes()) {
+        for (Theme theme : ThemeList.themes()) {
             if (theme.getId() < maxId
                     && !theme.isHot()
                     && theme.isMedia()

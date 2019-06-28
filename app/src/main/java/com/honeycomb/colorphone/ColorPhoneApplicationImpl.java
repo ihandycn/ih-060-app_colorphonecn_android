@@ -50,6 +50,7 @@ import com.honeycomb.colorphone.boost.SystemAppsManager;
 import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
 import com.honeycomb.colorphone.cmgame.CmGameUtil;
 import com.honeycomb.colorphone.cmgame.GameInit;
+import com.honeycomb.colorphone.cmgame.NotificationBarInit;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
@@ -73,7 +74,6 @@ import com.honeycomb.colorphone.util.ChannelInfoUtil;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.ModuleUtils;
-import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
@@ -81,7 +81,6 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.HSSessionMgr;
-import com.ihs.app.utils.HSVersionControlUtils;
 import com.ihs.chargingimprover.ChargingImproverManager;
 import com.ihs.chargingreport.ChargingReportCallback;
 import com.ihs.chargingreport.ChargingReportConfiguration;
@@ -95,6 +94,8 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.ihs.device.monitor.usage.monitor.AppMobileMonitorMgr;
+import com.ihs.device.monitor.usage.monitor.AppUsageMonitorMgr;
 import com.ihs.device.permanent.HSPermanentUtils;
 import com.ihs.libcharging.HSChargingManager;
 import com.ihs.permission.HSPermissionRequestMgr;
@@ -179,6 +180,13 @@ public class ColorPhoneApplicationImpl {
             if (HSNotificationConstant.HS_SESSION_START.equals(notificationName)) {
                 Analytics.logEvent("ColorPhone_Session_Start");
                 checkModuleAdPlacement();
+
+                /*
+                 *  Because we disabled {@link com.ihs.device.monitor.usage.UsageBroadcastReceiver}, handle it ourself.
+                 */
+                AppUsageMonitorMgr.getInstance().handleOnSessionStart();
+                AppMobileMonitorMgr.getInstance().handleOnSessionStart();
+
                 HSLog.d("Session Start.");
             } else if (HSNotificationConstant.HS_SESSION_END.equals(notificationName)) {
                 HSLog.d("Session End.");
@@ -186,8 +194,8 @@ public class ColorPhoneApplicationImpl {
             } else if (HSNotificationConstant.HS_CONFIG_CHANGED.equals(notificationName)) {
                 checkModuleAdPlacement();
                 // Call-Themes update timely.
-                Theme.updateThemesTotally();
-                initNotificationToolbar();
+                ThemeList.getInstance().updateThemesTotally();
+                NotificationManager.getInstance().showNotificationToolbarIfEnabled();
                 ConfigChangeManager.getInstance().onChange(ConfigChangeManager.REMOTE_CONFIG);
 
                 CrashGuard.updateIgnoredCrashes();
@@ -198,8 +206,12 @@ public class ColorPhoneApplicationImpl {
                 ColorPhonePermanentUtils.checkAliveForProcess();
             } else if (SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE.equals(notificationName)) {
                 BoostActivity.start(HSApplication.getContext(), ResultConstants.RESULT_TYPE_BOOST_LOCKER);
-            } else {
-                checkModuleAdPlacement();
+            } else if (Constants.NOTIFY_KEY_APP_FULLY_DISPLAY.equals(notificationName)) {
+                for (AppInit appInit : mAppInitList) {
+                    if (appInit.afterAppFullyDisplay()) {
+                        appInit.onInit(mBaseApplication);
+                    }
+                }
             }
         }
     };
@@ -246,11 +258,13 @@ public class ColorPhoneApplicationImpl {
         mBaseApplication = application;
     }
 
+    @DebugLog
     public void onCreate() {
         systemFix();
         mAppInitList.add(new GdprInit());
         mAppInitList.add(new ScreenFlashInit());
         mAppInitList.add(new GameInit());
+        mAppInitList.add(new NotificationBarInit());
 
         onAllProcessCreated();
 
@@ -270,18 +284,6 @@ public class ColorPhoneApplicationImpl {
 
     private void onWorkProcessCreate() {
         HSPermanentUtils.setJobSchedulePeriodic(2 * DateUtils.HOUR_IN_MILLIS);
-    }
-
-    private void initNotificationToolbar() {
-        if (HSVersionControlUtils.isFirstLaunchSinceInstallation() || HSVersionControlUtils.isFirstLaunchSinceUpgrade()) {
-            UserSettings.checkNotificationToolbarToggleClicked();
-        }
-
-        if (!UserSettings.isNotificationToolbarToggleClicked()) {
-            UserSettings.setNotificationToolbarEnabled(ModuleUtils.isNotificationToolBarEnabled());
-        }
-
-        NotificationManager.getInstance().showNotificationToolbarIfEnabled();
     }
 
 
@@ -345,7 +347,12 @@ public class ColorPhoneApplicationImpl {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         FileDownloader.setup(mBaseApplication);
 
-        initAutopilot();
+        Threads.postOnSingleThreadExecutor(new Runnable() {
+            @Override
+            public void run() {
+                initAutopilot();
+            }
+        });
 
         HSPermanentUtils.initKeepAlive(
                 true,
@@ -399,19 +406,18 @@ public class ColorPhoneApplicationImpl {
     @DebugLog
     private void onMainProcessCreate() {
         CrashFix.fix();
-        copyMediaFromAssertToFile();
-        DauChecker.get().start();
 
         for (AppInit appInit : mAppInitList) {
-            if (appInit.onlyInMainProcess()) {
+            if (appInit.onlyInMainProcess() && !appInit.afterAppFullyDisplay()) {
                 appInit.onInit(mBaseApplication);
             }
         }
+        ThemeList.getInstance().initThemes();
+
+        copyMediaFromAssertToFile();
 
         // Only restore tasks here.
         TasksManager.getImpl().init();
-        Theme.updateThemes();
-        ThemeList.updateThemes(true);
 
         mBaseApplication.registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
         AcbAds.getInstance().initializeFromGoldenEye(mBaseApplication, new AcbAds.GoldenEyeInitListener() {
@@ -457,7 +463,6 @@ public class ColorPhoneApplicationImpl {
 
         initChargingReport();
         initLockerCharging();
-        initNotificationToolbar();
 
         Glide.get(mBaseApplication).setMemoryCategory(MemoryCategory.HIGH);
         String popularThemeBgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
@@ -481,7 +486,7 @@ public class ColorPhoneApplicationImpl {
 
         watchLifeTimeAutopilot();
 
-
+        DauChecker.get().start();
         if (mDailyLogger != null) {
             mDailyLogger.checkAndLog();
         }
@@ -493,7 +498,7 @@ public class ColorPhoneApplicationImpl {
         mBaseApplication.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Theme.updateThemes();
+                ThemeList.getInstance().updateThemes(false);
             }
         }, configFinishedFilter, AcbNotificationConstant.getSecurityPermission(mBaseApplication), null);
     }

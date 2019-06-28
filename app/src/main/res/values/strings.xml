@@ -329,4 +329,6 @@
     <string name="ad_activity_label">广告</string>
     <string name="settings_screen_notification_title">显示通知</string>
     <string name="settings_screen_notification_hint">在充电锁屏上显示通知消息</string>
+
+    <string name="theme_preview_guide_content">滑动查看更多</string>
 </resources>

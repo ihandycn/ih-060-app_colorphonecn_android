@@ -1,6 +1,5 @@
 package com.honeycomb.colorphone.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -14,9 +13,6 @@ import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
-import com.honeycomb.colorphone.recentapp.SmartAssistantActivity;
-import com.honeycomb.colorphone.util.Utils;
-import com.ihs.app.framework.HSApplication;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -74,8 +70,6 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void startRecentApp(View view) {
-        Intent recentApp = new Intent(HSApplication.getContext(), SmartAssistantActivity.class);
-        Utils.startActivitySafely(HSApplication.getContext(), recentApp);
     }
 
     public void checkFloatWindow(View view) {

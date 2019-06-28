@@ -344,14 +344,6 @@
             android:taskAffinity=".acb_interstitial_quiet"
             android:theme="@style/AppTranslucent" />
 
-        <activity
-            android:name=".recentapp.SmartAssistantActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:taskAffinity=".recentapps"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
         <activity android:name="com.call.assistant.ui.CallIdleAlertActivity"
             android:icon="@drawable/icon_callassistant"
             android:label="@string/title_callassistant_activity"/>
@@ -714,6 +706,15 @@
             android:excludeFromRecents="true"
             android:label="@string/title_locker_activity" />
 
+
+        <!--Override  - Tag : process-->
+
+        <receiver
+            android:name="com.ihs.device.clean.memory.MemoryReceiver"
+            tools:node="remove" />
+        <receiver
+            android:name="com.ihs.device.monitor.usage.UsageBroadcastReceiver"
+            tools:node="remove" />
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->

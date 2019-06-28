@@ -12,6 +12,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.config.HSConfig;
@@ -160,7 +161,7 @@ public class ThemeGuide {
         List allGuideThemesIds = HSConfig.getList("Application", "ThemeGuide");
 
         if (allGuideThemesIds != null && allGuideThemesIds.size() > 0) {
-            List<Theme> allThemes = Theme.themes();
+            List<Theme> allThemes = ThemeList.themes();
             int currentIndex = HSPreferenceHelper.getDefault().getInt(PREFS_SCREEN_FLASH_THEME_ID, Utils.getDefaultThemeId());
             String current = "";
             for (Theme theme : allThemes) {

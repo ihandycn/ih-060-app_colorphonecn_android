@@ -36,7 +36,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -50,8 +49,6 @@ import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -83,6 +80,7 @@ import com.colorphone.lock.ReflectionHelper;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSSessionMgr;
 import com.ihs.commons.config.HSConfig;
@@ -112,9 +110,6 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.view.View.SYSTEM_UI_FLAG_FULLSCREEN;
-import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 import static android.view.View.VISIBLE;
 
 public final class Utils {
@@ -1208,7 +1203,7 @@ public final class Utils {
 
     public static int getDefaultThemeId() {
         String defaultThemeId = HSConfig.optString("DeepLove", "Application", "Theme", "DefaultThemeID");
-        for (Theme theme : Theme.themes()) {
+        for (Theme theme : ThemeList.themes()) {
             if (TextUtils.equals(theme.getIdName(), defaultThemeId)) {
                 return theme.getId();
             }

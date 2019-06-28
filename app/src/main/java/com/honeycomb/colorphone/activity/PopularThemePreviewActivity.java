@@ -7,6 +7,7 @@ import android.content.Intent;
 
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.theme.ThemeList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class PopularThemePreviewActivity extends ThemePreviewActivity {
     @Override
     protected List<Theme> getThemes() {
         List<Theme> list = new ArrayList<>();
-        for (Theme theme : Theme.themes()) {
+        for (Theme theme : ThemeList.themes()) {
             if (theme.isSpecialTopic()) {
                 list.add(theme);
             }
