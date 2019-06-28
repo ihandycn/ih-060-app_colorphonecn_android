@@ -113,8 +113,12 @@ public class LockNotificationManager {
                 LockerCustomConfig.getLogger().logEvent("ColorPhone_Notification_Missed_ScreenOff",
                         "Source", getEventSourceName(statusBarNotification.getPackageName()));
             }
-            info = loadNotificationInfo(statusBarNotification);
-            sendNotification();
+            AppNotificationInfo appNotificationInfo = loadNotificationInfo(statusBarNotification);
+            boolean isValid = !TextUtils.isEmpty(appNotificationInfo.content) && !TextUtils.isEmpty(appNotificationInfo.title);
+            if (isValid) {
+                info = appNotificationInfo;
+                sendNotification();
+            }
         }
     }
 
