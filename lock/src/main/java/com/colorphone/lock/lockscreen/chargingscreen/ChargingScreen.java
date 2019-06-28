@@ -75,6 +75,7 @@ import java.util.Random;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.colorphone.lock.ScreenStatusReceiver.NOTIFICATION_SCREEN_ON;
 import static com.colorphone.lock.lockscreen.locker.Locker.getDeviceInfo;
 import static com.ihs.libcharging.HSChargingManager.HSChargingState.STATE_DISCHARGING;
 
@@ -345,6 +346,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
         HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
 
+        HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
 
         // Life cycle
@@ -971,6 +973,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         LockScreensLifeCycleRegistry.setChargingScreenActive(false);
         HSGlobalNotificationCenter.removeObserver(this);
         LockNotificationManager.getInstance().unregisterForThemeStateChange(mNotificationWindowHolder);
+        HSGlobalNotificationCenter.removeObserver(mNotificationWindowHolder);
 
     }
 

@@ -17,6 +17,8 @@ import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.NotificationObserver;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.notificationcenter.INotificationObserver;
+import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -24,7 +26,9 @@ import com.superapps.util.Dimensions;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class NotificationWindowHolder implements NotificationObserver {
+import static com.colorphone.lock.ScreenStatusReceiver.NOTIFICATION_SCREEN_ON;
+
+public class NotificationWindowHolder implements NotificationObserver, INotificationObserver {
 
     public static final int SOURCE_LOCKER = 1;
     public static final int SOURCE_CHARGING = 2;
@@ -107,6 +111,9 @@ public class NotificationWindowHolder implements NotificationObserver {
             LockNotificationManager.getInstance().logEvent("ColorPhone_" + getSourceName(mSource) + "_Notification_Show",
                     info.packageName);
         }
+        if (mAppNotificationInfo == info) {
+            return;
+        }
         mAppNotificationInfo = info;
         mSenderName.setText(info.title);
         mNotificationContent.setText(info.content);
@@ -137,5 +144,15 @@ public class NotificationWindowHolder implements NotificationObserver {
 
     private String getSourceName(int source) {
         return source == SOURCE_CHARGING ? " ChargingScreen" : "LockScreen";
+    }
+
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
+        if (NOTIFICATION_SCREEN_ON.equalsIgnoreCase(s)) {
+            if (mAppNotificationInfo != null) {
+                LockNotificationManager.getInstance().logEvent("ColorPhone_" + getSourceName(mSource) + "_Notification_Show",
+                        mAppNotificationInfo.packageName);
+            }
+        }
     }
 }
