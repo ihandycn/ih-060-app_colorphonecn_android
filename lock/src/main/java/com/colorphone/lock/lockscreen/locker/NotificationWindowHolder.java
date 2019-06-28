@@ -16,6 +16,7 @@ import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.NotificationObserver;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.utils.HSLog;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -55,7 +56,15 @@ public class NotificationWindowHolder implements NotificationObserver {
         mNotificationWindow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                HSLog.d("NotificationWindow clicked");
                 onClickNotification();
+            }
+        });
+
+        mSlidingWindow.setOnViewDismissCallback(new SlidingNotificationLayout.OnViewDismissCallback() {
+            @Override
+            public void onDismiss(View v) {
+                mSlidingWindow.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -69,6 +78,9 @@ public class NotificationWindowHolder implements NotificationObserver {
     }
 
     private void onClickNotification() {
+        if (mAppNotificationInfo == null) {
+            return;
+        }
         LockNotificationManager.getInstance().logEvent("ColorPhone_" + getSourceName(mSource) + "_Notification_Click",
                 getInfo().packageName);
 

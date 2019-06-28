@@ -13,6 +13,7 @@ public class SlidingNotificationLayout extends RelativeLayout {
 
 
     private ViewDragHelper mViewDragHelper;
+    private OnViewDismissCallback mOnViewDismissCallback;
 
     int mDragOriLeft;
     int mDragOriTop;
@@ -104,6 +105,13 @@ public class SlidingNotificationLayout extends RelativeLayout {
                 mViewDragHelper.settleCapturedViewAt((int) mDragOriLeft, (int) mDragOriTop);
             }
 
+            if (toDisssmiss) {
+                setVisibility(INVISIBLE);
+                if (mOnViewDismissCallback != null) {
+                    mOnViewDismissCallback.onDismiss(SlidingNotificationLayout.this);
+                }
+            }
+
             invalidate();
         }
     };
@@ -120,5 +128,13 @@ public class SlidingNotificationLayout extends RelativeLayout {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         getParent().requestDisallowInterceptTouchEvent(true);
         return super.dispatchTouchEvent(ev);
+    }
+
+    public void setOnViewDismissCallback(OnViewDismissCallback onViewDismissCallback) {
+        mOnViewDismissCallback = onViewDismissCallback;
+    }
+
+    interface OnViewDismissCallback {
+        void onDismiss(View v);
     }
 }
