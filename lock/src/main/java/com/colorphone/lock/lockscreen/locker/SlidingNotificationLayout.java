@@ -1,17 +1,12 @@
 package com.colorphone.lock.lockscreen.locker;
 
 
-import android.app.PendingIntent;
 import android.content.Context;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.RelativeLayout;
-
-import com.colorphone.lock.lockscreen.LockNotificationManager;
 
 
 public class SlidingNotificationLayout extends RelativeLayout {
@@ -21,10 +16,6 @@ public class SlidingNotificationLayout extends RelativeLayout {
 
     int mDragOriLeft;
     int mDragOriTop;
-    boolean mScrolling;
-    private float touchDownX;
-    private float touchDownY;
-
 
     public SlidingNotificationLayout(Context context) {
         this(context, null);
@@ -54,27 +45,7 @@ public class SlidingNotificationLayout extends RelativeLayout {
      */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                touchDownX = ev.getX();
-                touchDownY = ev.getY();
-                mScrolling = false;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (Math.abs(touchDownX - ev.getX()) >= ViewConfiguration.get(getContext()).getScaledTouchSlop()||Math.abs(touchDownY - ev.getY()) >= ViewConfiguration.get(getContext()).getScaledTouchSlop()) {
-                    mScrolling = true;
-                } else {
-                    mScrolling = false;
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                mScrolling = false;
-                break;
-            default:
-                break;
-        }
-
-        return mViewDragHelper.shouldInterceptTouchEvent(ev) && mScrolling;
+        return mViewDragHelper.shouldInterceptTouchEvent(ev);
     }
 
     @Override
@@ -105,6 +76,10 @@ public class SlidingNotificationLayout extends RelativeLayout {
             mDragOriTop = capturedChild.getTop();
         }
 
+        @Override
+        public int getViewHorizontalDragRange(View child) {
+            return getMeasuredWidth();
+        }
 
         @Override
         public int clampViewPositionVertical(View child, int top, int dy) {
@@ -117,10 +92,14 @@ public class SlidingNotificationLayout extends RelativeLayout {
 
             final int childWidth = getWidth() / 2;
             float offset = (releasedChild.getLeft()) * 1.0f / childWidth;
+
+            boolean toDisssmiss = false;
             if (xvel > 0 && offset > 0.5f) {
                 mViewDragHelper.settleCapturedViewAt(getWidth(), (int) mDragOriTop);
+                toDisssmiss = true;
             } else if (xvel <= 0 && offset < -0.5f) {
                 mViewDragHelper.settleCapturedViewAt(-getWidth(), (int) mDragOriTop);
+                toDisssmiss = true;
             } else {
                 mViewDragHelper.settleCapturedViewAt((int) mDragOriLeft, (int) mDragOriTop);
             }
