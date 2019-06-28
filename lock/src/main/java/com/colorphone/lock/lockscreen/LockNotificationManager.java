@@ -34,6 +34,7 @@ public class LockNotificationManager {
     private static LockNotificationManager lockNotificationManager;
     private final String mDefaultPhone;
     private final String mDefaultSMS;
+    private final List<String> eventPkgList;
     private AppNotificationInfo info;
     private List<NotificationObserver> list = new ArrayList<>();
     private List<String> mWantedAppList = new ArrayList<>();
@@ -70,7 +71,7 @@ public class LockNotificationManager {
 
     private LockNotificationManager() {
         List<String> whiteList = (List<String>) HSConfig.getList("Application", "Locker", "Notification", "WhiteList");
-
+        eventPkgList = (List<String>) HSConfig.getList("Application", "Locker", "NotificationAll");
         mDefaultSMS = findDefaultSMSPkg();
         mDefaultPhone = findDefaultDialerPkg();
 
@@ -98,6 +99,11 @@ public class LockNotificationManager {
     public void onNotificationPosted(StatusBarNotification statusBarNotification) {
         if (BuildConfig.DEBUG) {
             HSLog.e("LockNotificationManager", "New notification:" + 11);
+        }
+
+        if (eventPkgList.contains(statusBarNotification.getPackageName())) {
+            LockerCustomConfig.getLogger().logEvent("ColorPhone_Notification_Receive_All",
+                    "Source",  statusBarNotification.getPackageName());
         }
 
         if (isNotificationWanted(statusBarNotification)) {
