@@ -73,7 +73,7 @@
 				<key>Enable</key>
 				<true/>
 				<key>FloatingGuide</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>Charging</key>
 			<dict>
@@ -191,7 +191,7 @@
 				<key>Xiaomi</key>
 				<dict>
 					<key>Enable</key>
-					<false/>
+					<true/>
 					<key>EnabledOsVersion</key>
 					<array>
 						<integer>28</integer>
@@ -948,8 +948,17 @@
 				<dict>
 					<key>Enable</key>
 					<true/>
+					<key>NotShowOnScreen</key>
+					<true/>
 					<key>ShowAds</key>
 					<true/>
+					<key>SourceSwitch</key>
+					<dict>
+						<key>SMS</key>
+						<true/>
+						<key>WeChat</key>
+						<true/>
+					</dict>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
 				</dict>

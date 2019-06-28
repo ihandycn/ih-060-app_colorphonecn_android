@@ -14,7 +14,8 @@ public class AutoLogger {
     public static void logAutomaticPermissionFailed(String typeName, String reason) {
         Analytics.logEvent("Automatic_Failed_" + getBrand() + "_" + formatPermissionName(typeName),
                 "Reason", reason == null ? "Null" : reason,
-                "Os", getOSVersion());
+                "Os", getOSVersion(), "Version", RomUtils.getRomVersion());
+
     }
 
     public static void logEvent(String EventID, String... values) {

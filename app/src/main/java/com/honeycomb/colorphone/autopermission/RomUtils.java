@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.autopermission;
 
 import com.ihs.permission.rom.RomInfoManager;
+import com.superapps.util.Compats;
 
 public class RomUtils {
     public static final String KEY_VERSION_MIUI = "ro.miui.ui.version.name";
@@ -12,7 +13,16 @@ public class RomUtils {
     public static final String KEY_VERSION_LENOVO = "ro.lenovo.lvp.version";
     public static final String KEY_VERSION_FLYME = "ro.build.display.id";
 
-    public static String getRomVerison(String key) {
+    public static String getRomVersion() {
+        if (Compats.IS_XIAOMI_DEVICE) {
+            return getRomVersion(KEY_VERSION_MIUI);
+        } else if (Compats.IS_HUAWEI_DEVICE) {
+            return  getRomVersion(KEY_VERSION_EMUI);
+        }
+        return "Unknown";
+    }
+
+    private static String getRomVersion(String key) {
         String systemProperties = RomInfoManager.getSystemPropertiesByKey(key);
         if (key.contains("miui.ui.version.name")) {
             systemProperties = systemProperties.replaceAll("V", "");
