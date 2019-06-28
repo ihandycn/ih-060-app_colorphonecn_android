@@ -61,7 +61,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.colorphone.lock.ScreenStatusReceiver.NOTIFICATION_SCREEN_ON;
 
 
-public class LockerMainFrame extends RelativeLayout implements INotificationObserver, SlidingDrawer.SlidingDrawerListener{
+public class LockerMainFrame extends RelativeLayout implements INotificationObserver, SlidingDrawer.SlidingDrawerListener, NotificationWindowHolder.NotificationClickCallback {
 
     public static final String EVENT_SLIDING_DRAWER_OPENED = "EVENT_SLIDING_DRAWER_OPENED";
     public static final String EVENT_SLIDING_DRAWER_CLOSED = "EVENT_SLIDING_DRAWER_CLOSED";
@@ -153,7 +153,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         if (!FloatWindowCompat.needsSystemErrorFloatWindow()) {
             setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(HSApplication.getContext()));
         }
-        mNotificationWindowHolder = new NotificationWindowHolder(this, NotificationWindowHolder.SOURCE_LOCKER);
+        mNotificationWindowHolder = new NotificationWindowHolder(this, NotificationWindowHolder.SOURCE_LOCKER, this);
         mDimCover = findViewById(R.id.dim_cover);
         mSlidingDrawerContent = (SlidingDrawerContent) findViewById(R.id.sliding_drawer_content);
         //mDrawerHandleUp = findViewById(R.id.handle_action_up);
@@ -647,4 +647,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
 
+    @Override
+    public void onNotificationClick() {
+        mLockScreen.dismiss(getContext(), true);
+    }
 }

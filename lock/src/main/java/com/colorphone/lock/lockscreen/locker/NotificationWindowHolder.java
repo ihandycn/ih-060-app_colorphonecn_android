@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -43,12 +44,15 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     private ImageView mSenderAvatar;
     private TextView mNotificationContent;
     private AppNotificationInfo mAppNotificationInfo;
+    private final NotificationClickCallback mNotificationClickCallback;
 
     private final int mSource;
 
-    public NotificationWindowHolder(ViewGroup rootView, int source) {
+    public NotificationWindowHolder(ViewGroup rootView, int source, @Nullable NotificationClickCallback callback) {
         mSource = source;
         mContainerRoot = rootView;
+        mNotificationClickCallback = callback;
+
         mSlidingWindow = findViewById(R.id.lock_sliding_window);
         mSlidingWindow.setClickable(true);
         mNotificationWindow = findViewById(R.id.lock_notification_window);
@@ -104,6 +108,10 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                 e.printStackTrace();
             }
         }
+
+        if (mNotificationClickCallback != null) {
+            mNotificationClickCallback.onNotificationClick();
+        }
     }
 
     private void changeNotificationWindow(AppNotificationInfo info) {
@@ -154,5 +162,9 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                         mAppNotificationInfo.packageName);
             }
         }
+    }
+
+    public interface NotificationClickCallback {
+        void onNotificationClick();
     }
 }

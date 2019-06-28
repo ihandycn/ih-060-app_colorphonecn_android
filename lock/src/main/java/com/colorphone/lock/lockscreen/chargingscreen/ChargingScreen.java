@@ -80,7 +80,7 @@ import static com.colorphone.lock.lockscreen.locker.Locker.getDeviceInfo;
 import static com.ihs.libcharging.HSChargingManager.HSChargingState.STATE_DISCHARGING;
 
 
-public class ChargingScreen extends LockScreen implements INotificationObserver {
+public class ChargingScreen extends LockScreen implements INotificationObserver, NotificationWindowHolder.NotificationClickCallback {
 
     private static final String TAG = "CHARGING_SCREEN_ACTIVITY";
 
@@ -586,7 +586,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         toolTipContainer = (ToolTipRelativeLayout) mRootView.findViewById(R.id.charging_screen_show_tip_container);
 
         advertisementContainer = mRootView.findViewById(R.id.charging_screen_advertisement_container);
-        mNotificationWindowHolder = new NotificationWindowHolder(mRootView, NotificationWindowHolder.SOURCE_CHARGING);
+        mNotificationWindowHolder = new NotificationWindowHolder(mRootView, NotificationWindowHolder.SOURCE_CHARGING, this);
 //        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
 //        customizeContentContainer.setDismissCallback(new Runnable() {
 //            @Override
@@ -1012,4 +1012,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         mActivityMode = activityMode;
     }
 
+    @Override
+    public void onNotificationClick() {
+        dismiss(getContext(), true);
+    }
 }
