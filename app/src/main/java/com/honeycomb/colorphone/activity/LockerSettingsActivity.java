@@ -49,6 +49,8 @@ public class LockerSettingsActivity extends HSAppCompatActivity {
             TextView tv = findViewById(R.id.setting_item_charging_title);
             tv.setText(R.string.charging_improver_title);
         }
+        TextView lockTextView = findViewById(R.id.screen_notification_hint);
+        lockTextView.setText("在多彩屏保上显示通知消息");
         mModuleStates.add(new ModuleState(false,
                 false,
                 R.id.setting_item_charging_toggle,

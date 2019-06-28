@@ -35,7 +35,7 @@
   <string name="slide_to_unlock">滑动解锁</string>
   <string name="locker_slide_wallpaper_title">锁屏壁纸</string>
   <string name="locker_settings">锁屏设置</string>
-  <string name="locker_settings_title">锁屏</string>
+  <string name="locker_settings_title">多彩屏保</string>
   <string name="locker_settings_subtitle">内含广告</string>
   <string name="wallpaper_network_error">无可用连接，请重试</string>
 </resources>

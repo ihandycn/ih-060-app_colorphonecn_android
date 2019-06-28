@@ -59,6 +59,8 @@ public class ChargingSettingsActivity extends HSAppCompatActivity {
             TextView tv = findViewById(R.id.setting_item_charging_title);
             tv.setText(R.string.charging_improver_title);
         }
+        TextView lockTextView = findViewById(R.id.screen_notification_hint);
+        lockTextView.setText("在充电锁屏上显示通知消息");
         mModuleStates.add(new ModuleState(
                 chargingImproverOpen || SmartChargingSettings.isSmartChargingConfigEnabled(),
                 chargingImproverOpen ?

@@ -177,6 +177,7 @@
                     android:text="@string/settings_screen_notification_title" />
 
                 <com.honeycomb.colorphone.view.TypefacedTextView
+                    android:id="@+id/screen_notification_hint"
                     style="@style/NormalText.SettingsHint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
