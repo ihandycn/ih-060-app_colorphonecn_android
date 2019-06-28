@@ -12,6 +12,7 @@ import com.colorphone.lock.fullscreen.NotchTools;
 import com.colorphone.lock.fullscreen.core.NotchProperty;
 import com.colorphone.lock.fullscreen.core.OnNotchCallBack;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
+import com.colorphone.lock.lockscreen.chargingscreen.TimeDurationLogger;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
@@ -107,6 +108,7 @@ public class LockerActivity extends HSAppCompatActivity {
     protected void onStart() {
         super.onStart();
         mLocker.onStart();
+        TimeDurationLogger.start("LockScreen");
     }
 
     @Override
@@ -126,6 +128,7 @@ public class LockerActivity extends HSAppCompatActivity {
     protected void onStop() {
         super.onStop();
         mLocker.onStop();
+        TimeDurationLogger.stop();
     }
 
     @Override
