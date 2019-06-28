@@ -220,7 +220,7 @@
 			<key>FeedbackEmailAddress</key>
 			<string>support_colorphone@126.com</string>
 			<key>FeedbackURL</key>
-			<string>http://dev-service.appcloudbox.net/feedback</string>
+			<string>https://service.appcloudbox.net</string>
 			<key>FullScreen</key>
 			<dict>
 				<key>DetailView</key>
