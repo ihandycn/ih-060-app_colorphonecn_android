@@ -3,6 +3,7 @@ package com.colorphone.lock.lockscreen.locker;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.PowerManager;
 import android.support.v7.widget.AppCompatButton;
 import android.text.format.DateUtils;
@@ -43,6 +44,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.flashlight.FlashlightManager;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 
@@ -339,6 +341,10 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
                 mAdShown = true;
                 LockerCustomConfig.get().onEventLockerAdShow();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mAdContainer.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
+                    mAdContainer.setPadding(Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10));
+                }
             }
 
             @Override
@@ -354,7 +360,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private void showExpressAd() {
         if (expressAdView != null && expressAdView.getParent() == null) {
-            mAdContainer.setVisibility(View.VISIBLE);
+
             mAdContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
             expressAdView.switchAd();
         }

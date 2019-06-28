@@ -59,6 +59,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Bitmaps;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
@@ -431,6 +432,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
                 mAdShown = true;
                 LockerCustomConfig.get().onEventChargingAdShow();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    advertisementContainer.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
+                    advertisementContainer.setPadding(Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10));
+                }
             }
 
             @Override
@@ -446,7 +451,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
     private void showExpressAd() {
         if (expressAdView.getParent() == null) {
-            advertisementContainer.setVisibility(View.VISIBLE);
+
             advertisementContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
             expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
         }

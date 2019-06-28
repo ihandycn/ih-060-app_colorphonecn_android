@@ -2,6 +2,7 @@ package com.colorphone.lock.lockscreen.locker;
 
 import android.app.PendingIntent;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.NotificationObserver;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.BackgroundDrawables;
+import com.superapps.util.Dimensions;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -52,6 +55,10 @@ public class NotificationWindowHolder implements NotificationObserver {
         mSenderName = findViewById(R.id.sender_name);
         mNotificationContent = findViewById(R.id.notification_content);
         mSlidingWindow.setVisibility(View.INVISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mNotificationWindow.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
+            mSenderAvatar.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(3.3f), false));
+        }
 
         mNotificationWindow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +116,7 @@ public class NotificationWindowHolder implements NotificationObserver {
         }
         SimpleDateFormat sdf = new SimpleDateFormat("", Locale.SIMPLIFIED_CHINESE);
         sdf.applyPattern("HH:mm");
-        mAppNameAndSendTime.setText(LockNotificationManager.getAppName(info.packageName) + "·" + sdf.format(info.when));
+        mAppNameAndSendTime.setText(LockNotificationManager.getAppName(info.packageName) + " " + "·" + " " + sdf.format(info.when));
     }
 
     private AppNotificationInfo getInfo() {
