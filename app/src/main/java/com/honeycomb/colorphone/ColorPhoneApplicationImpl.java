@@ -287,7 +287,6 @@ public class ColorPhoneApplicationImpl {
         HSPermanentUtils.setJobSchedulePeriodic(2 * DateUtils.HOUR_IN_MILLIS);
     }
 
-
     public static boolean isFabricInited() {
         return isFabricInitted;
     }
