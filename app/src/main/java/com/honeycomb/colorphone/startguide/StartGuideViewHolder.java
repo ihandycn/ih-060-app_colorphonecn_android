@@ -32,6 +32,7 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
+import com.superapps.util.rom.RomUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -229,6 +230,23 @@ public class StartGuideViewHolder implements INotificationObserver {
                     AutoPermissionChecker.isNotificationListeningGranted() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
             setPermissionStatus(TYPE_PERMISSION_TYPE_BG_POP,
                     AutoPermissionChecker.hasBgPopupPermission() ? PERMISSION_STATUS_OK : PERMISSION_STATUS_LOADING);
+        }
+
+        if (RomUtils.checkIsHuaweiRom()) {
+            onLockerText.setVisibility(View.GONE);
+            onLockerOK.setVisibility(View.GONE);
+
+            bgPopText.setVisibility(View.GONE);
+            bgPopOK.setVisibility(View.GONE);
+            callOK.setVisibility(View.GONE);
+
+            if (isConfirmPage) {
+                onLockerFix.setVisibility(View.GONE);
+                bgPopFix.setVisibility(View.GONE);
+            } else {
+                onLockerLoading.setVisibility(View.GONE);
+                bgPopLoading.setVisibility(View.GONE);
+            }
         }
 
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFICATION_PERMISSION_RESULT, this);
@@ -444,6 +462,9 @@ public class StartGuideViewHolder implements INotificationObserver {
                 fix = callFix;
                 break;
             case TYPE_PERMISSION_TYPE_ON_LOCK:
+                if (RomUtils.checkIsHuaweiRom()) {
+                    return;
+                }
                 ok = onLockerOK;
                 loading = onLockerLoading;
                 text = onLockerText;
@@ -456,13 +477,15 @@ public class StartGuideViewHolder implements INotificationObserver {
                 fix = screenFlashFix;
                 break;
             case TYPE_PERMISSION_TYPE_BG_POP:
+                if (RomUtils.checkIsHuaweiRom()) {
+                    return;
+                }
                 ok = bgPopOK;
                 loading = bgPopLoading;
                 text = bgPopText;
                 fix = bgPopFix;
                 break;
             default:
-
                 return;
         }
 

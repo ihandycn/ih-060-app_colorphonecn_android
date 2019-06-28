@@ -331,4 +331,14 @@
     <string name="settings_screen_notification_hint">在充电锁屏上显示通知消息</string>
 
     <string name="theme_preview_guide_content">滑动查看更多</string>
+
+    <!-- Feedback -->
+    <string name="feedback_title">Feedback</string>
+    <string name="feedback_content_placeholder">" Your feedback helps us make improvements"</string>
+    <string name="feedback_email_placeholder">" Please enter your email address"</string>
+    <string name="feedback_submit_btn">SEND</string>
+    <string name="feedback_toast_empty_content">Please write your feedback</string>
+    <string name="feedback_toast_invalid_email">Please enter a valid email address</string>
+    <string name="feedback_toast_send_success">Thanks for your feedback!</string>
+
 </resources>

@@ -219,6 +219,8 @@
 			</dict>
 			<key>FeedbackEmailAddress</key>
 			<string>support_colorphone@126.com</string>
+			<key>FeedbackURL</key>
+			<string>http://dev-service.appcloudbox.net/feedback</string>
 			<key>FullScreen</key>
 			<dict>
 				<key>DetailView</key>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.honeycomb.colorphone.feedback.InsideScrollableScrollView android:id="@+id/feedback_scroll_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/feedback_bg"
+    android:focusable="true"
+    android:scrollbars="none"
+    android:theme="@style/Theme.TransparentWithNoTitle">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="14.7dp"
+        android:layout_marginRight="14.7dp"
+        android:layout_marginTop="19.3dp"
+        android:background="@drawable/feedback_bg"
+        android:orientation="vertical">
+
+        <!-- Title -->
+        <com.superapps.view.TypefacedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="21.7dp"
+            android:layout_marginLeft="@dimen/feedback_content_lr_margin"
+            android:layout_marginRight="@dimen/feedback_content_lr_margin"
+            android:layout_marginTop="9.7dp"
+            android:drawableLeft="@drawable/feedback_titlebar_ic"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:text="@string/feedback_title"
+            android:textColor="@color/feedback_primary"
+            android:textCursorDrawable="@drawable/feedback_edit_text_cursor"
+            android:textSize="18sp"
+            app:typeface="@string/custom_font_regular" />
+
+        <!-- Main input box -->
+        <EditText
+            android:id="@+id/feedback_content"
+            android:layout_width="match_parent"
+            android:layout_height="140.7dp"
+            android:layout_marginLeft="@dimen/feedback_content_lr_margin"
+            android:layout_marginRight="@dimen/feedback_content_lr_margin"
+            android:background="@drawable/feedback_input"
+            android:gravity="top"
+            android:hint="@string/feedback_content_placeholder"
+            android:textColor="@color/feedback_input_text"
+            android:textColorHint="@color/feedback_hint_text"
+            android:textCursorDrawable="@drawable/feedback_edit_text_cursor"
+            android:textSize="14sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="11.3dp" />
+
+        <!-- Email input box -->
+        <EditText
+            android:id="@+id/feedback_email"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_marginLeft="@dimen/feedback_content_lr_margin"
+            android:layout_marginRight="@dimen/feedback_content_lr_margin"
+            android:background="@drawable/feedback_input"
+            android:hint="@string/feedback_email_placeholder"
+            android:inputType="textEmailAddress"
+            android:lines="1"
+            android:textColor="@color/feedback_input_text"
+            android:textColorHint="@color/feedback_hint_text"
+            android:textCursorDrawable="@drawable/feedback_edit_text_cursor"
+            android:textSize="14sp" />
+
+        <!-- Submit button -->
+        <com.superapps.view.TypefacedTextView
+            android:id="@+id/feedback_submit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="76.7dp"
+            android:layout_marginBottom="43.7dp"
+            android:layout_marginLeft="16.7dp"
+            android:layout_marginRight="16.7dp"
+            android:layout_marginTop="4.7dp"
+            android:background="@drawable/feedback_btn"
+            android:clickable="true"
+            app:typeface="@string/custom_font_semibold"
+            android:gravity="center"
+            android:text="@string/feedback_submit_btn"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</com.honeycomb.colorphone.feedback.InsideScrollableScrollView>
