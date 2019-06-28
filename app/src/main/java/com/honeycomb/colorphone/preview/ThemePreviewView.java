@@ -175,7 +175,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public static boolean ifShowThemeApplyView = false;
     public static boolean isSelected = false;
-    private boolean mContactReturn = false;
     private TextView mEnjoyApplyBtn;
     private TextView mEnjoyApplyDefault;
     private TextView mEnjoyApplyForOne;
@@ -623,9 +622,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             Analytics.logEvent("ThemeDetail_SetForContact_Started");
             ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
         }
-        if (mTheme.hasRingtone()) {
-            mContactReturn = true;
-        }
+
         mWaitContactResult = true;
     }
 
@@ -863,6 +860,24 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void switchMode(int mode) {
         switchMode(mode, true);
+    }
+
+    private void setModeVisible(int mode, boolean visible) {
+        int visibleValue = visible ? VISIBLE : GONE;
+        switch (mode) {
+            case ENJOY_MODE:
+                mEnjoyThemeLayout.setVisibility(visibleValue);
+                break;
+            case PREVIEW_MODE:
+                callActionView.setVisibility(visibleValue);
+                mUserView.setVisibility(visibleValue);
+                mNumberName.setVisibility(visibleValue);
+                mCallName.setVisibility(visibleValue);
+                mActionLayout.setVisibility(visibleValue);
+                break;
+            default:
+                break;
+        }
     }
 
     private void intoDownloadingMode() {
@@ -1460,6 +1475,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void showRingtoneSetButton() {
+        setModeVisible(ENJOY_MODE, false);
+        setModeVisible(PREVIEW_MODE, false);
         mRingtoneViewHolder.showRingtoneSettings();
     }
 
@@ -1544,16 +1561,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     Utils.showApplyView(rootView, mNavBack);
                     ifShowThemeApplyView = false;
                 }
-                if (mContactReturn) {
-                    themeStateManager.sendNotification(ENJOY_MODE);
-                    intoDownloadingMode();
-                    mContactReturn = false;
-
-                } else {
-                    if (getThemeMode() == ENJOY_MODE) {
-                        mEnjoyApplyBtn.setVisibility(VISIBLE);
-                    }
-                }
 
                 onVideoReady(playTrans);
 
@@ -1565,9 +1572,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         } else {
             // Directly applicable
             onThemeReady(playTrans);
-            if (getThemeMode() == ENJOY_MODE) {
-                mEnjoyApplyBtn.setVisibility(VISIBLE);
-            }
         }
 
         if (hasRingtone)  {
@@ -2074,9 +2078,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             dimCover.setAlpha(0);
             dimCover.animate().alpha(1).setDuration(200);
 
-            mEnjoyThemeLayout.setVisibility(GONE);
             ringtoneSetLayout.setVisibility(VISIBLE);
-            ringtoneSetLayout.bringToFront();
             ringtoneSetLayout.setAlpha(1);
             ringtoneChangeBtn.setTranslationY(transYTop);
             ringtoneKeepBtn.setTranslationY(transYTop);
