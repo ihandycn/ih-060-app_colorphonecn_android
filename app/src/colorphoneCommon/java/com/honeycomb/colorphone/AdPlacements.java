@@ -6,8 +6,8 @@ package com.honeycomb.colorphone;
 
 public class AdPlacements {
     public static final String AD_CALL_OFF = "Lumen";
-    public static final String AD_CHARGING_SCREEN = "Cable";
-    public static final String AD_LOCKER = "Fuse";
+    public static final String AD_CHARGING_SCREEN = "CableNew";
+    public static final String AD_LOCKER = "FuseNew";
     public static final String AD_CHARGING_REPORT = "ChargingReportPlus";
     public static final String AD_MSG = "Texture";
 
