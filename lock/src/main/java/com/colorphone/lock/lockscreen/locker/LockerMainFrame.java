@@ -58,6 +58,7 @@ import java.util.Locale;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.colorphone.lock.ScreenStatusReceiver.NOTIFICATION_SCREEN_ON;
 
 
 public class LockerMainFrame extends RelativeLayout implements INotificationObserver, SlidingDrawer.SlidingDrawerListener{
@@ -239,6 +240,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
+        HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
 
         ViewTreeObserver viewTreeObserver = getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -398,6 +400,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         HSGlobalNotificationCenter.removeObserver(this);
         mShimmer.cancel();
         LockNotificationManager.getInstance().unregisterForThemeStateChange(mNotificationWindowHolder);
+        HSGlobalNotificationCenter.removeObserver(mNotificationWindowHolder);
 
         super.onDetachedFromWindow();
     }
