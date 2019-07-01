@@ -21,6 +21,7 @@ import com.colorphone.lock.ScreenStatusReceiver;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Threads;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -234,9 +235,14 @@ public class LockNotificationManager {
 
 
     public void sendNotification() {
-        for (NotificationObserver observer : list) {
-            observer.onReceive(info);
-        }
+        Threads.postOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                for (NotificationObserver observer : list) {
+                    observer.onReceive(info);
+                }
+            }
+        });
     }
 
     public void registerForThemeStateChange(NotificationObserver observer) {
