@@ -97,7 +97,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         if (mAppNotificationInfo == null) {
             return;
         }
-        LockNotificationManager.getInstance().logEvent("ColorPhone_" + getSourceName(mSource) + "_Notification_Click",
+        LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Click",
                 getInfo().packageName);
 
         DismissKeyguradActivity.startSelfIfKeyguardSecure(getContext());
@@ -120,7 +120,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
 
     private void changeNotificationWindow(AppNotificationInfo info) {
         if (ScreenStatusReceiver.isScreenOn()) {
-            LockNotificationManager.getInstance().logEvent("ColorPhone_" + getSourceName(mSource) + "_Notification_Show",
+            LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Show",
                     info.packageName);
         }
         if (mAppNotificationInfo == info) {
@@ -144,7 +144,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
 
     @Override
     public void onReceive(AppNotificationInfo info) {
-        LockNotificationManager.getInstance().logEvent("ColorPhone_" + getSourceName(mSource) + "_Notification_Receive", info.packageName);
+        LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Receive", info.packageName);
         boolean userEnabled = mSource == SOURCE_LOCKER ?
                 LockerSettings.needShowNotificationLocker()
                 : LockerSettings.needShowNotificationCharging();
@@ -162,7 +162,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     public void onReceive(String s, HSBundle hsBundle) {
         if (NOTIFICATION_SCREEN_ON.equalsIgnoreCase(s)) {
             if (mAppNotificationInfo != null) {
-                LockNotificationManager.getInstance().logEvent("ColorPhone_" + getSourceName(mSource) + "_Notification_Show",
+                LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Show",
                         mAppNotificationInfo.packageName);
             }
         }
