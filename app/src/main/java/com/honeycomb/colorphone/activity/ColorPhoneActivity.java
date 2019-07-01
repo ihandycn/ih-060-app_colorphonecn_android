@@ -1046,7 +1046,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         } else if (NotificationConstants.NOTIFICATION_PREVIEW_POSITION.equals(s)) {
             int pos = hsBundle.getInt("position");
             HSLog.d("preview pos = " + pos);
-            mRecyclerView.scrollToPosition(pos);
+            mRecyclerView.scrollToPosition(mAdapter.themePositionToAdapterPosition(pos));
         }
     }
 
