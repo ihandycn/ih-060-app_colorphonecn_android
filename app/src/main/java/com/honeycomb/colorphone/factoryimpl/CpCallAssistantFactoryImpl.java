@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.view.View;
 
+import com.acb.call.VideoManager;
 import com.acb.call.service.InCallWindow;
 import com.call.assistant.customize.ThemeViewConfig;
 import com.call.assistant.receiver.IncomingCallReceiver;
@@ -260,6 +261,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
         return new IncomingCallReceiver.Event() {
             @Override
             public void onRinging(String s) {
+                VideoManager.get().mute(true);
                 startFlashIfProper();
             }
 

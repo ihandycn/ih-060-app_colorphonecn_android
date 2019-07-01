@@ -277,21 +277,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final int pos = holder.getPositionTag();
-
-                    Theme theme = data.get(pos);
-                    if (activity instanceof PopularThemeActivity) {
-                        Analytics.logEvent("ColorPhone_BanboList_ThemeDetail_View", "type", theme.getIdName());
-                        PopularThemePreviewActivity.start(activity, pos);
-                    } else {
-                        Analytics.logEvent("MainView_ThemeDetail_View", "type", theme.getIdName());
-                        ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.
-                                makeSceneTransitionAnimation(activity,
-                                        holder.mThemePreviewImg,
-                                        TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme));
-
-                        ThemePreviewActivity.start(activity, pos, activityOptionsCompat.toBundle());
-                    }
+                    onCardClick(holder, view);
                 }
             });
             cardView.setOnTouchListener(new ScaleUpTouchListener());
@@ -371,6 +357,23 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             return new PopularThemeBgHolder(view);
         } else {
             throw new IllegalStateException("error viewtype");
+        }
+    }
+
+    private void onCardClick(ThemeCardViewHolder holder, View view) {
+        final int pos = holder.getPositionTag();
+        Theme theme = data.get(pos);
+        if (activity instanceof PopularThemeActivity) {
+            Analytics.logEvent("ColorPhone_BanboList_ThemeDetail_View", "type", theme.getIdName());
+            PopularThemePreviewActivity.start(activity, pos);
+        } else {
+            Analytics.logEvent("MainView_ThemeDetail_View", "type", theme.getIdName());
+            ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(activity,
+                            holder.mThemePreviewImg,
+                            TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme));
+
+            ThemePreviewActivity.start(activity, pos, activityOptionsCompat.toBundle());
         }
     }
 

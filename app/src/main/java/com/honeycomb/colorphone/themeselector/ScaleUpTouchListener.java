@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.themeselector;
 
 import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,15 +13,33 @@ public class ScaleUpTouchListener implements View.OnTouchListener, Animator.Anim
     private Interpolator mPathInterpolator2 = PathInterpolatorCompat.create( 0.42f, 0.00f, 1.00f, 1.00f);
     private boolean isScaleUp;
     private boolean isScaleDown;
+    private ValueAnimator mValueAnimatorDown = ValueAnimator.ofFloat(1, 0.95f).setDuration(200);
+
+    private View mView;
+
+    public ScaleUpTouchListener() {
+        mValueAnimatorDown.setInterpolator(mPathInterpolator1);
+        mValueAnimatorDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float animatedValue = (float) animation.getAnimatedValue();
+                mView.setScaleX(animatedValue);
+                mView.setScaleY(animatedValue);
+            }
+        });
+        mValueAnimatorDown.addListener(this);
+    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        mView = v;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (!isScaleDown) {
                     isScaleDown = true;
                     isScaleUp = false;
-                    v.animate().scaleX(0.94f).scaleY(0.94f).setDuration(200).setInterpolator(mPathInterpolator1).setListener(this).start();
+                    mValueAnimatorDown.setInterpolator(mPathInterpolator1);
+                    mValueAnimatorDown.start();
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
@@ -28,7 +47,8 @@ public class ScaleUpTouchListener implements View.OnTouchListener, Animator.Anim
                 if (!isScaleUp) {
                     isScaleUp = true;
                     isScaleDown = false;
-                    v.animate().scaleX(1f).scaleY(1f).setStartDelay(200).setInterpolator(mPathInterpolator2).start();
+                    mValueAnimatorDown.setInterpolator(mPathInterpolator2);
+                    mValueAnimatorDown.reverse();
                 }
                 break;
             default:
