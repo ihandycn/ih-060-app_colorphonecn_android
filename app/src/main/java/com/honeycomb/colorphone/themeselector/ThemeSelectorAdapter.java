@@ -121,7 +121,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (hsBundle != null) {
                     int pos = getDataPos(hsBundle);
                     Theme theme = data.get(pos);
-                    int adapterPos = pos + getHeaderCount();
+                    int adapterPos = themePositionToAdapterPosition(pos);
                     RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
 
                     if (holder instanceof  ThemeCardViewHolder) {
@@ -165,11 +165,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         private int getAdapterPos(HSBundle hsBundle) {
-            return getDataPos(hsBundle) + getHeaderCount();
+            return themePositionToAdapterPosition(getDataPos(hsBundle));
         }
 
         private int unlockThemeAndGetAdapterPos(HSBundle hsBundle) {
-            return unlockThemeAndGetDatePos(hsBundle) + getHeaderCount();
+            return themePositionToAdapterPosition(unlockThemeAndGetDatePos(hsBundle));
         }
 
     };
@@ -384,7 +384,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
             }
         }
-        return prePos + getHeaderCount();
+        return themePositionToAdapterPosition(prePos);
     }
 
     private boolean selectTheme(final int pos) {
@@ -413,7 +413,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void notifyItemSelected(int pos, Theme theme) {
-        int adapterPos = pos + getHeaderCount();
+        int adapterPos = themePositionToAdapterPosition(pos);
         RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
         if (holder == null) {
             // Item not visible in screen.
@@ -533,6 +533,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         count += mTipHeaderVisible ? 1 : 0;
         count += mHotThemeHolderVisible ? 1 : 0;
         return count;
+    }
+
+    public int themePositionToAdapterPosition(int themePos) {
+        return themePos + getHeaderCount();
     }
 
     public static class ThemeCardViewHolder extends RecyclerView.ViewHolder {
