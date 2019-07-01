@@ -1188,8 +1188,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         if (position == -1) {
             return null;
         }
+        final int adapterPosition = mAdapter.themePositionToAdapterPosition(position);
         if ( mRecyclerView != null) {
-            View itemView = mRecyclerView.findViewHolderForAdapterPosition(position).itemView;
+            View itemView = mRecyclerView.findViewHolderForAdapterPosition(adapterPosition).itemView;
             if (itemView != null) {
                 return itemView.findViewById(R.id.card_preview_img);
             }
