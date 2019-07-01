@@ -7,6 +7,8 @@ build_toutiao:
   script:
   - commit_msg=$(git log --format=%B -n 1)
   - echo $commit_msg
+  - ./gradlew clean
+  - ./rm -r outputs
   - mkdir outputs
   - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
   -   git submodule update --init
@@ -45,6 +47,8 @@ build_yingyongbao:
   script:
   - commit_msg=$(git log --format=%B -n 1)
   - echo $commit_msg
+  - ./gradlew clean
+  - ./rm -r outputs
   - mkdir outputs
   - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
   -   git submodule update --init
