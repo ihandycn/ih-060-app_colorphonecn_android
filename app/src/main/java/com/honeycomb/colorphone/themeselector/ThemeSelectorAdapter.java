@@ -273,8 +273,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             holder.initChildView();
-
-            cardViewContent.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
+            View cardView = cardViewContent.findViewById(R.id.card_view);
+            cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     final int pos = holder.getPositionTag();
@@ -294,6 +294,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                 }
             });
+            cardView.setOnTouchListener(new ScaleUpTouchListener());
 
             holder.setLikeClick(new View.OnClickListener() {
                 @Override
