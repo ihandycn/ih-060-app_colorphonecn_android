@@ -453,7 +453,13 @@
 				<key>Notification</key>
 				<dict>
 					<key>WhiteList</key>
-					<array/>
+					<array>
+						<string>Phone</string>
+						<string>Text</string>
+						<string>com.tencent.mm</string>
+						<string>com.tencent.mobileqq</string>
+						<string>com.sina.weibo</string>
+					</array>
 				</dict>
 				<key>NotificationAll</key>
 				<array>
