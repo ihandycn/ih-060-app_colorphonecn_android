@@ -8,7 +8,7 @@ build_toutiao:
   - commit_msg=$(git log --format=%B -n 1)
   - echo $commit_msg
   - ./gradlew clean
-  - ./rm -r outputs
+  - rm -r outputs
   - mkdir outputs
   - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
   -   git submodule update --init
@@ -48,7 +48,7 @@ build_yingyongbao:
   - commit_msg=$(git log --format=%B -n 1)
   - echo $commit_msg
   - ./gradlew clean
-  - ./rm -r outputs
+  - rm -r outputs
   - mkdir outputs
   - if [[ $commit_msg == *"[BuildAllDebug]"* ]] || [[ $commit_msg == *"Merge branch"* ]]; then
   -   git submodule update --init
@@ -86,7 +86,7 @@ cleanup_build_job:
     stage: cleanup_build
     script:
     - ./gradlew clean
-    - ./rm -r outputs
+    - rm -r outputs
     when: on_failure
     tags:
     - android
