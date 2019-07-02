@@ -56,6 +56,7 @@ import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
+import com.honeycomb.colorphone.feedback.FeedbackManager;
 import com.honeycomb.colorphone.gdpr.GdprUtils;
 import com.honeycomb.colorphone.module.ChargingImproverCallbackImpl;
 import com.honeycomb.colorphone.module.LockerEvent;
@@ -286,7 +287,6 @@ public class ColorPhoneApplicationImpl {
         HSPermanentUtils.setJobSchedulePeriodic(2 * DateUtils.HOUR_IN_MILLIS);
     }
 
-
     public static boolean isFabricInited() {
         return isFabricInitted;
     }
@@ -490,6 +490,8 @@ public class ColorPhoneApplicationImpl {
         if (mDailyLogger != null) {
             mDailyLogger.checkAndLog();
         }
+
+        Threads.postOnMainThreadDelayed(FeedbackManager::sendFeedbackToServerIfNeeded, 10 * DateUtils.SECOND_IN_MILLIS);
     }
 
     private void watchLifeTimeAutopilot() {

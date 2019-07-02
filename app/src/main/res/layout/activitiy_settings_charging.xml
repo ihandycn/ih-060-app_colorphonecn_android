@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/setting_item_charging"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/material_compat_bg"
+            android:clickable="true"
+            android:padding="20dp">
+
+            <!--<ImageView-->
+            <!--android:id="@+id/reminder_display_settings_icon"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginStart="20dp"-->
+            <!--android:scaleType="center"-->
+            <!--/>-->
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/setting_item_charging_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:clickable="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+
+                android:layout_toStartOf="@+id/setting_item_charging_toggle"
+                android:layout_toLeftOf="@+id/setting_item_charging_toggle"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    android:id="@+id/setting_item_charging_title"
+                    style="@style/NormalText.Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/smart_charging" />
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    style="@style/NormalText.SettingsHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/smart_charging_hint"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/setting_item_lockScreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/material_compat_bg"
+            android:clickable="true"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp">
+
+            <!--<ImageView-->
+            <!--android:id="@+id/reminder_display_settings_icon"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginStart="20dp"-->
+            <!--android:scaleType="center"-->
+            <!--/>-->
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/setting_item_lockScreen_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:clickable="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+
+                android:layout_toStartOf="@+id/setting_item_lockScreen_toggle"
+                android:layout_toLeftOf="@+id/setting_item_lockScreen_toggle"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    style="@style/NormalText.Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/color_lockscreen" />
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    style="@style/NormalText.SettingsHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/color_lockscreen_hint"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/settings_notification_on_screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/material_compat_bg"
+            android:clickable="true"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp">
+
+            <!--<ImageView-->
+            <!--android:id="@+id/notification_toolbar_switch_icon"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:src="@drawable/settings_led_flash_switch" />-->
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/notification_screen_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:layout_toStartOf="@+id/notification_screen_switch"
+                android:layout_toLeftOf="@+id/notification_screen_switch"
+                android:orientation="vertical">
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    style="@style/NormalText.Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_screen_notification_title" />
+
+                <com.honeycomb.colorphone.view.TypefacedTextView
+                    android:id="@+id/screen_notification_hint"
+                    style="@style/NormalText.SettingsHint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/settings_screen_notification_hint"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -796,13 +796,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                                 guideView.setVisibility(GONE);
                             }
                         }).start();
+                Preferences.getDefault().putBoolean(PREF_KEY_SCROLL_GUIDE_SHOWN, false);
             });
 
             LottieAnimationView view = guideView.findViewById(R.id.theme_preview_guide_anim);
             view.useHardwareAcceleration();
 
             mActivity.findViewById(R.id.nav_back).setAlpha(0.1f);
-            Preferences.getDefault().putBoolean(PREF_KEY_SCROLL_GUIDE_SHOWN, false);
             return true;
         }
         return false;
@@ -1529,7 +1529,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
 
                 onVideoReady(playTrans);
-
                 checkCheckGuideView();
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));

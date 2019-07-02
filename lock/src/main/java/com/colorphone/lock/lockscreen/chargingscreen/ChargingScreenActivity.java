@@ -100,6 +100,7 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
         super.onStart();
         HSLog.d(TAG, "onStart()");
         mScreen.onStart();
+        TimeDurationLogger.start("ChargingScreen");
     }
 
     @Override
@@ -119,6 +120,7 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
         super.onStop();
         mScreen.onStop();
         HSLog.d(TAG, "onStop()");
+        TimeDurationLogger.stop();
     }
 
     @Override

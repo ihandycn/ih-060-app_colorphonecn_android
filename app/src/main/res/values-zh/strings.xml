@@ -179,4 +179,12 @@
     <string name="battery_optimized">已優化</string>
 
     <string name="guide_theme_random_hint">應用了當前主題後，每次來電會隨機展示不同主題視頻</string>
+
+    <string name="feedback_title">反饋</string>
+    <string name="feedback_content_placeholder">"您的寶貴建議有助於我們改進"</string>
+    <string name="feedback_email_placeholder">"請輸入您的電子郵箱地址"</string>
+    <string name="feedback_submit_btn">發送</string>
+    <string name="feedback_toast_empty_content">請輸入您的反饋建議</string>
+    <string name="feedback_toast_invalid_email">請輸入有效郵箱地址</string>
+    <string name="feedback_toast_send_success">感謝您的反饋！</string>
 </resources>

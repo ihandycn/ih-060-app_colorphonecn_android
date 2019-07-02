@@ -50,52 +50,81 @@
             android:textStyle="bold"
             android:textSize="16sp" />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/layout_launcher_policy_service_link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="70dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:gravity="center" >
 
-        <com.superapps.view.TypefacedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/start_guide_policy"
-            android:text="@string/privacy_policy"
-            android:textColor="@color/start_guide_text_selector"
-            android:textSize="10sp"
-            app:typeface="@string/custom_font_regular"
-            tools:ignore="SmallSp"/>
+            <com.superapps.view.TypefacedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/start_guide_policy"
+                android:text="@string/privacy_policy"
+                android:textColor="@color/start_guide_text_selector"
+                android:textSize="10sp"
+                app:typeface="@string/custom_font_regular"
+                tools:ignore="SmallSp"/>
 
-        <com.superapps.view.TypefacedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" &amp; "
-            android:textColor="#4cffffff"
-            android:textSize="10sp"
-            app:typeface="@string/custom_font_regular"
-            tools:ignore="SmallSp"/>
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/start_guide_and"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" &amp; "
+                android:textColor="#4cffffff"
+                android:textSize="10sp"
+                android:layout_toRightOf="@id/start_guide_policy"
+                android:layout_toEndOf="@id/start_guide_policy"
+                app:typeface="@string/custom_font_regular"
+                tools:ignore="SmallSp"/>
 
-        <com.superapps.view.TypefacedTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/start_guide_service"
-            android:text="@string/terms_of_service"
-            android:textColor="@color/start_guide_text_selector"
-            android:textSize="10sp"
-            app:typeface="@string/custom_font_regular"
-            tools:ignore="SmallSp"/>
-    </LinearLayout>
+            <com.superapps.view.TypefacedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/start_guide_service"
+                android:lineSpacingExtra="10sp"
+                android:text="@string/terms_of_service"
+                android:textColor="@color/start_guide_text_selector"
+                android:textSize="10sp"
+                android:layout_toRightOf="@id/start_guide_and"
+                android:layout_toEndOf="@id/start_guide_and"
+                app:typeface="@string/custom_font_regular"
+                tools:ignore="SmallSp"/>
 
-</android.support.percent.PercentRelativeLayout>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0.7dp"
+                android:background="#4cffffff"
+                android:layout_marginTop="0dp"
+                android:layout_below="@id/start_guide_policy"
+                android:layout_alignLeft="@id/start_guide_policy"
+                android:layout_alignStart="@id/start_guide_policy"
+                android:layout_alignRight="@id/start_guide_policy"
+                android:layout_alignEnd="@id/start_guide_policy" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0.7dp"
+                android:background="#4cffffff"
+                android:layout_marginTop="0dp"
+                android:layout_below="@id/start_guide_service"
+                android:layout_alignLeft="@id/start_guide_service"
+                android:layout_alignStart="@id/start_guide_service"
+                android:layout_alignRight="@id/start_guide_service"
+                android:layout_alignEnd="@id/start_guide_service" />
+
+        </RelativeLayout>
+
+    </android.support.percent.PercentRelativeLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/start_guide_permission_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
         
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/start_guide_permission_anim"

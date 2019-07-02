@@ -27,7 +27,7 @@ import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.feedback.FeedbackActivity;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.app.utils.HSMarketUtils;
@@ -35,6 +35,7 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.superapps.view.TypefacedTextView;
@@ -266,8 +267,9 @@ public class FiveStarRateTip extends DefaultButtonDialog2 implements View.OnClic
                 HSMarketUtils.browseAPP();
 //                Analytics.logEvent("RateAlert_Fivestar_Submit", "type", mFrom.toString());
             } else {
-                Utils.sentEmail(getContext(), new String[]{Constants.getFeedBackAddress()}, null, null);
+//                Utils.sentEmail(getContext(), new String[]{Constants.getFeedBackAddress()}, null, null);
 //                Analytics.logEvent("RateAlert_Lessthanfive_Submit", "type", mFrom.toString());
+                Navigations.startActivitySafely(getContext(), FeedbackActivity.class);
             }
             Preferences.get(Constants.DESKTOP_PREFS).putBoolean(PREF_KEY_HAD_FIVE_STAR_RATE, true);
             markAlertLifeOver();

@@ -7,9 +7,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.text.TextUtils;
 
-import com.honeycomb.colorphone.PackageList;
+import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
 import java.util.ArrayList;
@@ -58,9 +60,25 @@ public class SystemAppsManager {
 
         for (PackageInfo info : installedPackages) {
             addAppInfo(info);
-            // For analysis
-            PackageList.checkAndLogPackage(info.packageName);
         }
+
+        Preferences.get(Constants.PREF_FILE_DEFAULT).doOnce(new Runnable() {
+            @Override
+            public void run() {
+                StringBuilder sb = new StringBuilder();
+                for (String pkg : allAppPackageNames) {
+                    if("com.tencent.mm".equalsIgnoreCase(pkg)) {
+                        sb.append("WeChat");
+                    } else if("com.tencent.mobileqq".equalsIgnoreCase(pkg)) {
+                        sb.append("QQ");
+                    } else if("com.sina.weibo".equalsIgnoreCase(pkg)) {
+                        sb.append("Weibo");
+                    }
+                }
+                Analytics.logEvent("Opening_AppCheck", "Type", sb.toString());
+            }
+        }, "FInstallCheck");
+
         HSLog.w("notification", "init Allappd == " + allAppPackageNames.size());
         return allAppInfos;
     }

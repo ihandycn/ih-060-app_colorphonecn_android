@@ -24,7 +24,6 @@ import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.UserSettings;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
-import com.ihs.chargingimprover.ChargingImproverUtils;
 import com.messagecenter.customize.MessageCenterSettings;
 import com.superapps.util.Navigations;
 
@@ -96,23 +95,32 @@ public class SettingsActivity extends HSAppCompatActivity {
             TextView tv = findViewById(R.id.setting_item_charging_title);
             tv.setText(R.string.charging_improver_title);
         }
-        mModuleStates.add(new ModuleState(
-                chargingImproverOpen || SmartChargingSettings.isSmartChargingConfigEnabled(),
-                chargingImproverOpen ?
-                        ChargingImproverUtils.isChargingImproverUserEnabled() :
-                        SmartChargingSettings.isSmartChargingUserEnabled(),
-                R.id.setting_item_charging_toggle,
-                R.id.setting_item_charging) {
-            @Override
-            public void onCheckChanged(boolean isChecked) {
-                Analytics.logEvent("Settings_ChargingReport_Clicked_" +
-                        (isChecked ? "Enabled" : "Disabled"));
-//                GifCacheUtils.cacheGif();
-                SmartChargingSettings.setModuleEnabled(isChecked);
-                ChargingImproverUtils.setChargingImproverUserEnabled(isChecked);
-            }
-        });
 
+        View itemCharging = findViewById(R.id.setting_item_charging);
+        if (chargingImproverOpen || SmartChargingSettings.isSmartChargingConfigEnabled()) {
+            itemCharging.setVisibility(View.VISIBLE);
+            itemCharging.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ChargingSettingsActivity.start(SettingsActivity.this);
+                }
+            });
+        } else {
+            itemCharging.setVisibility(View.GONE);
+        }
+
+        View itemLocker = findViewById(R.id.setting_item_lockScreen);
+        if (LockerSettings.isLockerConfigEnabled()) {
+            itemLocker.setVisibility(View.VISIBLE);
+            itemLocker.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LockerSettingsActivity.start(SettingsActivity.this);
+                }
+            });
+        } else {
+            itemLocker.setVisibility(View.GONE);
+        }
 
         mModuleStates.add(new ModuleState(ModuleUtils.isNotificationToolBarEnabled(),
                 UserSettings.isNotificationToolbarEnabled(),
@@ -124,18 +132,6 @@ public class SettingsActivity extends HSAppCompatActivity {
                         (isChecked ? "Enabled" : "Disabled"));
                 UserSettings.setNotificationToolbarEnabled(isChecked);
                 NotificationManager.getInstance().showNotificationToolbarIfEnabled();
-            }
-        });
-
-        mModuleStates.add(new ModuleState(LockerSettings.isLockerConfigEnabled(),
-                LockerSettings.isLockerUserEnabled(),
-                R.id.setting_item_lockScreen_toggle,
-                R.id.setting_item_lockScreen) {
-            @Override
-            public void onCheckChanged(boolean isChecked) {
-                Analytics.logEvent("Settings_LockScreen_Clicked_" +
-                        (isChecked ? "Enabled" : "Disabled"));
-                LockerSettings.setLockerEnabled(isChecked);
             }
         });
 

@@ -39,6 +39,104 @@
             android:layout_height="match_parent">
 
             <RelativeLayout
+                android:id="@+id/charging_screen_advertisement_container"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginEnd="18dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginBottom="57dp"
+                android:visibility="visible">
+            </RelativeLayout>
+
+            <com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout
+                android:id="@+id/lock_sliding_window"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/charging_screen_advertisement_container"
+                android:layout_marginBottom="6dp">
+                <RelativeLayout
+                    android:id="@+id/lock_notification_window"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/charging_screen_advertisement_container"
+                    android:layout_marginBottom="6dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginStart="18dp"
+                    android:paddingBottom="12dp"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/source_app_avatar"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp" />
+
+                    <TextView
+                        android:id="@+id/source_app_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/source_app_avatar"
+                        android:layout_toRightOf="@id/source_app_avatar"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:lineSpacingExtra="2sp"
+                        android:textColor="#cc000000"
+                        android:text="微信 · 15分钟前"
+                        android:includeFontPadding="false"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/sender_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/source_app_avatar"
+                        android:layout_marginTop="9dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#e6000000"
+                        android:includeFontPadding="false"
+                        android:text="淹死的鱼" />
+
+                    <ImageView
+                        android:id="@+id/sender_avatar"
+                        android:layout_width="37dp"
+                        android:layout_height="37dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@id/sender_name"
+                         />
+
+                    <TextView
+                        android:id="@+id/notification_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toStartOf="@id/sender_avatar"
+                        android:layout_toLeftOf="@id/sender_avatar"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_below="@id/sender_name"
+                        android:layout_marginTop="5dp"
+                        android:textColor="#cc000000"
+                        android:includeFontPadding="false"
+                        android:textSize="14sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下对方就会撒打算家里打飞机撒发的"/>
+
+                </RelativeLayout>
+            </com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout>
+
+            <RelativeLayout
                 android:id="@+id/charging_screen_title_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -57,28 +155,28 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginTop="21dp"
                     android:orientation="vertical"
                     tools:ignore="SpUsage">
 
-                    <android.support.v7.widget.AppCompatTextView
+                    <com.colorphone.lock.TypefacedTextView
                         android:id="@+id/charging_screen_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        tools:text="12:30"
-                        android:textColor="#d6ffffff"
-                        android:textSize="24dp"
-                        android:typeface="sans"/>
+                        tools:text="12:02"
+                        android:textColor="#ffffff"
+                        android:textSize="23.7sp"
+                        app:typeface="@string/barlow_regular"/>
 
-                    <android.support.v7.widget.AppCompatTextView
+                    <com.colorphone.lock.TypefacedTextView
                         android:id="@+id/charging_screen_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        tools:text="Wed July 29"
-                        android:textColor="#d6ffffff"
-                        android:textSize="12dp"
-                        android:typeface="sans"/>
+                        tools:text="6月11日 周二"
+                        android:textColor="#b3ffffff"
+                        android:textSize="8.7sp" />
                 </LinearLayout>
 
                 <android.support.v7.widget.AppCompatImageView
@@ -103,10 +201,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/charging_screen_title_container"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@android:color/white"
-                android:textSize="115dp"
-                tools:text="56"/>
+                android:lineSpacingExtra="17.3sp"
+                android:textSize="90sp"
+                app:typeface="@string/barlow_regular"
+                tools:text="68"/>
 
             <RelativeLayout
                 android:id="@+id/full_charge_left_container"
@@ -134,7 +234,7 @@
                     android:layout_toRightOf="@+id/full_charge_left_icon"
                     android:text="@string/charging_screen_charged_left_describe"
                     android:textColor="@color/charging_screen_high_white"
-                    android:textSize="16dp"
+                    android:textSize="12sp"
                     android:typeface="sans"
                     tools:ignore="SpUsage"/>
             </RelativeLayout>
@@ -145,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/full_charge_left_container"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="9dp"
                 android:scaleX="1.32"
                 android:scaleY="1.32">
 
@@ -205,7 +305,8 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/charge_state_container"
                 android:paddingLeft="38dp"
-                android:paddingRight="38dp">
+                android:paddingRight="38dp"
+                android:visibility="gone">
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/charging_screen_tip"
@@ -218,7 +319,8 @@
                     android:text="TIP"
                     android:textColor="#7fffffff"
                     android:textSize="14dp"
-                    tools:ignore="SpUsage"/>
+                    tools:ignore="SpUsage"
+                    />
 
                 <android.support.v7.widget.AppCompatImageView
                     android:layout_width="wrap_content"
@@ -235,42 +337,18 @@
                 android:layout_height="match_parent"
                 tools:visibility="gone"/>
 
-            <android.support.v7.widget.AppCompatTextView
+            <com.colorphone.lock.TypefacedTextView
                 android:id="@+id/unlocke_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="15dp"
-                android:text="@string/charging_screen_unlock_describe"
+                android:layout_marginBottom="15.7dp"
+                android:text="右滑解锁"
                 android:textColor="@color/charging_screen_high_white"
                 android:textSize="14dp"
-                android:typeface="sans"
                 tools:ignore="SpUsage"/>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@id/unlocke_tv"
-                android:layout_below="@+id/charge_state_container"
-                android:layout_marginTop="-4dp">
-
-                <!--<colorphone.acb.com.libscreencard.CustomizeContentContainer-->
-                    <!--android:id="@+id/customize_card_container"-->
-                    <!--android:layout_margin="16dp"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"/>-->
-
-                <LinearLayout
-                    android:id="@+id/charging_screen_advertisement_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="9dp"
-                    android:layout_marginRight="9dp"
-                    android:orientation="vertical">
-                </LinearLayout>
-            </FrameLayout>
         </com.colorphone.lock.lockscreen.chargingscreen.view.SlidingFinishRelativeLayout>
     </RelativeLayout>
 </com.colorphone.lock.lockscreen.LockScreenRootView>

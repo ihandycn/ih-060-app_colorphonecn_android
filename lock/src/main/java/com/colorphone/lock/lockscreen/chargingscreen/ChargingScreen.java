@@ -29,7 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.colorphone.lock.BuildConfig;
@@ -41,6 +41,7 @@ import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
+import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
 import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTip;
@@ -49,6 +50,7 @@ import com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTipView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingBubbleView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.ChargingQuantityView;
 import com.colorphone.lock.lockscreen.chargingscreen.view.SlidingFinishRelativeLayout;
+import com.colorphone.lock.lockscreen.locker.NotificationWindowHolder;
 import com.colorphone.lock.util.ViewUtils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -57,6 +59,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
+import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Bitmaps;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
@@ -72,11 +75,12 @@ import java.util.Random;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static com.colorphone.lock.ScreenStatusReceiver.NOTIFICATION_SCREEN_ON;
 import static com.colorphone.lock.lockscreen.locker.Locker.getDeviceInfo;
 import static com.ihs.libcharging.HSChargingManager.HSChargingState.STATE_DISCHARGING;
 
 
-public class ChargingScreen extends LockScreen implements INotificationObserver {
+public class ChargingScreen extends LockScreen implements INotificationObserver, NotificationWindowHolder.NotificationClickCallback {
 
     private static final String TAG = "CHARGING_SCREEN_ACTIVITY";
 
@@ -122,8 +126,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
     private ToolTipView continuousChargeToolTipView;
     private ToolTipView trickleChargeToolTipView;
 
+    private NotificationWindowHolder mNotificationWindowHolder;
+
     private SlidingFinishRelativeLayout slidingFinishRelativeLayout;
-    private LinearLayout advertisementContainer;
+    private RelativeLayout advertisementContainer;
     private ChargingQuantityView chargingQuantityView;
     private ChargingBubbleView chargingBubbleView;
     private ImageView imageBackgroundView;
@@ -340,6 +346,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         }
         HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
 
+        HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
+        LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
+
         // Life cycle
         LockScreensLifeCycleRegistry.setChargingScreenActive(true);
         LockerCustomConfig.get().onEventChargingViewShow();
@@ -425,6 +434,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
                 mAdShown = true;
                 LockerCustomConfig.get().onEventChargingAdShow();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    advertisementContainer.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
+                    advertisementContainer.setPadding(Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10));
+                }
             }
 
             @Override
@@ -440,6 +453,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
     private void showExpressAd() {
         if (expressAdView.getParent() == null) {
+
             advertisementContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
             expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
         }
@@ -571,7 +585,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         tipTextView = (TextView) mRootView.findViewById(R.id.charging_screen_tip);
         toolTipContainer = (ToolTipRelativeLayout) mRootView.findViewById(R.id.charging_screen_show_tip_container);
 
-        advertisementContainer = (LinearLayout) mRootView.findViewById(R.id.charging_screen_advertisement_container);
+        advertisementContainer = mRootView.findViewById(R.id.charging_screen_advertisement_container);
+        mNotificationWindowHolder = new NotificationWindowHolder(mRootView, NotificationWindowHolder.SOURCE_CHARGING, this);
 //        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
 //        customizeContentContainer.setDismissCallback(new Runnable() {
 //            @Override
@@ -760,7 +775,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         String txtMonth = Calendar.getInstance().getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
 
         timeTextView.setText(getContext().getString(R.string.charging_screen_time, txtHour, txtMinute));
-        dateTextView.setText(getContext().getString(R.string.charging_screen_date, txtWeek, txtMonth, txtDay));
+        dateTextView.setText(getContext().getString(R.string.charging_screen_date, txtMonth, txtDay, txtWeek));
     }
 
     private void updateChargingStateTipIconAnimator() {
@@ -957,6 +972,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
         // Life cycle
         LockScreensLifeCycleRegistry.setChargingScreenActive(false);
         HSGlobalNotificationCenter.removeObserver(this);
+        LockNotificationManager.getInstance().unregisterForThemeStateChange(mNotificationWindowHolder);
+        HSGlobalNotificationCenter.removeObserver(mNotificationWindowHolder);
 
     }
 
@@ -993,5 +1010,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver 
 
     public void setActivityMode(boolean activityMode) {
         mActivityMode = activityMode;
+    }
+
+    @Override
+    public void onNotificationClick() {
+        dismiss(getContext(), true);
     }
 }

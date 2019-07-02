@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -125,7 +124,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         if (!TextUtils.isEmpty(privacyPolicyStr)) {
             TextView privacyPolicy = findViewById(R.id.start_guide_policy);
             if (privacyPolicy != null) {
-                privacyPolicy.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
                 privacyPolicy.setOnClickListener(v -> Navigations.startActivitySafely(StartGuideActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyStr))));
             }
         }
@@ -134,7 +132,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         if (!TextUtils.isEmpty(termServiceStr)) {
             TextView termsOfService = findViewById(R.id.start_guide_service);
             if (termsOfService != null) {
-                termsOfService.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
                 termsOfService.setOnClickListener(v ->  Navigations.startActivitySafely(StartGuideActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(termServiceStr))));
             }
         }
@@ -255,6 +252,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     skip.setOnClickListener(v -> {
                         finish();
                         Analytics.logEvent("FixAlert_Cancel_Click", "From", from);
+                        Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
                     });
                 } else {
                     findViewById(R.id.start_guide_confirm_skip).setVisibility(View.GONE);
@@ -297,6 +295,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         btn.setOnClickListener(v -> {
             dismissDialog();
             finish();
+            Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
         });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog);
@@ -436,8 +435,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     "Brand", AutoLogger.getBrand(),
                     "Os", AutoLogger.getOSVersion(),
                     "Time", String.valueOf(permissionShowCount));
-
-            Preferences.getDefault().putBoolean(PREF_KEY_GUIDE_SHOW_WHEN_WELCOME, true);
         });
 
         handler.postDelayed(() -> {

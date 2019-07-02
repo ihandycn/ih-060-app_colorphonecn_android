@@ -12,6 +12,7 @@ import android.telephony.TelephonyManager;
 import android.text.format.DateUtils;
 
 import com.colorphone.lock.LockerCustomConfig;
+import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerActivity;
@@ -101,14 +102,16 @@ public class ChargingScreenUtils {
             return;
         }
 
-        // Check interval
-        int intervalMins = HSConfig.optInteger( 3,
-                "Application", "Charging", "ChargingLockScreen", "MinDisplayIntervalMinutes");
-        long lastTime = Preferences.get(ChargingScreenSettings.LOCKER_PREFS).getLong("charging_display_datetime", 0);
-        if (System.currentTimeMillis() - lastTime < intervalMins * DateUtils.MINUTE_IN_MILLIS) {
-            // Too frequency
-            LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Forbidden");
-            return;
+        if (ScreenStatusReceiver.isScreenOn()) {
+            // Check interval
+            int intervalMins = HSConfig.optInteger(3,
+                    "Application", "Charging", "ChargingLockScreen", "MinDisplayIntervalMinutes");
+            long lastTime = Preferences.get(ChargingScreenSettings.LOCKER_PREFS).getLong("charging_display_datetime", 0);
+            if (System.currentTimeMillis() - lastTime < intervalMins * DateUtils.MINUTE_IN_MILLIS) {
+                // Too frequency
+                LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Forbidden");
+                return;
+            }
         }
         Preferences.get(ChargingScreenSettings.LOCKER_PREFS).putLong("charging_display_datetime", System.currentTimeMillis());
 

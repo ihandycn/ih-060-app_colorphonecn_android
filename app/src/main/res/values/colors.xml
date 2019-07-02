@@ -112,4 +112,9 @@
     <color name="news_title_color">#cc000000</color>
     <color name="news_sub_title_color">#66000000</color>
 
+    <!-- Feedback -->
+    <color name="feedback_bg">#ececec</color>
+    <color name="feedback_primary">#0096fa</color>
+    <color name="feedback_hint_text">#bdbdbd</color>
+    <color name="feedback_input_text">#626262</color>
 </resources>

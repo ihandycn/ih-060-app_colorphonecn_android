@@ -73,7 +73,7 @@
 				<key>Enable</key>
 				<true/>
 				<key>FloatingGuide</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>Charging</key>
 			<dict>
@@ -191,7 +191,7 @@
 				<key>Xiaomi</key>
 				<dict>
 					<key>Enable</key>
-					<false/>
+					<true/>
 					<key>EnabledOsVersion</key>
 					<array>
 						<integer>28</integer>
@@ -219,6 +219,8 @@
 			</dict>
 			<key>FeedbackEmailAddress</key>
 			<string>support_colorphone@126.com</string>
+			<key>FeedbackURL</key>
+			<string>https://service.appcloudbox.net</string>
 			<key>FullScreen</key>
 			<dict>
 				<key>DetailView</key>
@@ -448,6 +450,54 @@
 			</dict>
 			<key>Locker</key>
 			<dict>
+				<key>Notification</key>
+				<dict>
+					<key>WhiteList</key>
+					<array>
+						<string>Phone</string>
+						<string>Text</string>
+						<string>com.tencent.mm</string>
+						<string>com.tencent.mobileqq</string>
+						<string>com.sina.weibo</string>
+					</array>
+				</dict>
+				<key>NotificationAll</key>
+				<array>
+					<string>com.tencent.mm</string>
+					<string>com.tencent.mobileqq</string>
+					<string>com.sina.weibo</string>
+					<string>com.zhihu.android</string>
+					<string>com.ss.android.article.news</string>
+					<string>com.immomo.momo</string>
+					<string>com.ss.android.ugc.aweme</string>
+					<string>com.smile.gifmaker</string>
+					<string>ctrip.android.view</string>
+					<string>com.tencent.android.qqdownloader</string>
+					<string>com.eg.android.AlipayGphone</string>
+					<string>com.qihoo.appstore</string>
+					<string>com.baidu.appsearch</string>
+					<string>com.xiaomi.market</string>
+					<string>com.taobao.taobao</string>
+					<string>com.huawei.appmarket</string>
+					<string>com.jingdong.app.mall</string>
+					<string>com.xunmeng.pinduoduo</string>
+					<string>com.sankuai.meituan</string>
+					<string>com.qq.reader</string>
+					<string>com.tencent.weread</string>
+					<string>com.netease.newsreader.activity</string>
+					<string>com.ss.android.ugc.live</string>
+					<string>com.yixia.videoeditor</string>
+					<string>com.youku.phone</string>
+					<string>com.qiyi.video</string>
+					<string>com.tencent.qqlive</string>
+					<string>air.tv.douyu.android</string>
+					<string>com.panda.videoliveplatform</string>
+					<string>com.sankuai.meituan.takeoutnew</string>
+					<string>me.ele</string>
+					<string>com.dianping.v1</string>
+					<string>com.tencent.qqmusic</string>
+					<string>com.netease.cloudmusic</string>
+				</array>
 				<key>Ads</key>
 				<dict>
 					<key>MinCountToShowAds</key>
@@ -900,8 +950,17 @@
 				<dict>
 					<key>Enable</key>
 					<true/>
+					<key>NotShowOnScreen</key>
+					<true/>
 					<key>ShowAds</key>
 					<true/>
+					<key>SourceSwitch</key>
+					<dict>
+						<key>SMS</key>
+						<true/>
+						<key>WeChat</key>
+						<true/>
+					</dict>
 					<key>ActiveAfterInstallMinutes</key>
 					<integer>360</integer>
 				</dict>

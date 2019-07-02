@@ -18,6 +18,8 @@ public class LockerSettings {
     public static final String PREF_KEY_LOCKER_SHOW_COUNT = "pref_key_locker_show_count";
     public static final String PREF_KEY_LOCKER_ADS_SHOW_COUNT = "pref_key_locker_ads_show_count";
     public static final String PREF_KEY_LOCKER_TOGGLE_GUIDE_SHOWN = "pref_key_locker_toggle_guide_shown";
+    public static final String PREF_KEY_NOTIFICATION_CHARGING = "pref_key_notification_open_charging";
+    public static final String PREF_KEY_NOTIFICATION_LOCKER = "pref_key_notification_open_locker";
 
     public static final String NOTIFY_LOCKER_STATE = "notify_locker_state";
 
@@ -70,5 +72,13 @@ public class LockerSettings {
 
     public static void setLockerToggleGuideShown() {
         Preferences.get(LOCKER_PREFS).putBoolean(PREF_KEY_LOCKER_TOGGLE_GUIDE_SHOWN, true);
+    }
+
+    public static boolean needShowNotificationLocker() {
+        return Preferences.get(LOCKER_PREFS).getBoolean(PREF_KEY_NOTIFICATION_CHARGING, true);
+    }
+
+    public static boolean needShowNotificationCharging() {
+        return Preferences.get(LOCKER_PREFS).getBoolean(PREF_KEY_NOTIFICATION_CHARGING, true);
     }
 }

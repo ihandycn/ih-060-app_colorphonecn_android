@@ -19,8 +19,8 @@ import com.honeycomb.colorphone.activity.ContactsActivity;
 import com.honeycomb.colorphone.activity.SettingsActivity;
 import com.honeycomb.colorphone.dialer.ConfigEvent;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
+import com.honeycomb.colorphone.feedback.FeedbackActivity;
 import com.honeycomb.colorphone.util.Analytics;
-import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
@@ -167,7 +167,8 @@ public class SettingsPage implements View.OnClickListener {
     }
 
     private void feedBack() {
-        Utils.sentEmail(HSApplication.getContext(), new String[] {Constants.getFeedBackAddress()}, null, null);
+//        Utils.sentEmail(HSApplication.getContext(), new String[] {Constants.getFeedBackAddress()}, null, null);
+        Navigations.startActivitySafely(HSApplication.getContext(), FeedbackActivity.class);
     }
 
     public void onSaveToggleState() {
