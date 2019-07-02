@@ -105,7 +105,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
 
         // Open music
-        ThemeStateManager.getInstance().setAudioMute(false);
+        ThemeStateManager.getInstance().resetState();
 
         setContentView(R.layout.activity_theme_preview);
 
