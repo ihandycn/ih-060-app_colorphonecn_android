@@ -110,7 +110,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         setContentView(R.layout.activity_theme_preview);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            NotchTools.getFullScreenTools().showNavigation(false).fullScreenUseStatus(this);
+            NotchTools.getFullScreenTools().showNavigation(true).fullScreenUseStatus(this);
         } else {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         }
