@@ -11,9 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.SharedElementCallback;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +19,7 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.call.VideoManager;
@@ -37,7 +36,6 @@ import com.colorphone.lock.AnimatorListenerAdapter;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.AppflyerLogger;
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
@@ -62,6 +60,7 @@ import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.RewardVideoView;
@@ -91,7 +90,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import hugo.weaving.DebugLog;
 
@@ -176,7 +174,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     /**
      * For activity transition
      */
-    private int mTransitionItemPos = -1;
+    private MediaSharedElementCallback sharedElementCallback;
 
     private void hideLottieGuide(LottieAnimationView lottieAnimationView) {
         gameIcon.animate().alpha(1).setDuration(200).start();
@@ -269,21 +267,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         AppflyerLogger.logAppOpen();
         isCreate = true;
         // Transition
-        ActivityCompat.setExitSharedElementCallback(this, new SharedElementCallback() {
-            @Override
-            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                if (mTransitionItemPos >= 0) {
-                    names.clear();
-                    sharedElements.clear();
-                    final View view = getExitView(mTransitionItemPos);
-                    String name = ViewCompat.getTransitionName(view);
-                    names.add(name);
-                    sharedElements.put(Objects.requireNonNull(name), view);
-                    HSLog.d("SharedElement exit", " onMapSharedElements : " + name);
-                    mTransitionItemPos =  -1;
-                }
-            }
-        });
+        sharedElementCallback = new MediaSharedElementCallback();
+        sharedElementCallback.setClearAfterConsume(true);
+        ActivityCompat.setExitSharedElementCallback(this, sharedElementCallback);
     }
 
     @Override
@@ -1176,26 +1162,15 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void overrideSharedElement(int exitPos) {
-        mTransitionItemPos = exitPos;
-        if (BuildConfig.DEBUG) {
-            final View exitView = getExitView(exitPos);
-            String name = (exitView != null) ? ViewCompat.getTransitionName(exitView) : "Null";
-            HSLog.d("SharedElement exit ", "setExitSharedElementCallback [ " + name + ":" + exitPos + "]");
-        }
-    }
-
-    private View getExitView(int position) {
-        if (position == -1) {
-            return null;
-        }
-        final int adapterPosition = mAdapter.themePositionToAdapterPosition(position);
+        final int adapterPosition = mAdapter.themePositionToAdapterPosition(exitPos);
         if ( mRecyclerView != null) {
             View itemView = mRecyclerView.findViewHolderForAdapterPosition(adapterPosition).itemView;
             if (itemView != null) {
-                return itemView.findViewById(R.id.card_preview_img);
+                ImageView imageView = itemView.findViewById(R.id.card_preview_img);
+                View ringtoneMark = itemView.findViewById(R.id.theme_ringtone_mark);
+                sharedElementCallback.setSharedElementViews(imageView, ringtoneMark);
             }
         }
-        return null;
     }
 
     private static class TabTransController implements INotificationObserver {

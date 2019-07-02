@@ -6,10 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.SharedElementCallback;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -32,6 +32,7 @@ import com.honeycomb.colorphone.preview.ThemeStateManager;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
@@ -43,8 +44,6 @@ import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 
 public class ThemePreviewActivity extends HSAppCompatActivity {
@@ -63,6 +62,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private List<ThemePreviewView> mViews = new ArrayList<>();
     private int scrollCount = 0;
     private int lastPos = -1;
+    private MediaSharedElementCallback mediaSharedElementCallback;
 
     public static void start(Context context, int position, Bundle options) {
         start(context, position, FROM_MAIN, options);
@@ -163,24 +163,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mViewPager.setCurrentItem(pos);
         //mViewPager.setCanScroll(false);
 
-        ViewCompat.setTransitionName(mViewPager,
-                TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(pos)));
-
-        ActivityCompat.setEnterSharedElementCallback(this, new SharedElementCallback() {
-
-            @Override
-            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                String name = ViewCompat.getTransitionName(mViewPager);
-                if (!TextUtils.isEmpty(name)) {
-                    names.clear();
-                    sharedElements.clear();
-
-                    names.add(name);
-                    sharedElements.put(Objects.requireNonNull(name), mViewPager);
-                    HSLog.d("SharedElement enter", " onMapSharedElements : " + name);
-                }
-            }
-        });
+        // Window transition
+        mediaSharedElementCallback = new MediaSharedElementCallback();
+        ActivityCompat.setEnterSharedElementCallback(this, mediaSharedElementCallback);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -195,9 +180,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     lastPos = position;
                 }
                 Ap.DetailAd.onPageScrollOnce();
-
-                ViewCompat.setTransitionName(mViewPager,
-                        TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(position)));
             }
 
             @Override
@@ -354,6 +336,18 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             container.removeView((View) object);
             mViews.remove(object);
             mViewPager.removeOnPageChangeListener((ViewPager.OnPageChangeListener) object);
+        }
+
+        @Override
+        public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+            View itemView = (View) object;
+            ViewCompat.setTransitionName(itemView.findViewById(R.id.ringtone_image),
+                    TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREIVIEW_RINTONE, mThemes.get(position)));
+            ViewCompat.setTransitionName(mViewPager,
+                    TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(position)));
+            mediaSharedElementCallback.setSharedElementViews(mViewPager,
+                    itemView.findViewById(R.id.ringtone_image),
+                    itemView.findViewById(R.id.theme_setting));
         }
 
         @Override

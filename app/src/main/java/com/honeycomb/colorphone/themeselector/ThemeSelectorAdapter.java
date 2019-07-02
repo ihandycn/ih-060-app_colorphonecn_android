@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -370,8 +371,9 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             Analytics.logEvent("MainView_ThemeDetail_View", "type", theme.getIdName());
             ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.
                     makeSceneTransitionAnimation(activity,
-                            holder.mThemePreviewImg,
-                            TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme));
+                            Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme)),
+                            Pair.create(holder.mRingtoneMark, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREIVIEW_RINTONE, theme))
+                            );
 
             ThemePreviewActivity.start(activity, pos, activityOptionsCompat.toBundle());
         }
@@ -570,6 +572,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         // Indicates this holder has bound by Adapter. All Views has bounded data.
         // In case, we call start animation before ViewHolder bind.
         private boolean mHolderDataReady;
+        private View mButtonHolderForTrans;
 
         public void setPositionTag(int position) {
             mPositionTag = position;
@@ -600,6 +603,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mAvatar = (ImageView) mContentView.findViewById(R.id.caller_avatar);
             mRingtoneMark = itemView.findViewById(R.id.theme_ringtone_mark);
             mThemeHotMark = itemView.findViewById(R.id.theme_hot_mark);
+            mButtonHolderForTrans = itemView.findViewById(R.id.button_transition_element);
             mThemeStatusView = new ThemeStatusView(itemView);
         }
 
@@ -675,7 +679,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 mCallActionView.setTheme(theme);
             }
             ViewCompat.setTransitionName(mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme));
-
+            ViewCompat.setTransitionName(mRingtoneMark, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREIVIEW_RINTONE, theme));
 
             if (theme.isMedia()) {
                 ImageView targetView = getCoverView(theme);

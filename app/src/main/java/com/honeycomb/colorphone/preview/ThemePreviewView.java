@@ -1880,6 +1880,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void onWindowTransitionStart() {
         mWindowInTransition = true;
+        if (resumed) {
+            mEnjoyApplyBtn.animate().alpha(0).setDuration(200).start();
+        } else {
+            mEnjoyApplyBtn.setAlpha(0.1f);
+            mEnjoyApplyBtn.animate().alpha(1).setDuration(200).start();
+        }
     }
 
     public void onWindowTransitionEnd() {
