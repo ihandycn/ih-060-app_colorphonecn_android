@@ -92,7 +92,6 @@ import java.util.Locale;
 
 import hugo.weaving.DebugLog;
 
-import static com.honeycomb.colorphone.activity.ColorPhoneActivity.NOTIFICATION_ON_REWARDED;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
@@ -688,9 +687,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         updateThemePreviewLayout(mThemeType);
 
-        if (mTheme.isLocked()) {
-            switchToLockState();
-        }
         switchMode(getThemeMode(), needTransAnim);
 
 
@@ -812,31 +808,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return false;
     }
 
-    private void switchToLockState() {
-        ViewStub stub = findViewById(R.id.lock_layout);
-        dimCover.setVisibility(INVISIBLE);
-        mRingtoneViewHolder.hideMusicSwitch();
-        if (mLockLayout == null) {
-            mLockLayout = stub.inflate();
-            mUnLockButton = mLockLayout.findViewById(R.id.unlock_button_container);
-
-            mUnLockButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showRewardVideoToUnlockTheme();
-                    Analytics.logEvent("Colorphone_Theme_Unlock_Clicked", "from", "detail_page", "themeName", mTheme.getName());
-                }
-            });
-        }
-        mActionLayout.setVisibility(INVISIBLE);
-    }
-
-    private void hideLock() {
-        if (mLockLayout != null) {
-            mLockLayout.setVisibility(GONE);
-        }
-    }
-
     private void switchMode(int mode, boolean anim) {
         if (themeLoading) {
             return;
@@ -851,7 +822,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
                 break;
             case PREVIEW_MODE:
-                setPreviewView();
+                changeModeToPreview();
                 break;
             default:
                 break;
@@ -1043,11 +1014,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (animationView.getProgress() != v) {
             animationView.setProgress(v);
         }
-    }
-
-    private void setPreviewView() {
-        mNavBack.setVisibility(GONE);
-        changeModeToPreview();
     }
 
     private void changeModeToPreview() {
@@ -1622,11 +1588,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
             }
 
-            if (mTheme.isLocked()) {
-                switchToLockState();
-            } else {
-                hideLock();
-            }
         }
     }
 
@@ -1881,45 +1842,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void showRewardVideoToUnlockTheme() {
-        mUnLockButton.setClickable(false);
-        if (mRewardVideoView == null) {
-            mRewardVideoView = new RewardVideoView((ViewGroup) findViewById(R.id.root), new RewardVideoView.OnRewarded() {
-                @Override
-                public void onRewarded() {
-                    HSBundle bundle = new HSBundle();
-                    bundle.putInt(ThemePreviewActivity.NOTIFY_THEME_KEY, mTheme.getId());
-                    HSGlobalNotificationCenter.sendNotification(NOTIFICATION_ON_REWARDED, bundle);
-                    mTheme.setLocked(false);
-                    hideLock();
-                    Analytics.logEvent("Colorphone_Theme_Unlock_Success", "from", "detail_page", "themeName", mTheme.getName());
-                }
-
-                @Override
-                public void onAdClose() {
-                    mUnLockButton.setClickable(true);
-                }
-
-                @Override
-                public void onAdCloseAndRewarded() {
-
-                }
-
-                @Override
-                public void onAdShow() {
-                    Analytics.logEvent("Colorphone_Rewardvideo_show", "from", "detail_page", "themeName", mTheme.getName());
-                }
-
-                @Override
-                public void onAdFailed() {
-                    mUnLockButton.setClickable(true);
-                }
-            }, true);
-        }
-
-
-        mRewardVideoView.onRequestRewardVideo();
+       
     }
-
 
     private boolean isCurrentTheme() {
         return ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
