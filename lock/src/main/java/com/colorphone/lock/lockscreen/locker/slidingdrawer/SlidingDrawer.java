@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -209,7 +210,7 @@ public class SlidingDrawer extends FrameLayout implements OnTouchListener {
                 onDrawerScrollStarted(getMotionAxisValue(event));
                 break;
             case MotionEvent.ACTION_MOVE:
-                //onDrawerScroll(getMotionAxisValue(event));
+                onDrawerScroll(getMotionAxisValue(event));
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:

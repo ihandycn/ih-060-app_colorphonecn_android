@@ -258,7 +258,8 @@
 
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="48dp"/>
+                android:layout_height="48dp"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/handle_action_down"

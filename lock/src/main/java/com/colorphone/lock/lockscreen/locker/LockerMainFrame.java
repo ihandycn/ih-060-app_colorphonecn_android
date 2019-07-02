@@ -247,7 +247,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             @Override
             public void onGlobalLayout() {
                 getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                mSlidingDrawer.setTranslationY(mSlidingDrawer.getHeight() - Dimensions.pxFromDp(48));
+                //mSlidingDrawer.setTranslationY(mSlidingDrawer.getHeight() - Dimensions.pxFromDp(48));
+                mSlidingDrawer.setTranslationY(mSlidingDrawer.getHeight());
             }
         });
 
@@ -508,7 +509,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
         if (mIsSlidingDrawerOpened) {
             mBottomOperationArea.setVisibility(View.INVISIBLE);
-            mAdContainer.setVisibility(View.INVISIBLE);
             HSGlobalNotificationCenter.sendNotification(EVENT_SLIDING_DRAWER_OPENED);
             LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Slided");
         } else {
