@@ -168,12 +168,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final int THEME_ENJOY_FOLDING = 1;
     public static final int NAV_FADE_IN = 1;
     private static final int NAV_VISIBLE = 0;
+
+    /**
+     * User set theme for someone success (Without ringtone).
+     */
+    public static boolean sThemeApplySuccessFlag = false;
+
     private TextView mThemeLikeCount;
     private TextView mThemeTitle;
     private PercentRelativeLayout rootView;
 
-    public static boolean ifShowThemeApplyView = false;
-    public static boolean isSelected = false;
     private TextView mEnjoyApplyBtn;
     private TextView mEnjoyApplyDefault;
     private TextView mEnjoyApplyForOne;
@@ -637,7 +641,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void onMediaDownloadOK() {
         onThemeReady(NO_ANIMITION);
-        checkCheckGuideView();
+        checkVerticalScrollGuide();
     }
 
     private boolean triggerMediaReady() {
@@ -687,8 +691,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         updateThemePreviewLayout(mThemeType);
 
-        switchMode(getThemeMode(), needTransAnim);
+        // Show overlay toast/guide view.
+        if (sThemeApplySuccessFlag) {
+            Utils.showApplySuccessToastView(rootView, mNavBack);
+            sThemeApplySuccessFlag = false;
+        } else {
+            if (isSelectedPos()) {
+                checkVerticalScrollGuide();
+            }
+        }
 
+        // Check view preview mode
+        switchMode(getThemeMode(), needTransAnim);
 
         if (needTransAnim || mCallName.getVisibility() != VISIBLE) {
             playTransInAnimation(transEndRunnable);
@@ -729,7 +743,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        Utils.showApplyView(rootView, mNavBack);
+        Utils.showApplySuccessToastView(rootView, mNavBack);
         GuideSetDefaultActivity.start(mActivity, false);
 
 
@@ -781,7 +795,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return false;
     }
 
-    private boolean checkCheckGuideView() {
+    private boolean checkVerticalScrollGuide() {
         if (Preferences.getDefault().getBoolean(PREF_KEY_SCROLL_GUIDE_SHOWN, true)) {
             ViewStub stub = findViewById(R.id.preview_guide_viewstub);
             final View guideView = stub.inflate();
@@ -1314,18 +1328,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void playTransInAnimation(final Runnable completeRunnable) {
-        if (mTheme.isLocked()) {
-            mCallName.setVisibility(INVISIBLE);
-            mNumberName.setVisibility(INVISIBLE);
-            mUserView.setVisibility(INVISIBLE);
-            callActionView.setVisibility(INVISIBLE);
-
-            if (completeRunnable != null) {
-                completeRunnable.run();
-            }
-            return;
-        }
-
         if (mNoTransition) {
             if (completeRunnable != null) {
                 completeRunnable.run();
@@ -1498,7 +1500,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void onStart() {
-
         mWaitMediaReadyCount = 0;
         // We do not play animation if activity restart.
         // TODO as method
@@ -1523,13 +1524,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (model != null) {
             // GIf/Mp4
             if (TasksManager.getImpl().isDownloaded(model)) {
-                if (ifShowThemeApplyView) {
-                    Utils.showApplyView(rootView, mNavBack);
-                    ifShowThemeApplyView = false;
-                }
-
                 onVideoReady(playTrans);
-                checkCheckGuideView();
             } else {
                 mDownloadTasks.put(DownloadTask.TYPE_THEME, new DownloadTask(model, DownloadTask.TYPE_THEME));
                 themeLoading = true;
@@ -2111,7 +2106,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         setAsRingtone(true, false);
 
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
-                        Utils.showApplyView(rootView, mNavBack);
+                        Utils.showApplySuccessToastView(rootView, mNavBack);
 
                     }
                     if (getThemeMode() == ENJOY_MODE) {
@@ -2131,7 +2126,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         onThemeApply();
                     } else {
                         ThemeSetHelper.onConfirm(ThemeSetHelper.getCacheContactList(), mTheme, null);
-                        Utils.showApplyView(rootView, mNavBack);
+                        Utils.showApplySuccessToastView(rootView, mNavBack);
                     }
                     if (getThemeMode() == ENJOY_MODE) {
                         navFadeInOrVisible = NAV_FADE_IN;

@@ -1,7 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
 import android.os.Bundle;
-import android.support.percent.PercentRelativeLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
 import android.widget.Button;
@@ -12,8 +11,6 @@ import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.contact.SimpleContact;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
-import com.honeycomb.colorphone.util.Utils;
-import com.ihs.app.framework.HSApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +72,7 @@ public class ContactsSelectActivity extends ContactsActivity {
                 @Override
                 public void run() {
                     ContactsSelectActivity.this.finish();
-                    ThemePreviewView.ifShowThemeApplyView = true;
+                    ThemePreviewView.sThemeApplySuccessFlag = true;
                 }
             });
         }
