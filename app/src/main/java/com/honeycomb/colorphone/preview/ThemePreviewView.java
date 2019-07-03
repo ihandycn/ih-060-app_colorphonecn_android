@@ -641,7 +641,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void onMediaDownloadOK() {
         onThemeReady(NO_ANIMITION);
-        checkVerticalScrollGuide();
     }
 
     private boolean triggerMediaReady() {
@@ -798,6 +797,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private boolean checkVerticalScrollGuide() {
         if (Preferences.getDefault().getBoolean(PREF_KEY_SCROLL_GUIDE_SHOWN, true)) {
             ViewStub stub = findViewById(R.id.preview_guide_viewstub);
+            if (stub == null) {
+                return false;
+            }
             final View guideView = stub.inflate();
             guideView.setAlpha(0);
             guideView.animate().alpha(1).setDuration(ANIMATION_DURATION).start();
