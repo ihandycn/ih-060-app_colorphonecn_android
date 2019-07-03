@@ -1,5 +1,8 @@
 package com.honeycomb.colorphone.autopermission;
 
+import android.content.Context;
+import android.os.PowerManager;
+
 import com.honeycomb.colorphone.Constants;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.permission.Utils;
@@ -41,6 +44,18 @@ public class AutoPermissionChecker {
             return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_bg_popup_permission", false);
         } else {
             // TODO
+            return true;
+        }
+    }
+
+    public static boolean hasIgnoreBatteryPermission() {
+        if (Compats.IS_HUAWEI_DEVICE) {
+            PowerManager powerManager = (PowerManager) HSApplication.getContext().getSystemService(Context.POWER_SERVICE);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                return powerManager.isIgnoringBatteryOptimizations(HSApplication.getContext().getPackageName());
+            }
+            return true;
+        } else {
             return true;
         }
     }

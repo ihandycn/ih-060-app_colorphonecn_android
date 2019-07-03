@@ -225,6 +225,9 @@ public class AutoRequestManager {
             permission.add(TYPE_CUSTOM_CONTACT_WRITE);
             permission.add(TYPE_CUSTOM_CONTACT_READ);
         }
+        if (!AutoPermissionChecker.hasIgnoreBatteryPermission()) {
+            permission.add(HSPermissionRequestMgr.TYPE_INGORE_BATTERY_OPTIMIZATIONS);
+        }
         if (!Permissions.isNotificationAccessGranted()) {
             permission.add(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
         }
