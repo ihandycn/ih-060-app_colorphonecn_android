@@ -15,11 +15,6 @@
         style="@style/RatioView.Image"
         />
 
-    <com.acb.call.views.ThemePreviewWindow
-        android:id="@+id/card_flash_preview_window"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <ImageView
         android:layout_gravity="center"
         android:id="@+id/place_holder"
@@ -28,6 +23,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <com.acb.call.views.ThemePreviewWindow
+        android:id="@+id/card_flash_preview_window"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <include
         layout="@layout/lock_action_view_layout"
