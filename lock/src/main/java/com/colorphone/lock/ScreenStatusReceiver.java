@@ -3,6 +3,7 @@ package com.colorphone.lock;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.format.DateUtils;
 
@@ -70,8 +71,9 @@ public class ScreenStatusReceiver {
     }
 
     public static final int EVENT_PRESENT_RUNNABLE_EXPIRE = 1;
+    
     @SuppressLint("HandlerLeak")
-    private static Handler sHandler = new Handler() {
+    private static Handler sHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {

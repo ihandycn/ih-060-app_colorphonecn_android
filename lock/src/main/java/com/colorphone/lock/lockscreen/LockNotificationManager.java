@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.WorkerThread;
 import android.text.TextUtils;
 
 import com.colorphone.lock.BuildConfig;
@@ -91,13 +92,30 @@ public class LockNotificationManager {
 
     public static LockNotificationManager getInstance() {
         if (lockNotificationManager == null) {
-            lockNotificationManager = new LockNotificationManager();
+            synchronized (LockNotificationManager.class) {
+                if (lockNotificationManager == null) {
+                    lockNotificationManager = new LockNotificationManager();
+                }
+            }
         }
         return lockNotificationManager;
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public void onNotificationPosted(StatusBarNotification statusBarNotification) {
+    @WorkerThread
+    public void onNotificationPosted(final StatusBarNotification statusBarNotification) {
+        if (BuildConfig.DEBUG) {
+            HSLog.e("LockNotificationManager", "New notification:" + 11);
+        }
+        Threads.postOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                onNotificationPostedMainThread(statusBarNotification);
+            }
+        });
+    }
+
+    private void onNotificationPostedMainThread(StatusBarNotification statusBarNotification) {
         if (BuildConfig.DEBUG) {
             HSLog.e("LockNotificationManager", "New notification:" + 11);
         }
