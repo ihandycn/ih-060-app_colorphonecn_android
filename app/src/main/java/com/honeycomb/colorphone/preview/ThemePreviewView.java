@@ -25,6 +25,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
@@ -792,16 +793,22 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             final View guideView = stub.inflate();
             guideView.setAlpha(0);
             guideView.animate().alpha(1).setDuration(ANIMATION_DURATION).start();
-            guideView.setOnClickListener(v -> {
-                mActivity.findViewById(R.id.nav_back).setAlpha(1f);
-                guideView.animate().alpha(0).translationY(-Dimensions.getPhoneHeight(getContext())).setDuration(ANIMATION_DURATION)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                guideView.setVisibility(GONE);
-                            }
-                        }).start();
-                Preferences.getDefault().putBoolean(PREF_KEY_SCROLL_GUIDE_SHOWN, false);
+            guideView.setOnTouchListener(new OnTouchListener() {
+                @Override public boolean onTouch(View v, MotionEvent event) {
+                    int action = event.getAction();
+                    if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_UP) {
+                        mActivity.findViewById(R.id.nav_back).setAlpha(1f);
+                        guideView.animate().alpha(0).translationY(-Dimensions.getPhoneHeight(ThemePreviewView.this.getContext())).setDuration(ANIMATION_DURATION)
+                                .setListener(new AnimatorListenerAdapter() {
+                                    @Override public void onAnimationEnd(Animator animation) {
+                                        super.onAnimationEnd(animation);
+                                        guideView.setVisibility(GONE);
+                                    }
+                                }).start();
+                        Preferences.getDefault().putBoolean(PREF_KEY_SCROLL_GUIDE_SHOWN, false);
+                    }
+                    return true;
+                }
             });
 
             LottieAnimationView view = guideView.findViewById(R.id.theme_preview_guide_anim);
