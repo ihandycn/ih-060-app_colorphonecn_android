@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Some hacks pulled from https://github.com/googlesamples/android-unsplash
@@ -36,7 +37,7 @@ public class MediaSharedElementCallback extends SharedElementCallback {
     private boolean clearAfterConsume = false;
 
     public MediaSharedElementCallback() {
-        mSharedElementViews = new ArrayList<>();
+        mSharedElementViews = new CopyOnWriteArrayList<>();
     }
 
     public void setClearAfterConsume(boolean clearAfterConsume) {
@@ -67,9 +68,6 @@ public class MediaSharedElementCallback extends SharedElementCallback {
     public void onSharedElementEnd(List<String> sharedElementNames,
                                    List<View> sharedElements,
                                    List<View> sharedElementSnapshots) {
-        for (View sharedElementView : mSharedElementViews) {
-            forceSharedElementLayout(sharedElementView);
-        }
     }
 
     /**
@@ -104,15 +102,6 @@ public class MediaSharedElementCallback extends SharedElementCallback {
                 sharedElements.remove(elementToRemove);
             }
         }
-    }
-
-    private void forceSharedElementLayout(View view) {
-        int widthSpec = View.MeasureSpec.makeMeasureSpec(view.getWidth(),
-                View.MeasureSpec.EXACTLY);
-        int heightSpec = View.MeasureSpec.makeMeasureSpec(view.getHeight(),
-                View.MeasureSpec.EXACTLY);
-        view.measure(widthSpec, heightSpec);
-        view.layout(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
     }
 
 }
