@@ -30,7 +30,6 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
-import com.ihs.permission.HSPermissionRequestMgr;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -397,14 +396,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         boolean needRefreshView = (Utils.isAccessibilityGranted() || isRetryEnd())
                 && !AutoRequestManager.getInstance().isRequestPermission();
 
-        boolean canceledByUser =
-                !AutoRequestManager.getInstance().isBackPressExecuted()
-                && AutoRequestManager.getInstance().isRequestFloatPermission();
-        if (canceledByUser) {
-            HSLog.d("AutoPermission", "Auto task canceled");
-            HSPermissionRequestMgr.getInstance().cancelRequest();
-            needRefreshView = true;
-        }
+//        boolean canceledByUser =
+//                !AutoRequestManager.getInstance().isBackPressExecuted()
+//                && AutoRequestManager.getInstance().isRequestFloatPermission();
+//        if (canceledByUser) {
+//            HSLog.d("AutoPermission", "Auto task canceled");
+//            HSPermissionRequestMgr.getInstance().cancelRequest();
+//            needRefreshView = true;
+//        }
 
         if (needRefreshView) {
             HSLog.i("AutoPermission", "onPermissionChanged onStart");
