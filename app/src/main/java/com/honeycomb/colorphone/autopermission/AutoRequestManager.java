@@ -91,6 +91,9 @@ public class AutoRequestManager {
     private WindowManager windowMgr;
     private boolean isCoverWindow = false;
     private boolean isRequestPermission = false;
+    private boolean isRequestFloatPermission = false;
+    private boolean backPressExecuted = false;
+
     private int executeBackPressTryCount;
 
     private AutoRequestManager() {}
@@ -135,6 +138,7 @@ public class AutoRequestManager {
                 @Override
                 public void onSuccess() {
                     HSLog.d(TAG, "performGlobalAction success");
+                    backPressExecuted = true;
                     performPermissionCheck();
                 }
 
@@ -180,6 +184,14 @@ public class AutoRequestManager {
                     if (!isSucceed) {
                         AutoLogger.logAutomaticPermissionFailed(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY, msg);
                     }
+                    isRequestFloatPermission = false;
+                }
+
+                @Override
+                public void onSinglePermissionStarted(int index) {
+                    super.onSinglePermissionStarted(index);
+                    HSLog.d(TAG, "Overlay");
+                    isRequestFloatPermission = true;
                 }
             });
         }
@@ -364,6 +376,14 @@ public class AutoRequestManager {
 
     public boolean isRequestPermission() {
         return isRequestPermission;
+    }
+
+    public boolean isRequestFloatPermission() {
+        return isRequestFloatPermission;
+    }
+
+    public boolean isBackPressExecuted() {
+        return backPressExecuted;
     }
 
     public boolean isGrantAllPermission() {
