@@ -149,8 +149,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private IntentFilter intentFilter;
     private boolean themeLoading = false;
 
-
     private View mNavBack;
+    private View mThemeLayout;
 
     private ImageView previewImage;
     private Theme mTheme;
@@ -479,6 +479,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 mActivity.onBackPressed();
             }
         });
+        mThemeLayout = findViewById(R.id.card_theme_info_layout);
+        mThemeLayout.getLayoutParams().width = Math.max(Dimensions.pxFromDp(180), Utils.getPhoneWidth(mActivity) - Dimensions.pxFromDp(180));
 
         mApplyForOne = findViewById(R.id.theme_set_for_one);
         mApplyForOne.setEnabled(mTheme.getId() != Theme.RANDOM_THEME);
@@ -1840,15 +1842,41 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mWindowInTransition = true;
         if (resumed) {
             mEnjoyApplyBtn.animate().alpha(0).setDuration(200).start();
-            
             mNavBack.animate().alpha(0).setDuration(200).start();
-            mRingtoneViewHolder.imageView.animate().alpha(0).setDuration(200).start();
+            mRingtoneViewHolder.imageView.animate().alpha(0.1f)
+                    .translationX(Dimensions.pxFromDp(28))
+                    .translationY(-Dimensions.pxFromDp(26))
+                    .setDuration(200).start();
+
+
             if (getThemeMode() == PREVIEW_MODE) {
                 animCallGroupViewToVisible(false);
             }
+
+            // Layout in card item has less margins, smooth fade out
+            mThemeLayout.animate()
+                    .translationX(-Dimensions.pxFromDp(12))
+                    .translationY(Dimensions.pxFromDp(22))
+                    .setDuration(200).start();
+
         } else {
-            mEnjoyApplyBtn.setAlpha(0.1f);
+
+            mEnjoyApplyBtn.setAlpha(0.01f);
             mEnjoyApplyBtn.animate().alpha(1).setDuration(200).start();
+
+            mRingtoneViewHolder.imageView.setTranslationX(Dimensions.pxFromDp(28));
+            mRingtoneViewHolder.imageView.setTranslationY(-Dimensions.pxFromDp(28));
+            mRingtoneViewHolder.imageView.setScaleX(0.76f);
+            mRingtoneViewHolder.imageView.setScaleY(0.76f);
+            mRingtoneViewHolder.imageView.animate()
+                    .scaleX(1f).scaleY(1f)
+                    .translationX(0).translationY(0)
+                    .setDuration(200).start();
+
+            // Layout in card item has less margins, smooth fade in
+            mThemeLayout.setTranslationX(-Dimensions.pxFromDp(12));
+            mThemeLayout.setTranslationY(Dimensions.pxFromDp(22));
+            mThemeLayout.animate().translationY(0).translationX(0).setDuration(200).start();
         }
     }
 

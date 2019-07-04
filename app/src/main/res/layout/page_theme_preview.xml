@@ -210,13 +210,13 @@
 
         <include
             layout="@layout/layout_card_theme_info"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
             android:layout_marginBottom="22dp"
-            android:layout_toLeftOf="@+id/theme_setting" />
+            />
 
         <TextView
             android:id="@+id/theme_setting"

@@ -33,7 +33,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:maxLines="2"
-        android:text="主人那家伙哦y又来电话了，换回老的"
+        tools:text="主人那家伙哦y又来电话了，换回老的"
         android:textColor="@color/primaryText"
         android:textSize="16sp"
         android:textStyle="bold"
