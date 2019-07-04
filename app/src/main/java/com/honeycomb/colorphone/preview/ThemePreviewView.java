@@ -386,7 +386,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mActivity = activity;
         mTheme = themes.get(position);
         mPosition = position;
-        mNavBack = navBack;
+        if (navBack != null) {
+            mNavBack = navBack;
+        }
 //        mRootView = null;
         ArrayList<Type> types = Type.values();
         for (Type t : types) {
@@ -470,6 +472,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mApplyButton = (TextView) findViewById(R.id.theme_apply_btn);
         mActionLayout = findViewById(R.id.theme_apply_layout);
 
+        mNavBack = findViewById(R.id.nav_back);
+        mNavBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.onBackPressed();
+            }
+        });
 
         mApplyForOne = findViewById(R.id.theme_set_for_one);
         mApplyForOne.setEnabled(mTheme.getId() != Theme.RANDOM_THEME);
@@ -1831,6 +1840,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mWindowInTransition = true;
         if (resumed) {
             mEnjoyApplyBtn.animate().alpha(0).setDuration(200).start();
+            
+            mNavBack.animate().alpha(0).setDuration(200).start();
+            mRingtoneViewHolder.imageView.animate().alpha(0).setDuration(200).start();
             if (getThemeMode() == PREVIEW_MODE) {
                 animCallGroupViewToVisible(false);
             }

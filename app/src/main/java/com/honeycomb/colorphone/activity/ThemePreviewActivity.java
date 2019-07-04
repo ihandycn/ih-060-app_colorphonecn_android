@@ -57,7 +57,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private Theme mTheme;
     private ArrayList<Theme> mThemes = new ArrayList<>();
     private ViewPagerFixed mViewPager;
-    private View mNavBack;
     private ThemePagerAdapter mAdapter;
     private List<ThemePreviewView> mViews = new ArrayList<>();
     private int scrollCount = 0;
@@ -188,13 +187,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
         });
 
-        mNavBack = findViewById(R.id.nav_back);
-        mNavBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+
         if (mTheme.isLocked()) {
             Analytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
@@ -315,7 +308,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ThemePreviewView controller = new ThemePreviewView(ThemePreviewActivity.this);
-            controller.init(ThemePreviewActivity.this, mThemes, position, mNavBack);
+            controller.init(ThemePreviewActivity.this, mThemes, position, null);
             controller.setPageSelectedPos(mViewPager.getCurrentItem());
             if (position == mViewPager.getCurrentItem()) {
                 controller.setBlockAnimationForPageChange(false);
@@ -346,7 +339,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             ViewCompat.setTransitionName(mViewPager,
                     TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(position)));
             mediaSharedElementCallback.setSharedElementViews(mViewPager,
-                    itemView.findViewById(R.id.ringtone_image),
                     itemView.findViewById(R.id.theme_setting));
         }
 

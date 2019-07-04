@@ -39,7 +39,16 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/preview_button_bg_dark_gradient"
         android:paddingBottom="14dp">
-
+        <ImageView
+            android:id="@+id/nav_back"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:scaleType="centerInside"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_round_material_compat"
+            android:src="@drawable/ic_back_round_thin" />
         <ImageView
             android:id="@+id/ringtone_image"
             style="@style/NormalButton"
