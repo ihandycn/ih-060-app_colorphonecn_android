@@ -1167,8 +1167,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             View itemView = mRecyclerView.findViewHolderForAdapterPosition(adapterPosition).itemView;
             if (itemView != null) {
                 ImageView imageView = itemView.findViewById(R.id.card_preview_img);
-                View ringtoneMark = itemView.findViewById(R.id.theme_ringtone_mark);
-                sharedElementCallback.setSharedElementViews(imageView, ringtoneMark);
+                sharedElementCallback.setSharedElementViews(imageView);
             }
         }
     }

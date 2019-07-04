@@ -371,8 +371,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             Analytics.logEvent("MainView_ThemeDetail_View", "type", theme.getIdName());
             ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.
                     makeSceneTransitionAnimation(activity,
-                            Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme)),
-                            Pair.create(holder.mRingtoneMark, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREIVIEW_RINTONE, theme))
+                            Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
                             );
 
             ThemePreviewActivity.start(activity, pos, activityOptionsCompat.toBundle());

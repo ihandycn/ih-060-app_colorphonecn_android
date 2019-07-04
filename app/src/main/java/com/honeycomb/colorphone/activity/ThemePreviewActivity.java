@@ -338,8 +338,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREIVIEW_RINTONE, mThemes.get(position)));
             ViewCompat.setTransitionName(mViewPager,
                     TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(position)));
-            mediaSharedElementCallback.setSharedElementViews(mViewPager,
-                    itemView.findViewById(R.id.theme_setting));
+            mediaSharedElementCallback.setSharedElementViews(mViewPager);
         }
 
         @Override
