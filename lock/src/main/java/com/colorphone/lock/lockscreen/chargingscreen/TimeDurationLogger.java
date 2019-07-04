@@ -29,7 +29,7 @@ public class TimeDurationLogger {
     }
 
     private static String getDurationFormatName(long intervalMills) {
-        long num = intervalMills / 12;
+        long num = intervalMills / 12 / 1000;
         if (num <= 3) {
             return String.valueOf(num);
         } else if (num <= 5) {
