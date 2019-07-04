@@ -848,7 +848,7 @@
 			<key>NotificationToolbar</key>
 			<dict>
 				<key>Enable</key>
-				<false/>
+				<true/>
 				<key>ToolbarEnableVersionCode</key>
 				<array>
 					<integer>100</integer>
