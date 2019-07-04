@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sliding_drawer_content"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/locker_toggle_height"
-    android:layout_marginTop="48dp">
+    android:layout_height="@dimen/locker_toggle_height">
 
     <ImageView
         android:id="@+id/iv_slide_bg"
