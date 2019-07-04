@@ -29,6 +29,7 @@ import com.acb.call.themes.Type;
 import com.acb.cashcenter.CashCenterCallback;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
+import com.acb.cashcenter.dialog.NoAdDialog;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
@@ -578,6 +579,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void initCashCenterMgr() {
         HSCashCenterManager.getInstance().init(ColorPhoneActivity.this, new CashCenterCallback() {
+            @Override public void onFeastInitFinish(boolean b, int i, String s) {
+
+            }
+
             @Override public void onCashCenterShow() {
 
             }
@@ -639,6 +644,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 Analytics.logEvent("CashCenter_Native_Ad_Show");
 
                 AcbNativeAdAnalytics.logAppViewEvent("CashNative", b);
+            }
+
+            @Override public void showInterstitialAd(NoAdDialog noAdDialog) {
+
             }
         });
         AcbNativeAdManager.getInstance().activePlacementInProcess("CashNative");
