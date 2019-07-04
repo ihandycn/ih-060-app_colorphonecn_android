@@ -13,12 +13,12 @@
 			</dict>
 			<key>AutoPermission</key>
 			<dict>
-				<key>ToastDurationSeconds</key>
-				<integer>18</integer>
 				<key>AccessibilityShowCount</key>
 				<integer>1</integer>
 				<key>SkipShowCount</key>
 				<integer>100</integer>
+				<key>ToastDurationSeconds</key>
+				<integer>18</integer>
 				<key>WaitListScroll</key>
 				<true/>
 			</dict>
@@ -219,8 +219,6 @@
 			</dict>
 			<key>FeedbackEmailAddress</key>
 			<string>support_colorphone@126.com</string>
-			<key>FeedbackURL</key>
-			<string>https://service.appcloudbox.net</string>
 			<key>FullScreen</key>
 			<dict>
 				<key>DetailView</key>
@@ -310,7 +308,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>can&apos;t deliver broadcast</string>
+					<string>can't deliver broadcast</string>
 					<key>Type</key>
 					<string>RemoteServiceException</string>
 				</dict>
@@ -339,7 +337,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to invoke virtual method &apos;void android.view.Display.getSize(android.graphics.Point)&apos; on a null object reference</string>
+					<string>Attempt to invoke virtual method 'void android.view.Display.getSize(android.graphics.Point)' on a null object reference</string>
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
@@ -347,7 +345,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to read from field &apos;int android.view.View.mViewFlags&apos; on a null object reference</string>
+					<string>Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference</string>
 				</dict>
 			</array>
 			<key>LEDReminder</key>
@@ -450,6 +448,21 @@
 			</dict>
 			<key>Locker</key>
 			<dict>
+				<key>Ads</key>
+				<dict>
+					<key>MinCountToShowAds</key>
+					<integer>1</integer>
+					<key>ShowAdsInterval</key>
+					<integer>1</integer>
+				</dict>
+				<key>AutoOpenWhenSwitchOn</key>
+				<false/>
+				<key>ChargeDefaultEnabled</key>
+				<false/>
+				<key>ChargeDoNotDisturb</key>
+				<false/>
+				<key>LockerDefaultEnabled</key>
+				<true/>
 				<key>Notification</key>
 				<dict>
 					<key>WhiteList</key>
@@ -498,21 +511,6 @@
 					<string>com.tencent.qqmusic</string>
 					<string>com.netease.cloudmusic</string>
 				</array>
-				<key>Ads</key>
-				<dict>
-					<key>MinCountToShowAds</key>
-					<integer>1</integer>
-					<key>ShowAdsInterval</key>
-					<integer>1</integer>
-				</dict>
-				<key>AutoOpenWhenSwitchOn</key>
-				<false/>
-				<key>ChargeDefaultEnabled</key>
-				<false/>
-				<key>ChargeDoNotDisturb</key>
-				<false/>
-				<key>LockerDefaultEnabled</key>
-				<true/>
 				<key>Wallpapers</key>
 				<array>
 					<dict>
@@ -948,8 +946,10 @@
 				</dict>
 				<key>SmsAssistant</key>
 				<dict>
+					<key>ActiveAfterInstallMinutes</key>
+					<integer>360</integer>
 					<key>Enable</key>
-					<true/>
+					<false/>
 					<key>NotShowOnScreen</key>
 					<true/>
 					<key>ShowAds</key>
@@ -957,12 +957,10 @@
 					<key>SourceSwitch</key>
 					<dict>
 						<key>SMS</key>
-						<true/>
+						<false/>
 						<key>WeChat</key>
-						<true/>
+						<false/>
 					</dict>
-					<key>ActiveAfterInstallMinutes</key>
-					<integer>360</integer>
 				</dict>
 			</dict>
 			<key>Share</key>
@@ -1001,19 +999,6 @@
 				<true/>
 				<key>DefaultThemeID</key>
 				<string>Dog</string>
-				<key>RandomTheme</key>
-				<array>
-					<string>DeepLove</string>
-					<string>Shining</string>
-					<string>FlashingRing</string>
-					<string>LovelyBanbu</string>
-					<string>Colorlight</string>
-					<string>MiniSanta</string>
-					<string>STARS</string>
-					<string>Dance</string>
-					<string>BanboKitty</string>
-					<string>Gingerbread</string>
-				</array>
 				<key>List</key>
 				<array>
 					<dict>
@@ -1105,7 +1090,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>119336</real>
+						<integer>119336</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -1156,7 +1141,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>110823</real>
+						<integer>110823</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -1207,7 +1192,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>93823</real>
+						<integer>93823</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -1309,7 +1294,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>98536</real>
+						<integer>98536</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -1344,10 +1329,10 @@
 						</dict>
 						<key>PreviewImage</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing_preview.jpg</string>
-						<key>Ringtone</key>
-						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing.mp3</string>
 						<key>ResType</key>
 						<string>url</string>
+						<key>Ringtone</key>
+						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/theme/flashingring/FlashingRing.mp3</string>
 						<key>Status</key>
 						<dict>
 							<key>Lock</key>
@@ -1870,7 +1855,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>83266</real>
+						<integer>83266</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -3247,7 +3232,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>95274</real>
+						<integer>95274</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -3296,7 +3281,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>84497</real>
+						<integer>84497</integer>
 						<key>Gif</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/gifs/Shining.gif</string>
 						<key>Hot</key>
@@ -3381,7 +3366,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>75686</real>
+						<integer>75686</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -3483,7 +3468,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>86978</real>
+						<integer>86978</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -3636,7 +3621,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>78346</real>
+						<integer>78346</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -3687,7 +3672,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>65796</real>
+						<integer>65796</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -3738,7 +3723,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>80823</real>
+						<integer>80823</integer>
 						<key>Gif</key>
 						<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/resource/gifs/DeepLove.gif</string>
 						<key>Hot</key>
@@ -3823,7 +3808,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>57186</real>
+						<integer>57186</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -3899,7 +3884,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>67237</real>
+						<integer>67237</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -4101,7 +4086,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>57286</real>
+						<integer>57286</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -4660,7 +4645,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>75686</real>
+						<integer>75686</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -4711,7 +4696,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>75696</real>
+						<integer>75696</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -5163,7 +5148,7 @@
 						<key>Description</key>
 						<string></string>
 						<key>DownloadNum</key>
-						<real>63239</real>
+						<integer>63239</integer>
 						<key>Gif</key>
 						<string></string>
 						<key>Hot</key>
@@ -5910,7 +5895,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d&apos;épice</string>
+							<string>Pain d'épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -6117,7 +6102,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell&apos;oro</string>
+							<string>Il mito dell'oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>
@@ -7505,6 +7490,19 @@
 							<true/>
 						</dict>
 					</dict>
+				</array>
+				<key>RandomTheme</key>
+				<array>
+					<string>DeepLove</string>
+					<string>Shining</string>
+					<string>FlashingRing</string>
+					<string>LovelyBanbu</string>
+					<string>Colorlight</string>
+					<string>MiniSanta</string>
+					<string>STARS</string>
+					<string>Dance</string>
+					<string>BanboKitty</string>
+					<string>Gingerbread</string>
 				</array>
 				<key>RingtoneEnable</key>
 				<true/>
