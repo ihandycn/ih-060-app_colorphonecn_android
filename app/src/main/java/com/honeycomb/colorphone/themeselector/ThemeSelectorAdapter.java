@@ -557,7 +557,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         ThemePreviewWindow mThemeFlashPreviewWindow;
         InCallActionView mCallActionView;
         ViewGroup mLockActionView;
-        View mActionViewContainer;
 
         ThemeStatusView mThemeStatusView;
 
@@ -590,8 +589,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             mThemeLikeCount = (TextView) itemView.findViewById(R.id.card_like_count_txt);
             mThemeLikeAnim = (LottieAnimationView) itemView.findViewById(R.id.like_count_icon);
-
-            mActionViewContainer = itemView.findViewById(R.id.action_view_container);
 
             mThemeFlashPreviewWindow = (ThemePreviewWindow) itemView.findViewById(R.id.card_flash_preview_window);
             mThemeFlashPreviewWindow.setPreviewType(ThemePreviewWindow.PreviewType.PREVIEW);

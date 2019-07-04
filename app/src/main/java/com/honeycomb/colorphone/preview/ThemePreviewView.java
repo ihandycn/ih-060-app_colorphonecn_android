@@ -484,10 +484,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mApplyForOne.setEnabled(mTheme.getId() != Theme.RANDOM_THEME);
 
         mEnjoyThemeLayout = findViewById(R.id.enjoy_layout);
-        mThemeTitle = findViewById(R.id.title_line);
+        mThemeTitle = findViewById(R.id.card_title);
         mThemeTitle.setText(mTheme.getName());
 
-        mThemeLikeCount = findViewById(R.id.collect_num);
+        mThemeLikeCount = findViewById(R.id.card_like_count_txt);
         mThemeLikeCount.setText(String.valueOf(mTheme.getDownload()));
         mThemeLikeAnim = findViewById(R.id.like_count_icon);
         if (mTheme.isLike()) {
@@ -519,7 +519,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mEnjoyApplyDefault = findViewById(R.id.theme_setting_default);
         mEnjoyApplyForOne = findViewById(R.id.theme_setting_single);
         mEnjoyClose = findViewById(R.id.theme_setting_close);
-        mThemeSelected = findViewById(R.id.theme_selected);
+        mThemeSelected = findViewById(R.id.card_selected);
         mThemeSelected.setVisibility(GONE);
 
         rootView = findViewById(R.id.root);
