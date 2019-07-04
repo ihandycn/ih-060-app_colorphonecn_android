@@ -181,9 +181,7 @@ public class AutoRequestManager {
 
                 @Override
                 public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
-                    if (!isSucceed) {
-                        AutoLogger.logAutomaticPermissionFailed(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY, msg);
-                    }
+                    AutoLogger.logAutomaticPermissionResult(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY, isSucceed, msg);
                     isRequestFloatPermission = false;
                 }
 
@@ -285,9 +283,7 @@ public class AutoRequestManager {
                     default:
                         break;
                 }
-                if (!isSucceed) {
-                    AutoLogger.logAutomaticPermissionFailed(type, msg);
-                }
+                AutoLogger.logAutomaticPermissionResult(type, isSucceed, msg);
                 notifyPermissionGranted(type, isSucceed);
             }
         });

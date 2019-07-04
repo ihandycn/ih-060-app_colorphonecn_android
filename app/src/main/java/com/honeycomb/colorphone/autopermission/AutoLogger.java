@@ -11,9 +11,9 @@ import com.superapps.util.Compats;
  * @author sundxing
  */
 public class AutoLogger {
-    public static void logAutomaticPermissionFailed(String typeName, String reason) {
-        Analytics.logEvent("Automatic_Failed_" + getBrand() + "_" + formatPermissionName(typeName),
-                "Reason", reason == null ? "Null" : reason,
+    public static void logAutomaticPermissionResult(String typeName, boolean isSucceed, String reason) {
+        Analytics.logEvent("Automatic_" + (isSucceed ? "Success_" : "Failed_") + getBrand() + "_" + formatPermissionName(typeName),
+                "Reason", reason == null ? "None" : reason,
                 "Os", getOSVersion(), "Version", RomUtils.getRomVersion());
 
     }
