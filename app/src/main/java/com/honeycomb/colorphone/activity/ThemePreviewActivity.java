@@ -252,6 +252,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
         });
 
+        PreviewAdManager.getInstance().setEnable(HSConfig.optBoolean(true, "Application", "Theme", "ScrollShowAds"));
         PreviewAdManager.getInstance().preload(this);
     }
 
@@ -334,7 +335,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private boolean isShowThemeFullAd(int position) {
         if (HSConfig.optBoolean(true, "Application", "Theme", "ScrollShowAds") && position >= 2) {
-            return Math.abs(position - lastThemeFullAdIndex) > HSConfig.optInteger(4, "Application", "Theme", "CallThemeIntervalShowAd");
+            return Math.abs(position - lastThemeFullAdIndex) >= HSConfig.optInteger(4, "Application", "Theme", "CallThemeIntervalShowAd");
         }
         return false;
     }
