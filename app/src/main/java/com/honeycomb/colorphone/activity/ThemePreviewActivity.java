@@ -23,6 +23,7 @@ import com.colorphone.lock.fullscreen.NotchTools;
 import com.colorphone.lock.fullscreen.helper.NotchStatusBarUtils;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.ColorPhoneApplication;
+import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -33,6 +34,7 @@ import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.preview.ThemeStateManager;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
+import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.TransitionUtil;
@@ -176,12 +178,19 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
             }
 
+            List<Integer> shouldShowAdIndex = new ArrayList<>();
             @Override
             public void onPageSelected(int position) {
-                if (isShowThemeFullAd(position + position - lastPos) && PreviewAdManager.getInstance().getNativeAd() != null && mAdapter != null) {
-                    HSLog.i("ThemeFullAd", "onPageSelected addAdView: " + (position + position - lastPos));
-                    mAdapter.addAdView();
-                    mAdapter.notifyDataSetChanged();
+                if (isShowThemeFullAd(position + position - lastPos) && mAdapter != null) {
+                    shouldShowAdIndex.add(position + position - lastPos);
+                    if (PreviewAdManager.getInstance().getNativeAd() != null) {
+                        HSLog.i("ThemeFullAd", "onPageSelected addAdView: " + (position + position - lastPos));
+                        mAdapter.addAdView();
+                        mAdapter.notifyDataSetChanged();
+                    }
+
+                    HSLog.i("ThemeFullAd", "ThemeScroll_Ad_Should_Show");
+                    Analytics.logEvent("ThemeScroll_Ad_Should_Show");
                 }
 
                 if (lastPos != position) {
@@ -189,6 +198,17 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     lastPos = position;
                 }
                 Ap.DetailAd.onPageScrollOnce();
+
+                if (lastThemeFullAdIndex == position) {
+                    HSLog.i("ThemeFullAd", "ThemeScroll_Ad_Show");
+                    Analytics.logEvent("ThemeScroll_Ad_Show");
+                }
+
+                if (shouldShowAdIndex.contains(position)) {
+                    HSLog.i("ThemeFullAd", "AcbAdNative_Viewed_In_App: " + (position == lastThemeFullAdIndex));
+                    AcbNativeAdAnalytics.logAppViewEvent(Placements.THEME_DETAIL_NATIVE, (position == lastThemeFullAdIndex));
+                    shouldShowAdIndex.remove(Integer.valueOf(position));
+                }
             }
 
             @Override
