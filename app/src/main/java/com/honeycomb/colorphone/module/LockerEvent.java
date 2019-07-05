@@ -29,7 +29,7 @@ public class LockerEvent extends LockerCustomConfig.Event {
 
     @Override
     public void onEventLockerAdClick() {
-        super.onEventChargingAdClick();
+        Analytics.logEvent("ColorPhone_LockScreenAd_Click");
     }
 
     @Override
@@ -45,8 +45,7 @@ public class LockerEvent extends LockerCustomConfig.Event {
 
     @Override
     public void onEventChargingAdClick() {
-        super.onEventChargingAdClick();
-
+        Analytics.logEvent("ColorPhone_ChargingScreenAd_Click");
     }
 
     @Override
