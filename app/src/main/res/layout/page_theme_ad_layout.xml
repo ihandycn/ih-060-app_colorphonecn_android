@@ -13,7 +13,7 @@
         <net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView
             android:id="@+id/result_image_container_ad"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"/>
 
         <RelativeLayout
@@ -48,16 +48,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="19dp"
+                android:layout_marginStart="19dp"
                 android:layout_above="@id/description_title_tv"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/shape_card_selected"
+                android:background="@drawable/theme_full_ad_choice_bg"
                 android:letterSpacing="0.1"
                 android:lineSpacingExtra="10sp"
-                android:text="当前主题"
-                android:textColor="#000000"
-                android:textSize="10sp"
+                android:paddingLeft="4dp"
+                android:paddingStart="4dp"
+                android:paddingRight="4dp"
+                android:paddingEnd="4dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:text="@string/ad_activity_label"
+                android:textColor="#ccffffff"
+                android:textSize="8sp"
                 android:textStyle="bold"
-                />
+                tools:ignore="SmallSp"/>
 
             <TextView
                 android:id="@+id/collect_num"
@@ -66,7 +73,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="43.1dp"
                 android:layout_marginBottom="34dp"
-                android:text="364563"
+                android:text="65329"
                 android:textColor="#ccffffff"
                 android:textSize="16sp" />
 
