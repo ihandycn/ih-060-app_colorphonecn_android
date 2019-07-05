@@ -320,6 +320,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             } else {
                 if (mRecyclerView != null) {
                     mRecyclerView.scrollToPosition(0);
+                    tabTransController.upScrolled = false;
                 }
             }
         });
