@@ -1001,6 +1001,10 @@
 				<true/>
 				<key>DefaultThemeID</key>
 				<string>Dog</string>
+				<key>CallThemeIntervalShowAd</key>
+				<integer>4</integer>
+				<key>ScrollShowAds</key>
+				<true/>
 				<key>RandomTheme</key>
 				<array>
 					<string>DeepLove</string>
