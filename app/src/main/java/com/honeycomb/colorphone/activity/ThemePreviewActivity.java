@@ -27,6 +27,8 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
+import com.honeycomb.colorphone.preview.PreviewAdManager;
+import com.honeycomb.colorphone.preview.ThemeAdView;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.preview.ThemeStateManager;
 import com.honeycomb.colorphone.theme.ThemeList;
@@ -36,6 +38,7 @@ import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
 
@@ -102,6 +105,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         String from = getIntent().getStringExtra("from");
         mTheme = mThemes.get(pos);
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
+        lastThemeFullAdIndex = pos;
 
         // Open music
         ThemeStateManager.getInstance().resetState();
@@ -155,7 +159,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             });
         }
 
-        mViewPager = (ViewPagerFixed) findViewById(R.id.preview_view_pager);
+        mViewPager = findViewById(R.id.preview_view_pager);
         mAdapter = new ThemePagerAdapter();
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(1);
@@ -174,6 +178,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                if (isShowThemeFullAd(position + position - lastPos) && PreviewAdManager.getInstance().getNativeAd() != null && mAdapter != null) {
+                    HSLog.i("ThemeFullAd", "onPageSelected addAdView: " + (position + position - lastPos));
+                    mAdapter.addAdView();
+                    mAdapter.notifyDataSetChanged();
+                }
+
                 if (lastPos != position) {
                     scrollCount++;
                     lastPos = position;
@@ -221,6 +231,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 NotchStatusBarUtils.setFullScreenWithSystemUi(getWindow(),false);
             }
         });
+
+        PreviewAdManager.getInstance().preload(this);
     }
 
     protected List<Theme> getThemes() {
@@ -292,36 +304,82 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mViewPager instanceof ViewPagerFixed
-                && ((ViewPagerFixed) mViewPager).isCanScroll()) {
+        if (mViewPager != null
+                && mViewPager.isCanScroll()) {
             Ap.DetailAd.onPageScroll(scrollCount);
         }
     }
 
+    private int lastThemeFullAdIndex = -1;
+    private List<Integer> themeFullAdIndexList = new ArrayList<>();
+
+    private boolean isShowThemeFullAd(int position) {
+        if (HSConfig.optBoolean(true, "Application", "Theme", "ScrollShowAds") && position >= 2) {
+            return Math.abs(position - lastThemeFullAdIndex) > HSConfig.optInteger(4, "Application", "Theme", "CallThemeIntervalShowAd");
+        }
+        return false;
+    }
+
     private class ThemePagerAdapter extends PagerAdapter {
+        private int adCount = 0;
+        public void addAdView() {
+            adCount++;
+        }
+
+        public void removeAdView() {
+            adCount--;
+        }
 
         @Override
         public int getCount() {
-            return mThemes.size();
+            return mThemes.size() + adCount;
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            ThemePreviewView controller = new ThemePreviewView(ThemePreviewActivity.this);
-            controller.init(ThemePreviewActivity.this, mThemes, position, null);
-            controller.setPageSelectedPos(mViewPager.getCurrentItem());
-            if (position == mViewPager.getCurrentItem()) {
-                controller.setBlockAnimationForPageChange(false);
+            View page;
+            if (isShowThemeFullAd(position) && PreviewAdManager.getInstance().getNativeAd() != null) {
+                ThemeAdView adView = new ThemeAdView(ThemePreviewActivity.this);
+                adView.init(ThemePreviewActivity.this, position, null);
+                page = adView;
+                themeFullAdIndexList.add(position);
+                lastThemeFullAdIndex = position;
+                HSLog.i("ThemeFullAd", "instantiateItem ThemeAdView: " + position);
             } else {
-                controller.setNoTransition(true);
+                int themeIndex = position;
+                if (themeFullAdIndexList.size() > 0) {
+                    for (int i : themeFullAdIndexList) {
+                        if (position > i) {
+                            themeIndex--;
+                        }
+                    }
+
+                    if (themeIndex < 0) {
+                        themeIndex = 0;
+                    }
+
+                    if (themeIndex >= mThemes.size()) {
+                        themeIndex = mThemes.size() - 1;
+                    }
+                }
+                HSLog.i("ThemeFullAd", "instantiateItem ThemePreviewView: " + position + "  index: " + themeIndex);
+                ThemePreviewView controller = new ThemePreviewView(ThemePreviewActivity.this);
+                controller.init(ThemePreviewActivity.this, mThemes.get(themeIndex), position, null);
+                controller.setPageSelectedPos(mViewPager.getCurrentItem());
+                if (position == mViewPager.getCurrentItem()) {
+                    controller.setBlockAnimationForPageChange(false);
+                } else {
+                    controller.setNoTransition(true);
+                }
+                page = controller;
+                mViews.add(controller);
+                mViewPager.addOnPageChangeListener(controller);
             }
-            container.addView(controller);
-            controller.setTag(position);
 
-            mViews.add(controller);
-            mViewPager.addOnPageChangeListener(controller);
+            container.addView(page);
+            page.setTag(position);
 
-            return controller;
+            return page;
         }
 
         @Override
@@ -329,16 +387,35 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             container.removeView((View) object);
             mViews.remove(object);
             mViewPager.removeOnPageChangeListener((ViewPager.OnPageChangeListener) object);
+
+            HSLog.i("ThemeFullAd", "destroyItem releaseAD: " + (lastThemeFullAdIndex == position));
+            if (lastThemeFullAdIndex == position && themeFullAdIndexList.contains(position)) {
+                themeFullAdIndexList.remove(Integer.valueOf(position));
+                removeAdView();
+                PreviewAdManager.getInstance().releaseNativeAd();
+                int current = mViewPager.getCurrentItem();
+                if (current > position) {
+                    current--;
+                }
+                mViewPager.setAdapter(null);
+                mViewPager.setAdapter(this);
+
+                mViewPager.setCurrentItem(current);
+
+                HSLog.i("ThemeFullAd", "destroyItem adIndexs: " + themeFullAdIndexList);
+            }
         }
 
         @Override
         public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             View itemView = (View) object;
-            ViewCompat.setTransitionName(itemView.findViewById(R.id.ringtone_image),
-                    TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREIVIEW_RINTONE, mThemes.get(position)));
-            ViewCompat.setTransitionName(mViewPager,
-                    TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(position)));
-            mediaSharedElementCallback.setSharedElementViews(mViewPager);
+            if (itemView instanceof ThemePreviewView) {
+                ViewCompat.setTransitionName(itemView.findViewById(R.id.ringtone_image),
+                        TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREIVIEW_RINTONE, mThemes.get(position)));
+                ViewCompat.setTransitionName(mViewPager,
+                        TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(position)));
+                mediaSharedElementCallback.setSharedElementViews(mViewPager);
+            }
         }
 
         @Override

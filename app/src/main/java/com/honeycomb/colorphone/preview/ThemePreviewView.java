@@ -382,9 +382,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         super(context, attrs, defStyleAttr);
     }
 
-    public void init(ThemePreviewActivity activity, ArrayList<Theme> themes, int position, View navBack) {
+    public void init(ThemePreviewActivity activity, Theme theme, int position, View navBack) {
         mActivity = activity;
-        mTheme = themes.get(position);
+        mTheme = theme;
         mPosition = position;
         if (navBack != null) {
             mNavBack = navBack;
@@ -1760,7 +1760,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     @Override
     public void onPageSelected(int position) {
         if (DEBUG_LIFE_CALLBACK) {
-            HSLog.d("onPageSelected " + position);
+            HSLog.d("onPageSelected " + position +  "  " +  mPageSelectedPos);
         }
         mPageSelectedPos = position;
 
