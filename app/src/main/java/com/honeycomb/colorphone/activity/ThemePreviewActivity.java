@@ -320,7 +320,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         }
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -435,6 +434,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 ViewCompat.setTransitionName(mViewPager,
                         TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(position)));
                 mediaSharedElementCallback.setSharedElementViews(mViewPager);
+            } else {
+                ViewCompat.setTransitionName(mViewPager, "");
             }
         }
 
