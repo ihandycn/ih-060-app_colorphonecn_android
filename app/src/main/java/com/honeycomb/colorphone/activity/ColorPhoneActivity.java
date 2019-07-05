@@ -676,6 +676,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        tabTransController.upScrolled = false;
         int maxId = -1;
         for (Type type : Type.values()) {
             if (maxId < type.getId()) {
