@@ -53,8 +53,8 @@ public class PreviewAdManager {
     }
 
     private static String getNativeAdPlacementName() {
-//        return Placements.THEME_DETAIL_NATIVE;
-        return Placements.BOOST_DOWN;
+        return Placements.THEME_DETAIL_NATIVE;
+//        return Placements.BOOST_DOWN;
     }
 
     public AcbNativeAd getNativeAd() {
