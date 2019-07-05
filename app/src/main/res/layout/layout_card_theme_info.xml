@@ -36,6 +36,8 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/card_title"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:textColor="@color/primaryText"
+        android:textStyle="bold"
         tools:text="\@小米大佬"
         tools:visibility="visible"/>
 
