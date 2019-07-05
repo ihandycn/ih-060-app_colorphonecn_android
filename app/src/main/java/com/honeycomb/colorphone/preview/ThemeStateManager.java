@@ -58,4 +58,9 @@ public class ThemeStateManager {
     public String getThemeModeName() {
        return themeMode == PREVIEW_MODE ? "CallScreen" : "FullScreen";
     }
+
+    public void resetState() {
+        setAudioMute(false);
+        themeMode = ENJOY_MODE;
+    }
 }

@@ -21,6 +21,7 @@
         android:id="@+id/card_in_call_action_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="invisible"
         android:layout_marginBottom="88dp"
         />
 
@@ -38,7 +39,16 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/preview_button_bg_dark_gradient"
         android:paddingBottom="14dp">
-
+        <ImageView
+            android:id="@+id/nav_back"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:scaleType="centerInside"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_round_material_compat"
+            android:src="@drawable/ic_back_round_thin" />
         <ImageView
             android:id="@+id/ringtone_image"
             style="@style/NormalButton"
@@ -89,6 +99,7 @@
             android:textStyle="bold"
             tools:background="@drawable/white_rounded_corner_bg" />
     </LinearLayout>
+
     <ProgressBar
         android:id="@+id/theme_progress_bar"
         style="@style/ProgressBar"
@@ -197,53 +208,15 @@
         android:layout_marginBottom="0dp"
         android:background="@drawable/shape_theme_background">
 
-        <TextView
-            android:id="@+id/title_line"
-            android:layout_width="wrap_content"
+        <include
+            layout="@layout/layout_card_theme_info"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="176dp"
-            android:layout_marginBottom="58dp"
-            android:shadowColor="#3d000000"
-            android:shadowDy="3"
-            android:shadowRadius="6"
-            android:text="主人那家伙又来电话了"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:textColor="@color/primaryText"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/theme_selected"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="19dp"
-            android:layout_above="@+id/title_line"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/shape_card_selected"
-            android:letterSpacing="0.1"
-            android:lineSpacingExtra="10sp"
-            android:text="当前主题"
-            android:textColor="#000000"
-            android:textSize="10sp"
-            android:textStyle="bold"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="22dp"
             />
-
-
-        <TextView
-            android:id="@+id/collect_num"
-            android:layout_width="72dp"
-            android:layout_height="23dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="43.1dp"
-            android:layout_marginBottom="34dp"
-            android:text="364563"
-            android:textColor="#ccffffff"
-            android:textSize="16sp" />
-
 
         <TextView
             android:id="@+id/theme_setting"
@@ -252,7 +225,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="24dp"
-            android:layout_marginBottom="34dp"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/shape_theme_setting"
             android:gravity="center"
             android:text="设 为 来 电 秀"
@@ -292,22 +265,6 @@
             android:textStyle="bold"
             android:visibility="gone" />
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/like_count_icon"
-            android:layout_width="18dp"
-            android:layout_height="16dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="19.3dp"
-            android:layout_marginBottom="37dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            app:lottie_fileName="lottie/like.json"
-            app:lottie_loop="false"
-            app:lottie_progress="0" />
 
         <ImageView
             android:id="@+id/theme_setting_close"

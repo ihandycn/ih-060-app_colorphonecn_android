@@ -124,13 +124,7 @@ public class FeedbackActivity extends HSAppCompatActivity implements View.OnClic
                 Analytics.logEvent("ColorPhone_Feedback_Btn_Clicked", "result", "feedback_empty");
                 return;
             }
-            if (!email.isEmpty()) {
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    Toasts.showToast(R.string.feedback_toast_invalid_email);
-                    Analytics.logEvent("ColorPhone_Feedback_Btn_Clicked", "result", "email_error");
-                    return;
-                }
-            }
+            
 
             Map<String, String> feedback = new ArrayMap<>();
             feedback.put("email", email);

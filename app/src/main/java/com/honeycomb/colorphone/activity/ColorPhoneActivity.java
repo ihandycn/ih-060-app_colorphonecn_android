@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acb.call.VideoManager;
@@ -26,6 +29,7 @@ import com.acb.call.themes.Type;
 import com.acb.cashcenter.CashCenterCallback;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
+import com.acb.cashcenter.dialog.NoAdDialog;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
@@ -57,6 +61,7 @@ import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.MainTabLayout;
 import com.honeycomb.colorphone.view.RewardVideoView;
@@ -114,6 +119,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private boolean mIsHandsDown = false;
     private boolean mIsFirstScrollThisTimeHandsDown = true;
     public static final int SCROLL_STATE_DRAGGING = 1;
+    private boolean isDoubleClickToolbar = false;
 
     private Runnable UpdateRunnable = new Runnable() {
 
@@ -165,6 +171,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
     };
+
+    /**
+     * For activity transition
+     */
+    private MediaSharedElementCallback sharedElementCallback;
 
     private void hideLottieGuide(LottieAnimationView lottieAnimationView) {
         gameIcon.animate().alpha(1).setDuration(200).start();
@@ -249,10 +260,17 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
 
         setContentView(R.layout.activity_main);
+
+        Utils.setupTransparentStatusBarsForLmp(this);
+
         initMainFrame();
         AdManager.getInstance().preload(this);
         AppflyerLogger.logAppOpen();
         isCreate = true;
+        // Transition
+        sharedElementCallback = new MediaSharedElementCallback();
+        sharedElementCallback.setClearAfterConsume(true);
+        ActivityCompat.setExitSharedElementCallback(this, sharedElementCallback);
     }
 
     @Override
@@ -295,6 +313,16 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private void initMainFrame() {
 
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setOnClickListener(v -> {
+            if (!isDoubleClickToolbar) {
+                isDoubleClickToolbar = true;
+                mHandler.postDelayed(() -> isDoubleClickToolbar = false, 500);
+            } else {
+                if (mRecyclerView != null) {
+                    mRecyclerView.scrollToPosition(0);
+                }
+            }
+        });
 
         gameContainer = findViewById(R.id.layout_game);
 
@@ -318,6 +346,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         initData();
         HSGlobalNotificationCenter.addObserver(ThemePreviewActivity.NOTIFY_THEME_SELECT, this);
         HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_REFRESH_MAIN_FRAME, this);
+        HSGlobalNotificationCenter.addObserver(NotificationConstants.NOTIFICATION_PREVIEW_POSITION, this);
         HSGlobalNotificationCenter.addObserver(HSNotificationConstant.HS_SESSION_START, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_NOTIFICATION_PERMISSION_GRANTED, this);
         HSGlobalNotificationCenter.addObserver(PermissionHelper.NOTIFY_OVERLAY_PERMISSION_GRANTED, this);
@@ -507,6 +536,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     if (newsLayout != null) {
                         newsLayout.refreshNews("Tab");
                     }
+                } else if (pos == MAIN_POSITION) {
+                    if (mRecyclerView != null) {
+                        mRecyclerView.scrollToPosition(0);
+                    }
                 }
             }
         });
@@ -546,6 +579,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     private void initCashCenterMgr() {
         HSCashCenterManager.getInstance().init(ColorPhoneActivity.this, new CashCenterCallback() {
+
+            @Override public void onFeastInitFinish(boolean b, int i, String s) {
+
+            }
+
             @Override public void onCashCenterShow() {
 
             }
@@ -608,8 +646,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
                 AcbNativeAdAnalytics.logAppViewEvent("CashNative", b);
             }
-        });
 
+            @Override public void showInterstitialAd(NoAdDialog noAdDialog) {
+
+            }
+        });
         AcbNativeAdManager.getInstance().activePlacementInProcess("CashNative");
         HSCashCenterManager.setNativeAdPlacement("CashNative");
         AcbInterstitialAdManager.getInstance().activePlacementInProcess("CashWire");
@@ -998,6 +1039,10 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "PERMISSION_GRANTED notifyDataSetChanged");
                 mAdapter.notifyDataSetChanged();
             }
+        } else if (NotificationConstants.NOTIFICATION_PREVIEW_POSITION.equals(s)) {
+            int pos = hsBundle.getInt("position");
+            HSLog.d("preview pos = " + pos);
+            mRecyclerView.scrollToPosition(mAdapter.themePositionToAdapterPosition(pos));
         }
     }
 
@@ -1105,6 +1150,36 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         frame.setTag(position);
         return frame;
+    }
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && data != null) {
+            final int exitPos = data.getIntExtra("index", -1);
+            if (mRecyclerView != null) {
+                ActivityCompat.postponeEnterTransition(this);
+                mRecyclerView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        mRecyclerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                        overrideSharedElement(exitPos);
+                        ActivityCompat.startPostponedEnterTransition(ColorPhoneActivity.this);
+                        return true;
+                    }
+                });
+            }
+        }
+    }
+
+    private void overrideSharedElement(int exitPos) {
+        final int adapterPosition = mAdapter.themePositionToAdapterPosition(exitPos);
+        if (mRecyclerView != null) {
+            RecyclerView.ViewHolder viewHolder = mRecyclerView.findViewHolderForAdapterPosition(adapterPosition);
+            if (viewHolder != null && viewHolder.itemView != null) {
+                ImageView imageView = viewHolder.itemView.findViewById(R.id.card_preview_img);
+                sharedElementCallback.setSharedElementViews(imageView);
+            }
+        }
     }
 
     private static class TabTransController implements INotificationObserver {

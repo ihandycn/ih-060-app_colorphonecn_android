@@ -91,6 +91,9 @@ public class AutoRequestManager {
     private WindowManager windowMgr;
     private boolean isCoverWindow = false;
     private boolean isRequestPermission = false;
+    private boolean isRequestFloatPermission = false;
+    private boolean backPressExecuted = false;
+
     private int executeBackPressTryCount;
 
     private AutoRequestManager() {}
@@ -135,6 +138,7 @@ public class AutoRequestManager {
                 @Override
                 public void onSuccess() {
                     HSLog.d(TAG, "performGlobalAction success");
+                    backPressExecuted = true;
                     performPermissionCheck();
                 }
 
@@ -177,9 +181,15 @@ public class AutoRequestManager {
 
                 @Override
                 public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
-                    if (!isSucceed) {
-                        AutoLogger.logAutomaticPermissionFailed(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY, msg);
-                    }
+                    AutoLogger.logAutomaticPermissionResult(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY, isSucceed, msg);
+                    isRequestFloatPermission = false;
+                }
+
+                @Override
+                public void onSinglePermissionStarted(int index) {
+                    super.onSinglePermissionStarted(index);
+                    HSLog.d(TAG, "Overlay");
+                    isRequestFloatPermission = true;
                 }
             });
         }
@@ -212,6 +222,9 @@ public class AutoRequestManager {
         if (Compats.IS_XIAOMI_DEVICE) {
             permission.add(TYPE_CUSTOM_CONTACT_WRITE);
             permission.add(TYPE_CUSTOM_CONTACT_READ);
+        }
+        if (!AutoPermissionChecker.hasIgnoreBatteryPermission()) {
+            permission.add(HSPermissionRequestMgr.TYPE_INGORE_BATTERY_OPTIMIZATIONS);
         }
         if (!Permissions.isNotificationAccessGranted()) {
             permission.add(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
@@ -270,9 +283,7 @@ public class AutoRequestManager {
                     default:
                         break;
                 }
-                if (!isSucceed) {
-                    AutoLogger.logAutomaticPermissionFailed(type, msg);
-                }
+                AutoLogger.logAutomaticPermissionResult(type, isSucceed, msg);
                 notifyPermissionGranted(type, isSucceed);
             }
         });
@@ -364,6 +375,14 @@ public class AutoRequestManager {
 
     public boolean isRequestPermission() {
         return isRequestPermission;
+    }
+
+    public boolean isRequestFloatPermission() {
+        return isRequestFloatPermission;
+    }
+
+    public boolean isBackPressExecuted() {
+        return backPressExecuted;
     }
 
     public boolean isGrantAllPermission() {

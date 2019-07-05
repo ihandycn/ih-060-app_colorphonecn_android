@@ -4,4 +4,3 @@
     <item android:state_focused="true" android:color="#2fffffff"/>
     <item android:color="#4fffffff"/>
 </selector>
-

@@ -395,6 +395,16 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         super.onStart();
         boolean needRefreshView = (Utils.isAccessibilityGranted() || isRetryEnd())
                 && !AutoRequestManager.getInstance().isRequestPermission();
+
+//        boolean canceledByUser =
+//                !AutoRequestManager.getInstance().isBackPressExecuted()
+//                && AutoRequestManager.getInstance().isRequestFloatPermission();
+//        if (canceledByUser) {
+//            HSLog.d("AutoPermission", "Auto task canceled");
+//            HSPermissionRequestMgr.getInstance().cancelRequest();
+//            needRefreshView = true;
+//        }
+
         if (needRefreshView) {
             HSLog.i("AutoPermission", "onPermissionChanged onStart");
             onPermissionChanged();

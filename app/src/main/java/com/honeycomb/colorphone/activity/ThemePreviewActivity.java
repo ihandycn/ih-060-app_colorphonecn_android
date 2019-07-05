@@ -1,13 +1,20 @@
 package com.honeycomb.colorphone.activity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.transition.Transition;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +32,11 @@ import com.honeycomb.colorphone.preview.ThemeStateManager;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.MediaSharedElementCallback;
+import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
 
 import net.appcloudbox.AcbAds;
@@ -47,24 +57,30 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     private Theme mTheme;
     private ArrayList<Theme> mThemes = new ArrayList<>();
     private ViewPagerFixed mViewPager;
-    private View mNavBack;
     private ThemePagerAdapter mAdapter;
     private List<ThemePreviewView> mViews = new ArrayList<>();
     private int scrollCount = 0;
     private int lastPos = -1;
+    private MediaSharedElementCallback mediaSharedElementCallback;
 
-    public static void start(Context context, int position) {
-        start(context, position, FROM_MAIN);
+    public static void start(Context context, int position, Bundle options) {
+        start(context, position, FROM_MAIN, options);
     }
+
     public static void start(Context context, int position, String from) {
+        start(context, position, from, null);
+    }
+
+    private static void start(Context context, int position, String from, Bundle options) {
         Intent starter = new Intent(context, ThemePreviewActivity.class);
         starter.putExtra("position", position);
         starter.putExtra("from", from);
         if (context instanceof Activity) {
             ((Activity)context).overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
         }
+
         starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(starter);
+        context.startActivity(starter, options);
     }
 
 
@@ -77,6 +93,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         return super.onTouchEvent(event);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,14 +104,55 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         ColorPhoneApplication.getConfigLog().getEvent().onThemePreviewOpen(mTheme.getIdName().toLowerCase());
 
         // Open music
-        ThemeStateManager.getInstance().setAudioMute(false);
+        ThemeStateManager.getInstance().resetState();
 
         setContentView(R.layout.activity_theme_preview);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            NotchTools.getFullScreenTools().showNavigation(false).fullScreenUseStatus(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            NotchTools.getFullScreenTools().showNavigation(true).fullScreenUseStatus(this);
         } else {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
+                @Override
+                public void onTransitionStart(Transition transition) {
+                    HSLog.d("SharedElement start");
+                    for (ThemePreviewView previewView : mViews) {
+                        previewView.setBlockAnimationForPageChange(false);
+                        if (previewView.isSelectedPos()) {
+                            previewView.onWindowTransitionStart();
+                        }
+                    }
+                }
+
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                    HSLog.d("SharedElement end");
+                    for (ThemePreviewView previewView : mViews) {
+                        previewView.setBlockAnimationForPageChange(false);
+                        if (previewView.isSelectedPos()) {
+                            previewView.onWindowTransitionEnd();
+                        }
+                    }
+                }
+
+                @Override
+                public void onTransitionCancel(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionPause(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionResume(Transition transition) {
+
+                }
+            });
         }
 
         mViewPager = (ViewPagerFixed) findViewById(R.id.preview_view_pager);
@@ -103,6 +161,11 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(pos);
         //mViewPager.setCanScroll(false);
+
+        // Window transition
+        mediaSharedElementCallback = new MediaSharedElementCallback();
+        ActivityCompat.setEnterSharedElementCallback(this, mediaSharedElementCallback);
+
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -116,7 +179,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                     lastPos = position;
                 }
                 Ap.DetailAd.onPageScrollOnce();
-
             }
 
             @Override
@@ -125,13 +187,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
         });
 
-        mNavBack = findViewById(R.id.nav_back);
-        mNavBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+
         if (mTheme.isLocked()) {
             Analytics.logEvent("Colorphone_Theme_Button_Unlock_show", "themeName", mTheme.getName());
         }
@@ -197,6 +253,16 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         }
     }
 
+
+    @TargetApi(22)
+    @Override
+    public void supportFinishAfterTransition() {
+        Intent data = new Intent();
+        data.putExtra("index", mViewPager.getCurrentItem());
+        setResult(RESULT_OK, data);
+        super.supportFinishAfterTransition();
+    }
+
     @Override
     public void onBackPressed() {
         boolean intercept = false;
@@ -217,8 +283,11 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         if (intercept) {
             return;
         }
-        super.onBackPressed();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            supportFinishAfterTransition();
+        }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -239,7 +308,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             ThemePreviewView controller = new ThemePreviewView(ThemePreviewActivity.this);
-            controller.init(ThemePreviewActivity.this, mThemes, position, mNavBack);
+            controller.init(ThemePreviewActivity.this, mThemes, position, null);
             controller.setPageSelectedPos(mViewPager.getCurrentItem());
             if (position == mViewPager.getCurrentItem()) {
                 controller.setBlockAnimationForPageChange(false);
@@ -248,6 +317,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             }
             container.addView(controller);
             controller.setTag(position);
+
             mViews.add(controller);
             mViewPager.addOnPageChangeListener(controller);
 
@@ -259,6 +329,16 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             container.removeView((View) object);
             mViews.remove(object);
             mViewPager.removeOnPageChangeListener((ViewPager.OnPageChangeListener) object);
+        }
+
+        @Override
+        public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+            View itemView = (View) object;
+            ViewCompat.setTransitionName(itemView.findViewById(R.id.ringtone_image),
+                    TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREIVIEW_RINTONE, mThemes.get(position)));
+            ViewCompat.setTransitionName(mViewPager,
+                    TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(position)));
+            mediaSharedElementCallback.setSharedElementViews(mViewPager);
         }
 
         @Override

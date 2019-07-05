@@ -864,7 +864,7 @@ public final class Utils {
         return BitmapFactory.decodeFile(path, options);
     }
 
-    public static void showApplyView(PercentRelativeLayout rootView, View mNavBack) {
+    public static void showApplySuccessToastView(PercentRelativeLayout rootView, View mNavBack) {
         final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.lottie_theme_apply, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             contentView.setElevation(Dimensions.pxFromDp(8));

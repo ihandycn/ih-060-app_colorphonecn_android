@@ -7,6 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
@@ -38,8 +42,8 @@ import com.honeycomb.colorphone.activity.PopularThemeActivity;
 import com.honeycomb.colorphone.activity.PopularThemePreviewActivity;
 import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
-import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.util.Analytics;
+import com.honeycomb.colorphone.util.TransitionUtil;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.ihs.app.framework.HSApplication;
@@ -118,7 +122,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (hsBundle != null) {
                     int pos = getDataPos(hsBundle);
                     Theme theme = data.get(pos);
-                    int adapterPos = pos + getHeaderCount();
+                    int adapterPos = themePositionToAdapterPosition(pos);
                     RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
 
                     if (holder instanceof  ThemeCardViewHolder) {
@@ -162,11 +166,11 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         private int getAdapterPos(HSBundle hsBundle) {
-            return getDataPos(hsBundle) + getHeaderCount();
+            return themePositionToAdapterPosition(getDataPos(hsBundle));
         }
 
         private int unlockThemeAndGetAdapterPos(HSBundle hsBundle) {
-            return unlockThemeAndGetDatePos(hsBundle) + getHeaderCount();
+            return themePositionToAdapterPosition(unlockThemeAndGetDatePos(hsBundle));
         }
 
     };
@@ -270,22 +274,14 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
             holder.initChildView();
-
-            cardViewContent.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
+            View cardView = cardViewContent.findViewById(R.id.card_view);
+            cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final int pos = holder.getPositionTag();
-
-                    Theme theme = data.get(pos);
-                    if (activity instanceof PopularThemeActivity) {
-                        Analytics.logEvent("ColorPhone_BanboList_ThemeDetail_View", "type", theme.getIdName());
-                        PopularThemePreviewActivity.start(activity, pos);
-                    } else {
-                        Analytics.logEvent("MainView_ThemeDetail_View", "type", theme.getIdName());
-                        ThemePreviewActivity.start(activity, pos);
-                    }
+                    onCardClick(holder, view);
                 }
             });
+            cardView.setOnTouchListener(new ScaleUpTouchListener());
 
             holder.setLikeClick(new View.OnClickListener() {
                 @Override
@@ -365,6 +361,23 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    private void onCardClick(ThemeCardViewHolder holder, View view) {
+        final int pos = holder.getPositionTag();
+        Theme theme = data.get(pos);
+        if (activity instanceof PopularThemeActivity) {
+            Analytics.logEvent("ColorPhone_BanboList_ThemeDetail_View", "type", theme.getIdName());
+            PopularThemePreviewActivity.start(activity, pos);
+        } else {
+            Analytics.logEvent("MainView_ThemeDetail_View", "type", theme.getIdName());
+            ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation(activity,
+                            Pair.create(holder.mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme))
+                            );
+
+            ThemePreviewActivity.start(activity, pos, activityOptionsCompat.toBundle());
+        }
+    }
+
 
     public int getLastSelectedLayoutPos() {
         int prePos = -1;
@@ -376,7 +389,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
             }
         }
-        return prePos + getHeaderCount();
+        return themePositionToAdapterPosition(prePos);
     }
 
     private boolean selectTheme(final int pos) {
@@ -405,7 +418,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void notifyItemSelected(int pos, Theme theme) {
-        int adapterPos = pos + getHeaderCount();
+        int adapterPos = themePositionToAdapterPosition(pos);
         RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(adapterPos);
         if (holder == null) {
             // Item not visible in screen.
@@ -527,6 +540,10 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         return count;
     }
 
+    public int themePositionToAdapterPosition(int themePos) {
+        return themePos + getHeaderCount();
+    }
+
     public static class ThemeCardViewHolder extends RecyclerView.ViewHolder {
 
         private static int[] sThumbnailSize = Utils.getThumbnailImageSize();
@@ -540,7 +557,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         ThemePreviewWindow mThemeFlashPreviewWindow;
         InCallActionView mCallActionView;
         ViewGroup mLockActionView;
-        View mActionViewContainer;
 
         ThemeStatusView mThemeStatusView;
 
@@ -554,6 +570,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
         // Indicates this holder has bound by Adapter. All Views has bounded data.
         // In case, we call start animation before ViewHolder bind.
         private boolean mHolderDataReady;
+        private View mButtonHolderForTrans;
 
         public void setPositionTag(int position) {
             mPositionTag = position;
@@ -573,8 +590,6 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mThemeLikeCount = (TextView) itemView.findViewById(R.id.card_like_count_txt);
             mThemeLikeAnim = (LottieAnimationView) itemView.findViewById(R.id.like_count_icon);
 
-            mActionViewContainer = itemView.findViewById(R.id.action_view_container);
-
             mThemeFlashPreviewWindow = (ThemePreviewWindow) itemView.findViewById(R.id.card_flash_preview_window);
             mThemeFlashPreviewWindow.setPreviewType(ThemePreviewWindow.PreviewType.PREVIEW);
         }
@@ -584,6 +599,7 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             mAvatar = (ImageView) mContentView.findViewById(R.id.caller_avatar);
             mRingtoneMark = itemView.findViewById(R.id.theme_ringtone_mark);
             mThemeHotMark = itemView.findViewById(R.id.theme_hot_mark);
+            mButtonHolderForTrans = itemView.findViewById(R.id.button_transition_element);
             mThemeStatusView = new ThemeStatusView(itemView);
         }
 
@@ -658,6 +674,8 @@ public class ThemeSelectorAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (mCallActionView != null) {
                 mCallActionView.setTheme(theme);
             }
+            ViewCompat.setTransitionName(mThemePreviewImg, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, theme));
+            ViewCompat.setTransitionName(mRingtoneMark, TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREIVIEW_RINTONE, theme));
 
             if (theme.isMedia()) {
                 ImageView targetView = getCoverView(theme);
