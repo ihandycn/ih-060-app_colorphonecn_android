@@ -48,7 +48,7 @@ public class Locker extends LockScreen implements INotificationObserver {
     public static final String EXTRA_DISMISS_REASON = "dismiss_reason";
     public static final String PREF_KEY_CURRENT_WALLPAPER_HD_URL = "current_hd_wallpaper_url";
 
-    ViewPager mViewPager;
+    ViewPagerFixed mViewPager;
     private LockerAdapter mLockerAdapter;
     private ImageView mLockerWallpaper;
 
@@ -190,7 +190,7 @@ public class Locker extends LockScreen implements INotificationObserver {
 
     private void configLockViewPager() {
         Context context = mRootView.getContext();
-        mViewPager = (ViewPager) mRootView.findViewById(R.id.locker_pager);
+        mViewPager = (ViewPagerFixed) mRootView.findViewById(R.id.locker_pager);
         mLockerAdapter = new LockerAdapter(context, this, new LockerSlidingUpCallback(this));
         mViewPager.setAdapter(mLockerAdapter);
         mViewPager.setOffscreenPageLimit(2);
