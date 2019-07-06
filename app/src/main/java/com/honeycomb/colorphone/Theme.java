@@ -21,6 +21,7 @@ import java.util.Locale;
 public class Theme extends Type {
     public static final String CONFIG_DOWNLOAD_NUM = "DownloadNum";
     public static final String CONFIG_RINGTONE = "Ringtone";
+    public static final String CONFIG_UPLOADER = "Nickname";
 
     private static final String PREFS_FILE_THEME_LOCK_STATE = "prefs_theme_lock_state_file";
     private static final String PREFS_KEY_THEME_LOCK_ID_USER_UNLOCK_PREFIX ="prefs_theme_lock_id_prefix";
@@ -45,6 +46,8 @@ public class Theme extends Type {
     private String avatarName;
     private String notificationLargeIconUrl;
     private String notificationLargePictureUrl;
+
+    private String uploaderName;
 
     public static int RANDOM_THEME = 10000;
 
@@ -163,6 +166,15 @@ public class Theme extends Type {
             "#ffa4efff",
             "#ffa4c0ff",
     };
+
+
+    public void setUploaderName(String uploaderName) {
+        this.uploaderName = uploaderName;
+    }
+
+    public String getUploaderName() {
+        return uploaderName;
+    }
 
     public String getRingtoneUrl() {
         return ringtoneUrl;

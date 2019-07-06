@@ -31,6 +31,7 @@ public class ScreenFlashInit extends AppMainInit {
                 type.setNotificationEnabled(HSMapUtils.optBoolean(map, false, "LocalPush", "Enable"));
                 type.setDownload(HSMapUtils.getInteger(map, Theme.CONFIG_DOWNLOAD_NUM));
                 type.setRingtoneUrl(HSMapUtils.optString(map, "", Theme.CONFIG_RINGTONE));
+                type.setUploaderName(HSMapUtils.optString(map, "", Theme.CONFIG_UPLOADER));
                 type.setLocked(HSMapUtils.optBoolean(map,false, "Status", "Lock"));
                 type.setCanDownload(!HSMapUtils.optBoolean(map,true, "Status", "StaticPreview"));
                 type.setSpecialTopic(HSMapUtils.optBoolean(map, false, "SpecialTopic"));

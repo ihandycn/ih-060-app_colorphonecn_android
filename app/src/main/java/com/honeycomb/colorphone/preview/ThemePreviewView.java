@@ -489,6 +489,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mThemeTitle = findViewById(R.id.card_title);
         mThemeTitle.setText(mTheme.getName());
 
+        TextView uploaderName = findViewById(R.id.uploader_name);
+        if (!TextUtils.isEmpty(mTheme.getUploaderName())) {
+            uploaderName.setVisibility(VISIBLE);
+            uploaderName.setText("@" + mTheme.getUploaderName());
+        }
+
         mThemeLikeCount = findViewById(R.id.card_like_count_txt);
         mThemeLikeCount.setText(String.valueOf(mTheme.getDownload()));
         mThemeLikeAnim = findViewById(R.id.like_count_icon);
