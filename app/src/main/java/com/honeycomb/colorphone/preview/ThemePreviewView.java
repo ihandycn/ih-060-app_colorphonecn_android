@@ -405,6 +405,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void updateThemePreviewLayout(Type themeType) {
         previewWindow.updateThemeLayout(themeType);
+        previewWindow.setAnimationVisible(INVISIBLE);
 
         TextView callName = findViewById(R.id.first_line);
         callName.setText(mTheme.getAvatarName());
