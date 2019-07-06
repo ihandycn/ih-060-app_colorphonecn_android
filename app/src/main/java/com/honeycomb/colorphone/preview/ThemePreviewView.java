@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
@@ -46,7 +47,11 @@ import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -75,6 +80,7 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
 import com.honeycomb.colorphone.view.RewardVideoView;
@@ -1544,12 +1550,28 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     request.override(IMAGE_WIDTH, IMAGE_HEIGHT);
                     request.skipMemoryCache(true);
                 }
+                request.listener(mRequestListener);
+
                 request.into(previewImage);
 
             }
 
         }
     }
+
+    RequestListener<Bitmap> mRequestListener = new RequestListener<Bitmap>() {
+        @Override
+        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+            HSLog.d(TAG, "Picture onResourceReady");
+            mProgressViewHolder.startAnim(resource);
+            return false;
+        }
+
+        @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+            return false;
+        }
+    };
 
     public void onStop() {
 
@@ -1924,11 +1946,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         private ProgressBar mProgressBar;
         private TextView mProgressTxt;
         private View mProgressTxtGroup;
+        public DotsPictureView mDotsPictureView;
 
         public ProgressViewHolder() {
             mProgressBar = (ProgressBar) findViewById(R.id.theme_progress_bar);
             mProgressTxt = (TextView) findViewById(R.id.theme_progress_txt);
             mProgressTxtGroup= findViewById(R.id.theme_progress_txt_holder);
+            mDotsPictureView = findViewById(R.id.dots_progress_view);
         }
 
         public void updateProgressView(int percent) {
@@ -1939,11 +1963,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public void hide() {
             mProgressBar.setVisibility(View.INVISIBLE);
             mProgressTxtGroup.setVisibility(View.INVISIBLE);
+            mDotsPictureView.setVisibility(View.INVISIBLE);
         }
 
         public void show() {
             mProgressBar.setVisibility(View.VISIBLE);
             mProgressTxtGroup.setVisibility(View.VISIBLE);
+            mDotsPictureView.setVisibility(VISIBLE);
         }
 
         public void fadeOut() {
@@ -1957,6 +1983,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mProgressTxtGroup.setTranslationY(bottomBtnTransY);
             mProgressBar.animate().alpha(1).translationY(0).setDuration(duration).setInterpolator(interp).start();
             mProgressTxtGroup.animate().alpha(1).translationY(0).setDuration(duration).setInterpolator(interp).start();
+        }
+
+        public void startAnim(Bitmap resource) {
+            if (mDotsPictureView.getVisibility() == VISIBLE) {
+                mDotsPictureView.setSourceBitmap(resource);
+            }
         }
     }
 

@@ -138,6 +138,10 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+    <com.honeycomb.colorphone.view.DotsPictureView
+        android:id="@+id/dots_progress_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/theme_apply_layout"
