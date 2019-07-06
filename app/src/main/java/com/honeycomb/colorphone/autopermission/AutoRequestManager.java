@@ -163,12 +163,17 @@ public class AutoRequestManager {
         if (AutoPermissionChecker.hasFloatWindowPermission()) {
             onFloatWindowPermissionReady();
         } else {
+            if (isRequestFloatPermission) {
+                HSPermissionRequestMgr.getInstance().cancelRequest();
+                HSLog.d(TAG, "User start cancel request draw overlay!");
+            }
             HSLog.d(TAG, "start request draw overlay!");
             ArrayList<String> permission = new ArrayList<String>();
             permission.add(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY);
             HSPermissionRequestMgr.getInstance().startRequest(permission, new HSPermissionRequestCallback.Stub() {
                 @Override
                 public void onFinished(int succeedCount, int totalCount) {
+                    HSLog.d(TAG, "Overlay : onFinished " + succeedCount);
                     if (succeedCount == 1) {
                         onFloatWindowPermissionReady();
                         AutoPermissionChecker.onFloatPermissionChange(true);
@@ -181,6 +186,7 @@ public class AutoRequestManager {
 
                 @Override
                 public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
+                    HSLog.d(TAG, "Overlay : onSinglePermissionFinished , success = " + isSucceed );
                     AutoLogger.logAutomaticPermissionResult(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY, isSucceed, msg);
                     isRequestFloatPermission = false;
                 }
@@ -188,8 +194,15 @@ public class AutoRequestManager {
                 @Override
                 public void onSinglePermissionStarted(int index) {
                     super.onSinglePermissionStarted(index);
-                    HSLog.d(TAG, "Overlay");
+                    HSLog.d(TAG, "Overlay : onSinglePermissionStarted" );
                     isRequestFloatPermission = true;
+                }
+
+                @Override
+                public void onCancelled() {
+                    super.onCancelled();
+                    HSLog.d(TAG, "Overlay : onCancelled");
+                    isRequestFloatPermission = false;
                 }
             });
         }

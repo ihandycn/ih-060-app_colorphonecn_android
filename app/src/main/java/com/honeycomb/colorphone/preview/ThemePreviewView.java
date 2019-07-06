@@ -330,7 +330,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     Runnable transEndRunnable = new Runnable() {
         @Override
         public void run() {
-            if (!mBlockAnimationForPageChange) {
+            if (isSelectedPos() && !mBlockAnimationForPageChange) {
                 resumeAnimation();
                 mBlockAnimationForPageChange = true;
             }
@@ -973,41 +973,43 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void setEnjoyView() {
-         if (navFadeInOrVisible == NAV_FADE_IN) {
-             showNavView(true);
-             fadeInActionView();
-             navFadeInOrVisible = NAV_VISIBLE;
-         } else {
-             mNavBack.setVisibility(VISIBLE);
-         }
-         if (ifThemeSelected()) {
-             mThemeSelected.setVisibility(VISIBLE);
-         } else {
-             mThemeSelected.setVisibility(GONE);
-         }
-         changeModeToEnjoy();
-         mEnjoyClose.setVisibility(GONE);
-         mEnjoyApplyDefault.setVisibility(GONE);
-         mEnjoyApplyForOne.setVisibility(GONE);
-         mEnjoyApplyBtn.setScaleX(1.0f);
-         mEnjoyApplyBtn.setAlpha(1);
-         mEnjoyApplyBtn.setTextColor(Color.WHITE);
-         mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
+        if (navFadeInOrVisible == NAV_FADE_IN) {
+            showNavView(true);
+            fadeInActionView();
+            navFadeInOrVisible = NAV_VISIBLE;
+        } else {
+            mNavBack.setVisibility(VISIBLE);
+        }
+        if (ifThemeSelected()) {
+            mThemeSelected.setVisibility(VISIBLE);
+        } else {
+            mThemeSelected.setVisibility(GONE);
+        }
+        changeModeToEnjoy();
+        mEnjoyClose.setVisibility(GONE);
+        mEnjoyApplyDefault.setVisibility(GONE);
+        mEnjoyApplyForOne.setVisibility(GONE);
 
-         mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 unFoldView();
-             }
-         });
+        mEnjoyApplyBtn.setScaleX(1.0f);
+        mEnjoyApplyBtn.setAlpha(1);
+        mEnjoyApplyBtn.setVisibility(VISIBLE);
+        mEnjoyApplyBtn.setTextColor(Color.WHITE);
+        mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
 
-         mEnjoyClose.setOnClickListener(new OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 foldView();
-             }
-         });
-     }
+        mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unFoldView();
+            }
+        });
+
+        mEnjoyClose.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                foldView();
+            }
+        });
+    }
 
     public void setLikeClick(View.OnClickListener onClickListener) {
         mThemeLikeCount.setOnClickListener(onClickListener);
