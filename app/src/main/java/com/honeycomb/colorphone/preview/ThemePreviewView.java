@@ -464,7 +464,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
             }
         });
-        previewWindow.setVisibility(INVISIBLE);
+        previewWindow.setAnimationVisible(INVISIBLE);
         themeStateManager = ThemeStateManager.getInstance();
         mCallActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
         mCallActionView.setTheme(mThemeType);
@@ -1590,7 +1590,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (themeReady) {
             resumed = true;
-            previewWindow.setVisibility(VISIBLE);
+            previewWindow.setAnimationVisible(VISIBLE);
             previewWindow.playAnimation(mThemeType);
             mCallActionView.doAnimation();
             if (mTheme.hasRingtone()) {
