@@ -1078,8 +1078,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         float startValue = visible ? 0f : 1f;
         float endValue = visible ? 1f : 0f;
         int vis = visible ? VISIBLE : INVISIBLE;
-
-        if (vis != mCallUserView.getVisibility()) {
+        boolean needAnim = isSelectedPos();
+        if (needAnim && vis != mCallUserView.getVisibility()) {
             mCallUserView.setAlpha(startValue);
             mCallUserView.setVisibility(VISIBLE);
             mCallUserView.animate().alpha(endValue)
@@ -1091,9 +1091,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         }
                     })
                     .start();
+        } else {
+            // Cancel last anim before, ensure view state will not be changed in the future.
+            mCallUserView.animate().cancel();
+            mCallUserView.setVisibility(vis);
+            mCallUserView.setAlpha(endValue);
         }
 
-        if (vis != mCallActionView.getVisibility()) {
+        if (needAnim && vis != mCallActionView.getVisibility()) {
             mCallActionView.setVisibility(VISIBLE);
             mCallActionView.setAlpha(startValue);
             mCallActionView.animate().alpha(endValue)
@@ -1105,6 +1110,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         }
                     })
                     .start();
+        } else {
+            // Cancel last anim before, ensure view state will not be changed in the future.
+            mCallActionView.animate().cancel();
+            mCallActionView.setAlpha(endValue);
+            mCallActionView.setVisibility(vis);
         }
 
         if (visible) {
