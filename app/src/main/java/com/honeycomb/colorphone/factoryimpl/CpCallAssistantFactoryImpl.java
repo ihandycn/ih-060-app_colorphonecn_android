@@ -18,6 +18,7 @@ import com.call.assistant.receiver.IncomingCallReceiver;
 import com.call.assistant.ui.CallIdleAlert;
 import com.call.assistant.ui.CallIdleAlertActivity;
 import com.call.assistant.ui.CallIdleAlertView;
+import com.colorphone.lock.util.ConfigUtils;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
@@ -67,7 +68,9 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
     @Override
     public boolean isCallAssistantConfigEnabled() {
-        return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CALL_ASSISTANT);
+        return ModuleUtils.isModuleConfigEnabled(ModuleUtils.AUTO_KEY_CALL_ASSISTANT)
+                && !(HSConfig.optBoolean(false, "Application", "AdProtection", "CallAssistantEnableAfterInstallMinutes")
+                        && ConfigUtils.isNewUserInAdBlockStatus());
     }
 
     @Override
