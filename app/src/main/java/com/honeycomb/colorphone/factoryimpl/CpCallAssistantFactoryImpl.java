@@ -63,7 +63,9 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
     @Override
     public boolean isCallAssistantOpenDefault() {
-        return HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "DefaultEnabled");
+        return HSConfig.optBoolean(false, "Application", "ScreenFlash", "CallAssistant", "DefaultEnabled")
+                && !(HSConfig.optBoolean(false, "Application", "AdProtection", "CallAssistantEnableAfterInstallMinutes")
+                        && ConfigUtils.isNewUserInAdBlockStatus());
     }
 
     @Override
