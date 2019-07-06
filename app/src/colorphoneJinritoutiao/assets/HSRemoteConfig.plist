@@ -1006,7 +1006,7 @@
 				<key>CallThemeIntervalShowAd</key>
 				<integer>4</integer>
 				<key>ScrollShowAds</key>
-				<true/>
+				<false/>
 				<key>RandomTheme</key>
 				<array>
 					<string>DeepLove</string>
