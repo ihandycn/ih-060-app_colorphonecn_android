@@ -1076,29 +1076,35 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void animCallGroupViewToVisible(boolean visible) {
         float startValue = visible ? 0f : 1f;
         float endValue = visible ? 1f : 0f;
-        mCallUserView.setAlpha(startValue);
-        mCallUserView.setVisibility(VISIBLE);
-        mCallUserView.animate().alpha(endValue)
-                .setDuration(CHANGE_MODE_DURTION)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mCallUserView.setVisibility(visible ? VISIBLE : INVISIBLE);
-                    }
-                })
-                .start();
+        int vis = visible ? VISIBLE : INVISIBLE;
 
-        mCallActionView.setVisibility(VISIBLE);
-        mCallActionView.setAlpha(startValue);
-        mCallActionView.animate().alpha(endValue)
-                .setDuration(CHANGE_MODE_DURTION)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mCallActionView.setVisibility(visible ? VISIBLE : INVISIBLE);
-                    }
-                })
-                .start();
+        if (vis != mCallUserView.getVisibility()) {
+            mCallUserView.setAlpha(startValue);
+            mCallUserView.setVisibility(VISIBLE);
+            mCallUserView.animate().alpha(endValue)
+                    .setDuration(CHANGE_MODE_DURTION)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mCallUserView.setVisibility(visible ? VISIBLE : INVISIBLE);
+                        }
+                    })
+                    .start();
+        }
+
+        if (vis != mCallActionView.getVisibility()) {
+            mCallActionView.setVisibility(VISIBLE);
+            mCallActionView.setAlpha(startValue);
+            mCallActionView.animate().alpha(endValue)
+                    .setDuration(CHANGE_MODE_DURTION)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mCallActionView.setVisibility(visible ? VISIBLE : INVISIBLE);
+                        }
+                    })
+                    .start();
+        }
 
         if (visible) {
             if (getThemeMode() == PREVIEW_MODE) {
