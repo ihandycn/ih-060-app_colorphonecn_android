@@ -8,8 +8,8 @@
 		<dict>
 			<key>AdProtection</key>
 			<dict>
-			    <key>CallAssistantEnableAfterInstallMinutes</key>
-                <false/>
+				<key>CallAssistantEnableAfterInstallMinutes</key>
+				<true/>
 				<key>EnableAfterInstallMinutes</key>
 				<integer>360</integer>
 			</dict>
