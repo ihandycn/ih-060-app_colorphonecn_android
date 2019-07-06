@@ -181,10 +181,11 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
             List<Integer> shouldShowAdIndex = new ArrayList<>();
             @Override
             public void onPageSelected(int position) {
-                if (isShowThemeFullAd(position + position - lastPos) && mAdapter != null) {
+                if (lastPos != -1 && isShowThemeFullAd(position + position - lastPos) && mAdapter != null) {
                     shouldShowAdIndex.add(position + position - lastPos);
                     if (PreviewAdManager.getInstance().getNativeAd() != null) {
                         HSLog.i("ThemeFullAd", "onPageSelected addAdView: " + (position + position - lastPos));
+                        addAdIndex = position;
                         mAdapter.addAdView();
                         mAdapter.notifyDataSetChanged();
                     }
@@ -331,11 +332,15 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     }
 
     private int lastThemeFullAdIndex = -1;
+    private int addAdIndex = -1;
     private List<Integer> themeFullAdIndexList = new ArrayList<>();
 
     private boolean isShowThemeFullAd(int position) {
         if (HSConfig.optBoolean(true, "Application", "Theme", "ScrollShowAds") && position >= 2) {
-            return Math.abs(position - lastThemeFullAdIndex) >= HSConfig.optInteger(4, "Application", "Theme", "CallThemeIntervalShowAd");
+            int cha = Math.abs(position - lastThemeFullAdIndex);
+            int interval = HSConfig.optInteger(4, "Application", "Theme", "CallThemeIntervalShowAd");
+            HSLog.i("ThemeFullAd", "isShowThemeFullAd cha: " + cha + "  interval: " + interval);
+            return cha > interval;
         }
         return false;
     }
@@ -369,8 +374,10 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 int themeIndex = position;
                 if (themeFullAdIndexList.size() > 0) {
                     for (int i : themeFullAdIndexList) {
-                        if (position > i) {
+                        if (position > i && addAdIndex < i) {
                             themeIndex--;
+                        } else if (position < i && addAdIndex > i) {
+                            themeIndex++;
                         }
                     }
 
@@ -414,15 +421,17 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 removeAdView();
                 PreviewAdManager.getInstance().releaseNativeAd();
                 int current = mViewPager.getCurrentItem();
-                if (current > position) {
+                if (current > position && addAdIndex < position) {
                     current--;
+                    lastThemeFullAdIndex--;
+                } else if (current < position && addAdIndex > position) {
+                    current++;
+                    lastThemeFullAdIndex++;
                 }
                 mViewPager.setAdapter(null);
                 mViewPager.setAdapter(this);
 
                 mViewPager.setCurrentItem(current);
-
-                HSLog.i("ThemeFullAd", "destroyItem adIndexs: " + themeFullAdIndexList);
             }
         }
 
