@@ -191,7 +191,7 @@ dependencies {
 
             "com.android.support:multidex:1.0.1",
 
-            "cn.appcloudbox.autopilot:libAutoPilot.gm:5.5.3.cn.gm",
+            "cn.appcloudbox.autopilot:libAutoPilot.gm:5.5.4.cn.gm",
 
     ]
 
