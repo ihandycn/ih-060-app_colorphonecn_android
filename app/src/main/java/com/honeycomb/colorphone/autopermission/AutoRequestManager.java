@@ -118,9 +118,11 @@ public class AutoRequestManager {
 
                     isRequestPermission = true;
                     if (Compats.IS_XIAOMI_DEVICE) {
+                        AutoRepairingToast.showRepairingToast();
                         backTask.run();
                     } else {
                         StableToast.cancelToast();
+                        AutoRepairingToast.showRepairingToast();
                         onAccessibilityReady();
                     }
                     HSApplication.getContext().unregisterReceiver(this);
@@ -196,6 +198,12 @@ public class AutoRequestManager {
                     super.onSinglePermissionStarted(index);
                     HSLog.d(TAG, "Overlay : onSinglePermissionStarted" );
                     isRequestFloatPermission = true;
+                }
+
+                @Override
+                public void onSinglePermissionExecuted(int index, boolean isSucceed, String msg) {
+                    super.onSinglePermissionExecuted(index, isSucceed, msg);
+                    AutoRepairingToast.cancelRepairingToast();
                 }
 
                 @Override
