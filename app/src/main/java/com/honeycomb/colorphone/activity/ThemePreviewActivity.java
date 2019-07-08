@@ -380,15 +380,16 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                             themeIndex++;
                         }
                     }
-
-                    if (themeIndex < 0) {
-                        themeIndex = 0;
-                    }
-
-                    if (themeIndex >= mThemes.size()) {
-                        themeIndex = mThemes.size() - 1;
-                    }
                 }
+
+                if (themeIndex < 0) {
+                    themeIndex = 0;
+                }
+
+                if (themeIndex >= mThemes.size()) {
+                    themeIndex = mThemes.size() - 1;
+                }
+
                 HSLog.i("ThemeFullAd", "instantiateItem ThemePreviewView: " + position + "  index: " + themeIndex);
                 ThemePreviewView controller = new ThemePreviewView(ThemePreviewActivity.this);
                 controller.init(ThemePreviewActivity.this, mThemes.get(themeIndex), position, null);
