@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import com.colorphone.lock.util.ViewUtils;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Utils;
+import com.superapps.util.Dimensions;
 
 public class CustomRootView extends FrameLayout {
 
@@ -24,7 +25,7 @@ public class CustomRootView extends FrameLayout {
 //            this.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 //        }
         View containerView = ViewUtils.findViewById(this, R.id.container_view);
-        int bottomMargin = Utils.getNavigationBarHeight(getContext());
+        int bottomMargin = Dimensions.getNavigationBarHeight(getContext());
         setMargins(containerView, 0, 0, 0, bottomMargin);
     }
 

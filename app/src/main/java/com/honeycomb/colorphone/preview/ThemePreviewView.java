@@ -481,7 +481,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         });
         mThemeLayout = findViewById(R.id.card_theme_info_layout);
-        mThemeLayout.getLayoutParams().width = Math.max(Dimensions.pxFromDp(180), Utils.getPhoneWidth(mActivity) - Dimensions.pxFromDp(180));
+        mThemeLayout.getLayoutParams().width = Math.max(Dimensions.pxFromDp(180), Dimensions.getPhoneWidth(mActivity) - Dimensions.pxFromDp(180));
 
         mApplyForOne = findViewById(R.id.theme_set_for_one);
         mApplyForOne.setEnabled(mTheme.getId() != Theme.RANDOM_THEME);

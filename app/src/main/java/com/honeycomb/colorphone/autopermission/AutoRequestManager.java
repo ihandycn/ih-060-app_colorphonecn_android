@@ -441,9 +441,9 @@ public class AutoRequestManager {
             }
             if (guideIntent != null) {
                 guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                HSApplication.getContext().startActivities(new Intent[] {intent, guideIntent});
+                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] {intent, guideIntent});
             } else {
-                HSApplication.getContext().startActivity(intent);
+                Navigations.startActivitySafely(HSApplication.getContext(), intent);
             }
             AutoRequestManager.getInstance().listenAccessibility();
         }

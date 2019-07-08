@@ -20,6 +20,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Navigations;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -114,7 +115,7 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
         privacyPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.startActivitySafely(GuideApplyThemeActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.getUrlPrivacy())));
+                Navigations.startActivitySafely(GuideApplyThemeActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.getUrlPrivacy())));
             }
         });
 
@@ -123,7 +124,7 @@ public class GuideApplyThemeActivity extends HSAppCompatActivity {
         termsOfService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.startActivitySafely(GuideApplyThemeActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.getUrlTermServices())));
+                Navigations.startActivitySafely(GuideApplyThemeActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.getUrlTermServices())));
             }
         });
     }
