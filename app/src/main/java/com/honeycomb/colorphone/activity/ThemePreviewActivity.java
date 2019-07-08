@@ -292,7 +292,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     @Override
     public void supportFinishAfterTransition() {
         Intent data = new Intent();
-        data.putExtra("index", mViewPager.getCurrentItem());
+        int index = getThemeIndexByPosition(mViewPager.getCurrentItem());
+        data.putExtra("index", index);
         setResult(RESULT_OK, data);
         super.supportFinishAfterTransition();
     }
@@ -345,6 +346,23 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         return false;
     }
 
+    private int getThemeIndexByPosition(int position) {
+        int themeIndex = position;
+        if (themeFullAdIndexList.size() > 0) {
+            for (int i : themeFullAdIndexList) {
+                if (position > i && addAdIndex < i) {
+                    themeIndex--;
+                } else if (position < i && addAdIndex > i) {
+                    themeIndex++;
+                }
+            }
+        }
+
+        themeIndex = Math.max(0, Math.min(themeIndex, mThemes.size() - 1));
+        HSLog.i("ThemeFullAd", "getThemeIndexByPosition index: " + themeIndex + "  pos: " + position);
+        return themeIndex;
+    }
+
     private class ThemePagerAdapter extends PagerAdapter {
         private int adCount = 0;
         public void addAdView() {
@@ -371,24 +389,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 lastThemeFullAdIndex = position;
                 HSLog.i("ThemeFullAd", "instantiateItem ThemeAdView: " + position);
             } else {
-                int themeIndex = position;
-                if (themeFullAdIndexList.size() > 0) {
-                    for (int i : themeFullAdIndexList) {
-                        if (position > i && addAdIndex < i) {
-                            themeIndex--;
-                        } else if (position < i && addAdIndex > i) {
-                            themeIndex++;
-                        }
-                    }
-                }
-
-                if (themeIndex < 0) {
-                    themeIndex = 0;
-                }
-
-                if (themeIndex >= mThemes.size()) {
-                    themeIndex = mThemes.size() - 1;
-                }
+                int themeIndex = getThemeIndexByPosition(position);
 
                 HSLog.i("ThemeFullAd", "instantiateItem ThemePreviewView: " + position + "  index: " + themeIndex);
                 ThemePreviewView controller = new ThemePreviewView(ThemePreviewActivity.this);
@@ -440,10 +441,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
             View itemView = (View) object;
             if (itemView instanceof ThemePreviewView) {
+                int index = getThemeIndexByPosition(position);
+
                 ViewCompat.setTransitionName(itemView.findViewById(R.id.ringtone_image),
-                        TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREIVIEW_RINTONE, mThemes.get(position)));
+                        TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREIVIEW_RINTONE, mThemes.get(index)));
                 ViewCompat.setTransitionName(mViewPager,
-                        TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(position)));
+                        TransitionUtil.getViewTransitionName(TransitionUtil.TAG_PREVIEW_IMAGE, mThemes.get(index)));
                 mediaSharedElementCallback.setSharedElementViews(mViewPager);
             } else {
                 ViewCompat.setTransitionName(mViewPager, "");
