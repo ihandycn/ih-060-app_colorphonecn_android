@@ -10,6 +10,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -504,10 +505,34 @@ public class SlidingDrawerContent extends FrameLayout
                 HSBundle bundle = new HSBundle();
                 bundle.putString(Locker.EXTRA_DISMISS_REASON, "CalcClick");
                 HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
+                openCalculator();
                 LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Calculator");
             }
         } else {
         }
+    }
+
+    public void openCalculator(){
+        PackageInfo pak = getAllApps(getContext(), "Calculator","calculator");
+        if(pak != null){
+            Intent intent = new Intent();
+            intent = getContext().getPackageManager().getLaunchIntentForPackage(pak.packageName);
+            getContext().startActivity(intent);
+        }else{
+
+        }
+    }
+
+    public  PackageInfo getAllApps(Context context,String app_flag_1,String app_flag_2) {
+        PackageManager pManager = context.getPackageManager();
+        List<PackageInfo> packlist = pManager.getInstalledPackages(0);
+        for (int i = 0; i < packlist.size(); i++) {
+            PackageInfo pak = (PackageInfo) packlist.get(i);
+            if(pak.packageName.contains(app_flag_1)||pak.packageName.contains(app_flag_2)){
+                return pak;
+            }
+        }
+        return null;
     }
 
     private void startMobileDataChecker() {
