@@ -1563,7 +1563,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         @Override
         public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
             HSLog.d(TAG, "Picture onResourceReady");
-            mProgressViewHolder.startAnim(resource);
+            mProgressViewHolder.setResource(resource);
+            if (isSelectedPos()) {
+                mProgressViewHolder.startLoadingAnimation();
+            }
             return false;
         }
 
@@ -1803,6 +1806,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         download(downloadTask);
                     }
                 }
+                mProgressViewHolder.startLoadingAnimation();
             }
 
             if (mTheme.isLocked()) {
@@ -1985,9 +1989,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mProgressTxtGroup.animate().alpha(1).translationY(0).setDuration(duration).setInterpolator(interp).start();
         }
 
-        public void startAnim(Bitmap resource) {
+        public void setResource(Bitmap resource) {
             if (mDotsPictureView.getVisibility() == VISIBLE) {
                 mDotsPictureView.setSourceBitmap(resource);
+            }
+        }
+
+        public void startLoadingAnimation() {
+            if (mDotsPictureView.getVisibility() == VISIBLE) {
+                mDotsPictureView.startAnimation();
             }
         }
     }

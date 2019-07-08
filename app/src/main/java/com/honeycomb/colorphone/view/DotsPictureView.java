@@ -34,6 +34,7 @@ public class DotsPictureView extends View {
     private Paint mPaint;
     private Paint mBitmapPaint;
     private Paint mAnimPaint;
+    private Paint mAlphaPaint;
 
     private Bitmap mSourceBitmap;
     private Bitmap mDotResultBitmap;
@@ -72,6 +73,8 @@ public class DotsPictureView extends View {
         mAnimPaint = new Paint(mPaint);
         mAnimPaint.setStyle(Paint.Style.STROKE);
 
+        mAlphaPaint = new Paint(Paint.DITHER_FLAG | Paint.ANTI_ALIAS_FLAG);
+
         // Animation
         mAnimator = ValueAnimator.ofFloat(0, 1).setDuration(1000);
         mAnimator.setInterpolator(new AccelerateInterpolator(3f));
@@ -80,7 +83,6 @@ public class DotsPictureView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 progress = (float) animation.getAnimatedValue();
-                setAlpha((int) (1 - progress) * 255);
                 invalidate();
             }
         });
@@ -100,7 +102,22 @@ public class DotsPictureView extends View {
         mBitmapCanvas = new Canvas(mDotCropBitmap);
 
         HSLog.d("DigP", "setSourceBitmap --end");
-        mAnimator.start();
+    }
+
+    public void startAnimation() {
+        if (!mAnimator.isStarted()) {
+            mAnimator.start();
+        }
+    }
+
+    public void stopAnimation() {
+        mAnimator.cancel();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        mAnimator.cancel();
+        super.onDetachedFromWindow();
     }
 
     @Override
@@ -123,7 +140,8 @@ public class DotsPictureView extends View {
         mBitmapCanvas.drawBitmap(mDotResultBitmap, 0, 0, mBitmapPaint);
         HSLog.d("DigP", "draw end3 , duration " + (System.currentTimeMillis() - startMills));
 
-        canvas.drawBitmap(mDotCropBitmap, 0, 0, null);
+        mAlphaPaint.setAlpha((int) ((1 - progress) * (1 - progress) * 255));
+        canvas.drawBitmap(mDotCropBitmap, 0, 0, mAlphaPaint);
         HSLog.d("DigP", "draw end , duration " + (System.currentTimeMillis() - startMills));
     }
 
