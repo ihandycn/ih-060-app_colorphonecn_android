@@ -49,6 +49,7 @@ public class DotsPictureView extends View {
     private Interpolator pathInterpolator;
     private float progress;
     private float fraction;
+    private boolean needLight;
 
     public DotsPictureView(Context context) {
         super(context);
@@ -96,9 +97,73 @@ public class DotsPictureView extends View {
         });
     }
 
+    /**
+     *
+     * @param bm
+     * @return brightness value , larger than 128 is bright, otherwise is darker.
+     */
+    public int getBright(Bitmap bm) {
+        if (bm == null) {
+            return -1;
+        }
+
+        final int bitmapWidth = bm.getWidth();
+        final int bitmapHeight = bm.getHeight();
+        final int[] pixels = new int[bitmapWidth * bitmapHeight];
+        bm.getPixels(pixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
+
+        int r, g, b;
+        int count = pixels.length;
+        int bright = 0;
+        for (int localTemp : pixels) {
+            r = (localTemp | 0xff00ffff) >> 16 & 0x00ff;
+            g = (localTemp | 0xffff00ff) >> 8 & 0x0000ff;
+            b = (localTemp | 0xffffff00) & 0x0000ff;
+            bright = (int) (bright + 0.299 * r + 0.587 * g + 0.114 * b);
+        }
+        return bright / count;
+    }
+
+    public int darkPercent(Bitmap bm, int brightnessValue) {
+        if (bm == null) {
+            return -1;
+        }
+
+        final int bitmapWidth = bm.getWidth();
+        final int bitmapHeight = bm.getHeight();
+        final int[] pixels = new int[bitmapWidth * bitmapHeight];
+        bm.getPixels(pixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
+
+        int r, g, b;
+        int count = 0;
+        int bright = 0;
+        for (int localTemp : pixels) {
+            r = (localTemp | 0xff00ffff) >> 16 & 0x00ff;
+            g = (localTemp | 0xffff00ff) >> 8 & 0x0000ff;
+            b = (localTemp | 0xffffff00) & 0x0000ff;
+            bright = (int) (0.299 * r + 0.587 * g + 0.114 * b);
+            if (bright < brightnessValue) {
+                count++;
+            }
+        }
+        return count * 100 / pixels.length;
+    }
+
     public void setSourceBitmap(Bitmap sourceBitmap) {
         HSLog.d("DigP", "setSourceBitmap");
         mSourceBitmap = sourceBitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+        HSLog.d("DigP", "createScaledBitmap");
+        Bitmap bitmap = Bitmap.createScaledBitmap(mSourceBitmap,
+                (int) Math.ceil(mSourceBitmap.getWidth() * 0.1),
+                (int) Math.ceil(mSourceBitmap.getHeight() * 0.1),
+                false);
+
+        int darkPercent = darkPercent(bitmap, 30);
+        HSLog.d("DigP", "createScaledBitmap--end , darkPercent = " + darkPercent);
+
+        needLight = darkPercent > 40;
+
         mDotResultBitmap = Bitmap.createBitmap(mSourceBitmap.getWidth(), mSourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         mDotCropBitmap = Bitmap.createBitmap(mSourceBitmap.getWidth(), mSourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         // New picture
@@ -197,6 +262,9 @@ public class DotsPictureView extends View {
         int w = canvas.getWidth();
         int h = canvas.getHeight();
 
+        if (needLight) {
+            mPaint.setColor(0x1affffff);
+        }
         // Draw a line
         Canvas recodingCanvas = picture.beginRecording(w, h);
         while (tX < w) {
@@ -217,9 +285,12 @@ public class DotsPictureView extends View {
         HSLog.d("DigP", "start end , duration " + (System.currentTimeMillis() - startMills));
 
         // Get dots of picture
-//        mBitmapPaint.setColorFilter(new LightingColorFilter(0xffffff, 0x1a1a1a));
-        canvas.drawBitmap(mSourceBitmap, 0, 0, mBitmapPaint);
-//        mBitmapPaint.setColorFilter(null);
+        if (!needLight) {
+//            mBitmapPaint.setColorFilter(new LightingColorFilter(0xffffff, 0x1a1a1a));
+            canvas.drawBitmap(mSourceBitmap, 0, 0, mBitmapPaint);
+//            mBitmapPaint.setColorFilter(null);
+        }
+
         HSLog.d("DigP", "drawBitmap end , duration " + (System.currentTimeMillis() - startMills));
     }
 }
