@@ -81,8 +81,11 @@ public class CmGameActivity extends AppCompatActivity implements IAppCallback {
 
     @Override
     protected void onDestroy() {
-        GameStarterActivity.createShortCut(this);
         super.onDestroy();
+    }
 
+    @Override public void onBackPressed() {
+        GameStarterActivity.createShortCut(this);
+        super.onBackPressed();
     }
 }

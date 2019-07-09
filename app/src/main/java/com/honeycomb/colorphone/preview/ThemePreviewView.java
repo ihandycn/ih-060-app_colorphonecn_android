@@ -333,7 +333,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     Runnable transEndRunnable = new Runnable() {
         @Override
         public void run() {
-            if (!mBlockAnimationForPageChange) {
+            if (isSelectedPos() && !mBlockAnimationForPageChange) {
                 resumeAnimation();
                 mBlockAnimationForPageChange = true;
             }
@@ -385,9 +385,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         super(context, attrs, defStyleAttr);
     }
 
-    public void init(ThemePreviewActivity activity, ArrayList<Theme> themes, int position, View navBack) {
+    public void init(ThemePreviewActivity activity, Theme theme, int position, View navBack) {
         mActivity = activity;
-        mTheme = themes.get(position);
+        mTheme = theme;
         mPosition = position;
         if (navBack != null) {
             mNavBack = navBack;
@@ -408,6 +408,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void updateThemePreviewLayout(Type themeType) {
         previewWindow.updateThemeLayout(themeType);
+        previewWindow.setAnimationVisible(INVISIBLE);
 
         TextView callName = findViewById(R.id.first_line);
         callName.setText(mTheme.getAvatarName());
@@ -467,7 +468,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
             }
         });
-        previewWindow.setVisibility(INVISIBLE);
+        previewWindow.setAnimationVisible(INVISIBLE);
         themeStateManager = ThemeStateManager.getInstance();
         mCallActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
         mCallActionView.setTheme(mThemeType);
@@ -483,7 +484,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         });
         mThemeLayout = findViewById(R.id.card_theme_info_layout);
-        mThemeLayout.getLayoutParams().width = Math.max(Dimensions.pxFromDp(180), Utils.getPhoneWidth(mActivity) - Dimensions.pxFromDp(180));
+        mThemeLayout.getLayoutParams().width = Math.max(Dimensions.pxFromDp(180), Dimensions.getPhoneWidth(mActivity) - Dimensions.pxFromDp(180));
 
         mApplyForOne = findViewById(R.id.theme_set_for_one);
         mApplyForOne.setEnabled(mTheme.getId() != Theme.RANDOM_THEME);
@@ -982,41 +983,43 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void setEnjoyView() {
-         if (navFadeInOrVisible == NAV_FADE_IN) {
-             showNavView(true);
-             fadeInActionView();
-             navFadeInOrVisible = NAV_VISIBLE;
-         } else {
-             mNavBack.setVisibility(VISIBLE);
-         }
-         if (ifThemeSelected()) {
-             mThemeSelected.setVisibility(VISIBLE);
-         } else {
-             mThemeSelected.setVisibility(GONE);
-         }
-         changeModeToEnjoy();
-         mEnjoyClose.setVisibility(GONE);
-         mEnjoyApplyDefault.setVisibility(GONE);
-         mEnjoyApplyForOne.setVisibility(GONE);
-         mEnjoyApplyBtn.setScaleX(1.0f);
-         mEnjoyApplyBtn.setAlpha(1);
-         mEnjoyApplyBtn.setTextColor(Color.WHITE);
-         mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
+        if (navFadeInOrVisible == NAV_FADE_IN) {
+            showNavView(true);
+            fadeInActionView();
+            navFadeInOrVisible = NAV_VISIBLE;
+        } else {
+            mNavBack.setVisibility(VISIBLE);
+        }
+        if (ifThemeSelected()) {
+            mThemeSelected.setVisibility(VISIBLE);
+        } else {
+            mThemeSelected.setVisibility(GONE);
+        }
+        changeModeToEnjoy();
+        mEnjoyClose.setVisibility(GONE);
+        mEnjoyApplyDefault.setVisibility(GONE);
+        mEnjoyApplyForOne.setVisibility(GONE);
 
-         mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 unFoldView();
-             }
-         });
+        mEnjoyApplyBtn.setScaleX(1.0f);
+        mEnjoyApplyBtn.setAlpha(1);
+        mEnjoyApplyBtn.setVisibility(VISIBLE);
+        mEnjoyApplyBtn.setTextColor(Color.WHITE);
+        mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
 
-         mEnjoyClose.setOnClickListener(new OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 foldView();
-             }
-         });
-     }
+        mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unFoldView();
+            }
+        });
+
+        mEnjoyClose.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                foldView();
+            }
+        });
+    }
 
     public void setLikeClick(View.OnClickListener onClickListener) {
         mThemeLikeCount.setOnClickListener(onClickListener);
@@ -1077,29 +1080,45 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void animCallGroupViewToVisible(boolean visible) {
         float startValue = visible ? 0f : 1f;
         float endValue = visible ? 1f : 0f;
-        mCallUserView.setAlpha(startValue);
-        mCallUserView.setVisibility(VISIBLE);
-        mCallUserView.animate().alpha(endValue)
-                .setDuration(CHANGE_MODE_DURTION)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mCallUserView.setVisibility(visible ? VISIBLE : INVISIBLE);
-                    }
-                })
-                .start();
+        int vis = visible ? VISIBLE : INVISIBLE;
+        boolean needAnim = isSelectedPos();
+        if (needAnim && vis != mCallUserView.getVisibility()) {
+            mCallUserView.setAlpha(startValue);
+            mCallUserView.setVisibility(VISIBLE);
+            mCallUserView.animate().alpha(endValue)
+                    .setDuration(CHANGE_MODE_DURTION)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mCallUserView.setVisibility(visible ? VISIBLE : INVISIBLE);
+                        }
+                    })
+                    .start();
+        } else {
+            // Cancel last anim before, ensure view state will not be changed in the future.
+            mCallUserView.animate().cancel();
+            mCallUserView.setVisibility(vis);
+            mCallUserView.setAlpha(endValue);
+        }
 
-        mCallActionView.setVisibility(VISIBLE);
-        mCallActionView.setAlpha(startValue);
-        mCallActionView.animate().alpha(endValue)
-                .setDuration(CHANGE_MODE_DURTION)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mCallActionView.setVisibility(visible ? VISIBLE : INVISIBLE);
-                    }
-                })
-                .start();
+        if (needAnim && vis != mCallActionView.getVisibility()) {
+            mCallActionView.setVisibility(VISIBLE);
+            mCallActionView.setAlpha(startValue);
+            mCallActionView.animate().alpha(endValue)
+                    .setDuration(CHANGE_MODE_DURTION)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mCallActionView.setVisibility(visible ? VISIBLE : INVISIBLE);
+                        }
+                    })
+                    .start();
+        } else {
+            // Cancel last anim before, ensure view state will not be changed in the future.
+            mCallActionView.animate().cancel();
+            mCallActionView.setAlpha(endValue);
+            mCallActionView.setVisibility(vis);
+        }
 
         if (visible) {
             if (getThemeMode() == PREVIEW_MODE) {
@@ -1604,7 +1623,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (themeReady) {
             resumed = true;
-            previewWindow.setVisibility(VISIBLE);
+            previewWindow.setAnimationVisible(VISIBLE);
             previewWindow.playAnimation(mThemeType);
             mCallActionView.doAnimation();
             if (mTheme.hasRingtone()) {
@@ -1782,7 +1801,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     @Override
     public void onPageSelected(int position) {
         if (DEBUG_LIFE_CALLBACK) {
-            HSLog.d("onPageSelected " + position);
+            HSLog.d("onPageSelected " + position +  "  " +  mPageSelectedPos);
         }
         mPageSelectedPos = position;
 

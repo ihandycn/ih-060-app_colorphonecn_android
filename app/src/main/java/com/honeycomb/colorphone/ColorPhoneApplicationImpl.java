@@ -340,8 +340,8 @@ public class ColorPhoneApplicationImpl {
         // Init ANR optimizer
         SharedPreferencesOptimizer.install(BuildConfig.DEBUG);
 
-        mHeight = Utils.getPhoneHeight(mBaseApplication);
-        mWidth = Utils.getPhoneWidth(mBaseApplication);
+        mHeight = Dimensions.getPhoneHeight(mBaseApplication);
+        mWidth = Dimensions.getPhoneWidth(mBaseApplication);
         mConfigLog = new ConfigLogDefault();
         mDailyLogger = new DailyLogger();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);

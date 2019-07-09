@@ -163,12 +163,17 @@ public class AutoRequestManager {
         if (AutoPermissionChecker.hasFloatWindowPermission()) {
             onFloatWindowPermissionReady();
         } else {
+            if (isRequestFloatPermission) {
+                HSPermissionRequestMgr.getInstance().cancelRequest();
+                HSLog.d(TAG, "User start cancel request draw overlay!");
+            }
             HSLog.d(TAG, "start request draw overlay!");
             ArrayList<String> permission = new ArrayList<String>();
             permission.add(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY);
             HSPermissionRequestMgr.getInstance().startRequest(permission, new HSPermissionRequestCallback.Stub() {
                 @Override
                 public void onFinished(int succeedCount, int totalCount) {
+                    HSLog.d(TAG, "Overlay : onFinished " + succeedCount);
                     if (succeedCount == 1) {
                         onFloatWindowPermissionReady();
                         AutoPermissionChecker.onFloatPermissionChange(true);
@@ -181,6 +186,7 @@ public class AutoRequestManager {
 
                 @Override
                 public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
+                    HSLog.d(TAG, "Overlay : onSinglePermissionFinished , success = " + isSucceed );
                     AutoLogger.logAutomaticPermissionResult(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY, isSucceed, msg);
                     isRequestFloatPermission = false;
                 }
@@ -188,8 +194,15 @@ public class AutoRequestManager {
                 @Override
                 public void onSinglePermissionStarted(int index) {
                     super.onSinglePermissionStarted(index);
-                    HSLog.d(TAG, "Overlay");
+                    HSLog.d(TAG, "Overlay : onSinglePermissionStarted" );
                     isRequestFloatPermission = true;
+                }
+
+                @Override
+                public void onCancelled() {
+                    super.onCancelled();
+                    HSLog.d(TAG, "Overlay : onCancelled");
+                    isRequestFloatPermission = false;
                 }
             });
         }
@@ -260,13 +273,20 @@ public class AutoRequestManager {
 
             @Override
             public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
+                if (permission.size() == 0 || index < 0 || index >= permission.size()) {
+                    String result = "IndexOutOfBoundsException " + permission;
+                    HSLog.d(TAG, "[AutoPermission-Result] : index " + index + " finished, " + result);
+                    Toasts.showToast(result, Toast.LENGTH_LONG);
+                    return;
+                }
+
+                String type = permission.get(index);
                 if (BuildConfig.DEBUG) {
-                    String result = permission.get(index)
-                            + (isSucceed ? " success !" : ("  failed reason : " + msg));
+                    String result = type + (isSucceed ? " success !" : ("  failed reason : " + msg));
                     HSLog.d(TAG, "[AutoPermission-Result] : index " + index + " finished, " + result);
                     Toasts.showToast(result, Toast.LENGTH_LONG);
                 }
-                String type = permission.get(index);
+
                 switch (type) {
                     case HSPermissionRequestMgr.TYPE_AUTO_START:
                         AutoPermissionChecker.onAutoStartChange(isSucceed);
@@ -421,9 +441,9 @@ public class AutoRequestManager {
             }
             if (guideIntent != null) {
                 guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                HSApplication.getContext().startActivities(new Intent[] {intent, guideIntent});
+                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] {intent, guideIntent});
             } else {
-                HSApplication.getContext().startActivity(intent);
+                Navigations.startActivitySafely(HSApplication.getContext(), intent);
             }
             AutoRequestManager.getInstance().listenAccessibility();
         }

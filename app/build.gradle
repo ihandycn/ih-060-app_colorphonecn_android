@@ -55,8 +55,8 @@ android {
 
         jinritoutiao {
             dimension "channel"
-            versionCode 141
-            versionName "1.3.15"
+            versionCode 142
+            versionName "1.3.16"
         }
     }
 
@@ -191,7 +191,7 @@ dependencies {
 
             "com.android.support:multidex:1.0.1",
 
-            "cn.appcloudbox.autopilot:libAutoPilot.gm:5.5.3.cn.gm",
+            "cn.appcloudbox.autopilot:libAutoPilot.gm:5.5.4.cn.gm",
 
     ]
 
@@ -253,7 +253,7 @@ dependencies {
     compile project(':libPermissionacquire')
 
     //  -------- GoldEye ------
-    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.06.28.001'
+    colorphoneCompile 'cn.appcloudbox.ads:colorphone_k:2019.07.02.001'
 
     compile 'cn.appcloudbox.feast:libFeast.beta:1.0.0.cn.beta06'
     compile 'com.android.volley:volley:1.1.1'

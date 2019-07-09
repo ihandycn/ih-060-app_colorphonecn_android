@@ -224,7 +224,7 @@ public class NotificationManager implements FlashlightStatusListener {
             mRemoteViews.setOnClickPendingIntent(R.id.flashlight_layout, getPendingIntent(ACTION_FLASH_LIGHT, false));
             mRemoteViews.setOnClickPendingIntent(R.id.clock_layout, getPendingIntent(ACTION_SETTINGS_CLICK, true));
 
-            mBoostIcon = Bitmap.createBitmap(Utils.pxFromDp(64), Utils.pxFromDp(64), Bitmap.Config.ARGB_4444);
+            mBoostIcon = Bitmap.createBitmap(Dimensions.pxFromDp(64), Dimensions.pxFromDp(64), Bitmap.Config.ARGB_4444);
             mBoostIconCanvas = new Canvas(mBoostIcon);
             mClearPaint = new Paint();
             mClearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
@@ -563,7 +563,7 @@ public class NotificationManager implements FlashlightStatusListener {
         float centX = mBoostIcon.getWidth() / 2.0f;
         float centY = mBoostIcon.getHeight() / 2.0f;
         float radius = centX > centY ? centY : centX;
-        radius -= Utils.pxFromDp(4f);
+        radius -= Dimensions.pxFromDp(4f);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.WHITE);
         mBoostIconCanvas.drawCircle(centX, centY, radius, paint);
