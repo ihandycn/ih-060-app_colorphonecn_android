@@ -1857,6 +1857,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 pauseAnimation();
             }
         }
+
+        // Check loading state
+        if (themeLoading) {
+            if (state == ViewPager.SCROLL_STATE_IDLE && isSelectedPos()) {
+                mProgressViewHolder.mDotsPictureView.resumeAnimation();
+            } else {
+                mProgressViewHolder.mDotsPictureView.pauseAnimation();
+            }
+        }
     }
 
 

@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Picture;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -107,6 +108,26 @@ public class DotsPictureView extends View {
     public void startAnimation() {
         if (!mAnimator.isStarted()) {
             mAnimator.start();
+        }
+    }
+
+    public void pauseAnimation() {
+        if (mAnimator.isRunning()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                mAnimator.pause();
+            } else {
+                mAnimator.cancel();
+            }
+        }
+    }
+
+    public void resumeAnimation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (mAnimator.isPaused()) {
+                mAnimator.resume();
+            }
+        } else {
+            startAnimation();
         }
     }
 
