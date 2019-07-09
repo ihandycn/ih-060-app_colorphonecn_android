@@ -2,7 +2,6 @@ package com.honeycomb.colorphone.preview;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.TimeInterpolator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,11 +30,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -678,7 +675,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void playDownloadOkTransAnimation() {
-        mProgressViewHolder.fadeOut();
+        mProgressViewHolder.hide();
         dimCover.animate().alpha(0).setDuration(200);
         animationDelay = 0;
     }
@@ -1564,9 +1561,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
             HSLog.d(TAG, "Picture onResourceReady");
             mProgressViewHolder.setResource(resource);
-            if (isSelectedPos()) {
-                mProgressViewHolder.startLoadingAnimation();
-            }
             return false;
         }
 
@@ -1633,14 +1627,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         dimCover.setVisibility(View.VISIBLE);
         mProgressViewHolder.show();
         updateThemePreviewLayout(mThemeType);
-
-        mProgressViewHolder.mProgressTxtGroup.setAlpha(0);
-        mProgressViewHolder.mProgressBar.setAlpha(0);
         playTransInAnimation(new Runnable() {
             @Override
             public void run() {
                 int duration = TRANS_IN_DURATION;
-                mProgressViewHolder.transIn(bottomBtnTransY, duration);
+                mProgressViewHolder.show();
 
                 final DownloadTask task = mDownloadTasks.get(DownloadTask.TYPE_THEME);
                 if (task != null) {
@@ -1899,6 +1890,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     .translationX(-Dimensions.pxFromDp(12))
                     .translationY(Dimensions.pxFromDp(22))
                     .setDuration(200).start();
+            mProgressViewHolder.hide();
 
         } else {
 
@@ -1956,46 +1948,24 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private class ProgressViewHolder {
-        private ProgressBar mProgressBar;
-        private TextView mProgressTxt;
-        private View mProgressTxtGroup;
+
         public DotsPictureView mDotsPictureView;
 
         public ProgressViewHolder() {
-            mProgressBar = (ProgressBar) findViewById(R.id.theme_progress_bar);
-            mProgressTxt = (TextView) findViewById(R.id.theme_progress_txt);
-            mProgressTxtGroup= findViewById(R.id.theme_progress_txt_holder);
             mDotsPictureView = findViewById(R.id.dots_progress_view);
         }
 
         public void updateProgressView(int percent) {
-            mProgressBar.setProgress(percent);
-            mProgressTxt.setText(mActivity.getString(R.string.loading_progress, percent));
+
         }
 
         public void hide() {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            mProgressTxtGroup.setVisibility(View.INVISIBLE);
             mDotsPictureView.setVisibility(View.INVISIBLE);
+            mDotsPictureView.stopAnimation();
         }
 
         public void show() {
-            mProgressBar.setVisibility(View.VISIBLE);
-            mProgressTxtGroup.setVisibility(View.VISIBLE);
             mDotsPictureView.setVisibility(VISIBLE);
-        }
-
-        public void fadeOut() {
-            mProgressBar.animate().alpha(0).setDuration(300).start();
-            mProgressTxtGroup.animate().alpha(0).setDuration(300).start();
-        }
-
-        public void transIn(float bottomBtnTransY, int duration) {
-            TimeInterpolator interp = new DecelerateInterpolator(1.5f);
-            mProgressBar.setTranslationY(bottomBtnTransY);
-            mProgressTxtGroup.setTranslationY(bottomBtnTransY);
-            mProgressBar.animate().alpha(1).translationY(0).setDuration(duration).setInterpolator(interp).start();
-            mProgressTxtGroup.animate().alpha(1).translationY(0).setDuration(duration).setInterpolator(interp).start();
         }
 
         public void setResource(Bitmap resource) {
