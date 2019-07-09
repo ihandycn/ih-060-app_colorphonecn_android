@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:clipToPadding="false">
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView
+            android:id="@+id/result_image_container_ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+
+        <RelativeLayout
+            android:id="@+id/enjoy_layout"
+            android:layout_width="match_parent"
+            android:layout_height="292dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/shape_theme_background">
+
+            <TextView
+                android:id="@+id/description_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="19dp"
+                android:layout_marginRight="176dp"
+                android:layout_marginBottom="58dp"
+                android:shadowColor="#3d000000"
+                android:shadowDy="3"
+                android:shadowRadius="6"
+                android:text="主人那家伙又来电话了"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="@color/primaryText"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/result_ad_choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:layout_marginStart="19dp"
+                android:layout_above="@id/description_title_tv"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/theme_full_ad_choice_bg"
+                android:letterSpacing="0.1"
+                android:lineSpacingExtra="10sp"
+                android:paddingLeft="4dp"
+                android:paddingStart="4dp"
+                android:paddingRight="4dp"
+                android:paddingEnd="4dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:text="@string/ad_activity_label"
+                android:textColor="#ccffffff"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                tools:ignore="SmallSp"/>
+
+            <TextView
+                android:id="@+id/collect_num"
+                android:layout_width="72dp"
+                android:layout_height="23dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="43.1dp"
+                android:layout_marginBottom="34dp"
+                android:text="65329"
+                android:textColor="#ccffffff"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/result_action_btn"
+                android:layout_width="128dp"
+                android:layout_height="48dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="34dp"
+                android:background="@drawable/shape_theme_setting"
+                android:gravity="center"
+                android:text="设 为 来 电 秀"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/like_count_icon"
+                android:layout_width="18dp"
+                android:layout_height="16dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="19.3dp"
+                android:layout_marginBottom="37dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:lottie_fileName="lottie/like.json"
+                app:lottie_loop="false"
+                app:lottie_progress="0" />
+
+        </RelativeLayout>
+
+    </android.support.percent.PercentRelativeLayout>
+</FrameLayout>

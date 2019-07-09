@@ -273,13 +273,20 @@ public class AutoRequestManager {
 
             @Override
             public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
+                if (permission.size() == 0 || index < 0 || index >= permission.size()) {
+                    String result = "IndexOutOfBoundsException " + permission;
+                    HSLog.d(TAG, "[AutoPermission-Result] : index " + index + " finished, " + result);
+                    Toasts.showToast(result, Toast.LENGTH_LONG);
+                    return;
+                }
+
+                String type = permission.get(index);
                 if (BuildConfig.DEBUG) {
-                    String result = permission.get(index)
-                            + (isSucceed ? " success !" : ("  failed reason : " + msg));
+                    String result = type + (isSucceed ? " success !" : ("  failed reason : " + msg));
                     HSLog.d(TAG, "[AutoPermission-Result] : index " + index + " finished, " + result);
                     Toasts.showToast(result, Toast.LENGTH_LONG);
                 }
-                String type = permission.get(index);
+
                 switch (type) {
                     case HSPermissionRequestMgr.TYPE_AUTO_START:
                         AutoPermissionChecker.onAutoStartChange(isSucceed);
@@ -434,9 +441,9 @@ public class AutoRequestManager {
             }
             if (guideIntent != null) {
                 guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                HSApplication.getContext().startActivities(new Intent[] {intent, guideIntent});
+                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] {intent, guideIntent});
             } else {
-                HSApplication.getContext().startActivity(intent);
+                Navigations.startActivitySafely(HSApplication.getContext(), intent);
             }
             AutoRequestManager.getInstance().listenAccessibility();
         }

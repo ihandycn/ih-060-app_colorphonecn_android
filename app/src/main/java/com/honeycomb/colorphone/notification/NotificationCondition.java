@@ -43,6 +43,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.ScreenStateMgr;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -612,9 +613,9 @@ public class NotificationCondition implements INotificationObserver {
     }
 
     private static Bitmap getQuantitativeBarBitmap(int quantity, int colorPrimary) {
-        float width = Utils.pxFromDp(120);
-        float halfHeight = Utils.pxFromDp(7.5f);
-        float strokeWidth = Utils.pxFromDp(3.3f);
+        float width = Dimensions.pxFromDp(120);
+        float halfHeight = Dimensions.pxFromDp(7.5f);
+        float strokeWidth = Dimensions.pxFromDp(3.3f);
         float left = strokeWidth / 2;
         float right = width - strokeWidth / 2;
 
