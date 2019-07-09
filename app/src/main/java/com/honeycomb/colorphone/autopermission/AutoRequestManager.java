@@ -5,14 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.graphics.PixelFormat;
-import android.os.Build;
 import android.support.annotation.StringDef;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
@@ -82,8 +77,6 @@ public class AutoRequestManager {
     private static final int MAX_RETRY_COUNT = 2;
     private static AutoRequestManager sManager = new AutoRequestManager();
     private boolean listened = false;
-
-    private PermissionTester mPermissionTester = new PermissionTester();
 
     private int mRetryCount = 0;
     private String from;
@@ -412,14 +405,6 @@ public class AutoRequestManager {
                 && AutoPermissionChecker.isNotificationListeningGranted();
     }
 
-    public void startWindowPermissionTest() {
-        if (windowMgr == null) {
-            windowMgr = (WindowManager) HSApplication.getContext().getSystemService(Context.WINDOW_SERVICE);
-        }
-
-        mPermissionTester.startTest(HSApplication.getContext());
-    }
-
     public void startAutoCheck(@AUTO_PERMISSION_FROM String from, String point) {
         this.from = from;
         this.point = point;
@@ -527,74 +512,6 @@ public class AutoRequestManager {
             }
         });
         return false;
-    }
-
-    private class PermissionTester {
-        View testView;
-        boolean hasFloatWindowPermission;
-
-        private void startTest(Context context) {
-            if (testView == null) {
-                testView = new TextView(context);
-                if (BuildConfig.DEBUG) {
-                    ((TextView) testView).setText("TESTEST");
-                    ((TextView) testView).setTextSize(40);
-                    ((TextView) testView).setTextColor(Color.YELLOW);
-                }
-                try {
-                    windowMgr.addView(testView, getEmptyParams());
-                    testView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                        @Override
-                        public void onViewAttachedToWindow(View v) {
-                            HSLog.d(TAG, "onViewAttachedToWindow : window show success");
-                            hasFloatWindowPermission = true;
-                            AutoPermissionChecker.onFloatPermissionChange(true);
-                            removeTestView();
-                        }
-
-                        @Override
-                        public void onViewDetachedFromWindow(View v) {
-                            HSLog.d(TAG, "onViewDetachedFromWindow : window show success");
-                        }
-                    });
-                    testView.requestFocus();
-                    Threads.postOnMainThreadDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            removeTestView();
-                        }
-                    }, 2000);
-                } catch (Exception e) {
-                    HSLog.d(TAG, "window show fail");
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        private void removeTestView() {
-            if (testView != null) {
-                windowMgr.removeView(testView);
-                testView = null;
-            }
-        }
-
-        private  WindowManager.LayoutParams getEmptyParams() {
-            WindowManager.LayoutParams emptyParams = new WindowManager.LayoutParams();
-            emptyParams.flags |= WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN;
-            if (!BuildConfig.DEBUG) {
-                emptyParams.height = 1;
-                emptyParams.width = 1;
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                emptyParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-            } else  {
-                emptyParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-            }
-            emptyParams.format = PixelFormat.TRANSPARENT;
-
-            return emptyParams;
-        }
-
     }
 
 }

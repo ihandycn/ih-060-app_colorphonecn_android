@@ -56,7 +56,6 @@ public class WelcomeActivity extends Activity {
         } else {
             toMainView();
         }
-        AutoRequestManager.getInstance().startWindowPermissionTest();
 
     }
 
