@@ -166,7 +166,7 @@ public class DotsPictureView extends View {
         } else {
             strokeWidth = maxStokeWidth -
                     maxStokeWidth * pathInterpolator.getInterpolation((fraction - 0.4f) / 0.6f);
-            alpha = (int) (255 * Math.pow(1f - pathInterpolator.getInterpolation((fraction - 0.4f) / 0.6f), 2f));
+            alpha = (int) (255 * Math.pow(1f - (fraction - 0.4f) / 0.6f, 3f));
         }
 
         HSLog.d("DigP", "draw , fraction = " + fraction + ", progress = " + progress + ",strokeWidth = " + strokeWidth + ",alpha = " + alpha);
@@ -217,7 +217,9 @@ public class DotsPictureView extends View {
         HSLog.d("DigP", "start end , duration " + (System.currentTimeMillis() - startMills));
 
         // Get dots of picture
+//        mBitmapPaint.setColorFilter(new LightingColorFilter(0xffffff, 0x1a1a1a));
         canvas.drawBitmap(mSourceBitmap, 0, 0, mBitmapPaint);
+//        mBitmapPaint.setColorFilter(null);
         HSLog.d("DigP", "drawBitmap end , duration " + (System.currentTimeMillis() - startMills));
     }
 }

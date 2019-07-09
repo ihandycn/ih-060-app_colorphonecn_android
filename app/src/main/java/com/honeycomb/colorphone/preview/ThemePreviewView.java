@@ -1593,6 +1593,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
+    /**
+     * animation include loading progress and theme effects.
+     */
     private void resumeAnimation() {
         if (mWindowInTransition) {
             mPendingResume = true;
@@ -1607,6 +1610,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             if (mTheme.hasRingtone()) {
                 mRingtoneViewHolder.refreshMuteStatus();
             }
+        } else if (themeLoading) {
+            mProgressViewHolder.startLoadingAnimation();
         }
 
         if (mTheme != null && !TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
@@ -1631,12 +1636,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             @Override
             public void run() {
                 int duration = TRANS_IN_DURATION;
-                mProgressViewHolder.show();
 
                 final DownloadTask task = mDownloadTasks.get(DownloadTask.TYPE_THEME);
                 if (task != null) {
-                    float percent = TasksManager.getImpl().getDownloadProgress(task.getTasksManagerModel().getId());
-                    mProgressHelper.setProgressVideo((int) (percent * 100));
                     Message msg = Message.obtain();
                     msg.what = MSG_DOWNLOAD;
                     msg.arg1 = DownloadTask.TYPE_THEME;
@@ -1645,17 +1647,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 final DownloadTask ringtoneTask = mDownloadTasks.get((DownloadTask.TYPE_RINGTONE));
                 if (ringtoneTask != null) {
-                    float percent = TasksManager.getImpl().getDownloadProgress(ringtoneTask.getTasksManagerModel().getId());
-                    mProgressHelper.setProgressRingtone((int) (percent * 100));
                     Message msg = Message.obtain();
                     msg.what = MSG_DOWNLOAD;
                     msg.arg1 = DownloadTask.TYPE_RINGTONE;
                     mHandler.sendMessageDelayed(msg, duration);
                 }
-
-                if (ringtoneTask != null || task != null) {
-                    mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
+                if (isSelectedPos()) {
+                    resumeAnimation();
                 }
+
             }
         });
     }
@@ -1797,7 +1797,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         download(downloadTask);
                     }
                 }
-                mProgressViewHolder.startLoadingAnimation();
             }
 
             if (mTheme.isLocked()) {
@@ -1976,6 +1975,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         public void startLoadingAnimation() {
             if (mDotsPictureView.getVisibility() == VISIBLE) {
+                HSLog.d(TAG, "startLoadingAnimation-" + mTheme.getName());
                 mDotsPictureView.startAnimation();
             }
         }
