@@ -11,10 +11,11 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Interpolator;
 
 import com.ihs.commons.utils.HSLog;
 import com.superapps.BuildConfig;
@@ -29,6 +30,7 @@ public class DotsPictureView extends View {
 
     private int ballRadius;
     private int maxStokeWidth;
+    private int minStokeWidth;
 
     private Picture picture = new Picture();
 
@@ -44,7 +46,9 @@ public class DotsPictureView extends View {
     private Canvas mBitmapCanvas;
 
     private ValueAnimator mAnimator;
+    private Interpolator pathInterpolator;
     private float progress;
+    private float fraction;
 
     public DotsPictureView(Context context) {
         super(context);
@@ -61,6 +65,7 @@ public class DotsPictureView extends View {
         init();
     }
 
+
     private void init() {
         maxStokeWidth = Dimensions.pxFromDp(80) * 2;
         ballRadius = Dimensions.pxFromDp(2);
@@ -75,14 +80,16 @@ public class DotsPictureView extends View {
         mAnimPaint.setStyle(Paint.Style.STROKE);
 
         mAlphaPaint = new Paint(Paint.DITHER_FLAG | Paint.ANTI_ALIAS_FLAG);
+        pathInterpolator = PathInterpolatorCompat.create(0.48f, 0.04f, 0.52f, 0.96f);
 
         // Animation
         mAnimator = ValueAnimator.ofFloat(0, 1).setDuration(1000);
-        mAnimator.setInterpolator(new AccelerateInterpolator(3f));
+        mAnimator.setInterpolator(pathInterpolator);
         mAnimator.setRepeatCount(ValueAnimator.INFINITE);
         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
+                fraction = animation.getAnimatedFraction();
                 progress = (float) animation.getAnimatedValue();
                 invalidate();
             }
@@ -102,6 +109,8 @@ public class DotsPictureView extends View {
         mSourceBitmap.recycle();
         mBitmapCanvas = new Canvas(mDotCropBitmap);
 
+        maxStokeWidth = (int) (mSourceBitmap.getHeight() * 0.1f);
+        minStokeWidth = maxStokeWidth / 2;
         HSLog.d("DigP", "setSourceBitmap --end");
     }
 
@@ -141,6 +150,8 @@ public class DotsPictureView extends View {
         super.onDetachedFromWindow();
     }
 
+    float strokeWidth = 0;
+    int alpha = 0;
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
@@ -148,20 +159,32 @@ public class DotsPictureView extends View {
             return;
         }
 
+        if (fraction < 0.4f) {
+            alpha = 255;
+            strokeWidth = minStokeWidth +
+                    (maxStokeWidth - minStokeWidth) * pathInterpolator.getInterpolation(fraction / 0.4f);
+        } else {
+            strokeWidth = maxStokeWidth -
+                    maxStokeWidth * pathInterpolator.getInterpolation((fraction - 0.4f) / 0.6f);
+            alpha = (int) (255 * Math.pow(1f - pathInterpolator.getInterpolation((fraction - 0.4f) / 0.6f), 2f));
+        }
+
+        HSLog.d("DigP", "draw , fraction = " + fraction + ", progress = " + progress + ",strokeWidth = " + strokeWidth + ",alpha = " + alpha);
+
         long startMills = System.currentTimeMillis();
         mBitmapCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         HSLog.d("DigP", "draw end1 , duration " + (System.currentTimeMillis() - startMills));
 
-        mAnimPaint.setStrokeWidth(Math.min(0.5f, progress) * maxStokeWidth);
+        mAnimPaint.setStrokeWidth(strokeWidth);
         mBitmapCanvas.drawCircle(mDotResultBitmap.getWidth() * 0.5f,
                 mDotResultBitmap.getHeight() * 0.5f,
-                mDotResultBitmap.getHeight() * progress * 0.5f, mAnimPaint);
+                mDotResultBitmap.getHeight() * 1.3f * progress * 0.5f, mAnimPaint);
         HSLog.d("DigP", "draw end2 , duration " + (System.currentTimeMillis() - startMills));
 
         mBitmapCanvas.drawBitmap(mDotResultBitmap, 0, 0, mBitmapPaint);
         HSLog.d("DigP", "draw end3 , duration " + (System.currentTimeMillis() - startMills));
 
-        mAlphaPaint.setAlpha((int) ((1 - progress) * (1 - progress) * 255));
+        mAlphaPaint.setAlpha(alpha);
         canvas.drawBitmap(mDotCropBitmap, 0, 0, mAlphaPaint);
         HSLog.d("DigP", "draw end , duration " + (System.currentTimeMillis() - startMills));
     }
