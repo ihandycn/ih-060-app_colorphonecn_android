@@ -179,10 +179,12 @@ public class DotsPictureView extends View {
         HSLog.d("DigP", "setSourceBitmap --end");
     }
 
-    public void startAnimation() {
+    public boolean startAnimation() {
         if (!mAnimator.isStarted()) {
             mAnimator.start();
+            return true;
         }
+        return false;
     }
 
     public void pauseAnimation() {

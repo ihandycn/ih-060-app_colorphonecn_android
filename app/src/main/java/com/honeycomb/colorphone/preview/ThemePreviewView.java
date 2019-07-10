@@ -118,7 +118,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private static final int MSG_HIDE = 1;
     private static final int MSG_SHOW = 2;
-    private static final int MSG_DOWNLOAD = 10;
     private static final int MSG_DOWNLOAD_OK = 11;
 
     private static final boolean PLAY_ANIMITION = true;
@@ -242,16 +241,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     themeStateManager.sendNotification(ENJOY_MODE);
                     return true;
 
-                case MSG_DOWNLOAD: {
-                    final int type = msg.arg1;
-                    DownloadTask task = mDownloadTasks.get(type);
-                    if (task != null) {
-                        if (isSelectedPos()) {
-                            download(task);
-                        }
-                    }
-                    return true;
-                }
                 case MSG_DOWNLOAD_OK :
                     onMediaDownloadOK();
                     return true;
@@ -683,10 +672,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
 
             // To ensure good effects, Loading animation limit min-duration 1s
-            long delayTimeMills = DateUtils.SECOND_IN_MILLIS - loadingDuration;
-            HSLog.d(TAG, "onTaskDownload, end duration = " + loadingDuration);
+            long loadingAnimDuration = System.currentTimeMillis() - mProgressViewHolder.getAnimationStartTimeMills();
+            long delayTimeMills = DateUtils.SECOND_IN_MILLIS - loadingAnimDuration - 200;
+            HSLog.d(TAG, "onTaskDownload, end duration = " + loadingAnimDuration);
 
-            mHandler.sendEmptyMessageDelayed(MSG_DOWNLOAD_OK, delayTimeMills < 200 ? 0 : delayTimeMills);
+            mHandler.sendEmptyMessageDelayed(MSG_DOWNLOAD_OK, delayTimeMills < 0 ? 0 : delayTimeMills);
         }
     }
 
@@ -1659,23 +1649,20 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         playTransInAnimation(new Runnable() {
             @Override
             public void run() {
-                final DownloadTask task = mDownloadTasks.get(DownloadTask.TYPE_THEME);
-                if (task != null && isTaskIdle(task)) {
-                    task.setStatus(DownloadTask.PENDING);
-                    Message msg = Message.obtain();
-                    msg.what = MSG_DOWNLOAD;
-                    msg.arg1 = DownloadTask.TYPE_THEME;
-                    mHandler.sendMessage(msg);
+                // Download files
+                for (int i = mDownloadTasks.size() - 1; i >= 0; i--) {
+                    final DownloadTask task = mDownloadTasks.valueAt(i);
+                    if (isTaskIdle(task)) {
+                        // Direct start download tasks in current page
+                        if (isSelectedPos()) {
+                            download(task);
+                        } else {
+                            task.setStatus(DownloadTask.PENDING);
+                        }
+                    }
                 }
 
-                final DownloadTask ringtoneTask = mDownloadTasks.get((DownloadTask.TYPE_RINGTONE));
-                if (ringtoneTask != null && isTaskIdle(ringtoneTask)) {
-                    ringtoneTask.setStatus(DownloadTask.PENDING);
-                    Message msg = Message.obtain();
-                    msg.what = MSG_DOWNLOAD;
-                    msg.arg1 = DownloadTask.TYPE_RINGTONE;
-                    mHandler.sendMessage(msg);
-                }
+                // Resume
                 if (isSelectedPos()) {
                     resumeAnimation();
                 }
@@ -1690,7 +1677,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void download(DownloadTask task) {
-        HSLog.d(TAG, "onTaskDownload, start");
+        HSLog.d(TAG, "onTaskDownload, start" + task.mType);
         startDownloadTime = System.currentTimeMillis();
         if (mTheme.isLocked()) {
             if (!mTheme.canBeDownloaded()) {
@@ -1986,6 +1973,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private class ProgressViewHolder {
 
         public DotsPictureView mDotsPictureView;
+        private long mAnimationStartTimeMills;
 
         public ProgressViewHolder() {
             mDotsPictureView = findViewById(R.id.dots_progress_view);
@@ -2013,8 +2001,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public void startLoadingAnimation() {
             if (mDotsPictureView.getVisibility() == VISIBLE) {
                 HSLog.d(TAG, "startLoadingAnimation-" + mTheme.getName());
-                mDotsPictureView.startAnimation();
+                boolean started = mDotsPictureView.startAnimation();
+                if (started) {
+                    mAnimationStartTimeMills = System.currentTimeMillis();
+                }
             }
+        }
+
+        public long getAnimationStartTimeMills() {
+            return mAnimationStartTimeMills;
         }
     }
 
