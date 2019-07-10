@@ -167,7 +167,7 @@ public class SlidingDrawerContent extends FrameLayout
                 final Bitmap bluredBitmap = blurBitmap(getContext(), bitmap, WALLPAPER_BLUR_RADIUS);
                 Threads.postOnMainThread(new Runnable() {
                     @Override public void run() {
-                        ObjectAnimator wallpaperOut = ObjectAnimator.ofFloat(ivDrawerBg, "alpha", 1f, 0.5f);
+                        /*ObjectAnimator wallpaperOut = ObjectAnimator.ofFloat(ivDrawerBg, "alpha", 1f, 0.5f);
                         wallpaperOut.setDuration(400);
                         wallpaperOut.addListener(new AnimatorListenerAdapter() {
                             @Override
@@ -181,7 +181,8 @@ public class SlidingDrawerContent extends FrameLayout
 
                         AnimatorSet change = new AnimatorSet();
                         change.playSequentially(wallpaperOut, wallpaperIn);
-                        change.start();
+                        change.start();*/
+                        ivDrawerBg.setImageBitmap(bluredBitmap);
                     }
                 });
             }
