@@ -26,6 +26,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -99,7 +100,8 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
 
     private ArrayList<ImageView> mIVImgs = new ArrayList<>(WALLPAPER_COUNT);
     private ArrayList<ImageView> mRefreshImgs = new ArrayList<>(WALLPAPER_COUNT);
-    private ImageView mRefreshView;
+    //private ImageView mRefreshView;
+    private TextView mRefreshView;
     private RotateAnimation mRefreshRotation;
     private RotateAnimation mChangeWallpaper;
     private RotateAnimation mWallpaperRotation;
@@ -247,7 +249,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
     }
 
     private void initView() {
-        mRefreshView = (ImageView) findViewById(R.id.iv_refresh);
+        mRefreshView = findViewById(R.id.iv_refresh);
         mRefreshView.setOnClickListener(this);
 
         mRefreshImgs.add((ImageView) findViewById(R.id.iv_img1_refresh));
@@ -475,7 +477,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                                         mLoadingFinish.put(targetIv.getId(), true);
                                         mLoadingSucceed.put(targetIv.getId(), false);
                                         if (isLoadingFinish()) {
-                                            mRefreshView.clearAnimation();
+                                            //mRefreshView.clearAnimation();
                                             if (!mFirstAutoRefresh) {
                                                 Toasts.showToast(R.string.wallpaper_network_error, Toast.LENGTH_LONG);
                                             }
@@ -543,7 +545,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                                                 mLoadingSucceed.put(targetIv.getId(), true);
                                                 ((ImageView) targetIv.getTag()).setVisibility(GONE);
                                                 if (isLoadingFinish()) {
-                                                    mRefreshView.clearAnimation();
+                                                    //mRefreshView.clearAnimation();
 
                                                     //log flurry
                                                     if (mIsRefreshSwitchClicked) {
@@ -576,7 +578,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
     private void resetTags() {
         if (mRefreshView != null) {
             mCurrentIndex = -1;
-            mRefreshView.startAnimation(mRefreshRotation);
+            //mRefreshView.startAnimation(mRefreshRotation);
             for (int i = 0; i < mLoadingFinish.size(); i++) {
                 mLoadingFinish.put(mLoadingFinish.keyAt(i), false);
                 mLoadingSucceed.put(mLoadingSucceed.keyAt(i), false);

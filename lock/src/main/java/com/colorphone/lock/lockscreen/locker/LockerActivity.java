@@ -2,6 +2,7 @@ package com.colorphone.lock.lockscreen.locker;
 
 import android.app.KeyguardManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Dimensions;
 
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
+import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
 import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
@@ -48,7 +50,7 @@ public class LockerActivity extends HSAppCompatActivity {
         exit = true;
 
         if (!ChargingScreenUtils.isNativeLollipop()) {
-            window.addFlags(FLAG_FULLSCREEN);
+            //window.addFlags(FLAG_FULLSCREEN);
         } else {
             noNavigationPadding = true;
         }
@@ -56,6 +58,12 @@ public class LockerActivity extends HSAppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             window.addFlags(FLAG_TRANSLUCENT_STATUS);
             window.addFlags(FLAG_TRANSLUCENT_NAVIGATION);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(Color.TRANSPARENT);
         }
 
 
@@ -84,12 +92,12 @@ public class LockerActivity extends HSAppCompatActivity {
         try {
             setContentView(R.layout.activity_locker);
 
-            NotchTools.getFullScreenTools().showNavigation(true).fullScreenUseStatus(this, new OnNotchCallBack() {
+           /* NotchTools.getFullScreenTools().showNavigation(true).fullScreenUseStatus(this, new OnNotchCallBack() {
                 @Override
                 public void onNotchPropertyCallback(NotchProperty notchProperty) {
 
                 }
-            });
+            });*/
 
             mLocker = new Locker();
             mLocker.setActivityMode(true);
