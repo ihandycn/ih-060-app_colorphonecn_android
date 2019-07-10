@@ -711,6 +711,13 @@
             android:icon="@drawable/shape_empty"
             android:excludeFromRecents="true"
             android:label="@string/title_locker_activity" />
+        <activity
+            android:name="com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/AppTranslucentForMIUI"/>
 
         <!--Override  - Tag : process-->
 
