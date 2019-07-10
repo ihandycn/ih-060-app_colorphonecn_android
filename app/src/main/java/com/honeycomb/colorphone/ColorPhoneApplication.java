@@ -19,6 +19,7 @@ import hugo.weaving.DebugLog;
  */
 public class ColorPhoneApplication extends HSApplication {
 
+
     public static boolean isAppForeground() {
         return ColorPhoneApplicationImpl.isAppForeground();
     }
@@ -80,6 +81,7 @@ public class ColorPhoneApplication extends HSApplication {
             @Override
             public void onApplySuccess(String msg) {
                 Analytics.logEvent("Patch_Apply_Success");
+                mColorPhoneApplicationProxy.needRestartApp = true;
             }
 
             @Override
