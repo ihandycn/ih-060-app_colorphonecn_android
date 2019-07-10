@@ -234,24 +234,24 @@ public class DotsPictureView extends View {
             alpha = (int) (255 * Math.pow(1f - (fraction - 0.4f) / 0.6f, 3f));
         }
 
-        HSLog.d("DigP", "draw , fraction = " + fraction + ", progress = " + progress + ",strokeWidth = " + strokeWidth + ",alpha = " + alpha);
-
+        if (DEBUG_LOG) {
+            HSLog.d("DigP", "draw , fraction = " + fraction + ", progress = " + progress + ",strokeWidth = " + strokeWidth + ",alpha = " + alpha);
+        }
         long startMills = System.currentTimeMillis();
         mBitmapCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-        HSLog.d("DigP", "draw end1 , duration " + (System.currentTimeMillis() - startMills));
 
         mAnimPaint.setStrokeWidth(strokeWidth);
         mBitmapCanvas.drawCircle(mDotResultBitmap.getWidth() * 0.5f,
                 mDotResultBitmap.getHeight() * 0.5f,
                 mDotResultBitmap.getHeight() * 1.3f * progress * 0.5f, mAnimPaint);
-        HSLog.d("DigP", "draw end2 , duration " + (System.currentTimeMillis() - startMills));
 
         mBitmapCanvas.drawBitmap(mDotResultBitmap, 0, 0, mBitmapPaint);
-        HSLog.d("DigP", "draw end3 , duration " + (System.currentTimeMillis() - startMills));
 
         mAlphaPaint.setAlpha(alpha);
         canvas.drawBitmap(mDotCropBitmap, 0, 0, mAlphaPaint);
-        HSLog.d("DigP", "draw end , duration " + (System.currentTimeMillis() - startMills));
+        if (DEBUG_LOG) {
+            HSLog.d("DigP", "draw end , duration " + (System.currentTimeMillis() - startMills));
+        }
     }
 
     private void doDrawDots(Canvas canvas) {
