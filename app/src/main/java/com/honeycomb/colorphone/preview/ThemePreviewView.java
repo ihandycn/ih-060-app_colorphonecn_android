@@ -119,6 +119,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final int MSG_HIDE = 1;
     private static final int MSG_SHOW = 2;
     private static final int MSG_DOWNLOAD = 10;
+    private static final int MSG_DOWNLOAD_OK = 11;
 
     private static final boolean PLAY_ANIMITION = true;
     private static final boolean NO_ANIMITION = false;
@@ -160,7 +161,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private Type mThemeType;
     private View dimCover;
 
-    private View mLockLayout; //may be null
     private ViewGroup mUnLockButton;
     private RewardVideoView mRewardVideoView;
 
@@ -248,12 +248,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     if (task != null) {
                         if (isSelectedPos()) {
                             download(task);
-                        } else {
-                            task.setStatus(DownloadTask.PENDING);
                         }
                     }
                     return true;
                 }
+                case MSG_DOWNLOAD_OK :
+                    onMediaDownloadOK();
+                    return true;
                 default:
                     return false;
 
@@ -264,7 +265,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private StateChangeObserver observer = new StateChangeObserver() {
         @Override
         public void onReceive(int themeMode) {
-
             switchMode(themeMode);
         }
     };
@@ -272,12 +272,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            clearTask(DownloadTask.TYPE_THEME);
-
-            if (triggerMediaReady()) {
-                playDownloadOkTransAnimation();
-                onMediaDownloadOK();
-            }
+            onTaskDownloaded(DownloadTask.TYPE_THEME);
         }
 
         @Override
@@ -300,11 +295,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     DownloadStateListener mRingtoneDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            clearTask(DownloadTask.TYPE_RINGTONE);
-            if (triggerMediaReady()) {
-                playDownloadOkTransAnimation();
-                onMediaDownloadOK();
-            }
+            onTaskDownloaded(DownloadTask.TYPE_RINGTONE);
         }
 
         @Override
@@ -681,7 +672,27 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         animationDelay = 0;
     }
 
+    private void onTaskDownloaded(int type) {
+        clearTask(type);
+        if (triggerMediaReady()) {
+            long loadingDuration = System.currentTimeMillis() - startDownloadTime;
+            if (startDownloadTime != 0) {
+                Analytics.logEvent("ColorPhone_Theme_Download_Time", "Time",
+                        String.valueOf((loadingDuration + 999) / DateUtils.SECOND_IN_MILLIS));
+                startDownloadTime = 0;
+            }
+
+            // To ensure good effects, Loading animation limit min-duration 1s
+            long delayTimeMills = DateUtils.SECOND_IN_MILLIS - loadingDuration;
+            HSLog.d(TAG, "onTaskDownload, end duration = " + loadingDuration);
+
+            mHandler.sendEmptyMessageDelayed(MSG_DOWNLOAD_OK, delayTimeMills < 200 ? 0 : delayTimeMills);
+        }
+    }
+
     private void onMediaDownloadOK() {
+        HSLog.d(TAG, "onTaskDownload, hide progress");
+        playDownloadOkTransAnimation();
         onThemeReady(NO_ANIMITION);
     }
 
@@ -749,11 +760,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             playTransInAnimation(transEndRunnable);
         } else {
             transEndRunnable.run();
-        }
-
-        if (startDownloadTime != 0) {
-            Analytics.logEvent("ColorPhone_Theme_Download_Time", "Time",
-                    String.valueOf((System.currentTimeMillis() - startDownloadTime + 999) / DateUtils.SECOND_IN_MILLIS));
         }
 
     }
@@ -1533,8 +1539,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         if (themeLoading) {
-            startDownloadTime = System.currentTimeMillis();
-
             onThemeLoading();
             intoDownloadingMode();
         }
@@ -1590,7 +1594,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     };
 
     public void onStop() {
-
         hasStopped = true;
         pauseAnimation();
 
@@ -1631,6 +1634,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 mRingtoneViewHolder.refreshMuteStatus();
             }
         } else if (themeLoading) {
+            HSLog.d(TAG, "onTaskDownload, resume");
             mProgressViewHolder.startLoadingAnimation();
         }
 
@@ -1655,22 +1659,22 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         playTransInAnimation(new Runnable() {
             @Override
             public void run() {
-                int duration = TRANS_IN_DURATION;
-
                 final DownloadTask task = mDownloadTasks.get(DownloadTask.TYPE_THEME);
-                if (task != null) {
+                if (task != null && isTaskIdle(task)) {
+                    task.setStatus(DownloadTask.PENDING);
                     Message msg = Message.obtain();
                     msg.what = MSG_DOWNLOAD;
                     msg.arg1 = DownloadTask.TYPE_THEME;
-                    mHandler.sendMessageDelayed(msg, duration);
+                    mHandler.sendMessage(msg);
                 }
 
                 final DownloadTask ringtoneTask = mDownloadTasks.get((DownloadTask.TYPE_RINGTONE));
-                if (ringtoneTask != null) {
+                if (ringtoneTask != null && isTaskIdle(ringtoneTask)) {
+                    ringtoneTask.setStatus(DownloadTask.PENDING);
                     Message msg = Message.obtain();
                     msg.what = MSG_DOWNLOAD;
                     msg.arg1 = DownloadTask.TYPE_RINGTONE;
-                    mHandler.sendMessageDelayed(msg, duration);
+                    mHandler.sendMessage(msg);
                 }
                 if (isSelectedPos()) {
                     resumeAnimation();
@@ -1680,7 +1684,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         });
     }
 
+    private boolean isTaskIdle(DownloadTask task) {
+        return task.getStatus() != DownloadTask.DOWNLOADING
+                && task.getStatus() != DownloadTask.PENDING;
+    }
+
     private void download(DownloadTask task) {
+        HSLog.d(TAG, "onTaskDownload, start");
+        startDownloadTime = System.currentTimeMillis();
         if (mTheme.isLocked()) {
             if (!mTheme.canBeDownloaded()) {
                 mProgressViewHolder.hide();
@@ -1981,7 +1992,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         public void updateProgressView(int percent) {
-
+            // Do nothing
         }
 
         public void hide() {
