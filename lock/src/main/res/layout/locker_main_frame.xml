@@ -307,7 +307,7 @@
                 android:src="@drawable/main_phone"/>
         </LinearLayout>
 
-        <RelativeLayout
+        <com.colorphone.lock.lockscreen.locker.CameraContainer
             android:id="@+id/camera_container"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -325,7 +325,7 @@
                 android:layout_alignParentRight="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/lock_camera" />
-        </RelativeLayout>
+        </com.colorphone.lock.lockscreen.locker.CameraContainer>
         <RelativeLayout
             android:id="@+id/toolbar_container"
             android:layout_width="48dp"
