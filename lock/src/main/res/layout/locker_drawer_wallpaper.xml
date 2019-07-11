@@ -47,8 +47,9 @@
             android:layout_gravity="right|end|center_vertical"
             android:maxLines="1"
             android:text="刷新"
+            android:clickable="true"
             app:typeface="@string/proxima_nova_regular"
-            android:textColor="#b2ffffff"
+            android:textColor="@drawable/locker_refresh_text"
             android:textSize="14sp"/>
     </LinearLayout>
 
