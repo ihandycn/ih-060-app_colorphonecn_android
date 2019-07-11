@@ -25,6 +25,7 @@ import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSLog;
+import com.superapps.util.Dimensions;
 
 import java.util.Random;
 
@@ -204,7 +205,7 @@ public class BlackHole extends RelativeLayout {
         boostCenterIv.getLocationOnScreen(location);
         float endX = location[0];
         float endY = location[1];
-        BoostAnimationManager boostAnimationManager = new BoostAnimationManager(endX, endY - Utils.pxFromDp(0));
+        BoostAnimationManager boostAnimationManager = new BoostAnimationManager(endX, endY - Dimensions.pxFromDp(0));
 
         ImageView iconOneV = (ImageView) findViewById(R.id.boost_icon_1_iv);
         ImageView iconTwoV = (ImageView) findViewById(R.id.boost_icon_2_iv);
@@ -241,7 +242,7 @@ public class BlackHole extends RelativeLayout {
         params.addRule(RelativeLayout.ALIGN_LEFT, R.id.dot_anchor);
         params.addRule(RelativeLayout.ALIGN_TOP, R.id.dot_anchor);
         Random random = new Random();
-        int radius = random.nextInt(Utils.pxFromDp(50)) + Utils.pxFromDp(100);
+        int radius = random.nextInt(Dimensions.pxFromDp(50)) + Dimensions.pxFromDp(100);
         double radians = random.nextDouble() * 2 * Math.PI;
         int leftMargin = (int) (radius * Math.sin(radians));
         int topMargin = (int) (radius * Math.cos(radians));

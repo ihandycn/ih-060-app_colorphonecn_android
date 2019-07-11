@@ -8,6 +8,7 @@ public class Placements {
     public static final String BOOST_DOWN = "BoostDone"; // Native ad
     public static final String BOOST_WIRE = "BoostWire"; //（Interstitial，清理全屏）
     public static final String THEME_WIRE = "ThemeWire"; //（主题详情页 全屏）
+    public static final String THEME_DETAIL_NATIVE = "ThemeFullAd"; //（主题详情页 全屏native）
 
     public static final String QUIZ_WIRE = "QuizWire";
     public static final String CASHCENTER = "EarnCashWire";

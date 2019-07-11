@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.util.Utils;
+import com.superapps.util.Dimensions;
 
 public class CardOptimizedFlashView extends View {
 
@@ -19,8 +19,8 @@ public class CardOptimizedFlashView extends View {
     private Paint flashPaint;
     private RectF flashBound = new RectF();
 
-    private int offsetX = -Utils.pxFromDp(25);
-    private int offsetY = -Utils.pxFromDp(267);
+    private int offsetX = -Dimensions.pxFromDp(25);
+    private int offsetY = -Dimensions.pxFromDp(267);
 
     public CardOptimizedFlashView(Context context) {
         this(context, null);
@@ -36,7 +36,7 @@ public class CardOptimizedFlashView extends View {
     }
 
     public void startFlashAnimation() {
-        ValueAnimator animator = ValueAnimator.ofInt(-Utils.pxFromDp(267), getMeasuredHeight());
+        ValueAnimator animator = ValueAnimator.ofInt(-Dimensions.pxFromDp(267), getMeasuredHeight());
         animator.setDuration(660);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override public void onAnimationUpdate(ValueAnimator animation) {

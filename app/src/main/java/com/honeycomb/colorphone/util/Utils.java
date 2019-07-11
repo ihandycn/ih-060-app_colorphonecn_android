@@ -36,7 +36,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -45,8 +44,6 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.SystemClock;
@@ -67,7 +64,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -88,7 +84,6 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Navigations;
 import com.superapps.util.Threads;
 import com.umeng.commonsdk.statistics.common.DeviceConfig;
 
@@ -104,7 +99,6 @@ import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -136,20 +130,9 @@ public final class Utils {
 
     public static int localThemeId = 8;
 
-    public static void startActivitySafely(Context context, Intent intent) {
-        try {
-            if (!(context instanceof Activity)) {
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            }
-            context.startActivity(intent);
-        } catch (ActivityNotFoundException | SecurityException | NullPointerException e) {
-            HSLog.e("StartActivity", "Cannot start activity: " + intent);
-        }
-    }
-
     public static int[] getThumbnailImageSize() {
         if (THUMBNAIL_HEIGHT == 0) {
-            THUMBNAIL_WIDTH = (int) (getPhoneWidth(HSApplication.getContext()) * THUMBNAIL_RATIO);
+            THUMBNAIL_WIDTH = (int) (Dimensions.getPhoneWidth(HSApplication.getContext()) * THUMBNAIL_RATIO);
             THUMBNAIL_HEIGHT = THUMBNAIL_WIDTH * 1920 / 1080;
         }
         return new int[]{THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT};
@@ -169,221 +152,6 @@ public final class Utils {
         return Math.round(dp * getDensityRatio());
     }
 
-    public static boolean mayDisturbUserAtThisTimeOfDay() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        return 6 <= hourOfDay && hourOfDay < 23;
-    }
-
-    public static boolean getMobileDataStatus(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        String methodName = "getMobileDataEnabled";
-        Class cmClass = connectivityManager.getClass();
-        Boolean isOpen;
-
-        try {
-            @SuppressWarnings("unchecked")
-            Method method = cmClass.getMethod(methodName);
-            isOpen = (Boolean) method.invoke(connectivityManager);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return false;
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            return false;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return isOpen;
-    }
-
-    public static boolean setMobileDataStatus(Context context, boolean enabled) {
-        if (isHuaweiDevice() && isWifiEnabled()) {
-            return false;
-        }
-        ConnectivityManager connectivityManager;
-        Class connectivityManagerClz;
-        try {
-            connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            connectivityManagerClz = connectivityManager.getClass();
-            @SuppressWarnings("unchecked")
-            Method method = connectivityManagerClz.getMethod("setMobileDataEnabled", boolean.class);
-            // Asynchronous invocation
-            method.invoke(connectivityManager, enabled);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return false;
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            return false;
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    public static void sentEmail(Context mContext, @NonNull String[] addresses, String subject, String body) {
-        if (addresses.length == 0 || TextUtils.isEmpty(addresses[0])) {
-            return;
-        }
-        try {
-            Intent sendIntentGmail = new Intent(Intent.ACTION_VIEW);
-            sendIntentGmail.setType("plain/text");
-            sendIntentGmail.setData(Uri.parse(TextUtils.join(",", addresses)));
-            sendIntentGmail.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
-            sendIntentGmail.putExtra(Intent.EXTRA_EMAIL, addresses);
-            if (subject != null) sendIntentGmail.putExtra(Intent.EXTRA_SUBJECT, subject);
-            if (body != null) sendIntentGmail.putExtra(Intent.EXTRA_TEXT, body);
-            mContext.startActivity(sendIntentGmail);
-        } catch (Exception e) {
-            //When Gmail App is not installed or disable
-            Intent sendIntentIfGmailFail = new Intent(Intent.ACTION_SENDTO);
-            sendIntentIfGmailFail.setData(Uri.parse("mailto:")); // only email apps should handle this
-            sendIntentIfGmailFail.putExtra(Intent.EXTRA_EMAIL, addresses);
-            if (subject != null) sendIntentIfGmailFail.putExtra(Intent.EXTRA_SUBJECT, subject);
-            if (body != null) sendIntentIfGmailFail.putExtra(Intent.EXTRA_TEXT, body);
-            if (sendIntentIfGmailFail.resolveActivity(mContext.getPackageManager()) != null) {
-                Navigations.startActivitySafely(mContext, sendIntentIfGmailFail);
-            }
-        }
-    }
-
-    public static boolean isWifiEnabled() {
-        WifiManager wifiManager = (WifiManager) HSApplication.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        return wifiManager.isWifiEnabled();
-    }
-
-    public static boolean isHuaweiDevice() {
-        return Build.MANUFACTURER.equalsIgnoreCase("Huawei")
-                && !Build.BRAND.equalsIgnoreCase("google"); // Exclude Nexus 6P
-    }
-
-    /**
-     * 返回手机屏幕高度
-     */
-    public static int getPhoneHeight(Context context) {
-        if (null == context) {
-            return DEFAULT_DEVICE_SCREEN_HEIGHT;
-        }
-        int height = context.getResources().getDisplayMetrics().heightPixels;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-
-            Point localPoint = new Point();
-            windowManager.getDefaultDisplay().getRealSize(localPoint);
-            HSLog.v(TAG, "height == " + height + ", w == " + localPoint.x + ", h == " + localPoint.y);
-            if (localPoint.y > height) {
-                height = localPoint.y;
-            }
-        } else {
-            int navigationBarHeight = getNavigationBarHeight(context);
-            HSLog.v(TAG, "Layout h == " + height + ", navigationBarHeight == " + navigationBarHeight);
-            if (navigationBarHeight != 0 && height % 10 != 0) {
-                if ((height + navigationBarHeight) % 10 == 0) {
-                    height = (height + navigationBarHeight);
-                }
-            }
-            HSLog.v(TAG, "height == " + height + ", navigationBarHeight == " + navigationBarHeight);
-        }
-
-        return height;
-    }
-
-    public static int getPhoneWidth(Context context) {
-        if (null == context) {
-            return DEFAULT_DEVICE_SCREEN_WIDTH;
-        }
-        DisplayMetrics dm = new DisplayMetrics();
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        wm.getDefaultDisplay().getMetrics(dm);
-        return Math.min(dm.widthPixels, dm.heightPixels);
-    }
-
-    public static int getNavigationBarHeight(Context context) {
-        if (null == context) {
-            return 0;
-        }
-        if (context instanceof Activity && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            Activity activityContext = (Activity) context;
-            DisplayMetrics metrics = new DisplayMetrics();
-            activityContext.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            int usableHeight = metrics.heightPixels;
-            activityContext.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-            int realHeight = metrics.heightPixels;
-            if (realHeight > usableHeight) {
-                return realHeight - usableHeight;
-            } else {
-                return 0;
-            }
-        }
-        Resources localResources = context.getResources();
-        if (!hasNavBar(context)) {
-            HSLog.i("no navbar");
-            return 0;
-        }
-        int i = localResources.getIdentifier("navigation_bar_height", "dimen", "android");
-        if (i > 0) {
-            return localResources.getDimensionPixelSize(i);
-        }
-        i = localResources.getIdentifier("navigation_bar_height_landscape", "dimen", "android");
-        if (i > 0) {
-            return localResources.getDimensionPixelSize(i);
-        }
-        return 0;
-    }
-
-    public static boolean hasNavBar(Context paramContext) {
-        boolean bool = true;
-        String sNavBarOverride;
-        if (Build.VERSION.SDK_INT >= 19) {
-            try {
-                Object localObject = Class.forName("android.os.SystemProperties").getDeclaredMethod("get", String.class);
-                ((Method) localObject).setAccessible(true);
-                sNavBarOverride = (String) ((Method) localObject).invoke(null, "qemu.hw.mainkeys");
-                localObject = paramContext.getResources();
-                int i = ((Resources) localObject).getIdentifier("config_showNavigationBar", "bool", "android");
-                if (i != 0) {
-                    bool = ((Resources) localObject).getBoolean(i);
-                    if ("1".equals(sNavBarOverride)) {
-                        bool = false;
-                        return bool;
-                    }
-                }
-            } catch (Throwable localThrowable) {
-            }
-            if (!ViewConfiguration.get(paramContext).hasPermanentMenuKey()) {
-                HSLog.e("hasPermanentMenuKey true");
-                return bool;
-            }
-        }
-        bool = false;
-        return bool;
-    }
-
-    /**
-     * @return Status bar (top bar) height. Note that this height remains fixed even when status bar is hidden.
-     */
-    public static int getStatusBarHeight(Context context) {
-        if (null == context) {
-            return 0;
-        }
-        int height = 0;
-        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            height = context.getResources().getDimensionPixelSize(resourceId);
-        }
-        return height;
-    }
 
     public static Drawable getAppIcon(String packageName) {
         Drawable icon = HSApplication.getContext().getResources().getDrawable(R.drawable.ic_launcher);

@@ -74,6 +74,7 @@ import com.honeycomb.colorphone.util.CallFinishUtils;
 import com.honeycomb.colorphone.util.ChannelInfoUtil;
 import com.honeycomb.colorphone.util.ColorPhonePermanentUtils;
 import com.honeycomb.colorphone.util.DailyLogger;
+import com.honeycomb.colorphone.util.DeviceUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.GlideApp;
@@ -109,6 +110,7 @@ import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
+import com.tencent.bugly.beta.Beta;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
@@ -146,6 +148,8 @@ public class ColorPhoneApplicationImpl {
     private static final long TIME_NEED_LOW = 10 * 1000; // 10s
     private static ConfigLog mConfigLog;
 
+    boolean needRestartApp;
+
     private List<Module> mModules = new ArrayList<>();
     private DailyLogger mDailyLogger;
 
@@ -182,6 +186,7 @@ public class ColorPhoneApplicationImpl {
                 Analytics.logEvent("ColorPhone_Session_Start");
                 checkModuleAdPlacement();
 
+                Beta.checkUpgrade(false, true);
                 /*
                  *  Because we disabled {@link com.ihs.device.monitor.usage.UsageBroadcastReceiver}, handle it ourself.
                  */
@@ -227,6 +232,10 @@ public class ColorPhoneApplicationImpl {
                             + Dimensions.getPhoneHeight(HSApplication.getContext()));
         }, "Permission_Check_Above23_FirstSessionEnd");
 
+        if (needRestartApp) {
+            needRestartApp = false;
+            DeviceUtils.triggerRebirth(mBaseApplication);
+        }
     }
 
     private BroadcastReceiver mAutopilotFetchReceiver = new BroadcastReceiver() {
@@ -340,8 +349,8 @@ public class ColorPhoneApplicationImpl {
         // Init ANR optimizer
         SharedPreferencesOptimizer.install(BuildConfig.DEBUG);
 
-        mHeight = Utils.getPhoneHeight(mBaseApplication);
-        mWidth = Utils.getPhoneWidth(mBaseApplication);
+        mHeight = Dimensions.getPhoneHeight(mBaseApplication);
+        mWidth = Dimensions.getPhoneWidth(mBaseApplication);
         mConfigLog = new ConfigLogDefault();
         mDailyLogger = new DailyLogger();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);

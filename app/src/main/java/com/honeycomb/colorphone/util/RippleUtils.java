@@ -8,6 +8,7 @@ import android.graphics.drawable.RippleDrawable;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.view.SelectorDrawable;
 import com.ihs.app.framework.HSApplication;
+import com.superapps.util.Dimensions;
 
 public class RippleUtils {
 
@@ -42,7 +43,7 @@ public class RippleUtils {
     private static Drawable createRippleDrawable(GradientDrawable shape, int shapeColor, int rippleColor, int radius, float[] radii) {
         shape.setColor(shapeColor);
         if (radius != 0) {
-            shape.setCornerRadius(Utils.pxFromDp(radius));
+            shape.setCornerRadius(Dimensions.pxFromDp(radius));
         }
         if (radii != null) {
             shape.setCornerRadii(radii);

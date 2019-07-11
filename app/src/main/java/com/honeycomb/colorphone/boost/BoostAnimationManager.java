@@ -26,6 +26,7 @@ import android.view.animation.RotateAnimation;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
+import com.superapps.util.Dimensions;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,8 +46,8 @@ public class BoostAnimationManager {
 
     private static final int FRAME = 90;
     private static final float ALPHA_REDUCE_MIN = 0.15f;
-    private static final float WIDTH_SCREEN = Utils.getPhoneWidth(HSApplication.getContext());
-    private static final float HEIGHT_SCREEN = Utils.getPhoneHeight(HSApplication.getContext());
+    private static final float WIDTH_SCREEN = Dimensions.getPhoneWidth(HSApplication.getContext());
+    private static final float HEIGHT_SCREEN = Dimensions.getPhoneHeight(HSApplication.getContext());
 
     private static final float ROTATE_ANGLE_TOTAL = 360;
 

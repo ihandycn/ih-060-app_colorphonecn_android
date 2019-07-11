@@ -30,6 +30,7 @@ import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
@@ -244,8 +245,13 @@ public class AutoRequestManager {
             permission.add(TYPE_CUSTOM_CONTACT_WRITE);
             permission.add(TYPE_CUSTOM_CONTACT_READ);
         }
+
         if (!AutoPermissionChecker.hasIgnoreBatteryPermission()) {
-            permission.add(HSPermissionRequestMgr.TYPE_INGORE_BATTERY_OPTIMIZATIONS);
+            boolean configEnable = HSConfig.optBoolean(false,
+                    "Application", "IngoreBattery", "Enable");
+            if (configEnable) {
+                permission.add(HSPermissionRequestMgr.TYPE_INGORE_BATTERY_OPTIMIZATIONS);
+            }
         }
         if (!Permissions.isNotificationAccessGranted()) {
             permission.add(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
@@ -281,13 +287,20 @@ public class AutoRequestManager {
 
             @Override
             public void onSinglePermissionFinished(int index, boolean isSucceed, String msg) {
+                if (permission.size() == 0 || index < 0 || index >= permission.size()) {
+                    String result = "IndexOutOfBoundsException " + permission;
+                    HSLog.d(TAG, "[AutoPermission-Result] : index " + index + " finished, " + result);
+                    Toasts.showToast(result, Toast.LENGTH_LONG);
+                    return;
+                }
+
+                String type = permission.get(index);
                 if (BuildConfig.DEBUG) {
-                    String result = permission.get(index)
-                            + (isSucceed ? " success !" : ("  failed reason : " + msg));
+                    String result = type + (isSucceed ? " success !" : ("  failed reason : " + msg));
                     HSLog.d(TAG, "[AutoPermission-Result] : index " + index + " finished, " + result);
                     Toasts.showToast(result, Toast.LENGTH_LONG);
                 }
-                String type = permission.get(index);
+
                 switch (type) {
                     case HSPermissionRequestMgr.TYPE_AUTO_START:
                         AutoPermissionChecker.onAutoStartChange(isSucceed);
@@ -442,9 +455,9 @@ public class AutoRequestManager {
             }
             if (guideIntent != null) {
                 guideIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                HSApplication.getContext().startActivities(new Intent[] {intent, guideIntent});
+                Navigations.startActivitiesSafely(HSApplication.getContext(), new Intent[] {intent, guideIntent});
             } else {
-                HSApplication.getContext().startActivity(intent);
+                Navigations.startActivitySafely(HSApplication.getContext(), intent);
             }
             AutoRequestManager.getInstance().listenAccessibility();
         }

@@ -201,6 +201,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 Analytics.logEvent("Tab_CashCenter_Guide_Show");
 
                 tabTransController.setInterceptView(tabCashCenterGuide);
+                tabTransController.showNow();
             }
         }
     };
