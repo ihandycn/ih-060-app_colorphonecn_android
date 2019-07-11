@@ -396,6 +396,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         ImageView avatar = (ImageView) findViewById(R.id.caller_avatar);
         avatar.setImageDrawable(ContextCompat.getDrawable(mActivity, mTheme.getAvatar()));
         mCallUserView = findViewById(R.id.led_call_container);
+        mCallUserView.setVisibility(INVISIBLE);
     }
 
     public boolean isRewardVideoLoading() {
