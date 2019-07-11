@@ -365,6 +365,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
     private class ThemePagerAdapter extends PagerAdapter {
         private int adCount = 0;
+        private boolean windowTranstionFlag = true;
         public void addAdView() {
             adCount++;
         }
@@ -397,7 +398,12 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 controller.setPageSelectedPos(mViewPager.getCurrentItem());
                 if (position == mViewPager.getCurrentItem()) {
                     controller.setBlockAnimationForPageChange(false);
-                    controller.setWindowInTransition(true);
+                    // we set view transition as soon as possible,
+                    // only once (for Activity WindowInTransition only do one time)
+                    if (windowTranstionFlag) {
+                        controller.setWindowInTransition(true);
+                        windowTranstionFlag = false;
+                    }
                 } else {
                     controller.setNoTransition(true);
                 }
