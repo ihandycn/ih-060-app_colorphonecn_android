@@ -317,12 +317,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 resumeAnimation();
                 mBlockAnimationForPageChange = true;
             }
-
-            boolean curTheme = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
             animationDelay = 0;
-            setButtonState(curTheme);
-            playButtonAnimation();
-
         }
     };
     private boolean mWaitContactResult;
@@ -423,6 +418,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
+    @DebugLog
     protected void onCreate() {
         previewWindow = (ThemePreviewWindow) findViewById(R.id.card_flash_preview_window);
         previewWindow.setOnClickListener(new View.OnClickListener() {
@@ -715,6 +711,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void onThemeReady(boolean needTransAnim) {
         themeReady = true;
         themeLoading = false;
+
+        setButtonState(isSelectedPos());
 
         dimCover.setVisibility(View.INVISIBLE);
         mProgressViewHolder.hide();
@@ -1331,26 +1329,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mApplyButton.setEnabled(!curTheme);
     }
 
-    private void playButtonAnimation() {
-        if (navIsShow()) {
-            if (mNoTransition) {
-                fadeInActionViewImmediately();
-            } else {
-                //fadeInActionView();
-                if (needShowRingtoneSetButton()) {
-                    showNavView(false);
-                    fadeOutActionView();
-                    mRingtoneViewHolder.setApplyForAll(false);
-                    navFadeInOrVisible = NAV_FADE_IN;
-                    showRingtoneSetButton();
-                    mWaitContactResult = false;
-                }
-            }
-        } else {
-            fadeOutActionViewImmediately();
-        }
-    }
-
+    @Deprecated
     private boolean navIsShow() {
         return Math.abs(mNavBack.getTranslationX()) <= 1;
     }
@@ -1483,6 +1462,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
     }
 
+    @DebugLog
     public void onStart() {
         mWaitMediaReadyCount = 0;
         // We do not play animation if activity restart.
@@ -1723,6 +1703,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void registerForInternetChange() {
+        HSGlobalNotificationCenter.addObserver(StartGuideActivity.NOTIFICATION_PERMISSION_GRANT, this);
+
+        themeStateManager.registerForThemeStateChange(observer);
+
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         networkChangeReceiver = new NetworkChangeReceiver();
@@ -1731,7 +1715,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void unregisterForInternetChange() {
-
+        themeStateManager.unregisterForThemeStateChange(observer);
+        HSGlobalNotificationCenter.removeObserver(this);
         getContext().unregisterReceiver(networkChangeReceiver);
     }
 
@@ -1760,10 +1745,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             HSLog.d(" onAttachedToWindow");
         }
         super.onAttachedToWindow();
-        onStart();
-        HSGlobalNotificationCenter.addObserver(StartGuideActivity.NOTIFICATION_PERMISSION_GRANT, this);
+
         registerForInternetChange();
-        themeStateManager.registerForThemeStateChange(observer);
+
+        onStart();
     }
 
     @Override
@@ -1771,15 +1756,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (DEBUG_LIFE_CALLBACK) {
             HSLog.d(" onDetachedFromWindow");
         }
-        unregisterForInternetChange();
-        themeStateManager.unregisterForThemeStateChange(observer);
         onStop();
 
+        unregisterForInternetChange();
         if (mRewardVideoView != null) {
             mRewardVideoView.onCancel();
         }
         super.onDetachedFromWindow();
-        HSGlobalNotificationCenter.removeObserver(this);
+
     }
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
