@@ -2,11 +2,11 @@ package com.honeycomb.colorphone.preview;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.TimeInterpolator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
@@ -30,11 +30,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +44,11 @@ import com.acb.call.themes.Type;
 import com.acb.call.views.InCallActionView;
 import com.acb.call.views.ThemePreviewWindow;
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
@@ -75,6 +77,7 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
 import com.honeycomb.colorphone.view.RewardVideoView;
@@ -115,7 +118,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private static final int MSG_HIDE = 1;
     private static final int MSG_SHOW = 2;
-    private static final int MSG_DOWNLOAD = 10;
+    private static final int MSG_DOWNLOAD_OK = 11;
 
     private static final boolean PLAY_ANIMITION = true;
     private static final boolean NO_ANIMITION = false;
@@ -157,7 +160,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private Type mThemeType;
     private View dimCover;
 
-    private View mLockLayout; //may be null
     private ViewGroup mUnLockButton;
     private RewardVideoView mRewardVideoView;
 
@@ -239,18 +241,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     themeStateManager.sendNotification(ENJOY_MODE);
                     return true;
 
-                case MSG_DOWNLOAD: {
-                    final int type = msg.arg1;
-                    DownloadTask task = mDownloadTasks.get(type);
-                    if (task != null) {
-                        if (isSelectedPos()) {
-                            download(task);
-                        } else {
-                            task.setStatus(DownloadTask.PENDING);
-                        }
-                    }
+                case MSG_DOWNLOAD_OK :
+                    onMediaDownloadOK();
                     return true;
-                }
                 default:
                     return false;
 
@@ -261,7 +254,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private StateChangeObserver observer = new StateChangeObserver() {
         @Override
         public void onReceive(int themeMode) {
-
             switchMode(themeMode);
         }
     };
@@ -269,12 +261,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     DownloadStateListener mDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            clearTask(DownloadTask.TYPE_THEME);
-
-            if (triggerMediaReady()) {
-                playDownloadOkTransAnimation();
-                onMediaDownloadOK();
-            }
+            onTaskDownloaded(DownloadTask.TYPE_THEME);
         }
 
         @Override
@@ -297,11 +284,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     DownloadStateListener mRingtoneDownloadStateListener = new DownloadStateListener() {
         @Override
         public void updateDownloaded(boolean progressFlag) {
-            clearTask(DownloadTask.TYPE_RINGTONE);
-            if (triggerMediaReady()) {
-                playDownloadOkTransAnimation();
-                onMediaDownloadOK();
-            }
+            onTaskDownloaded(DownloadTask.TYPE_RINGTONE);
         }
 
         @Override
@@ -673,12 +656,33 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void playDownloadOkTransAnimation() {
-        mProgressViewHolder.fadeOut();
+        mProgressViewHolder.hide();
         dimCover.animate().alpha(0).setDuration(200);
         animationDelay = 0;
     }
 
+    private void onTaskDownloaded(int type) {
+        clearTask(type);
+        if (triggerMediaReady()) {
+            long loadingDuration = System.currentTimeMillis() - startDownloadTime;
+            if (startDownloadTime != 0) {
+                Analytics.logEvent("ColorPhone_Theme_Download_Time", "Time",
+                        String.valueOf((loadingDuration + 999) / DateUtils.SECOND_IN_MILLIS));
+                startDownloadTime = 0;
+            }
+
+            // To ensure good effects, Loading animation limit min-duration 1s
+            long loadingAnimDuration = System.currentTimeMillis() - mProgressViewHolder.getAnimationStartTimeMills();
+            long delayTimeMills = DateUtils.SECOND_IN_MILLIS - loadingAnimDuration - 200;
+            HSLog.d(TAG, "onTaskDownload, end duration = " + loadingAnimDuration);
+
+            mHandler.sendEmptyMessageDelayed(MSG_DOWNLOAD_OK, delayTimeMills < 0 ? 0 : delayTimeMills);
+        }
+    }
+
     private void onMediaDownloadOK() {
+        HSLog.d(TAG, "onTaskDownload, hide progress");
+        playDownloadOkTransAnimation();
         onThemeReady(NO_ANIMITION);
     }
 
@@ -746,11 +750,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             playTransInAnimation(transEndRunnable);
         } else {
             transEndRunnable.run();
-        }
-
-        if (startDownloadTime != 0) {
-            Analytics.logEvent("ColorPhone_Theme_Download_Time", "Time",
-                    String.valueOf((System.currentTimeMillis() - startDownloadTime + 999) / DateUtils.SECOND_IN_MILLIS));
         }
 
     }
@@ -1530,8 +1529,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         if (themeLoading) {
-            startDownloadTime = System.currentTimeMillis();
-
             onThemeLoading();
             intoDownloadingMode();
         }
@@ -1563,6 +1560,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     request.override(IMAGE_WIDTH, IMAGE_HEIGHT);
                     request.skipMemoryCache(true);
                 }
+                request.listener(mRequestListener);
+
                 request.into(previewImage);
 
             }
@@ -1570,8 +1569,21 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
-    public void onStop() {
+    RequestListener<Bitmap> mRequestListener = new RequestListener<Bitmap>() {
+        @Override
+        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+            HSLog.d(TAG, "Picture onResourceReady");
+            mProgressViewHolder.setResource(resource);
+            return false;
+        }
 
+        @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target target, boolean isFirstResource) {
+            return false;
+        }
+    };
+
+    public void onStop() {
         hasStopped = true;
         pauseAnimation();
 
@@ -1589,24 +1601,31 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (themeReady) {
             previewWindow.stopAnimations();
             mCallActionView.stopAnimations();
-            resumed = false;
         }
+        resumed = false;
     }
 
+    /**
+     * animation include loading progress and theme effects.
+     */
     private void resumeAnimation() {
         if (mWindowInTransition) {
             mPendingResume = true;
             return;
         }
 
+        resumed = true;
+
         if (themeReady) {
-            resumed = true;
             previewWindow.setAnimationVisible(VISIBLE);
             previewWindow.playAnimation(mThemeType);
             mCallActionView.doAnimation();
             if (mTheme.hasRingtone()) {
                 mRingtoneViewHolder.refreshMuteStatus();
             }
+        } else if (themeLoading) {
+            HSLog.d(TAG, "onTaskDownload, resume");
+            mProgressViewHolder.startLoadingAnimation();
         }
 
         if (mTheme != null && !TextUtils.isEmpty(mTheme.getRingtoneUrl())) {
@@ -1627,43 +1646,39 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         dimCover.setVisibility(View.VISIBLE);
         mProgressViewHolder.show();
         updateThemePreviewLayout(mThemeType);
-
-        mProgressViewHolder.mProgressTxtGroup.setAlpha(0);
-        mProgressViewHolder.mProgressBar.setAlpha(0);
         playTransInAnimation(new Runnable() {
             @Override
             public void run() {
-                int duration = TRANS_IN_DURATION;
-                mProgressViewHolder.transIn(bottomBtnTransY, duration);
-
-                final DownloadTask task = mDownloadTasks.get(DownloadTask.TYPE_THEME);
-                if (task != null) {
-                    float percent = TasksManager.getImpl().getDownloadProgress(task.getTasksManagerModel().getId());
-                    mProgressHelper.setProgressVideo((int) (percent * 100));
-                    Message msg = Message.obtain();
-                    msg.what = MSG_DOWNLOAD;
-                    msg.arg1 = DownloadTask.TYPE_THEME;
-                    mHandler.sendMessageDelayed(msg, duration);
+                // Download files
+                for (int i = mDownloadTasks.size() - 1; i >= 0; i--) {
+                    final DownloadTask task = mDownloadTasks.valueAt(i);
+                    if (isTaskIdle(task)) {
+                        // Direct start download tasks in current page
+                        if (isSelectedPos()) {
+                            download(task);
+                        } else {
+                            task.setStatus(DownloadTask.PENDING);
+                        }
+                    }
                 }
 
-                final DownloadTask ringtoneTask = mDownloadTasks.get((DownloadTask.TYPE_RINGTONE));
-                if (ringtoneTask != null) {
-                    float percent = TasksManager.getImpl().getDownloadProgress(ringtoneTask.getTasksManagerModel().getId());
-                    mProgressHelper.setProgressRingtone((int) (percent * 100));
-                    Message msg = Message.obtain();
-                    msg.what = MSG_DOWNLOAD;
-                    msg.arg1 = DownloadTask.TYPE_RINGTONE;
-                    mHandler.sendMessageDelayed(msg, duration);
+                // Resume
+                if (isSelectedPos()) {
+                    resumeAnimation();
                 }
 
-                if (ringtoneTask != null || task != null) {
-                    mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
-                }
             }
         });
     }
 
+    private boolean isTaskIdle(DownloadTask task) {
+        return task.getStatus() != DownloadTask.DOWNLOADING
+                && task.getStatus() != DownloadTask.PENDING;
+    }
+
     private void download(DownloadTask task) {
+        HSLog.d(TAG, "onTaskDownload, start" + task.mType);
+        startDownloadTime = System.currentTimeMillis();
         if (mTheme.isLocked()) {
             if (!mTheme.canBeDownloaded()) {
                 mProgressViewHolder.hide();
@@ -1850,6 +1865,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 pauseAnimation();
             }
         }
+
+        // Check loading state
+        if (themeLoading) {
+            if (state == ViewPager.SCROLL_STATE_IDLE && isSelectedPos()) {
+                mProgressViewHolder.mDotsPictureView.resumeAnimation();
+            } else {
+                mProgressViewHolder.mDotsPictureView.pauseAnimation();
+            }
+        }
     }
 
 
@@ -1866,42 +1890,49 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     public void onWindowTransitionStart() {
         mWindowInTransition = true;
         if (resumed) {
-            mEnjoyApplyBtn.animate().alpha(0).setDuration(200).start();
-            mNavBack.animate().alpha(0).setDuration(200).start();
-            mRingtoneViewHolder.imageView.animate().alpha(0.1f)
-                    .translationX(Dimensions.pxFromDp(28))
-                    .translationY(-Dimensions.pxFromDp(26))
-                    .setDuration(200).start();
-
-
-            if (getThemeMode() == PREVIEW_MODE) {
-                animCallGroupViewToVisible(false);
+            if (themeLoading) {
+                mProgressViewHolder.hide();
             }
 
-            // Layout in card item has less margins, smooth fade out
-            mThemeLayout.animate()
-                    .translationX(-Dimensions.pxFromDp(12))
-                    .translationY(Dimensions.pxFromDp(22))
-                    .setDuration(200).start();
+            if (themeReady) {
+                mEnjoyApplyBtn.animate().alpha(0).setDuration(200).start();
+                mNavBack.animate().alpha(0).setDuration(200).start();
+                mRingtoneViewHolder.imageView.animate().alpha(0.1f)
+                        .translationX(Dimensions.pxFromDp(28))
+                        .translationY(-Dimensions.pxFromDp(26))
+                        .setDuration(200).start();
+
+
+                if (getThemeMode() == PREVIEW_MODE) {
+                    animCallGroupViewToVisible(false);
+                }
+
+                // Layout in card item has less margins, smooth fade out
+                mThemeLayout.animate()
+                        .translationX(-Dimensions.pxFromDp(12))
+                        .translationY(Dimensions.pxFromDp(22))
+                        .setDuration(200).start();
+            }
 
         } else {
+            if (themeReady) {
+                mEnjoyApplyBtn.setAlpha(0.01f);
+                mEnjoyApplyBtn.animate().alpha(1).setDuration(200).start();
 
-            mEnjoyApplyBtn.setAlpha(0.01f);
-            mEnjoyApplyBtn.animate().alpha(1).setDuration(200).start();
+                mRingtoneViewHolder.imageView.setTranslationX(Dimensions.pxFromDp(28));
+                mRingtoneViewHolder.imageView.setTranslationY(-Dimensions.pxFromDp(28));
+                mRingtoneViewHolder.imageView.setScaleX(0.76f);
+                mRingtoneViewHolder.imageView.setScaleY(0.76f);
+                mRingtoneViewHolder.imageView.animate()
+                        .scaleX(1f).scaleY(1f)
+                        .translationX(0).translationY(0)
+                        .setDuration(200).start();
 
-            mRingtoneViewHolder.imageView.setTranslationX(Dimensions.pxFromDp(28));
-            mRingtoneViewHolder.imageView.setTranslationY(-Dimensions.pxFromDp(28));
-            mRingtoneViewHolder.imageView.setScaleX(0.76f);
-            mRingtoneViewHolder.imageView.setScaleY(0.76f);
-            mRingtoneViewHolder.imageView.animate()
-                    .scaleX(1f).scaleY(1f)
-                    .translationX(0).translationY(0)
-                    .setDuration(200).start();
-
-            // Layout in card item has less margins, smooth fade in
-            mThemeLayout.setTranslationX(-Dimensions.pxFromDp(12));
-            mThemeLayout.setTranslationY(Dimensions.pxFromDp(22));
-            mThemeLayout.animate().translationY(0).translationX(0).setDuration(200).start();
+                // Layout in card item has less margins, smooth fade in
+                mThemeLayout.setTranslationX(-Dimensions.pxFromDp(12));
+                mThemeLayout.setTranslationY(Dimensions.pxFromDp(22));
+                mThemeLayout.animate().translationY(0).translationX(0).setDuration(200).start();
+            }
         }
     }
 
@@ -1940,42 +1971,45 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private class ProgressViewHolder {
-        private ProgressBar mProgressBar;
-        private TextView mProgressTxt;
-        private View mProgressTxtGroup;
+
+        public DotsPictureView mDotsPictureView;
+        private long mAnimationStartTimeMills;
 
         public ProgressViewHolder() {
-            mProgressBar = (ProgressBar) findViewById(R.id.theme_progress_bar);
-            mProgressTxt = (TextView) findViewById(R.id.theme_progress_txt);
-            mProgressTxtGroup= findViewById(R.id.theme_progress_txt_holder);
+            mDotsPictureView = findViewById(R.id.dots_progress_view);
         }
 
         public void updateProgressView(int percent) {
-            mProgressBar.setProgress(percent);
-            mProgressTxt.setText(mActivity.getString(R.string.loading_progress, percent));
+            // Do nothing
         }
 
         public void hide() {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            mProgressTxtGroup.setVisibility(View.INVISIBLE);
+            mDotsPictureView.setVisibility(View.INVISIBLE);
+            mDotsPictureView.stopAnimation();
         }
 
         public void show() {
-            mProgressBar.setVisibility(View.VISIBLE);
-            mProgressTxtGroup.setVisibility(View.VISIBLE);
+            mDotsPictureView.setVisibility(VISIBLE);
         }
 
-        public void fadeOut() {
-            mProgressBar.animate().alpha(0).setDuration(300).start();
-            mProgressTxtGroup.animate().alpha(0).setDuration(300).start();
+        public void setResource(Bitmap resource) {
+            if (mDotsPictureView.getVisibility() == VISIBLE) {
+                mDotsPictureView.setSourceBitmap(resource);
+            }
         }
 
-        public void transIn(float bottomBtnTransY, int duration) {
-            TimeInterpolator interp = new DecelerateInterpolator(1.5f);
-            mProgressBar.setTranslationY(bottomBtnTransY);
-            mProgressTxtGroup.setTranslationY(bottomBtnTransY);
-            mProgressBar.animate().alpha(1).translationY(0).setDuration(duration).setInterpolator(interp).start();
-            mProgressTxtGroup.animate().alpha(1).translationY(0).setDuration(duration).setInterpolator(interp).start();
+        public void startLoadingAnimation() {
+            if (mDotsPictureView.getVisibility() == VISIBLE) {
+                HSLog.d(TAG, "startLoadingAnimation-" + mTheme.getName());
+                boolean started = mDotsPictureView.startAnimation();
+                if (started) {
+                    mAnimationStartTimeMills = System.currentTimeMillis();
+                }
+            }
+        }
+
+        public long getAnimationStartTimeMills() {
+            return mAnimationStartTimeMills;
         }
     }
 
