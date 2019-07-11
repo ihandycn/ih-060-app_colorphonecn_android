@@ -23,7 +23,6 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ThemePreviewActivity;
-import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -302,10 +301,6 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         ad.setMuted(false);
         mAdContainer.fillNativeAd(ad);
         PreviewAdManager.getInstance().preload(null);
-
-        if (HSConfig.optBoolean(true, "Application", "Theme", "ScrollFullScreenAdClick")) {
-            mAdContainer.setOnClickListener(v -> mEnjoyApplyBtn.performClick());
-        }
     }
 
 }

@@ -1001,8 +1001,6 @@
 			<string>http://cdn.ihandysoft.cn/light2019/apps/apkcolorphone/terms-of-use.html</string>
 			<key>Theme</key>
 			<dict>
-				<key>ScrollFullScreenAdClick</key>
-				<true/>
 				<key>CallThemeIntervalShowAd</key>
 				<integer>4</integer>
 				<key>DefaultTheme</key>
