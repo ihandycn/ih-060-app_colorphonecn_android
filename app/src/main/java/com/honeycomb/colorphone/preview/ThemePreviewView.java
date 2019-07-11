@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -382,6 +383,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         activity.getLayoutInflater().inflate(R.layout.page_theme_preview, this, true);
+
+        mWindowInTransition = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
 
         onCreate();
     }
