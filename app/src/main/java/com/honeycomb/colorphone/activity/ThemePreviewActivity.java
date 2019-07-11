@@ -397,6 +397,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 controller.setPageSelectedPos(mViewPager.getCurrentItem());
                 if (position == mViewPager.getCurrentItem()) {
                     controller.setBlockAnimationForPageChange(false);
+                    controller.setWindowInTransition(true);
                 } else {
                     controller.setNoTransition(true);
                 }
