@@ -1007,6 +1007,8 @@
 				<integer>4</integer>
 				<key>ScrollShowAds</key>
 				<true/>
+				<key>ScrollFullScreenAdClick</key>
+                <true/>
 				<key>RandomTheme</key>
 				<array>
 					<string>DeepLove</string>
