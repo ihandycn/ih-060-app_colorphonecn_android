@@ -105,7 +105,7 @@ public class LockerActivity extends HSAppCompatActivity {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !noNavigationPadding) {
                 ViewGroup container = (ViewGroup) findViewById(R.id.locker_pager);
-                container.setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(this));
+                //container.setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(this));
             }
         } catch (Exception e) {
             finish();

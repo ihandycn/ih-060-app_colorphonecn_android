@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.animation.AnticipateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -92,6 +93,7 @@ public class SlidingDrawerContent extends FrameLayout
     private ImageView soundProfileState;
     private ImageView mobileDataState;
     private SeekBar brightnessBar;
+    private LinearLayout brightlayout;
 
     private BallAnimationView ballAnimationView;
     private View ballAnimationContainer;
@@ -289,6 +291,10 @@ public class SlidingDrawerContent extends FrameLayout
     protected void onFinishInflate() {
         super.onFinishInflate();
 
+        brightlayout = findViewById(R.id.brightness_layout);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) brightlayout.getLayoutParams();
+        layoutParams.bottomMargin = Dimensions.pxFromDp(28) + Dimensions.getNavigationBarHeight(getContext());
+        brightlayout.setLayoutParams(layoutParams);
         ivDrawerBg = (ImageView) findViewById(R.id.iv_slide_bg);
         flashlight = (ImageView) findViewById(R.id.flashlight);
         ImageView calculator = (ImageView) findViewById(R.id.calculator);
