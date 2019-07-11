@@ -241,7 +241,7 @@ public class AutoRequestManager {
 
         if (!AutoPermissionChecker.hasIgnoreBatteryPermission()) {
             boolean configEnable = HSConfig.optBoolean(false,
-                    "Application", "IngoreBattery", "Enable");
+                    "Application", "AutoPermission", "IngoreBattery");
             if (configEnable) {
                 permission.add(HSPermissionRequestMgr.TYPE_INGORE_BATTERY_OPTIMIZATIONS);
             }
