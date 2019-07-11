@@ -52,6 +52,7 @@ public class DotsPictureView extends View {
     private float fraction;
     private boolean needLight;
     private Matrix mDrawMatrix;
+    private int canvasSize;
 
     public DotsPictureView(Context context) {
         super(context);
@@ -188,6 +189,12 @@ public class DotsPictureView extends View {
     private void ensureDrawMatrix(Canvas canvas) {
         if (mDrawMatrix == null) {
             mDrawMatrix = new Matrix();
+            mDrawMatrix.reset();
+        }
+
+        boolean changed = canvasSize != canvas.getWidth() * canvas.getHeight();
+
+        if (changed || mDrawMatrix.isIdentity()) {
             mDrawMatrix.reset();
 
             int vwidth = canvas.getWidth();
