@@ -33,13 +33,23 @@
             android:layout_height="0dp"
             android:layout_weight="1.0"/>
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/iv_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|end|center_vertical"
             android:scaleType="fitCenter"
-            android:src="@drawable/lock_quickly_panel_refresh_wallpaper"/>
+            android:src="@drawable/lock_quickly_panel_refresh_wallpaper"/>-->
+        <com.colorphone.lock.TypefacedTextView
+            android:id="@+id/iv_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|end|center_vertical"
+            android:maxLines="1"
+            android:text="刷新"
+            app:typeface="@string/proxima_nova_regular"
+            android:textColor="#b2ffffff"
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout

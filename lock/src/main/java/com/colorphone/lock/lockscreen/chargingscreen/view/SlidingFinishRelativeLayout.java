@@ -204,7 +204,7 @@ public class SlidingFinishRelativeLayout extends RelativeLayout implements View.
                         break;
                     }
 
-                    case STATE_SLIDING_RIGHT: {
+                    /*case STATE_SLIDING_RIGHT: {
 
                         if (velocityTracker.getXVelocity() > FAST_SCROLL_PIXEL_COUNT_EACH_UNIT_TIME) {
                             isFinish = true;
@@ -217,7 +217,7 @@ public class SlidingFinishRelativeLayout extends RelativeLayout implements View.
                         }
 
                         break;
-                    }
+                    }*/
 
                     default:
                         break;
@@ -229,7 +229,7 @@ public class SlidingFinishRelativeLayout extends RelativeLayout implements View.
 
                 switch (slidingState) {
 
-                    case STATE_SLIDING_RIGHT: {
+                    /*case STATE_SLIDING_RIGHT: {
 
                         if (getScrollX() < -getWidth() * COEFFICIENT_RIGHT_SLIDING_FINISH) {
                             isFinish = true;
@@ -238,7 +238,7 @@ public class SlidingFinishRelativeLayout extends RelativeLayout implements View.
                         }
 
                         break;
-                    }
+                    }*/
 
                     case STATE_SLIDING_UP: {
 
