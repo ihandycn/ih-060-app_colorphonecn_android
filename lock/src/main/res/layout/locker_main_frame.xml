@@ -269,78 +269,83 @@
     </com.colorphone.lock.lockscreen.locker.slidingdrawer.SlidingDrawer>
 
     <RelativeLayout
-        android:id="@+id/bottom_operation_area"
+        android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:layout_alignParentBottom="true">
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/bottom_operation_area"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_alignParentBottom="true">
 
-        <com.colorphone.lock.lockscreen.locker.shimmer.ShimmerTextView
-            android:id="@+id/unlock_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:paddingBottom="15.7dp"
-            android:lineSpacingExtra="5.8sp"
-            android:text="上滑解锁"
-            android:textColor="#ffffff"
-            android:textSize="12.5sp"/>
-
-        <LinearLayout
-            android:id="@+id/wallpaper_container"
-            android:layout_width="60dp"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="center"
-                android:src="@drawable/main_phone"/>
-        </LinearLayout>
-
-        <com.colorphone.lock.lockscreen.locker.CameraContainer
-            android:id="@+id/camera_container"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:paddingBottom="12dp"
-            android:paddingRight="12dp"
-            android:paddingTop="12dp"
-            android:paddingLeft="12dp">
-
-            <ImageView
+            <com.colorphone.lock.lockscreen.locker.shimmer.ShimmerTextView
+                android:id="@+id/unlock_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/lock_camera" />
-        </com.colorphone.lock.lockscreen.locker.CameraContainer>
-        <RelativeLayout
-            android:id="@+id/toolbar_container"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:paddingBottom="12dp"
-            android:paddingLeft="12dp"
-            android:paddingTop="12dp"
-            android:paddingRight="12dp">
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="15.7dp"
+                android:lineSpacingExtra="5.8sp"
+                android:text="上滑解锁"
+                android:textColor="#ffffff"
+                android:textSize="12.5sp"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:id="@+id/wallpaper_container"
+                android:layout_width="60dp"
+                android:layout_height="48dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/lock_toolbar" />
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@drawable/main_phone"/>
+            </LinearLayout>
+
+            <com.colorphone.lock.lockscreen.locker.CameraContainer
+                android:id="@+id/camera_container"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:paddingBottom="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="12dp"
+                android:paddingLeft="12dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/lock_camera" />
+            </com.colorphone.lock.lockscreen.locker.CameraContainer>
+            <RelativeLayout
+                android:id="@+id/toolbar_container"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="12dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="12dp"
+                android:paddingRight="12dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/lock_toolbar" />
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 </com.colorphone.lock.lockscreen.locker.LockerMainFrame>

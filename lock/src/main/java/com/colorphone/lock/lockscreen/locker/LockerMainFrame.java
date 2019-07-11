@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.LinearInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -84,6 +85,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private View mToolBarContainer;
     private View mWallpaperContainer;
     private RelativeLayout mAdContainer;
+    private RelativeLayout mBottomlayout;
 
     private NotificationWindowHolder mNotificationWindowHolder;
     private View mMenuMore;
@@ -164,6 +166,14 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         mToolBarContainer = findViewById(R.id.toolbar_container);
         mWallpaperContainer = findViewById(R.id.wallpaper_container);
         mAdContainer = ViewUtils.findViewById(this, R.id.rl_ad_container);
+        mBottomlayout = findViewById(R.id.bottom_layout);
+        mBottomlayout.setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(getContext()));
+        LockerMainFrame.LayoutParams layoutParams = (LayoutParams) mAdContainer.getLayoutParams();
+        layoutParams.bottomMargin = Dimensions.pxFromDp(57) + Dimensions.getNavigationBarHeight(getContext());
+        mAdContainer.setLayoutParams(layoutParams);
+        SlidingDrawer.LayoutParams params = (FrameLayout.LayoutParams) mSlidingDrawerContent.getLayoutParams();
+        params.height = Dimensions.pxFromDp(340) + Dimensions.getNavigationBarHeight(getContext());
+        mSlidingDrawerContent.setLayoutParams(params);
         mMenuMore = findViewById(R.id.ic_menu);
         mMenuMore.setOnClickListener(new OnClickListener() {
             @Override
