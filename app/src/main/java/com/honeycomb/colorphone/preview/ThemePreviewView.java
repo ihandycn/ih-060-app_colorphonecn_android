@@ -221,7 +221,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private boolean mBlockAnimationForPageChange = true;
     private boolean hasStopped;
     private boolean resumed;
-
+    private boolean mWaitContactResult;
+    private boolean mWaitForAll;
+    private boolean mWindowInTransition;
+    private boolean mPendingResume;
     private long startDownloadTime;
 
     private int mWaitMediaReadyCount = 0;
@@ -320,10 +323,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             animationDelay = 0;
         }
     };
-    private boolean mWaitContactResult;
-    private boolean mWaitForAll;
-    private boolean mWindowInTransition;
-    private boolean mPendingResume;
+
 
     public static void saveThemeApplys(int themeId) {
         if (isThemeAppliedEver(themeId)) {
@@ -744,7 +744,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         // Check view preview mode
         switchMode(getThemeMode(), needTransAnim);
 
-        if (needTransAnim || mCallUserView.getVisibility() != VISIBLE) {
+        if (needTransAnim ) {
             playTransInAnimation(transEndRunnable);
         } else {
             transEndRunnable.run();
