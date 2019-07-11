@@ -292,11 +292,7 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         adContainer.addContentView(resultView);
         adContainer.setAdTitleView(mThemeTitle);
         adContainer.setAdPrimaryView(mAdImageContainer);
-        if (HSConfig.optBoolean(true, "Application", "Theme", "ScrollFullScreenAdClick")) {
-            adContainer.setAdActionView(resultView);
-        } else {
-            adContainer.setAdActionView(mEnjoyApplyBtn);
-        }
+        adContainer.setAdActionView(mEnjoyApplyBtn);
 
         adLayout.addView(adContainer);
         mAdContainer = adContainer;
@@ -306,6 +302,10 @@ public class ThemeAdView extends FrameLayout implements ViewPager.OnPageChangeLi
         ad.setMuted(false);
         mAdContainer.fillNativeAd(ad);
         PreviewAdManager.getInstance().preload(null);
+
+        if (HSConfig.optBoolean(true, "Application", "Theme", "ScrollFullScreenAdClick")) {
+            mAdContainer.setOnClickListener(v -> mEnjoyApplyBtn.performClick());
+        }
     }
 
 }
