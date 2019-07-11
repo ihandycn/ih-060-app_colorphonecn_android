@@ -16,7 +16,7 @@
 			<key>AutoPermission</key>
 			<dict>
 				<key>IngoreBattery</key>
-				<false/>
+				<true/>
 				<key>AccessibilityShowCount</key>
 				<integer>1</integer>
 				<key>SkipShowCount</key>
