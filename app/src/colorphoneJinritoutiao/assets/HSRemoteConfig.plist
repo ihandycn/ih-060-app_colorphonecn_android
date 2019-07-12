@@ -195,7 +195,7 @@
 				<key>Xiaomi</key>
 				<dict>
 					<key>Enable</key>
-					<true/>
+					<false/>
 					<key>EnabledOsVersion</key>
 					<array>
 						<integer>28</integer>
