@@ -1998,7 +1998,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         public void setResource(Bitmap resource) {
-            if (mDotsPictureView.getVisibility() == VISIBLE) {
+            if (resource != null && mDotsPictureView.getVisibility() == VISIBLE) {
                 mDotsPictureView.setSourceBitmap(resource);
             }
         }

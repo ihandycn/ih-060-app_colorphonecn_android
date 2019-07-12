@@ -11,6 +11,7 @@ import android.graphics.Picture;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.util.AttributeSet;
@@ -152,7 +153,7 @@ public class DotsPictureView extends View {
         return count * 100 / pixels.length;
     }
 
-    public void setSourceBitmap(Bitmap sourceBitmap) {
+    public void setSourceBitmap(@NonNull Bitmap sourceBitmap) {
         HSLog.d("DigP", "setSourceBitmap");
         mSourceBitmap = sourceBitmap.copy(Bitmap.Config.ARGB_8888, true);
 
@@ -253,7 +254,21 @@ public class DotsPictureView extends View {
     @Override
     protected void onDetachedFromWindow() {
         mAnimator.cancel();
+        releaseBitmaps();
         super.onDetachedFromWindow();
+    }
+
+    private void releaseBitmaps() {
+        mBitmapCanvas = null;
+        if (mDotResultBitmap != null && !mDotResultBitmap.isRecycled()) {
+            mDotResultBitmap.recycle();
+            mDotResultBitmap = null;
+        }
+
+        if (mDotCropBitmap != null && !mDotCropBitmap.isRecycled()) {
+            mDotCropBitmap.recycle();
+            mDotCropBitmap = null;
+        }
     }
 
     float strokeWidth = 0;
