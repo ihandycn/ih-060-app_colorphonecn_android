@@ -330,6 +330,8 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
                 && mViewPager.isCanScroll()) {
             Ap.DetailAd.onPageScroll(scrollCount);
         }
+        mViews.clear();
+        PreviewAdManager.getInstance().releaseNativeAd();
     }
 
     private int lastThemeFullAdIndex = -1;
