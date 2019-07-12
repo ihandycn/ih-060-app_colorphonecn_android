@@ -13,8 +13,8 @@ import com.colorphone.lock.lockscreen.locker.slidingup.SlidingUpCallback;
 
 public class LockerAdapter extends PagerAdapter {
 
-    public static final int PAGE_INDEX_UNLOCK = 0;
-    public static final int PAGE_INDEX_MAINFRAME = 1;
+    public static final int PAGE_INDEX_UNLOCK = 1;
+    public static final int PAGE_INDEX_MAINFRAME = 0;
 
     private LockScreen mLockScreen;
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Picture;
 import android.graphics.PorterDuff;
@@ -50,6 +51,8 @@ public class DotsPictureView extends View {
     private float progress;
     private float fraction;
     private boolean needLight;
+    private Matrix mDrawMatrix;
+    private int canvasSize;
 
     public DotsPictureView(Context context) {
         super(context);
@@ -179,6 +182,42 @@ public class DotsPictureView extends View {
         HSLog.d("DigP", "setSourceBitmap --end");
     }
 
+    /**
+     * get matrix for center-crop effect
+     * @param canvas view canvas
+     */
+    private void ensureDrawMatrix(Canvas canvas) {
+        if (mDrawMatrix == null) {
+            mDrawMatrix = new Matrix();
+            mDrawMatrix.reset();
+        }
+
+        boolean changed = canvasSize != canvas.getWidth() * canvas.getHeight();
+
+        if (changed || mDrawMatrix.isIdentity()) {
+            mDrawMatrix.reset();
+
+            int vwidth = canvas.getWidth();
+            int vheight = canvas.getHeight();
+            int dwidth = mDotResultBitmap.getWidth();
+            int dheight = mDotResultBitmap.getHeight();
+
+            float scale;
+            float dx = 0, dy = 0;
+
+            if (dwidth * vheight > vwidth * dheight) {
+                scale = (float) vheight / (float) dheight;
+                dx = (vwidth - dwidth * scale) * 0.5f;
+            } else {
+                scale = (float) vwidth / (float) dwidth;
+                dy = (vheight - dheight * scale) * 0.5f;
+            }
+
+            mDrawMatrix.setScale(scale, scale);
+            mDrawMatrix.postTranslate(Math.round(dx), Math.round(dy));
+        }
+    }
+
     public boolean startAnimation() {
         if (!mAnimator.isStarted()) {
             mAnimator.start();
@@ -225,7 +264,6 @@ public class DotsPictureView extends View {
         if (mBitmapCanvas == null) {
             return;
         }
-
         if (fraction < 0.4f) {
             alpha = 255;
             strokeWidth = minStokeWidth +
@@ -250,7 +288,20 @@ public class DotsPictureView extends View {
         mBitmapCanvas.drawBitmap(mDotResultBitmap, 0, 0, mBitmapPaint);
 
         mAlphaPaint.setAlpha(alpha);
-        canvas.drawBitmap(mDotCropBitmap, 0, 0, mAlphaPaint);
+
+        // Draw dots image into view canvas
+        ensureDrawMatrix(canvas);
+
+        if (mDrawMatrix != null) {
+            final int saveCount = canvas.getSaveCount();
+            canvas.save();
+            canvas.concat(mDrawMatrix);
+            canvas.drawBitmap(mDotCropBitmap, 0, 0, mAlphaPaint);
+            canvas.restoreToCount(saveCount);
+        } else {
+            canvas.drawBitmap(mDotCropBitmap, 0, 0, mAlphaPaint);
+        }
+
         if (DEBUG_LOG) {
             HSLog.d("DigP", "draw end , duration " + (System.currentTimeMillis() - startMills));
         }

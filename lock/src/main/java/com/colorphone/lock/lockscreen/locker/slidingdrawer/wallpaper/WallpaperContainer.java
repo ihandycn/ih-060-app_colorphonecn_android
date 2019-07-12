@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.SparseBooleanArray;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -26,6 +28,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -43,6 +46,7 @@ import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Dimensions;
 import com.superapps.util.Networks;
 import com.superapps.util.Toasts;
 
@@ -99,7 +103,8 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
 
     private ArrayList<ImageView> mIVImgs = new ArrayList<>(WALLPAPER_COUNT);
     private ArrayList<ImageView> mRefreshImgs = new ArrayList<>(WALLPAPER_COUNT);
-    private ImageView mRefreshView;
+    //private ImageView mRefreshView;
+    private TextView mRefreshView;
     private RotateAnimation mRefreshRotation;
     private RotateAnimation mChangeWallpaper;
     private RotateAnimation mWallpaperRotation;
@@ -246,9 +251,34 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
 
     }
 
+    public static void expandViewTouchDelegate(final View view, final int top,
+                                               final int bottom, final int left, final int right) {
+
+        ((View) view.getParent()).post(new Runnable() {
+            @Override
+            public void run() {
+                Rect bounds = new Rect();
+                view.setEnabled(true);
+                view.getHitRect(bounds);
+
+                bounds.top -= top;
+                bounds.bottom += bottom;
+                bounds.left -= left;
+                bounds.right += right;
+
+                TouchDelegate touchDelegate = new TouchDelegate(bounds, view);
+
+                if (View.class.isInstance(view.getParent())) {
+                    ((View) view.getParent()).setTouchDelegate(touchDelegate);
+                }
+            }
+        });
+    }
+
     private void initView() {
-        mRefreshView = (ImageView) findViewById(R.id.iv_refresh);
+        mRefreshView = findViewById(R.id.iv_refresh);
         mRefreshView.setOnClickListener(this);
+        expandViewTouchDelegate(mRefreshView, Dimensions.pxFromDp(2), Dimensions.pxFromDp(2), Dimensions.pxFromDp(2), Dimensions.pxFromDp(2));
 
         mRefreshImgs.add((ImageView) findViewById(R.id.iv_img1_refresh));
         mRefreshImgs.add((ImageView) findViewById(R.id.iv_img2_refresh));
@@ -475,7 +505,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                                         mLoadingFinish.put(targetIv.getId(), true);
                                         mLoadingSucceed.put(targetIv.getId(), false);
                                         if (isLoadingFinish()) {
-                                            mRefreshView.clearAnimation();
+                                            //mRefreshView.clearAnimation();
                                             if (!mFirstAutoRefresh) {
                                                 Toasts.showToast(R.string.wallpaper_network_error, Toast.LENGTH_LONG);
                                             }
@@ -543,7 +573,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
                                                 mLoadingSucceed.put(targetIv.getId(), true);
                                                 ((ImageView) targetIv.getTag()).setVisibility(GONE);
                                                 if (isLoadingFinish()) {
-                                                    mRefreshView.clearAnimation();
+                                                    //mRefreshView.clearAnimation();
 
                                                     //log flurry
                                                     if (mIsRefreshSwitchClicked) {
@@ -576,7 +606,7 @@ public class WallpaperContainer extends LinearLayout implements View.OnClickList
     private void resetTags() {
         if (mRefreshView != null) {
             mCurrentIndex = -1;
-            mRefreshView.startAnimation(mRefreshRotation);
+            //mRefreshView.startAnimation(mRefreshRotation);
             for (int i = 0; i < mLoadingFinish.size(); i++) {
                 mLoadingFinish.put(mLoadingFinish.keyAt(i), false);
                 mLoadingSucceed.put(mLoadingSucceed.keyAt(i), false);

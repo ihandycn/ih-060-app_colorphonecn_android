@@ -6,7 +6,8 @@
     android:layout_height="24dp"
     android:paddingLeft="4dp"
     android:paddingRight="4dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:visibility="gone">
 
     <ImageView
         android:id="@+id/iv_mobile_strength"

@@ -305,6 +305,12 @@ public class SlidingDrawer extends FrameLayout implements OnTouchListener {
         return startMoving;
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        getParent().requestDisallowInterceptTouchEvent(true);
+        return super.dispatchTouchEvent(ev);
+    }
+
     public void setListener(SlidingDrawerListener listener) {
         this.listener = listener;
     }

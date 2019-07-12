@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.AttrRes;
@@ -379,8 +378,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         activity.getLayoutInflater().inflate(R.layout.page_theme_preview, this, true);
 
-        mWindowInTransition = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-
         onCreate();
     }
 
@@ -394,6 +391,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         ImageView avatar = (ImageView) findViewById(R.id.caller_avatar);
         avatar.setImageDrawable(ContextCompat.getDrawable(mActivity, mTheme.getAvatar()));
         mCallUserView = findViewById(R.id.led_call_container);
+        mCallUserView.setVisibility(INVISIBLE);
     }
 
     public boolean isRewardVideoLoading() {
@@ -1872,6 +1870,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (isSelectedPos()) {
             mBlockAnimationForPageChange = blockAnimationForPageChange;
         }
+    }
+
+    public void setWindowInTransition(boolean inTransition) {
+        mWindowInTransition = inTransition;
     }
 
     public void onWindowTransitionStart() {

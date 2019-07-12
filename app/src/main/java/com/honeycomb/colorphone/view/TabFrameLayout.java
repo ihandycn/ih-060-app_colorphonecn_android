@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.honeycomb.colorphone.activity.ColorPhoneActivity;
+
 public class TabFrameLayout extends FrameLayout {
 
     private int mSelectedFramePos = -1;
@@ -48,7 +50,13 @@ public class TabFrameLayout extends FrameLayout {
 
             View oldFrame = getFrameItem(mSelectedFramePos);
             if (oldFrame != null) {
-                oldFrame.setVisibility(GONE);
+                boolean needRemove = mSelectedFramePos == ColorPhoneActivity.CASH_POSITION;
+                if (needRemove) {
+                    mTabContentLayoutList.remove(mSelectedFramePos);
+                    removeView(oldFrame);
+                } else {
+                    oldFrame.setVisibility(GONE);
+                }
             }
 
             mSelectedFramePos = tabPos;

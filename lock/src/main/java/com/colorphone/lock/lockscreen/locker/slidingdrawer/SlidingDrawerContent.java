@@ -10,6 +10,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -30,6 +31,7 @@ import android.view.View;
 import android.view.animation.AnticipateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -91,6 +93,7 @@ public class SlidingDrawerContent extends FrameLayout
     private ImageView soundProfileState;
     private ImageView mobileDataState;
     private SeekBar brightnessBar;
+    private LinearLayout brightlayout;
 
     private BallAnimationView ballAnimationView;
     private View ballAnimationContainer;
@@ -166,7 +169,7 @@ public class SlidingDrawerContent extends FrameLayout
                 final Bitmap bluredBitmap = blurBitmap(getContext(), bitmap, WALLPAPER_BLUR_RADIUS);
                 Threads.postOnMainThread(new Runnable() {
                     @Override public void run() {
-                        ObjectAnimator wallpaperOut = ObjectAnimator.ofFloat(ivDrawerBg, "alpha", 1f, 0.5f);
+                        /*ObjectAnimator wallpaperOut = ObjectAnimator.ofFloat(ivDrawerBg, "alpha", 1f, 0.5f);
                         wallpaperOut.setDuration(400);
                         wallpaperOut.addListener(new AnimatorListenerAdapter() {
                             @Override
@@ -180,7 +183,8 @@ public class SlidingDrawerContent extends FrameLayout
 
                         AnimatorSet change = new AnimatorSet();
                         change.playSequentially(wallpaperOut, wallpaperIn);
-                        change.start();
+                        change.start();*/
+                        ivDrawerBg.setImageBitmap(bluredBitmap);
                     }
                 });
             }
@@ -287,6 +291,10 @@ public class SlidingDrawerContent extends FrameLayout
     protected void onFinishInflate() {
         super.onFinishInflate();
 
+        brightlayout = findViewById(R.id.brightness_layout);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) brightlayout.getLayoutParams();
+        layoutParams.bottomMargin = Dimensions.pxFromDp(28) + Dimensions.getNavigationBarHeight(getContext());
+        brightlayout.setLayoutParams(layoutParams);
         ivDrawerBg = (ImageView) findViewById(R.id.iv_slide_bg);
         flashlight = (ImageView) findViewById(R.id.flashlight);
         ImageView calculator = (ImageView) findViewById(R.id.calculator);
@@ -504,10 +512,34 @@ public class SlidingDrawerContent extends FrameLayout
                 HSBundle bundle = new HSBundle();
                 bundle.putString(Locker.EXTRA_DISMISS_REASON, "CalcClick");
                 HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
+                openCalculator();
                 LockerCustomConfig.getLogger().logEvent("Locker_Toggle_Switch_Clicked", "type", "Calculator");
             }
         } else {
         }
+    }
+
+    public void openCalculator(){
+        PackageInfo pak = getAllApps(getContext(), "Calculator","calculator");
+        if(pak != null){
+            Intent intent = new Intent();
+            intent = getContext().getPackageManager().getLaunchIntentForPackage(pak.packageName);
+            getContext().startActivity(intent);
+        }else{
+
+        }
+    }
+
+    public  PackageInfo getAllApps(Context context,String app_flag_1,String app_flag_2) {
+        PackageManager pManager = context.getPackageManager();
+        List<PackageInfo> packlist = pManager.getInstalledPackages(0);
+        for (int i = 0; i < packlist.size(); i++) {
+            PackageInfo pak = (PackageInfo) packlist.get(i);
+            if(pak.packageName.contains(app_flag_1)||pak.packageName.contains(app_flag_2)){
+                return pak;
+            }
+        }
+        return null;
     }
 
     private void startMobileDataChecker() {

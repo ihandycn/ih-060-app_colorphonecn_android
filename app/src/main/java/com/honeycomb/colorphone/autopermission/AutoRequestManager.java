@@ -25,6 +25,7 @@ import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.startguide.RequestPermissionDialog;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
@@ -111,9 +112,11 @@ public class AutoRequestManager {
 
                     isRequestPermission = true;
                     if (Compats.IS_XIAOMI_DEVICE) {
+                        AutoRepairingToast.showRepairingToast();
                         backTask.run();
                     } else {
                         StableToast.cancelToast();
+                        AutoRepairingToast.showRepairingToast();
                         onAccessibilityReady();
                     }
                     HSApplication.getContext().unregisterReceiver(this);
@@ -192,6 +195,12 @@ public class AutoRequestManager {
                 }
 
                 @Override
+                public void onSinglePermissionExecuted(int index, boolean isSucceed, String msg) {
+                    super.onSinglePermissionExecuted(index, isSucceed, msg);
+                    AutoRepairingToast.cancelRepairingToast();
+                }
+
+                @Override
                 public void onCancelled() {
                     super.onCancelled();
                     HSLog.d(TAG, "Overlay : onCancelled");
@@ -229,8 +238,13 @@ public class AutoRequestManager {
             permission.add(TYPE_CUSTOM_CONTACT_WRITE);
             permission.add(TYPE_CUSTOM_CONTACT_READ);
         }
+
         if (!AutoPermissionChecker.hasIgnoreBatteryPermission()) {
-            permission.add(HSPermissionRequestMgr.TYPE_INGORE_BATTERY_OPTIMIZATIONS);
+            boolean configEnable = HSConfig.optBoolean(false,
+                    "Application", "AutoPermission", "IngoreBattery");
+            if (configEnable) {
+                permission.add(HSPermissionRequestMgr.TYPE_INGORE_BATTERY_OPTIMIZATIONS);
+            }
         }
         if (!Permissions.isNotificationAccessGranted()) {
             permission.add(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
