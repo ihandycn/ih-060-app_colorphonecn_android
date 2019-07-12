@@ -156,6 +156,10 @@ public class DotsPictureView extends View {
     public void setSourceBitmap(@NonNull Bitmap sourceBitmap) {
         HSLog.d("DigP", "setSourceBitmap");
         mSourceBitmap = sourceBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        if (mSourceBitmap == null) {
+            // Copy fail
+            return;
+        }
 
         HSLog.d("DigP", "createScaledBitmap");
         Bitmap bitmap = Bitmap.createScaledBitmap(mSourceBitmap,
