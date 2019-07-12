@@ -16,7 +16,7 @@
 			<key>AutoPermission</key>
 			<dict>
 				<key>IngoreBattery</key>
-				<false/>
+				<true/>
 				<key>AccessibilityShowCount</key>
 				<integer>1</integer>
 				<key>SkipShowCount</key>
@@ -195,7 +195,7 @@
 				<key>Xiaomi</key>
 				<dict>
 					<key>Enable</key>
-					<false/>
+					<true/>
 					<key>EnabledOsVersion</key>
 					<array>
 						<integer>28</integer>
