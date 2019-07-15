@@ -116,8 +116,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private static final boolean DEBUG_LIFE_CALLBACK = true & BuildConfig.DEBUG;
 
-    private static final int MSG_HIDE = 1;
-    private static final int MSG_SHOW = 2;
+    private static final int MSG_PREVIEW = 1;
+    private static final int MSG_ENJOY = 2;
     private static final int MSG_DOWNLOAD_OK = 11;
 
     private static final boolean PLAY_ANIMITION = true;
@@ -148,12 +148,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private RingtoneViewHolder mRingtoneViewHolder;
     private TextView mApplyButton;
     private View mApplyForOne;
-    private View mActionLayout;
     private NetworkChangeReceiver networkChangeReceiver;
     private IntentFilter intentFilter;
     private boolean themeLoading = false;
 
     private TransitionNavView mTransitionNavView;
+    private TransitionActionLayout mTransitionActionLayout;
 
     private View mThemeLayout;
 
@@ -233,12 +233,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
-                case MSG_HIDE:
+                case MSG_PREVIEW:
                     switchMode(PREVIEW_MODE);
                     themeStateManager.sendNotification(PREVIEW_MODE);
                 return true;
 
-                case MSG_SHOW:
+                case MSG_ENJOY:
                     switchMode(ENJOY_MODE);
                     themeStateManager.sendNotification(ENJOY_MODE);
                     return true;
@@ -400,7 +400,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     public void dismissRingtoneSettingPage() {
-        mHandler.sendEmptyMessage(MSG_SHOW);
+        mHandler.sendEmptyMessage(MSG_ENJOY);
         mEnjoyApplyBtn.setVisibility(VISIBLE);
         mRingtoneViewHolder.hideRingtoneSettings();
     }
@@ -423,14 +423,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         && !inTransition
                         && !mRingtoneViewHolder.isRingtoneSettingsShow()) {
                     if (getThemeMode() == PREVIEW_MODE) {
-                        mHandler.sendEmptyMessage(MSG_SHOW);
+                        mHandler.sendEmptyMessage(MSG_ENJOY);
 
                     }
                     if (getThemeMode() == ENJOY_MODE) {
                         if (foldingOrNot == THEME_ENJOY_UNFOLDING) {
                             foldView();
                         } else {
-                            mHandler.sendEmptyMessage(MSG_HIDE);
+                            mHandler.sendEmptyMessage(MSG_PREVIEW);
                         }
                     }
                 }
@@ -445,16 +445,19 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mCallActionView.setTheme(mThemeType);
         mCallActionView.setAutoRun(false);
         mApplyButton = (TextView) findViewById(R.id.theme_apply_btn);
-        mActionLayout = findViewById(R.id.theme_apply_layout);
 
-        View mNavBack = findViewById(R.id.nav_back);
-        mNavBack.setOnClickListener(new View.OnClickListener() {
+        View actionLayout = findViewById(R.id.theme_apply_layout);
+        bottomBtnTransY = actionLayout.getTranslationY();
+        mTransitionActionLayout = new TransitionActionLayout(actionLayout);
+
+        View backView = findViewById(R.id.nav_back);
+        backView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mActivity.onBackPressed();
             }
         });
-        mTransitionNavView = new TransitionNavView(mNavBack);
+        mTransitionNavView = new TransitionNavView(backView);
 
         mThemeLayout = findViewById(R.id.card_theme_info_layout);
         mThemeLayout.getLayoutParams().width = Math.max(Dimensions.pxFromDp(180), Dimensions.getPhoneWidth(mActivity) - Dimensions.pxFromDp(180));
@@ -566,7 +569,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 if (!mTheme.hasRingtone()) {
                     onThemeApply();
-                    mHandler.sendEmptyMessage(MSG_SHOW);
+                    mHandler.sendEmptyMessage(MSG_ENJOY);
                     mEnjoyApplyBtn.setVisibility(VISIBLE);
                 } else {
                     mTransitionNavView.hide(true);
@@ -604,7 +607,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 mWaitContactResult = true;
             }
         });
-        bottomBtnTransY = getTransBottomLayout().getTranslationY();
+
 
     }
 
@@ -638,10 +641,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         mWaitContactResult = true;
-    }
-
-    private View getTransBottomLayout() {
-        return mActionLayout;
     }
 
     private void playDownloadOkTransAnimation() {
@@ -861,7 +860,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             case PREVIEW_MODE:
                 mCallActionView.setVisibility(visibleValue);
                 mCallUserView.setVisibility(visibleValue);
-                mActionLayout.setVisibility(visibleValue);
+                if (visible) {
+                    mTransitionActionLayout.show(false);
+                } else {
+                    mTransitionActionLayout.hide(false);
+                }
                 break;
             default:
                 break;
@@ -872,7 +875,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mEnjoyThemeLayout.setVisibility(GONE);
         mCallActionView.setVisibility(GONE);
         mCallUserView.setVisibility(GONE);
-        mActionLayout.setVisibility(GONE);
+
+        mTransitionActionLayout.hide(false);
         mEnjoyApplyBtn.setVisibility(GONE);
         mEnjoyClose.setVisibility(GONE);
         mEnjoyApplyDefault.setVisibility(GONE);
@@ -884,7 +888,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         mCallActionView.setVisibility(GONE);
         mCallUserView.setVisibility(GONE);
-        mActionLayout.setVisibility(GONE);
+        mTransitionActionLayout.hide(false);
         mEnjoyApplyBtn.setVisibility(VISIBLE);
 
         mEnjoyClose.setVisibility(GONE);
@@ -1071,10 +1075,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (visible) {
             if (getThemeMode() == PREVIEW_MODE) {
-                mActionLayoutfadeInView();
+                fadeInActionView();
             }
         } else {
-            mActionLayout.setVisibility(GONE);
+            mTransitionActionLayout.hide(false);
         }
     }
 
@@ -1239,30 +1243,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         foldView();
     }
 
-    private void mActionLayoutfadeInView() {
-        int mActionLayoutHeight = Dimensions.pxFromDp(60);
-        mActionLayout.setAlpha(1);
-        mActionLayout.setTranslationY(mActionLayoutHeight);
-        getTransBottomLayout().animate().translationY(0)
-                .setDuration(ANIMATION_DURATION)
-                .setInterpolator(mInter)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        if (getThemeMode() == PREVIEW_MODE) {
-                            inTransition = false;
-                        }
-                    }
-
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        if (getThemeMode() == PREVIEW_MODE) {
-                            mActionLayout.setVisibility(VISIBLE);
-                        }
-                    }
-                }).setStartDelay(ANIMATION_DURMATION_DELAY).start();
-    }
-
     private void playTransInAnimation(final Runnable completeRunnable) {
         if (mNoTransition) {
             if (completeRunnable != null) {
@@ -1332,12 +1312,45 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
 
 
-    private void fadeInActionView() {
-        fadeInActionView(true);
+    private static class TransitionActionLayout extends SimpleTransitionView {
+        public TransitionActionLayout(View v) {
+            super(v);
+        }
+
+        @Override
+        public void hide(boolean anim) {
+            View targetView = getTargetView();
+            if (anim) {
+                targetView.animate().alpha(0)
+                        .setDuration(ANIMATION_DURATION)
+                        .setInterpolator(mInter)
+                        .start();
+            } else {
+                targetView.setVisibility(GONE);
+            }
+        }
+
+        @Override
+        public void show(boolean anim) {
+            View targetView = getTargetView();
+            int mActionLayoutHeight = Dimensions.pxFromDp(60);
+            targetView.setVisibility(VISIBLE);
+            // Reset if view fade out before.
+            targetView.setAlpha(1);
+            if (anim) {
+                targetView.setTranslationY(mActionLayoutHeight);
+                targetView.animate().translationY(0)
+                        .setDuration(ANIMATION_DURATION)
+                        .setInterpolator(mInter)
+                        .setStartDelay(ANIMATION_DURMATION_DELAY).start();
+            } else {
+                targetView.setTranslationY(0);
+            }
+        }
     }
 
-    public void fadeInActionViewImmediately() {
-        fadeInActionView(false);
+    private void fadeInActionView() {
+        fadeInActionView(true);
     }
 
     private void fadeInActionView(boolean anim) {
@@ -1351,21 +1364,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             return;
         }
 
-        if (anim) {
-            int mActionLayoutHeight = Dimensions.pxFromDp(60);
-            mActionLayout.setTranslationY(mActionLayoutHeight);
-            inTransition = true;
-            getTransBottomLayout().animate().translationY(0)
-                    .setDuration(ANIMATION_DURATION)
-                    .setInterpolator(mInter)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            inTransition = false;
-
-                        }
-                    }).setStartDelay(ANIMATION_DURMATION_DELAY).start();
-        }
+        mTransitionActionLayout.show(anim);
         mRingtoneViewHolder.transIn(true, anim);
     }
 
@@ -1389,20 +1388,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void fadeOutActionView(boolean anim) {
-        if (anim) {
-            inTransition = true;
-            getTransBottomLayout().animate().translationY(bottomBtnTransY).setDuration(
-                    isSelectedPos() ? ANIMATION_DURATION : 0).setInterpolator(mInter).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    getTransBottomLayout().setTranslationY(bottomBtnTransY);
-                    mRingtoneViewHolder.transIn(false, false);
-                    inTransition = false;
-                }
-            }).setStartDelay(0).start();
-        } else {
-            getTransBottomLayout().setTranslationY(bottomBtnTransY);
-        }
+        mTransitionActionLayout.hide(anim);
         mRingtoneViewHolder.transIn(false, isSelectedPos());
     }
 
@@ -1519,7 +1505,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         hasStopped = true;
         pauseAnimation();
 
-        getTransBottomLayout().animate().cancel();
         mHandler.removeCallbacksAndMessages(null);
 
         for (int i = 0; i < mDownloadTasks.size(); i++) {
@@ -1769,10 +1754,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (themeReady) {
             setButtonState(isCurrentTheme());
         }
-    }
-
-    private void showRewardVideoToUnlockTheme() {
-       
     }
 
     private boolean isCurrentTheme() {
@@ -2108,10 +2089,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                     }
                     if (getThemeMode() == ENJOY_MODE) {
-                        mHandler.sendEmptyMessage(MSG_SHOW);
+                        mHandler.sendEmptyMessage(MSG_ENJOY);
                         mEnjoyApplyBtn.setVisibility(VISIBLE);
                     } else {
-                        mHandler.sendEmptyMessage(MSG_HIDE);
+                        mHandler.sendEmptyMessage(MSG_PREVIEW);
                     }
                     break;
                 case R.id.ringtone_apply_keep:
@@ -2125,10 +2106,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         Utils.showApplySuccessToastView(rootView, mTransitionNavView);
                     }
                     if (getThemeMode() == ENJOY_MODE) {
-                        mHandler.sendEmptyMessage(MSG_SHOW);
+                        mHandler.sendEmptyMessage(MSG_ENJOY);
                         mEnjoyApplyBtn.setVisibility(VISIBLE);
                     } else {
-                        mHandler.sendEmptyMessage(MSG_HIDE);
+                        mHandler.sendEmptyMessage(MSG_PREVIEW);
                     }
                     break;
                 default:
