@@ -33,7 +33,6 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,7 +71,11 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.notification.NotificationUtils;
 import com.honeycomb.colorphone.permission.PermissionChecker;
-import com.honeycomb.colorphone.preview.transition.SimpleTransitionView;
+import com.honeycomb.colorphone.preview.transition.GroupTransitionView;
+import com.honeycomb.colorphone.preview.transition.TransitionActionLayout;
+import com.honeycomb.colorphone.preview.transition.TransitionFadeView;
+import com.honeycomb.colorphone.preview.transition.TransitionNavView;
+import com.honeycomb.colorphone.preview.transition.TransitionView;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
@@ -103,7 +106,6 @@ import static com.honeycomb.colorphone.preview.ThemeStateManager.ENJOY_MODE;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.PREVIEW_MODE;
 
 
-
 /**
  * Created by sundxing on 17/8/4.
  */
@@ -123,39 +125,39 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final boolean PLAY_ANIMITION = true;
     private static final boolean NO_ANIMITION = false;
 
-    private static final long AUTO_HIDE_TIME = 15000; //15s
-    private static final long ANIMATION_DURATION = 300;
-    private static final long ANIMATION_DURMATION_DELAY = 1000;
-    private static final long CHANGE_MODE_DURTION = 200;
+    public static final long ANIMATION_DURATION = 300;
+    private static final long CHANGE_MODE_DURATION = 200;
     private static final long WINDOW_ANIM_DURATION = 400;
-    private static final int TRANS_IN_DURATION = 400;
 
     private static final int IMAGE_WIDTH = 1080;
     private static final int IMAGE_HEIGHT = 1920;
 
     private static int[] sThumbnailSize = Utils.getThumbnailImageSize();
-    private static Interpolator mInter = new AccelerateDecelerateInterpolator();
+    public static Interpolator mInter = new AccelerateDecelerateInterpolator();
 
     private ThemePreviewWindow previewWindow;
     private InCallActionView mCallButtonView;
 
-    private View mCallUserView;
-
     private ThemePreviewActivity mActivity;
-    private View mRootView;
 
     private ProgressViewHolder mProgressViewHolder;
     private RingtoneViewHolder mRingtoneViewHolder;
+    private ThemeSettingsViewHolder mThemeSettingsViewHolder;
+
+
     private TextView mApplyButton;
     private View mApplyForOne;
     private NetworkChangeReceiver networkChangeReceiver;
     private IntentFilter intentFilter;
     private boolean themeLoading = false;
 
-    private TransitionNavView mTransitionNavView;
-    private TransitionActionLayout mTransitionActionLayout;
+    private TransitionView mTransitionNavView;
+    private TransitionView mTransitionActionLayout;
+    private TransitionView mTransitionEnjoyLayout;
 
-    private View mThemeLayout;
+    private GroupTransitionView mTransitionCallView = new GroupTransitionView();
+
+    private View mThemeInfoLayout;
 
     private ImageView previewImage;
     private Theme mTheme;
@@ -169,9 +171,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private static final int THEME_ENJOY_UNFOLDING = 0;
     private static final int THEME_ENJOY_FOLDING = 1;
-    public static final int NAV_FADE_IN = 1;
-    private static final int NAV_VISIBLE = 0;
-
     /**
      * User set theme for someone success (Without ringtone).
      */
@@ -179,17 +178,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private TextView mThemeLikeCount;
     private TextView mThemeTitle;
+    private TextView mThemeSelected;
+
     private PercentRelativeLayout rootView;
 
-    private TextView mEnjoyApplyBtn;
-    private TextView mEnjoyApplyDefault;
-    private TextView mEnjoyApplyForOne;
-    private ImageView mEnjoyClose;
+
     private LottieAnimationView mThemeLikeAnim;
 
     private int foldingOrNot = THEME_ENJOY_FOLDING;
-    private RelativeLayout mEnjoyThemeLayout;
-    private TextView mThemeSelected;
 
     // DownloadTask
     private SparseArray<DownloadTask> mDownloadTasks = new SparseArray<>(2);
@@ -199,9 +195,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
      */
     private boolean inTransition;
     private boolean themeReady;
-
-    private float bottomBtnTransY;
-
 
     private int mPosition = -1;
     private int mPageSelectedPos = -1;
@@ -224,6 +217,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private boolean mWaitForAll;
     private boolean mWindowInTransition;
     private boolean mPendingResume;
+
+    private int mCurrentMode;
+
     private long startDownloadTime;
 
     private int mWaitMediaReadyCount = 0;
@@ -235,15 +231,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             switch (msg.what) {
                 case MSG_PREVIEW:
                     switchMode(PREVIEW_MODE);
+                    HSLog.d(TAG, "MSG switchMode " + " [" + mTheme.getName());
                     themeStateManager.sendNotification(PREVIEW_MODE);
-                return true;
+                    return true;
 
                 case MSG_ENJOY:
                     switchMode(ENJOY_MODE);
                     themeStateManager.sendNotification(ENJOY_MODE);
                     return true;
 
-                case MSG_DOWNLOAD_OK :
+                case MSG_DOWNLOAD_OK:
                     onMediaDownloadOK();
                     return true;
                 default:
@@ -256,7 +253,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private StateChangeObserver observer = new StateChangeObserver() {
         @Override
         public void onReceive(int themeMode) {
-            switchMode(themeMode);
+            HSLog.d(TAG, "obeserver switchMode " + themeMode + " [" + mTheme.getName());
+            switchMode(themeMode, false);
         }
     };
 
@@ -295,7 +293,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             if (BuildConfig.DEBUG) {
                 final float percent = sofar
                         / (float) total;
-                HSLog.d("Ringtone", "Download failed : " +  mTheme.getIdName() + ", progress: " + (int) (percent * 100));
+                HSLog.d("Ringtone", "Download failed : " + mTheme.getIdName() + ", progress: " + (int) (percent * 100));
             }
         }
 
@@ -307,7 +305,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mProgressHelper.setProgressRingtone((int) (percent * 100));
             mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
             if (BuildConfig.DEBUG) {
-                HSLog.d("Ringtone", "Downloading : " +  mTheme.getIdName() + ", progress: " + (int) (percent * 100));
+                HSLog.d("Ringtone", "Downloading : " + mTheme.getIdName() + ", progress: " + (int) (percent * 100));
             }
         }
     };
@@ -379,13 +377,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         previewWindow.updateThemeLayout(themeType);
         previewWindow.setAnimationVisible(INVISIBLE);
 
+        // TODO may never visible
         TextView callName = findViewById(R.id.first_line);
         callName.setText(mTheme.getAvatarName());
 
         ImageView avatar = (ImageView) findViewById(R.id.caller_avatar);
         avatar.setImageDrawable(ContextCompat.getDrawable(mActivity, mTheme.getAvatar()));
-        mCallUserView = findViewById(R.id.led_call_container);
-        mCallUserView.setVisibility(INVISIBLE);
+        View callUserView = findViewById(R.id.led_call_container);
+        callUserView.setVisibility(INVISIBLE);
+        mTransitionCallView.addTranstionView(new TransitionFadeView(callUserView, CHANGE_MODE_DURATION));
     }
 
     public boolean isRewardVideoLoading() {
@@ -401,7 +401,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void dismissRingtoneSettingPage() {
         mHandler.sendEmptyMessage(MSG_ENJOY);
-        mEnjoyApplyBtn.setVisibility(VISIBLE);
         mRingtoneViewHolder.hideRingtoneSettings();
     }
 
@@ -428,7 +427,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                     if (getThemeMode() == ENJOY_MODE) {
                         if (foldingOrNot == THEME_ENJOY_UNFOLDING) {
-                            foldView();
+                            mThemeSettingsViewHolder.foldView();
                         } else {
                             mHandler.sendEmptyMessage(MSG_PREVIEW);
                         }
@@ -444,10 +443,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mCallButtonView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
         mCallButtonView.setTheme(mThemeType);
         mCallButtonView.setAutoRun(false);
+        mTransitionCallView.addTranstionView(new TransitionFadeView(mCallButtonView, CHANGE_MODE_DURATION));
+        updateThemePreviewLayout(mThemeType);
+
         mApplyButton = (TextView) findViewById(R.id.theme_apply_btn);
 
         View actionLayout = findViewById(R.id.theme_apply_layout);
-        bottomBtnTransY = actionLayout.getTranslationY();
         mTransitionActionLayout = new TransitionActionLayout(actionLayout);
 
         View backView = findViewById(R.id.nav_back);
@@ -459,13 +460,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         });
         mTransitionNavView = new TransitionNavView(backView);
 
-        mThemeLayout = findViewById(R.id.card_theme_info_layout);
-        mThemeLayout.getLayoutParams().width = Math.max(Dimensions.pxFromDp(180), Dimensions.getPhoneWidth(mActivity) - Dimensions.pxFromDp(180));
+        mThemeInfoLayout = findViewById(R.id.card_theme_info_layout);
+        mThemeInfoLayout.getLayoutParams().width = Math.max(Dimensions.pxFromDp(180), Dimensions.getPhoneWidth(mActivity) - Dimensions.pxFromDp(180));
 
         mApplyForOne = findViewById(R.id.theme_set_for_one);
         mApplyForOne.setEnabled(mTheme.getId() != Theme.RANDOM_THEME);
 
-        mEnjoyThemeLayout = findViewById(R.id.enjoy_layout);
+        mTransitionEnjoyLayout = new TransitionFadeView(findViewById(R.id.enjoy_layout), CHANGE_MODE_DURATION);
+
         mThemeTitle = findViewById(R.id.card_title);
         mThemeTitle.setText(mTheme.getName());
 
@@ -503,10 +505,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         });
 
-        mEnjoyApplyBtn = findViewById(R.id.theme_setting);
-        mEnjoyApplyDefault = findViewById(R.id.theme_setting_default);
-        mEnjoyApplyForOne = findViewById(R.id.theme_setting_single);
-        mEnjoyClose = findViewById(R.id.theme_setting_close);
+        mThemeSettingsViewHolder = new ThemeSettingsViewHolder();
         mThemeSelected = findViewById(R.id.card_selected);
         mThemeSelected.setVisibility(GONE);
 
@@ -557,56 +556,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 onApplyForOne();
             }
         });
-        mEnjoyApplyDefault.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (inTransition) {
-                    return;
-                }
-                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
-                }
-
-                if (!mTheme.hasRingtone()) {
-                    onThemeApply();
-                    mHandler.sendEmptyMessage(MSG_ENJOY);
-                    mEnjoyApplyBtn.setVisibility(VISIBLE);
-                } else {
-                    mTransitionNavView.hide(true);
-                    fadeOutActionView();
-                    mRingtoneViewHolder.setApplyForAll(true);
-                    showRingtoneSetButton();
-                }
-
-                if (mActivity instanceof PopularThemePreviewActivity) {
-                    Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
-                    Analytics.logEvent("ColorPhone_BanboList_Set_Success");
-                } else {
-                    Analytics.logEvent("ThemeDetail_SetForAll");
-                    Analytics.logEvent("ThemeDetail_SetForAll_Success");
-                }
-            }
-        });
-
-        mEnjoyApplyForOne.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
-                    PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
-                }
-
-                Analytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
-                if (mActivity instanceof PopularThemePreviewActivity) {
-                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
-                    Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
-                } else {
-                    Analytics.logEvent("ThemeDetail_SetForContact_Started");
-                    ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
-                }
-
-                mWaitContactResult = true;
-            }
-        });
 
 
     }
@@ -615,8 +564,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (!mTheme.hasRingtone()) {
             onThemeApply();
         } else {
-            mTransitionNavView.hide(true);
-            fadeOutActionView();
             mRingtoneViewHolder.setApplyForAll(true);
             showRingtoneSetButton();
         }
@@ -697,6 +644,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     /**
      * This called only when Music file and Video file all downloaded.
      * If no Music file here, this called same as {onVideoReady}
+     *
      * @param needTransAnim
      */
     private void onThemeReady(boolean needTransAnim) {
@@ -720,8 +668,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
         }
 
-        updateThemePreviewLayout(mThemeType);
-
         // Show overlay toast/guide view.
         if (sThemeApplySuccessFlag) {
             Utils.showApplySuccessToastView(rootView, mTransitionNavView);
@@ -733,9 +679,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         // Check view preview mode
-        switchMode(getThemeMode(), needTransAnim);
+        if (needShowRingtoneSetButton()) {
+            mRingtoneViewHolder.setApplyForAll(false);
+            showRingtoneSetButton();
+            mWaitContactResult = false;
+        } else {
+            switchMode(getThemeMode(), needTransAnim);
+        }
 
-        if (needTransAnim ) {
+        if (needTransAnim) {
             playTransInAnimation(transEndRunnable);
         } else {
             transEndRunnable.run();
@@ -759,7 +711,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         Analytics.logEvent("ColorPhone_Set_Successed",
                 "SetType", "SetForAll",
                 "Theme", mTheme.getName(),
-        "SetFrom", ThemeStateManager.getInstance().getThemeModeName());
+                "SetFrom", ThemeStateManager.getInstance().getThemeModeName());
 
         setButtonState(true);
         for (ThemePreviewView preV : mActivity.getViews()) {
@@ -800,13 +752,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             guideView.setAlpha(0);
             guideView.animate().alpha(1).setDuration(ANIMATION_DURATION).start();
             guideView.setOnTouchListener(new OnTouchListener() {
-                @Override public boolean onTouch(View v, MotionEvent event) {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
                     int action = event.getAction();
                     if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_UP) {
                         mActivity.findViewById(R.id.nav_back).setAlpha(1f);
                         guideView.animate().alpha(0).translationY(-Dimensions.getPhoneHeight(ThemePreviewView.this.getContext())).setDuration(ANIMATION_DURATION)
                                 .setListener(new AnimatorListenerAdapter() {
-                                    @Override public void onAnimationEnd(Animator animation) {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
                                         super.onAnimationEnd(animation);
                                         guideView.setVisibility(GONE);
                                     }
@@ -830,17 +784,21 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (themeLoading) {
             return;
         }
+        if (mode == mCurrentMode) {
+            // Not change
+            return;
+        }
+        mCurrentMode = mode;
+        if (isRingtoneSettingShow()) {
+            mRingtoneViewHolder.hideRingtoneSettings();
+        }
         switch (mode) {
             case ENJOY_MODE:
                 foldingOrNot = THEME_ENJOY_FOLDING;
-                if (anim) {
-                    setEnjoyView();
-                } else {
-                    intoEnjoyView();
-                }
+                changeModeToEnjoy(anim);
                 break;
             case PREVIEW_MODE:
-                changeModeToPreview();
+                changeModeToPreview(anim);
                 break;
             default:
                 break;
@@ -852,17 +810,20 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void setModeVisible(int mode, boolean visible) {
-        int visibleValue = visible ? VISIBLE : GONE;
         switch (mode) {
             case ENJOY_MODE:
-                mEnjoyThemeLayout.setVisibility(visibleValue);
+                if (visible) {
+                    mTransitionEnjoyLayout.show(false);
+                } else {
+                    mTransitionEnjoyLayout.hide(false);
+                }
                 break;
             case PREVIEW_MODE:
-                mCallButtonView.setVisibility(visibleValue);
-                mCallUserView.setVisibility(visibleValue);
                 if (visible) {
+                    mTransitionCallView.show(false);
                     mTransitionActionLayout.show(false);
                 } else {
+                    mTransitionCallView.hide(false);
                     mTransitionActionLayout.hide(false);
                 }
                 break;
@@ -872,106 +833,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void intoDownloadingMode() {
-        mEnjoyThemeLayout.setVisibility(GONE);
-        mCallButtonView.setVisibility(GONE);
-        mCallUserView.setVisibility(GONE);
-
+        mTransitionEnjoyLayout.hide(false);
+        mTransitionCallView.hide(false);
         mTransitionActionLayout.hide(false);
-        mEnjoyApplyBtn.setVisibility(GONE);
-        mEnjoyClose.setVisibility(GONE);
-        mEnjoyApplyDefault.setVisibility(GONE);
-        mEnjoyApplyForOne.setVisibility(GONE);
-    }
-
-    private void intoEnjoyView() {
-        mEnjoyThemeLayout.setVisibility(VISIBLE);
-
-        mCallButtonView.setVisibility(GONE);
-        mCallUserView.setVisibility(GONE);
-        mTransitionActionLayout.hide(false);
-        mEnjoyApplyBtn.setVisibility(VISIBLE);
-
-        mEnjoyClose.setVisibility(GONE);
-        mEnjoyApplyDefault.setVisibility(GONE);
-        mEnjoyApplyForOne.setVisibility(GONE);
-        mEnjoyApplyBtn.setScaleX(1.0f);
-        mEnjoyApplyBtn.setAlpha(1);
-        mEnjoyApplyBtn.setTextColor(Color.WHITE);
-        mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
-
-        mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
-                unFoldView();
-            }
-        });
-
-        mEnjoyClose.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                foldView();
-            }
-        });
-    }
-
-    public static void expandViewTouchDelegate(final View view, final int top,
-                                               final int bottom, final int left, final int right) {
-
-        ((View) view.getParent()).post(new Runnable() {
-            @Override
-            public void run() {
-                Rect bounds = new Rect();
-                view.setEnabled(true);
-                view.getHitRect(bounds);
-
-                bounds.top -= top;
-                bounds.bottom += bottom;
-                bounds.left -= left;
-                bounds.right += right;
-
-                TouchDelegate touchDelegate = new TouchDelegate(bounds, view);
-
-                if (View.class.isInstance(view.getParent())) {
-                    ((View) view.getParent()).setTouchDelegate(touchDelegate);
-                }
-            }
-        });
-    }
-
-    private void setEnjoyView() {
-        fadeInActionView();
-        mTransitionNavView.show(true);
-
-        if (ifThemeSelected()) {
-            mThemeSelected.setVisibility(VISIBLE);
-        } else {
-            mThemeSelected.setVisibility(GONE);
-        }
-        changeModeToEnjoy();
-        mEnjoyClose.setVisibility(GONE);
-        mEnjoyApplyDefault.setVisibility(GONE);
-        mEnjoyApplyForOne.setVisibility(GONE);
-
-        mEnjoyApplyBtn.setScaleX(1.0f);
-        mEnjoyApplyBtn.setAlpha(1);
-        mEnjoyApplyBtn.setVisibility(VISIBLE);
-        mEnjoyApplyBtn.setTextColor(Color.WHITE);
-        mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
-
-        mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unFoldView();
-            }
-        });
-
-        mEnjoyClose.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                foldView();
-            }
-        });
     }
 
     public void setLikeClick(View.OnClickListener onClickListener) {
@@ -985,12 +849,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
         if (theme.isLike()) {
             mThemeLikeAnim.playAnimation();
-
         } else {
             setLottieProgress(mThemeLikeAnim, 0f);
         }
         mThemeLikeCount.setText(String.valueOf(theme.getDownload()));
-
     }
 
     private static void setLottieProgress(LottieAnimationView animationView, float v) {
@@ -999,77 +861,45 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
-    private void changeModeToPreview() {
-        mEnjoyThemeLayout.animate().alpha(0)
-                .setDuration(CHANGE_MODE_DURTION)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mEnjoyThemeLayout.setVisibility(GONE);
-                    }
-                })
-                .start();
+    private void changeModeToPreview(boolean anim) {
+        boolean needAnim = isSelectedPos() && anim;
+        mTransitionEnjoyLayout.hide(needAnim);
 
         // Show views for preview mode
-
-        animCallGroupViewToVisible(true);
+        mTransitionCallView.show(needAnim);
+        mTransitionActionLayout.show(needAnim);
     }
 
-    private void changeModeToEnjoy() {
-        mEnjoyThemeLayout.animate().alpha(1)
-                .setDuration(CHANGE_MODE_DURTION)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        mEnjoyThemeLayout.setVisibility(VISIBLE);
-                    }
-                })
-                .start();
+    private void changeModeToEnjoy(boolean anim) {
+        boolean needAnim = isSelectedPos() && anim;
+
+        if (ifThemeSelected()) {
+            mThemeSelected.setVisibility(VISIBLE);
+        } else {
+            mThemeSelected.setVisibility(GONE);
+        }
+
+        fadeInActionView(needAnim);
+        mTransitionEnjoyLayout.show(needAnim);
+        mThemeSettingsViewHolder.reset();
 
         // Hide views for preview mode
-        animCallGroupViewToVisible(false);
+        mTransitionCallView.hide(needAnim);
+        mTransitionActionLayout.hide(needAnim);
     }
 
     private void animCallGroupViewToVisible(boolean visible) {
-        boolean oldVisible = mCallUserView.getVisibility() == VISIBLE;
-        float startValue = visible ? 0f : 1f;
-        float endValue = visible ? 1f : 0f;
-        int vis = visible ? VISIBLE : INVISIBLE;
         boolean needAnim = isSelectedPos();
-        boolean visibleChanged = oldVisible != visible;
-        if (needAnim && visibleChanged) {
-            if (visible) {
-                mCallUserView.setVisibility(VISIBLE);
-            }
-            mCallUserView.setAlpha(startValue);
-            mCallUserView.animate().alpha(endValue)
-                    .setDuration(CHANGE_MODE_DURTION)
-                    .start();
-        } else {
-            // Cancel last anim before, ensure view state will not be changed in the future.
-            mCallUserView.animate().cancel();
-            mCallUserView.setVisibility(vis);
-            mCallUserView.setAlpha(endValue);
-        }
 
-        if (needAnim && visibleChanged) {
-            if (visible) {
-                mCallButtonView.setVisibility(VISIBLE);
-            }
-            mCallButtonView.setAlpha(startValue);
-            mCallButtonView.animate().alpha(endValue)
-                    .setDuration(CHANGE_MODE_DURTION)
-                    .start();
+        if (visible) {
+            mTransitionCallView.show(needAnim);
         } else {
-            // Cancel last anim before, ensure view state will not be changed in the future.
-            mCallButtonView.animate().cancel();
-            mCallButtonView.setAlpha(endValue);
-            mCallButtonView.setVisibility(vis);
+            mTransitionCallView.hide(needAnim);
         }
 
         if (visible) {
             if (getThemeMode() == PREVIEW_MODE) {
-                fadeInActionView();
+                mTransitionActionLayout.show(needAnim);
             }
         } else {
             mTransitionActionLayout.hide(false);
@@ -1081,160 +911,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return mInterForTheme;
     }
 
-    private void unFoldView() {
-
-        int startCoordinateDefault = Dimensions.pxFromDp(110);
-        int endCoordinate = 0;
-        mEnjoyApplyDefault.setTranslationY(startCoordinateDefault);
-        mEnjoyApplyDefault.setAlpha(0);
-        mEnjoyApplyDefault.animate().translationY(endCoordinate)
-                .alpha(1)
-                .setDuration(ANIMATION_DURATION)
-                .setInterpolator(getmInterForTheme())
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        mEnjoyApplyDefault.setVisibility(VISIBLE);
-                    }
-                })
-                .start();
-
-        int startCoordinateSingle = Dimensions.pxFromDp(54);
-        mEnjoyApplyForOne.setTranslationY(startCoordinateSingle);
-        mEnjoyApplyDefault.setAlpha(0);
-        mEnjoyApplyForOne.animate().translationY(endCoordinate)
-                .alpha(1)
-                .setDuration(ANIMATION_DURATION)
-                .setInterpolator(getmInterForTheme())
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        mEnjoyApplyForOne.setVisibility(VISIBLE);
-                    }
-                })
-                .start();
-
-        int widthOfmThemeSetting = mEnjoyApplyBtn.getMeasuredWidth();
-        float targetScaleX = 0.41f;
-        mEnjoyApplyBtn.setPivotX(widthOfmThemeSetting);
-        mEnjoyApplyBtn.setScaleX(1.0f);
-        mEnjoyApplyBtn.setAlpha(1);
-        mEnjoyApplyBtn.animate().scaleX(targetScaleX)
-                .alpha(0)
-                .setDuration(ANIMATION_DURATION)
-                .setInterpolator(getmInterForTheme())
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mEnjoyApplyBtn.setVisibility(GONE);
-                    }
-
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting_click);
-                    }
-                })
-                .start();
-        mEnjoyClose.setTranslationX(-Dimensions.pxFromDp(21));
-        mEnjoyClose.setRotation(90);
-        mEnjoyClose.setAlpha(0f);
-        mEnjoyClose.animate()
-                .alpha(1)
-                .rotation(180)
-                .translationX(0)
-                .setInterpolator(getmInterForTheme())
-                .setDuration(ANIMATION_DURATION)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        mEnjoyClose.setVisibility(VISIBLE);
-                        mEnjoyClose.setBackgroundResource(R.drawable.shape_theme_setting_close);
-                    }
-                })
-                .start();
-        foldingOrNot = THEME_ENJOY_UNFOLDING;
-
-    }
-
-    private void foldView() {
-        int endCoordinateDefault = Dimensions.pxFromDp(110);
-        int startCoordinate = 0;
-        mEnjoyApplyDefault.setTranslationY(startCoordinate);
-        mEnjoyApplyDefault.setAlpha(1);
-        mEnjoyApplyDefault.animate().translationY(endCoordinateDefault)
-                .alpha(0)
-                .setDuration(ANIMATION_DURATION)
-                .setInterpolator(getmInterForTheme())
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mEnjoyApplyDefault.setVisibility(GONE);
-                    }
-                })
-                .start();
-
-        int endCoordinateSingle = Dimensions.pxFromDp(54);
-        mEnjoyApplyForOne.setTranslationY(startCoordinate);
-        mEnjoyApplyForOne.setAlpha(1);
-        mEnjoyApplyForOne.animate().translationY(endCoordinateSingle)
-                .alpha(0)
-                .setDuration(ANIMATION_DURATION)
-                .setInterpolator(getmInterForTheme())
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mEnjoyApplyForOne.setVisibility(GONE);
-                    }
-                })
-                .start();
-
-        int widthOfmThemeSetting = mEnjoyApplyBtn.getMeasuredWidth();
-        float scaleX = 0.41f;
-        mEnjoyApplyBtn.setPivotX(widthOfmThemeSetting);
-        mEnjoyApplyBtn.setScaleX(scaleX);
-        mEnjoyApplyBtn.setAlpha(0);
-        mEnjoyApplyBtn.animate().scaleX(1.0f)
-                .alpha(1)
-                .setDuration(ANIMATION_DURATION)
-                .setInterpolator(getmInterForTheme())
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        mEnjoyApplyBtn.setVisibility(VISIBLE);
-                        mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
-                    }
-                })
-                .start();
-        mEnjoyClose.setTranslationX(0f);
-        mEnjoyClose.setRotation(180);
-        mEnjoyClose.setAlpha(1f);
-        mEnjoyClose.animate()
-                .alpha(0f)
-                .rotation(90)
-                .translationX(-Dimensions.pxFromDp(21))
-                .setDuration(ANIMATION_DURATION)
-                .setInterpolator(getmInterForTheme())
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mEnjoyClose.setVisibility(GONE);
-                    }
-
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        mEnjoyClose.setBackgroundResource(R.drawable.shape_theme_setting_close_click);
-                    }
-                })
-                .start();
-        foldingOrNot = THEME_ENJOY_FOLDING;
-    }
-
     public boolean isThemeSettingShow() {
         return foldingOrNot == THEME_ENJOY_UNFOLDING;
     }
 
     public void returnThemeSettingPage() {
-        foldView();
+        mThemeSettingsViewHolder.foldView();
     }
 
     private void playTransInAnimation(final Runnable completeRunnable) {
@@ -1261,108 +943,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return mActivity.getString(id);
     }
 
-    private static class TransitionNavView extends SimpleTransitionView {
-
-        public TransitionNavView(View v) {
-            super(v);
-        }
-
-        @Override
-        public void hide(boolean anim) {
-            switchVisible(false, anim);
-        }
-
-        @Override
-        public void show(boolean anim) {
-            switchVisible(true, anim);
-        }
-
-        private void switchVisible(boolean show, boolean animation) {
-            float offsetX = Dimensions.isRtl() ?  -Dimensions.pxFromDp(60) : Dimensions.pxFromDp(60);
-            float targetX = show ? 0 : -offsetX;
-            View targetView = getTargetView();
-            // State already right.
-            if (Math.abs(targetView.getTranslationX() - targetX) <= 1) {
-                return;
-            }
-            if (animation) {
-                targetView.animate().translationX(targetX)
-                        .setDuration(ANIMATION_DURATION)
-                        .setInterpolator(mInter)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-                                if (show) {
-                                    targetView.setVisibility(VISIBLE);
-                                }
-                            }
-                        })
-                        .start();
-            } else {
-                targetView.setTranslationX(targetX);
-            }
-        }
-    }
-
-
-
-    private static class TransitionActionLayout extends SimpleTransitionView {
-        public TransitionActionLayout(View v) {
-            super(v);
-        }
-
-        @Override
-        public void hide(boolean anim) {
-            View targetView = getTargetView();
-            if (anim) {
-                targetView.animate().alpha(0)
-                        .setDuration(ANIMATION_DURATION)
-                        .setInterpolator(mInter)
-                        .start();
-            } else {
-                targetView.setVisibility(GONE);
-            }
-        }
-
-        @Override
-        public void show(boolean anim) {
-            View targetView = getTargetView();
-            int mActionLayoutHeight = Dimensions.pxFromDp(60);
-            targetView.setVisibility(VISIBLE);
-            // Reset if view fade out before.
-            targetView.setAlpha(1);
-            if (anim) {
-                targetView.setTranslationY(mActionLayoutHeight);
-                targetView.animate().translationY(0)
-                        .setDuration(ANIMATION_DURATION)
-                        .setInterpolator(mInter)
-                        .setStartDelay(ANIMATION_DURMATION_DELAY).start();
-            } else {
-                targetView.setTranslationY(0);
-            }
-        }
-    }
-
-    private void fadeInActionView() {
-        fadeInActionView(true);
-    }
-
-    private void fadeInActionView(boolean anim) {
-        // TODO 重复
-        if (needShowRingtoneSetButton()) {
-            mTransitionNavView.hide(true);
-            fadeOutActionView();
-            mRingtoneViewHolder.setApplyForAll(false);
-            showRingtoneSetButton();
-            mWaitContactResult = false;
-            return;
-        }
-
-        mTransitionActionLayout.show(anim);
-        mRingtoneViewHolder.transIn(true, anim);
-    }
-
     private void showRingtoneSetButton() {
+        fadeOutActionView(isSelectedPos());
         setModeVisible(ENJOY_MODE, false);
         setModeVisible(PREVIEW_MODE, false);
         mRingtoneViewHolder.showRingtoneSettings();
@@ -1381,16 +963,25 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         return false;
     }
 
+    /**
+     * Navation back view & rigtone view
+     * @param anim
+     */
+    private void fadeInActionView(boolean anim) {
+        mRingtoneViewHolder.transIn(true, anim && isSelectedPos());
+        mTransitionNavView.show(anim && isSelectedPos());
+    }
+
+    /**
+     * Navation back view & rigtone view
+     * @param anim
+     */
     private void fadeOutActionView(boolean anim) {
-        mTransitionActionLayout.hide(anim);
-        mRingtoneViewHolder.transIn(false, isSelectedPos());
+        mRingtoneViewHolder.transIn(false, anim && isSelectedPos());
+        mTransitionNavView.hide(anim && isSelectedPos());
     }
 
-    private void fadeOutActionView() {
-        fadeOutActionView(true);
-    }
-
-    private boolean ifThemeSelected () {
+    private boolean ifThemeSelected() {
         return ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1) == mTheme.getId();
     }
 
@@ -1398,8 +989,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     public void onStart() {
         mWaitMediaReadyCount = 0;
         // We do not play animation if activity restart.
-        // TODO as method
         boolean playTrans = !hasStopped;
+
+        boolean normalCreate = getThemeMode() == ENJOY_MODE;
+        if (!normalCreate && !hasStopped) {
+            // Recreate at other mode. No animation for smooth look.
+            playTrans = false;
+        }
+
         final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getId());
         final TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(mTheme.getId());
 
@@ -1430,7 +1027,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             onThemeReady(playTrans);
         }
 
-        if (hasRingtone)  {
+        if (hasRingtone) {
             if (TasksManager.getImpl().isDownloaded(ringtoneModel)) {
                 onRingtoneReady(playTrans);
             } else {
@@ -1447,7 +1044,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         // Show background if gif drawable not ready.
         if (mTheme != null) {
-            if (!mThemeType.isMedia()){
+            if (!mThemeType.isMedia()) {
                 previewImage.setImageDrawable(null);
                 previewImage.setBackgroundColor(Color.BLACK);
             } else {
@@ -1556,7 +1153,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void onThemeLoading() {
         dimCover.setVisibility(View.VISIBLE);
         mProgressViewHolder.show();
-        updateThemePreviewLayout(mThemeType);
+//        updateThemePreviewLayout(mThemeType);
         playTransInAnimation(new Runnable() {
             @Override
             public void run() {
@@ -1697,7 +1294,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     }
 
-    @Override public void onReceive(String s, HSBundle hsBundle) {
+    @Override
+    public void onReceive(String s, HSBundle hsBundle) {
         if (TextUtils.equals(StartGuideActivity.NOTIFICATION_PERMISSION_GRANT, s)) {
             if (mWaitForAll) {
                 onApplyForAll();
@@ -1715,7 +1313,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     @Override
     public void onPageSelected(int position) {
         if (DEBUG_LIFE_CALLBACK) {
-            HSLog.d("onPageSelected " + position +  "  " +  mPageSelectedPos);
+            HSLog.d("onPageSelected " + position + "  " + mPageSelectedPos);
         }
         mPageSelectedPos = position;
 
@@ -1723,7 +1321,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         if (isCurrentPageActive) {
             // Update download task
-            if (mDownloadTasks != null){
+            if (mDownloadTasks != null) {
                 for (int i = 0; i < mDownloadTasks.size(); i++) {
                     DownloadTask downloadTask = mDownloadTasks.valueAt(i);
                     if (downloadTask != null && downloadTask.getStatus() == DownloadTask.PENDING) {
@@ -1810,7 +1408,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             }
 
             if (themeReady) {
-                mEnjoyApplyBtn.animate().alpha(0).setDuration(200).start();
+                mThemeSettingsViewHolder.mEnjoyApplyBtn.animate().alpha(0).setDuration(200).start();
                 // TODO
 //                mNavBack.animate().alpha(0).setDuration(200).start();
                 mRingtoneViewHolder.imageView.animate().alpha(0.1f)
@@ -1824,7 +1422,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 }
 
                 // Layout in card item has less margins, smooth fade out
-                mThemeLayout.animate()
+                mThemeInfoLayout.animate()
                         .translationX(-Dimensions.pxFromDp(12))
                         .translationY(Dimensions.pxFromDp(22))
                         .setDuration(200).start();
@@ -1832,8 +1430,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         } else {
             if (themeReady) {
-                mEnjoyApplyBtn.setAlpha(0.01f);
-                mEnjoyApplyBtn.animate().alpha(1).setDuration(200).start();
+                mThemeSettingsViewHolder.mEnjoyApplyBtn.setAlpha(0.01f);
+                mThemeSettingsViewHolder.mEnjoyApplyBtn.animate().alpha(1).setDuration(200).start();
 
                 mRingtoneViewHolder.imageView.setTranslationX(Dimensions.pxFromDp(28));
                 mRingtoneViewHolder.imageView.setTranslationY(-Dimensions.pxFromDp(28));
@@ -1845,9 +1443,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                         .setDuration(200).start();
 
                 // Layout in card item has less margins, smooth fade in
-                mThemeLayout.setTranslationX(-Dimensions.pxFromDp(12));
-                mThemeLayout.setTranslationY(Dimensions.pxFromDp(22));
-                mThemeLayout.animate().translationY(0).translationX(0).setDuration(200).start();
+                mThemeInfoLayout.setTranslationX(-Dimensions.pxFromDp(12));
+                mThemeInfoLayout.setTranslationY(Dimensions.pxFromDp(22));
+                mThemeInfoLayout.animate().translationY(0).translationX(0).setDuration(200).start();
             }
         }
     }
@@ -1954,14 +1552,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             ringtoneChangeBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(
                     getResources().getColor(R.color.white_87_transparent),
                     getResources().getColor(R.color.black_20_transparent),
-                    Dimensions.pxFromDp(24),false, true));
+                    Dimensions.pxFromDp(24), false, true));
 
             ringtoneKeepBtn = findViewById(R.id.ringtone_apply_keep);
             ringtoneKeepBtn.setOnClickListener(this);
             ringtoneKeepBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(
                     getResources().getColor(R.color.white_87_transparent),
                     getResources().getColor(R.color.black_20_transparent),
-                    Dimensions.pxFromDp(24),false, true));
+                    Dimensions.pxFromDp(24), false, true));
         }
 
         public void showRingtoneSettings() {
@@ -2047,7 +1645,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         private void transIn(boolean in, boolean anim) {
-            float offsetX = Dimensions.isRtl() ?  -Dimensions.pxFromDp(60) : Dimensions.pxFromDp(60);
+            float offsetX = Dimensions.isRtl() ? -Dimensions.pxFromDp(60) : Dimensions.pxFromDp(60);
             float targetX = in ? 0 : offsetX;
             if (anim) {
                 imageView.animate().translationX(targetX)
@@ -2084,7 +1682,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                     if (getThemeMode() == ENJOY_MODE) {
                         mHandler.sendEmptyMessage(MSG_ENJOY);
-                        mEnjoyApplyBtn.setVisibility(VISIBLE);
                     } else {
                         mHandler.sendEmptyMessage(MSG_PREVIEW);
                     }
@@ -2101,7 +1698,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     }
                     if (getThemeMode() == ENJOY_MODE) {
                         mHandler.sendEmptyMessage(MSG_ENJOY);
-                        mEnjoyApplyBtn.setVisibility(VISIBLE);
                     } else {
                         mHandler.sendEmptyMessage(MSG_PREVIEW);
                     }
@@ -2132,10 +1728,249 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
+    private class ThemeSettingsViewHolder {
+        private TextView mEnjoyApplyBtn;
+        private TextView mEnjoyApplyDefault;
+        private TextView mEnjoyApplyForOne;
+        private ImageView mEnjoyClose;
+
+        public ThemeSettingsViewHolder() {
+            mEnjoyApplyBtn = findViewById(R.id.theme_setting);
+            mEnjoyApplyBtn.setTextColor(Color.WHITE);
+            mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
+
+            mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
+                    unFoldView();
+                }
+            });
+
+            mEnjoyApplyDefault = findViewById(R.id.theme_setting_default);
+            mEnjoyApplyForOne = findViewById(R.id.theme_setting_single);
+
+            mEnjoyClose = findViewById(R.id.theme_setting_close);
+            mEnjoyClose.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    foldView();
+                }
+            });
+
+            mEnjoyApplyDefault.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (inTransition) {
+                        return;
+                    }
+                    if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                        PermissionChecker.getInstance().check(mActivity, "SetForAll");
+                    }
+
+                    if (!mTheme.hasRingtone()) {
+                        onThemeApply();
+                        mHandler.sendEmptyMessage(MSG_ENJOY);
+                    } else {
+                        mRingtoneViewHolder.setApplyForAll(true);
+                        showRingtoneSetButton();
+                    }
+
+                    if (mActivity instanceof PopularThemePreviewActivity) {
+                        Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SetForAll");
+                        Analytics.logEvent("ColorPhone_BanboList_Set_Success");
+                    } else {
+                        Analytics.logEvent("ThemeDetail_SetForAll");
+                        Analytics.logEvent("ThemeDetail_SetForAll_Success");
+                    }
+                }
+            });
+
+            mEnjoyApplyForOne.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+                        PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
+                    }
+
+                    Analytics.logEvent("Colorphone_SeletContactForTheme_Started", "ThemeName", mTheme.getIdName());
+                    if (mActivity instanceof PopularThemePreviewActivity) {
+                        ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_POPULAR_THEME);
+                        Analytics.logEvent("Colorphone_BanboList_ThemeDetail_SeletContactForTheme_Started");
+                    } else {
+                        Analytics.logEvent("ThemeDetail_SetForContact_Started");
+                        ContactsActivity.startSelect(mActivity, mTheme, ContactsActivity.FROM_TYPE_MAIN);
+                    }
+
+                    mWaitContactResult = true;
+                }
+            });
+
+        }
+
+        private void reset() {
+            mEnjoyClose.setVisibility(GONE);
+            mEnjoyApplyDefault.setVisibility(GONE);
+            mEnjoyApplyForOne.setVisibility(GONE);
+
+            mEnjoyApplyBtn.setScaleX(1.0f);
+            mEnjoyApplyBtn.setAlpha(1);
+            mEnjoyApplyBtn.setVisibility(VISIBLE);
+            mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
+        }
+        private void unFoldView() {
+
+            int startCoordinateDefault = Dimensions.pxFromDp(110);
+            int endCoordinate = 0;
+            mEnjoyApplyDefault.setTranslationY(startCoordinateDefault);
+            mEnjoyApplyDefault.setAlpha(0);
+            mEnjoyApplyDefault.animate().translationY(endCoordinate)
+                    .alpha(1)
+                    .setDuration(ANIMATION_DURATION)
+                    .setInterpolator(getmInterForTheme())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            mEnjoyApplyDefault.setVisibility(VISIBLE);
+                        }
+                    })
+                    .start();
+
+            int startCoordinateSingle = Dimensions.pxFromDp(54);
+            mEnjoyApplyForOne.setTranslationY(startCoordinateSingle);
+            mEnjoyApplyDefault.setAlpha(0);
+            mEnjoyApplyForOne.animate().translationY(endCoordinate)
+                    .alpha(1)
+                    .setDuration(ANIMATION_DURATION)
+                    .setInterpolator(getmInterForTheme())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            mEnjoyApplyForOne.setVisibility(VISIBLE);
+                        }
+                    })
+                    .start();
+
+            int widthOfmThemeSetting = mEnjoyApplyBtn.getMeasuredWidth();
+            float targetScaleX = 0.41f;
+            mEnjoyApplyBtn.setPivotX(widthOfmThemeSetting);
+            mEnjoyApplyBtn.setScaleX(1.0f);
+            mEnjoyApplyBtn.setAlpha(1);
+            mEnjoyApplyBtn.animate().scaleX(targetScaleX)
+                    .alpha(0)
+                    .setDuration(ANIMATION_DURATION)
+                    .setInterpolator(getmInterForTheme())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mEnjoyApplyBtn.setVisibility(GONE);
+                        }
+
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting_click);
+                        }
+                    })
+                    .start();
+            mEnjoyClose.setTranslationX(-Dimensions.pxFromDp(21));
+            mEnjoyClose.setRotation(90);
+            mEnjoyClose.setAlpha(0f);
+            mEnjoyClose.animate()
+                    .alpha(1)
+                    .rotation(180)
+                    .translationX(0)
+                    .setInterpolator(getmInterForTheme())
+                    .setDuration(ANIMATION_DURATION)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            mEnjoyClose.setVisibility(VISIBLE);
+                            mEnjoyClose.setBackgroundResource(R.drawable.shape_theme_setting_close);
+                        }
+                    })
+                    .start();
+            foldingOrNot = THEME_ENJOY_UNFOLDING;
+
+        }
+
+        private void foldView() {
+            int endCoordinateDefault = Dimensions.pxFromDp(110);
+            int startCoordinate = 0;
+            mEnjoyApplyDefault.setTranslationY(startCoordinate);
+            mEnjoyApplyDefault.setAlpha(1);
+            mEnjoyApplyDefault.animate().translationY(endCoordinateDefault)
+                    .alpha(0)
+                    .setDuration(ANIMATION_DURATION)
+                    .setInterpolator(getmInterForTheme())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mEnjoyApplyDefault.setVisibility(GONE);
+                        }
+                    })
+                    .start();
+
+            int endCoordinateSingle = Dimensions.pxFromDp(54);
+            mEnjoyApplyForOne.setTranslationY(startCoordinate);
+            mEnjoyApplyForOne.setAlpha(1);
+            mEnjoyApplyForOne.animate().translationY(endCoordinateSingle)
+                    .alpha(0)
+                    .setDuration(ANIMATION_DURATION)
+                    .setInterpolator(getmInterForTheme())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mEnjoyApplyForOne.setVisibility(GONE);
+                        }
+                    })
+                    .start();
+
+            int widthOfmThemeSetting = mEnjoyApplyBtn.getMeasuredWidth();
+            float scaleX = 0.41f;
+            mEnjoyApplyBtn.setPivotX(widthOfmThemeSetting);
+            mEnjoyApplyBtn.setScaleX(scaleX);
+            mEnjoyApplyBtn.setAlpha(0);
+            mEnjoyApplyBtn.animate().scaleX(1.0f)
+                    .alpha(1)
+                    .setDuration(ANIMATION_DURATION)
+                    .setInterpolator(getmInterForTheme())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            mEnjoyApplyBtn.setVisibility(VISIBLE);
+                            mEnjoyApplyBtn.setBackgroundResource(R.drawable.shape_theme_setting);
+                        }
+                    })
+                    .start();
+            mEnjoyClose.setTranslationX(0f);
+            mEnjoyClose.setRotation(180);
+            mEnjoyClose.setAlpha(1f);
+            mEnjoyClose.animate()
+                    .alpha(0f)
+                    .rotation(90)
+                    .translationX(-Dimensions.pxFromDp(21))
+                    .setDuration(ANIMATION_DURATION)
+                    .setInterpolator(getmInterForTheme())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mEnjoyClose.setVisibility(GONE);
+                        }
+
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            mEnjoyClose.setBackgroundResource(R.drawable.shape_theme_setting_close_click);
+                        }
+                    })
+                    .start();
+            foldingOrNot = THEME_ENJOY_FOLDING;
+        }
+    }
+
     public static class DownloadTask {
         private static final int PENDING = 1;
         private static final int DOWNLOADING = 2;
-        private static final int FINISH =  3;
+        private static final int FINISH = 3;
 
         private static final int TYPE_THEME = 1;
         private static final int TYPE_RINGTONE = 2;
@@ -2198,4 +2033,27 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
+    public static void expandViewTouchDelegate(final View view, final int top,
+                                               final int bottom, final int left, final int right) {
+
+        ((View) view.getParent()).post(new Runnable() {
+            @Override
+            public void run() {
+                Rect bounds = new Rect();
+                view.setEnabled(true);
+                view.getHitRect(bounds);
+
+                bounds.top -= top;
+                bounds.bottom += bottom;
+                bounds.left -= left;
+                bounds.right += right;
+
+                TouchDelegate touchDelegate = new TouchDelegate(bounds, view);
+
+                if (View.class.isInstance(view.getParent())) {
+                    ((View) view.getParent()).setTouchDelegate(touchDelegate);
+                }
+            }
+        });
+    }
 }
