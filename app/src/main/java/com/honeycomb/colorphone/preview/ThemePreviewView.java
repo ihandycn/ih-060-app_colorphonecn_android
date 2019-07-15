@@ -102,8 +102,11 @@ import hugo.weaving.DebugLog;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_DOWNLOAD;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_KEY;
 import static com.honeycomb.colorphone.activity.ThemePreviewActivity.NOTIFY_THEME_SELECT;
+import static com.honeycomb.colorphone.preview.ThemeStateManager.DOWNLOADING_MODE;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.ENJOY_MODE;
+import static com.honeycomb.colorphone.preview.ThemeStateManager.INVALID_MODE;
 import static com.honeycomb.colorphone.preview.ThemeStateManager.PREVIEW_MODE;
+import static com.honeycomb.colorphone.preview.ThemeStateManager.WAIT_RINGTONE_MODE;
 
 
 /**
@@ -218,7 +221,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private boolean mWindowInTransition;
     private boolean mPendingResume;
 
-    private int mCurrentMode;
+    private int mCurrentMode = INVALID_MODE;
 
     private long startDownloadTime;
 
@@ -833,6 +836,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void intoDownloadingMode() {
+        mCurrentMode = DOWNLOADING_MODE;
         mTransitionEnjoyLayout.hide(false);
         mTransitionCallView.hide(false);
         mTransitionActionLayout.hide(false);
@@ -945,6 +949,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void showRingtoneSetButton() {
         fadeOutActionView(isSelectedPos());
+        mCurrentMode = WAIT_RINGTONE_MODE;
         setModeVisible(ENJOY_MODE, false);
         setModeVisible(PREVIEW_MODE, false);
         mRingtoneViewHolder.showRingtoneSettings();

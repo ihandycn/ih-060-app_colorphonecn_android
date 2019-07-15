@@ -8,8 +8,13 @@ import java.util.List;
 
 public class ThemeStateManager {
 
+    public static final int INVALID_MODE = -1;
+
     public static final int ENJOY_MODE = 0;
     public static final int PREVIEW_MODE = 1;
+    public static final int DOWNLOADING_MODE = 2;
+    public static final int WAIT_RINGTONE_MODE = 3;
+
     private static ThemeStateManager themeStateManager;
     private int themeMode = ENJOY_MODE;
     private List<StateChangeObserver> list = new ArrayList<>();
