@@ -312,6 +312,11 @@ public class LockNotificationManager {
         return pkg;
     }
 
+    public void logEvent(String event, String pkg, String receiveNumber, String showNumber) {
+        LockerCustomConfig.getLogger().logEvent(event,
+                "Source", getEventSourceName(pkg), "ReceiveNumber", receiveNumber, "ShowNumber", showNumber);
+    }
+
     public void logEvent(String event, String pkg) {
         LockerCustomConfig.getLogger().logEvent(event,
                 "Source", getEventSourceName(pkg));

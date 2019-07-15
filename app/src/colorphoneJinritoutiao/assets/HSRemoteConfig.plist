@@ -479,6 +479,8 @@
 						<string>com.tencent.mobileqq</string>
 						<string>com.sina.weibo</string>
 					</array>
+					<key>ShowMultiple</key>
+                    <false/>
 				</dict>
 				<key>NotificationAll</key>
 				<array>
