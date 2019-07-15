@@ -137,7 +137,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static Interpolator mInter = new AccelerateDecelerateInterpolator();
 
     private ThemePreviewWindow previewWindow;
-    private InCallActionView mCallActionView;
+    private InCallActionView mCallButtonView;
 
     private View mCallUserView;
 
@@ -441,9 +441,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         });
         previewWindow.setAnimationVisible(INVISIBLE);
         themeStateManager = ThemeStateManager.getInstance();
-        mCallActionView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
-        mCallActionView.setTheme(mThemeType);
-        mCallActionView.setAutoRun(false);
+        mCallButtonView = (InCallActionView) findViewById(R.id.card_in_call_action_view);
+        mCallButtonView.setTheme(mThemeType);
+        mCallButtonView.setAutoRun(false);
         mApplyButton = (TextView) findViewById(R.id.theme_apply_btn);
 
         View actionLayout = findViewById(R.id.theme_apply_layout);
@@ -858,7 +858,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 mEnjoyThemeLayout.setVisibility(visibleValue);
                 break;
             case PREVIEW_MODE:
-                mCallActionView.setVisibility(visibleValue);
+                mCallButtonView.setVisibility(visibleValue);
                 mCallUserView.setVisibility(visibleValue);
                 if (visible) {
                     mTransitionActionLayout.show(false);
@@ -873,7 +873,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     private void intoDownloadingMode() {
         mEnjoyThemeLayout.setVisibility(GONE);
-        mCallActionView.setVisibility(GONE);
+        mCallButtonView.setVisibility(GONE);
         mCallUserView.setVisibility(GONE);
 
         mTransitionActionLayout.hide(false);
@@ -886,7 +886,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void intoEnjoyView() {
         mEnjoyThemeLayout.setVisibility(VISIBLE);
 
-        mCallActionView.setVisibility(GONE);
+        mCallButtonView.setVisibility(GONE);
         mCallUserView.setVisibility(GONE);
         mTransitionActionLayout.hide(false);
         mEnjoyApplyBtn.setVisibility(VISIBLE);
@@ -1031,21 +1031,19 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     }
 
     private void animCallGroupViewToVisible(boolean visible) {
+        boolean oldVisible = mCallUserView.getVisibility() == VISIBLE;
         float startValue = visible ? 0f : 1f;
         float endValue = visible ? 1f : 0f;
         int vis = visible ? VISIBLE : INVISIBLE;
         boolean needAnim = isSelectedPos();
-        if (needAnim && vis != mCallUserView.getVisibility()) {
+        boolean visibleChanged = oldVisible != visible;
+        if (needAnim && visibleChanged) {
+            if (visible) {
+                mCallUserView.setVisibility(VISIBLE);
+            }
             mCallUserView.setAlpha(startValue);
-            mCallUserView.setVisibility(VISIBLE);
             mCallUserView.animate().alpha(endValue)
                     .setDuration(CHANGE_MODE_DURTION)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mCallUserView.setVisibility(visible ? VISIBLE : INVISIBLE);
-                        }
-                    })
                     .start();
         } else {
             // Cancel last anim before, ensure view state will not be changed in the future.
@@ -1054,23 +1052,19 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mCallUserView.setAlpha(endValue);
         }
 
-        if (needAnim && vis != mCallActionView.getVisibility()) {
-            mCallActionView.setVisibility(VISIBLE);
-            mCallActionView.setAlpha(startValue);
-            mCallActionView.animate().alpha(endValue)
+        if (needAnim && visibleChanged) {
+            if (visible) {
+                mCallButtonView.setVisibility(VISIBLE);
+            }
+            mCallButtonView.setAlpha(startValue);
+            mCallButtonView.animate().alpha(endValue)
                     .setDuration(CHANGE_MODE_DURTION)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mCallActionView.setVisibility(visible ? VISIBLE : INVISIBLE);
-                        }
-                    })
                     .start();
         } else {
             // Cancel last anim before, ensure view state will not be changed in the future.
-            mCallActionView.animate().cancel();
-            mCallActionView.setAlpha(endValue);
-            mCallActionView.setVisibility(vis);
+            mCallButtonView.animate().cancel();
+            mCallButtonView.setAlpha(endValue);
+            mCallButtonView.setVisibility(vis);
         }
 
         if (visible) {
@@ -1517,7 +1511,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void pauseAnimation() {
         if (themeReady) {
             previewWindow.stopAnimations();
-            mCallActionView.stopAnimations();
+            mCallButtonView.stopAnimations();
         }
         resumed = false;
     }
@@ -1536,7 +1530,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         if (themeReady) {
             previewWindow.setAnimationVisible(VISIBLE);
             previewWindow.playAnimation(mThemeType);
-            mCallActionView.doAnimation();
+            mCallButtonView.doAnimation();
             if (mTheme.hasRingtone()) {
                 mRingtoneViewHolder.refreshMuteStatus();
             }
@@ -2203,8 +2197,5 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         }
     }
-
-
-
 
 }
