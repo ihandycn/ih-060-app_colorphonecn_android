@@ -1025,12 +1025,10 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     private CharingScreenChangeObserver observer = new CharingScreenChangeObserver() {
         @Override
         public void onReceive(String s) {
-            if ("Charging Screen Change".equalsIgnoreCase(s)) {
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) linearLayout.getLayoutParams();
-                layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, 0);
-                layoutParams.leftMargin = Dimensions.pxFromDp(17);
-                timeTextView.setTextSize(18);
-                linearLayout.setLayoutParams(layoutParams);
+            if ("Charging Screen Change1".equalsIgnoreCase(s)) {
+                chargingQuantityView.setTextSize(90);
+            } else if ("Charging Screen Change2".equalsIgnoreCase(s)) {
+                chargingQuantityView.setTextSize(80);
             }
         }
     };

@@ -273,7 +273,6 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         }
         if (userEnabled) {
             HSLog.e(displayPosition + " judgePackageNamePriority" );
-            LockNotificationManager.getInstance().sendNotificationForChargingScreen();
             changeNotificationWindow(info);
         }
     }
@@ -293,12 +292,12 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                 showNumber = 1;
                 displayPosition = 1;
             } else if (displayPosition == 1) {
-                if (mLastInfo.packageName.equalsIgnoreCase(info.packageName)) {
+                /*if (mLastInfo.packageName.equalsIgnoreCase(info.packageName)) {
                     mSlidingWindow.setVisibility(View.VISIBLE);
                     changeNotificationWindowBelow(info);
                     mLastInfo = info;
                     showNumber = 1;
-                } else {
+                } else {*/
                     mSlidingWindowAbove.setVisibility(View.VISIBLE);
                     changeNotificationWindowAbove(info);
                     if (mLastInfo != null) {
@@ -306,8 +305,9 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                         changeNotificationWindowBelow(mLastInfo);
                     }
                     mLastInfo = info;
+
                     showNumber = 2;
-                }
+                //}
 
             } else if (displayPosition == 2) {
                     mSlidingWindow.setVisibility(View.VISIBLE);
@@ -342,6 +342,11 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             mSlidingWindow.setVisibility(View.VISIBLE);
             changeNotificationWindowBelow(info);
             showNumber = 1;
+        }
+        if (showNumber == 1) {
+            LockNotificationManager.getInstance().sendNotificationForChargingScreen1();
+        } else if (showNumber == 2) {
+            LockNotificationManager.getInstance().sendNotificationForChargingScreen2();
         }
     }
 

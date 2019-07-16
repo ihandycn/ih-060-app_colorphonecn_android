@@ -281,12 +281,23 @@ public class LockNotificationManager {
         list1.remove(observer);
     }
 
-    public void sendNotificationForChargingScreen() {
+    public void sendNotificationForChargingScreen1() {
         Threads.postOnMainThread(new Runnable() {
             @Override
             public void run() {
                 for (CharingScreenChangeObserver observer : list1) {
-                    observer.onReceive("Charging Screen Change");
+                    observer.onReceive("Charging Screen Change1");
+                }
+            }
+        });
+    }
+
+    public void sendNotificationForChargingScreen2() {
+        Threads.postOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                for (CharingScreenChangeObserver observer : list1) {
+                    observer.onReceive("Charging Screen Change2");
                 }
             }
         });

@@ -56,7 +56,7 @@
                     android:id="@+id/charging_screen_time_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="17dp"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="21dp"
                     android:orientation="vertical"
@@ -69,7 +69,7 @@
                         android:layout_gravity="center_horizontal"
                         tools:text="12:02"
                         android:textColor="#ffffff"
-                        android:textSize="24sp"
+                        android:textSize="18sp"
                         app:typeface="@string/barlow_regular"/>
 
                     <com.colorphone.lock.TypefacedTextView
