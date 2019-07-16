@@ -472,7 +472,7 @@
 				<key>Notification</key>
 				<dict>
 					<key>ShowMultiple</key>
-					<true/>
+					<false/>
 					<key>WhiteList</key>
 					<array>
 						<string>Phone</string>
