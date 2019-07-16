@@ -620,7 +620,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private void onMediaDownloadOK() {
         HSLog.d(TAG, "onTaskDownload, hide progress");
         playDownloadOkTransAnimation();
-        onThemeReady(NO_ANIMITION);
+        onThemeReady(isSelectedPos());
     }
 
     private boolean triggerMediaReady() {
