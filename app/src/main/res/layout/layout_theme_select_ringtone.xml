@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ringtone_apply_layout"
+    android:layout_height="@dimen/ringtone_apply_layout_height"
+    android:layout_width="match_parent"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical"
+    tools:background="@color/black_80_transparent"
+    tools:showIn="@layout/page_theme_preview">
+
+    <TextView
+        android:id="@+id/ringtone_apply_change"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:gravity="center"
+        android:text="@string/ringtone_replace_by_music"
+        android:textColor="@color/textBlack"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:background="@drawable/white_rounded_corner_bg" />
+
+    <TextView
+        android:id="@+id/ringtone_apply_keep"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="@string/ringtone_not_change"
+        android:textColor="@color/textBlack"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:background="@drawable/white_rounded_corner_bg" />
+</LinearLayout>

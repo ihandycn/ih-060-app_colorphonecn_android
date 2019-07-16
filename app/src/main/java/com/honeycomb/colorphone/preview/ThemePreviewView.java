@@ -1087,7 +1087,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         @Override
         public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
             HSLog.d(TAG, "Picture onResourceReady");
-            mProgressViewHolder.setResource(resource);
+            if (themeLoading) {
+                mProgressViewHolder.setResource(resource);
+            }
             return false;
         }
 
@@ -1495,7 +1497,17 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         private long mAnimationStartTimeMills;
 
         public ProgressViewHolder() {
+        }
+
+        private boolean inflateViewIfNeeded() {
+            if (mDotsPictureView != null) {
+                return false;
+            }
+            HSLog.d("ViewStub", "ProgressViewHolder");
+            ViewStub stub = findViewById(R.id.stub_loading_animation);
+            stub.inflate();
             mDotsPictureView = findViewById(R.id.dots_progress_view);
+            return true;
         }
 
         public void updateProgressView(int percent) {
@@ -1503,22 +1515,26 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         public void hide() {
-            mDotsPictureView.setVisibility(View.INVISIBLE);
-            mDotsPictureView.stopAnimation();
+            if (mDotsPictureView != null) {
+                mDotsPictureView.setVisibility(View.INVISIBLE);
+                mDotsPictureView.stopAnimation();
+            }
         }
 
         public void show() {
+            inflateViewIfNeeded();
             mDotsPictureView.setVisibility(VISIBLE);
         }
 
         public void setResource(Bitmap resource) {
+            inflateViewIfNeeded();
             if (mDotsPictureView.getVisibility() == VISIBLE) {
                 mDotsPictureView.setSourceBitmap(resource);
             }
         }
 
         public void startLoadingAnimation() {
-            if (mDotsPictureView.getVisibility() == VISIBLE) {
+            if (mDotsPictureView != null && mDotsPictureView.getVisibility() == VISIBLE) {
                 HSLog.d(TAG, "startLoadingAnimation-" + mTheme.getName());
                 boolean started = mDotsPictureView.startAnimation();
                 if (started) {
@@ -1547,7 +1563,18 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public RingtoneViewHolder() {
             imageView = findViewById(R.id.ringtone_image);
             imageView.setOnClickListener(this);
+        }
 
+        /**
+         * Lazy inflate
+         */
+        private void inflateRingtoneSettingLayoutInNeed() {
+            if (ringtoneSetLayout != null) {
+                return;
+            }
+
+            ViewStub stub = findViewById(R.id.stub_theme_select_ringtone);
+            stub.inflate();
             ringtoneSetLayout = findViewById(R.id.ringtone_apply_layout);
             ringtoneSetLayout.setVisibility(GONE);
             transYTop = getResources().getDimension(R.dimen.ringtone_apply_layout_height);
@@ -1572,6 +1599,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             dimCover.setAlpha(0);
             dimCover.animate().alpha(1).setDuration(200);
 
+            inflateRingtoneSettingLayoutInNeed();
+
             ringtoneSetLayout.setVisibility(VISIBLE);
             ringtoneSetLayout.setAlpha(1);
             ringtoneChangeBtn.setTranslationY(transYTop);
@@ -1583,20 +1612,24 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         public boolean isRingtoneSettingsShow() {
-            return ringtoneSetLayout.getVisibility() == VISIBLE && ringtoneSetLayout.getAlpha() > 0;
+            return ringtoneSetLayout != null
+                    && ringtoneSetLayout.getVisibility() == VISIBLE
+                    && ringtoneSetLayout.getAlpha() > 0;
         }
 
         public void hideRingtoneSettings() {
             dimCover.animate().alpha(0).setDuration(200);
-            ringtoneSetLayout.animate().setDuration(200).alpha(0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    ringtoneSetLayout.setVisibility(GONE);
-                    dimCover.setVisibility(INVISIBLE);
+            if (ringtoneSetLayout != null) {
+                ringtoneSetLayout.animate().setDuration(200).alpha(0).setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        ringtoneSetLayout.setVisibility(GONE);
+                        dimCover.setVisibility(INVISIBLE);
 
-                }
-            });
+                    }
+                });
+            }
         }
 
         public void setAsRingtone(boolean asRingtone, boolean resetDefault) {
