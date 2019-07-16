@@ -439,7 +439,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 LockerCustomConfig.get().onEventChargingAdShow();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     advertisementContainer.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
-                    advertisementContainer.setPadding(Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10));
+                    advertisementContainer.setPadding(Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(10), Dimensions.pxFromDp(0));
                 }
             }
 
@@ -1029,6 +1029,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) linearLayout.getLayoutParams();
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, 0);
                 layoutParams.leftMargin = Dimensions.pxFromDp(17);
+                timeTextView.setTextSize(18);
                 linearLayout.setLayoutParams(layoutParams);
             }
         }

@@ -120,7 +120,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/rl_ad_container"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="3dp"
         >
         <RelativeLayout
             android:id="@+id/lock_notification_window"
@@ -160,7 +160,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/source_app_name"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="7dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:includeFontPadding="false"
@@ -185,7 +185,7 @@
                 android:layout_marginEnd="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_below="@id/sender_name"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
                 android:maxLines="1"
@@ -200,7 +200,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/lock_sliding_window"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="3dp"
         >
         <RelativeLayout
             android:id="@+id/lock_notification_window_above"
@@ -240,7 +240,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/source_app_name_above"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="7dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:includeFontPadding="false"
@@ -265,7 +265,7 @@
                 android:layout_marginEnd="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_below="@id/sender_name_above"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="4dp"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
                 android:maxLines="1"
@@ -280,14 +280,14 @@
     <RelativeLayout
         android:id="@+id/rl_ad_container"
         android:layout_width="match_parent"
-        android:layout_height="254dp"
+        android:layout_height="244dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="18dp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
         android:layout_marginStart="18dp"
-        android:layout_marginBottom="57dp"
+        android:layout_marginBottom="54dp"
         android:visibility="visible">
     </RelativeLayout>
 

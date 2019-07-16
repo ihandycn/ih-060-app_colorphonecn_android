@@ -69,7 +69,7 @@
                         android:layout_gravity="center_horizontal"
                         tools:text="12:02"
                         android:textColor="#ffffff"
-                        android:textSize="18sp"
+                        android:textSize="24sp"
                         app:typeface="@string/barlow_regular"/>
 
                     <com.colorphone.lock.TypefacedTextView
@@ -102,7 +102,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="57dp"
+                android:layout_marginBottom="54dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -253,7 +253,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/lock_sliding_window"
-                    android:layout_marginBottom="6dp">
+                    android:layout_marginBottom="3dp">
                     <RelativeLayout
                         android:id="@+id/lock_notification_window_above"
                         android:layout_width="match_parent"
@@ -293,7 +293,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/source_app_avatar_above"
-                            android:layout_marginTop="9dp"
+                            android:layout_marginTop="7dp"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="#e6000000"
@@ -319,7 +319,7 @@
                             android:layout_marginEnd="30dp"
                             android:layout_marginRight="30dp"
                             android:layout_below="@id/sender_name_above"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="4dp"
                             android:textColor="#cc000000"
                             android:includeFontPadding="false"
                             android:textSize="14sp"
@@ -335,7 +335,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/charging_screen_advertisement_container"
-                    android:layout_marginBottom="6dp">
+                    android:layout_marginBottom="3dp">
                     <RelativeLayout
                         android:id="@+id/lock_notification_window"
                         android:layout_width="match_parent"
@@ -375,7 +375,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/source_app_avatar"
-                            android:layout_marginTop="9dp"
+                            android:layout_marginTop="7dp"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="#e6000000"
@@ -401,7 +401,7 @@
                             android:layout_marginEnd="30dp"
                             android:layout_marginRight="30dp"
                             android:layout_below="@id/sender_name"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="4dp"
                             android:textColor="#cc000000"
                             android:includeFontPadding="false"
                             android:textSize="14sp"
@@ -415,7 +415,7 @@
                 <RelativeLayout
                     android:id="@+id/charging_screen_advertisement_container"
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
+                    android:layout_height="244dp"
                     android:layout_marginEnd="18dp"
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="18dp"

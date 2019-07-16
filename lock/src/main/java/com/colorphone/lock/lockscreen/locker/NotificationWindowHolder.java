@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,6 +60,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     private int receiveNumberCount;
     private String receiveNumber;
     private int showNumber;
+    private List<SlidingNotificationLayout> list;
 
     public int displayPosition = 0;
     private AppNotificationInfo mAppNotificationInfo;
@@ -81,6 +84,9 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         mSlidingWindowAbove = findViewById(R.id.lock_sliding_window_above);
         mSlidingWindow.setClickable(true);
         mNotificationWindowAbove = findViewById(R.id.lock_notification_window_above);
+        list = new ArrayList<>();
+        list.add(mSlidingWindow);
+        list.add(mSlidingWindowAbove);
         mNotificationWindowAbove.setAlpha(0.9f);
 
         mSourceAppAvatar = findViewById(R.id.source_app_avatar);
@@ -118,7 +124,14 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             @Override
             public void onDismiss(View v) {
                 mSlidingWindow.setVisibility(View.GONE);
-                displayPosition = 1;
+                if (mSource == SOURCE_LOCKER) {
+                    list.remove(mSlidingWindow);
+                    list.add(mSlidingWindow);
+                    setMarginForNotification();
+                    displayPosition = 4;
+                }
+                showNumber = 1;
+
             }
         });
 
@@ -134,13 +147,28 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             @Override
             public void onDismiss(View v) {
                 mSlidingWindowAbove.setVisibility(View.GONE);
-                displayPosition = 1;
+                showNumber = 1;
+                displayPosition = 3;
             }
         });
     }
 
     private <T extends View> T findViewById(int id) {
         return mContainerRoot.findViewById(id);
+    }
+
+    private void setMarginForNotification() {
+        if (mSource == SOURCE_LOCKER) {
+            LockerMainFrame.LayoutParams layoutParams = (LockerMainFrame.LayoutParams)list.get(0).getLayoutParams();
+            layoutParams.addRule(LockerMainFrame.ABOVE, R.id.rl_ad_container);
+            layoutParams.bottomMargin = Dimensions.pxFromDp(6);
+            list.get(0).setLayoutParams(layoutParams);
+
+            LockerMainFrame.LayoutParams layoutParams1 = (LockerMainFrame.LayoutParams)list.get(1).getLayoutParams();
+            layoutParams1.addRule(LockerMainFrame.ABOVE, list.get(0).getId());
+            layoutParams1.bottomMargin = Dimensions.pxFromDp(6);
+            list.get(1).setLayoutParams(layoutParams1);
+        }
     }
 
     private Context getContext() {
@@ -252,27 +280,60 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
 
     private void changeNotificationWindow(AppNotificationInfo info) {
         if (HSConfig.optBoolean(false,"Application", "Locker", "Notification", "ShowMultiple")) {
+            if (list.size() == 2) {
+                setMarginForNotification();
+            }
             if (displayPosition == 1 && !judgePackageNamePriority(info) && judgePackageNamePriority(mLastInfo)) {
                 displayPosition = 2;
             }
             if (displayPosition == 0) {
                 mSlidingWindow.setVisibility(View.VISIBLE);
                 changeNotificationWindowBelow(info);
+                mLastInfo = info;
                 showNumber = 1;
                 displayPosition = 1;
             } else if (displayPosition == 1) {
-                mSlidingWindowAbove.setVisibility(View.VISIBLE);
-                changeNotificationWindowAbove(info);
-                if (mLastInfo != null) {
+                if (mLastInfo.packageName.equalsIgnoreCase(info.packageName)) {
                     mSlidingWindow.setVisibility(View.VISIBLE);
-                    changeNotificationWindowBelow(mLastInfo);
+                    changeNotificationWindowBelow(info);
+                    mLastInfo = info;
+                } else {
+                    mSlidingWindowAbove.setVisibility(View.VISIBLE);
+                    changeNotificationWindowAbove(info);
+                    if (mLastInfo != null) {
+                        mSlidingWindow.setVisibility(View.VISIBLE);
+                        changeNotificationWindowBelow(mLastInfo);
+                    }
+                    mLastInfo = info;
                 }
-                mLastInfo = info;
+
                 showNumber = 2;
             } else if (displayPosition == 2) {
                     mSlidingWindow.setVisibility(View.VISIBLE);
                     changeNotificationWindowBelow(info);
+                    mLastInfo = info;
                     displayPosition = 1;
+                    showNumber = 1;
+            } else if (displayPosition == 3) {
+                mSlidingWindowAbove.setVisibility(View.VISIBLE);
+                changeNotificationWindowAbove(info);
+                mLastInfo = info;
+                displayPosition = 1;
+                showNumber = 2;
+            } else if (displayPosition == 4) {
+                if (mLastInfo.packageName.equalsIgnoreCase(info.packageName)) {
+                    mSlidingWindowAbove.setVisibility(View.VISIBLE);
+                    changeNotificationWindowAbove(info);
+                    displayPosition = 4;
+                } else {
+                    mSlidingWindow.setVisibility(View.VISIBLE);
+                    changeNotificationWindowBelow(info);
+                    displayPosition = 1;
+                }
+                mLastInfo = info;
+                showNumber = 2;
+                list.remove(mSlidingWindowAbove);
+                list.add(mSlidingWindowAbove);
             }
         } else {
             mSlidingWindow.setVisibility(View.VISIBLE);
