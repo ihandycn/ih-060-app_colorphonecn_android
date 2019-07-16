@@ -292,12 +292,12 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                 showNumber = 1;
                 displayPosition = 1;
             } else if (displayPosition == 1) {
-                /*if (mLastInfo.packageName.equalsIgnoreCase(info.packageName)) {
+                if (mLastInfo.packageName.equalsIgnoreCase(info.packageName)) {
                     mSlidingWindow.setVisibility(View.VISIBLE);
                     changeNotificationWindowBelow(info);
                     mLastInfo = info;
                     showNumber = 1;
-                } else {*/
+                } else {
                     mSlidingWindowAbove.setVisibility(View.VISIBLE);
                     changeNotificationWindowAbove(info);
                     if (mLastInfo != null) {
@@ -307,7 +307,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                     mLastInfo = info;
 
                     showNumber = 2;
-                //}
+                }
 
             } else if (displayPosition == 2) {
                     mSlidingWindow.setVisibility(View.VISIBLE);
