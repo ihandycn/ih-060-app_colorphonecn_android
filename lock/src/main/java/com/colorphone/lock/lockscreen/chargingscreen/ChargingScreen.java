@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -112,6 +113,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     private TextView timeTextView;
     private TextView dateTextView;
+    private LinearLayout linearLayout;
 
     private TextView fullChargeLeftDescribeTextView;
 
@@ -348,6 +350,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
+        LockNotificationManager.getInstance().registerForChargingScreenChange(observer);
 
         // Life cycle
         LockScreensLifeCycleRegistry.setChargingScreenActive(true);
@@ -567,6 +570,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         menuImageView = (ImageView) mRootView.findViewById(R.id.charging_screen_menu);
         slidingFinishRelativeLayout = (SlidingFinishRelativeLayout) mRootView.findViewById(R.id.slidingFinishLayout);
 
+        linearLayout = mRootView.findViewById(R.id.charging_screen_time_date);
         timeTextView = (TextView) mRootView.findViewById(R.id.charging_screen_time);
         dateTextView = (TextView) mRootView.findViewById(R.id.charging_screen_date);
 
@@ -973,6 +977,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         LockScreensLifeCycleRegistry.setChargingScreenActive(false);
         HSGlobalNotificationCenter.removeObserver(this);
         LockNotificationManager.getInstance().unregisterForThemeStateChange(mNotificationWindowHolder);
+        LockNotificationManager.getInstance().unregisterForChargingScreenChange(observer);
         HSGlobalNotificationCenter.removeObserver(mNotificationWindowHolder);
 
     }
@@ -1016,4 +1021,16 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     public void onNotificationClick() {
         dismiss(getContext(), true);
     }
+
+    private CharingScreenChangeObserver observer = new CharingScreenChangeObserver() {
+        @Override
+        public void onReceive(String s) {
+            if ("Charging Screen Change".equalsIgnoreCase(s)) {
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) linearLayout.getLayoutParams();
+                layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, 0);
+                layoutParams.leftMargin = Dimensions.pxFromDp(17);
+                linearLayout.setLayoutParams(layoutParams);
+            }
+        }
+    };
 }

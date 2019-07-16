@@ -243,6 +243,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         }
         if (userEnabled) {
             HSLog.e(displayPosition + " judgePackageNamePriority" );
+            LockNotificationManager.getInstance().sendNotificationForChargingScreen();
             changeNotificationWindow(info);
         }
     }
