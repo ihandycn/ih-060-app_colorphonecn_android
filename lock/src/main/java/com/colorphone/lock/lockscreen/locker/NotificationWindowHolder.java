@@ -118,6 +118,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             @Override
             public void onDismiss(View v) {
                 mSlidingWindow.setVisibility(View.GONE);
+                displayPosition = 1;
             }
         });
 
@@ -133,6 +134,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             @Override
             public void onDismiss(View v) {
                 mSlidingWindowAbove.setVisibility(View.GONE);
+                displayPosition = 1;
             }
         });
     }
@@ -262,6 +264,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                 mSlidingWindowAbove.setVisibility(View.VISIBLE);
                 changeNotificationWindowAbove(info);
                 if (mLastInfo != null) {
+                    mSlidingWindow.setVisibility(View.VISIBLE);
                     changeNotificationWindowBelow(mLastInfo);
                 }
                 mLastInfo = info;
