@@ -15,10 +15,10 @@
 			</dict>
 			<key>AutoPermission</key>
 			<dict>
-				<key>IngoreBattery</key>
-				<false/>
 				<key>AccessibilityShowCount</key>
 				<integer>1</integer>
+				<key>IngoreBattery</key>
+				<false/>
 				<key>SkipShowCount</key>
 				<integer>100</integer>
 				<key>ToastDurationSeconds</key>
@@ -314,7 +314,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>can&apos;t deliver broadcast</string>
+					<string>can't deliver broadcast</string>
 					<key>Type</key>
 					<string>RemoteServiceException</string>
 				</dict>
@@ -343,7 +343,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to invoke virtual method &apos;void android.view.Display.getSize(android.graphics.Point)&apos; on a null object reference</string>
+					<string>Attempt to invoke virtual method 'void android.view.Display.getSize(android.graphics.Point)' on a null object reference</string>
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
@@ -351,7 +351,7 @@
 				</dict>
 				<dict>
 					<key>MessagePattern</key>
-					<string>Attempt to read from field &apos;int android.view.View.mViewFlags&apos; on a null object reference</string>
+					<string>Attempt to read from field 'int android.view.View.mViewFlags' on a null object reference</string>
 				</dict>
 			</array>
 			<key>LEDReminder</key>
@@ -471,6 +471,8 @@
 				<true/>
 				<key>Notification</key>
 				<dict>
+					<key>ShowMultiple</key>
+					<false/>
 					<key>WhiteList</key>
 					<array>
 						<string>Phone</string>
@@ -479,8 +481,6 @@
 						<string>com.tencent.mobileqq</string>
 						<string>com.sina.weibo</string>
 					</array>
-					<key>ShowMultiple</key>
-                    <true/>
 				</dict>
 				<key>NotificationAll</key>
 				<array>
@@ -7771,7 +7771,7 @@
 							<key>es</key>
 							<string>Pan de jengibre</string>
 							<key>fr</key>
-							<string>Pain d&apos;épice</string>
+							<string>Pain d'épice</string>
 							<key>hi</key>
 							<string>जिंजरब्रेड</string>
 							<key>in</key>
@@ -7984,7 +7984,7 @@
 							<key>in</key>
 							<string>Mitos Emas</string>
 							<key>it</key>
-							<string>Il mito dell&apos;oro</string>
+							<string>Il mito dell'oro</string>
 							<key>ja</key>
 							<string>ゴールド神話</string>
 							<key>ko</key>
