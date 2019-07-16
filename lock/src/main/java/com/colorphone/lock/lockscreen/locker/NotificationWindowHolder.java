@@ -297,6 +297,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                     mSlidingWindow.setVisibility(View.VISIBLE);
                     changeNotificationWindowBelow(info);
                     mLastInfo = info;
+                    showNumber = 1;
                 } else {
                     mSlidingWindowAbove.setVisibility(View.VISIBLE);
                     changeNotificationWindowAbove(info);
@@ -305,9 +306,9 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                         changeNotificationWindowBelow(mLastInfo);
                     }
                     mLastInfo = info;
+                    showNumber = 2;
                 }
 
-                showNumber = 2;
             } else if (displayPosition == 2) {
                     mSlidingWindow.setVisibility(View.VISIBLE);
                     changeNotificationWindowBelow(info);
@@ -325,13 +326,15 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                     mSlidingWindowAbove.setVisibility(View.VISIBLE);
                     changeNotificationWindowAbove(info);
                     displayPosition = 4;
+                    showNumber = 1;
                 } else {
                     mSlidingWindow.setVisibility(View.VISIBLE);
                     changeNotificationWindowBelow(info);
                     displayPosition = 1;
+                    showNumber = 2;
                 }
                 mLastInfo = info;
-                showNumber = 2;
+
                 list.remove(mSlidingWindowAbove);
                 list.add(mSlidingWindowAbove);
             }
