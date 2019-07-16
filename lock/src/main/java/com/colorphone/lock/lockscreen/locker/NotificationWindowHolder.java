@@ -292,7 +292,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                 showNumber = 1;
                 displayPosition = 1;
             } else if (displayPosition == 1) {
-                if (mLastInfo.packageName.equalsIgnoreCase(info.packageName)) {
+                    if (mLastInfo.packageName.equalsIgnoreCase(info.packageName)) {
                     mSlidingWindow.setVisibility(View.VISIBLE);
                     changeNotificationWindowBelow(info);
                     mLastInfo = info;
@@ -314,7 +314,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                     changeNotificationWindowBelow(info);
                     mLastInfo = info;
                     displayPosition = 1;
-                    showNumber = 1;
+                    showNumber = 2;
             } else if (displayPosition == 3) {
                 mSlidingWindowAbove.setVisibility(View.VISIBLE);
                 changeNotificationWindowAbove(info);
