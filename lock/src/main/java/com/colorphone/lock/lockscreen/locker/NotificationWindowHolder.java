@@ -296,7 +296,6 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                     mSlidingWindow.setVisibility(View.VISIBLE);
                     changeNotificationWindowBelow(info);
                     mLastInfo = info;
-                    showNumber = 1;
                 } else {
                     mSlidingWindowAbove.setVisibility(View.VISIBLE);
                     changeNotificationWindowAbove(info);
