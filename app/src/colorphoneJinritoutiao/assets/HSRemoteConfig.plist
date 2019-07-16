@@ -480,7 +480,7 @@
 						<string>com.sina.weibo</string>
 					</array>
 					<key>ShowMultiple</key>
-                    <false/>
+                    <true/>
 				</dict>
 				<key>NotificationAll</key>
 				<array>

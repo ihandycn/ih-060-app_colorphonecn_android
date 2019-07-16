@@ -248,7 +248,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     }
 
     private void changeNotificationWindow(AppNotificationInfo info) {
-        if (HSConfig.optBoolean(false,"Application", "Locker", "Notification")) {
+        if (HSConfig.optBoolean(false,"Application", "Locker", "Notification", "ShowMultiple")) {
             if (displayPosition == 1 && !judgePackageNamePriority(info) && judgePackageNamePriority(mLastInfo)) {
                 displayPosition = 2;
             }
