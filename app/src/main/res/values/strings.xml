@@ -317,6 +317,10 @@
     <string name="title_locker_activity">锁屏</string>
 
 
+    <string name="theme_setting">设为来电秀</string>
+    <string name="theme_setting_default">设为默认</string>
+    <string name="theme_setting_single">设给ta</string>
+
     <string name="ringtone_replace_by_music">使用视频声音作为铃声</string>
     <string name="ringtone_not_change">保持手机铃声</string>
 
