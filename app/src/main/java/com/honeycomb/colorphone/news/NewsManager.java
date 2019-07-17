@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.honeycomb.colorphone.BuildConfig;
+import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
@@ -34,7 +35,7 @@ public class NewsManager {
         }
         AcbNativeAdManager.getInstance().activePlacementInProcess(NEWS_LIST_BANNER);
 
-        UnreleasedAdWatcher.getInstance().setMaxSize(20);
+        UnreleasedAdWatcher.getInstance().setMaxSize(50);
 //        AcbInterstitialAdManager.getInstance().activePlacementInProcess(NEWS_WIRE);
     }
 
@@ -46,7 +47,7 @@ public class NewsManager {
     private static String PERF_KEY_USERID = "perf_key_userid";
     private static String PERF_FILE = "news";
     private static String userID;
-    private static String NEWS_LIST_BANNER = "News";
+    private static String NEWS_LIST_BANNER = Placements.AD_NEWS;
 //    private static String NEWS_WIRE = "NewsWire";
 
 //    private static int LIMIT_SIZE = 10;
@@ -72,7 +73,7 @@ public class NewsManager {
     void fetchNews(NewsResultBean resultBean, NewsLoadListener loadListener, boolean isVideo) {
         showNativeAD = HSConfig.optBoolean(true, "Application", "News", "IsNewsTabAdEnable");
         if (showNativeAD) {
-            AcbNativeAdManager.preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
+            AcbNativeAdManager.getInstance().preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
         }
 
         HSLog.i(NewsManager.TAG, "fetchNews");
@@ -159,7 +160,7 @@ public class NewsManager {
             Analytics.logEvent("News_List_Ad_Should_Show");
         }
 
-        List<AcbNativeAd> ads = AcbNativeAdManager.fetch(NEWS_LIST_BANNER, adIndexes.size());
+        List<AcbNativeAd> ads = AcbNativeAdManager.getInstance().fetch(NEWS_LIST_BANNER, adIndexes.size());
         if (ads != null && ads.size() > 0) {
             NewsNativeAdBean bean;
 
@@ -187,14 +188,14 @@ public class NewsManager {
 
         showNativeAD = HSConfig.optBoolean(true, "Application", "News", "IsNewsTabAdEnable");
         if (showNativeAD) {
-            AcbNativeAdManager.preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
+            AcbNativeAdManager.getInstance().preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
         }
     }
 
     void fetchLaterNews(final NewsResultBean resultBean, NewsLoadListener loadListener, boolean isVideo) {
         showNativeAD = HSConfig.optBoolean(true, "Application", "News", "IsNewsTabAdEnable");
         if (showNativeAD) {
-            AcbNativeAdManager.preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
+            AcbNativeAdManager.getInstance().preload(NATIVE_AD_SIZE, NEWS_LIST_BANNER);
         }
 
         HSHttpConnection news = new HSHttpConnection(getURL(false));
@@ -314,69 +315,6 @@ public class NewsManager {
         HSLog.i(TAG, "getUrl: " + url.toString());
         return url.toString();
     }
-
-    public void preloadAD() {
-//        AcbInterstitialAdManager.getInstance().activePlacementInProcess(NEWS_WIRE);
-//        AcbInterstitialAdManager.preload(1, NEWS_WIRE);
-    }
-
-//    AcbInterstitialAd getInterstitialAd() {
-//        if (mInterstitialAd == null) {
-//            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(NEWS_WIRE, 1);
-//            if (ads != null && ads.size() > 0) {
-//                mInterstitialAd = ads.get(0);
-//            }
-//        }
-//        return mInterstitialAd;
-//    }
-//
-//    private void releaseInterstitialAd() {
-//        if (mInterstitialAd != null) {
-//            mInterstitialAd.release();
-//            mInterstitialAd = null;
-//        }
-//    }
-//
-//    boolean showInterstitialAd(String from) {
-//        if (!NewsTest.canShowNewsWireAD()) {
-//            return false;
-//        }
-//
-//        AcbInterstitialAd ad = getInterstitialAd();
-//        if (ad != null) {
-//            ad.setInterstitialAdListener(new AcbInterstitialAd.IAcbInterstitialAdListener() {
-//                @Override
-//                public void onAdDisplayed() {
-//                    if (TextUtils.equals(from, WebViewActivity.FROM_ALERT)) {
-//                        NewsTest.logNewsEvent("news_detail_page_wire_show_from_alert");
-//                    } else if (TextUtils.equals(from, WebViewActivity.FROM_LIST)) {
-//                        NewsTest.logNewsEvent("news_detail_page_wire_show_from_list");
-//                    }
-//                }
-//
-//                @Override
-//                public void onAdClicked() {
-//
-//                }
-//
-//                @Override
-//                public void onAdClosed() {
-//                    releaseInterstitialAd();
-////                    AcbInterstitialAdManager.preload(1, NEWS_WIRE);
-//                    NewsTest.recordShowNewsWireAdTime();
-//                }
-//
-//                @Override
-//                public void onAdDisplayFailed(AcbError acbError) {
-//
-//                }
-//            });
-//            ad.show();
-//
-//            return true;
-//        }
-//        return false;
-//    }
 
     public static void logNewsListShow(String from) {
         if (!TextUtils.isEmpty(from)) {

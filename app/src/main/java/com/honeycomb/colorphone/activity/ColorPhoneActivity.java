@@ -35,11 +35,11 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.AnimatorListenerAdapter;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -58,15 +58,14 @@ import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
-import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.MainTabLayout;
-import com.honeycomb.colorphone.view.RewardVideoView;
 import com.honeycomb.colorphone.view.TabFrameLayout;
 import com.ihs.app.alerts.HSAlertMgr;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSNotificationConstant;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.app.framework.inner.SessionMgr;
@@ -110,7 +109,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
-    private RewardVideoView mRewardVideoView;
+//    private RewardVideoView mRewardVideoView;
 
     private boolean isPaused;
 
@@ -580,7 +579,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void initCashCenterMgr() {
-        HSCashCenterManager.getInstance().init(ColorPhoneActivity.this, new CashCenterCallback() {
+        HSCashCenterManager.getInstance().init(HSApplication.getContext(), new CashCenterCallback() {
 
             @Override public void onFeastInitFinish(boolean b, int i, String s) {
 
@@ -636,7 +635,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override public void onInterstitialShown(boolean b) {
                 Analytics.logEvent("CashCenter_Wire_Ad_Show");
 
-                AcbNativeAdAnalytics.logAppViewEvent("CashWire", b);
+                Analytics.logAdViewEvent("CashWire", b);
             }
 
             @Override public void onRewardShown() {
@@ -646,26 +645,27 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             @Override public void onNativeShown(boolean b) {
                 Analytics.logEvent("CashCenter_Native_Ad_Show");
 
-                AcbNativeAdAnalytics.logAppViewEvent("CashNative", b);
+                Analytics.logAdViewEvent(Placements.AD_CASH_NATIVE, b);
             }
 
             @Override public void showInterstitialAd(NoAdDialog noAdDialog) {
 
             }
-        });
-        AcbNativeAdManager.getInstance().activePlacementInProcess("CashNative");
-        HSCashCenterManager.setNativeAdPlacement("CashNative");
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess("CashWire");
-        HSCashCenterManager.setInterstitialAdPlacement("CashWire");
+        }, true);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.AD_CASH_NATIVE);
+        HSCashCenterManager.setNativeAdPlacement(Placements.AD_CASH_NATIVE);
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.AD_CASH_WIRE);
+        HSCashCenterManager.setInterstitialAdPlacement(Placements.AD_CASH_WIRE);
 
-        AcbRewardAdManager.getInstance().activePlacementInProcess("CashReward");
-        HSCashCenterManager.setRewardAdPlacement("CashReward");
+        AcbRewardAdManager.getInstance().activePlacementInProcess(Placements.AD_CASH_REWARD);
+        HSCashCenterManager.setRewardAdPlacement(Placements.AD_CASH_REWARD);
 
         AcbAds.getInstance().setActivity(this);
         AcbAds.getInstance().setForegroundActivity(this);
 
         HSCashCenterManager.getInstance().setAutoFirstRewardFlag(false);
         HSCashCenterManager.getInstance().setCpid(4);
+
     }
 
     private void updateTitle(int pos) {
@@ -696,7 +696,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 Analytics.logEvent("List_Page_Permission_Alert_Show");
             }
         }
-        AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
+        AcbRewardAdManager.getInstance().preload(1, Placements.AD_REWARD_VIDEO);
         if (!showAllFeatureGuide) {
 //            dispatchPermissionRequest();
         }
@@ -907,9 +907,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mRecyclerView.setAdapter(null);
         }
 
-        if (mRewardVideoView != null) {
-            mRewardVideoView.onCancel();
-        }
+//        if (mRewardVideoView != null) {
+//            mRewardVideoView.onCancel();
+//        }
 
         if (tabTransController != null) {
             tabTransController.release();
@@ -921,11 +921,13 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (mRewardVideoView != null && mRewardVideoView.isLoading()) {
-            mRewardVideoView.onHideAdLoading();
-            mRewardVideoView.onCancel();
-            // TODO logic confusing
-        }  if (mTabLayout.getSelectedTabPosition() != CASH_POSITION || !(lotteryWheelLayout != null && lotteryWheelLayout.isSpining())) {
+//        if (mRewardVideoView != null && mRewardVideoView.isLoading()) {
+//            mRewardVideoView.onHideAdLoading();
+//            mRewardVideoView.onCancel();
+//            // TODO logic confusing
+//        }
+
+        if (mTabLayout.getSelectedTabPosition() != CASH_POSITION || !(lotteryWheelLayout != null && lotteryWheelLayout.isSpining())) {
             if (mDoubleBackHandler.interceptBackPressed()) {
                 mDoubleBackHandler.toast();
             } else {

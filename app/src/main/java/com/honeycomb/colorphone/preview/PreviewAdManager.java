@@ -49,17 +49,17 @@ public class PreviewAdManager {
             AcbAds.getInstance().setActivity(activity);
         }
         AcbNativeAdManager.getInstance().activePlacementInProcess(getNativeAdPlacementName());
-        AcbNativeAdManager.preload(1, getNativeAdPlacementName());
+        AcbNativeAdManager.getInstance().preload(1, getNativeAdPlacementName());
     }
 
     private static String getNativeAdPlacementName() {
         return Placements.THEME_DETAIL_NATIVE;
-//        return Placements.BOOST_DOWN;
+//        return Placements.BOOST_DONE;
     }
 
     public AcbNativeAd getNativeAd() {
         if (mAd == null) {
-            List<AcbNativeAd> ads = AcbNativeAdManager.fetch(getNativeAdPlacementName(), 1);
+            List<AcbNativeAd> ads = AcbNativeAdManager.getInstance().fetch(getNativeAdPlacementName(), 1);
             if (ads != null && ads.size() > 0) {
                 mAd = ads.get(0);
                 HSLog.i("ThemeFullAd", "new native ad");

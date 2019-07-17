@@ -115,4 +115,8 @@ public class Analytics {
         }
         return sb.toString();
     }
+
+    public static void logAdViewEvent(String placementName, boolean success) {
+        logEvent("AcbAdNative_Viewed_In_App", new String[]{placementName, String.valueOf(success)});
+    }
 }

@@ -26,6 +26,7 @@ public class AdManager {
 
     private static AdManager sInstance;
     private boolean mEnable;
+    private Activity activity;
 
 
     private AdManager() {
@@ -57,11 +58,12 @@ public class AdManager {
         }
 
         if (activity != null) {
+            this.activity = activity;
             AcbAds.getInstance().setActivity(activity);
             AcbInterstitialAdManager.getInstance().setForegroundActivity(activity);
         }
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(getInterstitialAdPlacementName());
-        AcbInterstitialAdManager.preload(1, getInterstitialAdPlacementName());
+        AcbInterstitialAdManager.getInstance().preload(1, getInterstitialAdPlacementName());
     }
 
     private static String getInterstitialAdPlacementName() {
@@ -70,7 +72,7 @@ public class AdManager {
 
     public AcbInterstitialAd getInterstitialAd() {
         if (mInterstitialAd == null) {
-            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(getInterstitialAdPlacementName(), 1);
+            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.getInstance().fetch(getInterstitialAdPlacementName(), 1);
             if (ads != null && ads.size() > 0) {
                 mInterstitialAd = ads.get(0);
             }
@@ -106,7 +108,7 @@ public class AdManager {
                 @Override
                 public void onAdClosed() {
                     AdManager.getInstance().releaseInterstitialAd();
-                    AdManager.getInstance().preload(null);
+                    AdManager.getInstance().preload(activity);
                     ADAutoPilotUtils.recordShowThemeWireTime();
                 }
 
@@ -115,7 +117,7 @@ public class AdManager {
 
                 }
             });
-            ad.show();
+            ad.show(activity, "");
             if (Utils.isNewUser()) {
                 Analytics.logEvent("ColorPhone_ThemeWire_Show");
             }

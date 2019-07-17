@@ -10,7 +10,7 @@ import android.text.TextUtils;
 import com.acb.cashcenter.CashCenterLayout;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
-import com.superappscommon.util.Navigations;
+import com.superapps.util.Navigations;
 
 public class CashCenterActivity extends HSAppCompatActivity {
     private static final String EXTRA_NAVIGATE_TO_WHEEL = "EXTRA_NAVIGATE_TO_WHEEL";

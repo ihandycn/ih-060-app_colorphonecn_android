@@ -3,7 +3,7 @@ package com.honeycomb.colorphone.factoryimpl;
 import android.content.Context;
 import android.content.Intent;
 
-import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.ihs.app.framework.HSApplication;
@@ -29,7 +29,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
         return new NotificationMessageAlertActivity.Config() {
             @Override
             public String getAdPlacement() {
-                return AdPlacements.AD_MSG;
+                return Placements.AD_MSG;
             }
 
             @Override

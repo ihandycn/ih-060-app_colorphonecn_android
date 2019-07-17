@@ -456,12 +456,12 @@ public class ColorPhoneApplicationImpl {
 
         ContactManager.init();
 
-        AcbRewardAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_REWARD_VIDEO);
+        AcbRewardAdManager.getInstance().activePlacementInProcess(Placements.AD_REWARD_VIDEO);
         SystemAppsManager.getInstance().init();
         NotificationCondition.init();
 
-        AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE);
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_RESULT_PAGE_INTERSTITIAL);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.BOOST_DONE);
+        AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.BOOST_WIRE);
         AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.CASHCENTER);
         ColorPhonePermanentUtils.keepAlive();
 
@@ -593,17 +593,17 @@ public class ColorPhoneApplicationImpl {
 
     private void updateCallFinishFullScreenAdPlacement() {
         if (CallFinishUtils.isCallFinishFullScreenAdEnabled() && !isCallAssistantActivated) {
-            HSLog.d("Ad Active ： " + AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
-            AcbInterstitialAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN);
+            HSLog.d("Ad Active ： " + Placements.AD_CALL_ASSISTANT_FULL_SCREEN);
+            AcbInterstitialAdManager.getInstance().activePlacementInProcess(Placements.AD_CALL_ASSISTANT_FULL_SCREEN);
             isCallAssistantActivated = true;
         }
     }
 
     private void initChargingReport() {
         long firstInstallTime = HSSessionMgr.getFirstSessionStartTime();
-        AcbNativeAdManager.getInstance().activePlacementInProcess(AdPlacements.AD_CHARGING_REPORT);
+        AcbNativeAdManager.getInstance().activePlacementInProcess(Placements.AD_CHARGING_REPORT);
         ChargingReportConfiguration configuration = new ChargingReportConfiguration.Builder()
-                .adPlacement(AdPlacements.AD_CHARGING_REPORT)
+                .adPlacement(Placements.AD_CHARGING_REPORT)
                 .appName(mBaseApplication.getResources().getString(R.string.smart_charging))
                 .appIconResourceId(R.drawable.ic_launcher)
                 .timeAppInstall(firstInstallTime > 0 ? firstInstallTime : System.currentTimeMillis())
@@ -686,8 +686,8 @@ public class ColorPhoneApplicationImpl {
         LockerCustomConfig.get().setLauncherIcon(R.drawable.ic_launcher);
         LockerCustomConfig.get().setCustomScreenIcon(R.drawable.ic_charging_screen_logo);
         LockerCustomConfig.get().setSPFileName("colorPhone_locker");
-        LockerCustomConfig.get().setLockerAdName(AdPlacements.AD_LOCKER);
-        LockerCustomConfig.get().setChargingExpressAdName(AdPlacements.AD_CHARGING_SCREEN);
+        LockerCustomConfig.get().setLockerAdName(Placements.AD_LOCKER);
+        LockerCustomConfig.get().setChargingExpressAdName(Placements.AD_CHARGING_SCREEN);
         LockerCustomConfig.get().setEventDelegate(new LockerEvent());
         LockerCustomConfig.get().setRemoteLogger(new LockerLogger());
         LockerCustomConfig.get().setGameCallback(new LockerCustomConfig.GameCallback() {
@@ -766,7 +766,7 @@ public class ColorPhoneApplicationImpl {
 
     private void initModules() {
         Module locker = new Module();
-        locker.setAdName(AdPlacements.AD_LOCKER);
+        locker.setAdName(Placements.AD_LOCKER);
         locker.setAdType(Module.AD_EXPRESS);
         locker.setNotifyKey(LockerSettings.NOTIFY_LOCKER_STATE);
         locker.setChecker(new Module.Checker() {
@@ -777,7 +777,7 @@ public class ColorPhoneApplicationImpl {
         });
 
         Module charging = new Module();
-        charging.setAdName(AdPlacements.AD_CHARGING_SCREEN);
+        charging.setAdName(Placements.AD_CHARGING_SCREEN);
         charging.setAdType(Module.AD_EXPRESS);
         charging.setNotifyKey(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE);
         charging.setChecker(new Module.Checker() {
@@ -788,7 +788,7 @@ public class ColorPhoneApplicationImpl {
         });
 
         Module sms = new Module();
-        sms.setAdName(AdPlacements.AD_MSG);
+        sms.setAdName(Placements.AD_MSG);
         sms.setAdType(Module.AD_EXPRESS);
         sms.setChecker(new Module.Checker() {
             @Override
@@ -827,7 +827,7 @@ public class ColorPhoneApplicationImpl {
     }
 
     public static void checkChargingReportAdPlacement() {
-        checkExpressAd(AdPlacements.AD_CHARGING_REPORT, SmartChargingSettings.isChargingReportEnabled());
+        checkExpressAd(Placements.AD_CHARGING_REPORT, SmartChargingSettings.isChargingReportEnabled());
     }
 
     private void checkModuleAdPlacement() {

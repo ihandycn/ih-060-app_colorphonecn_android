@@ -346,4 +346,17 @@
     <string name="feedback_toast_invalid_email">Please enter a valid email address</string>
     <string name="feedback_toast_send_success">Thanks for your feedback!</string>
 
+    <string name="cash_center_guide_content1">点击领红包</string>
+    <string name="cash_center_guide_content2">点我有惊喜</string>
+    <string name="cash_center_guide_content3">今日抽福利</string>
+    <string name="cash_center_guide_content4">幸运大抽奖</string>
+    <string name="cash_center_guide_content5">领10倍金币</string>
+    <string name="cash_center_guide_content6">抽奖赚零花</string>
+    <string name="cash_center_guide_content7">玩游戏赚现金</string>
+    <string name="cash_center_guide_content8">金币大放送</string>
+    <string name="cash_center_guide_content9">现金发放中</string>
+    <string name="cash_center_guide_content10">金币待领取</string>
+    <string name="cash_center_guide_content11">5元即可提现</string>
+    <string name="cash_center_guide_content12">7234人已提现</string>
+
 </resources>

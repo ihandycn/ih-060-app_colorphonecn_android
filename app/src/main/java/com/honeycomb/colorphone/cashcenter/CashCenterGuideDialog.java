@@ -14,7 +14,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.boost.FloatWindowDialog;
@@ -29,6 +32,7 @@ import com.superapps.util.Preferences;
 import com.superapps.util.rom.RomUtils;
 
 import java.util.Calendar;
+import java.util.Random;
 
 public class CashCenterGuideDialog extends FloatWindowDialog {
     private final static String TAG = "CCGuideD";
@@ -53,13 +57,33 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
     private Point point = new Point();
     private Point oldPoint = new Point();
 
+    private int[] backgroundImages = new int[] {
+            R.drawable.cash_center_guide_image1,
+            R.drawable.cash_center_guide_image2,
+            R.drawable.cash_center_guide_image3
+    };
+
+    private int[] contentTexts = new int[] {
+            R.string.cash_center_guide_content1,
+            R.string.cash_center_guide_content2,
+            R.string.cash_center_guide_content3,
+            R.string.cash_center_guide_content4,
+            R.string.cash_center_guide_content5,
+            R.string.cash_center_guide_content6,
+            R.string.cash_center_guide_content7,
+            R.string.cash_center_guide_content8,
+            R.string.cash_center_guide_content9,
+            R.string.cash_center_guide_content10,
+            R.string.cash_center_guide_content11,
+            R.string.cash_center_guide_content12,
+    };
+
+    private int imageIndex;
+    private int contentIndex;
+
     public static void showCashCenterGuideDialog(Context context) {
         FloatWindowDialog dialog = new CashCenterGuideDialog(context);
         FloatWindowManager.getInstance().showDialog(dialog);
-
-        Analytics.logEvent("CashCenter_FloatingGuide_Show");
-
-        recordShow();
     }
 
     public CashCenterGuideDialog(Context context) {
@@ -72,13 +96,32 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
 
     public CashCenterGuideDialog(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        Random random = new Random();
+
+        imageIndex = random.nextInt(backgroundImages.length);
+        contentIndex = random.nextInt(contentTexts.length);
+        if (BuildConfig.DEBUG) {
+            contentIndex = 11;
+        }
+
         init();
+
+        recordShow();
     }
 
     private void init() {
-        mContentView = (ViewGroup) View.inflate(getContext(), R.layout.cash_center_guide, this);
-        viewViewWidth = Dimensions.pxFromDp(130);
-        viewViewHeight = Dimensions.pxFromDp(100);
+        mContentView = (ViewGroup) View.inflate(getContext(), R.layout.cash_center_text_guide, this);
+        ImageView imageView = mContentView.findViewById(R.id.cash_center_guide_image);
+        imageView.setImageResource(backgroundImages[imageIndex]);
+        TextView textView = mContentView.findViewById(R.id.cash_center_guide_content);
+        textView.setText(contentTexts[contentIndex]);
+        mContentView.findViewById(R.id.cash_center_guide_close).setOnClickListener(v -> {
+            dismiss();
+            Analytics.logEvent("CashCenter_FloatingGuide_Close", "content", String.valueOf(contentIndex + 1));
+        });
+
+        viewViewWidth = Dimensions.pxFromDp(170);
+        viewViewHeight = Dimensions.pxFromDp(60);
         viewOriginalX = Dimensions.getPhoneWidth(HSApplication.getContext()) - viewViewWidth;
     }
 
@@ -152,7 +195,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
 
                 if (isMisOperation()) {
                     ColorPhoneActivity.startColorPhone(getContext(), ColorPhoneActivity.CASH_POSITION);
-                    Analytics.logEvent("CashCenter_FloatingGuide_Click", "type", getPeriod());
+                    Analytics.logEvent("CashCenter_FloatingGuide_Click", "type", getPeriod(), "content", String.valueOf(contentIndex + 1));
                     dismiss();
                 }
                 HSLog.d(TAG, "ACTION_UP " + "x == " + xInScreen + "  y == " + yInScreen);
@@ -207,18 +250,14 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
 
         ValueAnimator animator = ValueAnimator.ofInt(mLayoutParams.x, borderX);
         animator.setInterpolator(PathInterpolatorCompat.create(0.49f, 1.47f, 0.66f, 0.99f));
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        animator.addUpdateListener(animation -> {
+            int x = (int) animation.getAnimatedValue();
+            int y = mLayoutParams.y;
 
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int x = (int) animation.getAnimatedValue();
-                int y = mLayoutParams.y;
-
-                if (tranceY != 0) {
-                    y = (int) (ballY + tranceY * animation.getAnimatedFraction());
-                }
-                moveView(x, y);
+            if (tranceY != 0) {
+                y = (int) (ballY + tranceY * animation.getAnimatedFraction());
             }
+            moveView(x, y);
         });
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -243,7 +282,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
         FloatWindowManager.getInstance().updateDialog(CashCenterGuideDialog.this, mLayoutParams);
     }
 
-    private static void recordShow() {
+    private void recordShow() {
         Calendar cal = Calendar.getInstance();
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -261,6 +300,8 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
         }
 
         Preferences.getDefault().putInt(PREF_KEY_LAST_SHOW_CASH_GUIDE, (day * 100 + hour));
+
+        Analytics.logEvent("CashCenter_FloatingGuide_Show", "content", String.valueOf(contentIndex + 1));
     }
 
     public static boolean isPeriod() {
@@ -268,7 +309,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
             return false;
         }
 
-        if (!RomUtils.checkIsHuaweiRom()) {
+        if (!RomUtils.checkIsHuaweiRom() || !RomUtils.checkIsMiuiRom()) {
             return false;
         }
 

@@ -54,18 +54,18 @@ public class ResultPageManager {
         boolean hasNative = false;
         boolean hasInters = false;
         if (ResultPageManager.getInstance().isFromBatteryImprover()) {
-            hasNative = getAd(Placements.BOOST_DOWN) != null;
+            hasNative = getAd(Placements.BOOST_DONE) != null;
             hasInters = getInterstitialAd(Placements.BOOST_WIRE) != null;
         }
 
         if (!hasNative) {
             AcbNativeAdManager.getInstance().activePlacementInProcess(ResultPageManager.getInstance().getExpressAdPlacement());
-            AcbNativeAdManager.preload(1, ResultPageManager.getInstance().getExpressAdPlacement());
+            AcbNativeAdManager.getInstance().preload(1, ResultPageManager.getInstance().getExpressAdPlacement());
         }
 
         if (!hasInters) {
             AcbInterstitialAdManager.getInstance().activePlacementInProcess(ResultPageManager.getInstance().getInterstitialAdPlacement());
-            AcbInterstitialAdManager.preload(1, ResultPageManager.getInstance().getInterstitialAdPlacement());
+            AcbInterstitialAdManager.getInstance().preload(1, ResultPageManager.getInstance().getInterstitialAdPlacement());
         }
     }
 
@@ -75,7 +75,7 @@ public class ResultPageManager {
 
     public AcbNativeAd getAd(String placement) {
         if (mAd == null) {
-            List<AcbNativeAd> ads = AcbNativeAdManager.fetch(placement, 1);
+            List<AcbNativeAd> ads = AcbNativeAdManager.getInstance().fetch(placement, 1);
             if (ads != null && ads.size() > 0) {
                 mAd = ads.get(0);
                 mFromAdPlacement = placement;
@@ -90,7 +90,7 @@ public class ResultPageManager {
 
     public AcbInterstitialAd getInterstitialAd(String placement) {
         if (mInterstitialAd == null) {
-            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.fetch(placement, 1);
+            List<AcbInterstitialAd> ads = AcbInterstitialAdManager.getInstance().fetch(placement, 1);
             if (ads != null && ads.size() > 0) {
                 mInterstitialAd = ads.get(0);
                 mFromInterstitialAdPlacement = placement;
@@ -134,7 +134,7 @@ public class ResultPageManager {
     }
 
     public String getExpressAdPlacement() {
-        return isFromBatteryImprover() ? Placements.CABLE_DOWN : Placements.BOOST_DOWN;
+        return isFromBatteryImprover() ? Placements.CABLE_DOWN : Placements.BOOST_DONE;
     }
 
     public String getInterstitialAdPlacement() {
@@ -227,7 +227,7 @@ public class ResultPageManager {
                 HSLog.d(TAG, "onAdDisplayFailed");
             }
         });
-        mInterstitialAd.show();
+        mInterstitialAd.show(mActivity, "");
         return true;
     }
 }
