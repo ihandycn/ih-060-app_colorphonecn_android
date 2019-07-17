@@ -155,12 +155,27 @@ public class DotsPictureView extends View {
 
     public void setSourceBitmap(@NonNull Bitmap sourceBitmap) {
         HSLog.d("DigP", "setSourceBitmap");
-        mSourceBitmap = sourceBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        if (mSourceBitmap != null && !mSourceBitmap.isRecycled()) {
+            return;
+        }
+
+        mSourceBitmap = sourceBitmap.copy(Bitmap.Config.RGB_565, true);
         if (mSourceBitmap == null) {
             // Copy fail
             return;
         }
 
+        HSLog.d("DigP", "setSourceBitmap --end");
+    }
+
+    private boolean ensureBitmapCanvas() {
+        if (mSourceBitmap == null) {
+            // Copy fail
+            return false;
+        }
+        if (mBitmapCanvas != null) {
+            return true;
+        }
         HSLog.d("DigP", "createScaledBitmap");
         Bitmap bitmap = Bitmap.createScaledBitmap(mSourceBitmap,
                 (int) Math.ceil(mSourceBitmap.getWidth() * 0.1),
@@ -184,7 +199,7 @@ public class DotsPictureView extends View {
 
         maxStokeWidth = (int) (mSourceBitmap.getHeight() * 0.1f);
         minStokeWidth = maxStokeWidth / 2;
-        HSLog.d("DigP", "setSourceBitmap --end");
+        return true;
     }
 
     /**
@@ -225,6 +240,7 @@ public class DotsPictureView extends View {
 
     public boolean startAnimation() {
         if (!mAnimator.isStarted()) {
+            ensureBitmapCanvas();
             mAnimator.start();
             return true;
         }

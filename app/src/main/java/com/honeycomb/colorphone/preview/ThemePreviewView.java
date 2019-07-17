@@ -1072,8 +1072,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 if (overrideSize) {
                     request.override(IMAGE_WIDTH, IMAGE_HEIGHT);
-                    request.skipMemoryCache(true);
                 }
+                request.skipMemoryCache(true);
                 request.listener(mRequestListener);
 
                 request.into(previewImage);
