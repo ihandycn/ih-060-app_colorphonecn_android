@@ -396,7 +396,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
                 HSLog.i("ThemeFullAd", "instantiateItem ThemePreviewView: " + position + "  index: " + themeIndex);
                 ThemePreviewView controller = new ThemePreviewView(ThemePreviewActivity.this);
-                controller.init(ThemePreviewActivity.this, mThemes.get(themeIndex), position, null);
+                controller.init(ThemePreviewActivity.this, mThemes.get(themeIndex), position);
                 controller.setPageSelectedPos(mViewPager.getCurrentItem());
                 if (position == mViewPager.getCurrentItem()) {
                     controller.setBlockAnimationForPageChange(false);

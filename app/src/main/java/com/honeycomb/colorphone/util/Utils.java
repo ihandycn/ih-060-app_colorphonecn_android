@@ -26,7 +26,6 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.app.Notification;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -77,6 +76,7 @@ import com.colorphone.lock.ReflectionHelper;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
+import com.honeycomb.colorphone.preview.transition.TransitionView;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSSessionMgr;
@@ -504,7 +504,9 @@ public final class Utils {
         }
         if (dst.exists()) {
             boolean removed = dst.delete();
-            if (removed) HSLog.d(TAG, "Replacing file " + dst);
+            if (removed) {
+                HSLog.d(TAG, "Replacing file " + dst);
+            }
         }
         FileChannel inChannel = new FileInputStream(src).getChannel();
         FileChannel outChannel = new FileOutputStream(dst).getChannel();
@@ -632,7 +634,7 @@ public final class Utils {
         return BitmapFactory.decodeFile(path, options);
     }
 
-    public static void showApplySuccessToastView(PercentRelativeLayout rootView, View mNavBack) {
+    public static void showApplySuccessToastView(PercentRelativeLayout rootView, TransitionView backTransition) {
         final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.lottie_theme_apply, null);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             contentView.setElevation(Dimensions.pxFromDp(8));
@@ -665,16 +667,9 @@ public final class Utils {
                 })
                 .start();
 
-        mNavBack.animate().alpha(0f)
-                .setDuration(166)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mNavBack.setVisibility(View.GONE);
-
-                    }
-                })
-                .start();
+        if (backTransition != null) {
+            backTransition.hide(true);
+        }
 
         applySuccessText.setTranslationY(Dimensions.pxFromDp(40));
         applySuccessText.setAlpha(0);
@@ -775,16 +770,7 @@ public final class Utils {
                             }
                         })
                         .start();
-                mNavBack.animate().alpha(1f)
-                        .setDuration(166)
-                        .setListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-                                mNavBack.setVisibility(VISIBLE);
-
-                            }
-                        })
-                        .start();
+                backTransition.show(true);
             }
         }, 1382);
     }
