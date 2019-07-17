@@ -77,7 +77,6 @@ import com.honeycomb.colorphone.util.DailyLogger;
 import com.honeycomb.colorphone.util.DeviceUtils;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
-import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.Upgrader;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.HSGdprConsent;
@@ -472,10 +471,6 @@ public class ColorPhoneApplicationImpl {
 
         initChargingReport();
         initLockerCharging();
-
-        Glide.get(mBaseApplication).setMemoryCategory(MemoryCategory.HIGH);
-        String popularThemeBgUrl = HSConfig.optString("", "Application", "Special", "SpecialBg");
-        GlideApp.with(mBaseApplication).downloadOnly().load(popularThemeBgUrl);
 
         Threads.postOnMainThreadDelayed(new Runnable() {
             @Override
