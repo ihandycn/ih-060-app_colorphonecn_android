@@ -11,8 +11,11 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -91,6 +94,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 
@@ -1715,6 +1719,16 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                     break;
                 case R.id.ringtone_apply_change:
                     Analytics.logEvent("Ringtone_Video_Set_Success", "ThemeName", mTheme.getName());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (!Settings.System.canWrite(getContext())) {
+                            // Check permission
+                            Toast.makeText(mActivity, "设置铃声失败，请授予权限", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS,
+                                    Uri.parse("package:" + getContext().getPackageName()));
+                            Navigations.startActivitySafely(getContext(), intent);
+                            break;
+                        }
+                    }
 
                     hideRingtoneSettings();
                     if (mApplyForAll) {
