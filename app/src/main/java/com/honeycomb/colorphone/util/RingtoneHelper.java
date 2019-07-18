@@ -7,9 +7,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
@@ -18,8 +18,8 @@ import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Compats;
 import com.superapps.util.Threads;
-import com.superapps.util.Toasts;
 
 import java.io.File;
 import java.util.HashSet;
@@ -212,6 +212,24 @@ public class RingtoneHelper {
         HSLog.d("Ringtone", "old uri = " + oldRingtoneUri);
 
         Uri newUri = getRingtoneUri(context, path, title);
+
+        if (Compats.IS_HUAWEI_DEVICE) {
+            try {
+                Settings.System.putString(context.getContentResolver(), "ringtone2", newUri.toString());
+                Settings.System.putString(context.getContentResolver(), "ringtone2_path", path);
+            } catch (Exception e) {
+                HSLog.e("ringtone sim2 set error" + e.getMessage());
+            }
+        }
+//
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("?path=");
+//        sb.append(path);
+//        sb.append("&title=");
+//        sb.append(title);
+//        sb.append("&is_drm=0&is_cached=1");
+//        boolean ringtone2Path =  Settings.System.putString(context.getContentResolver(), "ringtone_2_CONSTANT_PATH", sb.toString());
+
         RingtoneManager.setActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE, newUri);
 
         // Write first ringtone id.
