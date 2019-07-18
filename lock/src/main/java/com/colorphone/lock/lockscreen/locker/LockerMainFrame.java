@@ -1,7 +1,10 @@
 package com.colorphone.lock.lockscreen.locker;
 
 import android.animation.ObjectAnimator;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.PowerManager;
@@ -44,6 +47,7 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.ihs.commons.utils.HSLog;
 import com.ihs.flashlight.FlashlightManager;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -99,6 +103,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private long mOnStartTime;
 
     private int lockerCount = 0;
+    private boolean ifRegisterForTime = false;
     private ImageView mGameIconEntrance;
 
     private LottieAnimationView mGameLottieEntrance;
@@ -169,7 +174,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         mBottomlayout = findViewById(R.id.bottom_layout);
         mBottomlayout.setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(getContext()));
         LockerMainFrame.LayoutParams layoutParams = (LayoutParams) mAdContainer.getLayoutParams();
-        layoutParams.bottomMargin = Dimensions.pxFromDp(57) + Dimensions.getNavigationBarHeight(getContext());
+        layoutParams.bottomMargin = Dimensions.pxFromDp(54) + Dimensions.getNavigationBarHeight(getContext());
         mAdContainer.setLayoutParams(layoutParams);
         SlidingDrawer.LayoutParams params = (FrameLayout.LayoutParams) mSlidingDrawerContent.getLayoutParams();
         params.height = Dimensions.pxFromDp(340) + Dimensions.getNavigationBarHeight(getContext());
@@ -384,12 +389,17 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     public void onResume() {
+        refreshClock();
+        registerReceiverForClock();
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
             expressAdView.switchAd();
         }
     }
 
     public void onPause() {
+        if (ifRegisterForTime) {
+            unregisterReceiverForClock();
+        }
 //        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
 //            expressAdView.pauseDiblank_handlesplayNewAd();
 //        }
@@ -484,6 +494,18 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             default:
                 break;
         }
+    }
+
+    private void registerReceiverForClock() {
+        IntentFilter filter=new IntentFilter();
+        filter.addAction(Intent.ACTION_TIME_TICK);
+        getContext().registerReceiver(timeChangeReceiver,filter);
+        ifRegisterForTime = true;
+    }
+
+    private void unregisterReceiverForClock() {
+        getContext().unregisterReceiver(timeChangeReceiver);
+        ifRegisterForTime = false;
     }
 
     private void refreshClock() {
@@ -661,4 +683,14 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     public void onNotificationClick() {
         mLockScreen.dismiss(getContext(), true);
     }
+
+    private final BroadcastReceiver timeChangeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Intent.ACTION_TIME_TICK)) {
+                refreshClock();
+            }
+        }
+    };
 }
