@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
@@ -35,6 +36,7 @@ import com.colorphone.lock.AnimatorListenerAdapter;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
 import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.AppflyerLogger;
+import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
@@ -631,7 +633,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
 
         if (tabTransController != null) {
-            tabTransController.showNow();
+            tabTransController.show();
         }
 
         if (mAdapter != null) {
@@ -1174,12 +1176,33 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     int state = hsBundle.getInt("state", RecyclerView.SCROLL_STATE_IDLE);
                     int dy = hsBundle.getInt("dy", 0);
                     onInnerListScrollChange(state, dy);
+                    if (upScrolled || state == RecyclerView.SCROLL_STATE_IDLE) {
+                        countDownTimer.start();
+                    }
                 }
             } else if (Constants.NOTIFY_KEY_LIST_SCROLLED_TOP.equals(s)) {
                 HSLog.d("TabTransController", "Scrolled to Top!");
                 show();
             }
         }
+
+        CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (BuildConfig.DEBUG) {
+                    HSLog.e("Second Remaining: " + millisUntilFinished / 1000);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                if (BuildConfig.DEBUG) {
+                    HSLog.e("Second Remaining None, Done");
+                }
+                show();
+                upScrolled = false;
+            }
+        };
     }
 
 
