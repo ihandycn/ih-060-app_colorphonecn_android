@@ -410,6 +410,13 @@ public class NotificationManager implements FlashlightStatusListener {
         }
     }
 
+    public void updateBattery() {
+        if (ScreenStateMgr.getInstance().isScreenOn()
+                && mNotificationManager != null && mRemoteViews != null && mNotificationToolbar != null) {
+            showNotificationToolbarIfEnabled();
+        }
+    }
+
     public void autoUpdateCpuCoolerTemperature() {
         HSLog.d(TAG, "Notification autoUpdateCpuCoolerTemperature");
         mHandler.postDelayed(this::updateCpuCooler, CpuCoolerConstant.FROZEN_CPU_COOLER_SECOND_TIME * 500); // 30s, 1/2 FROZEN_CPU_COOLER_SECOND_TIME

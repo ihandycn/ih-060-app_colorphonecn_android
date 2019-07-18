@@ -17,7 +17,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.boost.FloatWindowDialog;
@@ -38,6 +37,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
     private final static String TAG = "CCGuideD";
     private final static String PREF_KEY_LAST_SHOW_CASH_GUIDE = "pref_key_last_show_cash_guide";
     private final int TOUCH_IGNORE = 10;
+    private static final int DAY_MASK = 100;
     protected ViewGroup mContentView;
 
     private static int statusBarHeight;
@@ -100,9 +100,6 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
 
         imageIndex = random.nextInt(backgroundImages.length);
         contentIndex = random.nextInt(contentTexts.length);
-        if (BuildConfig.DEBUG) {
-            contentIndex = 11;
-        }
 
         init();
 
@@ -110,6 +107,8 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
     }
 
     private void init() {
+        statusBarHeight = Dimensions.getStatusBarHeight(getContext());
+
         mContentView = (ViewGroup) View.inflate(getContext(), R.layout.cash_center_text_guide, this);
         ImageView imageView = mContentView.findViewById(R.id.cash_center_guide_image);
         imageView.setImageResource(backgroundImages[imageIndex]);
@@ -299,7 +298,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
             hour = 21;
         }
 
-        Preferences.getDefault().putInt(PREF_KEY_LAST_SHOW_CASH_GUIDE, (day * 100 + hour));
+        Preferences.getDefault().putInt(PREF_KEY_LAST_SHOW_CASH_GUIDE, (day * DAY_MASK + hour));
 
         Analytics.logEvent("CashCenter_FloatingGuide_Show", "content", String.valueOf(contentIndex + 1));
     }
@@ -309,7 +308,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
             return false;
         }
 
-        if (!RomUtils.checkIsHuaweiRom() || !RomUtils.checkIsMiuiRom()) {
+        if (!RomUtils.checkIsHuaweiRom() && !RomUtils.checkIsMiuiRom()) {
             return false;
         }
 
@@ -318,8 +317,8 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
         int lastShow = Preferences.getDefault().getInt(PREF_KEY_LAST_SHOW_CASH_GUIDE, 0);
-        int lastDay = lastShow / 100;
-        int lastHour = lastShow % 100;
+        int lastDay = lastShow / DAY_MASK;
+        int lastHour = lastShow % DAY_MASK;
         if (lastDay < day) {
             lastHour = 0;
         }

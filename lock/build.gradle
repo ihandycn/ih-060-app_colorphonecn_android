@@ -47,7 +47,7 @@ dependencies {
 
     provided ("net.appcloudbox.autopilot:libAutoPilot.gm:5.3.2.gm")
     provided 'com.ihandy.appframework:libAppframework.gm:4.9.0.gm'
-    provided 'net.appcloudbox.ads:libAcbAds.gm:5.11.2.gm'
+    provided 'net.appcloudbox.ads:libAcbAds.beta:5.13.5.beta01'
     provided "com.ihandy.device:device-clean-memory$LIB_DEVICE_VERSION".toString()
 
 }

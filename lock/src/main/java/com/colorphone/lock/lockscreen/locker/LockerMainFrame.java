@@ -348,7 +348,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     }
 
     private void requestAds() {
-        expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getLockerAdName());
+        expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getLockerAdName(), "");
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
             @Override
             public void onAdShown(AcbExpressAdView acbExpressAdView) {

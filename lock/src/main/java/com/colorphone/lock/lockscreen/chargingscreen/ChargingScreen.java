@@ -428,7 +428,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
 
     private void requestAds() {
-        expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getChargingExpressAdName());
+        expressAdView = new AcbExpressAdView(getContext(), LockerCustomConfig.get().getChargingExpressAdName(), "");
         expressAdView.setExpressAdViewListener(new AcbExpressAdView.AcbExpressAdViewListener() {
             @Override
             public void onAdShown(AcbExpressAdView acbExpressAdView) {
