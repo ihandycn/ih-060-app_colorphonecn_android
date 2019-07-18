@@ -1072,8 +1072,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 if (overrideSize) {
                     request.override(IMAGE_WIDTH, IMAGE_HEIGHT);
-                    request.skipMemoryCache(true);
                 }
+                request.skipMemoryCache(true);
                 request.listener(mRequestListener);
 
                 request.into(previewImage);
@@ -1411,7 +1411,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mWindowInTransition = true;
         if (resumed) {
             if (themeLoading) {
-                mProgressViewHolder.hide();
+                mProgressViewHolder.hide(false);
             }
 
             if (themeReady) {
@@ -1515,9 +1515,20 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         public void hide() {
+            hide(true);
+        }
+
+        /**
+         *  Hide
+         * @param clean release resource if need
+         */
+        public void hide(boolean clean) {
             if (mDotsPictureView != null) {
                 mDotsPictureView.setVisibility(View.INVISIBLE);
                 mDotsPictureView.stopAnimation();
+                if (clean) {
+                    mDotsPictureView.releaseBitmaps();
+                }
             }
         }
 
@@ -1528,7 +1539,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
         public void setResource(Bitmap resource) {
             inflateViewIfNeeded();
-            if (mDotsPictureView.getVisibility() == VISIBLE) {
+            if (resource != null && mDotsPictureView.getVisibility() == VISIBLE) {
                 mDotsPictureView.setSourceBitmap(resource);
             }
         }

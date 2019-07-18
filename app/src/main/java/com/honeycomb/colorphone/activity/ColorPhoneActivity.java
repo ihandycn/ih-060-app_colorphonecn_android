@@ -26,10 +26,8 @@ import com.acb.call.VideoManager;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.themes.Type;
-import com.acb.cashcenter.CashCenterCallback;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.OnIconClickListener;
-import com.acb.cashcenter.dialog.NoAdDialog;
 import com.acb.cashcenter.lottery.LotteryWheelLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
@@ -58,7 +56,6 @@ import com.honeycomb.colorphone.notification.permission.PermissionHelper;
 import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
-import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.ActivityUtils;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
@@ -83,14 +80,11 @@ import com.superapps.util.Preferences;
 import com.superapps.util.RuntimePermissions;
 
 import net.appcloudbox.AcbAds;
-import net.appcloudbox.ads.interstitialad.AcbInterstitialAdManager;
-import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 import net.appcloudbox.ads.rewardad.AcbRewardAdManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import hugo.weaving.DebugLog;
 
@@ -580,92 +574,8 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     }
 
     private void initCashCenterMgr() {
-        HSCashCenterManager.getInstance().init(ColorPhoneActivity.this, new CashCenterCallback() {
+        CashCenterUtil.init(this);
 
-            @Override public void onFeastInitFinish(boolean b, int i, String s) {
-
-            }
-
-            @Override public void onCashCenterShow() {
-
-            }
-
-            @Override public void onWheelShow() {
-
-            }
-
-            @Override public void onWheelSpinClick() {
-
-            }
-
-            @Override public void onWheelAdShow() {
-
-            }
-
-            @Override public void onWheelAdDismiss() {
-
-            }
-
-            @Override public void onWheelAdChance(boolean b, AdSource adSource) {
-
-            }
-
-            @Override public void onWheelCoinEarn(long l) {
-
-            }
-
-            @Override public void onLogEvent(String s, Map<String, Object> map, boolean b) {
-
-            }
-
-            @Override public void logGameClick() {
-
-            }
-
-            @Override public void onExit() {
-
-            }
-
-            @Override public void onSpinClicked() {
-                Analytics.logEvent("CashCenter_Wheel_Spin_Click");
-            }
-
-            @Override public void onSpinStop() {
-            }
-
-            @Override public void onInterstitialShown(boolean b) {
-                Analytics.logEvent("CashCenter_Wire_Ad_Show");
-
-                AcbNativeAdAnalytics.logAppViewEvent("CashWire", b);
-            }
-
-            @Override public void onRewardShown() {
-                Analytics.logEvent("CashCenter_Reward_Ad_Show");
-            }
-
-            @Override public void onNativeShown(boolean b) {
-                Analytics.logEvent("CashCenter_Native_Ad_Show");
-
-                AcbNativeAdAnalytics.logAppViewEvent("CashNative", b);
-            }
-
-            @Override public void showInterstitialAd(NoAdDialog noAdDialog) {
-
-            }
-        });
-        AcbNativeAdManager.getInstance().activePlacementInProcess("CashNative");
-        HSCashCenterManager.setNativeAdPlacement("CashNative");
-        AcbInterstitialAdManager.getInstance().activePlacementInProcess("CashWire");
-        HSCashCenterManager.setInterstitialAdPlacement("CashWire");
-
-        AcbRewardAdManager.getInstance().activePlacementInProcess("CashReward");
-        HSCashCenterManager.setRewardAdPlacement("CashReward");
-
-        AcbAds.getInstance().setActivity(this);
-        AcbAds.getInstance().setForegroundActivity(this);
-
-        HSCashCenterManager.getInstance().setAutoFirstRewardFlag(false);
-        HSCashCenterManager.getInstance().setCpid(4);
     }
 
     private void updateTitle(int pos) {

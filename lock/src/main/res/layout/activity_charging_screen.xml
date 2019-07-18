@@ -39,104 +39,6 @@
             android:layout_height="match_parent">
 
             <RelativeLayout
-                android:id="@+id/charging_screen_advertisement_container"
-                android:layout_width="match_parent"
-                android:layout_height="260dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginEnd="18dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginBottom="57dp"
-                android:visibility="visible">
-            </RelativeLayout>
-
-            <com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout
-                android:id="@+id/lock_sliding_window"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/charging_screen_advertisement_container"
-                android:layout_marginBottom="6dp">
-                <RelativeLayout
-                    android:id="@+id/lock_notification_window"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/charging_screen_advertisement_container"
-                    android:layout_marginBottom="6dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginEnd="18dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp"
-                    android:layout_marginStart="18dp"
-                    android:paddingBottom="12dp"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    >
-
-                    <ImageView
-                        android:id="@+id/source_app_avatar"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp" />
-
-                    <TextView
-                        android:id="@+id/source_app_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/source_app_avatar"
-                        android:layout_toRightOf="@id/source_app_avatar"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:lineSpacingExtra="2sp"
-                        android:textColor="#cc000000"
-                        android:text="微信 · 15分钟前"
-                        android:includeFontPadding="false"
-                        android:textSize="12sp"/>
-
-                    <TextView
-                        android:id="@+id/sender_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/source_app_avatar"
-                        android:layout_marginTop="9dp"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:textColor="#e6000000"
-                        android:includeFontPadding="false"
-                        android:text="淹死的鱼" />
-
-                    <ImageView
-                        android:id="@+id/sender_avatar"
-                        android:layout_width="37dp"
-                        android:layout_height="37dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignTop="@id/sender_name"
-                         />
-
-                    <TextView
-                        android:id="@+id/notification_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_toStartOf="@id/sender_avatar"
-                        android:layout_toLeftOf="@id/sender_avatar"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginRight="30dp"
-                        android:layout_below="@id/sender_name"
-                        android:layout_marginTop="5dp"
-                        android:textColor="#cc000000"
-                        android:includeFontPadding="false"
-                        android:textSize="14sp"
-                        android:maxLines="2"
-                        android:ellipsize="end"
-                        android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下对方就会撒打算家里打飞机撒发的"/>
-
-                </RelativeLayout>
-            </com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout>
-
-            <RelativeLayout
                 android:id="@+id/charging_screen_title_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -151,9 +53,10 @@
                     android:visibility="gone"/>
 
                 <LinearLayout
+                    android:id="@+id/charging_screen_time_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="17dp"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="21dp"
                     android:orientation="vertical"
@@ -166,7 +69,7 @@
                         android:layout_gravity="center_horizontal"
                         tools:text="12:02"
                         android:textColor="#ffffff"
-                        android:textSize="23.7sp"
+                        android:textSize="18sp"
                         app:typeface="@string/barlow_regular"/>
 
                     <com.colorphone.lock.TypefacedTextView
@@ -176,7 +79,8 @@
                         android:layout_gravity="center_horizontal"
                         tools:text="6月11日 周二"
                         android:textColor="#b3ffffff"
-                        android:textSize="8.7sp" />
+                        android:textSize="8.7sp"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <android.support.v7.widget.AppCompatImageView
@@ -195,141 +99,334 @@
                     app:srcCompat="@drawable/ic_more_vert_black_24dp"/>
             </RelativeLayout>
 
-            <com.colorphone.lock.lockscreen.chargingscreen.view.ChargingQuantityView
-                android:id="@+id/charging_screen_battery_level_percent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/charging_screen_title_container"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:textColor="@android:color/white"
-                android:lineSpacingExtra="17.3sp"
-                android:textSize="90sp"
-                app:typeface="@string/barlow_regular"
-                tools:text="68"/>
-
-            <RelativeLayout
-                android:id="@+id/full_charge_left_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/charging_screen_battery_level_percent"
-                android:layout_centerHorizontal="true"
-                >
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/full_charge_left_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/ic_charging_screen_battery"/>
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/charging_screen_full_charge_left_describe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@+id/full_charge_left_icon"
-                    android:layout_toRightOf="@+id/full_charge_left_icon"
-                    android:text="@string/charging_screen_charged_left_describe"
-                    android:textColor="@color/charging_screen_high_white"
-                    android:textSize="12sp"
-                    android:typeface="sans"
-                    tools:ignore="SpUsage"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/charge_state_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/full_charge_left_container"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="9dp"
-                android:scaleX="1.32"
-                android:scaleY="1.32">
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/charging_screen_speed_charge_state_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/ic_charging_screen_lightning"/>
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/charging_screen_speed_charge_state_describe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/charging_screen_speed_charge_state_icon"
-                    android:layout_toRightOf="@+id/charging_screen_speed_charge_state_icon"
-                    android:alpha="0.3"
-                    android:paddingBottom="8dp"
-                    android:text="@string/charging_screen_charging_state_des"
-                    android:textColor="@color/charging_screen_high_white"/>
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/charging_screen_continuous_charge_state_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/charging_screen_speed_charge_state_describe"
-                    android:layout_toRightOf="@+id/charging_screen_speed_charge_state_describe"
-                    app:srcCompat="@drawable/ic_charging_screen_arrow"/>
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/charging_screen_continuous_charge_state_describe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/charging_screen_continuous_charge_state_icon"
-                    android:layout_toRightOf="@+id/charging_screen_continuous_charge_state_icon"
-                    android:alpha="0.3"
-                    android:paddingBottom="8dp"
-                    android:text="@string/charging_screen_charging_state_des"
-                    android:textColor="@color/charging_screen_high_white"/>
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/charging_screen_trickle_charge_state_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/charging_screen_continuous_charge_state_describe"
-                    android:layout_toRightOf="@+id/charging_screen_continuous_charge_state_describe"
-                    app:srcCompat="@drawable/ic_charging_screen_shield"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/charging_tip_container"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/charge_state_container"
-                android:paddingLeft="38dp"
-                android:paddingRight="38dp"
-                android:visibility="gone">
+                android:layout_marginBottom="54dp"
+                android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/charging_screen_tip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:text="TIP"
-                    android:textColor="#7fffffff"
-                    android:textSize="14dp"
-                    tools:ignore="SpUsage"
-                    />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
+                    <com.colorphone.lock.lockscreen.chargingscreen.view.ChargingQuantityView
+                        android:id="@+id/charging_screen_battery_level_percent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:textColor="@android:color/white"
+                        android:includeFontPadding="false"
+                        android:lineSpacingExtra="17.3sp"
+                        android:textSize="90sp"
+                        app:typeface="@string/barlow_regular"
+                        tools:text="68"/>
+
+                    <RelativeLayout
+                        android:id="@+id/full_charge_left_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/charging_screen_battery_level_percent"
+                        android:layout_centerHorizontal="true"
+                        >
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/full_charge_left_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/ic_charging_screen_battery"/>
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/charging_screen_full_charge_left_describe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_toEndOf="@+id/full_charge_left_icon"
+                            android:layout_toRightOf="@+id/full_charge_left_icon"
+                            android:text="@string/charging_screen_charged_left_describe"
+                            android:textColor="@color/charging_screen_high_white"
+                            android:textSize="12sp"
+                            android:typeface="sans"
+                            tools:ignore="SpUsage"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/charge_state_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/full_charge_left_container"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="9dp"
+                        android:scaleX="1.32"
+                        android:scaleY="1.32">
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/charging_screen_speed_charge_state_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/ic_charging_screen_lightning"/>
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/charging_screen_speed_charge_state_describe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/charging_screen_speed_charge_state_icon"
+                            android:layout_toRightOf="@+id/charging_screen_speed_charge_state_icon"
+                            android:alpha="0.3"
+                            android:paddingBottom="8dp"
+                            android:text="@string/charging_screen_charging_state_des"
+                            android:textColor="@color/charging_screen_high_white"/>
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/charging_screen_continuous_charge_state_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/charging_screen_speed_charge_state_describe"
+                            android:layout_toRightOf="@+id/charging_screen_speed_charge_state_describe"
+                            app:srcCompat="@drawable/ic_charging_screen_arrow"/>
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/charging_screen_continuous_charge_state_describe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/charging_screen_continuous_charge_state_icon"
+                            android:layout_toRightOf="@+id/charging_screen_continuous_charge_state_icon"
+                            android:alpha="0.3"
+                            android:paddingBottom="8dp"
+                            android:text="@string/charging_screen_charging_state_des"
+                            android:textColor="@color/charging_screen_high_white"/>
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/charging_screen_trickle_charge_state_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/charging_screen_continuous_charge_state_describe"
+                            android:layout_toRightOf="@+id/charging_screen_continuous_charge_state_describe"
+                            app:srcCompat="@drawable/ic_charging_screen_shield"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/charging_tip_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/charge_state_container"
+                        android:paddingLeft="38dp"
+                        android:paddingRight="38dp"
+                        android:visibility="gone">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/charging_screen_tip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="TIP"
+                            android:textColor="#7fffffff"
+                            android:textSize="14dp"
+                            tools:ignore="SpUsage"
+                            />
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/charging_screen_tip"
+                            android:layout_alignStart="@+id/charging_screen_tip"
+                            android:layout_alignTop="@+id/charging_screen_tip"
+                            app:srcCompat="@drawable/ic_charging_screen_tip_left_light"/>
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout
+                    android:id="@+id/lock_sliding_window_above"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/charging_screen_tip"
-                    android:layout_alignStart="@+id/charging_screen_tip"
-                    android:layout_alignTop="@+id/charging_screen_tip"
-                    app:srcCompat="@drawable/ic_charging_screen_tip_left_light"/>
-            </RelativeLayout>
+                    android:layout_above="@id/lock_sliding_window"
+                    android:layout_marginBottom="3dp">
+                    <RelativeLayout
+                        android:id="@+id/lock_notification_window_above"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginStart="18dp"
+                        android:paddingBottom="12dp"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        >
+
+                        <ImageView
+                            android:id="@+id/source_app_avatar_above"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp" />
+
+                        <TextView
+                            android:id="@+id/source_app_name_above"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/source_app_avatar_above"
+                            android:layout_toRightOf="@id/source_app_avatar_above"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:lineSpacingExtra="2sp"
+                            android:textColor="#cc000000"
+                            android:text="微信 · 15分钟前"
+                            android:includeFontPadding="false"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/sender_name_above"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/source_app_avatar_above"
+                            android:layout_marginTop="7dp"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#e6000000"
+                            android:includeFontPadding="false"
+                            android:text="淹死的鱼" />
+
+                        <ImageView
+                            android:id="@+id/sender_avatar_above"
+                            android:layout_width="37dp"
+                            android:layout_height="37dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignTop="@id/sender_name_above"
+                            />
+
+                        <TextView
+                            android:id="@+id/notification_content_above"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_toStartOf="@id/sender_avatar_above"
+                            android:layout_toLeftOf="@id/sender_avatar_above"
+                            android:layout_marginEnd="30dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_below="@id/sender_name_above"
+                            android:layout_marginTop="4dp"
+                            android:textColor="#cc000000"
+                            android:includeFontPadding="false"
+                            android:textSize="14sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下对方就会撒打算家里打飞机撒发的"/>
+
+                    </RelativeLayout>
+                </com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout>
+
+                <com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout
+                    android:id="@+id/lock_sliding_window"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/charging_screen_advertisement_container"
+                    android:layout_marginBottom="3dp">
+                    <RelativeLayout
+                        android:id="@+id/lock_notification_window"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginLeft="18dp"
+                        android:layout_marginRight="18dp"
+                        android:layout_marginStart="18dp"
+                        android:paddingBottom="12dp"
+                        android:paddingTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        >
+
+                        <ImageView
+                            android:id="@+id/source_app_avatar"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp" />
+
+                        <TextView
+                            android:id="@+id/source_app_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@id/source_app_avatar"
+                            android:layout_toRightOf="@id/source_app_avatar"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:lineSpacingExtra="2sp"
+                            android:textColor="#cc000000"
+                            android:text="微信 · 15分钟前"
+                            android:includeFontPadding="false"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:id="@+id/sender_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/source_app_avatar"
+                            android:layout_marginTop="7dp"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#e6000000"
+                            android:includeFontPadding="false"
+                            android:text="淹死的鱼" />
+
+                        <ImageView
+                            android:id="@+id/sender_avatar"
+                            android:layout_width="37dp"
+                            android:layout_height="37dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignTop="@id/sender_name"
+                            />
+
+                        <TextView
+                            android:id="@+id/notification_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_toStartOf="@id/sender_avatar"
+                            android:layout_toLeftOf="@id/sender_avatar"
+                            android:layout_marginEnd="30dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_below="@id/sender_name"
+                            android:layout_marginTop="4dp"
+                            android:textColor="#cc000000"
+                            android:includeFontPadding="false"
+                            android:textSize="14sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下对方就会撒打算家里打飞机撒发的"/>
+
+                    </RelativeLayout>
+                </com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout>
+
+                <RelativeLayout
+                    android:id="@+id/charging_screen_advertisement_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="244dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginStart="18dp"
+                    android:visibility="visible">
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
 
             <com.colorphone.lock.lockscreen.chargingscreen.tipview.ToolTipRelativeLayout
                 android:id="@+id/charging_screen_show_tip_container"
@@ -338,7 +435,7 @@
                 tools:visibility="gone"/>
 
             <com.colorphone.lock.TypefacedTextView
-                android:id="@+id/unlocke_tv"
+                android:id="@+id/unlock_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

@@ -75,7 +75,7 @@ public class LockerSettings {
     }
 
     public static boolean needShowNotificationLocker() {
-        return Preferences.get(LOCKER_PREFS).getBoolean(PREF_KEY_NOTIFICATION_CHARGING, true);
+        return Preferences.get(LOCKER_PREFS).getBoolean(PREF_KEY_NOTIFICATION_LOCKER, true);
     }
 
     public static boolean needShowNotificationCharging() {

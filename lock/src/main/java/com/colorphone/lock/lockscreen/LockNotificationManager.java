@@ -19,6 +19,7 @@ import android.text.TextUtils;
 import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.ScreenStatusReceiver;
+import com.colorphone.lock.lockscreen.chargingscreen.CharingScreenChangeObserver;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -39,6 +40,7 @@ public class LockNotificationManager {
     private final List<String> eventPkgList;
     private AppNotificationInfo info;
     private List<NotificationObserver> list = new ArrayList<>();
+    private List<CharingScreenChangeObserver> list1 = new ArrayList<>();
     private List<String> mWantedAppList = new ArrayList<>();
 
     public static Drawable getAppIcon(String packageName){
@@ -271,6 +273,36 @@ public class LockNotificationManager {
         list.remove(observer);
     }
 
+    public void registerForChargingScreenChange(CharingScreenChangeObserver observer) {
+        list1.add(observer);
+    }
+
+    public void unregisterForChargingScreenChange(CharingScreenChangeObserver observer) {
+        list1.remove(observer);
+    }
+
+    public void sendNotificationForChargingScreen1() {
+        Threads.postOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                for (CharingScreenChangeObserver observer : list1) {
+                    observer.onReceive("Charging Screen Change1");
+                }
+            }
+        });
+    }
+
+    public void sendNotificationForChargingScreen2() {
+        Threads.postOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                for (CharingScreenChangeObserver observer : list1) {
+                    observer.onReceive("Charging Screen Change2");
+                }
+            }
+        });
+    }
+
     private String findDefaultDialerPkg() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         Uri data = Uri.parse("tel:" + "911");
@@ -310,6 +342,11 @@ public class LockNotificationManager {
             return "Text";
         }
         return pkg;
+    }
+
+    public void logEvent(String event, String pkg, String receiveNumber, String showNumber) {
+        LockerCustomConfig.getLogger().logEvent(event,
+                "Source", getEventSourceName(pkg), "ReceiveNumber", receiveNumber, "ShowNumber", showNumber);
     }
 
     public void logEvent(String event, String pkg) {

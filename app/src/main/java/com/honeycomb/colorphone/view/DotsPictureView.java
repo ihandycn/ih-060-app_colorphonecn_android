@@ -11,6 +11,7 @@ import android.graphics.Picture;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.util.AttributeSet;
@@ -152,10 +153,29 @@ public class DotsPictureView extends View {
         return count * 100 / pixels.length;
     }
 
-    public void setSourceBitmap(Bitmap sourceBitmap) {
+    public void setSourceBitmap(@NonNull Bitmap sourceBitmap) {
         HSLog.d("DigP", "setSourceBitmap");
-        mSourceBitmap = sourceBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        if (mSourceBitmap != null && !mSourceBitmap.isRecycled()) {
+            return;
+        }
 
+        mSourceBitmap = sourceBitmap.copy(Bitmap.Config.RGB_565, true);
+        if (mSourceBitmap == null) {
+            // Copy fail
+            return;
+        }
+
+        HSLog.d("DigP", "setSourceBitmap --end");
+    }
+
+    private boolean ensureBitmapCanvas() {
+        if (mSourceBitmap == null) {
+            // Copy fail
+            return false;
+        }
+        if (mBitmapCanvas != null) {
+            return true;
+        }
         HSLog.d("DigP", "createScaledBitmap");
         Bitmap bitmap = Bitmap.createScaledBitmap(mSourceBitmap,
                 (int) Math.ceil(mSourceBitmap.getWidth() * 0.1),
@@ -168,18 +188,18 @@ public class DotsPictureView extends View {
         needLight = darkPercent > 40;
 
         mDotResultBitmap = Bitmap.createBitmap(mSourceBitmap.getWidth(), mSourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        mDotCropBitmap = Bitmap.createBitmap(mSourceBitmap.getWidth(), mSourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         // New picture
         mBitmapCanvas = new Canvas(mDotResultBitmap);
         doDrawDots(mBitmapCanvas);
 
         // Clear and reset
         mSourceBitmap.recycle();
+        mDotCropBitmap = Bitmap.createBitmap(mSourceBitmap.getWidth(), mSourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         mBitmapCanvas = new Canvas(mDotCropBitmap);
 
         maxStokeWidth = (int) (mSourceBitmap.getHeight() * 0.1f);
         minStokeWidth = maxStokeWidth / 2;
-        HSLog.d("DigP", "setSourceBitmap --end");
+        return true;
     }
 
     /**
@@ -220,6 +240,7 @@ public class DotsPictureView extends View {
 
     public boolean startAnimation() {
         if (!mAnimator.isStarted()) {
+            ensureBitmapCanvas();
             mAnimator.start();
             return true;
         }
@@ -253,7 +274,21 @@ public class DotsPictureView extends View {
     @Override
     protected void onDetachedFromWindow() {
         mAnimator.cancel();
+        releaseBitmaps();
         super.onDetachedFromWindow();
+    }
+
+    public void releaseBitmaps() {
+        mBitmapCanvas = null;
+        if (mDotResultBitmap != null && !mDotResultBitmap.isRecycled()) {
+            mDotResultBitmap.recycle();
+            mDotResultBitmap = null;
+        }
+
+        if (mDotCropBitmap != null && !mDotCropBitmap.isRecycled()) {
+            mDotCropBitmap.recycle();
+            mDotCropBitmap = null;
+        }
     }
 
     float strokeWidth = 0;
