@@ -188,13 +188,13 @@ public class DotsPictureView extends View {
         needLight = darkPercent > 40;
 
         mDotResultBitmap = Bitmap.createBitmap(mSourceBitmap.getWidth(), mSourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        mDotCropBitmap = Bitmap.createBitmap(mSourceBitmap.getWidth(), mSourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         // New picture
         mBitmapCanvas = new Canvas(mDotResultBitmap);
         doDrawDots(mBitmapCanvas);
 
         // Clear and reset
         mSourceBitmap.recycle();
+        mDotCropBitmap = Bitmap.createBitmap(mSourceBitmap.getWidth(), mSourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
         mBitmapCanvas = new Canvas(mDotCropBitmap);
 
         maxStokeWidth = (int) (mSourceBitmap.getHeight() * 0.1f);
@@ -278,7 +278,7 @@ public class DotsPictureView extends View {
         super.onDetachedFromWindow();
     }
 
-    private void releaseBitmaps() {
+    public void releaseBitmaps() {
         mBitmapCanvas = null;
         if (mDotResultBitmap != null && !mDotResultBitmap.isRecycled()) {
             mDotResultBitmap.recycle();

@@ -280,4 +280,8 @@ public class DeviceManager {
     public long getTotalRam() {
         return mMemoryInfo.totalMem;
     }
+
+    public long getAvailRam() {
+        return mMemoryInfo.availMem;
+    }
 }

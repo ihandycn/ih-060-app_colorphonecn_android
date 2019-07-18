@@ -1411,7 +1411,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mWindowInTransition = true;
         if (resumed) {
             if (themeLoading) {
-                mProgressViewHolder.hide();
+                mProgressViewHolder.hide(false);
             }
 
             if (themeReady) {
@@ -1515,9 +1515,20 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
 
         public void hide() {
+            hide(true);
+        }
+
+        /**
+         *  Hide
+         * @param clean release resource if need
+         */
+        public void hide(boolean clean) {
             if (mDotsPictureView != null) {
                 mDotsPictureView.setVisibility(View.INVISIBLE);
                 mDotsPictureView.stopAnimation();
+                if (clean) {
+                    mDotsPictureView.releaseBitmaps();
+                }
             }
         }
 
