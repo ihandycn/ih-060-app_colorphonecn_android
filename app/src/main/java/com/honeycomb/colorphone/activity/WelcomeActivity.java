@@ -25,6 +25,7 @@ public class WelcomeActivity extends Activity {
 
     private WelcomeVideoView mVidView;
     private static boolean coldLaunch = true;
+    private boolean mediaFinished;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,10 @@ public class WelcomeActivity extends Activity {
             if (coldLaunch) {
                 mVidView.setCover(cover);
                 mVidView.setPlayEndListener(() -> toMainView());
-                showVideo(mVidView);
+                boolean playSuccess = showVideo(mVidView);
+                if (!playSuccess) {
+                    toMainView();
+                }
                 coldLaunch = false;
             } else {
                 cover.setBackgroundResource(R.drawable.page_start_bg);
@@ -97,6 +101,14 @@ public class WelcomeActivity extends Activity {
         super.onDestroy();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mediaFinished) {
+            toMainView();
+        }
+    }
+
     /**
      * Main activity may use MediaPlayer to play video, we release it here.
      */
@@ -105,17 +117,20 @@ public class WelcomeActivity extends Activity {
         super.onPause();
         if (mVidView != null) {
             mVidView.destroy();
+            mediaFinished = true;
         }
     }
 
-    private void showVideo(WelcomeVideoView playerViewTest) {
+    private boolean showVideo(WelcomeVideoView playerViewTest) {
         AssetManager assetManager = getAssets();
         try {
             playerViewTest.setAssetFile(assetManager.openFd("welcome.mp4"));
             playerViewTest.play();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 }
