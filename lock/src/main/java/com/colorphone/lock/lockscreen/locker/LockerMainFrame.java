@@ -246,6 +246,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         mTvTime = (TextView) findViewById(R.id.tv_time);
         mTvDate = (TextView) findViewById(R.id.tv_date);
         refreshClock();
+        registerReceiverForClock();
         mAdShown = false;
         LockerCustomConfig.get().onEventLockerShow();
     }
@@ -256,6 +257,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         super.onAttachedToWindow();
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
+
 
         ViewTreeObserver viewTreeObserver = getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -386,26 +388,28 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     public void onStart() {
         mOnStartTime = System.currentTimeMillis();
+        refreshClock();
+        registerReceiverForClock();
     }
 
     public void onResume() {
-        refreshClock();
-        registerReceiverForClock();
+
         if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
             expressAdView.switchAd();
         }
     }
 
     public void onPause() {
-        if (ifRegisterForTime) {
-            unregisterReceiverForClock();
-        }
+
 //        if (expressAdView != null && HSConfig.optBoolean(false, "Application", "LockerAutoRefreshAdsEnable")) {
 //            expressAdView.pauseDiblank_handlesplayNewAd();
 //        }
     }
 
     public void onStop() {
+        if (ifRegisterForTime) {
+            unregisterReceiverForClock();
+        }
         if (System.currentTimeMillis() - mOnStartTime > DateUtils.SECOND_IN_MILLIS) {
             LockerCustomConfig.getLogger().logEvent("AcbAdNative_Viewed_In_App", new String[]{LockerCustomConfig.get().getLockerAdName(), String.valueOf(mAdShown)});
             mAdShown = false;
