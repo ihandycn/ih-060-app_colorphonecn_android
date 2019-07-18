@@ -21,8 +21,6 @@ import com.acb.call.constant.ScreenFlashConst;
 import com.acb.call.customize.ScreenFlashFactory;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.utils.FileUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.MemoryCategory;
 import com.call.assistant.customize.CallAssistantConsts;
 import com.call.assistant.customize.CallAssistantManager;
 import com.call.assistant.customize.CallAssistantSettings;
@@ -52,6 +50,8 @@ import com.honeycomb.colorphone.cmgame.CmGameUtil;
 import com.honeycomb.colorphone.cmgame.GameInit;
 import com.honeycomb.colorphone.cmgame.NotificationBarInit;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
+import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
@@ -229,6 +229,10 @@ public class ColorPhoneApplicationImpl {
             Analytics.logEvent("Display_Resolution", "Size",
                     Dimensions.getPhoneWidth(HSApplication.getContext()) + "*"
                             + Dimensions.getPhoneHeight(HSApplication.getContext()));
+
+            if (DefaultPhoneUtils.isDefaultPhone()) {
+                NotificationChannelManager.initChannels(mBaseApplication);
+            }
         }, "Permission_Check_Above23_FirstSessionEnd");
 
         if (needRestartApp) {
@@ -496,6 +500,10 @@ public class ColorPhoneApplicationImpl {
         }
 
         Threads.postOnMainThreadDelayed(FeedbackManager::sendFeedbackToServerIfNeeded, 10 * DateUtils.SECOND_IN_MILLIS);
+
+        if (DefaultPhoneUtils.isDefaultPhone()) {
+            NotificationChannelManager.initChannels(mBaseApplication);
+        }
     }
 
     private void watchLifeTimeAutopilot() {
