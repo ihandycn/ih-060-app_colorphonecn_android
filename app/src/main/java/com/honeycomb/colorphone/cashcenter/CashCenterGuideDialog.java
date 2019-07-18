@@ -120,7 +120,7 @@ public class CashCenterGuideDialog extends FloatWindowDialog {
         });
 
         viewViewWidth = Dimensions.pxFromDp(170);
-        viewViewHeight = Dimensions.pxFromDp(60);
+        viewViewHeight = Dimensions.pxFromDp(70);
         viewOriginalX = Dimensions.getPhoneWidth(HSApplication.getContext()) - viewViewWidth;
     }
 
