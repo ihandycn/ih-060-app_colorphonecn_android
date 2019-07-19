@@ -25,6 +25,11 @@ public class FloatCallButtonManager implements
 
     public void show(Context context) {
         if (mCallFloatButton == null) {
+            DialerCall firstCall = CallList.getInstance().getFirstCall();
+            if (firstCall == null || DialerCallState.isDie(firstCall.getState())) {
+                // No need
+                return;
+            }
             mCallFloatButton = new CallFloatButton(context);
             bottomTimerView = mCallFloatButton.getCallDurationView();
             mCallFloatButton.show();
