@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/call_button_height"
+    android:layout_height="@dimen/call_button_height"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:paddingTop="18dp"
+    android:paddingBottom="16dp"
+    android:background="@drawable/call_float_button_bg">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleType="centerInside"
+        android:src="@drawable/call_float_small_icon"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+    <Chronometer
+        android:id="@+id/call_chronometer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        tools:text="33:22"
+        tools:visibility="visible"
+        android:layout_weight="1"/>
+
+</LinearLayout>

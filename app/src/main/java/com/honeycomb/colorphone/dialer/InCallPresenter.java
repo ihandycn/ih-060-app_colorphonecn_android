@@ -57,6 +57,7 @@ import com.honeycomb.colorphone.dialer.util.GeoUtil;
 import com.honeycomb.colorphone.dialer.util.TouchPointManager;
 import com.honeycomb.colorphone.telecomeventui.InternationalCallOnWifiDialogActivity;
 import com.honeycomb.colorphone.telecomeventui.InternationalCallOnWifiDialogFragment;
+import com.ihs.app.framework.HSApplication;
 
 import java.util.Collections;
 import java.util.List;
@@ -105,6 +106,7 @@ public class InCallPresenter implements CallList.Listener, AudioModeProvider.Aud
   private final Set<InCallEventListener> inCallEventListeners =
       Collections.newSetFromMap(new ConcurrentHashMap<InCallEventListener, Boolean>(8, 0.9f, 1));
 
+  private FloatCallButtonManager mFloatCallButtonManager;
   private StatusBarNotifier statusBarNotifier;
   private ExternalCallNotifier externalCallNotifier;
   private ContactInfoCache contactInfoCache;
@@ -323,6 +325,8 @@ public class InCallPresenter implements CallList.Listener, AudioModeProvider.Aud
     this.statusBarNotifier = statusBarNotifier;
     this.externalCallNotifier = externalCallNotifier;
     addListener(this.statusBarNotifier);
+    mFloatCallButtonManager = new FloatCallButtonManager();
+    addListener(mFloatCallButtonManager);
 
     this.proximitySensor = proximitySensor;
     addListener(this.proximitySensor);
@@ -1152,12 +1156,23 @@ public class InCallPresenter implements CallList.Listener, AudioModeProvider.Aud
     LogUtil.d("InCallPresenter.onActivityStarted", "onActivityStarted");
     notifyVideoPauseController(true);
     applyScreenTimeout();
+    removeFloatCallButton();
   }
+
 
   /*package*/
   void onActivityStopped() {
     LogUtil.d("InCallPresenter.onActivityStopped", "onActivityStopped");
     notifyVideoPauseController(false);
+    showFloatCallButton();
+  }
+
+  private void removeFloatCallButton() {
+    mFloatCallButtonManager.hide();
+  }
+
+  private void showFloatCallButton() {
+    mFloatCallButtonManager.show(HSApplication.getContext());
   }
 
   private void notifyVideoPauseController(boolean showing) {
@@ -1543,6 +1558,10 @@ public class InCallPresenter implements CallList.Listener, AudioModeProvider.Aud
 //        EnrichedCallComponent.get(context)
 //            .getEnrichedCallManager()
 //            .unregisterStateChangedListener(statusBarNotifier);
+      }
+
+      if (mFloatCallButtonManager != null) {
+        removeListener(mFloatCallButtonManager);
       }
 
       if (externalCallNotifier != null && externalCallList != null) {
