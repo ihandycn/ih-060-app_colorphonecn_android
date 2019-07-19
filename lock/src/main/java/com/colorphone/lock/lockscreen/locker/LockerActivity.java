@@ -1,36 +1,15 @@
 package com.colorphone.lock.lockscreen.locker;
 
-import android.app.KeyguardManager;
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
-import android.os.Bundle;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import com.colorphone.lock.R;
-import com.colorphone.lock.fullscreen.NotchTools;
-import com.colorphone.lock.fullscreen.core.NotchProperty;
-import com.colorphone.lock.fullscreen.core.OnNotchCallBack;
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
+import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.TimeDurationLogger;
-import com.ihs.app.alerts.HSAlertMgr;
-import com.ihs.app.framework.activity.HSAppCompatActivity;
-import com.ihs.commons.utils.HSLog;
-import com.superapps.util.Dimensions;
 
-import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
-import static android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
-import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
-import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
-import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
-
-public class LockerActivity extends HSAppCompatActivity {
+public class LockerActivity extends BaseKeyguardActivity {
 
     private static final String TAG = "LOCKER_ACTIVITY";
-
     public static final String EVENT_FINISH_SELF = "locker_event_finish_self";
     public static final String EXTRA_SHOULD_DISMISS_KEYGUARD = "extra_should_dismiss_keyguard";
     public static final String PREF_KEY_CURRENT_WALLPAPER_HD_URL = "current_hd_wallpaper_url";
@@ -41,63 +20,16 @@ public class LockerActivity extends HSAppCompatActivity {
     public static boolean exit = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        overridePendingTransition(0, 0);
-
-        // set translucent status bar & navigation bar
-        Window window = getWindow();
-        exit = true;
-
-        if (!ChargingScreenUtils.isNativeLollipop()) {
-            //window.addFlags(FLAG_FULLSCREEN);
-        } else {
-            noNavigationPadding = true;
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.addFlags(FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(FLAG_TRANSLUCENT_NAVIGATION);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
-
-
-        window.addFlags(FLAG_SHOW_WHEN_LOCKED);
-        window.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        // Dismiss keyguard if needed
-        boolean keyguardFlag = false;
-        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-        if (keyguardManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            keyguardFlag = keyguardManager.isKeyguardSecure();
-            HSLog.d("isKeyguardSecure: " + keyguardManager.isKeyguardSecure()
-                    + " isKeyguardLocked: " + keyguardManager.isKeyguardLocked());
-        }
-        if (!keyguardFlag) {
-            if (keyguardManager != null &&
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                keyguardManager.requestDismissKeyguard(this, null);
-            } else {
-                getWindow().addFlags(FLAG_DISMISS_KEYGUARD);
-            }
-        }
-
-        HSAlertMgr.delayRateAlert();
-
+    protected void onInitView() {
         try {
             setContentView(R.layout.activity_locker);
 
-           /* NotchTools.getFullScreenTools().showNavigation(true).fullScreenUseStatus(this, new OnNotchCallBack() {
-                @Override
-                public void onNotchPropertyCallback(NotchProperty notchProperty) {
-
-                }
-            });*/
+//            NotchTools.getFullScreenTools().showNavigation(true).fullScreenUseStatus(this, new OnNotchCallBack() {
+//                @Override
+//                public void onNotchPropertyCallback(NotchProperty notchProperty) {
+//
+//                }
+//            });
 
             mLocker = new Locker();
             mLocker.setActivityMode(true);
@@ -110,6 +42,11 @@ public class LockerActivity extends HSAppCompatActivity {
         } catch (Exception e) {
             finish();
         }
+    }
+
+    @Override
+    protected boolean fullScreen() {
+        return false;
     }
 
     @Override

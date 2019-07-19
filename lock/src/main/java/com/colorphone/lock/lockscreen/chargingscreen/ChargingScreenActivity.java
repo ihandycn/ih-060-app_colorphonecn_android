@@ -1,29 +1,19 @@
 package com.colorphone.lock.lockscreen.chargingscreen;
 
-import android.app.KeyguardManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager.LayoutParams;
 
 import com.colorphone.lock.R;
 import com.colorphone.lock.fullscreen.NotchTools;
 import com.colorphone.lock.fullscreen.core.NotchProperty;
 import com.colorphone.lock.fullscreen.core.OnNotchCallBack;
+import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
-import com.ihs.app.alerts.HSAlertMgr;
-import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
 
-import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
-import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
-
-public class ChargingScreenActivity extends HSAppCompatActivity {
+public class ChargingScreenActivity extends BaseKeyguardActivity {
 
     private static final String TAG = "CHARGING_SCREEN_ACTIVITY";
     private ChargingScreen mScreen;
@@ -37,43 +27,7 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        HSLog.d(TAG, "onCreate()");
-        exist = true;
-
-        HSAlertMgr.delayRateAlert();
-
-        boolean keyguardFlag = false;
-
-        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-
-        if (keyguardManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            keyguardFlag = keyguardManager.isKeyguardSecure();
-            HSLog.d("isKeyguardSecure: " + keyguardManager.isKeyguardSecure()
-                    + " isKeyguardLocked: " + keyguardManager.isKeyguardLocked());
-        }
-
-        Window window = getWindow();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            window.addFlags(LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
-        if (!ChargingScreenUtils.isNativeLollipop()) {
-            window.addFlags(LayoutParams.FLAG_FULLSCREEN);
-        }
-        window.addFlags(LayoutParams.FLAG_SHOW_WHEN_LOCKED);
-        window.setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        if (!keyguardFlag) {
-            if (keyguardManager != null &&
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                keyguardManager.requestDismissKeyguard(this, null);
-            } else {
-                getWindow().addFlags(FLAG_DISMISS_KEYGUARD);
-            }
-        }
-
+    protected void onInitView() {
         setContentView(R.layout.activity_charging_screen);
 
         mScreen = new ChargingScreen();
@@ -92,7 +46,6 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
                 }
             }
         });
-
     }
 
     @Override
@@ -129,6 +82,7 @@ public class ChargingScreenActivity extends HSAppCompatActivity {
         exist = false;
         super.onDestroy();
     }
+
 
     @Override
     public void onBackPressed() {
