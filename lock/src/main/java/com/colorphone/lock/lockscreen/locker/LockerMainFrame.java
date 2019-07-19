@@ -376,7 +376,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
             }
         });
-        AcbExpressAdManager.getInstance().logAdChance(LockerCustomConfig.get().getLockerAdName());
 
         expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
     }
