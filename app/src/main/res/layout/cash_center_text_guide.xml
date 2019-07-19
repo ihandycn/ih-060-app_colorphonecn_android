@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/cash_center_guide_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/cash_center_guide_image1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:src="@drawable/cash_center_guide_image1" />
+
+    <ImageView
+        android:id="@+id/cash_center_guide_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/cash_center_guide_close"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:src="@drawable/cash_center_guide_close" />
+
+    <com.superapps.view.TypefacedTextView
+        android:id="@+id/cash_center_guide_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:textStyle="bold"
+        android:textColor="#fffefefe"
+        android:textSize="14sp"
+        android:text="@string/cash_center_guide_content11"
+        android:lines="1"
+        app:layout_constraintTop_toTopOf="@id/cash_center_guide_image"
+        app:layout_constraintBottom_toBottomOf="@id/cash_center_guide_image"
+        app:layout_constraintStart_toStartOf="@id/cash_center_guide_image"
+        app:layout_constraintEnd_toEndOf="@id/cash_center_guide_image"
+        app:autoSizeMaxTextSize="14sp"
+        app:autoSizeMinTextSize="11sp"
+        app:autoSizeStepGranularity="1sp"
+        app:autoSizeTextType="uniform"
+        tools:text="@string/cash_center_guide_content11"
+        tools:textSize="11sp"
+        tools:ignore="SmallSp"/>
+
+</android.support.constraint.ConstraintLayout>
+
+

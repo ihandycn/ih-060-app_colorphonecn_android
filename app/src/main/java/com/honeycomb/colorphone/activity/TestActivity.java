@@ -12,6 +12,7 @@ import com.acb.call.service.InCallWindow;
 import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
 
 /**
@@ -94,6 +95,7 @@ public class TestActivity extends AppCompatActivity {
 //            CashCenterGuideDialog.showCashCenterGuideDialog(getApplicationContext());
 //        }, 5000);
 
-        StartGuideActivity.start(getApplicationContext(), StartGuideActivity.FROM_KEY_BANNER);
+//        StartGuideActivity.start(getApplicationContext(), StartGuideActivity.FROM_KEY_BANNER);
+        CashCenterGuideDialog.showCashCenterGuideDialog(this);
     }
 }
