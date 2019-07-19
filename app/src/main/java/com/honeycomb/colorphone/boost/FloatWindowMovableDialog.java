@@ -40,11 +40,11 @@ public abstract class FloatWindowMovableDialog extends FloatWindowDialog {
     private Point oldPoint = new Point();
 
     public FloatWindowMovableDialog(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public FloatWindowMovableDialog(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public FloatWindowMovableDialog(Context context, AttributeSet attrs, int defStyleAttr) {

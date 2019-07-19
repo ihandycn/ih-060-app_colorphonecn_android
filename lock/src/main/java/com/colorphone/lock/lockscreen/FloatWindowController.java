@@ -4,10 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.ihs.app.framework.HSApplication;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSLog;
 
 public class FloatWindowController {
 
-    //private static final String TAG = FloatWindowController.class.getSimpleName();
+    public static final String NOTIFY_KEY_LOCKER_DISMISS = "key_locker_dismiss";
+
     public final static int HIDE_LOCK_WINDOW_NONE = 0;
     public final static int HIDE_LOCK_WINDOW_AUTO_LOCK = 1;
     public final static int HIDE_LOCK_WINDOW_DISMISS_ACTIVITY = 2;
@@ -61,34 +64,12 @@ public class FloatWindowController {
         return false;
     }
 
-    public void hideLockScreen(boolean autoLock) {
-        hideLockScreen(autoLock ? HIDE_LOCK_WINDOW_AUTO_LOCK : HIDE_LOCK_WINDOW_NONE);
-    }
-
-    public void hideLockScreen(boolean autoLock, boolean closeDismissActivty) {
-        int type = autoLock ? HIDE_LOCK_WINDOW_AUTO_LOCK : HIDE_LOCK_WINDOW_NONE;
-        type |= closeDismissActivty ? HIDE_LOCK_WINDOW_DISMISS_ACTIVITY : HIDE_LOCK_WINDOW_NONE;
-        hideLockScreen(type);
-    }
-
     public void hideLockScreen(int closeType) {
         if (null != floatWindowControllerImpl) {
             floatWindowControllerImpl.hideLockScreen(closeType);
-//            HSGlobalNotificationCenter.sendNotification(KeepAliveService.NOTIFICATION_STOP_KEEP_ALIVE);
+            HSLog.i("NotificationDisplayManager", "sendNotification s: " + NOTIFY_KEY_LOCKER_DISMISS);
+            HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_LOCKER_DISMISS);
         }
-    }
-
-    public void hideUpSlideLockScreen() {
-        if (null != floatWindowControllerImpl) {
-            floatWindowControllerImpl.hideUpSlideLockScreen();
-        }
-    }
-
-    public boolean isAutoLockState() {
-        if (null != floatWindowControllerImpl) {
-            return floatWindowControllerImpl.isAutoLockState();
-        }
-        return false;
     }
 
     public boolean isLockScreenShown() {

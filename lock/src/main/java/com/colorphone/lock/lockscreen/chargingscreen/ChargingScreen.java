@@ -42,6 +42,7 @@ import com.colorphone.lock.RipplePopupView;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
+import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
@@ -62,6 +63,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Bitmaps;
+import com.superapps.util.Commons;
 import com.superapps.util.Dimensions;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Threads;
@@ -456,7 +458,6 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     private void showExpressAd() {
         if (expressAdView.getParent() == null) {
-
             advertisementContainer.addView(expressAdView, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
             expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
         }
@@ -991,6 +992,9 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     public void dismiss(Context context, boolean dismissKeyguard) {
         mDismissed = true;
 
+        LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
+                "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked");
+
         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Close",
                 "Reason", mDismissReason,
                 "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
@@ -1011,6 +1015,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             onDestroy();
             super.dismiss(context, dismissKeyguard);
         }
+        HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
     }
 
     public void setActivityMode(boolean activityMode) {

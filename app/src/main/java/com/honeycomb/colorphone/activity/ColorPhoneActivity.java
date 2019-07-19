@@ -1186,7 +1186,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
 
-        CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
+        CountDownTimer countDownTimer = new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if (BuildConfig.DEBUG) {

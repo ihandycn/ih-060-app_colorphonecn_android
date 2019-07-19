@@ -22,10 +22,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.BuildConfig;
-import com.superapps.util.HomeKeyWatcher;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
+import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
@@ -35,6 +35,8 @@ import com.colorphone.lock.lockscreen.locker.statusbar.StatusBar;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.superapps.util.Commons;
+import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Preferences;
 
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
@@ -241,8 +243,6 @@ public class Locker extends LockScreen implements INotificationObserver {
 
                 // Life cycle
                 LockScreensLifeCycleRegistry.setLockerActive(false);
-//                HSGlobalNotificationCenter.sendNotification(NotificationCondition.EVENT_UNLOCK);
-
 
                 if (getContext() instanceof Activity) {
                     final Activity activity = (Activity) getContext();
@@ -255,6 +255,11 @@ public class Locker extends LockScreen implements INotificationObserver {
                     doDismiss();
                     Locker.super.dismiss(context, dismissKeyguard);
                 }
+
+                LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
+                        "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked");
+
+                HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
 
             }
         });
