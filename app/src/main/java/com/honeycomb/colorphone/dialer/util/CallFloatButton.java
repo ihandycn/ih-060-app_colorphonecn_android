@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.dialer.util;
 
 import android.animation.Animator;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -19,7 +20,6 @@ import com.honeycomb.colorphone.boost.FloatWindowMovableDialog;
 import com.honeycomb.colorphone.boost.SafeWindowManager;
 import com.honeycomb.colorphone.dialer.InCallActivity;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Navigations;
 
 public class CallFloatButton extends FloatWindowMovableDialog {
 
@@ -76,20 +76,31 @@ public class CallFloatButton extends FloatWindowMovableDialog {
         return mLayoutParams;
     }
 
-
     @Override
     public void onClick() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            Intent intent =
-                    InCallActivity.getIntent(
-                            getContext(), false /* showDialpad */,
-                            false /* newOutgoingCall */, false);
-            Navigations.startActivitySafely(getContext(), intent);
-
+            PendingIntent pendingIntent = createLaunchPendingIntent(true);
+            try {
+                pendingIntent.send();
+            } catch (PendingIntent.CanceledException e) {
+                e.printStackTrace();
+            }
         }
-
-        fadeOut();
     }
+
+    private PendingIntent createLaunchPendingIntent(boolean isFullScreen) {
+        Intent intent =
+                InCallActivity.getIntent(
+                        getContext(), false /* showDialpad */, false /* newOutgoingCall */, isFullScreen);
+
+        // PendingIntent that can be used to launch the InCallActivity.  The
+        // system fires off this intent if the user pulls down the windowshade
+        // and clicks the notification's expanded view.  It's also used to
+        // launch the InCallActivity immediately when when there's an incoming
+        // call (see the "fullScreenIntent" field below).
+        return PendingIntent.getActivity(getContext(), 1, intent, 0);
+    }
+
 
     private void fadeOut() {
         mContentView.animate().alpha(0).setDuration(200).setListener(new AnimatorListenerAdapter() {

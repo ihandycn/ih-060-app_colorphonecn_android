@@ -28,6 +28,9 @@ public class FloatCallButtonManager implements
             mCallFloatButton = new CallFloatButton(context);
             bottomTimerView = mCallFloatButton.getCallDurationView();
             mCallFloatButton.show();
+            isTimerStarted = false;
+            updateContactIfChanged();
+
         }
     }
 
@@ -36,6 +39,7 @@ public class FloatCallButtonManager implements
             mCallFloatButton.dismiss();
             bottomTimerView = null;
             mCallFloatButton = null;
+            isTimerStarted = false;
         }
     }
 
