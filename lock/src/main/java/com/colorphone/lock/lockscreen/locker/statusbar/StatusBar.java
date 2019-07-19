@@ -25,7 +25,6 @@ import android.widget.TextView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.SystemSettingsManager;
-import com.colorphone.lock.lockscreen.locker.Locker;
 import com.colorphone.lock.lockscreen.locker.LockerUtils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
@@ -164,10 +163,10 @@ public class StatusBar extends RelativeLayout implements SystemSettingsManager.I
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
             if (state == TelephonyManager.CALL_STATE_RINGING) {
-                HSBundle bundle = new HSBundle();
-                bundle.putBoolean(Locker.EXTRA_SHOULD_DISMISS_KEYGUARD, false);
-                bundle.putString(Locker.EXTRA_DISMISS_REASON, "Ringing");
-                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
+//                HSBundle bundle = new HSBundle();
+//                bundle.putBoolean(Locker.EXTRA_SHOULD_DISMISS_KEYGUARD, false);
+//                bundle.putString(Locker.EXTRA_DISMISS_REASON, "Ringing");
+//                HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
             }
         }
 

@@ -9,10 +9,6 @@ import com.colorphone.lock.lockscreen.chargingscreen.TimeDurationLogger;
 
 public class LockerActivity extends BaseKeyguardActivity {
 
-    private static final String TAG = "LOCKER_ACTIVITY";
-    public static final String EVENT_FINISH_SELF = "locker_event_finish_self";
-    public static final String EXTRA_SHOULD_DISMISS_KEYGUARD = "extra_should_dismiss_keyguard";
-    public static final String PREF_KEY_CURRENT_WALLPAPER_HD_URL = "current_hd_wallpaper_url";
     private Locker mLocker;
 
     private boolean noNavigationPadding = false;

@@ -131,7 +131,7 @@ public class ChargingScreenUtils {
             Intent intent = new Intent(HSApplication.getContext(), ChargingScreenActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent.putExtras(bundle);
-            HSGlobalNotificationCenter.sendNotification(LockerActivity.EVENT_FINISH_SELF);
+            HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
             Navigations.startActivitySafely(HSApplication.getContext(),intent);
         } else {
             FloatWindowController.getInstance().showChargingScreen(bundle);
