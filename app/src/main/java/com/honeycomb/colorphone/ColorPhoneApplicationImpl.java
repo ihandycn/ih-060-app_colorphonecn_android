@@ -5,9 +5,11 @@ import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +42,7 @@ import com.crashlytics.android.answers.Answers;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
+import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.boost.BoostActivity;
 import com.honeycomb.colorphone.boost.DeviceManager;
 import com.honeycomb.colorphone.boost.FloatWindowDialog;
@@ -504,6 +507,19 @@ public class ColorPhoneApplicationImpl {
         if (DefaultPhoneUtils.isDefaultPhone()) {
             NotificationChannelManager.initChannels(mBaseApplication);
         }
+
+        mBaseApplication.registerComponentCallbacks(new ComponentCallbacks() {
+            @Override
+            public void onConfigurationChanged(Configuration newConfig) {
+
+            }
+
+            @Override
+            public void onLowMemory() {
+                Analytics.logEvent("Device_Check_LowMemory",
+                        "Brand", AutoLogger.getBrand(), "Os", AutoLogger.getOSVersion());
+            }
+        });
     }
 
     private void watchLifeTimeAutopilot() {
