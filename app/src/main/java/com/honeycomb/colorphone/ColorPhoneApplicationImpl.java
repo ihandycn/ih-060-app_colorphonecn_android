@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.os.BuildCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -504,7 +505,7 @@ public class ColorPhoneApplicationImpl {
 
         Threads.postOnMainThreadDelayed(FeedbackManager::sendFeedbackToServerIfNeeded, 10 * DateUtils.SECOND_IN_MILLIS);
 
-        if (DefaultPhoneUtils.isDefaultPhone()) {
+        if (DefaultPhoneUtils.isDefaultPhone() && BuildCompat.isAtLeastO()) {
             NotificationChannelManager.initChannels(mBaseApplication);
         }
 
