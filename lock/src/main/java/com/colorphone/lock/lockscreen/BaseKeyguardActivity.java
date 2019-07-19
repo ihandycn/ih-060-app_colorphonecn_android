@@ -124,7 +124,7 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
         // Trigger by ourself.
         ingoreUserPresentEvent = true;
         Threads.removeOnMainThread(mUserPresentTimeoutChecker);
-        Threads.postOnMainThread(mUserPresentTimeoutChecker);
+        Threads.postOnMainThreadDelayed(mUserPresentTimeoutChecker, 5000);
     }
 
     @Override
