@@ -53,6 +53,7 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 
+import net.appcloudbox.ads.expressad.AcbExpressAdManager;
 import net.appcloudbox.ads.expressad.AcbExpressAdView;
 
 import java.text.DateFormat;
@@ -375,6 +376,8 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, bundle);
             }
         });
+        AcbExpressAdManager.getInstance().logAdChance(LockerCustomConfig.get().getLockerAdName());
+
         expressAdView.setAutoSwitchAd(AcbExpressAdView.AutoSwitchAd_All);
     }
 
