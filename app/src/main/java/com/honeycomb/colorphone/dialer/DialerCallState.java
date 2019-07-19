@@ -58,6 +58,10 @@ public class DialerCallState {
     return state == DIALING || state == PULLING || state == REDIALING;
   }
 
+  public static boolean isDie(int state) {
+    return state == INVALID || state == DISCONNECTING || state == DISCONNECTED;
+  }
+
   public static String toString(int state) {
     switch (state) {
       case INVALID:
