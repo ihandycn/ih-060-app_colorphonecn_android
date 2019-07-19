@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.dialer.util;
 
 import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Chronometer;
 
 import com.colorphone.lock.AnimatorListenerAdapter;
@@ -24,6 +26,7 @@ import com.superapps.util.Dimensions;
 public class CallFloatButton extends FloatWindowMovableDialog {
 
     private Chronometer mCallDurationView;
+    private ValueAnimator mAnimator;
 
     public CallFloatButton(Context context) {
         super(context);
@@ -43,8 +46,22 @@ public class CallFloatButton extends FloatWindowMovableDialog {
     private void init() {
         mContentView = (ViewGroup) View.inflate(getContext(), R.layout.incall_float_button, this);
         mCallDurationView = mContentView.findViewById(R.id.call_chronometer);
-        viewViewHeight = viewViewWidth = getResources().getDimensionPixelSize(R.dimen.call_button_height);
+        viewViewHeight = viewViewWidth = (int) (getResources().getDimensionPixelSize(R.dimen.call_button_height) * 1.2f);
         viewOriginalX = 0;
+        mAnimator = ValueAnimator.ofFloat(1.0f, 1.1f).setDuration(800);
+        mAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        mAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                mContentView.setScaleX(value);
+                mContentView.setScaleY(value);
+                mContentView.invalidate();
+            }
+        });
+
     }
 
     public Chronometer getCallDurationView() {
@@ -56,6 +73,7 @@ public class CallFloatButton extends FloatWindowMovableDialog {
     }
 
     @Override public void dismiss() {
+        mAnimator.cancel();
         FloatWindowManager.getInstance().removeDialog(this);
     }
 
@@ -115,6 +133,18 @@ public class CallFloatButton extends FloatWindowMovableDialog {
 
     @Override
     public void onAddedToWindow(SafeWindowManager windowManager) {
+    }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        mAnimator.start();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mAnimator.cancel();
+        mAnimator.cancel();
     }
 }
