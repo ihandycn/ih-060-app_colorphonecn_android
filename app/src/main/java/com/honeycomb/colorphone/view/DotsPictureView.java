@@ -183,6 +183,8 @@ public class DotsPictureView extends View {
                 false);
 
         int darkPercent = darkPercent(bitmap, 30);
+        bitmap.recycle();
+
         HSLog.d("DigP", "createScaledBitmap--end , darkPercent = " + darkPercent);
 
         needLight = darkPercent > 40;
