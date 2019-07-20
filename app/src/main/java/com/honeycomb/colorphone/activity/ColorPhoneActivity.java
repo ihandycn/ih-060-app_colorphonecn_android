@@ -34,12 +34,12 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.colorphone.lock.AnimatorListenerAdapter;
 import com.colorphone.lock.lockscreen.chargingscreen.SmartChargingSettings;
-import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.AppflyerLogger;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.ColorPhoneApplication;
 import com.honeycomb.colorphone.ConfigChangeManager;
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.ad.AdManager;
@@ -63,7 +63,6 @@ import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.MainTabLayout;
-import com.honeycomb.colorphone.view.RewardVideoView;
 import com.honeycomb.colorphone.view.TabFrameLayout;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSNotificationConstant;
@@ -106,7 +105,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
     private RecyclerView mRecyclerView;
     private ThemeSelectorAdapter mAdapter;
     private final ArrayList<Theme> mRecyclerViewData = new ArrayList<Theme>();
-    private RewardVideoView mRewardVideoView;
+//    private RewardVideoView mRewardVideoView;
 
     private boolean isPaused;
 
@@ -368,7 +367,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         showTabCashCenter = HSConfig.optBoolean(true, "Application", "CashCenter", "Enable");
 
         if (showTabCashCenter) {
-            initCashCenterMgr();
+            CashCenterUtil.init(this);
 
             Analytics.logEvent("Tab_CashCenter_Icon_Show");
         } else {
@@ -575,11 +574,6 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         }
     }
 
-    private void initCashCenterMgr() {
-        CashCenterUtil.init(this);
-
-    }
-
     private void updateTitle(int pos) {
         if (pos == 0) {
             toolbar.setTitle(getTitle());
@@ -608,7 +602,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                 Analytics.logEvent("List_Page_Permission_Alert_Show");
             }
         }
-        AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
+        AcbRewardAdManager.getInstance().preload(1, Placements.AD_REWARD_VIDEO);
         if (!showAllFeatureGuide) {
 //            dispatchPermissionRequest();
         }
@@ -819,25 +813,31 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             mRecyclerView.setAdapter(null);
         }
 
-        if (mRewardVideoView != null) {
-            mRewardVideoView.onCancel();
-        }
+//        if (mRewardVideoView != null) {
+//            mRewardVideoView.onCancel();
+//        }
 
         if (tabTransController != null) {
             tabTransController.release();
         }
         ConfigChangeManager.getInstance().removeCallback(configChangeCallback);
 
+        if (showTabCashCenter) {
+            CashCenterUtil.cleanAds(this);
+        }
+
         super.onDestroy();
     }
 
     @Override
     public void onBackPressed() {
-        if (mRewardVideoView != null && mRewardVideoView.isLoading()) {
-            mRewardVideoView.onHideAdLoading();
-            mRewardVideoView.onCancel();
-            // TODO logic confusing
-        }  if (mTabLayout.getSelectedTabPosition() != CASH_POSITION || !(lotteryWheelLayout != null && lotteryWheelLayout.isSpining())) {
+//        if (mRewardVideoView != null && mRewardVideoView.isLoading()) {
+//            mRewardVideoView.onHideAdLoading();
+//            mRewardVideoView.onCancel();
+//            // TODO logic confusing
+//        }
+
+        if (mTabLayout.getSelectedTabPosition() != CASH_POSITION || !(lotteryWheelLayout != null && lotteryWheelLayout.isSpining())) {
             if (mDoubleBackHandler.interceptBackPressed()) {
                 mDoubleBackHandler.toast();
             } else {

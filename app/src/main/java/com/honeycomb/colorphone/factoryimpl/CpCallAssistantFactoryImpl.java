@@ -19,9 +19,9 @@ import com.call.assistant.ui.CallIdleAlert;
 import com.call.assistant.ui.CallIdleAlertActivity;
 import com.call.assistant.ui.CallIdleAlertView;
 import com.colorphone.lock.util.ConfigUtils;
-import com.honeycomb.colorphone.AdPlacements;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.FlashManager;
+import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.NotificationAccessGuideAlertActivity;
 import com.honeycomb.colorphone.activity.RateAlertActivity;
@@ -379,7 +379,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
     private static class CPCallIdleConfig extends CallIdleAlert.PlistConfig {
         @Override
         public String getAdPlaceName() {
-            return AdPlacements.AD_CALL_OFF;
+            return Placements.AD_CALL_OFF;
         }
 
         @Override
@@ -393,7 +393,7 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
 
         @Override
         public String getFullScreenAdPlacement() {
-            return AdPlacements.AD_CALL_ASSISTANT_FULL_SCREEN;
+            return Placements.AD_CALL_ASSISTANT_FULL_SCREEN;
         }
 
         @Override

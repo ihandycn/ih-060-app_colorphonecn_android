@@ -34,7 +34,6 @@ import com.honeycomb.colorphone.preview.ThemePreviewView;
 import com.honeycomb.colorphone.preview.ThemeStateManager;
 import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.themeselector.ThemeGuide;
-import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.TransitionUtil;
@@ -207,7 +206,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
 
                 if (shouldShowAdIndex.contains(position)) {
                     HSLog.i("ThemeFullAd", "AcbAdNative_Viewed_In_App: " + (position == lastThemeFullAdIndex));
-                    AcbNativeAdAnalytics.logAppViewEvent(Placements.THEME_DETAIL_NATIVE, (position == lastThemeFullAdIndex));
+                    Analytics.logAdViewEvent(Placements.THEME_DETAIL_NATIVE, (position == lastThemeFullAdIndex));
                     shouldShowAdIndex.remove(Integer.valueOf(position));
                 }
             }

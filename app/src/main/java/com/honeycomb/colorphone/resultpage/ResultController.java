@@ -266,7 +266,7 @@ abstract class ResultController implements View.OnClickListener {
         mAdOrChargingScreenContainerView.addView(adContainer);
         mAdContainer = adContainer;
         if (mAdContainer != null) {
-            mAdContainer.fillNativeAd(ad);
+            mAdContainer.fillNativeAd(ad, "");
         }
     }
 

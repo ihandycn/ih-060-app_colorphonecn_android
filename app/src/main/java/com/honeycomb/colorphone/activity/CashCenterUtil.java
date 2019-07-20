@@ -5,7 +5,6 @@ import android.app.Activity;
 import com.acb.cashcenter.CashCenterCallback;
 import com.acb.cashcenter.HSCashCenterManager;
 import com.acb.cashcenter.dialog.NoAdDialog;
-import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 
@@ -74,7 +73,7 @@ class CashCenterUtil {
             @Override public void onInterstitialShown(boolean b) {
                 Analytics.logEvent("CashCenter_Wire_Ad_Show");
 
-                AcbNativeAdAnalytics.logAppViewEvent("CashWire", b);
+                Analytics.logAdViewEvent("CashWire", b);
             }
 
             @Override public void onRewardShown() {
@@ -84,7 +83,7 @@ class CashCenterUtil {
             @Override public void onNativeShown(boolean b) {
                 Analytics.logEvent("CashCenter_Native_Ad_Show");
 
-                AcbNativeAdAnalytics.logAppViewEvent("CashNative", b);
+                Analytics.logAdViewEvent("CashNative", b);
             }
 
             @Override public void showInterstitialAd(NoAdDialog noAdDialog) {

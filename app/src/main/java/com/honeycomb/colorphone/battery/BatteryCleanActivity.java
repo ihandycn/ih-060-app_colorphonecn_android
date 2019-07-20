@@ -24,6 +24,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageActivity;
 import com.honeycomb.colorphone.resultpage.ResultPageManager;
+import com.honeycomb.colorphone.toolbar.NotificationManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.app.framework.HSApplication;
@@ -321,6 +322,7 @@ public class BatteryCleanActivity extends BaseAppCompatActivity {
                 }
                 if (list.size() == 0) {
                     ResultPageActivity.startForBattery(BatteryCleanActivity.this, true, 0, 0);
+                    NotificationManager.getInstance().updateBattery();
                     finish();
                     return;
                 }

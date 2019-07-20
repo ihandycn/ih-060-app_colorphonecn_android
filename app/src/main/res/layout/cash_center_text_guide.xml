@@ -37,6 +37,7 @@
         android:id="@+id/cash_center_guide_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginRight="50dp"
@@ -59,5 +60,3 @@
         tools:ignore="SmallSp"/>
 
 </android.support.constraint.ConstraintLayout>
-
-

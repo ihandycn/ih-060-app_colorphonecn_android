@@ -3,10 +3,10 @@ package com.honeycomb.colorphone.factoryimpl;
 import android.content.Context;
 import android.content.Intent;
 
-import com.honeycomb.colorphone.AdPlacements;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
 import com.colorphone.lock.lockscreen.locker.LockerActivity;
+import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.Utils;
@@ -33,7 +33,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
         return new NotificationMessageAlertActivity.Config() {
             @Override
             public String getAdPlacement() {
-                return AdPlacements.AD_MSG;
+                return Placements.AD_MSG;
             }
 
             @Override

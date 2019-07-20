@@ -29,7 +29,6 @@ import java.util.Random;
 
 public class CashCenterGuideDialog extends FloatWindowMovableDialog {
     private final static String PREF_KEY_LAST_SHOW_CASH_GUIDE = "pref_key_last_show_cash_guide";
-
     private static final int DAY_MASK = 100;
     protected ViewGroup mContentView;
 
@@ -123,9 +122,6 @@ public class CashCenterGuideDialog extends FloatWindowMovableDialog {
         return false;
     }
 
-    @Override public void onAddedToWindow(SafeWindowManager windowManager) {
-    }
-
     @Override public void onClick() {
         ColorPhoneActivity.startColorPhone(getContext(), ColorPhoneActivity.CASH_POSITION);
         Analytics.logEvent("CashCenter_FloatingGuide_Click", "type", getPeriod(), "content", String.valueOf(contentIndex + 1));
@@ -206,4 +202,7 @@ public class CashCenterGuideDialog extends FloatWindowMovableDialog {
         return "";
     }
 
+    @Override public void onAddedToWindow(SafeWindowManager windowManager) {
+
+    }
 }

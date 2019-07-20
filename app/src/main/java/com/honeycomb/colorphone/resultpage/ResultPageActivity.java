@@ -18,8 +18,8 @@ import com.honeycomb.colorphone.base.BaseAppCompatActivity;
 import com.honeycomb.colorphone.battery.BatteryUtils;
 import com.honeycomb.colorphone.resultpage.data.CardData;
 import com.honeycomb.colorphone.resultpage.data.ResultConstants;
-import com.honeycomb.colorphone.util.AcbNativeAdAnalytics;
 import com.honeycomb.colorphone.util.ActivityUtils;
+import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.FontUtils;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -301,7 +301,7 @@ public class ResultPageActivity extends BaseAppCompatActivity
             isAdShow = mResultController.isAdShown();
             mResultController.release();
         }
-        AcbNativeAdAnalytics.logAppViewEvent(ResultPageManager.getInstance().getExpressAdPlacement(), isAdShow);
+        Analytics.logAdViewEvent(ResultPageManager.getInstance().getExpressAdPlacement(), isAdShow);
 
         ResultPageManager.getInstance().releaseAd();
         ResultPageManager.getInstance().releaseInterstitialAd();

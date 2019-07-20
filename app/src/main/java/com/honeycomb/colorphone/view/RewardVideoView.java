@@ -1,10 +1,11 @@
 package com.honeycomb.colorphone.view;
 
 
+import android.app.Activity;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.honeycomb.colorphone.AdPlacements;
+import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.R;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Toasts;
@@ -57,9 +58,9 @@ public class RewardVideoView {
         return mAdLoadingView != null;
     }
 
-    private void tryShowRewardVideo() {
-        mRewardAdLoader = AcbRewardAdManager.createLoaderWithPlacement(
-                AdPlacements.AD_REWARD_VIDEO);
+    private void tryShowRewardVideo(Activity activity) {
+        mRewardAdLoader = AcbRewardAdManager.getInstance().createLoaderWithPlacement(
+                Placements.AD_REWARD_VIDEO);
         mRewardAdLoader.load(1, new AcbRewardAdLoader.AcbRewardAdLoadListener() {
             @Override
             public void onAdReceived(AcbRewardAdLoader acbRewardAdLoader, List<AcbRewardAd> list) {
@@ -112,8 +113,8 @@ public class RewardVideoView {
                         }
                     });
 
-                    ad.show();
-                    AcbRewardAdManager.preload(1, AdPlacements.AD_REWARD_VIDEO);
+                    ad.show(activity, "");
+                    AcbRewardAdManager.getInstance().preload(1, Placements.AD_REWARD_VIDEO);
                     if (mOnRewardedCallback != null) {
                         mOnRewardedCallback.onAdShow();
                     }
@@ -135,9 +136,9 @@ public class RewardVideoView {
         });
     }
 
-    public void onRequestRewardVideo() {
+    public void onRequestRewardVideo(Activity activity) {
         onShowAdLoading();
-        tryShowRewardVideo();
+        tryShowRewardVideo(activity);
     }
 
     public void onCancel() {
