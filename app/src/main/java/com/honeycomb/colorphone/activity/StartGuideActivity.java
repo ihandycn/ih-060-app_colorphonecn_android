@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -36,6 +37,7 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
+import com.superapps.util.Toasts;
 import com.superapps.util.rom.RomUtils;
 
 /**
@@ -98,6 +100,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
 
         TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
+        CheckBox agree = findViewById(R.id.start_guide_check);
         if (Utils.isAccessibilityGranted() || isRetryEnd()) {
             HSLog.i("AutoPermission", "onPermissionChanged onCreate");
             onPermissionChanged();
@@ -107,9 +110,13 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             } else {
                 enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
                 enableBtn.setOnClickListener(v -> {
-                    Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
-                    ModuleUtils.setAllModuleUserEnable();
-                    showAccessibilityPermissionPage();
+                    if (agree.isChecked()) {
+                        Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
+                        ModuleUtils.setAllModuleUserEnable();
+                        showAccessibilityPermissionPage();
+                    } else {
+                        Toasts.showToast(R.string.privacy_policy_not_agree_toast);
+                    }
                 });
                 Analytics.logEvent("ColorPhone_StartGuide_Show");
             }
