@@ -361,6 +361,6 @@
 
 
     <string name="privacy_policy_agree">已同意</string>
-    <string name="privacy_policy_not_agree_toast">勾选同意后进入来电秀</string>
+    <string name="privacy_policy_not_agree_toast">请先勾选同意后再开启来电秀</string>
 
 </resources>
