@@ -48,7 +48,7 @@ public class ConfigUtils {
             boolean afterEnable = HSMapUtils.getBoolean(map, "After");
 
             long firstInstallTime = getAppFirstInstallTime();
-            String firstInstallDate = sSimpleDateFormat.format(
+            String firstInstallDate = sSimpleDateFormat.get().format(
                     firstInstallTime > 0 ? new Date(firstInstallTime) : new Date());
             boolean currentAfter = firstInstallDate.compareTo(time) >= 0;
             HSLog.d("Enable check install data : " + firstInstallDate + ", enableDateLine = " + time);
