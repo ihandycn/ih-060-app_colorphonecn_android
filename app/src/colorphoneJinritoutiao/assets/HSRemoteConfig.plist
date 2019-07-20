@@ -77,7 +77,7 @@
 				<key>Enable</key>
 				<true/>
 				<key>FloatingGuide</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>Charging</key>
 			<dict>
