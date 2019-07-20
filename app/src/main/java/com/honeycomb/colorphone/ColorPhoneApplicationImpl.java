@@ -234,7 +234,7 @@ public class ColorPhoneApplicationImpl {
                     Dimensions.getPhoneWidth(HSApplication.getContext()) + "*"
                             + Dimensions.getPhoneHeight(HSApplication.getContext()));
 
-            if (DefaultPhoneUtils.isDefaultPhone()) {
+            if (DefaultPhoneUtils.isDefaultPhone() && BuildCompat.isAtLeastO()) {
                 NotificationChannelManager.initChannels(mBaseApplication);
             }
         }, "Permission_Check_Above23_FirstSessionEnd");
