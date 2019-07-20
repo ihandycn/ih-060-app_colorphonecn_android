@@ -1,5 +1,5 @@
 package com.colorphone.lock.lockscreen.chargingscreen;
 
 public interface CharingScreenChangeObserver {
-    void onReceive(String s);
+    void onReceive(int s);
 }

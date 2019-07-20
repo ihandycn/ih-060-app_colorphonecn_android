@@ -6,8 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.PowerManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatButton;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -104,6 +106,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private long mOnStartTime;
 
     private int lockerCount = 0;
+    private int yCoordinatesOfNotificationAbove;
     private boolean ifRegisterForTime = false;
     private ImageView mGameIconEntrance;
 
@@ -257,6 +260,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
+        LockNotificationManager.getInstance().registerForLockerSpaceNotEnough(observer);
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
 
 
@@ -427,6 +431,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         HSGlobalNotificationCenter.removeObserver(this);
         mShimmer.cancel();
         LockNotificationManager.getInstance().unregisterForThemeStateChange(mNotificationWindowHolder);
+        LockNotificationManager.getInstance().unregisterForLockerSpaceNotEnough(observer);
         HSGlobalNotificationCenter.removeObserver(mNotificationWindowHolder);
 
         super.onDetachedFromWindow();
@@ -690,6 +695,15 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         mLockScreen.dismiss(getContext(), true);
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        int[] position = new int[2];
+        mNotificationWindowHolder.getmSlidingWindowAbove().getLocationOnScreen(position);
+        yCoordinatesOfNotificationAbove = position[1];
+
+    }
+
     private final BroadcastReceiver timeChangeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -697,6 +711,36 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
             if (action.equals(Intent.ACTION_TIME_TICK)) {
                 refreshClock();
             }
+        }
+    };
+
+    private TimeTextSizeChangeObserver observer = new TimeTextSizeChangeObserver() {
+        @Override
+        public void update(int showNumber) {
+            HSLog.e("AutoSizing For time " + "yCoordinatesOfNotificationAbove " + yCoordinatesOfNotificationAbove);
+            if (showNumber == 2) {
+                int[] position = new int[2];
+                mTvDate.getLocationOnScreen(position);
+                Rect rect = new Rect();
+                mTvDate.getLocalVisibleRect(rect);
+                int yCoordinatesOfBottomForDate = rect.height() + position[1];
+                int phoneHeight = Dimensions.getPhoneHeight(getContext());
+                HSLog.e("AutoSizing For time " + "judgeHeight " + yCoordinatesOfBottomForDate);
+
+                HSLog.e("AutoSizing For time " + "phoneHeight " + phoneHeight);
+
+                if (yCoordinatesOfNotificationAbove <= yCoordinatesOfBottomForDate) {
+                    if (phoneHeight <= 1920) {
+                        mTvTime.setTextSize(60  * phoneHeight / 1920);
+                        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) mTvTime.getLayoutParams();
+                        layoutParams.verticalBias = 0.12f * phoneHeight / 1920;
+                        mTvTime.setLayoutParams(layoutParams);
+                    }
+                }
+            } else if (showNumber == 1) {
+                mTvTime.setTextSize(60);
+            }
+
         }
     };
 }

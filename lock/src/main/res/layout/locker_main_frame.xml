@@ -86,12 +86,12 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="5.2sp"
             android:textColor="@android:color/white"
-            android:textSize="60.2sp"
+            android:textSize="60sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.09"
+            app:layout_constraintVertical_bias="0.12"
             app:typeface="@string/barlow_regular"/>
 
         <com.colorphone.lock.TypefacedTextView

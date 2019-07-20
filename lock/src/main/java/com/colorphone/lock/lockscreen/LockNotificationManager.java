@@ -20,6 +20,7 @@ import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.chargingscreen.CharingScreenChangeObserver;
+import com.colorphone.lock.lockscreen.locker.TimeTextSizeChangeObserver;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
@@ -41,6 +42,7 @@ public class LockNotificationManager {
     private AppNotificationInfo info;
     private List<NotificationObserver> list = new ArrayList<>();
     private List<CharingScreenChangeObserver> list1 = new ArrayList<>();
+    private List<TimeTextSizeChangeObserver> timeSizeChangeObserverList = new ArrayList<>();
     private List<String> mWantedAppList = new ArrayList<>();
 
     public static Drawable getAppIcon(String packageName){
@@ -281,23 +283,33 @@ public class LockNotificationManager {
         list1.remove(observer);
     }
 
-    public void sendNotificationForChargingScreen1() {
+    public void sendNotificationForChargingScreen(final int showNumber) {
         Threads.postOnMainThread(new Runnable() {
             @Override
             public void run() {
                 for (CharingScreenChangeObserver observer : list1) {
-                    observer.onReceive("Charging Screen Change1");
+                    observer.onReceive(showNumber);
                 }
             }
         });
     }
 
-    public void sendNotificationForChargingScreen2() {
+
+
+    public void registerForLockerSpaceNotEnough(TimeTextSizeChangeObserver observer) {
+        timeSizeChangeObserverList.add(observer);
+    }
+
+    public void unregisterForLockerSpaceNotEnough(TimeTextSizeChangeObserver observer) {
+        timeSizeChangeObserverList.remove(observer);
+    }
+
+    public void notifyForUpdateTimeSize(final int showNumber) {
         Threads.postOnMainThread(new Runnable() {
             @Override
             public void run() {
-                for (CharingScreenChangeObserver observer : list1) {
-                    observer.onReceive("Charging Screen Change2");
+                for (TimeTextSizeChangeObserver observer : timeSizeChangeObserverList) {
+                    observer.update(showNumber);
                 }
             }
         });

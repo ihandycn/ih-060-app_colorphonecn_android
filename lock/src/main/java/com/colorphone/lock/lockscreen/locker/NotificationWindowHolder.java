@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -60,6 +61,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     private int receiveNumberCount;
     private String receiveNumber;
     private int showNumber;
+    private int yOfmSlidingWindowAbove;
     private List<SlidingNotificationLayout> list;
 
     public int displayPosition = 0;
@@ -94,7 +96,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         mSenderAvatar = findViewById(R.id.sender_avatar);
         mSenderName = findViewById(R.id.sender_name);
         mNotificationContent = findViewById(R.id.notification_content);
-        mSlidingWindow.setVisibility(View.GONE);
+        mSlidingWindow.setVisibility(View.INVISIBLE);
 
 
         mSourceAppAvatarAbove = findViewById(R.id.source_app_avatar_above);
@@ -102,7 +104,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         mSenderAvatarAbove = findViewById(R.id.sender_avatar_above);
         mSenderNameAbove = findViewById(R.id.sender_name_above);
         mNotificationContentAbove = findViewById(R.id.notification_content_above);
-        mSlidingWindowAbove.setVisibility(View.GONE);
+        mSlidingWindowAbove.setVisibility(View.INVISIBLE);
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -124,13 +126,23 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             @Override
             public void onDismiss(View v) {
                 mSlidingWindow.setVisibility(View.GONE);
-                if (mSource == SOURCE_LOCKER) {
-                    list.remove(mSlidingWindow);
-                    list.add(mSlidingWindow);
-                    setMarginForNotification();
-                    displayPosition = 4;
+                if (mSlidingWindowAbove.getVisibility() == View.VISIBLE) {
+                    if (mSource == SOURCE_LOCKER) {
+                        list.remove(mSlidingWindow);
+                        list.add(mSlidingWindow);
+                        setMarginForNotification();
+                        displayPosition = 4;
+                    } else {
+                        displayPosition = 1;
+                    }
+                } else {
+                    displayPosition = 0;
                 }
-                showNumber = 1;
+
+                if (showNumber > 0) {
+                    showNumber --;
+                }
+                notifyForTwoScreen();
 
             }
         });
@@ -147,8 +159,11 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             @Override
             public void onDismiss(View v) {
                 mSlidingWindowAbove.setVisibility(View.GONE);
-                showNumber = 1;
+                if (showNumber > 0) {
+                    showNumber --;
+                }
                 displayPosition = 3;
+                notifyForTwoScreen();
             }
         });
     }
@@ -342,11 +357,21 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             changeNotificationWindowBelow(info);
             showNumber = 1;
         }
-        if (showNumber == 1) {
-            LockNotificationManager.getInstance().sendNotificationForChargingScreen1();
-        } else if (showNumber == 2) {
-            LockNotificationManager.getInstance().sendNotificationForChargingScreen2();
-        }
+
+        notifyForTwoScreen();
+    }
+
+    private void notifyForTwoScreen() {
+        LockNotificationManager.getInstance().notifyForUpdateTimeSize(showNumber);
+        LockNotificationManager.getInstance().sendNotificationForChargingScreen(showNumber);
+    }
+
+    public SlidingNotificationLayout getmSlidingWindowAbove() {
+        return mSlidingWindowAbove;
+    }
+
+    public SlidingNotificationLayout getmSlidingWindow() {
+        return mSlidingWindow;
     }
 
     private String getSourceName(int source) {
