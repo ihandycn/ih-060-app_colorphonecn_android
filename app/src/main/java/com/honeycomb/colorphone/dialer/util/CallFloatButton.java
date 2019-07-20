@@ -21,12 +21,14 @@ import com.honeycomb.colorphone.boost.FloatWindowManager;
 import com.honeycomb.colorphone.boost.FloatWindowMovableDialog;
 import com.honeycomb.colorphone.boost.SafeWindowManager;
 import com.honeycomb.colorphone.dialer.InCallActivity;
+import com.honeycomb.colorphone.util.Analytics;
 import com.superapps.util.Dimensions;
 
 public class CallFloatButton extends FloatWindowMovableDialog {
 
     private Chronometer mCallDurationView;
     private ValueAnimator mAnimator;
+    private long startTimeMills;
 
     public CallFloatButton(Context context) {
         super(context);
@@ -69,11 +71,14 @@ public class CallFloatButton extends FloatWindowMovableDialog {
     }
 
     public void show() {
+        Analytics.logEvent("Dialer_Icon_Show");
         FloatWindowManager.getInstance().showDialog(this);
+        startTimeMills = System.currentTimeMillis();
     }
 
     @Override public void dismiss() {
         mAnimator.cancel();
+        startTimeMills = 0;
         FloatWindowManager.getInstance().removeDialog(this);
     }
 
@@ -96,6 +101,19 @@ public class CallFloatButton extends FloatWindowMovableDialog {
 
     @Override
     public void onClick() {
+        String eventDuration = "None";
+        if (startTimeMills > 0) {
+            long duration = System.currentTimeMillis() - startTimeMills;
+            if (duration < 4 * 1000) {
+                eventDuration = "4s-";
+            } else if (duration < 10 * 1000) {
+                eventDuration = "4-10s";
+            } else {
+                eventDuration = "10s+";
+            }
+        }
+        Analytics.logEvent("Dialer_Icon_Click", "Duration", eventDuration);
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             PendingIntent pendingIntent = createLaunchPendingIntent(true);
             try {
