@@ -30,7 +30,6 @@ import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -86,7 +85,6 @@ import com.honeycomb.colorphone.util.Utils;
 import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
-import com.honeycomb.colorphone.view.RewardVideoView;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
@@ -170,9 +168,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private Theme mTheme;
     private Type mThemeType;
     private View dimCover;
-
-    private ViewGroup mUnLockButton;
-    private RewardVideoView mRewardVideoView;
 
     private ThemeStateManager themeStateManager;
 
@@ -395,13 +390,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mTransitionCallView.addTranstionView(new TransitionFadeView(callUserView, CHANGE_MODE_DURATION));
     }
 
-    public boolean isRewardVideoLoading() {
-        if (mRewardVideoView != null && mRewardVideoView.isLoading()) {
-            return true;
-        }
-        return false;
-    }
-
     public boolean isRingtoneSettingShow() {
         return mRingtoneViewHolder.isRingtoneSettingsShow();
     }
@@ -411,13 +399,6 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         mRingtoneViewHolder.hideRingtoneSettings();
     }
 
-    public void stopRewardVideoLoading() {
-        if (mRewardVideoView != null) {
-            mRewardVideoView.onHideAdLoading();
-            mRewardVideoView.onCancel();
-            mUnLockButton.setClickable(true);
-        }
-    }
 
     @DebugLog
     protected void onCreate() {
@@ -1298,11 +1279,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         onStop();
 
         unregisterForInternetChange();
-        if (mRewardVideoView != null) {
-            mRewardVideoView.onCancel();
-        }
-        super.onDetachedFromWindow();
 
+        super.onDetachedFromWindow();
     }
 
     @Override

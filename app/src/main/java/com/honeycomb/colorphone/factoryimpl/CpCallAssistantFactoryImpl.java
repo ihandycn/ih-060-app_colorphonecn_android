@@ -44,7 +44,6 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSPreferenceHelper;
 import com.ihs.flashlight.FlashlightManager;
-import com.ihs.libcharging.ScreenStateMgr;
 import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
@@ -309,7 +308,6 @@ public class CpCallAssistantFactoryImpl extends com.call.assistant.customize.Cal
                     stopFlashIfProper();
                 }
             };
-            HSGlobalNotificationCenter.addObserver(ScreenStateMgr.ACTION_SCREEN_OFF, screenOffObserver);
 
             screenOffReceiver = new BroadcastReceiver() {
                 @Override public void onReceive(Context context, Intent intent) {

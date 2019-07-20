@@ -11,6 +11,7 @@ import android.text.TextUtils;
 
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSPreferenceHelper;
+import com.superapps.util.Threads;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,7 +192,7 @@ public class AppInfoHolder {
         calculatorPackageName = HSPreferenceHelper.getDefault().getString(PREF_CALCULATOR_PACKAGE_NAME, "");
         calculatorActivityName = HSPreferenceHelper.getDefault().getString(PREF_CALCULATOR_ACTIVITY_NAME, "");
         if (TextUtils.isEmpty(calculatorPackageName) || TextUtils.isEmpty(calculatorActivityName)) {
-            new Thread(new Runnable() {
+            Threads.postOnThreadPoolExecutor(new Runnable() {
 
                 @Override
                 public void run() {
@@ -206,7 +207,7 @@ public class AppInfoHolder {
                         }
                     }
                 }
-            }).start();
+            });
         }
     }
 

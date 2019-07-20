@@ -11,17 +11,23 @@ import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.commons.utils.HSMapUtils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ConfigUtils {
     public static final String APP_FIRST_INSTALL_TIME = "app_first_install_time";
     private static final int SHOW_AD_VERSION_CODE = 26;
 
-    static SimpleDateFormat sSimpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
-
+    private static ThreadLocal<DateFormat> sSimpleDateFormat = new ThreadLocal<DateFormat>() {
+        @Override
+        protected DateFormat initialValue() {
+            return new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
+        }
+    };
     public static boolean isEnabled(String... path) {
         boolean result = false;
         try {

@@ -8,13 +8,13 @@ import com.colorphone.lock.fullscreen.core.INotchSupport;
 import com.colorphone.lock.fullscreen.core.OnNotchCallBack;
 import com.colorphone.lock.fullscreen.helper.DeviceBrandTools;
 import com.colorphone.lock.fullscreen.helper.NotchStatusBarUtils;
-import com.colorphone.lock.fullscreen.helper.ThreadUtils;
 import com.colorphone.lock.fullscreen.phone.CommonScreen;
 import com.colorphone.lock.fullscreen.phone.HuaWeiNotchScreen;
 import com.colorphone.lock.fullscreen.phone.MiuiNotchScreen;
 import com.colorphone.lock.fullscreen.phone.OppoNotchScreen;
 import com.colorphone.lock.fullscreen.phone.PVersionNotchScreen;
 import com.colorphone.lock.fullscreen.phone.VivoNotchScreen;
+import com.superapps.util.Threads;
 
 
 /**
@@ -167,7 +167,7 @@ public class NotchTools implements INotchSupport {
 
     @Override
     public void fullScreenDontUseStatusForLandscape(final Activity activity, final OnNotchCallBack notchCallBack) {
-        ThreadUtils.post2UI(new Runnable() {
+        Threads.postOnMainThread(new Runnable() {
             @Override
             public void run() {
                 if (notchScreenSupport == null) {
