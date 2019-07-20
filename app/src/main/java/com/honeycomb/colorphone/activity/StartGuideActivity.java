@@ -5,15 +5,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.Constants;
@@ -25,6 +29,7 @@ import com.honeycomb.colorphone.startguide.StartGuideViewHolder;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -37,7 +42,6 @@ import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
-import com.superapps.util.Toasts;
 import com.superapps.util.rom.RomUtils;
 
 /**
@@ -115,7 +119,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         ModuleUtils.setAllModuleUserEnable();
                         showAccessibilityPermissionPage();
                     } else {
-                        Toasts.showToast(R.string.privacy_policy_not_agree_toast);
+                        showToast();
                     }
                 });
                 Analytics.logEvent("ColorPhone_StartGuide_Show");
@@ -460,5 +464,23 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             button.animate().alpha(1f).setDuration(750).start();
         }, 2400);
         AutoLogger.logEventWithBrandAndOS("Accessbility_Guide_Show");
+    }
+
+    private Toast toast;
+    public void showToast() {
+        if (toast != null) {
+            toast.cancel();
+        }
+
+        toast = new Toast(HSApplication.getContext().getApplicationContext());
+        final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.toast_start_guide_check, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            contentView.setElevation(Dimensions.pxFromDp(8));
+        }
+        TextView textView = contentView.findViewById(R.id.start_guide_check);
+        textView.setBackground(BackgroundDrawables.createBackgroundDrawable(getResources().getColor(R.color.white_87_transparent), Dimensions.pxFromDp(8), false));
+        toast.setGravity(Gravity.CENTER, 0 , 0);
+        toast.setView(contentView);
+        toast.show();
     }
 }
