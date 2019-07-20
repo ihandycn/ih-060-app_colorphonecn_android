@@ -231,7 +231,13 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         mAppNotificationInfo = info;
         mSenderName.setText(info.title);
         mNotificationContent.setText(info.content);
-        mSenderAvatar.setImageBitmap(info.notification.largeIcon);
+        if (info.notification.largeIcon != null) {
+            mSenderAvatar.setVisibility(View.VISIBLE);
+            mSenderAvatar.setImageBitmap(info.notification.largeIcon);
+        } else {
+            mSenderAvatar.setVisibility(View.GONE);
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             mSourceAppAvatar.setBackground(LockNotificationManager.getAppIcon(info.packageName));
         }
@@ -256,7 +262,12 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         mAppNotificationInfo = info;
         mSenderNameAbove.setText(info.title);
         mNotificationContentAbove.setText(info.content);
-        mSenderAvatarAbove.setImageBitmap(info.notification.largeIcon);
+        if (info.notification.largeIcon != null) {
+            mSenderAvatarAbove.setVisibility(View.VISIBLE);
+            mSenderAvatarAbove.setImageBitmap(info.notification.largeIcon);
+        } else {
+            mSenderAvatarAbove.setVisibility(View.GONE);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             mSourceAppAvatarAbove.setBackground(LockNotificationManager.getAppIcon(info.packageName));
         }

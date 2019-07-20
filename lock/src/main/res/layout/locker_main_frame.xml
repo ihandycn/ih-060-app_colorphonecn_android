@@ -171,26 +171,29 @@
                 android:id="@+id/sender_avatar"
                 android:layout_width="37dp"
                 android:layout_height="37dp"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignTop="@id/sender_name" />
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_alignTop="@id/sender_name"
+                />
 
             <TextView
                 android:id="@+id/notification_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_toStartOf="@id/sender_avatar"
-                android:layout_toLeftOf="@id/sender_avatar"
-                android:layout_marginEnd="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/sender_avatar"
+                android:layout_toLeftOf="@+id/sender_avatar"
                 android:layout_below="@id/sender_name"
                 android:layout_marginTop="4dp"
+                android:textColor="#cc000000"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下"/>
+                android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下对方就会撒打算家里打飞机撒发的"/>
 
         </RelativeLayout>
     </com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout>
@@ -251,26 +254,29 @@
                 android:id="@+id/sender_avatar_above"
                 android:layout_width="37dp"
                 android:layout_height="37dp"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignTop="@id/sender_name_above" />
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_alignTop="@id/sender_name_above"
+                />
 
             <TextView
                 android:id="@+id/notification_content_above"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_toStartOf="@id/sender_avatar_above"
-                android:layout_toLeftOf="@id/sender_avatar_above"
-                android:layout_marginEnd="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/sender_avatar_above"
+                android:layout_toLeftOf="@+id/sender_avatar_above"
                 android:layout_below="@id/sender_name_above"
                 android:layout_marginTop="4dp"
+                android:textColor="#cc000000"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下"/>
+                android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下对方就会撒打算家里打飞机撒发的"/>
 
         </RelativeLayout>
     </com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout>
