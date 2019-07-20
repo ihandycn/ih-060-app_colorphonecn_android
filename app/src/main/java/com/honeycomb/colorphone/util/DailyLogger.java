@@ -14,13 +14,13 @@ import com.call.assistant.customize.CallAssistantSettings;
 import com.call.assistant.util.CommonUtils;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.autopermission.RomUtils;
+import com.honeycomb.colorphone.permission.PermissionChecker;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Calendars;
 import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
-import com.superapps.util.RuntimePermissions;
 
 public class DailyLogger {
     public static final String PREF_KEY_DAILY_EVENTS_LOGGED_TIME = "default_launcher_logged_epoch";
@@ -75,12 +75,9 @@ public class DailyLogger {
         }
 
         Context context = HSApplication.getContext();
-        boolean phoneAccessGranted = RuntimePermissions.checkSelfPermission(
-                context, Manifest.permission.READ_PHONE_STATE) >= 0;
-        boolean contactsAccessGranted = RuntimePermissions.checkSelfPermission(
-                context, Manifest.permission.READ_CONTACTS) >= 0;
-//                RuntimePermissions.checkSelfPermission(
-//                context, Manifest.permission.WRITE_EXTERNAL_STORAGE) >= 0;
+        boolean phoneAccessGranted = PermissionChecker.hasPhonePermission();
+
+        boolean contactsAccessGranted = PermissionChecker.hasCotactPermission();
 
         boolean notificationAccessGranted = PermissionHelper.isNotificationAccessGranted(context);
 
@@ -99,11 +96,8 @@ public class DailyLogger {
         // Theme id valid.
 
         Context context = HSApplication.getContext();
-        boolean phoneAccessGranted = RuntimePermissions.checkSelfPermission(
-                context, Manifest.permission.READ_PHONE_STATE) >= 0;
-        boolean contactsAccessGranted = RuntimePermissions.checkSelfPermission(
-                context, Manifest.permission.READ_CONTACTS) >= 0;
-
+        boolean phoneAccessGranted = PermissionChecker.hasPhonePermission();
+        boolean contactsAccessGranted = PermissionChecker.hasCotactPermission();
         boolean notificationAccessGranted = PermissionHelper.isNotificationAccessGranted(context);
 
         if (CommonUtils.ATLEAST_MARSHMALLOW && Utils.isNewUser()) {

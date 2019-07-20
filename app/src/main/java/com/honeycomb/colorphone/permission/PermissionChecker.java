@@ -12,8 +12,11 @@ import com.acb.colorphone.permissions.Module;
 import com.acb.colorphone.permissions.NormalChecker;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.util.PermissionsTarget22;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.superapps.util.Preferences;
+import com.superapps.util.RuntimePermissions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,6 +75,32 @@ public class PermissionChecker {
     private NormalChecker mNormalChecker;
     private PermissionChecker() {
         mNormalChecker = new NormalChecker(sModules);
+    }
+
+    public static boolean hasPhonePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            int result = PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.READ_PHONE_STATE);
+            if (result != PermissionsTarget22.ERROR) {
+                return result == PermissionsTarget22.GRANTED;
+            }
+        } else {
+            return RuntimePermissions.checkSelfPermission(
+                    HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) >= 0;
+        }
+        return false;
+    }
+
+    public static boolean hasCotactPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            int result = PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.READ_CONTACT);
+            if (result != PermissionsTarget22.ERROR) {
+                return result == PermissionsTarget22.GRANTED;
+            }
+        } else {
+            return RuntimePermissions.checkSelfPermission(
+                    HSApplication.getContext(), Manifest.permission.READ_CONTACTS) >= 0;
+        }
+        return false;
     }
 
     public void checkForcely(Activity activity, String source) {
