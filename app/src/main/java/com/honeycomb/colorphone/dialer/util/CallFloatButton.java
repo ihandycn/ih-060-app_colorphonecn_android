@@ -99,9 +99,17 @@ public class CallFloatButton extends FloatWindowMovableDialog {
         return mLayoutParams;
     }
 
+    private long clickTimeMills;
     @Override
     public void onClick() {
         String eventDuration = "None";
+        long clickInterval = System.currentTimeMillis() - clickTimeMills;
+        // Block clicks in 2 seconds.
+        if (clickInterval < 2 * 1000) {
+            return;
+        }
+
+        clickTimeMills = System.currentTimeMillis();
         if (startTimeMills > 0) {
             long duration = System.currentTimeMillis() - startTimeMills;
             if (duration < 4 * 1000) {
