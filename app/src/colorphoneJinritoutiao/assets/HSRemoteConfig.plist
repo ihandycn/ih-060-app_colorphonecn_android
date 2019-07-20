@@ -18,7 +18,7 @@
 				<key>AccessibilityShowCount</key>
 				<integer>1</integer>
 				<key>IngoreBattery</key>
-				<false/>
+				<true/>
 				<key>SkipShowCount</key>
 				<integer>100</integer>
 				<key>ToastDurationSeconds</key>
