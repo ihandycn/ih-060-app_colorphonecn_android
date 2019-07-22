@@ -104,6 +104,7 @@ import com.ihs.device.permanent.HSPermanentUtils;
 import com.ihs.libcharging.HSChargingManager;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
 import com.messagecenter.customize.MessageCenterManager;
 import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
@@ -360,7 +361,13 @@ public class ColorPhoneApplicationImpl {
         mConfigLog = new ConfigLogDefault();
         mDailyLogger = new DailyLogger();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        FileDownloader.setup(mBaseApplication);
+
+        FileDownloader.setupOnApplicationOnCreate(mBaseApplication)
+                .connectionCreator(new FileDownloadUrlConnection.Creator(
+                        new FileDownloadUrlConnection.Configuration()
+                .connectTimeout(8000)
+                .readTimeout(4000)))
+                .commit();
 
         Threads.postOnSingleThreadExecutor(new Runnable() {
             @Override

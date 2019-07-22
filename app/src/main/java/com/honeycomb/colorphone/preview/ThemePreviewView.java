@@ -285,6 +285,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
             mProgressHelper.setProgressVideo((int) (percent * 100));
             mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
+            if (BuildConfig.DEBUG) {
+                HSLog.d(TAG, "[Media] Downloading : " + mTheme.getIdName() + ", progress: " + (int) (percent * 100));
+            }
         }
     };
 
@@ -312,7 +315,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mProgressHelper.setProgressRingtone((int) (percent * 100));
             mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
             if (BuildConfig.DEBUG) {
-                HSLog.d("Ringtone", "Downloading : " + mTheme.getIdName() + ", progress: " + (int) (percent * 100));
+                HSLog.d(TAG, "[Ringtone] Downloading : " + mTheme.getIdName() + ", progress: " + (int) (percent * 100));
             }
         }
     };
