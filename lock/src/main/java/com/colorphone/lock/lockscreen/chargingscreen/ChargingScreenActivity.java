@@ -17,7 +17,7 @@ public class ChargingScreenActivity extends BaseKeyguardActivity {
 
     private static final String TAG = "CHARGING_SCREEN_ACTIVITY";
     private ChargingScreen mScreen;
-    public static boolean exist;
+    public static boolean exist = false;
 
     private Runnable displaySuccessChecker = new Runnable() {
         @Override
@@ -46,6 +46,7 @@ public class ChargingScreenActivity extends BaseKeyguardActivity {
                 }
             }
         });
+        exist = true;
     }
 
     @Override
@@ -78,8 +79,8 @@ public class ChargingScreenActivity extends BaseKeyguardActivity {
 
     @Override
     protected void onDestroy() {
-        mScreen.onDestroy();
         exist = false;
+        mScreen.onDestroy();
         super.onDestroy();
     }
 

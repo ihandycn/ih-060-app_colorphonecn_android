@@ -30,6 +30,7 @@ import com.call.assistant.customize.CallAssistantSettings;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.FloatWindowCompat;
+import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreenStarter;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings;
@@ -221,6 +222,18 @@ public class ColorPhoneApplicationImpl {
                         appInit.onInit(mBaseApplication);
                     }
                 }
+            } else if (TextUtils.equals(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS, notificationName)) {
+                if (CashCenterGuideDialog.isPeriod(HSApplication.getContext())) {
+                    CashCenterGuideDialog.showCashCenterGuideDialog(HSApplication.getContext());
+
+                    Threads.postOnMainThreadDelayed(() -> {
+                        FloatWindowDialog dialog = FloatWindowManager.getInstance().getDialog(CashCenterGuideDialog.class);
+                        FloatWindowManager.getInstance().removeDialog(dialog);
+                    }, 3 * DateUtils.MINUTE_IN_MILLIS);
+
+                } else {
+                    HSLog.i("CCTest", "not time");
+                }
             }
         }
     };
@@ -404,7 +417,7 @@ public class ColorPhoneApplicationImpl {
                 ChargingScreenUtils.startChargingScreenActivity(false, true);
             }
         } else if (LockerSettings.isLockerEnabled()) {
-            if (!LockerActivity.exit) {
+            if (!LockerActivity.exist) {
                 ChargingScreenUtils.startLockerActivity(true);
             }
         }
@@ -738,6 +751,7 @@ public class ColorPhoneApplicationImpl {
         HSGlobalNotificationCenter.addObserver(ChargingScreenSettings.NOTIFY_CHARGING_SCREEN_STATE, mObserver);
         HSGlobalNotificationCenter.addObserver(SlidingDrawerContent.EVENT_SHOW_BLACK_HOLE, mObserver);
         HSGlobalNotificationCenter.addObserver(Constants.NOTIFY_KEY_APP_FULLY_DISPLAY, mObserver);
+        HSGlobalNotificationCenter.addObserver(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS, mObserver);
 
         final IntentFilter screenFilter = new IntentFilter();
         screenFilter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -766,8 +780,7 @@ public class ColorPhoneApplicationImpl {
                         }
                     }
 
-
-                    if (CashCenterGuideDialog.isPeriod()) {
+                    if (CashCenterGuideDialog.isPeriod(context)) {
                         CashCenterGuideDialog.showCashCenterGuideDialog(context);
 
                         Threads.postOnMainThreadDelayed(() -> {

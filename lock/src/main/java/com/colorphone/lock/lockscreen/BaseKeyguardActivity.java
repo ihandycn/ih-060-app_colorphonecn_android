@@ -137,9 +137,15 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        exist = false;
         super.onDestroy();
         unregisterReceiver(mBroadcastReceiver);
         Threads.removeOnMainThread(mUserPresentTimeoutChecker);
+    }
+
+    @Override public void finish() {
+        exist = false;
+        super.finish();
     }
 
     protected abstract void onInitView();

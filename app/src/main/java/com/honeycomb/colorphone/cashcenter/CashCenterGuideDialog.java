@@ -11,6 +11,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.colorphone.lock.ScreenStatusReceiver;
+import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.activity.ColorPhoneActivity;
 import com.honeycomb.colorphone.boost.FloatWindowDialog;
@@ -20,6 +22,7 @@ import com.honeycomb.colorphone.boost.SafeWindowManager;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.superapps.util.Commons;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.rom.RomUtils;
@@ -79,6 +82,8 @@ public class CashCenterGuideDialog extends FloatWindowMovableDialog {
         init();
 
         recordShow();
+
+        isShown = true;
     }
 
     private void init() {
@@ -97,8 +102,13 @@ public class CashCenterGuideDialog extends FloatWindowMovableDialog {
         viewOriginalX = Dimensions.getPhoneWidth(HSApplication.getContext()) - viewViewWidth;
     }
 
+    @Override public boolean hasNoNeedToShow() {
+        return !isShown;
+    }
+
     @Override public void dismiss() {
         FloatWindowManager.getInstance().removeDialog(this);
+        isShown = false;
     }
 
     @Override public WindowManager.LayoutParams getLayoutParams() {
@@ -150,12 +160,17 @@ public class CashCenterGuideDialog extends FloatWindowMovableDialog {
         Analytics.logEvent("CashCenter_FloatingGuide_Show", "content", String.valueOf(contentIndex + 1));
     }
 
-    public static boolean isPeriod() {
+    public static boolean isPeriod(Context context) {
         if (!HSConfig.optBoolean(false, "Application", "CashCenter", "FloatingGuide")) {
             return false;
         }
 
         if (!RomUtils.checkIsHuaweiRom() && !RomUtils.checkIsMiuiRom()) {
+            return false;
+        }
+
+        if (!Commons.isKeyguardLocked(context, false)
+                && BaseKeyguardActivity.exist && !ScreenStatusReceiver.isScreenOn()) {
             return false;
         }
 

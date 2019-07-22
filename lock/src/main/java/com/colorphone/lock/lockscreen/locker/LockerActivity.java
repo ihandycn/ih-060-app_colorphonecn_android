@@ -12,8 +12,7 @@ public class LockerActivity extends BaseKeyguardActivity {
     private Locker mLocker;
 
     private boolean noNavigationPadding = false;
-
-    public static boolean exit = false;
+    public static boolean exist = false;
 
     @Override
     protected void onInitView() {
@@ -35,6 +34,7 @@ public class LockerActivity extends BaseKeyguardActivity {
                 ViewGroup container = (ViewGroup) findViewById(R.id.locker_pager);
                 //container.setPadding(0, 0, 0, Dimensions.getNavigationBarHeight(this));
             }
+            exist = true;
         } catch (Exception e) {
             finish();
         }
@@ -74,9 +74,9 @@ public class LockerActivity extends BaseKeyguardActivity {
 
     @Override
     protected void onDestroy() {
+        exist = false;
         super.onDestroy();
         mLocker.onDestroy();
-        exit = false;
     }
 
     @Override

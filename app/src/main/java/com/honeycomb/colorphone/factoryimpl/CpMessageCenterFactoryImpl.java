@@ -3,9 +3,8 @@ package com.honeycomb.colorphone.factoryimpl;
 import android.content.Context;
 import android.content.Intent;
 
+import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
-import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenActivity;
-import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -48,7 +47,7 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
             }
 
             @Override public boolean waitForLocker() {
-                return (FloatWindowController.getInstance().isLockScreenShown() || ChargingScreenActivity.exist || LockerActivity.exit)
+                return (FloatWindowController.getInstance().isLockScreenShown() || BaseKeyguardActivity.exist)
                         && !Utils.isKeyguardLocked(HSApplication.getContext(), false);
             }
 
