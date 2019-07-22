@@ -96,9 +96,9 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
                     + " isKeyguardLocked: " + keyguardManager.isKeyguardLocked());
         }
 
-        if (!isKeyguardSecure) {
-            tryDismissKeyguard();
-        }
+//        if (!isKeyguardSecure) {
+//            tryDismissKeyguard();
+//        }
 
         boolean isScreenOn = Utils.isScreenOn();
         if (!isScreenOn) {
@@ -131,7 +131,7 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (!isKeyguardSecure) {
-           tryDismissKeyguard();
+//           tryDismissKeyguard();
         }
     }
 
@@ -141,11 +141,19 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
         super.onDestroy();
         unregisterReceiver(mBroadcastReceiver);
         Threads.removeOnMainThread(mUserPresentTimeoutChecker);
+
+        if (!isKeyguardSecure) {
+            tryDismissKeyguard();
+        }
     }
 
     @Override public void finish() {
         exist = false;
         super.finish();
+
+        if (!isKeyguardSecure) {
+            tryDismissKeyguard();
+        }
     }
 
     protected abstract void onInitView();
