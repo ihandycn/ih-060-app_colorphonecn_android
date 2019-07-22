@@ -18,7 +18,6 @@ import com.honeycomb.colorphone.download.DownloadStateListener;
 import com.honeycomb.colorphone.download.FileDownloadMultiListener;
 import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.download.TasksManagerModel;
-import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Threads;
@@ -79,7 +78,7 @@ public class ThemeDownloadJobService extends JobService {
         if (taskId > 0) {
             TasksManagerModel model = TasksManager.getImpl().getById(taskId);
             if (model == null) {
-                if (TasksManager.getImpl().isLoading()) {
+                if (TasksManager.getImpl().isRestoringTasks()) {
                     TasksManager.getImpl().setTaskReadyCallback(pendingWorkRunnable);
                 } else {
                     onJobFinish(jobParameters, true);
@@ -144,9 +143,9 @@ public class ThemeDownloadJobService extends JobService {
             return;
         }
 
-        TasksManagerModel model = TasksManager.getImpl().getByThemeId(theme.getId());
+        TasksManagerModel model = TasksManager.getImpl().requestMediaTask(theme);
         if (model == null) {
-            if (TasksManager.getImpl().isLoading()) {
+            if (TasksManager.getImpl().isRestoringTasks()) {
                 TasksManager.getImpl().setTaskReadyCallback(pendingWorkRunnable);
             } else {
                 onJobFinish(jobParameters, true);

@@ -1,12 +1,12 @@
 package com.honeycomb.colorphone.download;
 
+import android.support.annotation.MainThread;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.acb.call.themes.Type;
 import com.acb.call.utils.FileUtils;
 import com.honeycomb.colorphone.BuildConfig;
-import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
@@ -15,8 +15,12 @@ import com.liulishuo.filedownloader.FileDownloadConnectListener;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.liulishuo.filedownloader.model.FileDownloadStatus;
+import com.liulishuo.filedownloader.util.FileDownloadHelper;
 import com.liulishuo.filedownloader.util.FileDownloadUtils;
 import com.superapps.util.Threads;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -26,20 +30,47 @@ import java.util.List;
 
 public class TasksManager {
 
-    public static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & false;
+    public static final boolean DEBUG_PROGRESS = BuildConfig.DEBUG & true;
     private static final java.lang.String TAG = TasksManager.class.getSimpleName();
 
     private static final String TOKEN_EXTRA_RINGTONE = "ringtone";
-    private volatile boolean isLoading;
+    private volatile boolean isRestoreTasks;
     private Runnable taskReadyCallback = null;
 
+    public void downloadTheme(@NotNull Theme theme, @Nullable Object tag) {
+        TasksManagerModel mediaTask = getMediaTaskByThemeId(theme.getId());
+        if (mediaTask == null) {
+            mediaTask = addMediaTask(theme);
+        }
+        downloadThemeThreadSafely(mediaTask, tag);
+
+
+        if (theme.hasRingtone()) {
+            TasksManagerModel ringtoneTask = getRingtoneTaskByThemeId(theme.getId());
+            if (ringtoneTask == null) {
+                ringtoneTask =  addRingtoneTask(theme);
+            }
+            downloadThemeThreadSafely(ringtoneTask, tag);
+        }
+    }
+
+    private void downloadThemeThreadSafely(@NotNull TasksManagerModel model, @Nullable Object tag) {
+        Threads.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                doDownload(model, tag);
+            }
+        });
+    }
+
+    @MainThread
     public static boolean doDownload(TasksManagerModel model, Object tag) {
         HSLog.d(TAG, "doDownload : " + model.getName());
         if (model != null) {
             BaseDownloadTask oldTask = getImpl().getTask(model.getId());
             if (oldTask != null && oldTask.isRunning()) {
                 if (DEBUG_PROGRESS) {
-                    HSLog.d("SUNDXING", "Task Exist, taskId = " + model.getId());
+                    HSLog.d(TAG, "Task Exist, taskId = " + model.getId());
                 }
                 return false;
             }
@@ -66,42 +97,40 @@ public class TasksManager {
         }
     }
 
-    public void init() {
-        if (!FileDownloader.getImpl().isServiceConnected()) {
-            FileDownloader.getImpl().bindService();
-        }
-    }
-
     private final static class HolderClass {
         private final static TasksManager INSTANCE
                 = new TasksManager();
-    }
-
-    public static TasksManager getImpl() {
-        return HolderClass.INSTANCE;
     }
 
     private TasksManagerDBController dbController;
     private List<TasksManagerModel> modelList = new ArrayList<>();
 
     private TasksManager() {
-        dbController = new TasksManagerDBController();
-        loadTasks();
+
     }
 
-    // TODO modelList may empty
-    private void loadTasks() {
-        isLoading = true;
+    public static TasksManager getImpl() {
+        return HolderClass.INSTANCE;
+    }
+
+    public void init() {
+        dbController = new TasksManagerDBController();
+        loadTasksFromDB();
+    }
+
+    private void loadTasksFromDB() {
+        isRestoreTasks = true;
         HSLog.d(TAG, "restore tasks from local");
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
                 synchronized (TasksManager.this) {
+                    HSLog.d(TAG, "restore tasks from local start.");
                     List<TasksManagerModel> temp = dbController.getAllTasks();
                     modelList.clear();
                     modelList.addAll(temp);
                 }
-                isLoading = false;
+                isRestoreTasks = false;
                 HSLog.d(TAG, "restore tasks from local finished. Total tasks : " + modelList.size());
                 if (taskReadyCallback != null) {
                     Threads.postOnMainThread(taskReadyCallback);
@@ -114,8 +143,8 @@ public class TasksManager {
         this.taskReadyCallback = taskReadyCallback;
     }
 
-    public boolean isLoading() {
-        return isLoading;
+    public boolean isRestoringTasks() {
+        return isRestoreTasks;
     }
 
     private SparseArray<BaseDownloadTask> taskSparseArray = new SparseArray<>();
@@ -202,11 +231,6 @@ public class TasksManager {
         unbindAllTasks();
     }
 
-    public boolean isReady() {
-        return FileDownloader.getImpl().isServiceConnected();
-    }
-
-
     private TasksManagerModel getByThemeId(int themeId, String extraToken) {
         Type theme = com.acb.utils.Utils.getTypeByThemeId(themeId);
         if (theme != null) {
@@ -222,12 +246,28 @@ public class TasksManager {
         return null;
     }
 
-    public TasksManagerModel getByThemeId(int themeId) {
+    private TasksManagerModel getMediaTaskByThemeId(int themeId) {
         return getByThemeId(themeId, "");
     }
 
-    public TasksManagerModel getRingtoneTaskByThemeId(int themeId) {
+    private TasksManagerModel getRingtoneTaskByThemeId(int themeId) {
         return getByThemeId(themeId, TOKEN_EXTRA_RINGTONE);
+    }
+
+    public TasksManagerModel requestMediaTask(Theme theme) {
+        TasksManagerModel mediaTask = getMediaTaskByThemeId(theme.getId());
+        if (mediaTask == null) {
+            mediaTask = addMediaTask(theme);
+        }
+        return mediaTask;
+    }
+
+    public TasksManagerModel requestRingtoneTask(Theme theme) {
+        TasksManagerModel mediaTask = getRingtoneTaskByThemeId(theme.getId());
+        if (mediaTask == null) {
+            mediaTask = addRingtoneTask(theme);
+        }
+        return mediaTask;
     }
 
     /**
@@ -245,26 +285,18 @@ public class TasksManager {
     }
 
     /**
-     * @param status Download Status
-     * @return has already downloaded
-     * @see FileDownloadStatus
-     */
-    public boolean isDownloaded(final int status) {
-        return status == FileDownloadStatus.completed;
-    }
-
-    /**
      * @param model Download task model
      * @return has already downloaded
      * @see FileDownloadStatus
+     * TODO as private
      */
     public boolean isDownloaded(final TasksManagerModel model) {
-        final int status = TasksManager.getImpl().getStatus(model.getId(), model.getPath());
+        final int status = TasksManager.getImpl().getStatus(model);
         return status == FileDownloadStatus.completed;
     }
 
     public boolean isThemeDownloaded(int id) {
-        TasksManagerModel model = getByThemeId(id);
+        TasksManagerModel model = getMediaTaskByThemeId(id);
         if (model == null) {
             return false;
         }
@@ -276,18 +308,29 @@ public class TasksManager {
                 status == FileDownloadStatus.connected || status == FileDownloadStatus.pending;
     }
 
-    public int getStatus(final int id, String path) {
-        if (id == Constants.DEFAULT_THEME_ID && new File(path).exists()) {
+    private int getStatus(final TasksManagerModel model) {
+        // If download cache it.
+        if (model.getTaskStatus() == FileDownloadStatus.completed) {
             return FileDownloadStatus.completed;
         }
-        return FileDownloader.getImpl().getStatus(id, path);
+
+        if (FileDownloadUtils.isFilenameConverted(FileDownloadHelper.getAppContext())
+                && new File(model.getPath()).exists()) {
+            model.setTaskStatus(FileDownloadStatus.completed);
+            return FileDownloadStatus.completed;
+        }
+
+        if (!FileDownloader.getImpl().isServiceConnected()) {
+            return FileDownloadStatus.INVALID_STATUS;
+        }
+        return FileDownloader.getImpl().getStatus(model.getId(), model.getPath());
     }
 
-    public long getTotal(final int id) {
+    private long getTotal(final int id) {
         return FileDownloader.getImpl().getTotal(id);
     }
 
-    public long getSoFar(final int id) {
+    private long getSoFar(final int id) {
         return FileDownloader.getImpl().getSoFar(id);
     }
 
@@ -301,41 +344,61 @@ public class TasksManager {
         return modelList.size();
     }
 
-    // FIXME block ui thread.
-    // FIXME no need add task if task exits.
-    public void addTask(Theme type) {
-        File ringtoneFile = null;
-        if (((Theme) type).hasRingtone()) {
-            String url = ((Theme) type).getRingtoneUrl();
-            if (!TextUtils.isEmpty(url)) {
-                ringtoneFile = Utils.getRingtoneFile();
-                String fileName = Utils.getFileNameFromUrl(url);
-                String path = FileDownloadUtils.generateFilePath(ringtoneFile.getAbsolutePath(), fileName);
-                ((Theme) type).setRingtonePath(path);
-                addTask(url, path, type.getIdName() + TOKEN_EXTRA_RINGTONE);
+    /**
+     * Create task model if not exist.
+     * @param theme
+     */
+    public void ensureThemeDownloadTaskModels(Theme theme) {
+        if (theme.hasRingtone()) {
+            TasksManagerModel ringtoneTask = getRingtoneTaskByThemeId(theme.getId());
+            if (ringtoneTask == null) {
+                addRingtoneTask(theme);
             }
         }
 
-
-        File file = FileUtils.getMediaDirectory();
-        if (file != null) {
-            String url = type.getSuggestMediaUrl();
-            String path = FileDownloadUtils.generateFilePath(file.getAbsolutePath(), type.getFileName());
-            addTask(url, path, type.getIdName());
+        TasksManagerModel mediaTask = getMediaTaskByThemeId(theme.getId());
+        if (mediaTask != null) {
+            addMediaTask(theme);
         }
     }
 
-    public synchronized boolean checkTaskExist(Theme theme) {
+    private TasksManagerModel addRingtoneTask(Theme theme) {
+        String url = ((Theme) theme).getRingtoneUrl();
+        File ringtoneFile = null;
+        if (!TextUtils.isEmpty(url)) {
+            ringtoneFile = Utils.getRingtoneFile();
+            String fileName = Utils.getFileNameFromUrl(url);
+            String path = FileDownloadUtils.generateFilePath(ringtoneFile.getAbsolutePath(), fileName);
+            ((Theme) theme).setRingtonePath(path);
+            return addTask(url, path, theme.getIdName() + TOKEN_EXTRA_RINGTONE);
+        }
+        return null;
+    }
+
+    private TasksManagerModel addMediaTask(Theme theme) {
+        File file = FileUtils.getMediaDirectory();
+        if (file != null) {
+            String url = theme.getSuggestMediaUrl();
+            String path = FileDownloadUtils.generateFilePath(file.getAbsolutePath(), theme.getFileName());
+            return addTask(url, path, theme.getIdName());
+        }
+        return null;
+    }
+
+
+
+    private synchronized boolean getTaskExist(Theme theme) {
         for (TasksManagerModel model : modelList) {
             if (TextUtils.equals(model.getName(), theme.getIdName())) {
-                HSLog.d(TAG, "task already exits");
+                HSLog.d(TAG, "checkTaskExist true : " + theme);
                 return true;
             }
         }
+        HSLog.d(TAG, "checkTaskExist false" + theme);
         return false;
     }
 
-    public synchronized TasksManagerModel addTask(final String url, final String path, String token) {
+    private synchronized TasksManagerModel addTask(final String url, final String path, String token) {
         HSLog.d(TAG, "## Add new task ##:" + url);
 
         if (TextUtils.isEmpty(url) || TextUtils.isEmpty(path)) {
@@ -354,14 +417,6 @@ public class TasksManager {
         }
 
         return newModel;
-    }
-
-    public String createPath(final String url) {
-        if (TextUtils.isEmpty(url)) {
-            return null;
-        }
-
-        return FileDownloadUtils.getDefaultSaveFilePath(url);
     }
 }
 

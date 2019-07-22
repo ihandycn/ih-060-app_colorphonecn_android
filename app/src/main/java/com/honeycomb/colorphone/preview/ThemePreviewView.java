@@ -1006,8 +1006,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             playTrans = false;
         }
 
-        final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getId());
-        final TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(mTheme.getId());
+        final TasksManagerModel model = TasksManager.getImpl().requestMediaTask(mTheme);
+        final TasksManagerModel ringtoneModel = TasksManager.getImpl().requestRingtoneTask(mTheme);
 
         boolean hasRingtone = mTheme.hasRingtone() && ringtoneModel != null;
         boolean hasMediaVideo = model != null;

@@ -56,7 +56,6 @@ import com.honeycomb.colorphone.cmgame.NotificationBarInit;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
-import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
@@ -428,12 +427,10 @@ public class ColorPhoneApplicationImpl {
                 appInit.onInit(mBaseApplication);
             }
         }
+
         ThemeList.getInstance().initThemes();
 
         copyMediaFromAssertToFile();
-
-        // Only restore tasks here.
-        TasksManager.getImpl().init();
 
         mBaseApplication.registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
         AcbAds.getInstance().initializeFromGoldenEye(mBaseApplication, new AcbAds.GoldenEyeInitListener() {
