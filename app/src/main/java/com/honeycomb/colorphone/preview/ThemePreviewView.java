@@ -83,6 +83,7 @@ import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
@@ -1093,7 +1094,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     RequestListener<Bitmap> mRequestListener = new RequestListener<Bitmap>() {
         @Override
         public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-            HSLog.d(TAG, "Picture onResourceReady");
+            HSLog.d(TAG, "Picture onResourceReady : " + mTheme);
             if (themeLoading) {
                 mProgressViewHolder.setResource(resource);
             }
@@ -1395,6 +1396,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 mProgressViewHolder.mDotsPictureView.resumeAnimation();
             } else {
                 mProgressViewHolder.mDotsPictureView.pauseAnimation();
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    mProgressViewHolder.mDotsPictureView.releaseBitmaps();
+                }
             }
         }
     }
@@ -1544,6 +1548,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mDotsPictureView.setVisibility(VISIBLE);
         }
 
+        @Deprecated
         public void setResource(Bitmap resource) {
             inflateViewIfNeeded();
             if (resource != null && mDotsPictureView.getVisibility() == VISIBLE) {
@@ -1554,6 +1559,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public void startLoadingAnimation() {
             if (mDotsPictureView != null && mDotsPictureView.getVisibility() == VISIBLE) {
                 HSLog.d(TAG, "startLoadingAnimation-" + mTheme.getName());
+                mDotsPictureView.setBitmapPool(DotsPictureResManager.get().getBitmapPool());
+                mDotsPictureView.setDotResultBitmap(DotsPictureResManager.get().getDotsBitmap());
                 boolean started = mDotsPictureView.startAnimation();
                 if (started) {
                     mAnimationStartTimeMills = System.currentTimeMillis();
