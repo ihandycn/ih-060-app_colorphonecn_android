@@ -424,6 +424,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
+            if (object instanceof ThemePreviewView) {
+                ((ThemePreviewView) object).cleanImage();
+            }
             mViews.remove(object);
             mViewPager.removeOnPageChangeListener((ViewPager.OnPageChangeListener) object);
 

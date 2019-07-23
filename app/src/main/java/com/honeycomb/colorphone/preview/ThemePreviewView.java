@@ -1091,6 +1091,11 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
+    public void cleanImage() {
+        previewImage.setImageDrawable(null);
+        previewImage.setTag(null);
+    }
+
     RequestListener<Bitmap> mRequestListener = new RequestListener<Bitmap>() {
         @Override
         public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
