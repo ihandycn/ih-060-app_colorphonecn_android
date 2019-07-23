@@ -35,6 +35,7 @@ import com.colorphone.lock.lockscreen.locker.statusbar.StatusBar;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.Commons;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Preferences;
@@ -225,7 +226,7 @@ public class Locker extends LockScreen implements INotificationObserver {
             return;
         }
         mIsSetup = false;
-
+        HSLog.i("LockManager", "L dismiss: " + mDismissReason + "  KG: " + dismissKeyguard + "  context: " + context);
         LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
                 "Reason", mDismissReason,
                 "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
@@ -259,7 +260,9 @@ public class Locker extends LockScreen implements INotificationObserver {
                 LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
                         "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked");
 
-                HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
+                if (!Commons.isKeyguardLocked(context, false)) {
+                    HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
+                }
 
             }
         });

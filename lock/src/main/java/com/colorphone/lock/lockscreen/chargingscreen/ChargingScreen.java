@@ -454,6 +454,12 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
         });
 
+        expressAdView.prepareAdPlus(new AcbExpressAdView.PrepareAdPlusListener() {
+            @Override public void onAdReady(AcbExpressAdView acbExpressAdView, float v) {
+
+            }
+        });
+
     }
 
     private void showExpressAd() {
@@ -993,6 +999,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     @Override
     public void dismiss(Context context, boolean dismissKeyguard) {
         mDismissed = true;
+        HSLog.i("LockManager", "C dismiss: " + mDismissReason + "  KG: " + dismissKeyguard + "  context: " + context);
 
         LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
                 "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked");
@@ -1010,14 +1017,16 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             ((Activity) context).finish();
             ((Activity) context).overridePendingTransition(0, 0);
             if (dismissKeyguard) {
-                DismissKeyguradActivity.startSelfIfKeyguardSecure((Activity) context);
+                DismissKeyguradActivity.startSelfIfKeyguardSecure(context);
             }
         } else {
             onStop();
             onDestroy();
             super.dismiss(context, dismissKeyguard);
         }
-        HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
+        if (!Commons.isKeyguardLocked(context, false)) {
+            HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
+        }
     }
 
     public void setActivityMode(boolean activityMode) {

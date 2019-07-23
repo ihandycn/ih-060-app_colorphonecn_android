@@ -19,6 +19,7 @@ import com.colorphone.lock.lockscreen.locker.LockerActivity;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSBundle;
 import com.ihs.libcharging.HSChargingManager;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
@@ -131,7 +132,10 @@ public class ChargingScreenUtils {
             Intent intent = new Intent(HSApplication.getContext(), ChargingScreenActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
             intent.putExtras(bundle);
-            HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF);
+
+            HSBundle hsBundle = new HSBundle();
+            hsBundle.getBoolean(Locker.EXTRA_SHOULD_DISMISS_KEYGUARD, false);
+            HSGlobalNotificationCenter.sendNotification(Locker.EVENT_FINISH_SELF, hsBundle);
             Navigations.startActivitySafely(HSApplication.getContext(),intent);
         } else {
             FloatWindowController.getInstance().showChargingScreen(bundle);

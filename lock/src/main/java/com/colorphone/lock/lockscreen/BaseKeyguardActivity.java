@@ -1,10 +1,8 @@
 package com.colorphone.lock.lockscreen;
 
 import android.app.KeyguardManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,17 +34,17 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
      */
     private boolean ingoreUserPresentEvent;
 
-    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            HSLog.d("Locker", "UserPresent, ingore = " + ingoreUserPresentEvent);
-            if (ingoreUserPresentEvent) {
-                ingoreUserPresentEvent = false;
-            } else {
-                finish();
-            }
-        }
-    };
+//    BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            HSLog.d("Locker", "UserPresent, ingore = " + ingoreUserPresentEvent);
+//            if (ingoreUserPresentEvent) {
+//                ingoreUserPresentEvent = false;
+////            } else {
+////                finish();
+//            }
+//        }
+//    };
 
     private Runnable mUserPresentTimeoutChecker = new Runnable() {
         @Override
@@ -107,8 +105,8 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
             LockerCustomConfig.getLogger().logEvent("LockScreen_Keyguard_User", "Type", isKeyguardSecure ? "Secure" : "None");
         }
 
-        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_USER_PRESENT);
-        registerReceiver(mBroadcastReceiver, intentFilter);
+//        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_USER_PRESENT);
+//        registerReceiver(mBroadcastReceiver, intentFilter);
 
         onInitView();
     }
@@ -130,24 +128,19 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (!isKeyguardSecure) {
-//           tryDismissKeyguard();
-        }
     }
 
     @Override
     protected void onDestroy() {
+        HSLog.i("LockManager", "BaseKeyguardActivity onDestroy");
         exist = false;
         super.onDestroy();
-        unregisterReceiver(mBroadcastReceiver);
+//        unregisterReceiver(mBroadcastReceiver);
         Threads.removeOnMainThread(mUserPresentTimeoutChecker);
-
-        if (!isKeyguardSecure) {
-            tryDismissKeyguard();
-        }
     }
 
     @Override public void finish() {
+        HSLog.i("LockManager", "BaseKeyguardActivity finish");
         exist = false;
         super.finish();
 
