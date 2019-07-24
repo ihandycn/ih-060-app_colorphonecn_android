@@ -45,9 +45,9 @@ public class VivoNotchScreen extends AbsNotchScreenSupport {
             return false;
         } catch (InvocationTargetException e) {
             return false;
-        } finally {
-            return isNotchScreen;
         }
+        return isNotchScreen;
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

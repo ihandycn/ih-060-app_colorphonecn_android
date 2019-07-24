@@ -831,13 +831,11 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
     @Override
     public void onBackPressed() {
-//        if (mRewardVideoView != null && mRewardVideoView.isLoading()) {
-//            mRewardVideoView.onHideAdLoading();
-//            mRewardVideoView.onCancel();
-//            // TODO logic confusing
-//        }
 
-        if (mTabLayout.getSelectedTabPosition() != CASH_POSITION || !(lotteryWheelLayout != null && lotteryWheelLayout.isSpining())) {
+        boolean blockBackPress = mTabLayout.getSelectedTabPosition() == CASH_POSITION
+                && (lotteryWheelLayout != null && lotteryWheelLayout.isSpining());
+
+        if (!blockBackPress) {
             if (mDoubleBackHandler.interceptBackPressed()) {
                 mDoubleBackHandler.toast();
             } else {

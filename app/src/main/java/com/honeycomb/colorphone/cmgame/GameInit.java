@@ -21,8 +21,8 @@ public class GameInit extends AppMainInit {
         }
 
         // 下面的 app id 要替换成小游戏官方分配的正式 app id
-        final String appId = HSConfig.optString("","Application", "CmGameId");
-        final String baseUrl = HSConfig.optString("","Application", "CmGameHost");
+        final String appId = HSConfig.optString("huancailaidianxiu","Application", "CmGameId");
+        final String baseUrl = HSConfig.optString("https://hcldx-xyx-sdk-svc.beike.cn","Application", "CmGameHost");
 
         CmGameAppInfo cmGameAppInfo = new CmGameAppInfo();
         cmGameAppInfo.setAppId(appId);
