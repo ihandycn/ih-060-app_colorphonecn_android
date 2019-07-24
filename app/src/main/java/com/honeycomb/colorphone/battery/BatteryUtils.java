@@ -98,7 +98,7 @@ public class BatteryUtils {
         if (batteryLevel < BATTERY_EXPEND_POWER_LIMIT) {
             extendSecondTime = extendSecondTimeMin + (long) (Math.random() * (extendSecondTimeMax - extendSecondTimeMin));
         } else {
-            extendSecondTime = 3600 + (long) (Math.random() * 3600); // 1h^2h
+            extendSecondTime = 3600 + new Random().nextInt(3600); // 1h^2h
         }
 
         if ((lastRemainingSecondTime - remainingSecondTime) > 0 && extendSecondTime > (lastRemainingSecondTime - remainingSecondTime)) {

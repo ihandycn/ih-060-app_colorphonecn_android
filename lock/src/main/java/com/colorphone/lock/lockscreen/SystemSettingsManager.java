@@ -256,7 +256,7 @@ public class SystemSettingsManager {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         String methodName = "getMobileDataEnabled";
         Class cmClass = connectivityManager.getClass();
-        Boolean isOpen;
+        boolean isOpen;
 
         try {
             @SuppressWarnings("unchecked")

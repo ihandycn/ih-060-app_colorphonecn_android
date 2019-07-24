@@ -301,10 +301,6 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
     public void onBackPressed() {
         boolean intercept = false;
         for (ThemePreviewView previewView : mViews) {
-            if (previewView.isRewardVideoLoading()) {
-                previewView.stopRewardVideoLoading();
-                intercept = true;
-            }
             if (previewView.isRingtoneSettingShow()) {
                 previewView.dismissRingtoneSettingPage();
                 intercept = true;
