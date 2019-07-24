@@ -79,6 +79,7 @@ public class TasksManager {
             listener = FileDownloadMultiListener.getDefault();
             final BaseDownloadTask task = FileDownloader.getImpl().create(model.getUrl())
                     .setPath(model.getPath())
+                    .setAutoRetryTimes(3)
                     .setCallbackProgressTimes(100)
                     .setListener(listener);
             getImpl().addTaskForViewHolder(task);
