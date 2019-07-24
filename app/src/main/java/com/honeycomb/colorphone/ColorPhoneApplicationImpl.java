@@ -388,9 +388,7 @@ public class ColorPhoneApplicationImpl {
             }
         }, TIME_NEED_LOW);
 
-        HSPermissionRequestMgr.InitOptions options = new HSPermissionRequestMgr.InitOptions();
-        options.setCustomConfig("action_custom.ja", null, null, "rules_config_custom.ja");
-        HSPermissionRequestMgr.getInstance().init(mBaseApplication, options);
+        HSPermissionRequestMgr.getInstance().init(mBaseApplication);
 
     }
 
