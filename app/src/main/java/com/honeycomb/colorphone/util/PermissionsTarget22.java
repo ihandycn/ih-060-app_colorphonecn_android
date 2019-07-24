@@ -15,12 +15,31 @@ import java.lang.reflect.Method;
 
 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class PermissionsTarget22 {
+
     public static final String READ_CONTACT = "OP_READ_CONTACTS";
-    public static final String SYSTEM_ALERT_WINDOW = "OP_SYSTEM_ALERT_WINDOW";
+    public static final String WRITE_CONTACT = "OP_WRITE_CONTACTS";
     public static final String READ_PHONE_STATE = "OP_READ_PHONE_STATE";
+    public static final String SYSTEM_ALERT_WINDOW = "OP_SYSTEM_ALERT_WINDOW";
+
+    /**
+     * For xiaomi
+     */
+    public static final String AUTO_START = "OP_AUTO_START";
+    /**
+     * For xiaomi
+     */
+    public static final String SHOW_WHEN_LOCKED = "OP_SHOW_WHEN_LOCKED";
+    /**
+     * For xiaomi
+     */
+    public static final String BACKGROUND_START_ACTIVITY = "OP_BACKGROUND_START_ACTIVITY";
 
     public static final int NOT_GRANTED = 1;
     public static final int GRANTED = 0;
+
+    /**
+     * If return ERROR, we should discard the result and try other methods.
+     */
     public static final int ERROR = -1;
 
     private static PermissionsTarget22 INSTANCE = new PermissionsTarget22();
