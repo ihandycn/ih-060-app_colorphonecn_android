@@ -82,6 +82,7 @@ import com.honeycomb.colorphone.theme.ThemeList;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.RingtoneHelper;
 import com.honeycomb.colorphone.util.Utils;
+import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.DotsPictureView;
 import com.honeycomb.colorphone.view.GlideApp;
 import com.honeycomb.colorphone.view.GlideRequest;
@@ -280,6 +281,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
             mProgressHelper.setProgressVideo((int) (percent * 100));
             mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
+            if (BuildConfig.DEBUG) {
+                HSLog.d(TAG, "[Media] Downloading : " + mTheme.getIdName() + ", progress: " + (int) (percent * 100));
+            }
         }
     };
 
@@ -307,7 +311,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mProgressHelper.setProgressRingtone((int) (percent * 100));
             mProgressViewHolder.updateProgressView(mProgressHelper.getRealProgress());
             if (BuildConfig.DEBUG) {
-                HSLog.d("Ringtone", "Downloading : " + mTheme.getIdName() + ", progress: " + (int) (percent * 100));
+                HSLog.d(TAG, "[Ringtone] Downloading : " + mTheme.getIdName() + ", progress: " + (int) (percent * 100));
             }
         }
     };
@@ -987,8 +991,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             playTrans = false;
         }
 
-        final TasksManagerModel model = TasksManager.getImpl().getByThemeId(mTheme.getId());
-        final TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(mTheme.getId());
+        final TasksManagerModel model = TasksManager.getImpl().requestMediaTask(mTheme);
+        final TasksManagerModel ringtoneModel = TasksManager.getImpl().requestRingtoneTask(mTheme);
 
         boolean hasRingtone = mTheme.hasRingtone() && ringtoneModel != null;
         boolean hasMediaVideo = model != null;
@@ -1068,10 +1072,15 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         }
     }
 
+    public void cleanImage() {
+        previewImage.setImageDrawable(null);
+        previewImage.setTag(null);
+    }
+
     RequestListener<Bitmap> mRequestListener = new RequestListener<Bitmap>() {
         @Override
         public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-            HSLog.d(TAG, "Picture onResourceReady");
+            HSLog.d(TAG, "Picture onResourceReady : " + mTheme);
             if (themeLoading) {
                 mProgressViewHolder.setResource(resource);
             }
@@ -1370,6 +1379,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 mProgressViewHolder.mDotsPictureView.resumeAnimation();
             } else {
                 mProgressViewHolder.mDotsPictureView.pauseAnimation();
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    mProgressViewHolder.mDotsPictureView.releaseBitmaps();
+                }
             }
         }
     }
@@ -1519,6 +1531,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mDotsPictureView.setVisibility(VISIBLE);
         }
 
+        @Deprecated
         public void setResource(Bitmap resource) {
             inflateViewIfNeeded();
             if (resource != null && mDotsPictureView.getVisibility() == VISIBLE) {
@@ -1529,6 +1542,8 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         public void startLoadingAnimation() {
             if (mDotsPictureView != null && mDotsPictureView.getVisibility() == VISIBLE) {
                 HSLog.d(TAG, "startLoadingAnimation-" + mTheme.getName());
+                mDotsPictureView.setBitmapPool(DotsPictureResManager.get().getBitmapPool());
+                mDotsPictureView.setDotResultBitmap(DotsPictureResManager.get().getDotsBitmap());
                 boolean started = mDotsPictureView.startAnimation();
                 if (started) {
                     mAnimationStartTimeMills = System.currentTimeMillis();

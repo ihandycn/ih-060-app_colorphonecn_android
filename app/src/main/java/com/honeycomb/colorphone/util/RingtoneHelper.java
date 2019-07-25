@@ -248,7 +248,7 @@ public class RingtoneHelper {
     private static String getRingtonePath(Theme theme) {
         String path = theme.getRingtonePath();
         if (TextUtils.isEmpty(path)) {
-            TasksManagerModel ringtoneModel = TasksManager.getImpl().getRingtoneTaskByThemeId(theme.getId());
+            TasksManagerModel ringtoneModel = TasksManager.getImpl().requestRingtoneTask(theme);
             if (ringtoneModel != null) {
                 path = ringtoneModel.getPath();
                 theme.setRingtonePath(path);

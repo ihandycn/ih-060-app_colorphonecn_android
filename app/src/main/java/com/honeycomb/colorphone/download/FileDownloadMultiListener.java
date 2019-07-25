@@ -159,9 +159,9 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
         if (stateListener != null) {
             stateListener.updateDownloaded(progressFlag);
         }
-        // log event
         final TasksManagerModel model = TasksManager.getImpl().getById(task.getId());
         if (model != null) {
+            model.setTaskStatus(FileDownloadStatus.completed);
             ColorPhoneApplication.getConfigLog().getEvent().onThemeDownloadFinish(model.getName().toLowerCase());
         }
 

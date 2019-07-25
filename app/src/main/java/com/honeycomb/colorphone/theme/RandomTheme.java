@@ -105,7 +105,7 @@ public class RandomTheme {
         if (theme != null
                 && theme.isMedia()) {
             // Need download it first
-            TasksManagerModel model = TasksManager.getImpl().getByThemeId(theme.getId());
+            TasksManagerModel model = TasksManager.getImpl().requestMediaTask(theme);
             if (model == null) {
                 return;
             }

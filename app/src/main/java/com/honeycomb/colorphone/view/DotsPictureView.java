@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Picture;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -19,9 +20,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.BuildConfig;
 import com.superapps.util.Dimensions;
+
+import hugo.weaving.DebugLog;
 
 /**
  * @author sundxing
@@ -29,8 +34,9 @@ import com.superapps.util.Dimensions;
 public class DotsPictureView extends View {
 
     private static boolean DEBUG_LOG = false && BuildConfig.DEBUG;
+    private static float SHRINK_RATIO = 0.2f;
 
-    private int ballRadius;
+    private int ballRadius = DotsPictureResManager.ballRadius;
     private int maxStokeWidth;
     private int minStokeWidth;
 
@@ -54,6 +60,17 @@ public class DotsPictureView extends View {
     private boolean needLight;
     private Matrix mDrawMatrix;
     private int canvasSize;
+    private BitmapPool mBitmapPool;
+
+    private Path mDotsPath = new Path();
+    /**
+     * Bitmap from BitmapPool, back to pool
+     */
+    private boolean mDotsBitmapNeedReused;
+    /**
+     * Bitmap from outside, do nothing.
+     */
+    private boolean mDotsBitmapOutside;
 
     public DotsPictureView(Context context) {
         super(context);
@@ -73,7 +90,6 @@ public class DotsPictureView extends View {
 
     private void init() {
         maxStokeWidth = Dimensions.pxFromDp(80) * 2;
-        ballRadius = Dimensions.pxFromDp(2);
 
         mPaint = new Paint(Paint.DITHER_FLAG | Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(Color.RED);
@@ -153,76 +169,90 @@ public class DotsPictureView extends View {
         return count * 100 / pixels.length;
     }
 
+    public void setBitmapPool(BitmapPool bitmapPool) {
+        mBitmapPool = bitmapPool;
+    }
+
+    public void setDotResultBitmap(Bitmap dotsResult) {
+        mDotResultBitmap = dotsResult;
+        mDotsBitmapOutside = true;
+    }
+
+    @DebugLog
     public void setSourceBitmap(@NonNull Bitmap sourceBitmap) {
         HSLog.d("DigP", "setSourceBitmap");
-        if (mSourceBitmap != null && !mSourceBitmap.isRecycled()) {
-            return;
-        }
 
-        mSourceBitmap = sourceBitmap.copy(Bitmap.Config.RGB_565, true);
-        if (mSourceBitmap == null) {
-            // Copy fail
-            return;
-        }
-
-        HSLog.d("DigP", "setSourceBitmap --end");
     }
 
     private boolean ensureBitmapCanvas() {
-        if (mSourceBitmap == null) {
-            // Copy fail
-            return false;
-        }
+        HSLog.d("DigP", "ensureBitmapCanvas");
+
         if (mBitmapCanvas != null) {
             return true;
         }
-        HSLog.d("DigP", "createScaledBitmap");
-        Bitmap bitmap = Bitmap.createScaledBitmap(mSourceBitmap,
-                (int) Math.ceil(mSourceBitmap.getWidth() * 0.1),
-                (int) Math.ceil(mSourceBitmap.getHeight() * 0.1),
-                false);
+        int oH;
+        int oW;
+        if (mDotResultBitmap == null) {
+            // Create dots
+            if (mSourceBitmap != null) {
+                oH = mSourceBitmap.getHeight();
+                oW = mSourceBitmap.getWidth();
+                HSLog.d("DigP", "createScaledBitmap");
+                Bitmap bitmap = Bitmap.createScaledBitmap(mSourceBitmap,
+                        (int) Math.ceil(oW * SHRINK_RATIO),
+                        (int) Math.ceil(oH * SHRINK_RATIO),
+                        false);
+                int darkPercent = darkPercent(bitmap, 30);
+                mSourceBitmap = bitmap;
+                HSLog.d("DigP", "createScaledBitmap--end , darkPercent = " + darkPercent);
+                needLight = darkPercent > 40;
+            } else {
+                needLight = true;
+                int[] thumbSize = Utils.getThumbnailImageSize();
+                oW = thumbSize[0];
+                oH = thumbSize[1];
+            }
+            mDotResultBitmap = makeBitmap(oW, oH, Bitmap.Config.ARGB_8888);
+            mDotsBitmapNeedReused = true;
+            HSLog.d("DigP", "mBitmapPool get = " + mDotResultBitmap);
+            // New picture
+            doDrawDots(new Canvas(mDotResultBitmap));
+        } else {
+            oH = mDotResultBitmap.getHeight();
+            oW = mDotResultBitmap.getWidth();
+        }
 
-        int darkPercent = darkPercent(bitmap, 30);
-        bitmap.recycle();
-
-        HSLog.d("DigP", "createScaledBitmap--end , darkPercent = " + darkPercent);
-
-        needLight = darkPercent > 40;
-
-        mDotResultBitmap = Bitmap.createBitmap(mSourceBitmap.getWidth(), mSourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        // New picture
-        mBitmapCanvas = new Canvas(mDotResultBitmap);
-        doDrawDots(mBitmapCanvas);
-
-        // Clear and reset
-        mSourceBitmap.recycle();
-        mDotCropBitmap = Bitmap.createBitmap(mSourceBitmap.getWidth(), mSourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        mDotCropBitmap = makeBitmap(oW, oH, Bitmap.Config.ARGB_8888);
+        HSLog.d("DigP", "mBitmapPool get2 = " + mDotCropBitmap);
         mBitmapCanvas = new Canvas(mDotCropBitmap);
 
-        maxStokeWidth = (int) (mSourceBitmap.getHeight() * 0.1f);
+        maxStokeWidth = (int) (oH * 0.1f);
         minStokeWidth = maxStokeWidth / 2;
         return true;
     }
 
+    Bitmap makeBitmap(int width, int height, Bitmap.Config config) {
+        if(mBitmapPool != null) {
+            return mBitmapPool.get(width, height, config);
+        }
+        return Bitmap.createBitmap(width, height, config);
+    }
     /**
      * get matrix for center-crop effect
      * @param canvas view canvas
      */
-    private void ensureDrawMatrix(Canvas canvas) {
+    private void ensureDrawMatrix(Canvas canvas, int sWidth, int sHeight) {
         if (mDrawMatrix == null) {
             mDrawMatrix = new Matrix();
             mDrawMatrix.reset();
         }
 
-        boolean changed = canvasSize != canvas.getWidth() * canvas.getHeight();
-
-        if (changed || mDrawMatrix.isIdentity()) {
-            mDrawMatrix.reset();
+        if (mDrawMatrix.isIdentity()) {
 
             int vwidth = canvas.getWidth();
             int vheight = canvas.getHeight();
-            int dwidth = mDotResultBitmap.getWidth();
-            int dheight = mDotResultBitmap.getHeight();
+            int dwidth = sWidth;
+            int dheight = sHeight;
 
             float scale;
             float dx = 0, dy = 0;
@@ -241,6 +271,7 @@ public class DotsPictureView extends View {
     }
 
     public boolean startAnimation() {
+        HSLog.d("DigP", "start animation");
         if (!mAnimator.isStarted()) {
             ensureBitmapCanvas();
             mAnimator.start();
@@ -250,6 +281,7 @@ public class DotsPictureView extends View {
     }
 
     public void pauseAnimation() {
+        HSLog.d("DigP", "pause animation");
         if (mAnimator.isRunning()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 mAnimator.pause();
@@ -260,8 +292,10 @@ public class DotsPictureView extends View {
     }
 
     public void resumeAnimation() {
+        HSLog.d("DigP", "resume animation");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (mAnimator.isPaused()) {
+                ensureBitmapCanvas();
                 mAnimator.resume();
             }
         } else {
@@ -283,12 +317,26 @@ public class DotsPictureView extends View {
     public void releaseBitmaps() {
         mBitmapCanvas = null;
         if (mDotResultBitmap != null && !mDotResultBitmap.isRecycled()) {
-            mDotResultBitmap.recycle();
+            if (mDotsBitmapNeedReused && mBitmapPool != null) {
+                // Put it back
+                mBitmapPool.put(mDotResultBitmap);
+                HSLog.d("DigP", "mBitmapPool put1 = " + mDotResultBitmap);
+
+            } else if (mDotsBitmapOutside) {
+                // Do nothing
+            } else {
+                mDotResultBitmap.recycle();
+            }
             mDotResultBitmap = null;
         }
 
         if (mDotCropBitmap != null && !mDotCropBitmap.isRecycled()) {
-            mDotCropBitmap.recycle();
+            if (mBitmapPool != null) {
+                mBitmapPool.put(mDotCropBitmap);
+            } else {
+                mDotCropBitmap.recycle();
+            }
+            HSLog.d("DigP", "mBitmapPool put2 = " + mDotCropBitmap);
             mDotCropBitmap = null;
         }
     }
@@ -327,7 +375,7 @@ public class DotsPictureView extends View {
         mAlphaPaint.setAlpha(alpha);
 
         // Draw dots image into view canvas
-        ensureDrawMatrix(canvas);
+        ensureDrawMatrix(canvas, mDotResultBitmap.getWidth(), mDotResultBitmap.getHeight());
 
         if (mDrawMatrix != null) {
             final int saveCount = canvas.getSaveCount();
@@ -347,40 +395,30 @@ public class DotsPictureView extends View {
     private void doDrawDots(Canvas canvas) {
         long startMills = System.currentTimeMillis();
         Log.d("DigP", "start draw : ");
-        float tY = ballRadius;
-        float tX = ballRadius;
+
         int w = canvas.getWidth();
         int h = canvas.getHeight();
+        if (mSourceBitmap == null) {
+            // Copy fail
+            HSLog.d("DigP", "mSourceBitmap null, force light color");
+            needLight = true;
+        }
 
         if (needLight) {
             mPaint.setColor(0x1affffff);
         }
-        // Draw a line
-        Canvas recodingCanvas = picture.beginRecording(w, h);
-        while (tX < w) {
-            recodingCanvas.drawCircle(tX, tY, ballRadius, mPaint);
-            tX += 4 * ballRadius;
-        }
-        picture.endRecording();
-
-        // Continue draw lines
-        canvas.save();
-        while (tY < h) {
-            canvas.drawPicture(picture);
-            tY += 4 * ballRadius;
-            canvas.translate(0, 4 * ballRadius);
-        }
-        canvas.restore();
+        mDotsPath = DotsPictureResManager.get().getDotsPath(w, h);
+        canvas.drawPath(mDotsPath, mPaint);
 
         HSLog.d("DigP", "start end , duration " + (System.currentTimeMillis() - startMills));
 
         // Get dots of picture
         if (!needLight) {
-//            mBitmapPaint.setColorFilter(new LightingColorFilter(0xffffff, 0x1a1a1a));
             canvas.drawBitmap(mSourceBitmap, 0, 0, mBitmapPaint);
-//            mBitmapPaint.setColorFilter(null);
+            mSourceBitmap.recycle();
         }
 
         HSLog.d("DigP", "drawBitmap end , duration " + (System.currentTimeMillis() - startMills));
     }
+
 }

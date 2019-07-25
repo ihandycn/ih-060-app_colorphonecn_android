@@ -37,6 +37,7 @@ import com.honeycomb.colorphone.themeselector.ThemeGuide;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.MediaSharedElementCallback;
 import com.honeycomb.colorphone.util.TransitionUtil;
+import com.honeycomb.colorphone.view.DotsPictureResManager;
 import com.honeycomb.colorphone.view.ViewPagerFixed;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
@@ -327,6 +328,7 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         }
         mViews.clear();
         PreviewAdManager.getInstance().releaseNativeAd();
+        DotsPictureResManager.get().releaseDotsBitmap();
     }
 
     private int lastThemeFullAdIndex = -1;
@@ -418,6 +420,9 @@ public class ThemePreviewActivity extends HSAppCompatActivity {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
+            if (object instanceof ThemePreviewView) {
+                ((ThemePreviewView) object).cleanImage();
+            }
             mViews.remove(object);
             mViewPager.removeOnPageChangeListener((ViewPager.OnPageChangeListener) object);
 
