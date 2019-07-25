@@ -4,13 +4,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +20,7 @@ import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.NotificationObserver;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
@@ -38,6 +37,8 @@ import static com.colorphone.lock.ScreenStatusReceiver.NOTIFICATION_SCREEN_ON;
 
 public class NotificationWindowHolder implements NotificationObserver, INotificationObserver {
 
+    public static final String NOTIFY_KEY_REMOVE_MESSAGE = "notify_key_remove_message";
+    public static final String BUNDLE_KEY_PACKAGE_NAME = "bundle_key_package_name";
     public static final int SOURCE_LOCKER = 1;
     public static final int SOURCE_CHARGING = 2;
 
@@ -206,6 +207,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         if (mNotificationClickCallback != null) {
             mNotificationClickCallback.onNotificationClick();
         }
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             Threads.postOnMainThreadDelayed(new Runnable() {
                 @Override
@@ -220,13 +222,14 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                         } catch (PendingIntent.CanceledException e) {
                             e.printStackTrace();
                         }
+
+                        HSBundle bundle = new HSBundle();
+                        bundle.putString(BUNDLE_KEY_PACKAGE_NAME, getInfo().packageName);
+                        HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_REMOVE_MESSAGE, bundle);
                     }
                 }
             }, 300);
         }
-
-
-
     }
 
     private void changeNotificationWindowBelow(AppNotificationInfo info) {
@@ -242,6 +245,8 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         if (mAppNotificationInfo == info) {
             return;
         }
+        LockNotificationManager.getInstance().callbackInfo = null;
+
         mAppNotificationInfo = info;
         mSenderName.setText(info.title);
         mNotificationContent.setText(info.content);
@@ -273,6 +278,8 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         if (mAppNotificationInfo == info) {
             return;
         }
+        LockNotificationManager.getInstance().callbackInfo = null;
+
         mAppNotificationInfo = info;
         mSenderNameAbove.setText(info.title);
         mNotificationContentAbove.setText(info.content);

@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
+import com.colorphone.lock.lockscreen.locker.NotificationWindowHolder;
 import com.honeycomb.colorphone.Placements;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
@@ -53,6 +54,14 @@ public class CpMessageCenterFactoryImpl extends com.messagecenter.customize.Mess
 
             @Override public String getLockerDismissEvent() {
                 return FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS;
+            }
+
+            @Override public String getRemoveMessageEvent() {
+                return NotificationWindowHolder.NOTIFY_KEY_REMOVE_MESSAGE;
+            }
+
+            @Override public String getRemoveMessageParam() {
+                return NotificationWindowHolder.BUNDLE_KEY_PACKAGE_NAME;
             }
 
             @Override

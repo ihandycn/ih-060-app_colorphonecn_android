@@ -17,12 +17,16 @@ import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.ihs.app.alerts.HSAlertMgr;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
+import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
+import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.common.utils.Utils;
 import com.superapps.util.Threads;
 
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
+import static com.colorphone.lock.lockscreen.locker.NotificationWindowHolder.BUNDLE_KEY_PACKAGE_NAME;
+import static com.colorphone.lock.lockscreen.locker.NotificationWindowHolder.NOTIFY_KEY_REMOVE_MESSAGE;
 
 public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
 
@@ -174,15 +178,21 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
             @Override
             public void onDismissSucceeded() {
                 super.onDismissSucceeded();
-                PendingIntent pendingIntent = LockNotificationManager.getInstance().callbackInfo.notification.contentIntent;
-                if (pendingIntent != null) {
-                    try {
-                        pendingIntent.send();
-                        NotificationManager noMan = (NotificationManager)
-                                HSApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                        noMan.cancel(LockNotificationManager.getInstance().callbackInfo.tag, LockNotificationManager.getInstance().callbackInfo.notificationId);
-                    } catch (PendingIntent.CanceledException e) {
-                        e.printStackTrace();
+                if (LockNotificationManager.getInstance().callbackInfo != null) {
+                    PendingIntent pendingIntent = LockNotificationManager.getInstance().callbackInfo.notification.contentIntent;
+                    if (pendingIntent != null) {
+                        try {
+                            pendingIntent.send();
+                            NotificationManager noMan = (NotificationManager)
+                                    HSApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                            noMan.cancel(LockNotificationManager.getInstance().callbackInfo.tag, LockNotificationManager.getInstance().callbackInfo.notificationId);
+
+                            HSBundle bundle = new HSBundle();
+                            bundle.putString(BUNDLE_KEY_PACKAGE_NAME, LockNotificationManager.getInstance().callbackInfo.packageName);
+                            HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_REMOVE_MESSAGE, bundle);
+                        } catch (PendingIntent.CanceledException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
