@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.theme;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -12,10 +13,8 @@ import com.honeycomb.colorphone.Ap;
 import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.Theme;
 import com.honeycomb.colorphone.download.TasksManager;
-import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.notification.NotificationConstants;
 import com.honeycomb.colorphone.preview.ThemePreviewView;
-import com.honeycomb.colorphone.themeselector.ThemeSelectorAdapter;
 import com.honeycomb.colorphone.util.ColorPhoneCrashlytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.commons.config.HSConfig;
@@ -30,6 +29,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+
+import hugo.weaving.DebugLog;
 
 public class ThemeList {
     public static final String PREFS_THEME_APPLY = "theme_apply_array";
@@ -160,6 +161,10 @@ public class ThemeList {
 
 
     public void initThemes() {
+        // First restore db values of download tasks.
+        TasksManager.getImpl().init();
+
+        // Load Raw theme. prepare theme list.
         Threads.postOnThreadPoolExecutor(new Runnable() {
             @Override
             public void run() {
@@ -167,7 +172,7 @@ public class ThemeList {
                 Threads.postOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        updateThemes(false);
+                        updateThemes(true);
                     }
                 });
             }
@@ -175,6 +180,8 @@ public class ThemeList {
     }
 
     @NonNull
+    @DebugLog
+    @MainThread
     public List<Theme> updateThemes(boolean onApplicationInit) {
         int selectedThemeId = ScreenFlashSettings.getInt(ScreenFlashConst.PREFS_SCREEN_FLASH_THEME_ID, -1);
 
@@ -243,25 +250,24 @@ public class ThemeList {
         return bgThemes;
     }
 
+    @DebugLog
     private void updateThemeTasks(List<Theme> bgThemes, boolean applyDefaultTheme, int idDefault) {
-        boolean needPreload  = false;
+        Theme needPreloadTheme  = null;
         // Task update (if new theme added here, we update download task)
         for (Theme theme : bgThemes) {
-            if (theme.isMedia() && !TasksManager.getImpl().checkTaskExist(theme)) {
-                TasksManager.getImpl().addTask(theme);
-                if (applyDefaultTheme && theme.getId() == idDefault) {
-                    needPreload = true;
-                }
+            if (applyDefaultTheme && theme.getId() == idDefault) {
+                needPreloadTheme = theme;
             }
         }
 
         // Prepare default theme
-        if (needPreload
+        if (needPreloadTheme != null
                 && idDefault != Utils.localThemeId) {
+            final Theme targetTheme = needPreloadTheme;
             Threads.postOnMainThread(new Runnable() {
                 @Override
                 public void run() {
-                    prepareThemeMediaFile(idDefault);
+                    prepareThemeMediaFile(targetTheme);
                 }
             });
         }
@@ -270,18 +276,16 @@ public class ThemeList {
         Threads.postOnMainThread(new Runnable() {
             @Override
             public void run() {
-                if (Ap.RandomTheme.enable()
-                        && TasksManager.getImpl().isReady()) {
+                if (Ap.RandomTheme.enable()) {
                     RandomTheme.getInstance().prepareNextTheme();
                 }
             }
         });
     }
 
-    private void prepareThemeMediaFile(int idDefault) {
-        HSLog.d(ThemeSelectorAdapter.class.getSimpleName(), "prepareThemeMediaFile");
-        TasksManagerModel model = TasksManager.getImpl().getByThemeId(idDefault);
-        TasksManager.doDownload(model, null);
+    private void prepareThemeMediaFile(Theme theme) {
+        HSLog.d(TAG, "prepareDefaultThemeFile");
+        TasksManager.getImpl().downloadTheme(theme, null);
     }
 
     private boolean isLikeTheme(String[] likeThemes, int themeId) {

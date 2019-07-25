@@ -2,8 +2,6 @@ package com.honeycomb.colorphone;
 
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.themes.Type;
-import com.honeycomb.colorphone.download.TasksManager;
-import com.honeycomb.colorphone.download.TasksManagerModel;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
 import com.honeycomb.colorphone.notification.NotificationServiceV18;
 import com.honeycomb.colorphone.theme.RandomTheme;
@@ -99,22 +97,9 @@ public class ScreenFlashInit extends AppMainInit {
                     }
                 }
 
-                boolean themeNotReady = false;
-                // TODO
-                if (targetTheme != null && targetTheme.isMedia()) {
-                    TasksManager.getImpl().addTask(targetTheme);
-                    TasksManagerModel model = TasksManager.getImpl().getByThemeId(targetTheme.getId());
-                    if (model != null) {
-                        themeNotReady = !TasksManager.getImpl().isDownloaded(model);
-                    }
-                }
-                
                 String name = "Null";
                 if (targetTheme != null) {
                     name = targetTheme.getIdName();
-                    if (themeNotReady) {
-                        name += "_NotReady";
-                    }
                 }
                 Analytics.logEvent("ColorPhone_ScreenFlash_Set_NewUser", "themename", name);
             }

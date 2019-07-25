@@ -42,7 +42,6 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
-import com.ihs.libcharging.ScreenStateMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
@@ -181,7 +180,7 @@ public class NotificationCondition implements INotificationObserver {
         readFromPref();
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_CHECK_DONE, this);
         HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_PRESENT, this);
-        HSGlobalNotificationCenter.addObserver(ScreenStateMgr.ACTION_SCREEN_ON, this);
+        HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_ON, this);
     }
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
@@ -198,7 +197,7 @@ public class NotificationCondition implements INotificationObserver {
                     }
                 }
                 break;
-            case ScreenStateMgr.ACTION_SCREEN_ON:
+            case ScreenStatusReceiver.NOTIFICATION_SCREEN_ON:
             case ScreenStatusReceiver.NOTIFICATION_PRESENT:
                 mHandler.sendEmptyMessageDelayed(EVENT_CHECK_NOTIFICATION, AFTER_UNLOCK_TIME);
                 break;

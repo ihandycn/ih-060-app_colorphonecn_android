@@ -32,6 +32,7 @@ import android.util.ArraySet;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 
+import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.boost.RamUsageDisplayUpdater;
 import com.honeycomb.colorphone.FlashManager;
 import com.honeycomb.colorphone.R;
@@ -56,7 +57,6 @@ import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.flashlight.FlashlightManager;
 import com.ihs.flashlight.FlashlightStatusListener;
-import com.ihs.libcharging.ScreenStateMgr;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 
@@ -397,7 +397,7 @@ public class NotificationManager implements FlashlightStatusListener {
     }
 
     public void updateCpuCooler() {
-        if (ScreenStateMgr.getInstance().isScreenOn()
+        if (ScreenStatusReceiver.isScreenOn()
                 && mNotificationManager != null && mRemoteViews != null && mNotificationToolbar != null) {
             mCpuTemperature = CpuCoolerManager.getInstance().fetchCpuTemperature();
             if (CpuCoolerUtils.shouldDisplayFahrenheit()) {
@@ -411,7 +411,7 @@ public class NotificationManager implements FlashlightStatusListener {
     }
 
     public void updateBattery() {
-        if (ScreenStateMgr.getInstance().isScreenOn()
+        if (ScreenStatusReceiver.isScreenOn()
                 && mNotificationManager != null && mRemoteViews != null && mNotificationToolbar != null) {
             showNotificationToolbarIfEnabled();
         }

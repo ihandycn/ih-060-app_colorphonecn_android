@@ -244,4 +244,9 @@ public class Theme extends Type {
     public boolean isPendingSelected() {
         return pendingSelected;
     }
+
+    @Override
+    public String toString() {
+        return getId() + "-" + getName();
+    }
 }

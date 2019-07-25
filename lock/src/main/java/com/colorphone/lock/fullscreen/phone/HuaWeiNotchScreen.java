@@ -49,9 +49,10 @@ public class HuaWeiNotchScreen extends AbsNotchScreenSupport {
             Log.d(TAG, "hasNotchInScreen NoSuchMethodException");
         } catch (Exception e) {
             Log.d(TAG, "hasNotchInScreen Exception");
-        } finally {
-            return isNotchScreen;
         }
+
+        return isNotchScreen;
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -69,9 +70,9 @@ public class HuaWeiNotchScreen extends AbsNotchScreenSupport {
         } catch (ClassNotFoundException e) {
         } catch (NoSuchMethodException e) {
         } catch (Exception e) {
-        } finally {
-            return ret[1];
         }
+        return ret[1];
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -12,6 +12,7 @@ public class TasksManagerModel {
     private String name;
     private String url;
     private String path;
+    private int taskStatus;
 
     public int getId() {
         return id;
@@ -39,6 +40,14 @@ public class TasksManagerModel {
 
     public String getPath() {
         return path;
+    }
+
+    public int getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(int taskStatus) {
+        this.taskStatus = taskStatus;
     }
 
     public void setPath(String path) {

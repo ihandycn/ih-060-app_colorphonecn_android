@@ -57,7 +57,6 @@ import com.honeycomb.colorphone.cmgame.NotificationBarInit;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
-import com.honeycomb.colorphone.download.TasksManager;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpMessageCenterFactoryImpl;
 import com.honeycomb.colorphone.factoryimpl.CpScreenFlashFactoryImpl;
@@ -106,6 +105,7 @@ import com.ihs.device.permanent.HSPermanentUtils;
 import com.ihs.libcharging.HSChargingManager;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.liulishuo.filedownloader.FileDownloader;
+import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection;
 import com.messagecenter.customize.MessageCenterManager;
 import com.superapps.broadcast.BroadcastCenter;
 import com.superapps.broadcast.BroadcastListener;
@@ -374,7 +374,13 @@ public class ColorPhoneApplicationImpl {
         mConfigLog = new ConfigLogDefault();
         mDailyLogger = new DailyLogger();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        FileDownloader.setup(mBaseApplication);
+
+        FileDownloader.setupOnApplicationOnCreate(mBaseApplication)
+                .connectionCreator(new FileDownloadUrlConnection.Creator(
+                        new FileDownloadUrlConnection.Configuration()
+                .connectTimeout(8000)
+                .readTimeout(4000)))
+                .commit();
 
         Threads.postOnSingleThreadExecutor(new Runnable() {
             @Override
@@ -401,9 +407,7 @@ public class ColorPhoneApplicationImpl {
             }
         }, TIME_NEED_LOW);
 
-        HSPermissionRequestMgr.InitOptions options = new HSPermissionRequestMgr.InitOptions();
-        options.setCustomConfig("action_custom.ja", null, null, "rules_config_custom.ja");
-        HSPermissionRequestMgr.getInstance().init(mBaseApplication, options);
+        HSPermissionRequestMgr.getInstance().init(mBaseApplication);
 
     }
 
@@ -441,12 +445,10 @@ public class ColorPhoneApplicationImpl {
                 appInit.onInit(mBaseApplication);
             }
         }
+
         ThemeList.getInstance().initThemes();
 
         copyMediaFromAssertToFile();
-
-        // Only restore tasks here.
-        TasksManager.getImpl().init();
 
         mBaseApplication.registerReceiver(mAgencyBroadcastReceiver, new IntentFilter(HSNotificationConstant.HS_APPSFLYER_RESULT));
         AcbAds.getInstance().initializeFromGoldenEye(mBaseApplication, new AcbAds.GoldenEyeInitListener() {
