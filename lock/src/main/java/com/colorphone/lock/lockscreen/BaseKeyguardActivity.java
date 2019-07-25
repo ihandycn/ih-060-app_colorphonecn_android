@@ -1,6 +1,9 @@
 package com.colorphone.lock.lockscreen;
 
+import android.annotation.TargetApi;
 import android.app.KeyguardManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +15,7 @@ import android.view.WindowManager.LayoutParams;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
 import com.ihs.app.alerts.HSAlertMgr;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.common.utils.Utils;
@@ -26,6 +30,7 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
 
     private KeyguardManager keyguardManager;
     private boolean isKeyguardSecure;
+    private KeyguardManager.KeyguardDismissCallback callback;
 
     /**
      * We should ignore event of UserPresent that trigger by ourself.
@@ -114,7 +119,8 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
     private void tryDismissKeyguard() {
         if (keyguardManager != null &&
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            keyguardManager.requestDismissKeyguard(this, null);
+            initCallback();
+            keyguardManager.requestDismissKeyguard(this, callback);
         } else {
             getWindow().addFlags(FLAG_DISMISS_KEYGUARD);
         }
@@ -153,6 +159,39 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
 
     protected boolean fullScreen(){
         return true;
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void initCallback() {
+
+        callback = new KeyguardManager.KeyguardDismissCallback() {
+            @Override
+            public void onDismissError() {
+                super.onDismissError();
+            }
+
+            @Override
+            public void onDismissSucceeded() {
+                super.onDismissSucceeded();
+                PendingIntent pendingIntent = LockNotificationManager.getInstance().callbackInfo.notification.contentIntent;
+                if (pendingIntent != null) {
+                    try {
+                        pendingIntent.send();
+                        NotificationManager noMan = (NotificationManager)
+                                HSApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        noMan.cancel(LockNotificationManager.getInstance().callbackInfo.tag, LockNotificationManager.getInstance().callbackInfo.notificationId);
+                    } catch (PendingIntent.CanceledException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onDismissCancelled() {
+                super.onDismissCancelled();
+            }
+        };
     }
 
 }

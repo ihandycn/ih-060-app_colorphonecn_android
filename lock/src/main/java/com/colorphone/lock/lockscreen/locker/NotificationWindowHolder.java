@@ -27,6 +27,7 @@ import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.Threads;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -196,23 +197,36 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         }
         LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Click",
                 getInfo().packageName);
+        LockNotificationManager.getInstance().callbackInfo = getInfo();
 
-        DismissKeyguradActivity.startSelfIfKeyguardSecure(getContext());
-        PendingIntent pendingIntent = getInfo().notification.contentIntent;
-        if (pendingIntent != null) {
-            try {
-                pendingIntent.send();
-                NotificationManager noMan = (NotificationManager)
-                        getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                noMan.cancel(getInfo().tag, getInfo().notificationId);
-            } catch (PendingIntent.CanceledException e) {
-                e.printStackTrace();
-            }
+        //DismissKeyguradActivity.startSelfIfKeyguardSecure(getContext());
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            DismissKeyguradActivity.startSelfIfKeyguardSecure(getContext());
         }
-
         if (mNotificationClickCallback != null) {
             mNotificationClickCallback.onNotificationClick();
         }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            Threads.postOnMainThreadDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    PendingIntent pendingIntent = getInfo().notification.contentIntent;
+                    if (pendingIntent != null) {
+                        try {
+                            pendingIntent.send();
+                            NotificationManager noMan = (NotificationManager)
+                                    getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                            noMan.cancel(getInfo().tag, getInfo().notificationId);
+                        } catch (PendingIntent.CanceledException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }, 300);
+        }
+
+
+
     }
 
     private void changeNotificationWindowBelow(AppNotificationInfo info) {
