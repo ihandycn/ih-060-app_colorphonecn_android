@@ -88,7 +88,6 @@ public class ChargingScreenActivity extends BaseKeyguardActivity {
     @Override
     public void onBackPressed() {
         mScreen.onBackPressed();
-        DismissKeyguradActivity.startSelfIfKeyguardSecure(ChargingScreenActivity.this);
     }
 
 }

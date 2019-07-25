@@ -1,7 +1,5 @@
 package com.colorphone.lock.lockscreen.locker;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -15,18 +13,15 @@ import android.widget.TextView;
 import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.AppNotificationInfo;
-import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
+import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.LockNotificationManager;
 import com.colorphone.lock.lockscreen.NotificationObserver;
-import com.ihs.app.framework.HSApplication;
 import com.ihs.commons.config.HSConfig;
-import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
-import com.superapps.util.Threads;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -189,7 +184,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     }
 
     private Context getContext() {
-        return HSApplication.getContext();
+        return mContainerRoot.getContext();
     }
 
     private void onClickNotification() {
@@ -198,38 +193,13 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         }
         LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Click",
                 getInfo().packageName);
-        LockNotificationManager.getInstance().callbackInfo = getInfo();
 
-        //DismissKeyguradActivity.startSelfIfKeyguardSecure(getContext());
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            DismissKeyguradActivity.startSelfIfKeyguardSecure(getContext());
-        }
-        if (mNotificationClickCallback != null) {
-            mNotificationClickCallback.onNotificationClick();
+        LockNotificationManager.getInstance().setClickedNotification(getInfo());
+
+        if (getContext() instanceof BaseKeyguardActivity) {
+            ((BaseKeyguardActivity) getContext()).tryDismissKeyguard(true);
         }
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            Threads.postOnMainThreadDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    PendingIntent pendingIntent = getInfo().notification.contentIntent;
-                    if (pendingIntent != null) {
-                        try {
-                            pendingIntent.send();
-                            NotificationManager noMan = (NotificationManager)
-                                    getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                            noMan.cancel(getInfo().tag, getInfo().notificationId);
-                        } catch (PendingIntent.CanceledException e) {
-                            e.printStackTrace();
-                        }
-
-                        HSBundle bundle = new HSBundle();
-                        bundle.putString(BUNDLE_KEY_PACKAGE_NAME, getInfo().packageName);
-                        HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_REMOVE_MESSAGE, bundle);
-                    }
-                }
-            }, 300);
-        }
     }
 
     private void changeNotificationWindowBelow(AppNotificationInfo info) {
@@ -245,7 +215,6 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         if (mAppNotificationInfo == info) {
             return;
         }
-        LockNotificationManager.getInstance().callbackInfo = null;
 
         mAppNotificationInfo = info;
         mSenderName.setText(info.title);
@@ -275,10 +244,10 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Show",
                     info.packageName, receiveNumber, String.valueOf(showNumber));
         }
+
         if (mAppNotificationInfo == info) {
             return;
         }
-        LockNotificationManager.getInstance().callbackInfo = null;
 
         mAppNotificationInfo = info;
         mSenderNameAbove.setText(info.title);

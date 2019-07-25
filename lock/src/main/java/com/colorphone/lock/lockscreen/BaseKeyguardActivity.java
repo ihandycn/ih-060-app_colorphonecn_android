@@ -23,7 +23,6 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.device.common.utils.Utils;
 import com.superapps.util.Threads;
 
-import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
 import static com.colorphone.lock.lockscreen.locker.NotificationWindowHolder.BUNDLE_KEY_PACKAGE_NAME;
 import static com.colorphone.lock.lockscreen.locker.NotificationWindowHolder.NOTIFY_KEY_REMOVE_MESSAGE;
@@ -34,7 +33,7 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
 
     private KeyguardManager keyguardManager;
     private boolean isKeyguardSecure;
-    private KeyguardManager.KeyguardDismissCallback callback;
+    private KeyguardManager.KeyguardDismissCallback notificaitoHandleCallback;
 
     /**
      * We should ignore event of UserPresent that trigger by ourself.
@@ -62,6 +61,7 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
             ingoreUserPresentEvent = false;
         }
     };
+    private boolean keyguardCleaned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +103,6 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
                     + " isKeyguardLocked: " + keyguardManager.isKeyguardLocked());
         }
 
-//        if (!isKeyguardSecure) {
-//            tryDismissKeyguard();
-//        }
-
         boolean isScreenOn = Utils.isScreenOn();
         if (!isScreenOn) {
             // Log only screen off,
@@ -114,20 +110,44 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
             LockerCustomConfig.getLogger().logEvent("LockScreen_Keyguard_User", "Type", isKeyguardSecure ? "Secure" : "None");
         }
 
-//        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_USER_PRESENT);
-//        registerReceiver(mBroadcastReceiver, intentFilter);
-
         onInitView();
     }
 
-    private void tryDismissKeyguard() {
+    public void tryDismissKeyguard(boolean finishActivity) {
+        if (keyguardCleaned) {
+            return;
+        }
+
+        // keyguard dismiss may black screen.
+        boolean finishActivityAfterKeyguardDismiss = false;
+        final AppNotificationInfo appNotificationInfo = LockNotificationManager.getInstance().getClickedNotification();
+
         if (keyguardManager != null &&
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            initCallback();
-            keyguardManager.requestDismissKeyguard(this, callback);
+            if (appNotificationInfo != null) {
+                removeNotification(appNotificationInfo);
+                finishActivityAfterKeyguardDismiss = !isKeyguardSecure;
+
+            }
+            if (finishActivityAfterKeyguardDismiss) {
+                // Handle notification intent after keyguard dismissed.
+                keyguardManager.requestDismissKeyguard(this, getNotificaitonHandleCallback(appNotificationInfo));
+            } else {
+                startNotificationIntent(appNotificationInfo);
+                keyguardManager.requestDismissKeyguard(this, null);
+            }
+
         } else {
-            getWindow().addFlags(FLAG_DISMISS_KEYGUARD);
+            DismissKeyguradActivity.startSelfIfKeyguardSecure(this);
+            removeNotification(appNotificationInfo);
+            startNotificationIntent(appNotificationInfo);
         }
+
+        if (finishActivity && !finishActivityAfterKeyguardDismiss) {
+            finish();
+            overridePendingTransition(0, 0);
+        }
+        keyguardCleaned = true;
 
         // Trigger by ourself.
         ingoreUserPresentEvent = true;
@@ -135,9 +155,39 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
         Threads.postOnMainThreadDelayed(mUserPresentTimeoutChecker, 8000);
     }
 
+    private static void startNotificationIntent(AppNotificationInfo appNotificationInfo) {
+        boolean userNotClicked = appNotificationInfo != null;
+        if (userNotClicked) {
+            PendingIntent pendingIntent = appNotificationInfo.notification.contentIntent;
+            if (pendingIntent != null) {
+                try {
+                    pendingIntent.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                }
+            }
+            LockNotificationManager.getInstance().setClickedNotification(null);
+        }
+    }
+
+    protected void removeNotification(AppNotificationInfo appNotificationInfo) {
+        NotificationManager noMan = (NotificationManager)
+                HSApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        noMan.cancel(appNotificationInfo.tag, appNotificationInfo.notificationId);
+        HSBundle bundle = new HSBundle();
+        bundle.putString(BUNDLE_KEY_PACKAGE_NAME, appNotificationInfo.packageName);
+        HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_REMOVE_MESSAGE, bundle);
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        keyguardCleaned = false;
     }
 
     @Override
@@ -153,10 +203,6 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
         HSLog.i("LockManager", "BaseKeyguardActivity finish");
         exist = false;
         super.finish();
-
-        if (!isKeyguardSecure) {
-            tryDismissKeyguard();
-        }
     }
 
     protected abstract void onInitView();
@@ -165,43 +211,34 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
         return true;
     }
 
-
     @TargetApi(Build.VERSION_CODES.O)
-    private void initCallback() {
-
-        callback = new KeyguardManager.KeyguardDismissCallback() {
-            @Override
-            public void onDismissError() {
-                super.onDismissError();
-            }
-
-            @Override
-            public void onDismissSucceeded() {
-                super.onDismissSucceeded();
-                if (LockNotificationManager.getInstance().callbackInfo != null) {
-                    PendingIntent pendingIntent = LockNotificationManager.getInstance().callbackInfo.notification.contentIntent;
-                    if (pendingIntent != null) {
-                        try {
-                            pendingIntent.send();
-                            NotificationManager noMan = (NotificationManager)
-                                    HSApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                            noMan.cancel(LockNotificationManager.getInstance().callbackInfo.tag, LockNotificationManager.getInstance().callbackInfo.notificationId);
-
-                            HSBundle bundle = new HSBundle();
-                            bundle.putString(BUNDLE_KEY_PACKAGE_NAME, LockNotificationManager.getInstance().callbackInfo.packageName);
-                            HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_REMOVE_MESSAGE, bundle);
-                        } catch (PendingIntent.CanceledException e) {
-                            e.printStackTrace();
-                        }
-                    }
+    private KeyguardManager.KeyguardDismissCallback getNotificaitonHandleCallback(final AppNotificationInfo appNotificationInfo) {
+        if (notificaitoHandleCallback == null) {
+            notificaitoHandleCallback = new KeyguardManager.KeyguardDismissCallback() {
+                @Override
+                public void onDismissError() {
+                    super.onDismissError();
+                    onDismissKeyguardEndAboveOreo(appNotificationInfo);
                 }
-            }
 
-            @Override
-            public void onDismissCancelled() {
-                super.onDismissCancelled();
-            }
-        };
+                @Override
+                public void onDismissSucceeded() {
+                    super.onDismissSucceeded();
+                    onDismissKeyguardEndAboveOreo(appNotificationInfo);
+                }
+
+                @Override
+                public void onDismissCancelled() {
+                    super.onDismissCancelled();
+                    onDismissKeyguardEndAboveOreo(appNotificationInfo);
+                }
+            };
+        }
+        return notificaitoHandleCallback;
+    }
+
+    private void onDismissKeyguardEndAboveOreo(AppNotificationInfo appNotificationInfo) {
+        startNotificationIntent(appNotificationInfo);
     }
 
 }

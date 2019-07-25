@@ -40,7 +40,7 @@ public class LockNotificationManager {
     private final String mDefaultSMS;
     private final List<String> eventPkgList;
     private AppNotificationInfo info;
-    public AppNotificationInfo callbackInfo;
+    private AppNotificationInfo clickedNotification;
     private List<NotificationObserver> list = new ArrayList<>();
     private List<CharingScreenChangeObserver> list1 = new ArrayList<>();
     private List<TimeTextSizeChangeObserver> timeSizeChangeObserverList = new ArrayList<>();
@@ -70,6 +70,14 @@ public class LockNotificationManager {
 
         }
         return null;
+    }
+
+    public AppNotificationInfo getClickedNotification() {
+        return clickedNotification;
+    }
+
+    public void setClickedNotification(AppNotificationInfo clickedNotification) {
+        this.clickedNotification = clickedNotification;
     }
 
     public AppNotificationInfo getInfo() {

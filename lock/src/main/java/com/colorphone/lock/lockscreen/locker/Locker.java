@@ -24,7 +24,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
-import com.colorphone.lock.lockscreen.DismissKeyguradActivity;
+import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
 import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
@@ -245,12 +245,13 @@ public class Locker extends LockScreen implements INotificationObserver {
                 // Life cycle
                 LockScreensLifeCycleRegistry.setLockerActive(false);
 
-                if (getContext() instanceof Activity) {
-                    final Activity activity = (Activity) getContext();
-                    activity.finish();
-                    activity.overridePendingTransition(0, 0);
+                if (getContext() instanceof BaseKeyguardActivity) {
+                    final BaseKeyguardActivity activity = (BaseKeyguardActivity) getContext();
                     if (dismissKeyguard) {
-                        DismissKeyguradActivity.startSelfIfKeyguardSecure(activity);
+                        activity.tryDismissKeyguard(true);
+                    } else {
+                        activity.finish();
+                        activity.overridePendingTransition(0, 0);
                     }
                 } else {
                     doDismiss();
