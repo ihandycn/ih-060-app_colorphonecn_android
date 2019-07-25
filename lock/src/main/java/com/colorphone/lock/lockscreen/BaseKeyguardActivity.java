@@ -21,6 +21,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
 import com.ihs.device.common.utils.Utils;
+import com.superapps.util.Compats;
 import com.superapps.util.Threads;
 
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN;
@@ -134,8 +135,15 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
                 keyguardManager.requestDismissKeyguard(this, getNotificaitonHandleCallback(appNotificationInfo));
             } else {
                 startNotificationIntent(appNotificationInfo);
-                keyguardManager.requestDismissKeyguard(this, null);
+
+                // Call ths for Huawei device to remove notificaiton on keyguard screen.
+                if (isKeyguardSecure && Compats.IS_HUAWEI_DEVICE) {
+                    DismissKeyguradActivity.startSelfIfKeyguardSecure(this);
+                } else {
+                    keyguardManager.requestDismissKeyguard(this, null);
+                }
             }
+
 
         } else {
             DismissKeyguradActivity.startSelfIfKeyguardSecure(this);
