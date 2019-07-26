@@ -25,7 +25,6 @@ import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.lockscreen.BaseKeyguardActivity;
-import com.colorphone.lock.lockscreen.FloatWindowController;
 import com.colorphone.lock.lockscreen.LockScreen;
 import com.colorphone.lock.lockscreen.LockScreensLifeCycleRegistry;
 import com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenUtils;
@@ -260,11 +259,6 @@ public class Locker extends LockScreen implements INotificationObserver {
 
                 LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
                         "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked");
-
-                if (!Commons.isKeyguardLocked(context, false)) {
-                    HSGlobalNotificationCenter.sendNotification(FloatWindowController.NOTIFY_KEY_LOCKER_DISMISS);
-                }
-
             }
         });
         fadeOutAnim.start();

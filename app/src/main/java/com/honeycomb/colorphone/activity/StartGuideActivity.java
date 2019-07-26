@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
+import com.acb.call.customize.ScreenFlashManager;
+import com.acb.call.customize.ScreenFlashSettings;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.R;
@@ -35,8 +37,12 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
+import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 import com.superapps.util.rom.RomUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sundxing on 17/9/13.
@@ -54,14 +60,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     public static final String FROM_KEY_APPLY = "Apply";
     public static final String FROM_KEY_BANNER = "Banner";
 
-    private String[] perms = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
-    private int permsCount = 0;
-
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private StartGuideViewHolder holder;
     private AlertDialog dialog;
     private int permissionShowCount;
     private String from;
+    private boolean directPermission;
 
     public static @Nullable Intent getIntent(Context context, String from) {
         if (RomUtils.checkIsMiuiRom()
@@ -91,6 +95,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         setContentView(R.layout.start_guide_all_features);
         StatusBarUtils.hideStatusBar(this);
         permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).getInt(ACC_KEY_SHOW_COUNT, 0);
+        directPermission = HSConfig.optBoolean(false, "Application", "AutoPermission", "NotRequestSystemPermission");
 
         from = getIntent().getStringExtra(INTENT_KEY_FROM);
         if (TextUtils.isEmpty(from)) {
@@ -108,8 +113,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
                 enableBtn.setOnClickListener(v -> {
                     Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
-                    ModuleUtils.setAllModuleUserEnable();
-                    showAccessibilityPermissionPage();
+                    if (directPermission) {
+                        ModuleUtils.setAllModuleUserEnable();
+                        showAccessibilityPermissionPage();
+                    } else {
+                        directPermission = true;
+                        requiresPermission();
+                    }
+
                 });
                 Analytics.logEvent("ColorPhone_StartGuide_Show");
             }
@@ -454,4 +465,128 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }, 2400);
         AutoLogger.logEventWithBrandAndOS("Accessbility_Guide_Show");
     }
+
+    /**
+     * Only request first launch. (if Enabled and not has permission)
+     */
+    private void requiresPermission() {
+        boolean isEnabled = ScreenFlashManager.getInstance().getAcbCallFactory().isConfigEnabled()
+                && ScreenFlashSettings.isScreenFlashModuleEnabled();
+        HSLog.i("Permissions ScreenFlash state change : " + isEnabled);
+        if (!isEnabled) {
+            return;
+        }
+
+        List<String> permissions = new ArrayList<>();
+        permissions.add(Manifest.permission.READ_PHONE_STATE);
+        permissions.add(Manifest.permission.READ_CONTACTS);
+        permissions.add(Manifest.permission.WRITE_CONTACTS);
+        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.READ_CALL_LOG);
+
+        boolean grantPermission = true;
+        boolean grant;
+        for (String p : permissions) {
+            grant = RuntimePermissions.checkSelfPermission(this, p)
+                    == RuntimePermissions.PERMISSION_GRANTED;
+            grantPermission &= grant;
+
+            if (!grant) {
+                switch (p) {
+                    case Manifest.permission.READ_PHONE_STATE:
+                        Analytics.logEvent("Permission_Phone_View_Showed");
+                        break;
+                    case Manifest.permission.READ_CONTACTS:
+                        Analytics.logEvent("Permission_Contact_View_Showed");
+                        break;
+                    case Manifest.permission.WRITE_CONTACTS:
+                        Analytics.logEvent("Permission_Write_Contact_View_Showed");
+                        break;
+                    case Manifest.permission.READ_EXTERNAL_STORAGE:
+                        Analytics.logEvent("Permission_Read_Storage_View_Showed");
+                        break;
+                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                        Analytics.logEvent("Permission_Write_Storage_View_Showed");
+                        break;
+                    case Manifest.permission.READ_CALL_LOG:
+                        Analytics.logEvent("Permission_CallLog_View_Showed");
+                        break;
+
+                }
+            }
+        }
+
+        if (!grantPermission) {
+            // Do not have permissions, request them now
+            RuntimePermissions.requestPermissions(this, permissions.toArray(new String[permissions.size()]), FIRST_LAUNCH_PERMISSION_REQUEST);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        RuntimePermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+
+        List<String> granted = new ArrayList<>();
+        List<String> denied = new ArrayList<>();
+
+        for (int i = 0; i < permissions.length; ++i) {
+            String perm = permissions[i];
+            if (grantResults[i] == 0) {
+                granted.add(perm);
+            } else {
+                denied.add(perm);
+            }
+        }
+
+        onPermissionsGranted(requestCode, granted);
+        onPermissionsDenied(requestCode, denied);
+    }
+
+    public void onPermissionsGranted(int requestCode, List<String> list) {
+        HSLog.i("Permission", "onPermissionsGranted: " + list);
+        if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
+//            if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
+//                Analytics.logEvent("Permission_Phone_Allow_Success");
+//            }
+//            if (list.contains(Manifest.permission.READ_CONTACTS)) {
+//                Analytics.logEvent("Permission_Contact_Allow_Success");
+//            }
+            for (String p : list) {
+                switch (p) {
+                    case Manifest.permission.READ_PHONE_STATE:
+                        Analytics.logEvent("Permission_Phone_Allow_Success");
+                        break;
+                    case Manifest.permission.READ_CONTACTS:
+                        Analytics.logEvent("Permission_Contact_Allow_Success");
+                        break;
+                    case Manifest.permission.WRITE_CONTACTS:
+                        Analytics.logEvent("Permission_Write_Contact_Allow_Success");
+                        break;
+                    case Manifest.permission.READ_EXTERNAL_STORAGE:
+                        Analytics.logEvent("Permission_Read_Storage_Allow_Success");
+                        break;
+                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                        Analytics.logEvent("Permission_Write_Storage_Allow_Success");
+                        break;
+                    case Manifest.permission.READ_CALL_LOG:
+                        Analytics.logEvent("Permission_CallLog_Allow_Success");
+                        break;
+
+                }
+            }
+
+            ModuleUtils.setAllModuleUserEnable();
+            showAccessibilityPermissionPage();
+        }
+    }
+
+    public void onPermissionsDenied(int requestCode, List<String> list) {
+        // Some permissions have been denied
+        // ...
+
+        HSLog.i("Permission", "onPermissionsDenied: " + list);
+    }
+
 }

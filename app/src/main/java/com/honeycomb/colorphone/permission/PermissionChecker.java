@@ -44,6 +44,9 @@ public class PermissionChecker {
     public static String[] sDefaultRequestPermissions = new String[] {
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.READ_CONTACTS,
+            Manifest.permission.WRITE_CONTACTS,
+            Manifest.permission_group.STORAGE,
+            Manifest.permission.READ_CALL_LOG,
             RequestPermissionsActivity.PERMISSION_NOTIFICATION
     };
 

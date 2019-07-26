@@ -1,14 +1,17 @@
 package com.honeycomb.colorphone.autopermission;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.PowerManager;
 
 import com.honeycomb.colorphone.Constants;
+import com.honeycomb.colorphone.util.PermissionsTarget22;
 import com.ihs.app.framework.HSApplication;
 import com.ihs.permission.Utils;
 import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
+import com.superapps.util.rom.RomUtils;
 
 /**
  * @author sundxing
@@ -33,6 +36,9 @@ public class AutoPermissionChecker {
     }
 
     public static boolean hasAutoStartPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && RomUtils.checkIsMiuiRom()) {
+            return PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.AUTO_START) == PermissionsTarget22.GRANTED;
+        }
         return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_auto_start_permission", false);
     }
     public static void onBgPopupChange(boolean hasPermission) {
@@ -41,6 +47,9 @@ public class AutoPermissionChecker {
 
     public static boolean hasBgPopupPermission() {
         if (Compats.IS_XIAOMI_DEVICE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                return PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.BACKGROUND_START_ACTIVITY) == PermissionsTarget22.GRANTED;
+            }
             return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_bg_popup_permission", false);
         } else {
             // TODO
@@ -66,6 +75,9 @@ public class AutoPermissionChecker {
 
     public static boolean hasShowOnLockScreenPermission() {
         if (Compats.IS_XIAOMI_DEVICE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                return PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.SHOW_WHEN_LOCKED) == PermissionsTarget22.GRANTED;
+            }
             return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_show_on_lockscreen_permission",
                     false);
         } else {

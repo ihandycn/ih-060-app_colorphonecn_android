@@ -222,6 +222,15 @@ public class AutoRequestManager {
 
     private void executeAutoTask() {
         ArrayList<String> permission = new ArrayList<String>();
+        if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
+            permission.add(HSPermissionRequestMgr.TYPE_PHONE);
+            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_READ);
+            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_WRITE);
+            permission.add(HSPermissionRequestMgr.TYPE_STORAGE);
+            permission.add(HSPermissionRequestMgr.TYPE_CALL_LOG);
+            permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
+        }
+
         if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasBgPopupPermission()) {
             permission.add(TYPE_CUSTOM_BACKGROUND_POPUP);
         }
