@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.download;
 
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.widget.Toast;
@@ -104,15 +105,27 @@ public class FileDownloadMultiListener extends FileDownloadSampleListener {
     protected void error(BaseDownloadTask task, Throwable e) {
         super.error(task, e);
         HSLog.e("BaseDownloadTask", "fail to download: " + task.getUrl());
+        String errMsg = null;
+        if (e != null) {
+            errMsg = e.getMessage();
+        }
+        if (TextUtils.isEmpty(errMsg)) {
+            errMsg = "Unkown";
+            if (e != null) {
+                errMsg = errMsg + "-" + e.getClass().getName();
+            }
+        }
         if (BuildConfig.DEBUG && e != null) {
             e.printStackTrace();
-            Toast.makeText(HSApplication.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(HSApplication.getContext(), errMsg, Toast.LENGTH_SHORT).show();
         }
+
+        final String reason = errMsg;
         Preferences.get(Constants.PREF_FILE_DEFAULT).doLimitedTimes(new Runnable() {
             @Override
             public void run() {
                 Analytics.logEvent("ColorPhone_Download_Error",
-                        "Reason", e != null ? e.getMessage() : "Unknown",
+                        "Reason", reason,
                         "Network", NetUtils.getNetWorkStateName());
             }
         }, "event_download_error", 3);
