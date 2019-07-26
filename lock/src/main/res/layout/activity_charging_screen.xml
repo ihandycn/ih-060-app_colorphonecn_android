@@ -100,6 +100,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/charging_main_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="54dp"
@@ -249,15 +250,16 @@
                                 android:layout_alignTop="@+id/charging_screen_tip"
                                 app:srcCompat="@drawable/ic_charging_screen_tip_left_light"/>
                         </RelativeLayout>
-
-
                     </RelativeLayout>
-
-
-
                 </RelativeLayout>
+                <LinearLayout
+                    android:id="@+id/test_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                </LinearLayout>
 
-                <include android:id="@+id/lock_notification_layout_above"
+                <!--<include android:id="@+id/lock_notification_layout_above"
                     layout="@layout/notification_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -269,7 +271,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/charging_screen_advertisement_container"
-                    android:layout_marginBottom="3dp"/>
+                    android:layout_marginBottom="3dp"/>-->
 
                 <RelativeLayout
                     android:id="@+id/charging_screen_advertisement_container"

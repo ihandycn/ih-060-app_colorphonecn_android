@@ -118,7 +118,7 @@ public class LockNotificationManager {
     @WorkerThread
     public void onNotificationPosted(final StatusBarNotification statusBarNotification) {
         if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotificationManager", "New notification:" + 11);
+            HSLog.e("LockNotification", "New notification" );
         }
         Threads.postOnMainThread(new Runnable() {
             @Override
@@ -129,9 +129,6 @@ public class LockNotificationManager {
     }
 
     private void onNotificationPostedMainThread(StatusBarNotification statusBarNotification) {
-        if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotificationManager", "New notification:" + 11);
-        }
 
         if (eventPkgList.contains(statusBarNotification.getPackageName())) {
             LockerCustomConfig.getLogger().logEvent("ColorPhone_Notification_Receive_All",

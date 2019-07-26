@@ -598,8 +598,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
         advertisementContainer = mRootView.findViewById(R.id.charging_screen_advertisement_container);
         mNotificationWindowHolder = new NotificationWindowHolder(mRootView, NotificationWindowHolder.SOURCE_CHARGING, this);
-        mNotificationWindowHolder.getmSlidingWindow().setVisibility(View.GONE);
-        mNotificationWindowHolder.getmSlidingWindowAbove().setVisibility(View.GONE);
+        //mNotificationWindowHolder.getmSlidingWindow().setVisibility(View.GONE);
+        //mNotificationWindowHolder.getmSlidingWindowAbove().setVisibility(View.GONE);
 //        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
 //        customizeContentContainer.setDismissCallback(new Runnable() {
 //            @Override

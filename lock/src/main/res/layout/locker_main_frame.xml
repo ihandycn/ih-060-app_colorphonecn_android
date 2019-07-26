@@ -2,6 +2,7 @@
 <com.colorphone.lock.lockscreen.locker.LockerMainFrame xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:drawer="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lock_main_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
@@ -115,7 +116,15 @@
         android:background="#99000000"
         android:visibility="invisible"/>
 
-    <include android:id="@+id/lock_notification_layout_above"
+    <LinearLayout
+        android:id="@+id/test_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@id/rl_ad_container">
+    </LinearLayout>
+
+    <!--<include android:id="@+id/lock_notification_layout_above"
         layout="@layout/notification_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -127,7 +136,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/rl_ad_container"
-        android:layout_marginBottom="3dp"/>
+        android:layout_marginBottom="3dp"/>-->
 
     <RelativeLayout
         android:id="@+id/rl_ad_container"

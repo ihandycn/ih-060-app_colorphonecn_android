@@ -702,10 +702,10 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
+        /*super.onWindowFocusChanged(hasWindowFocus);
         int[] position = new int[2];
         mNotificationWindowHolder.getmSlidingWindowAbove().getLocationOnScreen(position);
-        yCoordinatesOfNotificationAbove = position[1];
+        yCoordinatesOfNotificationAbove = position[1];*/
 
     }
 
@@ -722,7 +722,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private TimeTextSizeChangeObserver observer = new TimeTextSizeChangeObserver() {
         @Override
         public void update(int showNumber) {
-            HSLog.e("AutoSizing For time " + "yCoordinatesOfNotificationAbove " + yCoordinatesOfNotificationAbove);
+            /*HSLog.e("AutoSizing For time " + "yCoordinatesOfNotificationAbove " + yCoordinatesOfNotificationAbove);
             if (showNumber == 2) {
                 int[] position = new int[2];
                 mTvDate.getLocationOnScreen(position);
@@ -744,7 +744,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 }
             } else if (showNumber == 1) {
                 mTvTime.setTextSize(60);
-            }
+            }*/
 
         }
     };
