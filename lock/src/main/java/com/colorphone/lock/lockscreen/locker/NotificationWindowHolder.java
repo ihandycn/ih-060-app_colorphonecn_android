@@ -75,32 +75,32 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         showNumber = 0;
         receiveNumberCount = 0;
 
-        mSlidingWindow = findViewById(R.id.lock_sliding_window);
+        mSlidingWindow = findViewById(R.id.lock_notification_layout);
         mSlidingWindow.setClickable(true);
-        mNotificationWindow = findViewById(R.id.lock_notification_window);
+        mNotificationWindow = mSlidingWindow.findViewById(R.id.lock_notification_window);
         mNotificationWindow.setAlpha(0.9f);
 
-        mSlidingWindowAbove = findViewById(R.id.lock_sliding_window_above);
-        mSlidingWindow.setClickable(true);
-        mNotificationWindowAbove = findViewById(R.id.lock_notification_window_above);
+        mSlidingWindowAbove = findViewById(R.id.lock_notification_layout_above);
+        mSlidingWindowAbove.setClickable(true);
+        mNotificationWindowAbove = mSlidingWindowAbove.findViewById(R.id.lock_notification_window);
         list = new ArrayList<>();
         list.add(mSlidingWindow);
         list.add(mSlidingWindowAbove);
         mNotificationWindowAbove.setAlpha(0.9f);
 
-        mSourceAppAvatar = findViewById(R.id.source_app_avatar);
-        mAppNameAndSendTime = findViewById(R.id.source_app_name);
-        mSenderAvatar = findViewById(R.id.sender_avatar);
-        mSenderName = findViewById(R.id.sender_name);
-        mNotificationContent = findViewById(R.id.notification_content);
+        mSourceAppAvatar = mSlidingWindow.findViewById(R.id.source_app_avatar);
+        mAppNameAndSendTime = mSlidingWindow.findViewById(R.id.source_app_name);
+        mSenderAvatar = mSlidingWindow.findViewById(R.id.sender_avatar);
+        mSenderName = mSlidingWindow.findViewById(R.id.sender_name);
+        mNotificationContent = mSlidingWindow.findViewById(R.id.notification_content);
         mSlidingWindow.setVisibility(View.INVISIBLE);
 
 
-        mSourceAppAvatarAbove = findViewById(R.id.source_app_avatar_above);
-        mAppNameAndSendTimeAbove = findViewById(R.id.source_app_name_above);
-        mSenderAvatarAbove = findViewById(R.id.sender_avatar_above);
-        mSenderNameAbove = findViewById(R.id.sender_name_above);
-        mNotificationContentAbove = findViewById(R.id.notification_content_above);
+        mSourceAppAvatarAbove = mSlidingWindowAbove.findViewById(R.id.source_app_avatar);
+        mAppNameAndSendTimeAbove = mSlidingWindowAbove.findViewById(R.id.source_app_name);
+        mSenderAvatarAbove = mSlidingWindowAbove.findViewById(R.id.sender_avatar);
+        mSenderNameAbove = mSlidingWindowAbove.findViewById(R.id.sender_name);
+        mNotificationContentAbove = mSlidingWindowAbove.findViewById(R.id.notification_content);
         mSlidingWindowAbove.setVisibility(View.INVISIBLE);
 
 
