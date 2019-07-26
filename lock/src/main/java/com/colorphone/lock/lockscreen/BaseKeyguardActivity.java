@@ -123,9 +123,10 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
         boolean finishActivityAfterKeyguardDismiss = false;
         final AppNotificationInfo appNotificationInfo = LockNotificationManager.getInstance().getClickedNotification();
 
+        boolean hasNotification = appNotificationInfo != null;
         if (keyguardManager != null &&
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (appNotificationInfo != null) {
+            if (hasNotification) {
                 removeNotification(appNotificationInfo);
                 finishActivityAfterKeyguardDismiss = !isKeyguardSecure;
 
@@ -147,8 +148,10 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
 
         } else {
             DismissKeyguradActivity.startSelfIfKeyguardSecure(this);
-            removeNotification(appNotificationInfo);
-            startNotificationIntent(appNotificationInfo);
+            if (hasNotification) {
+                removeNotification(appNotificationInfo);
+                startNotificationIntent(appNotificationInfo);
+            }
         }
 
         if (finishActivity && !finishActivityAfterKeyguardDismiss) {
