@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:id="@+id/start_guide_confirm_page"
+    android:gravity="center_horizontal"
+    android:background="@android:color/black"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.13" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.87" />
+
+    <ImageView
+        android:id="@+id/start_guide_confirm_circle_image"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_gravity="center"
+        android:src="@drawable/start_guide_confirm_image_blue"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/start_guide_permission_title" />
+
+    <ImageView
+        android:id="@+id/start_guide_confirm_center_image"
+        android:layout_width="11dp"
+        android:layout_height="43dp"
+        android:layout_gravity="center"
+        android:src="@drawable/start_guide_confirm_image_alert"
+        app:layout_constraintLeft_toLeftOf="@id/start_guide_confirm_circle_image"
+        app:layout_constraintRight_toRightOf="@id/start_guide_confirm_circle_image"
+        app:layout_constraintTop_toTopOf="@id/start_guide_confirm_circle_image"
+        app:layout_constraintBottom_toBottomOf="@id/start_guide_confirm_circle_image" />
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/start_guide_permission_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:lineSpacingExtra="3.2sp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="@string/start_guide_permission_title"
+        android:alpha="0.6"
+        app:typeface="@string/custom_font_bold"
+        app:layout_constraintTop_toBottomOf="@id/start_guide_confirm_circle_image"
+        app:layout_constraintBottom_toTopOf="@id/start_guide_permission_list"
+        app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+        app:layout_constraintRight_toRightOf="@id/guideline_right"
+        tools:text="@string/start_guide_permission_title"/>
+
+    <LinearLayout
+        android:id="@+id/start_guide_permission_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/start_guide_permission_title"
+        app:layout_constraintBottom_toTopOf="@id/start_guide_confirm_fix"
+        app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+        app:layout_constraintRight_toRightOf="@id/guideline_right" />
+
+    <Button
+        android:id="@+id/start_guide_confirm_fix"
+        android:layout_width="175dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:layout_marginBottom="64dp"
+        android:text="@string/start_guide_confirm_fix_one_key"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.honeycomb.colorphone.view.TypefacedTextView
+        android:id="@+id/start_guide_confirm_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/skip"
+        android:textColor="#66ffffff"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="14dp"
+        android:paddingStart="14dp"
+        android:paddingRight="14dp"
+        android:paddingEnd="14dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginRight="19dp"
+        android:layout_marginEnd="19dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageView
+        android:id="@+id/start_guide_confirm_close"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:padding="6dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginRight="19dp"
+        android:layout_marginEnd="19dp"
+        android:src="@drawable/dialog_cancel"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

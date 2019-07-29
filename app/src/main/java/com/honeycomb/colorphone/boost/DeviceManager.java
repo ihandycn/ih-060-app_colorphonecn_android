@@ -134,14 +134,14 @@ public class DeviceManager {
     }
 
     /**
-     * Perform a debounced refresh and get battery data.
+     * Perform a debounced refreshConfirmPage and get battery data.
      *
      * @return {@link Intent} containing battery data. May be obsolete or {@code null} on failure.
      */
     private @Nullable Intent refreshAndGetBatteryData() {
         long now = SystemClock.elapsedRealtime();
         long timeSinceLastRefresh = now - mBatteryDataRefreshTime;
-        HSLog.d(TAG, "refreshAndGetBatteryData(): " + timeSinceLastRefresh + " ms since last refresh");
+        HSLog.d(TAG, "refreshAndGetBatteryData(): " + timeSinceLastRefresh + " ms since last refreshConfirmPage");
         if (timeSinceLastRefresh > BATTERY_DATA_REFRESH_DEBOUNCE_INTERVAL) {
             try {
                 mBatteryData = HSApplication.getContext().registerReceiver(null, mBatteryFilter);

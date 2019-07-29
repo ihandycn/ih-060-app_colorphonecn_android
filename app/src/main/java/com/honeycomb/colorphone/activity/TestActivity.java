@@ -1,5 +1,7 @@
 package com.honeycomb.colorphone.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -12,8 +14,8 @@ import com.acb.call.service.InCallWindow;
 import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
-import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
+import com.superapps.util.Navigations;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -96,6 +98,9 @@ public class TestActivity extends AppCompatActivity {
 //        }, 5000);
 
 //        StartGuideActivity.start(getApplicationContext(), StartGuideActivity.FROM_KEY_BANNER);
-        CashCenterGuideDialog.showCashCenterGuideDialog(this);
+        Intent intent = new Intent();
+        intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        Navigations.startActivitySafely(this, intent);
     }
 }

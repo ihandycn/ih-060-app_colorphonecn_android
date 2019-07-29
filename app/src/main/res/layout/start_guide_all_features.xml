@@ -174,7 +174,7 @@
 
     <include
         android:id="@+id/start_guide_confirm_page"
-        layout="@layout/start_guide_confirm"
+        layout="@layout/start_guide_confirm_list"
         android:visibility="gone" />
 
     <include

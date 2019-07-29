@@ -281,7 +281,7 @@
     <string name="start_guide_loading_text">Loading……</string>
     <string name="start_guide_loading_action">OK now</string>
     <string name="start_guide_request_accessibility_title">Request Accessibility</string>
-    <string name="start_guide_confirm_fix">Fix</string>
+    <string name="start_guide_confirm_fix">Fix &gt;</string>
     <string name="start_guide_confirm_fix_one_key">One Key Fix</string>
     <string name="start_guide_request_image_title">Auto request</string>
     <string name="start_guide_request_title">Please wait</string>
@@ -289,6 +289,8 @@
     <string name="start_guide_permission_onlocker">Show On Locker</string>
     <string name="start_guide_permission_call">Call</string>
     <string name="start_guide_permission_bg_pop">Background Popup</string>
+    <string name="start_guide_permission_call_log">显示来电号码</string>
+    <string name="start_guide_permission_write_settings">设置手机来电铃声</string>
     <string name="start_guide_permission_title">%1$s项问题待修复</string>
     <string name="start_guide_congratulation_title">Congratulation</string>
     <string name="start_guide_congratulation_text">start screen flash</string>

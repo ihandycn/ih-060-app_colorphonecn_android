@@ -12,7 +12,7 @@ import com.ihs.commons.utils.HSLog;
 
 public class RequestPermissionDialog extends FullScreenDialog {
     private final WindowManager mWindowManager;
-    private StartGuideViewHolder holder;
+    private StartGuideViewListHolder holder;
     public RequestPermissionDialog(Context context) {
         this(context, null);
     }
@@ -29,7 +29,7 @@ public class RequestPermissionDialog extends FullScreenDialog {
 
     private void initPage() {
         HSLog.i("AutoPermission", "RequestPermissionDialog init");
-        holder = new StartGuideViewHolder(this, false);
+        holder = new StartGuideViewListHolder(this, false);
         holder.setCircleAnimView(R.id.start_guide_request_ball);
     }
 

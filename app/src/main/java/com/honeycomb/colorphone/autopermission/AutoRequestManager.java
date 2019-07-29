@@ -224,10 +224,6 @@ public class AutoRequestManager {
         ArrayList<String> permission = new ArrayList<String>();
         if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
             permission.add(HSPermissionRequestMgr.TYPE_PHONE);
-            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_READ);
-            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_WRITE);
-            permission.add(HSPermissionRequestMgr.TYPE_STORAGE);
-            permission.add(HSPermissionRequestMgr.TYPE_CALL_LOG);
             permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
         }
 

@@ -22,7 +22,8 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
-import com.honeycomb.colorphone.startguide.StartGuideViewHolder;
+import com.honeycomb.colorphone.startguide.StartGuidePermissionFactory;
+import com.honeycomb.colorphone.startguide.StartGuideViewListHolder;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
@@ -61,7 +62,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     public static final String FROM_KEY_BANNER = "Banner";
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    private StartGuideViewHolder holder;
+    private StartGuideViewListHolder holder;
     private AlertDialog dialog;
     private int permissionShowCount;
     private String from;
@@ -225,9 +226,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
                 view = findViewById(R.id.start_guide_confirm_page);
                 view.setVisibility(View.VISIBLE);
-                holder = new StartGuideViewHolder(view, true);
-                holder.setCircleAnimView(R.id.start_guide_confirm_number);
-                holder.startCircleAnimation();
+                holder = new StartGuideViewListHolder(view, true);
 
                 View oneKeyFix = view.findViewById(R.id.start_guide_confirm_fix);
                 oneKeyFix.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
@@ -249,7 +248,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         "Os", AutoLogger.getOSVersion(),
                         "AccessType", AutoLogger.getPermissionString(RomUtils.checkIsHuaweiRom()));
             } else {
-                int confirmPermission = holder.refresh();
+                int confirmPermission = holder.refreshConfirmPage();
                 showConfirmDialog(confirmPermission);
             }
 
@@ -326,7 +325,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, com.acb.call.R.style.Theme_AppCompat_Light_Dialog);
         builder.setCancelable(false);
-        if (confirmPermission == StartGuideViewHolder.TYPE_PERMISSION_TYPE_SCREEN_FLASH) {
+        if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_SCREEN_FLASH) {
             if (RomUtils.checkIsVivoRom()) {
                 builder.setTitle(com.acb.call.R.string.acb_request_permission_white_title_vivo);
                 builder.setMessage(com.acb.call.R.string.acb_request_permission_white_content_vivo);
@@ -349,7 +348,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             builder.setNegativeButton(com.acb.call.R.string.no, (dialog, which) -> Analytics.logEvent("AutoStartAlert_No_Click"));
             Analytics.logEvent("AutoStartAlert_Show");
 
-        } else if (confirmPermission == StartGuideViewHolder.TYPE_PERMISSION_TYPE_ON_LOCK) {
+        } else if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_ON_LOCK) {
             builder.setTitle(com.acb.call.R.string.acb_request_permission_show_on_lockscreen_title);
             builder.setMessage(com.acb.call.R.string.acb_request_permission_show_on_lockscreen_content);
             builder.setPositiveButton(com.acb.call.R.string.yes, (dialog, which) -> {
@@ -367,7 +366,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             builder.setNegativeButton(com.acb.call.R.string.no, (dialog, which) -> Analytics.logEvent("LockScreenAlert_No_Click"));
             Analytics.logEvent("LockScreenAlert_Show");
 
-        } else if (confirmPermission == StartGuideViewHolder.TYPE_PERMISSION_TYPE_BG_POP) {
+        } else if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_BG_POP) {
             builder.setTitle(R.string.acb_request_permission_bg_pop_title);
             builder.setMessage(R.string.acb_request_permission_bg_pop_content);
             builder.setPositiveButton(com.acb.call.R.string.yes, (dialog, which) -> {
@@ -385,7 +384,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             Analytics.logEvent("BackgroundPopupAlert_Show");
 
         } else {
-            if (confirmPermission == StartGuideViewHolder.TYPE_PERMISSION_TYPE_CALL) {
+            if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_CALL) {
                 if (AutoPermissionChecker.isNotificationListeningGranted()) {
                     AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
                 }

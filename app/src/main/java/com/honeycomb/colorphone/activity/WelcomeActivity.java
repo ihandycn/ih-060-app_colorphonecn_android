@@ -13,6 +13,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
 import com.honeycomb.colorphone.view.WelcomeVideoView;
 import com.ihs.app.alerts.HSAlertMgr;
+import com.ihs.commons.utils.HSLog;
 import com.superapps.util.rom.RomUtils;
 
 import java.io.IOException;
@@ -76,9 +77,11 @@ public class WelcomeActivity extends Activity {
     public void launchMainActivityWithGuide() {
         Intent guideIntent = null;
         // Huawei & Xiaomi use auto permission guide window.
+
         boolean needShowGuidePermissionActivity =
                 !StartGuideActivity.isStarted()
                         && (!AutoRequestManager.getInstance().isGrantAllPermission());
+        HSLog.i("StartGuide", "started: " + !StartGuideActivity.isStarted() + "  AllP: " + !AutoRequestManager.getInstance().isGrantAllPermission());
         if (needShowGuidePermissionActivity) {
             guideIntent = StartGuideActivity.getIntent(WelcomeActivity.this, StartGuideActivity.FROM_KEY_GUIDE);
             HSAlertMgr.delayRateAlert();
