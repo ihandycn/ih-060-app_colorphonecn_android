@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License
+  -->
+<resources>
+    <style name="CustomizeReportRadioGroup">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/customize_report_radio_group_margin</item>
+        <item name="android:layout_marginTop">25dp</item>
+        <item name="android:textColor">#7F000000</item>
+        <item name="android:checked">false</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="CustomizeInputLayoutEmailField" parent="Widget.Design.TextInputLayout">
+        <item name="android:hint">@string/customize_input_email_hint</item>
+    </style>
+
+    <style name="CustomizeEmailField">
+        <item name="android:textSize">22sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <style name="WallpaperButton">
+        <!--<item name="android:background">@drawable/material_compat_bg</item>-->
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+
+    <declare-styleable name="LoadingProgressBar">
+        <attr name="prepareCircleRadius" format="dimension" />
+        <attr name="loadingCircleRadius" format="dimension" />
+        <attr name="prepareCircleDistance" format="dimension" />
+        <attr name="loadingCircleDistance" format="dimension" />
+        <attr name="loadingCircleVibrateRange" format="dimension" />
+        <attr name="shouldPrepare" format="boolean" />
+    </declare-styleable>
+
+    <attr name="videoScaleType" format="enum">
+        <enum name="none" value="0" />
+        <enum name="fit_xy" value="1" />
+        <enum name="fit_start" value="2" />
+        <enum name="fit_center" value="3" />
+        <enum name="fit_end" value="4" />
+        <enum name="left_top" value="5" />
+        <enum name="left_center" value="6" />
+        <enum name="left_bottom" value="7" />
+        <enum name="center_top" value="8" />
+        <enum name="center" value="9" />
+        <enum name="center_bottom" value="10" />
+        <enum name="right_top" value="11" />
+        <enum name="right_center" value="12" />
+        <enum name="right_bottom" value="13" />
+        <enum name="left_top_crop" value="14" />
+        <enum name="left_center_crop" value="15" />
+        <enum name="left_bottom_crop" value="16" />
+        <enum name="center_top_crop" value="17" />
+        <enum name="center_crop" value="18" />
+        <enum name="center_bottom_crop" value="19" />
+        <enum name="right_top_crop" value="20" />
+        <enum name="right_center_crop" value="21" />
+        <enum name="right_bottom_crop" value="22" />
+        <enum name="start_inside" value="23" />
+        <enum name="center_inside" value="24" />
+        <enum name="end_inside" value="25" />
+    </attr>
+
+    <declare-styleable name="TextureVideoView">
+        <attr name="videoScaleType" />
+    </declare-styleable>
+
+    <style name="TabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TabLayoutTextAppearance.Customize" parent="TabLayoutTextAppearance">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="WallpaperLoadingDialogTheme" parent="android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item>       <!-- Dialog的windowFrame框为无 -->
+        <item name="android:windowBackground">@color/transparent_progress_dialog</item> <!-- 设置dialog的背景 -->
+        <item name="android:windowNoTitle">true</item>      <!-- 是否显示title -->
+        <item name="android:windowIsTranslucent">true</item>    <!-- 是否半透明 -->
+        <item name="android:windowIsFloating">true</item>       <!-- 是否浮现在activity之上 -->
+        <item name="android:windowContentOverlay">@null</item>  <!-- 也是个 drawable，定义 content overlay 的背景 -->
+        <item name="android:backgroundDimEnabled">false</item>  <!-- 背景是否模糊显示 -->
+    </style>
+
+    <declare-styleable name="RoundProgressBar">
+        <attr name="roundColor" format="color" />
+        <attr name="roundProgressColor" format="color" />
+        <attr name="roundWidth" format="dimension" />
+        <attr name="textColor" format="color" />
+        <attr name="textSize" format="dimension" />
+        <attr name="max" format="integer" />
+        <attr name="textIsDisplayable" format="boolean" />
+        <attr name="style">
+            <enum name="STROKE" value="0" />
+            <enum name="FILL" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="PercentageProgressBar">
+        <attr name="barTrackHeight" format="dimension" />
+        <attr name="thumbHeight" format="dimension" />
+        <attr name="thumbCenterHeight" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="PercentageProgressView">
+        <attr name="textDistance" format="dimension" />
+    </declare-styleable>
+</resources>
+

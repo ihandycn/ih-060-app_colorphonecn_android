@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="network_error">网络错误</string>
+    <string name="wallpaper_network_error_reload">重新加载</string>
+
+</resources>

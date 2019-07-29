@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Data</key>
+	<dict>
+		<key>3DWallpapers</key>
+		<dict>
+			<key>VariantPromotion</key>
+			<array>
+				<string>balloon</string>
+				<string>fishtropical</string>
+				<string>butterflyblue</string>
+			</array>
+		</dict>
+		<key>LiveWallpapers</key>
+		<dict>
+			<key>VariantPromotion</key>
+			<array>
+				<string>bluestarrysky</string>
+				<string>stars</string>
+				<string>snowdrift</string>
+			</array>
+		</dict>
+		<key>Themes</key>
+		<dict>
+			<key>Campaigns</key>
+			<dict>
+				<key>Entrance</key>
+				<dict>
+					<key>Category</key>
+					<true/>
+					<key>Hot</key>
+					<true/>
+					<key>Push</key>
+					<true/>
+				</dict>
+				<key>Event</key>
+				<array>
+					<dict>
+						<key>BackgroundImage</key>
+						<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_campaigns/EventEaster.jpg</string>
+						<key>CategoryImage</key>
+						<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_carousel/BannerEaster.jpg</string>
+						<key>EndTime</key>
+						<string>2018-04-02 16:26:00</string>
+						<key>Image</key>
+						<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_carousel/BannerEaster.jpg</string>
+						<key>Name</key>
+						<string>Easter Day</string>
+						<key>PushImage</key>
+						<string>https://appcloudbox.s3.amazonaws.com/launcherapps/apps/launcher/promotion/easter.jpg</string>
+						<key>StartTime</key>
+						<string>2018-03-19 10:26:00</string>
+						<key>ThemePackages</key>
+						<array>
+							<string>com.themelab.launcher.easteregg</string>
+							<string>com.themelab.launcher.easterrabbit</string>
+							<string>com.themelab.launcher.easterbunny</string>
+							<string>com.themelab.launcher.coloringegg</string>
+							<string>com.themelab.launcher.butterfly</string>
+							<string>com.themelab.launcher.goldbutterfly</string>
+							<string>com.themelab.launcher.diamondfly</string>
+						</array>
+					</dict>
+					<dict>
+						<key>BackgroundImage</key>
+						<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/bernard/theme_preview_3.png</string>
+						<key>CategoryImage</key>
+						<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_hot_themebanner/bernard.jpg</string>
+						<key>EndTime</key>
+						<string>2017-02-01 16:26:00</string>
+						<key>Image</key>
+						<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_hot_themebanner/bernard.jpg</string>
+						<key>Name</key>
+						<string>name</string>
+						<key>PushImage</key>
+						<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_hot_themebanner/bernard.jpg</string>
+						<key>StartTime</key>
+						<string>2017-01-01 16:26:00</string>
+						<key>ThemePackages</key>
+						<array>
+							<string>com.popgallery.launcher.thor</string>
+							<string>com.popgallery.launcher.magicandroid</string>
+							<string>com.popgallery.launcher.autocar</string>
+							<string>com.popgallery.launcher.face</string>
+						</array>
+					</dict>
+					<dict>
+						<key>BackgroundImage</key>
+						<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/sportscar2/theme_preview_3.jpg</string>
+						<key>CategoryImage</key>
+						<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_hot_themebanner/sportscar2.jpg</string>
+						<key>EndTime</key>
+						<string>2016-01-01 16:26:00</string>
+						<key>Image</key>
+						<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_hot_themebanner/sportscar2.jpg</string>
+						<key>Name</key>
+						<string>name</string>
+						<key>PushImage</key>
+						<string>http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_hot_themebanner/sportscar2.jpg</string>
+						<key>StartTime</key>
+						<string>2016-12-01 16:26:00</string>
+						<key>ThemePackages</key>
+						<array>
+							<string>com.themelab.launcher.blackgold</string>
+							<string>com.themelab.launcher.androidm</string>
+							<string>com.popgallery.launcher.magicandroid</string>
+							<string>com.popgallery.launcher.autocar</string>
+							<string>com.popgallery.launcher.face</string>
+						</array>
+					</dict>
+				</array>
+			</dict>
+			<key>Push</key>
+			<dict>
+				<key>Times</key>
+				<integer>0</integer>
+			</dict>
+			<key>VariantPromotion</key>
+			<array>
+			</array>
+		</dict>
+	</dict>
+</dict>
+</plist>

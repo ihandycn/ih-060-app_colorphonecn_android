@@ -54,6 +54,7 @@ import com.honeycomb.colorphone.cmgame.CmGameUtil;
 import com.honeycomb.colorphone.cmgame.GameInit;
 import com.honeycomb.colorphone.cmgame.NotificationBarInit;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.customize.CustomizeConfig;
 import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
@@ -432,6 +433,7 @@ public class ColorPhoneApplicationImpl {
                 appInit.onInit(mBaseApplication);
             }
         }
+        CustomizeConfig.init();
 
         ThemeList.getInstance().initThemes();
 

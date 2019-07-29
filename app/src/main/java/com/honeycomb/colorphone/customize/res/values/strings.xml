@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2013 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="report" translatable="false">Report</string>
+    <string name="cc0_protocol_agree_it" translatable="false">Yes, I agree with it</string>
+    <string name="cc0_protocol_title" translatable="false">License to Upload Images</string>
+    <string name="cc0_protocol_content" translatable="false">1) You may upload Images and/or Videos to the Library, and %1$s will screen these contents to see if they are suitable for distribution. %2$s does not accept any adult oriented contents. \n2) By uploading Images or Videos to the Library, your works are released under Creative Commons CC0 free to use for almost any purpose, both commercial and non-commercial. \n3) You are solely responsible for the Content you upload. You warrant that you own all proprietary rights regarding the Content, and you are obliged to obtain a non-exclusive, perpetual, irrevocable, worldwide, and royalty-free Model and/or Property Release, and/or any other permission necessary concerning the use of this work for any purpose, without any conditions, unless such conditions are required by law. \n4) Furthermore, you acknowledge that %3$s does not allow the upload of any Images or Videos that infringe on any copyright, property right, trademark, or any other applicable right. \n5) You accept that even though we do our best to prevent it from happening, %4$s cannot be held responsible for the misuse or abuse of any Content. \n6) We also reserve the right to remove any Content at any time if we believe it\'s defective, of poor quality, or in violation of these Terms.</string>
+    <string name="customize_report_reason_infringement" translatable="false">This wallpaper has infringement</string>
+    <string name="customize_report_reason_porn" translatable="false">This wallpaper involves porn</string>
+    <string name="customize_report_reason_gambling" translatable="false">This wallpaper involves gambling</string>
+    <string name="customize_report_reason_political" translatable="false">This wallpaper involves political rumors</string>
+    <string name="customize_report_reason_violence" translatable="false">This wallpaper involves violent bloody</string>
+    <string name="customize_report_page_title" translatable="false">Please select the reason you want to report</string>
+    <string name="customize_input_email_hint" translatable="false">Email</string>
+    <string name="customize_input_email_title" translatable="false">In order to contact you in the future, please provide your email address.</string>
+    <string name="customize_input_incorrect_email" translatable="false">Please fill in the right email address</string>
+    <string name="customize_report_succeed" translatable="false">We have received your report and we fill handle it carefully.</string>
+
+    <!-- Customize center (wallpapers & themes) -->
+    <string name="network_error">Network error.</string>
+    <string name="wallpaper_network_error_reload">Reload</string>
+
+    <string name="theme_category_foot_text">- We are constantly making more beautiful themes. -</string>
+
+    <string name="customize_title">Personalize</string>
+    <string name="customize_themes_title">Themes</string>
+    <string name="customize_wallpapers_title">Wallpapers</string>
+    <string name="customize_locker_title">Locker</string>
+    <string name="customize_local_title">Me</string>
+    <string name="online_theme_tab_title_hot">Hot</string>
+    <string name="online_theme_tab_title_new">New</string>
+    <string name="online_theme_tab_title_category">Categories</string>
+    <string name="customize_wallpapers_title_local">My Wallpapers</string>
+
+    <string name="online_wallpaper_tab_title_categories">Categories</string>
+
+    <string name="online_wallpaper_tab_title_hot">Hot</string>
+    <string name="online_wallpaper_apply_btn">SET AS WALLPAPER</string>
+    <string name="online_wallpaper_edit_reset_btn">RESET</string>
+    <string name="online_wallpaper_edit_cancel_btn">CANCEL</string>
+    <string name="online_wallpaper_cancel_edit_dialog_content">Discard changes to exit?</string>
+    <string name="customize_my_wallpapers_remove_btn">REMOVE</string>
+    <string name="wallpaper_edit_fixed">Fixed</string>
+    <string name="wallpaper_edit_scrollable">Scrollable</string>
+    <string name="online_wallpaper_loading">Loading HD wallpaper, please wait.</string>
+    <string name="online_3d_wallpaper_foot_text">- We are constantly making more beautiful 3D wallpapers. -</string>
+
+    <string name="wallpaper_toast_set_failed">A problem occurred setting this as your wallpaper, please try again</string>
+    <string name="wallpaper_setting_progress_dialog_text">Setting wallpaper…</string>
+    <string name="local_wallpaper_pick_error">The selected picture cannot be set as wallpaper.</string>
+    <string name="local_wallpaper_pick_error_gif_not_supported">GIF images can not be set as wallpaper</string>
+
+    <string name="add_wallpaper">Add Wallpaper</string>
+    <string name="upload_wallpaper">Upload Wallpaper</string>
+    <string name="upload_wallpaper_button_text">Upload</string>
+    <string name="upload_wallpaper_tip">Tips：\n1. Image will be automatically scaled to optimum size\n2. Your image will be shown in \"Me\"\n3. High quality images are more possible to be collected by ME Launcher\n4. Your image will show up in the feed after it\'s been reviewed</string>
+    <string name="upload_wallpaper_declaration">By uploading, you agree ME Launcher\'s</string>
+    <string name="upload_wallpaper_success">Upload successfully</string>
+
+    <string name="wallpaper_network_error">Network errors. Please try again.</string>
+
+    <string name="live_wallpaper_loading_text">Downloading…</string>
+    <string name="live_wallpaper_loading_percentage" translatable="false">%1$d%%</string>
+
+
+</resources>

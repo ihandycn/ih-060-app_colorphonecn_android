@@ -727,6 +727,62 @@
         <receiver
             android:name="com.ihs.device.monitor.usage.UsageBroadcastReceiver"
             tools:node="remove" />
+
+        <activity
+            android:name="com.honeycomb.colorphone.customize.activity.CustomizeActivity"
+            android:alwaysRetainTaskState="true"
+            android:excludeFromRecents="true"
+            android:icon="@drawable/ic_wallpaper"
+            android:label="@string/customize_title"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".customize"
+            android:theme="@style/AppLightStatusBarTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SET_WALLPAPER" />
+                <action android:name="com.honeycomb.launcher.ACTION_FEATURE_HD_WALLPAPER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.honeycomb.colorphone.customize.activity.WallpaperPreviewActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".customize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name="com.honeycomb.colorphone.customize.activity.report.SelectReportReasonActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".customize.report"
+            android:theme="@style/AppLightStatusBarTheme" />
+        <activity
+            android:name="com.honeycomb.colorphone.customize.activity.report.InputEmailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".customize.report"
+            android:theme="@style/AppLightStatusBarTheme" />
+
+        <activity
+            android:name="com.honeycomb.colorphone.customize.activity.WallpaperEditActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity=".customize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <service
+            android:name="com.honeycomb.colorphone.customize.CustomizeService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.themelab.launcher.ACTION_CUSTOMIZE_SERVICE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".livewallpaper.WallpaperPreloadService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":livewallpaper" />
     </application>
 
     <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->

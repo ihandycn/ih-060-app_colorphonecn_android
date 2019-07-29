@@ -32,4 +32,5 @@ public class Placements {
     public static final String AD_CASH_REWARD = "CashReward";
 
     public static final String AD_NEWS = "AirNews";
+    public static final String WALLPAPER_NATIVE_AD_PLACEMENT_NAME = "TODO";
 }

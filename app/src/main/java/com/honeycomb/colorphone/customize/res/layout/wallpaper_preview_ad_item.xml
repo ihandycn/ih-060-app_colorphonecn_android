@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/wallpaper_preview_background"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="182dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/wallpaper_preview_ad_background">
+
+            <net.appcloudbox.ads.base.ContainerView.AcbNativeAdPrimaryView
+                android:id="@+id/preview_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginBottom="22dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="23dp"/>
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="40"/>
+
+        <!-- Display Ad. -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="245dp"
+            android:layout_gravity="bottom"
+            android:layout_weight="1">
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/preview_action"
+                android:layout_width="287dp"
+                android:layout_height="39dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/acb_blue_button_selector"
+                android:gravity="center"
+                android:maxWidth="91dp"
+                android:text="install now"
+                android:textAllCaps="true"
+                android:textColor="#ffffffff"
+                android:textSize="16sp"
+                app:typeface="@string/custom_font_semibold"
+                tools:ignore="HardcodedText"/>
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/preview_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/preview_action"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginEnd="60dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="13dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="3"
+                android:text="Description of the tcription of the tcription of the tcription of the tcription of the tcription of the tcription of the theme"
+                android:textColor="#ff808182"
+                android:textSize="15sp"
+                app:typeface="@string/custom_font_regular"
+                tools:ignore="HardcodedText,SmallSp"/>
+
+            <com.superapps.view.TypefacedTextView
+                android:id="@+id/preview_title"
+                android:layout_width="164dp"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/preview_description"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="13dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="Launcher Default"
+                android:textColor="#ffffffff"
+                android:textSize="18sp"
+                app:typeface="@string/custom_font_semibold"
+                tools:ignore="HardcodedText"/>
+
+            <net.appcloudbox.ads.base.ContainerView.AcbNativeAdIconView
+                android:id="@+id/preview_ad_icon"
+                android:layout_width="58dp"
+                android:layout_height="58dp"
+                android:layout_above="@id/preview_title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dp"
+                android:gravity="center"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="286"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/preview_ad_choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|end"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"/>
+</FrameLayout>

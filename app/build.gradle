@@ -14,6 +14,9 @@ android {
         targetSdkVersion 22
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+
+        renderscriptTargetApi 17
+        renderscriptSupportModeEnabled false
     }
 
     compileOptions {
@@ -21,9 +24,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    aaptOptions {
-        ignoreAssetsPattern "!*.plist:!.DS_Store:!*_custom.json"
-    }
+//    aaptOptions {
+//        ignoreAssetsPattern "!*.plist:!.DS_Store:!*_custom.json"
+//    }
 
     signingConfigs {
         release {
@@ -72,6 +75,7 @@ android {
                            'src/main/java/com/honeycomb/colorphone/dialer/contactgrid/res',
                            'src/main/java/com/honeycomb/colorphone/dialer/dialpadview/res',
                            'src/main/java/com/honeycomb/colorphone/dialer/theme/res',
+                           'src/main/java/com/honeycomb/colorphone/customize/res',
 
                            'src/main/java/com/honeycomb/colorphone/dialer/res']
             assets.srcDirs = ['src/main/assets']
@@ -164,7 +168,7 @@ android {
             mergeAssets.outputs.upToDateWhen { false }
             // Clear mergeAssets task UP-TO-DATE status to force a re-run
         }
-        mergeAssets.dependsOn encodePlistArchives
+        mergeAssets.finalizedBy encodePlistArchives
     }
 }
 

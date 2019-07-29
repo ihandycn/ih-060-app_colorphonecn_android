@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,7 +14,9 @@ import com.acb.colorphone.permissions.FloatWindowManager;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.cashcenter.CashCenterGuideDialog;
+import com.honeycomb.colorphone.customize.activity.CustomizeActivity;
 import com.honeycomb.colorphone.dialog.FiveStarRateTip;
+import com.superapps.util.Navigations;
 
 /**
  * Created by sundxing on 17/11/22.
@@ -97,5 +100,13 @@ public class TestActivity extends AppCompatActivity {
 
 //        StartGuideActivity.start(getApplicationContext(), StartGuideActivity.FROM_KEY_BANNER);
         CashCenterGuideDialog.showCashCenterGuideDialog(this);
+    }
+
+    public void startWallpaper(View view) {
+        Intent launchIntent = CustomizeActivity.getLaunchIntent(this,
+                "From App drawer", 0);
+
+        Navigations.startActivitySafely(this, launchIntent);
+
     }
 }

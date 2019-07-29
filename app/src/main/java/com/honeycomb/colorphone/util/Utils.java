@@ -92,6 +92,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -115,6 +116,8 @@ public final class Utils {
     public static final boolean ATLEAST_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     public static final boolean ATLEAST_JELLY_BEAN = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     public static final boolean ATLEAST_JB_MR1 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
+
+    private static final int STREAM_OP_BUFFER_SIZE = 4096;
 
     public static final int DEFAULT_DEVICE_SCREEN_WIDTH = 1080;
     public static final int DEFAULT_DEVICE_SCREEN_HEIGHT = 1920;
@@ -459,6 +462,39 @@ public final class Utils {
         return file;
     }
 
+    public static boolean saveInputStreamToFile(byte[] preData, InputStream is, File fileOut) {
+        OutputStream output = null;
+        try {
+            output = new FileOutputStream(fileOut);
+            if (null != preData) {
+                output.write(preData);
+            }
+
+            byte[] buffer = new byte[STREAM_OP_BUFFER_SIZE];
+            int read;
+
+            while ((read = is.read(buffer)) != -1) {
+                output.write(buffer, 0, read);
+            }
+            output.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ignored) {
+            }
+            try {
+                if (output != null) {
+                    output.close();
+                }
+            } catch (IOException ignored) {
+            }
+        }
+        return true;
+    }
+
     /**
      * Retrieve, creating if needed, a new sub-directory in cache directory.
      * Internal cache directory is used if external cache directory is not available.
@@ -519,6 +555,42 @@ public final class Utils {
                 inChannel.close();
             }
             outChannel.close();
+        }
+    }
+
+    public static void copy(InputStream in, OutputStream out) throws IOException {
+        try {
+            byte[] buf = new byte[STREAM_OP_BUFFER_SIZE];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            out.flush();
+        } finally {
+            in.close();
+            out.close();
+        }
+    }
+
+    public static void writeToFile(File file, byte[] data) {
+        FileOutputStream fos = null;
+        try {
+            if (!file.exists()) {
+                if (file.createNewFile()) {
+                    HSLog.d(TAG, "Create file " + file.getAbsolutePath());
+                }
+            }
+            fos = new FileOutputStream(file);
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException ignored) {
+            }
         }
     }
 
