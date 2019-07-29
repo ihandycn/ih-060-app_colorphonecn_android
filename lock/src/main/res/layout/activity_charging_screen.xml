@@ -259,20 +259,6 @@
                     android:orientation="vertical">
                 </LinearLayout>
 
-                <!--<include android:id="@+id/lock_notification_layout_above"
-                    layout="@layout/notification_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/lock_notification_layout"
-                    android:layout_marginBottom="3dp"/>
-
-                <include android:id="@+id/lock_notification_layout"
-                    layout="@layout/notification_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/charging_screen_advertisement_container"
-                    android:layout_marginBottom="3dp"/>-->
-
                 <RelativeLayout
                     android:id="@+id/charging_screen_advertisement_container"
                     android:layout_width="match_parent"

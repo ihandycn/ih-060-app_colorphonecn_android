@@ -246,6 +246,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             default:
                 break;
         }
+        mBelowInfo = info;
     }
 
     private void showNotificaitonMultiple(AppNotificationInfo info) {

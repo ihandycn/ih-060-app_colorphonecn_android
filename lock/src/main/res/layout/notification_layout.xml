@@ -35,7 +35,7 @@
             android:layout_marginLeft="5dp"
             android:lineSpacingExtra="2sp"
             android:textColor="#cc000000"
-            android:text="微信 · 15分钟前"
+            tool:text="微信 · 15分钟前"
             android:includeFontPadding="false"
             android:textSize="12sp"/>
 
@@ -49,7 +49,7 @@
             android:textStyle="bold"
             android:includeFontPadding="false"
             android:textColor="#e6000000"
-            android:text="淹死的鱼" />
+            tool:text="淹死的鱼" />
 
         <ImageView
             android:id="@+id/sender_avatar"
