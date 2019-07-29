@@ -27,7 +27,6 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,7 +40,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     public static final int SOURCE_CHARGING = 2;
 
     private View mContainerRoot;
-    private LinearLayout mTestView;
+    private LinearLayout mNotificationContainer;
     private RelativeLayout mNotificationWindow;
     private SlidingNotificationLayout mSlidingWindow;
 
@@ -51,26 +50,20 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     private ImageView mSenderAvatar;
     private TextView mNotificationContent;
 
-    private RelativeLayout mNotificationWindowAbove;
-    private SlidingNotificationLayout mSlidingWindowAbove;
-
-    private ImageView mSourceAppAvatarAbove;
-    private TextView mAppNameAndSendTimeAbove;
-    private TextView mSenderNameAbove;
-    private ImageView mSenderAvatarAbove;
-    private TextView mNotificationContentAbove;
     private int receiveNumberCount;
     private String receiveNumber;
     private int showNumber;
-    private int yOfmSlidingWindowAbove;
-    private List<SlidingNotificationLayout> list;
+    private int yCoordinateOfAboveNotification;
 
-    public int displayPosition = 0;
+    private boolean isObtainDistanceToTop = false;
     private AppNotificationInfo mAppNotificationInfo;
-    private AppNotificationInfo mAppNotificationInfo0;
-    private AppNotificationInfo mAppNotificationInfo1;
-    private AppNotificationInfo mLastInfo;
+    private AppNotificationInfo mAboveInfo;
+    private AppNotificationInfo mBelowInfo;
     private final NotificationClickCallback mNotificationClickCallback;
+
+    private final int NO_NOTIFICATION_SHOWING = 0;
+    private final int ONE_NOTIFICATION_SHOWING = 1;
+    private final int TWO_NOTIFICATION_SHOWING = 2;
 
     private final int mSource;
 
@@ -81,14 +74,12 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         showNumber = 0;
         receiveNumberCount = 0;
 
-        mTestView = findViewById(R.id.test_view);
+        mNotificationContainer = findViewById(R.id.test_view);
+        isObtainDistanceToTop = true;
     }
 
-    private void initNotificationWindow(final View view, AppNotificationInfo info) {
+    private void createNewNotificationWindow(final View view, AppNotificationInfo info) {
 
-        if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotification", "New notification " + "initNotificationWindow" );
-        }
         mSlidingWindow = view.findViewById(R.id.lock_sliding_window);
         mSlidingWindow.setClickable(true);
         mNotificationWindow = view.findViewById(R.id.lock_notification_window);
@@ -109,192 +100,55 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         mNotificationWindow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (BuildConfig.DEBUG) {
-                    HSLog.e("LockNotification", " " + "click" );
-                }
-                onClickTest(view);
+
+                onClickForNotification(view);
             }
         });
 
         mSlidingWindow.setOnViewDismissCallback(new SlidingNotificationLayout.OnViewDismissCallback() {
             @Override
             public void onDismiss(View v) {
-                unbindNotificationWindow(v);
+                unbindDismissingNotification(v);
                 notifyForTwoScreen();
             }
         });
-        changeNotificaitonWindowTest(info, view);
+        changeNotificaitonWindow(info, view);
     }
 
     private int getShowNumber() {
-        showNumber = mTestView.getChildCount();
+        showNumber = mNotificationContainer.getChildCount();
         return showNumber;
     }
-    private void bindNotificationWindow(int index) {
 
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.notification_layout, mTestView, false);
+    private void bindNewNotification(int index) {
+
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.notification_layout, mNotificationContainer, false);
         view.setVisibility(View.GONE);
-        mTestView.addView(view, index);
-        if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotification", "New notification " + "bindNotificationWindow" );
-
-        }
-        if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotification", " " + "bindNotificationWindow " + mTestView.indexOfChild(view));
-        }
+        mNotificationContainer.addView(view, index);
 
     }
 
-    private void unbindNotificationWindow(View view) {
-        mTestView.removeView(view);
+    private void unbindDismissingNotification(View view) {
+        if (mNotificationContainer.indexOfChild(view) == 1) {
+            mBelowInfo = mAboveInfo;
+        }
+        mNotificationContainer.removeView(view);
         view.setVisibility(View.GONE);
-        if (mTestView.indexOfChild(view) == 0) {
-            setInfo(mLastInfo);
-        } else {
-            setInfo(mAppNotificationInfo);
-        }
 
-    }
-
-
-    private void initNotificationWindowBelow() {
-        mSlidingWindow = findViewById(R.id.lock_sliding_window);
-        mSlidingWindow.setClickable(true);
-        mNotificationWindow = mSlidingWindow.findViewById(R.id.lock_notification_window);
-        mNotificationWindow.setAlpha(0.9f);
-
-        mSourceAppAvatar = mSlidingWindow.findViewById(R.id.source_app_avatar);
-        mAppNameAndSendTime = mSlidingWindow.findViewById(R.id.source_app_name);
-        mSenderAvatar = mSlidingWindow.findViewById(R.id.sender_avatar);
-        mSenderName = mSlidingWindow.findViewById(R.id.sender_name);
-        mNotificationContent = mSlidingWindow.findViewById(R.id.notification_content);
-        mSlidingWindow.setVisibility(View.INVISIBLE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            mNotificationWindow.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
-            mSenderAvatar.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(3.3f), false));
-        }
-
-        mNotificationWindow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HSLog.d("NotificationWindow clicked");
-                //onClickNotificationBelow();
-            }
-        });
-
-        mSlidingWindow.setOnViewDismissCallback(new SlidingNotificationLayout.OnViewDismissCallback() {
-            @Override
-            public void onDismiss(View v) {
-                mSlidingWindow.setVisibility(View.GONE);
-                if (mSlidingWindowAbove.getVisibility() == View.VISIBLE) {
-                    if (mSource == SOURCE_LOCKER) {
-                        list.remove(mSlidingWindow);
-                        list.add(mSlidingWindow);
-                        setMarginForNotification();
-                        displayPosition = 4;
-                    } else {
-                        displayPosition = 1;
-                    }
-                } else {
-                    displayPosition = 0;
-                }
-
-                if (showNumber > 0) {
-                    showNumber --;
-                }
-                notifyForTwoScreen();
-
-            }
-        });
-    }
-
-    private void initNotificationWindowAbove() {
-        //mSlidingWindowAbove = findViewById(R.id.lock_notification_layout_above);
-        mSlidingWindowAbove.setClickable(true);
-        mNotificationWindowAbove = mSlidingWindowAbove.findViewById(R.id.lock_notification_window);
-        list = new ArrayList<>();
-        list.add(mSlidingWindow);
-        list.add(mSlidingWindowAbove);
-        mNotificationWindowAbove.setAlpha(0.9f);
-
-        mSourceAppAvatarAbove = mSlidingWindowAbove.findViewById(R.id.source_app_avatar);
-        mAppNameAndSendTimeAbove = mSlidingWindowAbove.findViewById(R.id.source_app_name);
-        mSenderAvatarAbove = mSlidingWindowAbove.findViewById(R.id.sender_avatar);
-        mSenderNameAbove = mSlidingWindowAbove.findViewById(R.id.sender_name);
-        mNotificationContentAbove = mSlidingWindowAbove.findViewById(R.id.notification_content);
-        mSlidingWindowAbove.setVisibility(View.GONE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            mNotificationWindowAbove.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
-            mSenderAvatarAbove.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(3.3f), false));
-        }
-
-        mNotificationWindowAbove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HSLog.d("NotificationWindowAbove clicked");
-                onClickNotificationAbove();
-            }
-        });
-
-        mSlidingWindowAbove.setOnViewDismissCallback(new SlidingNotificationLayout.OnViewDismissCallback() {
-            @Override
-            public void onDismiss(View v) {
-                mSlidingWindowAbove.setVisibility(View.GONE);
-                if (showNumber > 0) {
-                    showNumber --;
-                }
-                displayPosition = 3;
-                notifyForTwoScreen();
-            }
-        });
     }
 
     private <T extends View> T findViewById(int id) {
         return mContainerRoot.findViewById(id);
     }
 
-    private void setMarginForNotification() {
-        if (mSource == SOURCE_LOCKER) {
-            LockerMainFrame.LayoutParams layoutParams = (LockerMainFrame.LayoutParams)list.get(0).getLayoutParams();
-            layoutParams.addRule(LockerMainFrame.ABOVE, R.id.rl_ad_container);
-            layoutParams.bottomMargin = Dimensions.pxFromDp(6);
-            list.get(0).setLayoutParams(layoutParams);
-
-            LockerMainFrame.LayoutParams layoutParams1 = (LockerMainFrame.LayoutParams)list.get(1).getLayoutParams();
-            layoutParams1.addRule(LockerMainFrame.ABOVE, list.get(0).getId());
-            layoutParams1.bottomMargin = Dimensions.pxFromDp(6);
-            list.get(1).setLayoutParams(layoutParams1);
-        }
-    }
-
     private Context getContext() {
         return mContainerRoot.getContext();
     }
 
-    /*private void onClickNotificationBelow() {
-        if (mAppNotificationInfo0 == null) {
-            return;
-        }
-        LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Click",
-                getInfoBelow().packageName);
-
-        LockNotificationManager.getInstance().setClickedNotification(getInfoBelow());
-
-        if (getContext() instanceof BaseKeyguardActivity) {
-            ((BaseKeyguardActivity) getContext()).tryDismissKeyguard(true);
-        }
-
-    }*/
-
-    private void onClickTest(View v) {
+    private void onClickForNotification(View v) {
 
         if (getInfo(v) == null) {
             return;
-        }
-        if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotification", " " + "onClickTest" );
         }
 
         LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Click",
@@ -307,31 +161,28 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         }
     }
 
-    private void onClickNotificationAbove() {
-        if (mAppNotificationInfo1 == null) {
-            return;
+    private AppNotificationInfo getInfo(View v) {
+        AppNotificationInfo info = null;
+        if (getShowNumber() == TWO_NOTIFICATION_SHOWING) {
+            if (mNotificationContainer.indexOfChild(v) == 0) {
+                info = mAboveInfo;
+            } else if (mNotificationContainer.indexOfChild(v) == 1) {
+                info = mBelowInfo;
+            }
+        } else if (getShowNumber() == ONE_NOTIFICATION_SHOWING) {
+            info = mBelowInfo;
         }
-        LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Click",
-                getInfoAbove().packageName);
-
-        LockNotificationManager.getInstance().setClickedNotification(getInfoAbove());
-
-        if (getContext() instanceof BaseKeyguardActivity) {
-            ((BaseKeyguardActivity) getContext()).tryDismissKeyguard(true);
-        }
-
+        return info;
     }
 
-    private void changeNotificaitonWindowTest(AppNotificationInfo info, View view) {
-        if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotification", "New notification " + "changeNotificaitonWindowTest" );
-        }
-        changeNotificationWindowForTest(info, view);
+    private void changeNotificaitonWindow(AppNotificationInfo info, View view) {
+
+        optimizeNotification(info, view);
         mSlidingWindow.setVisibility(View.VISIBLE);
         view.setVisibility(View.VISIBLE);
     }
 
-    private void changeNotificationWindowForTest(AppNotificationInfo info, View view) {
+    private void optimizeNotification(AppNotificationInfo info, View view) {
         if (ScreenStatusReceiver.isScreenOn()) {
             if (receiveNumberCount <= 5) {
                 receiveNumber = String.valueOf(receiveNumberCount);
@@ -341,43 +192,6 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Show",
                     info.packageName, receiveNumber, String.valueOf(getShowNumber()));
         }
-
-        if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotification", " " + info.title + " " + info.content);
-        }
-        mSenderName.setText(info.title);
-        mNotificationContent.setText(info.content);
-        if (info.notification.largeIcon != null) {
-            mSenderAvatar.setVisibility(View.VISIBLE);
-            mSenderAvatar.setImageBitmap(info.notification.largeIcon);
-        } else {
-            mSenderAvatar.setVisibility(View.GONE);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            mSourceAppAvatar.setBackground(LockNotificationManager.getAppIcon(info.packageName));
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("", Locale.SIMPLIFIED_CHINESE);
-        sdf.applyPattern("HH:mm");
-        mAppNameAndSendTime.setText(LockNotificationManager.getAppName(info.packageName) + " " + "·" + " " + sdf.format(info.when));
-
-    }
-
-    private void changeNotificationWindowBelow(AppNotificationInfo info) {
-        if (ScreenStatusReceiver.isScreenOn()) {
-            if (receiveNumberCount <= 5) {
-                receiveNumber = String.valueOf(receiveNumberCount);
-            } else {
-                receiveNumber = "above 5";
-            }
-            LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Show",
-                    info.packageName, receiveNumber, String.valueOf(showNumber));
-        }
-        if (mAppNotificationInfo0 == info) {
-            return;
-        }
-
-        mAppNotificationInfo0 = info;
         mSenderName.setText(info.title);
         mNotificationContent.setText(info.content);
         if (info.notification.largeIcon != null) {
@@ -394,63 +208,6 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         sdf.applyPattern("HH:mm");
         mAppNameAndSendTime.setText(LockNotificationManager.getAppName(info.packageName) + " " + "·" + " " + sdf.format(info.when));
     }
-
-    private void changeNotificationWindowAbove(AppNotificationInfo info) {
-        if (ScreenStatusReceiver.isScreenOn()) {
-            if (receiveNumberCount <= 5) {
-                receiveNumber = String.valueOf(receiveNumberCount);
-            } else {
-                receiveNumber = "above 5";
-            }
-            LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Show",
-                    info.packageName, receiveNumber, String.valueOf(showNumber));
-        }
-
-        if (mAppNotificationInfo1 == info) {
-            return;
-        }
-
-        mAppNotificationInfo1 = info;
-        mSenderNameAbove.setText(info.title);
-        mNotificationContentAbove.setText(info.content);
-        if (info.notification.largeIcon != null) {
-            mSenderAvatarAbove.setVisibility(View.VISIBLE);
-            mSenderAvatarAbove.setImageBitmap(info.notification.largeIcon);
-        } else {
-            mSenderAvatarAbove.setVisibility(View.GONE);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            mSourceAppAvatarAbove.setBackground(LockNotificationManager.getAppIcon(info.packageName));
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("", Locale.SIMPLIFIED_CHINESE);
-        sdf.applyPattern("HH:mm");
-        mAppNameAndSendTimeAbove.setText(LockNotificationManager.getAppName(info.packageName) + " " + "·" + " " + sdf.format(info.when));
-    }
-
-    private AppNotificationInfo getInfo(View v) {
-        AppNotificationInfo info = null;
-        if (mTestView.indexOfChild(v) == 0) {
-            info = mAppNotificationInfo0;
-            HSLog.e("LockNotification", " " + "onClickTest0 " + (info == null) + mAppNotificationInfo0.content);
-        } else if (mTestView.indexOfChild(v) == 1) {
-            info = mAppNotificationInfo1;
-            HSLog.e("LockNotification", " " + "onClickTest1 " + (info == null)  + mAppNotificationInfo1.content);
-        }
-        return info;
-    }
-
-    private void setInfo( AppNotificationInfo info) {
-        mAppNotificationInfo0 = info;
-        if (getShowNumber() == 2) {
-            mAppNotificationInfo1 = mLastInfo;
-        }
-
-    }
-
-    private AppNotificationInfo getInfoAbove() {
-        return mAppNotificationInfo1;
-    }
-
 
     @Override
     public void onReceive(AppNotificationInfo info) {
@@ -464,187 +221,111 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         }
         if (userEnabled) {
             mAppNotificationInfo = info;
-            HSLog.e(displayPosition + " judgePackageNamePriority" );
-            ShowNotificaitonMultiple(info);
+            showNotificaiton(info);
         }
     }
 
-    private void ShowNotificaiton(AppNotificationInfo info) {
+    private void showNotificaiton(AppNotificationInfo info) {
         if (HSConfig.optBoolean(false,"Application", "Locker", "Notification", "ShowMultiple")) {
-            ShowNotificaitonMultiple(info);
+            showNotificaitonMultiple(info);
         } else {
-            ShowNotificaitonSingle(info);
+            showNotificaitonSingle(info);
         }
     }
 
 
-    private void ShowNotificaitonSingle(AppNotificationInfo info) {
-        if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotification", "New notification " + "onBindNotificaiton" );
-        }
+    private void showNotificaitonSingle(AppNotificationInfo info) {
         switch (getShowNumber()) {
-            case 0:
-                bindNotificationWindow(0);
-                initNotificationWindow(mTestView.getChildAt(0), info);
+            case NO_NOTIFICATION_SHOWING:
+                bindNewNotification(0);
+                createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
                 break;
-            case 1:
-                initNotificationWindow(mTestView.getChildAt(0), info);
+            case ONE_NOTIFICATION_SHOWING:
+                createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
                 break;
             default:
                 break;
         }
     }
 
-    private void ShowNotificaitonMultiple(AppNotificationInfo info) {
-        if (BuildConfig.DEBUG) {
-            HSLog.e("LockNotification", "New notification " + "onBindNotificaiton" );
-        }
+    private void showNotificaitonMultiple(AppNotificationInfo info) {
         switch (getShowNumber()) {
-            case 0:
-                if (BuildConfig.DEBUG) {
-                    HSLog.e("LockNotification", "New notification " + "case 0" );
-                }
-                bindNotificationWindow(0);
-                initNotificationWindow(mTestView.getChildAt(0), info);
+            case NO_NOTIFICATION_SHOWING:
+                bindNewNotification(0);
+                createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
+                mBelowInfo = info;
+                break;
 
-                break;
-            case 1:
-                if (BuildConfig.DEBUG) {
-                    HSLog.e("LockNotification", "New notification " + "case 1" );
+            case ONE_NOTIFICATION_SHOWING:
+                if (isSamePackageAsBelowOne(info)) {
+                    createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
+                    mBelowInfo = info;
+                } else if (isHigherPriorityPackage(mBelowInfo) && !isHigherPriorityPackage(info)) {
+                    bindNewNotification(0);
+                    createNewNotificationWindow(mNotificationContainer.getChildAt(0), mBelowInfo);
+                    createNewNotificationWindow(mNotificationContainer.getChildAt(1), info);
+                    mAboveInfo = mBelowInfo;
+                    mBelowInfo = info;
+                } else {
+                    bindNewNotification(0);
+                    createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
+                    mAboveInfo = info;
                 }
-                bindNotificationWindow(0);
-                initNotificationWindow(mTestView.getChildAt(0), info);
                 break;
-            case 2:
-                if (BuildConfig.DEBUG) {
-                    HSLog.e("LockNotification", "New notification " + "case 2" );
-                    HSLog.e("LockNotification", "New notification " + info.content + " " + mLastInfo.content );
-                }
 
-                initNotificationWindow(mTestView.getChildAt(0), info);
-                initNotificationWindow(mTestView.getChildAt(1), mLastInfo);
+            case TWO_NOTIFICATION_SHOWING:
+                if (BuildConfig.DEBUG) {
+                    HSLog.e("LockNotification", "New notification " + mAboveInfo.content + " " + mBelowInfo.content );
+                }
+                boolean isOptimizeBelowOne = (isHigherPriorityPackage(mAboveInfo) && !isHigherPriorityPackage(info)) || isSamePackageAsBelowOne(info);
+                if (isOptimizeBelowOne) {
+                    createNewNotificationWindow(mNotificationContainer.getChildAt(1), info);
+                    mBelowInfo = info;
+                } else if (isSamePackageAsAboveOne(info)) {
+                    createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
+                    mAboveInfo = info;
+                } else {
+                    createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
+                    createNewNotificationWindow(mNotificationContainer.getChildAt(1), mAboveInfo);
+                    mBelowInfo = mAboveInfo;
+                    mAboveInfo = info;
+                }
                 break;
+
             default:
                 break;
         }
-        setInfo(info);
-        mLastInfo = info;
-    }
-
-    private void onBindNotification() {
-        switch (getShowNumber()) {
-            case 0:
-                bindNotificationWindow(0);
-                break;
-            case 1:
-
-                break;
-            default:
-                break;
-        }
-    }
-
-
-    private boolean isSamePackageAsLastOne(AppNotificationInfo info) {
-        return mLastInfo.packageName.equalsIgnoreCase(info.packageName);
-    }
-
-    private boolean isHigherPriorityPackage(AppNotificationInfo info) {
-        boolean isHigherPriorityPackage = info.packageName.equalsIgnoreCase("com.tencent.mobileqq")
-                || info.packageName.equalsIgnoreCase("com.tencent.mm")
-                || info.packageName.equalsIgnoreCase("com.android.mms")
-                || info.packageName.equalsIgnoreCase("com.eg.android.AlipayGphone");
-        //1和0和2和3
-
-        return true;
-    }
-
-
-    private void changeNotificationWindow(AppNotificationInfo info) {
-        if (HSConfig.optBoolean(false,"Application", "Locker", "Notification", "ShowMultiple")) {
-            if (list.size() == 2) {
-                setMarginForNotification();
-            }
-            if (displayPosition == 1 && !isHigherPriorityPackage(info) && isHigherPriorityPackage(mLastInfo)) {
-                displayPosition = 2;
-            }
-            if (displayPosition == 0) {
-                mSlidingWindow.setVisibility(View.VISIBLE);
-                changeNotificationWindowBelow(info);
-                mLastInfo = info;
-                showNumber = 1;
-                displayPosition = 1;
-            } else if (displayPosition == 1) {
-                    /*if (mLastInfo.packageName.equalsIgnoreCase(info.packageName)) {
-                        if (showNumber == 1) {
-                            mSlidingWindow.setVisibility(View.VISIBLE);
-                            changeNotificationWindowBelow(info);
-                        } else if (showNumber == 2) {
-                            mSlidingWindowAbove.setVisibility(View.VISIBLE);
-                            changeNotificationWindowAbove(info);
-                        }
-                        mLastInfo = info;
-                } else {*/
-                    mSlidingWindowAbove.setVisibility(View.VISIBLE);
-                    changeNotificationWindowAbove(info);
-                    if (mLastInfo != null) {
-                        mSlidingWindow.setVisibility(View.VISIBLE);
-                        changeNotificationWindowBelow(mLastInfo);
-                    }
-                    mLastInfo = info;
-
-                    showNumber = 2;
-                //}
-
-            } else if (displayPosition == 2) {
-                    mSlidingWindow.setVisibility(View.VISIBLE);
-                    changeNotificationWindowBelow(info);
-                    mLastInfo = info;
-                    displayPosition = 1;
-                    showNumber = 2;
-            } else if (displayPosition == 3) {
-                mSlidingWindowAbove.setVisibility(View.VISIBLE);
-                changeNotificationWindowAbove(info);
-                mLastInfo = info;
-                displayPosition = 1;
-                showNumber = 2;
-            } else if (displayPosition == 4) {
-                /*if (mLastInfo.packageName.equalsIgnoreCase(info.packageName)) {
-                    mSlidingWindowAbove.setVisibility(View.VISIBLE);
-                    changeNotificationWindowAbove(info);
-                    displayPosition = 4;
-                    showNumber = 1;
-                } else {*/
-                    mSlidingWindow.setVisibility(View.VISIBLE);
-                    changeNotificationWindowBelow(info);
-                    displayPosition = 1;
-                    showNumber = 2;
-               // }
-                mLastInfo = info;
-
-                list.remove(mSlidingWindowAbove);
-                list.add(mSlidingWindowAbove);
-            }
-        } else {
-            mSlidingWindow.setVisibility(View.VISIBLE);
-            changeNotificationWindowBelow(info);
-            showNumber = 1;
-        }
-
         notifyForTwoScreen();
     }
 
+    private boolean isSamePackageAsBelowOne(AppNotificationInfo info) {
+        return mBelowInfo.packageName.equalsIgnoreCase(info.packageName);
+    }
+
+    private boolean isSamePackageAsAboveOne(AppNotificationInfo info) {
+        return mAboveInfo.packageName.equalsIgnoreCase(info.packageName);
+    }
+
+    private boolean isHigherPriorityPackage(AppNotificationInfo info) {
+        return "com.tencent.mobileqq".equalsIgnoreCase(info.packageName)
+                || "com.tencent.mm".equalsIgnoreCase(info.packageName)
+                || "com.android.mms".equalsIgnoreCase(info.packageName)
+                || "com.eg.android.AlipayGphone".equalsIgnoreCase(info.packageName);
+    }
+
     private void notifyForTwoScreen() {
-        //LockNotificationManager.getInstance().notifyForUpdateTimeSize(getShowNumber());
-        //LockNotificationManager.getInstance().sendNotificationForChargingScreen(getShowNumber());
+       if (getShowNumber() == TWO_NOTIFICATION_SHOWING && isObtainDistanceToTop) {
+           obtainDistanceToTop();
+        }
+        LockNotificationManager.getInstance().notifyForUpdatingLockerTimeSize(getShowNumber(), yCoordinateOfAboveNotification);
+        LockNotificationManager.getInstance().notifyForUpdatingChargingNumberSize(getShowNumber());
     }
 
-    public SlidingNotificationLayout getmSlidingWindowAbove() {
-        return mSlidingWindowAbove;
-    }
-
-    public SlidingNotificationLayout getmSlidingWindow() {
-        return mSlidingWindow;
+    private void obtainDistanceToTop() {
+        int[] position = new int[2];
+        mNotificationContainer.getChildAt(0).getLocationOnScreen(position);
+        yCoordinateOfAboveNotification = position[1] - Dimensions.pxFromDp(3) - Dimensions.pxFromDp(mNotificationContainer.getChildAt(1).getHeight());
+        isObtainDistanceToTop = false;
     }
 
     private String getSourceName(int source) {
