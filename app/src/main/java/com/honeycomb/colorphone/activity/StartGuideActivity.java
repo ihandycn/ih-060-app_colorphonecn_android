@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +68,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private AlertDialog dialog;
     private int permissionShowCount;
     private String from;
+    private boolean isAgreePrivacy;
 
     public static @Nullable Intent getIntent(Context context, String from) {
         if (RomUtils.checkIsMiuiRom()
@@ -106,8 +106,13 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
         CheckBox agree = findViewById(R.id.start_guide_check);
+        isAgreePrivacy = agree.isChecked();
+
         agree.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Analytics.logEvent(isChecked ? "StartGuide_Privacy_Agree_Click" : "StartGuide_Privacy_Refuse_Click");
+            if (isChecked != isAgreePrivacy) {
+                isAgreePrivacy = isChecked;
+                Analytics.logEvent(isChecked ? "StartGuide_Privacy_Agree_Click" : "StartGuide_Privacy_Refuse_Click");
+            }
         });
 
         if (Utils.isAccessibilityGranted() || isRetryEnd()) {
