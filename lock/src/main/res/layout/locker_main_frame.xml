@@ -2,6 +2,7 @@
 <com.colorphone.lock.lockscreen.locker.LockerMainFrame xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:drawer="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lock_main_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
@@ -115,173 +116,13 @@
         android:background="#99000000"
         android:visibility="invisible"/>
 
-    <com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout
-        android:id="@+id/lock_sliding_window"
+    <LinearLayout
+        android:id="@+id/test_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/rl_ad_container"
-        android:layout_marginBottom="3dp"
-        >
-        <RelativeLayout
-            android:id="@+id/lock_notification_window"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginEnd="18dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            android:layout_marginStart="18dp"
-            android:paddingBottom="12dp"
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <ImageView
-                android:id="@+id/source_app_avatar"
-                android:layout_width="12dp"
-                android:layout_height="12dp" />
-
-            <TextView
-                android:id="@+id/source_app_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/source_app_avatar"
-                android:layout_toRightOf="@id/source_app_avatar"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:lineSpacingExtra="2sp"
-                android:textColor="#cc000000"
-                android:text="微信 · 15分钟前"
-                android:includeFontPadding="false"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/sender_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/source_app_name"
-                android:layout_marginTop="7dp"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:includeFontPadding="false"
-                android:textColor="#e6000000"
-                android:text="淹死的鱼" />
-
-            <ImageView
-                android:id="@+id/sender_avatar"
-                android:layout_width="37dp"
-                android:layout_height="37dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_alignTop="@id/sender_name"
-                />
-
-            <TextView
-                android:id="@+id/notification_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_toStartOf="@+id/sender_avatar"
-                android:layout_toLeftOf="@+id/sender_avatar"
-                android:layout_below="@id/sender_name"
-                android:layout_marginTop="4dp"
-                android:textColor="#cc000000"
-                android:includeFontPadding="false"
-                android:textSize="14sp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下对方就会撒打算家里打飞机撒发的"/>
-
-        </RelativeLayout>
-    </com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout>
-
-    <com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout
-        android:id="@+id/lock_sliding_window_above"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/lock_sliding_window"
-        android:layout_marginBottom="3dp"
-        >
-        <RelativeLayout
-            android:id="@+id/lock_notification_window_above"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginEnd="18dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            android:layout_marginStart="18dp"
-            android:paddingBottom="12dp"
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <ImageView
-                android:id="@+id/source_app_avatar_above"
-                android:layout_width="12dp"
-                android:layout_height="12dp" />
-
-            <TextView
-                android:id="@+id/source_app_name_above"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/source_app_avatar_above"
-                android:layout_toRightOf="@id/source_app_avatar_above"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:lineSpacingExtra="2sp"
-                android:textColor="#cc000000"
-                android:text="微信 · 15分钟前"
-                android:includeFontPadding="false"
-                android:textSize="12sp"/>
-
-            <TextView
-                android:id="@+id/sender_name_above"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/source_app_name_above"
-                android:layout_marginTop="7dp"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:includeFontPadding="false"
-                android:textColor="#e6000000"
-                android:text="淹死的鱼" />
-
-            <ImageView
-                android:id="@+id/sender_avatar_above"
-                android:layout_width="37dp"
-                android:layout_height="37dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_alignTop="@id/sender_name_above"
-                />
-
-            <TextView
-                android:id="@+id/notification_content_above"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_toStartOf="@+id/sender_avatar_above"
-                android:layout_toLeftOf="@+id/sender_avatar_above"
-                android:layout_below="@id/sender_name_above"
-                android:layout_marginTop="4dp"
-                android:textColor="#cc000000"
-                android:includeFontPadding="false"
-                android:textSize="14sp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="今天打得太棒了，大家都很厉害，今天晚上我们好好庆祝一下对方就会撒打算家里打飞机撒发的"/>
-
-        </RelativeLayout>
-    </com.colorphone.lock.lockscreen.locker.SlidingNotificationLayout>
-
-
+        android:orientation="vertical"
+        android:layout_above="@id/rl_ad_container">
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/rl_ad_container"

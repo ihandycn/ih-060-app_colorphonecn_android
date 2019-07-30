@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.LockerCustomConfig;
 import com.colorphone.lock.PopupView;
 import com.colorphone.lock.R;
@@ -106,7 +107,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
     private long mOnStartTime;
 
     private int lockerCount = 0;
-    private int yCoordinatesOfNotificationAbove;
     private boolean ifRegisterForTime = false;
     private ImageView mGameIconEntrance;
 
@@ -710,15 +710,6 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
         mLockScreen.dismiss(getContext(), true);
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
-        int[] position = new int[2];
-        mNotificationWindowHolder.getmSlidingWindowAbove().getLocationOnScreen(position);
-        yCoordinatesOfNotificationAbove = position[1];
-
-    }
-
     private final BroadcastReceiver timeChangeReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -731,8 +722,11 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
 
     private TimeTextSizeChangeObserver observer = new TimeTextSizeChangeObserver() {
         @Override
-        public void update(int showNumber) {
-            HSLog.e("AutoSizing For time " + "yCoordinatesOfNotificationAbove " + yCoordinatesOfNotificationAbove);
+        public void update(int showNumber, int yCoordinateOfAboveNotification) {
+            if (BuildConfig.DEBUG) {
+                HSLog.e("AutoSizing For time " + "yCoordinatesOfNotificationAbove " + yCoordinateOfAboveNotification);
+            }
+
             if (showNumber == 2) {
                 int[] position = new int[2];
                 mTvDate.getLocationOnScreen(position);
@@ -740,11 +734,13 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 mTvDate.getLocalVisibleRect(rect);
                 int yCoordinatesOfBottomForDate = rect.height() + position[1];
                 int phoneHeight = Dimensions.getPhoneHeight(getContext());
-                HSLog.e("AutoSizing For time " + "judgeHeight " + yCoordinatesOfBottomForDate);
 
-                HSLog.e("AutoSizing For time " + "phoneHeight " + phoneHeight);
+                if (BuildConfig.DEBUG) {
+                    HSLog.e("AutoSizing For time " + "yCoordinatesOfBottomForDate " + yCoordinatesOfBottomForDate);
+                    HSLog.e("AutoSizing For time " + "phoneHeight " + phoneHeight);
+                }
 
-                if (yCoordinatesOfNotificationAbove <= yCoordinatesOfBottomForDate) {
+                if (yCoordinateOfAboveNotification <= yCoordinatesOfBottomForDate) {
                     if (phoneHeight <= 1920) {
                         mTvTime.setTextSize(60  * phoneHeight / 1920);
                         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) mTvTime.getLayoutParams();
@@ -752,7 +748,7 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                         mTvTime.setLayoutParams(layoutParams);
                     }
                 }
-            } else if (showNumber == 1) {
+            } else {
                 mTvTime.setTextSize(60);
             }
 

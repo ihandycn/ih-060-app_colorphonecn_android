@@ -603,8 +603,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
         advertisementContainer = mRootView.findViewById(R.id.charging_screen_advertisement_container);
         mNotificationWindowHolder = new NotificationWindowHolder(mRootView, NotificationWindowHolder.SOURCE_CHARGING, this);
-        mNotificationWindowHolder.getmSlidingWindow().setVisibility(View.GONE);
-        mNotificationWindowHolder.getmSlidingWindowAbove().setVisibility(View.GONE);
+        //mNotificationWindowHolder.getmSlidingWindow().setVisibility(View.GONE);
+        //mNotificationWindowHolder.getmSlidingWindowAbove().setVisibility(View.GONE);
 //        customizeContentContainer = mRootView.findViewById(R.id.customize_card_container);
 //        customizeContentContainer.setDismissCallback(new Runnable() {
 //            @Override
@@ -1054,15 +1054,14 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
 
     private CharingScreenChangeObserver observer = new CharingScreenChangeObserver() {
         @Override
-        public void onReceive(int s) {
+        public void onReceive(int showNumber) {
             int phoneHeight = Dimensions.getPhoneHeight(getContext());
-            if (s == 1) {
-                chargingQuantityView.setTextSize(90);
-            } else if (s == 2) {
+            if (showNumber == 2) {
                 if (phoneHeight <= 1920) {
                     chargingQuantityView.setTextSize(80  * phoneHeight / 1920 - 5);
                 }
-
+            } else {
+                chargingQuantityView.setTextSize(90);
             }
         }
     };
