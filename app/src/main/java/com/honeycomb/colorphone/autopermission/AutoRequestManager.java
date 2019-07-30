@@ -1,11 +1,13 @@
 package com.honeycomb.colorphone.autopermission;
 
-import android.Manifest;
 import android.accessibilityservice.AccessibilityService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.StringDef;
 import android.text.TextUtils;
 import android.view.WindowManager;
@@ -17,8 +19,6 @@ import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.BackgroundPopupMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
-import com.acb.colorphone.permissions.PhoneHuawei8GuideActivity;
-import com.acb.colorphone.permissions.PhoneMiuiGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
@@ -43,7 +43,6 @@ import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Navigations;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
-import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
 import com.superapps.util.Toasts;
 import com.superapps.util.rom.RomUtils;
@@ -424,7 +423,9 @@ public class AutoRequestManager {
         return AutoPermissionChecker.hasAutoStartPermission()
                 && AutoPermissionChecker.hasBgPopupPermission()
                 && AutoPermissionChecker.hasShowOnLockScreenPermission()
-                && AutoPermissionChecker.isNotificationListeningGranted();
+                && AutoPermissionChecker.isNotificationListeningGranted()
+                && AutoPermissionChecker.isPhonePermissionGaint()
+                && AutoPermissionChecker.isWriteSettingsPermissionGaint();
     }
 
     public void startAutoCheck(@AUTO_PERMISSION_FROM String from, String point) {
@@ -504,22 +505,30 @@ public class AutoRequestManager {
                 }, GUIDE_DELAY);
             }
         } else if (TextUtils.equals(HSPermissionRequestMgr.TYPE_PHONE, type)) {
-            if (RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) == RuntimePermissions.PERMISSION_GRANTED) {
+            if (AutoPermissionChecker.isPhonePermissionGaint()) {
                 return true;
             } else {
                 Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsMiuiRom()){
-                        Navigations.startActivitySafely(HSApplication.getContext(), PhoneMiuiGuideActivity.class);
-                    } else if (RomUtils.checkIsHuaweiRom()) {
-                        Navigations.startActivitySafely(HSApplication.getContext(), PhoneHuawei8GuideActivity.class);
-                    }
+//                    if (RomUtils.checkIsMiuiRom()){
+//                        Navigations.startActivitySafely(HSApplication.getContext(), PhoneMiuiGuideActivity.class);
+//                    } else if (RomUtils.checkIsHuaweiRom()) {
+//                        Navigations.startActivitySafely(HSApplication.getContext(), PhoneHuawei8GuideActivity.class);
+//                    }
                 }, GUIDE_DELAY);
             }
         } else if (TextUtils.equals(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS, type)) {
-            if (RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.WRITE_SETTINGS) != RuntimePermissions.PERMISSION_GRANTED) {
-                Threads.postOnMainThreadDelayed(() -> {
-                    Navigations.startActivitySafely(HSApplication.getContext(), WriteSettingsPopupGuideActivity.class);
-                }, GUIDE_DELAY);
+            if (AutoPermissionChecker.isWriteSettingsPermissionGaint()) {
+                return true;
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:" + HSApplication.getContext().getPackageName()));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Navigations.startActivitySafely(HSApplication.getContext(), intent);
+
+                    Threads.postOnMainThreadDelayed(() -> {
+                        Navigations.startActivitySafely(HSApplication.getContext(), WriteSettingsPopupGuideActivity.class);
+                    }, GUIDE_DELAY);
+                }
             }
         }
 

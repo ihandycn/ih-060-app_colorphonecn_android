@@ -1,8 +1,10 @@
 package com.honeycomb.colorphone.autopermission;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Build;
 import android.os.PowerManager;
+import android.provider.Settings;
 
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.util.PermissionsTarget22;
@@ -11,6 +13,7 @@ import com.ihs.permission.Utils;
 import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
 import com.superapps.util.Preferences;
+import com.superapps.util.RuntimePermissions;
 import com.superapps.util.rom.RomUtils;
 
 /**
@@ -100,5 +103,17 @@ public class AutoPermissionChecker {
 
     public static void incrementAutoRequestCount() {
         Preferences.get(Constants.PREF_FILE_DEFAULT).incrementAndGetInt("prefs_auto_request_count");
+    }
+
+    public static boolean isPhonePermissionGaint() {
+        return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) == RuntimePermissions.PERMISSION_GRANTED;
+    }
+
+    public static boolean isWriteSettingsPermissionGaint() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return Settings.System.canWrite(HSApplication.getContext());
+        } else {
+            return true;
+        }
     }
 }

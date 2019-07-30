@@ -12,6 +12,6 @@ public class PhoneMiuiGuideActivity extends LottiePermissionGuideActivity {
     }
 
     @Override protected String getAnimationFromJson() {
-        return "lottie/acb_phone_permission_miui.json";
+        return "lottie/acb_phone_permission_phone_miui.json";
     }
 }

@@ -594,6 +594,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         break;
                 }
             }
+            onPermissionChanged();
         }
     }
 
@@ -602,6 +603,23 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         // ...
 
         HSLog.i("Permission", "onPermissionsDenied: " + list);
+
+        for (String p : list) {
+            switch (p) {
+                case Manifest.permission.READ_PHONE_STATE:
+                    break;
+                case Manifest.permission.WRITE_SETTINGS:
+                    break;
+                case Manifest.permission.READ_CONTACTS:
+                    break;
+                case Manifest.permission.WRITE_CONTACTS:
+                    break;
+                case Manifest.permission.READ_EXTERNAL_STORAGE:
+                    break;
+                case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                    break;
+            }
+        }
     }
 
 }

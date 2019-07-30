@@ -2,6 +2,8 @@ package com.honeycomb.colorphone.startguide;
 
 import android.Manifest;
 import android.app.Activity;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
@@ -111,7 +113,11 @@ public class StartGuidePermissionFactory {
                 ret = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) == RuntimePermissions.PERMISSION_GRANTED;
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
-                ret = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.WRITE_SETTINGS) == RuntimePermissions.PERMISSION_GRANTED;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    ret = Settings.System.canWrite(HSApplication.getContext());
+                } else {
+                    ret = true;
+                }
                 break;
             default:
                 break;
@@ -148,12 +154,6 @@ public class StartGuidePermissionFactory {
                 AutoLogger.logEventWithBrandAndOS("FixALert_Phone_Click");
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
-//                if (activity != null) {
-//                    if (RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.WRITE_SETTINGS) != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED) {
-//                        RuntimePermissions.requestPermissions(activity, new String[] { Manifest.permission.WRITE_SETTINGS }, StartGuideActivity.PERMISSION_REQUEST);
-//                        return;
-//                    }
-//                }
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
                 AutoLogger.logEventWithBrandAndOS("FixALert_WriteSettings_Click");
                 break;

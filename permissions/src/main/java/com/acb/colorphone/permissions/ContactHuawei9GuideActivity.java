@@ -12,6 +12,6 @@ public class ContactHuawei9GuideActivity extends LottiePermissionGuideActivity {
     }
 
     @Override protected String getAnimationFromJson() {
-        return "lottie/acb_contact_permission_huawei9.json";
+        return "lottie/acb_contact_permission_contact_huawei9.json";
     }
 }
