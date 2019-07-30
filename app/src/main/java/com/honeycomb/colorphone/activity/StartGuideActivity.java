@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -105,6 +106,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
         CheckBox agree = findViewById(R.id.start_guide_check);
+        agree.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Analytics.logEvent(isChecked ? "StartGuide_Privacy_Agree_Click" : "StartGuide_Privacy_Refuse_Click");
+        });
+
         if (Utils.isAccessibilityGranted() || isRetryEnd()) {
             HSLog.i("AutoPermission", "onPermissionChanged onCreate");
             onPermissionChanged();
@@ -115,12 +120,13 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
                 enableBtn.setOnClickListener(v -> {
                     if (agree.isChecked()) {
-                        Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                         ModuleUtils.setAllModuleUserEnable();
                         showAccessibilityPermissionPage();
                     } else {
                         showToast();
                     }
+
+                    Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                 });
                 Analytics.logEvent("ColorPhone_StartGuide_Show");
             }
@@ -482,5 +488,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         toast.setGravity(Gravity.CENTER, 0 , 0);
         toast.setView(contentView);
         toast.show();
+
+        Analytics.logEvent("StartGuide_Privacy_Toast_Show");
     }
 }
