@@ -1,11 +1,13 @@
 package com.honeycomb.colorphone.startguide;
 
 import android.Manifest;
+import android.app.Activity;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 
 import com.honeycomb.colorphone.R;
+import com.honeycomb.colorphone.activity.StartGuideActivity;
 import com.honeycomb.colorphone.autopermission.AutoLogger;
 import com.honeycomb.colorphone.autopermission.AutoPermissionChecker;
 import com.honeycomb.colorphone.autopermission.AutoRequestManager;
@@ -117,7 +119,7 @@ public class StartGuidePermissionFactory {
         return ret;
     }
 
-    static void fixPermission(@PERMISSION_TYPES int type) {
+    static void fixPermission(@PERMISSION_TYPES int type, Activity activity) {
         switch (type) {
             case TYPE_PERMISSION_TYPE_BG_POP:
                 AutoRequestManager.getInstance().openPermission(AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP);
@@ -136,10 +138,22 @@ public class StartGuidePermissionFactory {
                 AutoLogger.logEventWithBrandAndOS("FixALert_AutoStart_Click");
                 break;
             case TYPE_PERMISSION_TYPE_CALL:
+                if (activity != null) {
+                    if (RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED) {
+                        RuntimePermissions.requestPermissions(activity, new String[] { Manifest.permission.READ_PHONE_STATE }, StartGuideActivity.PERMISSION_REQUEST);
+                        return;
+                    }
+                }
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
                 AutoLogger.logEventWithBrandAndOS("FixALert_Phone_Click");
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
+//                if (activity != null) {
+//                    if (RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.WRITE_SETTINGS) != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED) {
+//                        RuntimePermissions.requestPermissions(activity, new String[] { Manifest.permission.WRITE_SETTINGS }, StartGuideActivity.PERMISSION_REQUEST);
+//                        return;
+//                    }
+//                }
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
                 AutoLogger.logEventWithBrandAndOS("FixALert_WriteSettings_Click");
                 break;

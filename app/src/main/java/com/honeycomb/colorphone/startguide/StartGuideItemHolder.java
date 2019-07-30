@@ -1,6 +1,7 @@
 package com.honeycomb.colorphone.startguide;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.IntDef;
 import android.view.View;
@@ -66,7 +67,11 @@ public class StartGuideItemHolder {
         fix = item.findViewById(R.id.start_guide_permission_auto_start_fix);
         fix.setOnClickListener(v -> {
             clickToFix = true;
-            StartGuidePermissionFactory.fixPermission(permissionType);
+            if (fix.getContext() instanceof Activity) {
+                StartGuidePermissionFactory.fixPermission(permissionType, (Activity) fix.getContext());
+            } else {
+                StartGuidePermissionFactory.fixPermission(permissionType, null);
+            }
         });
 
         if (!isConfirmPage) {

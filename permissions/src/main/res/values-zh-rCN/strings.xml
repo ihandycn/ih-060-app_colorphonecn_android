@@ -36,4 +36,6 @@
 
   <string name="acb_request_permission_bg_pop_title">后台弹出界面权限是否已开启？</string>
   <string name="acb_request_permission_bg_pop_content">后台弹出界面权限保证来电时展示来电秀</string>
+
+  <string name="acb_phone_grant_write_settings_title">开启修改系统设置权限，以设置来电铃声</string>
 </resources>

@@ -52,6 +52,7 @@ import java.util.List;
 public class StartGuideActivity extends HSAppCompatActivity implements INotificationObserver {
     private static final String TAG = "AutoPermission";
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 1000;
+    public static final int PERMISSION_REQUEST = 2000;
     public static final String ACC_KEY_SHOW_COUNT = "key_acc_permission_count";
     public static final String NOTIFICATION_PERMISSION_GRANT = "notification_permission_grant";
     public static final String PREF_KEY_GUIDE_SHOW_WHEN_WELCOME = "pref_key_guide_show_when_welcome";
@@ -482,7 +483,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         permissions.add(Manifest.permission.WRITE_CONTACTS);
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        permissions.add(Manifest.permission.READ_CALL_LOG);
+        permissions.add(Manifest.permission.WRITE_SETTINGS);
 
         boolean grantPermission = true;
         boolean grant;
@@ -508,8 +509,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                         Analytics.logEvent("Permission_Write_Storage_View_Showed");
                         break;
-                    case Manifest.permission.READ_CALL_LOG:
-                        Analytics.logEvent("Permission_CallLog_View_Showed");
+                    case Manifest.permission.WRITE_SETTINGS:
+                        Analytics.logEvent("Permission_Write_Settings_View_Showed");
                         break;
 
                 }
@@ -546,12 +547,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     public void onPermissionsGranted(int requestCode, List<String> list) {
         HSLog.i("Permission", "onPermissionsGranted: " + list);
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
-//            if (list.contains(Manifest.permission.READ_PHONE_STATE)) {
-//                Analytics.logEvent("Permission_Phone_Allow_Success");
-//            }
-//            if (list.contains(Manifest.permission.READ_CONTACTS)) {
-//                Analytics.logEvent("Permission_Contact_Allow_Success");
-//            }
             for (String p : list) {
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
@@ -569,8 +564,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                         Analytics.logEvent("Permission_Write_Storage_Allow_Success");
                         break;
-                    case Manifest.permission.READ_CALL_LOG:
-                        Analytics.logEvent("Permission_CallLog_Allow_Success");
+                    case Manifest.permission.WRITE_SETTINGS:
+                        Analytics.logEvent("Permission_Write_Settings_Allow_Success");
                         break;
 
                 }
@@ -578,6 +573,27 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
             ModuleUtils.setAllModuleUserEnable();
             showAccessibilityPermissionPage();
+        } else if (requestCode == PERMISSION_REQUEST) {
+            for (String p : list) {
+                switch (p) {
+                    case Manifest.permission.READ_PHONE_STATE:
+                        holder.refreshConfirmPage();
+                        Analytics.logEvent("Permission_Phone_Allow_Success");
+                        break;
+                    case Manifest.permission.WRITE_SETTINGS:
+                        holder.refreshConfirmPage();
+                        Analytics.logEvent("Permission_Write_Settings_Allow_Success");
+                        break;
+                    case Manifest.permission.READ_CONTACTS:
+                        break;
+                    case Manifest.permission.WRITE_CONTACTS:
+                        break;
+                    case Manifest.permission.READ_EXTERNAL_STORAGE:
+                        break;
+                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                        break;
+                }
+            }
         }
     }
 

@@ -85,5 +85,32 @@
             android:noHistory="true"
             android:taskAffinity=":guide"
             android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name=".ContactHuawei9GuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name=".WriteSettingsPopupGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name=".PhoneHuawei8GuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"
+            android:theme="@style/TransparentCompatDialog"/>
+        <activity
+            android:name=".ContactMIUIGuideActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:taskAffinity=":guide"/>
     </application>
 </manifest>
