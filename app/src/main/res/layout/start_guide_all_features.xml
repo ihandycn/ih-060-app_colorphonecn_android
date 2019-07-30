@@ -55,8 +55,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="70dp"
+            android:layout_marginBottom="64dp"
             android:gravity="center" >
+
+            <CheckBox
+                android:id="@+id/start_guide_check"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginTop="-2dp"
+                android:background="@drawable/start_guide_check_image"
+                android:button="@null"
+                android:checked="true" />
+
+            <com.superapps.view.TypefacedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/start_guide_agree"
+                android:text="@string/privacy_policy_agree"
+                android:textColor="#4fffffff"
+                android:textSize="10sp"
+                android:layout_toRightOf="@id/start_guide_check"
+                android:layout_toEndOf="@id/start_guide_check"
+                app:typeface="@string/custom_font_regular"
+                tools:ignore="SmallSp"/>
 
             <com.superapps.view.TypefacedTextView
                 android:layout_width="wrap_content"
@@ -65,6 +86,8 @@
                 android:text="@string/privacy_policy"
                 android:textColor="@color/start_guide_text_selector"
                 android:textSize="10sp"
+                android:layout_toRightOf="@id/start_guide_agree"
+                android:layout_toEndOf="@id/start_guide_agree"
                 app:typeface="@string/custom_font_regular"
                 tools:ignore="SmallSp"/>
 

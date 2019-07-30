@@ -5,14 +5,20 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.Constants;
@@ -24,6 +30,7 @@ import com.honeycomb.colorphone.startguide.StartGuideViewHolder;
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.ModuleUtils;
 import com.honeycomb.colorphone.util.StatusBarUtils;
+import com.ihs.app.framework.HSApplication;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
@@ -98,6 +105,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         }
 
         TextView enableBtn = findViewById(R.id.start_guide_function_enable_btn);
+        CheckBox agree = findViewById(R.id.start_guide_check);
+        agree.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Analytics.logEvent(isChecked ? "StartGuide_Privacy_Agree_Click" : "StartGuide_Privacy_Refuse_Click");
+        });
+
         if (Utils.isAccessibilityGranted() || isRetryEnd()) {
             HSLog.i("AutoPermission", "onPermissionChanged onCreate");
             onPermissionChanged();
@@ -107,9 +119,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             } else {
                 enableBtn.setBackground(BackgroundDrawables.createBackgroundDrawable(0xff852bf5, Dimensions.pxFromDp(24), true));
                 enableBtn.setOnClickListener(v -> {
+                    if (agree.isChecked()) {
+                        ModuleUtils.setAllModuleUserEnable();
+                        showAccessibilityPermissionPage();
+                    } else {
+                        showToast();
+                    }
+
                     Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
-                    ModuleUtils.setAllModuleUserEnable();
-                    showAccessibilityPermissionPage();
                 });
                 Analytics.logEvent("ColorPhone_StartGuide_Show");
             }
@@ -453,5 +470,25 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             button.animate().alpha(1f).setDuration(750).start();
         }, 2400);
         AutoLogger.logEventWithBrandAndOS("Accessbility_Guide_Show");
+    }
+
+    private Toast toast;
+    public void showToast() {
+        if (toast != null) {
+            toast.cancel();
+        }
+
+        toast = new Toast(HSApplication.getContext().getApplicationContext());
+        final View contentView = LayoutInflater.from(HSApplication.getContext()).inflate(R.layout.toast_start_guide_check, null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            contentView.setElevation(Dimensions.pxFromDp(8));
+        }
+        TextView textView = contentView.findViewById(R.id.start_guide_check);
+        textView.setBackground(BackgroundDrawables.createBackgroundDrawable(getResources().getColor(R.color.white_87_transparent), Dimensions.pxFromDp(8), false));
+        toast.setGravity(Gravity.CENTER, 0 , 0);
+        toast.setView(contentView);
+        toast.show();
+
+        Analytics.logEvent("StartGuide_Privacy_Toast_Show");
     }
 }

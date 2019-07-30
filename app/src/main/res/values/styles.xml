@@ -237,4 +237,9 @@
         <item name="android:lineSpacingExtra">4sp</item>
         <item name="typeface">@string/custom_font_regular</item>
     </style>
+
+    <style name="ColorCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">@android:color/white</item>
+    </style>
 </resources>

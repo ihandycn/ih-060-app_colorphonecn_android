@@ -359,4 +359,8 @@
     <string name="cash_center_guide_content11">5元即可提现</string>
     <string name="cash_center_guide_content12">7234人已提现</string>
 
+
+    <string name="privacy_policy_agree">已同意</string>
+    <string name="privacy_policy_not_agree_toast">请先勾选同意后再开启来电秀</string>
+
 </resources>
