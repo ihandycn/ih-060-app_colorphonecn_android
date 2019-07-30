@@ -78,8 +78,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         isObtainDistanceToTop = true;
     }
 
-    private void createNewNotificationWindow(final View view, AppNotificationInfo info) {
-
+    private void bindNotification(final View view, AppNotificationInfo info) {
         mSlidingWindow = view.findViewById(R.id.lock_sliding_window);
         mSlidingWindow.setClickable(true);
         mNotificationWindow = view.findViewById(R.id.lock_notification_window);
@@ -108,27 +107,27 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         mSlidingWindow.setOnViewDismissCallback(new SlidingNotificationLayout.OnViewDismissCallback() {
             @Override
             public void onDismiss(View v) {
-                unbindDismissingNotification(v);
-                notifyForTwoScreen();
+                removeDismissingNotification(v);
+                notifyForLockerTimeSizeChange();
+                notifyForChargingNumberSizeChange();
             }
         });
         changeNotificaitonWindow(info, view);
     }
 
-    private int getShowNumber() {
+
+    private int getNotificationCount() {
         showNumber = mNotificationContainer.getChildCount();
         return showNumber;
     }
 
-    private void bindNewNotification(int index) {
-
+    private void addNewNotification(int index) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.notification_layout, mNotificationContainer, false);
         view.setVisibility(View.GONE);
         mNotificationContainer.addView(view, index);
-
     }
 
-    private void unbindDismissingNotification(View view) {
+    private void removeDismissingNotification(View view) {
         if (mNotificationContainer.indexOfChild(view) == 1) {
             mBelowInfo = mAboveInfo;
         }
@@ -146,7 +145,6 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     }
 
     private void onClickForNotification(View v) {
-
         if (getInfo(v) == null) {
             return;
         }
@@ -163,13 +161,13 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
 
     private AppNotificationInfo getInfo(View v) {
         AppNotificationInfo info = null;
-        if (getShowNumber() == TWO_NOTIFICATION_SHOWING) {
+        if (getNotificationCount() == TWO_NOTIFICATION_SHOWING) {
             if (mNotificationContainer.indexOfChild(v) == 0) {
                 info = mAboveInfo;
             } else if (mNotificationContainer.indexOfChild(v) == 1) {
                 info = mBelowInfo;
             }
-        } else if (getShowNumber() == ONE_NOTIFICATION_SHOWING) {
+        } else if (getNotificationCount() == ONE_NOTIFICATION_SHOWING) {
             info = mBelowInfo;
         }
         return info;
@@ -177,12 +175,12 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
 
     private void changeNotificaitonWindow(AppNotificationInfo info, View view) {
 
-        optimizeNotification(info, view);
+        updateNotificationView(info, view);
         mSlidingWindow.setVisibility(View.VISIBLE);
         view.setVisibility(View.VISIBLE);
     }
 
-    private void optimizeNotification(AppNotificationInfo info, View view) {
+    private void updateNotificationView(AppNotificationInfo info, View view) {
         if (ScreenStatusReceiver.isScreenOn()) {
             if (receiveNumberCount <= 5) {
                 receiveNumber = String.valueOf(receiveNumberCount);
@@ -190,7 +188,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                 receiveNumber = "above 5";
             }
             LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Show",
-                    info.packageName, receiveNumber, String.valueOf(getShowNumber()));
+                    info.packageName, receiveNumber, String.valueOf(getNotificationCount()));
         }
         mSenderName.setText(info.title);
         mNotificationContent.setText(info.content);
@@ -235,13 +233,13 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
 
 
     private void showNotificaitonSingle(AppNotificationInfo info) {
-        switch (getShowNumber()) {
+        switch (getNotificationCount()) {
             case NO_NOTIFICATION_SHOWING:
-                bindNewNotification(0);
-                createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
+                addNewNotification(0);
+                bindNotification(mNotificationContainer.getChildAt(0), info);
                 break;
             case ONE_NOTIFICATION_SHOWING:
-                createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
+                bindNotification(mNotificationContainer.getChildAt(0), info);
                 break;
             default:
                 break;
@@ -250,26 +248,26 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     }
 
     private void showNotificaitonMultiple(AppNotificationInfo info) {
-        switch (getShowNumber()) {
+        switch (getNotificationCount()) {
             case NO_NOTIFICATION_SHOWING:
-                bindNewNotification(0);
-                createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
+                addNewNotification(0);
+                bindNotification(mNotificationContainer.getChildAt(0), info);
                 mBelowInfo = info;
                 break;
 
             case ONE_NOTIFICATION_SHOWING:
                 if (isSamePackageAsBelowOne(info)) {
-                    createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
+                    bindNotification(mNotificationContainer.getChildAt(0), info);
                     mBelowInfo = info;
                 } else if (isHigherPriorityPackage(mBelowInfo) && !isHigherPriorityPackage(info)) {
-                    bindNewNotification(0);
-                    createNewNotificationWindow(mNotificationContainer.getChildAt(0), mBelowInfo);
-                    createNewNotificationWindow(mNotificationContainer.getChildAt(1), info);
+                    addNewNotification(0);
+                    bindNotification(mNotificationContainer.getChildAt(0), mBelowInfo);
+                    bindNotification(mNotificationContainer.getChildAt(1), info);
                     mAboveInfo = mBelowInfo;
                     mBelowInfo = info;
                 } else {
-                    bindNewNotification(0);
-                    createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
+                    addNewNotification(0);
+                    bindNotification(mNotificationContainer.getChildAt(0), info);
                     mAboveInfo = info;
                 }
                 break;
@@ -280,14 +278,14 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                 }
                 boolean isOptimizeBelowOne = (isHigherPriorityPackage(mAboveInfo) && !isHigherPriorityPackage(info)) || isSamePackageAsBelowOne(info);
                 if (isOptimizeBelowOne) {
-                    createNewNotificationWindow(mNotificationContainer.getChildAt(1), info);
+                    bindNotification(mNotificationContainer.getChildAt(1), info);
                     mBelowInfo = info;
                 } else if (isSamePackageAsAboveOne(info)) {
-                    createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
+                    bindNotification(mNotificationContainer.getChildAt(0), info);
                     mAboveInfo = info;
                 } else {
-                    createNewNotificationWindow(mNotificationContainer.getChildAt(0), info);
-                    createNewNotificationWindow(mNotificationContainer.getChildAt(1), mAboveInfo);
+                    bindNotification(mNotificationContainer.getChildAt(0), info);
+                    bindNotification(mNotificationContainer.getChildAt(1), mAboveInfo);
                     mBelowInfo = mAboveInfo;
                     mAboveInfo = info;
                 }
@@ -296,7 +294,8 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             default:
                 break;
         }
-        notifyForTwoScreen();
+        notifyForLockerTimeSizeChange();
+        notifyForChargingNumberSizeChange();
     }
 
     private boolean isSamePackageAsBelowOne(AppNotificationInfo info) {
@@ -314,12 +313,15 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                 || "com.eg.android.AlipayGphone".equalsIgnoreCase(info.packageName);
     }
 
-    private void notifyForTwoScreen() {
-       if (getShowNumber() == TWO_NOTIFICATION_SHOWING && isObtainDistanceToTop) {
+    private void notifyForLockerTimeSizeChange() {
+       if (getNotificationCount() == TWO_NOTIFICATION_SHOWING && isObtainDistanceToTop) {
            obtainDistanceToTop();
         }
-        LockNotificationManager.getInstance().notifyForUpdatingLockerTimeSize(getShowNumber(), yCoordinateOfAboveNotification);
-        LockNotificationManager.getInstance().notifyForUpdatingChargingNumberSize(getShowNumber());
+        LockNotificationManager.getInstance().notifyForUpdatingLockerTimeSize(getNotificationCount(), yCoordinateOfAboveNotification);
+    }
+
+    private void notifyForChargingNumberSizeChange() {
+        LockNotificationManager.getInstance().notifyForUpdatingChargingNumberSize(getNotificationCount());
     }
 
     private void obtainDistanceToTop() {
@@ -343,7 +345,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                     receiveNumber = "above 5";
                 }
                 LockNotificationManager.getInstance().logEvent(getSourceName(mSource) + "_Notification_Show",
-                        mAppNotificationInfo.packageName, receiveNumber, String.valueOf(getShowNumber()));
+                        mAppNotificationInfo.packageName, receiveNumber, String.valueOf(getNotificationCount()));
             }
         }
     }
