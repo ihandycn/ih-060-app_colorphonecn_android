@@ -31,6 +31,8 @@ import static com.colorphone.lock.lockscreen.locker.NotificationWindowHolder.NOT
 
 public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
 
+    public static final String EVENT_KEYGUARD_UNLOCKED = "keyguard_unlock";
+    public static final String EVENT_KEYGUARD_LOCKED = "keyguard_lock";
     public static boolean exist;
 
     private KeyguardManager keyguardManager;
@@ -47,6 +49,7 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             mUserPresentWithoutSlide = true;
+            HSGlobalNotificationCenter.sendNotification(EVENT_KEYGUARD_UNLOCKED);
         }
     };
 
@@ -173,6 +176,21 @@ public abstract class BaseKeyguardActivity extends HSAppCompatActivity {
         HSBundle bundle = new HSBundle();
         bundle.putString(BUNDLE_KEY_PACKAGE_NAME, appNotificationInfo.packageName);
         HSGlobalNotificationCenter.sendNotification(NOTIFY_KEY_REMOVE_MESSAGE, bundle);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (keyguardManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            isKeyguardSecure = keyguardManager.isKeyguardSecure();
+            boolean keyguardLocked = keyguardManager.isKeyguardLocked();
+            if (mUserPresentWithoutSlide && keyguardLocked) {
+                HSGlobalNotificationCenter.sendNotification(EVENT_KEYGUARD_LOCKED);
+            }
+            HSLog.d("LockManager", "isKeyguardSecure: " + isKeyguardSecure
+                    + " isKeyguardLocked: " + keyguardLocked);
+        }
     }
 
     @Override

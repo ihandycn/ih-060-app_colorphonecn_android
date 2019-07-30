@@ -48,4 +48,6 @@
   <string name="locker_settings_subtitle">(May contain ads)</string>
   <string name="wallpaper_network_error">Network errors. Please try again.</string>
   <string name="game_locker_hint">点击开玩</string>
+  <string name="unlock_tint_keyguard">上滑解锁</string>
+  <string name="unlock_tint_no_keyguard">已解锁，上滑进入</string>
 </resources>

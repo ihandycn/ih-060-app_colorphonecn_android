@@ -242,6 +242,7 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
     };
     private HomeKeyWatcher mHomeKeyWatcher;
     private boolean mActivityMode;
+    private TextView unlockTextView;
 
     private void processPowerStateChanged(boolean isPowerConnected) {
         if (this.isPowerConnected == isPowerConnected) {
@@ -349,6 +350,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             HSGlobalNotificationCenter.addObserver(ScreenStatusReceiver.NOTIFICATION_SCREEN_OFF, this);
         }
         HSGlobalNotificationCenter.addObserver(LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING, this);
+        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED,this);
+        HSGlobalNotificationCenter.addObserver(BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED,this);
 
         HSGlobalNotificationCenter.addObserver(NOTIFICATION_SCREEN_ON, mNotificationWindowHolder);
         LockNotificationManager.getInstance().registerForThemeStateChange(mNotificationWindowHolder);
@@ -594,6 +597,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         trickleChargeStateImageView = (ImageView) mRootView.findViewById(R.id.charging_screen_trickle_charge_state_icon);
 
         tipTextView = (TextView) mRootView.findViewById(R.id.charging_screen_tip);
+        unlockTextView = mRootView.findViewById(R.id.unlock_tv);
+        unlockTextView.setCompoundDrawablePadding(Dimensions.pxFromDp(4));
         toolTipContainer = (ToolTipRelativeLayout) mRootView.findViewById(R.id.charging_screen_show_tip_container);
 
         advertisementContainer = mRootView.findViewById(R.id.charging_screen_advertisement_container);
@@ -935,6 +940,14 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
             case LauncherPhoneStateListener.NOTIFICATION_CALL_RINGING:
                 mDismissReason = "Ringing";
                 dismiss(getContext(), false);
+                break;
+            case BaseKeyguardActivity.EVENT_KEYGUARD_UNLOCKED:
+                unlockTextView.setText(R.string.unlock_tint_no_keyguard);
+                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.unlock_icon, 0, 0,0);
+                break;
+            case BaseKeyguardActivity.EVENT_KEYGUARD_LOCKED:
+                unlockTextView.setText(R.string.unlock_tint_keyguard);
+                unlockTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0,0);
                 break;
             default:
                 break;
