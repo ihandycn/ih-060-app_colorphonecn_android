@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.colorphone.lock.BuildConfig;
 import com.colorphone.lock.R;
 import com.colorphone.lock.ScreenStatusReceiver;
 import com.colorphone.lock.lockscreen.AppNotificationInfo;
@@ -22,7 +21,6 @@ import com.colorphone.lock.lockscreen.NotificationObserver;
 import com.ihs.commons.config.HSConfig;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
-import com.ihs.commons.utils.HSLog;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
@@ -57,13 +55,14 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
 
     private boolean isObtainDistanceToTop = false;
     private AppNotificationInfo mAppNotificationInfo;
-    private AppNotificationInfo mAboveInfo;
-    private AppNotificationInfo mBelowInfo;
     private final NotificationClickCallback mNotificationClickCallback;
 
     private final int NO_NOTIFICATION_SHOWING = 0;
     private final int ONE_NOTIFICATION_SHOWING = 1;
     private final int TWO_NOTIFICATION_SHOWING = 2;
+    private final int SAME_AS_EXISTED_NOTIFICATION = 0;
+    private final int LOWER_PRIORITY_THAN_NOTIFICATION_AT_POSITION_0 = 1;
+    private final int SIMPLE_SHOW = 2;
 
     private final int mSource;
 
@@ -95,6 +94,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
             mNotificationWindow.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(8), false));
             mSenderAvatar.setBackground(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(3.3f), false));
         }
+        bindViewAndInfo(view, info);
 
         mNotificationWindow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,9 +128,7 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     }
 
     private void removeDismissingNotification(View view) {
-        if (mNotificationContainer.indexOfChild(view) == 1) {
-            mBelowInfo = mAboveInfo;
-        }
+
         mNotificationContainer.removeView(view);
         view.setVisibility(View.GONE);
 
@@ -160,17 +158,14 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
     }
 
     private AppNotificationInfo getInfo(View v) {
-        AppNotificationInfo info = null;
-        if (getNotificationCount() == TWO_NOTIFICATION_SHOWING) {
-            if (mNotificationContainer.indexOfChild(v) == 0) {
-                info = mAboveInfo;
-            } else if (mNotificationContainer.indexOfChild(v) == 1) {
-                info = mBelowInfo;
-            }
-        } else if (getNotificationCount() == ONE_NOTIFICATION_SHOWING) {
-            info = mBelowInfo;
+        if (v.getTag() != null) {
+            return (AppNotificationInfo) v.getTag();
         }
-        return info;
+        return null;
+    }
+
+    private void bindViewAndInfo(View view, AppNotificationInfo info) {
+        view.setTag(info);
     }
 
     private void changeNotificaitonWindow(AppNotificationInfo info, View view) {
@@ -231,79 +226,49 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
         }
     }
 
-
     private void showNotificaitonSingle(AppNotificationInfo info) {
-        switch (getNotificationCount()) {
-            case NO_NOTIFICATION_SHOWING:
-                addNewNotification(0);
-                bindNotification(mNotificationContainer.getChildAt(0), info);
-                break;
-            case ONE_NOTIFICATION_SHOWING:
-                bindNotification(mNotificationContainer.getChildAt(0), info);
-                break;
-            default:
-                break;
+        if (getNotificationCount() == NO_NOTIFICATION_SHOWING) {
+            addNewNotification(0);
         }
-        mBelowInfo = info;
+        bindNotification(mNotificationContainer.getChildAt(0), info);
     }
 
     private void showNotificaitonMultiple(AppNotificationInfo info) {
-        switch (getNotificationCount()) {
-            case NO_NOTIFICATION_SHOWING:
+        switch (judgeNotificationShowMode(info)) {
+            case SAME_AS_EXISTED_NOTIFICATION:
+                bindNotification(mNotificationContainer.getChildAt(getPositionOfSameSource(info)), info);
+                break;
+            case LOWER_PRIORITY_THAN_NOTIFICATION_AT_POSITION_0:
+                if (getNotificationCount() == ONE_NOTIFICATION_SHOWING) {
+                    addNewNotification(1);
+                }
+                bindNotification(mNotificationContainer.getChildAt(1), info);
+                break;
+            case SIMPLE_SHOW:
+                if (getNotificationCount() == TWO_NOTIFICATION_SHOWING) {
+                    removeDismissingNotification(mNotificationContainer.getChildAt(1));
+                }
                 addNewNotification(0);
                 bindNotification(mNotificationContainer.getChildAt(0), info);
-                mBelowInfo = info;
                 break;
-
-            case ONE_NOTIFICATION_SHOWING:
-                if (isSamePackageAsBelowOne(info)) {
-                    bindNotification(mNotificationContainer.getChildAt(0), info);
-                    mBelowInfo = info;
-                } else if (isHigherPriorityPackage(mBelowInfo) && !isHigherPriorityPackage(info)) {
-                    addNewNotification(0);
-                    bindNotification(mNotificationContainer.getChildAt(0), mBelowInfo);
-                    bindNotification(mNotificationContainer.getChildAt(1), info);
-                    mAboveInfo = mBelowInfo;
-                    mBelowInfo = info;
-                } else {
-                    addNewNotification(0);
-                    bindNotification(mNotificationContainer.getChildAt(0), info);
-                    mAboveInfo = info;
-                }
-                break;
-
-            case TWO_NOTIFICATION_SHOWING:
-                if (BuildConfig.DEBUG) {
-                    HSLog.e("LockNotification", "New notification " + mAboveInfo.content + " " + mBelowInfo.content );
-                }
-                boolean isOptimizeBelowOne = (isHigherPriorityPackage(mAboveInfo) && !isHigherPriorityPackage(info)) || isSamePackageAsBelowOne(info);
-                if (isOptimizeBelowOne) {
-                    bindNotification(mNotificationContainer.getChildAt(1), info);
-                    mBelowInfo = info;
-                } else if (isSamePackageAsAboveOne(info)) {
-                    bindNotification(mNotificationContainer.getChildAt(0), info);
-                    mAboveInfo = info;
-                } else {
-                    bindNotification(mNotificationContainer.getChildAt(0), info);
-                    bindNotification(mNotificationContainer.getChildAt(1), mAboveInfo);
-                    mBelowInfo = mAboveInfo;
-                    mAboveInfo = info;
-                }
-                break;
-
             default:
                 break;
         }
+
         notifyForLockerTimeSizeChange();
         notifyForChargingNumberSizeChange();
     }
 
-    private boolean isSamePackageAsBelowOne(AppNotificationInfo info) {
-        return mBelowInfo.packageName.equalsIgnoreCase(info.packageName);
-    }
-
-    private boolean isSamePackageAsAboveOne(AppNotificationInfo info) {
-        return mAboveInfo.packageName.equalsIgnoreCase(info.packageName);
+    private int getPositionOfSameSource(AppNotificationInfo info) {
+        int getPositionOfSameSource = -1;
+        for (int i = 0; i < getNotificationCount(); i++) {
+            AppNotificationInfo existInfo = (AppNotificationInfo) mNotificationContainer.getChildAt(i).getTag();
+            getPositionOfSameSource = (existInfo.packageName.equalsIgnoreCase(info.packageName) ) ? i : -1;
+            if (getPositionOfSameSource != -1) {
+                break;
+            }
+        }
+        return getPositionOfSameSource;
     }
 
     private boolean isHigherPriorityPackage(AppNotificationInfo info) {
@@ -311,6 +276,21 @@ public class NotificationWindowHolder implements NotificationObserver, INotifica
                 || "com.tencent.mm".equalsIgnoreCase(info.packageName)
                 || "com.android.mms".equalsIgnoreCase(info.packageName)
                 || "com.eg.android.AlipayGphone".equalsIgnoreCase(info.packageName);
+    }
+
+    private boolean isLowerPriorityThanNotificationAtPosition0(AppNotificationInfo info) {
+        AppNotificationInfo existInfo = (AppNotificationInfo) mNotificationContainer.getChildAt(0).getTag();
+        return isHigherPriorityPackage(existInfo) && !isHigherPriorityPackage(info);
+    }
+
+    private int judgeNotificationShowMode(AppNotificationInfo info) {
+        if (getNotificationCount() != 0 && getPositionOfSameSource(info) != -1) {
+            return SAME_AS_EXISTED_NOTIFICATION;
+        }else if (getNotificationCount() != 0 && isLowerPriorityThanNotificationAtPosition0(info)) {
+            return SAME_AS_EXISTED_NOTIFICATION;
+        } else {
+            return SIMPLE_SHOW;
+        }
     }
 
     private void notifyForLockerTimeSizeChange() {
