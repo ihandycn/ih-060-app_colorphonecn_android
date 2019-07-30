@@ -663,6 +663,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
         mHandler.removeCallbacks(mainViewRunnable);
         mHandler.removeCallbacks(cashCenterGuideRunnable);
 
+        if (tabTransController != null) {
+            tabTransController.hide();
+        }
         if (mAdapter != null) {
             HSLog.d("ColorPhoneActivity", "onPause" + mAdapter.getLastSelectedLayoutPos() + "");
             RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(mAdapter.getLastSelectedLayoutPos());
