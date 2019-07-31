@@ -26,14 +26,14 @@ public class StartGuidePermissionFactory {
     public static final int TYPE_PERMISSION_TYPE_ON_LOCK = 2;
     public static final int TYPE_PERMISSION_TYPE_NOTIFICATION = 3;
     public static final int TYPE_PERMISSION_TYPE_BG_POP = 4;
-    public static final int TYPE_PERMISSION_TYPE_CALL = 5;
+    public static final int TYPE_PERMISSION_TYPE_PHONE = 5;
     public static final int TYPE_PERMISSION_TYPE_WRITE_SETTINGS = 6;
 
     @IntDef({TYPE_PERMISSION_TYPE_SCREEN_FLASH,
             TYPE_PERMISSION_TYPE_ON_LOCK,
             TYPE_PERMISSION_TYPE_NOTIFICATION,
             TYPE_PERMISSION_TYPE_BG_POP,
-            TYPE_PERMISSION_TYPE_CALL,
+            TYPE_PERMISSION_TYPE_PHONE,
             TYPE_PERMISSION_TYPE_WRITE_SETTINGS})
 
     @Retention(RetentionPolicy.SOURCE)
@@ -55,7 +55,7 @@ public class StartGuidePermissionFactory {
             case TYPE_PERMISSION_TYPE_SCREEN_FLASH:
                 id = R.string.start_guide_permission_auto_start;
                 break;
-            case TYPE_PERMISSION_TYPE_CALL:
+            case TYPE_PERMISSION_TYPE_PHONE:
                 id = R.string.start_guide_permission_call_log;
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
@@ -82,7 +82,7 @@ public class StartGuidePermissionFactory {
             case TYPE_PERMISSION_TYPE_SCREEN_FLASH:
                 id = R.drawable.start_guide_confirm_image_screen_flash;
                 break;
-            case TYPE_PERMISSION_TYPE_CALL:
+            case TYPE_PERMISSION_TYPE_PHONE:
                 id = R.drawable.start_guide_confirm_image_call;
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
@@ -94,7 +94,7 @@ public class StartGuidePermissionFactory {
         return id;
     }
 
-    static boolean getItemGrant(@PERMISSION_TYPES int type) {
+    public static boolean getItemGrant(@PERMISSION_TYPES int type) {
         boolean ret = false;
         switch (type) {
             case TYPE_PERMISSION_TYPE_BG_POP:
@@ -109,7 +109,7 @@ public class StartGuidePermissionFactory {
             case TYPE_PERMISSION_TYPE_SCREEN_FLASH:
                 ret = AutoPermissionChecker.hasAutoStartPermission();
                 break;
-            case TYPE_PERMISSION_TYPE_CALL:
+            case TYPE_PERMISSION_TYPE_PHONE:
                 ret = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) == RuntimePermissions.PERMISSION_GRANTED;
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
@@ -125,7 +125,7 @@ public class StartGuidePermissionFactory {
         return ret;
     }
 
-    static void fixPermission(@PERMISSION_TYPES int type, Activity activity) {
+    public static void fixPermission(@PERMISSION_TYPES int type, Activity activity) {
         switch (type) {
             case TYPE_PERMISSION_TYPE_BG_POP:
                 AutoRequestManager.getInstance().openPermission(AutoRequestManager.TYPE_CUSTOM_BACKGROUND_POPUP);
@@ -143,7 +143,7 @@ public class StartGuidePermissionFactory {
                 AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_AUTO_START);
                 AutoLogger.logEventWithBrandAndOS("FixALert_AutoStart_Click");
                 break;
-            case TYPE_PERMISSION_TYPE_CALL:
+            case TYPE_PERMISSION_TYPE_PHONE:
                 if (activity != null) {
                     if (RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED) {
                         RuntimePermissions.requestPermissions(activity, new String[] { Manifest.permission.READ_PHONE_STATE }, StartGuideActivity.PERMISSION_REQUEST);

@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_BG_POP;
-import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_CALL;
+import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE;
 import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_NOTIFICATION;
 import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_ON_LOCK;
 import static com.honeycomb.colorphone.startguide.StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_SCREEN_FLASH;
@@ -101,7 +101,7 @@ public class StartGuideViewListHolder implements INotificationObserver {
         permissions.add(TYPE_PERMISSION_TYPE_ON_LOCK);
         permissions.add(TYPE_PERMISSION_TYPE_NOTIFICATION);
         permissions.add(TYPE_PERMISSION_TYPE_BG_POP);
-        permissions.add(TYPE_PERMISSION_TYPE_CALL);
+        permissions.add(TYPE_PERMISSION_TYPE_PHONE);
         permissions.add(TYPE_PERMISSION_TYPE_WRITE_SETTINGS);
 
         permissionLayout = container.findViewById(R.id.start_guide_permission_list);
@@ -130,6 +130,10 @@ public class StartGuideViewListHolder implements INotificationObserver {
         HSGlobalNotificationCenter.addObserver(AutoRequestManager.NOTIFY_PERMISSION_CHECK_FINISH, this);
     }
 
+    public boolean refreshHolder(@StartGuidePermissionFactory.PERMISSION_TYPES int pType) {
+        return permissionList.get(pType).checkGrantStatus();
+    }
+
     public int refreshConfirmPage() {
         int confirmPermission = 0;
         if (!isConfirmPage) {
@@ -140,6 +144,7 @@ public class StartGuideViewListHolder implements INotificationObserver {
         StartGuideItemHolder holder;
         for (int i = 0; i < permissionList.size(); i++) {
             holder = permissionList.valueAt(i);
+            HSLog.i("Permission", "refreshConfirmPage hP: " + holder.permissionType + "  grant: " + holder.checkGrantStatus() + "  fix: " + holder.clickToFix);
             if (!holder.checkGrantStatus()) {
                 notGrant++;
             }
@@ -298,5 +303,16 @@ public class StartGuideViewListHolder implements INotificationObserver {
     private void setPermissionStatus(@StartGuidePermissionFactory.PERMISSION_TYPES int pType, @StartGuideItemHolder.PERMISSION_STATUS int pStatus) {
         StartGuideItemHolder holder = permissionList.get(pType);
         holder.setStatus(pStatus);
+    }
+
+    public void requestNextPermission() {
+        StartGuideItemHolder holder;
+        for (int i = 0; i < permissionList.size(); i++) {
+            holder = permissionList.valueAt(i);
+            if (!holder.checkGrantStatus()) {
+                holder.fix.performClick();
+                return;
+            }
+        }
     }
 }

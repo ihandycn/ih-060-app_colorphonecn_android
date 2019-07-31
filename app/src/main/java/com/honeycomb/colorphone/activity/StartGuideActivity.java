@@ -68,6 +68,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     private int permissionShowCount;
     private String from;
     private boolean directPermission;
+    private int confirmDialogPermission = 0;
 
     public static @Nullable Intent getIntent(Context context, String from) {
         if (RomUtils.checkIsMiuiRom()
@@ -250,7 +251,16 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         "AccessType", AutoLogger.getPermissionString(RomUtils.checkIsHuaweiRom()));
             } else {
                 int confirmPermission = holder.refreshConfirmPage();
-                showConfirmDialog(confirmPermission);
+                if (confirmPermission == 0 && confirmDialogPermission != 0) {
+                    confirmPermission = confirmDialogPermission;
+                }
+                boolean isGrant = StartGuidePermissionFactory.getItemGrant(confirmPermission);
+                HSLog.i("Permission", "Permission: " + confirmPermission + "  grant: " + isGrant);
+                if (isGrant) {
+                    holder.requestNextPermission();
+                } else {
+                    showConfirmDialog(confirmPermission);
+                }
             }
 
             if (canShowSkip()) {
@@ -385,7 +395,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             Analytics.logEvent("BackgroundPopupAlert_Show");
 
         } else {
-            if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_CALL) {
+            if (confirmPermission == StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE) {
                 if (AutoPermissionChecker.isNotificationListeningGranted()) {
                     AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
                 }
@@ -393,6 +403,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             return;
         }
 
+        confirmDialogPermission = confirmPermission;
         dialog = builder.create();
         dialog.show();
     }
@@ -424,7 +435,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     @Override protected void onStop() {
         super.onStop();
-        HSGlobalNotificationCenter.removeObserver(this::onReceive);
+        HSGlobalNotificationCenter.removeObserver(this);
     }
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
@@ -577,11 +588,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             for (String p : list) {
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
-                        holder.refreshConfirmPage();
+                        holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE);
                         Analytics.logEvent("Permission_Phone_Allow_Success");
                         break;
                     case Manifest.permission.WRITE_SETTINGS:
-                        holder.refreshConfirmPage();
+                        holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_WRITE_SETTINGS);
                         Analytics.logEvent("Permission_Write_Settings_Allow_Success");
                         break;
                     case Manifest.permission.READ_CONTACTS:
