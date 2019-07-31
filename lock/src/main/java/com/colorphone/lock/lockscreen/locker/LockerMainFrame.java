@@ -5,8 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.os.PowerManager;
 import android.support.constraint.ConstraintLayout;
@@ -680,6 +684,17 @@ public class LockerMainFrame extends RelativeLayout implements INotificationObse
                 }
             });
             buttonYes.setText(R.string.charging_screen_close_dialog_negative_action);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                GradientDrawable mask = new GradientDrawable();
+                mask.setColor(Color.WHITE);
+                GradientDrawable shape = new GradientDrawable();
+                shape.setColor(Color.TRANSPARENT);
+                Drawable buttonYesDrawable = new RippleDrawable(ColorStateList.valueOf(getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
+                Drawable buttonNoDrawable = new RippleDrawable(ColorStateList.valueOf(getResources().getColor(R.color.ripples_ripple_color)), shape, mask);
+
+                buttonNo.setBackground(buttonYesDrawable);
+                buttonYes.setBackground(buttonNoDrawable);
+            }
             buttonYes.setOnClickListener(new OnClickListener() {
 
                 @Override
