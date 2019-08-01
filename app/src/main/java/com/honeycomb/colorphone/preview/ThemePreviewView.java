@@ -15,6 +15,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
@@ -127,6 +129,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
     private static final int MSG_PREVIEW = 1;
     private static final int MSG_ENJOY = 2;
     private static final int MSG_DOWNLOAD_OK = 11;
+    private static final int MSG_TRANSITION_TIMEOUT = 21;
 
     private static final boolean PLAY_ANIMITION = true;
     private static final boolean NO_ANIMITION = false;
@@ -245,6 +248,13 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
                 case MSG_DOWNLOAD_OK:
                     onMediaDownloadOK();
+                    return true;
+
+                case MSG_TRANSITION_TIMEOUT:
+                    // Force window transition end
+                    if (mWindowInTransition) {
+                        onWindowTransitionEnd();
+                    }
                     return true;
                 default:
                     return false;
@@ -1399,10 +1409,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void setWindowInTransition(boolean inTransition) {
         mWindowInTransition = inTransition;
+        if (mWindowInTransition) {
+            mHandler.sendEmptyMessageDelayed(MSG_TRANSITION_TIMEOUT, 1000);
+        }
     }
 
     public void onWindowTransitionStart() {
         mWindowInTransition = true;
+        mHandler.removeMessages(MSG_TRANSITION_TIMEOUT);
         if (resumed) {
             if (themeLoading) {
                 mProgressViewHolder.hide(false);
@@ -1453,6 +1467,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
 
     public void onWindowTransitionEnd() {
         mWindowInTransition = false;
+        mHandler.removeMessages(MSG_TRANSITION_TIMEOUT);
         if (mPendingResume) {
             resumeAnimation();
             mPendingResume = false;
