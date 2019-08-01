@@ -13,10 +13,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
@@ -695,6 +694,14 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             transEndRunnable.run();
         }
 
+    }
+
+    public void saveState(Bundle bundle) {
+        bundle.putBoolean("waitContact", mWaitContactResult);
+    }
+
+    public void restoreState(Bundle bundle) {
+        mWaitContactResult = bundle.getBoolean("waitContact");
     }
 
     private int getThemeMode() {
