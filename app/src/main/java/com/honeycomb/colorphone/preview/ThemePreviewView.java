@@ -652,7 +652,7 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         themeReady = true;
         themeLoading = false;
 
-        setButtonState(isSelectedPos());
+        setButtonState(isCurrentTheme());
 
         dimCover.setVisibility(View.INVISIBLE);
         mProgressViewHolder.hide();
