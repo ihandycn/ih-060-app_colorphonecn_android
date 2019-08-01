@@ -1,5 +1,8 @@
 package com.honeycomb.colorphone.dialer.util;
 
+import android.app.Activity;
+import android.app.role.RoleManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -60,18 +63,27 @@ public class DefaultPhoneUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static void checkDefaultPhoneSettings() {
+    public static void checkDefaultPhoneSettings(Activity activity) {
         Analytics.logEvent("Dialer_Set_Default_Show");
         ConfigEvent.monitorResult();
 
         Preferences.get(Constants.DESKTOP_PREFS).putBoolean(Constants.PREFS_CHECK_DEFAULT_PHONE, true);
-        checkDefaultWithoutEvent();
+        checkDefaultWithoutEvent(activity);
     }
 
-    public static void checkDefaultWithoutEvent() {
-        Intent intent = new Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER);
-        intent.putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, HSApplication.getContext().getPackageName());
-        Navigations.startActivitySafely(HSApplication.getContext(), intent);
+    public static void checkDefaultWithoutEvent(Activity activity) {
+        Intent intent = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            RoleManager roleManager = HSApplication.getContext().getSystemService(RoleManager.class);
+            intent = roleManager.createRequestRoleIntent(RoleManager.ROLE_DIALER);
+            Navigations.startActivityForResultSafely(activity, intent, Activity.RESULT_CANCELED);
+
+        } else {
+            intent = new Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER);
+            intent.putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, HSApplication.getContext().getPackageName());
+            Navigations.startActivitySafely(HSApplication.getContext(), intent);
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -83,12 +95,26 @@ public class DefaultPhoneUtils {
             HSLog.d("findDefaultDialerPkg", "pkg=" + systemPhone);
         }
         if (!TextUtils.isEmpty(systemPhone)) {
-            Intent intent = new Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER);
-            intent.putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, systemPhone);
-            Navigations.startActivitySafely(HSApplication.getContext(), intent);
-        }
+            Intent intent = null;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                RoleManager roleManager = HSApplication.getContext().getSystemService(RoleManager.class);
+                if (roleManager.isRoleHeld(RoleManager.ROLE_DIALER)) {
+                    intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                    ComponentName cn = new ComponentName("com.google.android.permissioncontroller", "com.android.packageinstaller.role.ui.DefaultAppListActivity");
+                    intent.setComponent(cn);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    HSApplication.getContext().startActivity(intent);
+                }
 
+            } else {
+                intent = new Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER);
+                intent.putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, systemPhone);
+                Navigations.startActivitySafely(HSApplication.getContext(), intent);
+            }
+        }
     }
+
 
     public static String findDefaultDialerPkg() {
         Intent intent = new Intent(Intent.ACTION_DIAL);

@@ -2,6 +2,7 @@ package com.honeycomb.colorphone.startguide;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -194,7 +195,7 @@ public class SetAsDialerDialog extends FullScreenDialog {
                 Utils.showDefaultFailToast();
             }
         }, 300);
-        DefaultPhoneUtils.checkDefaultPhoneSettings();
+        DefaultPhoneUtils.checkDefaultPhoneSettings((Activity) getContext());
     }
 
     @Override

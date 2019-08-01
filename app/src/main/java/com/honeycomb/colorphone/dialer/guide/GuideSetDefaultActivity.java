@@ -1,5 +1,6 @@
 package com.honeycomb.colorphone.dialer.guide;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -47,14 +48,14 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
                 DefaultPhoneUtils.saveSystemDefaultPhone();
 
                 if (ConfigEvent.setDefaultGuideShow() && AutoPermissionChecker.hasFloatWindowPermission()) {
-                    FloatWindowManager.getInstance().showDialog(new SetAsDialerDialog(context.getApplicationContext()));
+                    FloatWindowManager.getInstance().showDialog(new SetAsDialerDialog(context));
 //                    Intent starter = new Intent(context, GuideSetDefaultActivity.class);
 //                    if (context instanceof Activity) {
 //                        ((Activity) context).overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 //                    }
 //                    context.startActivity(starter);
                 } else {
-                    DefaultPhoneUtils.checkDefaultPhoneSettings();
+                    DefaultPhoneUtils.checkDefaultPhoneSettings((Activity)context);
                 }
             }
         }
@@ -91,7 +92,7 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
                 false, true));
         actionBtn.setOnClickListener(v ->
         {
-            DefaultPhoneUtils.checkDefaultPhoneSettings();
+            DefaultPhoneUtils.checkDefaultPhoneSettings(this);
             mOkClicked = true;
             finish();
         });
