@@ -83,7 +83,7 @@ public class StartGuidePermissionFactory {
                 id = R.drawable.start_guide_confirm_image_screen_flash;
                 break;
             case TYPE_PERMISSION_TYPE_PHONE:
-                id = R.drawable.start_guide_confirm_image_call;
+                id = R.drawable.start_guide_confirm_image_phone;
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
                 id = R.drawable.start_guide_confirm_image_write_setttings;
@@ -146,7 +146,7 @@ public class StartGuidePermissionFactory {
             case TYPE_PERMISSION_TYPE_PHONE:
                 if (activity != null) {
                     if (RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) != RuntimePermissions.PERMISSION_PERMANENTLY_DENIED) {
-                        RuntimePermissions.requestPermissions(activity, new String[] { Manifest.permission.READ_PHONE_STATE }, StartGuideActivity.PERMISSION_REQUEST);
+                        RuntimePermissions.requestPermissions(activity, new String[] { Manifest.permission.READ_PHONE_STATE }, StartGuideActivity.CONFIRM_PAGE_PERMISSION_REQUEST);
                         return;
                     }
                 }

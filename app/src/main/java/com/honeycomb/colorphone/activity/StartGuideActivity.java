@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,6 +34,7 @@ import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.permission.HSPermissionRequestMgr;
 import com.ihs.permission.Utils;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
@@ -52,7 +54,8 @@ import java.util.List;
 public class StartGuideActivity extends HSAppCompatActivity implements INotificationObserver {
     private static final String TAG = "AutoPermission";
     private static final int FIRST_LAUNCH_PERMISSION_REQUEST = 1000;
-    public static final int PERMISSION_REQUEST = 2000;
+    public static final int CONFIRM_PAGE_PERMISSION_REQUEST = 2000;
+    private static final int AUTO_PERMISSION_REQUEST = 3000;
     public static final String ACC_KEY_SHOW_COUNT = "key_acc_permission_count";
     public static final String NOTIFICATION_PERMISSION_GRANT = "notification_permission_grant";
     public static final String PREF_KEY_GUIDE_SHOW_WHEN_WELCOME = "pref_key_guide_show_when_welcome";
@@ -584,11 +587,15 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
             ModuleUtils.setAllModuleUserEnable();
             showAccessibilityPermissionPage();
-        } else if (requestCode == PERMISSION_REQUEST) {
+        } else if (requestCode == CONFIRM_PAGE_PERMISSION_REQUEST) {
             for (String p : list) {
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
                         holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE);
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            RuntimePermissions.requestPermissions(this, new String[]{ Manifest.permission.CALL_PHONE, Manifest.permission.ANSWER_PHONE_CALLS }, AUTO_PERMISSION_REQUEST);
+                        }
                         Analytics.logEvent("Permission_Phone_Allow_Success");
                         break;
                     case Manifest.permission.WRITE_SETTINGS:
@@ -614,21 +621,23 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         // ...
 
         HSLog.i("Permission", "onPermissionsDenied: " + list);
-
-        for (String p : list) {
-            switch (p) {
-                case Manifest.permission.READ_PHONE_STATE:
-                    break;
-                case Manifest.permission.WRITE_SETTINGS:
-                    break;
-                case Manifest.permission.READ_CONTACTS:
-                    break;
-                case Manifest.permission.WRITE_CONTACTS:
-                    break;
-                case Manifest.permission.READ_EXTERNAL_STORAGE:
-                    break;
-                case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                    break;
+        if (requestCode == CONFIRM_PAGE_PERMISSION_REQUEST) {
+            for (String p : list) {
+                switch (p) {
+                    case Manifest.permission.READ_PHONE_STATE:
+                        AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
+                        break;
+                    case Manifest.permission.WRITE_SETTINGS:
+                        break;
+                    case Manifest.permission.READ_CONTACTS:
+                        break;
+                    case Manifest.permission.WRITE_CONTACTS:
+                        break;
+                    case Manifest.permission.READ_EXTERNAL_STORAGE:
+                        break;
+                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                        break;
+                }
             }
         }
     }

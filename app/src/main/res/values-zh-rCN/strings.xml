@@ -211,7 +211,7 @@
     <string name="start_guide_loading_text">来电秀功能开启中……</string>
     <string name="start_guide_loading_action">立即授予</string>
     <string name="start_guide_request_accessibility_title">来电秀开启遇到一些问题\n请授予我们辅助权限完成修复</string>
-    <string name="start_guide_confirm_fix">手动修复 &gt;</string>
+    <string name="start_guide_confirm_fix">手动修复</string>
     <string name="start_guide_confirm_fix_one_key">立即修复</string>
     <string name="start_guide_request_image_title">自动开启中</string>
     <string name="start_guide_request_title">请耐心等待，误操作会打断进程哦~</string>

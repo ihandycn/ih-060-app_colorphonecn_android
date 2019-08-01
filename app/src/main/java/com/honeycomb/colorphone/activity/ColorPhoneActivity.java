@@ -603,9 +603,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             }
         }
         AcbRewardAdManager.getInstance().preload(1, Placements.AD_REWARD_VIDEO);
-        if (!showAllFeatureGuide) {
-//            dispatchPermissionRequest();
-        }
+
+        dispatchPermissionRequest();
+
         if (!showAllFeatureGuide) {
             isCreate = false;
         }
@@ -693,25 +693,25 @@ public class ColorPhoneActivity extends HSAppCompatActivity
             return;
         }
 
-        Runnable runnable;
-
-        if (Build.VERSION.SDK_INT < 16) {
-            // Not support lottie.
-            runnable = () -> requiresPermission();
-        } else {
-            runnable = () -> PermissionChecker.getInstance().check(this, "AppOpen");
-        }
+//        Runnable runnable;
+//
+//        if (Build.VERSION.SDK_INT < 16) {
+//            // Not support lottie.
+//            runnable = () -> requiresPermission();
+//        } else {
+//            runnable = () -> PermissionChecker.getInstance().check(this, "AppOpen");
+//        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                 && RuntimePermissions.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS)
                 == RuntimePermissions.PERMISSION_GRANTED_BUT_NEEDS_REQUEST) {
             RuntimePermissions.requestPermissions(this,
-                    new String[]{Manifest.permission.ANSWER_PHONE_CALLS}, FIRST_LAUNCH_PERMISSION_REQUEST);
+                    new String[]{Manifest.permission.ANSWER_PHONE_CALLS, Manifest.permission.CALL_PHONE}, FIRST_LAUNCH_PERMISSION_REQUEST);
         }
 
-        Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(
-                runnable,
-                "permission_launch", HSConfig.optInteger(2, "Application", "GrantAccess", "MaxCount"));
+//        Preferences.get(Constants.DESKTOP_PREFS).doLimitedTimes(
+//                runnable,
+//                "permission_launch", HSConfig.optInteger(2, "Application", "GrantAccess", "MaxCount"));
     }
 
     /**

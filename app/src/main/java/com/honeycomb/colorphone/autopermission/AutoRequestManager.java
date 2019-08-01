@@ -19,6 +19,8 @@ import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.BackgroundPopupMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
+import com.acb.colorphone.permissions.PhoneHuawei8GuideActivity;
+import com.acb.colorphone.permissions.PhoneMiuiGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenGuideActivity;
 import com.acb.colorphone.permissions.ShowOnLockScreenMIUIGuideActivity;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
@@ -228,6 +230,18 @@ public class AutoRequestManager {
         ArrayList<String> permission = new ArrayList<String>();
         if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
             permission.add(HSPermissionRequestMgr.TYPE_PHONE);
+            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_READ);
+            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_WRITE);
+            permission.add(HSPermissionRequestMgr.TYPE_STORAGE);
+            permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
+        } else if (TextUtils.equals(from, AUTO_PERMISSION_FROM_FIX)) {
+            permission.add(HSPermissionRequestMgr.TYPE_PHONE);
+
+            // TODO 检查contact权限
+            if (Compats.IS_XIAOMI_DEVICE) {
+                permission.add(HSPermissionRequestMgr.TYPE_CONTACT_WRITE);
+                permission.add(HSPermissionRequestMgr.TYPE_CONTACT_READ);
+            }
             permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
         }
 
@@ -239,11 +253,6 @@ public class AutoRequestManager {
         }
         if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
             permission.add(HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK);
-        }
-        // TODO 检查contact权限
-        if (Compats.IS_XIAOMI_DEVICE) {
-            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_WRITE);
-            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_READ);
         }
 
         if (!AutoPermissionChecker.hasIgnoreBatteryPermission()) {
@@ -509,11 +518,11 @@ public class AutoRequestManager {
                 return true;
             } else {
                 Threads.postOnMainThreadDelayed(() -> {
-//                    if (RomUtils.checkIsMiuiRom()){
-//                        Navigations.startActivitySafely(HSApplication.getContext(), PhoneMiuiGuideActivity.class);
-//                    } else if (RomUtils.checkIsHuaweiRom()) {
-//                        Navigations.startActivitySafely(HSApplication.getContext(), PhoneHuawei8GuideActivity.class);
-//                    }
+                    if (RomUtils.checkIsMiuiRom()){
+                        Navigations.startActivitySafely(HSApplication.getContext(), PhoneMiuiGuideActivity.class);
+                    } else if (RomUtils.checkIsHuaweiRom()) {
+                        Navigations.startActivitySafely(HSApplication.getContext(), PhoneHuawei8GuideActivity.class);
+                    }
                 }, GUIDE_DELAY);
             }
         } else if (TextUtils.equals(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS, type)) {

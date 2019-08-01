@@ -16,7 +16,11 @@ import android.widget.EditText;
 import com.acb.call.customize.ScreenFlashManager;
 import com.acb.call.customize.ScreenFlashSettings;
 import com.acb.call.service.InCallWindow;
+import com.acb.colorphone.permissions.ContactHuawei8GuideActivity;
+import com.acb.colorphone.permissions.ContactHuawei9GuideActivity;
 import com.acb.colorphone.permissions.FloatWindowManager;
+import com.acb.colorphone.permissions.PhoneHuawei8GuideActivity;
+import com.acb.colorphone.permissions.PhoneMiuiGuideActivity;
 import com.acb.colorphone.permissions.WriteSettingsPopupGuideActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.honeycomb.colorphone.R;
@@ -90,12 +94,15 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void startRecentApp(View view) {
+        Navigations.startActivitySafely(HSApplication.getContext(), PhoneHuawei8GuideActivity.class);
+        Navigations.startActivitySafely(HSApplication.getContext(), ContactHuawei8GuideActivity.class);
+        Navigations.startActivitySafely(HSApplication.getContext(), ContactHuawei9GuideActivity.class);
+        Navigations.startActivitySafely(HSApplication.getContext(), PhoneMiuiGuideActivity.class);
     }
 
     public void checkFloatWindow(View view) {
         FloatWindowManager.getInstance().applyOrShowFloatWindow(this);
         requiresPermission();
-
     }
 
     /**
