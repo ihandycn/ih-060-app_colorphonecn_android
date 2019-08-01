@@ -116,6 +116,9 @@ public class StartGuideItemHolder {
                 if (fix != null) {
                     ok.setVisibility(View.GONE);
                     fix.setVisibility(View.VISIBLE);
+
+                    ok.animate().alpha(0.7f).setDuration(100).start();
+                    text.animate().alpha(0.6f).setDuration(100).start();
                 }
                 break;
             case PERMISSION_STATUS_LOADING:

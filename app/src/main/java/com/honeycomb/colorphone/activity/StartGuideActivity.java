@@ -256,6 +256,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 int confirmPermission = holder.refreshConfirmPage();
                 if (confirmPermission == 0 && confirmDialogPermission != 0) {
                     confirmPermission = confirmDialogPermission;
+                    confirmDialogPermission = 0;
                 }
                 boolean isGrant = StartGuidePermissionFactory.getItemGrant(confirmPermission);
                 HSLog.i("Permission", "Permission: " + confirmPermission + "  grant: " + isGrant);
@@ -332,7 +333,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         Analytics.logEvent("FixAlert_Retain_Show", "From", from);
     }
 
-    private void showConfirmDialog(int confirmPermission) {
+    private boolean showConfirmDialog(int confirmPermission) {
         if (dialog != null) {
             dialog.dismiss();
         }
@@ -403,12 +404,14 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     AutoLogger.logEventWithBrandAndOS("FixALert_NA_Granted");
                 }
             }
-            return;
+            return false;
         }
 
         confirmDialogPermission = confirmPermission;
         dialog = builder.create();
         dialog.show();
+
+        return true;
     }
 
     @Override
@@ -438,7 +441,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
     @Override protected void onStop() {
         super.onStop();
-        HSGlobalNotificationCenter.removeObserver(this);
     }
 
     @Override public void onReceive(String s, HSBundle hsBundle) {
@@ -497,6 +499,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         permissions.add(Manifest.permission.WRITE_CONTACTS);
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.READ_CALL_LOG);
         permissions.add(Manifest.permission.WRITE_SETTINGS);
 
         boolean grantPermission = true;

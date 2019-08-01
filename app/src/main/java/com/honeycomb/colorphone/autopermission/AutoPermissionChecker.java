@@ -105,11 +105,11 @@ public class AutoPermissionChecker {
         Preferences.get(Constants.PREF_FILE_DEFAULT).incrementAndGetInt("prefs_auto_request_count");
     }
 
-    public static boolean isPhonePermissionGaint() {
+    public static boolean isPhonePermissionGranted() {
         return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) == RuntimePermissions.PERMISSION_GRANTED;
     }
 
-    public static boolean isWriteSettingsPermissionGaint() {
+    public static boolean isWriteSettingsPermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Settings.System.canWrite(HSApplication.getContext());
         } else {

@@ -38,6 +38,7 @@ import com.ihs.commons.utils.HSLog;
 import com.ihs.device.accessibility.service.HSAccessibilityManager;
 import com.ihs.permission.HSPermissionRequestCallback;
 import com.ihs.permission.HSPermissionRequestMgr;
+import com.ihs.permission.HSRuntimePermissions;
 import com.ihs.permission.Utils;
 import com.superapps.BuildConfig;
 import com.superapps.util.Compats;
@@ -229,18 +230,21 @@ public class AutoRequestManager {
     private void executeAutoTask() {
         ArrayList<String> permission = new ArrayList<String>();
         if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
-            permission.add(HSPermissionRequestMgr.TYPE_PHONE);
-            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_READ);
-            permission.add(HSPermissionRequestMgr.TYPE_CONTACT_WRITE);
+            permission.add(HSRuntimePermissions.TYPE_RUNTIME_PHONE);
+            permission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
+            permission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
+            permission.add(HSRuntimePermissions.TYPE_RUNTIME_STORAGE);
             permission.add(HSPermissionRequestMgr.TYPE_STORAGE);
-            permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                permission.add(HSPermissionRequestMgr.TYPE_CALL_LOG);
+            }
         } else if (TextUtils.equals(from, AUTO_PERMISSION_FROM_FIX)) {
-            permission.add(HSPermissionRequestMgr.TYPE_PHONE);
+            permission.add(HSRuntimePermissions.TYPE_RUNTIME_PHONE);
 
             // TODO 检查contact权限
             if (Compats.IS_XIAOMI_DEVICE) {
-                permission.add(HSPermissionRequestMgr.TYPE_CONTACT_WRITE);
-                permission.add(HSPermissionRequestMgr.TYPE_CONTACT_READ);
+                permission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
+                permission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
             }
             permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
         }
@@ -433,8 +437,8 @@ public class AutoRequestManager {
                 && AutoPermissionChecker.hasBgPopupPermission()
                 && AutoPermissionChecker.hasShowOnLockScreenPermission()
                 && AutoPermissionChecker.isNotificationListeningGranted()
-                && AutoPermissionChecker.isPhonePermissionGaint()
-                && AutoPermissionChecker.isWriteSettingsPermissionGaint();
+                && AutoPermissionChecker.isPhonePermissionGranted()
+                && AutoPermissionChecker.isWriteSettingsPermissionGranted();
     }
 
     public void startAutoCheck(@AUTO_PERMISSION_FROM String from, String point) {
@@ -514,7 +518,7 @@ public class AutoRequestManager {
                 }, GUIDE_DELAY);
             }
         } else if (TextUtils.equals(HSPermissionRequestMgr.TYPE_PHONE, type)) {
-            if (AutoPermissionChecker.isPhonePermissionGaint()) {
+            if (AutoPermissionChecker.isPhonePermissionGranted()) {
                 return true;
             } else {
                 Threads.postOnMainThreadDelayed(() -> {
@@ -526,7 +530,7 @@ public class AutoRequestManager {
                 }, GUIDE_DELAY);
             }
         } else if (TextUtils.equals(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS, type)) {
-            if (AutoPermissionChecker.isWriteSettingsPermissionGaint()) {
+            if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
                 return true;
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
