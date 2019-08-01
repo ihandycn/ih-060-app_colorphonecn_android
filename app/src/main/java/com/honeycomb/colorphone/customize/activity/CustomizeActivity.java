@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
@@ -18,24 +17,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.honeycomb.colorphone.BuildConfig;
 import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.customize.OverlayInstaller;
 import com.honeycomb.colorphone.customize.WallpaperMgr;
 import com.honeycomb.colorphone.customize.theme.ThemeConstants;
-import com.honeycomb.colorphone.customize.util.CustomizeUtils;
 import com.honeycomb.colorphone.customize.view.CustomizeContentView;
-import com.honeycomb.colorphone.customize.view.LayoutWrapper;
 import com.honeycomb.colorphone.customize.view.OnlineWallpaperPage;
 import com.ihs.commons.notificationcenter.HSGlobalNotificationCenter;
 import com.ihs.commons.notificationcenter.INotificationObserver;
 import com.ihs.commons.utils.HSBundle;
-import com.superapps.broadcast.BroadcastCenter;
-import com.superapps.broadcast.BroadcastListener;
-import com.superapps.util.HomeKeyWatcher;
 
 import net.appcloudbox.AcbAds;
-import net.appcloudbox.UnreleasedAdWatcher;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -69,17 +61,11 @@ public class CustomizeActivity extends BaseCustomizeActivity
     private CustomizeContentView mContent;
 
     private List<ActivityResultHandler> mActivityResultHandlers = new ArrayList<>(1);
-    private LayoutWrapper mLayoutWrapper;
 
-    private OnlineThemeApkStateMonitor mThemeApkMonitor;
-
-    private int mViewIndex;
     public int mThemeTabIndex;
     public int mWallpaperTabIndex;
     public String mWallpaperTabItemName;
-    public String mOpenFromSrc = "";
-    private HomeKeyWatcher mHomeKeyWatcher;
-    private boolean mFirstCome;
+
 
 
     public static Intent getLaunchIntent(Context context, String flurryFrom, int tabSelected) {
@@ -106,27 +92,8 @@ public class CustomizeActivity extends BaseCustomizeActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (mLayoutWrapper != null) {
-            mLayoutWrapper.show();
-        }
-        HSBundle bundle = new HSBundle();
+
         HSGlobalNotificationCenter.sendNotification(NOTIFICATION_CUSTOMIZE_ACTIVITY_ONRESUME);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mHomeKeyWatcher = new HomeKeyWatcher(this);
-        mHomeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
-            @Override
-            public void onHomePressed() {
-            }
-
-            @Override
-            public void onRecentsPressed() {
-            }
-        });
-        mHomeKeyWatcher.startWatch();
     }
 
     @Override
@@ -140,33 +107,12 @@ public class CustomizeActivity extends BaseCustomizeActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customize);
         AcbAds.getInstance().setActivity(this);
-        closeUnreleasedAdWatcher();
         mContent = findViewById(R.id.customize_content);
 //        mBottomBar = findViewById(R.id.bottom_bar);
         mWallpaperTabItemName = getIntent().getStringExtra(ThemeConstants.INTENT_KEY_WALLPAPER_TAB_ITEM_NAME);
         mIntent = getIntent();
         handleIntent(mIntent);
-        mThemeTabIndex = getIntent().getIntExtra(ThemeConstants.INTENT_KEY_THEME_TAB, 0);
-        OnlineWallpaperPage.TabsConfiguration galleryTabsConfig = new OnlineWallpaperPage.TabsConfiguration();
-        mWallpaperTabIndex = getIntent().getIntExtra(ThemeConstants.INTENT_KEY_WALLPAPER_TAB, galleryTabsConfig.tabIndexHot);
-        mOpenFromSrc = getIntent().getStringExtra(ThemeConstants.INTENT_KEY_FLURRY_FROM);
-        mThemeApkMonitor = new OnlineThemeApkStateMonitor();
-        IntentFilter filter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
-        filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
-        filter.addDataScheme("package");
-        BroadcastCenter.register(this, mThemeApkMonitor, filter);
 
-        HSGlobalNotificationCenter.addObserver(WallpaperMgr.NOTIFICATION_WALLPAPER_GALLERY_SAVED, this);
-        HSGlobalNotificationCenter.addObserver(WallpaperMgr.NOTIFICATION_REFRESH_LOCAL_WALLPAPER, this);
-
-//        ApkInfo.restore(this);
-
-    }
-
-    private void closeUnreleasedAdWatcher() {
-        if (BuildConfig.DEBUG) {
-            UnreleasedAdWatcher.getInstance().setEnabled(false);
-        }
     }
 
 
@@ -175,30 +121,10 @@ public class CustomizeActivity extends BaseCustomizeActivity
         super.onNewIntent(intent);
         mIntent = intent;
         handleIntent(intent);
-        if (mLayoutWrapper != null) {
-            mLayoutWrapper.show();
-        }
+
     }
 
     private void handleIntent(Intent intent) {
-        selectTabFromIntent(intent);
-        String from = intent.getStringExtra(ThemeConstants.INTENT_KEY_FLURRY_FROM);
-
-//        String openFrom = "Other";
-//        if (mViewIndex == TAB_INDEX_THEME) {
-//            openFrom = from;
-//        } else if (mViewIndex == TAB_INDEX_WALLPAPER) {
-//            if (TextUtils.isEmpty(from) && Intent.ACTION_MAIN.equals(intent.getAction())) {
-//                openFrom = "Other";
-//            } else {
-//                openFrom = TextUtils.isEmpty(from) ? "Other" : from;
-//            }
-//        }
-//        logOpenFrom(mViewIndex, openFrom);
-    }
-
-    private void logOpenFrom(int tabSelected, String openFromDescription) {
-
     }
 
     @Override
@@ -206,29 +132,7 @@ public class CustomizeActivity extends BaseCustomizeActivity
         super.onServiceConnected(name, service);
         WallpaperMgr.getInstance().initLocalWallpapers(mService, null);
         mContent.onServiceConnected(mService);
-        selectTabFromIntent(mIntent);
-    }
-
-    private int findBottomBarTypeIdByIndex(int index) {
-        for (int i = 0; i < ITEMS_INDEX_MAP.size(); i++) {
-            int id = ITEMS_INDEX_MAP.keyAt(i);
-            if (ITEMS_INDEX_MAP.get(id) == index) {
-                return id;
-            }
-        }
-
-        return 0;
-    }
-
-    private void selectTabFromIntent(Intent intent) {
-        int tabSelected = intent.getIntExtra(ThemeConstants.INTENT_KEY_TAB, 0);
-        String from = intent.getStringExtra(ThemeConstants.INTENT_KEY_FLURRY_FROM);
-
-        if (mViewIndex == 0) {
-            mFirstCome = true;
-        }
-        mViewIndex = tabSelected;
-        mContent.setChildSelected(mViewIndex);
+        mContent.setChildSelected(0);
     }
 
     @Override
@@ -306,7 +210,6 @@ public class CustomizeActivity extends BaseCustomizeActivity
     protected void onStop() {
         super.onStop();
         quitEditingMode();
-        mHomeKeyWatcher.stopWatch();
     }
 
     private boolean quitEditingMode() {
@@ -340,10 +243,7 @@ public class CustomizeActivity extends BaseCustomizeActivity
     protected void onDestroy() {
         super.onDestroy();
         mActivityResultHandlers.clear();
-        HSGlobalNotificationCenter.removeObserver(WallpaperMgr.NOTIFICATION_REFRESH_LOCAL_WALLPAPER, this);
-        HSGlobalNotificationCenter.removeObserver(WallpaperMgr.NOTIFICATION_WALLPAPER_GALLERY_SAVED, this);
 
-        BroadcastCenter.unregister(this, mThemeApkMonitor);
         HSGlobalNotificationCenter.sendNotification(NOTIFICATION_CUSTOMIZE_ACTIVITY_DESTROY);
         HSGlobalNotificationCenter.removeObserver(this);
 
@@ -366,29 +266,4 @@ public class CustomizeActivity extends BaseCustomizeActivity
         void handleActivityResult(Activity activity, int requestCode, int resultCode, Intent data);
     }
 
-    private class OnlineThemeApkStateMonitor implements BroadcastListener {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            boolean isOnlineTheme = CustomizeUtils.isThemePackage(intent.getData().getSchemeSpecificPart());
-            if (!isOnlineTheme) {
-                return;
-            }
-            String action = intent.getAction();
-            switch (action) {
-                case Intent.ACTION_PACKAGE_REMOVED:
-                case Intent.ACTION_PACKAGE_ADDED:
-                    for (int index = 0; index < mContent.getChildCount(); index++) {
-                        View view = mContent.getChildAt(index);
-//                        if (view instanceof OnlineThemePage) {
-//                            ((OnlineThemePage) view).refresh();
-//                        }
-                    }
-//                    if (mContent != null && mContent.getLocalCustomizePage() != null) {
-//                        mContent.getLocalCustomizePage().reloadLocalTheme();
-//                    }
-                    break;
-                default:
-            }
-        }
-    }
 }
