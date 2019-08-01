@@ -62,10 +62,7 @@ public class CustomizeActivity extends BaseCustomizeActivity
 
     private List<ActivityResultHandler> mActivityResultHandlers = new ArrayList<>(1);
 
-    public int mThemeTabIndex;
-    public int mWallpaperTabIndex;
     public String mWallpaperTabItemName;
-
 
 
     public static Intent getLaunchIntent(Context context, String flurryFrom, int tabSelected) {
@@ -147,13 +144,9 @@ public class CustomizeActivity extends BaseCustomizeActivity
     }
 
     private void clearWallpaperData() {
-        mWallpaperTabIndex = 0;
         mWallpaperTabItemName = "";
     }
 
-    private void clearThemeData() {
-        mThemeTabIndex = 0;
-    }
 
 
     @Override

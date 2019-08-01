@@ -7,16 +7,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tab_layout_container">
 
-        <com.superapps.view.ViewPagerFixed
-            android:id="@+id/wallpaper_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </FrameLayout>
+    <com.superapps.view.ViewPagerFixed
+        android:id="@+id/wallpaper_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.superapps.view.TypefacedTextView
         android:layout_width="match_parent"

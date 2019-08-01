@@ -358,5 +358,6 @@
     <string name="cash_center_guide_content10">金币待领取</string>
     <string name="cash_center_guide_content11">5元即可提现</string>
     <string name="cash_center_guide_content12">7234人已提现</string>
+    <string name="glide_tag_id" translatable="false">glide tag id</string>
 
 </resources>

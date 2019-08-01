@@ -79,17 +79,16 @@ public class CustomizeContentView extends FrameLayout implements ServiceListener
 
         private void setupWithInitialTabIndex(@LayoutRes int layoutId, View child) {
            if (layoutId == R.layout.online_wallpaper_page) {
-                CustomizeActivity activity = (CustomizeActivity) mContext;
-                int index = activity.mWallpaperTabIndex;
-                if (index >= 0) {
-                    OnlineWallpaperPage page = (OnlineWallpaperPage) child;
-                    page.setup(index);
-                    if (!TextUtils.isEmpty(activity.mWallpaperTabItemName)) {
-                        page.loadWallpaper(index, activity.mWallpaperTabItemName);
-                        activity.mWallpaperTabItemName = "";
-                    }
-                }
-            }
+               CustomizeActivity activity = (CustomizeActivity) mContext;
+               int index = 0;
+               OnlineWallpaperPage page = (OnlineWallpaperPage) child;
+               page.setup(index);
+
+               if (!TextUtils.isEmpty(activity.mWallpaperTabItemName)) {
+                   page.loadWallpaper(index, activity.mWallpaperTabItemName);
+                   activity.mWallpaperTabItemName = "";
+               }
+           }
         }
     }
 }

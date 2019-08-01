@@ -7,7 +7,6 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -104,10 +103,6 @@ public class OnlineWallpaperPage extends RelativeLayout {
         mArrowLeftPart = ViewUtils.findViewById(this, R.id.tab_top_arrow_left);
         mArrowRightPart = ViewUtils.findViewById(this, R.id.tab_top_arrow_right);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ViewUtils.findViewById(this, R.id.tab_layout_container)
-                    .setElevation(Dimensions.pxFromDp(1));
-        }
     }
 
     public void setup(int initialTabIndex) {
@@ -254,10 +249,7 @@ public class OnlineWallpaperPage extends RelativeLayout {
         int degree = !mIsRtl ? 90 : -90;
         // shrink
         if (start == 90) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ViewUtils.findViewById(this, R.id.tab_layout_container)
-                        .setElevation(Dimensions.pxFromDp(1));
-            }
+
 
             ObjectAnimator arrowRotateLeft = ObjectAnimator.ofFloat(arrowLeftPart, "rotation", -degree, 0);
             arrowRotateLeft.setDuration(300);
@@ -298,10 +290,6 @@ public class OnlineWallpaperPage extends RelativeLayout {
         }
         // expand
         else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ViewUtils.findViewById(this, R.id.tab_layout_container)
-                        .setElevation(0);
-            }
 
             ObjectAnimator arrowRotateLeft = ObjectAnimator.ofFloat(arrowLeftPart, "rotation", 0, -degree);
             arrowRotateLeft.setDuration(300);

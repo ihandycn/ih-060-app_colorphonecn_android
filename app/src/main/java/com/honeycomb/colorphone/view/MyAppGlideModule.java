@@ -11,6 +11,8 @@ import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.ViewTarget;
+import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.module.ContactPhotoDecoder;
 
 /**
@@ -29,6 +31,7 @@ public class MyAppGlideModule extends AppGlideModule {
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
         super.applyOptions(context, builder);
+        ViewTarget.setTagId(R.string.glide_tag_id);
         builder.setDefaultRequestOptions(sRequestOptions);
     }
 

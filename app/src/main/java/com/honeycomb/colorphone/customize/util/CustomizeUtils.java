@@ -17,8 +17,6 @@
 package com.honeycomb.colorphone.customize.util;
 
 import android.app.Activity;
-import android.app.WallpaperManager;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -37,7 +35,6 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.customize.CustomizeConfig;
 import com.honeycomb.colorphone.customize.CustomizeConstants;
 import com.honeycomb.colorphone.customize.WallpaperInfo;
-import com.honeycomb.colorphone.customize.activity.CustomizeActivity;
 import com.honeycomb.colorphone.customize.livewallpaper.BaseWallpaperService;
 import com.honeycomb.colorphone.customize.livewallpaper.GLWallpaperService;
 import com.honeycomb.colorphone.customize.livewallpaper.GLWallpaperService2;
@@ -58,7 +55,6 @@ import com.ihs.commons.utils.HSMapUtils;
 import com.superapps.util.Calendars;
 import com.superapps.util.Compats;
 import com.superapps.util.HomeKeyWatcher;
-import com.superapps.util.Navigations;
 import com.superapps.util.Preferences;
 import com.superapps.util.Toasts;
 
@@ -296,10 +292,12 @@ public final class CustomizeUtils {
                     Preferences prefs = Preferences.getDefault();
                     prefs.putString(LiveWallpaperConsts.PREF_KEY_PREVIEW_WALLPAPER_NAME, info.getSource());
                     prefs.putBoolean(LiveWallpaperConsts.PREF_KEY_IS_PREVIEW_MODE, true);
-                    Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
-                    intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                            new ComponentName(activity, getWallpaperService(prefs)));
-                    Navigations.startActivityForResultSafely(activity, intent, CustomizeActivity.REQUEST_CODE_APPLY_3D_WALLPAPER);
+//                    Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+//                    intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+//                            new ComponentName(activity, getWallpaperService(prefs)));
+//                    Navigations.startActivityForResultSafely(activity, intent, CustomizeActivity.REQUEST_CODE_APPLY_3D_WALLPAPER);
+
+
                     WallpaperPreloadService.prepareLiveWallpaper(activity);
                 }
             }
