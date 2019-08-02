@@ -40,6 +40,7 @@ import net.appcloudbox.ads.common.utils.AcbError;
 import net.appcloudbox.ads.nativead.AcbNativeAdLoader;
 import net.appcloudbox.ads.nativead.AcbNativeAdManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapter {
@@ -65,6 +66,12 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
         public void onLoadFinished(List<WallpaperInfo> wallpaperInfoList) {
             int lastSize = mDataSet.size();
             mDataSet.addAll(wallpaperInfoList);
+            for (WallpaperInfo item : wallpaperInfoList) {
+                if ((item).getType() != WallpaperInfo.WALLPAPER_TYPE_3D
+                        && (item).getType() != WallpaperInfo.WALLPAPER_TYPE_LIVE) {
+                    mOrigNormalDataSet.add(item);
+                }
+            }
             for (int index = lastSize; index < mDataSet.size(); index++) {
                 mAdCount.add(index, mAddedAdsCount);
             }
@@ -274,7 +281,7 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
                         .error(R.drawable.wallpaper_load_failed).format(DecodeFormat.PREFER_RGB_565)
                         .diskCacheStrategy(DiskCacheStrategy.DATA).into(
                         ((BaseViewHolder) holder).mImageView);
-                holder.itemView.setTag(position);
+                holder.itemView.setTag(info);
                 BaseViewHolder imageHolder = (BaseViewHolder) holder;
 
                 imageHolder.setPopularity(
@@ -513,6 +520,10 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
         public HeaderSquareViewHolder(View itemView) {
             super(itemView);
         }
+    }
+
+    private static class WallpaperInfoList {
+        private List<WallpaperInfo> mWallpaperInfos = new ArrayList<>(3);
     }
 
 

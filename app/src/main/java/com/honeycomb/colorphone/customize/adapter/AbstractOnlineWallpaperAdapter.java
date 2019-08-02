@@ -40,6 +40,7 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
     protected WallpaperMgr.Scenario mScenario;
     protected int mCategoryIndex = -1;
     protected String mCategoryName = "";
+    protected List<WallpaperInfo> mOrigNormalDataSet = new ArrayList<>();
     protected List<Object> mDataSet = new ArrayList<>();
     protected GridLayoutManager mLayoutManager;
 
@@ -67,26 +68,17 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
 
     @Override
     public void onClick(View v) {
-        int positionInAllWallpapers = (int) v.getTag();
-        if (mAdCount.size() > 0 && mAdCount.size() > positionInAllWallpapers) {
-            positionInAllWallpapers = positionInAllWallpapers - mAdCount.get(positionInAllWallpapers);
-        }
-
-        ArrayList<WallpaperInfo> allWallpapers = new ArrayList<>();
-        ArrayList<WallpaperInfo> wallpapersToPreview = new ArrayList<>();
-        int positionInPreviewWallpapers = positionInAllWallpapers;
-        for (Object item : mDataSet) {
-            if (item instanceof WallpaperInfo) {
-                allWallpapers.add((WallpaperInfo) item);
-                if (((WallpaperInfo) item).getType() != WallpaperInfo.WALLPAPER_TYPE_3D
-                        && ((WallpaperInfo) item).getType() != WallpaperInfo.WALLPAPER_TYPE_LIVE) {
-                    wallpapersToPreview.add((WallpaperInfo) item);
-                } else if (wallpapersToPreview.size() < positionInAllWallpapers) {
-                    positionInPreviewWallpapers--;
-                }
+        WallpaperInfo clickedWallpaper = (WallpaperInfo) v.getTag();
+        ArrayList<WallpaperInfo> wallpapersToPreview = new ArrayList<>(mOrigNormalDataSet);
+        int positionInPreviewWallpapers = 0;
+        for (int i = 0; i < wallpapersToPreview.size(); i++) {
+            WallpaperInfo item = wallpapersToPreview.get(i);
+            if (item.equals(clickedWallpaper)) {
+                positionInPreviewWallpapers = i;
+                break;
             }
         }
-        WallpaperInfo clickedWallpaper = allWallpapers.get(positionInAllWallpapers);
+
         Preferences preferences = Preferences.get(CustomizeConstants.CUSTOMIZE_PREFS);
         Activity activity = (Activity) mContext;
         boolean isAutoStart = activity.getIntent().getBooleanExtra(
