@@ -171,6 +171,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
      * For activity transition
      */
     private MediaSharedElementCallback sharedElementCallback;
+    private boolean gameMainEntranceEnabled;
 
     private void hideLottieGuide(LottieAnimationView lottieAnimationView) {
         gameIcon.animate().alpha(1).setDuration(200).start();
@@ -323,7 +324,7 @@ public class ColorPhoneActivity extends HSAppCompatActivity
 
         gameContainer = findViewById(R.id.layout_game);
 
-        boolean gameMainEntranceEnabled = CmGameUtil.canUseCmGame()
+        gameMainEntranceEnabled = CmGameUtil.canUseCmGame()
                 && HSConfig.optBoolean(false, "Application", "GameCenter", "MainViewEnable");
         if (gameMainEntranceEnabled) {
             Analytics.logEvent("MainView_GameCenter_Shown");
@@ -490,7 +491,9 @@ public class ColorPhoneActivity extends HSAppCompatActivity
                     }
                 }
 
-                gameContainer.setVisibility(pos == MAIN_POSITION ? View.VISIBLE : View.INVISIBLE);
+                if (gameMainEntranceEnabled) {
+                    gameContainer.setVisibility(pos == MAIN_POSITION ? View.VISIBLE : View.INVISIBLE);
+                }
 
                 switch (pos) {
                     case MAIN_POSITION:
