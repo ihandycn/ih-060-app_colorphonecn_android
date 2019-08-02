@@ -15,8 +15,10 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/call_desktop_button"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         app:lottie_autoPlay="true"
         app:lottie_imageAssetsFolder="lottie/call_float_button/dialer_button.xml"
         app:lottie_loop="true"/>
