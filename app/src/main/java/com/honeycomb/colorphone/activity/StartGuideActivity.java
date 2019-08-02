@@ -526,6 +526,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                         Analytics.logEvent("Permission_Write_Storage_View_Showed");
                         break;
+                    case Manifest.permission.READ_CALL_LOG:
+                        Analytics.logEvent("Permission_Read_Call_Log_View_Showed");
+                        break;
                     case Manifest.permission.WRITE_SETTINGS:
                         Analytics.logEvent("Permission_Write_Settings_View_Showed");
                         break;
@@ -581,6 +584,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                         Analytics.logEvent("Permission_Write_Storage_Allow_Success");
                         break;
+                    case Manifest.permission.READ_CALL_LOG:
+                        Analytics.logEvent("Permission_Read_Call_Log_Allow_Success");
+                        break;
                     case Manifest.permission.WRITE_SETTINGS:
                         Analytics.logEvent("Permission_Write_Settings_Allow_Success");
                         break;
@@ -609,6 +615,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         break;
                     case Manifest.permission.WRITE_CONTACTS:
                         break;
+                    case Manifest.permission.READ_CALL_LOG:
+                        break;
                     case Manifest.permission.READ_EXTERNAL_STORAGE:
                         break;
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
@@ -635,6 +643,8 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                     case Manifest.permission.READ_CONTACTS:
                         break;
                     case Manifest.permission.WRITE_CONTACTS:
+                        break;
+                    case Manifest.permission.READ_CALL_LOG:
                         break;
                     case Manifest.permission.READ_EXTERNAL_STORAGE:
                         break;

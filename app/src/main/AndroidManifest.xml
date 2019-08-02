@@ -718,6 +718,10 @@
             android:noHistory="true"
             android:taskAffinity=":guide"
             android:theme="@style/AppTranslucentForMIUI"/>
+        <activity
+            android:name=".autopermission.RuntimePermissionActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/TransparentCompatDialog" />
 
         <!--Override  - Tag : process-->
 

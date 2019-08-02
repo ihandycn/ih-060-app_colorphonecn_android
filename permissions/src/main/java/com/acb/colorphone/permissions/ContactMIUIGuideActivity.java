@@ -1,5 +1,6 @@
 package com.acb.colorphone.permissions;
 
+import android.Manifest;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
@@ -11,9 +12,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
+import com.superapps.util.RuntimePermissions;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -42,12 +45,39 @@ public class ContactMIUIGuideActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
-
         setMIUI6StatusBarDarkMode(this, true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
+
+        String splitter = getString(R.string.acb_phone_permission_splitter);
+        StringBuilder permission = new StringBuilder();
+        if (RuntimePermissions.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS) != RuntimePermissions.PERMISSION_GRANTED) {
+            permission.append(getString(R.string.acb_phone_permission_write_contact));
+        }
+
+        if (RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != RuntimePermissions.PERMISSION_GRANTED) {
+            if (permission.length() != 0) {
+                permission.append(splitter);
+            }
+            permission.append(getString(R.string.acb_phone_permission_read_contact));
+        }
+
+        if (RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) != RuntimePermissions.PERMISSION_GRANTED) {
+            if (permission.length() != 0) {
+                permission.append(splitter);
+            }
+            permission.append(getString(R.string.acb_phone_permission_read_call_log));
+        }
+
+        if (RuntimePermissions.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != RuntimePermissions.PERMISSION_GRANTED) {
+            if (permission.length() != 0) {
+                permission.append(splitter);
+            }
+            permission.append(getString(R.string.acb_phone_permission_read_storage));
+        }
+        ((TextView) findViewById(R.id.content)).setText(permission);
 
         content.setBackground(BackgroundDrawables.createBackgroundDrawable(0xE6000000, Dimensions.pxFromDp(6), false));
     }

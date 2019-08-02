@@ -53,8 +53,7 @@ public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
             lottieAnimationView.enableMergePathsForKitKatAndAbove(true);
         }
 
-        String hintTxt = getString(getTitleStringResId());
-        setDescText(hintTxt);
+        setDescText();
 
         View action = findViewById(R.id.action_btn);
         action.setBackground(BackgroundDrawables.createBackgroundDrawable(0xFF448AFF, Dimensions.pxFromDp(6), true));
@@ -79,7 +78,15 @@ public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
     protected abstract String getImageAssetFolder();
     protected abstract String getAnimationFromJson();
 
-    private void setDescText(String descText) {
+    protected String getFormatString() {
+        return "";
+    }
+
+    private void setDescText() {
+        String descText = getString(getTitleStringResId());
+        if (!TextUtils.isEmpty(getFormatString())) {
+            descText = String.format(descText, getFormatString());
+        }
         TextView descTv = findViewById(R.id.description);
         descTv.setText(descText);
     }
