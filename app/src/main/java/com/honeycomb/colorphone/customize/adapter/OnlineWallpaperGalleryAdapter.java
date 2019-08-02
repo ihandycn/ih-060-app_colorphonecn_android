@@ -50,6 +50,9 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
     private static final int WALLPAPER_FOOTER_VIEW_LOAD_MORE = 3;
     private static final int WALLPAPER_FOOTER_VIEW_NO_MORE = 4;
 
+    private static final int WALLPAPER_HEADER_HINT = 11;
+    private static final int WALLPAPER_HEADER_SQUARE = 12;
+
     public static final String AD_TAG = "online_wallpaper_ad_tag";
     private static final int CATEGORY_TAB_COUNT_WITH_ADS = 3;
     private static final int MAX_CONCURRENT_AD_REQUEST_COUNT = 3;
@@ -100,6 +103,8 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
                     case WALLPAPER_AD_VIEW:
                     case WALLPAPER_FOOTER_VIEW_LOAD_MORE:
                     case WALLPAPER_FOOTER_VIEW_NO_MORE:
+                    case WALLPAPER_HEADER_HINT:
+                    case WALLPAPER_HEADER_SQUARE:
                         return 2;
                     default:
                         return 1;
@@ -187,8 +192,23 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
                 FootViewHolder footHolder = new FootViewHolder(noMoreView);
                 footHolder.tvFoot.setText(R.string.online_3d_wallpaper_foot_text);
                 return footHolder;
+
+            case WALLPAPER_HEADER_SQUARE:
+                View headerSquare = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.wallpaper_item_header_square, parent, false);
+
+                HeaderSquareViewHolder squareViewHolder = new HeaderSquareViewHolder(headerSquare);
+                return squareViewHolder;
+
+            case WALLPAPER_HEADER_HINT:
+                View headerHint = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.wallpaper_item_header_hint, parent, false);
+                HeaderHintViewHolder hintViewHolder = new HeaderHintViewHolder(headerHint);
+                return hintViewHolder;
+
+            default:
+                throw new IllegalArgumentException("Item type invalid");
         }
-        return null;
     }
 
     @Override
@@ -485,6 +505,21 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
             FrameLayout choice = ViewUtils.findViewById(adView, R.id.ad_choice_icon);
             mAdContentView.setAdChoiceView(choice);
             container.addView(mAdContentView);
+        }
+    }
+
+    private static class HeaderSquareViewHolder extends RecyclerView.ViewHolder {
+
+        public HeaderSquareViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+
+    private static class HeaderHintViewHolder extends RecyclerView.ViewHolder {
+
+        public HeaderHintViewHolder(View itemView) {
+            super(itemView);
         }
     }
 }

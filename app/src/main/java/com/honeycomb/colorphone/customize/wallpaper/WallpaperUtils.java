@@ -388,4 +388,8 @@ public class WallpaperUtils {
         // Basic threshold for average lightness
         return lightness < 0.74f;
     }
+
+    public static boolean onlyEnableLockerWallpaper() {
+        return true;
+    }
 }

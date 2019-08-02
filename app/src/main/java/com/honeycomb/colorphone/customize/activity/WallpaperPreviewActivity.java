@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -25,7 +24,6 @@ import android.support.v4.widget.Space;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,7 +50,6 @@ import com.honeycomb.colorphone.customize.CategoryInfo;
 import com.honeycomb.colorphone.customize.CustomizeConfig;
 import com.honeycomb.colorphone.customize.WallpaperInfo;
 import com.honeycomb.colorphone.customize.WallpaperMgr;
-import com.honeycomb.colorphone.customize.activity.report.SelectReportReasonActivity;
 import com.honeycomb.colorphone.customize.livewallpaper.LiveWallpaperConsts;
 import com.honeycomb.colorphone.customize.view.PreviewViewPage;
 import com.honeycomb.colorphone.customize.view.ProgressDialog;
@@ -163,6 +160,7 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
     private boolean mIsGuideInterrupted = false;
 
     private ValueAnimator mZoomAnimator;
+    private boolean mOnlySetLockerWallpaper;
 
     public static Intent getLaunchIntent(Context context,
                                          WallpaperMgr.Scenario scenario,
@@ -192,9 +190,10 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mOnlySetLockerWallpaper = WallpaperUtils.onlyEnableLockerWallpaper();
         setContentView(R.layout.activity_wallpaper_preview);
+        mIsCenterCrop = HSPreferenceHelper.getDefault().getBoolean(PREF_KEY_PREVIEW_WALLPAPER_SHOWN_MODE, true);
         initView();
-        mIsCenterCrop = HSPreferenceHelper.getDefault().getBoolean(PREF_KEY_PREVIEW_WALLPAPER_SHOWN_MODE, mIsCenterCrop);
         if (mService != null) {
             if (initData()) {
                 refreshButtonState();
@@ -229,31 +228,20 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
         mReturnArrow.setOnClickListener(this);
         mReturnArrow.setBackgroundResource(R.drawable.moment_round_material_compat_dark);
         mEdit = findViewById(R.id.preview_edit_btn);
-        mEdit.setOnClickListener(this);
-        mEdit.setBackgroundResource(R.drawable.moment_round_material_compat_dark);
-        ((AppCompatImageView) mEdit).setImageDrawable(AppCompatDrawableManager.get().getDrawable(HSApplication.getContext(), R.drawable.wallpaper_edit_svg));
+        if (mOnlySetLockerWallpaper) {
+            mEdit.setVisibility(View.GONE);
+        } else {
+            mEdit.setOnClickListener(this);
+            mEdit.setBackgroundResource(R.drawable.moment_round_material_compat_dark);
+            ((AppCompatImageView) mEdit).setImageDrawable(AppCompatDrawableManager.get().getDrawable(HSApplication.getContext(), R.drawable.wallpaper_edit_svg));
+        }
         mSetWallpaperButton = (TextView) findViewById(R.id.set_wallpaper_button);
         mSetWallpaperButton.setOnClickListener(this);
         mMenu = findViewById(R.id.preview_menu_btn);
+
+        mMenu.setVisibility(View.GONE);
         mMenu.setOnClickListener(this);
         mMenu.setBackgroundResource(R.drawable.moment_round_material_compat_dark);
-
-
-        mMenuPopupView = new PopupView(this);
-        View reportContainer = LayoutInflater.from(this).inflate(R.layout.layout_wallpaper_preview_menu_settings, findViewById(R.id.container), false);
-
-        mMenuPopupView.setOutSideBackgroundColor(Color.TRANSPARENT);
-        mMenuPopupView.setContentView(reportContainer);
-        mMenuPopupView.setOutSideClickListener((View view) -> {
-            mMenuPopupView.dismiss();
-        });
-        TextView report = reportContainer.findViewById(R.id.tv_report);
-        report.setOnClickListener((View view) -> {
-            mMenuPopupView.dismiss();
-            Intent reportIntent = new Intent(WallpaperPreviewActivity.this, SelectReportReasonActivity.class);
-            reportIntent.putExtra(SelectReportReasonActivity.INTENT_KEY_WALLPAPER_URL, mCurrentWallpaper.getThumbnailUrl());
-            startActivity(reportIntent);
-        });
 
         mZoomBtn = (ImageView) findViewById(R.id.preview_zoom_btn);
         mZoomBtn.setOnClickListener(this);
@@ -262,7 +250,9 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
         mAdCloseBtn = findViewById(R.id.preview_ad_close_btn);
 
         selectZoomBtn(!mIsCenterCrop);
-
+        if (mOnlySetLockerWallpaper) {
+            mZoomBtn.setVisibility(View.GONE);
+        }
         if (mIsOnLineWallpaper) {
             mZoomBtn.setVisibility(View.VISIBLE);
         } else {
@@ -298,9 +288,9 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
 
     private void setViewsVisibility(int visibility) {
         mSetWallpaperButton.setVisibility(visibility);
-        mZoomBtn.setVisibility(visibility);
-        mEdit.setVisibility(visibility);
-        mMenu.setVisibility(visibility);
+//        mZoomBtn.setVisibility(visibility);
+//        mEdit.setVisibility(visibility);
+//        mMenu.setVisibility(visibility);
         View draw = ViewUtils.findViewById(this, R.id.preview_guide_draw_view);
         if (draw != null) {
             draw.setVisibility(visibility);
@@ -411,29 +401,29 @@ public class WallpaperPreviewActivity extends WallpaperBaseActivity
         if (mCurrentWallpaper == null) {
             return;
         }
-        mEdit.setVisibility(View.VISIBLE);
-        mMenu.setVisibility(View.VISIBLE);
-        if (isSucceed()) {
-            mEdit.setAlpha(1f);
-            mEdit.setClickable(true);
-            mZoomBtn.setAlpha(1f);
-            mZoomBtn.setClickable(true);
-            mMenu.setAlpha(1f);
-            mMenu.setClickable(true);
-        } else {
-            mEdit.setAlpha(0.5f);
-            mEdit.setClickable(false);
-            mZoomBtn.setAlpha(0.5f);
-            mZoomBtn.setClickable(false);
-            mMenu.setAlpha(0.5f);
-            mMenu.setClickable(false);
-        }
-        selectZoomBtn(!mIsCenterCrop);
-        if (mIsOnLineWallpaper) {
-            mZoomBtn.setVisibility(View.VISIBLE);
-        } else {
-            mZoomBtn.setVisibility(View.INVISIBLE);
-        }
+//        mEdit.setVisibility(View.VISIBLE);
+//        mMenu.setVisibility(View.VISIBLE);
+//        if (isSucceed()) {
+//            mEdit.setAlpha(1f);
+//            mEdit.setClickable(true);
+//            mZoomBtn.setAlpha(1f);
+//            mZoomBtn.setClickable(true);
+//            mMenu.setAlpha(1f);
+//            mMenu.setClickable(true);
+//        } else {
+//            mEdit.setAlpha(0.5f);
+//            mEdit.setClickable(false);
+//            mZoomBtn.setAlpha(0.5f);
+//            mZoomBtn.setClickable(false);
+//            mMenu.setAlpha(0.5f);
+//            mMenu.setClickable(false);
+//        }
+//        selectZoomBtn(!mIsCenterCrop);
+//        if (mIsOnLineWallpaper) {
+//            mZoomBtn.setVisibility(View.VISIBLE);
+//        } else {
+//            mZoomBtn.setVisibility(View.INVISIBLE);
+//        }
         mSetWallpaperButton.setVisibility(View.VISIBLE);
         mSetWallpaperButton.setText(R.string.online_wallpaper_apply_btn);
         boolean isWallpaperReady = mCurrentWallpaper.getType() == WallpaperInfo.WALLPAPER_TYPE_BUILT_IN
