@@ -68,6 +68,9 @@ public class SetAsDialerDialog extends FullScreenDialog {
         actionBtn.setOnClickListener(v ->
         {
             ConfigEvent.guideConfirmed();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                DefaultPhoneUtils.checkDefaultWithoutEvent((Activity)getContext());
+            }
             startAutoTask();
         });
 

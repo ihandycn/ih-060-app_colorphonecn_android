@@ -48,6 +48,7 @@ public class GuideSetDefaultActivity extends AppCompatActivity {
                 DefaultPhoneUtils.saveSystemDefaultPhone();
 
                 if (ConfigEvent.setDefaultGuideShow() && AutoPermissionChecker.hasFloatWindowPermission()) {
+
                     FloatWindowManager.getInstance().showDialog(new SetAsDialerDialog(context));
 //                    Intent starter = new Intent(context, GuideSetDefaultActivity.class);
 //                    if (context instanceof Activity) {
