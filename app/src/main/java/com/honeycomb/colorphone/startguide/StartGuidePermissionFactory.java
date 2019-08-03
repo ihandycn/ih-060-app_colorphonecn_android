@@ -56,7 +56,7 @@ public class StartGuidePermissionFactory {
                 id = R.string.start_guide_permission_auto_start;
                 break;
             case TYPE_PERMISSION_TYPE_PHONE:
-                id = R.string.start_guide_permission_call_log;
+                id = R.string.start_guide_permission_phone;
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
                 id = R.string.start_guide_permission_write_settings;

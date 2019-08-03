@@ -201,7 +201,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
             if (newView.getVisibility() != View.VISIBLE) {
                 Analytics.logEvent("Congratulation_Page_Shown_From_" + from);
-                AutoLogger.logEventWithBrandAndOS("Congratulation_Page_Shown");
+
+                Analytics.logEvent("Congratulation_Page_Shown",
+                        "Brand", AutoLogger.getBrand(),
+                        "Os", AutoLogger.getOSVersion(),
+                        "Permission", AutoLogger.getGrantRuntimePermissionString());
             }
 
             newView.setVisibility(View.VISIBLE);
@@ -479,7 +483,10 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             title.animate().alpha(0.8f).setDuration(750).start();
             button.animate().alpha(1f).setDuration(750).start();
         }, 2400);
-        AutoLogger.logEventWithBrandAndOS("Accessbility_Guide_Show");
+        Analytics.logEvent("Accessbility_Guide_Show",
+                "Brand", AutoLogger.getBrand(),
+                "Os", AutoLogger.getOSVersion(),
+                "Permission", AutoLogger.getGrantRuntimePermissionString());
     }
 
     /**
@@ -508,33 +515,6 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             grant = RuntimePermissions.checkSelfPermission(this, p)
                     == RuntimePermissions.PERMISSION_GRANTED;
             grantPermission &= grant;
-
-            if (!grant) {
-                switch (p) {
-                    case Manifest.permission.READ_PHONE_STATE:
-                        Analytics.logEvent("Permission_Phone_View_Showed");
-                        break;
-                    case Manifest.permission.READ_CONTACTS:
-                        Analytics.logEvent("Permission_Contact_View_Showed");
-                        break;
-                    case Manifest.permission.WRITE_CONTACTS:
-                        Analytics.logEvent("Permission_Write_Contact_View_Showed");
-                        break;
-                    case Manifest.permission.READ_EXTERNAL_STORAGE:
-                        Analytics.logEvent("Permission_Read_Storage_View_Showed");
-                        break;
-                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                        Analytics.logEvent("Permission_Write_Storage_View_Showed");
-                        break;
-                    case Manifest.permission.READ_CALL_LOG:
-                        Analytics.logEvent("Permission_Read_Call_Log_View_Showed");
-                        break;
-                    case Manifest.permission.WRITE_SETTINGS:
-                        Analytics.logEvent("Permission_Write_Settings_View_Showed");
-                        break;
-
-                }
-            }
         }
 
         if (!grantPermission) {
@@ -567,28 +547,28 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
     public void onPermissionsGranted(int requestCode, List<String> list) {
         HSLog.i("Permission", "onPermissionsGranted: " + list);
         if (requestCode == FIRST_LAUNCH_PERMISSION_REQUEST) {
+            StringBuilder sb = new StringBuilder();
             for (String p : list) {
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
-                        Analytics.logEvent("Permission_Phone_Allow_Success");
+                        sb.append("phone+");
                         break;
                     case Manifest.permission.READ_CONTACTS:
-                        Analytics.logEvent("Permission_Contact_Allow_Success");
+                        sb.append("readContact+");
                         break;
                     case Manifest.permission.WRITE_CONTACTS:
-                        Analytics.logEvent("Permission_Write_Contact_Allow_Success");
+                        sb.append("writeContact+");
                         break;
                     case Manifest.permission.READ_EXTERNAL_STORAGE:
                         Analytics.logEvent("Permission_Read_Storage_Allow_Success");
                         break;
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                        Analytics.logEvent("Permission_Write_Storage_Allow_Success");
+                        sb.append("storage+");
                         break;
                     case Manifest.permission.READ_CALL_LOG:
-                        Analytics.logEvent("Permission_Read_Call_Log_Allow_Success");
+                        sb.append("callLog+");
                         break;
                     case Manifest.permission.WRITE_SETTINGS:
-                        Analytics.logEvent("Permission_Write_Settings_Allow_Success");
                         break;
 
                 }

@@ -290,6 +290,7 @@
     <string name="start_guide_permission_call">Call</string>
     <string name="start_guide_permission_bg_pop">Background Popup</string>
     <string name="start_guide_permission_call_log">显示来电号码</string>
+    <string name="start_guide_permission_phone">显示和接听来电</string>
     <string name="start_guide_permission_write_settings">设置手机来电铃声</string>
     <string name="start_guide_permission_title">%1$s项问题待修复</string>
     <string name="start_guide_congratulation_title">Congratulation</string>

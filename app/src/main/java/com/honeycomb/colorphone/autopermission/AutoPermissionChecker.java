@@ -9,6 +9,7 @@ import android.provider.Settings;
 import com.honeycomb.colorphone.Constants;
 import com.honeycomb.colorphone.util.PermissionsTarget22;
 import com.ihs.app.framework.HSApplication;
+import com.ihs.permission.HSRuntimePermissions;
 import com.ihs.permission.Utils;
 import com.superapps.util.Compats;
 import com.superapps.util.Permissions;
@@ -122,6 +123,11 @@ public class AutoPermissionChecker {
     }
 
     public static boolean isRuntimePermissionGrant(String permission) {
-        return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), permission) == RuntimePermissions.PERMISSION_GRANTED;
+        String perm = permission;
+        if (HSRuntimePermissions.isRuntimePermission(permission)) {
+            perm = HSRuntimePermissions.getAndroidPermName(permission);
+        }
+        return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), perm) == RuntimePermissions.PERMISSION_GRANTED;
     }
+
 }

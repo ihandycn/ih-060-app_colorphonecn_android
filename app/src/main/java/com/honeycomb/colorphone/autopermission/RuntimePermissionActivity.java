@@ -4,7 +4,6 @@ import android.Manifest;
 import android.animation.Animator;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,6 +18,7 @@ import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.RuntimePermissions;
 import com.superapps.util.Threads;
+import com.superapps.util.rom.RomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,11 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
     private View toast;
     private TextView action;
 
+    private List<String> allPermissions;
     private List<String> deniedPermissions;
     private List<String> runtimePermissions;
+
+    private boolean needRefresh = false;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +50,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         }
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-        List<String> requestPermissions = new ArrayList<>();
+        allPermissions = new ArrayList<>();
         runtimePermissions = new ArrayList<>();
         deniedPermissions = new ArrayList<>();
 
@@ -58,16 +61,17 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 } else {
                     runtimePermissions.add(p);
                 }
-                requestPermissions.add(p);
+                allPermissions.add(p);
             }
         }
 
-        if (requestPermissions.size() > 0) {
-            HSLog.i("RuntimePermission", "need request: " + requestPermissions.size() + "  denied: " + deniedPermissions.size());
-            holder = new RuntimePermissionViewListHolder(root, requestPermissions);
+        if (allPermissions.size() > 0) {
+            HSLog.i("RuntimePermission", "need request: " + allPermissions.size() + "  denied: " + deniedPermissions.size());
+            holder = new RuntimePermissionViewListHolder(root, allPermissions);
         } else {
             HSLog.i("RuntimePermission", "All grant");
             finish();
+            return;
         }
         View layout = findViewById(R.id.layout);
         layout.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xffffffff, Dimensions.pxFromDp(16), false));
@@ -79,6 +83,23 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         action.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(21), true));
         action.setOnClickListener(v -> {
             if (runtimePermissions.size() > 0) {
+                for (String p : runtimePermissions) {
+                    switch (p) {
+                        case Manifest.permission.READ_CONTACTS:
+                            Analytics.logEvent("Permission_ReadContact_Alert_Request");
+                            break;
+                        case Manifest.permission.WRITE_CONTACTS:
+                            Analytics.logEvent("Permission_WriteContact_Alert_Request");
+                            break;
+                        case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                            Analytics.logEvent("Permission_Storage_Alert_Request");
+                            break;
+                        case Manifest.permission.READ_CALL_LOG:
+                            Analytics.logEvent("Permission_CallLog_Alert_Request");
+                            break;
+                    }
+                }
+
                 RuntimePermissions.requestPermissions(RuntimePermissionActivity.this, runtimePermissions.toArray(new String[0]), RUNTIME_PERMISSION_REQUEST_CODE);
             } else if (deniedPermissions.size() > 0) {
                 String permission;
@@ -101,7 +122,12 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
             } else {
                 HSLog.i("RuntimePermission", "All grant");
                 finish();
+                return;
             }
+
+            action.setText(R.string.runtime_permission_continue);
+
+            Analytics.logEvent("Permission_Guide_OK_Click");
         });
 
         View cancel = findViewById(R.id.close_btn);
@@ -114,10 +140,51 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         });
 
         success = findViewById(R.id.success);
+
+        Analytics.logEvent("Permission_Guide_Show");
     }
 
-    @Override public boolean onTouchEvent(MotionEvent event) {
-        return true;
+    @Override public void onBackPressed() {
+        if (toast.isShown()) {
+            super.onBackPressed();
+        } else {
+            toast.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        if (needRefresh) {
+            for (String p : allPermissions) {
+                holder.refreshHolder(p);
+            }
+
+            if (holder.isAllGrant()) {
+                action.setVisibility(View.INVISIBLE);
+                success.setVisibility(View.VISIBLE);
+                success.playAnimation();
+                success.addAnimatorListener(new AnimatorListenerAdapter() {
+                    @Override public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        Threads.postOnMainThreadDelayed(() -> {
+                            finish();
+                        }, 200);
+                    }
+                });
+            }
+        }
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        needRefresh = true;
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+
+        String eventID = "Permission_Settings_Granted_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
+        Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString());
     }
 
     @Override
@@ -141,9 +208,10 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         onPermissionsGranted(requestCode, granted);
         onPermissionsDenied(requestCode, denied);
 
-        action.setText(R.string.runtime_permission_continue);
         if (deniedPermissions.size() > 0) {
             AutoRequestManager.getInstance().openPermission(deniedPermissions.get(0));
+            String eventID = "Permission_Settings_Reques_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
+            Analytics.logEvent(eventID, "Permission", getDeniedPermissionString());
         }
     }
 
@@ -155,18 +223,17 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
                 switch (p) {
                     case Manifest.permission.READ_CONTACTS:
-                        Analytics.logEvent("Permission_Contact_Allow_Success");
+                        Analytics.logEvent("Permission_ReadContact_Granted");
                         break;
                     case Manifest.permission.WRITE_CONTACTS:
-                        Analytics.logEvent("Permission_Write_Contact_Allow_Success");
+                        Analytics.logEvent("Permission_WriteContact_Granted");
                         break;
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                        Analytics.logEvent("Permission_Write_Storage_Allow_Success");
+                        Analytics.logEvent("Permission_Storage_Granted");
                         break;
                     case Manifest.permission.READ_CALL_LOG:
-                        Analytics.logEvent("Permission_Write_Settings_Allow_Success");
+                        Analytics.logEvent("Permission_CallLog_Granted");
                         break;
-
                 }
             }
 
@@ -191,17 +258,83 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         if (requestCode == RUNTIME_PERMISSION_REQUEST_CODE) {
             for (String p : list) {
                 holder.refreshHolder(p);
-                switch (p) {
-                    case Manifest.permission.READ_CONTACTS:
-                        break;
-                    case Manifest.permission.WRITE_CONTACTS:
-                        break;
-                    case Manifest.permission.READ_CALL_LOG:
-                        break;
-                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
-                        break;
+
+                if (AutoPermissionChecker.isPermissionPermanentlyDenied(p)) {
+                    deniedPermissions.add(p);
+                    runtimePermissions.remove(p);
                 }
             }
         }
+    }
+
+    private String getDeniedPermissionString() {
+        StringBuilder sb = new StringBuilder();
+
+        if (deniedPermissions.contains(Manifest.permission.READ_CONTACTS)
+                || deniedPermissions.contains(Manifest.permission.WRITE_CONTACTS)) {
+            sb.append("Contact_");
+        }
+
+        for (String p : deniedPermissions) {
+            switch (p) {
+                default:
+                case Manifest.permission.READ_CONTACTS:
+                case Manifest.permission.WRITE_CONTACTS:
+                    break;
+                case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                    sb.append("Storage_");
+                    break;
+                case Manifest.permission.READ_CALL_LOG:
+                    sb.append("Phone_");
+                    break;
+
+            }
+        }
+
+        if (sb.length() > 0) {
+            sb.delete(sb.length() - 1, sb.length());
+        } else {
+            sb.append("null");
+        }
+
+        return sb.toString();
+    }
+
+    private String getGrantDeniedPermissionString() {
+        StringBuilder sb = new StringBuilder();
+
+        if (deniedPermissions.contains(Manifest.permission.READ_CONTACTS)
+                || deniedPermissions.contains(Manifest.permission.WRITE_CONTACTS)) {
+            if (AutoPermissionChecker.isRuntimePermissionGrant(Manifest.permission.READ_CONTACTS)
+                    || AutoPermissionChecker.isRuntimePermissionGrant(Manifest.permission.WRITE_CONTACTS)) {
+                sb.append("Contact_");
+            }
+        }
+
+        for (String p : deniedPermissions) {
+            if (AutoPermissionChecker.isRuntimePermissionGrant(p)) {
+                switch (p) {
+                    default:
+                    case Manifest.permission.READ_CONTACTS:
+                    case Manifest.permission.WRITE_CONTACTS:
+                        break;
+                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                        sb.append("Storage_");
+                        break;
+                    case Manifest.permission.READ_CALL_LOG:
+                        sb.append("Phone_");
+                        break;
+
+                }
+            }
+        }
+
+        if (sb.length() > 0) {
+            sb.delete(sb.length() - 1, sb.length());
+        } else {
+            sb.append("null");
+        }
+
+        return sb.toString();
     }
 }

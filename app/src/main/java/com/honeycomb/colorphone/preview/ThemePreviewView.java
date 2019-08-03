@@ -531,7 +531,10 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
                 if (inTransition) {
                     return;
                 }
-                if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+
+                if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()) {
+                    Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
+                } else if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
 //                    PermissionChecker.getInstance().check(mActivity, "SetForAll");
                     StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
                     mWaitForAll = true;
@@ -542,7 +545,9 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
         });
 
         mApplyForOne.setOnClickListener(v -> {
-            if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
+            if (!AutoRequestManager.getInstance().isGrantAllRuntimePermission()) {
+                Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
+            } else if (PermissionChecker.getInstance().hasNoGrantedPermissions(PermissionChecker.ScreenFlash)) {
 //                PermissionChecker.getInstance().check(mActivity, "SetForSomeone");
                 StartGuideActivity.start(mActivity, StartGuideActivity.FROM_KEY_APPLY);
                 mWaitForAll = false;

@@ -73,7 +73,7 @@ public class RuntimePermissionViewListHolder {
             case Manifest.permission.WRITE_CONTACTS:
                 return R.string.acb_phone_permission_write_contact;
             case Manifest.permission.READ_CALL_LOG:
-                return R.string.acb_phone_permission_read_call_log;
+                return R.string.start_guide_permission_call_log;
             default:
             case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                 return R.string.acb_phone_permission_read_storage;

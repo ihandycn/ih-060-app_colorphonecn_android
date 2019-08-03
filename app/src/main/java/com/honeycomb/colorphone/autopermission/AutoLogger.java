@@ -1,11 +1,15 @@
 package com.honeycomb.colorphone.autopermission;
 
+import android.Manifest;
 import android.os.Build;
 
 import com.honeycomb.colorphone.util.Analytics;
 import com.honeycomb.colorphone.util.Utils;
 import com.ihs.permission.HSPermissionRequestMgr;
 import com.superapps.util.Compats;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author sundxing
@@ -89,6 +93,53 @@ public class AutoLogger {
         }
 
         return stringBuilder.toString();
+    }
+
+    public static String getGrantRuntimePermissionString() {
+        List<String> permissions = new ArrayList<>();
+        permissions.add(Manifest.permission.READ_PHONE_STATE);
+        permissions.add(Manifest.permission.READ_CONTACTS);
+        permissions.add(Manifest.permission.WRITE_CONTACTS);
+        permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permissions.add(Manifest.permission.READ_CALL_LOG);
+        permissions.add(Manifest.permission.WRITE_SETTINGS);
+
+        StringBuilder sb = new StringBuilder();
+        for (String p : permissions) {
+            if (AutoPermissionChecker.isRuntimePermissionGrant(p)) {
+                switch (p) {
+                    case Manifest.permission.READ_PHONE_STATE:
+                        sb.append("phone+");
+                        break;
+                    case Manifest.permission.READ_CONTACTS:
+                        sb.append("readContact+");
+                        break;
+                    case Manifest.permission.WRITE_CONTACTS:
+                        sb.append("writeContact+");
+                        break;
+                    case Manifest.permission.READ_EXTERNAL_STORAGE:
+                        Analytics.logEvent("Permission_Read_Storage_Allow_Success");
+                        break;
+                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                        sb.append("storage+");
+                        break;
+                    case Manifest.permission.READ_CALL_LOG:
+                        sb.append("callLog+");
+                        break;
+                    case Manifest.permission.WRITE_SETTINGS:
+                        break;
+                }
+            }
+        }
+
+        if (sb.length() > 0) {
+            sb.delete(sb.length() - 1, sb.length());
+        } else {
+            sb.append("null");
+        }
+
+        return sb.toString();
     }
 
 }
