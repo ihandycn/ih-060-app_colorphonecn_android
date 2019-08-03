@@ -50,7 +50,8 @@
     <string name="acb_phone_grant_write_settings_title">为确保成功设置来电秀铃声，请开启修改系统设置权限</string>
     <string name="acb_phone_grant_contact_huawei_9_title">为确保来电秀正常使用，请点击进入【权限】，并开启存储、通讯录和通话记录权限</string>
     <string name="acb_phone_grant_contact_huawei_8_title">为确保来电秀正常使用，请点击进入【权限】，并开启存储和通讯录权限</string>
-    <string name="acb_phone_grant_phone_title">为确保正常显示和接听来电，请点击进入【权限】，并开启电话权限</string>
+    <string name="acb_phone_grant_phone_huawei_title">为确保正常显示和接听来电，请点击进入【权限】，并开启电话权限</string>
+    <string name="acb_phone_grant_phone_miui_title">为确保正常显示和接听来电，请开启电话权限</string>
     <string name="acb_phone_grant_contact_miui_title">为确保来电秀正常使用，请下滑开启以下权限</string>
     <string name="acb_phone_grant_contact_miui_content">修改联系人、读取联系人、读取通话记录、读取手机存储</string>
 

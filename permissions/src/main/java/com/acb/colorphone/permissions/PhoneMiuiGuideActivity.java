@@ -4,7 +4,7 @@ public class PhoneMiuiGuideActivity extends LottiePermissionGuideActivity {
 
     @Override
     protected int getTitleStringResId() {
-        return R.string.acb_phone_grant_phone_title;
+        return R.string.acb_phone_grant_phone_miui_title;
     }
 
     @Override protected String getImageAssetFolder() {

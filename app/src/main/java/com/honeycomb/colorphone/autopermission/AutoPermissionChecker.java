@@ -40,10 +40,11 @@ public class AutoPermissionChecker {
     }
 
     public static boolean hasAutoStartPermission() {
+        boolean ret = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && RomUtils.checkIsMiuiRom()) {
-            return PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.AUTO_START) == PermissionsTarget22.GRANTED;
+            ret = PermissionsTarget22.getInstance().checkPerm(PermissionsTarget22.AUTO_START) == PermissionsTarget22.GRANTED;
         }
-        return Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_auto_start_permission", false);
+        return ret || Preferences.get(Constants.PREF_FILE_DEFAULT).getBoolean("prefs_auto_start_permission", false);
     }
     public static void onBgPopupChange(boolean hasPermission) {
         Preferences.get(Constants.PREF_FILE_DEFAULT).putBoolean("prefs_bg_popup_permission", hasPermission);
