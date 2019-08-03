@@ -16,7 +16,6 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 
-
 public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
 
     private boolean playAnimation = true;
@@ -78,15 +77,8 @@ public abstract class LottiePermissionGuideActivity extends AppCompatActivity {
     protected abstract String getImageAssetFolder();
     protected abstract String getAnimationFromJson();
 
-    protected String getFormatString() {
-        return "";
-    }
-
     private void setDescText() {
         String descText = getString(getTitleStringResId());
-        if (!TextUtils.isEmpty(getFormatString())) {
-            descText = String.format(descText, getFormatString());
-        }
         TextView descTv = findViewById(R.id.description);
         descTv.setText(descText);
     }

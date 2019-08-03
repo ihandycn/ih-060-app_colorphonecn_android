@@ -64,6 +64,8 @@ import com.honeycomb.colorphone.activity.ThemePreviewActivity;
 import com.honeycomb.colorphone.activity.ThemeSetHelper;
 import com.honeycomb.colorphone.ad.AdManager;
 import com.honeycomb.colorphone.ad.ConfigSettings;
+import com.honeycomb.colorphone.autopermission.AutoRequestManager;
+import com.honeycomb.colorphone.autopermission.RuntimePermissionActivity;
 import com.honeycomb.colorphone.contact.ContactManager;
 import com.honeycomb.colorphone.dialer.guide.GuideSetDefaultActivity;
 import com.honeycomb.colorphone.download.DownloadStateListener;
@@ -1798,8 +1800,12 @@ public class ThemePreviewView extends FrameLayout implements ViewPager.OnPageCha
             mEnjoyApplyBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
-                    unFoldView();
+                    if (AutoRequestManager.getInstance().isGrantAllRuntimePermission()) {
+                        Analytics.logEvent("ColorPhone_FullScreen_SetAsFlash_Clicked");
+                        unFoldView();
+                    } else {
+                        Navigations.startActivitySafely(mActivity, RuntimePermissionActivity.class);
+                    }
                 }
             });
 

@@ -5,9 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.StringDef;
 import android.text.TextUtils;
 import android.view.WindowManager;
@@ -17,6 +15,9 @@ import com.acb.colorphone.permissions.AccessibilityMIUIGuideActivity;
 import com.acb.colorphone.permissions.AutoStartHuaweiGuideActivity;
 import com.acb.colorphone.permissions.AutoStartMIUIGuideActivity;
 import com.acb.colorphone.permissions.BackgroundPopupMIUIGuideActivity;
+import com.acb.colorphone.permissions.ContactHuawei8GuideActivity;
+import com.acb.colorphone.permissions.ContactHuawei9GuideActivity;
+import com.acb.colorphone.permissions.ContactMIUIGuideActivity;
 import com.acb.colorphone.permissions.NotificationGuideActivity;
 import com.acb.colorphone.permissions.NotificationMIUIGuideActivity;
 import com.acb.colorphone.permissions.PhoneHuawei8GuideActivity;
@@ -53,6 +54,7 @@ import com.superapps.util.rom.RomUtils;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AutoRequestManager {
     public static final String NOTIFY_PERMISSION_CHECK_FINISH = "notification_permission_all_finish";
@@ -441,6 +443,23 @@ public class AutoRequestManager {
                 && AutoPermissionChecker.isWriteSettingsPermissionGranted();
     }
 
+    public boolean isGrantAllRuntimePermission() {
+        List<String> permissions = new ArrayList<>();
+        permissions.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
+        permissions.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            permissions.add(HSRuntimePermissions.TYPE_RUNTIME_CALL_LOG);
+        }
+        permissions.add(HSRuntimePermissions.TYPE_RUNTIME_STORAGE);
+
+        for (String p : permissions) {
+            if (!AutoPermissionChecker.isRuntimePermissionGrant(p)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void startAutoCheck(@AUTO_PERMISSION_FROM String from, String point) {
         this.from = from;
         this.point = point;
@@ -471,78 +490,98 @@ public class AutoRequestManager {
     }
 
     public boolean openPermission(String type) {
-        if (HSPermissionRequestMgr.TYPE_AUTO_START.equals(type)) {
-            if (AutoPermissionChecker.hasAutoStartPermission()) {
-                return true;
-            } else {
-                Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsHuaweiRom()) {
-                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartHuaweiGuideActivity.class);
-                    } else if (RomUtils.checkIsMiuiRom()){
-                        Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
-                    }
-                }, GUIDE_DELAY);
-            }
-        } else if (HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING.equals(type)) {
-            if (Permissions.isNotificationAccessGranted()) {
-                return true;
-            } else {
-                Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsMiuiRom()){
-                        Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);
-                    } else {
-                        Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
-                    }
-                }, GUIDE_DELAY);
-            }
-        } else if (HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK.equals(type)) {
-            if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
-                return true;
-            } else if (RomUtils.checkIsMiuiRom() && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
-                Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsMiuiRom()){
-                        Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenMIUIGuideActivity.class);
-                    } else {
-                        Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
-                    }
-                }, GUIDE_DELAY);
-            }
-        } else if (TYPE_CUSTOM_BACKGROUND_POPUP.equals(type)) {
-            if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasBgPopupPermission()) {
-                return true;
-            } else if (RomUtils.checkIsMiuiRom() && !AutoPermissionChecker.hasBgPopupPermission()) {
-                Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsMiuiRom()){
-                        Navigations.startActivitySafely(HSApplication.getContext(), BackgroundPopupMIUIGuideActivity.class);
-                    }
-                }, GUIDE_DELAY);
-            }
-        } else if (TextUtils.equals(HSPermissionRequestMgr.TYPE_PHONE, type)) {
-            if (AutoPermissionChecker.isPhonePermissionGranted()) {
-                return true;
-            } else {
-                Threads.postOnMainThreadDelayed(() -> {
-                    if (RomUtils.checkIsMiuiRom()){
-                        Navigations.startActivitySafely(HSApplication.getContext(), PhoneMiuiGuideActivity.class);
-                    } else if (RomUtils.checkIsHuaweiRom()) {
-                        Navigations.startActivitySafely(HSApplication.getContext(), PhoneHuawei8GuideActivity.class);
-                    }
-                }, GUIDE_DELAY);
-            }
-        } else if (TextUtils.equals(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS, type)) {
-            if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
-                return true;
-            } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:" + HSApplication.getContext().getPackageName()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Navigations.startActivitySafely(HSApplication.getContext(), intent);
-
+        switch (type) {
+            case HSPermissionRequestMgr.TYPE_AUTO_START:
+                if (AutoPermissionChecker.hasAutoStartPermission()) {
+                    return true;
+                } else {
                     Threads.postOnMainThreadDelayed(() -> {
-                        Navigations.startActivitySafely(HSApplication.getContext(), WriteSettingsPopupGuideActivity.class);
+                        if (RomUtils.checkIsHuaweiRom()) {
+                            Navigations.startActivitySafely(HSApplication.getContext(), AutoStartHuaweiGuideActivity.class);
+                        } else if (RomUtils.checkIsMiuiRom()){
+                            Navigations.startActivitySafely(HSApplication.getContext(), AutoStartMIUIGuideActivity.class);
+                        }
                     }, GUIDE_DELAY);
                 }
-            }
+                break;
+            case HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING:
+                if (Permissions.isNotificationAccessGranted()) {
+                    return true;
+                } else {
+                    Threads.postOnMainThreadDelayed(() -> {
+                        if (RomUtils.checkIsMiuiRom()){
+                            Navigations.startActivitySafely(HSApplication.getContext(), NotificationMIUIGuideActivity.class);
+                        } else {
+                            Navigations.startActivitySafely(HSApplication.getContext(), NotificationGuideActivity.class);
+                        }
+                    }, GUIDE_DELAY);
+                }
+                break;
+            case HSPermissionRequestMgr.TYPE_SHOW_ON_LOCK:
+                if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasShowOnLockScreenPermission()) {
+                    return true;
+                } else if (RomUtils.checkIsMiuiRom() && !AutoPermissionChecker.hasShowOnLockScreenPermission()) {
+                    Threads.postOnMainThreadDelayed(() -> {
+                        if (RomUtils.checkIsMiuiRom()){
+                            Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenMIUIGuideActivity.class);
+                        } else {
+                            Navigations.startActivitySafely(HSApplication.getContext(), ShowOnLockScreenGuideActivity.class);
+                        }
+                    }, GUIDE_DELAY);
+                }
+                break;
+
+            case TYPE_CUSTOM_BACKGROUND_POPUP:
+                if (RomUtils.checkIsMiuiRom() && AutoPermissionChecker.hasBgPopupPermission()) {
+                    return true;
+                } else if (RomUtils.checkIsMiuiRom() && !AutoPermissionChecker.hasBgPopupPermission()) {
+                    Threads.postOnMainThreadDelayed(() -> {
+                        if (RomUtils.checkIsMiuiRom()){
+                            Navigations.startActivitySafely(HSApplication.getContext(), BackgroundPopupMIUIGuideActivity.class);
+                        }
+                    }, GUIDE_DELAY);
+                }
+                break;
+            case HSPermissionRequestMgr.TYPE_PHONE:
+                if (AutoPermissionChecker.isPhonePermissionGranted()) {
+                    return true;
+                } else {
+                    Threads.postOnMainThreadDelayed(() -> {
+                        if (RomUtils.checkIsMiuiRom()){
+                            Navigations.startActivitySafely(HSApplication.getContext(), PhoneMiuiGuideActivity.class);
+                        } else if (RomUtils.checkIsHuaweiRom()) {
+                            Navigations.startActivitySafely(HSApplication.getContext(), PhoneHuawei8GuideActivity.class);
+                        }
+                    }, GUIDE_DELAY);
+                }
+                break;
+            case HSPermissionRequestMgr.TYPE_WRITE_SETTINGS:
+                if (AutoPermissionChecker.isWriteSettingsPermissionGranted()) {
+                    return true;
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        Threads.postOnMainThreadDelayed(() -> {
+                            Navigations.startActivitySafely(HSApplication.getContext(), WriteSettingsPopupGuideActivity.class);
+                        }, GUIDE_DELAY);
+                    }
+                }
+                break;
+            case HSPermissionRequestMgr.TYPE_CALL_LOG:
+            case HSPermissionRequestMgr.TYPE_CONTACT_READ:
+            case HSPermissionRequestMgr.TYPE_CONTACT_WRITE:
+            case HSPermissionRequestMgr.TYPE_STORAGE:
+                Threads.postOnMainThreadDelayed(() -> {
+                    if (RomUtils.checkIsMiuiRom()) {
+                        Navigations.startActivitySafely(HSApplication.getContext(), ContactMIUIGuideActivity.class);
+                    } else if (RomUtils.checkIsHuaweiRom()) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                            Navigations.startActivitySafely(HSApplication.getContext(), ContactHuawei9GuideActivity.class);
+                        } else {
+                            Navigations.startActivitySafely(HSApplication.getContext(), ContactHuawei8GuideActivity.class);
+                        }
+                    }
+                }, GUIDE_DELAY);
+                break;
         }
 
         HSPermissionRequestMgr.getInstance().switchRequestPage(type, new HSPermissionRequestCallback.Stub() {

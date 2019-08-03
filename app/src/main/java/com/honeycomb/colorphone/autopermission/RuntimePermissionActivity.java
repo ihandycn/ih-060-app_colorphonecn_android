@@ -14,6 +14,7 @@ import com.honeycomb.colorphone.R;
 import com.honeycomb.colorphone.util.Analytics;
 import com.ihs.app.framework.activity.HSAppCompatActivity;
 import com.ihs.commons.utils.HSLog;
+import com.ihs.permission.HSPermissionRequestMgr;
 import com.superapps.util.BackgroundDrawables;
 import com.superapps.util.Dimensions;
 import com.superapps.util.RuntimePermissions;
@@ -30,31 +31,38 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
     private View toast;
     private TextView action;
 
+    private List<String> deniedPermissions;
+    private List<String> runtimePermissions;
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.runtime_permission_activity);
         View root = findViewById(R.id.permission_list);
 
         List<String> permissions = new ArrayList<>();
-        List<String> requestPermissions = new ArrayList<>();
-        List<String> deniedPermissions = new ArrayList<>();
-
         permissions.add(Manifest.permission.READ_CONTACTS);
         permissions.add(Manifest.permission.WRITE_CONTACTS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             permissions.add(Manifest.permission.READ_CALL_LOG);
         }
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        List<String> requestPermissions = new ArrayList<>();
+        runtimePermissions = new ArrayList<>();
+        deniedPermissions = new ArrayList<>();
+
         for (String p : permissions) {
-            if (!RuntimePermissionViewListHolder.getItemGrant(p)) {
-                if (RuntimePermissions.checkSelfPermission(this, p) == RuntimePermissions.PERMISSION_PERMANENTLY_DENIED) {
+            if (!AutoPermissionChecker.isRuntimePermissionGrant(p)) {
+                if (AutoPermissionChecker.isPermissionPermanentlyDenied(p)) {
                     deniedPermissions.add(p);
+                } else {
+                    runtimePermissions.add(p);
                 }
                 requestPermissions.add(p);
             }
         }
 
-        if (requestPermissions.size() + deniedPermissions.size() > 0) {
+        if (requestPermissions.size() > 0) {
             HSLog.i("RuntimePermission", "need request: " + requestPermissions.size() + "  denied: " + deniedPermissions.size());
             holder = new RuntimePermissionViewListHolder(root, requestPermissions);
         } else {
@@ -70,7 +78,30 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
         action = findViewById(R.id.action_btn);
         action.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(0xff6c63ff, Dimensions.pxFromDp(21), true));
         action.setOnClickListener(v -> {
-            RuntimePermissions.requestPermissions(RuntimePermissionActivity.this, requestPermissions.toArray(new String[0]), RUNTIME_PERMISSION_REQUEST_CODE);
+            if (runtimePermissions.size() > 0) {
+                RuntimePermissions.requestPermissions(RuntimePermissionActivity.this, runtimePermissions.toArray(new String[0]), RUNTIME_PERMISSION_REQUEST_CODE);
+            } else if (deniedPermissions.size() > 0) {
+                String permission;
+                switch (deniedPermissions.get(0)) {
+                    case Manifest.permission.READ_CONTACTS:
+                        permission = HSPermissionRequestMgr.TYPE_CONTACT_READ;
+                        break;
+                    default:
+                    case Manifest.permission.WRITE_CONTACTS:
+                        permission = HSPermissionRequestMgr.TYPE_CONTACT_WRITE;
+                        break;
+                    case Manifest.permission.READ_CALL_LOG:
+                        permission = HSPermissionRequestMgr.TYPE_CALL_LOG;
+                        break;
+                    case Manifest.permission.WRITE_EXTERNAL_STORAGE:
+                        permission = HSPermissionRequestMgr.TYPE_STORAGE;
+                        break;
+                }
+                AutoRequestManager.getInstance().openPermission(permission);
+            } else {
+                HSLog.i("RuntimePermission", "All grant");
+                finish();
+            }
         });
 
         View cancel = findViewById(R.id.close_btn);
@@ -109,6 +140,11 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
         onPermissionsGranted(requestCode, granted);
         onPermissionsDenied(requestCode, denied);
+
+        action.setText(R.string.runtime_permission_continue);
+        if (deniedPermissions.size() > 0) {
+            AutoRequestManager.getInstance().openPermission(deniedPermissions.get(0));
+        }
     }
 
     public void onPermissionsGranted(int requestCode, List<String> list) {
@@ -146,8 +182,6 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                         }, 200);
                     }
                 });
-            } else {
-                action.setText(R.string.runtime_permission_continue);
             }
         }
     }

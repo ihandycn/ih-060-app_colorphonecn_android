@@ -116,4 +116,12 @@ public class AutoPermissionChecker {
             return true;
         }
     }
+
+    public static boolean isPermissionPermanentlyDenied(String permission) {
+        return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), permission) == RuntimePermissions.PERMISSION_PERMANENTLY_DENIED;
+    }
+
+    public static boolean isRuntimePermissionGrant(String permission) {
+        return RuntimePermissions.checkSelfPermission(HSApplication.getContext(), permission) == RuntimePermissions.PERMISSION_GRANTED;
+    }
 }
