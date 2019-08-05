@@ -103,8 +103,15 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
                 RuntimePermissions.requestPermissions(RuntimePermissionActivity.this, runtimePermissions.toArray(new String[0]), RUNTIME_PERMISSION_REQUEST_CODE);
             } else if (deniedPermissions.size() > 0) {
-                String permission;
-                switch (deniedPermissions.get(0)) {
+                String permission = "";
+                for (String p : deniedPermissions) {
+                    if (!AutoPermissionChecker.isRuntimePermissionGrant(p)) {
+                        permission = p;
+                        break;
+                    }
+                }
+
+                switch (permission) {
                     case Manifest.permission.READ_CONTACTS:
                         permission = HSPermissionRequestMgr.TYPE_CONTACT_READ;
                         break;
@@ -156,6 +163,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
     @Override protected void onStart() {
         super.onStart();
         if (needRefresh) {
+            needRefresh = false;
             for (String p : allPermissions) {
                 holder.refreshHolder(p);
             }
@@ -203,6 +211,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
             HSLog.i("Permission", "onRequestPermissionsResult: " + perm + "  ret: " + grantResults[i]);
             if (grantResults[i] == 0) {
                 granted.add(perm);
+                runtimePermissions.remove(perm);
             } else {
                 denied.add(perm);
             }
