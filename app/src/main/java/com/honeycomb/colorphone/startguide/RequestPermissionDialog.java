@@ -2,7 +2,6 @@ package com.honeycomb.colorphone.startguide;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.WindowManager;
 
 import com.honeycomb.colorphone.R;
@@ -53,11 +52,9 @@ public class RequestPermissionDialog extends FullScreenDialog {
             holder.startCircleAnimation();
             holder.startAutoRequestAnimation();
         }
-        setSystemUiVisibility(getSystemUiVisibility() | View.KEEP_SCREEN_ON);
     }
 
     @Override protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        setSystemUiVisibility(getSystemUiVisibility() & ~View.KEEP_SCREEN_ON);
     }
 }

@@ -286,7 +286,7 @@ public class StartGuideViewListHolder implements INotificationObserver {
         startAutoRequestAnimation = System.currentTimeMillis();
 
         handler.sendEmptyMessage(EVENT_UPGRADE);
-        setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, StartGuideItemHolder.PERMISSION_STATUS_LOADING);
+//        setPermissionStatus(TYPE_PERMISSION_TYPE_SCREEN_FLASH, StartGuideItemHolder.PERMISSION_STATUS_LOADING);
     }
 
     private long getNextUpgradeDelay() {
@@ -302,7 +302,9 @@ public class StartGuideViewListHolder implements INotificationObserver {
 
     private void setPermissionStatus(@StartGuidePermissionFactory.PERMISSION_TYPES int pType, @StartGuideItemHolder.PERMISSION_STATUS int pStatus) {
         StartGuideItemHolder holder = permissionList.get(pType);
-        holder.setStatus(pStatus);
+        if (holder != null) {
+            holder.setStatus(pStatus);
+        }
     }
 
     public void requestNextPermission() {

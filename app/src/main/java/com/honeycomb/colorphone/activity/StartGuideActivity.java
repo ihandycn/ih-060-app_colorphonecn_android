@@ -101,7 +101,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         setContentView(R.layout.start_guide_all_features);
         StatusBarUtils.hideStatusBar(this);
         permissionShowCount = Preferences.get(Constants.DESKTOP_PREFS).getInt(ACC_KEY_SHOW_COUNT, 0);
-        directPermission = HSConfig.optBoolean(false, "Application", "AutoPermission", "NotRequestSystemPermission");
+        directPermission = HSConfig.optBoolean(true, "Application", "GrantAccess", "RequestOnStartGuide");
 
         from = getIntent().getStringExtra(INTENT_KEY_FROM);
         if (TextUtils.isEmpty(from)) {
@@ -506,7 +506,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         permissions.add(Manifest.permission.WRITE_CONTACTS);
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        permissions.add(Manifest.permission.READ_CALL_LOG);
+        if (RomUtils.checkIsMiuiRom() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            permissions.add(Manifest.permission.READ_CALL_LOG);
+        }
         permissions.add(Manifest.permission.WRITE_SETTINGS);
 
         boolean grantPermission = true;
@@ -560,15 +562,12 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                         sb.append("writeContact+");
                         break;
                     case Manifest.permission.READ_EXTERNAL_STORAGE:
-                        Analytics.logEvent("Permission_Read_Storage_Allow_Success");
                         break;
                     case Manifest.permission.WRITE_EXTERNAL_STORAGE:
                         sb.append("storage+");
                         break;
                     case Manifest.permission.READ_CALL_LOG:
                         sb.append("callLog+");
-                        break;
-                    case Manifest.permission.WRITE_SETTINGS:
                         break;
 
                 }
