@@ -48,9 +48,9 @@ public class OnlineWallpaperListView extends FrameLayout {
             progressBar.setVisibility(View.INVISIBLE);
             retryLayout.setVisibility(View.INVISIBLE);
             if (mAdapter != null) {
-                if (mScenario == WallpaperMgr.Scenario.ONLINE_NEW && mAdapter.getItemCount() == 0) {
-                    insertSpecialWallpapers(wallpaperInfoList);
-                }
+//                if (mScenario == WallpaperMgr.Scenario.ONLINE_NEW && mAdapter.getItemCount() == 0) {
+//                    insertSpecialWallpapers(wallpaperInfoList);
+//                }
                 mAdapter.getLoadWallpaperListener().onLoadFinished(wallpaperInfoList);
             }
         }

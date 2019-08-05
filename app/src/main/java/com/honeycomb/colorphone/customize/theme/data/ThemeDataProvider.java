@@ -61,10 +61,6 @@ public class ThemeDataProvider {
         return CustomizeConfig.getMap("Themes", "OnlineDescriptions");
     }
 
-    public static Map<String, ?> getAppDrawerEntrance() {
-        return CustomizeConfig.getMap("Themes", "AppDrawerEntrance");
-    }
-
     public static Map<String, Map<String, ?>> getCategories() {
         return (Map<String, Map<String, ?>>) CustomizeConfig.getMap("Themes", "Categories");
     }

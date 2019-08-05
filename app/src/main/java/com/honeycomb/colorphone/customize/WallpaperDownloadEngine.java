@@ -141,10 +141,10 @@ public class WallpaperDownloadEngine {
     public static void getHotWallpaperList(OnLoadWallpaperListener listener) {
         List<WallpaperInfo> wallpapers;
         List<Object> liveConfigs = new ArrayList<>(CustomizeConfig.getList("LiveWallpapers", "Items"));
-        List<Map<String, ?>> threeDConfigs = new ArrayList<>((List<Map<String, ?>>) CustomizeConfig.getList("3DWallpapers", "Items"));
+        List<Map<String, ?>> threeDConfigs = new ArrayList<>();
 
         List<String> promotedLiveNames = new ArrayList<>((List<String>) CustomizeConfig.getList("LiveWallpapers", "VariantPromotion"));
-        List<String> promoted3DNames = new ArrayList<>((List<String>) CustomizeConfig.getList("3DWallpapers", "VariantPromotion"));
+        List<String> promoted3DNames = new ArrayList<>();
 
         List<Object> promotedLiveConfigs = new ArrayList<>(promotedLiveNames.size());
         for (Iterator<Object> iterator = liveConfigs.iterator(); iterator.hasNext(); ) {

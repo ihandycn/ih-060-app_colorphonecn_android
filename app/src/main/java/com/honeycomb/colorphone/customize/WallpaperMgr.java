@@ -143,14 +143,6 @@ public class WallpaperMgr {
         });
     }
 
-    public static long getBadgeTriggerTime() {
-        return CustomizeConfig.getInteger(0, "Package", "TriggerTime") * 24 * 60 * 60 * 1000;
-    }
-
-    public static long getBadgeCdTime() {
-        return CustomizeConfig.getInteger(0, "Package", "CDTime") * 60 * 60 * 1000;
-    }
-
     private void insertBuildInWallpapers() {
         mPrefs.doOnce(() -> {
             Cursor c = mCr.query(WallpaperProvider.CONTENT_URI, null,
