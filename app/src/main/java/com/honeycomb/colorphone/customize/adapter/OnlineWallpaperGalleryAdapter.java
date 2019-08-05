@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,7 +54,6 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
 
     private static final int WALLPAPER_HEADER_HINT = 11;
     private static final int WALLPAPER_HEADER_SQUARE = 12;
-
     public static final String AD_TAG = "online_wallpaper_ad_tag";
     private static final int CATEGORY_TAB_COUNT_WITH_ADS = 3;
     private static final int MAX_CONCURRENT_AD_REQUEST_COUNT = 3;
@@ -65,7 +65,14 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
         @Override
         public void onLoadFinished(List<WallpaperInfo> wallpaperInfoList) {
             int lastSize = mDataSet.size();
-            mDataSet.addAll(wallpaperInfoList);
+            if (mDataSet.isEmpty()) {
+                WallpaperInfoPackage wallpaperInfoPackage = new WallpaperInfoPackage();
+                wallpaperInfoPackage.fill(wallpaperInfoList.subList(0, wallpaperInfoPackage.getSize()));
+                mDataSet.add(wallpaperInfoPackage);
+                mDataSet.addAll(wallpaperInfoList.subList(wallpaperInfoPackage.getSize(), wallpaperInfoList.size()));
+            } else {
+                mDataSet.addAll(wallpaperInfoList);
+            }
             for (WallpaperInfo item : wallpaperInfoList) {
                 if ((item).getType() != WallpaperInfo.WALLPAPER_TYPE_3D
                         && (item).getType() != WallpaperInfo.WALLPAPER_TYPE_LIVE) {
@@ -203,8 +210,11 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
             case WALLPAPER_HEADER_SQUARE:
                 View headerSquare = LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.wallpaper_item_header_square, parent, false);
+                headerSquare.getLayoutParams().height = mScreenWidth;
 
                 HeaderSquareViewHolder squareViewHolder = new HeaderSquareViewHolder(headerSquare);
+
+                squareViewHolder.setOnClickListener(this);
                 return squareViewHolder;
 
             case WALLPAPER_HEADER_HINT:
@@ -272,6 +282,11 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
+            case WALLPAPER_HEADER_SQUARE:
+               WallpaperInfoPackage wallpaperInfoPackage = (WallpaperInfoPackage) mDataSet.get(position);
+               HeaderSquareViewHolder squareViewHolder = (HeaderSquareViewHolder) holder;
+               squareViewHolder.bind(wallpaperInfoPackage);
+                break;
             case WALLPAPER_LIVE_PREVIEW_VIEW:
             case WALLPAPER_NORMAL_VIEW:
                 clipHotOnlineItemView(holder, position);
@@ -302,6 +317,8 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
                 loadWallpaper();
                 break;
             case WALLPAPER_FOOTER_VIEW_NO_MORE:
+                break;
+            default:
                 break;
         }
     }
@@ -342,8 +359,11 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
         if (position == mDataSet.size()) {
             return WALLPAPER_FOOTER_VIEW_LOAD_MORE;
         } else {
-            if (mDataSet.get(position) instanceof WallpaperInfo) {
-                return TextUtils.isEmpty(((WallpaperInfo) mDataSet.get(position)).getVideoUrl()) ? WALLPAPER_NORMAL_VIEW : WALLPAPER_LIVE_PREVIEW_VIEW;
+            Object obj = mDataSet.get(position);
+            if (obj instanceof WallpaperInfoPackage) {
+                return WALLPAPER_HEADER_SQUARE;
+            } else if (obj instanceof WallpaperInfo) {
+                return TextUtils.isEmpty(((WallpaperInfo) obj).getVideoUrl()) ? WALLPAPER_NORMAL_VIEW : WALLPAPER_LIVE_PREVIEW_VIEW;
             } else {
                 return WALLPAPER_AD_VIEW;
             }
@@ -516,14 +536,50 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
     }
 
     private static class HeaderSquareViewHolder extends RecyclerView.ViewHolder {
+        private final static int SIZE = 3;
+
+        private List<ImageView> mImageViewList = new ArrayList<>(SIZE);
 
         public HeaderSquareViewHolder(View itemView) {
             super(itemView);
+            mImageViewList.add(itemView.findViewById(R.id.image1));
+            mImageViewList.add(itemView.findViewById(R.id.image2));
+            mImageViewList.add(itemView.findViewById(R.id.image3));
+        }
+
+        public void bind(WallpaperInfoPackage wallpaperPackageInfo) {
+            for (int i = 0; i < SIZE; i++) {
+                WallpaperInfo info = wallpaperPackageInfo.getWallpaperInfos().get(i);
+                ImageView target = mImageViewList.get(i);
+                GlideApp.with(target).asBitmap().load(info.getThumbnailUrl()).placeholder(R.drawable.wallpaper_loading)
+                        .error(R.drawable.wallpaper_load_failed).format(DecodeFormat.PREFER_RGB_565)
+                        .diskCacheStrategy(DiskCacheStrategy.DATA).into(
+                        target);
+                target.setTag(info);
+            }
+        }
+
+        public void setOnClickListener(OnlineWallpaperGalleryAdapter onlineWallpaperGalleryAdapter) {
+            for (ImageView imageView : mImageViewList) {
+                imageView.setOnClickListener(onlineWallpaperGalleryAdapter);
+                imageView.setOnTouchListener(new ImagePressedTouchListener(imageView));
+            }
         }
     }
 
-    private static class WallpaperInfoList {
+    private static class WallpaperInfoPackage {
         private List<WallpaperInfo> mWallpaperInfos = new ArrayList<>(3);
+        public int getSize() {
+            return 3;
+        }
+
+        public List<WallpaperInfo> getWallpaperInfos() {
+            return mWallpaperInfos;
+        }
+
+        public void fill(List<WallpaperInfo> subList) {
+            mWallpaperInfos.addAll(subList);
+        }
     }
 
 
