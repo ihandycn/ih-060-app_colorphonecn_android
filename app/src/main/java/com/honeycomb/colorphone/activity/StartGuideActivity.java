@@ -120,11 +120,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 enableBtn.setOnClickListener(v -> {
                     Analytics.logEvent("ColorPhone_StartGuide_OK_Clicked");
                     if (directPermission) {
+                        directPermission = false;
+                        requiresPermission();
+                    } else {
                         ModuleUtils.setAllModuleUserEnable();
                         showAccessibilityPermissionPage();
-                    } else {
-                        directPermission = true;
-                        requiresPermission();
                     }
 
                 });

@@ -103,7 +103,6 @@ public class AutoLogger {
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         permissions.add(Manifest.permission.READ_CALL_LOG);
-        permissions.add(Manifest.permission.WRITE_SETTINGS);
 
         StringBuilder sb = new StringBuilder();
         for (String p : permissions) {
@@ -126,8 +125,6 @@ public class AutoLogger {
                         break;
                     case Manifest.permission.READ_CALL_LOG:
                         sb.append("callLog+");
-                        break;
-                    case Manifest.permission.WRITE_SETTINGS:
                         break;
                 }
             }

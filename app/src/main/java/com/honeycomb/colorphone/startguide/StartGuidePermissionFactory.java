@@ -2,8 +2,6 @@ package com.honeycomb.colorphone.startguide;
 
 import android.Manifest;
 import android.app.Activity;
-import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
@@ -113,11 +111,7 @@ public class StartGuidePermissionFactory {
                 ret = RuntimePermissions.checkSelfPermission(HSApplication.getContext(), Manifest.permission.READ_PHONE_STATE) == RuntimePermissions.PERMISSION_GRANTED;
                 break;
             case TYPE_PERMISSION_TYPE_WRITE_SETTINGS:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    ret = Settings.System.canWrite(HSApplication.getContext());
-                } else {
-                    ret = true;
-                }
+                ret = AutoPermissionChecker.isWriteSettingsPermissionGranted();
                 break;
             default:
                 break;

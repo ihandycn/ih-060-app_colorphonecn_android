@@ -232,32 +232,6 @@ public class AutoRequestManager {
     private void executeAutoTask() {
         ArrayList<String> permission = new ArrayList<>();
 
-        ArrayList<String> runtimePermission = new ArrayList<>();
-        if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
-            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_PHONE);
-            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
-            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
-            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_STORAGE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                runtimePermission.add(HSPermissionRequestMgr.TYPE_CALL_LOG);
-            }
-        } else if (TextUtils.equals(from, AUTO_PERMISSION_FROM_FIX)) {
-            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_PHONE);
-
-            // TODO 检查contact权限
-            if (Compats.IS_XIAOMI_DEVICE) {
-                runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
-                runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
-            }
-            runtimePermission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
-        }
-
-        for (String p : runtimePermission) {
-            if (!AutoPermissionChecker.isRuntimePermissionGrant(p)) {
-                permission.add(p);
-            }
-        }
-
         if (Compats.IS_XIAOMI_DEVICE && !AutoPermissionChecker.hasBgPopupPermission()) {
             permission.add(TYPE_CUSTOM_BACKGROUND_POPUP);
         }
@@ -277,6 +251,31 @@ public class AutoRequestManager {
         }
         if (!Permissions.isNotificationAccessGranted()) {
             permission.add(HSPermissionRequestMgr.TYPE_NOTIFICATION_LISTENING);
+        }
+
+        ArrayList<String> runtimePermission = new ArrayList<>();
+        if (TextUtils.equals(from, AUTO_PERMISSION_FROM_AUTO)) {
+            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_PHONE);
+            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
+            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
+            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_STORAGE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                runtimePermission.add(HSPermissionRequestMgr.TYPE_CALL_LOG);
+            }
+        } else if (TextUtils.equals(from, AUTO_PERMISSION_FROM_FIX)) {
+            runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_PHONE);
+
+            if (Compats.IS_XIAOMI_DEVICE) {
+                runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_READ);
+                runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_CONTACT_WRITE);
+            }
+            permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
+        }
+
+        for (String p : runtimePermission) {
+            if (!AutoPermissionChecker.isRuntimePermissionGrant(p)) {
+                permission.add(p);
+            }
         }
 
         if (permission.isEmpty()) {
