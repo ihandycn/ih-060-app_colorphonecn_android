@@ -36,6 +36,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
     private List<String> runtimePermissions;
 
     private boolean needRefresh = false;
+    private boolean requested = false;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +125,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
                 finish();
                 return;
             }
-
+            requested = true;
             action.setText(R.string.runtime_permission_continue);
 
             Analytics.logEvent("Permission_Guide_OK_Click");
@@ -183,8 +184,10 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
     @Override protected void onDestroy() {
         super.onDestroy();
 
-        String eventID = "Permission_Settings_Granted_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
-        Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString());
+        if (requested) {
+            String eventID = "Permission_Settings_Granted_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
+            Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString());
+        }
     }
 
     @Override
