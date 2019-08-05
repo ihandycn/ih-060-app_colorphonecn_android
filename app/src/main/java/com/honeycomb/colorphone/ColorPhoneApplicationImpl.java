@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,6 +56,7 @@ import com.honeycomb.colorphone.cmgame.CmGameUtil;
 import com.honeycomb.colorphone.cmgame.GameInit;
 import com.honeycomb.colorphone.cmgame.NotificationBarInit;
 import com.honeycomb.colorphone.contact.ContactManager;
+import com.honeycomb.colorphone.cpucooler.CpuCoolerManager;
 import com.honeycomb.colorphone.dialer.notification.NotificationChannelManager;
 import com.honeycomb.colorphone.dialer.util.DefaultPhoneUtils;
 import com.honeycomb.colorphone.factoryimpl.CpCallAssistantFactoryImpl;
@@ -112,6 +114,7 @@ import com.superapps.broadcast.BroadcastListener;
 import com.superapps.debug.SharedPreferencesOptimizer;
 import com.superapps.push.PushMgr;
 import com.superapps.util.Dimensions;
+import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Preferences;
 import com.superapps.util.Threads;
 import com.tencent.bugly.beta.Beta;
@@ -161,6 +164,7 @@ public class ColorPhoneApplicationImpl {
     private List<AppInit> mAppInitList = new ArrayList<>();
 
     private HSApplication mBaseApplication;
+    private static HomeKeyWatcher homeKeyWatcher = new HomeKeyWatcher(HSApplication.getContext());
 
     private boolean mAppsFlyerResultReceived;
     private BroadcastReceiver mAgencyBroadcastReceiver = new BroadcastReceiver() {
@@ -310,6 +314,31 @@ public class ColorPhoneApplicationImpl {
         launchTime = System.currentTimeMillis();
 
         HSFeast.getInstance().init(mBaseApplication, null);
+
+        homeKeyWatcher.setOnHomePressedListener(new HomeKeyWatcher.OnHomePressedListener() {
+            @Override public void onHomePressed() {
+                Analytics.logEvent("Home_Back_Tracked");
+
+                if (CpuCoolerManager.getInstance().fetchCpuTemperature() > 55) {
+                    boolean isTimeInterval = (System.currentTimeMillis() - Preferences.get(Constants.DESKTOP_PREFS).getLong("CPU_hot_time", 0)) > 5 *DateUtils.MINUTE_IN_MILLIS;
+                    boolean notReport = !Preferences.get(Constants.DESKTOP_PREFS).getBoolean("CPU_hot_to_report", false);
+
+                    if (isTimeInterval && notReport) {
+                        Preferences.get(Constants.DESKTOP_PREFS).putLong("CPU_hot_time", System.currentTimeMillis());
+                        Preferences.get(Constants.DESKTOP_PREFS).putBoolean("CPU_hot_to_report", true);
+                        Analytics.logEvent("CPU_Temp_HighTo55");
+                    }
+                } else {
+                    Preferences.get(Constants.DESKTOP_PREFS).putBoolean("CPU_hot_to_report", false);
+                }
+            }
+
+            @Override public void onRecentsPressed() {
+
+            }
+        });
+
+
     }
 
     private void onWorkProcessCreate() {
@@ -409,7 +438,32 @@ public class ColorPhoneApplicationImpl {
 
         HSPermissionRequestMgr.getInstance().init(mBaseApplication);
 
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
+
+        HSApplication.getContext().registerReceiver(new BroadcastReceiver() {
+            @Override public void onReceive(Context context, Intent intent) {
+                int curLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+
+                batteryScale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+                HSChargingManager.BatteryPluggedSource curBatteryPluggedSource = HSChargingManager.BatteryPluggedSource.get(intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, HSChargingManager.BatteryPluggedSource.UNKNOWN.value));
+
+                if (batteryLevel != curLevel || batteryPluggedSource != curBatteryPluggedSource) {
+                    batteryPluggedSource = curBatteryPluggedSource;
+
+                    if (batteryLevel >= 20 && curLevel < 20) {
+                        Analytics.logEvent("Battery_Power_LowTo20");
+                    }
+                    batteryLevel = curLevel;
+                }
+            }
+        }, intentFilter);
     }
+
+    private int batteryScale;
+    private int batteryLevel;
+    private HSChargingManager.BatteryPluggedSource batteryPluggedSource;
 
     private void checkChargingOrLocker() {
         if (ChargingReportUtils.isScreenOn()) {

@@ -171,7 +171,11 @@ public class AutoRequestManager {
             }
             HSLog.d(TAG, "start request draw overlay!");
             ArrayList<String> permission = new ArrayList<String>();
-            permission.add(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY);
+            if (RomUtils.checkIsMiuiRom() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
+                permission.add(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY_SYSTEM);
+            } else {
+                permission.add(HSPermissionRequestMgr.TYPE_DRAW_OVERLAY);
+            }
             HSPermissionRequestMgr.getInstance().startRequest(permission, new HSPermissionRequestCallback.Stub() {
                 @Override
                 public void onFinished(int succeedCount, int totalCount) {
