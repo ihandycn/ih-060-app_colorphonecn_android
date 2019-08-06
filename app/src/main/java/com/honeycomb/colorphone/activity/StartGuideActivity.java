@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
@@ -357,6 +358,11 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
 
         View permissionDialog = findViewById(R.id.start_guide_confirm_permission);
         permissionDialog.setVisibility(View.VISIBLE);
+        permissionDialog.setOnTouchListener(new View.OnTouchListener() {
+            @Override public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 
         View layout = permissionDialog.findViewById(R.id.start_guide_confirm_permission_layout);
         layout.setBackgroundDrawable(BackgroundDrawables.createBackgroundDrawable(Color.WHITE, Dimensions.pxFromDp(16), false));
@@ -366,7 +372,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         action.setOnClickListener(v -> {
             requiresPermission(reqPermission, FIRST_LAUNCH_PERMISSION_REQUEST);
 
-            layout.setVisibility(View.GONE);
+            permissionDialog.setVisibility(View.GONE);
         });
 
         layout.setScaleX(0.7f);
@@ -611,16 +617,16 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
                         holder.refreshHolder(StartGuidePermissionFactory.TYPE_PERMISSION_TYPE_PHONE);
+
+                        if (!AutoPermissionChecker.isAccessibilityGranted() && oneKeyFixPressed) {
+                            AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
+                        } else {
+                            onPermissionChanged();
+                        }
                         break;
                     default:
                         break;
                 }
-            }
-
-            if (oneKeyFixPressed) {
-                AutoRequestManager.getInstance().startAutoCheck(AutoRequestManager.AUTO_PERMISSION_FROM_FIX, FROM_KEY_START);
-            } else {
-                onPermissionChanged();
             }
         }
     }
@@ -634,7 +640,9 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
             for (String p : list) {
                 switch (p) {
                     case Manifest.permission.READ_PHONE_STATE:
-//                        AutoRequestManager.getInstance().openPermission(HSPermissionRequestMgr.TYPE_PHONE);
+//                        if (AutoPermissionChecker.isPermissionPermanentlyDenied(p)) {
+//                            AutoRequestManager.getInstance().openPermission(AutoRequestManager.FIX_ALERT_PERMISSION_PHONE);
+//                        }
                         break;
                     default:
                         break;

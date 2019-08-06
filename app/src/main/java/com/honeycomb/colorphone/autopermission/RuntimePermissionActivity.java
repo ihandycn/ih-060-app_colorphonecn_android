@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.Animator;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -196,6 +197,10 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
             String eventID = "Permission_Settings_Granted_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
             Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString());
         }
+    }
+
+    @Override public boolean onTouchEvent(MotionEvent event) {
+        return true;
     }
 
     @Override
