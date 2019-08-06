@@ -39,6 +39,8 @@ import com.superapps.util.Commons;
 import com.superapps.util.HomeKeyWatcher;
 import com.superapps.util.Preferences;
 
+import java.util.Calendar;
+
 import static com.colorphone.lock.lockscreen.chargingscreen.ChargingScreenSettings.LOCKER_PREFS;
 
 public class Locker extends LockScreen implements INotificationObserver {
@@ -228,7 +230,9 @@ public class Locker extends LockScreen implements INotificationObserver {
         HSLog.i("LockManager", "L dismiss: " + mDismissReason + "  KG: " + dismissKeyguard + "  context: " + context);
         LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
                 "Reason", mDismissReason,
-                "Brand", Build.BRAND.toLowerCase(), "DeviceVersion", getDeviceInfo());
+                "Brand", Build.BRAND.toLowerCase(),
+                "DeviceVersion", getDeviceInfo(),
+                "Time", String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
 
         mRootView.findViewById(R.id.bottom_layer).setVisibility(View.GONE);
         ObjectAnimator fadeOutAnim = ObjectAnimator.ofFloat(mLockerWallpaper, View.ALPHA, 0f);
@@ -256,9 +260,9 @@ public class Locker extends LockScreen implements INotificationObserver {
                     doDismiss();
                     Locker.super.dismiss(context, dismissKeyguard);
                 }
-
                 LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
-                        "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked");
+                        "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked",
+                        "Time", String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
             }
         });
         fadeOutAnim.start();

@@ -1001,7 +1001,8 @@ public class ChargingScreen extends LockScreen implements INotificationObserver,
         HSLog.i("LockManager", "C dismiss: " + mDismissReason + "  KG: " + dismissKeyguard + "  context: " + context);
 
         LockerCustomConfig.getLogger().logEvent("ColorPhone_LockScreen_Close",
-                "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked");
+                "type", Commons.isKeyguardLocked(getContext(), false) ? "locked" : "unlocked",
+                "Time", String.valueOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
 
         LockerCustomConfig.getLogger().logEvent("ChargingScreen_Close",
                 "Reason", mDismissReason,
