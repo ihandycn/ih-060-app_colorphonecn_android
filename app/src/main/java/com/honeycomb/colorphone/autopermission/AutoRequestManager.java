@@ -266,6 +266,8 @@ public class AutoRequestManager {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 runtimePermission.add(HSPermissionRequestMgr.TYPE_CALL_LOG);
             }
+            permission.add(HSPermissionRequestMgr.TYPE_WRITE_SETTINGS);
+
         } else if (TextUtils.equals(from, AUTO_PERMISSION_FROM_FIX)) {
             runtimePermission.add(HSRuntimePermissions.TYPE_RUNTIME_PHONE);
 
