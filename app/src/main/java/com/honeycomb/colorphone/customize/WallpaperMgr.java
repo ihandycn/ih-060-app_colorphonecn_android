@@ -338,7 +338,9 @@ public class WallpaperMgr {
         ONLINE_CATEGORY(1),
         LOCAL(2),
         PACKAGE(4),
-        ONLINE_HOT(5);
+        ONLINE_VIDEO(5),
+        ONLINE_LIVE(6);
+
 
         int value;
 

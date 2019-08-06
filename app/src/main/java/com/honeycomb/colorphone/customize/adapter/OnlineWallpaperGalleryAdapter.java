@@ -54,6 +54,7 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
 
     private static final int WALLPAPER_HEADER_HINT = 11;
     private static final int WALLPAPER_HEADER_SQUARE = 12;
+    private static final int WALLPAPER_HEADER_SQUARE_INNER = 13;
     public static final String AD_TAG = "online_wallpaper_ad_tag";
     private static final int CATEGORY_TAB_COUNT_WITH_ADS = 3;
     private static final int MAX_CONCURRENT_AD_REQUEST_COUNT = 3;
@@ -119,6 +120,7 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
                     case WALLPAPER_FOOTER_VIEW_NO_MORE:
                     case WALLPAPER_HEADER_HINT:
                     case WALLPAPER_HEADER_SQUARE:
+                    case WALLPAPER_HEADER_SQUARE_INNER:
                         return 2;
                     default:
                         return 1;
@@ -216,7 +218,13 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
 
                 squareViewHolder.setOnClickListener(this);
                 return squareViewHolder;
-
+            case WALLPAPER_HEADER_SQUARE_INNER:
+                View headerSquareInner = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.wallpaper_item_header_square, parent, false);
+                headerSquareInner.getLayoutParams().height = (int) (mScreenWidth * 2 / 3);
+                HeaderSquareViewHolder squareViewHolder2 = new HeaderSquareViewHolder(headerSquareInner);
+                squareViewHolder2.setOnClickListener(this);
+                return squareViewHolder2;
             case WALLPAPER_HEADER_HINT:
                 View headerHint = LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.wallpaper_item_header_hint, parent, false);
@@ -283,6 +291,7 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
             case WALLPAPER_HEADER_SQUARE:
+            case WALLPAPER_HEADER_SQUARE_INNER:
                WallpaperInfoPackage wallpaperInfoPackage = (WallpaperInfoPackage) mDataSet.get(position);
                HeaderSquareViewHolder squareViewHolder = (HeaderSquareViewHolder) holder;
                squareViewHolder.bind(wallpaperInfoPackage);
@@ -348,7 +357,7 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
             return 0;
         }
         int extra = 0;
-        if (mScenario != WallpaperMgr.Scenario.ONLINE_HOT) {
+        if (mScenario != WallpaperMgr.Scenario.ONLINE_VIDEO || mScenario != WallpaperMgr.Scenario.ONLINE_LIVE) {
             extra++; // For a WALLPAPER_FOOTER_VIEW_LOAD_MORE
         }
         return mDataSet.size() + extra;
@@ -361,7 +370,10 @@ public class OnlineWallpaperGalleryAdapter extends AbstractOnlineWallpaperAdapte
         } else {
             Object obj = mDataSet.get(position);
             if (obj instanceof WallpaperInfoPackage) {
-                return WALLPAPER_HEADER_SQUARE;
+                if (mScenario == WallpaperMgr.Scenario.ONLINE_VIDEO) {
+                    return WALLPAPER_HEADER_SQUARE;
+                }
+                return WALLPAPER_HEADER_SQUARE_INNER;
             } else if (obj instanceof WallpaperInfo) {
                 return TextUtils.isEmpty(((WallpaperInfo) obj).getVideoUrl()) ? WALLPAPER_NORMAL_VIEW : WALLPAPER_LIVE_PREVIEW_VIEW;
             } else {

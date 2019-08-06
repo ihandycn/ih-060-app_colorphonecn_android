@@ -370,6 +370,8 @@ public class OnlineWallpaperPage extends RelativeLayout {
             int position = CustomizeUtils.mirrorIndexIfRtl(mIsRtl, getCount(), positionAbsolute);
             if (position == mTabsConfig.tabIndexVideo) {
                 return mContext.getString(R.string.online_wallpaper_tab_title_video);
+            } else if (position == mTabsConfig.tabIndexLive) {
+                return mContext.getString(R.string.online_wallpaper_tab_title_live);
             }
             int categoryIndex = position - mTabsConfig.extraTabsCount;
             return Utils.getMultilingualString(mCategoryConfigs.get(categoryIndex), "CategoryName");
@@ -388,6 +390,13 @@ public class OnlineWallpaperPage extends RelativeLayout {
                 mHotTabContent.startLoading();
                 initView = mHotTabContent;
 
+            } else if (position == mTabsConfig.tabIndexLive) {
+                OnlineWallpaperListView mHotTabContent = (OnlineWallpaperListView) LayoutInflater.from(
+                        getContext()).inflate(R.layout.wallpaper_list_page, OnlineWallpaperPage.this, false);
+                mHotTabContent.setScenario(WallpaperMgr.Scenario.ONLINE_LIVE);
+                mHotTabContent.setupAdapter();
+                mHotTabContent.startLoading();
+                initView = mHotTabContent;
             } else {
                 int categoryIndex = position - mTabsConfig.extraTabsCount;
                 OnlineWallpaperListView list = createSingleCategoryTabContent(categoryIndex);
@@ -463,10 +472,12 @@ public class OnlineWallpaperPage extends RelativeLayout {
     public static class TabsConfiguration {
         final int extraTabsCount;
         public final int tabIndexVideo;
+        public final int tabIndexLive;
 
         public TabsConfiguration() {
-            extraTabsCount = 1;
+            extraTabsCount = 2;
             tabIndexVideo = 0;
+            tabIndexLive = 1;
         }
     }
 }

@@ -50,6 +50,9 @@
 
     <string name="online_wallpaper_tab_title_categories">Categories</string>
 
+    <string name="online_wallpaper_tab_title_video">视频主题</string>
+    <string name="online_wallpaper_tab_title_live">Live</string>
+
     <string name="online_wallpaper_tab_title_hot">Hot</string>
     <string name="online_wallpaper_apply_btn">SET AS WALLPAPER</string>
     <string name="online_wallpaper_edit_reset_btn">RESET</string>

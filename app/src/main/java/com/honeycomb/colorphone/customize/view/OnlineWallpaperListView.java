@@ -181,6 +181,9 @@ public class OnlineWallpaperListView extends FrameLayout {
                 case ONLINE_NEW:
                     WallpaperDownloadEngine.getNextNewWallpaperList(mListener);
                     break;
+                case ONLINE_LIVE:
+                    WallpaperDownloadEngine.getHotWallpaperList(mListener);
+                    break;
                 case ONLINE_VIDEO:
                     WallpaperDownloadEngine.getHotWallpaperList(mListener);
                     break;

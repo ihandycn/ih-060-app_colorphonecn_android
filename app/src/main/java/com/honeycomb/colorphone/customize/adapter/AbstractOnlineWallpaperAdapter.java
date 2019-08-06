@@ -90,7 +90,7 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
                 mWallpaperLoader = CustomizeUtils.preview3DWallpaper(activity, clickedWallpaper);
 //                if (mScenario == WallpaperMgr.Scenario.ONLINE_NEW) {
 //                    LauncherAnalytics.logEvent("Wallpaper_New_3D_Thumbnail_Clicked");
-//                } else if (mScenario == WallpaperMgr.Scenario.ONLINE_HOT) {
+//                } else if (mScenario == WallpaperMgr.Scenario.ONLINE_VIDEO) {
 //                    LauncherAnalytics.logEvent("Wallpaper_Live_3D_Thumbnail_Clicked", "Type", "3D", "Name", clickedWallpaper.getName());
 //                }
 //                if (isAutoStart) {
@@ -104,7 +104,7 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
                 mWallpaperLoader = CustomizeUtils.previewLiveWallpaper(activity, clickedWallpaper);
 //                if (mScenario == WallpaperMgr.Scenario.ONLINE_NEW) {
 //                    LauncherAnalytics.logEvent("Wallpaper_New_live_Thumbnail_Clicked");
-//                } else if (mScenario == WallpaperMgr.Scenario.ONLINE_HOT) {
+//                } else if (mScenario == WallpaperMgr.Scenario.ONLINE_VIDEO) {
 //                    LauncherAnalytics.logEvent("Wallpaper_Live_3D_Thumbnail_Clicked", "Type", "live", "Name", clickedWallpaper.getName());
 //                }
 //                if (isAutoStart) {
@@ -118,7 +118,7 @@ public abstract class AbstractOnlineWallpaperAdapter extends RecyclerView.Adapte
                 intent.putExtra(WallpaperPreviewActivity.INTENT_KEY_SCENARIO, mScenario.ordinal());
                 intent.putParcelableArrayListExtra(WallpaperPreviewActivity.INTENT_KEY_WALLPAPERS, wallpapersToPreview);
                 intent.putExtra(WallpaperPreviewActivity.INTENT_KEY_INDEX, positionInPreviewWallpapers);
-//                if (mScenario != WallpaperMgr.Scenario.ONLINE_NEW && mScenario != WallpaperMgr.Scenario.ONLINE_HOT) {
+//                if (mScenario != WallpaperMgr.Scenario.ONLINE_NEW && mScenario != WallpaperMgr.Scenario.ONLINE_VIDEO) {
 //                    LauncherAnalytics.logEvent("Wallpaper_PaperList_Thumbnail_Clicked", "Type", mCategoryName);
 //                }
                 try {
