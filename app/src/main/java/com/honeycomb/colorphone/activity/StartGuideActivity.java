@@ -506,7 +506,7 @@ public class StartGuideActivity extends HSAppCompatActivity implements INotifica
         permissions.add(Manifest.permission.WRITE_CONTACTS);
         permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (RomUtils.checkIsMiuiRom() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             permissions.add(Manifest.permission.READ_CALL_LOG);
         }
         permissions.add(Manifest.permission.WRITE_SETTINGS);
