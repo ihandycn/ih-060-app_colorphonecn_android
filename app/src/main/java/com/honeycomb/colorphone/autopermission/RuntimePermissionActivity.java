@@ -192,7 +192,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
     @Override protected void onDestroy() {
         super.onDestroy();
 
-        if (requested) {
+        if (requested && deniedPermissions.size() > 0) {
             String eventID = "Permission_Settings_Granted_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
             Analytics.logEvent(eventID, "Permission", getGrantDeniedPermissionString());
         }
@@ -222,7 +222,7 @@ public class RuntimePermissionActivity extends HSAppCompatActivity {
 
         if (deniedPermissions.size() > 0) {
             AutoRequestManager.getInstance().openPermission(deniedPermissions.get(0));
-            String eventID = "Permission_Settings_Reques_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
+            String eventID = "Permission_Settings_Request_" + (RomUtils.checkIsHuaweiRom() ? "Huawei" : "Xiaomi");
             Analytics.logEvent(eventID, "Permission", getDeniedPermissionString());
         }
     }
